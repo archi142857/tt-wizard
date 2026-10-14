@@ -1,14 +1,8 @@
 {
- "semester": "2026-2",
- "detected_at": "2026-09-26T01:41+09:00",
- "registration_windows": [
-  {
-   "type": "수강취소(mySNU-학사정보-수업-정규학기수강취소)",
-   "start": "2026-09-08",
-   "end": "2026-10-20"
-  }
- ],
- "last_fetch": "2026-10-14T13:50+09:00",
- "last_change": "2026-10-12_1454",
- "lectures_semester": "2026-2"
+ "semester": "2026-W",
+ "detected_at": "2026-10-14T20:49+09:00",
+ "registration_windows": [],
+ "last_fetch": "2026-10-14T20:49+09:00",
+ "last_change": "2026-10-14_2049",
+ "lectures_semester": "2026-W"
 }
