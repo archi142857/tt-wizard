@@ -1,0 +1,18 @@
+{
+ "created": [],
+ "deleted": [],
+ "updated": [
+  {
+   "key": "T2184.000200-001",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": "김윤경"
+   },
+   "after": {
+    "instructor": "우정민"
+   }
+  }
+ ]
+}
