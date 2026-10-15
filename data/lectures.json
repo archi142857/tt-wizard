@@ -2407,6 +2407,18 @@
   ]
  },
  {
+  "course_id": "M3313.001100",
+  "section_no": "001",
+  "course_name": "대학원논문연구",
+  "instructor": "",
+  "department": "바이오시스템공학과",
+  "credit": 3.0,
+  "classification": "논문",
+  "program": "석박사통합",
+  "status": "설강",
+  "meetings": []
+ },
+ {
   "course_id": "M2868.006700",
   "section_no": "001",
   "course_name": "대학원논문연구",
@@ -2424,18 +2436,6 @@
   "course_name": "대학원논문연구",
   "instructor": "황준석",
   "department": "협동과정 기술경영·경제·정책전공",
-  "credit": 3.0,
-  "classification": "논문",
-  "program": "석박사통합",
-  "status": "설강",
-  "meetings": []
- },
- {
-  "course_id": "M3313.001100",
-  "section_no": "001",
-  "course_name": "대학원논문연구",
-  "instructor": "",
-  "department": "바이오시스템공학과",
   "credit": 3.0,
   "classification": "논문",
   "program": "석박사통합",
@@ -6727,7 +6727,7 @@
   "course_id": "T2184.000200",
   "section_no": "001",
   "course_name": "학교폭력예방 및 학생의 이해",
-  "instructor": "김윤경",
+  "instructor": "우정민",
   "department": "교육학과",
   "credit": 2.0,
   "classification": "교직",
