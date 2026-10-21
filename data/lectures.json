@@ -563,6 +563,18 @@
  },
  {
   "course_id": "M2199.002100",
+  "section_no": "003",
+  "course_name": "SNU in the World Program (SWP)",
+  "instructor": "전재훈",
+  "department": "의류학과",
+  "credit": 3.0,
+  "classification": "일선",
+  "program": "학사",
+  "status": "설강",
+  "meetings": []
+ },
+ {
+  "course_id": "M2199.002100",
   "section_no": "004",
   "course_name": "SNU in the World Program (SWP)",
   "instructor": "신성호",
