@@ -29,6 +29,7 @@ def fake_web(tmp_path: Path) -> Path:
     shutil.copytree(ROOT / "web" / "js", web / "js")
     shutil.copytree(ROOT / "web" / "icons", web / "icons")
     shutil.copytree(ROOT / "web" / "vendor" / "leaflet", web / "vendor" / "leaflet")
+    shutil.copytree(ROOT / "web" / "licenses", web / "licenses")
     for extra in ("model/index.html", "field/index.html", "vendor/three/three.min.js"):
         (web / extra).parent.mkdir(parents=True, exist_ok=True)
         (web / extra).write_text("x", encoding="utf-8")
@@ -54,7 +55,7 @@ def test_build_app_bundle(tmp_path, monkeypatch):
     assert {"index.html", "js/app.js", "js/engine.js", "js/search-worker.js", "js/search.js", "js/timetables.js", "js/native.js", "data/courses.json",
             "data/semesters/2025-1.json", "vendor/leaflet/leaflet.js", "vendor/pretendard/LICENSE.txt",
             "vendor/pretendard/woff2-dynamic-subset/PretendardVariable.subset.0.woff2", "app-build.json",
-            "licenses/capacitor.txt", "licenses/androidx.txt", "licenses/cordova.txt", "licenses/snutt.txt"} <= files
+            "licenses/capacitor.txt", "licenses/androidx.txt", "licenses/cordova.txt", "licenses/snutt.txt", "licenses/pretendard.txt"} <= files
     assert not [f for f in files if f == "sw.js" or f.startswith(("model/", "field/", "vendor/three/")) or f.endswith("package.json")]
     html = (out / "index.html").read_text(encoding="utf-8")
     assert "cdn.jsdelivr.net" not in html and 'href="vendor/pretendard/' in html
@@ -68,6 +69,11 @@ def test_build_app_bundle(tmp_path, monkeypatch):
     monkeypatch.setattr(build_app, "FONT", tmp_path / "none")
     info = build_app.build(web=web, out=out, tag="T2")
     assert info["font"] == "CDN" and "cdn.jsdelivr.net" in (out / "index.html").read_text(encoding="utf-8")
+
+    # 앱에만 넣는 고지문(licenses/)이 web/licenses/ 의 것과 이름이 겹치면 덮어쓰지 않고 멈춘다
+    (web / "licenses" / "capacitor.txt").write_text("x", encoding="utf-8")
+    with pytest.raises(SystemExit):
+        build_app.build(web=web, out=out, tag="T3")
 
 
 def test_license_notices_match_app():
@@ -93,7 +99,15 @@ def test_license_notices_match_app():
     assert "Version 2.0, January 2004" in apache and "END OF TERMS AND CONDITIONS" in apache
     # 화면은 줄마다 파일 하나를 연다: Apache-2.0 이 걸리는 세 파일 모두 전문을 품고, 따로 둔 파일을 가리키지 않는다
     assert apache in ax and apache in cap and "apache-2.0.txt" not in cap + ax + cordova
-    assert "Copyright (c) 2025 Wafflestudio" in (lic / "snutt.txt").read_text(encoding="utf-8")
+    # 웹에도 쓰는 고지문(web/licenses/): 웹은 그대로, 앱은 web/ 을 옮길 때 같은 licenses/ 로. 앱에만 넣는 것과 이름이 겹치지 않는다
+    web_lic = ROOT / "web" / "licenses"
+    assert {p.name for p in web_lic.glob("*.txt")} == {"snutt.txt", "pretendard.txt"}
+    assert not {p.name for p in web_lic.glob("*.txt")} & {p.name for p in lic.glob("*.txt")}
+    assert "Copyright (c) 2025 Wafflestudio" in (web_lic / "snutt.txt").read_text(encoding="utf-8")
+    font = (web_lic / "pretendard.txt").read_text(encoding="utf-8")
+    font_version = json.loads((APP / "package.json").read_text(encoding="utf-8"))["devDependencies"]["pretendard"]
+    assert font.startswith(f"Pretendard {font_version} ") and f"pretendard@v{font_version}/" in (ROOT / "web" / "index.html").read_text(encoding="utf-8")
+    assert "Copyright (c) 2021, Kil Hyung-jin" in font and "SIL OPEN FONT LICENSE Version 1.1" in font and font.rstrip().endswith("OTHER DEALINGS IN THE FONT SOFTWARE.")
 
 
 def test_patch_index_stops_on_unknown_markup():

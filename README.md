@@ -231,7 +231,7 @@ web/                 정적 웹 화면: 과목 검색 → 시간표 · 동선 �
 app/                 스토어 앱 (Capacitor 8): android/, ios/ 네이티브 프로젝트, src/native.js(앱 연결), assets/icons/ — docs/app.md
 results/experiments/ 비교 실험 결과 (CSV, 그림, README.md 요약)
 docs/                계획·결정 사항, 방법 설명(elevation_method.md, travel_time_method.md, experiments.md, app.md, search.md, timetables.md, topo.md)
-licenses/            가져다 쓴 코드의 고지문(SNUTT, 앱에 넣는 Capacitor·AndroidX·Cordova). 앱 묶음에도 들어간다
+licenses/            앱에만 들어가는 가져다 쓴 코드의 고지문(Capacitor·AndroidX·Cordova). 웹에도 쓰는 것(SNUTT·Pretendard)은 web/licenses/
 tests/               pytest
 ```
 
@@ -256,7 +256,7 @@ tests/               pytest
 | 수강편람: `data/raw/`, `lectures.json`, `data/history/`, `data/changes/`, `stats.csv`, `buildings_history.csv` | 서울대학교 수강신청 시스템 강좌검색 | 서울대학교 자료. MIT 대상이 아니다 |
 | 건물 번호·이름·좌표: `buildings.csv`, `campus_buildings.csv` | [서울대학교 캠퍼스맵](https://map.snu.ac.kr) | 서울대학교 자료. MIT 대상이 아니다 |
 | 이름 `TT Wizard`, 로고·아이콘(`web/icons/`, `app/assets/icons/` 와 거기서 만든 앱 아이콘) | 이 저장소 | 라이선스를 주지 않는다(MIT 대상이 아니다) |
-| 가져다 쓴 코드: Leaflet·three.js(`web/vendor/`), SNUTT 의 값·규칙, 앱에 넣는 Pretendard·Capacitor·AndroidX·Cordova | 각 프로젝트 | 각자의 라이선스. `web/vendor/` 는 그 폴더의 `LICENSE`, 나머지 고지문은 `licenses/` |
+| 가져다 쓴 코드: Leaflet·three.js(`web/vendor/`), SNUTT 의 값·규칙, 앱에 넣는 Pretendard·Capacitor·AndroidX·Cordova | 각 프로젝트 | 각자의 라이선스. `web/vendor/` 는 그 폴더의 `LICENSE`, SNUTT·Pretendard 는 `web/licenses/`, 앱에만 들어가는 것은 `licenses/` |
 
 그 밖의 `data/` 파일은 위 자료로 계산한 것이라 그 자료의 조건을 따른다.
 
@@ -264,7 +264,7 @@ tests/               pytest
 
 - [wafflestudio/snutt](https://github.com/wafflestudio/snutt) (MIT, 예전 이름 snutt-timetable) — 수강편람 엑셀 엔드포인트, 파싱 규칙, 캠퍼스맵 API 활용,
   과목 검색 규칙(줄임말, 학과 줄임, 특별 낱말. `web/js/search.js`)을 참고했다.
-  SNUTT 에서 가져온 값·규칙이 있는 파일 머리에 저작권 표시를 적었고, 고지 전문은 `licenses/snutt.txt`.
+  SNUTT 에서 가져온 값·규칙이 있는 파일 머리에 저작권 표시를 적었고, 고지 전문은 `web/licenses/snutt.txt`.
   라이선스가 없는 SNUTT 저장소(snutt-v2·snutt-android·snutt-web·snutt-webclient-v2)에서는 가져오지 않는다.
 - [Leaflet](https://leafletjs.com) 1.9.4 (BSD-2) — 웹 화면 지도 (`web/vendor/leaflet`).
 - [three.js](https://threejs.org) r128 (MIT) — 3D 모델링 (`web/vendor/three`).

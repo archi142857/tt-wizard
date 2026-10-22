@@ -98,7 +98,7 @@ normKey("대학  글쓰기");                              // → "대학글쓰�
 ## 참고: SNUTT
 
 - wafflestudio/snutt(예전 이름 snutt-timetable, MIT) `core/src/main/kotlin/lectures/repository/LectureCustomRepository.kt` (`makeSearchCriteriaFromQuery`).
-  따른 규칙(특별 낱말, 건물·강의실 꼴 `placeRegex`·`buildingRegex`, 학과 줄임)은 모두 이 파일에 있다. 고지는 `licenses/snutt.txt`.
+  따른 규칙(특별 낱말, 건물·강의실 꼴 `placeRegex`·`buildingRegex`, 학과 줄임)은 모두 이 파일에 있다. 고지는 `web/licenses/snutt.txt`.
 - 다른 SNUTT 저장소에서는 가져오지 않는다. snutt-v2 는 라이선스 파일이 없고(같은 규칙을 `SearchKeywordClassifier.kt` 로 옮겨 둔 판이다. 2026-10-22 확인),
   snutt-android·snutt-web·snutt-webclient-v2 도 라이선스가 없다(법무 10/22). MIT 인 것은 snutt·snutt-ios·snutt-webclient.
 - SNUTT 는 낱말마다 `글.*자.*사.*이` 꼴 정규식으로 과목명을 찾고(줄임), 학과는 `^` 부터, 교수는 이름 전체가 같을 때만. 점수가 없어 사용자가 고른 정렬 순서로 나온다.

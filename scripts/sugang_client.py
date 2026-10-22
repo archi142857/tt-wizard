@@ -9,7 +9,7 @@
 SNUTT README의 경고대로 잦은 호출은 IP 차단을 받을 수 있으니 실행당 요청은 2~3회로 유지한다.
 
 엑셀 요청 값(EXCEL_PARAMS)·학기 코드(SEMESTER_CODES)·일정표 셀렉터는 SNUTT 에서 가져왔다.
-SNUTT(https://github.com/wafflestudio/snutt): Copyright (c) 2025 Wafflestudio, MIT License. 가져온 부분의 고지 전문은 licenses/snutt.txt
+SNUTT(https://github.com/wafflestudio/snutt): Copyright (c) 2025 Wafflestudio, MIT License. 가져온 부분의 고지 전문은 web/licenses/snutt.txt
 """
 
 from __future__ import annotations

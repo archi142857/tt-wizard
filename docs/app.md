@@ -120,9 +120,11 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
   끄면 새 폰에서 처음부터다(안드로이드 12 이상은 끄더라도 기기끼리 옮기기는 된다). iOS 도 앱 자료가 iCloud·기기 백업에 들어간다.
   받아 둔 편람 JSON(IndexedDB, 많아야 10 MB 남짓)도 같이 들어가지만 앱 빌드가 다르면 쓰지 않는다. 안드로이드 백업 한도(앱마다 25 MB) 안이다.
   처리방침에 적을 사실: '기기 백업을 켜 두었다면 앱에 저장한 내용이 그 기기 백업(Google 계정·iCloud)에 함께 들어갈 수 있어요. 개발자는 볼 수 없어요.'
-- **오픈소스 고지**: 앱에 들어가는 다른 사람 코드의 고지문은 저장소 `licenses/` 에 두고 `build_app.py` 가 앱 묶음의 `licenses/` 로 넣는다:
-  `capacitor.txt`(MIT, 그 안의 Apache-2.0·BSD·MIT 파일), `androidx.txt`(Apache-2.0), `cordova.txt`(Apache-2.0 와 NOTICE), `snutt.txt`.
-  화면이 줄마다 파일 하나를 열어서, Apache-2.0 전문은 앞의 세 파일 끝에 각각 넣었다(10/22 프론트엔드). 글꼴은 `vendor/pretendard/LICENSE.txt`, 지도는 `vendor/leaflet/LICENSE`. 화면(정보 > 오픈소스 라이선스)이 이 파일을 연다.
+- **오픈소스 고지**: 앱에만 들어가는 다른 사람 코드의 고지문은 저장소 `licenses/` 에 두고 `build_app.py` 가 앱 묶음의 `licenses/` 로 넣는다:
+  `capacitor.txt`(MIT, 그 안의 Apache-2.0·BSD·MIT 파일), `androidx.txt`(Apache-2.0), `cordova.txt`(Apache-2.0 와 NOTICE).
+  웹에도 쓰는 `snutt.txt`·`pretendard.txt`(SIL OFL 1.1)는 `web/licenses/` 에 있어 웹은 그대로, 앱은 `web/` 을 옮길 때 같은 `licenses/` 로 들어간다(10/22).
+  Apache-2.0 전문은 앞의 세 파일 끝에 각각 넣었다(파일 하나만 읽어도 되게. 10/22 밤부터 화면은 고지문 전문을 차례로 다 보여서 세 번 나온다).
+  지도는 `vendor/leaflet/LICENSE`, 앱 글꼴 파일 옆에는 `vendor/pretendard/LICENSE.txt` 도 있다. 화면(정보 > 오픈소스 라이선스)이 이 파일들을 읽는다.
 
 ## 앞으로 기능을 만들 때 (법무 10/22)
 
