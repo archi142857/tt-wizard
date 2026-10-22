@@ -54,7 +54,7 @@ def test_build_app_bundle(tmp_path, monkeypatch):
     assert {"index.html", "js/app.js", "js/engine.js", "js/search-worker.js", "js/search.js", "js/timetables.js", "js/native.js", "data/courses.json",
             "data/semesters/2025-1.json", "vendor/leaflet/leaflet.js", "vendor/pretendard/LICENSE.txt",
             "vendor/pretendard/woff2-dynamic-subset/PretendardVariable.subset.0.woff2", "app-build.json",
-            "licenses/capacitor.txt", "licenses/androidx.txt", "licenses/cordova.txt", "licenses/apache-2.0.txt", "licenses/snutt.txt"} <= files
+            "licenses/capacitor.txt", "licenses/androidx.txt", "licenses/cordova.txt", "licenses/snutt.txt"} <= files
     assert not [f for f in files if f == "sw.js" or f.startswith(("model/", "field/", "vendor/three/")) or f.endswith("package.json")]
     html = (out / "index.html").read_text(encoding="utf-8")
     assert "cdn.jsdelivr.net" not in html and 'href="vendor/pretendard/' in html
@@ -89,9 +89,10 @@ def test_license_notices_match_app():
         assert f"androidx.{art} {gradle[key]}" in ax, key
     cordova = (lic / "cordova.txt").read_text(encoding="utf-8")
     assert f"cordova-android {gradle['cordovaAndroidVersion']}" in cordova and "The Apache Software Foundation" in cordova
-    apache = (lic / "apache-2.0.txt").read_text(encoding="utf-8")
+    apache = cordova[cordova.index("Apache License\n"):]  # 전문(파일 끝)
     assert "Version 2.0, January 2004" in apache and "END OF TERMS AND CONDITIONS" in apache
-    assert apache in ax and apache in cordova  # 줄마다 전문을 같이 연다
+    # 화면은 줄마다 파일 하나를 연다: Apache-2.0 이 걸리는 세 파일 모두 전문을 품고, 따로 둔 파일을 가리키지 않는다
+    assert apache in ax and apache in cap and "apache-2.0.txt" not in cap + ax + cordova
     assert "Copyright (c) 2025 Wafflestudio" in (lic / "snutt.txt").read_text(encoding="utf-8")
 
 
