@@ -265,7 +265,7 @@ a { color: var(--accent-text); }
 
 .view { max-width: var(--width-input); margin: 0 auto; padding: 0 var(--gutter-right) calc(var(--bottom-bar-h) + var(--space-6)) var(--gutter-left); }
 #view-result { max-width: var(--width-result); padding-bottom: calc(var(--space-8) + var(--safe-bottom)); }
-#view-info, #view-page { padding-bottom: calc(var(--space-8) + var(--safe-bottom)); }
+#view-info, #view-page, #view-text { padding-bottom: calc(var(--space-8) + var(--safe-bottom)); }
 
 /* 화면 전환(View Transitions): 결과·정보 화면은 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms).
    못 쓰는 브라우저와 동작 줄이기에서는 바로 바뀐다(app.js 가 전환을 건너뛴다) */
@@ -317,7 +317,7 @@ h2.section-title .count { color: var(--on-bg-text3); }
 .btn-primary { display: flex; align-items: center; justify-content: center; gap: var(--space-2); width: 100%; max-width: 600px; min-height: var(--cta-height);
   margin: 0 auto; border: 0; border-radius: var(--radius-md); background: var(--cta); color: var(--on-cta);
   font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; transition: box-shadow var(--dur-press) var(--ease-standard); }
-.btn-primary:active, .btn-primary.is-pressed { box-shadow: var(--shadow-press); }
+.btn-primary:active { box-shadow: var(--shadow-press); }
 .btn-primary:disabled { background: var(--disabled); color: var(--on-disabled); box-shadow: none; cursor: default; }
 .btn-primary[aria-disabled="true"] { cursor: default; }
 .btn-text { display: inline-flex; align-items: center; gap: var(--space-1); min-height: var(--touch); padding: 0 var(--space-3); border: 0;
@@ -541,7 +541,6 @@ button.btn-text[aria-disabled="true"], button.btn-text[aria-disabled="true"]:hov
   display: flex; align-items: center; gap: var(--space-2); max-width: 560px; min-height: 48px; margin: 0 auto; padding: 0 var(--space-1) 0 var(--space-4);
   border-radius: var(--radius-md); background: var(--inverse); color: var(--on-inverse); box-shadow: var(--shadow-md); font-size: 0.875rem; line-height: 1.25rem;
   animation: tt-rise var(--dur-move) var(--ease-standard); }
-.snackbar.low { bottom: calc(var(--space-5) + var(--safe-bottom)); }
 .snackbar p { flex: 1; margin: 0; }
 .snackbar button { min-height: 48px; padding: 0 var(--space-3); border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--inverse-accent);
   font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; }
@@ -557,7 +556,6 @@ dialog.sheet { width: 100%; max-width: 100%; max-height: 90dvh; margin: auto 0 0
   overscroll-behavior: contain; scroll-padding-bottom: var(--space-2); }
 dialog.sheet[open] { animation: tt-sheet-in var(--dur-enter) var(--ease-enter); }
 dialog.sheet::backdrop { background: var(--scrim, #18203366); } /* ::backdrop 이 :root 변수를 물려받지 않는 브라우저용 값 */
-dialog.sheet.is-dragging { transition: none; }
 @keyframes tt-sheet-in { from { transform: translateY(32px); opacity: 0; } }
 @media (min-width: 37.5em) { dialog.sheet { max-width: var(--width-sheet); margin: auto; border-radius: var(--radius-xl); } }
 .sheet-head { position: sticky; top: 0; z-index: 1; display: flex; align-items: flex-start; gap: var(--space-2); padding: var(--space-5) var(--space-2) var(--space-3) var(--space-5);
@@ -904,15 +902,17 @@ dialog.sheet.is-scrolled .sheet-head { box-shadow: 0 1px 0 var(--line); }
 .info-row { display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: 56px; padding: 0 var(--space-3) 0 var(--space-4); border: 0;
   background: transparent; text-align: left; color: var(--text); font-size: 1rem; line-height: 1.5rem; text-decoration: none; }
 .info-row .v { margin-left: auto; color: var(--text3); font-size: 0.875rem; line-height: 1.25rem; }
-/* 테마 행: 오른쪽 값을 누르면 시스템 선택 창이 뜬다. 값은 t-body-sm-strong text, 화살표는 다른 행의 화살표와 같은 자리·크기·색.
-   보이는 값 위에 투명한 select 를 덮는다(과목 시트의 강의실 값과 같은 방식): select 글자가 16px 보다 작으면 iOS 가 누를 때 화면을 확대한다 */
-.info-pick { position: relative; display: flex; align-items: center; margin-left: auto; min-height: var(--touch); padding: 0 28px 0 var(--space-2); border-radius: var(--radius-sm);
+/* 테마 행: 행 어디를 눌러도 시스템 선택 창이 뜬다. 값은 t-body-sm-strong text, 화살표는 다른 행의 화살표와 같은 자리·크기·색.
+   행 전체에 투명한 select 를 덮는다(과목 시트의 강의실 값과 같은 방식): select 글자가 16px 보다 작으면 iOS 가 누를 때 화면을 확대한다.
+   값 자리만 덮으면 왼쪽 '테마'를 눌렀을 때 초점만 가고 창은 열리지 않는다(10/22 디자인). 누름·올림 바탕과 초점 테두리는 다른 행처럼 행에 그린다 */
+.pick-row { position: relative; cursor: pointer; }
+.pick-row:has(select:focus-visible) { outline: 2px solid var(--focus); outline-offset: -2px; }
+.info-pick { display: flex; align-items: center; gap: var(--space-2); margin-left: auto; min-height: var(--touch); padding-left: var(--space-2);
   color: var(--text); font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; white-space: nowrap; }
 .info-pick select { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; font-size: 1rem; cursor: pointer; }
-.info-pick:has(select:focus-visible) { outline: 2px solid var(--focus); outline-offset: -2px; }
-.info-pick svg { position: absolute; right: 0; pointer-events: none; }
+.info-pick svg { pointer-events: none; }
 .info-row svg { flex-shrink: 0; margin-left: auto; color: var(--muted); }
-button.info-row:active, a.info-row:active { background: var(--surface-hover); }
+button.info-row:active, a.info-row:active, .pick-row:active { background: var(--surface-hover); }
 .info-row:active svg { color: var(--text2); } /* 누른·올린 면 위의 꺾쇠·링크 아이콘·펼침 화살표(muted 는 그 면에서 3:1 에 못 미친다) */
 .info-row:focus-visible { outline-offset: -2px; }
 .info-foot { margin: var(--space-4) var(--space-1) 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); }
@@ -923,6 +923,9 @@ button.info-row:active, a.info-row:active { background: var(--surface-hover); }
 .src .k { flex-shrink: 0; width: 4.5rem; color: var(--text3); }
 .src .v { flex: 1; min-width: 0; overflow-wrap: anywhere; word-break: keep-all; }
 .src a { color: var(--text); text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+/* 라이선스 전문(스토어 앱): 고지문 그대로, 문단과 빈 줄은 살린다. 줄표만 있던 줄에서 칸(카드)을 나눈다(선을 긋지 않는다. 10/22 사용자) */
+.license-cards { display: grid; gap: var(--space-2); margin-top: var(--space-2); }
+.license-text { margin: 0; padding: var(--space-4); white-space: pre-line; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); overflow-wrap: anywhere; word-break: keep-all; }
 
 /* ---------------------------------------------------------------- 이벤트 테마(디자인 규칙 '이벤트 테마'). 정해 둔 기간에 <html data-theme="…"> 로 켠다(js/app.js 의 THEMES).
    테마는 한 벌뿐이다: 기기가 다크여도 같은 모습이고, 기본 테마의 다크 값은 테마가 꺼져 있을 때만 쓴다(:root:not([data-theme])).
@@ -1038,11 +1041,11 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
 
 /* ---------------------------------------------------------------- 마우스를 올릴 수 있을 때만 */
 @media (hover: hover) {
-  .icon-btn:hover, .btn-text:hover, .result:hover, .rank-hit:hover, button.info-row:hover, a.info-row:hover, .course-hit:hover .c-title { background: var(--surface-hover); }
+  .icon-btn:hover, .btn-text:hover, .result:hover, .rank-hit:hover, button.info-row:hover, a.info-row:hover, .pick-row:hover, .course-hit:hover .c-title { background: var(--surface-hover); }
   .topbar .icon-btn:hover, .topbar .btn-text:hover, .bottom-bar .btn-text:hover, .picked-error .btn-text:hover, .ranks-more .btn-text:hover, .footnote .btn-text:hover { background: var(--bg-hover); }
   .result.is-picked:hover { background: var(--row-picked); } /* 담은 행은 어두운 그대로, 버튼만 빨갛게(빼기) */
   .course-hit:hover .c-title { background: none; text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
-  .term-select:hover, .browse-select:hover, .info-pick:hover { background-color: var(--surface-hover); }
+  .term-select:hover, .browse-select:hover { background-color: var(--surface-hover); }
   .btn-add.is-on:hover { background: var(--danger-weak); color: var(--danger); }
   .recent-list .chip:has(.chip-q:hover), .sec .chips .chip:has(.chip-q:hover), .rules-row:hover { background: var(--surface-hover); }
   .chip .chip-x:hover, .icon-btn.remove:hover, .sec-more:hover, button.info-row:hover svg, a.info-row:hover svg, label.info-row:hover svg, .rules-row:hover svg { color: var(--text2); }

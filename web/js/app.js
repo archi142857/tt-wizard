@@ -128,10 +128,6 @@ function announce(text, kind = "status") {
 // ---------------------------------------------------------------- 표기 (디자인 규칙 '형식')
 
 const fmtCredit = (x) => (x === null || x === undefined || x === "" ? "" : `${+x}학점`);
-function semLabel(sem) {
-  const [y, t] = String(sem || "").split("-");
-  return TERMS[t] ? `${y}년 ${TERMS[t]}` : String(sem || "");
-}
 function dateParts(iso) {
   const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(iso || "");
   return m ? { mo: +m[2], d: +m[3], t: `${m[4]}:${m[5]}` } : null;
@@ -355,7 +351,7 @@ async function getJson(url) {
   return r.json();
 }
 
-async function start() {
+async function startApp() {
   hideBanner();
   state.loading = true;
   renderLoadState();
@@ -386,10 +382,10 @@ async function start() {
     const last = store.get("semester", null);
     const sem = last && last.current === state.current && state.semesters.some(([x]) => x === last.id) ? last.id : state.current;
     if (!(await loadSemester(sem))) return;
-  } catch (e) {
+  } catch {
     state.loading = false;
     renderLoadState();
-    showBanner("과목 자료를 불러오지 못했어요", start);
+    showBanner("과목 자료를 불러오지 못했어요", startApp);
     return;
   }
   const y = store.get("scroll", 0);
@@ -478,7 +474,7 @@ async function switchSemester(sem) {
   hideBanner();
   try {
     await loadSemester(sem);
-  } catch (e) {
+  } catch {
     if (state.semester !== sem) return; // 그사이 다른 학기를 골랐다
     renderLoadState();
     showBanner("이 학기 자료를 불러오지 못했어요", () => switchSemester(sem));
@@ -843,7 +839,7 @@ function removeCourse(id, { fromList = false } = {}) {
     if (done) return;
     done = true;
     renderPicked();
-    if (fromList && keyboard) focusRow(nextId, ".remove") || $("q").focus();
+    if (fromList && keyboard && !focusRow(nextId, ".remove")) $("q").focus();
   };
   // 뺀 행은 150ms 동안 사라지고, 숫자는 바로 바뀐다
   if (row && !reduceMotion.matches) {
@@ -1387,14 +1383,14 @@ for (const d of document.querySelectorAll("dialog.sheet")) {
     }
   });
   d.addEventListener("close", () => {
-    const back = d.returnTo;
+    const opener = d.returnTo;
     d.returnTo = null;
     const live = d.querySelector("[data-live]");
     if (live) live.textContent = ""; // 다음에 열 때 지난 알림이 다시 읽히지 않게
     const id = sheetId;
     if (d.id === "course-sheet") { courseSheetClosed(); sheetId = null; }
     // 연 요소로 초점을 돌린다. 그사이 사라졌으면(다시 그린 과목 행, 원인이 풀려 숨은 오류 줄 옆 '추가 설정') 그 자리를 잇는 것으로
-    if (back && back.isConnected && !back.closest("[hidden]")) back.focus({ preventScroll: true });
+    if (opener && opener.isConnected && !opener.closest("[hidden]")) opener.focus({ preventScroll: true });
     else if (d.id === "course-sheet") focusRow(id, ".course-hit");
     else if (d.id === "rules-sheet") $("open-rules").focus({ preventScroll: true });
   });
@@ -1404,12 +1400,10 @@ for (const d of document.querySelectorAll("dialog.sheet")) {
 }
 // 시트 머리는 위에 붙어 있다(sticky). 키보드로 거슬러 올라올 때 초점 받은 것이 그 밑에 가리지 않게 머리 높이 + 8px(초점 테두리 몫)만큼 스크롤 여백을 둔다
 // (WCAG 2.2 SC 2.4.11, 기법 C43). 머리 높이는 과목명 줄 수, 글자 크기, 추가 설정 시트의 오류 줄에 따라 달라서 재어서 넣는다(아래쪽 8px 은 style.css)
-if (typeof ResizeObserver !== "undefined") {
-  const sheetHeads = new ResizeObserver((entries) => {
-    for (const { target } of entries) target.parentElement.style.scrollPaddingTop = `${Math.ceil(target.getBoundingClientRect().height) + 8}px`;
-  });
-  for (const head of document.querySelectorAll("dialog.sheet > .sheet-head")) sheetHeads.observe(head);
-}
+const sheetHeads = new ResizeObserver((entries) => {
+  for (const { target } of entries) target.parentElement.style.scrollPaddingTop = `${Math.ceil(target.getBoundingClientRect().height) + 8}px`;
+});
+for (const head of document.querySelectorAll("dialog.sheet > .sheet-head")) sheetHeads.observe(head);
 
 // ---------------------------------------------------------------- 조건
 
@@ -1681,7 +1675,7 @@ function startWorker() {
   if (worker || workerBroken || typeof Worker === "undefined") return worker;
   try {
     worker = new Worker(new URL("./search-worker.js", import.meta.url), { type: "module" });
-  } catch (e) {
+  } catch {
     workerBroken = true;
     return null;
   }
@@ -1715,17 +1709,14 @@ function settle(value, error) {
 }
 
 /** 화면 스레드에서 탐색(워커를 못 쓸 때). 전체 조합 수도 워커와 같게: 찾은 게 topK 보다 적으면 그게 전부다. count: false 면 다시 세지 않는다. */
-function runHere(courses, { topK = TOP_K, home = state.home, mode = state.mode, rules = activeRules(), count = true } = {}) {
-  return new Promise((resolve) => {
-    const res = search(courses, travelFor(mode), home, { topK, rules });
-    if (!res.ranked.length) {
-      const why = whyNone(courses, rules) || { cause: "overlap", courseIds: [] };
-      resolve({ ranked: [], conflict: why.courseIds, cause: why.cause });
-      return;
-    }
-    res.total = res.ranked.length < topK ? { count: res.ranked.length, exact: true } : count ? countFeasible(courses, { rules }) : null;
-    resolve(res);
-  });
+async function runHere(courses, { topK = TOP_K, home = state.home, mode = state.mode, rules = activeRules(), count = true } = {}) {
+  const res = search(courses, travelFor(mode), home, { topK, rules });
+  if (!res.ranked.length) {
+    const why = whyNone(courses, rules) || { cause: "overlap", courseIds: [] };
+    return { ranked: [], conflict: why.courseIds, cause: why.cause };
+  }
+  res.total = res.ranked.length < topK ? { count: res.ranked.length, exact: true } : count ? countFeasible(courses, { rules }) : null;
+  return res;
 }
 
 /**
@@ -1768,6 +1759,44 @@ function reportError(text) {
   announce(text, "alert");
 }
 
+/**
+ * 버튼 안의 기다림(시간표 만들기, 후보 목록의 더 보기. 디자인 규칙 '상태와 피드백'): 500ms 가 지나도 안 끝나면 스피너와 글(text),
+ * 10초를 넘을 것 같으면(누른 때부터 기다린 시간 + 남은 어림) 'text 42%'와 옆의 취소. 한번 뜬 스피너는 200ms 이상 둔다.
+ * begin(heavy): heavy 면 화면 스레드에서 오래 계산할 것이라 스피너를 먼저 그린다(계산하는 동안에는 500ms 뒤에 그릴 수 없다).
+ * end(keep): 기다림을 거둔다. keep 이면 한번 뜬 스피너를 200ms 채운 뒤에(취소했으면 바로)
+ */
+function busyButton(btn, cancel, { text, said, small = false }) {
+  const t0 = performance.now();
+  let shownAt = 0, long = false, timer = 0;
+  const label = (s) => btn.replaceChildren(h("span", { class: small ? "spinner small" : "spinner", "aria-hidden": "true" }), s);
+  const show = () => {
+    if (shownAt) return;
+    shownAt = performance.now();
+    label(text);
+    announce(said);
+  };
+  return {
+    async begin(heavy) {
+      if (heavy) { show(); await nextPaint(); } else timer = setTimeout(show, 500);
+    },
+    progress(done, ms) {
+      if (!shownAt) return;
+      const waited = performance.now() - t0, left = done > 0 ? ms / done - ms : Infinity;
+      if (!long && (waited > 5000 || (ms > 1000 && waited + left > LONG_MS))) {
+        long = true;
+        cancel.hidden = false;
+      }
+      const pct = Math.min(99, Math.floor(done * 100));
+      if (long && pct >= 1) label(`${text} ${pct}%`);
+    },
+    async end(keep) {
+      clearTimeout(timer);
+      const rest = shownAt && keep ? 200 - (performance.now() - shownAt) : 0;
+      if (rest > 0) await sleep(rest);
+    },
+  };
+}
+
 let busy = false;
 async function run() {
   if (busy || !state.loaded || !state.picks.length) return;
@@ -1787,37 +1816,18 @@ async function run() {
   busy = true;
   const btn = $("run"), cancel = $("cancel");
   btn.setAttribute("aria-disabled", "true"); // disabled 는 초점을 잃게 해서 쓰지 않는다. 두 번째 누름은 busy 로 무시한다
-  let shownAt = 0, long = false;
-  const label = (text) => btn.replaceChildren(h("span", { class: "spinner", "aria-hidden": "true" }), text);
-  const showSpinner = () => {
-    if (shownAt) return;
-    shownAt = performance.now();
-    label("만드는 중");
-    announce("시간표 만드는 중");
-  };
-  // 10초를 넘을 것 같으면 진행 정도와 '취소'
-  const onProgress = (done, ms) => {
-    if (!shownAt) return;
-    if (!long && (ms > 5000 || (ms > 1000 && (done > 0 ? ms / done : Infinity) > LONG_MS))) {
-      long = true;
-      cancel.hidden = false;
-    }
-    const pct = Math.min(99, Math.floor(done * 100));
-    if (long && pct >= 1) label(`만드는 중 ${pct}%`);
-  };
-  let timer = null;
-  if (!startWorker() && estimate(courses) > HEAVY) { showSpinner(); await nextPaint(); } else timer = setTimeout(showSpinner, 500);
+  const wait = busyButton(btn, cancel, { text: "만드는 중", said: "시간표 만드는 중" });
+  await wait.begin(!startWorker() && estimate(courses) > HEAVY);
   loadRoutes();
   let res = null, cancelled = false;
   const rules = activeRules(); // 결과를 만든 조건. 더 보기도 이 조건 그대로 찾는다(그사이 조건을 바꾸면 계산이 취소된다)
   try {
-    res = await compute(courses, onProgress, { rules });
+    res = await compute(courses, wait.progress, { rules });
   } catch (e) {
     if (e instanceof Cancelled) cancelled = true;
     else console.error(e);
   }
-  clearTimeout(timer);
-  if (shownAt && !cancelled) { const left = 200 - (performance.now() - shownAt); if (left > 0) await sleep(left); } // 한번 뜬 스피너는 200ms 이상
+  await wait.end(!cancelled);
   const hadFocus = cancel.contains(document.activeElement);
   cancel.hidden = true;
   btn.replaceChildren("시간표 만들기");
@@ -2099,7 +2109,7 @@ function renderTimetable(ev, day, gridPx) {
   box.replaceChildren(hours, grid);
   const textW = grid.clientWidth - 16; // 칸 안 글자 폭(좌우 여백 8)
   const family = getComputedStyle(grid).fontFamily;
-  const titleFont = `500 ${14 * k}px ${family}`, labelFont = `500 ${12 * k}px ${family}`; // t-block, t-label
+  const titleFont = `500 ${14 * k}px ${family}`, labelFont = `500 ${12 * k}px ${family}`, pillFont = `700 ${12 * k}px ${family}`; // t-block, t-label, 늦음 알약
   const widthOf = (text, font = labelFont) => { canvas.font = font; return canvas.measureText(text).width; };
   const legs = ev.legs.filter((l) => l.day === day);
   let n = 0;
@@ -2128,10 +2138,7 @@ function renderTimetable(ev, day, gridPx) {
     // 늦음 알약은 오른쪽 위. 과목명 첫 줄 옆에 들어가거나(넓은 칸) 가운데 놓인 글이 알약 아래에서 시작하면(높은 칸) 그대로 두고,
     // 둘 다 아니면 과목명 위에 알약 줄을 따로 둔다(과목명이 한 줄 밀린다). 낮은 칸은 한 줄의 오른쪽 끝(글은 알약 앞에서 끝난다)
     let lateRow = 0, pillW = 0;
-    if (late) {
-      canvas.font = `700 ${12 * k}px ${getComputedStyle(grid).fontFamily}`;
-      pillW = canvas.measureText(`${late}분 늦음`).width + 12;
-    }
+    if (late) pillW = widthOf(`${late}분 늦음`, pillFont) + 12;
     if (late && !short) {
       const beside = firstLineWidth(title, titleFont, textW) + pillW + 4 <= textW;
       const below = (px - 6 - fit(px - 6).used) / 2 >= 16 * k + 2;
@@ -2945,7 +2952,7 @@ function placeLegLabels(mp) {
     const cands = [];
     for (let s = end, k = 1; s <= len - end + 1e-6; s += step) {
       while (k < cum.length - 1 && cum[k] < s) k++;
-      const seg = cum[k] - cum[k - 1], t = seg ? (s - cum[k - 1]) / seg : 0;
+      const segLen = cum[k] - cum[k - 1], t = segLen ? (s - cum[k - 1]) / segLen : 0;
       const x = pts[k - 1].x + (pts[k].x - pts[k - 1].x) * t, y = pts[k - 1].y + (pts[k].y - pts[k - 1].y) * t;
       const box = [x - hw, y - hh, x + hw, y + hh];
       const [sep, cls] = sepOf(i, box);
@@ -2995,13 +3002,13 @@ function placeLabels(mp) {
   names.clearLayers();
   if (!data || !state.campus) return;
   const z = map.getZoom(), withName = z >= 17.25;
-  const icon = (html) => L.divIcon({ className: "", html, iconSize: [0, 0] });
+  const labelIcon = (html) => L.divIcon({ className: "", html, iconSize: [0, 0] });
   const size = map.getSize();
   if (data.stops.length) {
     for (const pin of mp.pins || []) {
       const { text, name, side, dx } = pinTag(mp, pin, withName); // 오른쪽 가장자리·버튼에 걸리면 핀 왼쪽, 왼쪽도 걸리면 핀 아래
       L.marker(pin.at, { interactive: false, keyboard: false, zIndexOffset: 50,
-        icon: icon(`<div class="blabel day${side === "right" ? "" : " " + side}" style="--pin-half:${pin.w / 2}px;--dx:${dx}px" aria-hidden="true"><b>${esc(text)}</b>${name ? `<span>${esc(name)}</span>` : ""}</div>`) }).addTo(names);
+        icon: labelIcon(`<div class="blabel day${side === "right" ? "" : " " + side}" style="--pin-half:${pin.w / 2}px;--dx:${dx}px" aria-hidden="true"><b>${esc(text)}</b>${name ? `<span>${esc(name)}</span>` : ""}</div>`) }).addTo(names);
     }
     return;
   }
@@ -3016,7 +3023,7 @@ function placeLabels(mp) {
     if (placed.some((q) => !(box[2] < q[0] || box[0] > q[2] || box[3] < q[1] || box[1] > q[3]))) continue;
     placed.push(box);
     L.marker(lb.at, { interactive: false, keyboard: false,
-      icon: icon(`<div class="blabel" aria-hidden="true"><b>${esc(lb.text)}</b>${withName && lb.name ? `<span>${esc(lb.name)}</span>` : ""}</div>`) }).addTo(names);
+      icon: labelIcon(`<div class="blabel" aria-hidden="true"><b>${esc(lb.text)}</b>${withName && lb.name ? `<span>${esc(lb.name)}</span>` : ""}</div>`) }).addTo(names);
   }
 }
 
@@ -3171,8 +3178,8 @@ function seekMore(R, spare) {
 }
 
 /**
- * 탐색을 기다리는 동안의 버튼. '시간표 만들기'와 같다: 500ms 가 지나도 안 끝나면 작은 스피너 + '찾는 중'(한번 뜨면 200ms 이상),
- * 10초를 넘을 수 있으면 '찾는 중 42%'와 오른쪽 '취소'. 미리 찾던 탐색이 돌고 있으면 그것을 기다린다. 그동안에도 카드를 고르고 요일을 바꿀 수 있다.
+ * 탐색을 기다리는 동안의 버튼. '시간표 만들기'와 같다(busyButton: 500ms 뒤 작은 스피너 + '찾는 중', 10초를 넘을 수 있으면 '찾는 중 42%'와 '취소').
+ * 미리 찾던 탐색이 돌고 있으면 그것을 기다린다. 그동안에도 카드를 고르고 요일을 바꿀 수 있다.
  */
 async function waitMore(R) {
   const btn = $("ranks-more-btn"), cancel = $("ranks-cancel");
@@ -3182,37 +3189,18 @@ async function waitMore(R) {
   btn.removeAttribute("aria-describedby");
   btn.replaceChildren("더 보기");
   btn.setAttribute("aria-disabled", "true"); // disabled 는 초점을 잃게 해서 쓰지 않는다. 두 번째 누름은 rankMore.waiting 으로 무시한다
-  const t0 = performance.now();
-  let shownAt = 0, long = false;
-  const label = (text) => btn.replaceChildren(h("span", { class: "spinner small", "aria-hidden": "true" }), text);
-  const showSpinner = () => {
-    if (shownAt) return;
-    shownAt = performance.now();
-    label("찾는 중");
-    announce("시간표 찾는 중");
-  };
-  // 10초를 넘을 것 같으면 진행 정도와 '취소'. 누른 뒤로 기다린 시간에 남은 시간을 더해 본다(미리 찾던 탐색은 누르기 전부터 돌고 있었다)
-  const onProgress = (done, ms) => {
-    if (!shownAt) return;
-    const waited = performance.now() - t0, left = done > 0 ? ms / done - ms : Infinity;
-    if (!long && (waited > 5000 || (ms > 1000 && waited + left > LONG_MS))) {
-      long = true;
-      cancel.hidden = false;
-    }
-    const pct = Math.min(99, Math.floor(done * 100));
-    if (long && pct >= 1) label(`찾는 중 ${pct}%`);
-  };
-  let timer = null, how = "ok";
-  if (!rankMore.job && !startWorker() && estimate(R.courses) > HEAVY) { showSpinner(); await nextPaint(); } else timer = setTimeout(showSpinner, 500);
+  // 기다린 시간은 누른 때부터 잰다(미리 찾던 탐색은 누르기 전부터 돌고 있었다)
+  const wait = busyButton(btn, cancel, { text: "찾는 중", said: "시간표 찾는 중", small: true });
+  let how = "ok";
+  await wait.begin(!rankMore.job && !startWorker() && estimate(R.courses) > HEAVY);
   if (state.result !== R || screen !== "result") how = "cancelled"; // 스피너를 그리는 사이 다른 화면으로 갔다
   else {
     const job = rankMore.job || seekMore(R, false);
     job.opts.spare = false; // 이제 누른 것이다(워커가 죽으면 화면 스레드에서라도 찾는다)
-    job.onProgress = onProgress;
+    job.onProgress = wait.progress;
     how = await job.done;
   }
-  clearTimeout(timer);
-  if (shownAt && how !== "cancelled") { const rest = 200 - (performance.now() - shownAt); if (rest > 0) await sleep(rest); } // 한번 뜬 스피너는 200ms 이상
+  await wait.end(how !== "cancelled");
   rankMore.waiting = false;
   if (cancel.contains(document.activeElement)) btn.focus({ preventScroll: true }); // 숨기면 초점을 잃는다
   cancel.hidden = true;
@@ -3263,13 +3251,13 @@ async function showMore() {
   // (스크롤 붙잡기를 끈 크롬에서 목록이 그만큼 밀렸다. 붙잡기가 없는 Safari 26 까지가 그렇다. 크롬과 Safari 27 부터는 붙잡기가 대신 맞춰 준다)
   const top = $("ranks").getBoundingClientRect().top;
   const inList = top < document.querySelector("#view-result .topbar").getBoundingClientRect().bottom;
-  let back = "";
+  let refocus = "";
   document.documentElement.classList.add("is-still");
   try {
     if (grew) { // 시간표와 미리보기 막대를 새 축으로 다시 그린다
       // 기다리는 동안 요일 탭이나 카드로 간 초점은 다시 그린 뒤 같은 탭·카드로 돌려준다
       const d = (stay && document.activeElement && document.activeElement.dataset) || {};
-      back = d.rank ? `#ranks [data-rank="${d.rank}"]` : d.day ? `#daytabs [data-day="${d.day}"]` : "";
+      refocus = d.rank ? `#ranks [data-rank="${d.rank}"]` : d.day ? `#daytabs [data-day="${d.day}"]` : "";
       renderResult();
     } else {
       $("rank-count").replaceChildren(...rankTitle(R));
@@ -3280,7 +3268,7 @@ async function showMore() {
   } finally {
     document.documentElement.classList.remove("is-still");
   }
-  if (back) document.querySelector(back)?.focus({ preventScroll: true });
+  if (refocus) document.querySelector(refocus)?.focus({ preventScroll: true });
   // 초점은 새 카드의 첫 장으로(버튼은 새 카드 뒤에 있어서, 버튼에 두면 붙은 카드를 거슬러 올라가야 한다). 새 카드가 없으면(다 올렸다) 마지막 카드로
   if (!stay) $("ranks").querySelector(`[data-rank="${Math.min(from, R.ranked.length - 1)}"]`)?.focus({ preventScroll: true });
   announce(foundText(R)); // 초점이 카드로 가도 목록 제목의 수가 바뀐 것은 읽히지 않는다
@@ -3382,7 +3370,7 @@ $("theme-ask-yes").addEventListener("click", () => { setTheme(false); renderInfo
 function renderInfo() {
   const next = (key, text) => h("button", { type: "button", class: "info-row", "data-info": key }, h("span", {}, text), icon(I.right, 20));
   const out = (href, text) => h("a", { class: "info-row", href, target: "_blank", rel: "noopener" }, h("span", {}, text), icon(I.out, 20));
-  // 테마 행은 이벤트 테마의 기간에만 있다: 기본 | 그 테마. 보이는 값 위에 투명한 select 를 덮는다(과목 시트의 강의실 값과 같은 방식, style.css .info-pick)
+  // 테마 행은 이벤트 테마의 기간에만 있다: 기본 | 그 테마. 행 전체에 투명한 select 를 덮는다(과목 시트의 강의실 값과 같은 방식, style.css .pick-row)
   let themeRow = null;
   if (season) {
     const names = { "": "기본", [season.id]: season.name };
@@ -3390,7 +3378,7 @@ function renderInfo() {
     theme.value = themeOn() ? season.id : "";
     const value = document.createTextNode(names[theme.value]);
     theme.addEventListener("change", () => { setTheme(!!theme.value); value.data = names[theme.value]; });
-    themeRow = h("label", { class: "info-row" }, h("span", {}, "테마"), h("span", { class: "info-pick" }, value, icon(I.down, 20), theme));
+    themeRow = h("label", { class: "info-row pick-row" }, h("span", {}, "테마"), h("span", { class: "info-pick" }, value, icon(I.down, 20), theme));
   }
   const rows = [
     themeRow,
@@ -3417,10 +3405,17 @@ $("info-list").addEventListener("click", (e) => {
 
 let pageName = "sources";
 const NGII_URL = "https://map.ngii.go.kr/"; // 국토정보플랫폼(국토지리정보원이 수치지형도를 내주는 누리집)
+const APACHE_URL = "https://www.apache.org/licenses/LICENSE-2.0";
 function renderPage() {
   const sources = pageName !== "licenses";
   $("page-title").textContent = sources ? "자료 출처" : "오픈소스 라이선스";
+  // 내용이 같으면 다시 그리지 않는다: 라이선스 전문에서 돌아올 때 누른 이름에 초점을 돌려주려면 그 링크가 그대로 있어야 한다
+  const key = sources ? `sources ${state.semesterMeta.updated || ""}` : "licenses";
+  if ($("page-list").dataset.key === key) return;
+  $("page-list").dataset.key = key;
   const link = (href, text) => h("a", { href, target: "_blank", rel: "noopener" }, text);
+  // 스토어 앱은 고지문을 앱에 넣어 둔다(백엔드 build_app.py: licenses/, vendor/). 그 이름을 누르면 앱 안 화면에서 전문을 보인다(아래 '라이선스 전문')
+  const lic = (file, href, text) => (IN_APP ? h("a", { href, target: "_blank", rel: "noopener", "data-text": file }, text) : link(href, text));
   const rows = sources ? [
     ["과목", ["서울대학교 수강편람", state.semesterMeta.updated ? ` · ${asofLong(state.semesterMeta.updated)}` : ""]],
     ["건물", "서울대학교 캠퍼스맵"],
@@ -3429,21 +3424,84 @@ function renderPage() {
     ["경사", [link(NGII_URL, "국토지리정보원 수치지형도"), " · 공공누리 제1유형"]],
     ["지도", [link(NGII_URL, "국토지리정보원 수치지형도"), " · 공공누리 제1유형, ", link("https://www.openstreetmap.org/copyright", "© OpenStreetMap contributors"), " · ODbL"]],
   ] : [
-    ["지도 표시", [link("https://github.com/Leaflet/Leaflet/blob/main/LICENSE", "Leaflet"), " · BSD-2-Clause"]],
-    ["글꼴", [link("https://github.com/orioncactus/pretendard/blob/main/LICENSE", "Pretendard"), " · SIL OFL 1.1"]],
+    // 순서와 왼쪽 칸 이름은 디자인 규칙('화면과 동작'의 정보 화면, 10/22). 스토어 앱에는 앱의 바탕(Capacitor 와 그 안의 Apache Cordova, 안드로이드는 AndroidX)이
+    // 더 있다: 고지문을 함께 내야 하는 라이선스다(10/22 법무·백엔드). SNUTT 는 과목 검색 규칙을 따온 곳(search.js 머리의 고지와 같은 레포)
+    ["지도 표시", [lic("vendor/leaflet/LICENSE", "https://github.com/Leaflet/Leaflet/blob/main/LICENSE", "Leaflet"), " · BSD-2-Clause"]],
+    ["과목 검색", [lic("licenses/snutt.txt", "https://github.com/wafflestudio/snutt-timetable/blob/develop/LICENSE", "SNUTT"), " · MIT"]],
+    // 앱 실행 환경은 한 칸에 두 줄(안드로이드·iOS 같다)
+    IN_APP ? ["앱 실행 환경", [lic("licenses/capacitor.txt", "https://github.com/ionic-team/capacitor/blob/main/LICENSE", "Capacitor"), " · MIT", h("br"),
+      lic("licenses/cordova.txt", APACHE_URL, "Apache Cordova"), " · Apache-2.0"]] : null,
+    SHELL === "android" ? ["안드로이드", [lic("licenses/androidx.txt", APACHE_URL, "AndroidX"), " · Apache-2.0"]] : null,
+    ["글꼴", [lic("vendor/pretendard/LICENSE.txt", "https://github.com/orioncactus/pretendard/blob/main/LICENSE", "Pretendard"), " · SIL OFL 1.1"]],
     ["로고 글꼴", [link("https://github.com/google/fonts/blob/main/ofl/fredoka/OFL.txt", "Fredoka"), " · SIL OFL 1.1"]],
     ["지도 자료", [link("https://www.openstreetmap.org/copyright", "OpenStreetMap"), " · ODbL"]],
     ["지도·경사 자료", [link("https://www.kogl.or.kr/info/licenseType1.do", "국토지리정보원 수치지형도"), " · 공공누리 제1유형"]],
   ];
-  $("page-list").replaceChildren(...rows.map(([k, v]) => h("li", {}, h("span", { class: "k" }, k), h("span", { class: "v" }, v))));
+  $("page-list").replaceChildren(...rows.filter(Boolean).map(([k, v]) => h("li", {}, h("span", { class: "k" }, k), h("span", { class: "v" }, v))));
 }
+
+// ---- 라이선스 전문(스토어 앱). 고지문은 앱 안 서버(https://localhost)의 파일이라 Custom Tab 으로는 못 열어서, 읽어서 앱 안 화면에 보인다.
+// 못 읽으면(그 파일이 없는 앱 빌드) 원래 링크를 바깥으로 연다. 웹에는 이 파일들이 없어 이름이 지금처럼 바깥 링크다
+const licenseTexts = new Map();
+let textPage = { file: "", title: "" };
+async function loadLicense(file) {
+  if (!licenseTexts.has(file)) {
+    const r = await fetch(file);
+    if (!r.ok) throw new Error(`${file} ${r.status}`);
+    licenseTexts.set(file, await r.text());
+  }
+  return licenseTexts.get(file);
+}
+/** 고지문을 폰 폭에 맞게 편다. 글자는 그대로 두고 줄만 다시 나눈다: 폭에 맞춰 끊어 둔 줄(70~80자)은 앞줄에 잇고, 빈 줄(문단)·목록 머리(`1.` `(a)` `*`)·
+ *  짧은 줄(이름, 판, 저작권 줄)·우리가 쓴 머리 줄(한글 설명, `이름 — 주소`)은 그대로 둔다. 줄표만 있는 줄에서 칸(카드)을 나눈다(선을 긋지 않는다).
+ *  이어 붙이는 줄: 소문자로 시작하거나(주소는 빼고), 앞줄이 50자 이상이고 들여 쓴 만큼이 같거나 깊다. 그대로 두면 80자 줄이 폰에서 한 줄 반씩 꺾인다 */
+function licenseBlocks(text) {
+  const blocks = [[]];
+  let prev = null; // 이어 붙일 수 있는 앞줄 { indent, len }
+  for (const raw of text.replace(/\r/g, "").split("\n")) {
+    const line = raw.trimEnd(), body = line.trim(), lines = blocks[blocks.length - 1];
+    if (/^[-=_]{10,}$/.test(body)) { blocks.push([]); prev = null; continue; }
+    if (!body) { if (lines.length && lines[lines.length - 1]) lines.push(""); prev = null; continue; }
+    const indent = line.length - line.trimStart().length;
+    const own = /[가-힣]| — /.test(body);
+    const item = /^([-*•]|\d+[.)]|\([a-z0-9]{1,3}\))\s/i.test(body);
+    const lower = /^[("'“]?[a-z]/.test(body) && !/^https?:/.test(body);
+    if (prev && !own && !item && (lower || (prev.len >= 50 && indent >= prev.indent))) lines[lines.length - 1] += ` ${body}`;
+    else { lines.push(body); prev = own ? null : { indent }; }
+    if (prev) prev.len = line.length;
+  }
+  return blocks.map((b) => b.join("\n").trim()).filter(Boolean);
+}
+function renderText() {
+  $("text-title").textContent = textPage.title;
+  const text = licenseTexts.get(textPage.file);
+  if (text === undefined) { // 기록으로 다시 왔는데 아직 안 읽었으면 읽은 뒤에 그린다
+    $("text-body").replaceChildren();
+    loadLicense(textPage.file).then(() => { if (screen === "text") renderText(); }, () => null);
+    return;
+  }
+  $("text-body").replaceChildren(...licenseBlocks(text).map((b) => h("p", { class: "card license-text" }, b)));
+}
+$("page-list").addEventListener("click", async (e) => {
+  const a = e.target.closest("a[data-text]");
+  if (!a) return;
+  e.preventDefault();
+  e.stopPropagation(); // 바깥 링크로 여는 document 의 click(아래 '외부 링크')까지 가지 않게
+  try {
+    await loadLicense(a.dataset.text);
+  } catch {
+    capacitor?.Plugins?.Browser?.open({ url: a.href });
+    return;
+  }
+  go("text", { text: a.dataset.text, title: a.textContent });
+});
 
 // ---------------------------------------------------------------- 화면 이동과 뒤로 가기
 // 화면(결과, 정보, 자료 출처·라이선스, 전체 화면 지도)만 기록을 남긴다. 요일 탭, 순위 선택, 시트는 남기지 않는다.
 // 새로 켜면 늘 입력 화면에서 시작한다.
 
-const VIEWS = ["input", "result", "map", "info", "page"];
-const H1 = { result: "result-title", map: "map-title", info: "info-title", page: "page-title" };
+const VIEWS = ["input", "result", "map", "info", "page", "text"];
+const H1 = { result: "result-title", map: "map-title", info: "info-title", page: "page-title", text: "text-title" };
 let screen = "input", depth = 0;
 const scrollOf = {}, openers = {};
 
@@ -3451,12 +3509,12 @@ function go(name, extra = {}) {
   openers[name] = document.activeElement;
   depth += 1;
   history.pushState({ view: name, depth, ...extra }, "", `#${extra.page || name}`);
-  show(name, "forward", extra);
+  showView(name, "forward", extra);
 }
 
 function back() {
   if (depth > 0) history.back();
-  else show("input", "back");
+  else showView("input", "back");
 }
 
 function titleOf(name) {
@@ -3474,13 +3532,14 @@ function transition(apply, dir) {
   t.finished.then(done, done);
 }
 
-function show(name, dir, extra = {}) {
+function showView(name, dir, extra = {}) {
   if ((name === "result" || name === "map") && !state.result) name = "input";
   if (name !== "input" || screen === "result") cancelCompute(); // 결과 화면을 떠나면 이어 찾던 것도 멈춘다
   const from = screen;
   scrollOf[from] = window.scrollY;
   if (from === "input") store.set("scroll", window.scrollY);
   if (name === "page") pageName = extra.page || pageName;
+  if (name === "text" && extra.text) textPage = { file: extra.text, title: extra.title };
   const apply = () => {
     for (const v of VIEWS) {
       const el = $(`view-${v}`);
@@ -3491,6 +3550,7 @@ function show(name, dir, extra = {}) {
     if (name === "result") renderResult();
     if (name === "map") renderFullMap();
     if (name === "page") renderPage();
+    if (name === "text") renderText();
     document.title = titleOf(name);
     if (name !== "input") hideSnackbar();
     window.scrollTo(0, dir === "back" ? scrollOf[name] || 0 : 0);
@@ -3510,7 +3570,7 @@ window.addEventListener("popstate", (e) => {
   const st = e.state && e.state.view ? e.state : { view: "input", depth: 0 };
   const dir = (st.depth || 0) < depth ? "back" : "forward";
   depth = st.depth || 0;
-  show(st.view, dir, st);
+  showView(st.view, dir, st);
 });
 
 // ---------------------------------------------------------------- 스낵바 (되돌리기, 새 버전)
@@ -3713,14 +3773,19 @@ $("q-clear").addEventListener("click", () => {
 for (const el of [$("results-list"), $("q-clear"), $("recent")]) {
   el.addEventListener("mousedown", (e) => { if (document.activeElement === q && e.target.closest("button")) e.preventDefault(); });
 }
-$("results-list").addEventListener("click", (e) => {
+/** 검색 결과와 과목 둘러보기의 행: 누르면 담고 담은 행은 뺀다. 검색해서 담았으면 그 검색어를 최근 검색어에 넣는다. */
+function onAddClick(e) {
   const b = e.target.closest(".btn-add");
   const c = b && state.byId.get(b.dataset.id);
   if (!c) return;
   if (isPicked(c.id)) removeCourse(c.id);
-  else { addCourse(c.id); saveRecent(q.value); }
+  else {
+    addCourse(c.id);
+    if (e.currentTarget.id === "results-list") saveRecent(q.value);
+  }
   setAddButton(b, c.name, isPicked(c.id));
-});
+}
+$("results-list").addEventListener("click", onAddClick);
 // 과목 둘러보기: 목록을 바꾸면 새 목록을 맨 위부터(선택칸이 위로 지나갔으면 선택칸 바로 아래부터) 보이고 과목 수를 읽는다
 $("browse-select").addEventListener("change", (e) => {
   browseKey = e.target.value;
@@ -3730,14 +3795,7 @@ $("browse-select").addEventListener("change", (e) => {
   if (box.scrollTop > top) box.scrollTop = top;
   announce(`과목 ${browseCourses().length}개`);
 });
-$("browse-list").addEventListener("click", (e) => {
-  const b = e.target.closest(".btn-add");
-  const c = b && state.byId.get(b.dataset.id);
-  if (!c) return;
-  if (isPicked(c.id)) removeCourse(c.id);
-  else addCourse(c.id);
-  setAddButton(b, c.name, isPicked(c.id));
-});
+$("browse-list").addEventListener("click", onAddClick);
 $("results-more").addEventListener("click", () => {
   resultsShown += RESULTS_STEP;
   renderResults({ more: true });
@@ -3793,5 +3851,5 @@ for (const id of ["cls-legend", "picked-legend"]) {
 renderInfo();
 renderOnline();
 renderResults(); // 검색창 지우기 단추와 결과 카드(자료를 받기 전에는 두지 않는다)
-start();
+startApp();
 setTimeout(askTheme, 400); // 첫 화면이 그 테마로 보인 뒤에 묻는다

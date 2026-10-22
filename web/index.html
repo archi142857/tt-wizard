@@ -97,7 +97,6 @@
     </div>
     <div class="cls-legend" id="picked-legend" aria-hidden="true" hidden></div>
 
-    <div class="pane-foot">
     <h2 class="section-title">조건</h2>
     <div class="card settings">
       <fieldset>
@@ -113,7 +112,6 @@
         </div>
       </fieldset>
       <button type="button" class="rules-row" id="open-rules" hidden><span class="kv"><span>추가 설정</span> <span class="v" id="rules-sum"></span></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
-    </div>
     </div>
     <div class="bottom-bar">
       <button type="button" class="btn-primary" id="run" disabled>시간표 만들기</button>
@@ -195,6 +193,17 @@
   </header>
   <main hidden>
     <div class="card page-card"><ul class="src" id="page-list"></ul></div>
+  </main>
+</div>
+
+<!-- 라이선스 전문(스토어 앱: 앱에 넣은 고지문을 앱 안에서 보인다) -->
+<div id="view-text" class="view" hidden>
+  <header class="topbar">
+    <button type="button" class="icon-btn back" aria-label="뒤로" data-back><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+    <h1 class="title" id="text-title" tabindex="-1"></h1>
+  </header>
+  <main hidden>
+    <div class="license-cards" id="text-body"></div>
   </main>
 </div>
 
