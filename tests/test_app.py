@@ -141,8 +141,11 @@ def test_native_projects_match_config():
     web_version = re.search(r'const APP_VERSION = "([^"]+)"', (ROOT / "web" / "js" / "app.js").read_text(encoding="utf-8")).group(1)
     android_version = re.search(r'versionName "([^"]+)"', gradle).group(1)
     ios_versions = set(re.findall(r"MARKETING_VERSION = ([^;]+);", pbx))
-    assert android_version == web_version and ios_versions == {web_version}, (
-        f"웹 APP_VERSION {web_version} 에 맞춰 app/android/app/build.gradle versionName 과 iOS MARKETING_VERSION 을 올리세요")
+    lock = json.loads((APP / "package-lock.json").read_text(encoding="utf-8"))
+    npm_versions = {json.loads((APP / "package.json").read_text(encoding="utf-8"))["version"], lock["version"], lock["packages"][""]["version"]}
+    assert android_version == web_version and ios_versions == {web_version} and npm_versions == {web_version}, (
+        f"웹 APP_VERSION {web_version} 에 맞춰 app/android/app/build.gradle versionName, iOS MARKETING_VERSION, "
+        "app/package.json·package-lock.json 의 version 을 올리세요")
     assert int(re.search(r"targetSdkVersion = (\d+)", (APP / "android" / "variables.gradle").read_text(encoding="utf-8")).group(1)) >= 36
     assert pbx.count("TARGETED_DEVICE_FAMILY = 1;") == 2  # 처음에는 iPhone 만 (디자인 규칙 '스토어 등록 자료')
 

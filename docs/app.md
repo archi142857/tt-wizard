@@ -149,8 +149,10 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
 
 ## 판(버전)
 
-- 웹 `APP_VERSION`(`web/js/app.js`) = 안드로이드 `versionName`(`app/android/app/build.gradle`) = iOS `MARKETING_VERSION`(pbxproj 두 곳).
-  `tests/test_app.py` 가 확인한다. 웹 판을 올리면 두 곳도 같이 올린다.
+- 웹 `APP_VERSION`(`web/js/app.js`) = 안드로이드 `versionName`(`app/android/app/build.gradle`) = iOS `MARKETING_VERSION`(pbxproj 두 곳)
+  = `app/package.json`·`package-lock.json` 의 `version`. `tests/test_app.py` 가 확인한다. 웹 판을 올리면 나머지도 같이 올린다(한 zip 에서).
+- 기능이 크게 바뀌면 판을 올리고, 올라간 커밋에 `v<판>-alpha` 태그를 붙인다(GitHub Desktop: History 에서 커밋 오른쪽 클릭 → Create Tag → 푸시).
+  태그를 보고 도는 워크플로는 없다. 0.7.0(10/22): 내 시간표·아래 탭·탐색 결과 저장.
 - 스토어에 올릴 때마다 안드로이드 `versionCode`, iOS `CURRENT_PROJECT_VERSION` 을 1씩 올린다.
 
 ## 아직 안 한 것 (출시 전에)
