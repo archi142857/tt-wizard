@@ -427,7 +427,7 @@ async function loadSemester(sem) {
   const entry = state.semesters.find(([x]) => x === sem) || state.semesters[0];
   sem = entry[0];
   state.semester = sem;
-  store.set("openSem", sem);
+  store.set(T.STORE_KEYS.open, sem);
   readMine(sem);
   state.loaded = false;
   state.loading = true;
@@ -2707,7 +2707,7 @@ function renderLegend(mp, legs, hasReturn) {
   for (const l of legs) {
     if (!l.meeting) continue;
     n += 1;
-    const where = l.meeting.building ? buildingLabel(l.meeting.building) : l.meeting.section.custom ? "장소 미정" : "강의실 미정";
+    const where = l.meeting.building ? buildingLabel(l.meeting.building) : "미정"; // 장소 없음은 한 낱말(디자인 67판: 두 열에서 '강의실 미정'이 잘렸다)
     items.push(h("li", {}, h("span", { class: "num" }, String(n)), h("span", {}, where)));
   }
   if (items.length) items.push(h("li", {}, h("span", { class: "num home", "aria-hidden": "true" }, svg(HOME_PIN.replace('width="12" height="12"', 'width="10" height="10"'))), h("span", {}, placeLabel(state.result.home))));
@@ -3350,8 +3350,8 @@ $("ranks-cancel").addEventListener("click", () => cancelCompute());
 // 시간이 겹치게 넣으면 묻지 않고 겹치는 항목을 뺀 뒤 되돌리기를 준다(묻는 창은 되돌릴 수 없는 일에만 쓴다)
 
 const COLOR_NAMES = ["파랑", "초록", "주황", "보라", "노랑", "분홍", "청록", "회색"]; // 칸 색 item-0~7 의 이름(색 고르기의 스크린리더 이름. 화면에는 쓰지 않는다)
-// 시간표 칸 색: 과목별(item) | 교과구분별(cls). 이 기기 하나, 학기와 상관없다. 열쇠 이름은 백엔드 timetables.js 의 STORE_KEYS(update57)와 같다
-let ttColor = store.get("timetableColor", "item") === "cls" ? "cls" : "item";
+// 시간표 칸 색: 과목별(item) | 교과구분별(cls). 이 기기 하나, 학기와 상관없다. 기기에 두는 열쇠는 다 백엔드 timetables.js 의 STORE_KEYS
+let ttColor = T.colorMode(store.get(T.STORE_KEYS.color, "item"));
 const mine = { sem: "", list: [], id: "" }; // 보는 학기, 그 학기 시간표 목록(T.parseList), 지금 보는 시간표 id
 let savedIndex = null; // 저장한 시간표의 '항목 열쇠=수업' 묶음 → 시간표(후보 카드의 저장됨. T.findSaved 와 같은 견줌을 카드마다 다시 하지 않게)
 
@@ -3363,23 +3363,24 @@ function semesterLabel(sem) {
 
 function readMine(sem) {
   mine.sem = sem || "";
-  mine.list = sem ? T.parseList(store.get(semKey("timetables", sem), []), sem) : [];
-  mine.id = sem ? String(store.get(semKey("timetable", sem), "") || "") : "";
+  mine.list = sem ? T.parseList(store.get(semKey(T.STORE_KEYS.list, sem), []), sem) : [];
+  mine.id = sem ? String(store.get(semKey(T.STORE_KEYS.current, sem), "") || "") : "";
   savedIndex = null;
 }
 /** 저장한다. 실패해도 알리지 않는다(디자인 규칙 '상태와 피드백': 다음에 켤 때 복원되지 않을 뿐) */
 function saveMine() {
   savedIndex = null;
   if (!mine.sem) return;
-  if (mine.list.length) store.set(semKey("timetables", mine.sem), T.serialize(mine.list)); else store.del(semKey("timetables", mine.sem));
-  if (mine.id) store.set(semKey("timetable", mine.sem), mine.id); else store.del(semKey("timetable", mine.sem));
+  const listKey = semKey(T.STORE_KEYS.list, mine.sem), curKey = semKey(T.STORE_KEYS.current, mine.sem);
+  if (mine.list.length) store.set(listKey, T.serialize(mine.list)); else store.del(listKey);
+  if (mine.id) store.set(curKey, mine.id); else store.del(curKey);
 }
 /** 이 판이 읽을 수 있는 시간표(새 판이 적은 것은 목록에 남겨 두기만 한다: T.parseList 의 _newer) */
 const shownTts = () => mine.list.filter((t) => !t._newer);
 /** 지금 보는 시간표: 기억한 것, 없으면 대표, 그것도 없으면 목록 맨 위. 학기에 하나도 없으면 아직 만들지 않은 빈 '시간표 1' */
 function curTt() {
   const list = shownTts();
-  return list.find((t) => t.id === mine.id) || list.find((t) => t.primary) || list[0] || { id: "", title: "시간표 1", items: [], virtual: true };
+  return list.find((t) => t.id === mine.id) || list.find((t) => t.primary) || list[0] || { id: "", title: T.nextTitle(mine.list), items: [], virtual: true };
 }
 /** 시간표를 목록에 넣거나 바꿔 넣고 저장한다. select 면 그 시간표를 보는 시간표로 */
 function putTt(t, { select = true } = {}) {
@@ -3391,28 +3392,16 @@ function putTt(t, { select = true } = {}) {
 /** 지금 시간표를 fn(t) → 새 t 로 바꾼다. 아직 없는 빈 시간표 1이면 이때 만든다. 바꾼 시간표(fn 이 null 이면 null) */
 function editTt(fn) {
   let t = curTt();
-  if (t.virtual) t = T.createTimetable(mine.list, mine.sem, { title: "시간표 1" });
+  if (t.virtual) t = T.createTimetable(mine.list, mine.sem); // 이름을 안 주면 '시간표 n'(백엔드)
   const next = t && fn(t);
   if (!next) return null;
   putTt(next);
   return next;
 }
-/** 새 시간표 이름: 쓰지 않은 가장 작은 번호의 '시간표 n' */
-function nextTitle() {
-  const used = new Set(mine.list.map((t) => t.title));
-  let n = 1;
-  while (used.has(`시간표 ${n}`)) n += 1;
-  return `시간표 ${n}`;
-}
-/** 같은 학기에 같은 이름이 있으면 '이름 (2)'(2부터 비는 번호. 복사본 '시간표 1 (2)'). 번호를 붙여도 30자를 넘지 않게 앞을 줄인다 */
-function numbered(title, selfId = null) {
-  const used = new Set(mine.list.filter((t) => t.id !== selfId).map((t) => t.title));
-  if (!used.has(title)) return title;
-  const root = title.replace(/\s\(\d+\)$/, "") || "시간표";
-  for (let n = 2; ; n += 1) {
-    const sfx = ` (${n})`, name = root.slice(0, T.TITLE_MAX - sfx.length).trimEnd() + sfx;
-    if (!used.has(name)) return name;
-  }
+/** 이름 바꾸기: 같은 학기에 같은 이름이 있으면 '이름 (2)'부터 비는 번호(T.uniqueTitle 과 같은 꼴. 겹치지 않으면 친 그대로: uniqueTitle 은 끝의 ' (n)'을 떼고 본다) */
+function renamed(title, selfId) {
+  const used = mine.list.filter((t) => t.id !== selfId).map((t) => t.title);
+  return used.includes(title) ? T.uniqueTitle(title, used) : title;
 }
 /** 지금 시간표가 바뀌었다(다른 시간표로 바꿨거나 학기가 바뀌었다). 보이지 않는 내 시간표 탭에 쌓인 과목 추가·동선 화면은 그 시간표의 것이라 거둔다 */
 function selectTt(id) {
@@ -3454,7 +3443,7 @@ const customWhen = (meetings) => meetingGroups(meetings).map((g) => `${daysLabel
 function itemTags(e, clash) {
   const tags = [];
   if (clash.has(e.key)) tags.push(["danger", "시간 겹침"]);
-  if (e.state === "gone") tags.push(["danger", state.byId.has(e.item.course) ? "없는 분반" : "없는 과목"]);
+  if (e.state === "gone") tags.push(["danger", e.missing === "section" ? "없는 분반" : "없는 과목"]);
   if (e.state === "changed") tags.push(["warning", "편람 바뀜"]);
   if (e.live && e.live.status === "폐강대상") tags.push(["warning", "폐강 대상"]);
   if (!e.item.custom && (!e.meetings.length || e.meetings.some((m) => !m.building))) tags.push(["", "미정"]);
@@ -3607,17 +3596,15 @@ function undoReplace(tid, addedKey, restore) {
 
 /**
  * 시간표에 항목을 넣는다(과목 추가 화면의 추가·바꾸기, 항목 시트의 바꾸기, 직접 추가). 같은 과목의 다른 분반은 바꿔 넣는다(색은 그대로).
- * 시간이 겹치는 항목이 있으면 묻지 않고 빼고 넣는다(T.addItem force). → {t, added: 넣은 항목 열쇠, restore: 되돌릴 때 돌려놓을 항목들, removed: 겹쳐서 뺀 항목 수}
+ * 시간이 겹치는 항목이 있으면 묻지 않고 빼고 넣는다(T.addItem force). → {tid, added: 넣은 항목 열쇠, restore: 되돌릴 때 돌려놓을 항목들(T.addItem 의 removed),
+ * removed: 겹쳐서 뺀 항목 수(바꿔 넣느라 뺀 같은 과목의 분반은 세지 않는다)}
  */
 function placeItem(item) {
   let out = null;
   editTt((t) => {
-    const prev = item.course ? t.items.find((x) => x.course === item.course) : null;
-    let r = T.addItem(t, item, { byId: state.byId });
-    const hit = new Set(r.overlaps);
-    if (hit.size) r = T.addItem(t, item, { force: true, byId: state.byId });
-    const removed = t.items.filter((x) => hit.has(T.itemKey(x)));
-    out = { tid: t.id, added: T.itemKey(item), restore: [prev, ...removed].filter(Boolean), removed: removed.length };
+    const r = T.addItem(t, item, { force: true, byId: state.byId });
+    const swapped = (x) => T.itemKey(x) === T.itemKey(item) || (!!item.course && x.course === item.course);
+    out = { tid: t.id, added: T.itemKey(item), restore: r.removed, removed: r.removed.filter((x) => !swapped(x)).length };
     return r.t;
   });
   return out;
@@ -3677,7 +3664,7 @@ $("tl-rows").addEventListener("click", (e) => {
     return;
   }
   if (!e.target.closest("[data-tt-new]")) return;
-  const t = T.createTimetable(mine.list, mine.sem, { title: nextTitle() });
+  const t = T.createTimetable(mine.list, mine.sem); // '시간표 n'(쓰지 않은 가장 작은 번호)
   if (!t) {
     $("tl-limit").hidden = false;
     renderTtList();
@@ -3707,8 +3694,8 @@ $("tm-rows").addEventListener("click", (e) => {
   const k = b.dataset.menu, d = $("tt-menu-sheet");
   let t = curTt();
   if (k === "rename") { openName(); return; } // 메뉴를 닫고 이름 시트를 연다(시트 위에 시트를 띄우지 않는다)
-  if (k === "copy") { // '시간표 1 (2)'처럼 번호를 붙인 사본을 만들어 그 시간표로. 따로 알리지 않는다(머리 줄의 이름이 바뀐다)
-    if (t.virtual) { t = T.createTimetable(mine.list, mine.sem, { title: t.title }); mine.list.push(t); }
+  if (k === "copy") { // '시간표 1 (2)'처럼 번호를 붙인 사본(T.copyTimetable)을 만들어 그 시간표로. 따로 알리지 않는다(머리 줄의 이름이 바뀐다)
+    if (t.virtual) { t = T.createTimetable(mine.list, mine.sem); mine.list.push(t); }
     const c = T.copyTimetable(t, mine.list);
     if (!c) {
       $("tm-limit").hidden = false;
@@ -3716,7 +3703,7 @@ $("tm-rows").addEventListener("click", (e) => {
       announce("시간표는 학기마다 50개까지예요", "alert");
       return;
     }
-    putTt({ ...c, title: numbered(t.title) });
+    putTt(c);
   } else if (k === "primary") { // 학기에 대표는 하나다. 빈 시간표 1은 만들면서 대표가 된다(학기의 첫 시간표)
     if (t.virtual) editTt((x) => x);
     else { mine.list = T.setPrimary(mine.list, t.primary ? null : t.id); saveMine(); }
@@ -3779,7 +3766,7 @@ $("tn-input").addEventListener("keydown", (e) => {
 function nameSheetClosed() {
   const v = T.cleanTitle($("tn-input").value), t = curTt();
   if (!v || v === t.title) return;
-  editTt((x) => ({ ...x, title: numbered(v, x.id), updated: new Date().toISOString() }));
+  editTt((x) => ({ ...x, title: renamed(v, x.id), updated: new Date().toISOString() }));
   renderMine();
 }
 
@@ -4042,9 +4029,9 @@ function itemSheetClosed() {
   itemSheet.undo = null;
   const [t, it, e] = itemNow();
   if (!it || !e || e.state !== "changed" || !state.loaded) return;
-  const one = { ...t, items: [it] }, ack = T.acknowledge(one, state.byId);
-  if (ack === one) return;
-  putTt({ ...t, items: t.items.map((x) => (x === it ? ack.items[0] : x)), updated: ack.updated }, { select: false });
+  const ack = T.acknowledge(t, state.byId, { key: itemSheet.key }); // 그 항목만(바뀐 것이 없으면 받은 t 그대로)
+  if (ack === t) return;
+  putTt(ack, { select: false });
   renderMine();
 }
 
@@ -4372,6 +4359,11 @@ function savedFor(ev) {
 }
 function setSaveButton(b, ev, i) {
   const saved = state.loaded && !!savedFor(ev);
+  const box = b.parentElement;
+  if (box && mine.list.length < T.PER_SEMESTER_MAX && box.querySelector(".error-line")) { // 50개 아래가 됐다(지웠다): 오류 줄을 거둔다(디자인 67판)
+    box.querySelector(".error-line").remove();
+    b.removeAttribute("aria-describedby");
+  }
   b.classList.toggle("is-saved", saved);
   b.setAttribute("aria-label", `${i + 1}위 시간표 ${saved ? "저장됨" : "저장하기"}`);
   b.replaceChildren(...(saved ? [icon(I.check, 16), "저장됨"] : ["저장하기"]));
@@ -4386,7 +4378,7 @@ function toggleSave(i, b) {
   if (!ev || !state.loaded) return;
   const found = savedFor(ev);
   if (found) { deleteTt(found); setSaveButton(b, ev, i); return; }
-  const t = T.createTimetable(mine.list, mine.sem, { title: nextTitle(), source: "search", from: { home: R.home, mode: R.mode }, items: T.itemsFromRanked(ev, state.byId) });
+  const t = T.createTimetable(mine.list, mine.sem, { source: "search", from: { home: R.home, mode: R.mode }, items: T.itemsFromRanked(ev, state.byId) });
   const box = b.parentElement;
   box.querySelector(".error-line")?.remove();
   if (!t) {
@@ -4499,7 +4491,7 @@ function renderInfo() {
   };
   const colorRow = pick("tt-color", "시간표 칸 색", [["item", "과목별"], ["cls", "교과구분별"]], ttColor, (v) => {
     ttColor = v === "cls" ? "cls" : "item";
-    store.set("timetableColor", ttColor);
+    store.set(T.STORE_KEYS.color, ttColor);
   });
   // 테마 행은 이벤트 테마의 기간에만 있다: 기본 | 그 테마
   const themeRow = season ? pick("theme", "테마", [["", "기본"], [season.id, season.name]], themeOn() ? season.id : "", (v) => setTheme(!!v)) : null;
@@ -5077,8 +5069,8 @@ document.addEventListener("visibilitychange", () => {
 history.scrollRestoration = "manual";
 // 첫 탭: 지난번에 연 학기(openSem, 학기 선택 전의 기기는 고른 학기)에 저장한 시간표가 있으면 내 시간표. index.html 머리의 스크립트가 같은 판단으로
 // 탐색 입력 화면을 먼저 가려 둔다(data-launch, 켜자마자 입력 화면이 번쩍 보이지 않게). 학기 목록을 받은 뒤 다른 학기로 열려도 첫 탭은 그대로다
-readMine(String(store.get("openSem", "") || store.get("semester", null)?.id || ""));
-launchTab = tab = screenTab = shownTts().length ? "mine" : "explore";
+readMine(String(store.get(T.STORE_KEYS.open, "") || store.get("semester", null)?.id || ""));
+launchTab = tab = screenTab = T.hasTimetables(store.get(semKey(T.STORE_KEYS.list, mine.sem), [])) ? "mine" : "explore";
 ctxName = tab === "mine" ? "route" : "explore";
 history.replaceState({ tab, view: ROOT[tab], depth: 0 }, "", location.pathname + location.search);
 // 교과구분 색 풀이: 결과 화면 시간표 아래, 입력 화면 담은 과목 아래, 내 시간표 격자 아래(교과구분별 칸 색일 때)
