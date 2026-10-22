@@ -1,0 +1,42 @@
+{
+ "created": [],
+ "deleted": [],
+ "updated": [
+  {
+   "key": "C30.126-001",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "박나영"
+   }
+  },
+  {
+   "key": "F29.112-001",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "양철준"
+   }
+  },
+  {
+   "key": "F29.116-001",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "이기철"
+   }
+  }
+ ]
+}
