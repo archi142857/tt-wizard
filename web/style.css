@@ -130,7 +130,7 @@
   --icon: 24px;
   --touch: 48px;
   --topbar-h: 56px;
-  --logo-topbar: 36px;
+  --logo-topbar: 29px;
   --cta-height: 56px;
   --logo-min-lockup: 120px;
   --logo-min-symbol: 48px;
@@ -322,7 +322,8 @@ h2.section-title .count { color: var(--on-bg-text3); }
   min-height: calc(var(--topbar-h) + var(--safe-top)); padding-top: var(--safe-top); background: var(--bg);
   /* 바탕을 좌우 여백까지 깐다: 초점 테두리(바깥 4px)처럼 본문 폭보다 조금 넓은 것이 스크롤해 들어갈 때 상단 바 옆으로 비치지 않게 */
   margin: 0 calc(var(--gutter-right) * -1) 0 calc(var(--gutter-left) * -1); padding-right: var(--gutter-right); padding-left: var(--gutter-left); }
-/* 입력 화면 로고: 워드마크만(사용자 요청). 로고 묶음(32px)보다 글자가 커 보이게 36px */
+/* 탭의 첫 화면 로고(상단 바, 컴퓨터는 사이드바): 워드마크만(사용자 요청). 로고 6판(10/22 밤, 디자인 72판: 아래 곡선·반짝임을 뺐다)은 글자 크기를 그대로 두고
+   곡선만큼 낮아져 29px(--logo-topbar, 예전 36px) */
 .wordmark { display: block; height: var(--logo-topbar); width: auto; -webkit-touch-callout: none; }
 .wm-white { display: none; } /* 바탕이 짙은 이벤트 테마에서만 보인다(흰 단색 워드마크) */
 .topbar .title { flex: 1; min-width: 0; margin: 0; font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; color: var(--on-bg-heading);

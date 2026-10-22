@@ -8,7 +8,8 @@ TT Wizard 화면. 정적 사이트라 서버 없이 돈다: `data/*.json` 을 �
   클래스 이름도 같다(`.topbar`, `.course`, `dialog.sheet`, `.snackbar` …). 굵기는 400·500·700, 글자는 12px 이상, 글자 크기는 `rem`(지도 그림 안 글자만 px:
   핀 번호, 구간 라벨, 건물 번호 12px 700·이름 12px 500, 등고선 높이 12px 500).
   단, 연도·학기 선택칸, 시간표 칸, 지도 번호표, 후보 카드는 사용자 요청(2026-10-01)으로 v2 모양을 v3 토큰으로 칠한 것이고,
-  입력 화면 로고는 사용자 요청으로 워드마크만(`icons/wordmark.svg`, 디자인 세션 원본, 높이 `logo-topbar` 36px) 쓴다
+  탭의 첫 화면 로고(상단 바, 컴퓨터는 사이드바)는 사용자 요청으로 워드마크만(`icons/wordmark.svg`·`-dark`·`-white`, 디자인 세션 원본 `design\v3\logo\svg\`,
+  높이 `logo-topbar` 29px) 쓴다. 로고 6판(10/22 밤 사용자 "걍 빼자", 디자인 72판)에서 아래 곡선·반짝임을 빼 글자 크기는 그대로 높이만 36 → 29px(`<img width="124" height="29">`)
 - 다크 테마: 기기 설정(`prefers-color-scheme`)을 따른다. 다크 값은 `style.css` 의 `@media (prefers-color-scheme: dark)` 두 곳(토큰, 다크 전용 규칙)에
   있다. 로고는 `<picture>` 로 `wordmark-dark.svg`, 바탕 지도는 다크 지도 색(`--map-*`)으로 따로 그린다. `theme-color` 는 라이트 `#EEF0FF`·다크 `#16171B`
 - 이벤트 테마(디자인 규칙 '이벤트 테마', 10/3): 정해 둔 기간에 저절로 켜지는 한 벌짜리 테마. 첫 테마는 크리스마스(`xmas`, 해마다 12월 1일~25일, 기기 날짜).
