@@ -124,7 +124,8 @@
   </main>
 </div>
 
-<!-- 내 시간표(아래 탭의 첫째). 상단 바는 입력 화면과 같다: 워드마크, 오프라인 태그, ⓘ(컴퓨터는 이것들이 사이드바로 옮겨 상단 바가 없다) -->
+<!-- 내 시간표(아래 탭의 첫째). 상단 바는 입력 화면과 같다: 워드마크, 오프라인 태그, ⓘ(컴퓨터는 이것들이 사이드바로 옮겨 상단 바가 없다).
+     넓은 화면에서 과목 추가를 열면 이 화면 그대로 오른쪽 칸만 찾기로 바뀐다(.is-adding, #mine-add) -->
 <div id="view-mine" class="view" hidden>
   <header class="topbar">
     <picture class="wm-default">
@@ -151,17 +152,24 @@
       <div class="card items"><ul class="list" id="items"></ul></div>
       <div class="bottom-bar"><button type="button" class="btn-primary" id="route-run" disabled>동선 확인하기</button></div>
     </div>
+    <!-- 넓은 화면(두 칸)의 과목 추가: 오른쪽 칸이 항목 목록 대신 찾기가 된다. 검색창과 결과 카드는 app.js 가 아래 과목 추가 화면에서 여기로 옮긴다(폰은 그 화면) -->
+    <section class="mine-add" id="mine-add" aria-labelledby="add-panel-title" hidden>
+      <div class="add-head">
+        <button type="button" class="icon-btn back" aria-label="뒤로" data-back><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+        <h2 class="add-head-title" id="add-panel-title" tabindex="-1">과목 추가</h2>
+      </div>
+    </section>
   </main>
 </div>
 
-<!-- 과목 추가(내 시간표의 '과목 추가'): 탐색과 같은 찾기, 행을 누르면 과목 시트에서 분반을 넣는다 -->
+<!-- 과목 추가(내 시간표의 '과목 추가'): 탐색과 같은 찾기, 행을 누르면 과목 시트에서 분반을 넣는다. 넓은 화면은 따로 화면이 아니라 내 시간표의 오른쪽 칸(위 #mine-add) -->
 <div id="view-add" class="view" hidden>
   <header class="topbar">
     <button type="button" class="icon-btn back" aria-label="뒤로" data-back><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
     <h1 class="title" id="add-title" tabindex="-1">과목 추가</h1>
   </header>
   <main hidden>
-    <div class="searchbox">
+    <div class="searchbox" id="add-box">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
       <input id="add-q" type="search" enterkeyhint="search" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="과목명, 교과목번호, 교수" aria-label="과목 검색">
       <button type="button" class="icon-btn" id="add-clear" aria-label="지우기" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>

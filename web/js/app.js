@@ -109,10 +109,12 @@ const range = (a, b, step = 1) => { const out = []; for (let x = a; x <= b; x +=
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const nextPaint = () => new Promise((r) => requestAnimationFrame(() => setTimeout(r, 0)));
 
+// 되살린 저장소로 새로 여는 중(아래 '스토어 앱의 저장소 되살리기'): 켤 때 읽은 빈 값으로 되살린 값을 덮지 않게 그 뒤로는 쓰지 않는다
+let reopening = false;
 const store = {
   get(k, d) { try { const v = localStorage.getItem("ttw." + k); return v === null ? d : JSON.parse(v); } catch { return d; } },
-  set(k, v) { try { localStorage.setItem("ttw." + k, JSON.stringify(v)); } catch { /* 저장이 안 돼도 화면은 돈다(알리지 않는다) */ } },
-  del(k) { try { localStorage.removeItem("ttw." + k); } catch { /* 무시 */ } },
+  set(k, v) { if (reopening) return; try { localStorage.setItem("ttw." + k, JSON.stringify(v)); } catch { /* 저장이 안 돼도 화면은 돈다(알리지 않는다) */ } },
+  del(k) { if (reopening) return; try { localStorage.removeItem("ttw." + k); } catch { /* 무시 */ } },
 };
 // 담은 과목·직접 넣은 강의실과 시간은 학기마다 따로 둔다(같은 교과목번호·분반 번호라도 학기마다 다른 강좌다)
 const semKey = (k, sem = state.semester) => `${k}@${sem}`;
@@ -446,6 +448,7 @@ async function loadSemester(sem) {
   renderResults();
   renderPicked();
   mineChanged();
+  if (screen === "add") renderAdd(); // 넓은 화면 과목 추가에서 시간표 목록 시트로 학기를 바꿨다(그 학기 편람을 받는 동안 '불러오는 중')
   let cj = state.cache.get(sem);
   try {
     if (!cj) {
@@ -470,6 +473,7 @@ async function loadSemester(sem) {
   renderResults();
   renderPicked();
   mineChanged(); // 편람과 견줘 다시 그린다(편람 바뀜, 없는 과목)
+  if (screen === "add") renderAdd();
   return true;
 }
 
@@ -1006,27 +1010,11 @@ function searchName(name) {
 /**
  * 강의평(10/5 사용자: "강의 후기 보기 누르면 에브리타임 내에 수강평으로 넘어가게"): 에브리타임 강의실 검색 화면의 주소. 강의평은 거기서 강의를 한 번 더 눌러야 나온다
  * (에브리타임의 강의 번호를 편람에서 알 수 없어 바로 가지 못한다). 별점·후기는 가져오지 않는다(에브리타임 약관. 바깥 링크만 건다).
- * 주소에는 검색어 하나와 찾을 칸 하나(과목명 name, 교수명 professor)만 넣을 수 있다. 과목명으로 찾는다: 교수가 여럿이면 한 화면에서 견줄 수 있다.
- * 교수가 한 사람뿐인 과목은 결과가 짧은 쪽으로: 이번 편람에서 그 교수의 강의 수가 그 검색어가 든 강의 수보다 적으면 교수명으로 찾는다
- * (이름이 흔한 과목 '세미나', '논문연구', 앞부분이 같은 '베리타스 강좌 1: …'은 과목명으로 찾으면 다른 강의가 줄줄이 나온다). 한글 이름일 때만이다(영문 이름은 에브리타임 표기를 모른다).
+ * 주소에는 검색어 하나와 찾을 칸 하나만 넣을 수 있다. 늘 과목명으로 찾는다(10/22 밤 사용자: "그 강의평 연결은 과목 이름으로 통일하자". 교수가 여럿이면
+ * 한 화면에서 견줄 수 있다. 교수가 한 사람이고 과목명으로 찾으면 결과가 긴 과목을 교수명으로 찾던 것은 뺐다)
  */
-function reviewUrl(name, c) {
-  let keyword = searchName(name), condition = "name";
-  const profs = c ? [...new Set(c.sections.map((s) => String(s.instructor || "").trim()))] : [];
-  if (profs.length === 1 && /^[가-힣]{2,}$/.test(profs[0])) {
-    const key = normKey(keyword);
-    const lectures = new Set(), mine = new Set(); // 과목명이 든 강의(과목명 + 교수), 그 교수의 강의
-    for (const x of state.courses) {
-      const n = catalogName(x.name), hit = normKey(n).includes(key);
-      for (const s of x.sections) {
-        const prof = String(s.instructor || "").trim();
-        if (hit) lectures.add(`${n}|${prof}`);
-        if (prof === profs[0]) mine.add(n);
-      }
-    }
-    if (mine.size < lectures.size) { keyword = profs[0]; condition = "professor"; }
-  }
-  return `https://everytime.kr/lecture/search?keyword=${encodeURIComponent(keyword)}&condition=${condition}`;
+function reviewUrl(name) {
+  return `https://everytime.kr/lecture/search?keyword=${encodeURIComponent(searchName(name))}&condition=name`;
 }
 
 function renderCourseSheet() {
@@ -1035,7 +1023,7 @@ function renderCourseSheet() {
   const c = state.byId.get(p.id);
   $("cs-title").textContent = c ? c.name : p.name || p.id;
   $("cs-meta").textContent = [p.id, c ? c.dept : p.dept, fmtCredit(c ? c.credit : p.credit)].filter(Boolean).join(" · ");
-  $("cs-review").href = reviewUrl(c ? c.name : p.name || p.id, c); // 이번 자료에 없는 과목에도 둔다(과목명은 남아 있다)
+  $("cs-review").href = reviewUrl(c ? c.name : p.name || p.id); // 이번 자료에 없는 과목에도 둔다(과목명은 남아 있다)
   setCatalogLink($("cs-catalog"), p.id, "");
   const body = $("cs-body");
   if (!c) {
@@ -3451,14 +3439,20 @@ function itemTags(e, clash) {
   return tags.slice(0, 2);
 }
 
-/** 내 시간표가 바뀌었다: 보이는 곳만 다시 그린다(목록 시트, 내 시간표 화면) */
+/** 내 시간표가 바뀌었다: 보이는 곳만 다시 그린다(목록 시트, 내 시간표 화면, 과목 추가의 넣은 과목 표시) */
 function mineChanged() {
   if ($("tt-list-sheet").open) renderTtList();
-  if (screen === "mine") renderMine();
+  if (mineShown()) renderMine();
+  else if (screen === "add") markAddRows();
+}
+
+/** 내 시간표 화면이 보인다: 내 시간표, 그리고 넓은 화면의 과목 추가(그 화면의 오른쪽 칸이다) */
+function mineShown() {
+  return screen === "mine" || (screen === "add" && splitAdd());
 }
 
 function renderMine() {
-  if (screen !== "mine") return;
+  if (!mineShown()) return;
   const t = curTt();
   const entries = ttEntries(t);
   const clash = clashKeys(entries);
@@ -3466,6 +3460,7 @@ function renderMine() {
   renderWeek(t, entries, clash);
   renderItems(entries, clash);
   $("route-run").disabled = !t.items.length; // 비었으면 꺼진다(빈 격자가 까닭을 보인다)
+  if (screen === "add") markAddRows(); // 넓은 화면 과목 추가: 격자에서 빼거나 다른 시간표로 바꾸면 결과 행의 넣음 표시도
 }
 
 /** 머리 줄: '2026년 2학기 · 총 18학점' / '시간표 1 ▾' + 대표. 학점이 없으면(빈 시간표, 일정만) 학기만 */
@@ -3629,7 +3624,7 @@ $("wk").addEventListener("click", (e) => {
 // 격자 폭이 바뀌면(화면 회전, 폭 구간) 칸 글자를 다시 맞춘다
 new ResizeObserver(() => {
   const w = $("wk").clientWidth;
-  if (screen === "mine" && w && Math.abs(w - wkWidth) >= 1) renderMine();
+  if (mineShown() && w && Math.abs(w - wkWidth) >= 1) renderMine();
 }).observe($("wk"));
 
 // ---- 시간표 목록 시트: 학기 선택칸(바꾸면 앱 전체의 학기), 시간표 행(지금 보는 것에 체크), 맨 아래 '+ 새 시간표'(50개까지)
@@ -3800,7 +3795,7 @@ function renderItemSheet() {
   if (!it) return;
   $("is-title").textContent = c ? c.name : it.name;
   $("is-meta").textContent = [it.course, c ? c.dept : "", fmtCredit(c ? c.credit : it.credit)].filter(Boolean).join(" · ");
-  $("is-review").href = reviewUrl(c ? c.name : it.name, c);
+  $("is-review").href = reviewUrl(c ? c.name : it.name);
   setCatalogLink($("is-catalog"), it.course, it.no);
   const others = c ? c.sections.filter((s) => s.no !== it.no) : [];
   const alts = it.alts || [];
@@ -4175,8 +4170,34 @@ $("cu-done").addEventListener("click", () => {
 });
 
 // ---- 과목 추가 화면: 탐색과 같은 찾기(검색어는 따로, 최근 검색어는 같이). 행을 누르면 과목 시트에서 분반마다 추가(넣은 과목이면 넣음·바꾸기)
+// 넓은 화면(두 칸)은 따로 화면이 아니라 내 시간표 화면의 오른쪽 칸이다(10/22 밤 사용자: "탐색도 같은 창에 오른쪽에뜨도록". 격자를 보면서 넣는다).
+// 기록과 탭에 쌓인 화면은 폰과 같다(add). 다른 것은 보이는 요소뿐이다: 내 시간표 화면(.is-adding)과 그 칸 머리 줄의 제목(h2). 폭이 바뀌어 두 칸이 되거나
+// 풀리면 검색창과 결과 카드를 그 자리로 옮긴다(placeAdd)
 let addShown = RESULTS_STEP, addLast = "", addId = null;
 const addQ = $("add-q");
+function splitAdd() {
+  return twoPane.matches;
+}
+/** 검색창과 결과 카드를 두 칸이면 내 시간표의 오른쪽 칸(#mine-add), 아니면 과목 추가 화면에 둔다. 옮기면 초점이 풀리므로 그 안에 있던 초점은 되돌린다 */
+function placeAdd() {
+  const home = splitAdd() ? $("mine-add") : $("view-add").querySelector("main");
+  const box = $("add-box"), results = $("add-results");
+  if (box.parentElement === home) return;
+  const had = box.contains(document.activeElement) || results.contains(document.activeElement) ? document.activeElement : null;
+  home.append(box, results);
+  had?.focus({ preventScroll: true });
+}
+/** 넣은 과목 표시(row-picked 바탕과 체크, 스크린리더 이름의 '넣음')만 고친다. 목록을 다시 그리면 이어 붙인 결과(넓은 화면)가 처음으로 돌아가 읽던 자리를 잃는다 */
+function markAddRows() {
+  const t = curTt();
+  for (const b of $("add-list").querySelectorAll(".r-hit")) {
+    const has = t.items.some((it) => it.course === b.dataset.id), row = b.parentElement;
+    if (row.classList.contains("is-picked") === has) continue;
+    row.classList.toggle("is-picked", has);
+    b.lastElementChild.replaceWith(icon(has ? I.check : I.right, 20));
+    b.setAttribute("aria-label", `${b.getAttribute("aria-label").replace(/, 넣음$/, "")}${has ? ", 넣음" : ""}`);
+  }
+}
 const addFocused = () => document.activeElement === addQ || $("add-results").contains(document.activeElement);
 function renderAdd({ more = false } = {}) {
   const raw = addQ.value, box = $("add-results"), list = $("add-list");
@@ -4272,7 +4293,7 @@ function renderAddSheet() {
   const t = curTt(), has = t.items.find((it) => it.course === c.id);
   $("as-title").textContent = c.name;
   $("as-meta").textContent = [c.id, c.dept, fmtCredit(c.credit)].filter(Boolean).join(" · ");
-  $("as-review").href = reviewUrl(c.name, c);
+  $("as-review").href = reviewUrl(c.name);
   setCatalogLink($("as-catalog"), c.id, "");
   $("as-body").replaceChildren(
     h("div", { class: "list-head" }, h("span", {}, `분반 ${c.sections.length}`)),
@@ -4290,12 +4311,12 @@ $("as-body").addEventListener("click", (e) => {
   const s = c && c.sections.find((x) => x.key === b.closest(".sec").dataset.key);
   if (!s) return;
   const r = placeItem(T.sectionItem(c, s));
-  closeSheet($("add-sheet")); // 시트를 닫고 검색 결과로(행이 row-picked 가 된다)
+  closeSheet($("add-sheet")); // 시트를 닫고 검색 결과로(행이 row-picked 가 된다. 넓은 화면은 왼쪽 격자에도 바로 보인다)
   if (!r) return;
   if (addQ.value.trim()) saveRecent(addQ.value);
-  renderAdd();
+  mineChanged();
   announce(`${c.name} 넣었어요`);
-  if (r.removed) showSnackbar("겹치는 과목을 뺐어요", "되돌리기", () => { undoReplace(r.tid, r.added, r.restore); if (screen === "add") renderAdd(); });
+  if (r.removed) showSnackbar("겹치는 과목을 뺐어요", "되돌리기", () => undoReplace(r.tid, r.added, r.restore));
 });
 
 // ---- 동선 화면: 지금 시간표를 탐색 결과와 같은 비용·경로로(engine.checkRoute). 결과 화면을 같이 쓴다(맨 위 요약 줄과 조건 줄, 후보 목록 없음).
@@ -4517,18 +4538,19 @@ $("info-list").addEventListener("click", (e) => {
 let pageName = "sources";
 const NGII_URL = "https://map.ngii.go.kr/"; // 국토정보플랫폼(국토지리정보원이 수치지형도를 내주는 누리집)
 const APACHE_URL = "https://www.apache.org/licenses/LICENSE-2.0";
-/** 오픈소스 라이선스 줄: 왼쪽 칸(k, 비면 앞 줄과 한 칸), 이름, 라이선스, 원문 주소, 앱에 넣은 고지문 파일.
+/** 오픈소스 라이선스 줄: 왼쪽 칸(k, 비면 앞 줄과 한 칸), 이름, 라이선스, 원문 주소, 고지문 파일(있으면 목록 아래에 전문).
  *  순서와 왼쪽 칸 이름은 디자인 규칙('화면과 동작'의 정보 화면, 10/22). 스토어 앱에는 앱의 바탕(Capacitor 와 그 안의 Apache Cordova, 안드로이드는 AndroidX)이
  *  더 있다: 고지문을 함께 내야 하는 라이선스다(10/22 법무·백엔드). SNUTT 는 과목 검색 규칙을 따온 곳(search.js 머리의 고지와 같은 레포).
- *  고지문 파일은 스토어 앱 묶음의 licenses/·vendor/(백엔드 build_app.py)다. 웹에는 vendor/leaflet 뿐이라 나머지는 웹에서 원문 링크다 */
+ *  고지문 파일: Leaflet 은 vendor/leaflet/LICENSE, SNUTT·Pretendard 는 web/licenses/(10/22 밤 백엔드 update60. 앱도 web/ 을 옮길 때 같은 자리로 들어간다),
+ *  앱에만 있는 셋은 앱 묶음의 licenses/(백엔드 build_app.py). 파일이 없는 줄(Fredoka·지도 자료)은 원문 링크다 */
 function ossRows() {
   return [
     { k: "지도 표시", name: "Leaflet", lic: "BSD-2-Clause", href: "https://github.com/Leaflet/Leaflet/blob/main/LICENSE", file: "vendor/leaflet/LICENSE" },
-    { k: "과목 검색", name: "SNUTT", lic: "MIT", href: "https://github.com/wafflestudio/snutt-timetable/blob/develop/LICENSE", file: IN_APP && "licenses/snutt.txt" },
+    { k: "과목 검색", name: "SNUTT", lic: "MIT", href: "https://github.com/wafflestudio/snutt/blob/develop/LICENSE", file: "licenses/snutt.txt" },
     IN_APP && { k: "앱 실행 환경", name: "Capacitor", lic: "MIT", href: "https://github.com/ionic-team/capacitor/blob/main/LICENSE", file: "licenses/capacitor.txt" },
     IN_APP && { k: "", name: "Apache Cordova", lic: "Apache-2.0", href: APACHE_URL, file: "licenses/cordova.txt" }, // 앱 실행 환경 한 칸에 두 줄(안드로이드·iOS 같다)
     SHELL === "android" && { k: "안드로이드", name: "AndroidX", lic: "Apache-2.0", href: APACHE_URL, file: "licenses/androidx.txt" },
-    { k: "글꼴", name: "Pretendard", lic: "SIL OFL 1.1", href: "https://github.com/orioncactus/pretendard/blob/main/LICENSE", file: IN_APP && "vendor/pretendard/LICENSE.txt" },
+    { k: "글꼴", name: "Pretendard", lic: "SIL OFL 1.1", href: "https://github.com/orioncactus/pretendard/blob/main/LICENSE", file: "licenses/pretendard.txt" },
     { k: "로고 글꼴", name: "Fredoka", lic: "SIL OFL 1.1", href: "https://github.com/google/fonts/blob/main/ofl/fredoka/OFL.txt" },
     { k: "지도 자료", name: "OpenStreetMap", lic: "ODbL", href: "https://www.openstreetmap.org/copyright" },
     { k: "지도·경사 자료", name: "국토지리정보원 수치지형도", lic: "공공누리 제1유형", href: "https://www.kogl.or.kr/info/licenseType1.do" },
@@ -4722,8 +4744,24 @@ document.addEventListener("focusin", (e) => {
 });
 
 function titleOf(name) {
-  const t = name === "input" ? "" : $(H1[name]).textContent;
+  const t = name === "input" ? "" : $(h1Of(name)).textContent;
   return t ? `${t} · TT Wizard` : "TT Wizard";
+}
+/** 그 화면을 보이는 요소와 제목. 넓은 화면의 과목 추가는 내 시간표 화면과 그 오른쪽 칸의 제목(h2)이다 */
+const viewOf = (name) => (name === "add" && splitAdd() ? "view-mine" : VIEW_EL[name]);
+const h1Of = (name) => (name === "add" && splitAdd() ? "add-panel-title" : H1[name]);
+/** 화면 요소를 보이고 숨긴다(내 시간표 화면은 넓은 화면 과목 추가면 오른쪽 칸만 찾기로) */
+function layoutViews(name) {
+  for (const id of VIEW_ELS) {
+    const v = $(id), on = id === viewOf(name);
+    v.hidden = !on;
+    v.querySelector("main").hidden = !on;
+  }
+  const adding = name === "add" && splitAdd();
+  $("view-mine").classList.toggle("is-adding", adding);
+  $("mine-add").hidden = !adding;
+  document.querySelector(".mine-right").hidden = adding;
+  placeAdd();
 }
 
 /** View Transitions 가 되면 결과·정보 화면이 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms), 탭을 바꾸면 교차 페이드(150ms). 안 되면 바로 바뀐다. */
@@ -4742,48 +4780,56 @@ function showView(name, dir, extra = {}) {
   if (((name === "result" || name === "map") && !state.result) || (name === "route" && !makeRoute())) name = ROOT[tab]; // 결과가 지워졌거나(학기를 바꿨다) 시간표가 비었다
   if (name !== "input" || screen === "result") cancelCompute(); // 결과 화면을 떠나면 이어 찾던 것도 멈춘다
   const from = screen;
+  // 넓은 화면에서 내 시간표 ↔ 과목 추가: 같은 화면의 오른쪽 칸만 바뀐다. 옆으로 밀지 않고 교차 페이드(탭 바꾸기와 같은 dur-fade), 스크롤 자리도 그대로
+  const swap = dir !== "tab" && dir !== "init" && splitAdd() && screenTab === tab && ((from === "mine" && name === "add") || (from === "add" && name === "mine"));
   scrollOf[`${screenTab}:${from}`] = window.scrollY;
   if (from === "input") store.set("scroll", window.scrollY);
   if (name === "page") pageName = extra.page || pageName;
   if (name === "add" && dir === "forward") addQ.value = ""; // 검색어는 탐색과 따로 두고 화면에 새로 들어올 때 비운다
   const apply = () => {
-    for (const id of VIEW_ELS) {
-      const v = $(id);
-      v.hidden = id !== VIEW_EL[name];
-      v.querySelector("main").hidden = id !== VIEW_EL[name];
-    }
     screen = name;
     screenTab = tab;
+    layoutViews(name);
     $("view-result").classList.toggle("is-route", name === "route");
     document.body.classList.toggle("tabbar-off", name === "map"); // 전체 화면 지도는 탭 막대를 덮는다
     document.body.classList.toggle("no-cta", name !== "input" && name !== "mine"); // 스낵바는 주요 버튼이 없는 화면에서 탭 막대 바로 위
     renderTabs();
     if (name === "result") { $("result-title").textContent = "추천 시간표"; renderResult(); }
     if (name === "route") { $("result-title").textContent = "동선"; renderRoute({ reveal: dir === "forward" }); }
-    if (name === "mine") renderMine();
     if (name === "add") renderAdd();
+    if (mineShown()) renderMine();
     if (name === "info") renderInfo();
     if (name === "map") renderFullMap();
     if (name === "page") renderPage();
     document.title = titleOf(name);
     if (from !== name) hideSnackbar();
-    window.scrollTo(0, dir === "back" || dir === "tab" ? scrollOf[`${tab}:${name}`] || 0 : 0);
+    if (!swap) window.scrollTo(0, dir === "back" || dir === "tab" ? scrollOf[`${tab}:${name}`] || 0 : 0);
     focusAfter(name, dir, from);
     if (name === "input") { showUpdateIfReady(); if (dir === "tab") setTimeout(askTheme, 400); }
   };
-  transition(apply, dir);
+  transition(apply, swap ? "tab" : dir);
 }
 
-/** 초점: 새 화면은 그 h1, 되돌아오면 그 화면을 연 요소, 탭을 바꾸면 그 탭에서 마지막에 있던 자리(없으면 h1). 스크린리더가 화면이 바뀐 것을 읽는다 */
+/** 초점: 새 화면은 그 h1, 되돌아오면 그 화면을 연 요소, 탭을 바꾸면 그 탭에서 마지막에 있던 자리(없으면 h1). 스크린리더가 화면이 바뀐 것을 읽는다.
+ *  넓은 화면의 과목 추가를 열면 마우스가 있는 기기는 바로 검색창(누른 까닭이 찾기라), 터치 기기는 칸의 제목(화상 키보드를 띄우지 않는다) */
 function focusAfter(name, dir, from) {
   if (dir === "init") return;
-  const ok = (el) => !!el && el.isConnected && !el.closest("[hidden]") && $(VIEW_EL[name]).contains(el);
-  const h1 = () => $(H1[name]).focus({ preventScroll: true });
-  if (dir === "forward") h1();
-  else if (dir === "tab") { if (ok(lastFocus[tab])) lastFocus[tab].focus({ preventScroll: true }); else h1(); }
-  else if (ok(openers[`${tab}:${from}`])) openers[`${tab}:${from}`].focus({ preventScroll: true });
+  const ok = (el) => !!el && el.isConnected && !el.closest("[hidden]") && $(viewOf(name)).contains(el);
+  const h1 = () => $(h1Of(name)).focus({ preventScroll: true });
+  const opener = relive(openers[`${tab}:${from}`], name), last = relive(lastFocus[tab], name);
+  if (dir === "forward" && name === "add" && splitAdd() && finePointer.matches && !addQ.disabled) addQ.focus({ preventScroll: true });
+  else if (dir === "forward") h1();
+  else if (dir === "tab") { if (ok(last)) last.focus({ preventScroll: true }); else h1(); }
+  else if (ok(opener)) opener.focus({ preventScroll: true });
   else if (name === "input") $("run").focus({ preventScroll: true });
   else h1();
+}
+/** 그 요소가 있던 목록을 다시 그렸으면(내 시간표의 항목 목록은 돌아올 때마다 새로 만든다) 같은 일을 하는 새 요소: id, 없으면 첫 data-* 값이 같은 것 */
+function relive(el, name) {
+  if (!el || el.isConnected) return el;
+  const [k, v] = Object.entries(el.dataset || {})[0] || [];
+  const sel = el.id ? `#${CSS.escape(el.id)}` : k ? `[data-${k.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)}="${CSS.escape(v)}"]` : "";
+  return (sel && $(viewOf(name)).querySelector(sel)) || null;
 }
 
 window.addEventListener("popstate", (e) => {
@@ -4948,7 +4994,17 @@ for (const el of [q, $("results")]) {
     if (!twoPane.matches && !q.value.trim() && !searchFocused()) renderResults();
   }, 250));
 }
-twoPane.addEventListener("change", () => { renderResults(); placeSnackbar(); if (screen === "add") renderAdd(); });
+twoPane.addEventListener("change", () => {
+  renderResults();
+  if (screen === "add") { // 과목 추가: 두 칸이 되면 내 시간표의 오른쪽 칸으로, 풀리면 따로 화면으로(숨은 쪽에 있던 초점은 그 제목으로)
+    const was = document.activeElement;
+    layoutViews("add");
+    renderAdd();
+    renderMine();
+    if (was && was !== document.body && was.closest("[hidden]")) $(h1Of("add")).focus({ preventScroll: true });
+  }
+  placeSnackbar();
+});
 // 지운 칩·고른 칩은 다시 그리면 사라지므로 초점을 옮긴다. 키보드(detail 0)와 마우스로 눌렀을 때만:
 // 터치로 누를 때 검색창에 초점을 주면 화상 키보드가 올라온다(크롬은 누른 버튼에 초점이 간다)
 const keptFocus = (e, el) => document.activeElement === el && (e.detail === 0 || !coarsePointer.matches);
@@ -5102,3 +5158,17 @@ showView(ROOT[tab], "init");
 delete document.documentElement.dataset.launch;
 startApp();
 setTimeout(askTheme, 400); // 첫 화면이 그 테마로 보인 뒤에 묻는다
+// 스토어 앱의 저장소 되살리기(백엔드 10/22 밤): 앱 연결(native.js)이 기기 저장소(Preferences)에서 지워진 localStorage 를 되살리면 TTW_APP.restored 가
+// { keys: [되살린 열쇠 …] } 로 풀린다(웹에는 없다). 되살린 것이 있으면 켤 때 읽은 것(빈 값)으로 그린 화면이라 한 번 새로 연다: 첫 탭(그 학기에 저장한 시간표가
+// 있으면 내 시간표)과 학기·담은 과목·시간표·설정을 되살린 값으로 다시 고른다. 한 세션에 한 번만(sessionStorage. 못 쓰면 새로 열지 않는다)
+Promise.resolve(window.TTW_APP?.restored).then((r) => {
+  if (!r || !Array.isArray(r.keys) || !r.keys.length) return;
+  try {
+    if (sessionStorage.getItem("ttw.reopened")) return;
+    sessionStorage.setItem("ttw.reopened", "1");
+  } catch {
+    return;
+  }
+  reopening = true;
+  location.reload();
+}).catch(() => {});
