@@ -97,11 +97,13 @@ normKey("대학  글쓰기");                              // → "대학글쓰�
 
 ## 참고: SNUTT
 
-- wafflestudio/snutt(예전 이름 snutt-timetable) `core/src/main/kotlin/lectures/repository/LectureCustomRepository.kt` (`makeSearchCriteriaFromQuery`)
-- wafflestudio/snutt-v2 `core/.../common/search/SearchKeywordClassifier.kt`
+- wafflestudio/snutt(예전 이름 snutt-timetable, MIT) `core/src/main/kotlin/lectures/repository/LectureCustomRepository.kt` (`makeSearchCriteriaFromQuery`).
+  따른 규칙(특별 낱말, 건물·강의실 꼴 `placeRegex`·`buildingRegex`, 학과 줄임)은 모두 이 파일에 있다. 고지는 `licenses/snutt.txt`.
+- 다른 SNUTT 저장소에서는 가져오지 않는다. snutt-v2 는 라이선스 파일이 없고(같은 규칙을 `SearchKeywordClassifier.kt` 로 옮겨 둔 판이다. 2026-10-22 확인),
+  snutt-android·snutt-web·snutt-webclient-v2 도 라이선스가 없다(법무 10/22). MIT 인 것은 snutt·snutt-ios·snutt-webclient.
 - SNUTT 는 낱말마다 `글.*자.*사.*이` 꼴 정규식으로 과목명을 찾고(줄임), 학과는 `^` 부터, 교수는 이름 전체가 같을 때만. 점수가 없어 사용자가 고른 정렬 순서로 나온다.
   초성·치는 중인 글자·영문 자판·줄 세우기는 없다.
-- 특별 낱말(2026-10 main 기준): `전공`·`학부`·`학사`·`대학원`·`석박`·`체육`·`영강`·`군휴학`·`권장과목`·건물(`301동`)·강의실(`301-118`)은 **거르기만** 한다(과목명은 안 본다).
+- 특별 낱말(2026-10 snutt main 기준): `전공`·`학부`·`학사`·`대학원`·`석박`·`체육`·`영강`·`군휴학`·`권장과목`·건물(`301동`)·강의실(`301-118`)은 **거르기만** 한다(과목명은 안 본다).
   `교양`·`전선`·`전필`·`석사`·`박사` 같은 그 밖의 한글 낱말은 '과목명에 그 글자가 차례로 있거나 / 구분·학년 구분이 그 말이거나 / 학과 앞부분이거나 / 교수 이름이거나' 가운데 하나면 맞는다.
   그래서 `교양` 은 교양 과목과 과목명에 교…양 이 있는 과목이 순서 없이 섞여 나온다. `3학점` 은 낱말로는 못 찾고 따로 고르는 조건이다.
   여기서는 같은 말을 다 받되(더 넓게), 낱말이 여럿일 때는 거르기를 먼저 본다(위 '줄 세우기').

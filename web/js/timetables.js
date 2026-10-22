@@ -1,7 +1,8 @@
 // TT Wizard 저장한 시간표 — 백엔드 세션. 화면(app.js)의 '내 시간표'(SNUTT 처럼 분반을 직접 골라 만드는 시간표)와
 // 탐색 결과의 '저장하기'가 쓰는 자료 형식과 다루는 함수. 화면·기기 저장은 하지 않는다(순수 함수. 받은 것을 고치지 않고 새로 돌려준다).
 //
-// 저장 형식(학기마다 목록 하나. app.js 가 store.set(semKey("timetables"), serialize(list)) 처럼 기기에 둔다. 서버로 보내지 않는다)
+// 저장 형식(학기마다 목록 하나. app.js 가 store.set(semKey("timetables"), serialize(list)) 처럼 기기에 둔다. 서버로 보내지 않는다.
+//   기기에 두는 열쇠는 STORE_KEYS, 첫 탭 고르기는 hasTimetables, 칸 색 설정은 colorMode)
 //   시간표 { v: 1, id, sem: "2026-2", title, created, updated(ISO 시각), primary?: true(학기마다 하나, '대표 시간표'),
 //            source: "manual" | "search", from?: {home, mode}(탐색에서 저장했을 때의 출발·이동 기준), items: [항목, ...] }
 //   강좌 항목 { course: 교과목번호, no: 강좌번호, name, instructor, credit, cls,   ← 과목이 편람에서 사라져도 보이게 적어 둔다
@@ -9,17 +10,20 @@
 //              own?: 사용자가 정한 수업(강의실 미정에 고른 건물, 바꾼 시간·장소). 있으면 편람 대신 이것을 쓴다,
 //              alts?: 같은 시간·건물의 다른 분반 키들(탐색 결과는 이런 분반을 하나로 묶어 찾는다), color }
 //   직접 넣은 일정 { custom: id, title, meetings: [[요일, 시작, 끝, 건물, ""], ...], memo?, color }
-//   요일 0 = 월, 시각은 자정부터 센 분. 건물은 campus.json 의 지점 id(모르면 ""). color 는 0 부터의 차례(팔레트는 화면이 정한다)
+//   요일 0 = 월, 시각은 자정부터 센 분. 건물은 campus.json 의 지점 id(모르면 ""). color 는 0~7(COLORS 개. 화면의 item-0 ~ item-7)
 //
 // 편람과 맞추기: 강좌 항목은 편람을 따른다(SNUTT 와 같다). 편람은 하루 네 번 새로 받으니, 화면은 그릴 때 reconcile 로
 //   지금 편람과 견준다. 저장할 때 본 편람(base)과 달라졌으면 changed(새 편람 값을 쓰고 '편람 바뀜'), 편람에서 사라졌으면
-//   gone(적어 둔 값을 쓴다). own 이 있으면 편람이 바뀌어도 own 을 쓰고 changed 만 알린다. acknowledge 로 base 를 지금 편람에 맞추면 알림이 꺼진다.
+//   gone(적어 둔 값을 쓴다. 과목째 사라졌는지 분반만 사라졌는지는 missing). own 이 있으면 편람이 바뀌어도 own 을 쓰고 changed 만 알린다.
+//   acknowledge 로 base 를 지금 편람에 맞추면 알림이 꺼진다.
 //
 // 동선 확인하기: toSections 로 엔진이 읽는 분반 모양을 만들어 engine.checkRoute 에 넘긴다(탐색 결과와 같은 비용·경로).
 
 export const VERSION = 1;
 export const TITLE_MAX = 30; // 시간표 이름 글자 수
 export const PER_SEMESTER_MAX = 50; // 학기마다 둘 수 있는 시간표 수(기기 저장 공간을 아끼려고)
+export const COLORS = 8; // 항목 색 수(디자인 규칙의 item-0 ~ item-7)
+export const DEFAULT_TITLE = "시간표"; // 새 시간표 이름은 '시간표 n'(디자인 규칙)
 
 // ---------------------------------------------------------------- 수업
 
@@ -47,14 +51,14 @@ export function cleanTitle(title) {
 }
 
 /**
- * 같은 학기 안에서 겹치지 않는 이름. base 가 비어 있으면 base, 아니면 'base (n)'(n = 1 부터 비는 번호. SNUTT 복사본 이름과 같은 꼴).
- * copy 면 base 가 비어 있어도 번호를 붙인다. base 끝의 ' (n)' 은 떼고 붙인다. 번호를 붙여도 TITLE_MAX 자를 넘지 않게 base 를 줄인다.
+ * 같은 학기 안에서 겹치지 않는 이름. base 가 비어 있으면 base, 아니면 'base (n)'(n = 2 부터 비는 번호. 디자인 규칙의 복사본 '시간표 1 (2)'.
+ * SNUTT 는 (1) 부터). copy 면 base 가 비어 있어도 번호를 붙인다. base 끝의 ' (n)' 은 떼고 붙인다. 번호를 붙여도 TITLE_MAX 자를 넘지 않게 base 를 줄인다.
  */
 export function uniqueTitle(base, titles, { copy = false } = {}) {
   const root = cleanTitle(base).replace(/\s\(\d+\)$/, "") || "시간표";
   const taken = new Set(titles);
   if (!copy && !taken.has(root)) return root;
-  for (let n = 1; ; n++) {
+  for (let n = 2; ; n++) {
     const suffix = ` (${n})`;
     const name = root.slice(0, TITLE_MAX - suffix.length).trimEnd() + suffix;
     if (!taken.has(name)) return name;
@@ -69,11 +73,20 @@ export function titleProblem(title, list, selfId = null) {
   return null;
 }
 
-/** 새 시간표. 학기의 첫 시간표면 대표로 한다. list 가 꽉 찼으면 null */
+/** 새 시간표의 기본 이름 '시간표 n'(n = 1 부터 이 학기에 비는 번호). 학기에 시간표가 없을 때 화면이 미리 보여 줄 이름도 이것이다 */
+export function nextTitle(list) {
+  const taken = new Set(list.map((x) => x.title));
+  let n = 1;
+  while (taken.has(`${DEFAULT_TITLE} ${n}`)) n++;
+  return `${DEFAULT_TITLE} ${n}`;
+}
+
+/** 새 시간표. 이름을 안 주면 '시간표 n', 주면 그 이름(겹치면 '이름 (2)'부터). 학기의 첫 시간표면 대표로 한다. list 가 꽉 찼으면 null */
 export function createTimetable(list, sem, { title = "", source = "manual", from = null, items = [], now = new Date() } = {}) {
   if (list.length >= PER_SEMESTER_MAX) return null;
   const at = now.toISOString();
-  const t = { v: VERSION, id: newId("t"), sem, title: uniqueTitle(title || "시간표", list.map((x) => x.title)), created: at, updated: at, source, items };
+  const name = cleanTitle(title) ? uniqueTitle(title, list.map((x) => x.title)) : nextTitle(list);
+  const t = { v: VERSION, id: newId("t"), sem, title: name, created: at, updated: at, source, items };
   if (!list.some((x) => x.primary)) t.primary = true;
   if (from) t.from = { ...from };
   return t;
@@ -85,7 +98,7 @@ export function renameTimetable(t, title, list, now = new Date()) {
   return problem ? { problem } : { t: { ...t, title: cleanTitle(title), updated: now.toISOString() } };
 }
 
-/** 복사본(이름 '원래 이름 (n)', 대표는 옮기지 않는다). list 가 꽉 찼으면 null */
+/** 복사본(이름 '원래 이름 (2)'부터 비는 번호, 대표는 옮기지 않는다). list 가 꽉 찼으면 null */
 export function copyTimetable(t, list, now = new Date()) {
   if (list.length >= PER_SEMESTER_MAX) return null;
   const at = now.toISOString();
@@ -115,12 +128,11 @@ export function setPrimary(list, id) {
 
 // ---------------------------------------------------------------- 항목 넣고 빼기
 
-/** 다른 항목이 쓰지 않는 가장 작은 색 번호 */
+/** 새 항목의 색: 다른 항목이 쓰지 않는 가장 작은 번호(0~7). 여덟 색을 다 쓰고 있으면 가장 적게 쓰인 색(같으면 작은 번호) */
 function freeColor(items) {
-  const used = new Set(items.map((it) => it.color));
-  let c = 0;
-  while (used.has(c)) c++;
-  return c;
+  const count = Array(COLORS).fill(0);
+  for (const it of items) if (Number.isInteger(it.color) && it.color >= 0 && it.color < COLORS) count[it.color]++;
+  return count.indexOf(Math.min(...count));
 }
 
 /** 항목의 지금 수업(편람을 견주지 않은 값: own, 없으면 base. 직접 넣은 일정은 meetings) */
@@ -160,18 +172,23 @@ export function overlapsWith(t, meetings, { except = null, course = null, byId =
 }
 
 /**
- * 항목 넣기. 시간이 겹치는 항목이 있으면 넣지 않고 {t, overlaps: [겹치는 항목 열쇠]} 를 돌려준다(화면이 '덮어쓸까요?'를 묻는다).
- * force 면 겹치는 항목을 빼고 넣는다(SNUTT 와 같다). 같은 열쇠의 항목이 이미 있으면 바꿔 넣는다(분반을 다시 고른 것).
- * 같은 과목의 다른 분반이 있으면 그것과 바꾼다(한 과목에 분반 하나). byId(지금 편람)를 주면 겹침을 지금 편람 기준으로 본다
+ * 항목 넣기 → {t, overlaps, removed}.
+ *   시간이 겹치는 항목이 있으면 넣지 않는다: t 는 받은 그대로, overlaps 에 겹치는 항목 열쇠(넣었으면 늘 빈 배열).
+ *   force 면 겹치는 항목을 빼고 넣는다(SNUTT 와 같다. 디자인 규칙은 묻지 않고 force 로 넣은 뒤 되돌리기를 보여 준다).
+ *   같은 열쇠의 항목이 이미 있으면 바꿔 넣고, 같은 과목의 다른 분반이 있으면 그것과 바꾼다(한 과목에 분반 하나, 색은 그대로).
+ *   removed: 이번에 빠진 항목들(겹쳐서 뺀 것 + 바꿔 넣느라 뺀 것. 겹쳐서 뺀 것만 보려면 course 가 넣은 항목과 다른 것).
+ *   되돌리기는 받기 전의 t 를 다시 쓰면 된다(함수는 받은 t 를 고치지 않는다).
+ * byId(지금 편람)를 주면 겹침을 지금 편람 기준으로 본다
  */
 export function addItem(t, item, { force = false, byId = null, now = new Date() } = {}) {
   const key = itemKey(item);
   const hit = overlapsWith(t, savedMeetings(item), { except: key, course: item.course || null, byId });
-  if (hit.length && !force) return { t, overlaps: hit };
+  if (hit.length && !force) return { t, overlaps: hit, removed: [] };
   const prev = t.items.find((it) => itemKey(it) === key || (item.course && it.course === item.course));
   const keep = t.items.filter((it) => it !== prev && !hit.includes(itemKey(it)));
+  const removed = t.items.filter((it) => !keep.includes(it));
   const added = { ...item, color: prev && prev.color !== undefined ? prev.color : freeColor(keep) };
-  return { t: { ...t, items: [...keep, added], updated: now.toISOString() }, overlaps: [] };
+  return { t: { ...t, items: [...keep, added], updated: now.toISOString() }, overlaps: [], removed };
 }
 
 /** 항목 빼기 */
@@ -210,7 +227,7 @@ export function itemsFromRanked(ev, byId) {
     const course = c || { id: s.courseId, name: s.name, credit: 0, cls: "" };
     const section = cat || s;
     const it = sectionItem(course, section, { meetings: s.meetings, alts: (s.twins || []).map((x) => x.key) });
-    it.color = items.length;
+    it.color = freeColor(items);
     items.push(it);
   }
   return items;
@@ -226,29 +243,34 @@ export function findSaved(list, ev, byId) {
 // ---------------------------------------------------------------- 편람과 맞추기
 
 /**
- * 지금 편람(byId)과 견준 항목들: [{key, item, meetings, state, live}].
+ * 지금 편람(byId)과 견준 항목들: [{key, item, meetings, state, live, missing}].
  *   state  "same" 그대로 | "changed" 저장할 때 본 편람과 달라졌다 | "gone" 편람에 없다 | "custom" 직접 넣은 일정
+ *   missing state 가 gone 일 때 "course"(과목째 사라짐: '없는 과목') | "section"(과목은 있고 분반만 사라짐: '없는 분반'), 아니면 null
  *   meetings 그릴 수업({day, start, end, building, room}): own > 지금 편람 > 적어 둔 base
  *   live   지금 편람의 분반(없으면 null). live.status 가 "폐강대상" 이면 화면이 태그를 단다
  */
 export function reconcile(t, byId) {
   return t.items.map((it) => {
     const key = itemKey(it);
-    if (it.custom) return { key, item: it, meetings: it.meetings.map(meeting), state: "custom", live: null };
+    if (it.custom) return { key, item: it, meetings: it.meetings.map(meeting), state: "custom", live: null, missing: null };
     const c = byId.get(it.course);
     const live = (c && c.sections.find((s) => s.no === it.no)) || null;
     const base = it.base.map(meeting);
     const state = !live ? "gone" : sig(live.meetings) === sig(base) ? "same" : "changed";
     const meetings = it.own ? it.own.map(meeting) : live ? live.meetings.map((m) => ({ ...m })) : base;
-    return { key, item: it, meetings, state, live };
+    return { key, item: it, meetings, state, live, missing: live ? null : c ? "section" : "course" };
   });
 }
 
-/** '편람 바뀜'을 본 것으로: base 를 지금 편람 값으로(own 은 그대로). 편람에 없는 항목은 그대로 */
-export function acknowledge(t, byId, now = new Date()) {
+/**
+ * '편람 바뀜'을 본 것으로: base 를 지금 편람 값으로(own 은 그대로). 편람에 없는 항목은 그대로. 바뀐 것이 없으면 받은 t 를 그대로 돌려준다.
+ * key 를 주면 그 항목만(디자인 규칙: 항목 시트를 닫을 때 그 항목만), 안 주면 모든 항목. 셋째 값에 Date 만 줘도 된다(예전 꼴)
+ */
+export function acknowledge(t, byId, opts = {}) {
+  const { key = null, now = new Date() } = opts instanceof Date ? { now: opts } : opts;
   let touched = false;
   const items = t.items.map((it) => {
-    if (it.custom) return it;
+    if (it.custom || (key && itemKey(it) !== key)) return it;
     const c = byId.get(it.course);
     const live = c && c.sections.find((s) => s.no === it.no);
     if (!live || sig(live.meetings) === sig(it.base.map(meeting))) return it;
@@ -270,6 +292,25 @@ export function toSections(t, byId) {
 
 // ---------------------------------------------------------------- 기기에 두기
 
+/**
+ * 기기에 두는 열쇠(app.js 의 store 이름. 앞에 "ttw." 이 붙는다). 학기마다인 것은 semKey(이름) = "이름@학기".
+ *   timetables 학기마다 시간표 목록(serialize 값) · timetable 학기마다 지금 보고 있는 시간표 id
+ *   timetableColor 기기 하나: 시간표 칸 색 "item"(항목마다 item-0~7, 처음) | "cls"(교과구분별)
+ *   openSem 기기 하나: 마지막에 연 학기(첫 탭을 학기 목록을 받기 전에 고르려고. 프론트엔드가 정했다)
+ */
+export const STORE_KEYS = { list: "timetables", current: "timetable", color: "timetableColor", open: "openSem" };
+
+/** 기기에 둔 칸 색 설정 → "item" | "cls"(처음이거나 모르는 값이면 "item") */
+export const colorMode = (raw) => (raw === "cls" ? "cls" : "item");
+
+/**
+ * 이 학기에 이 판이 읽는 시간표가 있나(앱을 켤 때 첫 탭: 있으면 내 시간표, 없으면 탐색). raw 는 기기에서 읽은 값 그대로
+ * (store.get(semKey("timetables", openSem), [])). 새 판이 적은 것(_newer)은 세지 않는다:
+ * parseList(raw).filter((t) => !t._newer).length > 0 과 같고 항목은 읽지 않는다. index.html 머리의 스크립트도 같은 판단을 한다(판 숫자 1 을 적어 둠)
+ */
+export const hasTimetables = (raw) => Array.isArray(raw)
+  && raw.some((r) => !!r && typeof r === "object" && typeof r.id === "string" && !(Number(r.v) > VERSION));
+
 /** 기기에 둘 값(JSON 으로 그대로 쓸 수 있는 배열) */
 export function serialize(list) {
   return list.map((t) => (t._newer ? t._raw : t));
@@ -288,7 +329,7 @@ export function parseList(raw, sem) {
     const items = [];
     for (const it of Array.isArray(r.items) ? r.items : []) {
       if (!it || typeof it !== "object") continue;
-      const color = Number.isInteger(it.color) && it.color >= 0 ? it.color : undefined;
+      const color = Number.isInteger(it.color) && it.color >= 0 ? it.color % COLORS : undefined;
       if (typeof it.custom === "string") {
         const x = { custom: it.custom, title: cleanTitle(it.title) || "일정", meetings: tuples(it.meetings) };
         if (it.memo) x.memo = String(it.memo);

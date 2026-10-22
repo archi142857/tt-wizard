@@ -29,6 +29,7 @@ app/
 - 앱 아이디 `com.ttwizard.app`(10/1 사용자 결정: 개인 GitHub 아이디와 떼어 두고, 나중에 `ttwizard.com` 같은 주소를 사면 그대로 맞게), 이름 `TT Wizard`.
   **스토어에 처음 올린 뒤에는 앱 아이디를 바꿀 수 없다.** 안드로이드 `namespace`·`applicationId`·`MainActivity` 패키지, iOS `PRODUCT_BUNDLE_IDENTIFIER`,
   `capacitor.config.json` 이 같아야 한다(`tests/test_app.py`).
+  사용자가 Play Console 을 보고 정하기 전까지 바꾸지 않는다(법무 10/22: 콘솔에서 앱을 만들 때 패키지 이름이 등록된 것으로 보이고, 바꾸면 Play 는 다른 앱으로 본다).
 - 안드로이드: minSdk 24, compile·targetSdk 36(Play 2026-08-31 요건), AGP 8.13, Gradle 8.14.3, JDK 21.
 - iOS: 15.0 이상, Xcode 26 이상(Capacitor 8 요건), iPhone 전용(`TARGETED_DEVICE_FAMILY = 1`, 디자인 규칙의 권장. iPad 를 넣으려면 `1,2` 와 iPad 스크린샷).
 
@@ -123,6 +124,17 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
   `capacitor.txt`(MIT, 그 안의 Apache-2.0·BSD·MIT 파일), `androidx.txt`(Apache-2.0), `cordova.txt`(Apache-2.0 와 NOTICE), `snutt.txt`.
   화면이 줄마다 파일 하나를 열어서, Apache-2.0 전문은 앞의 세 파일 끝에 각각 넣었다(10/22 프론트엔드). 글꼴은 `vendor/pretendard/LICENSE.txt`, 지도는 `vendor/leaflet/LICENSE`. 화면(정보 > 오픈소스 라이선스)이 이 파일을 연다.
 
+## 앞으로 기능을 만들 때 (법무 10/22)
+
+- GitHub Pages 에서 받는 JSON 으로 기능을 켜고 끄거나(원격 플래그) 웹 묶음을 바꾸는 구조는 만들지 않는다. 자료로 쓰는 JSON(편람 등)은 괜찮다
+  (Apple 2.5.19 는 숨긴 기능을 앱 삭제 사유로 넣었고, Play 도 스토어 업데이트가 아닌 방법으로 앱을 바꾸는 것을 막는다).
+- 강의 변경 알림·수업 알림: FCM 대신 기기가 JSON 을 보고 로컬로 알린다(WorkManager). 수업 알림은 부정확 알람으로(`USE_EXACT_ALARM` 은 정확한 알람이 핵심인 앱만).
+- 스크린샷 가져오기: 사진 선택 도구(Android Photo Picker, iOS 시스템 피커)로 고른 그림만 받아 기기 안에서 읽는다. 캘린더 내보내기: `.ics`·공유 시트.
+  그러면 사진·캘린더 권한과 Play 신고가 필요 없고 '수집 없음'이 그대로다. FCM·클라우드 OCR 을 쓰면 처리방침(국외 처리위탁)과 iOS 개인정보 라벨이 바뀐다.
+- ML Kit 처럼 `.so` 가 든 라이브러리를 넣으면 16 KB 페이지 크기와 데이터 보안(진단 전송)을 같이 본다.
+- 로고·아이콘 원본 폴더를 저장소로 옮길 일이 생기면 MIT 코드와 다른 폴더에 두고 그 폴더 README 에 'MIT 대상 아님'을 적는다
+  (GitHub 약관 D.6: 라이선스가 있는 저장소에 보탠 것은 같은 조건으로 본다).
+
 ## 아이콘
 
 디자인 세션 판(규칙 '로고' > '앱 아이콘 파일')을 `app/assets/icons/` 에 두고 `python scripts/app_icons.py` 로 만든다(Pillow).
@@ -149,6 +161,7 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
 3. 정보 화면의 개인정보 처리방침·문의 주소(`app.js` 의 `PRIVACY_URL`·`CONTACT_URL`), 스토어 등록 자료(디자인), 데이터 보안·개인정보 라벨.
    오픈소스 라이선스 화면에 Capacitor·AndroidX·Cordova 줄과 `licenses/` 고지문 잇기(프론트엔드, 위 '권한·기기 백업·오픈소스 고지').
 4. 저장한 시간표를 Capacitor Preferences 에도 두기(웹뷰 저장 공간은 OS 가 비울 수 있다. `docs/timetables.md` '기기에 두기').
+   iOS 개인정보 매니페스트의 UserDefaults(사유 `CA92.1`)는 이미 들어 있다.
 5. iPad 지원 여부, 캠퍼스 마법 지도 자료의 스토어 배포 허락(신용범 님).
 6. Google Play: 개인 계정이면 테스터 12명이 14일 동안 비공개 테스트를 한 뒤 프로덕션 신청.
 
