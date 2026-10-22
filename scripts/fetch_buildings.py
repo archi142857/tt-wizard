@@ -4,6 +4,7 @@
   → {"search_list": [{"name": "...", "vil_dong_nm": "301", "lat_val": 37.44.., "lon_val": 126.95.., "con_type": "F", "fac_type": "OTHER", ...}]}
 
 후보 중 con_type == "F", fac_type == "OTHER", vil_dong_nm == 동번호 인 것을 고르고, 여럿이면 이름이 짧은 것.
+검색 주소와 고르는 규칙은 SNUTT 를 따랐다. SNUTT(https://github.com/wafflestudio/snutt): Copyright (c) 2025 Wafflestudio, MIT License. 가져온 부분의 고지 전문은 licenses/snutt.txt
 
 사용법
   python scripts/fetch_buildings.py                       # data/lectures.json 의 모든 동

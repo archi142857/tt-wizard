@@ -64,6 +64,24 @@ jobs:
           path: app/android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 14
           if-no-files-found: error
+      - name: Permissions and libraries in the APK
+        # 실행 화면의 요약(Summary)에 적는다: 병합 매니페스트의 권한(데이터 보안 신고·처리방침용)과
+        # 앱에 들어가는 라이브러리(오픈소스 고지 licenses/ 와 맞는지). 실패해도 APK 는 그대로 쓴다
+        continue-on-error: true
+        working-directory: app/android
+        run: |
+          aapt2="$(ls -d "$ANDROID_HOME"/build-tools/*/ | sort -V | tail -1)aapt2"
+          {
+            echo "### 권한 (APK 의 병합 매니페스트)"
+            echo '```'
+            "$aapt2" dump permissions app/build/outputs/apk/debug/app-debug.apk
+            echo '```'
+            echo "### 앱에 들어가는 라이브러리 (releaseRuntimeClasspath)"
+            echo '```'
+            ./gradlew -q :app:dependencies --configuration releaseRuntimeClasspath --no-daemon \
+              | grep -E '^[|+\\ ]' | sed -E 's/^[-|+\\ ]+//; s/ \([*cn]\)$//' | sort -u
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
   ios:
     runs-on: macos-latest

@@ -47,7 +47,7 @@ app/
 Android Studio Otter(2025.2.1) 이상을 깐다(JDK 21 이 함께 온다). Node 22 이상.
 
 ```
-cd /d "D:\프로젝트 파일\코딩\TT Wizard\tt-wizard"
+cd /d "D:\프로젝트 폴더\코딩\TT Wizard\tt-wizard"
 .venv\Scripts\python scripts\export_web.py
 cd app
 npm ci
@@ -106,6 +106,23 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
 | iOS 수출 규정 질문 생략 | `Info.plist` `ITSAppUsesNonExemptEncryption = false`(HTTPS 만 쓴다) |
 | 한국어 시스템 문구(인앱 Safari 의 '완료' 등) | `CFBundleDevelopmentRegion = ko` |
 
+## 권한·기기 백업·오픈소스 고지 (10/22, 법무 검토의 질문)
+
+- **권한**: 앱 매니페스트는 `INTERNET` 하나다. 병합 매니페스트에는 플러그인과 라이브러리가 더한 것이 들어간다. 소스로 보면
+  `VIBRATE`(@capacitor/haptics, 설치할 때 주는 보통 권한)와 AndroidX core 가 앱 안에서만 쓰려고 만드는 서명 권한
+  `com.ttwizard.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` 이고, 위치·저장소·카메라처럼 묻는 권한은 없다.
+  @capacitor/browser 는 권한이 아니라 Custom Tab 을 찾는 `<queries>` 를 더한다. 빌드한 APK 의 실제 목록은 `app` 워크플로 실행 화면의
+  요약(Summary)에 적힌다(`aapt2 dump permissions`. 앱에 들어가는 라이브러리 목록도 같이).
+- **기기 백업**: `android:allowBackup="true"` 를 둔다. 안드로이드 자동 백업(Google 계정)과 새 폰으로 옮기기에 앱 자료(웹뷰의 localStorage·IndexedDB,
+  앞으로 Preferences)가 들어가서, 담은 과목·저장한 시간표·출발 지점이 새 폰에서 이어질 수 있다(웹뷰 저장 공간보다 Preferences 가 확실해서
+  출시 전에 Preferences 에도 둔다). 백업은 사용자의 계정에 있고 개발자는 볼 수 없다.
+  끄면 새 폰에서 처음부터다(안드로이드 12 이상은 끄더라도 기기끼리 옮기기는 된다). iOS 도 앱 자료가 iCloud·기기 백업에 들어간다.
+  받아 둔 편람 JSON(IndexedDB, 많아야 10 MB 남짓)도 같이 들어가지만 앱 빌드가 다르면 쓰지 않는다. 안드로이드 백업 한도(앱마다 25 MB) 안이다.
+  처리방침에 적을 사실: '기기 백업을 켜 두었다면 앱에 저장한 내용이 그 기기 백업(Google 계정·iCloud)에 함께 들어갈 수 있어요. 개발자는 볼 수 없어요.'
+- **오픈소스 고지**: 앱에 들어가는 다른 사람 코드의 고지문은 저장소 `licenses/` 에 두고 `build_app.py` 가 앱 묶음의 `licenses/` 로 넣는다:
+  `capacitor.txt`(MIT, 그 안의 Apache-2.0·BSD·MIT 파일), `androidx.txt`(Apache-2.0, 전문 포함), `cordova.txt`(Apache-2.0 와 NOTICE, 전문 포함),
+  `apache-2.0.txt`, `snutt.txt`. 글꼴은 `vendor/pretendard/LICENSE.txt`, 지도는 `vendor/leaflet/LICENSE`. 화면(정보 > 오픈소스 라이선스)이 이 파일을 연다.
+
 ## 아이콘
 
 디자인 세션 판(규칙 '로고' > '앱 아이콘 파일')을 `app/assets/icons/` 에 두고 `python scripts/app_icons.py` 로 만든다(Pillow).
@@ -130,8 +147,10 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
    `build.gradle` 이 읽는다) Actions 에 서명한 AAB(`bundleRelease`) 단계를 더한다. iOS 는 Apple 개발자 계정의 인증서·프로비저닝(또는 Mac 의 Xcode 자동 서명).
 2. 앱에서만 되는 쓸모(심사 4.2·Play 최소 기능): 시간표 저장, 이미지·캘린더 내보내기, 위젯, 수강편람 알림 중 하나 이상(`앱_확장_계획.md`).
 3. 정보 화면의 개인정보 처리방침·문의 주소(`app.js` 의 `PRIVACY_URL`·`CONTACT_URL`), 스토어 등록 자료(디자인), 데이터 보안·개인정보 라벨.
-4. iPad 지원 여부, 캠퍼스 마법 지도 자료의 스토어 배포 허락(신용범 님).
-5. Google Play: 개인 계정이면 테스터 12명이 14일 동안 비공개 테스트를 한 뒤 프로덕션 신청.
+   오픈소스 라이선스 화면에 Capacitor·AndroidX·Cordova 줄과 `licenses/` 고지문 잇기(프론트엔드, 위 '권한·기기 백업·오픈소스 고지').
+4. 저장한 시간표를 Capacitor Preferences 에도 두기(웹뷰 저장 공간은 OS 가 비울 수 있다. `docs/timetables.md` '기기에 두기').
+5. iPad 지원 여부, 캠퍼스 마법 지도 자료의 스토어 배포 허락(신용범 님).
+6. Google Play: 개인 계정이면 테스터 12명이 14일 동안 비공개 테스트를 한 뒤 프로덕션 신청.
 
 ## 폰에서 볼 것 (아직 안 봤다)
 

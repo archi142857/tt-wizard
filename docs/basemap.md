@@ -16,6 +16,9 @@
 | 캠퍼스 안 찻길·보행로·계단, 큰길 등급, 숲·잔디·공원 | OpenStreetMap (`data/osm_paths.geojson`, `data/osm_basemap.geojson`) | © OpenStreetMap contributors, ODbL. 이 층은 ODbL 로 공개(레포가 공개라 됨) |
 | 캠퍼스 땅(어림 경계) | 캠퍼스 건물 좌표(`data/campus_buildings.csv`) 둘레 110 m 를 합쳐 다듬은 것 | — |
 
+도로면은 모양이 수치지형도이고 큰길 색(등급)을 OSM 으로 정해서, OSM 을 쓴 다른 층(초록, 길 선)처럼 ODbL 이 그 층에 걸린다
+(OSM 지침은 층마다 따진다. 같은 층에 OSM 과 다른 자료를 섞으면 그 층 전체). 층마다 출처는 파일 안 `src_layers` 에도 적는다(10/22).
+
 지도 위에 늘 보이게 적는다: `© 국토지리정보원 · © OpenStreetMap` (OSM 쪽은 저작권 페이지 링크).
 
 초록(숲·잔디·공원·운동장)은 `data/osm_basemap.geojson` 의 면을 쓴다(10/1 밤 사용자 PC 에서 받음, `green_approx: false`).
@@ -52,7 +55,13 @@
   "contour": {            // 등고선. 항목 하나 = [높이 m, polyline(소수 5자리)]
     "minor": [...],       // 5 m 주곡선
     "index": [...]        // 25 m 계곡선
-  }
+  },
+  "src_layers": [         // 층마다 출처(10/22 더함). 모든 층이 한 번씩 나온다. 화면은 읽지 않는다
+    {"src": "국토지리정보원 수치지형도(1:5,000, 2025) · 공공누리 제1유형", "layers": ["area.water", "area.walk", "area.building", "contour.minor", "contour.index"]},
+    {"src": "© OpenStreetMap contributors (ODbL)", "layers": ["area.green", "area.park", "area.grass", "area.pitch", "line.road", "line.pedestrian", "line.walk", "line.steps"]},
+    {"src": "도로면 모양은 … 수치지형도 …, 큰길 등급은 © OpenStreetMap contributors (ODbL)", "layers": ["area.road", "area.road_secondary", "area.road_primary", "area.road_trunk"]},
+    {"src": "서울대학교 캠퍼스맵 건물 좌표 둘레를 합쳐 어림한 경계", "layers": ["area.campus"]}
+  ]                       // 초록이 어림(green_approx)이면 area.green 은 수치지형도 묶음에
 }
 ```
 

@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from basemap import GREEN_KIND  # noqa: E402
-from common import console_safe  # noqa: E402
+from common import OSM_META, console_safe  # noqa: E402
 
 OUT = ROOT / "data" / "osm_basemap.geojson"
 PARTS = Path(tempfile.gettempdir()) / "ttw_osm_basemap"
@@ -169,7 +169,7 @@ def main() -> int:
     if failed:
         print(f"실패: {failed} → 몇 분 뒤 다시 실행(받은 조각은 건너뛴다). 기존 {OUT.name} 은 그대로 둔다")
         return 1
-    OUT.write_text(json.dumps({"type": "FeatureCollection", "features": feats}, ensure_ascii=False), encoding="utf-8")
+    OUT.write_text(json.dumps({"type": "FeatureCollection", "meta": OSM_META, "features": feats}, ensure_ascii=False), encoding="utf-8")
     for p in PARTS.glob("*.json"):
         p.unlink()
     print(f"저장: {OUT} ({OUT.stat().st_size / 1e6:.1f} MB) → python scripts/basemap.py 로 바탕 지도를 다시 만든다")

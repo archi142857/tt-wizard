@@ -9,6 +9,8 @@
   - web/ 의 화면·엔진·지도·아이콘·자료(지난 학기 포함)를 복사한다. 앱이 첫 실행부터 오프라인으로 돈다(디자인 규칙 '스토어 출시').
     서비스 워커(sw.js, 앱은 파일을 품고 있다), 3D·2D 모델(model/, vendor/three/), 실측 페이지(field/), 개발용 파일은 뺀다.
   - 글꼴 Pretendard 를 CDN 대신 앱에 넣는다(app/node_modules/pretendard, npm ci 뒤). 없으면 CDN 그대로 두고 알린다.
+  - 앱에 들어가는 다른 사람 코드의 고지문(licenses/*.txt: Capacitor, AndroidX, Cordova, SNUTT)을 licenses/ 로 넣는다.
+    앱의 '오픈소스 라이선스' 화면이 연다(MIT·Apache-2.0 은 고지문을 함께 배포하라고 한다).
   - app/src/native.js 를 js/native.js 로 넣고 index.html <head> 에서 app.js 보다 먼저 부른다:
     자료를 웹 서버에서 새로 받기(안 되면 받아 둔 것 → 앱에 넣은 것), 안드로이드 뒤로 가기, <html data-platform>.
   표준 라이브러리만 쓴다.
@@ -32,6 +34,7 @@ APP = ROOT / "app"
 OUT = APP / "www"
 NATIVE = APP / "src" / "native.js"
 FONT = APP / "node_modules" / "pretendard"
+LICENSES = ROOT / "licenses"  # 다른 사람 코드의 고지문 → 앱 묶음의 licenses/
 REMOTE = "https://archi142857.github.io/tt-wizard/"  # 앱이 자료를 새로 받는 곳 (GitHub Pages, 끝에 /)
 
 SKIP_DIRS = {"model", "field", "three"}  # 3D·2D 모델과 three.js, 실측 페이지
@@ -93,6 +96,17 @@ def copy_font(out: Path) -> bool:
     return True
 
 
+def copy_licenses(out: Path, src: Path = LICENSES) -> int:
+    texts = sorted(src.glob("*.txt"))
+    if not texts:
+        raise SystemExit(f"{src} 에 고지문(*.txt)이 없습니다")
+    dst = out / "licenses"
+    dst.mkdir(parents=True, exist_ok=True)
+    for t in texts:
+        shutil.copy2(t, dst / t.name)
+    return len(texts)
+
+
 def build(web: Path = WEB, out: Path = OUT, remote: str = REMOTE, tag: str | None = None) -> dict:
     missing = [n for n in NEEDED if not (web / n).exists()]
     if missing:
@@ -100,6 +114,7 @@ def build(web: Path = WEB, out: Path = OUT, remote: str = REMOTE, tag: str | Non
     if not remote.endswith("/"):
         remote += "/"
     copy_web(web, out)
+    copy_licenses(out)
     local_font = copy_font(out)
     index = out / "index.html"
     index.write_text(patch_index(index.read_text(encoding="utf-8"), local_font), encoding="utf-8")

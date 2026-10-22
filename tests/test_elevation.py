@@ -234,7 +234,9 @@ def test_write_outputs(tmp_path):
     ent = dict.fromkeys(be.ENT_FIELDS, "")
     ent.update(building="75-1", lat="37.459", lon="126.952", floor_est="1층")
     egj = be.write_entrances([ent], tmp_path / "ent.csv")
-    assert json.loads(egj.read_text(encoding="utf-8"))["features"][0]["properties"]["floor_est"] == "1층"
+    fc = json.loads(egj.read_text(encoding="utf-8"))
+    assert fc["features"][0]["properties"]["floor_est"] == "1층"
+    assert fc["meta"]["license"] == "ODbL 1.0" and "meta" not in json.loads(gj.read_text(encoding="utf-8"))  # 출입구 자리는 OSM 에서
 
 
 def test_campus_items_are_merged():

@@ -53,7 +53,8 @@ def test_build_app_bundle(tmp_path, monkeypatch):
     files = {p.relative_to(out).as_posix() for p in out.rglob("*") if p.is_file()}
     assert {"index.html", "js/app.js", "js/engine.js", "js/search-worker.js", "js/search.js", "js/timetables.js", "js/native.js", "data/courses.json",
             "data/semesters/2025-1.json", "vendor/leaflet/leaflet.js", "vendor/pretendard/LICENSE.txt",
-            "vendor/pretendard/woff2-dynamic-subset/PretendardVariable.subset.0.woff2", "app-build.json"} <= files
+            "vendor/pretendard/woff2-dynamic-subset/PretendardVariable.subset.0.woff2", "app-build.json",
+            "licenses/capacitor.txt", "licenses/androidx.txt", "licenses/cordova.txt", "licenses/apache-2.0.txt", "licenses/snutt.txt"} <= files
     assert not [f for f in files if f == "sw.js" or f.startswith(("model/", "field/", "vendor/three/")) or f.endswith("package.json")]
     html = (out / "index.html").read_text(encoding="utf-8")
     assert "cdn.jsdelivr.net" not in html and 'href="vendor/pretendard/' in html
@@ -67,6 +68,31 @@ def test_build_app_bundle(tmp_path, monkeypatch):
     monkeypatch.setattr(build_app, "FONT", tmp_path / "none")
     info = build_app.build(web=web, out=out, tag="T2")
     assert info["font"] == "CDN" and "cdn.jsdelivr.net" in (out / "index.html").read_text(encoding="utf-8")
+
+
+def test_license_notices_match_app():
+    """앱에 넣는 고지문(licenses/)이 지금 쓰는 판과 맞고 전문이 들어 있다. 판을 올리면 고지문의 숫자도 고친다."""
+    lic = ROOT / "licenses"
+    pkg = json.loads((APP / "package.json").read_text(encoding="utf-8"))["dependencies"]
+    cap = (lic / "capacitor.txt").read_text(encoding="utf-8")
+    assert f"@capacitor/core, @capacitor/android, @capacitor/ios {pkg['@capacitor/core']}" in cap
+    assert pkg["@capacitor/core"] == pkg["@capacitor/android"] == pkg["@capacitor/ios"]
+    for name in ("app", "browser", "haptics"):
+        assert f"@capacitor/{name} {pkg['@capacitor/' + name]}" in cap
+    assert "Copyright (c) 2017-present Drifty Co." in cap and "Copyright 2020-present Ionic" in cap and cap.count("MIT License") >= 3
+    gradle = dict(re.findall(r"(\w+) = '([^']+)'", (APP / "android" / "variables.gradle").read_text(encoding="utf-8")))
+    ax = (lic / "androidx.txt").read_text(encoding="utf-8")
+    for key, art in (("androidxAppCompatVersion", "appcompat:appcompat"), ("androidxCoreVersion", "core:core"),
+                     ("androidxActivityVersion", "activity:activity"), ("androidxFragmentVersion", "fragment:fragment"),
+                     ("androidxCoordinatorLayoutVersion", "coordinatorlayout:coordinatorlayout"),
+                     ("androidxWebkitVersion", "webkit:webkit"), ("coreSplashScreenVersion", "core:core-splashscreen")):
+        assert f"androidx.{art} {gradle[key]}" in ax, key
+    cordova = (lic / "cordova.txt").read_text(encoding="utf-8")
+    assert f"cordova-android {gradle['cordovaAndroidVersion']}" in cordova and "The Apache Software Foundation" in cordova
+    apache = (lic / "apache-2.0.txt").read_text(encoding="utf-8")
+    assert "Version 2.0, January 2004" in apache and "END OF TERMS AND CONDITIONS" in apache
+    assert apache in ax and apache in cordova  # 줄마다 전문을 같이 연다
+    assert "Copyright (c) 2025 Wafflestudio" in (lic / "snutt.txt").read_text(encoding="utf-8")
 
 
 def test_patch_index_stops_on_unknown_markup():

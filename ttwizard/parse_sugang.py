@@ -6,6 +6,8 @@
 강의실(동-호)(#연건, *평창), 주담당교수, 정원, 수강신청인원, 비고, 강의언어, 개설상태
 
 열 이름이 조금 바뀌어도 버티도록 '포함 문자열'로 열을 찾는다.
+열 이름과 강의실·시간 읽는 규칙(PlaceInfo 등)은 SNUTT 파서를 따랐다.
+SNUTT(https://github.com/wafflestudio/snutt): Copyright (c) 2025 Wafflestudio, MIT License. 가져온 부분의 고지 전문은 licenses/snutt.txt
 - .xls  → xlrd 필요   (pip install xlrd)
 - .xlsx → openpyxl 필요
 """

@@ -23,7 +23,7 @@ from pathlib import Path
 
 import requests
 
-from common import console_safe
+from common import OSM_META, console_safe
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "osm_buildings.geojson"
@@ -169,7 +169,7 @@ def bbox_from_campus(margin: float = 0.003) -> tuple[float, float, float, float]
 
 def _save(path: Path, feats: list[dict]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps({"type": "FeatureCollection", "features": feats}, ensure_ascii=False), encoding="utf-8")
+    path.write_text(json.dumps({"type": "FeatureCollection", "meta": OSM_META, "features": feats}, ensure_ascii=False), encoding="utf-8")
 
 
 def overpass(query: str, tries: int = 3, wait: float = 20.0) -> dict | None:

@@ -18,8 +18,8 @@
 - 캠퍼스 땅에서 400 m 안은 자세히(건물 0.2 m·좌표 소수 6자리, 등고선 1.2 m), 그 밖은 간단히(건물은 2.4 m 안쪽 틈을
   메운 덩어리 1 m·소수 5자리, 등고선 5 m) 줄인다. 멀리는 작게 보는 곳이라
 - 초록(숲·잔디)은 osm_basemap 의 면을 쓴다. 그 파일이 없으면 '캠퍼스·건물 둘레·도로·물이 아닌 땅'으로 어림한다(green_approx: true)
-- 출처: 국토지리정보원 수치지형도(공공누리 제1유형, 출처 표시), © OpenStreetMap contributors(ODbL). OSM 에서 온 층(길·초록)은
-  이 파일과 함께 ODbL 로 공개된다(레포가 공개라 따로 할 일은 없다)
+- 출처: 국토지리정보원 수치지형도(공공누리 제1유형, 출처 표시), © OpenStreetMap contributors(ODbL). 층마다의 출처는 파일의
+  src_layers 에 적는다. OSM 을 쓴 층(초록, 길 선, 큰길 등급을 입힌 도로면)은 ODbL 로 공개한다(레포가 공개라 따로 할 일은 없다)
 - 필요한 패키지: pyshp, shapely, pyproj (requirements.txt)
 """
 
@@ -48,6 +48,8 @@ SHEET_5000 = re.compile(r"_(\d{8})_")  # 도엽번호 8자리 = 1:5,000 (9자리
 WATER = ("N3A_E0010001", "N3A_E0032111", "N3A_E0052114")
 ROAD, WALK, BUILDING, CONTOUR = "N3A_A0010000", "N3A_A0033320", "N3A_B0010000", "N3L_F0010000"
 SRC = ["국토지리정보원 수치지형도(1:5,000, 2025) · 공공누리 제1유형", "© OpenStreetMap contributors (ODbL)"]
+ROAD_SRC = "도로면 모양은 국토지리정보원 수치지형도(공공누리 제1유형), 큰길 등급은 © OpenStreetMap contributors (ODbL)"
+CAMPUS_SRC = "서울대학교 캠퍼스맵 건물 좌표 둘레를 합쳐 어림한 경계"
 
 NEAR_M = 400  # 캠퍼스 땅에서 이 거리 안은 자세히
 MAJOR = {"motorway": 0, "motorway_link": 0, "trunk": 0, "trunk_link": 0, "primary": 1, "primary_link": 1,
@@ -328,7 +330,20 @@ def build(topo: Path = TOPO, osm_basemap: Path = OSM_BASEMAP, osm_paths: Path = 
                     if seg.length >= 8:
                         contour[kind].append([z, encode_polyline(proj.latlon(seg.coords), 5, dedupe=True)])
     data["contour"] = contour
+    data["src_layers"] = layer_sources(data)
     return data
+
+
+def layer_sources(data: dict) -> list[dict]:
+    """층마다 출처 → [{src, layers: ["area.green", ...]}, ...]. 지도 위 표기와 따로, 이 파일을 받아 쓰는 사람에게 알린다.
+    OSM 을 쓴 층(초록, 길 선, 큰길 등급을 입힌 도로면)에는 ODbL 이 그 층 전체에 걸린다. 초록이 어림이면 수치지형도로 만든 것이다."""
+    have = {f"{sec}.{k}" for sec in ("area", "line", "contour") for k in data.get(sec, {})}
+    ngii = ["area.water", "area.walk", "area.building", "contour.minor", "contour.index"]
+    osm = ["area.park", "area.grass", "area.pitch"] + [f"line.{k}" for k in data.get("line", {})]
+    (ngii if data["green_approx"] else osm).insert(0, "area.green")
+    groups = ((SRC[0], ngii), (SRC[1], osm), (ROAD_SRC, ["area.road", "area.road_secondary", "area.road_primary", "area.road_trunk"]),
+              (CAMPUS_SRC, ["area.campus"]))
+    return [{"src": src, "layers": [n for n in names if n in have]} for src, names in groups if any(n in have for n in names)]
 
 
 def _ceil(v: float) -> float:
