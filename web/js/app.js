@@ -4475,8 +4475,9 @@ function askTheme() {
 $("theme-ask-yes").addEventListener("click", () => { setTheme(false); renderInfo(); closeSheet($("theme-ask")); });
 
 /**
- * 정보 화면(10/22 디자인): 카드 넷을 띄워 두고 묶음 제목은 두지 않는다. 설정(시간표 칸 색, 기간 중 테마) / 이동시간 계산 방법·자료 출처 /
- * 문의하기·리뷰 남기기(스토어 앱)·홈 화면에 추가(웹 Safari) / 개인정보 처리방침·오픈소스 라이선스·버전. 주소가 없는 행은 두지 않고, 줄이 다 빠진 카드도 두지 않는다
+ * 정보 화면(10/22 디자인): 카드 넷을 띄워 두고 묶음 제목은 두지 않는다. 설정(시간표 칸 색, 기간 중 테마) / 자료 출처 /
+ * 문의하기·리뷰 남기기(스토어 앱)·홈 화면에 추가(웹 Safari) / 개인정보 처리방침·오픈소스 라이선스·버전. 주소가 없는 행은 두지 않고, 줄이 다 빠진 카드도 두지 않는다.
+ * 이동시간 계산 방법은 10/22 밤 사용자가 뺐다(입력 화면 조건의 이동시간 ⓘ 시트로만 본다)
  */
 function renderInfo() {
   const next = (key, text) => h("button", { type: "button", class: "info-row", "data-info": key }, h("span", {}, text), icon(I.right, 20));
@@ -4498,7 +4499,7 @@ function renderInfo() {
   const card = (rows) => (rows.some(Boolean) ? h("ul", { class: "card info-list" }, rows.filter(Boolean).map((r) => h("li", {}, r))) : null);
   $("info-list").replaceChildren(...[
     card([colorRow, themeRow]),
-    card([next("calc", "이동시간 계산 방법"), next("sources", "자료 출처")]),
+    card([next("sources", "자료 출처")]),
     card([CONTACT_URL ? out(CONTACT_URL, "문의하기") : null, REVIEW_URL[SHELL] ? out(REVIEW_URL[SHELL], "리뷰 남기기") : null, isSafariTab() ? next("a2hs", "홈 화면에 추가") : null]),
     card([PRIVACY_URL ? out(PRIVACY_URL, "개인정보 처리방침") : null, next("licenses", "오픈소스 라이선스"),
       h("div", { class: "info-row" }, h("span", {}, "버전"), h("span", { class: "v" }, APP_VERSION))]),
@@ -4509,53 +4510,82 @@ $("info-list").addEventListener("click", (e) => {
   const b = e.target.closest("[data-info]");
   if (!b) return;
   const k = b.dataset.info;
-  if (k === "calc") openSheet($("calc-sheet"), b);
-  else if (k === "a2hs") openSheet($("a2hs-sheet"), b);
+  if (k === "a2hs") openSheet($("a2hs-sheet"), b);
   else go("page", { page: k });
 });
 
 let pageName = "sources";
 const NGII_URL = "https://map.ngii.go.kr/"; // 국토정보플랫폼(국토지리정보원이 수치지형도를 내주는 누리집)
 const APACHE_URL = "https://www.apache.org/licenses/LICENSE-2.0";
+/** 오픈소스 라이선스 줄: 왼쪽 칸(k, 비면 앞 줄과 한 칸), 이름, 라이선스, 원문 주소, 앱에 넣은 고지문 파일.
+ *  순서와 왼쪽 칸 이름은 디자인 규칙('화면과 동작'의 정보 화면, 10/22). 스토어 앱에는 앱의 바탕(Capacitor 와 그 안의 Apache Cordova, 안드로이드는 AndroidX)이
+ *  더 있다: 고지문을 함께 내야 하는 라이선스다(10/22 법무·백엔드). SNUTT 는 과목 검색 규칙을 따온 곳(search.js 머리의 고지와 같은 레포).
+ *  고지문 파일은 스토어 앱 묶음의 licenses/·vendor/(백엔드 build_app.py)다. 웹에는 vendor/leaflet 뿐이라 나머지는 웹에서 원문 링크다 */
+function ossRows() {
+  return [
+    { k: "지도 표시", name: "Leaflet", lic: "BSD-2-Clause", href: "https://github.com/Leaflet/Leaflet/blob/main/LICENSE", file: "vendor/leaflet/LICENSE" },
+    { k: "과목 검색", name: "SNUTT", lic: "MIT", href: "https://github.com/wafflestudio/snutt-timetable/blob/develop/LICENSE", file: IN_APP && "licenses/snutt.txt" },
+    IN_APP && { k: "앱 실행 환경", name: "Capacitor", lic: "MIT", href: "https://github.com/ionic-team/capacitor/blob/main/LICENSE", file: "licenses/capacitor.txt" },
+    IN_APP && { k: "", name: "Apache Cordova", lic: "Apache-2.0", href: APACHE_URL, file: "licenses/cordova.txt" }, // 앱 실행 환경 한 칸에 두 줄(안드로이드·iOS 같다)
+    SHELL === "android" && { k: "안드로이드", name: "AndroidX", lic: "Apache-2.0", href: APACHE_URL, file: "licenses/androidx.txt" },
+    { k: "글꼴", name: "Pretendard", lic: "SIL OFL 1.1", href: "https://github.com/orioncactus/pretendard/blob/main/LICENSE", file: IN_APP && "vendor/pretendard/LICENSE.txt" },
+    { k: "로고 글꼴", name: "Fredoka", lic: "SIL OFL 1.1", href: "https://github.com/google/fonts/blob/main/ofl/fredoka/OFL.txt" },
+    { k: "지도 자료", name: "OpenStreetMap", lic: "ODbL", href: "https://www.openstreetmap.org/copyright" },
+    { k: "지도·경사 자료", name: "국토지리정보원 수치지형도", lic: "공공누리 제1유형", href: "https://www.kogl.or.kr/info/licenseType1.do" },
+  ].filter(Boolean);
+}
 function renderPage() {
   const sources = pageName !== "licenses";
   $("page-title").textContent = sources ? "자료 출처" : "오픈소스 라이선스";
   $("page-foot").hidden = !sources; // '강의 시간과 강의실은 수강편람에서 한 번 더 확인하세요'(자료 출처 아래)
-  // 내용이 같으면 다시 그리지 않는다: 라이선스 전문에서 돌아올 때 누른 이름에 초점을 돌려주려면 그 링크가 그대로 있어야 한다
+  $("page-texts").hidden = sources;
+  // 내용이 같으면 다시 그리지 않는다(기록으로 돌아올 때 읽던 자리와 초점이 그대로 있게)
   const key = sources ? `sources ${state.semesterMeta.updated || ""}` : "licenses";
   if ($("page-list").dataset.key === key) return;
   $("page-list").dataset.key = key;
   const link = (href, text) => h("a", { href, target: "_blank", rel: "noopener" }, text);
-  // 스토어 앱은 고지문을 앱에 넣어 둔다(백엔드 build_app.py: licenses/, vendor/). 그 이름을 누르면 앱 안 화면에서 전문을 보인다(아래 '라이선스 전문')
-  const lic = (file, href, text) => (IN_APP ? h("a", { href, target: "_blank", rel: "noopener", "data-text": file }, text) : link(href, text));
-  const rows = sources ? [
-    ["과목", [link(CATALOG_URL, "서울대학교 수강편람"), state.semesterMeta.updated ? ` · ${asofLong(state.semesterMeta.updated)}` : ""]],
-    ["건물", "서울대학교 캠퍼스맵"],
-    ["길", link("https://moreadorecampus.com/", "캠퍼스 마법 지도")],
-    // 공공누리 제1유형: 온라인에서는 가능하면 출처 누리집으로 가는 링크를 준다(국토정보플랫폼. 10/5 디자인)
-    ["경사", [link(NGII_URL, "국토지리정보원 수치지형도"), " · 공공누리 제1유형"]],
-    ["지도", [link(NGII_URL, "국토지리정보원 수치지형도"), " · 공공누리 제1유형, ", link("https://www.openstreetmap.org/copyright", "© OpenStreetMap contributors"), " · ODbL"]],
-  ] : [
-    // 순서와 왼쪽 칸 이름은 디자인 규칙('화면과 동작'의 정보 화면, 10/22). 스토어 앱에는 앱의 바탕(Capacitor 와 그 안의 Apache Cordova, 안드로이드는 AndroidX)이
-    // 더 있다: 고지문을 함께 내야 하는 라이선스다(10/22 법무·백엔드). SNUTT 는 과목 검색 규칙을 따온 곳(search.js 머리의 고지와 같은 레포)
-    ["지도 표시", [lic("vendor/leaflet/LICENSE", "https://github.com/Leaflet/Leaflet/blob/main/LICENSE", "Leaflet"), " · BSD-2-Clause"]],
-    ["과목 검색", [lic("licenses/snutt.txt", "https://github.com/wafflestudio/snutt-timetable/blob/develop/LICENSE", "SNUTT"), " · MIT"]],
-    // 앱 실행 환경은 한 칸에 두 줄(안드로이드·iOS 같다)
-    IN_APP ? ["앱 실행 환경", [lic("licenses/capacitor.txt", "https://github.com/ionic-team/capacitor/blob/main/LICENSE", "Capacitor"), " · MIT", h("br"),
-      lic("licenses/cordova.txt", APACHE_URL, "Apache Cordova"), " · Apache-2.0"]] : null,
-    SHELL === "android" ? ["안드로이드", [lic("licenses/androidx.txt", APACHE_URL, "AndroidX"), " · Apache-2.0"]] : null,
-    ["글꼴", [lic("vendor/pretendard/LICENSE.txt", "https://github.com/orioncactus/pretendard/blob/main/LICENSE", "Pretendard"), " · SIL OFL 1.1"]],
-    ["로고 글꼴", [link("https://github.com/google/fonts/blob/main/ofl/fredoka/OFL.txt", "Fredoka"), " · SIL OFL 1.1"]],
-    ["지도 자료", [link("https://www.openstreetmap.org/copyright", "OpenStreetMap"), " · ODbL"]],
-    ["지도·경사 자료", [link("https://www.kogl.or.kr/info/licenseType1.do", "국토지리정보원 수치지형도"), " · 공공누리 제1유형"]],
-  ];
-  $("page-list").replaceChildren(...rows.filter(Boolean).map(([k, v]) => h("li", {}, h("span", { class: "k" }, k), h("span", { class: "v" }, v))));
+  const list = (rows) => $("page-list").replaceChildren(...rows.map(([k, v]) => h("li", {}, h("span", { class: "k" }, k), h("span", { class: "v" }, v))));
+  if (sources) {
+    $("page-texts").replaceChildren();
+    list([
+      ["과목", [link(CATALOG_URL, "서울대학교 수강편람"), state.semesterMeta.updated ? ` · ${asofLong(state.semesterMeta.updated)}` : ""]],
+      ["건물", "서울대학교 캠퍼스맵"],
+      ["길", link("https://moreadorecampus.com/", "캠퍼스 마법 지도")],
+      // 공공누리 제1유형: 온라인에서는 가능하면 출처 누리집으로 가는 링크를 준다(국토정보플랫폼. 10/5 디자인)
+      ["경사", [link(NGII_URL, "국토지리정보원 수치지형도"), " · 공공누리 제1유형"]],
+      ["지도", [link(NGII_URL, "국토지리정보원 수치지형도"), " · 공공누리 제1유형, ", link("https://www.openstreetmap.org/copyright", "© OpenStreetMap contributors"), " · ODbL"]],
+    ]);
+    return;
+  }
+  // 오픈소스 라이선스(10/22 밤 사용자: "라이센스는 앱 안에서 전문 쭉 작성해줘"): 위에 쓰는 것 목록, 그 아래 고지문 전문을 차례로 쭉.
+  // 전문이 있는 이름은 글자 그대로 두고(바로 아래에 전문이 있다), 없는 것(자료의 라이선스, Fredoka, 웹의 SNUTT·Pretendard)은 원문 링크
+  const oss = ossRows(), rows = [];
+  for (const r of oss) {
+    const v = [r.file ? h("span", { "data-lic": r.file }, r.name) : link(r.href, r.name), ` · ${r.lic}`];
+    if (r.k || !rows.length) rows.push([r.k, v]);
+    else rows[rows.length - 1][1].push(h("br"), ...v);
+  }
+  list(rows);
+  renderLicenseTexts(oss.filter((r) => r.file));
 }
 
-// ---- 라이선스 전문(스토어 앱). 고지문은 앱 안 서버(https://localhost)의 파일이라 Custom Tab 으로는 못 열어서, 읽어서 앱 안 화면에 보인다.
-// 못 읽으면(그 파일이 없는 앱 빌드) 원래 링크를 바깥으로 연다. 웹에는 이 파일들이 없어 이름이 지금처럼 바깥 링크다
+// ---- 라이선스 전문. 앱에 넣은 고지문을 읽어 목록 아래에 이름·라이선스 머리와 칸으로 차례로 보인다(앱 안 서버(https://localhost)의 파일이라
+// 인앱 브라우저로는 못 연다). 못 읽은 것(그 파일이 없는 앱 빌드)은 전문을 두지 않고 목록의 이름을 원문 링크로 바꾼다
 const licenseTexts = new Map();
-let textPage = { file: "", title: "" };
+async function renderLicenseTexts(list) {
+  const box = $("page-texts");
+  box.replaceChildren();
+  const texts = await Promise.all(list.map((r) => loadLicense(r.file).catch(() => null)));
+  if ($("page-list").dataset.key !== "licenses") return; // 읽는 사이 자료 출처로 바뀌었다
+  box.replaceChildren(...list.flatMap((r, i) => {
+    if (texts[i] === null) {
+      $("page-list").querySelector(`[data-lic="${r.file}"]`)?.replaceWith(h("a", { href: r.href, target: "_blank", rel: "noopener" }, r.name));
+      return [];
+    }
+    return [h("h2", { class: "section-title lic-title" }, r.name, h("span", { class: "count" }, r.lic)),
+      h("div", { class: "license-cards" }, licenseBlocks(texts[i]).map((b) => h("p", { class: "card license-text" }, b)))];
+  }));
+}
 async function loadLicense(file) {
   if (!licenseTexts.has(file)) {
     const r = await fetch(file);
@@ -4584,41 +4614,18 @@ function licenseBlocks(text) {
   }
   return blocks.map((b) => b.join("\n").trim()).filter(Boolean);
 }
-function renderText() {
-  $("text-title").textContent = textPage.title;
-  const text = licenseTexts.get(textPage.file);
-  if (text === undefined) { // 기록으로 다시 왔는데 아직 안 읽었으면 읽은 뒤에 그린다
-    $("text-body").replaceChildren();
-    loadLicense(textPage.file).then(() => { if (screen === "text") renderText(); }, () => null);
-    return;
-  }
-  $("text-body").replaceChildren(...licenseBlocks(text).map((b) => h("p", { class: "card license-text" }, b)));
-}
-$("page-list").addEventListener("click", async (e) => {
-  const a = e.target.closest("a[data-text]");
-  if (!a) return;
-  e.preventDefault();
-  e.stopPropagation(); // 바깥 링크로 여는 document 의 click(아래 '외부 링크')까지 가지 않게
-  try {
-    await loadLicense(a.dataset.text);
-  } catch {
-    capacitor?.Plugins?.Browser?.open({ url: a.href });
-    return;
-  }
-  go("text", { text: a.dataset.text, title: a.textContent });
-});
 
 // ---------------------------------------------------------------- 탭, 화면 이동과 뒤로 가기(디자인 규칙 '탭', '뒤로 가기')
-// 아래 탭 둘: 내 시간표(내 시간표 → 과목 추가·동선 → 전체 화면 지도)와 탐색(입력 → 결과 → 전체 화면 지도). 정보·자료 출처·라이선스 전문은 연 탭 안의
+// 아래 탭 둘: 내 시간표(내 시간표 → 과목 추가·동선 → 전체 화면 지도)와 탐색(입력 → 결과 → 전체 화면 지도). 정보·자료 출처·오픈소스 라이선스는 연 탭 안의
 // 다음 화면이다. 화면만 기록(pushState)을 남기고 탭 바꾸기, 요일 탭, 순위 선택, 시트는 남기지 않는다. 탭마다 쌓인 화면(stacks)과 스크롤 자리를 기억한다.
 // 기록은 늘 [켤 때 연 탭의 첫 화면, (다른 탭이면 그 탭의 첫 화면), 그 탭에 쌓인 화면 …]이다: 탭을 바꾸면 기록을 첫 화면까지 되감고(history.go) 새 탭의
 // 것을 다시 쌓는다. 그래서 탭의 첫 화면에서 뒤로 가면 켤 때 연 탭의 첫 화면, 거기서 뒤로 가면 앱을 나간다(안드로이드 원칙. 스토어 앱의 뒤로 가기는
 // native.js 가 열린 시트를 닫거나 history.back 을 부르고, 되돌아갈 기록이 없으면 앱을 내린다). 앱을 켜면 그 학기에 저장한 시간표가 있으면 내 시간표,
 // 없으면 탐색에서 시작한다. 결과 화면은 동선 화면(내 시간표)으로도 쓴다: 그 화면이 보는 결과(state.result·rank·day)는 탭마다 따로 둔다(useCtx)
 
-const VIEW_EL = { input: "view-input", mine: "view-mine", add: "view-add", result: "view-result", route: "view-result", map: "view-map", info: "view-info", page: "view-page", text: "view-text" };
+const VIEW_EL = { input: "view-input", mine: "view-mine", add: "view-add", result: "view-result", route: "view-result", map: "view-map", info: "view-info", page: "view-page" };
 const VIEW_ELS = [...new Set(Object.values(VIEW_EL))];
-const H1 = { input: "input-title", mine: "mine-title", add: "add-title", result: "result-title", route: "result-title", map: "map-title", info: "info-title", page: "page-title", text: "text-title" };
+const H1 = { input: "input-title", mine: "mine-title", add: "add-title", result: "result-title", route: "result-title", map: "map-title", info: "info-title", page: "page-title" };
 const ROOT = { mine: "mine", explore: "input" };
 const TAB_NAME = { mine: "내 시간표", explore: "탐색" };
 // 탭 아이콘 [선, 채운 판]. 채운 판의 뚫린 선(격자의 칸 선)은 알약 색(--tab-ind)으로 그린다(style.css)
@@ -4731,13 +4738,13 @@ function transition(apply, dir) {
 
 /** 화면을 보인다. dir: forward(새 화면) · back(기록을 되돌아옴) · tab(탭을 바꿈) · init(켤 때) */
 function showView(name, dir, extra = {}) {
+  if (!VIEW_EL[name]) name = ROOT[tab]; // 없어진 화면의 기록(10/22 밤까지 있던 라이선스 전문 화면 'text')
   if (((name === "result" || name === "map") && !state.result) || (name === "route" && !makeRoute())) name = ROOT[tab]; // 결과가 지워졌거나(학기를 바꿨다) 시간표가 비었다
   if (name !== "input" || screen === "result") cancelCompute(); // 결과 화면을 떠나면 이어 찾던 것도 멈춘다
   const from = screen;
   scrollOf[`${screenTab}:${from}`] = window.scrollY;
   if (from === "input") store.set("scroll", window.scrollY);
   if (name === "page") pageName = extra.page || pageName;
-  if (name === "text" && extra.text) textPage = { file: extra.text, title: extra.title };
   if (name === "add" && dir === "forward") addQ.value = ""; // 검색어는 탐색과 따로 두고 화면에 새로 들어올 때 비운다
   const apply = () => {
     for (const id of VIEW_ELS) {
@@ -4758,7 +4765,6 @@ function showView(name, dir, extra = {}) {
     if (name === "info") renderInfo();
     if (name === "map") renderFullMap();
     if (name === "page") renderPage();
-    if (name === "text") renderText();
     document.title = titleOf(name);
     if (from !== name) hideSnackbar();
     window.scrollTo(0, dir === "back" || dir === "tab" ? scrollOf[`${tab}:${name}`] || 0 : 0);

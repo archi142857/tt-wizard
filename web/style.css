@@ -289,7 +289,7 @@ a { color: var(--accent-text); }
 
 .view { max-width: var(--width-input); margin: 0 auto; padding: 0 var(--gutter-right) calc(var(--bottom-bar-h) + var(--space-6)) var(--gutter-left); }
 #view-result { max-width: var(--width-result); padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
-#view-info, #view-page, #view-text, #view-add { padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
+#view-info, #view-page, #view-add { padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
 
 /* 화면 전환(View Transitions): 결과·정보 화면은 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms).
    못 쓰는 브라우저와 동작 줄이기에서는 바로 바뀐다(app.js 가 전환을 건너뛴다) */
@@ -974,8 +974,10 @@ button.info-row:active, a.info-row:active, .pick-row:active { background: var(--
 .src .k { flex-shrink: 0; width: 4.5rem; color: var(--text3); }
 .src .v { flex: 1; min-width: 0; overflow-wrap: anywhere; word-break: keep-all; }
 .src a { color: var(--text); text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
-/* 라이선스 전문(스토어 앱): 고지문 그대로, 문단과 빈 줄은 살린다. 줄표만 있던 줄에서 칸(카드)을 나눈다(선을 긋지 않는다. 10/22 사용자) */
-.license-cards { display: grid; gap: var(--space-2); margin-top: var(--space-2); }
+/* 라이선스 전문: 오픈소스 라이선스 목록 아래에 고지문마다 이름·라이선스 머리(.section-title)와 칸을 차례로 쭉(10/22 밤 사용자: "라이센스는 앱 안에서
+   전문 쭉 작성해줘"). 고지문 그대로, 문단과 빈 줄은 살린다. 줄표만 있던 줄에서 칸(카드)을 나눈다(선을 긋지 않는다. 10/22 사용자) */
+.lic-title { flex-wrap: wrap; row-gap: 0; }
+.license-cards { display: grid; gap: var(--space-2); }
 .license-text { margin: 0; padding: var(--space-4); white-space: pre-line; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); overflow-wrap: anywhere; word-break: keep-all; }
 
 /* ---------------------------------------------------------------- 아래 탭 막대(디자인 규칙 '탭', 10/22 사용자): 내 시간표 · 탐색, 아이콘만.
@@ -1021,11 +1023,17 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
 @media (min-width: 68.75em) {
   :root { --tabbar-space: var(--safe-bottom); }
   .tabbar { display: none; }
-  .sidebar { position: fixed; top: 0; bottom: 0; left: 0; z-index: 20; display: flex; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; view-transition-name: sidebar; }
-  body { padding-left: var(--sidebar-w); --gutter-left: var(--space-8); --gutter-right: var(--space-8); }
-  /* 막대가 없으니 하단 바·스낵바는 화면 아래, 사이드바를 뺀 본문 영역 가운데(두 칸 화면의 하단 바는 칸 안에서 아래 space-6) */
-  .bottom-bar { left: var(--sidebar-w); bottom: 0; padding-bottom: calc(var(--space-3) + var(--safe-bottom)); }
-  .snackbar { left: calc(var(--sidebar-w) + var(--gutter-left)); }
+  /* 넓은 모니터(사이드바 + 본문 최대 폭 width-result = 1320px 보다 넓을 때)는 사이드바와 본문을 한 덩이(틀)로 화면 가운데에 둔다(10/22 밤 사용자: "지금 뭔가
+     균형이 안 맞음". 사이드바는 왼쪽 끝에 붙고 본문은 남은 자리 가운데라 1920 에서 사이드바와 본문 사이가 350px 가까이 비고 바깥 여백은 왼쪽 24 · 오른쪽 330 이었다).
+     틀 바깥 여백 --frame-pad 는 양쪽 같고 1320px 까지는 0 이다(69판 그림 그대로 사이드바가 왼쪽 끝). 틀은 가장 넓은 본문에 맞춰 두어 화면을 바꿔도 사이드바가
+     움직이지 않는다(좁은 화면 정보·자료 출처·과목 추가는 틀의 본문 칸 가운데). % 는 쓰는 곳의 기준 폭이다: body 여백은 html 폭, 화면에 붙은 것(fixed)은 화면 폭.
+     둘 다 세로 스크롤 막대를 뺀 폭이라 맞는다 */
+  body { --frame-pad: max(0px, (100% - var(--sidebar-w) - var(--width-result)) / 2);
+    padding-left: calc(var(--frame-pad) + var(--sidebar-w)); padding-right: var(--frame-pad); --gutter-left: var(--space-8); --gutter-right: var(--space-8); }
+  .sidebar { position: fixed; top: 0; bottom: 0; left: var(--frame-pad); z-index: 20; display: flex; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; view-transition-name: sidebar; }
+  /* 막대가 없으니 하단 바·스낵바는 화면 아래, 사이드바를 뺀 본문 영역(틀 안) 가운데(두 칸 화면의 하단 바는 칸 안에서 아래 space-6) */
+  .bottom-bar { left: calc(var(--frame-pad) + var(--sidebar-w)); right: var(--frame-pad); bottom: 0; padding-bottom: calc(var(--space-3) + var(--safe-bottom)); }
+  .snackbar { left: calc(var(--frame-pad) + var(--sidebar-w) + var(--gutter-left)); right: calc(var(--frame-pad) + var(--gutter-right)); }
   #view-input:not([hidden]) ~ .snackbar, #view-mine:not([hidden]) ~ .snackbar {
     right: max(var(--gutter-right), calc((100% - var(--sidebar-w) - var(--width-result)) / 2 + var(--gutter-right))); }
   /* 탭의 첫 화면: 상단 바 없이 본문은 위 space-4 부터, 두 칸도 거기에 붙는다 */
@@ -1192,9 +1200,10 @@ html[data-theme] .bottom-bar::before { inset: 0;
   html[data-theme] .input-right .bottom-bar::before, html[data-theme] .mine-right .bottom-bar::before { --band: calc(var(--cta-height) + var(--space-3) + var(--space-6) + var(--safe-bottom));
     -webkit-mask-image: linear-gradient(to top, #000 calc(var(--band) * 0.76), transparent var(--band));
     mask-image: linear-gradient(to top, #000 calc(var(--band) * 0.76), transparent var(--band)); }
-  /* 사이드바는 상단 바처럼 같은 자리의 무늬를 다시 그린다(눈이 뒤로 지나가지 않는다). 사이드바가 화면 왼쪽 위(0, 0)에 붙어 있어 제 바탕에 그려도
-     맨 뒤 무늬와 이어진다(제 안이 스크롤해도 바탕은 제자리). 워드마크는 흰 단색(아래 .wm-white) */
-  html[data-theme] .sidebar { background: var(--bg-pattern), var(--bg); }
+  /* 사이드바는 상단 바처럼 같은 자리의 무늬를 다시 그린다(눈이 뒤로 지나가지 않는다). 넓은 모니터에서는 틀과 함께 가운데로 들어오므로 무늬를 화면 기준으로
+     깐다(background-attachment: fixed. 맨 뒤 무늬와 점이 이어진다). 이것을 모르는 iPadOS Safari 는 1320px 넘는 가로 화면(12.9형)에서만 점이 몇 px 어긋난다.
+     워드마크는 흰 단색(아래 .wm-white) */
+  html[data-theme] .sidebar { background: var(--bg-pattern), var(--bg); background-attachment: fixed; }
 }
 html[data-theme] .view-map { background: var(--bg-pattern), var(--bg); }
 /* 전체 화면 지도의 번호표는 카드 면 위에(번호표·파선 견본이 지도에서 보던 색 그대로 보이게) */
