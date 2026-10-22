@@ -2,6 +2,7 @@
 
 import csv
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -155,6 +156,8 @@ def test_review_patch():
     keys = [(f["properties"]["building"], f["properties"]["no"]) for f in ents]
     assert len(keys) == len(set(keys))
     assert {f["properties"]["status"] for f in ents} <= {"confirmed", "moved", "added", "unverified", "unchecked", "suspect"}
+    # 현장에서 본 피처는 field = 본 날(YYYY-MM-DD). 카카오 근거를 현장 확인으로 바꿀 때 단다(data/graph_patch/README.md '현장 확인')
+    assert all(re.fullmatch(r"20\d\d-\d\d-\d\d", f["properties"]["field"]) for f in feats if "field" in f["properties"])
     at = {f"{b}#{no}": f["geometry"]["coordinates"] for (b, no), f in zip(keys, ents)}
     touched = {b for b, _ in keys}
     for r in _rows(DATA / "building_entrances.csv"):  # 손대지 않은 동의 출입구는 building_entrances.csv 그대로

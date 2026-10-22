@@ -4,6 +4,7 @@
   read_rows(path)                      CSV → dict 목록(BOM 이 있어도 된다). 파일이 없으면 []
   write_csv(path, rows)                dict 목록 → CSV. 엑셀이 한글을 읽도록 BOM 을 붙이고, 열은 처음 나온 차례로
   encode_polyline / decode_polyline    Google polyline(화면 web/js/engine.js 의 decodePolyline 과 같은 방식)
+  OSM_META                             OpenStreetMap 에서 받은 GeoJSON 의 머리 meta(출처와 ODbL)
 """
 
 from __future__ import annotations
@@ -11,6 +12,11 @@ from __future__ import annotations
 import csv
 import sys
 from pathlib import Path
+
+
+# OpenStreetMap 에서 온 자료는 ODbL 로만 낼 수 있고 파일에도 그렇게 적는다(ODbL 4.2). 저장소의 MIT(LICENSE)는 코드에만 걸린다
+OSM_META = {"source": "© OpenStreetMap contributors", "license": "ODbL 1.0",
+            "license_url": "https://opendatacommons.org/licenses/odbl/1-0/", "copyright": "https://www.openstreetmap.org/copyright"}
 
 
 def console_safe() -> None:

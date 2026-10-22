@@ -48,7 +48,7 @@ from pathlib import Path
 
 import numpy as np
 
-from common import console_safe
+from common import OSM_META, console_safe
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
@@ -75,6 +75,8 @@ ENT_FIELDS = ["building", "name", "entrance_no", "lat", "lon", "ground_m", "rel_
 WALK = {"footway", "path", "steps", "pedestrian", "service", "living_street", "residential", "unclassified",
         "tertiary", "secondary", "primary", "track", "cycleway", "road"}
 SOURCE_RANK = {"manual": 0, "osm-entrance": 1, "osm-path-join": 2, "osm-path-end": 3}
+# 출입구 자리는 OSM 에서 온다(entrance 노드, 보행로가 윤곽에 닿는 점) → building_entrances.geojson 머리에 ODbL
+ENT_META = {**OSM_META, "note": "고도(ground_m 등)는 국토지리정보원 수치지형도로 만든 DEM 에서 읽었다(공공누리 제1유형)"}
 
 
 # ---------------------------------------------------------------- 좌표
@@ -780,7 +782,7 @@ def estimate(buildings: dict[str, dict], fps: list[Footprint], dem: Dem, proj: L
     return out, ent_out
 
 
-def _write(rows: list[dict], fields: list[str], csv_path: Path) -> Path:
+def _write(rows: list[dict], fields: list[str], csv_path: Path, meta: dict | None = None) -> Path:
     csv_path.parent.mkdir(parents=True, exist_ok=True)
     with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
         w = csv.DictWriter(f, fieldnames=fields)
@@ -789,7 +791,8 @@ def _write(rows: list[dict], fields: list[str], csv_path: Path) -> Path:
     gj = csv_path.with_suffix(".geojson")
     feats = [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [float(r["lon"]), float(r["lat"])]},
               "properties": r} for r in rows if r["lat"]]
-    gj.write_text(json.dumps({"type": "FeatureCollection", "features": feats}, ensure_ascii=False), encoding="utf-8")
+    fc = {"type": "FeatureCollection", **({"meta": meta} if meta else {}), "features": feats}
+    gj.write_text(json.dumps(fc, ensure_ascii=False), encoding="utf-8")
     return gj
 
 
@@ -798,7 +801,7 @@ def write_outputs(rows: list[dict], csv_path: Path) -> Path:
 
 
 def write_entrances(rows: list[dict], csv_path: Path) -> Path:
-    return _write(rows, ENT_FIELDS, csv_path)
+    return _write(rows, ENT_FIELDS, csv_path, ENT_META)
 
 
 def main() -> int:

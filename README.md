@@ -231,6 +231,7 @@ web/                 정적 웹 화면: 과목 검색 → 시간표 · 동선 �
 app/                 스토어 앱 (Capacitor 8): android/, ios/ 네이티브 프로젝트, src/native.js(앱 연결), assets/icons/ — docs/app.md
 results/experiments/ 비교 실험 결과 (CSV, 그림, README.md 요약)
 docs/                계획·결정 사항, 방법 설명(elevation_method.md, travel_time_method.md, experiments.md, app.md, search.md, timetables.md, topo.md)
+licenses/            가져다 쓴 코드의 고지문(SNUTT, 앱에 넣는 Capacitor·AndroidX·Cordova). 앱 묶음에도 들어간다
 tests/               pytest
 ```
 
@@ -240,16 +241,29 @@ tests/               pytest
 - 수강신청 시스템·캠퍼스맵 API 호출은 최소한으로. 차단되면 로컬 수동 실행으로 전환.
 - 지도 타일은 쓰지 않고 바탕 지도를 직접 그린다(`docs/basemap.md`). 지도 위 출처 표기(© 국토지리정보원 · © OpenStreetMap) 필수.
 
-## 데이터 출처
+## 라이선스와 자료 조건
 
-- 도로 그래프·건물쌍 이동거리: 캠퍼스 마법 지도 (https://moreadorecampus.com/) — 비상업 공개 저장소 게시 허락을 받았다
-- 지면 고도·건물 윤곽·바탕 지도: 국토지리정보원 수치지형도 (국토정보플랫폼, 공공누리 제1유형). 원본은 저장소에 싣지 않는다(`docs/topo.md`)
-- 건물 윤곽·출입구·보행로: © OpenStreetMap contributors (ODbL)
-- 건물 번호·이름·좌표: 서울대학교 캠퍼스맵 (https://map.snu.ac.kr)
+`LICENSE`(MIT)는 이 저장소의 **코드에만** 걸린다. 자료는 출처마다 조건이 따로 있고, 이름·로고·아이콘은 라이선스를 주지 않는다.
+웹 화면이 받는 `web/data/`(Actions 가 아래 자료로 만든다)와 스토어 앱에 넣는 자료도 같은 조건을 따른다.
+
+| 무엇 | 출처 | 조건 |
+| --- | --- | --- |
+| 코드: `ttwizard/`, `scripts/`, `tests/`, `web/` 의 HTML·CSS·JS(`web/vendor/` 빼고), `app/`(아이콘 빼고), 가짜 예시 자료 `data/sample/` | 이 저장소 | MIT (`LICENSE`) |
+| `data/magicmap/` 의 받은 파일 셋(`roads_graph_updated.json`, `roads.geojson`, `building_pair_times.csv`) | [캠퍼스 마법 지도](https://moreadorecampus.com/) | 이 저장소에 비상업으로 게시하도록 허락받은 것이다. 다시 쓰려면 제공자의 허락이 필요하다. MIT 대상이 아니다(`data/magicmap/README.md`) |
+| 받은 그래프로 만든 것: `data/magicmap/` 의 나머지(`roads_graph_slope.json` 등), 그 위에서 계산한 `travel.csv`·`travel_slope.csv`·`route_stats.csv`·`route_paths.json`, `web/model/` 의 길 | 캠퍼스 마법 지도 + 이 저장소 | 받은 파일과 같게 다룬다. OSM·수치지형도에서 온 부분은 아래 조건도 따른다 |
+| OpenStreetMap 에서 온 것: `data/osm_*.geojson`, `building_entrances.*`(출입구 자리), `graph_patch/dorm.geojson`, `basemap.json` 의 초록·길 선·도로면(큰길 등급) 층 | © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors | [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). GeoJSON 은 파일 안 `meta`, `basemap.json` 은 층마다 `src_layers` 에도 적었다 |
+| 국토지리정보원 수치지형도에서 온 것: `basemap.json` 의 건물·도로면 모양·인도·물·등고선, 고도(`buildings_elevation.*`, 출입구·그래프 노드의 고도), 1:1,000 으로 그린 길·접속선(`graph_patch/gwanaksa.geojson`·`links.geojson`, `campus.geojson` 의 일부), `web/model/` 의 지형 | 국토지리정보원 수치지형도(1:5,000·1:1,000, 국토정보플랫폼) | 공공누리 제1유형(출처 표시). 원본은 저장소에 없다. 공간정보관리법의 절차가 따로 있다(`docs/topo.md`) |
+| 수강편람: `data/raw/`, `lectures.json`, `data/history/`, `data/changes/`, `stats.csv`, `buildings_history.csv` | 서울대학교 수강신청 시스템 강좌검색 | 서울대학교 자료. MIT 대상이 아니다 |
+| 건물 번호·이름·좌표: `buildings.csv`, `campus_buildings.csv` | [서울대학교 캠퍼스맵](https://map.snu.ac.kr) | 서울대학교 자료. MIT 대상이 아니다 |
+| 이름 `TT Wizard`, 로고·아이콘(`web/icons/`, `app/assets/icons/` 와 거기서 만든 앱 아이콘) | 이 저장소 | 라이선스를 주지 않는다(MIT 대상이 아니다) |
+| 가져다 쓴 코드: Leaflet·three.js(`web/vendor/`), SNUTT 의 값·규칙, 앱에 넣는 Pretendard·Capacitor·AndroidX·Cordova | 각 프로젝트 | 각자의 라이선스. `web/vendor/` 는 그 폴더의 `LICENSE`, 나머지 고지문은 `licenses/` |
+
+그 밖의 `data/` 파일은 위 자료로 계산한 것이라 그 자료의 조건을 따른다.
 
 ## 참고
 
 - [wafflestudio/snutt](https://github.com/wafflestudio/snutt) (MIT) — 수강편람 엑셀 엔드포인트, 파싱 규칙, 캠퍼스맵 API 활용을 참고했다.
 - [wafflestudio/snutt-timetable](https://github.com/wafflestudio/snutt-timetable) (MIT) — 과목 검색 규칙(줄임말, 학과 줄임, 특별 낱말)을 참고했다(`web/js/search.js`).
+  SNUTT 에서 가져온 값·규칙이 있는 파일 머리에 저작권 표시를 적었고, 고지 전문은 `licenses/snutt.txt`.
 - [Leaflet](https://leafletjs.com) 1.9.4 (BSD-2) — 웹 화면 지도 (`web/vendor/leaflet`).
 - [three.js](https://threejs.org) r128 (MIT) — 3D 모델링 (`web/vendor/three`).

@@ -1,0 +1,25 @@
+SNUTT — https://github.com/wafflestudio/snutt , https://github.com/wafflestudio/snutt-timetable
+이 저장소가 SNUTT 에서 가져온 값과 규칙: 수강편람 엑셀 요청 값·학기 코드·일정표 읽기(scripts/sugang_client.py),
+엑셀 파싱 규칙(ttwizard/parse_sugang.py), 캠퍼스맵 건물 검색 규칙(scripts/fetch_buildings.py), 과목 검색 규칙(web/js/search.js).
+
+MIT License
+
+Copyright (c) 2025 Wafflestudio
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

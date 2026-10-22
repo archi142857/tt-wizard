@@ -8,7 +8,8 @@
 강좌별 상세 팝업(cc101ajax)은 호출하지 않는다 — 강좌 수만큼 요청이 나가서 서버에 부담을 준다.
 SNUTT README의 경고대로 잦은 호출은 IP 차단을 받을 수 있으니 실행당 요청은 2~3회로 유지한다.
 
-※ 이 파일은 실제 서버에 붙여 본 적이 없는 초안이다. 처음 돌릴 때 응답을 확인하고 고쳐 쓸 것.
+엑셀 요청 값(EXCEL_PARAMS)·학기 코드(SEMESTER_CODES)·일정표 셀렉터는 SNUTT 에서 가져왔다.
+SNUTT(https://github.com/wafflestudio/snutt): Copyright (c) 2025 Wafflestudio, MIT License. 가져온 부분의 고지 전문은 licenses/snutt.txt
 """
 
 from __future__ import annotations

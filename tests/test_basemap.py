@@ -66,6 +66,29 @@ def test_basemap_file():
     assert all(z % 5 == 0 for z, _ in d["contour"]["minor"]) and all(z % 25 == 0 for z, _ in d["contour"]["index"])
     # OSM 숲·잔디 자료가 레포에 있으면 어림이 아니라 그것으로 칠했어야 한다
     assert d["green_approx"] is not (ROOT / "data" / "osm_basemap.geojson").exists()
+    _check_layer_sources(d)
+
+
+def _check_layer_sources(d):
+    """층마다 출처(src_layers): 모든 층이 한 번씩, OSM 을 쓴 층(초록·길 선·큰길 등급)은 ODbL 이 적힌 묶음에."""
+    named = [n for g in d["src_layers"] for n in g["layers"]]
+    have = [f"{sec}.{k}" for sec in ("area", "line", "contour") for k in d[sec]]
+    assert sorted(named) == sorted(have)
+    by = {n: g["src"] for g in d["src_layers"] for n in g["layers"]}
+    osm = [f"line.{k}" for k in d["line"]] + [f"area.{k}" for k in d["area"] if k.startswith("road")]
+    osm += [] if d["green_approx"] else ["area.green"]
+    assert all("OpenStreetMap" in by[n] and "ODbL" in by[n] for n in osm)
+    assert all("OpenStreetMap" not in by[n] for n in ("area.building", "area.water", "contour.minor") if n in by)
+
+
+@pytest.mark.parametrize("name", ["osm_basemap", "osm_buildings", "osm_entrances", "osm_paths", "building_entrances"])
+def test_osm_files_say_odbl(name):
+    """OSM 에서 온 GeoJSON 은 파일 안에도 출처와 ODbL 을 적는다(저장소의 MIT 는 코드에만 걸린다)."""
+    path = ROOT / "data" / f"{name}.geojson"
+    if not path.exists():
+        pytest.skip(f"{path.name} 없음")
+    meta = json.loads(path.read_text(encoding="utf-8"))["meta"]
+    assert meta["license"] == "ODbL 1.0" and "OpenStreetMap" in meta["source"]
 
 
 # ---------------------------------------------------------------- 만들기 (작은 가짜 도엽)
@@ -134,6 +157,8 @@ def test_build_from_small_sheet(tmp_path):
     ]}), encoding="utf-8")
     d = bm.build(topo=topo, osm_basemap=tmp_path / "없음.geojson", osm_paths=paths, campus=campus)
     assert d["green_approx"] is True and d["area"]["green"]
+    _check_layer_sources(d)
+    assert "area.green" in d["src_layers"][0]["layers"] and "수치지형도" in d["src_layers"][0]["src"]  # 어림한 초록은 수치지형도로 만든 것
     assert len(d["area"]["building"]) == 3 and d["area"]["water"] and d["area"]["walk"]
     assert d["area"].get("road_trunk") and d["area"].get("road")  # 큰길과 겹친 도로면만 큰길 색
     assert {k for k in d["line"]} == {"road", "walk", "steps"}  # 실내 통로는 빠진다
