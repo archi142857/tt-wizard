@@ -262,8 +262,9 @@ tests/               pytest
 
 ## 참고
 
-- [wafflestudio/snutt](https://github.com/wafflestudio/snutt) (MIT) — 수강편람 엑셀 엔드포인트, 파싱 규칙, 캠퍼스맵 API 활용을 참고했다.
-- [wafflestudio/snutt-timetable](https://github.com/wafflestudio/snutt-timetable) (MIT) — 과목 검색 규칙(줄임말, 학과 줄임, 특별 낱말)을 참고했다(`web/js/search.js`).
+- [wafflestudio/snutt](https://github.com/wafflestudio/snutt) (MIT, 예전 이름 snutt-timetable) — 수강편람 엑셀 엔드포인트, 파싱 규칙, 캠퍼스맵 API 활용,
+  과목 검색 규칙(줄임말, 학과 줄임, 특별 낱말. `web/js/search.js`)을 참고했다.
   SNUTT 에서 가져온 값·규칙이 있는 파일 머리에 저작권 표시를 적었고, 고지 전문은 `licenses/snutt.txt`.
+  라이선스가 없는 SNUTT 저장소(snutt-v2·snutt-android·snutt-web·snutt-webclient-v2)에서는 가져오지 않는다.
 - [Leaflet](https://leafletjs.com) 1.9.4 (BSD-2) — 웹 화면 지도 (`web/vendor/leaflet`).
 - [three.js](https://threejs.org) r128 (MIT) — 3D 모델링 (`web/vendor/three`).

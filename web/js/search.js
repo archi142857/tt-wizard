@@ -1,6 +1,6 @@
 // TT Wizard 과목 검색 — 백엔드 세션. 화면(app.js)은 searchCourses 결과를 그리고 강조만 한다.
 //
-// SNUTT(wafflestudio/snutt-timetable·snutt-v2 의 강의 검색)를 따른 것:
+// SNUTT(wafflestudio/snutt, 예전 이름 snutt-timetable 의 강의 검색)를 따른 것:
 //   - 띄어쓰기로 나눈 낱말을 모두 만족하는 과목만(그리고). '글쓰기 나민애', '컴공과 자료구조'
 //   - 한글 낱말은 글자 사이를 건너뛰어도 맞는다(줄임말). '대글' → 대학 글쓰기, '컴개실' → 컴퓨터의 개념 및 실습, '선대' → 선형대수학
 //   - 학과 줄임: 학과 이름 처음(낱말 머리)부터 건너뛰며 맞추고, '과'·'부' 로 끝나면 그 글자는 뺀다. '컴공과' → 컴퓨터공학부, '국문과' → 국어국문학과.
@@ -36,7 +36,7 @@
 //   normKey(text) → 비교용 글자 열(최근 검색어에서 같은 말을 하나로 칠 때)
 // 테스트: tests/test_search.py (tests/search_runner.mjs 를 node 로 부른다)
 //
-// 위 'SNUTT 를 따른 것'의 출처: SNUTT (https://github.com/wafflestudio/snutt-timetable), MIT License
+// 위 'SNUTT 를 따른 것'의 출처: SNUTT (https://github.com/wafflestudio/snutt , 예전 이름 snutt-timetable), MIT License
 //   Copyright (c) 2025 Wafflestudio
 //   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 //   files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy,

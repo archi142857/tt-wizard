@@ -12,8 +12,13 @@ const travel = TravelMatrix.fromCampus(campus, "slope");
 const out = {};
 const NOW = new Date("2026-10-22T10:00:00Z");
 const keys = (t) => t.items.map(T.itemKey);
+// 작은 가짜 편람: course("A", 학점, [[강좌번호, [[요일, 시작, 끝, 건물], ...]], ...])
+const sec = (id, no, meetings) => ({ key: `${id}-${no}`, courseId: id, no, name: id, instructor: "교수" + no, status: "",
+  meetings: meetings.map(([day, start, end, building]) => ({ day, start, end, building, room: "" })) });
+const course = (id, credit, secs) => ({ id, name: "과목 " + id, dept: "", credit, cls: "교양", program: "학사", sections: secs.map(([no, ms]) => sec(id, no, ms)) });
+const later = (c, mins) => ({ ...c, sections: c.sections.map((x) => ({ ...x, meetings: x.meetings.map((m) => ({ ...m, start: m.start + mins, end: m.end + mins })) })) });
 
-// 1) 이름: 새로 만들 때 겹치면 번호, 복사본은 늘 번호(이미 있는 번호 다음), 길이·빈 이름·같은 이름
+// 1) 이름: 새로 만들 때 겹치면 (2)부터 번호, 복사본은 늘 번호(이미 있는 번호 다음), 길이·빈 이름·같은 이름
 {
   let list = [];
   const a = T.createTimetable(list, "2026-2", { title: "  내   시간표 ", now: NOW });
@@ -28,22 +33,26 @@ const keys = (t) => t.items.map(T.itemKey);
   out.titles = {
     names: list.map((x) => x.title),
     primary: list.map((x) => !!x.primary),
-    problems: [T.titleProblem("   ", list), T.titleProblem("내 시간표 (1)", list), T.titleProblem("내 시간표 (1)", list, c.id), T.titleProblem("새 이름", list)],
+    problems: [T.titleProblem("   ", list), T.titleProblem("내 시간표 (2)", list), T.titleProblem("내 시간표 (2)", list, b.id), T.titleProblem("새 이름", list)],
     rename: T.renameTimetable(b, "내 시간표", list).problem || null,
     renamed: T.renameTimetable(b, "  가을  계획 ", list, NOW).t.title,
-    long: [long.length, long.endsWith(" (1)")],
+    long: [long.length, long.endsWith(" (2)")],
     full: T.createTimetable(Array.from({ length: T.PER_SEMESTER_MAX }, (_, k) => ({ id: "x" + k, title: "t" + k })), "2026-2") === null,
   };
   const afterDelete = T.deleteTimetable(list, a.id);
   out.titles.primaryAfterDelete = afterDelete.filter((x) => x.primary).length;
   out.titles.setPrimary = T.setPrimary(list, d.id).map((x) => !!x.primary);
+  // 이름을 안 주면 '시간표 n'(비는 가장 작은 번호). 빈칸뿐인 이름도 안 준 것으로
+  let plain = [];
+  for (let k = 0; k < 3; k++) plain.push(T.createTimetable(plain, "2026-2", { title: k === 1 ? "   " : "", now: NOW }));
+  plain = plain.filter((x) => x.title !== "시간표 2");
+  out.titles.plain = plain.map((x) => x.title);
+  out.titles.nextTitle = [T.nextTitle([]), T.nextTitle(plain), T.nextTitle(list), T.createTimetable(plain, "2026-2", { now: NOW }).title];
+  out.titles.plainCopy = T.copyTimetable(plain[0], plain, NOW).title;
 }
 
-// 2) 항목 넣기: 겹치면 묻고(넣지 않음), force 면 겹친 것을 빼고 넣는다. 같은 과목 다른 분반은 바꿔 넣는다. 색은 비는 가장 작은 번호
+// 2) 항목 넣기: 겹치면 묻고(넣지 않음), force 면 겹친 것을 빼고 넣는다(뺀 것은 removed). 같은 과목 다른 분반은 바꿔 넣는다. 색은 비는 가장 작은 번호
 {
-  const sec = (id, no, meetings) => ({ key: `${id}-${no}`, courseId: id, no, name: id, instructor: "교수" + no, status: "",
-    meetings: meetings.map(([day, start, end, building]) => ({ day, start, end, building, room: "" })) });
-  const course = (id, credit, secs) => ({ id, name: "과목 " + id, dept: "", credit, cls: "교양", program: "학사", sections: secs.map(([no, ms]) => sec(id, no, ms)) });
   const A = course("A", 3, [["001", [[0, 540, 615, "301"], [2, 540, 615, "301"]]], ["002", [[1, 540, 615, "43-1"]]]]);
   const B = course("B", 2, [["001", [[0, 600, 690, "83"]]]]); // A-001 의 월 9:00~10:15 와 겹친다
   const C = course("C", 1, [["001", [[4, 780, 870, "71"]]]]);
@@ -52,14 +61,16 @@ const keys = (t) => t.items.map(T.itemKey);
   t = T.addItem(t, T.sectionItem(C, C.sections[0]), { now: NOW }).t;
   const ask = T.addItem(t, T.sectionItem(B, B.sections[0]), { now: NOW });
   const forced = T.addItem(t, T.sectionItem(B, B.sections[0]), { force: true, now: NOW });
-  const swapped = T.addItem(t, T.sectionItem(A, A.sections[1]), { now: NOW }).t; // 같은 과목 다른 분반: 바꿔 넣고 색은 그대로
+  const swap = T.addItem(t, T.sectionItem(A, A.sections[1]), { now: NOW }); // 같은 과목 다른 분반: 바꿔 넣고 색은 그대로
+  const swapped = swap.t;
   const custom = T.customItem({ title: "  동아리  ", meetings: [{ day: 5, start: 600, end: 720, building: "" }, { day: 9, start: 1, end: 2, building: "" }] });
   const withCustom = T.addItem(t, custom, { now: NOW }).t;
   const clashCustom = T.addItem(t, T.customItem({ title: "약속", meetings: [{ day: 4, start: 800, end: 900, building: "" }] }), { now: NOW });
   out.items = {
-    askOverlap: ask.overlaps, askUnchanged: ask.t === t,
+    askOverlap: ask.overlaps, askUnchanged: ask.t === t, askRemoved: ask.removed,
     forced: keys(forced.t), forcedColor: forced.t.items.find((it) => it.course === "B").color,
-    swapped: keys(swapped), swappedColor: swapped.items.find((it) => it.course === "A").color,
+    forcedOverlaps: forced.overlaps, forcedRemoved: forced.removed.map(T.itemKey), forcedUndo: keys(t),
+    swapped: keys(swapped), swappedColor: swapped.items.find((it) => it.course === "A").color, swappedRemoved: swap.removed.map(T.itemKey),
     colors: withCustom.items.map((it) => it.color),
     customTitle: custom.title, customMeetings: custom.meetings,
     clashCustom: clashCustom.overlaps,
@@ -69,6 +80,12 @@ const keys = (t) => t.items.map(T.itemKey);
     cleared: "memo" in T.updateItem(T.updateItem(withCustom, custom.custom, { memo: "메모" }, NOW), custom.custom, { memo: undefined }, NOW).items.find((it) => it.custom),
     updatedAt: forced.t.updated,
   };
+  // 색은 여덟 가지(0~7): 다 쓰면 가장 적게 쓰인 색, 빈 색이 생기면 그 색
+  let many = T.createTimetable([], "2026-2", { now: NOW });
+  for (let k = 0; k < 10; k++) many = T.addItem(many, T.customItem({ title: "일정" + k, meetings: [{ day: k % 5, start: 480 + 60 * Math.floor(k / 5), end: 530 + 60 * Math.floor(k / 5), building: "" }] }), { now: NOW }).t;
+  const gap = T.removeItem(many, many.items[3].custom, NOW);
+  out.items.colorsMany = many.items.map((it) => it.color);
+  out.items.colorsGap = T.addItem(gap, T.customItem({ title: "새 일정", meetings: [{ day: 6, start: 600, end: 660, building: "" }] }), { now: NOW }).t.items.at(-1).color;
 }
 
 // 3) 탐색 결과 저장: 같은 분반·수업으로 저장되고, checkRoute 가 search 와 같은 비용·경로를 낸다. 같은 결과는 이미 저장됨
@@ -91,6 +108,7 @@ const keys = (t) => t.items.map(T.itemKey);
     other: res.ranked.length > 1 ? T.findSaved(list, res.ranked[1], byId) : null,
     source: t.source,
     from: t.from,
+    colors: t.items.map((it) => it.color),
   };
   // 사용자가 강의실을 정해 둔 분반(탐색에 넘긴 수업이 편람과 다르다) → own 으로 남고, 같은 시간·건물 분반은 alts 로
   const s = ev.sections[0];
@@ -122,6 +140,7 @@ const keys = (t) => t.items.map(T.itemKey);
     own: r(tOwn, movedMap),
     gone: r(t, goneMap),
     ack: r(T.acknowledge(t, movedMap, NOW), movedMap),
+    ackOpts: r(T.acknowledge(t, movedMap, { now: NOW }), movedMap),
     ackSame: T.acknowledge(t, byId, NOW) === t,
     base: s.meetings.map((m) => m.start),
     // 편람이 옮긴 시간과 겹치는 일정: 지금 편람(byId)으로 보면 겹치고, 적어 둔 값으로 보면 안 겹친다
@@ -134,6 +153,27 @@ const keys = (t) => t.items.map(T.itemKey);
   };
 }
 
+// 4-2) 항목 하나만 본 것으로(key: 항목 시트를 닫을 때), 사라진 까닭(missing: 과목째 / 분반만)
+{
+  const A = course("A", 3, [["001", [[0, 540, 615, "301"]]], ["002", [[1, 540, 615, "301"]]]]);
+  const B = course("B", 2, [["001", [[2, 600, 690, "83"]]]]);
+  const map = new Map([["A", A], ["B", B]]);
+  let t = T.createTimetable([], "2026-2", { now: NOW });
+  t = T.addItem(t, T.sectionItem(A, A.sections[0]), { now: NOW }).t;
+  t = T.addItem(t, T.sectionItem(B, B.sections[0]), { now: NOW }).t;
+  t = T.addItem(t, T.customItem({ title: "운동", meetings: [{ day: 4, start: 600, end: 660, building: "" }] }), { now: NOW }).t;
+  const moved = new Map([["A", later(A, 30)], ["B", later(B, 30)]]);
+  const one = T.acknowledge(t, moved, { key: "A-001", now: NOW });
+  const st = (tt, m) => T.reconcile(tt, m).map((x) => [x.key, x.state, x.missing]);
+  out.reconcile2 = {
+    one: st(one, moved),
+    oneSameObj: T.acknowledge(one, moved, { key: "A-001", now: NOW }) === one,
+    none: st(t, map),
+    noCourse: st(t, new Map([["A", A]])),
+    noSection: st(t, new Map([["A", { ...A, sections: [A.sections[1]] }], ["B", B]])),
+  };
+}
+
 // 5) 기기에 두기: 그대로 돌아오고, 어긋난 것은 버리고, 새 판은 지우지 않고 그대로 돌려준다. 대표는 하나만
 {
   const c = courses[0], s = c.sections[0];
@@ -143,7 +183,7 @@ const keys = (t) => t.items.map(T.itemKey);
   const raw = JSON.parse(JSON.stringify(T.serialize([t])));
   const back = T.parseList(raw, "2026-2");
   const newer = { v: 99, id: "tz", sem: "2026-2", title: "새 판", whatever: [1, 2] };
-  const junk = [null, 3, { id: 5 }, { id: "ok", title: "", primary: true, items: [{ course: 1 }, { custom: "c1", title: "", meetings: [[7, 1, 2, "", ""], [1, 600, 700, "301", ""]] }, { course: "X", no: "001", base: [[0, 900, 800, "", ""]], color: -1 }] }, { ...t, id: "dup", primary: true }];
+  const junk = [null, 3, { id: 5 }, { id: "ok", title: "", primary: true, items: [{ course: 1 }, { custom: "c1", title: "", meetings: [[7, 1, 2, "", ""], [1, 600, 700, "301", ""]], color: 9 }, { course: "X", no: "001", base: [[0, 900, 800, "", ""]], color: -1 }] }, { ...t, id: "dup", primary: true }];
   const parsed = T.parseList([...raw, newer, ...junk], "2026-2");
   out.storage = {
     same: JSON.stringify(back) === JSON.stringify([t]),
@@ -152,6 +192,11 @@ const keys = (t) => t.items.map(T.itemKey);
     ok: parsed.find((x) => x.id === "ok"),
     primaries: parsed.filter((x) => x.primary).map((x) => x.id),
     notArray: T.parseList({ a: 1 }, "2026-2"),
+    // 첫 탭 고르기: 읽은 값 그대로 보고 parseList 와 같은 답
+    has: [[raw, true], [[newer], false], [[newer, ...raw], true], [[{ id: "nov", title: "판 없음" }], true], [junk.slice(0, 3), false], [[], false], [null, false], [{ a: 1 }, false]]
+      .map(([v, want]) => T.hasTimetables(v) === want && T.hasTimetables(v) === T.parseList(v, "2026-2").filter((x) => !x._newer).length > 0),
+    colorMode: ["cls", "item", undefined, null, "xyz", 3].map(T.colorMode),
+    keys: T.STORE_KEYS,
   };
 }
 
