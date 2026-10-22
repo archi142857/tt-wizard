@@ -31,9 +31,10 @@ import datetime as dt
 import gzip
 import json
 import re
-import sys
 import warnings
 from pathlib import Path
+
+from common import console_safe, encode_polyline
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
@@ -61,52 +62,6 @@ GREEN_KIND = {  # OSM 태그 → 층
     ("landuse", "recreation_ground"): "grass", ("natural", "grassland"): "grass", ("natural", "heath"): "grass",
     ("leisure", "pitch"): "pitch", ("leisure", "track"): "pitch", ("leisure", "golf_course"): "grass",
 }
-
-
-# ---------------------------------------------------------------- 좌표 부호화 (Google polyline)
-
-def _enc_num(v: int) -> str:
-    v = ~(v << 1) if v < 0 else v << 1
-    out = []
-    while v >= 0x20:
-        out.append(chr((0x20 | (v & 0x1F)) + 63))
-        v >>= 5
-    out.append(chr(v + 63))
-    return "".join(out)
-
-
-def encode_latlon(latlon, prec: int) -> str:
-    """[(lat, lon), ...] → polyline 문자열. 소수 prec 자리(6 = 약 0.1 m, 5 = 약 1 m). 같은 점이 이어지면 하나로."""
-    f = 10 ** prec
-    out, plat, plon, first = [], 0, 0, True
-    for lat, lon in latlon:
-        ilat, ilon = round(lat * f), round(lon * f)
-        if not first and ilat == plat and ilon == plon:
-            continue
-        out.append(_enc_num(ilat - plat) + _enc_num(ilon - plon))
-        plat, plon, first = ilat, ilon, False
-    return "".join(out)
-
-
-def decode(text: str, prec: int) -> list[tuple[float, float]]:
-    """polyline → [(lat, lon), ...] (테스트·점검용. 화면의 decodePolyline 과 같은 방식)."""
-    out, i, lat, lon, f = [], 0, 0, 0, 10 ** prec
-    while i < len(text):
-        vals = []
-        for _ in range(2):
-            shift = result = 0
-            while True:
-                b = ord(text[i]) - 63
-                i += 1
-                result |= (b & 0x1F) << shift
-                shift += 5
-                if b < 0x20:
-                    break
-            vals.append(~(result >> 1) if result & 1 else result >> 1)
-        lat += vals[0]
-        lon += vals[1]
-        out.append((lat / f, lon / f))
-    return out
 
 
 # ---------------------------------------------------------------- 읽기
@@ -225,8 +180,8 @@ class Builder:
                 for q in polys(p.simplify(tol, preserve_topology=True)):
                     if q.area < amin:
                         continue
-                    item = [prec, encode_latlon(self.proj.latlon(q.exterior.coords), prec)]
-                    item += [encode_latlon(self.proj.latlon(r.coords), prec) for r in q.interiors if abs(_ring_area(r.coords)) >= amin]
+                    item = [prec, encode_polyline(self.proj.latlon(q.exterior.coords), prec, dedupe=True)]
+                    item += [encode_polyline(self.proj.latlon(r.coords), prec, dedupe=True) for r in q.interiors if abs(_ring_area(r.coords)) >= amin]
                     out.append(item)
         return out
 
@@ -238,7 +193,7 @@ class Builder:
             for l in lines(g.intersection(area)):
                 l = l.simplify(tol)
                 if l.length >= min_len:
-                    out.append([kind, encode_latlon(self.proj.latlon(l.coords), 5)])
+                    out.append([kind, encode_polyline(self.proj.latlon(l.coords), 5, dedupe=True)])
         return out
 
 
@@ -371,7 +326,7 @@ def build(topo: Path = TOPO, osm_basemap: Path = OSM_BASEMAP, osm_paths: Path = 
                 for seg in lines(part):
                     seg = seg.simplify(tol)
                     if seg.length >= 8:
-                        contour[kind].append([z, encode_latlon(proj.latlon(seg.coords), 5)])
+                        contour[kind].append([z, encode_polyline(proj.latlon(seg.coords), 5, dedupe=True)])
     data["contour"] = contour
     return data
 
@@ -397,9 +352,7 @@ def sizes(data: dict) -> list[tuple[str, int, float]]:
 
 
 def main() -> int:
-    for stream in (sys.stdout, sys.stderr):
-        if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+    console_safe()
     ap = argparse.ArgumentParser()
     ap.add_argument("--topo", type=Path, default=TOPO)
     ap.add_argument("--out", type=Path, default=OUT)

@@ -15,7 +15,7 @@
 
 from __future__ import annotations
 
-from functools import lru_cache
+from functools import cache
 
 from .models import Course
 from .travel import TravelMatrix
@@ -62,7 +62,7 @@ def tsp_lower_bound(courses: list[Course], travel: TravelMatrix, home: str) -> f
 
     full = (1 << n) - 1
 
-    @lru_cache(maxsize=None)
+    @cache
     def dp(mask: int, last: int) -> float:
         # mask: 방문한 과목 집합(비트 i-1 = 과목 i), last: 마지막 과목(1..n)
         if mask == (1 << (last - 1)):

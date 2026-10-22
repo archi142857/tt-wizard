@@ -1,19 +1,16 @@
 """과목 검색(web/js/search.js): 줄임말·초성 섞기·치는 중인 글자·한영 자판·특별 낱말과 줄 세우기. node 가 없으면 건너뛴다.
 
-작은 가짜 과목 목록으로 순서를 확인하고, 실제 자료(data/lectures.json)로는 빠르기와 규칙(그리고·정렬·강조 범위)만 본다.
+작은 가짜 과목 목록으로 순서를 확인하고, 실제 자료(가장 최근 정규 학기)로는 빠르기와 규칙(그리고·정렬·강조 범위)만 본다.
 """
 
 import json
 import shutil
 import subprocess
-import sys
 from pathlib import Path
 
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "scripts"))
-import export_web as ew  # noqa: E402
 
 pytestmark = pytest.mark.skipif(shutil.which("node") is None, reason="node 없음")
 
@@ -234,11 +231,12 @@ def test_course_number_and_misc(found):
 
 
 def test_real_data_speed_and_rules(tmp_path):
-    """실제 과목(data/lectures.json): 한 글자 칠 때마다 검색해도 빠른가, 여러 낱말은 각 낱말을 모두 만족하나, 강조 범위가 글자 안인가."""
-    lectures = ROOT / "data" / "lectures.json"
-    if not lectures.exists():
-        pytest.skip("data/lectures.json 없음")
-    courses = ew.export_courses(lectures)["courses"]
+    """실제 과목: 한 글자 칠 때마다 검색해도 빠른가, 여러 낱말은 각 낱말을 모두 만족하나, 강조 범위가 글자 안인가.
+    지금 학기(data/lectures.json)는 계절학기면 과목이 수백 개뿐이라, 보관해 둔 가장 최근 정규 학기(data/history/<연도>-1·2)를 쓴다."""
+    regular = sorted(p for p in (ROOT / "data" / "history").glob("*.json") if p.stem.endswith(("-1", "-2")))
+    if not regular:
+        pytest.skip("data/history 에 정규 학기가 없음")
+    courses = json.loads(regular[-1].read_text(encoding="utf-8"))["courses"]
     multi = ["대학 글쓰기", "컴공 자구", "글쓰기 교양", "물리학 2", "AI 3학점"]
     words = sorted({w + " " for q in multi for w in q.split()[:-1]} | {q.split()[-1] for q in multi})
     # 끝의 둘은 결과가 없어 받침을 떼어 다시 찾는 검색어(가장 오래 걸리는 경우)

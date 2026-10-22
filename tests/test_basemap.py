@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import basemap as bm  # noqa: E402
+from common import decode_polyline, encode_polyline  # noqa: E402
 
 FILE = ROOT / "data" / "basemap.json"
 
@@ -32,7 +33,7 @@ def _campus_bounds():
 def test_polyline_round_trip():
     pts = [(37.459012, 126.952345), (37.459013, 126.952345), (37.4601, 126.9499), (37.45, 126.96)]
     for prec in (5, 6):
-        back = bm.decode(bm.encode_latlon(pts, prec), prec)
+        back = decode_polyline(encode_polyline(pts, prec, dedupe=True), prec)
         assert len(back) == len(pts) - (1 if prec == 5 else 0)  # 소수 5자리에서는 처음 두 점이 같아져 하나로
         for (a, b), (c, d) in zip(back, [p for i, p in enumerate(pts) if not (prec == 5 and i == 1)]):
             assert abs(a - c) <= 0.6 / 10 ** prec and abs(b - d) <= 0.6 / 10 ** prec
@@ -55,7 +56,7 @@ def test_basemap_file():
         for item in items:
             prec, rings = item[0], item[1:]
             assert prec in (5, 6) and rings and all(isinstance(r, str) and r for r in rings), k
-            for lat, lon in bm.decode(rings[0], prec)[::7]:
+            for lat, lon in decode_polyline(rings[0], prec)[::7]:
                 assert s - 1e-4 <= lat <= n + 1e-4 and w - 1e-4 <= lon <= e + 1e-4, k
                 n_pts += 1
     assert n_pts > 1000

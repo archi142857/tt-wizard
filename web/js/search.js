@@ -54,7 +54,7 @@ const isSyllable = (c) => c >= "가" && c <= "힣";
 const isCons = (c) => c.length === 1 && CHO.includes(c); // 초성으로 쓰는 홑·쌍자음
 const hasHangul = (s) => /[가-힣ㄱ-ㅣ]/.test(s);
 
-function parts(ch) {
+function decompose(ch) {
   const code = ch.charCodeAt(0) - 0xac00;
   return { cho: CHO[Math.floor(code / 588)], jung: JUNG[Math.floor((code % 588) / 28)], jong: JONG[code % 28] };
 }
@@ -67,7 +67,7 @@ function jamoOf(ch) {
   let v = JAMO.get(ch);
   if (v === undefined) {
     if (isSyllable(ch)) {
-      const { cho, jung, jong } = parts(ch);
+      const { cho, jung, jong } = decompose(ch);
       v = cho + (SPLIT[jung] || jung) + (SPLIT[jong] || jong);
     } else v = ch;
     JAMO.set(ch, v);
@@ -131,7 +131,7 @@ function queryField(word, typing) {
   if (typing && q.n && isSyllable(c)) {
     q.last = q.n - 1;
     q.jamo = jamoOf(c);
-    const { cho, jung, jong } = parts(c);
+    const { cho, jung, jong } = decompose(c);
     if (jong && CHO.includes(jong)) { q.splitA = compose(cho, jung); q.splitB = jong; } // '쓱' → 쓰 + ㄱ
     else if (SPLIT[jong]) { q.splitA = compose(cho, jung, SPLIT[jong][0]); q.splitB = SPLIT[jong][1]; } // '닭' → 달 + ㄱ
   }
@@ -450,7 +450,7 @@ function looseReadings(w, cap = 12, strong = false) {
   chars.forEach((ch, i) => {
     if (!isSyllable(ch)) return;
     if (strong && !(i + 1 < chars.length && (isCons(chars[i + 1]) || CLUSTER[chars[i + 1]]))) return;
-    const { cho, jung, jong } = parts(ch);
+    const { cho, jung, jong } = decompose(ch);
     if (!jong) return;
     const sp = CLUSTER[jong];
     if (sp) spots.push({ i, alts: [compose(cho, jung, sp[0]) + sp[1], compose(cho, jung) + sp] });

@@ -1,6 +1,5 @@
 """건물 고도·출입구 파이프라인 테스트 (네트워크 없이). DEM은 기울어진 평면을 가짜로 만들어 쓴다."""
 
-import csv
 import json
 import sys
 from pathlib import Path
@@ -15,6 +14,7 @@ import building_elevation as be  # noqa: E402
 import dem_from_contours as dfc  # noqa: E402
 import fetch_campus_buildings as fcb  # noqa: E402
 import fetch_osm_footprints as fof  # noqa: E402
+from common import read_rows  # noqa: E402
 
 # rasterio 1.4 안쪽 코드가 affine 3.0에서 예고된 `*` 곱을 아직 써서 나는 경고. 우리 코드와 무관해서 가린다.
 pytestmark = pytest.mark.filterwarnings("ignore:Use `@` matmul:PendingDeprecationWarning")
@@ -224,14 +224,14 @@ def test_load_buildings_fills_missing_coords(tmp_path):
 
 
 def test_write_outputs(tmp_path):
-    row = {k: "" for k in be.FIELDS}
+    row = dict.fromkeys(be.FIELDS, "")
     row.update(building="75-1", name="제3학생식당", lat="37.459000", lon="126.952000", first_floor_est_m="120.3")
     gj = be.write_outputs([row], tmp_path / "out.csv")
     assert (tmp_path / "out.csv").read_bytes().startswith(b"\xef\xbb\xbf")  # 엑셀용 BOM
-    rows = list(csv.DictReader(open(tmp_path / "out.csv", encoding="utf-8-sig")))
+    rows = read_rows(tmp_path / "out.csv")
     assert rows[0]["building"] == "75-1"
     assert json.loads(gj.read_text(encoding="utf-8"))["features"][0]["geometry"]["coordinates"] == [126.952, 37.459]
-    ent = {k: "" for k in be.ENT_FIELDS}
+    ent = dict.fromkeys(be.ENT_FIELDS, "")
     ent.update(building="75-1", lat="37.459", lon="126.952", floor_est="1층")
     egj = be.write_entrances([ent], tmp_path / "ent.csv")
     assert json.loads(egj.read_text(encoding="utf-8"))["features"][0]["properties"]["floor_est"] == "1층"

@@ -53,6 +53,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import building_elevation as be  # noqa: E402
 import graph_patch as gp  # noqa: E402
+from common import console_safe, read_rows  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
@@ -147,7 +148,7 @@ def entrance_list(entrances: Path, patch_files, skip=()) -> tuple[list[dict], di
         if p.get("role") == "entrance_link" and g.get("type") == "LineString":
             curated.append(tuple(map(float, g["coordinates"][0][:2])))
     skip = set(skip)
-    rows = [r for r in gp._rows(entrances) if r.get("lat") and r.get("lon") and r["building"] not in skip]
+    rows = [r for r in read_rows(entrances) if r.get("lat") and r.get("lon") and r["building"] not in skip]
     have_csv = {r["building"] for r in rows}
     out, skipped = [], {"reported": sorted(reported), "curated": []}
     opts = {}  # replace 출입구 (동, lon, lat) → 번호(no)와 접속선 조건(max_links·slack·clear)
@@ -413,7 +414,7 @@ def build(graph_path: Path = gp.GRAPH, entrances: Path = gp.ENTRANCES, topo: Pat
             if si not in per or dd < per[si][0]:
                 per[si] = (dd, cell)
         chosen = []
-        for dd, cell, si in sorted((v[0], v[1], si) for si, v in per.items()):
+        for _, cell, si in sorted((v[0], v[1], si) for si, v in per.items()):
             u, v = near[si]
             A, B = nxy[u], nxy[v]
             cx, cy = grid.xy(*cell)
@@ -483,9 +484,7 @@ def build(graph_path: Path = gp.GRAPH, entrances: Path = gp.ENTRANCES, topo: Pat
 
 
 def main(argv: list[str] | None = None) -> int:
-    for stream in (sys.stdout, sys.stderr):
-        if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+    console_safe()
     ap = argparse.ArgumentParser()
     ap.add_argument("-o", "--output", default=str(OUT))
     ap.add_argument("--patch-dir", default=str(gp.PATCH_DIR), help="다른 패치 파일(길·출입구)을 읽을 폴더")

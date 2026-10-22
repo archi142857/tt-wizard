@@ -42,12 +42,13 @@ import csv
 import json
 import math
 import re
-import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
+
+from common import console_safe
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
@@ -266,10 +267,6 @@ def closest_on_ring(px: float, py: float, xy: np.ndarray) -> tuple[float, tuple[
     return closest_on_segs(px, py, np.stack([xy[:-1], xy[1:]], axis=1))
 
 
-def dist_to_ring(px: float, py: float, xy: np.ndarray) -> float:
-    return closest_on_ring(px, py, xy)[0]
-
-
 def _dist_pts_segs(pts: np.ndarray, segs: np.ndarray) -> np.ndarray:
     """점마다 선분 모음까지의 최단 거리."""
     a, ab = segs[:, 0][None], (segs[:, 1] - segs[:, 0])[None]
@@ -485,11 +482,6 @@ def segment_samples(segs: np.ndarray, step: float) -> tuple[np.ndarray, np.ndarr
     return np.asarray(pts, float), np.asarray(wts, float)
 
 
-def perimeter_samples(xy: np.ndarray, step: float) -> tuple[np.ndarray, np.ndarray]:
-    """둘레를 step 이하 조각으로 나눠 각 조각 가운데 점과 그 조각 길이(가중치)."""
-    return segment_samples(np.stack([xy[:-1], xy[1:]], axis=1), step)
-
-
 def circle_samples(px: float, py: float, radius: float, n: int = 36) -> tuple[np.ndarray, np.ndarray]:
     ang = np.linspace(0, 2 * np.pi, n, endpoint=False)
     pts = np.column_stack([px + radius * np.cos(ang), py + radius * np.sin(ang)])
@@ -673,7 +665,7 @@ def _entrance_rows(b: str, name: str, cands: list[Cand], dem: Dem, proj: LocalPr
     ground = dem.sample(lons, lats)
     rows = []
     for c, lon, lat, g in zip(cands, lons, lats, ground):
-        r = {k: "" for k in ENT_FIELDS}
+        r = dict.fromkeys(ENT_FIELDS, "")
         r.update(building=b, name=name, lat=f"{lat:.6f}", lon=f"{lon:.6f}", kind=c.kind, source=c.source,
                  osm_id=c.osm_id, osm_level=c.osm_level, floor_checked=c.floor_checked, note=c.note)
         if not np.isnan(g):
@@ -708,7 +700,7 @@ def estimate(buildings: dict[str, dict], fps: list[Footprint], dem: Dem, proj: L
     out, ent_out = [], []
     for b in sorted(buildings, key=building_key):
         info = buildings[b]
-        row = {k: "" for k in FIELDS}
+        row = dict.fromkeys(FIELDS, "")
         row.update(building=b, name=info["name"])
         if lectures is not None:
             row["lecture_building"] = "Y" if b in lectures else "N"
@@ -810,9 +802,7 @@ def write_entrances(rows: list[dict], csv_path: Path) -> Path:
 
 
 def main() -> int:
-    for stream in (sys.stdout, sys.stderr):  # cmd에서 로그를 파일로 저장할 때 cp949에 없는 글자가 있어도 멈추지 않게
-        if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+    console_safe()  # cmd 에서 로그를 파일로 남길 때 cp949 에 없는 글자가 있어도 멈추지 않게
     ap = argparse.ArgumentParser()
     ap.add_argument("--dem", nargs="+", default=[str(DEM_DIR)], help="DEM 파일이나 폴더 (기본 data/dem)")
     ap.add_argument("--dem-crs", default=None, help="DEM 좌표계를 직접 지정 (예: EPSG:5186)")

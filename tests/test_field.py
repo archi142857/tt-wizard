@@ -27,7 +27,7 @@ def test_parse_pair():
 
 
 def test_route_line_reverses_stored_direction():
-    from slope_travel import encode_polyline
+    from common import encode_polyline
 
     paths = {"302|GATE": encode_polyline([(37.44879, 126.9522), (37.4662, 126.949)])}
     fwd = fv.route_line(paths, "302", "GATE")

@@ -62,7 +62,7 @@ class TravelMatrix:
     misses: set[tuple[str, str]] = field(default_factory=set)  # 추정으로 채운 쌍 (보고서용)
 
     @classmethod
-    def load(cls, buildings_csv: str | Path, travel_csv: str | Path | None = None, **kw) -> "TravelMatrix":
+    def load(cls, buildings_csv: str | Path, travel_csv: str | Path | None = None, **kw) -> TravelMatrix:
         tm = cls(buildings=load_buildings(buildings_csv), **kw)
         if travel_csv and Path(travel_csv).exists():
             with open(travel_csv, newline="", encoding="utf-8") as f:
@@ -88,7 +88,7 @@ class TravelMatrix:
         est = self.estimate(a, b)
         return self.default_minutes if est is None else est
 
-    def closure(self, ids) -> "TravelMatrix":
+    def closure(self, ids) -> TravelMatrix:
         """ids 사이를 다른 지점을 거쳐 가는 경우까지 본 최단 시간(Floyd–Warshall)을 표로 가진 새 행렬.
 
         출입구가 여러 곳인 건물은 한쪽 출입구로 들어가 다른 쪽으로 나가는 지름길 구실을 해서, 건물별

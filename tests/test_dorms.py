@@ -189,7 +189,7 @@ def test_campus_export_has_dorms():
     dorms = dict(campus["dorms"])
     assert set(dorms) == set(TRAVEL) | set(LABELS) and dorms["919A"] == "학부" and dorms["931"] == "가족"
     for label in LABELS:  # 화면이 건물 번호로 그리지 않게 기숙사 동 목록에는 남는다: 좌표는 있고 이동시간 지점은 아니다
-        name, lat, lon = campus["buildings"][label]
+        _name, lat, lon = campus["buildings"][label]
         assert lat and lon and label not in campus["ids"] and label == "919"
     assert campus["homes"] == [["GATE", "정문"], ["919A", "기숙사"]]  # 화면 차례: 정문 · 기숙사 · 다른 건물. 기숙사는 처음 919A동
     assert campus["buildings"]["906"][0] == "(관악사)학부 생활관"  # 이름은 기숙사 동 목록이 캠퍼스맵 목록(대학원 생활관)보다 앞선다

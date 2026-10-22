@@ -7,7 +7,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Iterable
+from collections.abc import Iterable
 
 DAY_KO = "월화수목금토일"
 DAY_INDEX = {ch: i for i, ch in enumerate(DAY_KO)}
@@ -38,7 +38,7 @@ class Meeting:
     def day_ko(self) -> str:
         return DAY_KO[self.day]
 
-    def overlaps(self, other: "Meeting") -> bool:
+    def overlaps(self, other: Meeting) -> bool:
         """같은 요일에 시간이 겹치면 True. 끝나는 시각 == 시작 시각은 겹침 아님."""
         return self.day == other.day and self.start < other.end and other.start < self.end
 
@@ -96,7 +96,7 @@ class Section:
         """분반 표기: 061(나민애). 교수가 없으면 061(교수 미정). 웹 화면(app.js 의 sectionLabel)과 같다."""
         return f"{self.section_no}({(self.instructor or '').strip() or '교수 미정'})"
 
-    def conflicts_with(self, other: "Section") -> bool:
+    def conflicts_with(self, other: Section) -> bool:
         return any(a.overlaps(b) for a in self.meetings for b in other.meetings)
 
 

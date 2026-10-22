@@ -44,7 +44,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import export_web  # noqa: E402
-from slope_travel import decode_polyline  # noqa: E402
+from common import console_safe, decode_polyline, write_csv  # noqa: E402
 from ttwizard.parse_sugang import sections_from_json  # noqa: E402
 
 DATA = ROOT / "data"
@@ -215,7 +215,7 @@ def check(path: Path, routes_csv: Path | None, out: Path, figures: bool = True) 
     by_walker: dict[str, list[dict]] = {}
     for t in trials:
         by_walker.setdefault(t["walker"], []).append(t)
-    for w, ts in by_walker.items():
+    for ts in by_walker.values():
         v0 = statistics.median(t["v0"] for t in ts)
         sp = statistics.median(t["speed"] for t in ts)
         for t in ts:
@@ -746,16 +746,6 @@ def track(items: list[str], out: Path, measurements: Path | None = None, dem_arg
     write_gps_readme(out / "README.md", items, summary, summaries, figs, append=route_summary is not None)
     return summary
 
-def write_csv(path: Path, rows: list[dict]) -> None:
-    if not rows:
-        return
-    fields = list(dict.fromkeys(k for r in rows for k in r))
-    with open(path, "w", newline="", encoding="utf-8-sig") as f:
-        w = csv.DictWriter(f, fieldnames=fields)
-        w.writeheader()
-        w.writerows(rows)
-
-
 def rel(path: Path) -> str:
     try:
         return path.resolve().relative_to(ROOT).as_posix()
@@ -913,9 +903,7 @@ def draw(out: Path, trials: list[dict], routes: list[dict]) -> list[str]:
 # ---------------------------------------------------------------- 실행
 
 def main(argv: list[str] | None = None) -> int:
-    for stream in (sys.stdout, sys.stderr):
-        if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+    console_safe()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("suggest", help="잴 만한 구간 후보")

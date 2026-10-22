@@ -21,9 +21,10 @@ import json
 import re
 import shutil
 import subprocess
-import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+from common import console_safe
 
 ROOT = Path(__file__).resolve().parent.parent
 WEB = ROOT / "web"
@@ -117,9 +118,7 @@ def build(web: Path = WEB, out: Path = OUT, remote: str = REMOTE, tag: str | Non
 
 
 def main(argv: list[str] | None = None) -> int:
-    for stream in (sys.stdout, sys.stderr):
-        if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+    console_safe()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--remote", default=REMOTE, help="앱이 자료를 새로 받는 주소")
     ap.add_argument("-o", "--output", default=str(OUT))

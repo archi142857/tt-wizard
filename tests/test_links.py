@@ -60,7 +60,7 @@ def test_shared_door_node():
     att = r.attach(*_ll(20, 40))
     assert set(att) == {r.ids.index(door)} and r.is_door(*_ll(20, 40))
     res = r.routes({"D": [tuple(_ll(20, 40))], "N": [tuple(_ll(100, 60))]})
-    s, _, geom = res[("D", "N")]
+    s, _, _geom = res[("D", "N")]
     assert float(s[-1]) == pytest.approx(20 + 80, abs=0.05)  # 북쪽 접속선 → 동서 길 동쪽 끝
 
 
@@ -74,7 +74,7 @@ def test_router_uses_linked_entrances_only():
     pts = {"D": [tuple(_ll(10, 150)), tuple(_ll(25, 150))],  # 두 번째 출입구는 접속선 없음(동쪽 길 5 m 옆)
            "N": [tuple(_ll(30, 200))]}
     res = r.routes(pts)
-    s, _, geom = res[("D", "N")]
+    s, _, _geom = res[("D", "N")]
     assert r.fallback == ["N"]
     assert float(s[-1]) == pytest.approx(10 + 150 + 30 + 200, abs=0.05)  # 서쪽 출입구로만: 접속 10 + 아래로 150 + 30 + 위로 200
 
@@ -94,7 +94,7 @@ def test_link_search_goes_around_wall():
     start = grid.rc(5.0, 10.0)
     found, prev = el.search(block, target, start, 200, 10, set())
     assert found
-    d, cell, _ = min(found)
+    _d, cell, _ = min(found)
     cells = [cell]
     while cells[-1] in prev:
         cells.append(prev[cells[-1]])
@@ -149,7 +149,7 @@ def test_links_avoid_buildings():
     pytest.importorskip("shapely")
     pytest.importorskip("shapefile")
     pytest.importorskip("pyproj")
-    from shapely.geometry import LineString, Point, shape
+    from shapely.geometry import Point, shape
     from shapely.ops import transform
     from shapely.strtree import STRtree
 
@@ -469,11 +469,11 @@ def test_faster_route_goes_around_a_hill():
     assert short[0] is short[1] and short[0][3] == pytest.approx(200)
     up, down, _ = r.round_trip(*short[0][:3])
     assert up > there + 60 and down > there + 60  # 언덕길은 어느 방향으로도 1분 넘게 느리다
-    s, z, xy = r.routes(ends)[("A", "B")]
+    s, z, _xy = r.routes(ends)[("A", "B")]
     assert float(s[-1]) == pytest.approx(230) and float(np.ptp(z)) == pytest.approx(0)
     picked = r.pick(*(r.access(ends[x])[0] for x in "AB"))  # 한 쌍만 찾아도 같은 경로
     assert picked[0][1] == go[1] and picked[0][3] == pytest.approx(230)
-    flat = st.Router(_sloped(pts, {i: 100.0 for i in pts}, links), PROJ).best_paths(ends)[("A", "B")]
+    flat = st.Router(_sloped(pts, dict.fromkeys(pts, 100.0), links), PROJ).best_paths(ends)[("A", "B")]
     assert flat[0] is flat[1] and flat[0][3] == pytest.approx(200)
 
 
@@ -508,11 +508,11 @@ def test_stairs_use_stair_speed():
     table = r.best_paths(ends)
     go, back = table[("A", "B")]
     assert go is back and go[3] == pytest.approx(40)
-    up, down, L = r.round_trip(*go[:3])
+    up, down, _L = r.round_trip(*go[:3])
     assert up == pytest.approx(40 / 1.1 * (1 + st.STAIRS_UP * 0.5)) and down == pytest.approx(40 / 1.1 * (1 + st.STAIRS_DOWN * 0.5))
     assert r.stairs_spans(*go[:3]) == [(0.0, 40.0)]
     # 계단 40 m 다음에 평지 50 m: 앞 40 m 만 계단
-    ds, grade, on, s, z = r.sections(*table[("A", "C")][0][:3])
+    ds, _grade, on, s, _z = r.sections(*table[("A", "C")][0][:3])
     assert float(s[-1]) == pytest.approx(90) and float(ds[on].sum()) == pytest.approx(40) and on[:20].all() and not on[20:].any()
     old = st.Router(g, PROJ, stairs=False)
     go, back = old.best_paths(ends)[("A", "B")]

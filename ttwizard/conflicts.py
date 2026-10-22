@@ -34,7 +34,3 @@ class ConflictMatrix:
         """분반 i가 지금까지 고른 분반들과 충돌하지 않으면 True."""
         ci = self.conflicts[i]
         return not any(j in ci for j in chosen)
-
-    @property
-    def n_pairs_conflicting(self) -> int:
-        return sum(len(s) for s in self.conflicts) // 2

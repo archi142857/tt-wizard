@@ -15,7 +15,7 @@ from pathlib import Path
 
 from .bound import tsp_lower_bound
 from .evaluate import Weights
-from .models import Course, group_into_courses, min_to_hm
+from .models import Course, group_into_courses
 from .parse_sugang import location_stats, parse_sugang_excel, sections_from_json, sections_to_json
 from .search import search
 from .travel import TravelMatrix
@@ -26,6 +26,15 @@ SAMPLE = ROOT / "data" / "sample"
 
 def _load_travel(args) -> TravelMatrix:
     return TravelMatrix.load(args.buildings, args.travel)
+
+
+def _save_json(result, travel: TravelMatrix, home: str, path: str | None) -> None:
+    if not path:
+        return
+    from .export import export_results
+
+    export_results(result, travel, home, path)
+    print(f"\nJSON 저장: {path}")
 
 
 def _print_result(result, travel: TravelMatrix, home: str, top: int) -> None:
@@ -59,11 +68,7 @@ def cmd_demo(args) -> int:
     result.lower_bound = tsp_lower_bound(courses, travel, home)
     print("샘플 데이터 (가짜 강좌·근사 좌표) — 실제 수강편람으로 바꾸면 결과가 달라집니다.\n")
     _print_result(result, travel, home, args.top)
-    if args.json:
-        from .export import export_results
-
-        export_results(result, travel, home, args.json)
-        print(f"\nJSON 저장: {args.json}")
+    _save_json(result, travel, home, args.json)
     return 0
 
 
@@ -109,11 +114,7 @@ def cmd_search(args) -> int:
     result = search(courses, travel, args.home, top_k=args.top, weights=w)
     result.lower_bound = tsp_lower_bound(courses, travel, args.home)
     _print_result(result, travel, args.home, args.top)
-    if args.json:
-        from .export import export_results
-
-        export_results(result, travel, args.home, args.json)
-        print(f"\nJSON 저장: {args.json}")
+    _save_json(result, travel, args.home, args.json)
     return 0
 
 
