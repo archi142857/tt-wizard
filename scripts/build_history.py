@@ -20,6 +20,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import export_web  # noqa: E402
+from common import console_safe  # noqa: E402
 from ttwizard.parse_sugang import parse_sugang_excel, sections_to_rows  # noqa: E402
 
 DATA = ROOT / "data"
@@ -38,9 +39,7 @@ def write_semester(label: str, rows: list[dict], out: Path = OUT, updated: str =
 
 
 def main(argv: list[str] | None = None) -> int:
-    for stream in (sys.stdout, sys.stderr):
-        if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+    console_safe()
     ap = argparse.ArgumentParser()
     ap.add_argument("--all", action="store_true", help="이미 있는 학기도 다시 만든다")
     ap.add_argument("--raw", default=str(RAW))

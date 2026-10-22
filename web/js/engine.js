@@ -142,6 +142,75 @@ export function evaluate(sections, travel, home, w = WEIGHTS) {
   return ev;
 }
 
+/**
+ * search 가 조합마다 비용만 잴 때 쓰는 준비물(costOf 가 읽는다).
+ *   n, tables: 이번 탐색에 나오는 지점에 번호를 매겨(0번이 집) 행렬마다 이동시간을 n×n 표로(Map·문자열 열쇠 없이 읽게)
+ *   meet[과목][분반]: 수업마다 {d: 요일 칸, start, end, b: 지점 번호(강의실 미정이면 -1)}
+ *   days: 요일 칸마다 빈 배열(costOf 가 다시 쓴다). 요일 칸은 나오는 요일을 작은 것부터 센 차례라 evaluate 의 요일 순서와 같다
+ */
+function costTables(courses, home, matrices) {
+  const ids = [home], at = new Map([[home, 0]]);
+  const dayList = [...new Set(courses.flatMap((c) => c.sections.flatMap((s) => s.meetings.map((m) => m.day))))].sort((a, b) => a - b);
+  const dayAt = new Map(dayList.map((d, k) => [d, k]));
+  const meet = courses.map((c) => c.sections.map((s) => s.meetings.map((m) => {
+    let b = -1;
+    if (m.building) {
+      b = at.get(m.building);
+      if (b === undefined) { b = ids.push(m.building) - 1; at.set(m.building, b); }
+    }
+    return { d: dayAt.get(m.day), start: m.start, end: m.end, b };
+  })));
+  const n = ids.length;
+  const tables = matrices.map((tm) => {
+    if (!tm) return null;
+    const misses = new Set(tm.misses); // 표를 채우느라 묻는 쌍은 '없는 쌍' 기록에 남기지 않는다(evaluate 가 실제로 쓴 쌍만)
+    const M = new Float64Array(n * n);
+    for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) M[i * n + j] = tm.minutes(ids[i], ids[j]);
+    tm.misses = misses;
+    return M;
+  });
+  return { n, meet, tables, days: dayList.map(() => []) };
+}
+
+const byTime = (x, y) => x.start - y.start || x.end - y.end;
+
+/**
+ * 고른 분반들의 수업(list = [[수업, ...], ...])으로 evaluate 와 같은 비용을 잰다. 경로는 만들지 않는다.
+ * evaluate 와 같은 차례(요일 순, 그날 시각 순)로 더하므로 같은 수가 나온다.
+ */
+function costOf(ct, M, list, w) {
+  const { n, days } = ct;
+  for (const ms of days) ms.length = 0;
+  for (const ms of list) for (const m of ms) days[m.d].push(m);
+  let travel = 0, late = 0, gap = 0, campusDays = 0;
+  for (const ms of days) {
+    if (!ms.length) continue;
+    campusDays++;
+    if (ms.length > 1) ms.sort(byTime);
+    let prev = 0, prevEnd = 0, placed = false, spare = 0;
+    for (const m of ms) {
+      if (m.b < 0) { // 강의실 미정: evaluate 와 같다
+        if (placed) spare += m.start - prevEnd;
+        prevEnd = m.end;
+        continue;
+      }
+      const t = M[prev * n + m.b];
+      travel += t;
+      if (placed) {
+        const slack = spare + m.start - prevEnd - t;
+        if (slack < 0) late += -slack;
+        else gap += slack;
+      }
+      prev = m.b;
+      prevEnd = m.end;
+      placed = true;
+      spare = 0;
+    }
+    travel += M[prev * n];
+  }
+  return w.travel * travel + w.late * late + w.campusDay * campusDays + w.gap * gap;
+}
+
 // ---------------------------------------------------------------- 탐색 (search.py)
 
 function overlaps(a, b) {
@@ -271,12 +340,32 @@ export function search(courses, travel, home, { topK = 5, weights = WEIGHTS, use
     for (const c of courses) for (const s of c.sections) for (const b of sectionBuildings(s)) ids.add(b);
     boundTravel = travel.closure([...ids].sort());
   }
+  // 조합마다 비용만 잴 때는 evaluate 대신 costOf(경로를 만들지 않아 몇 배 빠르다). 상위에 드는 조합만 evaluate 로 경로까지 만든다
+  const ct = costTables(courses, home, [travel, boundTravel]);
+  const chosenMeet = []; // chosen 의 수업들(ct.meet)
   // kept: 지금까지의 상위 topK 개 {q, seq, ev}. 가장 나쁜 것(비용이 큰 것, 같으면 늦게 찾은 것)이 맨 앞에 오는 힙
   const kept = [];
   let seq = 0;
   let worstQ = topK >= 1 ? Infinity : -Infinity; // topK 개가 찼을 때 그중 가장 나쁜 비용. 이보다 낮아야 들어온다
   const worse = (a, b) => a.q > b.q || (a.q === b.q && a.seq > b.seq);
   const chosen = [];
+  // 겹침은 미리 세어 둔다: 깊이 d 의 i 번째 분반을 고르면 못 고르게 되는 뒤 깊이 분반들(비트 offs[e] + j).
+  // 고를 때마다 OR 해서 깊이마다 '앞에서 고른 것과 겹치는 분반'을 들고 내려간다(분반 하나를 볼 때 비트 하나만 본다)
+  const offs = [];
+  let nBits = 0;
+  for (const n of lens) { offs.push(nBits); nBits += n; }
+  const W = (nBits + 31) >>> 5;
+  const confMask = order.map((ci, d) => courses[ci].sections.map((s) => {
+    const mask = new Uint32Array(W);
+    for (let e = d + 1; e < order.length; e++) {
+      const ss = courses[order[e]].sections;
+      for (let j = 0; j < ss.length; j++) {
+        if (conflicts(s, ss[j])) { const b = offs[e] + j; mask[b >>> 5] |= 1 << (b & 31); }
+      }
+    }
+    return mask;
+  }));
+  const blockedAt = order.map(() => new Uint32Array(W));
   // 점심 조건: 분반마다 점심 시간대와 겹치는 수업 [요일, 시작, 끝, ...](없으면 null), 요일마다 지금 가지에서 고른 그런 수업들.
   // 수업을 더 넣어 비는 시간이 늘지는 않으니, 넣자마자 그 요일을 보고 점심이 안 나오면 그 가지를 버린다
   const L = R && R.lunch;
@@ -319,18 +408,19 @@ export function search(courses, travel, home, { topK = 5, weights = WEIGHTS, use
       if (t - lastTick >= progressMs) { lastTick = t; onProgress(done(depth)); }
     }
     if (depth === order.length) {
-      const ev = evaluate(chosen, travel, home, weights);
       stats.leaves++;
-      const q = costKey(ev.cost);
-      if (q < worstQ) keep(ev, q); // 비용이 같으면 먼저 찾은 것이 남는다
+      const q = costKey(costOf(ct, ct.tables[0], chosenMeet, weights));
+      if (q < worstQ) keep(evaluate(chosen, travel, home, weights), q); // 비용이 같으면 먼저 찾은 것이 남는다
       return;
     }
     const sections = courses[order[depth]].sections;
+    const meets = ct.meet[order[depth]];
     const lunches = lunchOf && lunchOf[order[depth]];
+    const blocked = blockedAt[depth], o = offs[depth];
     for (let i = 0; i < sections.length; i++) {
       pos[depth] = i;
       const s = sections[i];
-      if (chosen.some((c) => conflicts(c, s))) { stats.prunedConflict++; continue; }
+      if (blocked[(o + i) >>> 5] & (1 << ((o + i) & 31))) { stats.prunedConflict++; continue; }
       const hits = lunches && lunches[i];
       if (hits) {
         for (let h = 0; h < hits.length; h += 3) (busy[hits[h]] || (busy[hits[h]] = [])).push(hits[h + 1], hits[h + 2]);
@@ -339,12 +429,21 @@ export function search(courses, travel, home, { topK = 5, weights = WEIGHTS, use
         if (!ok) { leave(hits); stats.prunedRule++; continue; }
       }
       chosen.push(s);
-      if (useBound && kept.length >= topK) {
-        const partial = evaluate(chosen, boundTravel, home, weights);
-        if (costKey(partial.cost) >= worstQ) { stats.prunedBound++; chosen.pop(); if (hits) leave(hits); continue; }
+      chosenMeet.push(meets[i]);
+      if (useBound && kept.length >= topK && costKey(costOf(ct, ct.tables[1], chosenMeet, weights)) >= worstQ) {
+        stats.prunedBound++;
+        chosen.pop();
+        chosenMeet.pop();
+        if (hits) leave(hits);
+        continue;
+      }
+      if (depth + 1 < order.length) {
+        const next = blockedAt[depth + 1], cm = confMask[depth][i];
+        for (let w = 0; w < W; w++) next[w] = blocked[w] | cm[w];
       }
       backtrack(depth + 1);
       chosen.pop();
+      chosenMeet.pop();
       if (hits) leave(hits);
     }
   }

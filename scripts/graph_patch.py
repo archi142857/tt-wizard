@@ -37,7 +37,6 @@ dorm.geojson 만들기 (build)
 from __future__ import annotations
 
 import argparse
-import csv
 import json
 import math
 import re
@@ -49,6 +48,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import building_elevation as be  # noqa: E402
+from common import console_safe, read_rows  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
@@ -80,13 +80,6 @@ PATCH_NOTE = ("src = ttwizard 인 노드·엣지: tt-wizard 가 data/graph_patch
               "실제로 없다고 본 길(건물을 지나는 선, 공사 구역)이고 그 밖의 값은 받은 그대로다")
 
 
-def _rows(path: Path) -> list[dict]:
-    if not path or not Path(path).exists():
-        return []
-    with open(path, newline="", encoding="utf-8-sig") as f:
-        return list(csv.DictReader(f))
-
-
 def _features(path: Path) -> list[dict]:
     return json.loads(Path(path).read_text(encoding="utf-8")).get("features", []) if Path(path).exists() else []
 
@@ -115,7 +108,7 @@ def patch_entrances(paths) -> dict[str, list[tuple[float, float]]]:
 
 def label_only(path: Path = DORMS) -> set[str]:
     """기숙사 동 목록에서 travel = N 인 동: 지도에 번호만 남기고 이동시간·출입구는 쓰지 않는다(919 → 919A~D 네 동이 대신한다)."""
-    return {r["building"].strip() for r in _rows(path) if (r.get("travel") or "").strip().upper() == "N"}
+    return {r["building"].strip() for r in read_rows(path) if (r.get("travel") or "").strip().upper() == "N"}
 
 
 def reported_entrances(paths) -> dict[str, list[tuple[float, float]]]:
@@ -142,7 +135,7 @@ def _pair(e: dict) -> tuple[int, int]:
     return (min(e["from"], e["to"]), max(e["from"], e["to"]))
 
 
-def _walk_segments(nodes_xy: dict, edges: list[dict]):
+def _walk_segments(edges: list[dict]):
     """걸을 수 있는 엣지 → 방향 없는 구간 {(u, v): 대표 엣지}. 막은 엣지와 터널·다리(isTunnel)는 뺀다
     (땅 위의 길·접속선을 지하 통로 가운데에 붙이지 않는다. 터널 끝 노드에는 snap 으로 붙을 수 있다)."""
     seg = {}
@@ -279,7 +272,7 @@ def apply_patch(graph: dict, features: list[dict], proj: be.LocalProj | None = N
     for n in nodes:
         x, y = proj.fwd(n["lng"], n["lat"])
         xy[n["id"]] = (float(x), float(y))
-    seg = _walk_segments(xy, edges)
+    seg = _walk_segments(edges)
     for k in split:  # 조각으로 나뉜 원래 엣지는 붙일 후보에서 뺀다(그래프에는 그대로 남는다)
         seg.pop(k, None)
     next_node = max(n["id"] for n in nodes) + 1
@@ -451,13 +444,13 @@ def build(graph_path: Path = GRAPH, osm_paths: Path = OSM_PATHS, buildings: Path
           zone: float = ZONE, gap: float = GAP, min_run: float = MIN_RUN, manual=()) -> dict:
     """manual: 손으로 고친 패치 파일들. 거기 replace = true 출입구가 있는 동은 출입구·접속선을 만들지 않는다(제보가 우선)."""
     from shapely import STRtree, points
-    from shapely.geometry import LineString, Point, mapping
+    from shapely.geometry import LineString, Point
     from shapely.ops import substring, transform, unary_union
 
     proj = be.LocalProj()
     to_m = lambda g: transform(lambda x, y, z=None: proj.fwd(x, y), g)  # noqa: E731
     to_ll = lambda g: transform(lambda x, y, z=None: proj.inv(x, y), g)  # noqa: E731
-    rows = _rows(dorms)
+    rows = read_rows(dorms)
     travel = [r["building"] for r in rows if (r.get("travel") or "").upper() == "Y"]
     feet = {k: to_m(v) for k, v in dorm_footprints({r["building"] for r in rows}, buildings).items()}
     area = unary_union(list(feet.values())).buffer(zone)
@@ -467,7 +460,7 @@ def build(graph_path: Path = GRAPH, osm_paths: Path = OSM_PATHS, buildings: Path
     for n in graph["nodes"]:
         x, y = proj.fwd(n["lng"], n["lat"])
         nxy[n["id"]] = (float(x), float(y))
-    seg = _walk_segments(nxy, graph["edges"])
+    seg = _walk_segments(graph["edges"])
     lines = [LineString([nxy[u], nxy[v]]) for u, v in seg]
     tree = STRtree(lines)
     deg = defaultdict(set)
@@ -522,7 +515,7 @@ def build(graph_path: Path = GRAPH, osm_paths: Path = OSM_PATHS, buildings: Path
 
     # 출입구
     ents_csv = defaultdict(list)
-    for r in _rows(entrances):
+    for r in read_rows(entrances):
         if r.get("lat") and r.get("lon"):
             ents_csv[r["building"]].append((float(r["lon"]), float(r["lat"]), r.get("source") or ""))
     osm_ents = [((f.get("properties") or {}).get("osm_id"), tuple(f["geometry"]["coordinates"][:2]))
@@ -590,9 +583,7 @@ def build(graph_path: Path = GRAPH, osm_paths: Path = OSM_PATHS, buildings: Path
 
 
 def main(argv: list[str] | None = None) -> int:
-    for stream in (sys.stdout, sys.stderr):
-        if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+    console_safe()
     ap = argparse.ArgumentParser()
     ap.add_argument("-o", "--output", default=str(OUT))
     ap.add_argument("--zone", type=float, default=ZONE)

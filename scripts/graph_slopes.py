@@ -47,6 +47,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import building_elevation as be  # noqa: E402
 import graph_patch as gp  # noqa: E402
+from common import console_safe  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
@@ -262,9 +263,7 @@ def directed(rec: dict, ele_from: float, ele_to: float, forward: bool) -> dict:
 
 
 def main(argv: list[str] | None = None) -> int:
-    for stream in (sys.stdout, sys.stderr):
-        if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+    console_safe()
     ap = argparse.ArgumentParser()
     ap.add_argument("--graph", default=str(GRAPH))
     ap.add_argument("--dem", nargs="+", default=[str(DATA / "dem")])

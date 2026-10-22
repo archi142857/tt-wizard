@@ -67,6 +67,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import building_elevation as be  # noqa: E402
 import graph_patch as gp  # noqa: E402
+from common import console_safe, encode_polyline, read_rows  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
@@ -111,16 +112,9 @@ def pace(grade, steps=False, v0: float = 1.1):
     return out
 
 
-def _rows(path: Path) -> list[dict]:
-    if not path or not Path(path).exists():
-        return []
-    with open(path, newline="", encoding="utf-8-sig") as f:
-        return list(csv.DictReader(f))
-
-
 def extra_ids(path: Path = EXTRA) -> list[str]:
     """마법 지도 표 밖에서 이동시간을 낼 지점(기숙사 동 목록의 travel = Y)."""
-    return [r["building"].strip() for r in _rows(path) if (r.get("travel") or "").strip().upper() == "Y"]
+    return [r["building"].strip() for r in read_rows(path) if (r.get("travel") or "").strip().upper() == "Y"]
 
 
 def load_points(ids, entrances: Path = ENTRANCES, elevation: Path = ELEVATION,
@@ -128,7 +122,7 @@ def load_points(ids, entrances: Path = ENTRANCES, elevation: Path = ELEVATION,
     """지점 id → [(lon, lat)]: 그래프 패치의 제보 출입구(replace = true) → 지상 출입구 → 그래프 패치의 출입구 →
     캠퍼스맵 건물 좌표 → 목록 좌표 → 기숙사 동 목록 좌표 순으로 찾는다."""
     ents = defaultdict(list)
-    for r in _rows(entrances):
+    for r in read_rows(entrances):
         if r.get("lat") and r.get("lon"):
             ents[r["building"]].append((float(r["lon"]), float(r["lat"])))
     for b, pts in gp.patch_entrances(patch).items():
@@ -138,7 +132,7 @@ def load_points(ids, entrances: Path = ENTRANCES, elevation: Path = ELEVATION,
         ents[b] = list(pts)
     coords = {}
     for path in (extra, listing, elevation):  # 뒤에 읽는 캠퍼스맵 좌표가 목록의 근사값보다 우선
-        for r in _rows(path):
+        for r in read_rows(path):
             if r.get("lat") and r.get("lon"):
                 coords[r["building"]] = (float(r["lon"]), float(r["lat"]))
     out = {}
@@ -191,41 +185,6 @@ def simplify(xy: np.ndarray, tol: float = 1.0) -> np.ndarray:
             keep[i + 1 + k] = True
             stack += [(i, i + 1 + k), (i + 1 + k, j)]
     return xy[keep]
-
-
-def encode_polyline(latlon) -> str:
-    """Google polyline 인코딩(소수 5자리). latlon = [(lat, lon), ...]."""
-    out, plat, plon = [], 0, 0
-    for lat, lon in latlon:
-        ilat, ilon = round(lat * 1e5), round(lon * 1e5)
-        for v in (ilat - plat, ilon - plon):
-            v = ~(v << 1) if v < 0 else v << 1
-            while v >= 0x20:
-                out.append(chr((0x20 | (v & 0x1F)) + 63))
-                v >>= 5
-            out.append(chr(v + 63))
-        plat, plon = ilat, ilon
-    return "".join(out)
-
-
-def decode_polyline(text: str) -> list[tuple[float, float]]:
-    out, i, lat, lon = [], 0, 0, 0
-    while i < len(text):
-        vals = []
-        for _ in range(2):
-            shift = result = 0
-            while True:
-                b = ord(text[i]) - 63
-                i += 1
-                result |= (b & 0x1F) << shift
-                shift += 5
-                if b < 0x20:
-                    break
-            vals.append(~(result >> 1) if result & 1 else result >> 1)
-        lat += vals[0]
-        lon += vals[1]
-        out.append((lat / 1e5, lon / 1e5))
-    return out
 
 
 class Router:
@@ -682,7 +641,7 @@ def write_flat(path: Path, route_flat: dict[tuple[str, str], float], replace=("r
     이번에 안 나온 옛 route 행은 지운다. 다만 table(마법 지도 표 시간, 분)에 있는 쌍이면 표 값(source = magicmap)으로 되돌린다
     (--base route 로 돌렸다가 magicmap 기준으로 다시 돌릴 때 표 쌍이 빠지지 않게). 표 값으로 되돌린 행 수를 돌려준다."""
     rows, restored = {}, 0
-    for r in _rows(path):
+    for r in read_rows(path):
         k = (r["from"].strip(), r["to"].strip())
         src = (r.get("source") or "").strip()
         if src != "route" or k in route_flat:
@@ -703,9 +662,7 @@ def write_flat(path: Path, route_flat: dict[tuple[str, str], float], replace=("r
 
 
 def main(argv: list[str] | None = None) -> int:
-    for stream in (sys.stdout, sys.stderr):
-        if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+    console_safe()
     ap = argparse.ArgumentParser()
     ap.add_argument("--graph", default=str(GRAPH))
     ap.add_argument("--pairs", default=str(PAIRS))
@@ -733,7 +690,7 @@ def main(argv: list[str] | None = None) -> int:
 
     graph = json.loads(Path(args.graph).read_text(encoding="utf-8"))
     magic = {}
-    for r in _rows(Path(args.pairs)):
+    for r in read_rows(Path(args.pairs)):
         if r["from"] != r["to"]:
             magic[(r["from"], r["to"])] = float(r["time_s"]) / 60
     # 기숙사 동 목록에서 travel = N 인 동은 표에 있어도 지점에서 뺀다(919 는 표에 한 점이지만 건물은 919A~D 네 동이라 따로 낸다)

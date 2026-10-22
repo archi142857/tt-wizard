@@ -20,10 +20,11 @@ Pillow 가 필요하다(matplotlib 과 함께 깔린다).
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
 
 from PIL import Image, ImageDraw
+
+from common import console_safe
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "app" / "assets" / "icons"
@@ -124,9 +125,7 @@ def ios() -> int:
 
 
 def main() -> int:
-    for stream in (sys.stdout, sys.stderr):
-        if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+    console_safe()
     a = android() if RES.exists() else 0
     i = ios() if IOS.parent.exists() else 0
     print(f"안드로이드 {a}장 ({RES.relative_to(ROOT)}), iOS {i}장 ({IOS.relative_to(ROOT)})")

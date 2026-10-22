@@ -14,7 +14,7 @@
   달린 값이라, 실험을 다시 돌릴 때 같이 맞춘다).
 
 과목 5~7개 × 분반 2~4개면 조합이 수천~수만 개라 가지치기 없이도 1초 안에 끝난다.
-조합이 수십만을 넘으면 SearchStats.leaves가 커지는 걸 보고 SA 같은 휴리스틱으로 넘어간다.
+여기 탐색은 실험(scripts/experiments.py)과 시험에 쓴다. 화면은 같은 규칙의 웹 엔진(web/js/engine.js)을 쓴다.
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ from __future__ import annotations
 import heapq
 import itertools
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from .conflicts import ConflictMatrix
 from .evaluate import Evaluation, Weights, evaluate

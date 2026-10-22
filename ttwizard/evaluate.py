@@ -43,7 +43,6 @@ class Weights:
     late: float = 2.0  # 지각 1분당 페널티. 아주 크게 주면 사실상 하드 제약
     campus_day: float = 0.0
     gap: float = 0.0
-    long_gap_threshold: int = 180  # 이 이상 비면 '집에 갔다 오는' 선택지도 고려 (확장용, 현재 미사용)
 
 
 @dataclass

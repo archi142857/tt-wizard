@@ -195,7 +195,7 @@ def _segment(seg: str, section_dept: str, st: Student, units: Units, broad: bool
                     if gy:
                         out_years[i] = gy
     only = _ONLY.search(seg)
-    for i, (a, e, _, _) in enumerate(mentions):
+    for i, (_, e, _, _) in enumerate(mentions):
         if i in role:
             continue
         if only and e <= only.start():

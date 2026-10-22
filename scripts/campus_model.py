@@ -26,6 +26,8 @@ from pathlib import Path
 
 import numpy as np
 
+from common import console_safe
+
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
@@ -149,9 +151,7 @@ def three_libs(standalone: bool) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    for stream in (sys.stdout, sys.stderr):
-        if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+    console_safe()
     ap = argparse.ArgumentParser()
     ap.add_argument("--graph", default=str(GRAPH))
     ap.add_argument("--dem", nargs="+", default=[str(DATA / "dem")])

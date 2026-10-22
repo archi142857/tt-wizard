@@ -188,22 +188,26 @@ ttwizard/            알고리즘 패키지
   evaluate.py          조합 → 요일별 경로 → 이동시간·지각·등교일
   bound.py             TSP 하한
   search.py            백트래킹 + 분기 한정, 상위 K개
-  export.py            웹 화면용 JSON
+  export.py            탐색 결과 → JSON (cli 의 --json. 웹 화면은 쓰지 않는다)
   cli.py               demo / parse / find / search
 scripts/
+  common.py            스크립트들이 같이 쓰는 작은 도구 (콘솔, CSV 읽고 쓰기, Google polyline)
   sugang_client.py     수강신청 시스템 접근 (학기 확인, 엑셀, 일정표)
   sync.py              갱신 정책 + diff
+  fetch_history.py     지난 학기 편람을 학기마다 한 번 받아 강의가 열렸던 건물 목록 → buildings_history.csv
   fetch_buildings.py   캠퍼스맵 API → buildings.csv
   fetch_campus_buildings.py  캠퍼스맵의 동 번호 있는 건물 전체 → campus_buildings.csv
   fetch_osm_footprints.py    OpenStreetMap 건물 윤곽·출입구·보행로 → osm_*.geojson
+  fetch_osm_basemap.py       OpenStreetMap 숲·잔디·길 → osm_basemap.geojson (바탕 지도용)
   dem_from_contours.py       1:5,000 수치지형도 등고선·표고점 → DEM(1:1,000 표고점으로 검증), 건물 윤곽
   building_elevation.py      DEM + 윤곽 + 출입구 → 건물별·출입구별 고도 (buildings_elevation.csv, building_entrances.csv)
-  magicmap_travel.py         마법 지도 건물쌍 거리표 → travel.csv (예전 기준. 지금은 slope_travel.py 가 travel.csv 도 쓴다)
   graph_patch.py             도로 그래프 보강: 패치(graph_patch/*.geojson)를 그래프에 더하기(끊긴 갈림목 잇기, 없는 엣지 막기), 기숙사 둘레 OSM 길 → dorm.geojson
   entrance_links.py          출입구에서 길까지 건물·담장·옹벽을 피해 가는 접속선 → graph_patch/links.geojson
   graph_slopes.py            마법 지도 도로 그래프(+ graph_patch)에 노드 고도·구간별 경사
   slope_travel.py            건물쌍 이동시간(우리 경로) → travel.csv(평지), travel_slope.csv(경사 반영), route_stats.csv, route_paths.json(지도용 경로)
+  basemap.py                 수치지형도 + OSM → data/basemap.json (앱·웹이 직접 그리는 바탕 지도)
   export_web.py              data/ → web/data/*.json (웹 화면 자료)
+  export_magicmap.py         마법 지도 개발자께 보낼 건물 목록 → buildings_for_magicmap.csv
   campus_model.py            관악캠퍼스 3D·2D 모델링 → web/model/*.html (템플릿: campus_model_3d.html, campus_model_2d.html)
   build_history.py           지난 학기 편람 엑셀 → data/history/<학기>.json (웹 화면 학기 선택)
   experiments.py             비교 실험 → results/experiments/ (engine_bench.mjs 로 웹 엔진 시간도 잰다)
@@ -211,7 +215,6 @@ scripts/
   field_validation.py        오르막 실측 구간 고르기·경로 뽑기·실측 비교, 측정 페이지 GPS 기록 분석 → results/field/
   build_app.py               web/ → app/www/ (스토어 앱 묶음)
   app_icons.py               디자인 아이콘 → 안드로이드 mipmap·iOS AppIcon
-  tmap_matrix.py       TMAP 보행자 API → travel.csv
 data/
   sample/              데모용 가짜 데이터
   raw/                 엑셀 원본 (latest + 변경이 있던 날짜별, history/ = 지난 학기)
@@ -220,7 +223,7 @@ data/
   magicmap/            캠퍼스 마법 지도에서 받은 도로 그래프·건물쌍 거리표와 경사를 붙인 결과
   graph_patch/         마법 지도 그래프에 더할 길·막을 엣지·출입구·접속선(GeoJSON). dorm_buildings.csv = 기숙사 동 번호·좌표
   field/               오르막 실측 구간(routes.csv)·기록 (양식: *_template.csv, 측정 페이지 CSV 는 tracks/ — git 에 안 올림)
-  lectures.json, buildings.csv, travel.csv, travel_slope.csv, route_stats.csv, route_paths.json, results.json, stats.csv, changes/
+  lectures.json, buildings.csv, travel.csv, travel_slope.csv, route_stats.csv, route_paths.json, stats.csv, changes/
 web/                 정적 웹 화면: 과목 검색 → 시간표 · 동선 지도(OpenStreetMap) · 순위 목록 (GitHub Pages)
   model/               관악캠퍼스 3D·2D 모델링 (campus_model.py 가 만든 결과, 커밋한다)
   field/               오르막 실측 페이지 (폰 GPS 기록, 앱에서 링크하지 않음)
@@ -232,7 +235,7 @@ tests/               pytest
 
 ## 주의
 
-- `.env` (TMAP_APP_KEY 등)는 커밋하지 않는다. 자동 갱신에서 키가 필요해지면 GitHub Secrets 로.
+- `.env` 같은 키 파일은 커밋하지 않는다. 자동 갱신에서 키가 필요해지면 GitHub Secrets 로.
 - 수강신청 시스템·캠퍼스맵 API 호출은 최소한으로. 차단되면 로컬 수동 실행으로 전환.
 - 지도 타일은 쓰지 않고 바탕 지도를 직접 그린다(`docs/basemap.md`). 지도 위 출처 표기(© 국토지리정보원 · © OpenStreetMap) 필수.
 

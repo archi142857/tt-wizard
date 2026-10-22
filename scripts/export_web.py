@@ -22,13 +22,14 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import hashlib
 import json
 import re
 import shutil
 import sys
 from pathlib import Path
+
+from common import console_safe, read_rows
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -41,13 +42,6 @@ OUT = ROOT / "web" / "data"
 HOMES = [("GATE", "정문"), ("919A", "기숙사"), ("919", "기숙사")]
 STAND_IN = {"71-1": "71"}  # 좌표가 없는 지점 → 지도에 대신 찍을 건물(slope_travel.ALIASES 와 같게. 71-1동은 이제 좌표가 있어 쓰이지 않는다)
 SKIP_CLASSIFICATION = {"논문"}  # 논문연구 등: 수업 시간이 없어 시간표와 무관
-
-
-def _rows(path: Path) -> list[dict]:
-    if not path.exists():
-        return []
-    with open(path, newline="", encoding="utf-8-sig") as f:
-        return list(csv.DictReader(f))
 
 
 def room_no(room: str) -> str:
@@ -82,7 +76,7 @@ def courses_from_rows(data: list[dict]) -> dict:
 
 
 def read_travel(path: Path) -> dict[tuple[str, str], float]:
-    return {(r["from"].strip(), r["to"].strip()): float(r["minutes"]) for r in _rows(path)}
+    return {(r["from"].strip(), r["to"].strip()): float(r["minutes"]) for r in read_rows(path)}
 
 
 def export_campus(data: Path) -> dict:
@@ -102,11 +96,11 @@ def export_campus(data: Path) -> dict:
     files = ["campus_buildings.csv", "buildings_elevation.csv", "buildings.csv", "buildings_for_magicmap.csv", "dorm_buildings.csv"]
     names, coords = {}, {}
     for path in ["dorm_buildings.csv"] + files[:-1]:
-        for r in _rows(data / path):
+        for r in read_rows(data / path):
             if r.get("name"):
                 names.setdefault(r["building"].strip(), re.sub(r"\s*\(.*\)$", "", r["name"].strip()))
     for path in reversed(files):  # 뒤에 읽는 쪽이 우선
-        for r in _rows(data / path):
+        for r in read_rows(data / path):
             if r.get("lat") and r.get("lon"):
                 coords[r["building"].strip()] = (round(float(r["lat"]), 6), round(float(r["lon"]), 6))
     for b, other in STAND_IN.items():
@@ -127,7 +121,7 @@ def export_campus(data: Path) -> dict:
         "homes": [[b, label] for label, b in homes.items()],
         # 기숙사 동 [동, 종류(학부·대학원·글로벌·가족·BK)]. ids 에 있으면 이동시간이 있다. 919 는 ids 에 없다: 919A~D 네 동이 대신하고,
         # 이 줄은 화면이 919 를 건물 번호로 그리지 않게 남긴다(캠퍼스맵 목록에는 919 한 점이 있다)
-        "dorms": [[r["building"].strip(), (r.get("kind") or "").strip()] for r in _rows(data / "dorm_buildings.csv")
+        "dorms": [[r["building"].strip(), (r.get("kind") or "").strip()] for r in read_rows(data / "dorm_buildings.csv")
                   if r["building"].strip() in buildings],
         "estimate": {"walk_kmh": 4.0, "detour": 1.35, "default_minutes": 15.0},  # ttwizard/travel.py 와 같은 값
         "meta": {"semester": state.get("lectures_semester") or state.get("semester", ""), "updated": state.get("last_fetch", "")},
@@ -200,9 +194,7 @@ def stamp_assets(web: Path = WEB) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    for stream in (sys.stdout, sys.stderr):
-        if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+    console_safe()
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default=str(DATA))
     ap.add_argument("-o", "--output", default=str(OUT))

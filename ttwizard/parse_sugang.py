@@ -15,7 +15,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from typing import Iterable
+from collections.abc import Iterable
 
 import pandas as pd
 
@@ -115,12 +115,8 @@ def parse_meetings(time_text: str, room_text: str) -> tuple[list[Meeting], set[s
 
     matches = _TIME_RE.findall(time_text)
     rooms = [r.strip() for r in room_text.split("/")] if room_text.strip().lower() not in ("", "nan", "none") else []
-    if len(rooms) == len(matches):
-        pass
-    elif len(rooms) == 1:
-        rooms = rooms * len(matches)
-    else:
-        # 개수가 안 맞으면 첫 강의실만 믿고 나머지는 같은 곳으로 가정 (보고서에 예외 건수로 기록)
+    if len(rooms) != len(matches):
+        # 강의실이 하나뿐이거나 개수가 안 맞으면 첫 강의실을 모든 수업에 쓴다(없으면 위치 없음)
         rooms = (rooms[:1] or [""]) * len(matches)
 
     meetings: list[Meeting] = []
@@ -158,18 +154,18 @@ def parse_sugang_excel(path: str | Path, campus: str | None = "관악") -> list[
     col = _map_columns(header)
     body = raw.iloc[h + 1 :]
 
-    def cell(row, key, default=""):
+    def cell(row: tuple, key: str, default: str = "") -> str:
         i = col.get(key)
         if i is None:
             return default
-        v = row.iloc[i]
+        v = row[i]
         if v is None or (not isinstance(v, str) and pd.isna(v)):
             return default
         v = str(v).strip()
         return default if v.lower() in ("nan", "none", "<na>") else v
 
     sections: list[Section] = []
-    for _, row in body.iterrows():
+    for row in body.itertuples(index=False, name=None):  # 칸 값만 차례로(iterrows 처럼 줄마다 Series 를 만들지 않는다)
         course_id = cell(row, "course_id")
         if not course_id:
             continue

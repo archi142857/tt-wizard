@@ -17,12 +17,13 @@ from __future__ import annotations
 import argparse
 import csv
 import json
-import sys
 import time
 from collections import Counter
 from pathlib import Path
 
 import requests
+
+from common import console_safe
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "osm_buildings.geojson"
@@ -188,9 +189,7 @@ def overpass(query: str, tries: int = 3, wait: float = 20.0) -> dict | None:
 
 
 def main() -> int:
-    for stream in (sys.stdout, sys.stderr):  # cmd에서 로그를 파일로 저장할 때 멈추지 않게
-        if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+    console_safe()  # cmd 에서 로그를 파일로 남길 때 cp949 에 없는 글자가 있어도 멈추지 않게
     ap = argparse.ArgumentParser()
     ap.add_argument("--bbox", help="남,서,북,동 (위도·경도)")
     args = ap.parse_args()

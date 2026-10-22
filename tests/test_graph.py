@@ -1,4 +1,4 @@
-"""도로 그래프 경사(graph_slopes.py), 건물쌍 거리표 변환(magicmap_travel.py), 경사 반영 이동시간(slope_travel.py) 테스트.
+"""도로 그래프 경사(graph_slopes.py), 이동시간 표 읽기(TravelMatrix), 경사 반영 이동시간(slope_travel.py) 테스트.
 DEM은 가짜 함수로 대신하거나 쓰지 않는다."""
 
 import base64
@@ -16,8 +16,8 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 be = pytest.importorskip("building_elevation")
 gs = pytest.importorskip("graph_slopes")
-import magicmap_travel as mt  # noqa: E402
 import slope_travel as st  # noqa: E402
+from common import decode_polyline, read_rows  # noqa: E402
 import campus_model as cm  # noqa: E402
 from ttwizard.travel import TravelMatrix  # noqa: E402
 
@@ -93,22 +93,14 @@ def test_max_grade_window():
     assert gs._max_grade(np.array([0.0, 5.0]), np.array([0.0, 1.0]), 10.0) == pytest.approx(20.0)
 
 
-def test_magicmap_travel(tmp_path):
-    pairs = tmp_path / "pairs.csv"
-    pairs.write_text("﻿from,to,distance_m,time_s\n1,2,66.0,60.0\n2,1,66.0,60.0\n1,301,1320.0,1200.0\n",
-                     encoding="utf-8")
+def test_travel_matrix_reads_directions(tmp_path):
+    """알고리즘(TravelMatrix)이 travel.csv 를 방향대로 읽고, 한쪽만 있으면 그 값을 쓴다."""
     travel = tmp_path / "travel.csv"
-    travel.write_text("from,to,minutes,source\n1,2,3.5,measured\n1,301,99,tmap\n500,301,7,tmap\n", encoding="utf-8")
-    assert mt.main(["--pairs", str(pairs), "-o", str(travel)]) == 0
-    rows = {(r["from"], r["to"]): r for r in csv.DictReader(open(travel, encoding="utf-8"))}
-    assert rows[("1", "2")]["minutes"] == "3.50" and rows[("1", "2")]["source"] == "measured"  # 실측 유지
-    assert rows[("2", "1")]["minutes"] == "1.00" and rows[("1", "301")]["minutes"] == "20.00"
-    assert rows[("1", "301")]["source"] == "magicmap"
-    assert rows[("500", "301")]["source"] == "tmap"  # 표에 없는 쌍은 남긴다
-    b = tmp_path / "b.csv"  # 알고리즘(TravelMatrix)이 그대로 읽는지
+    travel.write_text("from,to,minutes,source\n1,2,3.5,measured\n2,1,1.00,route\n1,301,20.00,route\n", encoding="utf-8")
+    b = tmp_path / "b.csv"
     b.write_text("building,name,lat,lon\n1,a,37.46,126.95\n2,b,37.46,126.951\n", encoding="utf-8")
     tm = TravelMatrix.load(b, travel)
-    assert tm.minutes("2", "1") == 1.0 and tm.minutes("1", "2") == 3.5
+    assert tm.minutes("2", "1") == 1.0 and tm.minutes("1", "2") == 3.5 and tm.minutes("301", "1") == 20.0
 
 
 def test_tobler_and_window():
@@ -180,8 +172,8 @@ def test_slope_travel(tmp_path):
             "--points", str(tmp_path / "none.csv"), "-o", str(out), "--stats", str(stats), "--paths", str(paths),
             "--extra", "", "--flat", "", "--patch"]
     assert st.main(args) == 0
-    t = {(r["from"], r["to"]): float(r["minutes"]) for r in csv.DictReader(open(out, encoding="utf-8"))}
-    rows = {(r["from"], r["to"]): r for r in csv.DictReader(open(stats, encoding="utf-8-sig"))}
+    t = {(r["from"], r["to"]): float(r["minutes"]) for r in read_rows(out)}
+    rows = {(r["from"], r["to"]): r for r in read_rows(stats)}
     assert len(t) == 6
     # 10 % 오르막 200 m: 평지 시간 × exp(0.35), 내리막 −10 %는 평지와 같다
     assert t[("A", "B")] == pytest.approx(200 / 1.1 / 60 * math.exp(0.35), rel=1e-3)
@@ -200,9 +192,9 @@ def test_slope_travel(tmp_path):
     # 웹 지도용 경로 모양: 곧은 길은 양 끝만, C 쪽은 노드 3에서 꺾인다
     shapes = json.loads(paths.read_text(encoding="utf-8"))
     assert shapes["ids"] == ["A", "B", "C"]
-    line = st.decode_polyline(shapes["paths"]["A|B"])
+    line = decode_polyline(shapes["paths"]["A|B"])
     assert len(line) == 2 and line[0] == pytest.approx(ll(0, 0), abs=2e-5) and line[1] == pytest.approx(ll(0, 200), abs=2e-5)
-    assert st.decode_polyline(shapes["paths"]["A|C"])[1] == pytest.approx(ll(0, 100), abs=2e-5)
+    assert decode_polyline(shapes["paths"]["A|C"])[1] == pytest.approx(ll(0, 100), abs=2e-5)
     # 알고리즘(TravelMatrix)이 방향별로 읽는다
     b = tmp_path / "b.csv"
     _write_csv(b, ["building", "name", "lat", "lon"], [("A", "a", *ll(0, 0)), ("B", "b", *ll(0, 200))])
@@ -284,14 +276,14 @@ def test_slope_travel_extra_points(tmp_path):
             "--points", str(tmp_path / "none.csv"), "-o", str(out), "--stats", str(stats), "--paths", str(paths),
             "--extra", str(tmp_path / "dorms.csv"), "--flat", str(flat), "--patch", str(patch)]
     assert st.main(args) == 0
-    t = {(r["from"], r["to"]): float(r["minutes"]) for r in csv.DictReader(open(out, encoding="utf-8"))}
-    rows = {(r["from"], r["to"]): r for r in csv.DictReader(open(stats, encoding="utf-8-sig"))}
+    t = {(r["from"], r["to"]): float(r["minutes"]) for r in read_rows(out)}
+    rows = {(r["from"], r["to"]): r for r in read_rows(stats)}
     assert set(t) == {(a, b) for a in "ABDE" for b in "ABDE" if a != b}  # F 는 이동시간을 내지 않는다
     ad = rows[("A", "D")]
     assert ad["magicmap_min"] == "" and float(ad["route_m"]) == pytest.approx(145, abs=1)  # 100 m + 40 m + 패치 출입구 5 m
     assert t[("A", "D")] == pytest.approx(float(ad["route_slope_min"]), abs=0.01) and t[("A", "D")] > t[("D", "A")]
     assert t[("A", "B")] == pytest.approx(200 / 1.1 / 60 * math.exp(0.35), rel=1e-3)  # 표 쌍도 우리 경로(여기서는 표와 같은 200 m)
-    read = lambda: {(r["from"], r["to"]): r for r in csv.DictReader(open(flat, encoding="utf-8"))}  # noqa: E731
+    read = lambda: {(r["from"], r["to"]): r for r in read_rows(flat)}  # noqa: E731
     f = read()
     assert f[("A", "B")] == {"from": "A", "to": "B", "minutes": "3.03", "source": "route"}  # 표 값 대신 우리 경로 평지 시간
     assert f[("A", "X")]["source"] == "measured"  # 실측은 그대로
@@ -344,7 +336,7 @@ def test_apply_patch():
     link = [e for e in new_edges if e.get("role") == "entrance_link"]
     assert {(e["from"], e["to"]) for e in link} == {(door[0]["id"], 4), (4, door[0]["id"])}
     # 경사 계산이 더한 그래프에서도 돈다
-    ele, res, index = gs.compute(g, FakeDem(), PROJ, np.zeros((0, 2)), np.zeros((0, 2)))
+    ele, _res, index = gs.compute(g, FakeDem(), PROJ, np.zeros((0, 2)), np.zeros((0, 2)))
     assert len(ele) == len(g["nodes"]) and all(np.isfinite(ele[index[n["id"]]]) for n in new_nodes)
 
 
@@ -430,7 +422,7 @@ def test_router_starts_at_door():
     lon0, lat0 = PROJ.inv(3.0, 50.0)  # 출입구 노드가 아닌 곳은 예전처럼 가까운 길들에 붙는다
     assert len(st.Router({"nodes": nodes, "edges": edges}, PROJ).attach(float(np.ravel(lon0)[0]), float(np.ravel(lat0)[0]))) > 1
     out = r.routes({"D": [(float(np.ravel(lon5)[0]), float(np.ravel(lat5)[0]))], "N": [tuple(_ll(0, 100))]})
-    s, z, geom = out[("D", "N")]
+    s, _z, _geom = out[("D", "N")]
     assert float(s[-1]) == pytest.approx(4 + 50 + 10 + 100, abs=0.01)  # 5→4→3→1→2: 벽 너머 6 m 직선 대신 실제 길
 
 
@@ -497,13 +489,13 @@ def test_base_route_and_back(tmp_path):
             "--entrances", str(tmp_path / "ent.csv"), "--elevation", str(tmp_path / "none.csv"),
             "--points", str(tmp_path / "none.csv"), "-o", str(out), "--stats", str(stats), "--paths", str(paths),
             "--extra", "", "--flat", str(flat), "--patch"]
-    read = lambda p, enc="utf-8": {(r["from"], r["to"]): r for r in csv.DictReader(open(p, encoding=enc))}  # noqa: E731
+    read = lambda p: {(r["from"], r["to"]): r for r in read_rows(p)}  # noqa: E731
     up = 200 / 1.1 / 60 * math.exp(0.35)  # 10 % 오르막 200 m 를 우리 경로로 걷는 시간(분)
 
     assert st.main(args + ["--base", "magicmap"]) == 0  # 예전 방식: 표 시간 × 경사 계수
     assert float(read(out)[("A", "B")]["minutes"]) == pytest.approx(2 * up, rel=1e-3)
     assert read(flat)[("A", "B")] == {"from": "A", "to": "B", "minutes": "6.06", "source": "magicmap"}
-    assert read(stats, "utf-8-sig")[("A", "B")]["check"] == "경로 다름"  # 표 6.06분, 우리 경로 3.03분
+    assert read(stats)[("A", "B")]["check"] == "경로 다름"  # 표 6.06분, 우리 경로 3.03분
 
     assert st.main(args) == 0  # 기본: 우리 경로
     assert float(read(out)[("A", "B")]["minutes"]) == pytest.approx(up, rel=1e-3)
@@ -511,7 +503,7 @@ def test_base_route_and_back(tmp_path):
     f = read(flat)
     assert f[("A", "B")]["source"] == "route" and float(f[("A", "B")]["minutes"]) == pytest.approx(200 / 1.1 / 60, abs=0.01)
     assert f[("B", "A")] == {"from": "B", "to": "A", "minutes": "7.00", "source": "measured"}
-    row = read(stats, "utf-8-sig")[("A", "B")]
+    row = read(stats)[("A", "B")]
     assert row["minutes"] == row["route_slope_min"] and float(row["magicmap_min"]) == pytest.approx(400 / 1.1 / 60, abs=0.01)
 
     assert st.main(args + ["--base", "magicmap"]) == 0  # 되돌리기: 표 쌍의 route 행이 표 값으로 돌아온다
@@ -552,8 +544,8 @@ def test_slope_travel_picks_faster_route(tmp_path):
             "-o", str(out), "--stats", str(stats), "--paths", str(paths), "--extra", "", "--flat", str(flat), "--patch"]
 
     def read():
-        rows = {(r["from"], r["to"]): r for r in csv.DictReader(open(stats, encoding="utf-8-sig"))}
-        return rows, json.loads(paths.read_text(encoding="utf-8"))["paths"], {(r["from"], r["to"]): r for r in csv.DictReader(open(flat, encoding="utf-8"))}
+        rows = {(r["from"], r["to"]): r for r in read_rows(stats)}
+        return rows, json.loads(paths.read_text(encoding="utf-8"))["paths"], {(r["from"], r["to"]): r for r in read_rows(flat)}
 
     assert st.main(args + ["--choose", "shortest"]) == 0
     old, shapes, f = read()
@@ -571,8 +563,8 @@ def test_slope_travel_picks_faster_route(tmp_path):
         assert float(r["slope_factor"]) == pytest.approx(float(r["minutes"]) / float(r["route_flat_min"]), abs=0.005)
     # 지도용 경로: 갈 때는 (100, 112) 로 돌아가고, 올 때는 곧은 길이라 B|A 가 따로 있다
     assert set(shapes) == {"A|B", "B|A"}
-    assert st.decode_polyline(shapes["A|B"])[1] == pytest.approx(ll(100, 112), abs=2e-5) and len(st.decode_polyline(shapes["B|A"])) == 2
-    assert st.decode_polyline(shapes["B|A"])[0] == pytest.approx(ll(0, 225), abs=2e-5)
+    assert decode_polyline(shapes["A|B"])[1] == pytest.approx(ll(100, 112), abs=2e-5) and len(decode_polyline(shapes["B|A"])) == 2
+    assert decode_polyline(shapes["B|A"])[0] == pytest.approx(ll(0, 225), abs=2e-5)
 
 
 def test_slope_travel_stairs(tmp_path):
@@ -602,7 +594,7 @@ def test_slope_travel_stairs(tmp_path):
             "-o", str(out), "--stats", str(stats), "--paths", str(tmp_path / "paths.json"), "--extra", "", "--flat", "", "--patch"]
 
     def read():
-        return {(r["from"], r["to"]): r for r in csv.DictReader(open(stats, encoding="utf-8-sig"))}
+        return {(r["from"], r["to"]): r for r in read_rows(stats)}
 
     assert st.main(args) == 0
     rows = read()
@@ -644,7 +636,7 @@ def test_label_only_dorm_is_dropped(tmp_path):
                     "--entrances", str(tmp_path / "ent.csv"), "--elevation", str(tmp_path / "none.csv"), "--points", str(tmp_path / "none.csv"),
                     "-o", str(out), "--stats", str(stats), "--paths", str(paths), "--extra", str(tmp_path / "dorms.csv"),
                     "--flat", str(tmp_path / "travel.csv"), "--patch"]) == 0
-    rows = {(r["from"], r["to"]): r for r in csv.DictReader(open(out, encoding="utf-8"))}
+    rows = {(r["from"], r["to"]): r for r in read_rows(out)}
     assert set(rows) == {("919A", "B"), ("B", "919A")} and float(rows[("B", "919A")]["minutes"]) == pytest.approx(100 / 1.1 / 60, abs=0.01)
     assert json.loads(paths.read_text(encoding="utf-8"))["ids"] == ["919A", "B"]
     el = pytest.importorskip("entrance_links")
@@ -660,7 +652,7 @@ def test_load_points_alias(tmp_path):
     assert st.load_points(["71-1"], tmp_path / "ent.csv", none, none) == {"71-1": [(126.9520, 37.4670)]}       # 아무것도 없으면 71동
     assert st.load_points(["71-1"], tmp_path / "ent.csv", none, tmp_path / "list.csv") == {"71-1": [(126.95268, 37.46649)]}
     data = ROOT / "data"
-    listing = {r["building"]: r for r in st._rows(data / "buildings_for_magicmap.csv")}
+    listing = {r["building"]: r for r in read_rows(data / "buildings_for_magicmap.csv")}
     gate = listing["GATE"]
     assert (float(gate["lat"]), float(gate["lon"])) == pytest.approx((37.46635, 126.94832), abs=1e-6)  # 정문 구조물 자리(로드뷰로 확인)
     assert listing["71-1"]["lat"] and listing["71-1"]["lon"]
@@ -673,9 +665,9 @@ def test_travel_matrices_follow_our_routes():
     평지 시간(source = route. 실측 행만 예외). 예전 방식(--base magicmap: 표 시간 × 경사 계수)으로 만든 행렬을 올리면 여기서 걸린다
     (2026-10-02: 그래프·출입구를 고쳐도 표 지점 쌍의 거리에는 반영되지 않던 것을 바로잡음)."""
     data = ROOT / "data"
-    stats = {(r["from"], r["to"]): r for r in st._rows(data / "route_stats.csv")}
-    slope = {(r["from"], r["to"]): r for r in st._rows(data / "travel_slope.csv")}
-    flat = {(r["from"], r["to"]): r for r in st._rows(data / "travel.csv")}
+    stats = {(r["from"], r["to"]): r for r in read_rows(data / "route_stats.csv")}
+    slope = {(r["from"], r["to"]): r for r in read_rows(data / "travel_slope.csv")}
+    flat = {(r["from"], r["to"]): r for r in read_rows(data / "travel.csv")}
     assert set(stats) == set(slope) and set(stats) <= set(flat) and len(stats) > 10000
     table = 0
     for k, r in stats.items():

@@ -237,7 +237,10 @@ function saveState() {
 }
 function saveCur() {
   const cur = rec || done;
-  try { cur ? localStorage.setItem(CUR, JSON.stringify(cur)) : localStorage.removeItem(CUR); } catch { /* 공간 부족: 화면의 기록은 남는다 */ }
+  try {
+    if (cur) localStorage.setItem(CUR, JSON.stringify(cur));
+    else localStorage.removeItem(CUR);
+  } catch { /* 공간 부족: 화면의 기록은 남는다 */ }
 }
 function loadCur() {
   try { return JSON.parse(localStorage.getItem(CUR) || "null"); } catch { return null; }

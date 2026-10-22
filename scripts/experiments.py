@@ -42,6 +42,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import export_web  # noqa: E402
+from common import console_safe, write_csv  # noqa: E402
 from ttwizard.bound import tsp_lower_bound  # noqa: E402
 from ttwizard.conflicts import ConflictMatrix  # noqa: E402
 from ttwizard.evaluate import evaluate  # noqa: E402
@@ -597,16 +598,6 @@ def real_rows(path: Path, travel: dict, rng: random.Random, current: str) -> lis
 
 # ---------------------------------------------------------------- 출력
 
-def write_csv(path: Path, rows: list[dict]) -> None:
-    if not rows:
-        return
-    fields = list(dict.fromkeys(k for r in rows for k in r))
-    with open(path, "w", newline="", encoding="utf-8-sig") as f:
-        w = csv.DictWriter(f, fieldnames=fields)
-        w.writeheader()
-        w.writerows(rows)
-
-
 def q(values: list[float], p: float) -> float:
     values = sorted(values)
     if not values:
@@ -911,9 +902,7 @@ def figures(out: Path, spread_rows_: list[dict], spread_sum: list[dict], semeste
 # ---------------------------------------------------------------- 실행
 
 def main(argv: list[str] | None = None) -> int:
-    for stream in (sys.stdout, sys.stderr):
-        if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+    console_safe()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--semester", default="", help="가상 묶음·분산에 쓸 학기 (기본: 지금 학기)")
     ap.add_argument("--bundles", type=int, default=1000)

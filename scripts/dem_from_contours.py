@@ -33,11 +33,12 @@ import csv
 import json
 import math
 import re
-import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
 import numpy as np
+
+from common import console_safe
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
@@ -356,9 +357,7 @@ def campus_bounds(lists: list[Path], margin: float) -> tuple[float, float, float
 
 
 def main(argv: list[str] | None = None) -> int:
-    for stream in (sys.stdout, sys.stderr):  # cmd에서 로그를 파일로 저장할 때 멈추지 않게
-        if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+    console_safe()  # cmd 에서 로그를 파일로 남길 때 cp949 에 없는 글자가 있어도 멈추지 않게
     ap = argparse.ArgumentParser()
     ap.add_argument("--topo", default=str(TOPO))
     ap.add_argument("--scale", choices=SCALES, default="5000", help="DEM·건물 윤곽을 만들 축척 (기본 5000)")

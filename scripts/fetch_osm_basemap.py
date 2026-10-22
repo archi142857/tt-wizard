@@ -27,6 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from basemap import GREEN_KIND  # noqa: E402
+from common import console_safe  # noqa: E402
 
 OUT = ROOT / "data" / "osm_basemap.geojson"
 PARTS = Path(tempfile.gettempdir()) / "ttw_osm_basemap"
@@ -134,9 +135,7 @@ def overpass(query: str, rounds: int = 3, wait: float = 20.0) -> dict | None:
 
 
 def main() -> int:
-    for stream in (sys.stdout, sys.stderr):
-        if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+    console_safe()
     from fetch_osm_footprints import bbox_from_campus
 
     ap = argparse.ArgumentParser()
