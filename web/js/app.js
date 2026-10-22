@@ -1,8 +1,10 @@
-// TT Wizard 화면(디자인 규칙 v3). 자료(data/*.json)는 scripts/export_web.py 가 만들고, 탐색은 engine.js 가 브라우저에서 한다.
-// 화면은 입력 · 결과 · 정보 셋이고 전체 화면 지도, 자료 출처·오픈소스 라이선스가 그 위에 뜬다. 화면만 방문 기록(pushState)을
-// 남기고 시트(<dialog>)는 남기지 않는다. 화면 문구는 디자인 규칙 '문구'를 따른다(문장은 해요체 한 줄, 그 밖에는 명사구).
-import { DAY_KO, parseCourses, TravelMatrix, search, countFeasible, routeLine, whyNone, meetsRules } from "./engine.js";
+// TT Wizard 화면(디자인 규칙 v3.5). 자료(data/*.json)는 scripts/export_web.py 가 만들고, 탐색은 engine.js 가 브라우저에서 한다.
+// 앱은 아래 탭 둘이다(10/22): 내 시간표(저장한 시간표, 과목 추가, 동선)와 탐색(입력, 결과). 정보·자료 출처·오픈소스 라이선스는 연 탭 안의
+// 다음 화면이고 전체 화면 지도가 그 위에 뜬다. 화면만 방문 기록(pushState)을 남기고 탭 바꾸기와 시트(<dialog>)는 남기지 않는다.
+// 화면 문구는 디자인 규칙 '문구'를 따른다(문장은 해요체 한 줄, 그 밖에는 명사구).
+import { DAY_KO, parseCourses, TravelMatrix, search, countFeasible, routeLine, whyNone, meetsRules, checkRoute } from "./engine.js";
 import { indexCourses as indexSearch, searchCourses, splitMarks, normKey } from "./search.js";
+import * as T from "./timetables.js";
 
 const $ = (id) => document.getElementById(id);
 
@@ -23,6 +25,7 @@ const APP_VERSION = "0.6.0";
 const PRIVACY_URL = ""; // 개인정보 처리방침 공개 페이지(스토어에 적는 주소와 같게)
 const CONTACT_URL = ""; // 문의 페이지(App Store 지원 URL과 같은 곳)
 const REVIEW_URL = { android: "", ios: "" }; // 스토어 앱 페이지(스토어 앱에서만 '리뷰 남기기')
+const CATALOG_URL = "https://sugang.snu.ac.kr/"; // 수강편람 누리집(자료 출처, 시트의 '수강편람' 링크)
 const RESULTS_STEP = 8; // 폰 검색 결과: 처음 개수이자 '더 보기' 한 번에 더 보이는 개수
 // 넓은 화면 결과 카드(검색 결과, 과목 둘러보기)는 더 보기 없이 다 보인다(10/2 사용자). 처음엔 FEED_STEP 개를 그리고 끝의 FEED_LEAD 개 행
 // 가운데 하나가 보이면 다음 FEED_STEP 개를 이어 붙인다(결과 2천 개를 한 번에 그리지 않게, 한 글자 칠 때 16개만. 카드 안 스크롤은 style.css)
@@ -424,6 +427,8 @@ async function loadSemester(sem) {
   const entry = state.semesters.find(([x]) => x === sem) || state.semesters[0];
   sem = entry[0];
   state.semester = sem;
+  store.set("openSem", sem);
+  readMine(sem);
   state.loaded = false;
   state.loading = true;
   state.courses = [];
@@ -432,7 +437,7 @@ async function loadSemester(sem) {
   state.picks = readPicks(sem);
   state.overrides = readOverrides(sem);
   state.rules = readRules(sem);
-  state.result = null;
+  dropExplore();
   clearErrors();
   state.errors.noSections = new Set();
   syncRules();
@@ -440,6 +445,7 @@ async function loadSemester(sem) {
   renderLoadState();
   renderResults();
   renderPicked();
+  mineChanged();
   let cj = state.cache.get(sem);
   try {
     if (!cj) {
@@ -463,6 +469,7 @@ async function loadSemester(sem) {
   renderLoadState();
   renderResults();
   renderPicked();
+  mineChanged(); // 편람과 견줘 다시 그린다(편람 바뀜, 없는 과목)
   return true;
 }
 
@@ -497,7 +504,13 @@ function loadRoutes() {
 
 /** 연도·학기를 따로 고른다(편람이 있는 학기만). 연도는 목록 순서(최근 먼저), 학기는 한 해 안의 순서. */
 function renderTerm() {
-  const ySel = $("year"), tSel = $("term");
+  fillTerm($("year"), $("term"));
+  $("past-tag").hidden = !state.current || state.semester === state.current;
+  $("asof").textContent = state.loaded ? asofShort(state.semesterMeta.updated) : "";
+  if ($("tt-list-sheet").open) fillTerm($("tl-year"), $("tl-term"));
+}
+/** 연도·학기 선택칸 둘(탐색 학기 줄, 내 시간표의 시간표 목록 시트)을 지금 학기로 채운다. 고를 수 없는 학기(자료를 받기 전)면 숨긴다. */
+function fillTerm(ySel, tSel) {
   const ids = state.semesters.map(([id]) => id).filter((id) => /^\d{4}-[12SW]$/.test(id));
   const ok = ids.includes(state.semester);
   ySel.hidden = tSel.hidden = !ok;
@@ -515,15 +528,14 @@ function renderTerm() {
     }
     ySel.value = y;
     tSel.value = t;
-    fitTerm();
+    fitSelect(ySel);
+    fitSelect(tSel);
   }
-  $("past-tag").hidden = !state.current || state.semester === state.current;
-  $("asof").textContent = state.loaded ? asofShort(state.semesterMeta.updated) : "";
 }
 
 /** 연도를 바꾸면 같은 학기로, 그해에 그 학기가 없으면 그해의 가장 늦은 학기로. */
-function onYearChange() {
-  const y = $("year").value;
+function onYearChange(ySel) {
+  const y = ySel.value;
   const t = state.semester.split("-")[1];
   const has = (k) => state.semesters.some(([x]) => x === `${y}-${k}`);
   const term = has(t) ? t : [...TERM_ORDER].reverse().find(has);
@@ -539,7 +551,7 @@ function fitSelect(sel) {
   const text = sel.selectedIndex >= 0 ? sel.options[sel.selectedIndex].text : "";
   sel.style.width = `${Math.ceil(canvas.measureText(text).width + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + 2)}px`;
 }
-const fitTerm = () => { fitSelect($("year")); fitSelect($("term")); fitSelect($("browse-select")); };
+const fitTerm = () => { for (const id of ["year", "term", "browse-select", "tl-year", "tl-term"]) fitSelect($(id)); };
 if (document.fonts) document.fonts.addEventListener("loadingdone", fitTerm);
 window.addEventListener("resize", fitTerm);
 
@@ -772,7 +784,7 @@ function changed() {
   savePicks();
   saveOverrides();
   clearErrors();
-  state.result = null;
+  dropExplore();
   return checkOverlap() && !had;
 }
 
@@ -1024,6 +1036,7 @@ function renderCourseSheet() {
   $("cs-title").textContent = c ? c.name : p.name || p.id;
   $("cs-meta").textContent = [p.id, c ? c.dept : p.dept, fmtCredit(c ? c.credit : p.credit)].filter(Boolean).join(" · ");
   $("cs-review").href = reviewUrl(c ? c.name : p.name || p.id, c); // 이번 자료에 없는 과목에도 둔다(과목명은 남아 있다)
+  setCatalogLink($("cs-catalog"), p.id, "");
   const body = $("cs-body");
   if (!c) {
     body.replaceChildren(h("p", {}, "이번 자료에 없는 과목이에요"));
@@ -1389,10 +1402,19 @@ for (const d of document.querySelectorAll("dialog.sheet")) {
     if (live) live.textContent = ""; // 다음에 열 때 지난 알림이 다시 읽히지 않게
     const id = sheetId;
     if (d.id === "course-sheet") { courseSheetClosed(); sheetId = null; }
+    if (d.id === "item-sheet") itemSheetClosed();
+    if (d.id === "tt-name-sheet") nameSheetClosed();
+    if (d.id === "cond-sheet") condSheetClosed();
     // 연 요소로 초점을 돌린다. 그사이 사라졌으면(다시 그린 과목 행, 원인이 풀려 숨은 오류 줄 옆 '추가 설정') 그 자리를 잇는 것으로
+    const key = d.id === "item-sheet" ? itemSheet.key : d.id === "custom-sheet" ? custom.key : "";
+    // 내 시간표의 항목 시트는 연 행(또는 격자의 칸)을 다시 그렸으면 같은 항목의 것으로, 항목을 뺐으면 '과목 추가'로
+    const sel = !key ? "" : opener && opener.dataset.key ? `#wk [data-key="${CSS.escape(key)}"]` : `#items [data-item="${CSS.escape(key)}"]`;
+    const again = (...sels) => sels.some((x) => { const el = x && document.querySelector(x); if (el) el.focus({ preventScroll: true }); return !!el; });
     if (opener && opener.isConnected && !opener.closest("[hidden]")) opener.focus({ preventScroll: true });
     else if (d.id === "course-sheet") focusRow(id, ".course-hit");
     else if (d.id === "rules-sheet") $("open-rules").focus({ preventScroll: true });
+    else if (d.id === "item-sheet" || d.id === "custom-sheet") again(sel, '#items [data-add="course"]');
+    else if (d.id === "add-sheet") again(`#add-list [data-id="${CSS.escape(addId || "")}"]`);
   });
   // 내용이 붙어 있는 머리 밑으로 올라가 있는 동안 머리 아래에 선을 긋는다(잘린 글자가 머리의 글자에 붙어 보이지 않게). 맨 위에서는 없다
   d.addEventListener("scroll", () => d.classList.toggle("is-scrolled", d.scrollTop > 0), { passive: true });
@@ -1453,7 +1475,7 @@ function setHome(b) {
   const seg = homeSeg(b);
   if (seg === "dorm") { state.homeDorm = b; store.set("homeDorm", b); }
   else if (seg === "other") { state.homeOther = b; store.set("homeOther", b); }
-  state.result = null;
+  dropExplore();
   syncHomeSelect();
 }
 
@@ -1468,12 +1490,12 @@ $("home-seg").addEventListener("change", (e) => {
   } else setHome(v);
 });
 $("home-select").addEventListener("change", (e) => setHome(e.target.value));
-document.querySelector(".settings").addEventListener("change", (e) => {
+document.querySelector('input[name="mode"]').closest("fieldset").addEventListener("change", (e) => {
   if (e.target.name !== "mode") return;
   cancelCompute();
   state.mode = e.target.value;
   store.set("mode", state.mode);
-  state.result = null;
+  dropExplore();
 });
 
 // ---------------------------------------------------------------- 추가 설정 (공강 요일·점심시간)
@@ -1581,7 +1603,7 @@ function rulesChanged() {
   saveRules();
   cancelCompute();
   clearErrors();
-  state.result = null;
+  dropExplore();
   checkOverlap();
   syncRules();
   renderPicked();
@@ -1996,19 +2018,37 @@ function rankTitle(R) {
   return [h("span", { class: "rank-total" }, `(${all} 중)`), " ", found];
 }
 
+/** 결과 화면의 조건 줄(동선 화면도 같은 글). 결과 화면에서 기숙사 동을 밝히는 곳은 이 줄뿐이다: '출발·도착 기숙사 906동 · 경사 반영'
+ *  (번호표·파선 견본·핀 이름은 어느 동이든 '기숙사'). 추가 설정을 걸었으면 끝에 붙인다: '… · 금 공강 · 점심 60분'(목록 제목의 두 수는 그 조건을 지키는 조합만 센 것이다) */
+const condText = (R) => dotted([`출발·도착 ${isDorm(R.home) ? `기숙사 ${buildingLabel(R.home)}` : placeLabel(R.home)}`,
+  R.mode === "slope" ? "경사 반영" : "평지", ...rulesParts(R.rules)]);
+
+/** 한 주 요약: '걷기 주 187분 · 월화수목 등교'(늦으면 빨간 ' · 화목 3분 늦음'). 덩이 사이(가운뎃점 앞)에서만 줄을 바꾼다. 시간이 모두 미정이면 등교 요일이 없다 */
+function weekSum(ev, days) {
+  const nw = (t) => h("span", { class: "nw" }, t);
+  const walk = Math.round(ev.travel), late = lateText(ev.legs, true);
+  const on = days.filter((d) => (ev.days[d] || []).length).map((d) => DAY_KO[d]).join("");
+  return { walk, on, late, nodes: [nw(`걷기 주 ${walk}분`), on ? [" ·\u00a0", nw(`${on} 등교`)] : null, late ? h("span", { class: "late" }, " ·\u00a0", nw(late)) : null] };
+}
+
 function renderResult() {
   const R = state.result;
   if (!R) return;
-  $("rank-count").replaceChildren(...rankTitle(R));
-  // 결과 화면에서 기숙사 동을 밝히는 곳은 이 줄뿐이다: '출발·도착 기숙사 906동 · 경사 반영'(번호표·파선 견본·핀 이름은 어느 동이든 '기숙사').
-  // 추가 설정을 걸었으면 끝에 붙인다: '출발·도착 정문 · 경사 반영 · 금 공강 · 점심 60분'(목록 제목의 두 수는 그 조건을 지키는 조합만 센 것이다)
-  $("rank-cond").replaceChildren(...dotted([`출발·도착 ${isDorm(R.home) ? `기숙사 ${buildingLabel(R.home)}` : placeLabel(R.home)}`,
-    R.mode === "slope" ? "경사 반영" : "평지", ...rulesParts(R.rules)]));
+  $("route-head").hidden = !R.route;
+  if (R.route) { // 동선 화면(내 시간표): 맨 위 요약 줄과 조건 줄. 후보 목록은 없다
+    $("route-sum").replaceChildren(...[weekSum(R.ranked[0], R.days).nodes].flat(Infinity).filter(Boolean));
+    $("route-cond").replaceChildren(...condText(R));
+  } else {
+    $("rank-count").replaceChildren(...rankTitle(R));
+    $("rank-cond").replaceChildren(...condText(R));
+  }
+  // 교과구분 색 풀이: 결과 화면은 늘, 동선 화면은 칸 색이 교과구분별일 때만(과목별 색은 뜻이 없어 풀이를 두지 않는다)
+  $("cls-legend").hidden = !!R.route && ttColor !== "cls";
   $("daytabs").replaceChildren(...R.days.map((d) => h("button", { type: "button", role: "tab", id: `tab-${d}`, "data-day": String(d), "aria-controls": "day-panel" }, DAY_KO[d])));
   updateTabs();
   renderDay({ reveal: state.reveal });
   state.reveal = false;
-  renderRanks();
+  if (!R.route) renderRanks();
 }
 
 function updateTabs() {
@@ -2107,7 +2147,8 @@ function renderTimetable(ev, day, gridPx) {
     if ((x - h0) % step === 0) hours.append(h("span", { style: { top: top(x * 60) } }, String(x)));
   }
   box.replaceChildren(hours, grid);
-  const textW = grid.clientWidth - 16; // 칸 안 글자 폭(좌우 여백 8)
+  const fullW = grid.clientWidth - 16; // 칸 안 글자 폭(좌우 여백 8)
+  const R = state.result;
   const family = getComputedStyle(grid).fontFamily;
   const titleFont = `500 ${14 * k}px ${family}`, labelFont = `500 ${12 * k}px ${family}`, pillFont = `700 ${12 * k}px ${family}`; // t-block, t-label, 늦음 알약
   const widthOf = (text, font = labelFont) => { canvas.font = font; return canvas.measureText(text).width; };
@@ -2117,6 +2158,8 @@ function renderTimetable(ev, day, gridPx) {
     const m = l.meeting;
     if (!m) return;
     n += 1; // 지도 번호와 같은 순서
+    const half = (R.halves && R.halves.get(m)) || ""; // 동선 화면에서 시간이 겹치는 칸: 'half' 왼쪽, 'half right' 오른쪽
+    const textW = half ? Math.max(8, (fullW + 16 - 2) / 2 - 16) : fullW;
     const late = lateOf(l);
     const heightPct = ((m.end - m.start) / span) * 100;
     const px = (heightPct / 100) * gridPx;
@@ -2129,8 +2172,10 @@ function renderTimetable(ev, day, gridPx) {
     const short = px < 38 * k;
     const title = shortName(m.section.name);
     const need = Math.min(3, textLines(title, titleFont, textW));
-    const rooms = [roomLabel(m)];
-    if (m.building && rooms[0] !== buildingLabel(m.building)) rooms.push(buildingLabel(m.building));
+    // 직접 넣은 일정(동선 화면)은 장소가 없으면 이름만, 있으면 건물만(호가 없다)
+    const place = m.section.custom ? (m.building ? buildingLabel(m.building) : "") : roomLabel(m);
+    const rooms = place ? [place] : [];
+    if (place && m.building && place !== buildingLabel(m.building)) rooms.push(buildingLabel(m.building));
     const fit = (avail) => {
       const lines = Math.max(1, Math.min(3, Math.floor((avail + 2 - 16 * k) / (18 * k))));
       return { lines, used: Math.min(lines, need) * 18 * k + 16 * k };
@@ -2170,19 +2215,19 @@ function renderTimetable(ev, day, gridPx) {
         room = roomBeside(textW);
       }
     } else ({ lines } = fit(px - 6 - lateRow));
-    const cls = state.byId.get(m.section.courseId)?.cls || "";
+    const fill = R.colors ? R.colors.get(m.section.key) || "var(--cls-etc-bg)" : clsFill(state.byId.get(m.section.courseId)?.cls || "");
     const nx = legs[i + 1];
     let next = "";
     if (m.building && nx) {
       if (nx.meeting && nx.meeting.building) next = `다음 수업까지 걷기 ${Math.round(nx.minutes)}분`;
       else if (!nx.meeting) next = `${placeLabel(state.result.home)}까지 걷기 ${Math.round(nx.minutes)}분`;
     }
-    const said = [`${n}. ${hm(m.start)}~${hm(m.end)} ${m.section.name}`, roomLabel(m), late ? `${late}분 늦음(${lateWhy(l)})` : "", next].filter(Boolean).join(", ");
+    const said = [`${n}. ${hm(m.start)}~${hm(m.end)} ${m.section.name}`, place, half ? "시간 겹침" : "", late ? `${late}분 늦음(${lateWhy(l)})` : "", next].filter(Boolean).join(", ");
     grid.append(h("li", {
-      class: `tt-block${short ? " short" : ""}${roomTop ? " room-top" : pillRow ? " is-late pill-row" : lateRow ? " is-late" : ""}`,
-      style: { top: top(m.start), height: `calc(${heightPct}% - 2px)`, background: clsFill(cls), "--lines": String(lines),
+      class: `tt-block${half ? ` ${half}` : ""}${short ? " short" : ""}${roomTop ? " room-top" : pillRow ? " is-late pill-row" : lateRow ? " is-late" : ""}`,
+      style: { top: top(m.start), height: `calc(${heightPct}% - 2px)`, background: fill, "--lines": String(lines),
         ...(late && (short || roomTop) ? { "--late-w": `${Math.ceil(pillW + 6)}px` } : {}) }, // 알약과 같은 줄의 글은 알약 앞에서 끝난다
-      title: `${m.section.name} ${hm(m.start)}~${hm(m.end)} ${roomLabel(m)}`,
+      title: `${m.section.name} ${hm(m.start)}~${hm(m.end)}${place ? ` ${place}` : ""}`,
     },
     h("span", { class: "sr-only" }, said),
     late ? h("span", { class: "tt-late", "aria-hidden": "true", title: lateWhy(l) }, `${late}분 늦음`) : null,
@@ -2227,8 +2272,9 @@ function renderSummary(ev, day) {
   const legs = ev.legs.filter((l) => l.day === day);
   const walk = Math.round(legs.reduce((s, l) => s + l.minutes, 0));
   const late = lateText(legs, false); // '2분 늦음', 그날 둘이면 '2분·5분 늦음'(더한 값은 쓰지 않는다)
-  box.replaceChildren(...[h("span", {}, "걷기 ", h("b", {}, `${walk}분`)),
-    late ? h("span", { class: "tag danger" }, h("span", { class: "sr-only" }, ", "), late) : null].filter(Boolean));
+  const clash = !!state.result.clashDays && state.result.clashDays.has(day);
+  const tag = (text) => h("span", { class: "tag danger" }, h("span", { class: "sr-only" }, ", "), text);
+  box.replaceChildren(...[h("span", {}, "걷기 ", h("b", {}, `${walk}분`)), clash ? tag("시간 겹침") : null, late ? tag(late) : null].filter(Boolean));
 }
 
 // ---------------------------------------------------------------- 지도
@@ -2661,7 +2707,8 @@ function renderLegend(mp, legs, hasReturn) {
   for (const l of legs) {
     if (!l.meeting) continue;
     n += 1;
-    items.push(h("li", {}, h("span", { class: "num" }, String(n)), h("span", {}, l.meeting.building ? buildingLabel(l.meeting.building) : "강의실 미정")));
+    const where = l.meeting.building ? buildingLabel(l.meeting.building) : l.meeting.section.custom ? "장소 미정" : "강의실 미정";
+    items.push(h("li", {}, h("span", { class: "num" }, String(n)), h("span", {}, where)));
   }
   if (items.length) items.push(h("li", {}, h("span", { class: "num home", "aria-hidden": "true" }, svg(HOME_PIN.replace('width="12" height="12"', 'width="10" height="10"'))), h("span", {}, placeLabel(state.result.home))));
   if (items.length && hasReturn) items.push(h("li", { class: "line" }, svg(RETURN_KEY), h("span", {}, `${placeLabel(state.result.home)} 가는 길`)));
@@ -3073,13 +3120,7 @@ function rankItem(ev, i) {
   const span = (h1 - h0) * 60;
   const pct = (x) => `${(x / span) * 100}%`;
   const cur = i === state.rank;
-  const walk = Math.round(ev.travel);
-  const late = lateText(ev.legs, true);
-  const days = R.days.filter((d) => (ev.days[d] || []).length).map((d) => DAY_KO[d]).join("");
-  // 요약은 덩이 사이(' · ' 의 가운뎃점 앞)에서만 줄을 바꾼다('늦음'만 다음 줄로 떨어지지 않게, 줄 끝에 점이 남지 않게).
-  // 시간이 모두 미정이면 등교 요일이 없다
-  const nw = (t) => h("span", { class: "nw" }, t);
-  const sum = [nw(`걷기 주 ${walk}분`), days ? [" ·\u00a0", nw(`${days} 등교`)] : null];
+  const { walk, on: days, late, nodes } = weekSum(ev, R.days);
   const clsOf = (courseId) => state.byId.get(courseId)?.cls || "";
   const week = h("span", { class: "week", "aria-hidden": "true", style: { "--days": String(R.days.length) } },
     R.days.map((d) => h("span", { class: "wd" }, DAY_KO[d])),
@@ -3090,10 +3131,11 @@ function rankItem(ev, i) {
     type: "button", class: "rank-hit", "data-rank": String(i), "aria-current": cur ? "true" : null,
     "aria-label": [`${i + 1}위`, `걷기 주 ${walk}분`, days ? `${days} 등교` : "", late].filter(Boolean).join(", "),
   },
-  h("span", { class: "rank-head" }, h("span", { class: "rank-no" }, `${i + 1}위`),
-    h("span", { class: "rank-sum" }, sum, late ? h("span", { class: "late" }, " ·\u00a0", nw(late)) : null)),
+  h("span", { class: "rank-head" }, h("span", { class: "rank-no" }, `${i + 1}위`), h("span", { class: "rank-sum" }, nodes)),
   week);
-  return h("li", { class: cur ? "rank selected" : "rank" }, btn, cur ? rankPicks(ev) : null);
+  const save = h("button", { type: "button", class: "btn-text small", "data-save": String(i) });
+  setSaveButton(save, ev, i);
+  return h("li", { class: cur ? "rank selected" : "rank" }, btn, cur ? rankPicks(ev) : null, h("div", { class: "rank-save" }, save));
 }
 
 /**
@@ -3292,11 +3334,1084 @@ function selectRank(i) {
 }
 
 $("ranks").addEventListener("click", (e) => {
+  const sv = e.target.closest("[data-save]");
+  if (sv) { toggleSave(Number(sv.dataset.save), sv); return; }
   const b = e.target.closest("[data-rank]");
   if (b) selectRank(Number(b.dataset.rank));
 });
 $("ranks-more-btn").addEventListener("click", () => showMore());
 $("ranks-cancel").addEventListener("click", () => cancelCompute());
+
+// ---------------------------------------------------------------- 내 시간표(디자인 규칙 '내 시간표', 10/22 사용자: "SNU TT 참고해서 시간표 만들고 저장하는 기능
+// 만들어", "같은 학기마다도 시간표 여러 개 만들 수 있어야 함")
+// 자료 형식과 함수는 백엔드 timetables.js(T, docs/timetables.md). 기기에는 학기마다 시간표 목록(timetables@학기)과 지금 보는 시간표 id(timetable@학기)를 둔다.
+// 보는 학기는 앱 전체의 학기다(탐색 학기 줄과 같은 값). 학기에 시간표가 없으면 빈 '시간표 1'을 보이고 처음 넣거나 이름을 바꿀 때 만든다
+// (빈 시간표를 저절로 쌓지 않는다). 칸과 목록은 지금 편람 값을 따르고(T.reconcile: 내가 바꾼 시간·장소는 그대로), 편람을 받기 전에는 적어 둔 값으로 그린다.
+// 시간이 겹치게 넣으면 묻지 않고 겹치는 항목을 뺀 뒤 되돌리기를 준다(묻는 창은 되돌릴 수 없는 일에만 쓴다)
+
+const COLOR_NAMES = ["파랑", "초록", "주황", "보라", "노랑", "분홍", "청록", "회색"]; // 칸 색 item-0~7 의 이름(색 고르기의 스크린리더 이름. 화면에는 쓰지 않는다)
+// 시간표 칸 색: 과목별(item) | 교과구분별(cls). 이 기기 하나, 학기와 상관없다. 열쇠 이름은 백엔드 timetables.js 의 STORE_KEYS(update57)와 같다
+let ttColor = store.get("timetableColor", "item") === "cls" ? "cls" : "item";
+const mine = { sem: "", list: [], id: "" }; // 보는 학기, 그 학기 시간표 목록(T.parseList), 지금 보는 시간표 id
+let savedIndex = null; // 저장한 시간표의 '항목 열쇠=수업' 묶음 → 시간표(후보 카드의 저장됨. T.findSaved 와 같은 견줌을 카드마다 다시 하지 않게)
+
+/** '2026년 2학기' */
+function semesterLabel(sem) {
+  const [y, k] = String(sem || "").split("-");
+  return TERMS[k] ? `${y}년 ${TERMS[k]}` : "";
+}
+
+function readMine(sem) {
+  mine.sem = sem || "";
+  mine.list = sem ? T.parseList(store.get(semKey("timetables", sem), []), sem) : [];
+  mine.id = sem ? String(store.get(semKey("timetable", sem), "") || "") : "";
+  savedIndex = null;
+}
+/** 저장한다. 실패해도 알리지 않는다(디자인 규칙 '상태와 피드백': 다음에 켤 때 복원되지 않을 뿐) */
+function saveMine() {
+  savedIndex = null;
+  if (!mine.sem) return;
+  if (mine.list.length) store.set(semKey("timetables", mine.sem), T.serialize(mine.list)); else store.del(semKey("timetables", mine.sem));
+  if (mine.id) store.set(semKey("timetable", mine.sem), mine.id); else store.del(semKey("timetable", mine.sem));
+}
+/** 이 판이 읽을 수 있는 시간표(새 판이 적은 것은 목록에 남겨 두기만 한다: T.parseList 의 _newer) */
+const shownTts = () => mine.list.filter((t) => !t._newer);
+/** 지금 보는 시간표: 기억한 것, 없으면 대표, 그것도 없으면 목록 맨 위. 학기에 하나도 없으면 아직 만들지 않은 빈 '시간표 1' */
+function curTt() {
+  const list = shownTts();
+  return list.find((t) => t.id === mine.id) || list.find((t) => t.primary) || list[0] || { id: "", title: "시간표 1", items: [], virtual: true };
+}
+/** 시간표를 목록에 넣거나 바꿔 넣고 저장한다. select 면 그 시간표를 보는 시간표로 */
+function putTt(t, { select = true } = {}) {
+  const i = mine.list.findIndex((x) => x.id === t.id);
+  if (i >= 0) mine.list[i] = t; else mine.list.push(t);
+  if (select) mine.id = t.id;
+  saveMine();
+}
+/** 지금 시간표를 fn(t) → 새 t 로 바꾼다. 아직 없는 빈 시간표 1이면 이때 만든다. 바꾼 시간표(fn 이 null 이면 null) */
+function editTt(fn) {
+  let t = curTt();
+  if (t.virtual) t = T.createTimetable(mine.list, mine.sem, { title: "시간표 1" });
+  const next = t && fn(t);
+  if (!next) return null;
+  putTt(next);
+  return next;
+}
+/** 새 시간표 이름: 쓰지 않은 가장 작은 번호의 '시간표 n' */
+function nextTitle() {
+  const used = new Set(mine.list.map((t) => t.title));
+  let n = 1;
+  while (used.has(`시간표 ${n}`)) n += 1;
+  return `시간표 ${n}`;
+}
+/** 같은 학기에 같은 이름이 있으면 '이름 (2)'(2부터 비는 번호. 복사본 '시간표 1 (2)'). 번호를 붙여도 30자를 넘지 않게 앞을 줄인다 */
+function numbered(title, selfId = null) {
+  const used = new Set(mine.list.filter((t) => t.id !== selfId).map((t) => t.title));
+  if (!used.has(title)) return title;
+  const root = title.replace(/\s\(\d+\)$/, "") || "시간표";
+  for (let n = 2; ; n += 1) {
+    const sfx = ` (${n})`, name = root.slice(0, T.TITLE_MAX - sfx.length).trimEnd() + sfx;
+    if (!used.has(name)) return name;
+  }
+}
+/** 지금 시간표가 바뀌었다(다른 시간표로 바꿨거나 학기가 바뀌었다). 보이지 않는 내 시간표 탭에 쌓인 과목 추가·동선 화면은 그 시간표의 것이라 거둔다 */
+function selectTt(id) {
+  if (id === mine.id) return;
+  mine.id = id;
+  saveMine();
+  if (tab !== "mine") stacks.mine.length = 1;
+}
+
+/** 항목마다 그릴 것 [{key, item, meetings, state, live}]: 지금 편람과 견준 것(T.reconcile). 편람을 받기 전에는 적어 둔 수업 그대로 */
+function ttEntries(t) {
+  if (state.loaded && state.semester === mine.sem) return T.reconcile(t, state.byId);
+  return t.items.map((it) => ({ key: T.itemKey(it), item: it, meetings: (it.custom ? it.meetings : it.own || it.base).map(meetOf), state: it.custom ? "custom" : "same", live: null }));
+}
+/** 엔진이 읽는 분반 모양(동선): T.toSections 와 같다 */
+const ttSections = (t) => ttEntries(t).map(({ key, item, meetings }) => (item.custom
+  ? { key, courseId: null, no: "", name: item.title, instructor: "", custom: true, meetings }
+  : { key, courseId: item.course, no: item.no, name: item.name, instructor: item.instructor, custom: false, meetings }));
+const meetsOverlap = (a, b) => a.day === b.day && a.start < b.end && b.start < a.end;
+/** 시간이 겹치는 항목들의 열쇠 */
+function clashKeys(entries) {
+  const out = new Set();
+  for (let i = 0; i < entries.length; i++) {
+    for (let j = i + 1; j < entries.length; j++) {
+      if (entries[i].meetings.some((a) => entries[j].meetings.some((b) => meetsOverlap(a, b)))) { out.add(entries[i].key); out.add(entries[j].key); }
+    }
+  }
+  return out;
+}
+const courseName = (e) => (e.item.custom ? e.item.title : (state.loaded && state.byId.get(e.item.course)?.name) || e.item.name);
+const colorNo = (it) => (Number.isInteger(it.color) ? it.color : 0) % COLOR_NAMES.length;
+/** 칸 색과 점 색: 과목별이면 item-N, 교과구분별이면 탐색과 같은 교과구분 색(일정은 기타) */
+const itemFill = (it) => (ttColor === "cls" ? clsFill(it.custom ? "" : it.cls) : `var(--item-${colorNo(it)})`);
+const itemDot = (it) => (ttColor === "cls" ? clsColor(it.custom ? "" : it.cls) : `var(--item-${colorNo(it)}-dot)`);
+/** 일정의 메타·칸: '금 16:00~18:00 · 63동'(장소가 없으면 시각까지) */
+const customWhen = (meetings) => meetingGroups(meetings).map((g) => `${daysLabel(g.days)} ${hm(g.start)}~${hm(g.end)}${g.building ? ` · ${buildingLabel(g.building)}` : ""}`).join(", ");
+
+/** 태그는 두 개까지, 위험 → 주의 → 중립. 없는 과목은 편람에서 과목이 사라진 것(탐색과 같은 말), 없는 분반은 과목은 있고 분반만 사라진 것 */
+function itemTags(e, clash) {
+  const tags = [];
+  if (clash.has(e.key)) tags.push(["danger", "시간 겹침"]);
+  if (e.state === "gone") tags.push(["danger", state.byId.has(e.item.course) ? "없는 분반" : "없는 과목"]);
+  if (e.state === "changed") tags.push(["warning", "편람 바뀜"]);
+  if (e.live && e.live.status === "폐강대상") tags.push(["warning", "폐강 대상"]);
+  if (!e.item.custom && (!e.meetings.length || e.meetings.some((m) => !m.building))) tags.push(["", "미정"]);
+  if (e.item.own) tags.push(["", "직접 입력"]);
+  return tags.slice(0, 2);
+}
+
+/** 내 시간표가 바뀌었다: 보이는 곳만 다시 그린다(목록 시트, 내 시간표 화면) */
+function mineChanged() {
+  if ($("tt-list-sheet").open) renderTtList();
+  if (screen === "mine") renderMine();
+}
+
+function renderMine() {
+  if (screen !== "mine") return;
+  const t = curTt();
+  const entries = ttEntries(t);
+  const clash = clashKeys(entries);
+  renderMineHead(t);
+  renderWeek(t, entries, clash);
+  renderItems(entries, clash);
+  $("route-run").disabled = !t.items.length; // 비었으면 꺼진다(빈 격자가 까닭을 보인다)
+}
+
+/** 머리 줄: '2026년 2학기 · 총 18학점' / '시간표 1 ▾' + 대표. 학점이 없으면(빈 시간표, 일정만) 학기만 */
+function renderMineHead(t) {
+  const sum = Math.round(T.credits(t) * 10) / 10, sem = semesterLabel(mine.sem);
+  $("tt-sem").textContent = sum ? `${sem} · 총 ${sum}학점` : sem;
+  $("tt-name").textContent = t.title;
+  $("tt-primary").hidden = !t.primary;
+  $("tt-switch").setAttribute("aria-label", [sum ? `${sem} 총 ${sum}학점` : sem, t.title, t.primary ? "대표" : ""].filter(Boolean).join(", "));
+}
+
+/**
+ * 주간 격자: 월–금(토·일 항목이 있으면 그 요일까지), 9~18시(항목이 더 이르거나 늦으면 정시로 넓힌다). 한 시간 = max(mine-hour-min, 30rem ÷ 시간 수).
+ * 칸은 요일·시각 순 <ol> 이고 자리만 절대 배치다. 칸 글자는 t-label: 강의실은 늘 보이고(좁으면 건물과 호 사이에서 줄을 바꾼다) 과목명은 남는 줄만큼,
+ * 칸이 낮아 과목명 한 줄도 못 두면 강의실을 건물만('43-1동'). 시간이 겹치는 칸은 반씩 나란히. 시간이 미정인 항목은 격자에 없다(목록에 '미정')
+ */
+let wkWidth = 0;
+function renderWeek(t, entries, clash) {
+  const box = $("wk");
+  const blocks = [];
+  for (const e of entries) for (const m of e.meetings) blocks.push({ e, m, half: "" });
+  const days = [0, 1, 2, 3, 4];
+  for (const { m } of blocks) if (!days.includes(m.day)) days.push(m.day);
+  days.sort((a, b) => a - b);
+  let h0 = 9, h1 = 18;
+  for (const { m } of blocks) { h0 = Math.min(h0, Math.floor(m.start / 60)); h1 = Math.max(h1, Math.ceil(m.end / 60)); }
+  const hours = h1 - h0, rem = remPx(), hourPx = Math.max(3.75 * rem, (30 * rem) / hours);
+  box.style.setProperty("--days", String(days.length));
+  box.style.setProperty("--hours", String(hours));
+  box.style.setProperty("--hour-h", `${hourPx}px`);
+  const body = h("div", { class: "wk-body" });
+  for (let i = 0; i <= hours; i++) {
+    body.append(h("div", { class: "wk-line", "aria-hidden": "true", style: { top: `${i * hourPx}px` } }));
+    if (i < hours) body.append(h("span", { class: "wk-hour", "aria-hidden": "true", style: { top: `${i * hourPx}px` } }, String(h0 + i)));
+  }
+  box.replaceChildren(h("div", { class: "wk-head", "aria-hidden": "true" }, h("span"), days.map((d) => h("span", {}, DAY_KO[d]))), body);
+  wkWidth = box.clientWidth;
+  if (!t.items.length) { body.append(h("p", { class: "wk-empty" }, "시간표가 비어 있어요")); return; }
+  if (!blocks.length) return;
+  blocks.sort((a, b) => a.m.day - b.m.day || a.m.start - b.m.start || a.m.end - b.m.end);
+  for (let i = 0; i < blocks.length; i++) {
+    for (let j = 0; j < i; j++) {
+      const a = blocks[j], b = blocks[i];
+      if (a.e !== b.e && meetsOverlap(a.m, b.m)) { if (!a.half) a.half = "half"; b.half = "half right"; }
+    }
+  }
+  const list = h("ol", { class: "wk-blocks" });
+  body.append(list);
+  const n = days.length, colW = (list.clientWidth + 2) / n - 2;
+  const font = `500 ${0.75 * rem}px ${getComputedStyle(box).fontFamily}`;
+  for (const { e, m, half } of blocks) {
+    const top = ((m.start - h0 * 60) / 60) * hourPx, height = ((m.end - m.start) / 60) * hourPx - 2;
+    const textW = (half ? (colW - 2) / 2 : colW) - 8;
+    const name = e.item.custom ? e.item.title : shortName(courseName(e));
+    const full = e.item.custom ? (m.building ? buildingLabel(m.building) : "") : roomLabel(m);
+    let room = full, roomLines = room ? textLines(room, font, textW) : 0;
+    if (room && height - 6 - roomLines * rem < rem && m.building && room !== buildingLabel(m.building)) {
+      room = buildingLabel(m.building);
+      roomLines = textLines(room, font, textW);
+    }
+    const lines = Math.max(1, Math.floor((height - 6 - roomLines * rem) / rem));
+    const said = [`${DAY_KO[m.day]} ${hm(m.start)}~${hm(m.end)} ${e.item.custom ? e.item.title : courseName(e)}`, full, clash.has(e.key) ? "시간 겹침" : ""].filter(Boolean).join(", ");
+    list.append(h("li", { style: { top: `${top}px`, height: `${height}px`, left: `calc(${days.indexOf(m.day)} * (100% + 2px) / ${n})`, width: `calc((100% + 2px) / ${n} - 2px)` } },
+      h("button", { type: "button", class: `wk-block${half ? ` ${half}` : ""}`, "data-key": e.key, "aria-haspopup": "dialog", "aria-label": said, style: { background: itemFill(e.item), "--lines": String(lines) } },
+        h("span", { class: "b-title", "aria-hidden": "true" }, name),
+        room ? h("span", { class: "b-room", "aria-hidden": "true" }, room) : null)));
+  }
+}
+
+/** 항목 목록: 첫 수업의 요일·시각 순(시간이 없는 것은 맨 뒤), 맨 아래 '+ 과목 추가' | '+ 직접 추가' */
+function renderItems(entries, clash) {
+  const first = (e) => (e.meetings.length ? Math.min(...e.meetings.map((m) => m.day * 1440 + m.start)) : Infinity);
+  const sorted = [...entries].sort((a, b) => first(a) - first(b));
+  const add = (kind, text) => h("button", { type: "button", class: "add-row", "data-add": kind }, icon(I.plus, 20), text);
+  $("items").replaceChildren(...sorted.map((e) => itemRow(e, clash)), h("li", { class: "add-pair" }, add("course", "과목 추가"), add("custom", "직접 추가")));
+  $("tt-legend").hidden = ttColor !== "cls" || !entries.length;
+}
+
+/** 행: 색 점, 이름, 메타('001(홍승윤) · 전선 · 3학점', 일정은 '금 16:00~18:00 · 63동'), 태그, 빼기 ×. 행 어디든 눌린다(×만 따로) */
+function itemRow(e, clash) {
+  const it = e.item;
+  const name = courseName(e);
+  const meta = it.custom ? customWhen(e.meetings) : [sectionLabel({ no: it.no, instructor: it.instructor }), it.cls, fmtCredit(it.credit)].filter(Boolean).join(" · ");
+  const tags = itemTags(e, clash);
+  return h("li", { class: "course", "data-key": e.key },
+    h("button", { type: "button", class: "course-hit", "data-item": e.key, "aria-haspopup": "dialog", "aria-label": [name, meta, ...tags.map(([, x]) => x)].join(", ") },
+      h("span", { class: "dot", "aria-hidden": "true", style: { background: itemDot(it) } }),
+      h("span", { class: "c-body" }, h("span", { class: "c-title" }, name), h("span", { class: "c-meta" }, meta))),
+    tags.length ? h("span", { class: "tags", "aria-hidden": "true" }, tags.map(([k, x]) => h("span", { class: k ? `tag ${k}` : "tag" }, x))) : null,
+    h("button", { type: "button", class: "icon-btn remove", "data-drop": e.key, "aria-label": `${name} 빼기` }, icon(I.x, 20)));
+}
+
+/** 항목 빼기: 확인 없이 빼고 스낵바 '과목을 뺐어요'·'일정을 뺐어요' [되돌리기]. 되돌리면 같은 시간표의 같은 자리로 */
+function dropItem(key, { fromList = false } = {}) {
+  const t = curTt();
+  const at = t.items.findIndex((x) => T.itemKey(x) === key);
+  if (at < 0) return;
+  const it = t.items[at];
+  const row = $("items").querySelector(`li[data-key="${CSS.escape(key)}"]`);
+  const keyboard = Boolean(fromList && row && row.querySelector(":focus-visible"));
+  const sib = row && (row.nextElementSibling?.dataset.key ? row.nextElementSibling : row.previousElementSibling);
+  const nextKey = sib && sib.dataset.key;
+  putTt(T.removeItem(t, key));
+  renderMine();
+  if (keyboard) ($("items").querySelector(`li[data-key="${CSS.escape(nextKey || "")}"] .remove`) || $("items").querySelector('[data-add="course"]'))?.focus();
+  const name = it.custom ? it.title : it.name;
+  announce(`${name} 뺐어요`);
+  showSnackbar(it.custom ? "일정을 뺐어요" : "과목을 뺐어요", "되돌리기", () => {
+    const cur = mine.list.find((x) => x.id === t.id);
+    if (!cur || cur.items.some((x) => T.itemKey(x) === key)) return;
+    const items = cur.items.slice();
+    items.splice(Math.min(at, items.length), 0, it);
+    putTt({ ...cur, items, updated: new Date().toISOString() }, { select: false });
+    renderMine();
+    $("items").querySelector(`li[data-key="${CSS.escape(key)}"] .course-hit`)?.focus();
+  });
+}
+
+/** 겹치는 항목을 빼고 넣은 것을 되돌린다: 넣은 항목을 빼고, 뺀 항목과 바꾸기 전 분반(restore)을 돌려놓는다 */
+function undoReplace(tid, addedKey, restore) {
+  const cur = mine.list.find((x) => x.id === tid);
+  if (!cur) return;
+  const again = new Set(restore.map(T.itemKey));
+  const items = cur.items.filter((x) => T.itemKey(x) !== addedKey && !again.has(T.itemKey(x)));
+  putTt({ ...cur, items: [...items, ...restore], updated: new Date().toISOString() }, { select: false });
+  mineChanged();
+}
+
+/**
+ * 시간표에 항목을 넣는다(과목 추가 화면의 추가·바꾸기, 항목 시트의 바꾸기, 직접 추가). 같은 과목의 다른 분반은 바꿔 넣는다(색은 그대로).
+ * 시간이 겹치는 항목이 있으면 묻지 않고 빼고 넣는다(T.addItem force). → {t, added: 넣은 항목 열쇠, restore: 되돌릴 때 돌려놓을 항목들, removed: 겹쳐서 뺀 항목 수}
+ */
+function placeItem(item) {
+  let out = null;
+  editTt((t) => {
+    const prev = item.course ? t.items.find((x) => x.course === item.course) : null;
+    let r = T.addItem(t, item, { byId: state.byId });
+    const hit = new Set(r.overlaps);
+    if (hit.size) r = T.addItem(t, item, { force: true, byId: state.byId });
+    const removed = t.items.filter((x) => hit.has(T.itemKey(x)));
+    out = { tid: t.id, added: T.itemKey(item), restore: [prev, ...removed].filter(Boolean), removed: removed.length };
+    return r.t;
+  });
+  return out;
+}
+
+$("tt-switch").addEventListener("click", (e) => openTtList(e.currentTarget));
+$("tt-menu").addEventListener("click", (e) => openTtMenu(e.currentTarget));
+$("route-run").addEventListener("click", () => { if (curTt().items.length) go("route"); });
+$("items").addEventListener("click", (e) => {
+  const drop = e.target.closest("[data-drop]");
+  if (drop) { dropItem(drop.dataset.drop, { fromList: true }); return; }
+  const hit = e.target.closest("[data-item]");
+  if (hit) { openItem(hit.dataset.item, hit); return; }
+  const add = e.target.closest("[data-add]");
+  if (add && add.dataset.add === "course") go("add");
+  else if (add) openCustom(null, add);
+});
+$("wk").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-key]");
+  if (b) openItem(b.dataset.key, b);
+});
+// 격자 폭이 바뀌면(화면 회전, 폭 구간) 칸 글자를 다시 맞춘다
+new ResizeObserver(() => {
+  const w = $("wk").clientWidth;
+  if (screen === "mine" && w && Math.abs(w - wkWidth) >= 1) renderMine();
+}).observe($("wk"));
+
+// ---- 시간표 목록 시트: 학기 선택칸(바꾸면 앱 전체의 학기), 시간표 행(지금 보는 것에 체크), 맨 아래 '+ 새 시간표'(50개까지)
+function openTtList(opener) {
+  $("tl-limit").hidden = true;
+  renderTtList();
+  openSheet($("tt-list-sheet"), opener);
+}
+function renderTtList() {
+  fillTerm($("tl-year"), $("tl-term"));
+  const cur = curTt();
+  const rows = (shownTts().length ? shownTts() : [cur]).map((t) => {
+    const n = t.items.filter((it) => !it.custom).length, m = t.items.length - n, sum = Math.round(T.credits(t) * 10) / 10;
+    const meta = t.items.length ? [n ? `총 ${sum}학점` : "", n ? `과목 ${n}` : "", m ? `일정 ${m}` : ""].filter(Boolean).join(" · ") : "비어 있음";
+    const on = t.id === cur.id;
+    return h("li", {}, h("button", { type: "button", class: "tt-row", "data-tt": t.id, "aria-current": on ? "true" : null },
+      h("span", { class: "it" },
+        h("span", { class: "nm" }, h("span", {}, t.title), t.primary ? h("span", { class: "tag" }, "대표") : null),
+        h("span", { class: "mt" }, meta)),
+      on ? h("span", { class: "chk" }, icon(I.check, 24)) : null));
+  });
+  rows.push(h("li", {}, h("button", { type: "button", class: "menu-row add", "data-tt-new": "", "aria-describedby": $("tl-limit").hidden ? null : "tl-limit" }, icon(I.plus, 20), "새 시간표")));
+  $("tl-rows").replaceChildren(...rows);
+}
+$("tl-rows").addEventListener("click", (e) => {
+  const d = $("tt-list-sheet");
+  const row = e.target.closest("[data-tt]");
+  if (row) {
+    if (row.dataset.tt) selectTt(row.dataset.tt);
+    renderMine();
+    closeSheet(d);
+    return;
+  }
+  if (!e.target.closest("[data-tt-new]")) return;
+  const t = T.createTimetable(mine.list, mine.sem, { title: nextTitle() });
+  if (!t) {
+    $("tl-limit").hidden = false;
+    renderTtList();
+    $("tl-rows").querySelector("[data-tt-new]").focus();
+    announce("시간표는 학기마다 50개까지예요", "alert");
+    return;
+  }
+  putTt(t);
+  renderMine();
+  closeSheet(d);
+});
+$("tl-year").addEventListener("change", () => onYearChange($("tl-year")));
+$("tl-term").addEventListener("change", () => switchSemester(`${$("tl-year").value}-${$("tl-term").value}`));
+
+// ---- 시간표 메뉴 시트(⋯): 이름 바꾸기, 복사하기, 대표로 정하기(대표에서 빼기), 탐색에 담기, 지우기
+function openTtMenu(opener) {
+  const t = curTt();
+  $("tm-title").textContent = t.title;
+  $("tm-primary").textContent = t.primary ? "대표에서 빼기" : "대표로 정하기";
+  $("tm-limit").hidden = true;
+  $("tm-rows").querySelector('[data-menu="copy"]').removeAttribute("aria-describedby");
+  openSheet($("tt-menu-sheet"), opener);
+}
+$("tm-rows").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-menu]");
+  if (!b) return;
+  const k = b.dataset.menu, d = $("tt-menu-sheet");
+  let t = curTt();
+  if (k === "rename") { openName(); return; } // 메뉴를 닫고 이름 시트를 연다(시트 위에 시트를 띄우지 않는다)
+  if (k === "copy") { // '시간표 1 (2)'처럼 번호를 붙인 사본을 만들어 그 시간표로. 따로 알리지 않는다(머리 줄의 이름이 바뀐다)
+    if (t.virtual) { t = T.createTimetable(mine.list, mine.sem, { title: t.title }); mine.list.push(t); }
+    const c = T.copyTimetable(t, mine.list);
+    if (!c) {
+      $("tm-limit").hidden = false;
+      b.setAttribute("aria-describedby", "tm-limit");
+      announce("시간표는 학기마다 50개까지예요", "alert");
+      return;
+    }
+    putTt({ ...c, title: numbered(t.title) });
+  } else if (k === "primary") { // 학기에 대표는 하나다. 빈 시간표 1은 만들면서 대표가 된다(학기의 첫 시간표)
+    if (t.virtual) editTt((x) => x);
+    else { mine.list = T.setPrimary(mine.list, t.primary ? null : t.id); saveMine(); }
+  } else if (k === "explore") { d.close(); exploreTt(t); return; }
+  else if (k === "delete") { closeSheet(d); if (!t.virtual) deleteTt(t); return; }
+  renderMine();
+  closeSheet(d);
+});
+
+/** 지우기: 확인 없이 지우고 학기의 다른 시간표(대표, 없으면 맨 위)로 바꾼 뒤 스낵바 '시간표를 지웠어요' [되돌리기]. 마지막 하나를 지우면 빈 시간표 1 모습이 된다 */
+function deleteTt(t) {
+  const at = mine.list.findIndex((x) => x.id === t.id), sem = mine.sem, was = mine.id;
+  mine.list = T.deleteTimetable(mine.list, t.id);
+  if (curTt().id !== mine.id || was === t.id) mine.id = curTt().id;
+  saveMine();
+  if (tab !== "mine") stacks.mine.length = 1;
+  mineChanged();
+  syncSaves();
+  announce("시간표를 지웠어요");
+  showSnackbar("시간표를 지웠어요", "되돌리기", () => {
+    if (mine.sem !== sem || mine.list.some((x) => x.id === t.id)) return;
+    const list = mine.list.slice();
+    list.splice(Math.min(at, list.length), 0, t);
+    mine.list = t.primary ? T.setPrimary(list, t.id) : list;
+    mine.id = was;
+    saveMine();
+    mineChanged();
+    syncSaves();
+  });
+}
+
+/** 탐색에 담기: 이 시간표의 과목을 탐색의 담은 과목에 더하고(이미 담은 과목은 그대로, 새로 담는 과목은 분반을 모두 켠다) 탐색 탭의 입력 화면으로. 일정은 담지 않는다 */
+function exploreTt(t) {
+  let added = 0;
+  for (const it of t.items) {
+    if (it.custom || isPicked(it.course)) continue;
+    const c = state.byId.get(it.course);
+    if (state.loaded && !c) continue; // 편람에서 사라진 과목
+    state.picks.push({ id: it.course, excluded: new Set(), ...(c ? snapshot(c) : { name: it.name, cls: it.cls, credit: it.credit, dept: "" }) });
+    added += 1;
+  }
+  if (added) { changed(); renderPicked(); }
+  stacks.explore.length = 1;
+  switchTab("explore");
+}
+
+// ---- 이름 바꾸기 시트: 입력칸 하나(지금 이름이 고른 상태, 30자). 닫으면(완료, 뒤로, 바깥, 끌기) 바꾼다. 비우면 원래 이름 그대로(오류 줄 없이)
+function openName() {
+  const input = $("tn-input");
+  input.value = curTt().title;
+  openSheet($("tt-name-sheet"), $("tt-menu"));
+  input.focus();
+  input.select();
+}
+$("tn-input").addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" || e.isComposing || e.keyCode === 229) return;
+  e.preventDefault();
+  closeSheet($("tt-name-sheet"));
+});
+function nameSheetClosed() {
+  const v = T.cleanTitle($("tn-input").value), t = curTt();
+  if (!v || v === t.title) return;
+  editTt((x) => ({ ...x, title: numbered(v, x.id), updated: new Date().toISOString() }));
+  renderMine();
+}
+
+// ---- 항목 시트(과목): 과목 시트와 같은 시트. 머리(과목명, 메타, 겹친 과목을 뺐다는 줄), 강의평·수강편람, 색, 넣은 분반(시간·장소 바꾸기), 다른 분반(바꾸기),
+// 시간표에서 빼기. 바꾼 것은 바로 저장된다. 닫으면 '편람 바뀜'을 본 것으로 친다(T.acknowledge)
+const itemSheet = { tid: "", key: "", undo: null };
+// 넣은 분반의 펼침과 입력 줄(과목 시트의 editState 와 같은 칸)
+let itemEdit = null;
+const newEdit = () => ({ wide: false, open: false, at: -1, days: [], sh: 9, sm: 0, eh: 10, em: 15, b: "", b0: "", room0: "", error: "" });
+
+function openItem(key, opener) {
+  const t = curTt(), it = t.items.find((x) => T.itemKey(x) === key);
+  if (!it) return;
+  if (it.custom) { openCustom(key, opener); return; }
+  Object.assign(itemSheet, { tid: t.id, key, undo: null });
+  itemEdit = newEdit();
+  $("is-note").hidden = true;
+  renderItemSheet();
+  openSheet($("item-sheet"), opener);
+}
+/** 시트가 보는 항목: [시간표, 항목, 견준 것(ttEntries 의 하나), 지금 편람의 과목] */
+function itemNow() {
+  const t = mine.list.find((x) => x.id === itemSheet.tid);
+  const it = t && t.items.find((x) => T.itemKey(x) === itemSheet.key);
+  if (!it) return [];
+  const e = ttEntries(t).find((x) => x.key === itemSheet.key);
+  return [t, it, e, state.loaded ? state.byId.get(it.course) || null : null];
+}
+function renderItemSheet() {
+  const [t, it, e, c] = itemNow();
+  if (!it) return;
+  $("is-title").textContent = c ? c.name : it.name;
+  $("is-meta").textContent = [it.course, c ? c.dept : "", fmtCredit(c ? c.credit : it.credit)].filter(Boolean).join(" · ");
+  $("is-review").href = reviewUrl(c ? c.name : it.name, c);
+  setCatalogLink($("is-catalog"), it.course, it.no);
+  const others = c ? c.sections.filter((s) => s.no !== it.no) : [];
+  const alts = it.alts || [];
+  others.sort((a, b) => (alts.includes(a.key) ? alts.indexOf(a.key) : alts.length) - (alts.includes(b.key) ? alts.indexOf(b.key) : alts.length));
+  const cur = h("div", { class: "sec is-cur" });
+  fillCurSec(cur, e);
+  $("is-body").replaceChildren(...[
+    ttColor === "item" ? h("fieldset", { class: "sheet-field" }, h("legend", { class: "field-label" }, "색"),
+      h("div", { class: "swatches" }, COLOR_NAMES.map((name, i) => h("label", {},
+        h("input", { type: "radio", name: "is-color", value: String(i), checked: colorNo(it) === i, "aria-label": name }),
+        h("span", { class: "sw", style: { background: `var(--item-${i})` } }, icon(I.check, 20)))))) : null,
+    h("div", { class: "sheet-field item-secs" }, h("span", { class: "field-label" }, "넣은 분반"), cur),
+    others.length ? h("div", { class: "sheet-field item-secs" },
+      h("div", { class: "list-head" }, h("span", {}, `다른 분반 ${others.length}`)),
+      h("ul", { class: "list secs" }, others.map((s) => otherSec(t, it, s)))) : null,
+    h("div", { class: "sheet-foot" }, h("button", { type: "button", class: "btn-text", "data-act": "remove" }, "시간표에서 빼기"))].filter(Boolean));
+}
+
+/** 다른 분반 행: 번호(교수), 둘째 줄 시각·강의실, 태그(이 시간표의 다른 항목과 겹치면 '시간 겹침'), 오른쪽 '바꾸기' */
+function otherSec(t, it, s) {
+  const clash = T.overlapsWith(t, s.meetings, { except: T.itemKey(it), course: it.course, byId: state.byId }).length > 0;
+  return secRow(s, clash, h("button", { type: "button", class: "btn-add", "data-act": "swap", "aria-label": `${sectionLabel(s)} 바꾸기${clash ? ", 시간 겹침" : ""}` }, "바꾸기"));
+}
+/** 분반 행(과목 추가 화면의 과목 시트, 항목 시트의 다른 분반): 번호(교수)와 오른쪽 버튼, 둘째 줄 '월·수 11:00~12:15 · 28동 103호', 태그 */
+function secRow(s, clash, btn) {
+  const groups = meetingGroups(s.meetings);
+  const tags = [];
+  if (clash) tags.push(["danger", "시간 겹침"]);
+  if (s.status === "폐강대상") tags.push(["warning", "폐강 대상"]);
+  if (!s.meetings.length || s.meetings.some((m) => !m.building)) tags.push(["", "미정"]);
+  return h("li", { class: "sec", "data-key": s.key },
+    h("div", { class: "sec-line" }, h("span", { class: "sec-title" }, s.no, h("span", { class: "prof" }, `(${instructorOf(s)})`)), btn),
+    groups.length ? groups.map((g) => h("div", { class: "sec-when" }, h("span", {}, groupText(g)))) : h("div", { class: "sec-when" }, h("span", {}, "시간 미정")),
+    tags.length ? h("div", { class: "tags", "aria-hidden": "true" }, tags.slice(0, 2).map(([k, x]) => h("span", { class: k ? `tag ${k}` : "tag" }, x))) : null);
+}
+
+/**
+ * 넣은 분반: 006(한상미) / 수업마다 한 줄. 편람에 시간이 있으면 행 끝 펼침 화살표로 수업 칩(누르면 고치는 입력 줄, ×는 빼기), 시간 추가, 바꿨으면 편람 값과 되돌리기.
+ * 과목 시트의 '정해진 시간·장소 바꾸기'와 같다(입력 줄은 timeEditor). 바꾼 수업은 항목의 own 으로 둔다(편람과 같아지면 지운다)
+ */
+function fillCurSec(li, e) {
+  const it = e.item, st = itemEdit;
+  const s = { no: it.no, instructor: it.instructor };
+  const cat = e.live ? e.live.meetings : it.base.map(meetOf); // 편람 값(편람에서 사라졌으면 넣을 때 본 값)
+  const hasCat = cat.length > 0, altered = hasCat && !!it.own;
+  const groups = meetingGroups(e.meetings);
+  const wide = hasCat && st.wide;
+  const editId = "is-edit", adding = st.open && st.at < 0;
+  const addButton = () => h("button", { type: "button", class: "btn-text small", "data-act": "add-time", "aria-expanded": String(adding), "aria-controls": adding ? editId : null },
+    icon(I.plus, 16), "시간 추가");
+  const parts = [h("div", { class: "sec-line" }, h("span", { class: "sec-title" }, it.no, h("span", { class: "prof" }, `(${instructorOf(s)})`)))];
+  if (hasCat) parts.push(h("button", { type: "button", class: "icon-btn sec-more", "data-act": "more", "aria-expanded": String(wide), "aria-label": `${sectionLabel(s)} 시간·장소 바꾸기` }, icon(I.down, 20)));
+  const tags = [];
+  if (e.state === "changed") tags.push(["warning", "편람 바뀜"]);
+  if (e.live && e.live.status === "폐강대상") tags.push(["warning", "폐강 대상"]);
+  const rows = [], extra = [];
+  if (hasCat && !wide) {
+    for (const g of groups) rows.push(h("div", { class: "sec-when" }, h("span", {}, groupText(g))));
+    if (!groups.length) rows.push(h("div", { class: "sec-when" }, h("span", {}, "시간 미정")));
+    if (altered) tags.push(["", "직접 입력"]);
+  } else {
+    if (!groups.length && !hasCat) rows.push(h("div", { class: "sec-when" }, h("span", {}, "시간 미정"), addButton()));
+    if (groups.length) {
+      extra.push(h("div", { class: "chips" }, groups.map((g, i) => {
+        const text = groupText(g), editing = st.open && st.at === i;
+        return h("span", { class: editing ? "chip is-editing" : "chip" },
+          h("button", { type: "button", class: "chip-q", "data-act": "edit-chip", "data-i": String(i), "aria-expanded": String(editing), "aria-controls": editing ? editId : null,
+            "aria-label": `${text} 바꾸기` }, h("span", {}, text)),
+          h("button", { type: "button", class: "chip-x", "data-act": "del-chip", "data-i": String(i), "aria-label": `${text} 빼기` }, icon(I.x, 16)));
+      })));
+      if (st.open && st.at >= 0) extra.push(timeEditor(st, editId));
+    }
+    if (groups.length || hasCat) extra.push(h("div", { class: "sec-tools" }, addButton()));
+    if (adding) extra.push(timeEditor(st, editId));
+    if (altered) {
+      extra.push(h("div", { class: "sec-orig" },
+        h("span", {}, `편람 ${meetingGroups(cat).map(groupText).join(", ")}`),
+        h("button", { type: "button", class: "btn-text small", "data-act": "revert" }, "되돌리기")));
+    }
+  }
+  if (tags.length) rows.push(h("div", { class: "tags" }, tags.slice(0, 2).map(([k, x]) => h("span", { class: k ? `tag ${k}` : "tag" }, x))));
+  li.replaceChildren(...parts, ...rows, ...extra);
+}
+function refillCur(focusSel) {
+  const [, it, e] = itemNow();
+  const li = $("is-body").querySelector(".sec.is-cur");
+  if (!it || !li) return;
+  fillCurSec(li, e);
+  if (focusSel) li.querySelector(focusSel)?.focus();
+}
+/** 넣은 분반의 수업을 groups 로. 편람 값과 같아졌으면 사용자가 정한 수업(own)을 지운다 */
+function setItemOwn(groups) {
+  const [t, it, e] = itemNow();
+  if (!it) return;
+  const seen = new Set(), meet = [];
+  for (const g of groups) {
+    for (const day of g.days) {
+      const x = [day, g.start, g.end, g.building || "", g.building ? g.room || "" : ""];
+      if (seen.has(x.join(","))) continue;
+      seen.add(x.join(","));
+      meet.push(x);
+    }
+  }
+  meet.sort((a, b) => a[0] - b[0] || a[1] - b[1] || a[2] - b[2]);
+  const cat = e.live ? e.live.meetings : it.base.map(meetOf);
+  putTt(T.updateItem(t, itemSheet.key, { own: sameAsCatalog(meet.map(meetOf), cat) ? undefined : meet }), { select: false });
+  renderMine();
+}
+
+$("is-body").addEventListener("change", (ev) => {
+  const x = ev.target;
+  if (x.name === "is-color") { // 고르면 바로 바뀐다
+    const [t] = itemNow();
+    if (!t) return;
+    putTt(T.updateItem(t, itemSheet.key, { color: Number(x.value) }), { select: false });
+    renderMine();
+    return;
+  }
+  if (!x.dataset.edit) return;
+  const st = itemEdit, k = x.dataset.edit;
+  if (k === "day") {
+    const d = Number(x.value);
+    st.days = x.checked ? [...new Set([...st.days, d])].sort((a, b) => a - b) : st.days.filter((y) => y !== d);
+  } else if (k === "b") st.b = x.value;
+  else st[k] = Number(x.value);
+  const fixed = st.error === "day" ? st.days.length > 0 : st.error === "time" ? st.eh * 60 + st.em > st.sh * 60 + st.sm : false;
+  if (fixed) { st.error = ""; refillCur(`[data-edit="${k}"]${k === "day" ? `[value="${x.value}"]` : ""}`); }
+});
+$("is-body").addEventListener("click", (ev) => {
+  const actEl = ev.target.closest("[data-act]");
+  const act = actEl && actEl.dataset.act;
+  if (!act) return;
+  const [t, it, e, c] = itemNow();
+  if (!it) return;
+  const st = itemEdit;
+  const groups = () => meetingGroups(e.meetings).map(({ days, start, end, building, room }) => ({ days: [...days].sort((a, b) => a - b), start, end, building, room }));
+  if (act === "remove") { const key = itemSheet.key; closeSheet($("item-sheet")); dropItem(key); return; }
+  if (act === "swap") { swapSection(t, it, c, actEl.closest(".sec").dataset.key); return; }
+  if (act === "more") {
+    st.wide = !st.wide;
+    if (!st.wide) { st.open = false; st.error = ""; }
+    refillCur('[data-act="more"]');
+  } else if (act === "add-time") {
+    Object.assign(st, { open: !(st.open && st.at < 0), at: -1, days: [], b0: "", room0: "", error: "" });
+    refillCur('[data-act="add-time"]');
+  } else if (act === "edit-chip") {
+    const i = Number(actEl.dataset.i), g = groups()[i];
+    if (!g) return;
+    if (st.open && st.at === i) Object.assign(st, { open: false, error: "" });
+    else {
+      Object.assign(st, { open: true, at: i, days: g.days, sh: Math.floor(g.start / 60), sm: g.start % 60, eh: Math.floor(g.end / 60), em: g.end % 60,
+        b: g.building, b0: g.building, room0: g.room, error: "" });
+    }
+    refillCur(`[data-act="edit-chip"][data-i="${i}"]`);
+  } else if (act === "save-time") {
+    const a = st.sh * 60 + st.sm, b = st.eh * 60 + st.em;
+    const bad = !st.days.length ? "day" : b <= a ? "time" : "";
+    if (bad) {
+      st.error = bad;
+      refillCur(bad === "day" ? '[data-edit="day"]' : '[data-edit="eh"]');
+      announce(bad === "day" ? "고른 요일이 없어요" : "끝 시각이 시작보다 빨라요", "alert");
+      return;
+    }
+    const list = groups(), old = st.at >= 0 ? list[st.at] : null;
+    const g = { days: [...st.days], start: a, end: b, building: st.b, room: st.b && st.b === st.b0 ? st.room0 : "" };
+    const same = !!old && old.start === g.start && old.end === g.end && old.building === g.building && old.room === g.room && old.days.join() === g.days.join();
+    Object.assign(st, { open: false, error: "" });
+    if (!same) { if (old) list[st.at] = g; else list.push(g); setItemOwn(list); }
+    refillCur();
+    const li = $("is-body").querySelector(".sec.is-cur"), text = `${groupText(g)} 바꾸기`;
+    const chip = old ? [...li.querySelectorAll(".chip-q")].find((y) => y.getAttribute("aria-label") === text) : null;
+    (chip || li.querySelector('[data-act="add-time"]') || li.querySelector('[data-act="more"]'))?.focus();
+  } else if (act === "del-chip") {
+    const list = groups();
+    list.splice(Number(actEl.dataset.i), 1);
+    Object.assign(st, { open: false, error: "" });
+    setItemOwn(list);
+    refillCur('[data-act="add-time"]');
+  } else if (act === "revert") {
+    Object.assign(st, { open: false, error: "" });
+    putTt(T.updateItem(t, itemSheet.key, { own: undefined }), { select: false });
+    renderMine();
+    refillCur('[data-act="more"]');
+  }
+});
+
+/**
+ * 다른 분반으로 바꾸기. 이 시간표의 다른 항목과 겹치면 묻지 않고 그 항목을 빼고 넣는다: 시트 머리의 메타 아래에 '겹치는 과목을 뺐어요'와 되돌리기
+ * (시트 안의 알림 영역으로도 읽는다). 되돌리면 뺀 항목과 바꾸기 전 분반이 돌아오고 초점은 바꾸기를 누른 분반 행으로. 색과 같은 시간·건물 분반 목록은 그대로
+ */
+function swapSection(t, it, c, secKey) {
+  const s = c && c.sections.find((x) => x.key === secKey);
+  if (!s) return;
+  const item = T.sectionItem(c, s);
+  if (it.alts && it.alts.includes(s.key)) item.alts = [...it.alts.filter((k) => k !== s.key), T.itemKey(it)]; // 같은 시간·건물 분반끼리 바꿨다
+  const r = placeItem(item);
+  if (!r) return;
+  itemSheet.key = r.added;
+  itemEdit = newEdit();
+  renderMine();
+  renderItemSheet();
+  if (r.removed) {
+    $("is-note").hidden = false;
+    $("is-note-text").textContent = "";
+    setTimeout(() => { $("is-note-text").textContent = "겹치는 과목을 뺐어요"; }, 60);
+    itemSheet.undo = () => {
+      undoReplace(r.tid, r.added, r.restore);
+      itemSheet.key = T.itemKey(it);
+      itemEdit = newEdit();
+      $("is-note").hidden = true;
+      renderItemSheet();
+      $("is-body").querySelector(`.sec[data-key="${CSS.escape(s.key)}"] [data-act="swap"]`)?.focus();
+    };
+  } else {
+    $("is-note").hidden = true;
+    itemSheet.undo = null;
+  }
+  ($("is-body").querySelector(".sec.is-cur [data-act]") || $("item-sheet").querySelector("[data-close]")).focus();
+  if (!r.removed) announce(`${sectionLabel(s)}로 바꿨어요`);
+}
+$("is-undo").addEventListener("click", () => { const f = itemSheet.undo; itemSheet.undo = null; if (f) f(); });
+
+/** 항목 시트를 닫았다: 편람 값이 달라진 항목은 본 것으로 치고('편람 바뀜'을 뗀다) 겹친 과목을 뺐다는 줄을 거둔다 */
+function itemSheetClosed() {
+  $("is-note").hidden = true;
+  itemSheet.undo = null;
+  const [t, it, e] = itemNow();
+  if (!it || !e || e.state !== "changed" || !state.loaded) return;
+  const one = { ...t, items: [it] }, ack = T.acknowledge(one, state.byId);
+  if (ack === one) return;
+  putTt({ ...t, items: t.items.map((x) => (x === it ? ack.items[0] : x)), updated: ack.updated }, { select: false });
+  renderMine();
+}
+
+// ---- 직접 추가 시트(일정): 이름(30자), 요일(월–일, 여럿), 시각(시·분 선택), 장소(건물 선택칸, 처음 미정, 강의 건물에 기숙사 동을 더한 목록), 메모.
+// 넣은 일정을 누르면 같은 시트에 값이 채워져 열린다(제목은 일정 이름, 오른쪽 완료, 맨 아래 시간표에서 빼기. 바꾼 것은 바로 저장된다)
+const custom = { key: null, title: "", days: [], sh: 9, sm: 0, eh: 10, em: 0, b: "", memo: "", errors: new Set() };
+
+function openCustom(key, opener) {
+  const it = key ? curTt().items.find((x) => T.itemKey(x) === key) : null;
+  if (key && !it) return;
+  if (it) {
+    const g = meetingGroups(it.meetings.map(meetOf))[0] || { days: [], start: 540, end: 600, building: "" };
+    Object.assign(custom, { key, title: it.title, days: [...new Set(it.meetings.map(([d]) => d))].sort((a, b) => a - b),
+      sh: Math.floor(g.start / 60), sm: g.start % 60, eh: Math.floor(g.end / 60), em: g.end % 60, b: g.building || "", memo: it.memo || "", errors: new Set() });
+  } else Object.assign(custom, { key: null, title: "", days: [], sh: 9, sm: 0, eh: 10, em: 0, b: "", memo: "", errors: new Set() });
+  $("cu-title").textContent = it ? it.title : "직접 추가";
+  $("cu-done").textContent = it ? "완료" : "추가";
+  renderCustom();
+  openSheet($("custom-sheet"), opener);
+}
+/** 장소 선택칸: 미정, 강의 건물, 기숙사 동 */
+function placeSelect(value, attrs) {
+  const el = buildingSelect(value, attrs);
+  const dorms = dormOptions().filter(([b]) => b !== value);
+  if (dorms.length) el.append(h("optgroup", { label: "기숙사" }, dorms.map(([b, text]) => h("option", { value: b }, text))));
+  el.value = value || "";
+  return el;
+}
+function renderCustom() {
+  const c = custom, err = (k, text) => h("p", { class: "error-line", id: `cu-err-${k}`, hidden: true }, text);
+  const sel = (key, from, to, step, label) => {
+    const el = h("select", { class: "select", "data-cu": key, "aria-label": label }, range(from, to, step).map((v) => h("option", { value: String(v) }, pad2(v))));
+    el.value = String(c[key]);
+    return el;
+  };
+  const colon = () => h("span", { "aria-hidden": "true" }, ":");
+  $("cu-body").replaceChildren(...[
+    h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-name" }, "이름"),
+      h("input", { class: "text-input", id: "cu-name", type: "text", maxlength: String(T.TITLE_MAX), autocomplete: "off", enterkeyhint: "done", value: c.title, "data-cu": "title" }),
+      err("name", "이름이 없어요")),
+    h("fieldset", { class: "cu-field", id: "cu-days" }, h("legend", { class: "field-label" }, "요일"),
+      h("div", { class: "days" }, range(0, 6).map((d) => h("label", {},
+        h("input", { type: "checkbox", value: String(d), checked: c.days.includes(d), "data-cu": "day", "aria-label": `${DAY_KO[d]}요일` }), DAY_KO[d]))),
+      err("day", "고른 요일이 없어요")),
+    h("div", { class: "cu-field", role: "group", "aria-labelledby": "cu-time-label" }, h("span", { class: "field-label", id: "cu-time-label" }, "시각"),
+      h("div", { class: "time-row" },
+        h("span", { class: "time-part" }, sel("sh", 6, 23, 1, "시작 시"), colon(), sel("sm", 0, 55, 5, "시작 분"), h("span", { "aria-hidden": "true" }, "~")),
+        h("span", { class: "time-part" }, sel("eh", 6, 23, 1, "끝 시"), colon(), sel("em", 0, 55, 5, "끝 분"))),
+      err("time", "끝 시각이 시작보다 빨라요")),
+    h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-place" }, "장소"), placeSelect(c.b, { class: "select", id: "cu-place", "data-cu": "b" })),
+    h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-memo" }, "메모"),
+      h("input", { class: "text-input", id: "cu-memo", type: "text", maxlength: "100", autocomplete: "off", enterkeyhint: "done", value: c.memo, "data-cu": "memo" })),
+    c.key ? h("div", { class: "sheet-foot" }, h("button", { type: "button", class: "btn-text", "data-act": "remove" }, "시간표에서 빼기")) : null].filter(Boolean));
+  syncCustomErrors();
+}
+/** 오류 줄을 원인 아래에 보이거나 거두고, 원인인 칸에 잇는다 */
+function syncCustomErrors() {
+  const tie = (el, on, id) => {
+    if (!el) return;
+    if (on) { el.setAttribute("aria-describedby", id); if (el.matches("input, select")) el.setAttribute("aria-invalid", "true"); }
+    else { el.removeAttribute("aria-describedby"); el.removeAttribute("aria-invalid"); }
+  };
+  for (const k of ["name", "day", "time"]) $(`cu-err-${k}`).hidden = !custom.errors.has(k);
+  tie($("cu-name"), custom.errors.has("name"), "cu-err-name");
+  tie($("cu-days"), custom.errors.has("day"), "cu-err-day");
+  for (const el of $("cu-body").querySelectorAll('[data-cu="eh"], [data-cu="em"]')) tie(el, custom.errors.has("time"), "cu-err-time");
+}
+/** 고칠 수 없는 칸(빈 이름, 고른 요일 없음, 끝이 시작보다 이름) */
+function customProblems() {
+  const c = custom, out = new Set();
+  if (!T.cleanTitle(c.title)) out.add("name");
+  if (!c.days.length) out.add("day");
+  if (c.eh * 60 + c.em <= c.sh * 60 + c.sm) out.add("time");
+  return out;
+}
+const customMeetings = () => custom.days.map((day) => ({ day, start: custom.sh * 60 + custom.sm, end: custom.eh * 60 + custom.em, building: custom.b }));
+/** 넣은 일정을 고치는 중이면 바로 저장한다(고칠 수 없는 칸은 그 칸만 두고). 오류 줄은 원인 아래에, 풀리면 사라진다 */
+function customChanged(field) {
+  const bad = customProblems();
+  for (const k of [...custom.errors]) if (!bad.has(k)) custom.errors.delete(k);
+  if (custom.key) {
+    for (const k of bad) custom.errors.add(k);
+    const t = curTt(), it = t.items.find((x) => T.itemKey(x) === custom.key);
+    if (it) {
+      const patch = {};
+      if (field === "title" && !bad.has("name")) patch.title = T.cleanTitle(custom.title);
+      if ((field === "day" || field === "time" || field === "b") && !bad.has("day") && !bad.has("time")) patch.meetings = T.customItem({ title: "x", meetings: customMeetings() }).meetings;
+      if (field === "memo") patch.memo = custom.memo.trim() || undefined;
+      if (Object.keys(patch).length) {
+        putTt(T.updateItem(t, custom.key, patch), { select: false });
+        renderMine();
+        if (patch.title) $("cu-title").textContent = patch.title;
+      }
+    }
+  }
+  syncCustomErrors();
+}
+$("cu-body").addEventListener("input", (ev) => {
+  const x = ev.target, k = x.dataset.cu;
+  if (k === "title" || k === "memo") { custom[k] = x.value; customChanged(k); }
+});
+$("cu-body").addEventListener("change", (ev) => {
+  const x = ev.target, k = x.dataset.cu;
+  if (!k || k === "title" || k === "memo") return;
+  if (k === "day") {
+    const d = Number(x.value);
+    custom.days = x.checked ? [...new Set([...custom.days, d])].sort((a, b) => a - b) : custom.days.filter((y) => y !== d);
+    customChanged("day");
+  } else if (k === "b") { custom.b = x.value; customChanged("b"); }
+  else { custom[k] = Number(x.value); customChanged("time"); }
+});
+$("cu-body").addEventListener("keydown", (ev) => {
+  if (ev.key !== "Enter" || ev.isComposing || ev.keyCode === 229 || !ev.target.matches("input.text-input")) return;
+  ev.preventDefault();
+  ev.target.blur(); // 키보드만 닫는다
+});
+$("cu-body").addEventListener("click", (ev) => {
+  if (!ev.target.closest('[data-act="remove"]')) return;
+  const key = custom.key;
+  closeSheet($("custom-sheet"));
+  dropItem(key);
+});
+// 추가: 빈 칸이 있으면 원인 아래에 오류 줄(넣은 값은 지우지 않는다). 겹치는 항목이 있으면 과목처럼 빼고 넣은 뒤 스낵바
+$("cu-done").addEventListener("click", () => {
+  if (custom.key) { closeSheet($("custom-sheet")); return; }
+  const bad = customProblems();
+  if (bad.size) {
+    custom.errors = bad;
+    syncCustomErrors();
+    const first = bad.has("name") ? "#cu-name" : bad.has("day") ? '[data-cu="day"]' : '[data-cu="eh"]';
+    $("cu-body").querySelector(first)?.focus();
+    announce(bad.has("name") ? "이름이 없어요" : bad.has("day") ? "고른 요일이 없어요" : "끝 시각이 시작보다 빨라요", "alert");
+    return;
+  }
+  const r = placeItem(T.customItem({ title: custom.title, meetings: customMeetings(), memo: custom.memo.trim() }));
+  closeSheet($("custom-sheet"));
+  renderMine();
+  if (!r) return;
+  announce(`${T.cleanTitle(custom.title)} 넣었어요`);
+  if (r.removed) showSnackbar("겹치는 과목을 뺐어요", "되돌리기", () => undoReplace(r.tid, r.added, r.restore));
+});
+
+// ---- 과목 추가 화면: 탐색과 같은 찾기(검색어는 따로, 최근 검색어는 같이). 행을 누르면 과목 시트에서 분반마다 추가(넣은 과목이면 넣음·바꾸기)
+let addShown = RESULTS_STEP, addLast = "", addId = null;
+const addQ = $("add-q");
+const addFocused = () => document.activeElement === addQ || $("add-results").contains(document.activeElement);
+function renderAdd({ more = false } = {}) {
+  const raw = addQ.value, box = $("add-results"), list = $("add-list");
+  $("add-clear").hidden = !raw;
+  addQ.disabled = !state.loaded;
+  addQ.placeholder = state.loading ? "불러오는 중" : "과목명, 교과목번호, 교수";
+  if (!raw.trim() || !state.loaded) {
+    addLast = "";
+    stopFeed(list);
+    list.replaceChildren();
+    $("add-empty").hidden = $("add-more").hidden = true;
+    const idle = state.loaded && recent.length > 0 && (twoPane.matches || addFocused());
+    box.hidden = !idle;
+    $("add-recent").hidden = !idle;
+    $("add-recent-list").replaceChildren(...(idle ? recent : []).map((text) => h("li", { class: "chip" },
+      h("button", { type: "button", class: "chip-q", "data-q": text }, h("span", {}, text)),
+      h("button", { type: "button", class: "chip-x", "data-del": text, "aria-label": `${text} 지우기` }, icon(I.x, 16)))));
+    return;
+  }
+  $("add-recent").hidden = true;
+  if (raw !== addLast) { addShown = RESULTS_STEP; addLast = raw; }
+  const found = findCourses(raw);
+  box.hidden = false;
+  $("add-empty").hidden = found.hits.length > 0;
+  if (twoPane.matches) {
+    feedList(list, found.hits, addRow);
+    $("add-more").hidden = true;
+  } else {
+    const before = more ? list.children.length : 0;
+    stopFeed(list);
+    list.replaceChildren(...found.hits.slice(0, addShown).map(addRow));
+    $("add-more").hidden = found.hits.length <= addShown;
+    if (more) { list.children[before]?.querySelector("button")?.focus(); return; }
+  }
+  clearTimeout(countTimer);
+  countTimer = setTimeout(() => announce(found.hits.length ? `결과 ${found.hits.length}개` : "검색 결과 없음"), 500);
+}
+/** 결과 행: 탐색의 검색 결과 행과 같은 글, 오른쪽 꺾쇠. 이 시간표에 있는 과목은 row-picked 바탕과 체크 */
+function addRow({ c, marks }) {
+  const has = curTt().items.some((it) => it.course === c.id);
+  const first = marks.prof ? marked(marks.prof.name, marks.prof.ranges) : marks.id ? marked(c.id, marks.id) : c.dept ? marked(c.dept, marks.dept) : null;
+  const rest = [c.cls, fmtCredit(c.credit)].filter(Boolean).join(" · ");
+  return h("li", { class: `result add-hit${has ? " is-picked" : ""}` },
+    h("button", { type: "button", class: "r-hit", "data-id": c.id, "aria-haspopup": "dialog", "aria-label": `${c.name}, ${[c.dept, rest].filter(Boolean).join(" · ")}${has ? ", 넣음" : ""}` },
+      h("span", { class: "r-body" }, h("span", { class: "r-title" }, marked(c.name, marks.name)), h("span", { class: "r-meta" }, first ? [first, rest ? ` · ${rest}` : ""] : rest)),
+      icon(has ? I.check : I.right, 20)));
+}
+addQ.addEventListener("input", () => renderAdd());
+addQ.addEventListener("focus", () => { if (!addQ.value.trim()) renderAdd(); });
+addQ.addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" || e.isComposing || e.keyCode === 229) return;
+  e.preventDefault();
+  if (state.loaded && findCourses(addQ.value).hits.length) saveRecent(addQ.value);
+  addQ.blur();
+});
+for (const el of [addQ, $("add-results")]) {
+  el.addEventListener("focusout", () => setTimeout(() => { if (screen === "add" && !twoPane.matches && !addQ.value.trim() && !addFocused()) renderAdd(); }, 250));
+}
+$("add-clear").addEventListener("click", () => { addQ.value = ""; renderAdd(); addQ.focus(); });
+$("add-more").addEventListener("click", () => { addShown += RESULTS_STEP; renderAdd({ more: true }); });
+$("add-recent-list").addEventListener("click", (e) => {
+  const del = e.target.closest("[data-del]");
+  if (del) {
+    const had = keptFocus(e, del), i = recent.indexOf(del.dataset.del);
+    setRecent(recent.filter((x) => x !== del.dataset.del));
+    renderAdd();
+    if (had) ($("add-recent-list").querySelectorAll(".chip-q")[Math.min(i, recent.length - 1)] || addQ).focus({ preventScroll: true });
+    return;
+  }
+  const b = e.target.closest("[data-q]");
+  if (!b) return;
+  const had = keptFocus(e, b);
+  addQ.value = b.dataset.q;
+  saveRecent(b.dataset.q);
+  renderAdd();
+  if (had) addQ.focus({ preventScroll: true });
+});
+$("add-list").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-id]");
+  if (b && state.byId.has(b.dataset.id)) openAddSheet(b.dataset.id, b);
+});
+
+function openAddSheet(id, opener) {
+  addId = id;
+  renderAddSheet();
+  openSheet($("add-sheet"), opener);
+}
+/** 과목 시트(과목 추가 화면): 머리와 강의평·수강편람은 과목 시트와 같고, 분반마다 추가. 이 시간표의 항목과 겹치는 분반에 '시간 겹침'.
+ *  이미 넣은 과목이면 넣은 분반에 '✓ 넣음', 다른 분반은 '바꾸기' */
+function renderAddSheet() {
+  const c = state.byId.get(addId);
+  if (!c) return;
+  const t = curTt(), has = t.items.find((it) => it.course === c.id);
+  $("as-title").textContent = c.name;
+  $("as-meta").textContent = [c.id, c.dept, fmtCredit(c.credit)].filter(Boolean).join(" · ");
+  $("as-review").href = reviewUrl(c.name, c);
+  setCatalogLink($("as-catalog"), c.id, "");
+  $("as-body").replaceChildren(
+    h("div", { class: "list-head" }, h("span", {}, `분반 ${c.sections.length}`)),
+    h("ul", { class: "list secs item-secs" }, c.sections.map((s) => {
+      const on = !!has && has.no === s.no;
+      const clash = !on && T.overlapsWith(t, s.meetings, { course: c.id, byId: state.byId }).length > 0;
+      const label = on ? "넣음" : has ? "바꾸기" : "추가";
+      return secRow(s, clash, h("button", { type: "button", class: on ? "btn-add is-on" : "btn-add", "data-act": on ? null : "put", "aria-disabled": on ? "true" : null,
+        "aria-label": `${sectionLabel(s)} ${label}${clash ? ", 시간 겹침" : ""}` }, on ? [icon(I.check, 16), label] : label));
+    })));
+}
+$("as-body").addEventListener("click", (e) => {
+  const b = e.target.closest('[data-act="put"]');
+  const c = b && state.byId.get(addId);
+  const s = c && c.sections.find((x) => x.key === b.closest(".sec").dataset.key);
+  if (!s) return;
+  const r = placeItem(T.sectionItem(c, s));
+  closeSheet($("add-sheet")); // 시트를 닫고 검색 결과로(행이 row-picked 가 된다)
+  if (!r) return;
+  if (addQ.value.trim()) saveRecent(addQ.value);
+  renderAdd();
+  announce(`${c.name} 넣었어요`);
+  if (r.removed) showSnackbar("겹치는 과목을 뺐어요", "되돌리기", () => { undoReplace(r.tid, r.added, r.restore); if (screen === "add") renderAdd(); });
+});
+
+// ---- 동선 화면: 지금 시간표를 탐색 결과와 같은 비용·경로로(engine.checkRoute). 결과 화면을 같이 쓴다(맨 위 요약 줄과 조건 줄, 후보 목록 없음).
+// 칸 색은 칸 색 설정을 따르고, 시간이 겹치는 칸은 반씩 나란히, 그날 하루 요약에 '시간 겹침'. 겹친 수업으로 가는 길의 늦음은 세지 않는다(둘 다 들을 수 없다)
+function makeRoute() {
+  const t = curTt();
+  if (!state.campus || !t.items.length) return null;
+  const secs = state.loaded && state.semester === mine.sem ? T.toSections(t, state.byId) : ttSections(t);
+  const ev = checkRoute(secs, travelFor(state.mode), state.home);
+  const halves = new Map(), clashDays = new Set();
+  for (const [d, ms] of Object.entries(ev.days)) {
+    for (let i = 0; i < ms.length; i++) {
+      for (let j = 0; j < i; j++) {
+        if (ms[j].section === ms[i].section || !meetsOverlap(ms[j], ms[i])) continue;
+        if (!halves.has(ms[j])) halves.set(ms[j], "half");
+        halves.set(ms[i], "half right");
+        clashDays.add(Number(d));
+      }
+    }
+  }
+  for (const l of ev.legs) if (l.meeting && halves.get(l.meeting) === "half right") l.slack = null;
+  const colors = new Map(t.items.map((it) => [T.itemKey(it), itemFill(it)]));
+  return { route: true, ttId: t.id, ranked: [ev], ahead: [], full: false, total: null, courses: [], home: state.home, mode: state.mode, rules: null,
+    days: weekDays([ev]), axis: hourRange([ev]), colors, halves, clashDays };
+}
+/** 동선 화면을 그린다(들어올 때, 조건을 바꿨을 때). 보던 요일은 그대로 */
+function renderRoute({ reveal = false } = {}) {
+  const R = makeRoute();
+  if (!R) return false;
+  const keep = state.result && state.result.route && R.days.includes(state.day);
+  state.result = R;
+  state.rank = 0;
+  if (!keep) state.day = firstDay(R.ranked[0]);
+  state.reveal = reveal;
+  renderResult();
+  return true;
+}
+// 조건 바꾸기: 탐색 조건 카드의 출발·도착과 이동시간 칸을 시트로 옮겨 그대로 쓴다(같은 값이라 여기서 바꾸면 탐색의 조건도 바뀐다). 닫으면 돌려놓는다
+let condFields = null;
+$("route-cond-btn").addEventListener("click", (e) => {
+  condFields = [...document.querySelectorAll(".settings > fieldset")];
+  $("cd-body").replaceChildren(...condFields);
+  openSheet($("cond-sheet"), e.currentTarget);
+});
+function condSheetClosed() {
+  if (condFields) document.querySelector(".settings").prepend(...condFields);
+  condFields = null;
+  if (screen === "route") renderRoute();
+}
+
+// ---- 후보 카드의 저장하기: 이름을 묻지 않고 새 시간표 '시간표 n'으로 저장하고 '✓ 저장됨'. 다시 누르면 지우고 되돌리기 스낵바.
+// 같은 시간·건물 분반은 함께 남겨 항목 시트의 다른 분반 맨 위에(T.itemsFromRanked 의 alts). 저장한 시간표가 내 시간표 탭에서 보는 시간표가 된다
+const meetSig = (it) => sigOf((it.custom ? it.meetings : it.own || it.base).map(meetOf));
+const itemsSig = (items) => items.map((it) => `${T.itemKey(it)}=${meetSig(it)}`).sort().join("|");
+function savedFor(ev) {
+  if (!savedIndex) {
+    savedIndex = new Map();
+    for (const t of shownTts()) if (!t.items.some((it) => it.custom) && !savedIndex.has(itemsSig(t.items))) savedIndex.set(itemsSig(t.items), t);
+  }
+  return savedIndex.get(itemsSig(T.itemsFromRanked(ev, state.byId))) || null;
+}
+function setSaveButton(b, ev, i) {
+  const saved = state.loaded && !!savedFor(ev);
+  b.classList.toggle("is-saved", saved);
+  b.setAttribute("aria-label", `${i + 1}위 시간표 ${saved ? "저장됨" : "저장하기"}`);
+  b.replaceChildren(...(saved ? [icon(I.check, 16), "저장됨"] : ["저장하기"]));
+}
+/** 후보 카드의 저장 버튼을 지금 목록에 맞춘다(지우기·되돌리기 뒤) */
+function syncSaves() {
+  if (screen !== "result" || !state.result || state.result.route) return;
+  for (const b of document.querySelectorAll("#ranks [data-save]")) setSaveButton(b, state.result.ranked[Number(b.dataset.save)], Number(b.dataset.save));
+}
+function toggleSave(i, b) {
+  const R = state.result, ev = R && R.ranked[i];
+  if (!ev || !state.loaded) return;
+  const found = savedFor(ev);
+  if (found) { deleteTt(found); setSaveButton(b, ev, i); return; }
+  const t = T.createTimetable(mine.list, mine.sem, { title: nextTitle(), source: "search", from: { home: R.home, mode: R.mode }, items: T.itemsFromRanked(ev, state.byId) });
+  const box = b.parentElement;
+  box.querySelector(".error-line")?.remove();
+  if (!t) {
+    box.prepend(h("p", { class: "error-line", id: `save-err-${i}` }, "시간표는 학기마다 50개까지예요"));
+    b.setAttribute("aria-describedby", `save-err-${i}`);
+    announce("시간표는 학기마다 50개까지예요", "alert");
+    return;
+  }
+  b.removeAttribute("aria-describedby");
+  if (mine.id !== t.id && tab !== "mine") stacks.mine.length = 1;
+  putTt(t);
+  setSaveButton(b, ev, i);
+  announce(`${t.title}에 저장했어요`);
+}
+
+/**
+ * 수강편람 링크(과목·항목·과목 추가 시트의 강의평 옆, 법무 10/22). 과목마다 여는 주소가 없어(수강신청 사이트의 강의계획서·검색 주소는 바로 열면 첫 화면으로
+ * 돌아간다. 백엔드 10/22) 수강편람 누리집을 연다. 기기 브라우저로(강의평처럼 data-browser="system", 법무). 교과목번호는 시트 머리, 강좌번호는 분반 행에 있다
+ */
+const catalogUrl = () => CATALOG_URL;
+function setCatalogLink(a, courseId, no) {
+  const url = catalogUrl(courseId, no);
+  a.hidden = !url;
+  if (url) a.href = url; else a.removeAttribute("href");
+}
 
 // ---------------------------------------------------------------- 정보 화면, 자료 출처, 오픈소스 라이선스
 
@@ -3367,31 +4482,35 @@ function askTheme() {
 }
 $("theme-ask-yes").addEventListener("click", () => { setTheme(false); renderInfo(); closeSheet($("theme-ask")); });
 
+/**
+ * 정보 화면(10/22 디자인): 카드 넷을 띄워 두고 묶음 제목은 두지 않는다. 설정(시간표 칸 색, 기간 중 테마) / 이동시간 계산 방법·자료 출처 /
+ * 문의하기·리뷰 남기기(스토어 앱)·홈 화면에 추가(웹 Safari) / 개인정보 처리방침·오픈소스 라이선스·버전. 주소가 없는 행은 두지 않고, 줄이 다 빠진 카드도 두지 않는다
+ */
 function renderInfo() {
   const next = (key, text) => h("button", { type: "button", class: "info-row", "data-info": key }, h("span", {}, text), icon(I.right, 20));
   const out = (href, text) => h("a", { class: "info-row", href, target: "_blank", rel: "noopener" }, h("span", {}, text), icon(I.out, 20));
-  // 테마 행은 이벤트 테마의 기간에만 있다: 기본 | 그 테마. 행 전체에 투명한 select 를 덮는다(과목 시트의 강의실 값과 같은 방식, style.css .pick-row)
-  let themeRow = null;
-  if (season) {
-    const names = { "": "기본", [season.id]: season.name };
-    const theme = h("select", { id: "theme", "aria-label": "테마" }, h("option", { value: "" }, names[""]), h("option", { value: season.id }, season.name));
-    theme.value = themeOn() ? season.id : "";
-    const value = document.createTextNode(names[theme.value]);
-    theme.addEventListener("change", () => { setTheme(!!theme.value); value.data = names[theme.value]; });
-    themeRow = h("label", { class: "info-row pick-row" }, h("span", {}, "테마"), h("span", { class: "info-pick" }, value, icon(I.down, 20), theme));
-  }
-  const rows = [
-    themeRow,
-    next("calc", "이동시간 계산 방법"),
-    next("sources", "자료 출처"),
-    PRIVACY_URL ? out(PRIVACY_URL, "개인정보 처리방침") : null,
-    next("licenses", "오픈소스 라이선스"),
-    CONTACT_URL ? out(CONTACT_URL, "문의하기") : null,
-    isSafariTab() ? next("a2hs", "홈 화면에 추가") : null,
-    REVIEW_URL[SHELL] ? out(REVIEW_URL[SHELL], "리뷰 남기기") : null,
-    h("div", { class: "info-row" }, h("span", {}, "버전"), h("span", { class: "v" }, APP_VERSION)),
-  ];
-  $("info-list").replaceChildren(...rows.filter(Boolean).map((r) => h("li", {}, r)));
+  // 고르는 행: 행 전체에 투명한 select 를 덮는다(과목 시트의 강의실 값과 같은 방식, style.css .pick-row). 고르면 바로 바뀐다
+  const pick = (id, label, options, value, onPick) => {
+    const sel = h("select", { id, "aria-label": label }, options.map(([v, text]) => h("option", { value: v }, text)));
+    sel.value = value;
+    const shown = document.createTextNode(sel.options[sel.selectedIndex]?.text || "");
+    sel.addEventListener("change", () => { onPick(sel.value); shown.data = sel.options[sel.selectedIndex].text; });
+    return h("label", { class: "info-row pick-row" }, h("span", {}, label), h("span", { class: "info-pick" }, shown, icon(I.down, 20), sel));
+  };
+  const colorRow = pick("tt-color", "시간표 칸 색", [["item", "과목별"], ["cls", "교과구분별"]], ttColor, (v) => {
+    ttColor = v === "cls" ? "cls" : "item";
+    store.set("timetableColor", ttColor);
+  });
+  // 테마 행은 이벤트 테마의 기간에만 있다: 기본 | 그 테마
+  const themeRow = season ? pick("theme", "테마", [["", "기본"], [season.id, season.name]], themeOn() ? season.id : "", (v) => setTheme(!!v)) : null;
+  const card = (rows) => (rows.some(Boolean) ? h("ul", { class: "card info-list" }, rows.filter(Boolean).map((r) => h("li", {}, r))) : null);
+  $("info-list").replaceChildren(...[
+    card([colorRow, themeRow]),
+    card([next("calc", "이동시간 계산 방법"), next("sources", "자료 출처")]),
+    card([CONTACT_URL ? out(CONTACT_URL, "문의하기") : null, REVIEW_URL[SHELL] ? out(REVIEW_URL[SHELL], "리뷰 남기기") : null, isSafariTab() ? next("a2hs", "홈 화면에 추가") : null]),
+    card([PRIVACY_URL ? out(PRIVACY_URL, "개인정보 처리방침") : null, next("licenses", "오픈소스 라이선스"),
+      h("div", { class: "info-row" }, h("span", {}, "버전"), h("span", { class: "v" }, APP_VERSION))]),
+  ].filter(Boolean));
 }
 
 $("info-list").addEventListener("click", (e) => {
@@ -3409,6 +4528,7 @@ const APACHE_URL = "https://www.apache.org/licenses/LICENSE-2.0";
 function renderPage() {
   const sources = pageName !== "licenses";
   $("page-title").textContent = sources ? "자료 출처" : "오픈소스 라이선스";
+  $("page-foot").hidden = !sources; // '강의 시간과 강의실은 수강편람에서 한 번 더 확인하세요'(자료 출처 아래)
   // 내용이 같으면 다시 그리지 않는다: 라이선스 전문에서 돌아올 때 누른 이름에 초점을 돌려주려면 그 링크가 그대로 있어야 한다
   const key = sources ? `sources ${state.semesterMeta.updated || ""}` : "licenses";
   if ($("page-list").dataset.key === key) return;
@@ -3417,7 +4537,7 @@ function renderPage() {
   // 스토어 앱은 고지문을 앱에 넣어 둔다(백엔드 build_app.py: licenses/, vendor/). 그 이름을 누르면 앱 안 화면에서 전문을 보인다(아래 '라이선스 전문')
   const lic = (file, href, text) => (IN_APP ? h("a", { href, target: "_blank", rel: "noopener", "data-text": file }, text) : link(href, text));
   const rows = sources ? [
-    ["과목", ["서울대학교 수강편람", state.semesterMeta.updated ? ` · ${asofLong(state.semesterMeta.updated)}` : ""]],
+    ["과목", [link(CATALOG_URL, "서울대학교 수강편람"), state.semesterMeta.updated ? ` · ${asofLong(state.semesterMeta.updated)}` : ""]],
     ["건물", "서울대학교 캠퍼스맵"],
     ["길", link("https://moreadorecampus.com/", "캠퍼스 마법 지도")],
     // 공공누리 제1유형: 온라인에서는 가능하면 출처 누리집으로 가는 링크를 준다(국토정보플랫폼. 10/5 디자인)
@@ -3496,35 +4616,120 @@ $("page-list").addEventListener("click", async (e) => {
   go("text", { text: a.dataset.text, title: a.textContent });
 });
 
-// ---------------------------------------------------------------- 화면 이동과 뒤로 가기
-// 화면(결과, 정보, 자료 출처·라이선스, 전체 화면 지도)만 기록을 남긴다. 요일 탭, 순위 선택, 시트는 남기지 않는다.
-// 새로 켜면 늘 입력 화면에서 시작한다.
+// ---------------------------------------------------------------- 탭, 화면 이동과 뒤로 가기(디자인 규칙 '탭', '뒤로 가기')
+// 아래 탭 둘: 내 시간표(내 시간표 → 과목 추가·동선 → 전체 화면 지도)와 탐색(입력 → 결과 → 전체 화면 지도). 정보·자료 출처·라이선스 전문은 연 탭 안의
+// 다음 화면이다. 화면만 기록(pushState)을 남기고 탭 바꾸기, 요일 탭, 순위 선택, 시트는 남기지 않는다. 탭마다 쌓인 화면(stacks)과 스크롤 자리를 기억한다.
+// 기록은 늘 [켤 때 연 탭의 첫 화면, (다른 탭이면 그 탭의 첫 화면), 그 탭에 쌓인 화면 …]이다: 탭을 바꾸면 기록을 첫 화면까지 되감고(history.go) 새 탭의
+// 것을 다시 쌓는다. 그래서 탭의 첫 화면에서 뒤로 가면 켤 때 연 탭의 첫 화면, 거기서 뒤로 가면 앱을 나간다(안드로이드 원칙. 스토어 앱의 뒤로 가기는
+// native.js 가 열린 시트를 닫거나 history.back 을 부르고, 되돌아갈 기록이 없으면 앱을 내린다). 앱을 켜면 그 학기에 저장한 시간표가 있으면 내 시간표,
+// 없으면 탐색에서 시작한다. 결과 화면은 동선 화면(내 시간표)으로도 쓴다: 그 화면이 보는 결과(state.result·rank·day)는 탭마다 따로 둔다(useCtx)
 
-const VIEWS = ["input", "result", "map", "info", "page", "text"];
-const H1 = { result: "result-title", map: "map-title", info: "info-title", page: "page-title", text: "text-title" };
-let screen = "input", depth = 0;
-const scrollOf = {}, openers = {};
+const VIEW_EL = { input: "view-input", mine: "view-mine", add: "view-add", result: "view-result", route: "view-result", map: "view-map", info: "view-info", page: "view-page", text: "view-text" };
+const VIEW_ELS = [...new Set(Object.values(VIEW_EL))];
+const H1 = { input: "input-title", mine: "mine-title", add: "add-title", result: "result-title", route: "result-title", map: "map-title", info: "info-title", page: "page-title", text: "text-title" };
+const ROOT = { mine: "mine", explore: "input" };
+const TAB_NAME = { mine: "내 시간표", explore: "탐색" };
+// 탭 아이콘 [선, 채운 판]. 채운 판의 뚫린 선(격자의 칸 선)은 알약 색(--tab-ind)으로 그린다(style.css)
+const TAB_ICON = {
+  mine: ['<rect x="3.5" y="4.5" width="17" height="16" rx="2.5"/><path d="M3.5 9.5h17M9.2 9.5v11M14.8 9.5v11"/>',
+    '<rect x="3.5" y="4.5" width="17" height="16" rx="2.5" fill="currentColor"/><path d="M3.5 9.5h17M9.2 9.5v11M14.8 9.5v11" stroke="var(--tab-ind)" stroke-width="1.8"/>'],
+  explore: ['<circle cx="6" cy="5.5" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.5 5.5h7a3.5 3.5 0 0 1 0 7h-7a3.5 3.5 0 0 0 0 7h7"/>',
+    '<circle cx="6" cy="5.5" r="2.5" fill="currentColor"/><circle cx="18" cy="18.5" r="2.5" fill="currentColor"/><path d="M8.5 5.5h7a3.5 3.5 0 0 1 0 7h-7a3.5 3.5 0 0 0 0 7h7"/>'],
+};
+let screen = "input", depth = 0, tab = "explore", launchTab = "explore", screenTab = "explore";
+let rebuild = null; // 탭을 바꾸며 기록을 되감는 중: 되감기가 끝나면(popstate) 새 탭의 기록을 쌓는다
+const stacks = { explore: [{ view: "input", extra: {} }], mine: [{ view: "mine", extra: {} }] };
+const scrollOf = {}, openers = {}, lastFocus = {};
+const baseDepth = (t) => (t === launchTab ? 0 : 1);
+
+// 결과 화면이 보는 결과: 탐색 탭은 탐색 결과, 내 시간표 탭은 동선
+const ctxs = { explore: null, route: null };
+let ctxName = "explore";
+function useCtx(name) {
+  if (name === ctxName) return;
+  ctxs[ctxName] = { result: state.result, rank: state.rank, day: state.day, reveal: state.reveal };
+  Object.assign(state, ctxs[name] || { result: null, rank: 0, day: 0, reveal: false });
+  ctxName = name;
+}
+/** 탐색 결과를 지운다(담은 과목·분반·조건·학기가 바뀌었다). 동선 화면이 보는 것은 그대로 두고, 보이지 않는 탐색 탭에 쌓인 결과 화면은 거둔다 */
+function dropExplore() {
+  if (ctxName === "explore") state.result = null;
+  else if (ctxs.explore) ctxs.explore.result = null;
+  if (tab !== "explore") stacks.explore.length = 1;
+}
 
 function go(name, extra = {}) {
-  openers[name] = document.activeElement;
+  openers[`${tab}:${name}`] = document.activeElement;
+  stacks[tab].push({ view: name, extra });
   depth += 1;
-  history.pushState({ view: name, depth, ...extra }, "", `#${extra.page || name}`);
+  history.pushState({ tab, view: name, depth, ...extra }, "", `#${extra.page || name}`);
   showView(name, "forward", extra);
 }
 
 function back() {
   if (depth > 0) history.back();
-  else showView("input", "back");
+  else showView(ROOT[tab], "back");
 }
+
+/** 탭을 바꾼다: 그 탭에서 마지막으로 보던 화면과 스크롤 자리로. 고른 탭을 다시 누르면 그 탭의 첫 화면으로, 첫 화면이면 맨 위로 */
+function switchTab(next) {
+  if (rebuild || !ROOT[next]) return;
+  if (next === tab) {
+    const n = stacks[tab].length - 1;
+    if (n > 0) history.go(-n);
+    else window.scrollTo({ top: 0, behavior: reduceMotion.matches ? "auto" : "smooth" });
+    return;
+  }
+  const apply = () => {
+    const target = stacks[next];
+    if (next !== launchTab) history.pushState({ tab: next, view: ROOT[next], depth: 1 }, "", `#${ROOT[next]}`);
+    target.slice(1).forEach((en, i) => history.pushState({ tab: next, view: en.view, depth: baseDepth(next) + 1 + i, ...en.extra }, "", `#${en.extra.page || en.view}`));
+    depth = baseDepth(next) + target.length - 1;
+    enterTab(next);
+    const top = target[target.length - 1];
+    showView(top.view, "tab", top.extra);
+  };
+  if (depth > 0) { rebuild = apply; history.go(-depth); } else apply();
+}
+function enterTab(next) {
+  tab = next;
+  useCtx(next === "mine" ? "route" : "explore");
+}
+
+/** 아래 탭 막대와 넓은 화면 상단 바의 탭: 고른 것에 aria-current="page"와 채운 아이콘 */
+function renderTabs() {
+  for (const nav of document.querySelectorAll(".tabbar ul, .topnav")) {
+    const bar = nav.tagName === "UL";
+    if (!nav.children.length) {
+      nav.replaceChildren(...Object.keys(ROOT).map((k) => {
+        const b = h("button", { type: "button", class: bar ? "tab" : "tn", "data-tab": k, "aria-label": TAB_NAME[k], title: TAB_NAME[k] });
+        return bar ? h("li", {}, b) : b;
+      }));
+    }
+    for (const b of nav.querySelectorAll("[data-tab]")) {
+      const on = b.dataset.tab === tab;
+      if (on) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+      const pic = icon(TAB_ICON[b.dataset.tab][on ? 1 : 0]);
+      b.replaceChildren(bar ? h("span", { class: "ind" }, pic) : pic);
+    }
+  }
+}
+for (const nav of document.querySelectorAll(".tabbar, .topnav")) {
+  nav.addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (b) switchTab(b.dataset.tab); });
+}
+// 탭마다 마지막에 초점이 있던 곳(그 탭으로 돌아오면 거기로. 탭 버튼은 빼고)
+document.addEventListener("focusin", (e) => {
+  if (e.target.closest && e.target.closest(".view") && !e.target.closest(".topnav")) lastFocus[screenTab] = e.target;
+});
 
 function titleOf(name) {
   const t = name === "input" ? "" : $(H1[name]).textContent;
   return t ? `${t} · TT Wizard` : "TT Wizard";
 }
 
-/** View Transitions 가 되면 결과·정보 화면이 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms). 안 되면 바로 바뀐다. */
+/** View Transitions 가 되면 결과·정보 화면이 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms), 탭을 바꾸면 교차 페이드(150ms). 안 되면 바로 바뀐다. */
 function transition(apply, dir) {
-  if (!document.startViewTransition || reduceMotion.matches || document.visibilityState !== "visible") { apply(); return; }
+  if (dir === "init" || !document.startViewTransition || reduceMotion.matches || document.visibilityState !== "visible") { apply(); return; }
   const root = document.documentElement;
   root.dataset.nav = dir;
   const t = document.startViewTransition(apply);
@@ -3532,45 +4737,70 @@ function transition(apply, dir) {
   t.finished.then(done, done);
 }
 
+/** 화면을 보인다. dir: forward(새 화면) · back(기록을 되돌아옴) · tab(탭을 바꿈) · init(켤 때) */
 function showView(name, dir, extra = {}) {
-  if ((name === "result" || name === "map") && !state.result) name = "input";
+  if (((name === "result" || name === "map") && !state.result) || (name === "route" && !makeRoute())) name = ROOT[tab]; // 결과가 지워졌거나(학기를 바꿨다) 시간표가 비었다
   if (name !== "input" || screen === "result") cancelCompute(); // 결과 화면을 떠나면 이어 찾던 것도 멈춘다
   const from = screen;
-  scrollOf[from] = window.scrollY;
+  scrollOf[`${screenTab}:${from}`] = window.scrollY;
   if (from === "input") store.set("scroll", window.scrollY);
   if (name === "page") pageName = extra.page || pageName;
   if (name === "text" && extra.text) textPage = { file: extra.text, title: extra.title };
+  if (name === "add" && dir === "forward") addQ.value = ""; // 검색어는 탐색과 따로 두고 화면에 새로 들어올 때 비운다
   const apply = () => {
-    for (const v of VIEWS) {
-      const el = $(`view-${v}`);
-      el.hidden = v !== name;
-      el.querySelector("main").hidden = v !== name;
+    for (const id of VIEW_ELS) {
+      const v = $(id);
+      v.hidden = id !== VIEW_EL[name];
+      v.querySelector("main").hidden = id !== VIEW_EL[name];
     }
     screen = name;
-    if (name === "result") renderResult();
+    screenTab = tab;
+    $("view-result").classList.toggle("is-route", name === "route");
+    document.body.classList.toggle("tabbar-off", name === "map"); // 전체 화면 지도는 탭 막대를 덮는다
+    document.body.classList.toggle("no-cta", name !== "input" && name !== "mine"); // 스낵바는 주요 버튼이 없는 화면에서 탭 막대 바로 위
+    renderTabs();
+    if (name === "result") { $("result-title").textContent = "추천 시간표"; renderResult(); }
+    if (name === "route") { $("result-title").textContent = "동선"; renderRoute({ reveal: dir === "forward" }); }
+    if (name === "mine") renderMine();
+    if (name === "add") renderAdd();
+    if (name === "info") renderInfo();
     if (name === "map") renderFullMap();
     if (name === "page") renderPage();
     if (name === "text") renderText();
     document.title = titleOf(name);
-    if (name !== "input") hideSnackbar();
-    window.scrollTo(0, dir === "back" ? scrollOf[name] || 0 : 0);
-    if (dir === "forward" && H1[name]) $(H1[name]).focus({ preventScroll: true });
-    else if (dir === "back") {
-      const el = openers[from];
-      if (el && el.isConnected && !el.closest("[hidden]")) el.focus({ preventScroll: true });
-      else if (name === "input") $("run").focus({ preventScroll: true });
-    }
-    if (name === "input") showUpdateIfReady();
+    if (from !== name) hideSnackbar();
+    window.scrollTo(0, dir === "back" || dir === "tab" ? scrollOf[`${tab}:${name}`] || 0 : 0);
+    focusAfter(name, dir, from);
+    if (name === "input") { showUpdateIfReady(); if (dir === "tab") setTimeout(askTheme, 400); }
   };
   transition(apply, dir);
 }
 
+/** 초점: 새 화면은 그 h1, 되돌아오면 그 화면을 연 요소, 탭을 바꾸면 그 탭에서 마지막에 있던 자리(없으면 h1). 스크린리더가 화면이 바뀐 것을 읽는다 */
+function focusAfter(name, dir, from) {
+  if (dir === "init") return;
+  const ok = (el) => !!el && el.isConnected && !el.closest("[hidden]") && $(VIEW_EL[name]).contains(el);
+  const h1 = () => $(H1[name]).focus({ preventScroll: true });
+  if (dir === "forward") h1();
+  else if (dir === "tab") { if (ok(lastFocus[tab])) lastFocus[tab].focus({ preventScroll: true }); else h1(); }
+  else if (ok(openers[`${tab}:${from}`])) openers[`${tab}:${from}`].focus({ preventScroll: true });
+  else if (name === "input") $("run").focus({ preventScroll: true });
+  else h1();
+}
+
 window.addEventListener("popstate", (e) => {
+  if (rebuild) { const f = rebuild; rebuild = null; f(); return; } // 탭을 바꾸며 되감은 것
   for (const d of document.querySelectorAll("dialog[open]")) d.close(); // 화면이 바뀌면 열린 시트도 함께 닫는다
-  const st = e.state && e.state.view ? e.state : { view: "input", depth: 0 };
-  const dir = (st.depth || 0) < depth ? "back" : "forward";
-  depth = st.depth || 0;
-  showView(st.view, dir, st);
+  let st = e.state && e.state.view ? e.state : null;
+  if (!st || !ROOT[st.tab] || (st.depth || 0) < baseDepth(st.tab)) st = { tab: launchTab, view: ROOT[launchTab], depth: 0 }; // 모르는 기록은 켤 때 연 탭의 첫 화면
+  const d = st.depth || 0, i = d - baseDepth(st.tab), stack = stacks[st.tab];
+  const dir = d < depth ? "back" : "forward";
+  if (i === 0) stack.length = 1;
+  else { stack.length = Math.min(stack.length, i); stack.push({ view: st.view, extra: st }); }
+  depth = d;
+  const crossed = st.tab !== tab; // 다른 탭의 첫 화면에서 뒤로 가 켤 때 연 탭으로 왔다(앞으로 가기면 그 반대)
+  if (crossed) enterTab(st.tab);
+  showView(st.view, crossed ? "tab" : dir, st);
 });
 
 // ---------------------------------------------------------------- 스낵바 (되돌리기, 새 버전)
@@ -3588,12 +4818,13 @@ function showSnackbar(text, action, fn) {
   placeSnackbar();
   armSnackbar();
 }
-/** 넓은 화면 입력 화면: 시간표 만들기가 오른쪽 칸 안(sticky)이라 자리가 그때그때 달라서, 스낵바를 그 버튼 바로 위에 같은 폭으로 띄운다. */
+/** 넓은 화면 입력 화면·내 시간표: 주요 버튼(시간표 만들기, 동선 확인하기)이 오른쪽 칸 안(sticky)이라 자리가 그때그때 달라서, 스낵바를 그 버튼 바로 위에 같은 폭으로 띄운다. */
 function placeSnackbar() {
   const bar = $("snackbar");
   bar.style.bottom = bar.style.left = bar.style.right = bar.style.maxWidth = "";
-  if (bar.hidden || screen !== "input" || !twoPane.matches) return;
-  const r = $("run").getBoundingClientRect();
+  const cta = screen === "input" ? $("run") : screen === "mine" ? $("route-run") : null;
+  if (bar.hidden || !cta || !twoPane.matches) return;
+  const r = cta.getBoundingClientRect();
   if (!r.width || r.bottom <= 0 || r.top >= innerHeight) return;
   bar.style.bottom = `${Math.round(innerHeight - r.top + 8)}px`;
   bar.style.left = `${Math.round(r.left)}px`;
@@ -3666,7 +4897,7 @@ $("install").addEventListener("click", async () => {
 window.addEventListener("appinstalled", () => { installPrompt = null; updateInstall(); });
 
 function renderOnline() {
-  $("offline-tag").hidden = navigator.onLine !== false;
+  for (const el of document.querySelectorAll(".offline-tag")) el.hidden = navigator.onLine !== false;
 }
 window.addEventListener("offline", renderOnline);
 window.addEventListener("online", () => {
@@ -3675,7 +4906,7 @@ window.addEventListener("online", () => {
 });
 
 // 외부 링크(처리방침·문의·출처)는 앱 밖으로. 스토어 앱은 Capacitor Browser(iOS 인앱 Safari, 안드로이드 Custom Tab), 웹은 새 탭.
-// 과목 시트의 강의평(data-browser="system")만 스토어 앱에서도 기기의 기본 브라우저로 연다: 에브리타임은 로그인해야 보이는데 인앱 브라우저는
+// 시트의 강의평·수강편람(data-browser="system")만 스토어 앱에서도 기기의 기본 브라우저로 연다(수강편람은 법무 10/22): 에브리타임은 로그인해야 보이는데 인앱 브라우저는
 // 기기 브라우저의 로그인을 이어받지 않는다. 앱에서는 앱 연결 native.js(백엔드 update51)가 이 표시가 붙었거나 everytime.kr 로 가는 링크의 click 을
 // 먼저(capture) 받아 전파를 끊고, 남은 기본 이동을 Capacitor 가 기기에 넘긴다. 그래서 그 링크는 꼭 <a href> 로 두고 click 에 일을 걸지 않는다.
 // 여기서도 그 표시가 붙은 링크는 건드리지 않는다(native.js 가 그 처리를 하기 전의 앱 빌드에서도 인앱 브라우저로 열지 않게)
@@ -3689,7 +4920,7 @@ document.addEventListener("click", (e) => {
 
 // ---------------------------------------------------------------- 시작
 
-$("year").addEventListener("change", onYearChange);
+$("year").addEventListener("change", () => onYearChange($("year")));
 $("term").addEventListener("change", () => switchSemester(`${$("year").value}-${$("term").value}`));
 $("banner-retry").addEventListener("click", () => {
   const f = bannerRetry;
@@ -3715,7 +4946,7 @@ for (const el of [q, $("results")]) {
     if (!twoPane.matches && !q.value.trim() && !searchFocused()) renderResults();
   }, 250));
 }
-twoPane.addEventListener("change", () => { renderResults(); placeSnackbar(); });
+twoPane.addEventListener("change", () => { renderResults(); placeSnackbar(); if (screen === "add") renderAdd(); });
 // 지운 칩·고른 칩은 다시 그리면 사라지므로 초점을 옮긴다. 키보드(detail 0)와 마우스로 눌렀을 때만:
 // 터치로 누를 때 검색창에 초점을 주면 화상 키보드가 올라온다(크롬은 누른 버튼에 초점이 간다)
 const keptFocus = (e, el) => document.activeElement === el && (e.detail === 0 || !coarsePointer.matches);
@@ -3751,14 +4982,15 @@ const vv = window.visualViewport;
 const viewH = () => (vv ? vv.height * vv.scale : window.innerHeight);
 let fullH = 0; // 키보드 없을 때의 높이. 화면을 돌리면 다시 잰다
 let typingGrace = 0; // 초점을 받은 뒤 키보드가 올라오는 동안(버튼이 키보드를 따라 올라왔다 사라지지 않게 먼저 숨긴다)
+const typingField = (el) => !!el && ((el.tagName === "INPUT" && /^(search|text)$/.test(el.type)) || el.tagName === "TEXTAREA");
 function updateTyping() {
   const cur = viewH();
   if (cur > fullH) fullH = cur;
-  const typing = document.activeElement === q && coarsePointer.matches && (fullH - cur > 120 || performance.now() < typingGrace);
+  const typing = typingField(document.activeElement) && coarsePointer.matches && (fullH - cur > 120 || performance.now() < typingGrace);
   document.body.classList.toggle("is-typing", typing);
 }
-q.addEventListener("focus", () => { typingGrace = performance.now() + 800; updateTyping(); setTimeout(updateTyping, 850); });
-q.addEventListener("blur", () => { typingGrace = 0; updateTyping(); });
+document.addEventListener("focusin", (e) => { if (typingField(e.target)) { typingGrace = performance.now() + 800; updateTyping(); setTimeout(updateTyping, 850); } });
+document.addEventListener("focusout", (e) => { if (typingField(e.target)) { typingGrace = 0; updateTyping(); } });
 (vv || window).addEventListener("resize", updateTyping);
 const onRotate = () => { fullH = 0; updateTyping(); };
 if (window.screen.orientation) window.screen.orientation.addEventListener("change", onRotate); // screen 은 이 파일에서 지금 화면 이름이라 window.screen
@@ -3810,7 +5042,7 @@ $("picked-list").addEventListener("click", (e) => {
 $("picked-retry").addEventListener("click", run);
 $("run").addEventListener("click", run);
 $("cancel").addEventListener("click", cancelCompute);
-$("open-info").addEventListener("click", () => go("info"));
+for (const b of document.querySelectorAll("[data-open-info]")) b.addEventListener("click", () => go("info"));
 $("open-calc").addEventListener("click", (e) => openSheet($("calc-sheet"), e.currentTarget));
 $("open-sources").addEventListener("click", () => go("page", { page: "sources" }));
 $("map-expand").addEventListener("click", () => go("map"));
@@ -3843,13 +5075,20 @@ document.addEventListener("visibilitychange", () => {
 });
 
 history.scrollRestoration = "manual";
-history.replaceState({ view: "input", depth: 0 }, "", location.pathname + location.search);
-// 교과구분 색 풀이: 결과 화면 시간표 아래, 입력 화면 담은 과목 아래
-for (const id of ["cls-legend", "picked-legend"]) {
+// 첫 탭: 지난번에 연 학기(openSem, 학기 선택 전의 기기는 고른 학기)에 저장한 시간표가 있으면 내 시간표. index.html 머리의 스크립트가 같은 판단으로
+// 탐색 입력 화면을 먼저 가려 둔다(data-launch, 켜자마자 입력 화면이 번쩍 보이지 않게). 학기 목록을 받은 뒤 다른 학기로 열려도 첫 탭은 그대로다
+readMine(String(store.get("openSem", "") || store.get("semester", null)?.id || ""));
+launchTab = tab = screenTab = shownTts().length ? "mine" : "explore";
+ctxName = tab === "mine" ? "route" : "explore";
+history.replaceState({ tab, view: ROOT[tab], depth: 0 }, "", location.pathname + location.search);
+// 교과구분 색 풀이: 결과 화면 시간표 아래, 입력 화면 담은 과목 아래, 내 시간표 격자 아래(교과구분별 칸 색일 때)
+for (const id of ["cls-legend", "picked-legend", "tt-legend"]) {
   $(id).replaceChildren(...CLS_GROUPS.map(([name, key]) => h("span", {}, h("span", { class: "dot", "aria-hidden": "true", style: { background: `var(--cls-${key})` } }), name)));
 }
 renderInfo();
 renderOnline();
 renderResults(); // 검색창 지우기 단추와 결과 카드(자료를 받기 전에는 두지 않는다)
+showView(ROOT[tab], "init");
+delete document.documentElement.dataset.launch;
 startApp();
 setTimeout(askTheme, 400); // 첫 화면이 그 테마로 보인 뒤에 묻는다
