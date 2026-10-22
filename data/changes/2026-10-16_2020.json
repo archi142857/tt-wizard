@@ -1,0 +1,239 @@
+{
+ "created": [],
+ "deleted": [],
+ "updated": [
+  {
+   "key": "707.518-001",
+   "fields": [
+    "course_name"
+   ],
+   "before": {
+    "course_name": "영문학교육연구"
+   },
+   "after": {
+    "course_name": "영문학교육연구 (장르별 문학교육)"
+   }
+  },
+  {
+   "key": "881.007-001",
+   "fields": [
+    "instructor",
+    "meetings"
+   ],
+   "before": {
+    "instructor": "",
+    "meetings": [
+     [
+      0,
+      540,
+      650,
+      "28",
+      "28-301"
+     ],
+     [
+      2,
+      540,
+      710,
+      "28",
+      "28-301"
+     ],
+     [
+      4,
+      540,
+      710,
+      "28",
+      "28-301"
+     ]
+    ]
+   },
+   "after": {
+    "instructor": "이영민",
+    "meetings": [
+     [
+      0,
+      540,
+      710,
+      "28",
+      "28-301"
+     ],
+     [
+      2,
+      540,
+      710,
+      "28",
+      "28-301"
+     ],
+     [
+      4,
+      540,
+      710,
+      "28",
+      "28-301"
+     ]
+    ]
+   }
+  },
+  {
+   "key": "881.007-002",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "정경훈"
+   }
+  },
+  {
+   "key": "F31.104-001",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "김영득"
+   }
+  },
+  {
+   "key": "F31.104-002",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "신재호"
+   }
+  },
+  {
+   "key": "F31.104L-001",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "김영득"
+   }
+  },
+  {
+   "key": "F31.104L-002",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "신재호"
+   }
+  },
+  {
+   "key": "F31.105-001",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "유자도"
+   }
+  },
+  {
+   "key": "F31.105-002",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "김우찬"
+   }
+  },
+  {
+   "key": "F31.105L-001",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "유자도"
+   }
+  },
+  {
+   "key": "F31.105L-002",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "김우찬"
+   }
+  },
+  {
+   "key": "F31.201-001",
+   "fields": [
+    "meetings"
+   ],
+   "before": {
+    "meetings": [
+     [
+      0,
+      900,
+      950,
+      "",
+      ""
+     ]
+    ]
+   },
+   "after": {
+    "meetings": [
+     [
+      0,
+      900,
+      1070,
+      "",
+      ""
+     ],
+     [
+      2,
+      900,
+      1070,
+      "",
+      ""
+     ],
+     [
+      4,
+      900,
+      1070,
+      "",
+      ""
+     ]
+    ]
+   }
+  },
+  {
+   "key": "M1868.000700-001",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "하민수"
+   }
+  }
+ ]
+}

@@ -1,0 +1,54 @@
+{
+ "created": [],
+ "deleted": [],
+ "updated": [
+  {
+   "key": "C10.157-001",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "서지형"
+   }
+  },
+  {
+   "key": "F26.101-001",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "문경자"
+   }
+  },
+  {
+   "key": "F26.102-001",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "신선옥"
+   }
+  },
+  {
+   "key": "F26.201-001",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "윤유희"
+   }
+  }
+ ]
+}
