@@ -4688,30 +4688,30 @@ function enterTab(next) {
   useCtx(next === "mine" ? "route" : "explore");
 }
 
-/** 아래 탭 막대와 넓은 화면 상단 바의 탭: 고른 것에 aria-current="page"와 채운 아이콘 */
+/** 아래 탭 막대(아이콘만, 이름은 aria-label·title)와 컴퓨터의 사이드바(아이콘 + 보이는 이름): 고른 것에 aria-current="page"와 채운 아이콘.
+ *  둘 중 하나만 보인다(style.css 의 1100px 규칙) */
 function renderTabs() {
-  for (const nav of document.querySelectorAll(".tabbar ul, .topnav")) {
-    const bar = nav.tagName === "UL";
-    if (!nav.children.length) {
-      nav.replaceChildren(...Object.keys(ROOT).map((k) => {
-        const b = h("button", { type: "button", class: bar ? "tab" : "tn", "data-tab": k, "aria-label": TAB_NAME[k], title: TAB_NAME[k] });
-        return bar ? h("li", {}, b) : b;
-      }));
+  for (const list of document.querySelectorAll(".tabbar ul, .sidebar ul")) {
+    const bar = !list.closest(".sidebar");
+    if (!list.children.length) {
+      list.replaceChildren(...Object.keys(ROOT).map((k) => h("li", {}, h("button", bar
+        ? { type: "button", class: "tab", "data-tab": k, "aria-label": TAB_NAME[k], title: TAB_NAME[k] }
+        : { type: "button", class: "sb-item", "data-tab": k }))));
     }
-    for (const b of nav.querySelectorAll("[data-tab]")) {
+    for (const b of list.querySelectorAll("[data-tab]")) {
       const on = b.dataset.tab === tab;
       if (on) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
       const pic = icon(TAB_ICON[b.dataset.tab][on ? 1 : 0]);
-      b.replaceChildren(bar ? h("span", { class: "ind" }, pic) : pic);
+      b.replaceChildren(...(bar ? [h("span", { class: "ind" }, pic)] : [pic, h("span", {}, TAB_NAME[b.dataset.tab])]));
     }
   }
 }
-for (const nav of document.querySelectorAll(".tabbar, .topnav")) {
+for (const nav of document.querySelectorAll(".tabbar, .sidebar nav")) {
   nav.addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (b) switchTab(b.dataset.tab); });
 }
-// 탭마다 마지막에 초점이 있던 곳(그 탭으로 돌아오면 거기로. 탭 버튼은 빼고)
+// 탭마다 마지막에 초점이 있던 곳(그 탭으로 돌아오면 거기로. 화면 밖의 탭 막대·사이드바는 빼고)
 document.addEventListener("focusin", (e) => {
-  if (e.target.closest && e.target.closest(".view") && !e.target.closest(".topnav")) lastFocus[screenTab] = e.target;
+  if (e.target.closest && e.target.closest(".view")) lastFocus[screenTab] = e.target;
 });
 
 function titleOf(name) {
@@ -4866,7 +4866,7 @@ function showUpdateIfReady() {
   announce("새 버전이 있어요");
 }
 
-// 설치 권유(웹 브라우저만): 첫 시간표를 만든 뒤 상단 바의 작은 '설치'. 시스템 창을 닫으면 버튼을 없애고 다시 두지 않는다
+// 설치 권유(웹 브라우저만): 첫 시간표를 만든 뒤 입력 화면 상단 바의 작은 '설치'(컴퓨터는 사이드바 맨 아래의 '설치'). 시스템 창을 닫으면 버튼을 없애고 다시 두지 않는다
 let installPrompt = null;
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
@@ -4874,18 +4874,22 @@ window.addEventListener("beforeinstallprompt", (e) => {
   updateInstall();
 });
 function updateInstall() {
-  $("install").hidden = !(SHELL === "web" && installPrompt && store.get("made", false) && !store.get("installDismissed", false));
+  const show = SHELL === "web" && installPrompt && store.get("made", false) && !store.get("installDismissed", false);
+  for (const b of document.querySelectorAll("[data-install]")) b.hidden = !show;
 }
-$("install").addEventListener("click", async () => {
-  if (!installPrompt) return;
-  const p = installPrompt;
-  installPrompt = null;
-  p.prompt();
-  const choice = await p.userChoice.catch(() => null);
-  if (!choice || choice.outcome !== "accepted") store.set("installDismissed", true);
-  updateInstall();
-  $("open-info").focus({ preventScroll: true });
-});
+for (const b of document.querySelectorAll("[data-install]")) {
+  b.addEventListener("click", async () => {
+    if (!installPrompt) return;
+    const p = installPrompt;
+    installPrompt = null;
+    p.prompt();
+    const choice = await p.userChoice.catch(() => null);
+    if (!choice || choice.outcome !== "accepted") store.set("installDismissed", true);
+    updateInstall();
+    // 버튼이 없어졌으니 초점은 바로 옆의 정보로(지금 보이는 것: 입력 화면 상단 바의 ⓘ, 컴퓨터는 사이드바의 정보)
+    [...document.querySelectorAll("[data-open-info]")].find((el) => el.getClientRects().length)?.focus({ preventScroll: true });
+  });
+}
 window.addEventListener("appinstalled", () => { installPrompt = null; updateInstall(); });
 
 function renderOnline() {
@@ -5034,7 +5038,15 @@ $("picked-list").addEventListener("click", (e) => {
 $("picked-retry").addEventListener("click", run);
 $("run").addEventListener("click", run);
 $("cancel").addEventListener("click", cancelCompute);
-for (const b of document.querySelectorAll("[data-open-info]")) b.addEventListener("click", () => go("info"));
+/** 정보 화면(연 탭 안의 다음 화면). 컴퓨터의 사이드바 '정보'는 어느 화면에서나 누를 수 있다: 이미 그 탭에 정보가 쌓여 있으면(정보, 그 아래 자료 출처·라이선스)
+ *  거기로 돌아가고, 정보 화면이면 맨 위로(같은 화면을 거듭 쌓지 않는다) */
+function openInfo() {
+  const st = stacks[tab], i = st.findIndex((en) => en.view === "info");
+  if (i < 0) go("info");
+  else if (i < st.length - 1) history.go(i - (st.length - 1));
+  else window.scrollTo({ top: 0, behavior: reduceMotion.matches ? "auto" : "smooth" });
+}
+for (const b of document.querySelectorAll("[data-open-info]")) b.addEventListener("click", openInfo);
 $("open-calc").addEventListener("click", (e) => openSheet($("calc-sheet"), e.currentTarget));
 $("open-sources").addEventListener("click", () => go("page", { page: "sources" }));
 $("map-expand").addEventListener("click", () => go("map"));

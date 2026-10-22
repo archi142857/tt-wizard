@@ -41,10 +41,9 @@
       <img class="wordmark" src="icons/wordmark.svg" alt="TT Wizard" width="126" height="36">
     </picture>
     <img class="wordmark wm-white" src="icons/wordmark-white.svg" alt="TT Wizard" width="126" height="36">
-    <nav class="topnav" aria-label="화면"></nav>
     <span class="tag offline-tag" id="offline-tag" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 2l20 20M5.8 9.3A5.5 5.5 0 0 0 7 20h10.5M20.9 17.3A4.5 4.5 0 0 0 17.5 10h-.9A7 7 0 0 0 9.9 5.2"></path></svg>오프라인</span>
     <span class="spacer"></span>
-    <button type="button" class="btn-text small" id="install" hidden>설치</button>
+    <button type="button" class="btn-text small" id="install" data-install hidden>설치</button>
     <button type="button" class="icon-btn" id="open-info" aria-label="정보" data-open-info><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><circle cx="12" cy="7.8" r=".6" fill="currentColor"></circle></svg></button>
   </header>
   <main>
@@ -125,7 +124,7 @@
   </main>
 </div>
 
-<!-- 내 시간표(아래 탭의 첫째). 상단 바는 입력 화면과 같다: 워드마크, 넓은 화면의 탭, 오프라인 태그, ⓘ -->
+<!-- 내 시간표(아래 탭의 첫째). 상단 바는 입력 화면과 같다: 워드마크, 오프라인 태그, ⓘ(컴퓨터는 이것들이 사이드바로 옮겨 상단 바가 없다) -->
 <div id="view-mine" class="view" hidden>
   <header class="topbar">
     <picture class="wm-default">
@@ -133,7 +132,6 @@
       <img class="wordmark" src="icons/wordmark.svg" alt="TT Wizard" width="126" height="36">
     </picture>
     <img class="wordmark wm-white" src="icons/wordmark-white.svg" alt="TT Wizard" width="126" height="36">
-    <nav class="topnav" aria-label="화면"></nav>
     <span class="tag offline-tag" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 2l20 20M5.8 9.3A5.5 5.5 0 0 0 7 20h10.5M20.9 17.3A4.5 4.5 0 0 0 17.5 10h-.9A7 7 0 0 0 9.9 5.2"></path></svg>오프라인</span>
     <span class="spacer"></span>
     <button type="button" class="icon-btn" aria-label="정보" data-open-info><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><circle cx="12" cy="7.8" r=".6" fill="currentColor"></circle></svg></button>
@@ -271,8 +269,28 @@
   </main>
 </div>
 
-<!-- 아래 탭 막대(디자인 규칙 '탭'): 내 시간표 · 탐색, 아이콘만. 넓은 화면은 상단 바의 .topnav -->
+<!-- 아래 탭 막대(디자인 규칙 '탭'): 내 시간표 · 탐색, 아이콘만. 폰과 태블릿(1099px까지) -->
 <nav class="tabbar" id="tabbar" aria-label="화면"><ul></ul></nav>
+<!-- 컴퓨터(1100px부터)의 왼쪽 사이드바(디자인 69판): 워드마크, 같은 탭 둘(아이콘 + 이름), 맨 아래 오프라인 태그·설치·정보. 그보다 좁으면 숨는다.
+     화면 왼쪽에 보이지만 초점 순서는 본문 다음이다(그래서 본문 뒤에 둔다). 설치·정보는 nav 밖의 버튼.
+     워드마크는 nav 안 머리에 둔다: 랜드마크 밖에 내용이 남지 않게(axe region. 폰은 상단 바 header 안에 있다) -->
+<div class="sidebar" id="sidebar">
+  <nav aria-label="화면">
+    <div class="sb-brand">
+      <picture class="wm-default">
+        <source srcset="icons/wordmark-dark.svg" media="(prefers-color-scheme: dark)">
+        <img class="wordmark" src="icons/wordmark.svg" alt="TT Wizard" width="126" height="36">
+      </picture>
+      <img class="wordmark wm-white" src="icons/wordmark-white.svg" alt="TT Wizard" width="126" height="36">
+    </div>
+    <ul></ul>
+  </nav>
+  <div class="sb-foot">
+    <span class="tag offline-tag" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 2l20 20M5.8 9.3A5.5 5.5 0 0 0 7 20h10.5M20.9 17.3A4.5 4.5 0 0 0 17.5 10h-.9A7 7 0 0 0 9.9 5.2"></path></svg>오프라인</span>
+    <button type="button" class="sb-item" data-install hidden><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg><span>설치</span></button>
+    <button type="button" class="sb-item" data-open-info><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><circle cx="12" cy="7.8" r=".6" fill="currentColor"></circle></svg><span>정보</span></button>
+  </div>
+</div>
 
 <!-- 시트 -->
 <dialog class="sheet" id="course-sheet" aria-labelledby="cs-title">
