@@ -20,7 +20,7 @@ document.documentElement.dataset.shell = SHELL;
 
 // ---------------------------------------------------------------- 설정
 
-const APP_VERSION = "0.6.0";
+const APP_VERSION = "0.7.0";
 // 정보 화면 링크. 주소가 정해지면 넣는다(비어 있으면 그 행을 보이지 않는다)
 const PRIVACY_URL = ""; // 개인정보 처리방침 공개 페이지(스토어에 적는 주소와 같게)
 const CONTACT_URL = ""; // 문의 페이지(App Store 지원 URL과 같은 곳)

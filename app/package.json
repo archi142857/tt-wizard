@@ -1,6 +1,6 @@
 {
   "name": "tt-wizard-app",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "description": "TT Wizard 스토어 앱(Capacitor): web/ 화면을 www/ 로 옮겨 안드로이드·iOS 앱으로 감싼다",
   "scripts": {
