@@ -225,11 +225,12 @@ data/
   field/               오르막 실측 구간(routes.csv)·기록 (양식: *_template.csv, 측정 페이지 CSV 는 tracks/ — git 에 안 올림)
   lectures.json, buildings.csv, travel.csv, travel_slope.csv, route_stats.csv, route_paths.json, stats.csv, changes/
 web/                 정적 웹 화면: 과목 검색 → 시간표 · 동선 지도(OpenStreetMap) · 순위 목록 (GitHub Pages)
+  js/                  app.js(화면), engine.js(탐색·동선 엔진), search.js(과목 검색), search-worker.js(탐색 워커), timetables.js(저장한 시간표)
   model/               관악캠퍼스 3D·2D 모델링 (campus_model.py 가 만든 결과, 커밋한다)
   field/               오르막 실측 페이지 (폰 GPS 기록, 앱에서 링크하지 않음)
 app/                 스토어 앱 (Capacitor 8): android/, ios/ 네이티브 프로젝트, src/native.js(앱 연결), assets/icons/ — docs/app.md
 results/experiments/ 비교 실험 결과 (CSV, 그림, README.md 요약)
-docs/                계획·결정 사항, 방법 설명(elevation_method.md, travel_time_method.md, experiments.md, app.md, search.md, topo.md)
+docs/                계획·결정 사항, 방법 설명(elevation_method.md, travel_time_method.md, experiments.md, app.md, search.md, timetables.md, topo.md)
 tests/               pytest
 ```
 
