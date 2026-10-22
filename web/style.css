@@ -397,7 +397,23 @@ body.is-typing .bottom-bar { display: none; }
   /* 되돌리기 스낵바는 오른쪽 칸 폭으로 시간표 만들기 위에(app.js placeSnackbar 가 버튼 자리에 맞춘다) */
   #view-input:not([hidden]) ~ .snackbar, #view-mine:not([hidden]) ~ .snackbar { max-width: var(--width-pane); margin: 0 0 0 auto;
     right: max(var(--gutter-right), calc((100% - var(--width-result)) / 2 + var(--gutter-right))); }
+  /* 과목 추가(10/22 밤 사용자: "탐색도 같은 창에 오른쪽에뜨도록"): 따로 화면 대신 내 시간표의 오른쪽 칸이 찾기가 된다(.is-adding). 격자를 보면서 넣는다.
+     칸은 위 끝까지 올라와 머리 줄(뒤로 + 과목 추가)이 시간표 머리 줄과 한 줄에 서고(그 줄은 왼쪽 칸만), 검색창 위 끝이 격자 카드 위 끝에 맞는다.
+     둘째 줄을 fr 로 두어 긴 칸이 첫 줄을 늘리지 않는다. 입력 화면의 왼쪽 칸처럼 상단 바 아래에 붙고(sticky) 결과 카드만 스크롤한다(아래 블록) */
+  #view-mine.is-adding > main { grid-template-rows: auto 1fr; }
+  #view-mine.is-adding .tt-head { grid-column: 1; grid-row: 1; }
+  #view-mine.is-adding .mine-left { grid-column: 1; grid-row: 2; }
+  .mine-add { grid-column: 2; grid-row: 1 / span 2; position: sticky; top: calc(var(--topbar-h) + var(--safe-top)); display: flex; flex-direction: column;
+    padding-bottom: calc(var(--space-6) + var(--tabbar-space)); }
+  .mine-add .searchbox { margin-top: 0; }
 }
+/* 넓은 화면 과목 추가 칸의 머리 줄: 하위 화면 상단 바처럼 뒤로와 제목(바탕 위 글자). 높이는 시간표 머리 줄(.tt-head)과 같다 */
+.add-head { display: flex; align-items: center; gap: var(--space-2); min-height: var(--touch); padding: 0 0 var(--space-2); }
+.add-head-title { flex: 1; min-width: 0; margin: 0; font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; color: var(--on-bg-heading);
+  overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.add-head-title:focus { outline: none; }
+.add-head-title:focus-visible { outline: 2px solid var(--focus); }
+.add-head .icon-btn:active { background: var(--bg-hover); }
 /* 태블릿(680~1099px. 디자인 69판, 10/22 사용자: "탭은 핸드폰처럼 아래로"): 오른쪽 칸의 하단 바는 막대 바로 위(sticky bottom 이 위 .bottom-bar 의
    --tabbar-space)에 띠 없이 버튼 아래 space-3. 오른쪽 칸 끝에는 막대만큼 자리를 둔다: 칸이 화면보다 길어도 끝까지 내리면 하단 바가 제자리(막대 위)에 와서
    조건 카드의 끝이 바 밑에 가리지 않는다 */
@@ -411,10 +427,10 @@ body.is-typing .bottom-bar { display: none; }
    목록은 더 보기 없이 이어 붙는다(app.js feedList). 둘러보기의 선택칸(목록 제목)은 카드 위에 붙어 있다. 화면이 아주 낮으면(가로로 눕힌 폰에
    화상 키보드) 카드가 너무 작아지므로 예전처럼 페이지가 스크롤한다 */
 @media (min-width: 42.5em) and (min-height: 25em), (horizontal-viewport-segments: 2) and (min-height: 25em) {
-  .input-left { max-height: calc(100vh - var(--topbar-h) - var(--safe-top)); max-height: calc(100dvh - var(--topbar-h) - var(--safe-top)); }
-  .input-left > * { flex-shrink: 0; }
-  .input-left .results { flex: 0 1 auto; min-height: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
-  .input-left .results::-webkit-scrollbar { display: none; }
+  .input-left, .mine-add { max-height: calc(100vh - var(--topbar-h) - var(--safe-top)); max-height: calc(100dvh - var(--topbar-h) - var(--safe-top)); }
+  .input-left > *, .mine-add > * { flex-shrink: 0; }
+  .input-left .results, .mine-add .results { flex: 0 1 auto; min-height: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
+  .input-left .results::-webkit-scrollbar, .mine-add .results::-webkit-scrollbar { display: none; }
   .input-left .results:has(> .browse:not([hidden])) { scroll-padding-top: calc(var(--touch) + var(--space-1) + 1px); } /* 붙어 있는 선택칸 밑으로 초점이 숨지 않게 */
   .browse-head { position: sticky; top: 0; z-index: 1; background: var(--card); }
 }
@@ -1026,7 +1042,7 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
   /* 넓은 모니터(사이드바 + 본문 최대 폭 width-result = 1320px 보다 넓을 때)는 사이드바와 본문을 한 덩이(틀)로 화면 가운데에 둔다(10/22 밤 사용자: "지금 뭔가
      균형이 안 맞음". 사이드바는 왼쪽 끝에 붙고 본문은 남은 자리 가운데라 1920 에서 사이드바와 본문 사이가 350px 가까이 비고 바깥 여백은 왼쪽 24 · 오른쪽 330 이었다).
      틀 바깥 여백 --frame-pad 는 양쪽 같고 1320px 까지는 0 이다(69판 그림 그대로 사이드바가 왼쪽 끝). 틀은 가장 넓은 본문에 맞춰 두어 화면을 바꿔도 사이드바가
-     움직이지 않는다(좁은 화면 정보·자료 출처·과목 추가는 틀의 본문 칸 가운데). % 는 쓰는 곳의 기준 폭이다: body 여백은 html 폭, 화면에 붙은 것(fixed)은 화면 폭.
+     움직이지 않는다(좁은 화면 정보·자료 출처는 틀의 본문 칸 가운데). % 는 쓰는 곳의 기준 폭이다: body 여백은 html 폭, 화면에 붙은 것(fixed)은 화면 폭.
      둘 다 세로 스크롤 막대를 뺀 폭이라 맞는다 */
   body { --frame-pad: max(0px, (100% - var(--sidebar-w) - var(--width-result)) / 2);
     padding-left: calc(var(--frame-pad) + var(--sidebar-w)); padding-right: var(--frame-pad); --gutter-left: var(--space-8); --gutter-right: var(--space-8); }
@@ -1039,10 +1055,10 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
   /* 탭의 첫 화면: 상단 바 없이 본문은 위 space-4 부터, 두 칸도 거기에 붙는다 */
   #view-input > .topbar, #view-mine > .topbar { display: none; }
   #view-input, #view-mine { padding-top: calc(var(--space-4) + var(--safe-top)); }
-  .input-left, .input-right, .mine-right { top: calc(var(--space-4) + var(--safe-top)); }
+  .input-left, .input-right, .mine-right, .mine-add { top: calc(var(--space-4) + var(--safe-top)); }
 }
 @media (min-width: 68.75em) and (min-height: 25em) {
-  .input-left { max-height: calc(100vh - var(--space-4) - var(--safe-top)); max-height: calc(100dvh - var(--space-4) - var(--safe-top)); }
+  .input-left, .mine-add { max-height: calc(100vh - var(--space-4) - var(--safe-top)); max-height: calc(100dvh - var(--space-4) - var(--safe-top)); }
 }
 .sidebar::-webkit-scrollbar { display: none; }
 ::view-transition-old(sidebar) { display: none; }
@@ -1255,7 +1271,7 @@ html[data-theme="xmas"] { --snow-far: #ffffff94; --snow-near: #ffffffe0;
   --on-bg-halo: 1px 0 var(--bg), .71px .71px var(--bg), 0 1px var(--bg), -.71px .71px var(--bg), -1px 0 var(--bg), -.71px -.71px var(--bg), 0 -1px var(--bg), .71px -.71px var(--bg),
     1.75px 0 var(--bg), 1.62px .67px var(--bg), 1.24px 1.24px var(--bg), .67px 1.62px var(--bg), 0 1.75px var(--bg), -.67px 1.62px var(--bg), -1.24px 1.24px var(--bg), -1.62px .67px var(--bg),
     -1.75px 0 var(--bg), -1.62px -.67px var(--bg), -1.24px -1.24px var(--bg), -.67px -1.62px var(--bg), 0 -1.75px var(--bg), .67px -1.62px var(--bg), 1.24px -1.24px var(--bg), 1.62px -.67px var(--bg); }
-h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .ranks-more, .info-foot, .page-foot, .tt-switch, .route-head,
+h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .ranks-more, .info-foot, .page-foot, .tt-switch, .route-head, .add-head-title,
 .picked-error .btn-text, .footnote .btn-text, .ranks-more .btn-text, .route-cond .btn-text { text-shadow: var(--on-bg-halo, none); } /* 버튼은 글자 그림자를 물려받지 않아 따로 적는다 */
 .day-summary .tag, .tt-switch .tag { text-shadow: none; } /* 태그는 제 면(fill) 위라 둘레를 두지 않는다(두면 글자에 짙은 테두리) */
 /* 넓은 화면의 하단 바는 오른쪽 칸이 짧으면 화면 아래에 붙지 않고 내용 사이에 놓인다. 그때는 무늬 띠가 바 뒤를 가리지 않아 '취소' 뒤로도 눈이 지나간다(폰의 띠는 늘 가린다) */
@@ -1300,7 +1316,7 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
   .sidebar .sb-item:not([aria-current="page"]):hover { background: var(--bg-hover); }
   .icon-btn:hover, .btn-text:hover, .result:hover, .rank-hit:hover, button.info-row:hover, a.info-row:hover, .pick-row:hover, .course-hit:hover .c-title { background: var(--surface-hover); }
   .tabbar .tab:not([aria-current="page"]):hover .ind, .add-row:hover, .tt-row:hover, .menu-row:hover { background: var(--surface-hover); }
-  .tt-switch:hover, .tt-head > .icon-btn:last-child:hover, .route-cond .btn-text:hover { background: var(--bg-hover); }
+  .tt-switch:hover, .tt-head > .icon-btn:last-child:hover, .route-cond .btn-text:hover, .add-head .icon-btn:hover { background: var(--bg-hover); }
   .topbar .icon-btn:hover, .topbar .btn-text:hover, .bottom-bar .btn-text:hover, .picked-error .btn-text:hover, .ranks-more .btn-text:hover, .footnote .btn-text:hover { background: var(--bg-hover); }
   .result.is-picked:hover { background: var(--row-picked); } /* 담은 행은 어두운 그대로, 버튼만 빨갛게(빼기) */
   .course-hit:hover .c-title { background: none; text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
