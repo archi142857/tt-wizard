@@ -99,7 +99,7 @@ def test_export_semesters(tmp_path):
 def test_stamp_assets(tmp_path):
     """배포 때 스크립트·스타일 주소에 판(?v=)을 붙인다: 내용이 바뀌면 판도 바뀌고, 두 번 해도 같다."""
     web = tmp_path / "web"
-    for name in ("index.html", "style.css", "js/app.js", "js/engine.js", "js/search-worker.js", "js/search.js"):
+    for name in ("index.html", "style.css", "js/app.js", "js/engine.js", "js/search-worker.js", "js/search.js", "js/timetables.js"):
         (web / name).parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(ROOT / "web" / name, web / name)
     v = ew.stamp_assets(web)
@@ -113,10 +113,12 @@ def test_stamp_assets(tmp_path):
         app += '\nnew Worker(new URL("./search-worker.js", import.meta.url), { type: "module" });\n'
     if "./search.js" not in app:
         app = 'import { searchCourses } from "./search.js";\n' + app
+    if "./timetables.js" not in app:
+        app = 'import * as timetables from "./timetables.js";\n' + app
     (web / "js" / "app.js").write_text(app, encoding="utf-8")
     v1 = ew.stamp_assets(web)
     app = (web / "js" / "app.js").read_text(encoding="utf-8")
-    assert f'new URL("./search-worker.js?v={v1}"' in app and f'from "./search.js?v={v1}"' in app
+    assert f'new URL("./search-worker.js?v={v1}"' in app and f'from "./search.js?v={v1}"' in app and f'from "./timetables.js?v={v1}"' in app
     v = v1
     html = (web / "index.html").read_text(encoding="utf-8")
     assert ew.stamp_assets(web) == v and (web / "index.html").read_text(encoding="utf-8") == html

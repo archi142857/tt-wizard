@@ -1,0 +1,158 @@
+// tests/test_timetables.py 가 부른다: 저장한 시간표(web/js/timetables.js)와 동선 확인(engine.checkRoute)을 돌려 결과를 JSON 으로 출력한다.
+//   node tests/timetables_runner.mjs <courses.json> <campus.json>
+import { readFileSync } from "node:fs";
+import { parseCourses, TravelMatrix, search, checkRoute } from "../web/js/engine.js";
+import * as T from "../web/js/timetables.js";
+
+const [, , coursesPath, campusPath] = process.argv;
+const courses = parseCourses(JSON.parse(readFileSync(coursesPath, "utf8")));
+const campus = JSON.parse(readFileSync(campusPath, "utf8"));
+const byId = new Map(courses.map((c) => [c.id, c]));
+const travel = TravelMatrix.fromCampus(campus, "slope");
+const out = {};
+const NOW = new Date("2026-10-22T10:00:00Z");
+const keys = (t) => t.items.map(T.itemKey);
+
+// 1) 이름: 새로 만들 때 겹치면 번호, 복사본은 늘 번호(이미 있는 번호 다음), 길이·빈 이름·같은 이름
+{
+  let list = [];
+  const a = T.createTimetable(list, "2026-2", { title: "  내   시간표 ", now: NOW });
+  list = [a];
+  const b = T.createTimetable(list, "2026-2", { title: "내 시간표", now: NOW });
+  list.push(b);
+  const c = T.copyTimetable(a, list, NOW);
+  list.push(c);
+  const d = T.copyTimetable(c, list, NOW);
+  list.push(d);
+  const long = T.uniqueTitle("가".repeat(40), ["가".repeat(30)]);
+  out.titles = {
+    names: list.map((x) => x.title),
+    primary: list.map((x) => !!x.primary),
+    problems: [T.titleProblem("   ", list), T.titleProblem("내 시간표 (1)", list), T.titleProblem("내 시간표 (1)", list, c.id), T.titleProblem("새 이름", list)],
+    rename: T.renameTimetable(b, "내 시간표", list).problem || null,
+    renamed: T.renameTimetable(b, "  가을  계획 ", list, NOW).t.title,
+    long: [long.length, long.endsWith(" (1)")],
+    full: T.createTimetable(Array.from({ length: T.PER_SEMESTER_MAX }, (_, k) => ({ id: "x" + k, title: "t" + k })), "2026-2") === null,
+  };
+  const afterDelete = T.deleteTimetable(list, a.id);
+  out.titles.primaryAfterDelete = afterDelete.filter((x) => x.primary).length;
+  out.titles.setPrimary = T.setPrimary(list, d.id).map((x) => !!x.primary);
+}
+
+// 2) 항목 넣기: 겹치면 묻고(넣지 않음), force 면 겹친 것을 빼고 넣는다. 같은 과목 다른 분반은 바꿔 넣는다. 색은 비는 가장 작은 번호
+{
+  const sec = (id, no, meetings) => ({ key: `${id}-${no}`, courseId: id, no, name: id, instructor: "교수" + no, status: "",
+    meetings: meetings.map(([day, start, end, building]) => ({ day, start, end, building, room: "" })) });
+  const course = (id, credit, secs) => ({ id, name: "과목 " + id, dept: "", credit, cls: "교양", program: "학사", sections: secs.map(([no, ms]) => sec(id, no, ms)) });
+  const A = course("A", 3, [["001", [[0, 540, 615, "301"], [2, 540, 615, "301"]]], ["002", [[1, 540, 615, "43-1"]]]]);
+  const B = course("B", 2, [["001", [[0, 600, 690, "83"]]]]); // A-001 의 월 9:00~10:15 와 겹친다
+  const C = course("C", 1, [["001", [[4, 780, 870, "71"]]]]);
+  let t = T.createTimetable([], "2026-2", { now: NOW });
+  t = T.addItem(t, T.sectionItem(A, A.sections[0]), { now: NOW }).t;
+  t = T.addItem(t, T.sectionItem(C, C.sections[0]), { now: NOW }).t;
+  const ask = T.addItem(t, T.sectionItem(B, B.sections[0]), { now: NOW });
+  const forced = T.addItem(t, T.sectionItem(B, B.sections[0]), { force: true, now: NOW });
+  const swapped = T.addItem(t, T.sectionItem(A, A.sections[1]), { now: NOW }).t; // 같은 과목 다른 분반: 바꿔 넣고 색은 그대로
+  const custom = T.customItem({ title: "  동아리  ", meetings: [{ day: 5, start: 600, end: 720, building: "" }, { day: 9, start: 1, end: 2, building: "" }] });
+  const withCustom = T.addItem(t, custom, { now: NOW }).t;
+  const clashCustom = T.addItem(t, T.customItem({ title: "약속", meetings: [{ day: 4, start: 800, end: 900, building: "" }] }), { now: NOW });
+  out.items = {
+    askOverlap: ask.overlaps, askUnchanged: ask.t === t,
+    forced: keys(forced.t), forcedColor: forced.t.items.find((it) => it.course === "B").color,
+    swapped: keys(swapped), swappedColor: swapped.items.find((it) => it.course === "A").color,
+    colors: withCustom.items.map((it) => it.color),
+    customTitle: custom.title, customMeetings: custom.meetings,
+    clashCustom: clashCustom.overlaps,
+    credits: T.credits(withCustom),
+    removed: keys(T.removeItem(withCustom, custom.custom, NOW)),
+    updated: T.updateItem(withCustom, custom.custom, { memo: "메모", title: "동아리 방" }, NOW).items.find((it) => it.custom),
+    cleared: "memo" in T.updateItem(T.updateItem(withCustom, custom.custom, { memo: "메모" }, NOW), custom.custom, { memo: undefined }, NOW).items.find((it) => it.custom),
+    updatedAt: forced.t.updated,
+  };
+}
+
+// 3) 탐색 결과 저장: 같은 분반·수업으로 저장되고, checkRoute 가 search 와 같은 비용·경로를 낸다. 같은 결과는 이미 저장됨
+{
+  const ids = courses.filter((c) => c.sections.some((s) => s.meetings.length)).slice(0, 4).map((c) => c.id);
+  const res = search(ids.map((i) => byId.get(i)), travel, "919", { topK: 3 });
+  const ev = res.ranked[0];
+  let list = [];
+  const t = T.createTimetable(list, "2026-2", { source: "search", from: { home: "919", mode: "slope" }, items: T.itemsFromRanked(ev, byId), now: NOW });
+  list = [t];
+  const secs = T.toSections(t, byId);
+  const chk = checkRoute(secs, travel, "919");
+  out.fromSearch = {
+    keys: keys(t),
+    rankedKeys: ev.sections.map((s) => s.key),
+    cost: [chk.cost, ev.cost],
+    legs: JSON.stringify(chk.legs.map((l) => [l.day, l.from, l.to, l.minutes, l.slack])) === JSON.stringify(ev.legs.map((l) => [l.day, l.from, l.to, l.minutes, l.slack])),
+    overlaps: chk.overlaps,
+    saved: T.findSaved(list, ev, byId) === t,
+    other: res.ranked.length > 1 ? T.findSaved(list, res.ranked[1], byId) : null,
+    source: t.source,
+    from: t.from,
+  };
+  // 사용자가 강의실을 정해 둔 분반(탐색에 넘긴 수업이 편람과 다르다) → own 으로 남고, 같은 시간·건물 분반은 alts 로
+  const s = ev.sections[0];
+  const fake = { ...ev, sections: [{ ...s, meetings: s.meetings.map((m) => ({ ...m, building: "301", room: "" })), twins: [{ key: s.courseId + "-999" }] }, ...ev.sections.slice(1)] };
+  const items = T.itemsFromRanked(fake, byId);
+  out.fromSearch.own = items[0].own;
+  out.fromSearch.alts = items[0].alts;
+  out.fromSearch.ownUsed = T.toSections({ ...t, items }, byId)[0].meetings.map((m) => m.building);
+  // 겹치는 시간표: checkRoute 가 겹치는 쌍을 알린다
+  const a = { meetings: [{ day: 0, start: 540, end: 600, building: "301" }] }, b = { meetings: [{ day: 0, start: 570, end: 630, building: "43-1" }] }, c = { meetings: [{ day: 1, start: 540, end: 600, building: "" }] };
+  out.overlapPairs = checkRoute([a, b, c], travel, "919").overlaps;
+}
+
+// 4) 편람과 맞추기: 바뀌면 changed(새 값을 쓴다), own 이 있으면 own, 사라지면 gone(적어 둔 값), 본 것으로 하면 same
+{
+  const c = courses.find((x) => x.sections.some((s) => s.meetings.length));
+  const s = c.sections.find((x) => x.meetings.length);
+  let t = T.createTimetable([], "2026-2", { now: NOW });
+  t = T.addItem(t, T.sectionItem(c, s), { now: NOW }).t;
+  const ownItem = T.sectionItem(c, s, { meetings: s.meetings.map((m) => ({ ...m, start: m.start + 60, end: m.end + 60 })) });
+  const moved = { ...c, sections: c.sections.map((x) => (x === s ? { ...x, meetings: x.meetings.map((m) => ({ ...m, start: m.start + 30, end: m.end + 30 })) } : x)) };
+  const movedMap = new Map(byId).set(c.id, moved);
+  const goneMap = new Map(byId).set(c.id, { ...c, sections: c.sections.filter((x) => x !== s) });
+  const r = (tt, map) => T.reconcile(tt, map).map((x) => [x.state, x.meetings.map((m) => m.start)]);
+  const tOwn = T.updateItem(t, s.key, { own: ownItem.own }, NOW);
+  out.reconcile = {
+    same: r(t, byId),
+    changed: r(t, movedMap),
+    own: r(tOwn, movedMap),
+    gone: r(t, goneMap),
+    ack: r(T.acknowledge(t, movedMap, NOW), movedMap),
+    ackSame: T.acknowledge(t, byId, NOW) === t,
+    base: s.meetings.map((m) => m.start),
+    // 편람이 옮긴 시간과 겹치는 일정: 지금 편람(byId)으로 보면 겹치고, 적어 둔 값으로 보면 안 겹친다
+    movedOverlap: (() => {
+      const m0 = moved.sections.find((x) => x.no === s.no).meetings[0];
+      const probe = [{ day: m0.day, start: m0.end - 10, end: m0.end + 50 }];
+      return [T.overlapsWith(t, probe, { byId: movedMap }), T.overlapsWith(t, probe),
+        T.addItem(t, T.customItem({ title: "약속", meetings: probe }), { byId: movedMap, now: NOW }).overlaps];
+    })(),
+  };
+}
+
+// 5) 기기에 두기: 그대로 돌아오고, 어긋난 것은 버리고, 새 판은 지우지 않고 그대로 돌려준다. 대표는 하나만
+{
+  const c = courses[0], s = c.sections[0];
+  let t = T.createTimetable([], "2026-2", { title: "저장", now: NOW });
+  t = T.addItem(t, T.sectionItem(c, s), { now: NOW }).t;
+  t = T.addItem(t, T.customItem({ title: "운동", meetings: [{ day: 6, start: 600, end: 660, building: "71" }], memo: "체육관" }), { now: NOW }).t;
+  const raw = JSON.parse(JSON.stringify(T.serialize([t])));
+  const back = T.parseList(raw, "2026-2");
+  const newer = { v: 99, id: "tz", sem: "2026-2", title: "새 판", whatever: [1, 2] };
+  const junk = [null, 3, { id: 5 }, { id: "ok", title: "", primary: true, items: [{ course: 1 }, { custom: "c1", title: "", meetings: [[7, 1, 2, "", ""], [1, 600, 700, "301", ""]] }, { course: "X", no: "001", base: [[0, 900, 800, "", ""]], color: -1 }] }, { ...t, id: "dup", primary: true }];
+  const parsed = T.parseList([...raw, newer, ...junk], "2026-2");
+  out.storage = {
+    same: JSON.stringify(back) === JSON.stringify([t]),
+    ids: parsed.map((x) => x.id),
+    newerKept: JSON.stringify(T.serialize(parsed).find((x) => x.id === "tz")) === JSON.stringify(newer),
+    ok: parsed.find((x) => x.id === "ok"),
+    primaries: parsed.filter((x) => x.primary).map((x) => x.id),
+    notArray: T.parseList({ a: 1 }, "2026-2"),
+  };
+}
+
+console.log(JSON.stringify(out));

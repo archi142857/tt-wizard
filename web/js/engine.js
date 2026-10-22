@@ -765,3 +765,21 @@ export function routeLine(routes, a, b) {
   p = routes.paths[b + "|" + a];
   return p ? decodePolyline(p).reverse() : null;
 }
+
+// ---------------------------------------------------------------- 동선 확인하기
+
+/**
+ * 정해진 시간표 하나의 동선(화면의 '동선 확인하기'). sections = [{meetings: [{day, start, end, building}], ...}]:
+ * 탐색 결과의 분반들이나 저장한 시간표(timetables.toSections). 반환은 evaluate 와 같은 모양(요일별 경로 legs, 비용 cost 등)에
+ *   overlaps: 시간이 겹치는 분반 쌍 [[i, j], ...](sections 의 차례, i < j)
+ * 를 더한 것. 겹치는 두 수업 사이 이동은 evaluate 그대로 지각으로 잡히니, 화면은 그 쌍을 '시간 겹침'으로 알린다.
+ * 탐색 결과의 분반을 그대로 넣으면 search 가 준 것과 같은 비용·경로가 나온다(같은 evaluate).
+ */
+export function checkRoute(sections, travel, home, { weights = WEIGHTS } = {}) {
+  const ev = evaluate(sections, travel, home, weights);
+  ev.overlaps = [];
+  for (let i = 0; i < sections.length; i++) {
+    for (let j = i + 1; j < sections.length; j++) if (conflicts(sections[i], sections[j])) ev.overlaps.push([i, j]);
+  }
+  return ev;
+}
