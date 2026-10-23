@@ -2424,10 +2424,7 @@ function mapColors() {
   }
   return mapColorCache;
 }
-matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-  mapColorCache = null;
-  for (const mp of [maps.small, maps.full]) if (mp) mp.base.redraw();
-});
+// 기기의 라이트·다크가 바뀌면 지도 색도 바뀐다: 아래 '라이트·다크'의 applyTheme 이 data-scheme 과 함께 지도를 다시 그린다(기본(기기 설정)일 때만)
 
 // 선 폭은 미터로 정하고 배율마다 화소로 바꾼다(최소 화소 아래로는 가늘어지지 않는다). 캠퍼스 안 찻길 폭(m)은 OSM highway 값으로
 const ROAD_M = { service: 4.5, residential: 6, living_street: 5, unclassified: 6, tertiary: 7, tertiary_link: 6 };
@@ -3925,14 +3922,14 @@ const imageFile = (t) => `${imageTitle(t).replace(/[\\/:*?"<>|\u0000-\u001f]/g, 
 // 미리 그린 그림(시간표·테마·다크·칸 색이 같으면 다시 쓴다)
 let imageCache = null;
 function preparedImage(t) {
-  const key = [t.id, t.updated, t.title, document.documentElement.dataset.theme || "", matchMedia("(prefers-color-scheme: dark)").matches, ttColor, state.loaded && state.semester === t.sem].join("|");
+  const key = [t.id, t.updated, t.title, document.documentElement.dataset.theme || "", darkNow(), ttColor, state.loaded && state.semester === t.sem].join("|");
   if (!imageCache || imageCache.key !== key) imageCache = { key, png: timetablePng(t) };
   return imageCache.png;
 }
-/** 워드마크: 이벤트 테마는 흰 단색, 기본 테마는 기기의 라이트·다크 판(화면의 .wordmark 와 같다) */
+/** 워드마크: 이벤트 테마는 흰 단색, 그 밖에는 보는 화면의 라이트·다크 판(화면의 .wordmark 와 같다. 테마 탭에서 고른 라이트·다크도 따른다) */
 function exportWordmark() {
   if (document.documentElement.dataset.theme) return "icons/wordmark-white.svg";
-  return matchMedia("(prefers-color-scheme: dark)").matches ? "icons/wordmark-dark.svg" : "icons/wordmark.svg";
+  return darkNow() ? "icons/wordmark-dark.svg" : "icons/wordmark.svg";
 }
 /** 시간표 하나 → 자료를 넣은 PNG 바이트(Uint8Array). 1080×1920: 학기·학점 줄, 이름(두 줄까지), 격자 카드(남는 높이를 채운다), 교과구분별이면 색 풀이, 시간 미정 줄, 워드마크 */
 async function timetablePng(t) {
@@ -5465,8 +5462,9 @@ function isSafariTab() {
 // 기간은 한 해 안에 두고(해를 넘기지 않는다) 서로 겹치지 않게 한다. index.html 머리의 스크립트가 같은 판단으로 그리기 전에 먼저 건다(테마를 더하면 거기도 고친다)
 const THEMES = [["xmas", "크리스마스", "12-01", "12-31", "#103924", "DARK", "12월 한 달"]];
 const BASE_BAR = ["#eef0ff", "#16171b"]; // 기본 테마의 상태 바 색(라이트, 다크)
-/** 내 컴퓨터의 개발 서버(http 의 localhost·127.0.0.1·[::1]·*.localhost). 배포한 웹(https)과 스토어 앱(https://localhost, capacitor://localhost)은 아니다 */
-const devHost = () => location.protocol === "http:" && /^(localhost|127\.0\.0\.1|\[::1\])$|\.localhost$/.test(location.hostname);
+/** 개발 서버: http 의 내 컴퓨터(localhost·127.x·[::1]·*.localhost)나 같은 와이파이의 사설 주소(192.168.x·10.x·172.16~31.x. 실제 폰으로 시험할 때).
+ *  배포한 웹(https)과 스토어 앱(https://localhost, capacitor://localhost)은 아니다 */
+const devHost = () => location.protocol === "http:" && /^(localhost|127\.\d+\.\d+\.\d+|\[::1\]|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)$|\.localhost$/.test(location.hostname);
 /** 지금 켤 이벤트 테마(없으면 null). event 는 돌아가기와 물어본 것을 기억하는 이름이다: 해마다 달라서('xmas-2026') 그 해 그 테마에만 남는다.
  *  시험용 주소(?theme=xmas)는 개발 서버에서만 기간 밖에서도 켜고, 그때 고른 것이 실제 기간에 남지 않게 따로 기억한다('xmas-test').
  *  배포한 웹·스토어 앱은 주소로 켜지 않는다(10/23 밤 사용자: 링크로 넣으면 날짜와 상관없이 테마가 보이는 문제. index.html 머리의 스크립트도 같다) */
@@ -5479,21 +5477,42 @@ function seasonTheme(now = new Date()) {
 }
 let season = seasonTheme();
 const themeOn = () => !!season && store.get("themeOff", "") !== season.event;
-let themedBars = false; // 스토어 앱의 시스템 바 글자색을 테마에 맞춰 바꿔 두었는지
+// ---- 라이트·다크(10/23 밤 사용자: "테마에서 기본(기기설정), 라이트, 다크 모두 따로 만들어줘"): 테마 탭에서 고른다. [값, 이름, 카드 아랫줄].
+// 고른 것은 ttw.scheme("light"·"dark", 기본은 지운다). 그린 모습은 html 의 data-scheme(light·dark)이고 style.css 의 다크 값이 거기에 걸린다.
+// index.html 머리의 스크립트가 같은 판단으로 그리기 전에 먼저 건다. 이벤트 테마가 켜져 있는 동안은 그 테마의 한 벌이고, 끄면(기간이 끝나면) 고른 것으로 돌아간다
+const SCHEMES = [["system", "기본", "기기 설정"], ["light", "라이트"], ["dark", "다크"]];
+const SYSTEM_DARK = matchMedia("(prefers-color-scheme: dark)");
+let scheme = ((v) => (SCHEMES.some(([id]) => id === v) ? v : "system"))(store.get("scheme", "system"));
+/** 이벤트 테마가 아닐 때 다크로 그리나: 다크를 골랐거나, 기본(기기 설정)이고 기기가 다크 */
+const darkNow = () => scheme === "dark" || (scheme === "system" && SYSTEM_DARK.matches);
+let themedBars = false; // 스토어 앱의 시스템 바 글자색을 테마·고른 라이트·다크에 맞춰 바꿔 두었는지
 function applyTheme(on) {
-  const t = on ? season : null;
-  if (t) document.documentElement.dataset.theme = t.id; else delete document.documentElement.dataset.theme;
+  const t = on ? season : null, root = document.documentElement, dark = darkNow(), forced = scheme !== "system";
+  if (t) root.dataset.theme = t.id; else delete root.dataset.theme;
+  root.dataset.scheme = dark ? "dark" : "light";
+  // 상태 바 색: 이벤트 테마는 그 색, 라이트·다크를 골랐으면 그 색(meta 의 media 와 상관없이 둘 다), 기본이면 meta 의 media(기기 설정)대로
   const metas = document.querySelectorAll('meta[name="theme-color"]');
-  if (metas[0]) metas[0].content = t ? t.bar : BASE_BAR[0];
-  if (metas[1]) metas[1].content = t ? t.bar : BASE_BAR[1];
-  // 스토어 앱은 화면을 상태 바 밑까지 그린다. 상태 바의 시계·아이콘이 테마 바탕 위에서 보이게 글자색을 맞추고, 테마를 끄면 기기 설정대로 돌린다
-  if (IN_APP && (t || themedBars)) {
-    themedBars = !!t;
-    try { capacitor.Plugins.SystemBars.setStyle({ style: t ? t.bars : "DEFAULT" }).catch(() => null); } catch { /* 없으면 그대로 둔다 */ }
+  const bar = t ? t.bar : forced ? BASE_BAR[dark ? 1 : 0] : null;
+  if (metas[0]) metas[0].content = bar || BASE_BAR[0];
+  if (metas[1]) metas[1].content = bar || BASE_BAR[1];
+  const cs = document.querySelector('meta[name="color-scheme"]');
+  if (cs) cs.content = forced ? (dark ? "dark" : "light") : "light dark";
+  // 스토어 앱은 화면을 상태 바 밑까지 그린다. 상태 바의 시계·아이콘이 바탕 위에서 보이게 글자색을 맞추고(테마, 고른 라이트·다크), 기본이면 기기 설정대로 돌린다
+  if (IN_APP && (t || forced || themedBars)) {
+    themedBars = !!t || forced;
+    try { capacitor.Plugins.SystemBars.setStyle({ style: t ? t.bars : forced ? (dark ? "DARK" : "LIGHT") : "DEFAULT" }).catch(() => null); } catch { /* 없으면 그대로 둔다 */ }
   }
-  mapColorCache = null; // 다크 기기에서는 테마를 켜고 끌 때 지도 색도 바뀐다
+  mapColorCache = null; // 테마를 켜고 끄거나 라이트·다크가 바뀌면 지도 색도 바뀐다
   for (const mp of [maps.small, maps.full]) if (mp) mp.base.redraw();
 }
+/** 라이트·다크 고르기(테마 탭). 기간에 켜진 이벤트 테마는 끈다(돌아가기와 같다: 그 해에는 저절로 다시 켜지지 않는다) */
+function setScheme(v) {
+  scheme = v;
+  if (v === "system") store.del("scheme"); else store.set("scheme", v);
+  if (themeOn()) setTheme(false); else applyTheme(false);
+}
+// 기기 설정이 바뀌면 기본(기기 설정)일 때만 따라간다
+SYSTEM_DARK.addEventListener("change", () => { if (scheme === "system") applyTheme(themeOn()); });
 applyTheme(themeOn());
 // 앱을 켜 둔 채 기간이 시작되거나 끝나도 보고 있는 동안에는 바꾸지 않는다. 다른 데 갔다가 돌아올 때(앱을 다시 열 때) 날짜를 다시 본다:
 // 폰은 앱을 며칠씩 내려만 두기도 해서, 새로 켤 때만 보면 기간이 끝난 테마가 남는다
@@ -5507,7 +5526,7 @@ document.addEventListener("visibilitychange", () => {
   renderThemes(); // 테마 탭의 카드(기간이 바뀌면 크리스마스 카드가 켜지거나 흐려진다)
   setTimeout(askTheme, 400);
 });
-/** 켜거나 끈다(테마 탭, 묻는 팝업). 고른 것은 그 해 그 테마에만 남는다. 기간에 '기본'을 고르면 '돌아가기'와 같다(그 해에는 저절로 다시 켜지지 않는다) */
+/** 켜거나 끈다(테마 탭, 묻는 팝업). 고른 것은 그 해 그 테마에만 남는다. 기간에 기본·라이트·다크를 고르면 '돌아가기'와 같다(그 해에는 저절로 다시 켜지지 않는다) */
 function setTheme(on) {
   if (!season) return;
   if (on) store.del("themeOff"); else store.set("themeOff", season.event);
@@ -5516,18 +5535,23 @@ function setTheme(on) {
 }
 /** 이벤트 테마가 저절로 켜진 뒤 처음 들어왔을 때 한 번 묻는다: '기본 테마로 돌아갈까요?' [닫기] [돌아가기]. 첫 화면(켤 때 연 탭의 첫 화면: 입력 화면이나
  *  내 시간표) 위 가운데 팝업이다(10/23 사용자: "팝업". 디자인 75판). 시간표를 만들어 본 적이 없는 사람에게는 묻지 않는다(돌아갈 '원래'를 본 적이 없다).
- *  닫기·바깥 누르기·뒤로 가기는 그대로 둔다는 뜻이다. 테마 탭에 있으면 묻지 않는다(거기서 고른다) */
+ *  닫기·바깥 누르기·뒤로 가기는 그대로 둔다는 뜻이다. 테마 탭에 있으면 묻지 않는다(거기서 고른다).
+ *  돌아갈 곳은 테마 탭에서 고른 것이라 제목도 그 이름이다(10/23 밤: '라이트 테마로 돌아갈까요?', '다크 테마로 돌아갈까요?') */
 function askTheme() {
   if (!themeOn() || store.get("themeAsked", "") === season.event || !store.get("made", false) || launchLink) return; // 공유받은 시간표를 열 때는 묻지 않는다
   if ((screen !== "input" && screen !== "mine") || document.querySelector("dialog[open]")) return; // 그새 다른 화면이나 시트를 열었으면 끼어들지 않고 다음에 켤 때 묻는다
   store.set("themeAsked", season.event);
+  $("theme-ask-title").textContent = `${SCHEMES.find(([id]) => id === scheme)[1]} 테마로 돌아갈까요?`;
   openSheet($("theme-ask"));
 }
 $("theme-ask-yes").addEventListener("click", () => { setTheme(false); renderThemes(); closeSheet($("theme-ask")); });
 
 // ---- 테마 탭(디자인 75판 '테마 탭', 컴포넌트 ThemeTab): 테마마다 카드 하나(라디오. 미리보기 + 이름, 이벤트 테마는 '시즌 한정' 태그와 고를 수 있는 때).
+// 카드는 기본(기기 설정) · 라이트 · 다크 · 이벤트 테마(10/23 밤 사용자: "테마에서 기본(기기설정), 라이트, 다크 모두 따로 만들어줘". 그전에는 기본과 크리스마스 둘).
 // 고르면 바로 바뀐다(확인 버튼·스낵바·알림 없음: 색이 바뀐 것은 화면이 알린다). 기간 밖 테마는 흐리고 눌리지 않는다(개발 서버의 시험 주소 ?theme=xmas 는 기간 안으로 본다).
-// 미리보기는 토큰으로 그린 작은 화면이다(style.css .mini. 칸 자리는 디자인 미리보기 그대로): 기본은 라이트 위에 다크를 대각선으로 반, 크리스마스는 그 바탕과 흰 워드마크
+// 고른 것: 이벤트 테마가 켜져 있으면 그 테마, 아니면 고른 라이트·다크(기본). 기간에 기본·라이트·다크를 고르면 이벤트 테마는 꺼진다(돌아가기와 같다)
+// 미리보기는 토큰으로 그린 작은 화면이다(style.css .mini. 칸 자리는 디자인 미리보기 그대로): 기본은 라이트 위에 다크를 대각선으로 반, 라이트·다크는 그 한 장,
+// 크리스마스는 그 바탕과 흰 워드마크
 const MINI_BLOCKS = [[14, 10, 15, 22, 0], [48, 10, 15, 22, 0], [31, 6, 15, 20, 1], [65, 6, 15, 20, 1], [14, 38, 15, 20, 2], [48, 38, 15, 20, 2], [31, 58, 15, 30, 3], [82, 62, 14, 24, 7], [65, 45, 15, 22, 5]];
 const MINI_WORDMARK = { light: "icons/wordmark.svg", dark: "icons/wordmark-dark.svg", xmas: "icons/wordmark-white.svg" };
 function miniScreen(kind) {
@@ -5537,21 +5561,23 @@ function miniScreen(kind) {
     h("span", { class: "mb" }));
 }
 function renderThemes() {
-  const cur = themeOn() ? season.id : "";
-  const cards = [{ id: "", name: "기본" }, ...THEMES.map(([id, name, , , , , when]) => ({ id, name, when }))];
+  const cur = themeOn() ? season.id : scheme;
+  const cards = [...SCHEMES.map(([id, name, sub]) => ({ id, name, when: sub, base: true })), ...THEMES.map(([id, name, , , , , when]) => ({ id, name, when }))];
   $("themes").replaceChildren(h("legend", { class: "sr-only" }, "테마"), ...cards.map((c) => {
-    const off = !!c.id && !(season && season.id === c.id);
+    const off = !c.base && !(season && season.id === c.id);
     return h("label", { class: off ? "theme-card is-off" : "theme-card" },
-      h("input", { type: "radio", name: "theme", value: c.id, checked: c.id === cur, disabled: off, "aria-label": [c.name, c.id ? "시즌 한정" : "", c.when].filter(Boolean).join(", ") }),
-      h("span", { class: "prev", "aria-hidden": "true" }, c.id ? miniScreen(c.id) : [miniScreen("light"), miniScreen("dark")]),
+      h("input", { type: "radio", name: "theme", value: c.id, checked: c.id === cur, disabled: off, "aria-label": [c.name, c.base ? "" : "시즌 한정", c.when].filter(Boolean).join(", ") }),
+      h("span", { class: "prev", "aria-hidden": "true" }, c.id === "system" ? [miniScreen("light"), miniScreen("dark")] : miniScreen(c.id)),
       h("span", { class: "ok", "aria-hidden": "true" }, icon('<path d="M5 12.5l4.5 4.5L19 7.5" stroke-width="2.6"/>', 16)),
-      h("span", { class: "nm" }, h("span", {}, c.name), c.id ? h("span", { class: "tag" }, "시즌 한정") : null),
+      h("span", { class: "nm" }, h("span", {}, c.name), c.base ? null : h("span", { class: "tag" }, "시즌 한정")),
       c.when ? h("span", { class: "when" }, c.when) : null);
   }));
 }
 $("themes").addEventListener("change", (e) => {
-  if (!season || e.target.name !== "theme") return;
-  setTheme(e.target.value === season.id);
+  if (e.target.name !== "theme") return;
+  const v = e.target.value;
+  if (season && v === season.id) setTheme(true);
+  else if (SCHEMES.some(([id]) => id === v)) setScheme(v);
 });
 
 /**
@@ -5833,6 +5859,15 @@ function renderTabs() {
 }
 for (const nav of document.querySelectorAll(".tabbar, .sidebar nav")) {
   nav.addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (b) switchTab(b.dataset.tab); });
+}
+// 워드마크(탭 첫 화면의 상단 바, 컴퓨터의 사이드바)를 누르면 시간표 탭의 첫 화면으로(10/23 밤 사용자: "여기서 워드마크 누르면 메인화면(시간표 탭)으로 가도록 해줘").
+// 시간표 탭을 다시 누를 때와 같다(이미 시간표 탭이면 그 첫 화면, 첫 화면이면 맨 위로). <a href="./"> 라 Ctrl·Cmd·가운데 누르기는 브라우저대로 새 탭에 연다
+for (const a of document.querySelectorAll("[data-home]")) {
+  a.addEventListener("click", (e) => {
+    if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    switchTab("mine");
+  });
 }
 // 탭이 셋이라 칸이 모자라면(폭 320, 글자를 키움) 이름이 여러 줄이 되고 막대가 그만큼 높아진다(디자인 75판 '탭'). 늘어난 만큼을 --tabbar-grow 로 알려
 // 하단 주요 버튼·스낵바·본문 끝 여백(style.css 의 --tabbar-top·--tabbar-space)이 막대에 가리지 않게 한다. 막대가 숨으면(컴퓨터, 화상 키보드) 0
