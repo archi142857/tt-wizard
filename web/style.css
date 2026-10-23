@@ -3,7 +3,9 @@
    글자는 rem, 폭 구간은 em. 굵기는 400·500·700만, 글자는 12px 이상. 색은 아래 토큰으로만 칠한다.
    연도·학기 선택칸, 시간표 칸, 지도 번호표, 후보 카드는 사용자 요청(2026-10-01)으로 v2 모양을 v3 토큰으로 옮겼다.
    입력 화면 로고는 사용자 요청으로 워드마크만, 검색 결과는 행 전체가 담기·빼기(담은 행은 어두운 바탕). */
-:root {
+/* 라이트 토큰. 테마 탭 미리보기(.mini, 디자인 75판 ThemeTab)의 라이트와 크리스마스(그 바탕 값)도 여기서 받는다: 기기가 다크이거나 테마가 켜져 있어도
+   미리보기는 그 테마의 값이다(크리스마스 값은 아래 크리스마스 블록이 덮는다, 다크 미리보기는 다크 블록 뒤 .mini.is-dark) */
+:root, .mini.is-light, .mini.is-xmas {
   --tt-deep-navy: #1d2a78;
   --tt-primary: #4f70ff;
   --tt-periwinkle: #7b7cff;
@@ -173,8 +175,8 @@
   --gutter-right: max(var(--space-5), var(--safe-area-inset-right, env(safe-area-inset-right, 0px)));
   /* 아래 탭 막대(폰·태블릿). 컴퓨터는 사이드바라 안전 영역만(아래 1100px 규칙).
      tabbar-top 은 막대 위 끝(화면 아래 끝에서)이라 막대 바로 위에 붙는 것(하단 바·스낵바)의 자리, tabbar-space 는 막대가 가리는 만큼 내용 끝에 두는 여백(지금은 같은 값) */
-  --tabbar-top: calc(var(--tabbar-h) + var(--safe-bottom));
-  --tabbar-space: calc(var(--tabbar-h) + var(--safe-bottom));
+  --tabbar-top: calc(var(--tabbar-h) + var(--tabbar-grow, 0px) + var(--safe-bottom)); /* --tabbar-grow: 이름이 여러 줄이라 막대가 늘어난 만큼(app.js) */
+  --tabbar-space: calc(var(--tabbar-h) + var(--tabbar-grow, 0px) + var(--safe-bottom));
   --bottom-bar-h: calc(var(--cta-height) + var(--space-3) * 2 + var(--tabbar-space));
   color-scheme: light;
 }
@@ -270,13 +272,21 @@
     color-scheme: dark;
   }
 }
+/* 테마 탭의 '기본' 미리보기 반쪽(.mini.is-dark): 기기 설정과 상관없이 다크 값. 미리보기가 쓰는 토큰만 위 다크 블록과 같은 값으로 둔다(바꾸면 같이 바꾼다.
+   v81_theme 시험이 다크 기기에서 두 값을 견준다). 바탕 위 글자·주요 버튼은 라이트 블록처럼 다른 토큰을 가리키므로 여기서 다시 걸어 이 값으로 풀리게 한다 */
+.mini.is-dark {
+  --bg: #16171b; --card: #1e2026; --heading: #e5e8f0; --text: #e4e6eb; --text3: #afb2bb; --line: #2f3138; --accent: #4d6ce0;
+  --on-bg-heading: var(--heading); --on-bg-text3: var(--text3); --cta: var(--accent);
+  --item-0: #364879; --item-1: #175432; --item-2: #6f3d19; --item-3: #574071; --item-4: #554a0b; --item-5: #70384f; --item-6: #065356; --item-7: #454a54;
+}
 
 /* ---------------------------------------------------------------- 바탕 */
 *, *::before, *::after { box-sizing: border-box; }
 html { background: var(--bg); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highlight-color: transparent;
   scroll-padding-top: calc(var(--topbar-h) + var(--safe-top)); scroll-padding-bottom: var(--bottom-bar-h); }
 html[data-shell="pwa"], html[data-shell="android"], html[data-shell="ios"] { overscroll-behavior-y: none; }
-html:has(dialog[open]) { overflow: hidden; }
+/* 시트가 열려 있는 동안 뒤 화면은 스크롤하지 않는다. 폰의 과목 추가 시트만 빼고: 바탕을 덮지 않고 시트 밖 시간표를 스크롤해 보며 넣는다(아래 '시트') */
+html:has(dialog[open]:not(#add-sheet)) { overflow: hidden; }
 /* 스크롤 막대는 어디에도 두지 않는다(10/23 사용자: 화면에 "메인 스크롤바도 걍 없애", 시트에 "여기 있는 스크롤바도 없애". 넓은 화면 결과 카드·사이드바는 10/2 부터 그랬다).
    휠·터치·키보드 스크롤은 그대로다. 윈도우처럼 막대가 자리를 차지하는 브라우저에서는 스크롤되는 화면만 본문이 막대만큼 좁아져 탭·화면을 오갈 때 폭과 가운데가 흔들렸는데
    그것도 없어진다 */
@@ -297,7 +307,7 @@ a { color: var(--accent-text); }
 
 .view { max-width: var(--width-input); margin: 0 auto; padding: 0 var(--gutter-right) calc(var(--bottom-bar-h) + var(--space-6)) var(--gutter-left); }
 #view-result { max-width: var(--width-result); padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
-#view-info, #view-page, #view-add { padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
+#view-info, #view-page, #view-theme { padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
 
 /* 화면 전환(View Transitions): 결과·정보 화면은 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms).
    못 쓰는 브라우저와 동작 줄이기에서는 바로 바뀐다(app.js 가 전환을 건너뛴다) */
@@ -440,7 +450,7 @@ body.is-typing .bottom-bar { display: none; }
   .input-left > *, .mine-add > * { flex-shrink: 0; }
   .input-left .results, .mine-add .results { flex: 0 1 auto; min-height: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
   .input-left .results::-webkit-scrollbar, .mine-add .results::-webkit-scrollbar { display: none; }
-  .input-left .results:has(> .browse:not([hidden])) { scroll-padding-top: calc(var(--touch) + var(--space-1) + 1px); } /* 붙어 있는 선택칸 밑으로 초점이 숨지 않게 */
+  .input-left .results:has(> .browse:not([hidden])), .mine-add .results:has(> .browse:not([hidden])) { scroll-padding-top: calc(var(--touch) + var(--space-1) + 1px); } /* 붙어 있는 선택칸 밑으로 초점이 숨지 않게 */
   .browse-head { position: sticky; top: 0; z-index: 1; background: var(--card); }
 }
 /* 접히는 폰을 책처럼 펴 두어 화면이 좌우 두 쪽으로 나뉘면(Viewport Segments) 두 칸을 한 쪽씩, 접힌 자리 양옆 12px 를 비운다
@@ -651,11 +661,28 @@ dialog.sheet.is-scrolled .sheet-head { box-shadow: 0 1px 0 var(--line); }
 .cs-review svg, .cs-catalog svg { width: var(--icon-sm); height: var(--icon-sm); }
 /* 누르는 영역(48)을 2px 내린다: 가운데에 두면 위 6px 가운데 2px 가 붙어 있는 머리 밑에 들어가 46 이 된다. 아래쪽은 분반 수 글자뿐이라 겹칠 것이 없다 */
 .btn-text.small.cs-review::before, .btn-text.small.cs-catalog::before { top: calc(50% + 2px); } /* 아래 '누르는 영역' 규칙(.btn-text.small::before)보다 세게 */
-/* 묻는 시트(확인 대화상자): 제목은 질문 하나, 그 아래 오른쪽에 텍스트 버튼 둘(왼쪽 닫기, 오른쪽 동사). 넓은 화면에서는 좁은 가운데 대화상자 */
+/* 묻는 팝업(확인 대화상자): 제목은 질문 하나, 그 아래 오른쪽에 텍스트 버튼 둘(왼쪽 닫기, 오른쪽 동사). 어느 폭에서나 폭 360 의 가운데 팝업이다
+   (좁으면 좌우 20 을 남긴다. 10/23 사용자: "팝업". 그전에는 폰에서 아래 시트였다). 손잡이와 아래로 끌기는 없다(app.js enableSheetDrag) */
 .sheet.ask .sheet-head { padding-right: var(--space-5); padding-bottom: var(--space-1); }
 .sheet.ask .sheet-title:focus { outline: none; }  /* 사용자가 누르지 않았는데 뜨는 시트라 처음 초점은 제목에 둔다(버튼에 초점 테두리가 먼저 보이지 않게). Tab 을 누르면 닫기부터 */
 .sheet-actions { display: flex; justify-content: flex-end; gap: var(--space-2); padding: var(--space-1) var(--space-3) var(--space-3); }  /* 위 4px: 초점 테두리가 머리 밑에 가리지 않게 */
-@media (min-width: 37.5em) { dialog.sheet.ask { max-width: 22.5rem; } }
+dialog.sheet.ask { max-width: min(22.5rem, calc(100% - var(--space-5) * 2)); margin: auto; padding-bottom: 0; border-radius: var(--radius-xl); }
+.sheet.ask .sheet-head::before { display: none; }
+/* 폰의 과목 추가 시트(디자인 규칙 '과목 추가'. 10/23 사용자: "핸드폰에서는 시간표 탭에서 과목 추가할 때 기존 시간표가 안 보이는 문제", 안 나 "시간표 위에 반 시트"):
+   처음 화면 높이의 55%(시트 위로 시간표 윗부분이 보인다), 손잡이를 끌어 올리면 90%(.is-full, 다른 시트의 최대). 폭 600~679px 에서도 가운데 대화상자가 아니라 아래 시트다.
+   바탕을 어둡게 덮지 않는다(시간표가 보여야 한다). 시트 밖은 스크롤만 된다: 모달이라 누르면 ::backdrop 이 받고(app.js 는 바깥 누르기로 닫지 않는다) 휠·터치 스크롤은
+   페이지로 간다(그래서 위 html 의 overflow: hidden 에서 뺐다). 화상 키보드가 떠 있는 동안(.is-kb)은 키보드 위의 보이는 높이를 다 쓴다(app.js 가 visual viewport 로 잰
+   --kb-top·--kb-h). 결과 행은 다른 시트의 목록처럼 시트 바탕 위에 둔다(카드 바탕 없이. 라이트는 둘이 같은 흰색이다), 검색창은 시간표 목록 시트의 선택칸처럼 raised */
+dialog.sheet.add-sheet { width: 100%; max-width: 100%; height: 55vh; height: 55dvh; max-height: none; margin: auto 0 0; border-radius: var(--radius-xl) var(--radius-xl) 0 0; }
+dialog.sheet.add-sheet.is-full { height: 90vh; height: 90dvh; }
+dialog.sheet.add-sheet.is-kb { top: calc(var(--kb-top, 0px) + var(--safe-top)); bottom: auto; height: calc(var(--kb-h, 100dvh) - var(--safe-top)); margin: 0; }
+#add-sheet::backdrop { background: transparent; }
+#as-body .searchbox { background: var(--raised); }
+#as-body .results { background: transparent; }
+/* 시트가 열려 있는 동안 스낵바(되돌리기)는 시트 안으로 옮긴다(app.js. 모달 밖은 누를 수 없고 시트에 가린다): 시트 아래 끝 위 */
+#add-sheet > .snackbar { bottom: calc(var(--space-3) + var(--safe-bottom)); }
+/* 열려 있는 동안 내 시간표 끝에 시트 높이만큼 자리를 둔다: 격자의 늦은 시각도 시트 위로 올려 볼 수 있게(넣은 자리로 스크롤, app.js revealAdded) */
+html:has(#add-sheet[open]) #view-mine { padding-bottom: calc(55vh + var(--space-6)); padding-bottom: calc(55dvh + var(--space-6)); }
 .sheet-meta { margin: 2px 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
 .sheet-body { padding: 0 var(--space-5) var(--space-6); }
 .sheet-body > p { max-width: 40em; margin: 0 0 var(--space-2); font-size: 1rem; line-height: 1.5rem; color: var(--text2); }
@@ -984,32 +1011,8 @@ dialog.sheet.is-scrolled .sheet-head { box-shadow: 0 1px 0 var(--line); }
 .info-row { display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: 56px; padding: 0 var(--space-3) 0 var(--space-4); border: 0;
   background: transparent; text-align: left; color: var(--text); font-size: 1rem; line-height: 1.5rem; text-decoration: none; }
 .info-row .v { margin-left: auto; color: var(--text3); font-size: 0.875rem; line-height: 1.25rem; }
-/* 테마 행: 행 어디를 눌러도 시스템 선택 창이 뜬다. 값은 t-body-sm-strong text, 화살표는 다른 행의 화살표와 같은 자리·크기·색.
-   행 전체에 투명한 select 를 덮는다(과목 시트의 강의실 값과 같은 방식): select 글자가 16px 보다 작으면 iOS 가 누를 때 화면을 확대한다.
-   값 자리만 덮으면 왼쪽 '테마'를 눌렀을 때 초점만 가고 창은 열리지 않는다(10/22 디자인). 누름·올림 바탕과 초점 테두리는 다른 행처럼 행에 그린다 */
-.pick-row { position: relative; cursor: pointer; }
-.pick-row:has(select:focus-visible) { outline: 2px solid var(--focus); outline-offset: -2px; }
-.info-pick { display: flex; align-items: center; gap: var(--space-2); margin-left: auto; min-height: var(--touch); padding-left: var(--space-2);
-  color: var(--text); font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; white-space: nowrap; }
-.info-pick select { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; font-size: 1rem; cursor: pointer; }
-.info-pick svg { pointer-events: none; }
-/* 고르는 창(10/23 사용자: "네모가 잘린 느낌"): 행 전체를 덮는 투명한 select 라 시스템 창이 행 폭 그대로 행 바로 밑에 각지게 붙어, 초점 테두리를 반쯤 덮고 카드를 자른 것처럼
-   보였다. 마우스 기기에서 고르는 창을 꾸밀 수 있는 브라우저(크롬·엣지 135 부터 appearance: base-select)는 값 자리 오른쪽 끝 아래에 작은 카드로 띄운다
-   (둥근 모서리, 그림자, 행과 4px 띄움, 고른 것은 accent-text 와 체크). 모르는 브라우저와 터치 기기(폰의 시스템 고르는 창이 낫다)는 그대로 */
-@media (hover: hover) and (pointer: fine) {
-  @supports (appearance: base-select) {
-    .info-pick select, .info-pick select::picker(select) { appearance: base-select; }
-    .info-pick select::picker(select) { position-area: block-end span-inline-start; min-inline-size: 10rem; margin: var(--space-1) 0; padding: var(--space-1);
-      border: 0; border-radius: var(--radius-md); background: var(--raised); box-shadow: var(--shadow-md); color: var(--text); }
-    .info-pick option { display: flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: 0 var(--space-3); border-radius: var(--radius-sm);
-      font-size: 0.9375rem; line-height: 1.375rem; cursor: pointer; }
-    .info-pick option:hover, .info-pick option:focus-visible { background: var(--surface-hover); outline: none; }
-    .info-pick option:checked { color: var(--accent-text); font-weight: 600; }
-    .info-pick option::checkmark { order: 1; margin-left: auto; color: var(--accent-text); }
-  }
-}
 .info-row svg { flex-shrink: 0; margin-left: auto; color: var(--muted); }
-button.info-row:active, a.info-row:active, .pick-row:active { background: var(--surface-hover); }
+button.info-row:active, a.info-row:active { background: var(--surface-hover); }
 .info-row:active svg { color: var(--text2); } /* 누른·올린 면 위의 꺾쇠·링크 아이콘·펼침 화살표(muted 는 그 면에서 3:1 에 못 미친다) */
 .info-row:focus-visible { outline-offset: -2px; }
 .info-foot { margin: var(--space-4) var(--space-1) 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); }
@@ -1028,10 +1031,11 @@ button.info-row:active, a.info-row:active, .pick-row:active { background: var(--
 /* 고지문 글 속 주소는 링크(10/23 사용자: "라이선스에 있는 링크들 다 하이퍼링크로"). 자료 출처 이름 링크(.src a)와 같은 모양: 글자는 text, 밑줄은 line-strong */
 .license-text a { color: var(--text); text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
 
-/* ---------------------------------------------------------------- 아래 탭 막대(디자인 규칙 '탭', 10/22 사용자): 시간표 · 동선 탐색.
-   10/23 사용자: "탭 두께 이정도로 할 거면 걍 설명 넣어도 될 듯. '시간표', '동선 탐색'", "탭 두께는 더 줄여도 좋을 것 같음" → 아이콘(20) 옆에 이름(14px 600)을 넣고
+/* ---------------------------------------------------------------- 아래 탭 막대(디자인 규칙 '탭', 10/22 사용자): 시간표 · 동선 탐색 · 테마(10/23 오후 셋째 탭).
+   10/23 사용자: "탭 두께 이정도로 할 거면 걍 설명 넣어도 될 듯. '시간표', '동선 탐색'", "탭 두께는 더 줄여도 좋을 것 같음" → 아이콘(20) 옆에 이름(14px 500)을 넣고
    높이를 tabbar-h 48(3rem, 글자 크기를 따라간다)로 줄였다. 높이 tabbar-h + 아래 안전 영역, card 바탕, 위 line 1px. 고른 탭은 아이콘과 이름을 감싼 accent-weak
-   알약(높이 36)과 채운 아이콘(accent-text), 채운 아이콘의 뚫린 선은 알약 색. 글자를 키워 칸이 모자라면 이름이 두 줄이 되고 알약이 그만큼 높아진다(막대도 rem 이라 들어간다).
+   알약(높이 36)과 채운 아이콘(accent-text), 채운 아이콘의 뚫린 선은 알약 색. 칸이 모자라면(폭 320, 글자를 키움) 이름이 여러 줄이 되고 알약과 막대가 그만큼
+   높아진다(칸은 min-height. 늘어난 만큼은 app.js 가 --tabbar-grow 로 알려 하단 버튼·스낵바·본문 끝 여백이 막대 위에 남는다).
    칸 전체가 누르는 영역이다. 화상 키보드가 떠 있으면(하단 주요 버튼과 같은 판단) 숨기고, 전체 화면 지도가 덮는다. 폰과 태블릿(1099px까지)에 있고
    컴퓨터는 아래 .sidebar.
    제스처 막대 자리(10/23 사용자: "화면 밑에 바 같은 거 있는 부분은 탭 색깔이 아니고 배경 색이라 미완 느낌"): 막대는 아래 안전 영역만큼 아래로 길다(padding).
@@ -1041,14 +1045,20 @@ button.info-row:active, a.info-row:active, .pick-row:active { background: var(--
   padding: 0 var(--space-2) var(--safe-bottom); background: var(--card); border-top: 1px solid var(--line); }
 .tabbar ul { display: flex; width: 100%; max-width: 30rem; margin: 0; padding: 0; list-style: none; }
 .tabbar li { flex: 1; min-width: 0; }
-.tabbar .tab { --tab-ind: var(--card); display: flex; align-items: center; justify-content: center; width: 100%; height: var(--tabbar-h);
+.tabbar .tab { --tab-ind: var(--card); display: flex; align-items: center; justify-content: center; width: 100%; min-height: var(--tabbar-h);
   padding: 0 var(--space-1); border: 0; background: transparent; color: var(--text2); }
 /* 알약은 두 탭이 같은 폭(10/23 사용자: "시간표 탭이랑 동선 탭 너비 안 맞는거 맞춰봐". 이름 길이대로면 시간표 92·동선 탐색 107px 이었다):
    긴 이름(동선 탐색)이 들어가는 7rem 을 둘 다의 최소 폭으로, 안의 아이콘·이름은 가운데. rem 이라 글자를 키우면 같이 커지고 칸보다 넓으면 칸 폭(이름이 두 줄) */
-.tabbar .tab .ind { display: flex; align-items: center; justify-content: center; gap: var(--space-2); min-width: min(100%, 7rem); max-width: 100%; min-height: 2.25rem;
+.tabbar .tab .ind { display: flex; align-items: center; justify-content: center; gap: 6px; min-width: min(100%, 7rem); max-width: 100%; min-height: 2.25rem;
   padding: 2px var(--space-4) 2px var(--space-3); border-radius: var(--radius-full); }
 .tabbar .tab svg { flex: none; }
-.tabbar .tab .tab-name { min-width: 0; font-size: 0.875rem; line-height: 1.25rem; font-weight: 600; overflow-wrap: anywhere; }
+/* 이름은 t-body-sm-strong(14px 500. 디자인 74판: 굵기는 400·500·700만 쓴다). 낱말 가운데서 끊지 않는다(폭 320: 동선 / 탐색. 한 낱말이 칸보다 길 때만 아무 데서나) */
+.tabbar .tab .tab-name { min-width: 0; font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; word-break: keep-all; overflow-wrap: anywhere; }
+/* 좁은 칸(탭 셋에 글자를 키움: 폭 390 이하에서 글자 200% 등): 알약 안에 아이콘 옆으로는 가장 긴 낱말(시간표)도 못 들어가 이름이 글자마다 꺾인다
+   (시/간/표). 그때만 아이콘을 이름 위에 두고 안쪽 여백을 줄여 이름이 낱말 단위로 두 줄까지 들어가게 한다(app.js 가 낱말 폭을 재서 is-tight 를 단다.
+   아이콘 옆 배치에 필요한 폭 = 여백 12 + 아이콘 20 + 사이 6 + 가장 긴 낱말 + 여백 16). 막대는 그만큼 높아진다 */
+.tabbar.is-tight .tab .ind { flex-direction: column; gap: 2px; min-width: 0; width: 100%; padding: var(--space-1); border-radius: var(--radius-lg); }
+.tabbar.is-tight .tab .tab-name { text-align: center; }
 /* 고른 탭의 아이콘·이름은 accent-text: 다크의 accent(#4d6ce0)는 accent-weak 알약 위에서 2.86:1 이라 3:1 에 못 미친다(10/22 프론트엔드가 잼. 라이트·이벤트 테마는 accent 와 같은 값) */
 .tabbar .tab[aria-current="page"] { --tab-ind: var(--accent-weak); color: var(--accent-text); }
 .tabbar .tab[aria-current="page"] .ind { background: var(--accent-weak); }
@@ -1061,9 +1071,10 @@ button.info-row:active, a.info-row:active, .pick-row:active { background: var(--
 @media (max-width: 68.6875em) {
   html { background: var(--card); }
   html:not([data-theme]):has(> body.tabbar-off) { background: var(--bg); }
+  html:has(#add-sheet[open]) { background: var(--raised); } /* 폰의 과목 추가 시트는 폭 600~679px 에서도 아래 시트다 */
 }
 @media (max-width: 37.4375em) {
-  html:has(dialog.sheet[open]) { background: var(--raised); }
+  html:has(dialog.sheet:not(.ask)[open]) { background: var(--raised); } /* 가운데 팝업(묻는 팝업)은 화면 아래 끝에 닿지 않는다 */
 }
 ::view-transition { background: var(--bg); }
 body.is-typing .tabbar, body.tabbar-off .tabbar { display: none; }
@@ -1107,8 +1118,8 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
   #view-input:not([hidden]) ~ .snackbar, #view-mine:not([hidden]) ~ .snackbar {
     right: max(var(--gutter-right), calc((100% - var(--sidebar-w) - var(--width-result)) / 2 + var(--gutter-right))); }
   /* 탭의 첫 화면: 상단 바 없이 본문은 위 space-4 부터, 두 칸도 거기에 붙는다 */
-  #view-input > .topbar, #view-mine > .topbar { display: none; }
-  #view-input, #view-mine { padding-top: calc(var(--space-4) + var(--safe-top)); }
+  #view-input > .topbar, #view-mine > .topbar, #view-theme > .topbar { display: none; }
+  #view-input, #view-mine, #view-theme { padding-top: calc(var(--space-4) + var(--safe-top)); }
   .input-left, .input-right, .mine-right, .mine-add { top: calc(var(--space-4) + var(--safe-top)); }
 }
 @media (min-width: 68.75em) and (min-height: 25em) {
@@ -1125,6 +1136,44 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
 .sidebar::-webkit-scrollbar { display: none; }
 ::view-transition-old(sidebar) { display: none; }
 ::view-transition-new(sidebar) { animation: none; }
+
+/* ---------------------------------------------------------------- 테마 탭(디자인 75판 '테마 탭', 컴포넌트 ThemeTab. 10/23 사용자: "테마도 걍 탭 하나로 빼자,
+   테마 종류는 기본, 크리스마스 이렇게만 넣어두고, 크리스마스 테마는 '시즌 한정'이라는 딱지를 붙여놓는 방향"). 테마마다 카드 하나를 두 열로(폭 600px 부터는 14rem 까지
+   넓히며 여러 열로 왼쪽부터). 카드는 라디오 하나(.theme-card 는 label, 안의 input 은 카드 전체를 덮고 보이지 않는다: 누르는 영역이 카드 전체). 미리보기(.prev, 3:4)는
+   토큰으로 그린 작은 화면(.mini, aria-hidden. 값은 맨 위 토큰 블록들이 .mini.is-light·is-dark·is-xmas 에도 건다). 고른 것은 accent-line 2px 테두리와 체크(.ok),
+   기간 밖 테마는 .is-off(미리보기 38%, 이름 text3, input disabled. 태그와 고를 수 있는 때는 그대로) */
+.themes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); min-width: 0; margin: var(--space-2) 0 0; padding: 0; border: 0; }
+@media (min-width: 37.5em) { .themes { grid-template-columns: repeat(auto-fill, minmax(10rem, 14rem)); } }
+.theme-card { position: relative; display: flex; flex-direction: column; padding: var(--space-2) var(--space-2) var(--space-3); border-radius: var(--radius-lg);
+  background: var(--card); color: var(--text); cursor: pointer; -webkit-user-select: none; user-select: none; }
+.theme-card input { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: inherit; }
+.theme-card:has(input:checked) { box-shadow: inset 0 0 0 2px var(--accent-line); }
+.theme-card:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }
+.theme-card:not(.is-off):active { background: var(--surface-hover); }
+.theme-card .prev { position: relative; display: block; aspect-ratio: 3 / 4; border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 0 0 1px var(--line); }
+.theme-card .nm { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: var(--space-3) var(--space-2) 0; font-size: 1rem; line-height: 1.5rem; font-weight: 500; }
+.theme-card .when { margin: 0 var(--space-2); font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); font-variant-numeric: tabular-nums; }
+.theme-card .ok { position: absolute; top: calc(var(--space-2) + 8px); right: calc(var(--space-2) + 8px); display: none; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--on-color); box-shadow: 0 0 0 2px var(--card); }
+.theme-card:has(input:checked) .ok { display: flex; }
+.theme-card .ok svg { width: 16px; height: 16px; }
+.theme-card.is-off { cursor: default; }
+.theme-card.is-off .prev { opacity: 0.38; }
+.theme-card.is-off .nm > span:first-child { color: var(--text3); }
+@media (hover: hover) { .theme-card:not(.is-off):hover { background: var(--surface-hover); } }
+/* 미리보기 그림: 그 테마의 맨 뒤 바탕(크리스마스는 작은 땡땡이), 워드마크, 머리 줄 둘, 칸 몇 개가 든 카드, 주요 버튼 막대.
+   기본은 라이트 위에 다크를 대각선으로 반 겹쳐 기기 설정을 따른다는 것을 글 없이 보인다 */
+.mini { position: absolute; inset: 0; padding: 9px 8px; background: var(--bg); color: var(--text); }
+.mini.is-xmas { background: radial-gradient(circle, var(--bg-tone) 0 1.1px, transparent 1.4px) 0 0 / 8px 14px,
+  radial-gradient(circle, var(--bg-tone) 0 1.1px, transparent 1.4px) 4px 7px / 8px 14px, var(--bg); }
+.mini.is-dark { clip-path: polygon(62% 0, 100% 0, 100% 100%, 38% 100%); }
+.mini .mw { display: block; width: auto; height: 10px; margin: 1px 0 7px 2px; }
+.mini .mh, .mini .mh2, .mini .mc, .mini .mb { display: block; }
+.mini .mh { width: 44%; height: 5px; margin: 0 0 3px 2px; border-radius: 3px; background: var(--on-bg-text3); opacity: 0.7; }
+.mini .mh2 { width: 30%; height: 7px; margin: 0 0 7px 2px; border-radius: 3px; background: var(--on-bg-heading); }
+.mini .mc { position: relative; height: 57%; border-radius: 6px; background: var(--card); }
+.mini .mc i { position: absolute; border-radius: 2px; }
+.mini .mb { position: absolute; left: 8px; right: 8px; bottom: 9px; height: 15px; border-radius: 5px; background: var(--cta); }
 
 /* ---------------------------------------------------------------- 내 시간표(디자인 규칙 '내 시간표'): 머리 줄(시간표 고르기 + ⋯), 주간 격자, 항목 목록, 동선 확인하기 */
 .tt-head { display: flex; align-items: center; gap: var(--space-2); padding: 0 0 var(--space-2); }
@@ -1163,7 +1212,7 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
 .wk-ghosts > li { position: absolute; }
 .wk-ghost { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 2px 3px; overflow: hidden; border: 2px dashed var(--accent);
   border-radius: var(--radius-xs); background: color-mix(in srgb, var(--accent) 14%, var(--card)); color: var(--text); }
-.wk-ghost .b-title { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; font-size: 0.75rem; line-height: 1rem; font-weight: 600;
+.wk-ghost .b-title { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; font-size: 0.75rem; line-height: 1rem; font-weight: 500;
   word-break: keep-all; overflow-wrap: anywhere; }
 .wk-ghost .b-room { font-size: 0.75rem; line-height: 1rem; font-weight: 500; color: var(--text2); overflow: hidden; word-break: keep-all; overflow-wrap: anywhere; }
 .wk-block.is-out { opacity: 0.35; }
@@ -1182,6 +1231,15 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
 .add-pair .add-row + .add-row { border-left: 1px solid var(--line); }
 .add-row:active { background: var(--surface-hover); }
 .mine-right .bottom-bar .btn-primary:disabled { cursor: default; }
+
+/* ---------------------------------------------------------------- 시간표 이미지(디자인 75판 '시간표 이미지', 컴포넌트 TimetableImage): 내보내는 그림의 판.
+   app.js(timetablePng)가 화면 밖에 잠깐 만들어 자리·색·글자를 캔버스로 옮겨 그린다. 디자인 값은 폭 360·여백 위 24·좌우 20·아래 12(px)이고 여기서는 rem 으로 둬서
+   글자를 키운 기기에서도 같은 비율로 그린다(언제나 폭 1080px 로 찍는다). 격자는 내 시간표와 같은 .wk(한 시간 mine-hour-min) */
+.tt-export { position: fixed; top: 0; left: -10000px; width: 22.5rem; padding: 1.5rem 1.25rem 0.75rem; background: var(--bg); color: var(--text); pointer-events: none; }
+.tt-export .ex-sem { margin: 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); font-variant-numeric: tabular-nums; }
+.tt-export .ex-name { margin: 0.125rem 0 0.75rem; font-size: 1.25rem; line-height: 1.75rem; font-weight: 700; letter-spacing: -0.01em; color: var(--on-bg-heading); overflow-wrap: anywhere; }
+.tt-export .ex-untimed { margin: 0.625rem 0.25rem 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); }
+.tt-export .ex-mark { display: block; width: auto; height: 1.25rem; margin: 1rem auto 0; }
 
 /* ---------------------------------------------------------------- 내 시간표의 시트: 시간표 목록(.tt-row), 시간표 메뉴(.menu-row), 항목 시트의 칸(.sheet-field)과 색 고르기(.swatches) */
 .sheet-term { margin: 0 0 var(--space-2); }
@@ -1211,7 +1269,11 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
   color: var(--text); font-size: 1rem; line-height: 1.5rem; text-align: left; }
 .menu-row.add { color: var(--accent-text); font-weight: 500; }
 .tt-row:active, .menu-row:active { background: var(--surface-hover); }
-.sheet-list + .error-line { margin: var(--space-2) 0 0; }
+/* 목록 아래 오류 줄(50개, 이미지를 못 불러왔다): t-body-sm danger. .sheet-body > p(본문 글, text2 16px)보다 세게 */
+.sheet-body > .sheet-list + .error-line { margin: var(--space-1) 0 var(--space-3); font-size: 0.875rem; line-height: 1.25rem; color: var(--danger); }
+/* 목록 아래(10/23 디자인 75판): 반씩 나눈 + 새 시간표 | 이미지 불러오기(항목 목록 맨 아래 행처럼 가운데 세로 선). 글자·아이콘은 전처럼 accent-text */
+.sheet-list .add-pair { display: grid; grid-template-columns: 1fr 1fr; }
+.sheet-list .add-pair .menu-row + .menu-row { border-left: 1px solid var(--line); padding-left: var(--space-4); }
 .sheet-field { margin: 0; padding: var(--space-2) 0 var(--space-3); border: 0; border-bottom: 1px solid var(--line); min-width: 0; }
 .sheet-field > .field-label, .sheet-field > legend.field-label { display: flex; margin: 0 0 var(--space-1); padding: 0; }
 .sheet-foot { display: flex; padding-top: var(--space-3); margin-left: calc(var(--space-3) * -1); }
@@ -1254,8 +1316,8 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
 .rank-save { display: flex; flex-direction: column; gap: var(--space-2); padding: 0 var(--space-3) var(--space-3); }
 .rank-save .error-line { margin: 0; }
 .btn-save { display: flex; align-items: center; justify-content: center; gap: var(--space-2); width: 100%; min-height: var(--touch); padding: 0 var(--space-4);
-  border: 0; border-radius: var(--radius-md); background: var(--accent); color: var(--on-color); font-size: 1rem; line-height: 1.5rem; font-weight: 600;
-  transition: background-color var(--dur-press) var(--ease-standard); }
+  border: 0; border-radius: var(--radius-md); background: var(--accent); color: var(--on-color); font-size: 1rem; line-height: 1.5rem; font-weight: 500;
+  transition: background-color var(--dur-press) var(--ease-standard); } /* 굵기는 400·500·700만(디자인 74판). 시간표 칸 제목처럼 500 */
 .btn-save:active { background: var(--accent-press); }
 .btn-save.is-saved { background: var(--fill); color: var(--text2); }
 .btn-save.is-saved:active { background: var(--surface-hover); }
@@ -1285,10 +1347,10 @@ html[data-theme] .bottom-bar::before { inset: 0;
   html[data-theme] .input-right .bottom-bar::before, html[data-theme] .mine-right .bottom-bar::before { --band: calc(var(--cta-height) + var(--space-3) + var(--space-6) + var(--safe-bottom));
     -webkit-mask-image: linear-gradient(to top, #000 calc(var(--band) * 0.76), transparent var(--band));
     mask-image: linear-gradient(to top, #000 calc(var(--band) * 0.76), transparent var(--band)); }
-  /* 사이드바는 상단 바처럼 같은 자리의 무늬를 다시 그린다(눈이 뒤로 지나가지 않는다). 넓은 모니터에서는 틀과 함께 가운데로 들어오므로 무늬를 화면 기준으로
-     깐다(background-attachment: fixed. 맨 뒤 무늬와 점이 이어진다). 이것을 모르는 iPadOS Safari 는 1320px 넘는 가로 화면(12.9형)에서만 점이 몇 px 어긋난다.
+  /* 사이드바는 바탕을 비워 맨 뒤 무늬와 눈이 그대로 비치게 한다(10/23 사용자: "왼쪽에 탭 메뉴에는 눈이 안 내린다". 전에는 상단 바처럼 같은 자리의 무늬를
+     다시 그려 눈을 가렸다). 사이드바 밑으로 지나가는 내용은 없다(본문은 body 여백만큼 오른쪽, 전체 화면 지도는 그 위). 탭 이름·아이콘의 둘레는 아래 '눈'.
      워드마크는 흰 단색(아래 .wm-white) */
-  html[data-theme] .sidebar { background: var(--bg-pattern), var(--bg); background-attachment: fixed; }
+  html[data-theme] .sidebar { background: none; }
 }
 html[data-theme] .view-map { background: var(--bg-pattern), var(--bg); }
 /* 전체 화면 지도의 번호표는 카드 면 위에(번호표·파선 견본이 지도에서 보던 색 그대로 보이게) */
@@ -1299,7 +1361,7 @@ html[data-theme] .cls-legend { width: fit-content; border-radius: var(--radius-2
 /* 크리스마스(12월 1일~25일): 짙은 솔잎 초록 바탕에 같은 크기 점을 육각 격자로 깐 땡땡이(점 5px, 간격 16px), 흰 카드,
    빨강은 주요 버튼과 고른 요일 탭에만. 넓은 초록은 어둡고 탁하게, 좁은 빨강은 선명하게(면적 하양 5 : 초록 4 : 빨강 0.5).
    무늬와 바탕의 밝기 차는 1.36배이고 바탕 위 글자는 두 색 모두에서 4.5:1 을 넘는다. 워드마크는 흰 단색 */
-html[data-theme="xmas"] {
+html[data-theme="xmas"], .mini.is-xmas {
   --bg: #103924; --bg-tone: #165032; --bg-hover: #165032; --card: #ffffff; --raised: #ffffff; --surface-hover: #f1f9f4; --inset: #e5f2ea;
   --row-picked: #dbebe0; --row-picked-btn: #ffffff; --heading: #0b3a23; --text: #17211b; --text2: #45524a; --text3: #525e56; --muted: #89968d;
   --on-bg-heading: #ffffff; --on-bg-text: #ffffff; --on-bg-text2: #deece3; --on-bg-text3: #bbd1c3; --on-bg-link: #f8d788; --on-bg-danger: #ffc3c1;
@@ -1335,18 +1397,30 @@ html[data-theme="xmas"] dialog.sheet::backdrop { background: var(--scrim, #03140
 html[data-theme="xmas"] { --snow-far: #ffffff94; --snow-near: #ffffffe0;
   --on-bg-halo: 1px 0 var(--bg), .71px .71px var(--bg), 0 1px var(--bg), -.71px .71px var(--bg), -1px 0 var(--bg), -.71px -.71px var(--bg), 0 -1px var(--bg), .71px -.71px var(--bg),
     1.75px 0 var(--bg), 1.62px .67px var(--bg), 1.24px 1.24px var(--bg), .67px 1.62px var(--bg), 0 1.75px var(--bg), -.67px 1.62px var(--bg), -1.24px 1.24px var(--bg), -1.62px .67px var(--bg),
-    -1.75px 0 var(--bg), -1.62px -.67px var(--bg), -1.24px -1.24px var(--bg), -.67px -1.62px var(--bg), 0 -1.75px var(--bg), .67px -1.62px var(--bg), 1.24px -1.24px var(--bg), 1.62px -.67px var(--bg); }
+    -1.75px 0 var(--bg), -1.62px -.67px var(--bg), -1.24px -1.24px var(--bg), -.67px -1.62px var(--bg), 0 -1.75px var(--bg), .67px -1.62px var(--bg), 1.24px -1.24px var(--bg), 1.62px -.67px var(--bg);
+  /* 아이콘(선 그림)의 둘레: 글자 그림자가 안 먹어 그림자 필터로 같은 일을 한다. 1px 씩 좌우·위아래로 넷이면 앞 그림자까지 다시 비춰 대각선까지 1px 가 차고,
+     그것을 두 번 해 2px(글자는 1.75px) */
+  --on-bg-halo-icon: drop-shadow(1px 0 var(--bg)) drop-shadow(-1px 0 var(--bg)) drop-shadow(0 1px var(--bg)) drop-shadow(0 -1px var(--bg))
+    drop-shadow(1px 0 var(--bg)) drop-shadow(-1px 0 var(--bg)) drop-shadow(0 1px var(--bg)) drop-shadow(0 -1px var(--bg)); }
+/* 강제 색에서는 바탕이 기기 색이라 바탕색 둘레가 짙은 테두리로 보인다(글자 그림자는 브라우저가 알아서 끈다) */
+@media (forced-colors: active) { html[data-theme="xmas"] { --on-bg-halo-icon: none; } }
 h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .ranks-more, .info-foot, .page-foot, .tt-switch, .add-head-title,
 .picked-error .btn-text, .footnote .btn-text, .ranks-more .btn-text { text-shadow: var(--on-bg-halo, none); } /* 버튼은 글자 그림자를 물려받지 않아 따로 적는다 */
 .day-summary .tag, .tt-switch .tag { text-shadow: none; } /* 태그는 제 면(fill) 위라 둘레를 두지 않는다(두면 글자에 짙은 테두리) */
+/* 컴퓨터의 사이드바: 눈이 뒤로 지나가므로 고르지 않은 탭·설치·정보의 이름과 아이콘에 둘레를 둔다. 고른 것(card 알약)과 오프라인 태그는 제 면 위라 두지 않고,
+   올리거나 누르는 동안(bg-hover 면)에는 아래에서 뺀다. 워드마크는 상단 바 밑 띠(body::after)의 꽉 찬 자리라 눈이 뒤로 오지 않는다 */
+.sidebar .sb-item:not([aria-current="page"]) { text-shadow: var(--on-bg-halo, none); }
+.sidebar .sb-item:not([aria-current="page"]) svg { filter: var(--on-bg-halo-icon, none); }
 /* 넓은 화면의 하단 바는 오른쪽 칸이 짧으면 화면 아래에 붙지 않고 내용 사이에 놓인다. 그때는 무늬 띠가 바 뒤를 가리지 않아 '취소' 뒤로도 눈이 지나간다(폰의 띠는 늘 가린다) */
 @media (min-width: 42.5em), (horizontal-viewport-segments: 2) { .input-right .bottom-bar .btn-text { text-shadow: var(--on-bg-halo, none); } }
 /* 그 버튼을 올리거나 누르는 동안에는 버튼 면(bg-hover)이 눈을 가린다. 둘레를 두면 그 면 위에서 글자에 짙은 테두리가 보이므로 뺀다(찾는 중에는 면이 없어 그대로 둔다) */
 .picked-error .btn-text:not([aria-disabled="true"]):active, .footnote .btn-text:not([aria-disabled="true"]):active, .ranks-more .btn-text:not([aria-disabled="true"]):active,
-.bottom-bar .btn-text:active { text-shadow: none; }
+.bottom-bar .btn-text:active, .sidebar .sb-item:not([aria-current="page"]):active { text-shadow: none; }
+.sidebar .sb-item:not([aria-current="page"]):active svg { filter: none; }
 @media (hover: hover) {
   .picked-error .btn-text:not([aria-disabled="true"]):hover, .footnote .btn-text:not([aria-disabled="true"]):hover, .ranks-more .btn-text:not([aria-disabled="true"]):hover,
-  .bottom-bar .btn-text:hover { text-shadow: none; }
+  .bottom-bar .btn-text:hover, .sidebar .sb-item:not([aria-current="page"]):hover { text-shadow: none; }
+  .sidebar .sb-item:not([aria-current="page"]):hover svg { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
   html[data-theme="xmas"] body::before { z-index: -3; }
@@ -1379,7 +1453,7 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
 /* ---------------------------------------------------------------- 마우스를 올릴 수 있을 때만 */
 @media (hover: hover) {
   .sidebar .sb-item:not([aria-current="page"]):hover { background: var(--bg-hover); }
-  .icon-btn:hover, .btn-text:hover, .result:hover, .rank-hit:hover, button.info-row:hover, a.info-row:hover, .pick-row:hover, .course-hit:hover .c-title { background: var(--surface-hover); }
+  .icon-btn:hover, .btn-text:hover, .result:hover, .rank-hit:hover, button.info-row:hover, a.info-row:hover, .course-hit:hover .c-title { background: var(--surface-hover); }
   .tabbar .tab:not([aria-current="page"]):hover .ind, .add-row:hover, .tt-row:hover, .menu-row:hover { background: var(--surface-hover); }
   .tt-switch:hover, .add-head .icon-btn:hover { background: var(--bg-hover); }
   .topbar .icon-btn:hover, .topbar .btn-text:hover, .bottom-bar .btn-text:hover, .picked-error .btn-text:hover, .ranks-more .btn-text:hover, .footnote .btn-text:hover { background: var(--bg-hover); }
@@ -1427,6 +1501,9 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
   .tabbar .tab[aria-current="page"] .ind, .sidebar .sb-item[aria-current="page"] { outline: 2px solid Highlight; outline-offset: -2px; }
   .wk-block { border: 1px solid CanvasText; }
   .wk-ghost { border-color: Highlight; }
+  .theme-card { border: 1px solid CanvasText; }
+  .theme-card:has(input:checked) { outline: 2px solid Highlight; outline-offset: -2px; }
+  .mini { forced-color-adjust: none; } /* 테마 미리보기는 그 테마의 색 그대로 */
   .swatches .sw { forced-color-adjust: none; }
   .swatches input:checked + .sw { outline: 2px solid Highlight; outline-offset: 3px; }
   .dot, .swatch, .week .wb { forced-color-adjust: none; } /* 교과구분 색 표시는 그대로 둔다 */

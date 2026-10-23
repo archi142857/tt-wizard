@@ -1,6 +1,6 @@
 // TT Wizard 화면(디자인 규칙 v3.5). 자료(data/*.json)는 scripts/export_web.py 가 만들고, 탐색은 engine.js 가 브라우저에서 한다.
-// 앱은 아래 탭 둘이다(10/22): 내 시간표(저장한 시간표, 과목 추가)와 탐색(입력, 결과). 정보(정보 → 자료 출처·오픈소스 라이선스)는 두 탭과
-// 같은 층의 따로 된 묶음이고(10/23) 전체 화면 지도가 그 위에 뜬다. 화면만 방문 기록(pushState)을 남기고 탭 바꾸기와 시트(<dialog>)는 남기지 않는다.
+// 앱은 아래 탭 셋이다(10/22, 테마는 10/23 오후): 내 시간표(저장한 시간표, 과목 추가), 탐색(입력, 결과), 테마(테마 고르기). 정보(정보 → 자료 출처·
+// 개발자 정보·오픈소스 라이선스)는 탭과 같은 층의 따로 된 묶음이고(10/23) 전체 화면 지도가 그 위에 뜬다. 화면만 방문 기록(pushState)을 남기고 탭 바꾸기와 시트(<dialog>)는 남기지 않는다.
 // 화면 문구는 디자인 규칙 '문구'를 따른다(문장은 해요체 한 줄, 그 밖에는 명사구).
 import { DAY_KO, parseCourses, TravelMatrix, search, countFeasible, routeLine, whyNone, meetsRules } from "./engine.js";
 import { indexCourses as indexSearch, searchCourses, splitMarks, normKey } from "./search.js";
@@ -23,7 +23,10 @@ document.documentElement.dataset.shell = SHELL;
 const APP_VERSION = "0.7.0";
 // 정보 화면 링크. 주소가 정해지면 넣는다(비어 있으면 그 행을 보이지 않는다)
 const PRIVACY_URL = ""; // 개인정보 처리방침 공개 페이지(스토어에 적는 주소와 같게)
-const CONTACT_URL = ""; // 문의 페이지(App Store 지원 URL과 같은 곳)
+// 개발자 정보(10/23 사용자가 정한 글. 처리방침의 개인정보 보호책임자·스토어 연락처와 같다). 메일은 누르면 메일 앱이 제목을 채워 연다
+const DEV_NAME = "동물생명공학전공 25학번 이영표";
+const DEV_MAIL = "sanger.lee138@gmail.com";
+const DEV_MAIL_HREF = `mailto:${DEV_MAIL}?subject=${encodeURIComponent("TT Wizard 문의")}`;
 const REVIEW_URL = { android: "", ios: "" }; // 스토어 앱 페이지(스토어 앱에서만 '리뷰 남기기')
 const CATALOG_URL = "https://sugang.snu.ac.kr/"; // 수강편람 누리집(자료 출처, 시트의 '수강편람' 링크)
 const RESULTS_STEP = 8; // 폰 검색 결과: 처음 개수이자 '더 보기' 한 번에 더 보이는 개수
@@ -449,7 +452,7 @@ async function loadSemester(sem) {
   renderResults();
   renderPicked();
   mineChanged();
-  if (screen === "add") renderAdd(); // 넓은 화면 과목 추가에서 시간표 목록 시트로 학기를 바꿨다(그 학기 편람을 받는 동안 '불러오는 중')
+  if (addActive()) renderAdd(); // 넓은 화면 과목 추가에서 시간표 목록 시트로 학기를 바꿨다(그 학기 편람을 받는 동안 '불러오는 중')
   let cj = state.cache.get(sem);
   try {
     if (!cj) {
@@ -474,7 +477,7 @@ async function loadSemester(sem) {
   renderResults();
   renderPicked();
   mineChanged(); // 편람과 견줘 다시 그린다(편람 바뀜, 없는 과목)
-  if (screen === "add") renderAdd();
+  if (addActive()) renderAdd(); // 편람이 들어왔다(폰의 과목 추가 시트를 연 채로 기다렸을 수도 있다)
   return true;
 }
 
@@ -556,7 +559,7 @@ function fitSelect(sel) {
   const text = sel.selectedIndex >= 0 ? sel.options[sel.selectedIndex].text : "";
   sel.style.width = `${Math.ceil(canvas.measureText(text).width + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + 2)}px`;
 }
-const fitTerm = () => { for (const id of ["year", "term", "browse-select", "tl-year", "tl-term"]) fitSelect($(id)); };
+const fitTerm = () => { for (const id of ["year", "term", "browse-select", "add-browse-select", "tl-year", "tl-term"]) fitSelect($(id)); };
 if (document.fonts) document.fonts.addEventListener("loadingdone", fitTerm);
 window.addEventListener("resize", fitTerm);
 
@@ -633,6 +636,9 @@ function resultRow({ c, marks }) {
 
 // 넓은 화면 두 칸(style.css 의 같은 조건): 오른쪽 칸 폭의 스낵바, 자료를 받은 뒤 늘 있는 결과 카드(검색 전에는 최근 검색어와 과목 둘러보기)
 const twoPane = matchMedia("(min-width: 42.5em), (horizontal-viewport-segments: 2)");
+// 폰의 과목 추가 시트(넓은 화면은 화면 'add' 인 내 시간표의 오른쪽 칸. 아래 '과목 추가'). 과목 추가가 열려 있다 = 그 칸이거나 이 시트
+const addSheet = $("add-sheet");
+const addActive = () => screen === "add" || addSheet.open;
 
 /** 넓은 화면 목록: items 를 FEED_STEP 개씩 이어 붙인다(끝의 FEED_LEAD 개 행 가운데 하나라도 보이면 다음). 다시 부르면 앞의 것은 멈춘다.
  *  보이는지는 화면 기준으로 보되 카드 안 스크롤에 가려진 행은 안 보이는 것으로 친다(IntersectionObserver 가 조상의 잘림을 따진다).
@@ -665,25 +671,31 @@ const collator = new Intl.Collator("ko");
 const CLS_ORDER = { 전필: 0, 전선: 1, 교양: 2 };
 const clsRank = (c) => CLS_ORDER[c.cls] ?? 3;
 const NO_MARKS = {};
-let browseKey = String(store.get("browse", "교양") || "교양"), browseData = null, browseDepts = [], browseDrawn = "";
+// 넓은 화면 과목 추가 칸의 검색 전 자리에도 같은 둘러보기를 둔다(10/23 사용자가 시안 가를 골랐다. 아래 renderAddBrowse): 선택칸과 고른 목록(browseKey)은 탐색과 같고
+// 행은 분반 행이다
+let browseKey = String(store.get("browse", "교양") || "교양"), browseData = null, browseDepts = [], browseDeptsOf = null, browseDrawn = "";
 function browseCourses() {
   const list = state.courses.filter((c) => c.program === "학사" && (browseKey === "교양" ? c.cls === "교양" : c.dept === browseKey));
   return list.sort((a, b) => (browseKey === "교양" ? 0 : clsRank(a) - clsRank(b)) || collator.compare(a.name, b.name) || collator.compare(a.id, b.id));
+}
+/** 둘러보기 선택칸(탐색, 넓은 화면 과목 추가 칸): fresh 면(그 칸이 이 학기 자료로 처음 그린다) 목록을 새로 만들고, 고른 값을 맞춘다 */
+function fillBrowseSelect(sel, fresh) {
+  if (browseDeptsOf !== state.courses) {
+    browseDeptsOf = state.courses;
+    browseDepts = [...new Set(state.courses.filter((c) => c.program === "학사").map((c) => c.dept).filter(Boolean))].sort(collator.compare);
+  }
+  if (fresh) sel.replaceChildren(h("option", { value: "교양" }, "교양 전체"), h("optgroup", { label: "학과" }, browseDepts.map((d) => h("option", { value: d }, d))));
+  if (browseKey !== "교양" && !browseDepts.includes(browseKey)) browseKey = "교양"; // 학기를 바꿔 그 학과가 없으면(기억은 그대로 둔다)
+  sel.value = browseKey;
+  fitSelect(sel);
 }
 /** 둘러보기를 보이거나 숨긴다. 학기(자료)나 고른 목록이 바뀌었을 때만 목록을 새로 그리고 true(그대로면 행과 스크롤 자리를 둔다). */
 function renderBrowse(show) {
   $("browse").hidden = !show;
   if (!show) return false;
-  const sel = $("browse-select");
-  if (browseData !== state.courses) {
-    browseData = state.courses;
-    browseDrawn = "";
-    browseDepts = [...new Set(state.courses.filter((c) => c.program === "학사").map((c) => c.dept).filter(Boolean))].sort(collator.compare);
-    sel.replaceChildren(h("option", { value: "교양" }, "교양 전체"), h("optgroup", { label: "학과" }, browseDepts.map((d) => h("option", { value: d }, d))));
-  }
-  if (browseKey !== "교양" && !browseDepts.includes(browseKey)) browseKey = "교양"; // 학기를 바꿔 그 학과가 없으면(기억은 그대로 둔다)
-  sel.value = browseKey;
-  fitSelect(sel);
+  const fresh = browseData !== state.courses;
+  if (fresh) { browseData = state.courses; browseDrawn = ""; }
+  fillBrowseSelect($("browse-select"), fresh);
   if (browseDrawn === browseKey) return false;
   browseDrawn = browseKey;
   feedList($("browse-list"), browseCourses(), (c) => resultRow({ c, marks: NO_MARKS }));
@@ -1374,7 +1386,8 @@ function closeSheet(d) {
   if (!d.open || d.closing) return;
   if (reduceMotion.matches || !d.animate) { d.close(); return; }
   d.closing = true;
-  const bottom = !matchMedia("(min-width: 37.5em)").matches;
+  // 묻는 팝업은 어느 폭에서나 가운데, 폰의 과목 추가 시트는 600~679px 에서도 아래 시트
+  const bottom = d === addSheet || (!d.classList.contains("ask") && !matchMedia("(min-width: 37.5em)").matches);
   const opts = { duration: 200, easing: "cubic-bezier(0.3, 0, 0.8, 0.15)", fill: "forwards" }; // dur-exit, ease-exit
   const from = d.style.transform || "translateY(0)";
   const anims = [d.animate([{ transform: from, opacity: 1 }, { transform: bottom ? "translateY(100%)" : "translateY(16px)", opacity: bottom ? 1 : 0 }], opts)];
@@ -1391,7 +1404,7 @@ function enableSheetDrag(d) {
   const head = d.querySelector(".sheet-head");
   let y0 = null, t0 = 0, dy = 0, dragging = false, pid = null;
   head.addEventListener("pointerdown", (e) => {
-    if ((e.pointerType === "mouse" && e.button !== 0) || matchMedia("(min-width: 37.5em)").matches) return; // 가운데 대화상자는 끌지 않는다
+    if ((e.pointerType === "mouse" && e.button !== 0) || matchMedia("(min-width: 37.5em)").matches || d.classList.contains("ask")) return; // 가운데 대화상자·팝업은 끌지 않는다
     y0 = e.clientY; t0 = e.timeStamp; dy = 0; dragging = false; pid = e.pointerId;
   });
   head.addEventListener("pointermove", (e) => {
@@ -1418,12 +1431,13 @@ function enableSheetDrag(d) {
 for (const d of document.querySelectorAll("dialog.sheet")) {
   d.addEventListener("click", (e) => {
     if (e.target.closest("[data-close]")) { closeSheet(d); return; }
-    if (e.target === d) { // 바깥(::backdrop) 누르기
+    if (e.target === d && d !== addSheet) { // 바깥(::backdrop) 누르기. 폰의 과목 추가 시트는 바깥이 시간표를 보는 자리라 닫지 않는다
       const r = d.getBoundingClientRect();
       if (e.clientY < r.top || e.clientY > r.bottom || e.clientX < r.left || e.clientX > r.right) closeSheet(d);
     }
   });
   d.addEventListener("close", () => {
+    if (d.open || (d === addSheet && addConverting)) return; // 닫힌 뒤 바로 다시 열었다, 과목 추가 시트가 넓은 화면의 칸으로 옮겨 갔다(초점은 그 칸에)
     const opener = d.returnTo;
     d.returnTo = null;
     const live = d.querySelector("[data-live]");
@@ -1440,10 +1454,11 @@ for (const d of document.querySelectorAll("dialog.sheet")) {
     else if (d.id === "course-sheet") focusRow(id, ".course-hit");
     else if (d.id === "rules-sheet") $("open-rules").focus({ preventScroll: true });
     else if (d.id === "item-sheet" || d.id === "custom-sheet") again(sel, '#items [data-add="course"]');
+    else if (d === addSheet) again('#items [data-add="course"]'); // 넣고 빼는 동안 항목 목록을 다시 그렸다
   });
   // 내용이 붙어 있는 머리 밑으로 올라가 있는 동안 머리 아래에 선을 긋는다(잘린 글자가 머리의 글자에 붙어 보이지 않게). 맨 위에서는 없다
   d.addEventListener("scroll", () => d.classList.toggle("is-scrolled", d.scrollTop > 0), { passive: true });
-  enableSheetDrag(d);
+  if (d !== addSheet) enableSheetDrag(d); // 과목 추가 시트는 55%·90% 두 높이라 따로(아래 '폰의 과목 추가 시트')
 }
 // 시트 머리는 위에 붙어 있다(sticky). 키보드로 거슬러 올라올 때 초점 받은 것이 그 밑에 가리지 않게 머리 높이 + 8px(초점 테두리 몫)만큼 스크롤 여백을 둔다
 // (WCAG 2.2 SC 2.4.11, 기법 C43). 머리 높이는 과목명 줄 수, 글자 크기, 추가 설정 시트의 오류 줄에 따라 달라서 재어서 넣는다(아래쪽 8px 은 style.css)
@@ -3466,16 +3481,15 @@ function itemTags(e, clash) {
 function mineChanged() {
   if ($("tt-list-sheet").open) renderTtList();
   if (mineShown()) renderMine();
-  else if (screen === "add") markAddRows();
 }
 
-/** 내 시간표 화면이 보인다: 내 시간표, 그리고 넓은 화면의 과목 추가(그 화면의 오른쪽 칸이다) */
+/** 내 시간표 화면이 보인다: 내 시간표, 그리고 과목 추가(넓은 화면은 그 화면의 오른쪽 칸, 폰은 그 화면 위의 시트다) */
 function mineShown() {
-  return screen === "mine" || (screen === "add" && splitAdd());
+  return screen === "mine" || screen === "add";
 }
 
 function renderMine() {
-  if (!mineShown()) { if (screen === "add") markAddRows(); return; } // 폰의 과목 추가 화면: 빼거나 되돌리면 결과 행의 넣음 표시만
+  if (!mineShown()) return;
   const t = curTt();
   const entries = ttEntries(t);
   const clash = clashKeys(entries);
@@ -3484,7 +3498,7 @@ function renderMine() {
   renderWeek(t, entries, clash);
   renderItems(entries, clash);
   $("route-run").disabled = !canRoute(t); // 동선 탐색에 보낼 과목이 없으면 꺼진다(비었으면 빈 격자가 까닭을 보인다)
-  if (screen === "add") markAddRows(); // 넓은 화면 과목 추가: 격자에서 빼거나 다른 시간표로 바꾸면 결과 행의 넣음 표시도
+  if (addActive()) markAddRows(); // 과목 추가: 격자·목록에서 빼거나 되돌리거나 다른 시간표로 바꾸면 결과 행의 넣음 표시도
 }
 /** 격자만 다시(과목 추가의 미리 보기가 바뀌었다) */
 function renderWeekNow() {
@@ -3518,7 +3532,7 @@ function renderMineHead(t) {
  * 칸은 요일·시각 순 <ol> 이고 자리만 절대 배치다. 칸 글자는 t-label: 강의실은 늘 보이고(좁으면 건물과 호 사이에서 줄을 바꾼다) 과목명은 남는 줄만큼,
  * 칸이 낮아 과목명 한 줄도 못 두면 강의실을 건물만('43-1동'). 시간이 겹치는 칸은 반씩 나란히. 시간이 미정인 항목은 격자에 없다(목록에 '미정')
  */
-let wkWidth = 0, wkFill = 0;
+let wkWidth = 0, wkFill = 0, wkGeom = null; // 내 시간표 격자의 첫 시각·한 시간 높이(폰 과목 추가 시트의 넣은 자리로 스크롤이 시각 → 자리로 쓴다)
 // 컴퓨터(사이드바, 1100px부터)는 격자 카드가 화면 아래 끝(space-6 위, 색 풀이가 있으면 그 아래 끝)까지 오게 한 시간 높이를 늘린다(10/23 사용자: "뭔가 균형이 안 맞음.
 // 배치 가이드 같은 거 찾아보고 반영해봐". 안드로이드 큰 화면 '보조 칸' 배치처럼 두 칸이 창의 본문 높이를 채우면 위 끝은 사이드바 탭, 아래 끝은 사이드바의 정보와
 // 같은 줄에 선다. 전에는 격자가 내용만큼이라 화면 아래 5분의 1이 비었다). 높이가 25em 보다 낮은 창은 하지 않고, 한 시간은 8rem 까지
@@ -3543,11 +3557,12 @@ window.addEventListener("resize", () => {
     if (want || wkFill > 0) renderWeekNow();
   });
 });
-function renderWeek(t, entries, clash) {
-  const box = $("wk");
+/** opts.box: 그릴 상자(내보내는 그림의 격자 카드. 없으면 내 시간표의 #wk), opts.hourPx: 한 시간 높이를 정해 그린다(미리 보기·화면 채우기 없음) */
+function renderWeek(t, entries, clash, opts = {}) {
+  const own = !opts.box, box = opts.box || $("wk");
   const blocks = [];
   for (const e of entries) for (const m of e.meetings) blocks.push({ e, m, half: "" });
-  const pv = previewOf(t), ghosts = pv ? pv.meetings : [];
+  const pv = own ? previewOf(t) : null, ghosts = pv ? pv.meetings : [];
   const days = [0, 1, 2, 3, 4];
   for (const m of [...blocks.map((x) => x.m), ...ghosts]) if (!days.includes(m.day)) days.push(m.day);
   days.sort((a, b) => a - b);
@@ -3558,14 +3573,17 @@ function renderWeek(t, entries, clash) {
   box.style.setProperty("--hours", String(hours));
   const body = h("div", { class: "wk-body" });
   box.replaceChildren(h("div", { class: "wk-head", "aria-hidden": "true" }, h("span"), days.map((d) => h("span", {}, DAY_KO[d]))), body);
-  const hourPx = Math.max(3.75 * rem, (30 * rem) / hours, wkFillHour(box, body, hours, rem));
+  const hourPx = opts.hourPx || Math.max(3.75 * rem, (30 * rem) / hours, wkFillHour(box, body, hours, rem));
   box.style.setProperty("--hour-h", `${hourPx}px`);
   for (let i = 0; i <= hours; i++) {
     body.append(h("div", { class: "wk-line", "aria-hidden": "true", style: { top: `${i * hourPx}px` } }));
     if (i < hours) body.append(h("span", { class: "wk-hour", "aria-hidden": "true", style: { top: `${i * hourPx}px` } }, String(h0 + i)));
   }
-  wkWidth = box.clientWidth;
-  wkFill = wkFillWide.matches ? hourPx : 0;
+  if (own) {
+    wkWidth = box.clientWidth;
+    wkFill = wkFillWide.matches ? hourPx : 0;
+    wkGeom = { h0, hourPx };
+  }
   const n = days.length;
   const at = (m) => ({ top: `${((m.start - h0 * 60) / 60) * hourPx}px`, height: `${((m.end - m.start) / 60) * hourPx - 2}px`,
     left: `calc(${days.indexOf(m.day)} * (100% + 2px) / ${n})`, width: `calc((100% + 2px) / ${n} - 2px)` });
@@ -3692,7 +3710,7 @@ $("items").addEventListener("click", (e) => {
   const hit = e.target.closest("[data-item]");
   if (hit) { openItem(hit.dataset.item, hit); return; }
   const add = e.target.closest("[data-add]");
-  if (add && add.dataset.add === "course") go("add");
+  if (add && add.dataset.add === "course") openAdd(add);
   else if (add) openCustom(null, add);
 });
 $("wk").addEventListener("click", (e) => {
@@ -3712,12 +3730,13 @@ new ResizeObserver(() => {
 // '동선 탐색에 담기'는 10/23 오후 사용자가 없앴다("동선 탐색에 넣기는 없애버리고 걍 동선 확인하기를 분반 정보 포함해서 동선탐색으로 보내": 아래 routeTt)
 let ttListOpen = null, ttListDrawn = 0; // 펼친 행(시간표 id. 아직 만들지 않은 빈 시간표 1은 ""), 그린 횟수
 function openTtList(opener) {
-  $("tl-limit").hidden = true;
+  tlError(null);
   ttListOpen = null;
   renderTtList();
   openSheet($("tt-list-sheet"), opener);
 }
-const TT_ACTS = [["copy", "복사하기"], ["primary", "대표 시간표로 설정하기"], ["delete", "지우기"]];
+// 이미지 두 줄(10/23 디자인 75판): 기기에 따라 하나가 빠지고(canSaveImage·canShareImage) 비어 있는 시간표에는 없다
+const TT_ACTS = [["copy", "복사하기"], ["primary", "대표 시간표로 설정하기"], ["save-image", "이미지로 저장"], ["share-image", "이미지 보내기"], ["delete", "지우기"]];
 function renderTtList() {
   ttListDrawn += 1;
   fillTerm($("tl-year"), $("tl-term"));
@@ -3737,14 +3756,20 @@ function renderTtList() {
     // 아직 만들지 않은 빈 시간표 1은 이름만(만들면서 대표가 된다). 대표 시간표에는 '대표 시간표로 설정하기'가 없다
     // (10/23 사용자: "'대표에서 빼기' 이거 없애고, 걍 대표 시간표가 아닌 시간표 메뉴에 '대표 시간표로 설정하기' 이거 넣어". 대표는 학기마다 늘 하나: 처음 만든 시간표가 대표이고
     // 대표를 지우면 남은 것 중 하나가 대표다(T.createTimetable·T.deleteTimetable))
-    const acts = TT_ACTS.filter(([k]) => !t.virtual && (k !== "primary" || !t.primary));
+    const acts = TT_ACTS.filter(([k]) => !t.virtual && (k !== "primary" || !t.primary)
+      && (k !== "save-image" || (t.items.length && canSaveImage())) && (k !== "share-image" || (t.items.length && canShareImage())));
+    if (t.items.length && acts.some(([k]) => k.endsWith("-image"))) preparedImage(t).catch(() => null); // 펼칠 때 미리 그려 둔다(누르면 바로 보낸다: 웹의 공유는 누른 바로 그때만 된다)
     const act = ([k, text]) => h("li", {}, h("button", { type: "button", class: k === "delete" ? "menu-row danger" : "menu-row", "data-tt-act": k,
-      "aria-describedby": k === "copy" && !$("tl-limit").hidden ? "tl-limit" : null }, text));
+      "aria-describedby": k === "copy" && tlErrFrom === "copy" && !$("tl-limit").hidden ? "tl-limit" : null }, text));
     const name = h("li", { class: "tl-rename" }, h("input", { class: "text-input", type: "text", "data-tt-name": t.id, maxlength: "30", value: t.title,
       autocomplete: "off", enterkeyhint: "done", "aria-label": "시간표 이름" }));
     return h("li", { class: "tl-item is-open" }, line, h("ul", { class: "tl-acts", id: actsId, "aria-label": `${t.title} 메뉴` }, name, acts.map(act)));
   });
-  rows.push(h("li", {}, h("button", { type: "button", class: "menu-row add", "data-tt-new": "", "aria-describedby": $("tl-limit").hidden ? null : "tl-limit" }, icon(I.plus, 20), "새 시간표")));
+  // 목록 아래 반씩: + 새 시간표 | 이미지 불러오기(10/23 디자인 75판). 오류 줄은 그 일을 한 버튼이 가리킨다(50개: 새 시간표·복사하기, 불러오기: 이미지 불러오기)
+  const err = $("tl-limit").hidden ? null : "tl-limit";
+  rows.push(h("li", { class: "add-pair" },
+    h("button", { type: "button", class: "menu-row add", "data-tt-new": "", "aria-describedby": tlErrFrom === "new" ? err : null }, icon(I.plus, 20), "새 시간표"),
+    h("button", { type: "button", class: "menu-row add", "data-tt-import": "", "aria-describedby": tlErrFrom === "import" ? err : null }, icon(IMAGE_ICON, 20), "이미지 불러오기")));
   $("tl-rows").replaceChildren(...rows);
   for (const r of document.querySelectorAll('input[name="tt-color"]')) r.checked = r.value === ttColor;
 }
@@ -3787,13 +3812,14 @@ $("tl-rows").addEventListener("click", (e) => {
     closeSheet(d);
     return;
   }
+  if (e.target.closest("[data-tt-import]")) { tlError(null); refillTtList("[data-tt-import]"); $("tl-file").click(); return; } // 다시 불러오면 지난 오류 줄은 거둔다
   if (!e.target.closest("[data-tt-new]")) return;
+  tlError(null); // 지난 오류 줄(이미지를 못 불러왔다)은 거둔다
   const t = T.createTimetable(mine.list, mine.sem); // '시간표 n'(쓰지 않은 가장 작은 번호)
   if (!t) {
-    $("tl-limit").hidden = false;
-    renderTtList();
-    $("tl-rows").querySelector("[data-tt-new]").focus();
-    announce("시간표는 학기마다 50개까지예요", "alert");
+    tlError(FULL_TEXT, "new");
+    refillTtList("[data-tt-new]");
+    announce(FULL_TEXT, "alert");
     return;
   }
   putTt(t);
@@ -3808,9 +3834,9 @@ function ttListAct(k) {
   if (k === "copy") { // '시간표 1 (2)'처럼 번호를 붙인 사본(T.copyTimetable)
     const c = T.copyTimetable(t, mine.list);
     if (!c) {
-      $("tl-limit").hidden = false;
+      tlError(FULL_TEXT, "copy");
       refillTtList('[data-tt-act="copy"]');
-      announce("시간표는 학기마다 50개까지예요", "alert");
+      announce(FULL_TEXT, "alert");
       return;
     }
     putTt(c);
@@ -3822,10 +3848,246 @@ function ttListAct(k) {
     mine.list = T.setPrimary(mine.list, t.id);
     saveMine();
     renderMine();
-    refillTtList('[data-tt-act="delete"]');
-    announce("대표 시간표로 정했어요");
+    // 그 줄이 사라지므로 초점은 바로 아래 줄로(이미지 줄이 있으면 그것, 없으면 지우기)
+    refillTtList(["save-image", "share-image", "delete"].map((x) => `[data-tt-act="${x}"]`).find((x) => $("tl-rows").querySelector(x) || x.includes("delete")));
+    announce("대표 시간표로 설정했어요");
   } else if (k === "delete") { closeSheet(d); deleteTt(t); }
+  else if (k === "save-image" || k === "share-image") imageAct(k, t);
 }
+
+// ---------------------------------------------------------------- 시간표 이미지(디자인 75판 '시간표 이미지', 컴포넌트 TimetableImage. 10/23 사용자: "시간표 이미지로 내보내는
+// 기능도 만들어 줘", "그 이미지에 … 시간표 정보를 지문처럼 … 파일 자체에"). 목록 시트 ⋯ 의 이미지로 저장·이미지 보내기, 목록 아래 이미지 불러오기.
+// 자료는 그림에 보이지 않고 PNG 파일 안의 글 조각(iTXt)에 들어간다(백엔드 timetables.js 의 addTimetableToPng·readTimetableImage·timetableFromImage. 메모는 빠진다).
+// 그림: 내 시간표와 같은 격자를 화면 밖(.tt-export)에 그려 두고 그 자리·색·글자를 캔버스로 옮겨 그린다(paintExport). 브라우저가 줄을 바꾼 그대로라 화면과 같다.
+// DOM 을 그림으로 바꾸는 SVG foreignObject 는 사파리에서 캔버스를 막아(내보낼 수 없게 된다) 쓰지 않는다. 폭 22.5rem(글자 100%에서 360px)을 1080px 로 찍는다
+const EXPORT_W = 1080;
+const IMAGE_ICON = '<rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="9.8" r="1.6"/><path d="M20.5 15.5l-4.6-4.6-9.4 8.6"/>';
+const FULL_TEXT = "시간표는 학기마다 50개까지예요";
+// 못 불러올 때의 오류 줄(readTimetableImage 의 problem)
+const IMPORT_PROBLEM = {
+  jpeg: "사진으로 보내져 시간표 자료가 빠졌어요. 파일로 받은 이미지를 고르세요.",
+  "no-data": "시간표 자료가 없는 이미지예요",
+  broken: "이미지 파일이 깨졌어요",
+  "not-png": "PNG 이미지가 아니에요",
+  newer: "새 버전 앱에서 만든 이미지예요",
+};
+let tlErrFrom = null; // 목록 아래 오류 줄을 띄운 일: "new" | "copy" | "import"
+/** 목록 아래 오류 줄을 띄우거나(글, 그 일) 거둔다(null). 다시 그릴 때 그 일의 버튼이 줄을 가리킨다(aria-describedby) */
+function tlError(text, from = null) {
+  $("tl-limit").hidden = !text;
+  if (text) $("tl-limit").textContent = text;
+  tlErrFrom = text ? from : null;
+}
+/** 사진 저장이 되는 곳: 웹(파일로 내려받기)과 안드로이드 10 이상 앱(사진). iOS 앱·안드로이드 9 이하 앱은 줄이 없다(공유 시트 안에 저장이 있다).
+ *  앱은 앱 연결이 켤 때 플러그인에 물어 둔 값(TTW_APP.canSaveImage. 백엔드 update63: 답이 오기 전에는 false, 보통 몇 ms 안에 온다)이고,
+ *  그 값이 없는 옛 앱 연결이면 웹뷰 사용자 에이전트로 본다. 그래도 저장이 거절되면(UNSUPPORTED) 공유 시트로 간다 */
+function canSaveImage() {
+  if (!IN_APP) return true; // 웹·설치한 웹 앱
+  const app = window.TTW_APP;
+  if (app && "canSaveImage" in app) return !!app.canSaveImage;
+  if (SHELL !== "android") return false;
+  const v = /Android (\d+)/.exec(navigator.userAgent);
+  return !v || Number(v[1]) >= 10;
+}
+/** 앱 연결의 공유 시트(TTW_APP.shareImage)를 쓸 수 있다: 앱 연결이 알려 준 값(canShareImage, update63), 그 값이 없는 옛 앱 연결은 shareImage 가 있으면 */
+const appShares = () => { const app = IN_APP && window.TTW_APP; return !!app && ("canShareImage" in app ? !!app.canShareImage : !!app.shareImage); };
+/** 공유 시트: 앱 연결의 공유 시트, 아니면 파일을 보낼 수 있는 브라우저(navigator.canShare({ files }). 앱 웹뷰도 되면 그것) */
+function canShareImage() {
+  if (appShares()) return true;
+  try { return !!navigator.canShare && navigator.canShare({ files: [new File([new Uint8Array(8)], "a.png", { type: "image/png" })] }); } catch { return false; }
+}
+/** '2026년 2학기 시간표 1'(공유 제목), 파일 이름은 거기에 .png(파일 이름에 못 쓰는 글자는 _) */
+const imageTitle = (t) => `${semesterLabel(t.sem)} ${t.title}`;
+const imageFile = (t) => `${imageTitle(t).replace(/[\\/:*?"<>|\u0000-\u001f]/g, "_")}.png`;
+// 미리 그린 그림(시간표·테마·다크·칸 색이 같으면 다시 쓴다)
+let imageCache = null;
+function preparedImage(t) {
+  const key = [t.id, t.updated, t.title, document.documentElement.dataset.theme || "", matchMedia("(prefers-color-scheme: dark)").matches, ttColor, state.loaded && state.semester === t.sem, remPx()].join("|");
+  if (!imageCache || imageCache.key !== key) imageCache = { key, png: timetablePng(t) };
+  return imageCache.png;
+}
+/** 워드마크: 이벤트 테마는 흰 단색, 기본 테마는 기기의 라이트·다크 판(화면의 .wordmark 와 같다) */
+function exportWordmark() {
+  if (document.documentElement.dataset.theme) return "icons/wordmark-white.svg";
+  return matchMedia("(prefers-color-scheme: dark)").matches ? "icons/wordmark-dark.svg" : "icons/wordmark.svg";
+}
+/** 시간표 하나 → 자료를 넣은 PNG 바이트(Uint8Array). 학기·학점 줄, 이름, 격자(한 시간 mine-hour-min), 교과구분별이면 색 풀이, 시간 미정 줄, 워드마크 */
+async function timetablePng(t) {
+  const entries = ttEntries(t), untimed = entries.filter((e) => !e.meetings.length);
+  const sum = Math.round(T.credits(t) * 10) / 10, sem = semesterLabel(t.sem);
+  const card = h("div", { class: "card wk" });
+  const legend = ttColor === "cls" && entries.length
+    ? h("div", { class: "cls-legend tt-legend" }, CLS_GROUPS.map(([name, key]) => h("span", {}, h("span", { class: "dot", style: { background: `var(--cls-${key})` } }), name))) : null;
+  const mark = h("img", { class: "ex-mark", alt: "", src: exportWordmark() });
+  const root = h("div", { class: "tt-export", "aria-hidden": "true", inert: true },
+    h("p", { class: "ex-sem" }, sum ? `${sem} · ${sum}학점` : sem), h("p", { class: "ex-name" }, t.title), card, legend,
+    untimed.length ? h("p", { class: "ex-untimed" }, `시간 미정 · ${untimed.map((e) => courseName(e)).join(", ")}`) : null, mark);
+  document.body.append(root);
+  try {
+    const draw = () => renderWeek(t, entries, clashKeys(entries), { box: card, hourPx: 3.75 * remPx() });
+    draw();
+    await Promise.all([document.fonts ? document.fonts.ready : null, mark.decode ? mark.decode().catch(() => null) : null]);
+    draw(); // 글꼴이 들어온 뒤 칸 글자의 줄 수를 다시 잰다
+    const pic = paintExport(root);
+    const blob = await new Promise((res) => pic.toBlob(res, "image/png"));
+    return blob ? T.addTimetableToPng(new Uint8Array(await blob.arrayBuffer()), t) : null;
+  } finally {
+    root.remove();
+  }
+}
+const clearColor = (c) => !c || c === "transparent" || /^rgba\(.*,\s*0\)$/.test(c);
+function roundPath(g, x, y, w, hh, r) {
+  r = Math.max(0, Math.min(r, w / 2, hh / 2));
+  g.beginPath();
+  g.moveTo(x + r, y);
+  g.arcTo(x + w, y, x + w, y + hh, r);
+  g.arcTo(x + w, y + hh, x, y + hh, r);
+  g.arcTo(x, y + hh, x, y, r);
+  g.arcTo(x, y, x + w, y, r);
+  g.closePath();
+}
+const cornerOf = (cs, r) => { const v = cs.borderTopLeftRadius; return v.endsWith("%") ? (Math.min(r.width, r.height) * parseFloat(v)) / 100 : parseFloat(v) || 0; };
+/** 화면 밖 판을 캔버스로: 바탕(이벤트 테마는 무늬 점까지), 요소마다 바탕색·둥근 모서리·잘림, 그림(워드마크), 글자(한 글자씩 화면의 그 자리에) */
+function paintExport(root) {
+  const R = root.getBoundingClientRect(), k = EXPORT_W / R.width;
+  const pic = h("canvas", { width: EXPORT_W, height: Math.round(R.height * k) });
+  const g = pic.getContext("2d");
+  g.scale(k, k);
+  g.translate(-R.left, -R.top);
+  g.fillStyle = getComputedStyle(root).backgroundColor;
+  g.fillRect(R.left, R.top, R.width, R.height);
+  // 이벤트 테마의 땡땡이(style.css --bg-pattern: 16×28 칸 가운데 점과 (8, 14) 옮긴 점, 지름 5. 대비를 높인 기기는 무늬가 없다)
+  const doc = getComputedStyle(document.documentElement);
+  if (document.documentElement.dataset.theme && doc.getPropertyValue("--bg-pattern").trim() !== "none") {
+    g.fillStyle = doc.getPropertyValue("--bg-tone").trim();
+    for (let m = 0; m * 14 <= R.height + 14; m++) {
+      for (let x = m % 2 ? 8 : 0; x <= R.width + 16; x += 16) { g.beginPath(); g.arc(R.left + x, R.top + m * 14, 2.5, 0, Math.PI * 2); g.fill(); }
+    }
+  }
+  paintKids(g, root);
+  return pic;
+}
+function paintKids(g, el) {
+  for (const n of el.childNodes) {
+    if (n.nodeType === Node.TEXT_NODE) { paintText(g, n); continue; }
+    if (n.nodeType !== Node.ELEMENT_NODE) continue;
+    const cs = getComputedStyle(n);
+    if (cs.display === "none" || cs.visibility === "hidden") continue;
+    const r = n.getBoundingClientRect(), rad = cornerOf(cs, r);
+    g.save();
+    if (Number(cs.opacity) < 1) g.globalAlpha *= Number(cs.opacity);
+    // 이벤트 테마의 색 풀이 판: 둘레 3px 를 바탕색으로(box-shadow 0 0 0 3px)
+    const plate = /^(rgba?\([^)]*\)) 0px 0px 0px ([\d.]+)px$/.exec(cs.boxShadow);
+    if (plate) { const sp = Number(plate[2]); g.fillStyle = plate[1]; roundPath(g, r.left - sp, r.top - sp, r.width + sp * 2, r.height + sp * 2, rad + sp); g.fill(); }
+    if (!clearColor(cs.backgroundColor)) { g.fillStyle = cs.backgroundColor; roundPath(g, r.left, r.top, r.width, r.height, rad); g.fill(); }
+    if (n instanceof HTMLImageElement && n.complete && n.naturalWidth) g.drawImage(n, r.left, r.top, r.width, r.height);
+    if (cs.overflowX !== "visible" || cs.overflowY !== "visible") { roundPath(g, r.left, r.top, r.width, r.height, rad); g.clip(); }
+    paintKids(g, n);
+    g.restore();
+  }
+}
+/** 글자: 글자마다 화면의 자리(Range)에 그린다. 줄 수를 넘어 감춘 과목명(-webkit-line-clamp)은 마지막 줄 끝에 말줄임 */
+function paintText(g, node) {
+  const text = node.data, el = node.parentElement;
+  if (!el || !text.trim()) return;
+  const cs = getComputedStyle(el);
+  g.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+  g.fillStyle = cs.color;
+  g.textBaseline = "alphabetic";
+  const fm = g.measureText("가");
+  const ascent = fm.fontBoundingBoxAscent ?? fm.actualBoundingBoxAscent;
+  const span = document.createRange(), box = el.getBoundingClientRect();
+  const clamp = cs.webkitLineClamp && cs.webkitLineClamp !== "none" ? box.bottom - parseFloat(cs.paddingBottom) : Infinity;
+  const glyphs = [];
+  for (let i = 0; i < text.length;) {
+    const len = text.codePointAt(i) > 0xffff ? 2 : 1, ch = text.slice(i, i + len);
+    if (ch.trim()) {
+      span.setStart(node, i);
+      span.setEnd(node, i + len);
+      const rc = span.getClientRects()[0];
+      if (rc && rc.width) glyphs.push({ ch, x: rc.left, top: rc.top, right: rc.right, bottom: rc.bottom });
+    }
+    i += len;
+  }
+  let shown = glyphs.filter((q) => q.bottom <= clamp + 0.5);
+  if (shown.length && shown.length < glyphs.length) {
+    const lastTop = shown[shown.length - 1].top, ell = g.measureText("…").width, right = box.right - parseFloat(cs.paddingRight);
+    while (shown.length > 1 && shown[shown.length - 1].top === lastTop && shown[shown.length - 1].right + ell > right + 0.5) shown.pop();
+    const last = shown[shown.length - 1];
+    shown = [...shown, { ch: "…", x: last.right, top: last.top }];
+  }
+  for (const q of shown) g.fillText(q.ch, q.x, q.top + ascent);
+}
+/** 이미지로 저장·이미지 보내기. 앱: 사진에 저장(안드로이드 10 이상, 스낵바 '사진에 저장했어요'. 스낵바가 보이게 시트는 닫는다)·공유 시트,
+ *  저장이 거절되면(UNSUPPORTED: iOS·안드로이드 9 이하) 공유 시트로. 웹: 파일로 내려받기(브라우저가 알린다)·공유 시트(navigator.share) */
+async function imageAct(k, t) {
+  let bytes = null;
+  try { bytes = await preparedImage(t); } catch { bytes = null; }
+  if (!bytes) { announce("이미지를 만들지 못했어요", "alert"); return; }
+  const name = imageFile(t), title = imageTitle(t), app = window.TTW_APP;
+  if (k === "save-image" && !IN_APP) { downloadPng(bytes, name); return; }
+  if (k === "save-image" && app && app.saveImage) {
+    try {
+      await app.saveImage({ bytes, name });
+      closeSheet($("tt-list-sheet"));
+      showSnackbar("사진에 저장했어요");
+      return;
+    } catch (e) {
+      if (!e || e.code !== "UNSUPPORTED") return; // 사용자가 그만뒀거나 기기가 못 했다
+    }
+  }
+  if (appShares() && app.shareImage) {
+    try { await app.shareImage({ bytes, name, title }); return; } catch (e) { if (!e || e.code !== "UNSUPPORTED") return; }
+  }
+  const file = new File([bytes], name, { type: "image/png" });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try { await navigator.share({ files: [file], title }); } catch { /* 닫았다 */ }
+    return;
+  }
+  downloadPng(bytes, name);
+}
+function downloadPng(bytes, name) {
+  const url = URL.createObjectURL(new Blob([bytes], { type: "image/png" }));
+  const a = h("a", { href: url, download: name, hidden: true });
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}
+/** 이미지 불러오기: 같은 학기면 새 시간표로 넣고 그것으로 바꾼 뒤 시트를 닫고 '시간표를 불러왔어요'. 다른 학기면 그 학기에 넣고 보던 것은 그대로 두고
+ *  '2026년 1학기에 불러왔어요' [보기](그 학기의 그 시간표로). 못 불러오면 목록 아래 오류 줄(다시 불러오기·새 시간표·시트 닫기에 사라진다).
+ *  불러온 이름·과목명·일정 이름은 남이 만든 파일의 글이라 화면에 글로만 넣는다(h() 는 텍스트 노드로 넣는다. 10/23 법무) */
+$("tl-file").addEventListener("change", async () => {
+  const input = $("tl-file"), f = input.files && input.files[0];
+  input.value = ""; // 같은 파일을 다시 골라도 알게
+  if (!f) return;
+  const fail = (text) => { tlError(text, "import"); refillTtList("[data-tt-import]"); announce(text, "alert"); };
+  let bytes;
+  try { bytes = new Uint8Array(await f.arrayBuffer()); } catch { fail(IMPORT_PROBLEM.broken); return; }
+  const r = T.readTimetableImage(bytes);
+  if (r.problem) { fail(IMPORT_PROBLEM[r.problem] || IMPORT_PROBLEM.broken); return; }
+  const sem = r.payload.sem, [y, k] = sem.split("-");
+  if (!/^\d{4}$/.test(y || "") || !TERMS[k]) { fail(IMPORT_PROBLEM.broken); return; }
+  const same = sem === mine.sem;
+  const list = same ? mine.list : T.parseList(store.get(semKey(T.STORE_KEYS.list, sem), []), sem);
+  const t = T.timetableFromImage(r.payload, list);
+  if (!t) { fail(FULL_TEXT); return; }
+  tlError(null);
+  if (same) {
+    putTt(t);
+    renderMine();
+    closeSheet($("tt-list-sheet"));
+    showSnackbar("시간표를 불러왔어요");
+    return;
+  }
+  store.set(semKey(T.STORE_KEYS.list, sem), T.serialize([...list, t]));
+  closeSheet($("tt-list-sheet"));
+  const open = state.semesters.some(([x]) => x === sem);
+  showSnackbar(`${semesterLabel(sem)}에 불러왔어요`, open ? "보기" : "", open ? () => {
+    store.set(semKey(T.STORE_KEYS.current, sem), t.id); // 그 학기를 열면 이 시간표가 보인다
+    switchSemester(sem);
+  } : null);
+});
 // 이름 입력칸: Enter 나 다른 곳을 누르면(change) 바꾼다. 비우면 원래 이름. Esc 는 고치던 것을 원래 이름으로 되돌리고(시트는 닫지 않는다), 고친 것이 없으면 시트를 닫는다
 function commitTtName(input) {
   const id = input.dataset.ttName, t = ttById(id);
@@ -4321,27 +4583,34 @@ $("cu-done").addEventListener("click", () => {
   if (r.removed) showSnackbar("겹치는 과목을 뺐어요", "되돌리기", () => undoReplace(r.tid, r.added, r.restore));
 });
 
-// ---- 과목 추가 화면: 탐색과 같은 찾기(검색어는 따로, 최근 검색어는 같이).
+// ---- 과목 추가: 탐색과 같은 찾기(검색어는 따로, 최근 검색어는 같이).
 // 결과는 분반(강좌)마다 한 행이고 누르면 시트 없이 바로 넣는다(10/23 사용자: "과목 추가할 때의 로직만 SNUTT 참고해서"). 넣은 분반을 다시 누르면 빼고, 같은 과목의
 // 다른 분반이 들어 있으면 바꿔 넣는다. 시간이 겹치면 묻지 않고 겹친 항목을 빼고 넣은 뒤 되돌리기(SNUTT 는 묻는다. 디자인 규칙 '겹치면 묻지 않고 바꿔 넣는다').
-// 넓은 화면(두 칸)은 따로 화면이 아니라 내 시간표 화면의 오른쪽 칸이다(10/22 밤 사용자: "탐색도 같은 창에 오른쪽에뜨도록"): 행에 마우스를 올리거나 키보드로
-// 고르면(방향키) 그 분반이 왼쪽 격자에 미리 보인다(점선 칸, 빠질 항목은 흐리게. addPreview). 기록과 탭에 쌓인 화면은 폰과 같다(add). 다른 것은 보이는 요소뿐이다:
-// 내 시간표 화면(.is-adding)과 그 칸 머리 줄의 제목(h2). 폭이 바뀌어 두 칸이 되거나 풀리면 검색창과 결과 카드를 그 자리로 옮긴다(placeAdd)
-let addShown = RESULTS_STEP, addLast = "";
+// 넣는 동안 시간표가 늘 보인다(디자인 규칙 '과목 추가'):
+// - 넓은 화면(두 칸)은 내 시간표 화면의 오른쪽 칸이다(화면 'add'. 기록에 남는다. 10/22 밤 사용자: "탐색도 같은 창에 오른쪽에뜨도록"): 행에 마우스를 올리거나 키보드로
+//   고르면(방향키) 그 분반이 왼쪽 격자에 미리 보인다(점선 칸, 빠질 항목은 흐리게. addPreview). 검색 전 자리에는 최근 검색어 아래 과목 둘러보기(탐색과 같은 선택칸,
+//   행은 분반 행. 10/23 사용자가 시안 가를 골랐다)
+// - 폰(679px까지)은 내 시간표 위에 반쯤 올라오는 시트다(#add-sheet. 10/23 사용자: "핸드폰에서는 시간표 탭에서 과목 추가할 때 기존 시간표가 안 보이는 문제", 시안 나).
+//   시트라 기록에 남지 않는다. 아래 '폰의 과목 추가 시트'
+// 검색창과 결과 카드는 하나이고 폭에 따라 그 칸이나 시트로 옮긴다(placeAdd)
+let addShown = RESULTS_STEP, addLast = "", addBrowseFor = null, addBrowseDrawn = "", addBrowseTop = 0, addRecentDrawn = "";
 const addQ = $("add-q");
-const addData = new Map(); // 분반 열쇠 → {c, s, marks}(그린 행과 이어 그릴 행)
-let addPreview = null, addHover = null; // 격자에 미리 보는 분반, 마우스가 올라간 분반(둘 다 addData 의 값)
+const addData = new Map(); // 검색 결과: 분반 열쇠 → {c, s, marks}(그린 행과 이어 그릴 행)
+const addBrowse = new Map(); // 둘러보기(넓은 화면 검색 전): 분반 열쇠 → {c, s, marks}
+const addOf = (key) => addData.get(key) || addBrowse.get(key) || null;
+const addLists = () => [$("add-list"), $("add-browse-list")];
+let addPreview = null, addHover = null; // 격자에 미리 보는 분반, 마우스가 올라간 분반(둘 다 addOf 의 값)
 function splitAdd() {
   return twoPane.matches;
 }
-/** 검색창과 결과 카드를 두 칸이면 내 시간표의 오른쪽 칸(#mine-add), 아니면 과목 추가 화면에 둔다. 옮기면 초점이 풀리므로 그 안에 있던 초점은 되돌린다 */
+/** 검색창과 결과 카드를 두 칸이면 내 시간표의 오른쪽 칸(#mine-add), 아니면 과목 추가 시트에 둔다. 옮기면 초점이 풀리므로 그 안에 있던 초점은 되돌린다 */
 function placeAdd() {
-  const home = splitAdd() ? $("mine-add") : $("view-add").querySelector("main");
+  const home = splitAdd() ? $("mine-add") : $("as-body");
   const box = $("add-box"), results = $("add-results");
   if (box.parentElement === home) return;
   const had = box.contains(document.activeElement) || results.contains(document.activeElement) ? document.activeElement : null;
   home.append(box, results);
-  had?.focus({ preventScroll: true });
+  if (had && !had.closest("[hidden]") && (!addSheet.contains(had) || addSheet.open)) had.focus({ preventScroll: true });
 }
 /** 검색한 과목들을 분반 행으로: 교수로 찾았으면(과목명·번호·학과로는 안 맞았다) 그 교수의 분반만 */
 function addSections(hits) {
@@ -4386,37 +4655,71 @@ function paintAddRow(li, d, t = curTt()) {
   if (clash && !tag) b.before(h("span", { class: "tag danger r-clash", "aria-hidden": "true" }, "시간 겹침"));
   else if (!clash && tag) tag.remove();
 }
-/** 넣은 표시·바꾸기·시간 겹침만 고친다. 목록을 다시 그리면 이어 붙인 결과(넓은 화면)가 처음으로 돌아가 읽던 자리를 잃는다 */
+/** 넣은 표시·바꾸기·시간 겹침만 고친다(검색 결과와 둘러보기). 목록을 다시 그리면 이어 붙인 결과(넓은 화면)가 처음으로 돌아가 읽던 자리를 잃는다 */
 function markAddRows() {
   const t = curTt();
-  for (const li of $("add-list").querySelectorAll(".add-sec")) {
-    const d = addData.get(li.dataset.key);
-    if (d) paintAddRow(li, d, t);
+  for (const [list, data] of [[$("add-list"), addData], [$("add-browse-list"), addBrowse]]) {
+    for (const li of list.querySelectorAll(".add-sec")) {
+      const d = data.get(li.dataset.key);
+      if (d) paintAddRow(li, d, t);
+    }
   }
+}
+/** 넓은 화면 검색 전의 과목 둘러보기(디자인 규칙 '과목 추가'): 탐색 둘러보기의 과목 차례에 같은 과목 안은 분반 번호 순, 칸 안에서 이어 붙인다. 선택칸과 고른 목록은
+ *  탐색과 같다(browseKey. 바꾸면 둘 다). 학기(자료)나 고른 목록이 바뀌었을 때만 새로 그리고 true(그대로면 행과 스크롤 자리를 둔다) */
+const secOrder = (a, b) => String(a.no).localeCompare(String(b.no), "en", { numeric: true });
+function renderAddBrowse(show) {
+  $("add-browse").hidden = !show;
+  if (!show) return false;
+  const fresh = addBrowseFor !== state.courses;
+  if (fresh) { addBrowseFor = state.courses; addBrowseDrawn = ""; }
+  fillBrowseSelect($("add-browse-select"), fresh);
+  if (addBrowseDrawn === browseKey) return false;
+  addBrowseDrawn = browseKey;
+  const rows = browseCourses().flatMap((c) => [...c.sections].sort(secOrder).map((s) => ({ c, s, marks: NO_MARKS })));
+  addBrowse.clear();
+  for (const d of rows) addBrowse.set(d.s.key, d);
+  feedList($("add-browse-list"), rows, addRow);
+  return true;
+}
+/** 최근 검색어 칩. 목록이 그대로면 다시 만들지 않는다(키보드 초점이 칩에 있을 때 다시 그려 초점을 잃지 않게) */
+function renderAddRecent(show) {
+  $("add-recent").hidden = !show;
+  const key = show ? JSON.stringify(recent) : "";
+  if (key === addRecentDrawn) return;
+  addRecentDrawn = key;
+  $("add-recent-list").replaceChildren(...(show ? recent : []).map((text) => h("li", { class: "chip" },
+    h("button", { type: "button", class: "chip-q", "data-q": text }, h("span", {}, text)),
+    h("button", { type: "button", class: "chip-x", "data-del": text, "aria-label": `${text} 지우기` }, icon(I.x, 16)))));
 }
 const addFocused = () => document.activeElement === addQ || $("add-results").contains(document.activeElement);
 function renderAdd({ more = false } = {}) {
   const raw = addQ.value, box = $("add-results"), list = $("add-list");
+  const wide = splitAdd();
   $("add-clear").hidden = !raw;
   addQ.disabled = !state.loaded;
   addQ.placeholder = state.loading ? "불러오는 중" : "과목명, 교과목번호, 교수";
   if (!raw.trim() || !state.loaded) {
+    const fromSearch = addLast !== "";
     addLast = "";
+    clearTimeout(countTimer);
     stopFeed(list);
     list.replaceChildren();
     addData.clear();
     setAddPreview(null, { hover: true });
     $("add-empty").hidden = $("add-more").hidden = true;
-    const idle = state.loaded && recent.length > 0 && (twoPane.matches || addFocused());
-    box.hidden = !idle;
-    $("add-recent").hidden = !idle;
-    $("add-recent-list").replaceChildren(...(idle ? recent : []).map((text) => h("li", { class: "chip" },
-      h("button", { type: "button", class: "chip-q", "data-q": text }, h("span", {}, text)),
-      h("button", { type: "button", class: "chip-x", "data-del": text, "aria-label": `${text} 지우기` }, icon(I.x, 16)))));
+    // 검색 전: 넓은 화면은 최근 검색어(있을 때만)와 과목 둘러보기, 폰은 빈 검색창에 초점이 있을 때 최근 검색어만. 불러오는 중에는 두지 않는다
+    const recentOn = state.loaded && recent.length > 0 && (wide || addFocused());
+    box.hidden = !(recentOn || (wide && state.loaded));
+    renderAddRecent(recentOn);
+    const redrawn = renderAddBrowse(wide && state.loaded);
+    if (fromSearch && wide && !box.hidden) box.scrollTop = redrawn ? 0 : addBrowseTop; // 검색을 지우면 둘러보던 자리로
     return;
   }
-  $("add-recent").hidden = true;
   const fresh = raw !== addLast;
+  if (fresh && !addLast && !$("add-browse").hidden) addBrowseTop = box.scrollTop;
+  renderAddRecent(false);
+  renderAddBrowse(false);
   if (fresh) { addShown = RESULTS_STEP; addLast = raw; }
   const found = findCourses(raw), rows = addSections(found.hits);
   addData.clear();
@@ -4424,7 +4727,7 @@ function renderAdd({ more = false } = {}) {
   if (fresh) setAddPreview(null, { hover: true });
   box.hidden = false;
   $("add-empty").hidden = rows.length > 0;
-  if (twoPane.matches) {
+  if (wide) {
     if (fresh && box.scrollTop) box.scrollTop = 0;
     feedList(list, rows, addRow);
     $("add-more").hidden = true;
@@ -4436,7 +4739,7 @@ function renderAdd({ more = false } = {}) {
     if (more) { list.children[before]?.querySelector("button")?.focus(); return; }
   }
   clearTimeout(countTimer);
-  countTimer = setTimeout(() => announce(rows.length ? `분반 ${rows.length}개` : "검색 결과 없음"), 500);
+  countTimer = setTimeout(() => announce(rows.length ? `분반 ${rows.length.toLocaleString("ko-KR")}개` : "검색 결과 없음"), 500);
 }
 addQ.addEventListener("input", () => renderAdd());
 addQ.addEventListener("focus", () => { if (!addQ.value.trim()) renderAdd(); });
@@ -4448,8 +4751,9 @@ addQ.addEventListener("keydown", (e) => {
   const first = finePointer.matches && $("add-list").querySelector(".btn-add");
   if (first) first.focus(); else addQ.blur();
 });
+// 폰 시트: 빈 검색창에서 초점이 나가면 최근 검색어를 내린다(누른 자리가 밀리지 않게 조금 뒤에)
 for (const el of [addQ, $("add-results")]) {
-  el.addEventListener("focusout", () => setTimeout(() => { if (screen === "add" && !twoPane.matches && !addQ.value.trim() && !addFocused()) renderAdd(); }, 250));
+  el.addEventListener("focusout", () => setTimeout(() => { if (addSheet.open && !twoPane.matches && !addQ.value.trim() && !addFocused()) renderAdd(); }, 250));
 }
 $("add-clear").addEventListener("click", () => { addQ.value = ""; renderAdd(); addQ.focus(); });
 $("add-more").addEventListener("click", () => { addShown += RESULTS_STEP; renderAdd({ more: true }); });
@@ -4470,11 +4774,25 @@ $("add-recent-list").addEventListener("click", (e) => {
   renderAdd();
   if (had) addQ.focus({ preventScroll: true });
 });
-$("add-list").addEventListener("click", (e) => {
-  const b = e.target.closest(".btn-add[data-sec]"), d = b && addData.get(b.dataset.sec);
-  if (d && state.byId.has(d.c.id)) toggleAddSection(d);
+// 둘러보기 목록을 바꿨다: 탐색의 둘러보기도 같이 바뀐다(고른 목록을 함께 기억). 새 목록을 맨 위부터(선택칸이 위로 지나갔으면 선택칸 바로 아래부터) 보이고 분반 수를 읽는다
+$("add-browse-select").addEventListener("change", (e) => {
+  browseKey = e.target.value;
+  store.set("browse", browseKey);
+  renderAddBrowse(true);
+  if (!$("browse").hidden) renderBrowse(true); // 탐색 탭에 그려 둔 둘러보기도(돌아가면 바뀐 목록. 탭을 바꿀 때는 다시 그리지 않는다)
+  const box = $("add-results"), top = $("add-browse").getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop;
+  if (box.scrollTop > top) box.scrollTop = top;
+  setAddPreview(null, { hover: true });
+  announce(`분반 ${addBrowse.size.toLocaleString("ko-KR")}개`);
 });
-/** 분반 행을 눌렀다: 넣은 분반이면 빼고(되돌리기 스낵바), 아니면 넣는다(같은 과목의 다른 분반은 바꿔 넣고, 겹친 항목은 빼고 넣은 뒤 되돌리기) */
+for (const list of addLists()) {
+  list.addEventListener("click", (e) => {
+    const b = e.target.closest(".btn-add[data-sec]"), d = b && addOf(b.dataset.sec);
+    if (d && state.byId.has(d.c.id)) toggleAddSection(d);
+  });
+}
+/** 분반 행을 눌렀다: 넣은 분반이면 빼고(되돌리기 스낵바), 아니면 넣는다(같은 과목의 다른 분반은 바꿔 넣고, 겹친 항목은 빼고 넣은 뒤 되돌리기).
+ *  폰의 시트에서 넣었으면 그 칸이 시트에 가려 있을 때 시간표를 그 시각으로 스크롤한다(revealAdded) */
 function toggleAddSection(d) {
   const { c, s } = d, { kind, it } = addState(d);
   if (kind === "on") {
@@ -4485,6 +4803,7 @@ function toggleAddSection(d) {
   if (!r) return;
   if (addQ.value.trim()) saveRecent(addQ.value);
   mineChanged();
+  revealAdded(r.added, r.restore);
   announce(`${c.name} ${kind === "swap" ? "분반을 바꿨어요" : "넣었어요"}`);
   if (r.removed) showSnackbar("겹치는 과목을 뺐어요", "되돌리기", () => undoReplace(r.tid, r.added, r.restore));
 }
@@ -4493,23 +4812,155 @@ function toggleAddSection(d) {
 let addPtr = ""; // 마지막 마우스 자리
 function setAddPreview(d, { hover = false } = {}) {
   if (hover) addHover = d;
-  const a = document.activeElement, focused = a && $("add-list").contains(a) ? addData.get(a.dataset.sec || "") || null : null;
+  const a = document.activeElement, focused = a && addLists().some((l) => l.contains(a)) ? addOf(a.dataset.sec || "") : null;
   const next = addHover || focused || null;
   if (next === addPreview) return;
   addPreview = next;
   if (screen === "add" && splitAdd()) requestAnimationFrame(renderWeekNow);
 }
-$("add-list").addEventListener("mousemove", (e) => {
-  const at = `${e.screenX},${e.screenY}`;
-  if (!finePointer.matches || at === addPtr) return;
-  addPtr = at;
-  const li = e.target.closest(".add-sec");
-  setAddPreview(li ? addData.get(li.dataset.key) || null : null, { hover: true });
-});
-$("add-list").addEventListener("mouseleave", () => { addPtr = ""; setAddPreview(null, { hover: true }); });
-$("add-list").addEventListener("focusin", () => setAddPreview(null, { hover: true }));
-$("add-list").addEventListener("focusout", () => setTimeout(() => setAddPreview(addHover), 0));
+for (const list of addLists()) {
+  list.addEventListener("mousemove", (e) => {
+    const at = `${e.screenX},${e.screenY}`;
+    if (!finePointer.matches || at === addPtr) return;
+    addPtr = at;
+    const li = e.target.closest(".add-sec");
+    setAddPreview(li ? addOf(li.dataset.key) : null, { hover: true });
+  });
+  list.addEventListener("mouseleave", () => { addPtr = ""; setAddPreview(null, { hover: true }); });
+  list.addEventListener("focusin", () => setAddPreview(null, { hover: true }));
+  list.addEventListener("focusout", () => setTimeout(() => setAddPreview(addHover), 0));
+}
 listKeys(addQ, $("add-results"), ".btn-add");
+
+// ---- 폰의 과목 추가 시트(디자인 규칙 '과목 추가'의 폰, 679px까지): 따로 화면 대신 내 시간표 위에 아래에서 반쯤(55%) 올라오는 시트. 손잡이를 끌어 올리면 90%,
+// 거기서 내리면 55%, 55%에서 내리면 닫힌다. 머리는 손잡이·'과목 추가'·'닫기'(넣은 것은 바로 저장된다). 모달 dialog 라 키보드·스크린리더의 초점은 시트 안에 머물고
+// 시트 밖 시간표는 누를 수 없다(::backdrop 이 받는다. 바깥 누르기로 닫지 않는다: 시트 밖은 시간표를 스크롤하는 자리). 바탕을 덮지 않고 뒤 화면 스크롤을 막지 않아서
+// (style.css) 시트 밖을 끌거나 휠을 굴리면 시간표가 스크롤된다. 시트라서 기록에 남기지 않고 닫기·뒤로 가기(Esc, 안드로이드 뒤로 = cancel)·아래로 끌기로 닫힌다.
+// 폭이 바뀌면 옮겨 간다: 넓은 화면에서 연 칸(화면 'add', 기록에 남는다)이 폰 폭이 되면 그 기록 그대로 이 시트를 띄우고(닫으면 그 기록을 거둔다), 폰의 시트가 넓은
+// 화면이 되면 시트를 닫고 그 칸을 연다(go). 검색어와 초점은 옮겨 간다
+let keepAddQ = false, addRefocus = null, addConverting = false, addReveal = null; // addReveal: 키보드가 떠 있는 동안 넣은 것(내려가면 그 자리로 스크롤)
+/** 내 시간표의 '과목 추가': 넓은 화면은 오른쪽 칸(화면), 폰은 시트 */
+function openAdd(opener) {
+  if (splitAdd()) go("add");
+  else openAddSheet(opener);
+}
+/** keep: 넓은 화면의 칸에서 옮겨 왔다(검색어와 스크롤 자리를 둔다) */
+function openAddSheet(opener, { keep = false } = {}) {
+  if (addSheet.open) return;
+  if (!keep) addQ.value = ""; // 검색어는 탐색과 따로 두고 열 때 비운다
+  addSheet.classList.remove("is-full", "is-kb");
+  addSheet.style.height = "";
+  placeAdd();
+  openSheet(addSheet, opener);
+  renderAdd();
+  snackHome();
+  if (finePointer.matches && !addQ.disabled) addQ.focus({ preventScroll: true }); // 마우스 기기는 바로 검색창(누른 까닭이 찾기라), 터치 기기는 제목(화상 키보드를 바로 올리지 않는다)
+  // 시트 위로 시간표 윗부분이 보이게(항목 목록 아래의 '과목 추가'를 누를 때는 격자가 위로 지나가 있다)
+  if (!keep) window.scrollTo({ top: 0, behavior: reduceMotion.matches ? "auto" : "smooth" });
+}
+addSheet.addEventListener("close", () => {
+  if (addSheet.open) return; // 닫힌 뒤 바로 다시 열었다(기록을 오가며)
+  addSheet.classList.remove("is-full", "is-kb");
+  addSheet.style.height = "";
+  addReveal = null;
+  snackHome(); // 시트 안에 옮겨 둔 스낵바를 제자리로(보이던 것은 그대로 보인다)
+  if (addConverting) { addConverting = false; return; } // 넓은 화면의 칸으로 옮겨 갔다(검색어·초점은 그 칸에서 그대로)
+  addQ.value = ""; // 닫으면 검색어를 비운다
+  renderAdd();
+  if (screen === "add" && history.state && history.state.view === "add") back(); // 넓은 화면에서 연 칸이 폰 폭이라 시트였다: 그 기록을 거둔다
+});
+// 손잡이(붙은 머리)를 끈다. 55%에서 올리면 90%(손가락을 따라 높이가 는다), 90%에서 내리면 55%, 55%에서 내리면 닫힌다(손가락을 따라 내려간다).
+// 놓을 때 가운데(72.5%)를 넘었거나 빠르게 튕겼으면 그쪽으로. 화상 키보드가 떠 있는 동안은 내려 끌면 키보드만 내린다(시트는 연 높이로 돌아간다)
+{
+  const head = addSheet.querySelector(".sheet-head");
+  let y0 = null, t0 = 0, dy = 0, dragging = false, pid = null, h0 = 0, half = 0, full = 0, wasFull = false, kb = false;
+  head.addEventListener("pointerdown", (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    kb = addSheet.classList.contains("is-kb");
+    wasFull = addSheet.classList.contains("is-full");
+    h0 = addSheet.getBoundingClientRect().height;
+    half = (h0 / (wasFull ? 0.9 : 0.55)) * 0.55;
+    full = (h0 / (wasFull ? 0.9 : 0.55)) * 0.9;
+    y0 = e.clientY; t0 = e.timeStamp; dy = 0; dragging = false; pid = e.pointerId;
+  });
+  head.addEventListener("pointermove", (e) => {
+    if (y0 === null || e.pointerId !== pid) return;
+    dy = e.clientY - y0;
+    if (!dragging && Math.abs(dy) > 8) { dragging = true; head.setPointerCapture(pid); }
+    if (!dragging) return;
+    if (kb) { addSheet.style.transform = `translateY(${Math.max(0, dy)}px)`; return; }
+    const want = h0 - dy;
+    addSheet.style.height = `${Math.round(Math.min(full, Math.max(half, want)))}px`;
+    addSheet.style.transform = want < half ? `translateY(${Math.round(half - want)}px)` : "";
+  });
+  const end = (e) => {
+    if (y0 === null || e.pointerId !== pid) return;
+    y0 = null;
+    if (!dragging) return;
+    const speed = dy / Math.max(1, e.timeStamp - t0); // 아래로 +
+    if (kb) {
+      if (dy > 48 && typingField(document.activeElement)) document.activeElement.blur();
+      settleAdd(addSheet.classList.contains("is-full"));
+      return;
+    }
+    const want = h0 - dy, mid = (half + full) / 2;
+    const to = wasFull
+      ? (want < half - 96 ? "close" : want < mid || (dy > 32 && speed > 0.5) ? "half" : "full")
+      : (want > mid || (dy < -32 && speed < -0.5) ? "full" : dy > 96 || (dy > 32 && speed > 0.5) ? "close" : "half");
+    if (to === "close") closeSheet(addSheet);
+    else settleAdd(to === "full");
+  };
+  head.addEventListener("pointerup", end);
+  head.addEventListener("pointercancel", end);
+}
+/** 끌기를 놓았다: 55%나 90%로 200ms 에 자리 잡는다(ease-standard 감속. 동작 줄이기에서는 바로) */
+function settleAdd(full) {
+  const from = { height: `${addSheet.getBoundingClientRect().height}px`, transform: addSheet.style.transform || "translateY(0)" };
+  addSheet.classList.toggle("is-full", full);
+  addSheet.style.height = addSheet.style.transform = "";
+  if (reduceMotion.matches || !addSheet.animate) return;
+  addSheet.animate([from, { height: `${addSheet.getBoundingClientRect().height}px`, transform: "translateY(0)" }], { duration: 200, easing: "cubic-bezier(0.2, 0, 0, 1)" });
+}
+/** 화상 키보드: 시트 안 검색창에 초점이 있고 키보드가 떠 있으면 시트가 키보드 위의 보이는 높이를 다 쓴다(결과가 보이게. 그동안 시간표는 가린다). 내려가면 연 높이로.
+ *  키보드는 updateTyping 과 같게 판단한다(보이는 높이가 120px 넘게 줄었다). 브라우저는 visual viewport 만 줄고(iOS 는 그 안에서 화면을 밀어 올리기도 한다)
+ *  앱 껍데기는 창이 준다: 어느 쪽이든 보이는 자리(offsetTop, height)에 맞춘다 */
+function fitAddSheet() {
+  if (!addSheet.open) return;
+  const a = document.activeElement;
+  const kb = !!vv && coarsePointer.matches && addSheet.contains(a) && typingField(a) && fullH - viewH() > 120;
+  if (kb) {
+    addSheet.style.setProperty("--kb-top", `${Math.round(vv.offsetTop)}px`);
+    addSheet.style.setProperty("--kb-h", `${Math.round(vv.height)}px`);
+  }
+  addSheet.classList.toggle("is-kb", kb);
+  // 키보드가 떠 있는 동안(시간표를 가렸다) 넣은 것은 내려간 뒤 그 자리로(iOS 는 행을 눌러도 검색창에서 초점이 떠나지 않아 키보드가 그대로다)
+  if (!kb && addReveal) { const r = addReveal; addReveal = null; requestAnimationFrame(() => revealAdded(r.key, r.removed)); }
+}
+/**
+ * 폰 시트에서 분반을 넣거나 바꿨다(겹쳐서 다른 항목을 뺀 때도): 그 칸이 시트에 가려 있으면(위로 지나가 있어도) 시트 위로 보이는 시간표를 그 시각으로 스크롤한다
+ * (10/23 사용자: "겹치는 거 나올 때마다 시간표를 그 위치로 스크롤". 겹치지 않아도 가려 있으면 넣은 것이 안 보여서 같게 했다. 디자인 규칙 '과목 추가').
+ * 넣은 칸의 위 끝(수업이 여럿이면 가장 이른 것)을 시트 위 영역의 위쪽에 두고, 뺀 칸이 있으면 그 자리도 같이 들어오게(다 못 담으면 넣은 칸 먼저).
+ * 위 끝에서 한 시간(짧은 칸은 칸 전체)이 이미 보이면 움직이지 않는다. 부드럽게, 동작 줄이기에서는 바로. 시트를 거의 다 올렸으면 하지 않고, 키보드가 떠 있으면(시간표를 가렸다) 내려간 뒤에 한다
+ */
+function revealAdded(key, removed) {
+  if (addSheet.open && addSheet.classList.contains("is-kb")) { addReveal = { key, removed }; return; }
+  if (!addSheet.open || !wkGeom) return;
+  const wk = $("wk"), body = wk.querySelector(".wk-body");
+  const rects = [...wk.querySelectorAll(".wk-block")].filter((b) => b.dataset.key === key).map((b) => b.getBoundingClientRect());
+  if (!body || !rects.length) return; // 시간이 미정인 분반은 격자에 없다
+  const first = rects.reduce((a, b) => (b.top < a.top ? b : a));
+  const need = Math.min(first.height, wkGeom.hourPx);
+  const lo = Math.max(0, $("view-mine").querySelector(".topbar").getBoundingClientRect().bottom) + 8;
+  const hi = addSheet.getBoundingClientRect().top - 8;
+  if (hi - lo < need) return;
+  if (first.top >= lo && first.top + need <= hi) return;
+  const b = body.getBoundingClientRect();
+  const yOf = (min) => Math.min(b.bottom, b.top + ((min - wkGeom.h0 * 60) / 60) * wkGeom.hourPx);
+  const gone = removed.flatMap((it) => (it.custom ? it.meetings : it.own || it.base || []).map((m) => yOf(m[1])));
+  const from = Math.min(first.top, ...gone), to = Math.max(first.top, ...gone) + need;
+  const at = to - from <= hi - lo ? from : first.top;
+  window.scrollTo({ top: Math.max(0, Math.round(window.scrollY + at - lo)), behavior: reduceMotion.matches ? "auto" : "smooth" });
+}
 
 /**
  * 검색 결과를 방향키로(10/23 사용자: "검색하고 나서 방향키로 안 움직여짐"): 검색창에서 ↓ 는 첫 행, 행에서 ↓·↑ 는 다음·앞 행(첫 행에서 ↑ 는 검색창), Home·End 는 처음·끝 행,
@@ -4610,9 +5061,10 @@ function isSafariTab() {
 }
 
 // ---- 이벤트 테마(디자인 규칙 '이벤트 테마'): 정해 둔 기간에 저절로 켜진다. 한 벌뿐이라 기기가 다크여도 같은 모습이다.
-// [값, 이름, 시작 MM-DD, 끝 MM-DD(그날까지, 기기 날짜), 상태 바 색 = style.css 의 그 테마 --bg, 스토어 앱의 시스템 바 글자("DARK" = 짙은 바탕 위 밝은 글자, "LIGHT" = 그 반대)].
+// [값, 이름, 시작 MM-DD, 끝 MM-DD(그날까지, 기기 날짜), 상태 바 색 = style.css 의 그 테마 --bg, 스토어 앱의 시스템 바 글자("DARK" = 짙은 바탕 위 밝은 글자, "LIGHT" = 그 반대),
+// 테마 탭 카드의 고를 수 있는 때]. 크리스마스는 12월 한 달(10/23 사용자: "12월 한 달". 그전에는 25일까지).
 // 기간은 한 해 안에 두고(해를 넘기지 않는다) 서로 겹치지 않게 한다. index.html 머리의 스크립트가 같은 판단으로 그리기 전에 먼저 건다(테마를 더하면 거기도 고친다)
-const THEMES = [["xmas", "크리스마스", "12-01", "12-25", "#103924", "DARK"]];
+const THEMES = [["xmas", "크리스마스", "12-01", "12-31", "#103924", "DARK", "12월 한 달"]];
 const BASE_BAR = ["#eef0ff", "#16171b"]; // 기본 테마의 상태 바 색(라이트, 다크)
 /** 지금 켤 이벤트 테마(없으면 null). event 는 돌아가기와 물어본 것을 기억하는 이름이다: 해마다 달라서('xmas-2026') 그 해 그 테마에만 남는다.
  *  시험용 주소(?theme=xmas)는 기간 밖에서도 켜고, 그때 고른 것이 실제 기간에 남지 않게 따로 기억한다('xmas-test'). */
@@ -4648,51 +5100,71 @@ document.addEventListener("visibilitychange", () => {
   const now = seasonTheme();
   if ((now ? now.event : "") === (season ? season.event : "")) return;
   season = now;
-  if ($("theme-ask").open) $("theme-ask").close(); // 지난 테마를 묻던 시트는 거둔다
+  if ($("theme-ask").open) $("theme-ask").close(); // 지난 테마를 묻던 팝업은 거둔다
   applyTheme(themeOn());
-  renderInfo();
+  renderThemes(); // 테마 탭의 카드(기간이 바뀌면 크리스마스 카드가 켜지거나 흐려진다)
   setTimeout(askTheme, 400);
 });
-/** 켜거나 끈다(정보 화면의 테마 행, 묻는 시트). 고른 것은 그 해 그 테마에만 남는다. */
+/** 켜거나 끈다(테마 탭, 묻는 팝업). 고른 것은 그 해 그 테마에만 남는다. 기간에 '기본'을 고르면 '돌아가기'와 같다(그 해에는 저절로 다시 켜지지 않는다) */
 function setTheme(on) {
   if (!season) return;
   if (on) store.del("themeOff"); else store.set("themeOff", season.event);
   store.set("themeAsked", season.event); // 스스로 골랐으면 다시 묻지 않는다
   applyTheme(on);
 }
-/** 이벤트 테마가 켜진 뒤 처음 들어왔을 때 한 번 묻는다: '기본 테마로 돌아갈까요?' [닫기] [돌아가기].
- *  시간표를 만들어 본 적이 없는 사람에게는 묻지 않는다(돌아갈 '원래'를 본 적이 없다). 닫기·바깥 누르기·뒤로 가기는 그대로 둔다는 뜻이다. */
+/** 이벤트 테마가 저절로 켜진 뒤 처음 들어왔을 때 한 번 묻는다: '기본 테마로 돌아갈까요?' [닫기] [돌아가기]. 첫 화면(켤 때 연 탭의 첫 화면: 입력 화면이나
+ *  내 시간표) 위 가운데 팝업이다(10/23 사용자: "팝업". 디자인 75판). 시간표를 만들어 본 적이 없는 사람에게는 묻지 않는다(돌아갈 '원래'를 본 적이 없다).
+ *  닫기·바깥 누르기·뒤로 가기는 그대로 둔다는 뜻이다. 테마 탭에 있으면 묻지 않는다(거기서 고른다) */
 function askTheme() {
   if (!themeOn() || store.get("themeAsked", "") === season.event || !store.get("made", false)) return;
-  if (screen !== "input" || document.querySelector("dialog[open]")) return; // 그새 다른 화면이나 시트를 열었으면 끼어들지 않고 다음에 켤 때 묻는다
+  if ((screen !== "input" && screen !== "mine") || document.querySelector("dialog[open]")) return; // 그새 다른 화면이나 시트를 열었으면 끼어들지 않고 다음에 켤 때 묻는다
   store.set("themeAsked", season.event);
   openSheet($("theme-ask"));
 }
-$("theme-ask-yes").addEventListener("click", () => { setTheme(false); renderInfo(); closeSheet($("theme-ask")); });
+$("theme-ask-yes").addEventListener("click", () => { setTheme(false); renderThemes(); closeSheet($("theme-ask")); });
+
+// ---- 테마 탭(디자인 75판 '테마 탭', 컴포넌트 ThemeTab): 테마마다 카드 하나(라디오. 미리보기 + 이름, 이벤트 테마는 '시즌 한정' 태그와 고를 수 있는 때).
+// 고르면 바로 바뀐다(확인 버튼·스낵바·알림 없음: 색이 바뀐 것은 화면이 알린다). 기간 밖 테마는 흐리고 눌리지 않는다(시험 주소 ?theme=xmas 는 기간 안으로 본다).
+// 미리보기는 토큰으로 그린 작은 화면이다(style.css .mini. 칸 자리는 디자인 미리보기 그대로): 기본은 라이트 위에 다크를 대각선으로 반, 크리스마스는 그 바탕과 흰 워드마크
+const MINI_BLOCKS = [[14, 10, 15, 22, 0], [48, 10, 15, 22, 0], [31, 6, 15, 20, 1], [65, 6, 15, 20, 1], [14, 38, 15, 20, 2], [48, 38, 15, 20, 2], [31, 58, 15, 30, 3], [82, 62, 14, 24, 7], [65, 45, 15, 22, 5]];
+const MINI_WORDMARK = { light: "icons/wordmark.svg", dark: "icons/wordmark-dark.svg", xmas: "icons/wordmark-white.svg" };
+function miniScreen(kind) {
+  return h("span", { class: `mini is-${kind}` }, h("img", { class: "mw", src: MINI_WORDMARK[kind] || MINI_WORDMARK.light, alt: "" }),
+    h("span", { class: "mh" }), h("span", { class: "mh2" }),
+    h("span", { class: "mc" }, MINI_BLOCKS.map(([l, t, w, hh, c]) => h("i", { style: { left: `${l}%`, top: `${t}%`, width: `${w}%`, height: `${hh}%`, background: `var(--item-${c})` } }))),
+    h("span", { class: "mb" }));
+}
+function renderThemes() {
+  const cur = themeOn() ? season.id : "";
+  const cards = [{ id: "", name: "기본" }, ...THEMES.map(([id, name, , , , , when]) => ({ id, name, when }))];
+  $("themes").replaceChildren(h("legend", { class: "sr-only" }, "테마"), ...cards.map((c) => {
+    const off = !!c.id && !(season && season.id === c.id);
+    return h("label", { class: off ? "theme-card is-off" : "theme-card" },
+      h("input", { type: "radio", name: "theme", value: c.id, checked: c.id === cur, disabled: off, "aria-label": [c.name, c.id ? "시즌 한정" : "", c.when].filter(Boolean).join(", ") }),
+      h("span", { class: "prev", "aria-hidden": "true" }, c.id ? miniScreen(c.id) : [miniScreen("light"), miniScreen("dark")]),
+      h("span", { class: "ok", "aria-hidden": "true" }, icon('<path d="M5 12.5l4.5 4.5L19 7.5" stroke-width="2.6"/>', 16)),
+      h("span", { class: "nm" }, h("span", {}, c.name), c.id ? h("span", { class: "tag" }, "시즌 한정") : null),
+      c.when ? h("span", { class: "when" }, c.when) : null);
+  }));
+}
+$("themes").addEventListener("change", (e) => {
+  if (!season || e.target.name !== "theme") return;
+  setTheme(e.target.value === season.id);
+});
 
 /**
- * 정보 화면(10/22 디자인): 카드를 띄워 두고 묶음 제목은 두지 않는다. 설정(기간 중 테마. 시간표 칸 색은 10/23 시간표 탭으로) / 자료 출처 /
- * 문의하기·리뷰 남기기(스토어 앱)·홈 화면에 추가(웹 Safari) / 개인정보 처리방침·오픈소스 라이선스·버전. 주소가 없는 행은 두지 않고, 줄이 다 빠진 카드도 두지 않는다.
+ * 정보 화면(10/22 디자인, 10/23 75판): 카드를 띄워 두고 묶음 제목은 두지 않는다. 자료 출처 /
+ * 개발자 정보·리뷰 남기기(스토어 앱)·홈 화면에 추가(웹 Safari) / 개인정보 처리방침·오픈소스 라이선스·버전. 주소가 없는 행은 두지 않고, 줄이 다 빠진 카드도 두지 않는다.
+ * '문의하기' 줄은 10/23 없앴다(메일 주소는 개발자 정보 안). 설정 카드도 10/23 없앴다(테마는 테마 탭, 시간표 칸 색은 시간표 목록 시트)
  * 이동시간 계산 방법은 10/22 밤 사용자가 뺐다(입력 화면 조건의 이동시간 ⓘ 시트로만 본다)
  */
 function renderInfo() {
   const next = (key, text) => h("button", { type: "button", class: "info-row", "data-info": key }, h("span", {}, text), icon(I.right, 20));
   const out = (href, text) => h("a", { class: "info-row", href, target: "_blank", rel: "noopener" }, h("span", {}, text), icon(I.out, 20));
-  // 고르는 행: 행 전체에 투명한 select 를 덮는다(과목 시트의 강의실 값과 같은 방식, style.css .pick-row). 고르면 바로 바뀐다
-  const pick = (id, label, options, value, onPick) => {
-    const sel = h("select", { id, "aria-label": label }, options.map(([v, text]) => h("option", { value: v }, text)));
-    sel.value = value;
-    const shown = document.createTextNode(sel.options[sel.selectedIndex]?.text || "");
-    sel.addEventListener("change", () => { onPick(sel.value); shown.data = sel.options[sel.selectedIndex].text; });
-    return h("label", { class: "info-row pick-row" }, h("span", {}, label), h("span", { class: "info-pick" }, shown, icon(I.down, 20), sel));
-  };
-  // 시간표 칸 색은 10/23 사용자가 시간표 탭으로 옮겼다(내 시간표 목록 시트의 칸 색). 테마 행은 이벤트 테마의 기간에만 있다: 기본 | 그 테마
-  const themeRow = season ? pick("theme", "테마", [["", "기본"], [season.id, season.name]], themeOn() ? season.id : "", (v) => setTheme(!!v)) : null;
   const card = (rows) => (rows.some(Boolean) ? h("ul", { class: "card info-list" }, rows.filter(Boolean).map((r) => h("li", {}, r))) : null);
   $("info-list").replaceChildren(...[
-    card([themeRow]),
     card([next("sources", "자료 출처")]),
-    card([CONTACT_URL ? out(CONTACT_URL, "문의하기") : null, REVIEW_URL[SHELL] ? out(REVIEW_URL[SHELL], "리뷰 남기기") : null, isSafariTab() ? next("a2hs", "홈 화면에 추가") : null]),
+    card([next("developer", "개발자 정보"), REVIEW_URL[SHELL] ? out(REVIEW_URL[SHELL], "리뷰 남기기") : null, isSafariTab() ? next("a2hs", "홈 화면에 추가") : null]),
     card([PRIVACY_URL ? out(PRIVACY_URL, "개인정보 처리방침") : null, next("licenses", "오픈소스 라이선스"),
       h("div", { class: "info-row" }, h("span", {}, "버전"), h("span", { class: "v" }, APP_VERSION))]),
   ].filter(Boolean));
@@ -4730,16 +5202,23 @@ function ossRows() {
   ].filter(Boolean);
 }
 function renderPage() {
-  const sources = pageName !== "licenses";
-  $("page-title").textContent = sources ? "자료 출처" : "오픈소스 라이선스";
+  const dev = pageName === "developer", sources = !dev && pageName !== "licenses";
+  $("page-title").textContent = dev ? "개발자 정보" : sources ? "자료 출처" : "오픈소스 라이선스";
   $("page-foot").hidden = !sources; // '강의 시간과 강의실은 수강편람에서 한 번 더 확인하세요'(자료 출처 아래)
-  $("page-texts").hidden = sources;
+  $("page-texts").hidden = sources || dev;
   // 내용이 같으면 다시 그리지 않는다(기록으로 돌아올 때 읽던 자리와 초점이 그대로 있게)
-  const key = sources ? `sources ${state.semesterMeta.updated || ""}` : "licenses";
+  const key = dev ? "developer" : sources ? `sources ${state.semesterMeta.updated || ""}` : "licenses";
   if ($("page-list").dataset.key === key) return;
   $("page-list").dataset.key = key;
   const link = (href, text) => h("a", { href, target: "_blank", rel: "noopener" }, text);
   const list = (rows) => $("page-list").replaceChildren(...rows.map(([k, v]) => h("li", {}, h("span", { class: "k" }, k), h("span", { class: "v" }, v))));
+  if (dev) {
+    // 개발자 정보(10/23 사용자: "그냥 개발자 정보로 메뉴 만들고 거기다가 적어줘". 디자인 75판): 자료 출처와 같은 두 칸 목록.
+    // 메일은 글줄 안의 링크(mailto:). 새 창(target)으로 두지 않는다: 앱은 그 링크를 인앱 브라우저로 여는데(아래 a[target=_blank]) 메일 주소는 기기가 메일 앱으로 연다
+    $("page-texts").replaceChildren();
+    list([["만든 사람", DEV_NAME], ["문의", h("a", { href: DEV_MAIL_HREF }, DEV_MAIL)]]);
+    return;
+  }
   if (sources) {
     $("page-texts").replaceChildren();
     list([
@@ -4832,10 +5311,11 @@ function licenseBlocks(text) {
 }
 
 // ---------------------------------------------------------------- 탭, 화면 이동과 뒤로 가기(디자인 규칙 '탭', '뒤로 가기')
-// 아래 탭 둘: 내 시간표(내 시간표 → 과목 추가)와 탐색(입력 → 결과 → 전체 화면 지도). 내 시간표의 동선 확인하기는 그 시간표를 탐색 탭으로 보낸다(routeTt). 정보(정보 → 자료 출처·오픈소스 라이선스)는
+// 아래 탭 셋: 내 시간표(내 시간표 → 과목 추가), 탐색(입력 → 결과 → 전체 화면 지도), 테마(한 화면. 10/23 오후). 내 시간표의 동선 확인하기는 그 시간표를 탐색 탭으로
+// 보낸다(routeTt). 정보(정보 → 자료 출처·개발자 정보·오픈소스 라이선스)는
 // 탭과 같은 층의 셋째 묶음 'info' 다(10/23 사용자: 시간표 탭에서 정보를 열고 동선 탐색에 다녀오면 시간표 탭에 정보가 다시 떴다. "이걸 다 동일한 층위로 맞춰줘").
 // 탭처럼 제 화면 더미(stacks.info)와 스크롤 자리를 기억하고, 탭을 누르면 그 탭의 화면으로 가며(정보는 어느 탭에도 쌓이지 않는다), 열 때와 나갈 때는 탭을
-// 바꿀 때처럼 교차 페이드다. 막대·사이드바에서는 정보에 있는 동안 두 탭 모두 고르지 않은 모양이고 컴퓨터 사이드바의 '정보'가 고른 모양이다.
+// 바꿀 때처럼 교차 페이드다. 막대·사이드바에서는 정보에 있는 동안 세 탭 모두 고르지 않은 모양이고 컴퓨터 사이드바의 '정보'가 고른 모양이다.
 // 화면만 기록(pushState)을 남기고 탭 바꾸기, 요일 탭, 순위 선택, 시트는 남기지 않는다. 탭마다 쌓인 화면(stacks)과 스크롤 자리를 기억한다.
 // 기록은 늘 [켤 때 연 탭의 첫 화면, (다른 탭이면 그 탭의 첫 화면), 그 탭에 쌓인 화면 …]이다: 탭을 바꾸면 기록을 첫 화면까지 되감고(history.go) 새 탭의
 // 것을 다시 쌓는다. 그래서 탭의 첫 화면에서 뒤로 가면 켤 때 연 탭의 첫 화면, 거기서 뒤로 가면 앱을 나간다(안드로이드 원칙. 스토어 앱의 뒤로 가기는
@@ -4844,13 +5324,14 @@ function licenseBlocks(text) {
 // 정보의 기록은 연 탭의 기록 위에 얹는다: [… 연 탭에 쌓인 화면, 정보, (자료 출처·라이선스)]. 그래서 정보의 첫 화면에서 뒤로 가면 정보를 연 그 화면이다.
 // 정보에서 다른 탭을 누르면 탭을 바꿀 때처럼 첫 화면까지 되감고 그 탭의 것을 쌓는다(정보를 연 탭이면 정보만큼 되돌린다)
 
-const VIEW_EL = { input: "view-input", mine: "view-mine", add: "view-add", result: "view-result", map: "view-map", info: "view-info", page: "view-page" };
+// 과목 추가(add)는 내 시간표 화면이다: 넓은 화면은 그 오른쪽 칸, 폰 폭은 그 위의 시트(넓은 화면에서 연 기록을 폰 폭에서 보일 때. 폰에서 연 시트는 화면이 아니다)
+const VIEW_EL = { input: "view-input", mine: "view-mine", add: "view-mine", result: "view-result", map: "view-map", info: "view-info", page: "view-page", theme: "view-theme" };
 const VIEW_ELS = [...new Set(Object.values(VIEW_EL))];
-const H1 = { input: "input-title", mine: "mine-title", add: "add-title", result: "result-title", map: "map-title", info: "info-title", page: "page-title" };
-const ROOT = { mine: "mine", explore: "input", info: "info" };
-const TABS = ["mine", "explore"]; // 막대·사이드바의 탭 단추(정보는 폰은 탭 첫 화면 상단 바의 ⓘ, 컴퓨터는 사이드바 맨 아래 '정보')
-// 탭 이름(10/23 사용자: "'시간표', '동선 탐색' 뭐 이런 느낌으로"). 아래 탭 막대와 컴퓨터의 사이드바가 같은 이름을 보인다
-const TAB_NAME = { mine: "시간표", explore: "동선 탐색" };
+const H1 = { input: "input-title", mine: "mine-title", add: "add-panel-title", result: "result-title", map: "map-title", info: "info-title", page: "page-title", theme: "theme-title" };
+const ROOT = { mine: "mine", explore: "input", theme: "theme", info: "info" };
+const TABS = ["mine", "explore", "theme"]; // 막대·사이드바의 탭 단추(정보는 폰은 탭 첫 화면 상단 바의 ⓘ, 컴퓨터는 사이드바 맨 아래 '정보')
+// 탭 이름(10/23 사용자: "'시간표', '동선 탐색' 뭐 이런 느낌으로", 오후 "테마도 걍 탭 하나로 빼자"). 아래 탭 막대와 컴퓨터의 사이드바가 같은 이름을 보인다
+const TAB_NAME = { mine: "시간표", explore: "동선 탐색", theme: "테마" };
 // 탭 아이콘 [선, 채운 판]. 채운 판의 뚫린 선(격자의 칸 선)은 알약 색(--tab-ind)으로 그린다(style.css)
 const TAB_ICON = {
   mine: ['<rect x="3.5" y="4.5" width="17" height="16" rx="2.5"/><path d="M3.5 9.5h17M9.2 9.5v11M14.8 9.5v11"/>',
@@ -4858,13 +5339,18 @@ const TAB_ICON = {
   // 동선 탐색: 두 끝(출발·도착 점)을 잇는 길이 W 모양(10/23 사용자: 시간표 아이콘이 TT 를 닮았으니 동선 탐색은 W 를). 고르면 두 점을 채운다
   explore: ['<circle cx="4.5" cy="7" r="2"/><circle cx="19.5" cy="7" r="2"/><path d="M4.5 9C4.5 15 6.4 19 8.25 19S12 11.5 12 11.5 13.9 19 15.75 19 19.5 15 19.5 9"/>',
     '<circle cx="4.5" cy="7" r="2" fill="currentColor"/><circle cx="19.5" cy="7" r="2" fill="currentColor"/><path d="M4.5 9C4.5 15 6.4 19 8.25 19S12 11.5 12 11.5 13.9 19 15.75 19 19.5 15 19.5 9"/>'],
+  // 테마: 팔레트(엄지 자리가 파인 둥근 판과 물감 점 넷. 디자인 75판 TabBar 그대로). 고르면 판을 채우고 점을 알약 색으로 뚫는다
+  theme: ['<path d="M12 3.5C7.3 3.5 3.5 7.3 3.5 12s3.8 8.5 8.5 8.5c1.2 0 1.9-.9 1.6-2-.3-1.2.5-2.3 1.8-2.3H17c1.9 0 3.5-1.6 3.5-3.6C20.5 7.4 16.7 3.5 12 3.5z"/>'
+    + ["7.6 12.3", "8.9 8.1", "13.2 6.9", "16.9 9.4"].map((c) => { const [x, y] = c.split(" "); return `<circle cx="${x}" cy="${y}" r="1.25" fill="currentColor" stroke="none"/>`; }).join(""),
+  '<path d="M12 3.5C7.3 3.5 3.5 7.3 3.5 12s3.8 8.5 8.5 8.5c1.2 0 1.9-.9 1.6-2-.3-1.2.5-2.3 1.8-2.3H17c1.9 0 3.5-1.6 3.5-3.6C20.5 7.4 16.7 3.5 12 3.5z" fill="currentColor"/>'
+    + ["7.6 12.3", "8.9 8.1", "13.2 6.9", "16.9 9.4"].map((c) => { const [x, y] = c.split(" "); return `<circle cx="${x}" cy="${y}" r="1.3" fill="var(--tab-ind)" stroke="none"/>`; }).join("")],
 };
 // 사이드바 '정보'의 ⓘ [선, 채운 판]: 정보에 있는 동안 탭처럼 고른 모양(채운 원, 안의 i 는 알약 색)
 const INFO_ICON = ['<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r=".6" fill="currentColor"/>',
   '<circle cx="12" cy="12" r="9" fill="currentColor"/><path d="M12 11v5" stroke="var(--tab-ind)"/><circle cx="12" cy="7.8" r=".6" fill="var(--tab-ind)" stroke="var(--tab-ind)"/>'];
 let screen = "input", depth = 0, tab = "explore", launchTab = "explore", screenTab = "explore";
 let rebuild = null; // 탭을 바꾸며 기록을 되감는 중: 되감기가 끝나면(popstate) 새 탭의 기록을 쌓는다
-const stacks = { explore: [{ view: "input", extra: {} }], mine: [{ view: "mine", extra: {} }], info: [{ view: "info", extra: {} }] };
+const stacks = { explore: [{ view: "input", extra: {} }], mine: [{ view: "mine", extra: {} }], theme: [{ view: "theme", extra: {} }], info: [{ view: "info", extra: {} }] };
 const scrollOf = {}, openers = {}, lastFocus = {};
 let infoFrom = null, infoBase = null; // 정보를 연 탭, 기록에서 정보 첫 화면의 깊이(정보를 연 적이 없으면 null)
 /** 그 묶음 첫 화면의 기록 깊이: 켤 때 연 탭 0, 다른 탭 1, 정보는 연 탭의 기록 위 */
@@ -4919,7 +5405,7 @@ function enterTab(next) {
 }
 
 /** 아래 탭 막대(알약 안에 아이콘 20 + 이름)와 컴퓨터의 사이드바(아이콘 24 + 이름): 고른 것에 aria-current="page"와 채운 아이콘.
- *  이름이 보이므로 버튼 이름은 그 글자다. 둘 중 하나만 보인다(style.css 의 1100px 규칙). 정보에 있는 동안은 두 탭 모두 고르지 않은 모양이고
+ *  이름이 보이므로 버튼 이름은 그 글자다. 둘 중 하나만 보인다(style.css 의 1100px 규칙). 정보에 있는 동안은 세 탭 모두 고르지 않은 모양이고
  *  사이드바 맨 아래 '정보'가 고른 모양이다(탭과 같은 층. 폰의 ⓘ 는 탭 첫 화면의 상단 바에만 있어 정보 화면에서는 보이지 않는다) */
 function renderTabs() {
   for (const b of document.querySelectorAll(".sidebar [data-open-info]")) {
@@ -4946,6 +5432,32 @@ function renderTabs() {
 for (const nav of document.querySelectorAll(".tabbar, .sidebar nav")) {
   nav.addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (b) switchTab(b.dataset.tab); });
 }
+// 탭이 셋이라 칸이 모자라면(폭 320, 글자를 키움) 이름이 여러 줄이 되고 막대가 그만큼 높아진다(디자인 75판 '탭'). 늘어난 만큼을 --tabbar-grow 로 알려
+// 하단 주요 버튼·스낵바·본문 끝 여백(style.css 의 --tabbar-top·--tabbar-space)이 막대에 가리지 않게 한다. 막대가 숨으면(컴퓨터, 화상 키보드) 0
+// 칸이 아이콘 옆에 가장 긴 낱말(시간표)도 못 담을 만큼 좁으면(탭 셋에 글자 200% 등) 이름이 글자마다 꺾이므로 아이콘을 이름 위에 둔다(style.css .is-tight).
+// 지금 모양이 아니라 낱말 폭으로 정해서 모양을 바꿔도 판단이 오가지 않는다
+{
+  const bar = $("tabbar"), ul = bar.querySelector("ul");
+  const ruler = document.createElement("canvas").getContext("2d");
+  const fit = () => {
+    const cell = ul.querySelector(".tab"), name = ul.querySelector(".tab-name");
+    if (!cell || !name || !ruler) return;
+    const cs = getComputedStyle(name), ccs = getComputedStyle(cell);
+    ruler.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    const word = Math.max(...TABS.flatMap((k) => TAB_NAME[k].split(" ")).map((w) => ruler.measureText(w).width));
+    const room = cell.clientWidth - parseFloat(ccs.paddingLeft) - parseFloat(ccs.paddingRight);
+    bar.classList.toggle("is-tight", room > 0 && room + 0.5 < 12 + 20 + 6 + word + 16); // 알약 여백·아이콘·사이(style.css .tabbar .tab .ind)
+  };
+  // 모양을 정한 뒤 늘어난 높이를 잰다. 한 번에 한다: 모양이 바뀌었다 같은 프레임에 되돌아오면 크기 관찰은 알리지 않는다
+  const update = () => {
+    fit();
+    const cell = ul.querySelector(".tab");
+    const grow = cell ? Math.max(0, ul.getBoundingClientRect().height - parseFloat(getComputedStyle(cell).minHeight)) : 0;
+    document.documentElement.style.setProperty("--tabbar-grow", `${Math.round(grow)}px`);
+  };
+  new ResizeObserver(update).observe(ul);
+  document.fonts?.ready.then(update); // 글꼴이 들어오면 낱말 폭이 달라진다
+}
 // 탭마다 마지막에 초점이 있던 곳(그 탭으로 돌아오면 거기로. 화면 밖의 탭 막대·사이드바는 빼고)
 document.addEventListener("focusin", (e) => {
   if (e.target.closest && e.target.closest(".view")) lastFocus[screenTab] = e.target;
@@ -4955,10 +5467,10 @@ function titleOf(name) {
   const t = name === "input" ? "" : $(h1Of(name)).textContent;
   return t ? `${t} · TT Wizard` : "TT Wizard";
 }
-/** 그 화면을 보이는 요소와 제목. 넓은 화면의 과목 추가는 내 시간표 화면과 그 오른쪽 칸의 제목(h2)이다 */
-const viewOf = (name) => (name === "add" && splitAdd() ? "view-mine" : VIEW_EL[name]);
-const h1Of = (name) => (name === "add" && splitAdd() ? "add-panel-title" : H1[name]);
-/** 화면 요소를 보이고 숨긴다(내 시간표 화면은 넓은 화면 과목 추가면 오른쪽 칸만 찾기로) */
+/** 그 화면을 보이는 요소와 제목. 과목 추가는 내 시간표 화면과 그 오른쪽 칸의 제목(h2), 폰 폭이면 그 위 시트의 제목이다 */
+const viewOf = (name) => VIEW_EL[name];
+const h1Of = (name) => (name === "add" && !splitAdd() ? "as-title" : H1[name]);
+/** 화면 요소를 보이고 숨긴다(내 시간표 화면은 넓은 화면 과목 추가면 오른쪽 칸만 찾기로, 폰 폭의 과목 추가면 그 위에 시트) */
 function layoutViews(name) {
   for (const id of VIEW_ELS) {
     const v = $(id), on = id === viewOf(name);
@@ -4970,6 +5482,9 @@ function layoutViews(name) {
   $("mine-add").hidden = !adding;
   document.querySelector(".mine-right").hidden = adding;
   placeAdd();
+  // 넓은 화면에서 연 과목 추가 칸(그 기록)을 폰 폭에서 보인다: 내 시간표 위 시트로(검색어 그대로. 닫으면 그 기록을 거둔다). 다시 넓어지면 시트를 거둔다
+  if (name === "add" && !splitAdd() && !addSheet.open) openAddSheet(null, { keep: true });
+  else if (name === "add" && splitAdd() && addSheet.open) { addConverting = true; addSheet.close(); }
 }
 
 /** View Transitions 가 되면 결과·정보 화면이 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms), 탭을 바꾸면 교차 페이드(150ms). 안 되면 바로 바뀐다. */
@@ -4993,7 +5508,8 @@ function showView(name, dir, extra = {}) {
   scrollOf[`${screenTab}:${from}`] = window.scrollY;
   if (from === "input") store.set("scroll", window.scrollY);
   if (name === "page") pageName = extra.page || pageName;
-  if (name === "add" && dir === "forward") addQ.value = ""; // 검색어는 탐색과 따로 두고 화면에 새로 들어올 때 비운다
+  if (name === "add" && dir === "forward" && !keepAddQ) addQ.value = ""; // 검색어는 탐색과 따로 두고 화면에 새로 들어올 때 비운다(폰의 시트에서 옮겨 오면 그대로)
+  keepAddQ = false;
   const apply = () => {
     screen = name;
     screenTab = tab;
@@ -5007,12 +5523,13 @@ function showView(name, dir, extra = {}) {
     if (name === "info") renderInfo();
     if (name === "map") renderFullMap();
     if (name === "page") renderPage();
+    if (name === "theme") renderThemes();
     document.title = titleOf(name);
     if (from !== name) hideSnackbar();
     if (name === "result" && afterResult) { const f = afterResult; afterResult = null; f(); }
     if (!swap) window.scrollTo(0, dir === "back" || dir === "tab" ? scrollOf[`${tab}:${name}`] || 0 : 0);
     focusAfter(name, dir, from);
-    if (name === "input") { showUpdateIfReady(); if (dir === "tab") setTimeout(askTheme, 400); }
+    if (name === "input") showUpdateIfReady();
   };
   transition(apply, swap ? "tab" : dir);
 }
@@ -5021,6 +5538,12 @@ function showView(name, dir, extra = {}) {
  *  넓은 화면의 과목 추가를 열면 마우스가 있는 기기는 바로 검색창(누른 까닭이 찾기라), 터치 기기는 칸의 제목(화상 키보드를 띄우지 않는다) */
 function focusAfter(name, dir, from) {
   if (dir === "init") return;
+  if (name === "add") { // 폰의 시트에서 넓은 화면의 칸으로 옮겨 왔으면 초점도 옮겨 온다. 폰 폭이면 시트가 초점을 가졌다(제목, 마우스 기기는 검색창)
+    const el = addRefocus;
+    addRefocus = null;
+    if (el && el.isConnected && !el.closest("[hidden]") && (splitAdd() ? $("mine-add") : addSheet).contains(el)) { el.focus({ preventScroll: true }); return; }
+    if (!splitAdd()) return;
+  }
   const ok = (el) => !!el && el.isConnected && !el.closest("[hidden]") && $(viewOf(name)).contains(el);
   const h1 = () => $(h1Of(name)).focus({ preventScroll: true });
   const opener = relive(openers[`${tab}:${from}`], name), last = relive(lastFocus[tab], name);
@@ -5059,10 +5582,19 @@ window.addEventListener("popstate", (e) => {
 // 한 번에 하나, 5초. 초점이 들어가 있거나 누르고 있는 동안에는 사라지지 않는다
 
 let snackTimer = null, snackFn = null;
-function showSnackbar(text, action, fn) {
+// 폰의 과목 추가 시트가 열려 있는 동안 스낵바는 시트 안에 둔다(모달 밖은 inert 라 되돌리기를 누를 수 없고, 시트가 위에 덮인다). 닫히면 제자리(뷰들 뒤)로
+const snackSpot = [$("snackbar").parentNode, $("snackbar").nextSibling];
+function snackHome() {
   const bar = $("snackbar");
+  if (addSheet.open) { if (bar.parentNode !== addSheet) addSheet.append(bar); }
+  else if (bar.parentNode !== snackSpot[0]) snackSpot[0].insertBefore(bar, snackSpot[1]);
+}
+function showSnackbar(text, action = "", fn = null) {
+  const bar = $("snackbar");
+  snackHome();
   $("snackbar-text").textContent = text;
   $("snackbar-action").textContent = action;
+  $("snackbar-action").hidden = !action; // 동작 없는 알림(사진에 저장했어요, 시간표를 불러왔어요)
   snackFn = fn;
   bar.hidden = true;
   void bar.offsetWidth; // 다시 올라오게
@@ -5207,12 +5739,20 @@ for (const el of [q, $("results")]) {
 }
 twoPane.addEventListener("change", () => {
   renderResults();
-  if (screen === "add") { // 과목 추가: 두 칸이 되면 내 시간표의 오른쪽 칸으로, 풀리면 따로 화면으로(숨은 쪽에 있던 초점은 그 제목으로)
+  if (screen === "add") { // 넓은 화면에서 연 과목 추가: 두 칸이면 내 시간표의 오른쪽 칸, 폰 폭이면 내 시간표 위 시트(기록은 그대로). 초점은 따라가고, 사라졌으면 그 제목으로
     const was = document.activeElement;
     layoutViews("add");
     renderAdd();
     renderMine();
-    if (was && was !== document.body && was.closest("[hidden]")) $(h1Of("add")).focus({ preventScroll: true });
+    const inAdd = was && was !== document.body && (splitAdd() ? $("mine-add") : addSheet).contains(was);
+    if (inAdd && was.isConnected && !was.closest("[hidden]")) was.focus({ preventScroll: true });
+    else if (was && was !== document.body && (!was.isConnected || was.closest("[hidden]") || !splitAdd())) $(h1Of("add")).focus({ preventScroll: true });
+  } else if (addSheet.open && splitAdd()) { // 폰의 과목 추가 시트가 넓은 화면이 됐다: 시트를 닫고 오른쪽 칸(기록에 남는 화면)을 연다. 검색어와 초점은 옮겨 간다
+    addRefocus = addSheet.contains(document.activeElement) ? document.activeElement : null;
+    addConverting = true;
+    addSheet.close();
+    keepAddQ = true;
+    go("add");
   }
   placeSnackbar();
 });
@@ -5257,10 +5797,12 @@ function updateTyping() {
   if (cur > fullH) fullH = cur;
   const typing = typingField(document.activeElement) && coarsePointer.matches && (fullH - cur > 120 || performance.now() < typingGrace);
   document.body.classList.toggle("is-typing", typing);
+  fitAddSheet(); // 폰의 과목 추가 시트는 키보드 위의 보이는 높이를 다 쓴다
 }
 document.addEventListener("focusin", (e) => { if (typingField(e.target)) { typingGrace = performance.now() + 800; updateTyping(); setTimeout(updateTyping, 850); } });
 document.addEventListener("focusout", (e) => { if (typingField(e.target)) { typingGrace = 0; updateTyping(); } });
 (vv || window).addEventListener("resize", updateTyping);
+if (vv) vv.addEventListener("scroll", fitAddSheet); // iOS 는 키보드가 뜨면 보이는 자리를 밀어 올린다(시트를 그 자리에 맞춘다)
 const onRotate = () => { fullH = 0; updateTyping(); };
 if (window.screen.orientation) window.screen.orientation.addEventListener("change", onRotate); // screen 은 이 파일에서 지금 화면 이름이라 window.screen
 else window.addEventListener("orientationchange", onRotate);
