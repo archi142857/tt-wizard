@@ -122,7 +122,8 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
   처리방침에 적을 사실: '기기 백업을 켜 두었다면 앱에 저장한 내용이 그 기기 백업(Google 계정·iCloud)에 함께 들어갈 수 있어요. 개발자는 볼 수 없어요.'
 - **오픈소스 고지**: 앱에만 들어가는 다른 사람 코드의 고지문은 저장소 `licenses/` 에 두고 `build_app.py` 가 앱 묶음의 `licenses/` 로 넣는다:
   `capacitor.txt`(MIT, 그 안의 Apache-2.0·BSD·MIT 파일), `androidx.txt`(Apache-2.0), `cordova.txt`(Apache-2.0 와 NOTICE).
-  웹에도 쓰는 `snutt.txt`·`pretendard.txt`(SIL OFL 1.1)는 `web/licenses/` 에 있어 웹은 그대로, 앱은 `web/` 을 옮길 때 같은 `licenses/` 로 들어간다(10/22).
+  웹에도 쓰는 `snutt.txt`·`pretendard.txt`(SIL OFL 1.1)·`fredoka.txt`(로고 글꼴, OFL)와 지도 자료의 `odbl.txt`(OSM, ODbL 1.0 원문)·`kogl-type1.txt`(수치지형도 출처 표시와
+  공공누리 제1유형 조건 요약·원문 링크, 법무 문안)는 `web/licenses/` 에 있어 웹은 그대로, 앱은 `web/` 을 옮길 때 같은 `licenses/` 로 들어간다(10/22·23).
   Apache-2.0 전문은 앞의 세 파일 끝에 각각 넣었다(파일 하나만 읽어도 되게. 10/22 밤부터 화면은 고지문 전문을 차례로 다 보여서 세 번 나온다).
   지도는 `vendor/leaflet/LICENSE`, 앱 글꼴 파일 옆에는 `vendor/pretendard/LICENSE.txt` 도 있다. 화면(정보 > 오픈소스 라이선스)이 이 파일들을 읽는다.
 
