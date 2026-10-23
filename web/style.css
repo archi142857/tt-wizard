@@ -1255,6 +1255,12 @@ button.wk-block:active { filter: brightness(0.96); } /* 공유받은 시간표 �
 .add-row svg { flex-shrink: 0; }
 .add-trio .add-row + .add-row { border-left: 1px solid var(--line); }
 .add-row:active { background: var(--surface-hover); }
+/* 카드 모서리에 닿는 칸은 누름·올림 면(과 초점 테두리)도 카드처럼 둥글게(10/24 사용자: 커서를 올리면 "모양이 네모로 바뀌는데"). 셋은 늘 목록 맨 아래이고,
+   비어 있는 시간표에서는 맨 위이기도 하다. 결과 목록·정보 카드처럼 카드를 잘라 내지(overflow: hidden) 않는 것은 행들의 초점 테두리가 카드 밖으로 2px 나가서다 */
+.add-trio .add-row:first-child { border-bottom-left-radius: var(--radius-lg); }
+.add-trio .add-row:last-child { border-bottom-right-radius: var(--radius-lg); }
+.list > li.add-trio:first-child .add-row:first-child { border-top-left-radius: var(--radius-lg); }
+.list > li.add-trio:first-child .add-row:last-child { border-top-right-radius: var(--radius-lg); }
 /* 이미지로 추가를 못 했을 때의 오류 줄(t-body-sm danger): 항목 카드 바로 아래. 바탕 위 글자라 on-bg-danger */
 .items-error { margin: var(--space-2) var(--space-1) 0; color: var(--on-bg-danger); }
 /* 공유(10/23 저녁 사용자: "오른쪽 위에 공유(그 삼각형 느낌 일반적인 공유 버튼) 버튼"): 머리 줄 오른쪽 끝. 상단 바의 ⓘ 처럼 바탕 위 아이콘 버튼이고
