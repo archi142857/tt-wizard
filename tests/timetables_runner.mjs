@@ -1,6 +1,7 @@
 // tests/test_timetables.py 가 부른다: 저장한 시간표(web/js/timetables.js)와 동선 확인(engine.checkRoute)을 돌려 결과를 JSON 으로 출력한다.
 //   node tests/timetables_runner.mjs <courses.json> <campus.json>
 import { readFileSync } from "node:fs";
+import zlib from "node:zlib";
 import { parseCourses, TravelMatrix, search, checkRoute } from "../web/js/engine.js";
 import * as T from "../web/js/timetables.js";
 
@@ -197,6 +198,60 @@ const later = (c, mins) => ({ ...c, sections: c.sections.map((x) => ({ ...x, mee
       .map(([v, want]) => T.hasTimetables(v) === want && T.hasTimetables(v) === T.parseList(v, "2026-2").filter((x) => !x._newer).length > 0),
     colorMode: ["cls", "item", undefined, null, "xyz", 3].map(T.colorMode),
     keys: T.STORE_KEYS,
+  };
+}
+
+// 6) 이미지 파일에 담기: PNG 의 iTXt 조각에 넣고 그대로 다시 읽는다. 메모는 빼고, 다른 조각은 그대로, 깨지거나 없으면 알린다
+{
+  const chunk = (type, data) => {
+    const head = Buffer.alloc(8); head.writeUInt32BE(data.length, 0); head.write(type, 4, "latin1");
+    const crc = Buffer.alloc(4); crc.writeUInt32BE(zlib.crc32(Buffer.concat([head.subarray(4), data])) >>> 0, 0);
+    return Buffer.concat([head, data, crc]);
+  };
+  const ihdr = Buffer.alloc(13); ihdr.writeUInt32BE(1, 0); ihdr.writeUInt32BE(1, 4); ihdr[8] = 8; ihdr[9] = 6; // 1×1, 8비트 RGBA
+  const foreign = Buffer.concat([Buffer.from("Comment\0\0\0\0\0", "latin1"), Buffer.from("다른 프로그램이 넣은 글", "utf8")]);
+  const png = Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), chunk("IHDR", ihdr), chunk("tEXt", Buffer.from("Software\0paint", "latin1")),
+    chunk("iTXt", foreign), chunk("IDAT", zlib.deflateSync(Buffer.from([0, 20, 40, 200, 255]))), chunk("IEND", Buffer.alloc(0))]);
+  const types = (b) => { const out = []; for (let i = 8; i < b.length;) { const n = b.readUInt32BE(i); out.push(b.toString("latin1", i + 4, i + 8)); i += n + 12; } return out; };
+  const crcs = (b) => { const bad = []; for (let i = 8; i < b.length;) { const n = b.readUInt32BE(i); if ((zlib.crc32(b.subarray(i + 4, i + 8 + n)) >>> 0) !== b.readUInt32BE(i + 8 + n)) bad.push(i); i += n + 12; } return bad; };
+
+  const A = course("A", 3, [["001", [[0, 540, 615, "301"]]], ["002", [[1, 540, 615, "301"]]]]);
+  let t = T.createTimetable([], "2026-2", { title: "내 시간표 ✓", now: NOW });
+  t = T.addItem(t, T.sectionItem(A, A.sections[0], { meetings: [{ day: 0, start: 540, end: 615, building: "43-1", room: "101" }], alts: ["A-009"] }), { now: NOW }).t;
+  t = T.addItem(t, T.customItem({ title: "동아리", meetings: [{ day: 4, start: 1080, end: 1200, building: "" }], memo: "비밀 메모" }), { now: NOW }).t;
+  t = T.updateItem(t, "A-001", { color: 5 }, NOW);
+  const png2 = Buffer.from(T.addTimetableToPng(new Uint8Array(png), t));
+  const read = T.readTimetableImage(png2);
+  const back = T.timetableFromImage(read.payload, [], { now: NOW });
+  const again = Buffer.from(T.addTimetableToPng(png2.buffer.slice(png2.byteOffset, png2.byteOffset + png2.length), { ...t, title: "다시" }));
+  const strip = (it) => { const { memo, ...rest } = it; return rest.custom ? { ...rest, custom: "c" } : rest; };
+  const broken = Buffer.from(png2); broken[broken.length - 20] ^= 0xff; // 마지막 조각(IEND) 앞의 우리 조각 글 한 바이트
+  const newer = Buffer.from(T.addTimetableToPng(new Uint8Array(png), t)); // 아래에서 v 를 바꾼 판
+  const fakeNewer = (() => {
+    const s = JSON.stringify({ ...T.imagePayload(t), v: 99 });
+    const body = Buffer.concat([Buffer.from(T.IMAGE_KEY + "\0\0\0\0\0", "latin1"), Buffer.from(s, "utf8")]);
+    return Buffer.concat([png.subarray(0, png.length - 12), chunk("iTXt", body), png.subarray(png.length - 12)]);
+  })();
+  const evil = { app: "ttwizard", v: 1, sem: "2026-2", title: "가".repeat(40), items: [{ course: 5 }, { custom: "x", title: "", meetings: [[9, 1, 2, "", ""], [2, 600, 660, "71", ""]], color: 12 }, "글자", null] };
+  const full = Array.from({ length: T.PER_SEMESTER_MAX }, (_, k) => ({ id: "x" + k, title: "t" + k }));
+  out.image = {
+    types: types(png2), crcBad: crcs(png2), foreignKept: png2.includes(foreign),
+    sameAsBefore: png2.subarray(0, png.length - 12).equals(png.subarray(0, png.length - 12)),
+    payloadKeys: Object.keys(read.payload), memoGone: !JSON.stringify(read.payload).includes("비밀"),
+    items: JSON.stringify(read.payload.items) === JSON.stringify(t.items.map(({ memo, ...it }) => it)),
+    back: { sem: back.sem, title: back.title, primary: !!back.primary, source: back.source,
+      items: JSON.stringify(back.items.map(strip)) === JSON.stringify(t.items.map(strip)),
+      newCustomId: back.items.find((it) => it.custom).custom !== t.items.find((it) => it.custom).custom },
+    againOne: types(again).filter((x) => x === "iTXt").length, againTitle: T.readTimetableImage(again).payload.title,
+    problems: [T.readTimetableImage(png).problem, T.readTimetableImage(Buffer.from([0xff, 0xd8, 0xff, 0xe0, 1, 2])).problem,
+      T.readTimetableImage(Buffer.from("hello")).problem, T.readTimetableImage(broken).problem,
+      T.readTimetableImage(png2.subarray(0, png2.length - 30)).problem, T.readTimetableImage(fakeNewer).problem, T.readTimetableImage(null).problem],
+    notPng: T.addTimetableToPng(Buffer.from("hello"), t) === null,
+    evil: (() => { const x = T.timetableFromImage(evil, [{ id: "a", title: "가".repeat(30) }], { now: NOW }); return { title: x.title, items: x.items }; })(),
+    full: T.timetableFromImage(read.payload, full) === null,
+    dup: T.timetableFromImage(read.payload, [{ id: "a", title: "내 시간표 ✓" }], { now: NOW }).title,
+    newerSize: newer.length > png.length,
+    pngBase64: png2.toString("base64"),
   };
 }
 

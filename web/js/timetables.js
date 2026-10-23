@@ -18,6 +18,9 @@
 //   acknowledge 로 base 를 지금 편람에 맞추면 알림이 꺼진다.
 //
 // 동선 확인하기: toSections 로 엔진이 읽는 분반 모양을 만들어 engine.checkRoute 에 넘긴다(탐색 결과와 같은 비용·경로).
+//
+// 이미지로 내보내기·불러오기: 화면이 그린 시간표 그림(PNG)에 addTimetableToPng 로 시간표 자료를 파일 안의 텍스트 칸(iTXt)에 넣는다.
+//   그림에는 보이지 않는다. 불러올 때 readTimetableImage 가 그 칸만 읽고(OCR 이 아니다) timetableFromImage 가 새 시간표로 만든다(아래 '이미지 파일에 담기').
 
 export const VERSION = 1;
 export const TITLE_MAX = 30; // 시간표 이름 글자 수
@@ -359,4 +362,146 @@ export function parseList(raw, sem) {
     const { primary, ...rest } = t;
     return rest;
   });
+}
+
+// ---------------------------------------------------------------- 이미지 파일에 담기 (사용자 10/23: "이미지 자체에 텍스트로 입력하라는 게 아니라 파일 자체에")
+//
+// PNG 는 그림 말고도 글 조각(chunk)을 담을 수 있다. 시간표 그림을 내보낼 때 끝(IEND) 앞에 iTXt 조각 하나를 넣는다:
+//   열쇠 IMAGE_KEY, 압축 없음, 글 = imagePayload(t) 의 JSON(UTF-8). 그림을 보는 프로그램은 이 조각을 그냥 지나친다.
+// 넣는 것: 학기, 이름, 항목(강좌의 교과목번호·강좌번호·과목명·교수·학점·구분·편람 수업 base·사용자가 정한 수업 own·같은 시간 분반 alts·색,
+//   직접 넣은 일정의 이름·시간·장소·색). 넣지 않는 것: 메모(그림에 안 보이는 사사로운 글), 시간표 id·만든 때·대표 표시·탐색 기준.
+// 이 조각은 파일을 그대로 옮길 때만 남는다. 메신저가 '사진'으로 보내며 다시 압축하거나(JPEG 로 바뀐다) 화면을 캡처하면 사라진다.
+
+export const IMAGE_KEY = "TTWizard"; // iTXt 열쇠(라틴 글자 1~79자)
+export const IMAGE_VERSION = 1; // 이미지에 넣는 자료의 판. 뜻을 바꾸면 올린다(옛 앱은 새 판을 'newer' 로 알린다)
+const IMAGE_MAX = 256 * 1024; // 읽을 때 이보다 긴 글은 버린다(학기에 50개 × 넉넉한 항목도 수십 KB)
+const PNG_SIG = [137, 80, 78, 71, 13, 10, 26, 10];
+
+let crcTable = null;
+/** PNG 조각의 CRC-32(ISO 3309, 다항식 0xEDB88320) */
+function crc32(bytes, start = 0, end = bytes.length) {
+  if (!crcTable) {
+    crcTable = new Uint32Array(256);
+    for (let n = 0; n < 256; n++) {
+      let c = n;
+      for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+      crcTable[n] = c >>> 0;
+    }
+  }
+  let c = 0xffffffff;
+  for (let i = start; i < end; i++) c = crcTable[(c ^ bytes[i]) & 0xff] ^ (c >>> 8);
+  return (c ^ 0xffffffff) >>> 0;
+}
+
+const u32 = (b, i) => ((b[i] << 24) | (b[i + 1] << 16) | (b[i + 2] << 8) | b[i + 3]) >>> 0;
+const isPng = (b) => b.length >= 8 && PNG_SIG.every((v, i) => b[i] === v);
+const asBytes = (data) => (data instanceof Uint8Array ? data : data instanceof ArrayBuffer ? new Uint8Array(data)
+  : ArrayBuffer.isView(data) ? new Uint8Array(data.buffer, data.byteOffset, data.byteLength) : null);
+
+/** PNG 조각들 [{type, at(조각 시작), size(조각 전체 길이), data: [시작, 끝), crcOk}]. 모양이 어긋나면 null */
+function pngChunks(b) {
+  if (!isPng(b)) return null;
+  const out = [];
+  for (let i = 8; i < b.length;) {
+    if (i + 12 > b.length) return null;
+    const len = u32(b, i);
+    if (len > b.length - i - 12) return null;
+    const type = String.fromCharCode(b[i + 4], b[i + 5], b[i + 6], b[i + 7]);
+    out.push({ type, at: i, size: len + 12, data: [i + 8, i + 8 + len], crcOk: crc32(b, i + 4, i + 8 + len) === u32(b, i + 8 + len) });
+    i += len + 12;
+    if (type === "IEND") return out;
+  }
+  return null; // IEND 가 없다
+}
+
+/** iTXt 조각의 열쇠(글은 읽지 않는다). 모양이 어긋나면 null */
+function itxtKey(b, [start, end]) {
+  let k = start;
+  while (k < end && k - start < 80 && b[k] !== 0) k++;
+  return k < end && b[k] === 0 && k > start ? String.fromCharCode(...b.subarray(start, k)) : null;
+}
+
+/** iTXt 조각의 [열쇠, 글]. 압축한 iTXt 는 글을 null 로(우리는 압축하지 않는다). 글이 UTF-8 이 아니면 던진다 */
+function readITXt(b, [start, end]) {
+  const zero = (from) => { for (let i = from; i < end; i++) if (b[i] === 0) return i; return -1; };
+  const k = zero(start);
+  if (k < 0 || k + 2 >= end) return null;
+  const key = String.fromCharCode(...b.subarray(start, k));
+  if (b[k + 1] !== 0) return [key, null]; // 압축됨
+  const lang = zero(k + 3);
+  const trans = lang < 0 ? -1 : zero(lang + 1);
+  if (trans < 0) return null;
+  return [key, new TextDecoder("utf-8", { fatal: true }).decode(b.subarray(trans + 1, end))];
+}
+
+/** 이미지에 넣을 자료(JSON 으로 쓸 수 있는 값). 메모는 빼고 화면에 보이는 것과 시간표를 똑같이 다시 만드는 데 필요한 것만 */
+export function imagePayload(t) {
+  return { app: "ttwizard", v: IMAGE_VERSION, sem: t.sem, title: t.title, items: t.items.map(({ memo, ...it }) => it) };
+}
+
+/**
+ * PNG(화면이 그린 시간표 그림) 끝에 시간표 자료를 넣은 새 PNG 를 돌려준다(받은 것은 고치지 않는다). 전에 넣은 TTWizard 조각이 있으면 바꾼다.
+ * png: Uint8Array | ArrayBuffer (canvas.toBlob → blob.arrayBuffer()). PNG 가 아니면 null
+ */
+export function addTimetableToPng(png, t) {
+  const b = asBytes(png);
+  const parts = b && pngChunks(b);
+  if (!parts || parts[parts.length - 1].type !== "IEND") return null;
+  const enc = new TextEncoder();
+  const body = [...enc.encode(IMAGE_KEY), 0, 0, 0, 0, 0, ...enc.encode(JSON.stringify(imagePayload(t)))]; // 열쇠·0·압축 안 함·방법 0·언어 ""·0·번역 열쇠 ""·0·글
+  const chunk = new Uint8Array(12 + body.length);
+  const dv = new DataView(chunk.buffer);
+  dv.setUint32(0, body.length);
+  chunk.set([105, 84, 88, 116], 4); // "iTXt"
+  chunk.set(body, 8);
+  dv.setUint32(8 + body.length, crc32(chunk, 4, 8 + body.length));
+  const keep = parts.filter((c) => !(c.type === "iTXt" && itxtKey(b, c.data) === IMAGE_KEY));
+  const iend = keep[keep.length - 1];
+  const size = 8 + keep.reduce((n, c) => n + c.size, 0) + chunk.length;
+  const out = new Uint8Array(size);
+  out.set(b.subarray(0, 8), 0);
+  let at = 8;
+  for (const c of keep) {
+    if (c === iend) { out.set(chunk, at); at += chunk.length; }
+    out.set(b.subarray(c.at, c.at + c.size), at);
+    at += c.size;
+  }
+  return out;
+}
+
+/**
+ * 고른 이미지 파일의 내용 → { payload } 또는 { problem }.
+ *   problem: "not-png"(PNG 가 아니다. jpeg 이면 "jpeg": 메신저가 사진으로 다시 압축했을 때) | "no-data"(PNG 인데 시간표 자료가 없다)
+ *            | "broken"(자료 조각이 깨졌다) | "newer"(더 새 판 앱이 만든 이미지)
+ */
+export function readTimetableImage(data) {
+  const b = asBytes(data);
+  if (!b) return { problem: "not-png" };
+  if (!isPng(b)) return { problem: b.length > 2 && b[0] === 0xff && b[1] === 0xd8 ? "jpeg" : "not-png" };
+  const parts = pngChunks(b);
+  if (!parts) return { problem: "broken" };
+  for (const c of parts) {
+    if (c.type !== "iTXt" || itxtKey(b, c.data) !== IMAGE_KEY) continue;
+    let kv;
+    try { kv = readITXt(b, c.data); } catch { kv = null; }
+    if (!c.crcOk || !kv || kv[1] === null || kv[1].length > IMAGE_MAX) return { problem: "broken" };
+    let payload;
+    try { payload = JSON.parse(kv[1]); } catch { return { problem: "broken" }; }
+    if (!payload || typeof payload !== "object" || payload.app !== "ttwizard" || typeof payload.sem !== "string" || !Array.isArray(payload.items)) return { problem: "broken" };
+    if (!Number.isInteger(payload.v) || payload.v < 1) return { problem: "broken" };
+    if (payload.v > IMAGE_VERSION) return { problem: "newer" };
+    return { payload };
+  }
+  return { problem: "no-data" };
+}
+
+/**
+ * 읽은 자료 → 새 시간표(목록에 넣기 전, 학기는 payload.sem). list 는 그 학기의 목록(이름 겹침·50개 확인).
+ * 이름은 그대로, 겹치면 '이름 (2)'. 항목은 기기에서 읽을 때(parseList)와 같은 규칙으로 다듬고, 직접 넣은 일정은 새 id. 꽉 찼으면 null
+ */
+export function timetableFromImage(payload, list, { now = new Date() } = {}) {
+  const [clean] = parseList([{ v: VERSION, id: "image", sem: payload.sem, title: payload.title, items: payload.items }], payload.sem);
+  if (!clean) return null;
+  const items = clean.items.map((it) => (it.custom ? { ...it, custom: newId("c") } : it));
+  return createTimetable(list, payload.sem, { title: cleanTitle(payload.title), items, now });
 }

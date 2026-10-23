@@ -10,6 +10,7 @@
 // 3) <html data-platform="android|ios">
 // 4) 안드로이드 상태 바 글자색: 앱을 켜 둔 채 기기가 라이트·다크로 바뀌면 다시 맞춘다(아래 '상태 바 글자색').
 // 5) 로그인해 둔 브라우저에서 열려야 하는 바깥 링크(에브리타임 강의평)는 앱 안 브라우저가 아니라 기기의 기본 브라우저로 보낸다(아래 '기기 브라우저로 여는 링크').
+// 6) 시간표 이미지 공유·저장: TTW_APP.shareImage·saveImage(안드로이드, 앱 안 플러그인 TTWImage. 아래 '시간표 이미지').
 (function () {
   "use strict";
   var cap = window.Capacitor;
@@ -197,5 +198,42 @@
     e.stopImmediatePropagation(); // preventDefault 는 하지 않는다: 웹뷰의 기본 이동을 Capacitor 가 기기 브라우저로 돌린다
   }, true);
 
-  window.TTW_APP = { build: BUILD, remote: REMOTE, platform: platform };
+  // ------------------------------------------------------------ 시간표 이미지 (공유·저장)
+
+  // 화면(app.js)은 시간표 그림에 시간표 자료를 넣은 PNG(web/js/timetables.js 의 addTimetableToPng)를 넘긴다.
+  //   TTW_APP.shareImage({ bytes, name, title })  공유 시트(카카오톡·드라이브·파일 …). title 은 시트 제목
+  //   TTW_APP.saveImage({ bytes, name })          사진에 저장(안드로이드 10 이상, Pictures/TT Wizard). → { uri }
+  //   bytes: Uint8Array | ArrayBuffer | Blob, name: 파일 이름(.png 는 붙여 준다). 둘 다 Promise.
+  // 앱 안 플러그인(app/android/.../ImagePlugin.java)이 없거나(iOS 는 아직) 안드로이드 9 이하에서 저장하면 code "UNSUPPORTED" 로 거절한다.
+  // 그때 화면은 웹과 같은 길(공유 시트가 있으면 그것, 없으면 내려받기)로 간다. 권한은 더하지 않는다(docs/app.md '시간표 이미지').
+  function unsupported() {
+    var e = new Error("unsupported");
+    e.code = "UNSUPPORTED";
+    return Promise.reject(e);
+  }
+  function imageBytes(data) {
+    if (data instanceof Uint8Array) return Promise.resolve(data);
+    if (data instanceof ArrayBuffer) return Promise.resolve(new Uint8Array(data));
+    if (data && typeof data.arrayBuffer === "function") return data.arrayBuffer().then(function (b) { return new Uint8Array(b); });
+    return Promise.reject(new Error("no image data"));
+  }
+  function base64(bytes) {
+    var s = "";
+    for (var i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+    return btoa(s);
+  }
+  function imageCall(method, opts) {
+    var p = (cap.Plugins || {}).TTWImage;
+    if (!p || typeof p[method] !== "function") return unsupported();
+    opts = opts || {};
+    return imageBytes(opts.bytes).then(function (b) {
+      return p[method]({ data: base64(b), name: String(opts.name || ""), title: String(opts.title || "") });
+    });
+  }
+
+  window.TTW_APP = {
+    build: BUILD, remote: REMOTE, platform: platform,
+    shareImage: function (opts) { return imageCall("share", opts); },
+    saveImage: function (opts) { return imageCall("save", opts); },
+  };
 })();

@@ -152,6 +152,25 @@ def test_native_shim():
     # 기기 브라우저로 여는 링크: 에브리타임(하위 주소 포함)과 data-browser="system" 링크만, 화면의 처리보다 먼저(capture) 전파를 끊고 기본 동작은 둔다
     assert r["links"] == {"capture": [True], "everytime": ["system", "system"], "subdomain": "system", "marked": "system",
                           "others": ["app"] * 6, "notLink": ["app", "app"], "web": 0}
+    # 시간표 이미지: 바이트를 base64 로 앱 안 플러그인(TTWImage)에 넘긴다. 플러그인이 없으면(iOS·옛 앱) UNSUPPORTED → 화면은 웹과 같은 길
+    i = r["image"]
+    assert i["calls"] == [["share", "iVBORwD/", "시간표 1", "시간표 보내기"], ["save", "AQID", "a.png", ""]] and i["big"]
+    assert i["saved"] == {"uri": "content://media/1"} and i["unsupported"] == "UNSUPPORTED" and i["bad"] == "no image data" and i["count"] == 3
+
+
+def test_android_image_plugin_needs_no_permission():
+    """시간표 이미지 공유·저장 플러그인(앱 안): 등록돼 있고, 권한을 더하지 않는다(공유는 앱 캐시 + FileProvider, 저장은 안드로이드 10 이상의 MediaStore)."""
+    java = APP / "android" / "app" / "src" / "main" / "java" / "com" / "ttwizard" / "app"
+    plugin = (java / "ImagePlugin.java").read_text(encoding="utf-8")
+    assert '@CapacitorPlugin(name = "TTWImage")' in plugin and "public void share(PluginCall call)" in plugin and "public void save(PluginCall call)" in plugin
+    assert "Build.VERSION_CODES.Q" in plugin and '"UNSUPPORTED"' in plugin and "getCacheDir()" in plugin and ".fileprovider" in plugin
+    assert "@Permission" not in plugin and "requestPermissions" not in plugin
+    main = (java / "MainActivity.java").read_text(encoding="utf-8")
+    assert main.index("registerPlugin(ImagePlugin.class)") < main.index("super.onCreate(savedInstanceState)")
+    manifest = (APP / "android" / "app" / "src" / "main" / "AndroidManifest.xml").read_text(encoding="utf-8")
+    assert re.findall(r'<uses-permission android:name="([^"]+)"', manifest) == ["android.permission.INTERNET"]
+    paths = (APP / "android" / "app" / "src" / "main" / "res" / "xml" / "file_paths.xml").read_text(encoding="utf-8")
+    assert '<cache-path name="my_cache_images" path="." />' in paths and 'android:authorities="${applicationId}.fileprovider"' in manifest
 
 
 def test_native_projects_match_config():
