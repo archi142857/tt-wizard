@@ -9,33 +9,46 @@ TT Wizard 화면. 정적 사이트라 서버 없이 돈다: `data/*.json` 을 �
   핀 번호, 구간 라벨, 건물 번호 12px 700·이름 12px 500, 등고선 높이 12px 500).
   단, 연도·학기 선택칸, 시간표 칸, 지도 번호표, 후보 카드는 사용자 요청(2026-10-01)으로 v2 모양을 v3 토큰으로 칠한 것이고,
   탭의 첫 화면 로고(상단 바, 컴퓨터는 사이드바)는 사용자 요청으로 워드마크만(`icons/wordmark.svg`·`-dark`·`-white`, 디자인 세션 원본 `design\v3\logo\svg\`,
-  높이 `logo-topbar` 29px) 쓴다. 로고 6판(10/22 밤 사용자 "걍 빼자", 디자인 72판)에서 아래 곡선·반짝임을 빼 글자 크기는 그대로 높이만 36 → 29px(`<img width="124" height="29">`)
-- 다크 테마: 기기 설정(`prefers-color-scheme`)을 따른다. 다크 값은 `style.css` 의 `@media (prefers-color-scheme: dark)` 두 곳(토큰, 다크 전용 규칙)에
-  있다. 로고는 `<picture>` 로 `wordmark-dark.svg`, 바탕 지도는 다크 지도 색(`--map-*`)으로 따로 그린다. `theme-color` 는 라이트 `#EEF0FF`·다크 `#16171B`
+  높이 `logo-topbar` 29px) 쓴다. 로고 6판(10/22 밤 사용자 "걍 빼자", 디자인 72판)에서 아래 곡선·반짝임을 빼 글자 크기는 그대로 높이만 36 → 29px(`<img width="124" height="29">`).
+  워드마크는 시간표 탭의 첫 화면으로 가는 링크다(`<a class="brand" href="./" data-home>`, 10/23 밤 사용자: "여기서 워드마크 누르면 메인화면(시간표 탭)으로 가도록 해줘".
+  `switchTab("mine")` 이라 시간표 탭이면 그 첫 화면, 첫 화면이면 맨 위로. Ctrl·Cmd·가운데 누르기는 브라우저대로 새 탭. 이름은 그림의 `TT Wizard`. 보이는 자리·크기는 그대로이고
+  누르는 영역만 위아래로 48(`.brand::before`, 컴퓨터 사이드바는 머리 56 그대로)
+- 다크 테마: 테마 탭에서 기본(기기 설정)·라이트·다크를 고른다(10/23 밤 사용자: "테마에서 기본(기기설정), 라이트, 다크 모두 따로 만들어줘". 그전에는 기기 설정만).
+  그린 모습은 `<html data-scheme="light|dark">` 이고 다크 값은 `style.css` 의 `:root[data-scheme="dark"]:not([data-theme])`(토큰)와 그 아래 '다크 전용' 규칙에 있다
+  (미디어 쿼리가 아니다). `index.html` 머리의 작은 스크립트가 그리기 전에 고른 것(`ttw.scheme`: 없으면 기본, `"light"`·`"dark"`)과 기기 설정으로 `data-scheme` 을 걸고,
+  `app.js` 의 `SCHEMES`·`darkNow`·`applyTheme` 이 같은 판단을 한다(**둘을 같이 고친다**). 기본이면 기기 설정이 바뀔 때 따라간다(`SYSTEM_DARK` 의 change).
+  로고는 `.wm-light`·`.wm-dark`(·이벤트 테마의 `.wm-white`) 셋 가운데 하나를 `data-scheme` 으로 보인다(`<picture>` 의 미디어 쿼리로는 고른 것을 못 따른다).
+  바탕 지도는 다크 지도 색(`--map-*`)으로 따로 그린다. `theme-color` 는 라이트 `#EEF0FF`·다크 `#16171B`: 기본이면 meta 둘의 media 대로, 라이트·다크를 골랐으면 둘 다 그 값,
+  `color-scheme` meta 도 그 값. 스토어 앱의 상태 바 글자는 고른 것대로(`SystemBars` `LIGHT`·`DARK`, 기본이면 `DEFAULT`). 내보내는 시간표 이미지도 보는 화면 그대로(`darkNow`)
 - 이벤트 테마(디자인 규칙 '이벤트 테마', 10/3): 정해 둔 기간에 저절로 켜지는 한 벌짜리 테마. 첫 테마는 크리스마스(`xmas`, 해마다 12월 한 달, 기기 날짜.
   10/23 사용자: "12월 한 달". 그전에는 25일까지).
   색과 맨 뒤 바탕(무늬, 크리스마스는 눈도)만 바꾸고 크기·간격·문구·동작은 그대로다. 기본 테마 화면은 라이트·다크 모두 넣기 전과 화소 단위로 같다
   - 켜기: `<html data-theme="xmas">`. `index.html` 머리의 작은 스크립트가 그리기 전에 걸고(바탕이 번쩍이지 않게, `theme-color` 도 그 테마의 `bg`
     `#103924` 로), `app.js` 의 `THEMES`·`seasonTheme`·`applyTheme` 이 같은 판단을 한다. **둘을 같이 고친다**(기간, 값, 저장 이름).
     앱을 켜 둔 채 기간이 시작되거나 끝나면 보는 동안은 그대로 두고, 다른 데 갔다가 돌아올 때(`visibilitychange`) 날짜를 다시 본다
-  - 묻기: 저절로 켜진 뒤 처음 들어왔을 때 한 번 묻는 팝업(`#theme-ask`, `.sheet.ask`) `기본 테마로 돌아갈까요?` [닫기] [돌아가기]. 어느 폭에서나 화면 가운데
+  - 묻기: 저절로 켜진 뒤 처음 들어왔을 때 한 번 묻는 팝업(`#theme-ask`, `.sheet.ask`) `기본 테마로 돌아갈까요?` [닫기] [돌아가기](돌아갈 곳은 테마 탭에서 고른 것이라
+    라이트·다크를 골랐으면 `라이트 테마로 돌아갈까요?`·`다크 테마로 돌아갈까요?`). 어느 폭에서나 화면 가운데
     (폭 360, 좁으면 좌우 20 남김. 10/23 사용자: "팝업". 그전에는 폰에서 아래 시트), 손잡이·끌기 없음, 맨 뒤 바탕(안드로이드 내비게이션 바 색)도 바꾸지 않는다.
     처음 초점은 제목(테두리 없음). `돌아가기`만 끄고 닫기·바깥·Esc·뒤로 가기는 그대로 둔다. 켤 때 연 탭의 첫 화면(입력 화면이나 내 시간표) 위에 뜬다.
     시간표를 만든 적 없으면(`ttw.made`) 묻지 않고, 0.4초 사이에 다른 화면이나 시트를 열었으면 끼어들지 않고 다음에 켤 때 묻는다(탭을 바꿔 돌아와도 다시 묻지 않는다).
     테마가 켜진 채 처음 시간표를 만든 사람도 그 해에는 묻지 않는다(10/3 밤 디자인: 기본 테마를 써 본 적이 없어 돌아갈 곳이 없다. `showResult` 가 그 순간
     `ttw.themeAsked` 에 그 해 것을 적는다. 테마 탭에서는 바꿀 수 있고 다음 해에는 묻는다)
   - 테마 탭(10/23 디자인 75판, 사용자: "테마도 걍 탭 하나로 빼자 …"): 아래 탭 셋째 `테마`(팔레트 아이콘), 화면 `#view-theme`(상단 바는 다른 탭 첫 화면과 같고
-    보이지 않는 h1 `테마`). 테마마다 카드(`.theme-card`, 라디오 하나가 카드 전체를 덮는다): 미리보기(`.mini`, 토큰으로 그린 작은 화면. 기본은 라이트 위에 다크를
-    대각선으로 반), 이름, 이벤트 테마는 `시즌 한정` 태그와 고를 수 있는 때(`THEMES` 의 일곱째 값 `12월 한 달`). 고르면 바로 바뀐다(`setTheme`. 기간에 `기본`은
-    `돌아가기`와 같다). 기간 밖 카드는 흐리고(`is-off`, 미리보기 38%) `disabled`. 개발 서버의 시험 주소 `?theme=xmas` 는 기간 안으로 본다. 미리보기 값은 토큰 블록이 함께 건다:
-    라이트 블록 `:root, .mini.is-light, .mini.is-xmas`, 크리스마스 블록 `html[data-theme="xmas"], .mini.is-xmas`, 다크는 미디어 쿼리 안이라 그 뒤의 `.mini.is-dark`
+    보이지 않는 h1 `테마`). 카드는 기본(아랫줄 `기기 설정`) · 라이트 · 다크 · 이벤트 테마(10/23 밤 사용자: "테마에서 기본(기기설정), 라이트, 다크 모두 따로 만들어줘".
+    폰은 두 열 두 줄). 카드(`.theme-card`, 라디오 하나가 카드 전체를 덮는다): 미리보기(`.mini`, 토큰으로 그린 작은 화면. 기본은 라이트 위에 다크를 대각선으로 반
+    (`.mini.is-light + .mini.is-dark`), 라이트·다크는 그 한 장), 이름, 이벤트 테마는 `시즌 한정` 태그와 고를 수 있는 때(`THEMES` 의 일곱째 값 `12월 한 달`).
+    고른 카드는 이벤트 테마가 켜져 있으면 그 테마, 아니면 고른 라이트·다크. 고르면 바로 바뀐다(`setScheme`·`setTheme`. 기간에 기본·라이트·다크를 고르면 `돌아가기`와 같다:
+    그 해에는 이벤트 테마가 다시 켜지지 않고, 기간이 끝나도 고른 것이 남는다). 기간 밖 카드는 흐리고(`is-off`, 미리보기 38%) `disabled`.
+    개발 서버의 시험 주소 `?theme=xmas` 는 기간 안으로 본다. 미리보기 값은 토큰 블록이 함께 건다:
+    라이트 블록 `:root, .mini.is-light, .mini.is-xmas`, 크리스마스 블록 `html[data-theme="xmas"], .mini.is-xmas`, 다크는 `data-scheme` 에 걸리므로 그 뒤의 `.mini.is-dark`
     에 미리보기가 쓰는 토큰만 같은 값으로 둔다(**다크 값을 바꾸면 같이 바꾼다**). 정보 화면의 `테마` 행(고르는 행 `.pick-row`·`.info-pick`)은 없앴다
-  - 저장: `ttw.themeOff`(끈 테마)·`ttw.themeAsked`(물어본 테마), 값은 해마다 다른 이름 `xmas-2026` 이라 다음 해에는 다시 켜지고 다시 묻는다
-  - 시험: 내 컴퓨터의 개발 서버(http 의 `localhost`·`127.0.0.1`·`[::1]`·`*.localhost`, `devHost`)에서만 주소에 `?theme=xmas` 를 붙이면 기간 밖에서도 켜진다
-    (화면을 옮겨도 주소에 남는다). 이때 고른 것은 `xmas-test` 로 따로 기억해 실제 12월에 남지 않는다. 배포한 웹(https)·스토어 앱(`https://localhost`·`capacitor://localhost`)은
+  - 저장: `ttw.themeOff`(끈 테마)·`ttw.themeAsked`(물어본 테마), 값은 해마다 다른 이름 `xmas-2026` 이라 다음 해에는 다시 켜지고 다시 묻는다. 고른 라이트·다크는 `ttw.scheme`
+  - 시험: 개발 서버(http 의 `localhost`·`127.x`·`[::1]`·`*.localhost` 나 실제 폰으로 볼 때의 같은 와이파이 사설 주소 `192.168.x`·`10.x`·`172.16~31.x`, `devHost`)에서만
+    주소에 `?theme=xmas` 를 붙이면 기간 밖에서도 켜진다(화면을 옮겨도 주소에 남는다). 이때 고른 것은 `xmas-test` 로 따로 기억해 실제 12월에 남지 않는다.
+    배포한 웹(https)·스토어 앱(`https://localhost`·`capacitor://localhost`)은
     주소로 켜지지 않는다(10/23 밤 사용자: 링크로 넣으면 날짜와 상관없이 테마가 보이는 문제. `index.html` 머리의 스크립트도 같은 판단). 그 밖에서는 기기 날짜를 옮겨 본다
   - 색: `style.css` 의 `html[data-theme="xmas"]` 블록(디자인 시스템 `tokens.json` 의 `xmas` 값). 테마는 한 벌이라 기기가 다크여도 같은 모습이고, 기본 테마의 다크 값과
-    다크 전용 규칙은 테마가 꺼져 있을 때만 건다(`:root:not([data-theme])`, `html:not([data-theme])`). 바탕 위에 놓이는 것은 따로 나눈 토큰을 쓴다:
+    다크 전용 규칙은 테마가 꺼져 있을 때만 건다(`:root[data-scheme="dark"]:not([data-theme])`, `html[data-scheme="dark"]:not([data-theme])`). 바탕 위에 놓이는 것은 따로 나눈 토큰을 쓴다:
     `on-bg-heading`·`on-bg-text`·`on-bg-text2`·`on-bg-text3`·`on-bg-link`·`on-bg-danger`, `bg-hover`, 그리고 `inset`(카드 안 파인 면), `accent-line`(고른 후보 테두리),
     `cta`·`on-cta`(주요 버튼, 고른 요일 탭), `on-home`. 기본 테마에서는 모두 원래 토큰을 가리킨다. **바탕 위에 새 글자·아이콘을 놓을 때는 `on-bg-*` 를 쓴다**
     (`text`·`heading` 을 쓰면 짙은 바탕에서 안 보인다). 선택칸 화살표는 그림이라 테마 블록에서 따로 바꾼다
@@ -534,7 +547,7 @@ python -m http.server 8000 -d web
 | `manifest.webmanifest`, `sw.js`, `icons/` | 폰 홈 화면 설치(PWA). 앱 아이콘(`favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`)은 디자인 세션의 `design\v3\app-icons` 같은 이름 파일을 그대로 넣는다(10/1 새 심볼. 10/5 에 모자의 옅은 띠를 뚫린 띠로 바꾼 판으로 `apple-touch-icon`·`icon-192`·`icon-512`·`icon-maskable-512` 를 바꿨다: 크기·자리는 같고, 파비콘 둘은 작은 크기용 심볼이라 그대로다). 다크 판·`adaptive-*` 는 앱 포장용이라 웹에는 넣지 않는다(매니페스트 아이콘은 다크 판을 못 고른다). 화면 로고는 `wordmark.svg`·`wordmark-dark.svg`·`wordmark-white.svg`(짙은 바탕의 이벤트 테마용)(`design\v3\logo\svg` 원본 그대로). 저장 방식을 바꾸면 `sw.js` 의 `CACHE` 이름을 올린다 |
 | `js/engine.js` | 이동시간 행렬 · 평가 · 탐색(백트래킹 + 분기 한정) · 경로 선 풀기. 파이썬과 같은 답을 내는지 `tests/test_web.py` 가 node 로 확인 |
 | `js/search-worker.js` | 탐색 워커: `engine.search` 를 화면 밖에서 돌리고 진행 정도·결과·겹치는 과목을 보낸다. `app.js` 가 `new Worker(new URL("./search-worker.js", import.meta.url), { type: "module" })` 로 부른다(배포 판이 붙는 모양) |
-| `js/app.js` | 화면 동작(검색, 과목 시트, 추가 설정, 화면 이동과 뒤로 가기, 결과·지도, 정보 화면). 담은 과목·조건·추가 설정·직접 넣거나 바꾼 강의실과 시간·최근 검색어·끈 이벤트 테마는 브라우저(localStorage)에만 저장 |
+| `js/app.js` | 화면 동작(검색, 과목 시트, 추가 설정, 화면 이동과 뒤로 가기, 결과·지도, 정보 화면). 담은 과목·조건·추가 설정·직접 넣거나 바꾼 강의실과 시간·최근 검색어·끈 이벤트 테마·고른 라이트·다크는 브라우저(localStorage)에만 저장 |
 | `data/` | `scripts/export_web.py` 가 만든다. git 에는 올리지 않고, 배포 때 GitHub Actions 가 다시 만든다. `semesters.json`(학기 목록)과 `semesters/<학기>.json`(지난 학기) 포함 |
 | `vendor/leaflet/` | Leaflet 1.9.4 (npm 배포본 그대로) |
 | `licenses/` | 오픈소스 라이선스 화면의 고지문 전문(머리 `이름 — 주소`·한글 설명 한 줄, 그 아래 원문 그대로). 백엔드가 넣는다(update60 의 `snutt.txt`·`pretendard.txt`, update61 의 `fredoka.txt`·`odbl.txt`·`kogl-type1.txt`). 넣으면 `sw.js` 의 `SHELL` 에도 |
