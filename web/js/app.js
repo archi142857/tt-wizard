@@ -4778,8 +4778,29 @@ async function renderLicenseTexts(list) {
       return [];
     }
     return [h("h2", { class: "section-title lic-title" }, r.name, h("span", { class: "count" }, r.lic)),
-      h("div", { class: "license-cards" }, licenseBlocks(texts[i]).map((b) => h("p", { class: "card license-text" }, b)))];
+      h("div", { class: "license-cards" }, licenseBlocks(texts[i]).map((b) => h("p", { class: "card license-text" }, linkify(b))))];
   }));
+}
+/** 고지문 글 속 주소(http·https)를 누를 수 있는 링크로(10/23 사용자: "라이선스에 있는 링크들 다 하이퍼링크로"). 글자는 그대로 두고 [글, <a>, 글 …]로 나눈다.
+ *  주소는 공백·한글 앞에서 끝나고, 끝에 붙은 문장부호와 짝 없는 닫는 괄호는 뺀다('(https://map.ngii.go.kr)에서', 'http://www.apache.org/).').
+ *  외부 링크라 스토어 앱은 Capacitor Browser 로 연다(아래 a[target=_blank] 처리) */
+const URL_IN_TEXT = /https?:\/\/[A-Za-z0-9\-._~:/?#[\]@!$&'*+,;=%()]+/g;
+function linkify(text) {
+  const out = [];
+  let at = 0;
+  for (const m of text.matchAll(URL_IN_TEXT)) {
+    let url = m[0];
+    for (;;) {
+      const last = url.slice(-1), open = (url.match(/\(/g) || []).length, close = (url.match(/\)/g) || []).length;
+      if (".,;:!?'\"]".includes(last) || (last === ")" && close > open)) url = url.slice(0, -1);
+      else break;
+    }
+    if (m.index > at) out.push(text.slice(at, m.index));
+    out.push(h("a", { href: url, target: "_blank", rel: "noopener" }, url));
+    at = m.index + url.length;
+  }
+  if (at < text.length) out.push(text.slice(at));
+  return out;
 }
 async function loadLicense(file) {
   if (!licenseTexts.has(file)) {
