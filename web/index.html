@@ -141,8 +141,6 @@
     <h1 class="sr-only" id="mine-title" tabindex="-1">내 시간표</h1>
     <div class="tt-head">
       <button type="button" class="tt-switch" id="tt-switch" aria-haspopup="dialog"><span class="sem" id="tt-sem"></span><span class="nm"><span id="tt-name"></span><span class="tag" id="tt-primary" hidden>대표</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span></button>
-      <span class="spacer"></span>
-      <button type="button" class="icon-btn" id="tt-menu" aria-label="시간표 메뉴" aria-haspopup="dialog"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 12h.01M12 12h.01M18.5 12h.01" stroke-width="3.2"></path></svg></button>
     </div>
     <div class="mine-left">
       <div class="card wk" id="wk"></div>
@@ -162,7 +160,7 @@
   </main>
 </div>
 
-<!-- 과목 추가(내 시간표의 '과목 추가'): 탐색과 같은 찾기, 행을 누르면 과목 시트에서 분반을 넣는다. 넓은 화면은 따로 화면이 아니라 내 시간표의 오른쪽 칸(위 #mine-add) -->
+<!-- 과목 추가(내 시간표의 '과목 추가'): 탐색과 같은 찾기, 결과는 분반마다 한 행이고 누르면 바로 넣는다(넣은 분반은 빼기). 넓은 화면은 따로 화면이 아니라 내 시간표의 오른쪽 칸(위 #mine-add) -->
 <div id="view-add" class="view" hidden>
   <header class="topbar">
     <button type="button" class="icon-btn back" aria-label="뒤로" data-back><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
@@ -267,7 +265,7 @@
   </main>
 </div>
 
-<!-- 아래 탭 막대(디자인 규칙 '탭'): 내 시간표 · 탐색, 아이콘만. 폰과 태블릿(1099px까지) -->
+<!-- 아래 탭 막대(디자인 규칙 '탭'): 시간표 · 동선 탐색, 알약 안에 아이콘과 이름. 폰과 태블릿(1099px까지) -->
 <nav class="tabbar" id="tabbar" aria-label="화면"><ul></ul></nav>
 <!-- 컴퓨터(1100px부터)의 왼쪽 사이드바(디자인 69판): 워드마크, 같은 탭 둘(아이콘 + 이름), 맨 아래 오프라인 태그·설치·정보. 그보다 좁으면 숨는다.
      화면 왼쪽에 보이지만 초점 순서는 본문 다음이다(그래서 본문 뒤에 둔다). 설치·정보는 nav 밖의 버튼.
@@ -332,7 +330,7 @@
   </div>
 </dialog>
 
-<!-- 내 시간표: 시간표 목록(학기 선택칸, 시간표 행, 새 시간표) -->
+<!-- 내 시간표: 시간표 목록(학기 선택칸, 시간표 행과 행마다 ⋯ 메뉴(이름 입력칸·복사하기·대표·동선 탐색에 담기·지우기), 새 시간표, 칸 색) -->
 <dialog class="sheet" id="tt-list-sheet" aria-labelledby="tl-title">
   <div class="sheet-head">
     <div class="h"><h2 class="sheet-title" id="tl-title">내 시간표</h2></div>
@@ -347,38 +345,17 @@
     </div>
     <ul class="sheet-list" id="tl-rows"></ul>
     <p class="error-line" id="tl-limit" hidden>시간표는 학기마다 50개까지예요</p>
+    <!-- 칸 색(10/23 사용자: 정보 화면이 아니라 시간표 탭 안에). 기기 설정이고 내 시간표·동선 화면에만 걸린다 -->
+    <fieldset class="tl-color">
+      <legend class="field-label">칸 색</legend>
+      <div class="seg">
+        <label><input type="radio" name="tt-color" value="item">과목별</label>
+        <label><input type="radio" name="tt-color" value="cls">교과구분별</label>
+      </div>
+    </fieldset>
   </div>
+  <div class="sr-only" role="status" data-live="status"></div>
   <div class="sr-only" role="alert" data-live="alert"></div>
-</dialog>
-
-<!-- 내 시간표: 시간표 메뉴(⋯) -->
-<dialog class="sheet" id="tt-menu-sheet" aria-labelledby="tm-title">
-  <div class="sheet-head">
-    <div class="h"><h2 class="sheet-title" id="tm-title"></h2></div>
-    <button type="button" class="btn-text" data-close>닫기</button>
-  </div>
-  <div class="sheet-body">
-    <ul class="sheet-list" id="tm-rows">
-      <li><button type="button" class="menu-row" data-menu="rename">이름 바꾸기</button></li>
-      <li><button type="button" class="menu-row" data-menu="copy">복사하기</button></li>
-      <li><button type="button" class="menu-row" data-menu="primary" id="tm-primary">대표로 정하기</button></li>
-      <li><button type="button" class="menu-row" data-menu="explore">탐색에 담기</button></li>
-      <li><button type="button" class="menu-row" data-menu="delete">지우기</button></li>
-    </ul>
-    <p class="error-line" id="tm-limit" hidden>시간표는 학기마다 50개까지예요</p>
-  </div>
-  <div class="sr-only" role="alert" data-live="alert"></div>
-</dialog>
-
-<!-- 내 시간표: 이름 바꾸기 -->
-<dialog class="sheet" id="tt-name-sheet" aria-labelledby="tn-title">
-  <div class="sheet-head">
-    <div class="h"><h2 class="sheet-title" id="tn-title">이름 바꾸기</h2></div>
-    <button type="button" class="btn-text" data-close>완료</button>
-  </div>
-  <div class="sheet-body">
-    <input class="text-input" id="tn-input" type="text" maxlength="30" autocomplete="off" aria-labelledby="tn-title" enterkeyhint="done">
-  </div>
 </dialog>
 
 <!-- 내 시간표: 항목(과목) 시트. 과목 시트와 같은 모양 -->
@@ -412,17 +389,6 @@
   <div class="sheet-body cond-body" id="cd-body"></div>
 </dialog>
 
-<!-- 과목 추가 화면의 과목 시트: 분반마다 추가(넣은 과목이면 넣음·바꾸기) -->
-<dialog class="sheet" id="add-sheet" aria-labelledby="as-title">
-  <div class="sheet-head">
-    <div class="h"><h2 class="sheet-title" id="as-title"></h2><p class="sheet-meta" id="as-meta"></p></div>
-    <button type="button" class="btn-text" data-close>완료</button>
-  </div>
-  <p class="sheet-links"><a class="btn-text small cs-review" id="as-review" target="_blank" rel="noopener" data-browser="system" aria-label="에브리타임 강의평">강의평<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 16L16 8M9.5 8H16v6.5"></path></svg></a><a class="btn-text small cs-catalog" id="as-catalog" target="_blank" rel="noopener" data-browser="system" aria-label="서울대학교 수강편람" hidden>수강편람<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 16L16 8M9.5 8H16v6.5"></path></svg></a></p>
-  <div class="sheet-body" id="as-body"></div>
-  <div class="sr-only" role="alert" data-live="alert"></div>
-</dialog>
-
 <!-- 이벤트 테마가 켜진 뒤 처음 들어왔을 때 한 번 묻는다(묻는 시트: 제목은 질문, 버튼은 닫기와 동사) -->
 <dialog class="sheet ask" id="theme-ask" aria-labelledby="theme-ask-title">
   <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="theme-ask-title" tabindex="-1" autofocus>기본 테마로 돌아갈까요?</h2></div></div>
@@ -432,7 +398,8 @@
   </div>
 </dialog>
 
-<div class="snackbar" id="snackbar" hidden><p id="snackbar-text"></p><button type="button" id="snackbar-action"></button></div>
+<!-- 되돌리기 스낵바. 이름 있는 section(영역 랜드마크): 보이는 동안 내용이 랜드마크 밖에 남지 않게(axe region). 뷰들 뒤에 둔다(style.css 의 `#view-… ~ .snackbar`) -->
+<section class="snackbar" id="snackbar" aria-label="알림" hidden><p id="snackbar-text"></p><button type="button" id="snackbar-action"></button></section>
 
 <script src="vendor/leaflet/leaflet.js"></script>
 <script type="module" src="js/app.js"></script>
