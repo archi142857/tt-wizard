@@ -1606,7 +1606,9 @@ function syncRules() {
   const r = state.rules;
   // 조건은 학기 몫이라 학기를 알기 전(처음 자료를 받는 중, 받지 못했을 때)에는 행을 두지 않는다: 눌러도 열 수 없는 행이 보이지 않게
   $("open-rules").hidden = !state.semester;
-  $("rules-sum").replaceChildren(...dotted(rulesParts(activeRules())));
+  const ruleParts = rulesParts(activeRules());
+  $("rules-sum").replaceChildren(...dotted(ruleParts));
+  $("rules-hint").hidden = ruleParts.length > 0; // 정한 것이 없을 때만 '공강 · 점심시간'(무엇을 정하는 곳인지)
   // 조합이 없는 까닭이 추가 설정이면 시트 머리(제목 아래)에도 같은 오류 줄을 두고 까닭인 칸에 잇는다. 머리에 두면 줄이 생겨도 그 아래의 칸은 제자리다.
   // 시간이 겹쳐서 없을 때는 두지 않는다(까닭이 이 시트에 없다)
   const cause = rulesCause(), err = $("rules-error");
@@ -3495,6 +3497,7 @@ function renderMine() {
   const entries = ttEntries(t);
   const clash = clashKeys(entries);
   renderMineHead(t);
+  $("tt-legend").hidden = ttColor !== "cls" || !entries.length; // 격자 높이를 채울 때 색 풀이 자리를 뺀다(renderItems 에서도 같은 값)
   renderWeek(t, entries, clash);
   renderItems(entries, clash);
   $("route-run").disabled = !t.items.length; // 비었으면 꺼진다(빈 격자가 까닭을 보인다)
@@ -3532,7 +3535,31 @@ function renderMineHead(t) {
  * 칸은 요일·시각 순 <ol> 이고 자리만 절대 배치다. 칸 글자는 t-label: 강의실은 늘 보이고(좁으면 건물과 호 사이에서 줄을 바꾼다) 과목명은 남는 줄만큼,
  * 칸이 낮아 과목명 한 줄도 못 두면 강의실을 건물만('43-1동'). 시간이 겹치는 칸은 반씩 나란히. 시간이 미정인 항목은 격자에 없다(목록에 '미정')
  */
-let wkWidth = 0;
+let wkWidth = 0, wkFill = 0;
+// 컴퓨터(사이드바, 1100px부터)는 격자 카드가 화면 아래 끝(space-6 위, 색 풀이가 있으면 그 아래 끝)까지 오게 한 시간 높이를 늘린다(10/23 사용자: "뭔가 균형이 안 맞음.
+// 배치 가이드 같은 거 찾아보고 반영해봐". 안드로이드 큰 화면 '보조 칸' 배치처럼 두 칸이 창의 본문 높이를 채우면 위 끝은 사이드바 탭, 아래 끝은 사이드바의 정보와
+// 같은 줄에 선다. 전에는 격자가 내용만큼이라 화면 아래 5분의 1이 비었다). 높이가 25em 보다 낮은 창은 하지 않고, 한 시간은 8rem 까지
+const wkFillWide = matchMedia("(min-width: 68.75em) and (min-height: 25em)");
+function wkFillHour(box, body, hours, rem) {
+  if (!wkFillWide.matches || !mineShown()) return 0;
+  const card = box.getBoundingClientRect(), chrome = card.height - body.getBoundingClientRect().height; // 카드 위아래 여백 + 요일 줄
+  if (!card.height) return 0; // 아직 그려지지 않았다(숨은 화면). 보이면 폭이 바뀌어 다시 그린다
+  const top = card.top + window.scrollY; // 오른쪽 칸도 이 높이에 붙고 창 아래 끝까지 간다(style.css --mine-top)
+  $("view-mine").style.setProperty("--mine-top", `${Math.round(top)}px`);
+  const legend = $("tt-legend"), below = legend.hidden ? 0 : legend.getBoundingClientRect().height + parseFloat(getComputedStyle(legend).marginTop);
+  const room = window.innerHeight - top - chrome - below - 24; // 24 = space-6(사이드바 아래 여백과 같다)
+  return Math.min(8 * rem, room / hours);
+}
+// 창 높이가 바뀌면(컴퓨터) 격자를 다시 채운다
+let wkFillRaf = 0;
+window.addEventListener("resize", () => {
+  cancelAnimationFrame(wkFillRaf);
+  wkFillRaf = requestAnimationFrame(() => {
+    if (!mineShown()) return;
+    const want = wkFillWide.matches; // 채우는 폭이거나, 채우던 것을 풀어야 할 때만
+    if (want || wkFill > 0) renderWeekNow();
+  });
+});
 function renderWeek(t, entries, clash) {
   const box = $("wk");
   const blocks = [];
@@ -3543,17 +3570,19 @@ function renderWeek(t, entries, clash) {
   days.sort((a, b) => a - b);
   let h0 = 9, h1 = 18;
   for (const m of [...blocks.map((x) => x.m), ...ghosts]) { h0 = Math.min(h0, Math.floor(m.start / 60)); h1 = Math.max(h1, Math.ceil(m.end / 60)); }
-  const hours = h1 - h0, rem = remPx(), hourPx = Math.max(3.75 * rem, (30 * rem) / hours);
+  const hours = h1 - h0, rem = remPx();
   box.style.setProperty("--days", String(days.length));
   box.style.setProperty("--hours", String(hours));
-  box.style.setProperty("--hour-h", `${hourPx}px`);
   const body = h("div", { class: "wk-body" });
+  box.replaceChildren(h("div", { class: "wk-head", "aria-hidden": "true" }, h("span"), days.map((d) => h("span", {}, DAY_KO[d]))), body);
+  const hourPx = Math.max(3.75 * rem, (30 * rem) / hours, wkFillHour(box, body, hours, rem));
+  box.style.setProperty("--hour-h", `${hourPx}px`);
   for (let i = 0; i <= hours; i++) {
     body.append(h("div", { class: "wk-line", "aria-hidden": "true", style: { top: `${i * hourPx}px` } }));
     if (i < hours) body.append(h("span", { class: "wk-hour", "aria-hidden": "true", style: { top: `${i * hourPx}px` } }, String(h0 + i)));
   }
-  box.replaceChildren(h("div", { class: "wk-head", "aria-hidden": "true" }, h("span"), days.map((d) => h("span", {}, DAY_KO[d]))), body);
   wkWidth = box.clientWidth;
+  wkFill = wkFillWide.matches ? hourPx : 0;
   const n = days.length;
   const at = (m) => ({ top: `${((m.start - h0 * 60) / 60) * hourPx}px`, height: `${((m.end - m.start) / 60) * hourPx - 2}px`,
     left: `calc(${days.indexOf(m.day)} * (100% + 2px) / ${n})`, width: `calc((100% + 2px) / ${n} - 2px)` });
@@ -4731,7 +4760,8 @@ function ossRows() {
     IN_APP && { k: "", name: "Apache Cordova", lic: "Apache-2.0", href: APACHE_URL, file: "licenses/cordova.txt" }, // 앱 실행 환경 한 칸에 두 줄(안드로이드·iOS 같다)
     SHELL === "android" && { k: "안드로이드", name: "AndroidX", lic: "Apache-2.0", href: APACHE_URL, file: "licenses/androidx.txt" },
     { k: "글꼴", name: "Pretendard", lic: "SIL OFL 1.1", href: "https://github.com/orioncactus/pretendard/blob/main/LICENSE", file: "licenses/pretendard.txt" },
-    // 아래 셋의 전문(10/23 사용자: "전문 말하는 거임")은 백엔드가 web/licenses/ 에 넣는다. 파일이 아직 없으면 지금처럼 이름이 원문 링크다(renderLicenseTexts)
+    // 아래 셋의 전문(10/23 사용자: "전문 말하는 거임")은 백엔드가 web/licenses/ 에 넣는다(web/licenses/ 와 그 시험이 백엔드 몫. Fredoka·ODbL 은 프론트엔드가 원문으로
+    // 만든 초안을 공유 폴더 '고지문 초안'에 두었고, 공공누리 제1유형은 원문을 받는 대로). 파일이 아직 없으면 지금처럼 이름이 원문 링크다(renderLicenseTexts)
     { k: "로고 글꼴", name: "Fredoka", lic: "SIL OFL 1.1", href: "https://github.com/google/fonts/blob/main/ofl/fredoka/OFL.txt", file: "licenses/fredoka.txt" },
     { k: "지도 자료", name: "OpenStreetMap", lic: "ODbL", href: "https://www.openstreetmap.org/copyright", file: "licenses/odbl.txt" },
     { k: "지도·경사 자료", name: "국토지리정보원 수치지형도", lic: "공공누리 제1유형", href: "https://www.kogl.or.kr/info/licenseType1.do", file: "licenses/kogl-type1.txt" },
@@ -4836,8 +4866,9 @@ const TAB_NAME = { mine: "시간표", explore: "동선 탐색" };
 const TAB_ICON = {
   mine: ['<rect x="3.5" y="4.5" width="17" height="16" rx="2.5"/><path d="M3.5 9.5h17M9.2 9.5v11M14.8 9.5v11"/>',
     '<rect x="3.5" y="4.5" width="17" height="16" rx="2.5" fill="currentColor"/><path d="M3.5 9.5h17M9.2 9.5v11M14.8 9.5v11" stroke="var(--tab-ind)" stroke-width="1.8"/>'],
-  explore: ['<circle cx="6" cy="5.5" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.5 5.5h7a3.5 3.5 0 0 1 0 7h-7a3.5 3.5 0 0 0 0 7h7"/>',
-    '<circle cx="6" cy="5.5" r="2.5" fill="currentColor"/><circle cx="18" cy="18.5" r="2.5" fill="currentColor"/><path d="M8.5 5.5h7a3.5 3.5 0 0 1 0 7h-7a3.5 3.5 0 0 0 0 7h7"/>'],
+  // 동선 탐색: 두 끝(출발·도착 점)을 잇는 길이 W 모양(10/23 사용자: 시간표 아이콘이 TT 를 닮았으니 동선 탐색은 W 를). 고르면 두 점을 채운다
+  explore: ['<circle cx="4.5" cy="7" r="2"/><circle cx="19.5" cy="7" r="2"/><path d="M4.5 9C4.5 15 6.4 19 8.25 19S12 11.5 12 11.5 13.9 19 15.75 19 19.5 15 19.5 9"/>',
+    '<circle cx="4.5" cy="7" r="2" fill="currentColor"/><circle cx="19.5" cy="7" r="2" fill="currentColor"/><path d="M4.5 9C4.5 15 6.4 19 8.25 19S12 11.5 12 11.5 13.9 19 15.75 19 19.5 15 19.5 9"/>'],
 };
 let screen = "input", depth = 0, tab = "explore", launchTab = "explore", screenTab = "explore";
 let rebuild = null; // 탭을 바꾸며 기록을 되감는 중: 되감기가 끝나면(popstate) 새 탭의 기록을 쌓는다
