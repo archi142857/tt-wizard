@@ -1241,14 +1241,38 @@ button.wk-block:active { filter: brightness(0.96); } /* 공유받은 시간표 �
 #view-mine.is-adding .tt-share { display: none; }
 .mine-right .bottom-bar .btn-primary:disabled { cursor: default; }
 
-/* ---------------------------------------------------------------- 시간표 이미지(디자인 75판 '시간표 이미지', 컴포넌트 TimetableImage): 내보내는 그림의 판.
-   app.js(timetablePng)가 화면 밖에 잠깐 만들어 자리·색·글자를 캔버스로 옮겨 그린다. 디자인 값은 폭 360·여백 위 24·좌우 20·아래 12(px)이고 여기서는 rem 으로 둬서
-   글자를 키운 기기에서도 같은 비율로 그린다(언제나 폭 1080px 로 찍는다). 격자는 내 시간표와 같은 .wk(한 시간 mine-hour-min) */
-.tt-export { position: fixed; top: 0; left: -10000px; width: 22.5rem; padding: 1.5rem 1.25rem 0.75rem; background: var(--bg); color: var(--text); pointer-events: none; }
-.tt-export .ex-sem { margin: 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); font-variant-numeric: tabular-nums; }
-.tt-export .ex-name { margin: 0.125rem 0 0.75rem; font-size: 1.25rem; line-height: 1.75rem; font-weight: 700; letter-spacing: -0.01em; color: var(--on-bg-heading); overflow-wrap: anywhere; }
-.tt-export .ex-untimed { margin: 0.625rem 0.25rem 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); }
-.tt-export .ex-mark { display: block; width: auto; height: 1.25rem; margin: 1rem auto 0; }
+/* ---------------------------------------------------------------- 시간표 이미지(디자인 79판 '시간표 이미지', 컴포넌트 TimetableImage): 내보내는 그림의 판.
+   늘 1080×1920(9:16) 한 장이고 수치는 그림 px 다(10/23 저녁 사용자: "어느 플랫폼에서나 항상 같은 이미지", 비율 "9:16"). 화면 폭·기기 배율·글자 크기와 상관없게
+   rem 이 아니라 px 로 둔다. app.js(timetablePng)가 화면 밖에 잠깐 만들어 자리를 짜고(layoutExport) 칸 글자 단계를 고른 뒤(fitExport: --ns·--nlh·--rs·--rlh·--bp)
+   자리·색·글자를 캔버스로 옮겨 그린다 */
+.tt-export { position: fixed; top: 0; left: -10000px; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); color: var(--text); pointer-events: none;
+  font-size: 16px; line-height: normal; letter-spacing: 0; -webkit-text-size-adjust: none; text-size-adjust: none; }
+/* 동작 줄이기를 켠 기기의 1ms 전환(아래 '동작 줄이기')은 판에도 걸려서, 단계를 바꾼 글자 크기·여백이 재고 그리는 동안 잡히지 않는다(첫 단계 그대로 그려진다). 판 안은 늘 끈다 */
+.tt-export, .tt-export * { transition: none !important; animation: none !important; }
+.tt-export p { margin: 0; }
+.tt-export .ex-sem { position: absolute; left: 48px; top: 60px; font-size: 34px; line-height: 46px; color: var(--on-bg-text3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tt-export .ex-name { position: absolute; left: 48px; right: 44px; top: 110px; font-size: 60px; line-height: 80px; font-weight: 700; letter-spacing: -0.01em; color: var(--on-bg-heading);
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; word-break: keep-all; overflow-wrap: anywhere; }
+.tt-export .ex-card { position: absolute; left: 44px; width: 992px; background: var(--card); border-radius: 56px; }
+.tt-export .ex-days { position: absolute; left: 50px; top: 22px; width: 928px; height: 36px; display: grid; grid-template-columns: repeat(var(--days, 5), minmax(0, 1fr)); column-gap: 4px; }
+.tt-export .ex-days span { text-align: center; font-size: 27px; line-height: 36px; font-weight: 500; color: var(--text3); }
+.tt-export .ex-body { position: absolute; left: 6px; top: 68px; width: 972px; }
+.tt-export .ex-line { position: absolute; left: 44px; right: 0; height: 2px; background: var(--line); }
+.tt-export .ex-hour { position: absolute; left: 0; width: 32px; text-align: right; transform: translateY(-50%); font-size: 25px; line-height: 1; font-weight: 500; color: var(--text3);
+  font-variant-numeric: tabular-nums; }
+.tt-export .ex-block { position: absolute; display: flex; flex-direction: column; gap: 2px; overflow: hidden; padding: var(--bp, 9px); border-radius: 18px; }
+.tt-export .ex-block.is-tight { padding-top: 4px; padding-bottom: 4px; }
+.tt-export .ex-block b, .tt-export .ex-block i { flex: none; font-style: normal; font-weight: 500; word-break: keep-all; overflow-wrap: anywhere; }
+.tt-export .ex-block b { font-size: var(--ns, 30px); line-height: var(--nlh, 38px); color: var(--text); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+.tt-export .ex-block i { font-size: var(--rs, 25px); line-height: var(--rlh, 33px); color: var(--text2); }
+.tt-export .ex-notes { position: absolute; left: 56px; right: 44px; }
+.tt-export .ex-legend { display: flex; gap: 28px; width: fit-content; margin-top: 18px; font-size: 27px; line-height: 38px; color: var(--on-bg-text3); }
+.tt-export .ex-legend > span { display: inline-flex; align-items: center; gap: 10px; }
+.tt-export .ex-legend .dot { width: 18px; height: 18px; border-radius: 50%; }
+html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 0 9px var(--bg); border-radius: 12px; } /* 이벤트 테마: 무늬 위 바탕색 판 */
+.tt-export .ex-untimed { margin-top: 18px; font-size: 27px; line-height: 38px; color: var(--on-bg-text3); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; overflow: hidden; }
+.tt-export .ex-legend + .ex-untimed { margin-top: 0; }
+.tt-export .ex-mark { position: absolute; left: 50%; bottom: 44px; width: auto; height: 60px; transform: translateX(-50%); }
 
 /* ---------------------------------------------------------------- 내 시간표의 시트: 시간표 목록(.tt-row), 시간표 메뉴(.menu-row), 항목 시트의 칸(.sheet-field)과 색 고르기(.swatches) */
 .sheet-term { margin: 0 0 var(--space-2); }
