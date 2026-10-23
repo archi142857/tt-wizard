@@ -347,7 +347,8 @@ h2.section-title .count { color: var(--on-bg-text3); }
 html[data-scheme="dark"] .wm-light { display: none; }
 html[data-scheme="dark"] .wm-dark { display: block; }
 /* 워드마크는 시간표 탭의 첫 화면으로 가는 링크(app.js data-home. 10/23 밤 사용자: "여기서 워드마크 누르면 메인화면(시간표 탭)으로 가도록 해줘").
-   보이는 자리·크기는 그대로이고 누르는 영역만 높이 48 로 넓힌다(위아래로. 옆의 오프라인 태그는 덮지 않는다) */
+   보이는 자리·크기는 그대로이고 누르는 영역만 높이 48 로 넓힌다(위아래로. 옆의 오프라인 태그는 덮지 않는다). 키보드 차례에는 넣지 않는다(tabindex=-1: 같은 일을 하는
+   시간표 탭 버튼이 바로 있어 Tab 이 두 번 서지 않게. 디자인 규칙의 초점 차례 그대로) */
 .brand { position: relative; display: flex; flex: none; align-items: center; border-radius: var(--radius-2xs); -webkit-touch-callout: none; }
 .brand::before { content: ""; position: absolute; top: 50%; left: 0; right: 0; height: max(100%, var(--touch)); transform: translateY(-50%); }
 .brand:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
@@ -412,6 +413,7 @@ body.is-typing .bottom-bar { display: none; }
   .mine-right .bottom-bar { position: sticky; z-index: 1; margin-top: var(--space-4); padding: var(--space-3) 0 calc(var(--space-6) + var(--safe-bottom)); }
   .mine-right .btn-primary { max-width: none; }
   #view-input { max-width: var(--width-result); padding-bottom: 0; }
+  #view-theme { max-width: var(--width-result); } /* 테마 탭도 다른 탭 첫 화면과 같은 폭(카드를 한 줄에 넷 놓을 자리, 탭을 바꿔도 상단 바 워드마크가 그 자리) */
   #view-input > main { display: grid; grid-template-columns: minmax(0, 1fr) min(var(--width-pane), calc((100% - var(--space-6)) / 2));
     column-gap: var(--space-6); align-items: start; }
   .input-left, .input-right { position: sticky; top: calc(var(--topbar-h) + var(--safe-top)); display: flex; flex-direction: column; }
@@ -1145,12 +1147,16 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
 ::view-transition-new(sidebar) { animation: none; }
 
 /* ---------------------------------------------------------------- 테마 탭(디자인 75판 '테마 탭', 컴포넌트 ThemeTab. 10/23 사용자: "테마도 걍 탭 하나로 빼자,
-   테마 종류는 기본, 크리스마스 이렇게만 넣어두고, 크리스마스 테마는 '시즌 한정'이라는 딱지를 붙여놓는 방향"). 테마마다 카드 하나를 두 열로(폭 600px 부터는 14rem 까지
+   테마 종류는 기본, 크리스마스 이렇게만 넣어두고, 크리스마스 테마는 '시즌 한정'이라는 딱지를 붙여놓는 방향"). 테마마다 카드 하나를 두 열로(넓으면 넷. 폭 600px 부터는 14rem 까지
    넓히며 여러 열로 왼쪽부터). 카드는 라디오 하나(.theme-card 는 label, 안의 input 은 카드 전체를 덮고 보이지 않는다: 누르는 영역이 카드 전체). 미리보기(.prev, 3:4)는
    토큰으로 그린 작은 화면(.mini, aria-hidden. 값은 맨 위 토큰 블록들이 .mini.is-light·is-dark·is-xmas 에도 건다). 고른 것은 accent-line 2px 테두리와 체크(.ok),
    기간 밖 테마는 .is-off(미리보기 38%, 이름 text3, input disabled. 태그와 고를 수 있는 때는 그대로) */
 .themes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); min-width: 0; margin: var(--space-2) 0 0; padding: 0; border: 0; }
-@media (min-width: 37.5em) { .themes { grid-template-columns: repeat(auto-fill, minmax(10rem, 14rem)); } }
+/* 넓으면 한 줄에 넷(10/24 사용자: 컴퓨터에서 "왜 가로로 두 개밖에 안 뜸 한 세 네 개 띄워도 되겠구만"). 화면 폭이 아니라 테마 화면 본문 폭으로 고른다(컨테이너 쿼리):
+   카드 넷이 10rem 이상으로 들어가면(10rem × 4 + 사이 12 × 3) 넷, 아니면 둘. 셋 + 하나로 남지 않게 둘·넷만 둔다. 카드는 14rem 까지 넓히고 왼쪽부터 채운다 */
+#view-theme > main { container-type: inline-size; }
+@media (min-width: 37.5em) { .themes { grid-template-columns: repeat(2, minmax(0, 14rem)); } }
+@container (min-width: 42.25rem) { .themes { grid-template-columns: repeat(4, minmax(0, 14rem)); } }
 .theme-card { position: relative; display: flex; flex-direction: column; padding: var(--space-2) var(--space-2) var(--space-3); border-radius: var(--radius-lg);
   background: var(--card); color: var(--text); cursor: pointer; -webkit-user-select: none; user-select: none; }
 .theme-card input { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: inherit; }

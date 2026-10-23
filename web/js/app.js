@@ -5861,7 +5861,8 @@ for (const nav of document.querySelectorAll(".tabbar, .sidebar nav")) {
   nav.addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (b) switchTab(b.dataset.tab); });
 }
 // 워드마크(탭 첫 화면의 상단 바, 컴퓨터의 사이드바)를 누르면 시간표 탭의 첫 화면으로(10/23 밤 사용자: "여기서 워드마크 누르면 메인화면(시간표 탭)으로 가도록 해줘").
-// 시간표 탭을 다시 누를 때와 같다(이미 시간표 탭이면 그 첫 화면, 첫 화면이면 맨 위로). <a href="./"> 라 Ctrl·Cmd·가운데 누르기는 브라우저대로 새 탭에 연다
+// 시간표 탭을 다시 누를 때와 같다(이미 시간표 탭이면 그 첫 화면, 첫 화면이면 맨 위로). <a href="./"> 라 Ctrl·Cmd·가운데 누르기는 브라우저대로 새 탭에 연다.
+// 키보드 차례에는 넣지 않는다(index.html tabindex=-1: 같은 일을 하는 시간표 탭 버튼이 있어 Tab 이 두 번 서지 않게)
 for (const a of document.querySelectorAll("[data-home]")) {
   a.addEventListener("click", (e) => {
     if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
