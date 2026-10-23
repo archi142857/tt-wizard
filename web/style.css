@@ -309,8 +309,8 @@ a { color: var(--accent-text); }
 #view-result { max-width: var(--width-result); padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
 #view-info, #view-page, #view-theme { padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
 
-/* 화면 전환(View Transitions): 결과·정보 화면은 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms).
-   못 쓰는 브라우저와 동작 줄이기에서는 바로 바뀐다(app.js 가 전환을 건너뛴다) */
+/* 화면 전환(View Transitions): 결과 화면(지도, 결과 화면에서 연 자료 출처)은 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms).
+   정보 묶음 안은 10/23 저녁부터 탭처럼 교차 페이드다(app.js showView). 못 쓰는 브라우저와 동작 줄이기에서는 바로 바뀐다(app.js 가 전환을 건너뛴다) */
 html[data-nav="forward"]::view-transition-old(root) { animation: tt-fade-out var(--dur-fade) var(--ease-standard) both; }
 html[data-nav="forward"]::view-transition-new(root) { animation: tt-enter var(--dur-enter) var(--ease-enter) both; }
 html[data-nav="back"]::view-transition-old(root) { z-index: 1; animation: tt-exit var(--dur-exit) var(--ease-exit) both; }
@@ -1220,16 +1220,25 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
 .wk-empty { position: absolute; top: 0; bottom: 0; left: 1.375rem; right: 0; display: flex; align-items: center; justify-content: center; margin: 0;
   font-size: 0.875rem; line-height: 1.25rem; color: var(--text3); }
 .tt-legend { margin: var(--space-2) var(--space-1) 0; }
-/* 항목 목록: 행은 담은 과목 행(.course) 그대로. 맨 아래 반씩 나눈 추가 행 */
+/* 항목 목록: 행은 담은 과목 행(.course) 그대로. 맨 아래 셋으로 나눈 추가 행(10/23 저녁 사용자: "과목추가, 직접 추가, 이 옆에 이미지로 추가 이렇게 3개로").
+   폰 폭에서 셋이 한 줄에 들어가게 아이콘(20) 아래에 이름(t-body-sm 500, accent-text). 사이에 line 세로선, 위에 line 구분선 */
 .items { margin-top: var(--space-3); }
-.add-pair { display: grid; grid-template-columns: 1fr 1fr; }
-.list > li.add-pair { border-top: 1px solid var(--line); }
-.list > li.add-pair:first-child { border-top: 0; }
-.add-row { display: flex; align-items: center; gap: var(--space-2); width: 100%; min-height: 3.5rem; padding: 0 var(--space-4);
-  border: 0; background: transparent; color: var(--accent-text); font-size: 1rem; line-height: 1.5rem; font-weight: 500; text-align: left; }
+.add-trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.list > li.add-trio { border-top: 1px solid var(--line); }
+.list > li.add-trio:first-child { border-top: 0; }
+.add-row { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-1); width: 100%; min-height: 4.25rem;
+  padding: var(--space-3) var(--space-1); border: 0; background: transparent; color: var(--accent-text); font-size: 0.875rem; line-height: 1.25rem;
+  font-weight: 500; text-align: center; word-break: keep-all; }
 .add-row svg { flex-shrink: 0; }
-.add-pair .add-row + .add-row { border-left: 1px solid var(--line); }
+.add-trio .add-row + .add-row { border-left: 1px solid var(--line); }
 .add-row:active { background: var(--surface-hover); }
+/* 이미지로 추가를 못 했을 때의 오류 줄(t-body-sm danger): 항목 카드 바로 아래. 바탕 위 글자라 on-bg-danger */
+.items-error { margin: var(--space-2) var(--space-1) 0; color: var(--on-bg-danger); }
+/* 공유(10/23 저녁 사용자: "오른쪽 위에 공유(그 삼각형 느낌 일반적인 공유 버튼) 버튼"): 머리 줄 오른쪽 끝. 상단 바의 ⓘ 처럼 바탕 위 아이콘 버튼이고
+   아이콘 끝을 오른쪽 여백 줄에 맞춘다. 넓은 화면 과목 추가 칸을 연 동안은 머리 줄이 왼쪽 칸뿐이라 '‹ 과목 추가' 옆에 붙지 않게 숨긴다 */
+.tt-share { margin-left: auto; margin-right: calc(var(--space-3) * -1); color: var(--on-bg-text2); }
+.tt-share:active { background: var(--bg-hover); }
+#view-mine.is-adding .tt-share { display: none; }
 .mine-right .bottom-bar .btn-primary:disabled { cursor: default; }
 
 /* ---------------------------------------------------------------- 시간표 이미지(디자인 75판 '시간표 이미지', 컴포넌트 TimetableImage): 내보내는 그림의 판.
@@ -1271,9 +1280,20 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
 .tt-row:active, .menu-row:active { background: var(--surface-hover); }
 /* 목록 아래 오류 줄(50개, 이미지를 못 불러왔다): t-body-sm danger. .sheet-body > p(본문 글, text2 16px)보다 세게 */
 .sheet-body > .sheet-list + .error-line { margin: var(--space-1) 0 var(--space-3); font-size: 0.875rem; line-height: 1.25rem; color: var(--danger); }
-/* 목록 아래(10/23 디자인 75판): 반씩 나눈 + 새 시간표 | 이미지 불러오기(항목 목록 맨 아래 행처럼 가운데 세로 선). 글자·아이콘은 전처럼 accent-text */
-.sheet-list .add-pair { display: grid; grid-template-columns: 1fr 1fr; }
-.sheet-list .add-pair .menu-row + .menu-row { border-left: 1px solid var(--line); padding-left: var(--space-4); }
+/* 공유 시트(링크로 공유 · 이미지로 공유): 아이콘(24, text2)과 이름(t-body text) */
+.share-list .menu-row { gap: var(--space-3); }
+.share-list .menu-row svg { flex-shrink: 0; color: var(--text2); }
+/* 공유받은 시간표(웹에서 연 시간표 링크): 시간표 이미지처럼 격자(카드 바탕 없이 시트 바탕 위), 교과구분별이면 색 풀이, 시간 미정 줄.
+   '내 시간표에 넣기'는 시트 아래 끝에 붙여 격자가 길어도 늘 보인다(안전 영역은 그 줄이 맡는다) */
+dialog.sheet.shared-sheet { padding-bottom: 0; }
+.shared-sheet .sheet-title:focus { outline: none; } /* 켤 때 뜨는 시트라 처음 초점은 제목(묻는 팝업과 같다) */
+.shared-sheet .sheet-body { padding-bottom: var(--space-4); }
+.shared-sheet .wk { padding-left: 0; padding-right: 0; }
+.sd-untimed { margin: var(--space-2) var(--space-1) 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
+.sheet-cta { position: sticky; bottom: 0; z-index: 1; padding: var(--space-3) var(--space-5) calc(var(--space-4) + var(--safe-bottom)); background: var(--raised);
+  box-shadow: 0 -1px 0 var(--line); }
+.sheet-cta .error-line { margin: 0 0 var(--space-2); }
+.sheet-cta .btn-primary { max-width: none; }
 .sheet-field { margin: 0; padding: var(--space-2) 0 var(--space-3); border: 0; border-bottom: 1px solid var(--line); min-width: 0; }
 .sheet-field > .field-label, .sheet-field > legend.field-label { display: flex; margin: 0 0 var(--space-1); padding: 0; }
 .sheet-foot { display: flex; padding-top: var(--space-3); margin-left: calc(var(--space-3) * -1); }
@@ -1404,23 +1424,24 @@ html[data-theme="xmas"] { --snow-far: #ffffff94; --snow-near: #ffffffe0;
     drop-shadow(1px 0 var(--bg)) drop-shadow(-1px 0 var(--bg)) drop-shadow(0 1px var(--bg)) drop-shadow(0 -1px var(--bg)); }
 /* 강제 색에서는 바탕이 기기 색이라 바탕색 둘레가 짙은 테두리로 보인다(글자 그림자는 브라우저가 알아서 끈다) */
 @media (forced-colors: active) { html[data-theme="xmas"] { --on-bg-halo-icon: none; } }
-h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .ranks-more, .info-foot, .page-foot, .tt-switch, .add-head-title,
+h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .ranks-more, .info-foot, .page-foot, .tt-switch, .add-head-title, .items-error,
 .picked-error .btn-text, .footnote .btn-text, .ranks-more .btn-text { text-shadow: var(--on-bg-halo, none); } /* 버튼은 글자 그림자를 물려받지 않아 따로 적는다 */
 .day-summary .tag, .tt-switch .tag { text-shadow: none; } /* 태그는 제 면(fill) 위라 둘레를 두지 않는다(두면 글자에 짙은 테두리) */
 /* 컴퓨터의 사이드바: 눈이 뒤로 지나가므로 고르지 않은 탭·설치·정보의 이름과 아이콘에 둘레를 둔다. 고른 것(card 알약)과 오프라인 태그는 제 면 위라 두지 않고,
    올리거나 누르는 동안(bg-hover 면)에는 아래에서 뺀다. 워드마크는 상단 바 밑 띠(body::after)의 꽉 찬 자리라 눈이 뒤로 오지 않는다 */
 .sidebar .sb-item:not([aria-current="page"]) { text-shadow: var(--on-bg-halo, none); }
 .sidebar .sb-item:not([aria-current="page"]) svg { filter: var(--on-bg-halo-icon, none); }
+.tt-share svg { filter: var(--on-bg-halo-icon, none); } /* 내 시간표 머리 줄의 공유도 바탕 위 아이콘이다(누르는 동안은 아래에서 뺀다) */
 /* 넓은 화면의 하단 바는 오른쪽 칸이 짧으면 화면 아래에 붙지 않고 내용 사이에 놓인다. 그때는 무늬 띠가 바 뒤를 가리지 않아 '취소' 뒤로도 눈이 지나간다(폰의 띠는 늘 가린다) */
 @media (min-width: 42.5em), (horizontal-viewport-segments: 2) { .input-right .bottom-bar .btn-text { text-shadow: var(--on-bg-halo, none); } }
 /* 그 버튼을 올리거나 누르는 동안에는 버튼 면(bg-hover)이 눈을 가린다. 둘레를 두면 그 면 위에서 글자에 짙은 테두리가 보이므로 뺀다(찾는 중에는 면이 없어 그대로 둔다) */
 .picked-error .btn-text:not([aria-disabled="true"]):active, .footnote .btn-text:not([aria-disabled="true"]):active, .ranks-more .btn-text:not([aria-disabled="true"]):active,
 .bottom-bar .btn-text:active, .sidebar .sb-item:not([aria-current="page"]):active { text-shadow: none; }
-.sidebar .sb-item:not([aria-current="page"]):active svg { filter: none; }
+.sidebar .sb-item:not([aria-current="page"]):active svg, .tt-share:active svg { filter: none; }
 @media (hover: hover) {
   .picked-error .btn-text:not([aria-disabled="true"]):hover, .footnote .btn-text:not([aria-disabled="true"]):hover, .ranks-more .btn-text:not([aria-disabled="true"]):hover,
   .bottom-bar .btn-text:hover, .sidebar .sb-item:not([aria-current="page"]):hover { text-shadow: none; }
-  .sidebar .sb-item:not([aria-current="page"]):hover svg { filter: none; }
+  .sidebar .sb-item:not([aria-current="page"]):hover svg, .tt-share:hover svg { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
   html[data-theme="xmas"] body::before { z-index: -3; }
@@ -1455,7 +1476,7 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
   .sidebar .sb-item:not([aria-current="page"]):hover { background: var(--bg-hover); }
   .icon-btn:hover, .btn-text:hover, .result:hover, .rank-hit:hover, button.info-row:hover, a.info-row:hover, .course-hit:hover .c-title { background: var(--surface-hover); }
   .tabbar .tab:not([aria-current="page"]):hover .ind, .add-row:hover, .tt-row:hover, .menu-row:hover { background: var(--surface-hover); }
-  .tt-switch:hover, .add-head .icon-btn:hover { background: var(--bg-hover); }
+  .tt-switch:hover, .add-head .icon-btn:hover, .tt-share:hover { background: var(--bg-hover); }
   .topbar .icon-btn:hover, .topbar .btn-text:hover, .bottom-bar .btn-text:hover, .picked-error .btn-text:hover, .ranks-more .btn-text:hover, .footnote .btn-text:hover { background: var(--bg-hover); }
   .result.is-picked:hover { background: var(--row-picked); } /* 담은 행은 어두운 그대로, 버튼만 빨갛게(빼기) */
   .course-hit:hover .c-title { background: none; text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
