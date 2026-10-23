@@ -1,6 +1,6 @@
 // TT Wizard 화면(디자인 규칙 v3.5). 자료(data/*.json)는 scripts/export_web.py 가 만들고, 탐색은 engine.js 가 브라우저에서 한다.
-// 앱은 아래 탭 둘이다(10/22): 내 시간표(저장한 시간표, 과목 추가, 동선)와 탐색(입력, 결과). 정보·자료 출처·오픈소스 라이선스는 연 탭 안의
-// 다음 화면이고 전체 화면 지도가 그 위에 뜬다. 화면만 방문 기록(pushState)을 남기고 탭 바꾸기와 시트(<dialog>)는 남기지 않는다.
+// 앱은 아래 탭 둘이다(10/22): 내 시간표(저장한 시간표, 과목 추가, 동선)와 탐색(입력, 결과). 정보(정보 → 자료 출처·오픈소스 라이선스)는 두 탭과
+// 같은 층의 따로 된 묶음이고(10/23) 전체 화면 지도가 그 위에 뜬다. 화면만 방문 기록(pushState)을 남기고 탭 바꾸기와 시트(<dialog>)는 남기지 않는다.
 // 화면 문구는 디자인 규칙 '문구'를 따른다(문장은 해요체 한 줄, 그 밖에는 명사구).
 import { DAY_KO, parseCourses, TravelMatrix, search, countFeasible, routeLine, whyNone, meetsRules, checkRoute } from "./engine.js";
 import { indexCourses as indexSearch, searchCourses, splitMarks, normKey } from "./search.js";
@@ -4849,17 +4849,23 @@ function licenseBlocks(text) {
 }
 
 // ---------------------------------------------------------------- 탭, 화면 이동과 뒤로 가기(디자인 규칙 '탭', '뒤로 가기')
-// 아래 탭 둘: 내 시간표(내 시간표 → 과목 추가·동선 → 전체 화면 지도)와 탐색(입력 → 결과 → 전체 화면 지도). 정보·자료 출처·오픈소스 라이선스는 연 탭 안의
-// 다음 화면이다. 화면만 기록(pushState)을 남기고 탭 바꾸기, 요일 탭, 순위 선택, 시트는 남기지 않는다. 탭마다 쌓인 화면(stacks)과 스크롤 자리를 기억한다.
+// 아래 탭 둘: 내 시간표(내 시간표 → 과목 추가·동선 → 전체 화면 지도)와 탐색(입력 → 결과 → 전체 화면 지도). 정보(정보 → 자료 출처·오픈소스 라이선스)는
+// 탭과 같은 층의 셋째 묶음 'info' 다(10/23 사용자: 시간표 탭에서 정보를 열고 동선 탐색에 다녀오면 시간표 탭에 정보가 다시 떴다. "이걸 다 동일한 층위로 맞춰줘").
+// 탭처럼 제 화면 더미(stacks.info)와 스크롤 자리를 기억하고, 탭을 누르면 그 탭의 화면으로 가며(정보는 어느 탭에도 쌓이지 않는다), 열 때와 나갈 때는 탭을
+// 바꿀 때처럼 교차 페이드다. 막대·사이드바에서는 정보에 있는 동안 두 탭 모두 고르지 않은 모양이고 컴퓨터 사이드바의 '정보'가 고른 모양이다.
+// 화면만 기록(pushState)을 남기고 탭 바꾸기, 요일 탭, 순위 선택, 시트는 남기지 않는다. 탭마다 쌓인 화면(stacks)과 스크롤 자리를 기억한다.
 // 기록은 늘 [켤 때 연 탭의 첫 화면, (다른 탭이면 그 탭의 첫 화면), 그 탭에 쌓인 화면 …]이다: 탭을 바꾸면 기록을 첫 화면까지 되감고(history.go) 새 탭의
 // 것을 다시 쌓는다. 그래서 탭의 첫 화면에서 뒤로 가면 켤 때 연 탭의 첫 화면, 거기서 뒤로 가면 앱을 나간다(안드로이드 원칙. 스토어 앱의 뒤로 가기는
 // native.js 가 열린 시트를 닫거나 history.back 을 부르고, 되돌아갈 기록이 없으면 앱을 내린다). 앱을 켜면 그 학기에 저장한 시간표가 있으면 내 시간표,
-// 없으면 탐색에서 시작한다. 결과 화면은 동선 화면(내 시간표)으로도 쓴다: 그 화면이 보는 결과(state.result·rank·day)는 탭마다 따로 둔다(useCtx)
+// 없으면 탐색에서 시작한다. 결과 화면은 동선 화면(내 시간표)으로도 쓴다: 그 화면이 보는 결과(state.result·rank·day)는 탭마다 따로 둔다(useCtx).
+// 정보의 기록은 연 탭의 기록 위에 얹는다: [… 연 탭에 쌓인 화면, 정보, (자료 출처·라이선스)]. 그래서 정보의 첫 화면에서 뒤로 가면 정보를 연 그 화면이다.
+// 정보에서 다른 탭을 누르면 탭을 바꿀 때처럼 첫 화면까지 되감고 그 탭의 것을 쌓는다(정보를 연 탭이면 정보만큼 되돌린다)
 
 const VIEW_EL = { input: "view-input", mine: "view-mine", add: "view-add", result: "view-result", route: "view-result", map: "view-map", info: "view-info", page: "view-page" };
 const VIEW_ELS = [...new Set(Object.values(VIEW_EL))];
 const H1 = { input: "input-title", mine: "mine-title", add: "add-title", result: "result-title", route: "result-title", map: "map-title", info: "info-title", page: "page-title" };
-const ROOT = { mine: "mine", explore: "input" };
+const ROOT = { mine: "mine", explore: "input", info: "info" };
+const TABS = ["mine", "explore"]; // 막대·사이드바의 탭 단추(정보는 폰은 탭 첫 화면 상단 바의 ⓘ, 컴퓨터는 사이드바 맨 아래 '정보')
 // 탭 이름(10/23 사용자: "'시간표', '동선 탐색' 뭐 이런 느낌으로"). 아래 탭 막대와 컴퓨터의 사이드바가 같은 이름을 보인다
 const TAB_NAME = { mine: "시간표", explore: "동선 탐색" };
 // 탭 아이콘 [선, 채운 판]. 채운 판의 뚫린 선(격자의 칸 선)은 알약 색(--tab-ind)으로 그린다(style.css)
@@ -4870,11 +4876,16 @@ const TAB_ICON = {
   explore: ['<circle cx="4.5" cy="7" r="2"/><circle cx="19.5" cy="7" r="2"/><path d="M4.5 9C4.5 15 6.4 19 8.25 19S12 11.5 12 11.5 13.9 19 15.75 19 19.5 15 19.5 9"/>',
     '<circle cx="4.5" cy="7" r="2" fill="currentColor"/><circle cx="19.5" cy="7" r="2" fill="currentColor"/><path d="M4.5 9C4.5 15 6.4 19 8.25 19S12 11.5 12 11.5 13.9 19 15.75 19 19.5 15 19.5 9"/>'],
 };
+// 사이드바 '정보'의 ⓘ [선, 채운 판]: 정보에 있는 동안 탭처럼 고른 모양(채운 원, 안의 i 는 알약 색)
+const INFO_ICON = ['<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r=".6" fill="currentColor"/>',
+  '<circle cx="12" cy="12" r="9" fill="currentColor"/><path d="M12 11v5" stroke="var(--tab-ind)"/><circle cx="12" cy="7.8" r=".6" fill="var(--tab-ind)" stroke="var(--tab-ind)"/>'];
 let screen = "input", depth = 0, tab = "explore", launchTab = "explore", screenTab = "explore";
 let rebuild = null; // 탭을 바꾸며 기록을 되감는 중: 되감기가 끝나면(popstate) 새 탭의 기록을 쌓는다
-const stacks = { explore: [{ view: "input", extra: {} }], mine: [{ view: "mine", extra: {} }] };
+const stacks = { explore: [{ view: "input", extra: {} }], mine: [{ view: "mine", extra: {} }], info: [{ view: "info", extra: {} }] };
 const scrollOf = {}, openers = {}, lastFocus = {};
-const baseDepth = (t) => (t === launchTab ? 0 : 1);
+let infoFrom = null, infoBase = null; // 정보를 연 탭, 기록에서 정보 첫 화면의 깊이(정보를 연 적이 없으면 null)
+/** 그 묶음 첫 화면의 기록 깊이: 켤 때 연 탭 0, 다른 탭 1, 정보는 연 탭의 기록 위 */
+const baseDepth = (t) => (t === "info" ? infoBase : t === launchTab ? 0 : 1);
 
 // 결과 화면이 보는 결과: 탐색 탭은 탐색 결과, 내 시간표 탭은 동선
 const ctxs = { explore: null, route: null };
@@ -4905,15 +4916,12 @@ function back() {
   else showView(ROOT[tab], "back");
 }
 
-/** 탭을 바꾼다: 그 탭에서 마지막으로 보던 화면과 스크롤 자리로. 고른 탭을 다시 누르면 그 탭의 첫 화면으로, 첫 화면이면 맨 위로 */
+/** 탭을 바꾼다: 그 탭에서 마지막으로 보던 화면과 스크롤 자리로. 고른 탭을 다시 누르면 그 탭의 첫 화면으로, 첫 화면이면 맨 위로.
+ *  정보에서 누르면: 정보를 연 탭이면 정보만큼 기록을 되돌리고(그 탭의 마지막 화면), 다른 탭이면 탭을 바꿀 때처럼 되감아 쌓는다 */
 function switchTab(next) {
-  if (rebuild || !ROOT[next]) return;
-  if (next === tab) {
-    const n = stacks[tab].length - 1;
-    if (n > 0) history.go(-n);
-    else window.scrollTo({ top: 0, behavior: reduceMotion.matches ? "auto" : "smooth" });
-    return;
-  }
+  if (rebuild || !TAB_NAME[next]) return;
+  if (next === tab) { toFirst(); return; }
+  if (tab === "info" && next === infoFrom) { history.go(-(depth - infoBase + 1)); return; }
   const apply = () => {
     const target = stacks[next];
     if (next !== launchTab) history.pushState({ tab: next, view: ROOT[next], depth: 1 }, "", `#${ROOT[next]}`);
@@ -4925,18 +4933,30 @@ function switchTab(next) {
   };
   if (depth > 0) { rebuild = apply; history.go(-depth); } else apply();
 }
+/** 고른 탭(정보)을 다시 눌렀다: 그 묶음의 첫 화면으로, 첫 화면이면 맨 위로 */
+function toFirst() {
+  const n = stacks[tab].length - 1;
+  if (n > 0) history.go(-n);
+  else window.scrollTo({ top: 0, behavior: reduceMotion.matches ? "auto" : "smooth" });
+}
 function enterTab(next) {
   tab = next;
-  useCtx(next === "mine" ? "route" : "explore");
+  if (next !== "info") useCtx(next === "mine" ? "route" : "explore"); // 정보는 결과를 보지 않는다(연 탭의 것을 그대로 둔다)
 }
 
 /** 아래 탭 막대(알약 안에 아이콘 20 + 이름)와 컴퓨터의 사이드바(아이콘 24 + 이름): 고른 것에 aria-current="page"와 채운 아이콘.
- *  이름이 보이므로 버튼 이름은 그 글자다. 둘 중 하나만 보인다(style.css 의 1100px 규칙) */
+ *  이름이 보이므로 버튼 이름은 그 글자다. 둘 중 하나만 보인다(style.css 의 1100px 규칙). 정보에 있는 동안은 두 탭 모두 고르지 않은 모양이고
+ *  사이드바 맨 아래 '정보'가 고른 모양이다(탭과 같은 층. 폰의 ⓘ 는 탭 첫 화면의 상단 바에만 있어 정보 화면에서는 보이지 않는다) */
 function renderTabs() {
+  for (const b of document.querySelectorAll(".sidebar [data-open-info]")) {
+    const on = tab === "info";
+    if (on) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+    b.replaceChildren(icon(INFO_ICON[on ? 1 : 0]), h("span", {}, "정보"));
+  }
   for (const list of document.querySelectorAll(".tabbar ul, .sidebar ul")) {
     const bar = !list.closest(".sidebar");
     if (!list.children.length) {
-      list.replaceChildren(...Object.keys(ROOT).map((k) => h("li", {}, h("button", bar
+      list.replaceChildren(...TABS.map((k) => h("li", {}, h("button", bar
         ? { type: "button", class: "tab", "data-tab": k }
         : { type: "button", class: "sb-item", "data-tab": k }))));
     }
@@ -5050,13 +5070,14 @@ window.addEventListener("popstate", (e) => {
   if (rebuild) { const f = rebuild; rebuild = null; f(); return; } // 탭을 바꾸며 되감은 것
   for (const d of document.querySelectorAll("dialog[open]")) d.close(); // 화면이 바뀌면 열린 시트도 함께 닫는다
   let st = e.state && e.state.view ? e.state : null;
-  if (!st || !ROOT[st.tab] || (st.depth || 0) < baseDepth(st.tab)) st = { tab: launchTab, view: ROOT[launchTab], depth: 0 }; // 모르는 기록은 켤 때 연 탭의 첫 화면
+  // 모르는 기록은 켤 때 연 탭의 첫 화면(새로 연 뒤 남은 정보의 기록도: 정보를 연 적이 없어 깊이를 모른다)
+  if (!st || !ROOT[st.tab] || baseDepth(st.tab) === null || (st.depth || 0) < baseDepth(st.tab)) st = { tab: launchTab, view: ROOT[launchTab], depth: 0 };
   const d = st.depth || 0, i = d - baseDepth(st.tab), stack = stacks[st.tab];
   const dir = d < depth ? "back" : "forward";
   if (i === 0) stack.length = 1;
   else { stack.length = Math.min(stack.length, i); stack.push({ view: st.view, extra: st }); }
   depth = d;
-  const crossed = st.tab !== tab; // 다른 탭의 첫 화면에서 뒤로 가 켤 때 연 탭으로 왔다(앞으로 가기면 그 반대)
+  const crossed = st.tab !== tab; // 다른 탭의 첫 화면에서 뒤로 가 켤 때 연 탭으로 왔다(앞으로 가기면 그 반대), 정보의 첫 화면에서 뒤로 가 연 탭으로 왔다
   if (crossed) enterTab(st.tab);
   showView(st.view, crossed ? "tab" : dir, st);
 });
@@ -5317,13 +5338,18 @@ $("picked-list").addEventListener("click", (e) => {
 $("picked-retry").addEventListener("click", run);
 $("run").addEventListener("click", run);
 $("cancel").addEventListener("click", cancelCompute);
-/** 정보 화면(연 탭 안의 다음 화면). 컴퓨터의 사이드바 '정보'는 어느 화면에서나 누를 수 있다: 이미 그 탭에 정보가 쌓여 있으면(정보, 그 아래 자료 출처·라이선스)
- *  거기로 돌아가고, 정보 화면이면 맨 위로(같은 화면을 거듭 쌓지 않는다) */
+/** 정보로 간다(탭과 같은 층의 묶음, 위 '탭' 머리). 정보에서 마지막으로 보던 화면과 스크롤 자리로(탭처럼), 기록은 지금 보던 화면 위에 얹는다(뒤로 가면 여기).
+ *  정보에 있을 때 컴퓨터의 사이드바 '정보'를 다시 누르면 고른 탭을 다시 누를 때처럼 정보의 첫 화면으로, 첫 화면이면 맨 위로 */
 function openInfo() {
-  const st = stacks[tab], i = st.findIndex((en) => en.view === "info");
-  if (i < 0) go("info");
-  else if (i < st.length - 1) history.go(i - (st.length - 1));
-  else window.scrollTo({ top: 0, behavior: reduceMotion.matches ? "auto" : "smooth" });
+  if (rebuild) return;
+  if (tab === "info") { toFirst(); return; }
+  infoFrom = tab;
+  infoBase = depth + 1;
+  stacks.info.forEach((en, i) => history.pushState({ tab: "info", view: en.view, depth: infoBase + i, ...en.extra }, "", `#${en.extra.page || en.view}`));
+  depth = infoBase + stacks.info.length - 1;
+  enterTab("info");
+  const top = stacks.info[stacks.info.length - 1];
+  showView(top.view, "tab", top.extra);
 }
 for (const b of document.querySelectorAll("[data-open-info]")) b.addEventListener("click", openInfo);
 $("open-calc").addEventListener("click", (e) => openSheet($("calc-sheet"), e.currentTarget));
