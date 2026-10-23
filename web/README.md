@@ -401,6 +401,8 @@ TT Wizard 화면. 정적 사이트라 서버 없이 돈다: `data/*.json` 을 �
   Capacitor·Cordova·AndroidX 는 고지문을 앱과 함께 내야 하는 라이선스다. 목록 아래 `#page-texts` 에 고지문(`vendor/leaflet/LICENSE`, 웹·앱 같은 `licenses/snutt.txt`·
   `licenses/pretendard.txt`(백엔드 update60 의 `web/licenses/`), 앱에만 있는 `licenses/capacitor.txt`·`cordova.txt`·`androidx.txt`(백엔드 `scripts/build_app.py` 가 넣는다))을 목록 차례대로
   이름·라이선스 머리(`.section-title`)와 칸으로 보인다(`renderLicenseTexts`). 전문이 있는 이름은 목록에서 글자 그대로 두고(바로 아래 전문), 없는 것은 원문 링크다.
+  고지문 글 속 주소(http·https)는 링크다(`linkify`, 10/23 사용자: "라이선스에 있는 링크들 다 하이퍼링크로". 글자는 그대로, 주소 끝의 문장부호와 짝 없는 닫는 괄호는 링크 밖.
+  모양은 자료 출처 이름 링크와 같은 `text` 글자 + `line-strong` 밑줄, 새 창·스토어 앱은 Capacitor Browser).
   줄표만 있는 줄에서 칸(카드)을 나누고(구분선을 긋지 않는다. 10/22 사용자), 글은 줄만 다시 나눈다(`licenseBlocks`: 폭에 맞춰 70~80자로 끊어 둔 줄은 앞줄에 잇고,
   빈 줄·목록 머리·짧은 줄·한글 설명과 `이름 — 주소` 줄은 그대로. 낱말과 그 차례는 바꾸지 않는다. 그대로 두면 80자 줄이 폰에서 한 줄 반씩 꺾인다). 파일을 못 읽으면
   (그 파일이 없는 빌드) 그 전문은 두지 않고 목록의 이름을 원문 링크로 바꾼다. 웹·PWA 도 여섯 모두 전문이다(Leaflet, `licenses/` 의 SNUTT·Pretendard·Fredoka·ODbL·공공누리.

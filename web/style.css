@@ -1025,6 +1025,8 @@ button.info-row:active, a.info-row:active, .pick-row:active { background: var(--
 .lic-title { flex-wrap: wrap; row-gap: 0; }
 .license-cards { display: grid; gap: var(--space-2); }
 .license-text { margin: 0; padding: var(--space-4); white-space: pre-line; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); overflow-wrap: anywhere; word-break: keep-all; }
+/* 고지문 글 속 주소는 링크(10/23 사용자: "라이선스에 있는 링크들 다 하이퍼링크로"). 자료 출처 이름 링크(.src a)와 같은 모양: 글자는 text, 밑줄은 line-strong */
+.license-text a { color: var(--text); text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
 
 /* ---------------------------------------------------------------- 아래 탭 막대(디자인 규칙 '탭', 10/22 사용자): 시간표 · 동선 탐색.
    10/23 사용자: "탭 두께 이정도로 할 거면 걍 설명 넣어도 될 듯. '시간표', '동선 탐색'", "탭 두께는 더 줄여도 좋을 것 같음" → 아이콘(20) 옆에 이름(14px 600)을 넣고
