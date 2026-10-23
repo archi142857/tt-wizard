@@ -1437,21 +1437,22 @@ html[data-theme="xmas"], .mini.is-xmas {
   --danger: #d8152f; --on-danger: #ffffff; --danger-weak: #ffedec; --inverse: #1f6441; --on-inverse: #ffffff; --inverse-accent: #f8d788;
   --scrim: #03140b80; --home: #0b3a23; --on-home: #ffffff; --route: #148753; --route-home: #0b3a23;
   --shadow-sm: 0 1px 3px #03140b40; --shadow-md: 0 6px 20px #03140b4d;
-  /* 시간표 칸 색 '리스'(디자인 80판. 10/23 밤 사용자: "테마들은 시간표 색깔 팔레트도 자체적으로 가져야 함", 교과구분도 "따른다"): 초록 잎에 빨간 열매와 금색 리본.
-     초록·빨강·연두·진초록·금색·청록·와인·은색. 짙은 칸(초록·빨강·진초록·청록·와인)은 과목명·강의실 모두 흰 글자(5.2:1 이상), 밝은 칸은 text·text2(위 기본 값 그대로).
-     점은 card 위 3:1 이상(짙은 색은 칸 색 그대로). 교과구분: 전필 빨강·전선 초록·교양 금색·기타 은색, 점은 card 와 색 풀이 판(bg) 양쪽에서 3:1 */
-  --item-0: #237c40; --item-0-dot: #237c40; --item-0-fg: #ffffff; --item-0-fg2: #ffffff;
-  --item-1: #c3292e; --item-1-dot: #c3292e; --item-1-fg: #ffffff; --item-1-fg2: #ffffff;
-  --item-2: #b4e2a5; --item-2-dot: #6f9a61;
-  --item-3: #164f38; --item-3-dot: #164f38; --item-3-fg: #ffffff; --item-3-fg2: #ffffff;
-  --item-4: #f5c553; --item-4-dot: #b58700;
-  --item-5: #21716e; --item-5-dot: #21716e; --item-5-fg: #ffffff; --item-5-fg2: #ffffff;
-  --item-6: #8a1b37; --item-6-dot: #8a1b37; --item-6-fg: #ffffff; --item-6-fg2: #ffffff;
-  --item-7: #d2dcd8; --item-7-dot: #86918b;
-  --cls-req: #e36b65; --cls-req-bg: #c3292e; --cls-req-fg: #ffffff; --cls-req-fg2: #ffffff;
-  --cls-elec: #499e64; --cls-elec-bg: #237c40; --cls-elec-fg: #ffffff; --cls-elec-fg2: #ffffff;
-  --cls-gen: #b2880e; --cls-gen-bg: #f5c553;
-  --cls-etc: #86918b; --cls-etc-bg: #d2dcd8;
+  /* 시간표 칸 색(디자인 81판 '선명하게'. 10/23 밤 사용자: "테마들은 시간표 색깔 팔레트도 자체적으로 가져야 함", 교과구분도 "따른다". 80판 리스를 보고 "다시 검토해봐",
+     다시 짠 두 안 가운데 "새 안, 선명하게"): 리스처럼 초록 잎에 열매 하나와 금색 리본. 초록·연초록·금색·청록·빨강·크림·연두·은색(셋째 과목에 금색, 다섯째에 빨강).
+     빨강은 짙은 크랜베리 한 칸뿐이고 주요 버튼(cta)보다 어둡고 탁하다. 짙은 칸(초록·청록·빨강)은 흰 과목명과 옅은 같은 색 강의실(4.6:1 이상), 옅은 칸은 text·text2(위 기본 값 그대로).
+     점은 card 위 3:1 이상(짙은 색은 칸 색 그대로). 교과구분: 전필 초록·전선 청록·교양 금색·기타 은색(빨강 없음), 점은 card 와 색 풀이 판(bg) 양쪽에서 3.5:1 */
+  --item-0: #1c6e47; --item-0-dot: #1c6e47; --item-0-fg: #ffffff; --item-0-fg2: #cee4d6;
+  --item-1: #a1d6b2; --item-1-dot: #31a465;
+  --item-2: #f7cd6c; --item-2-dot: #bd8900;
+  --item-3: #227a7e; --item-3-dot: #227a7e; --item-3-fg: #ffffff; --item-3-fg2: #dffcfd;
+  --item-4: #92182e; --item-4-dot: #92182e; --item-4-fg: #ffffff; --item-4-fg2: #d1b6b6;
+  --item-5: #fbedd1; --item-5-dot: #aa8e54;
+  --item-6: #d6e69d; --item-6-dot: #879b00;
+  --item-7: #d5d4d1; --item-7-dot: #878787;
+  --cls-req: #3b9863; --cls-req-bg: #1c6e47; --cls-req-fg: #ffffff; --cls-req-fg2: #cee4d6;
+  --cls-elec: #3393a2; --cls-elec-bg: #227a7e; --cls-elec-fg: #ffffff; --cls-elec-fg2: #dffcfd;
+  --cls-gen: #b47d00; --cls-gen-bg: #f7cd6c;
+  --cls-etc: #878787; --cls-etc-bg: #d5d4d1;
   --bg-pattern: radial-gradient(circle, var(--bg-tone) 0 2.25px, transparent 2.75px) 0 0 / 16px 28px,
     radial-gradient(circle, var(--bg-tone) 0 2.25px, transparent 2.75px) 8px 14px / 16px 28px;
 }
@@ -1466,8 +1467,8 @@ html[data-theme="xmas"] dialog.sheet::backdrop { background: var(--scrim, #03140
 }
 /* 대비를 높인 기기와 강제 색에서는 무늬를 끈다 */
 @media (prefers-contrast: more), (forced-colors: active) { html[data-theme] { --bg-pattern: none; } }
-/* 짙은 칸이 있는 칸 색(디자인 80판): 결과 화면의 늦음 알약은 card 색 테두리 1.5px(빨강 칸 위에서도 알약이 갈린다).
-   넓은 화면 과목 추가 미리 보기에서 이미 넣은 분반 칸의 테두리는 그 칸의 글자색(초록 칸 위의 초록 accent 테두리는 1.2:1 이라 보이지 않는다. 짙은 칸은 흰색) */
+/* 짙은 칸이 있는 칸 색(디자인 80판): 결과 화면의 늦음 알약은 card 색 테두리 1.5px(짙은 칸 위에서도 알약이 갈린다).
+   넓은 화면 과목 추가 미리 보기에서 이미 넣은 분반 칸의 테두리는 그 칸의 글자색(초록 칸 위의 초록 accent 테두리는 1.0:1 이라 보이지 않는다. 짙은 칸은 흰색) */
 html[data-theme="xmas"] .tt-late { box-shadow: 0 0 0 1.5px var(--card); }
 html[data-theme="xmas"] .wk-block.is-hl { box-shadow: inset 0 0 0 2px var(--block-fg, var(--accent)); }
 
