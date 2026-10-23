@@ -1241,8 +1241,6 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
 .cu-field .field-label { margin-bottom: var(--space-2); }
 .cu-field .error-line { margin: var(--space-2) 0 0; }
 .cu-field .select { margin-top: 0; }
-.cond-body { display: flex; flex-direction: column; gap: var(--space-5); } /* 탐색 조건 카드의 두 칸을 그대로 옮겨 온다(.settings 와 같은 간격) */
-.cond-body fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
 /* 과목 추가의 결과 행(10/23 사용자: SNUTT 처럼 분반마다): 탐색의 결과 행과 같은 모양(행 어디를 눌러도 오른쪽 버튼). 과목명 / 001(교수) · 학과 · 교과구분 · 학점 /
    요일·시각 · 강의실. 버튼은 추가·✓ 넣음(row-picked)·바꾸기(같은 과목의 다른 분반이 들어 있다), 다른 항목과 시간이 겹치면 그 앞에 '시간 겹침' */
 .add-sec .r-sec { color: var(--text); }
@@ -1260,19 +1258,6 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
 .btn-save.is-saved { background: var(--fill); color: var(--text2); }
 .btn-save.is-saved:active { background: var(--surface-hover); }
 
-/* ---------------------------------------------------------------- 동선 화면(결과 화면을 쓴다): 머리에 주 요약 줄과 조건 줄, 후보 목록은 없다 */
-#view-result.is-route .result-head, #view-result.is-route .ranks, #view-result.is-route .ranks-more { display: none; }
-.route-head { margin: var(--space-1) var(--space-1) var(--space-3); }
-.route-head .wk-sum { margin: 0; font-size: 1rem; line-height: 1.5rem; font-weight: 500; color: var(--on-bg-text); font-variant-numeric: tabular-nums; }
-.route-head .wk-sum .late { color: var(--on-bg-danger); }
-.route-head .wk-sum .nw { white-space: nowrap; }
-.route-cond { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 var(--space-2); }
-.route-cond .cond { font-size: 0.875rem; line-height: 1.25rem; color: var(--on-bg-text3); }
-.route-cond .btn-text { color: var(--on-bg-link); margin-right: calc(var(--space-2) * -1); }
-.route-cond .btn-text:active { background: var(--bg-hover); }
-/* 동선 화면의 시간표: 시간이 겹치는 칸은 반씩 나란히 */
-.tt-block.half { right: auto; width: calc(50% - 1px); }
-.tt-block.half.right { left: auto; right: 0; }
 
 /* ---------------------------------------------------------------- 이벤트 테마(디자인 규칙 '이벤트 테마'). 정해 둔 기간에 <html data-theme="…"> 로 켠다(js/app.js 의 THEMES).
    테마는 한 벌뿐이다: 기기가 다크여도 같은 모습이고, 기본 테마의 다크 값은 테마가 꺼져 있을 때만 쓴다(:root:not([data-theme])).
@@ -1349,8 +1334,8 @@ html[data-theme="xmas"] { --snow-far: #ffffff94; --snow-near: #ffffffe0;
   --on-bg-halo: 1px 0 var(--bg), .71px .71px var(--bg), 0 1px var(--bg), -.71px .71px var(--bg), -1px 0 var(--bg), -.71px -.71px var(--bg), 0 -1px var(--bg), .71px -.71px var(--bg),
     1.75px 0 var(--bg), 1.62px .67px var(--bg), 1.24px 1.24px var(--bg), .67px 1.62px var(--bg), 0 1.75px var(--bg), -.67px 1.62px var(--bg), -1.24px 1.24px var(--bg), -1.62px .67px var(--bg),
     -1.75px 0 var(--bg), -1.62px -.67px var(--bg), -1.24px -1.24px var(--bg), -.67px -1.62px var(--bg), 0 -1.75px var(--bg), .67px -1.62px var(--bg), 1.24px -1.24px var(--bg), 1.62px -.67px var(--bg); }
-h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .ranks-more, .info-foot, .page-foot, .tt-switch, .route-head, .add-head-title,
-.picked-error .btn-text, .footnote .btn-text, .ranks-more .btn-text, .route-cond .btn-text { text-shadow: var(--on-bg-halo, none); } /* 버튼은 글자 그림자를 물려받지 않아 따로 적는다 */
+h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .ranks-more, .info-foot, .page-foot, .tt-switch, .add-head-title,
+.picked-error .btn-text, .footnote .btn-text, .ranks-more .btn-text { text-shadow: var(--on-bg-halo, none); } /* 버튼은 글자 그림자를 물려받지 않아 따로 적는다 */
 .day-summary .tag, .tt-switch .tag { text-shadow: none; } /* 태그는 제 면(fill) 위라 둘레를 두지 않는다(두면 글자에 짙은 테두리) */
 /* 넓은 화면의 하단 바는 오른쪽 칸이 짧으면 화면 아래에 붙지 않고 내용 사이에 놓인다. 그때는 무늬 띠가 바 뒤를 가리지 않아 '취소' 뒤로도 눈이 지나간다(폰의 띠는 늘 가린다) */
 @media (min-width: 42.5em), (horizontal-viewport-segments: 2) { .input-right .bottom-bar .btn-text { text-shadow: var(--on-bg-halo, none); } }
@@ -1394,7 +1379,7 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
   .sidebar .sb-item:not([aria-current="page"]):hover { background: var(--bg-hover); }
   .icon-btn:hover, .btn-text:hover, .result:hover, .rank-hit:hover, button.info-row:hover, a.info-row:hover, .pick-row:hover, .course-hit:hover .c-title { background: var(--surface-hover); }
   .tabbar .tab:not([aria-current="page"]):hover .ind, .add-row:hover, .tt-row:hover, .menu-row:hover { background: var(--surface-hover); }
-  .tt-switch:hover, .route-cond .btn-text:hover, .add-head .icon-btn:hover { background: var(--bg-hover); }
+  .tt-switch:hover, .add-head .icon-btn:hover { background: var(--bg-hover); }
   .topbar .icon-btn:hover, .topbar .btn-text:hover, .bottom-bar .btn-text:hover, .picked-error .btn-text:hover, .ranks-more .btn-text:hover, .footnote .btn-text:hover { background: var(--bg-hover); }
   .result.is-picked:hover { background: var(--row-picked); } /* 담은 행은 어두운 그대로, 버튼만 빨갛게(빼기) */
   .course-hit:hover .c-title { background: none; text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }

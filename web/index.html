@@ -191,10 +191,6 @@
     <h1 class="title" id="result-title" tabindex="-1">추천 시간표</h1>
   </header>
   <main hidden>
-    <div class="route-head" id="route-head" hidden>
-      <p class="wk-sum" id="route-sum"></p>
-      <div class="route-cond"><span class="cond" id="route-cond"></span><button type="button" class="btn-text small" id="route-cond-btn" aria-haspopup="dialog">조건 바꾸기</button></div>
-    </div>
     <div class="daytabs" id="daytabs" role="tablist" aria-label="요일"></div>
     <div id="day-panel" role="tabpanel">
       <div class="panes" id="panes">
@@ -378,15 +374,6 @@
   </div>
   <div class="sheet-body" id="cu-body"></div>
   <div class="sr-only" role="alert" data-live="alert"></div>
-</dialog>
-
-<!-- 동선 화면: 조건(탐색 조건 카드의 출발·도착과 이동시간 그대로) -->
-<dialog class="sheet" id="cond-sheet" aria-labelledby="cd-title">
-  <div class="sheet-head">
-    <div class="h"><h2 class="sheet-title" id="cd-title">조건</h2></div>
-    <button type="button" class="btn-text" data-close>완료</button>
-  </div>
-  <div class="sheet-body cond-body" id="cd-body"></div>
 </dialog>
 
 <!-- 이벤트 테마가 켜진 뒤 처음 들어왔을 때 한 번 묻는다(묻는 시트: 제목은 질문, 버튼은 닫기와 동사) -->
