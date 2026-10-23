@@ -1,8 +1,8 @@
 // TT Wizard 화면(디자인 규칙 v3.5). 자료(data/*.json)는 scripts/export_web.py 가 만들고, 탐색은 engine.js 가 브라우저에서 한다.
-// 앱은 아래 탭 둘이다(10/22): 내 시간표(저장한 시간표, 과목 추가, 동선)와 탐색(입력, 결과). 정보(정보 → 자료 출처·오픈소스 라이선스)는 두 탭과
+// 앱은 아래 탭 둘이다(10/22): 내 시간표(저장한 시간표, 과목 추가)와 탐색(입력, 결과). 정보(정보 → 자료 출처·오픈소스 라이선스)는 두 탭과
 // 같은 층의 따로 된 묶음이고(10/23) 전체 화면 지도가 그 위에 뜬다. 화면만 방문 기록(pushState)을 남기고 탭 바꾸기와 시트(<dialog>)는 남기지 않는다.
 // 화면 문구는 디자인 규칙 '문구'를 따른다(문장은 해요체 한 줄, 그 밖에는 명사구).
-import { DAY_KO, parseCourses, TravelMatrix, search, countFeasible, routeLine, whyNone, meetsRules, checkRoute } from "./engine.js";
+import { DAY_KO, parseCourses, TravelMatrix, search, countFeasible, routeLine, whyNone, meetsRules } from "./engine.js";
 import { indexCourses as indexSearch, searchCourses, splitMarks, normKey } from "./search.js";
 import * as T from "./timetables.js";
 
@@ -1431,7 +1431,6 @@ for (const d of document.querySelectorAll("dialog.sheet")) {
     const id = sheetId;
     if (d.id === "course-sheet") { courseSheetClosed(); sheetId = null; }
     if (d.id === "item-sheet") itemSheetClosed();
-    if (d.id === "cond-sheet") condSheetClosed();
     // 연 요소로 초점을 돌린다. 그사이 사라졌으면(다시 그린 과목 행, 원인이 풀려 숨은 오류 줄 옆 '추가 설정') 그 자리를 잇는 것으로
     const key = d.id === "item-sheet" ? itemSheet.key : d.id === "custom-sheet" ? custom.key : "";
     // 내 시간표의 항목 시트는 연 행(또는 격자의 칸)을 다시 그렸으면 같은 항목의 것으로, 항목을 뺐으면 '과목 추가'로
@@ -2046,7 +2045,7 @@ function rankTitle(R) {
   return [h("span", { class: "rank-total" }, `(${all} 중)`), " ", found];
 }
 
-/** 결과 화면의 조건 줄(동선 화면도 같은 글). 결과 화면에서 기숙사 동을 밝히는 곳은 이 줄뿐이다: '출발·도착 기숙사 906동 · 경사 반영'
+/** 결과 화면의 조건 줄. 결과 화면에서 기숙사 동을 밝히는 곳은 이 줄뿐이다: '출발·도착 기숙사 906동 · 경사 반영'
  *  (번호표·파선 견본·핀 이름은 어느 동이든 '기숙사'). 추가 설정을 걸었으면 끝에 붙인다: '… · 금 공강 · 점심 60분'(목록 제목의 두 수는 그 조건을 지키는 조합만 센 것이다) */
 const condText = (R) => dotted([`출발·도착 ${isDorm(R.home) ? `기숙사 ${buildingLabel(R.home)}` : placeLabel(R.home)}`,
   R.mode === "slope" ? "경사 반영" : "평지", ...rulesParts(R.rules)]);
@@ -2062,21 +2061,13 @@ function weekSum(ev, days) {
 function renderResult() {
   const R = state.result;
   if (!R) return;
-  $("route-head").hidden = !R.route;
-  if (R.route) { // 동선 화면(내 시간표): 맨 위 요약 줄과 조건 줄. 후보 목록은 없다
-    $("route-sum").replaceChildren(...[weekSum(R.ranked[0], R.days).nodes].flat(Infinity).filter(Boolean));
-    $("route-cond").replaceChildren(...condText(R));
-  } else {
-    $("rank-count").replaceChildren(...rankTitle(R));
-    $("rank-cond").replaceChildren(...condText(R));
-  }
-  // 교과구분 색 풀이: 결과 화면은 늘, 동선 화면은 칸 색이 교과구분별일 때만(과목별 색은 뜻이 없어 풀이를 두지 않는다)
-  $("cls-legend").hidden = !!R.route && ttColor !== "cls";
+  $("rank-count").replaceChildren(...rankTitle(R));
+  $("rank-cond").replaceChildren(...condText(R));
   $("daytabs").replaceChildren(...R.days.map((d) => h("button", { type: "button", role: "tab", id: `tab-${d}`, "data-day": String(d), "aria-controls": "day-panel" }, DAY_KO[d])));
   updateTabs();
   renderDay({ reveal: state.reveal });
   state.reveal = false;
-  if (!R.route) renderRanks();
+  renderRanks();
 }
 
 function updateTabs() {
@@ -2176,7 +2167,6 @@ function renderTimetable(ev, day, gridPx) {
   }
   box.replaceChildren(hours, grid);
   const fullW = grid.clientWidth - 16; // 칸 안 글자 폭(좌우 여백 8)
-  const R = state.result;
   const family = getComputedStyle(grid).fontFamily;
   const titleFont = `500 ${14 * k}px ${family}`, labelFont = `500 ${12 * k}px ${family}`, pillFont = `700 ${12 * k}px ${family}`; // t-block, t-label, 늦음 알약
   const widthOf = (text, font = labelFont) => { canvas.font = font; return canvas.measureText(text).width; };
@@ -2186,8 +2176,7 @@ function renderTimetable(ev, day, gridPx) {
     const m = l.meeting;
     if (!m) return;
     n += 1; // 지도 번호와 같은 순서
-    const half = (R.halves && R.halves.get(m)) || ""; // 동선 화면에서 시간이 겹치는 칸: 'half' 왼쪽, 'half right' 오른쪽
-    const textW = half ? Math.max(8, (fullW + 16 - 2) / 2 - 16) : fullW;
+    const textW = fullW;
     const late = lateOf(l);
     const heightPct = ((m.end - m.start) / span) * 100;
     const px = (heightPct / 100) * gridPx;
@@ -2200,8 +2189,7 @@ function renderTimetable(ev, day, gridPx) {
     const short = px < 38 * k;
     const title = shortName(m.section.name);
     const need = Math.min(3, textLines(title, titleFont, textW));
-    // 직접 넣은 일정(동선 화면)은 장소가 없으면 이름만, 있으면 건물만(호가 없다)
-    const place = m.section.custom ? (m.building ? buildingLabel(m.building) : "") : roomLabel(m);
+    const place = roomLabel(m);
     const rooms = place ? [place] : [];
     if (place && m.building && place !== buildingLabel(m.building)) rooms.push(buildingLabel(m.building));
     const fit = (avail) => {
@@ -2243,16 +2231,16 @@ function renderTimetable(ev, day, gridPx) {
         room = roomBeside(textW);
       }
     } else ({ lines } = fit(px - 6 - lateRow));
-    const fill = R.colors ? R.colors.get(m.section.key) || "var(--cls-etc-bg)" : clsFill(state.byId.get(m.section.courseId)?.cls || "");
+    const fill = clsFill(state.byId.get(m.section.courseId)?.cls || "");
     const nx = legs[i + 1];
     let next = "";
     if (m.building && nx) {
       if (nx.meeting && nx.meeting.building) next = `다음 수업까지 걷기 ${Math.round(nx.minutes)}분`;
       else if (!nx.meeting) next = `${placeLabel(state.result.home)}까지 걷기 ${Math.round(nx.minutes)}분`;
     }
-    const said = [`${n}. ${hm(m.start)}~${hm(m.end)} ${m.section.name}`, place, half ? "시간 겹침" : "", late ? `${late}분 늦음(${lateWhy(l)})` : "", next].filter(Boolean).join(", ");
+    const said = [`${n}. ${hm(m.start)}~${hm(m.end)} ${m.section.name}`, place, late ? `${late}분 늦음(${lateWhy(l)})` : "", next].filter(Boolean).join(", ");
     grid.append(h("li", {
-      class: `tt-block${half ? ` ${half}` : ""}${short ? " short" : ""}${roomTop ? " room-top" : pillRow ? " is-late pill-row" : lateRow ? " is-late" : ""}`,
+      class: `tt-block${short ? " short" : ""}${roomTop ? " room-top" : pillRow ? " is-late pill-row" : lateRow ? " is-late" : ""}`,
       style: { top: top(m.start), height: `calc(${heightPct}% - 2px)`, background: fill, "--lines": String(lines),
         ...(late && (short || roomTop) ? { "--late-w": `${Math.ceil(pillW + 6)}px` } : {}) }, // 알약과 같은 줄의 글은 알약 앞에서 끝난다
       title: `${m.section.name} ${hm(m.start)}~${hm(m.end)}${place ? ` ${place}` : ""}`,
@@ -2300,9 +2288,8 @@ function renderSummary(ev, day) {
   const legs = ev.legs.filter((l) => l.day === day);
   const walk = Math.round(legs.reduce((s, l) => s + l.minutes, 0));
   const late = lateText(legs, false); // '2분 늦음', 그날 둘이면 '2분·5분 늦음'(더한 값은 쓰지 않는다)
-  const clash = !!state.result.clashDays && state.result.clashDays.has(day);
   const tag = (text) => h("span", { class: "tag danger" }, h("span", { class: "sr-only" }, ", "), text);
-  box.replaceChildren(...[h("span", {}, "걷기 ", h("b", {}, `${walk}분`)), clash ? tag("시간 겹침") : null, late ? tag(late) : null].filter(Boolean));
+  box.replaceChildren(...[h("span", {}, "걷기 ", h("b", {}, `${walk}분`)), late ? tag(late) : null].filter(Boolean));
 }
 
 // ---------------------------------------------------------------- 지도
@@ -3431,7 +3418,7 @@ function renamed(title, selfId) {
   const used = mine.list.filter((t) => t.id !== selfId).map((t) => t.title);
   return used.includes(title) ? T.uniqueTitle(title, used) : title;
 }
-/** 지금 시간표가 바뀌었다(다른 시간표로 바꿨거나 학기가 바뀌었다). 보이지 않는 내 시간표 탭에 쌓인 과목 추가·동선 화면은 그 시간표의 것이라 거둔다 */
+/** 지금 시간표가 바뀌었다(다른 시간표로 바꿨거나 학기가 바뀌었다). 보이지 않는 내 시간표 탭에 쌓인 과목 추가 화면은 그 시간표의 것이라 거둔다 */
 function selectTt(id) {
   if (id === mine.id) return;
   mine.id = id;
@@ -3444,10 +3431,6 @@ function ttEntries(t) {
   if (state.loaded && state.semester === mine.sem) return T.reconcile(t, state.byId);
   return t.items.map((it) => ({ key: T.itemKey(it), item: it, meetings: (it.custom ? it.meetings : it.own || it.base).map(meetOf), state: it.custom ? "custom" : "same", live: null }));
 }
-/** 엔진이 읽는 분반 모양(동선): T.toSections 와 같다 */
-const ttSections = (t) => ttEntries(t).map(({ key, item, meetings }) => (item.custom
-  ? { key, courseId: null, no: "", name: item.title, instructor: "", custom: true, meetings }
-  : { key, courseId: item.course, no: item.no, name: item.name, instructor: item.instructor, custom: false, meetings }));
 const meetsOverlap = (a, b) => a.day === b.day && a.start < b.end && b.start < a.end;
 /** 시간이 겹치는 항목들의 열쇠 */
 function clashKeys(entries) {
@@ -3500,7 +3483,7 @@ function renderMine() {
   $("tt-legend").hidden = ttColor !== "cls" || !entries.length; // 격자 높이를 채울 때 색 풀이 자리를 뺀다(renderItems 에서도 같은 값)
   renderWeek(t, entries, clash);
   renderItems(entries, clash);
-  $("route-run").disabled = !t.items.length; // 비었으면 꺼진다(빈 격자가 까닭을 보인다)
+  $("route-run").disabled = !canRoute(t); // 동선 탐색에 보낼 과목이 없으면 꺼진다(비었으면 빈 격자가 까닭을 보인다)
   if (screen === "add") markAddRows(); // 넓은 화면 과목 추가: 격자에서 빼거나 다른 시간표로 바꾸면 결과 행의 넣음 표시도
 }
 /** 격자만 다시(과목 추가의 미리 보기가 바뀌었다) */
@@ -3702,7 +3685,7 @@ function placeItem(item) {
 }
 
 $("tt-switch").addEventListener("click", (e) => openTtList(e.currentTarget));
-$("route-run").addEventListener("click", () => { if (curTt().items.length) go("route"); });
+$("route-run").addEventListener("click", () => routeTt(curTt()));
 $("items").addEventListener("click", (e) => {
   const drop = e.target.closest("[data-drop]");
   if (drop) { dropItem(drop.dataset.drop, { fromList: true }); return; }
@@ -3725,7 +3708,8 @@ new ResizeObserver(() => {
 // ---- 시간표 목록 시트: 학기 선택칸(바꾸면 앱 전체의 학기), 시간표 행(지금 보는 것에 체크)과 행마다 ⋯, 맨 아래 '+ 새 시간표'(50개까지), 칸 색.
 // 시간표를 통째로 바꾸는 일은 그 시간표 행의 ⋯ 를 누르면 행 아래에 펼쳐진다(10/23 사용자: "사진의 창에 시간표마다". 그 전에는 머리 줄 ⋯ 의 메뉴 시트가 보는 시간표
 // 하나에만 걸었다): 맨 위에 이름이 든 입력칸(10/23 사용자: '이름 바꾸기' 줄 대신 이름이 입력칸 안에 있어 눌러 고칠 수 있는 것이 보이게. Enter·다른 곳을 누르면 바꾸고,
-// Esc 는 원래 이름으로), 그 아래 복사하기·대표로 정하기(대표에서 빼기)·동선 탐색에 담기·지우기
+// Esc 는 원래 이름으로), 그 아래 복사하기·대표 시간표로 설정하기(대표가 아닌 시간표에만. 10/23 사용자: '대표에서 빼기'는 없앴다)·지우기.
+// '동선 탐색에 담기'는 10/23 오후 사용자가 없앴다("동선 탐색에 넣기는 없애버리고 걍 동선 확인하기를 분반 정보 포함해서 동선탐색으로 보내": 아래 routeTt)
 let ttListOpen = null, ttListDrawn = 0; // 펼친 행(시간표 id. 아직 만들지 않은 빈 시간표 1은 ""), 그린 횟수
 function openTtList(opener) {
   $("tl-limit").hidden = true;
@@ -3733,7 +3717,7 @@ function openTtList(opener) {
   renderTtList();
   openSheet($("tt-list-sheet"), opener);
 }
-const TT_ACTS = [["copy", "복사하기"], ["primary", ""], ["explore", "동선 탐색에 담기"], ["delete", "지우기"]];
+const TT_ACTS = [["copy", "복사하기"], ["primary", "대표 시간표로 설정하기"], ["delete", "지우기"]];
 function renderTtList() {
   ttListDrawn += 1;
   fillTerm($("tl-year"), $("tl-term"));
@@ -3750,10 +3734,12 @@ function renderTtList() {
         on ? h("span", { class: "chk" }, icon(I.check, 24)) : null),
       h("button", { type: "button", class: "icon-btn tl-more", "data-tt-more": t.id, "aria-label": `${t.title} 메뉴`, "aria-expanded": String(open), "aria-controls": open ? actsId : null }, icon(I.more)));
     if (!open) return h("li", { class: "tl-item" }, line);
-    // 아직 만들지 않은 빈 시간표 1은 이름만(만들면서 대표가 된다), 과목이 없으면 탐색에 담기가 없다
-    const acts = TT_ACTS.filter(([k]) => !t.virtual && (k !== "explore" || n > 0));
+    // 아직 만들지 않은 빈 시간표 1은 이름만(만들면서 대표가 된다). 대표 시간표에는 '대표 시간표로 설정하기'가 없다
+    // (10/23 사용자: "'대표에서 빼기' 이거 없애고, 걍 대표 시간표가 아닌 시간표 메뉴에 '대표 시간표로 설정하기' 이거 넣어". 대표는 학기마다 늘 하나: 처음 만든 시간표가 대표이고
+    // 대표를 지우면 남은 것 중 하나가 대표다(T.createTimetable·T.deleteTimetable))
+    const acts = TT_ACTS.filter(([k]) => !t.virtual && (k !== "primary" || !t.primary));
     const act = ([k, text]) => h("li", {}, h("button", { type: "button", class: k === "delete" ? "menu-row danger" : "menu-row", "data-tt-act": k,
-      "aria-describedby": k === "copy" && !$("tl-limit").hidden ? "tl-limit" : null }, k === "primary" ? (t.primary ? "대표에서 빼기" : "대표로 정하기") : text));
+      "aria-describedby": k === "copy" && !$("tl-limit").hidden ? "tl-limit" : null }, text));
     const name = h("li", { class: "tl-rename" }, h("input", { class: "text-input", type: "text", "data-tt-name": t.id, maxlength: "30", value: t.title,
       autocomplete: "off", enterkeyhint: "done", "aria-label": "시간표 이름" }));
     return h("li", { class: "tl-item is-open" }, line, h("ul", { class: "tl-acts", id: actsId, "aria-label": `${t.title} 메뉴` }, name, acts.map(act)));
@@ -3814,10 +3800,10 @@ $("tl-rows").addEventListener("click", (e) => {
   renderMine();
   closeSheet(d);
 });
-/** 펼친 행의 일. 복사하기·대표는 시트를 그대로 두고 목록을 다시 그린다(복사한 시간표가 보는 시간표가 되고 그 행이 펼쳐진다). 탐색에 담기·지우기는 시트를 닫는다(지우기는 스낵바의 되돌리기) */
+/** 펼친 행의 일. 복사하기·대표는 시트를 그대로 두고 목록을 다시 그린다(복사한 시간표가 보는 시간표가 되고 그 행이 펼쳐진다). 지우기는 시트를 닫는다(스낵바의 되돌리기) */
 function ttListAct(k) {
   const d = $("tt-list-sheet"), id = ttListOpen;
-  let t = ttById(id);
+  const t = ttById(id);
   if (!t) return;
   if (k === "copy") { // '시간표 1 (2)'처럼 번호를 붙인 사본(T.copyTimetable)
     const c = T.copyTimetable(t, mine.list);
@@ -3832,15 +3818,13 @@ function ttListAct(k) {
     ttListOpen = c.id;
     refillTtList('[data-tt-act="copy"]');
     announce("복사했어요");
-  } else if (k === "primary") { // 학기에 대표는 하나다
-    mine.list = T.setPrimary(mine.list, t.primary ? null : t.id);
+  } else if (k === "primary") { // 학기에 대표는 하나다: 이 시간표가 대표가 되고 전 대표는 대표가 아니다. 그 줄은 사라지므로 초점은 그 아래 줄로
+    mine.list = T.setPrimary(mine.list, t.id);
     saveMine();
     renderMine();
-    refillTtList('[data-tt-act="primary"]');
-    t = ttById(id);
-    announce(t && t.primary ? "대표로 정했어요" : "대표에서 뺐어요");
-  } else if (k === "explore") { d.close(); exploreTt(t); }
-  else if (k === "delete") { closeSheet(d); deleteTt(t); }
+    refillTtList('[data-tt-act="delete"]');
+    announce("대표 시간표로 정했어요");
+  } else if (k === "delete") { closeSheet(d); deleteTt(t); }
 }
 // 이름 입력칸: Enter 나 다른 곳을 누르면(change) 바꾼다. 비우면 원래 이름. Esc 는 고치던 것을 원래 이름으로 되돌리고(시트는 닫지 않는다), 고친 것이 없으면 시트를 닫는다
 function commitTtName(input) {
@@ -3908,19 +3892,45 @@ function deleteTt(t) {
   });
 }
 
-/** 탐색에 담기: 이 시간표의 과목을 탐색의 담은 과목에 더하고(이미 담은 과목은 그대로, 새로 담는 과목은 분반을 모두 켠다) 탐색 탭의 입력 화면으로. 일정은 담지 않는다 */
-function exploreTt(t) {
-  let added = 0;
+/** 동선 확인하기(10/23 사용자: "동선 탐색에 넣기는 없애버리고 걍 동선 확인하기를 분반 정보 포함해서 동선탐색으로 보내"): 이 시간표의 과목을 그 분반만 켜서(다른 분반은 끈다)
+ *  동선 탐색의 담은 과목으로 바꿔 넣고, 항목에서 바꾼 시간·장소(강의실 미정에 고른 건물 등, 항목의 own)는 탐색의 직접 입력으로 옮긴 뒤 동선 탐색 탭에서 시간표 만들기를 돌린다
+ *  (켠 분반이 과목마다 하나라 조합은 이 시간표 하나다. 탐색의 조건·추가 설정은 그대로 쓴다: 맞는 조합이 없으면 입력 화면의 오류 줄). 전에 담아 둔 과목이 달랐으면
+ *  결과 화면(조합이 없으면 입력 화면)에 되돌리기 스낵바. 직접 넣은 일정과 편람에서 사라진 과목·분반은 탐색에 담을 수 없어 빠진다 */
+const canRoute = (t) => state.loaded && state.semester === mine.sem && t.items.some((it) => !it.custom && state.byId.get(it.course)?.sections.some((s) => s.key === T.itemKey(it)));
+let afterResult = null; // 결과 화면이 뜬 뒤 할 일(동선 확인하기의 되돌리기 스낵바. showView 가 결과 화면을 그린 뒤 부른다)
+function routeTt(t) {
+  if (!canRoute(t) || busy) return;
+  const picks = [], own = [];
   for (const it of t.items) {
-    if (it.custom || isPicked(it.course)) continue;
-    const c = state.byId.get(it.course);
-    if (state.loaded && !c) continue; // 편람에서 사라진 과목
-    state.picks.push({ id: it.course, excluded: new Set(), ...(c ? snapshot(c) : { name: it.name, cls: it.cls, credit: it.credit, dept: "" }) });
-    added += 1;
+    if (it.custom) continue;
+    const c = state.byId.get(it.course), key = T.itemKey(it), s = c && c.sections.find((x) => x.key === key);
+    if (!s) continue;
+    picks.push({ id: c.id, excluded: new Set(c.sections.filter((x) => x.key !== key).map((x) => x.key)), ...snapshot(c) });
+    own.push([s, it.own]);
   }
-  if (added) { changed(); renderPicked(); }
-  stacks.explore.length = 1;
-  switchTab("explore");
+  const sig = (ps) => ps.map((p) => `${p.id}:${[...p.excluded].sort().join(",")}`).sort().join("|");
+  const before = { picks: state.picks.map((p) => ({ ...p, excluded: new Set(p.excluded) })), overrides: JSON.parse(JSON.stringify(state.overrides)) };
+  const replaced = before.picks.length > 0 && sig(before.picks) !== sig(picks);
+  state.picks = picks;
+  for (const [s, o] of own) { // 이 시간표의 분반은 이 시간표의 시간·장소로(바꾼 것이 없으면 편람대로)
+    if (o && o.length) setOwn(s, o.map(([day, start, end, building, room]) => ({ days: [day], start, end, building, room })));
+    else delete state.overrides[s.key];
+  }
+  changed();
+  renderPicked();
+  const undo = () => {
+    state.picks = before.picks;
+    state.overrides = before.overrides;
+    changed();
+    renderPicked();
+    if (screen === "result") back(); // 결과는 바꿔 넣은 과목의 것이다
+  };
+  const snack = replaced ? () => showSnackbar("담은 과목을 이 시간표로 바꿨어요", "되돌리기", undo) : null;
+  switchTab("explore", async () => {
+    afterResult = snack;
+    await run();
+    if (afterResult && !state.result) { const f = afterResult; afterResult = null; f(); } // 조합이 없거나 못 만들었다: 입력 화면에서
+  });
 }
 
 // ---- 항목 시트(과목): 과목 시트와 같은 시트. 머리(과목명, 메타, 겹친 과목을 뺐다는 줄), 강의평·수강편람, 색, 넣은 분반(시간·장소 바꾸기), 다른 분반(바꾸기),
@@ -4532,54 +4542,6 @@ function listKeys(input, box, sel) {
   });
 }
 
-// ---- 동선 화면: 지금 시간표를 탐색 결과와 같은 비용·경로로(engine.checkRoute). 결과 화면을 같이 쓴다(맨 위 요약 줄과 조건 줄, 후보 목록 없음).
-// 칸 색은 칸 색 설정을 따르고, 시간이 겹치는 칸은 반씩 나란히, 그날 하루 요약에 '시간 겹침'. 겹친 수업으로 가는 길의 늦음은 세지 않는다(둘 다 들을 수 없다)
-function makeRoute() {
-  const t = curTt();
-  if (!state.campus || !t.items.length) return null;
-  const secs = state.loaded && state.semester === mine.sem ? T.toSections(t, state.byId) : ttSections(t);
-  const ev = checkRoute(secs, travelFor(state.mode), state.home);
-  const halves = new Map(), clashDays = new Set();
-  for (const [d, ms] of Object.entries(ev.days)) {
-    for (let i = 0; i < ms.length; i++) {
-      for (let j = 0; j < i; j++) {
-        if (ms[j].section === ms[i].section || !meetsOverlap(ms[j], ms[i])) continue;
-        if (!halves.has(ms[j])) halves.set(ms[j], "half");
-        halves.set(ms[i], "half right");
-        clashDays.add(Number(d));
-      }
-    }
-  }
-  for (const l of ev.legs) if (l.meeting && halves.get(l.meeting) === "half right") l.slack = null;
-  const colors = new Map(t.items.map((it) => [T.itemKey(it), itemFill(it)]));
-  return { route: true, ttId: t.id, ranked: [ev], ahead: [], full: false, total: null, courses: [], home: state.home, mode: state.mode, rules: null,
-    days: weekDays([ev]), axis: hourRange([ev]), colors, halves, clashDays };
-}
-/** 동선 화면을 그린다(들어올 때, 조건을 바꿨을 때). 보던 요일은 그대로 */
-function renderRoute({ reveal = false } = {}) {
-  const R = makeRoute();
-  if (!R) return false;
-  const keep = state.result && state.result.route && R.days.includes(state.day);
-  state.result = R;
-  state.rank = 0;
-  if (!keep) state.day = firstDay(R.ranked[0]);
-  state.reveal = reveal;
-  renderResult();
-  return true;
-}
-// 조건 바꾸기: 탐색 조건 카드의 출발·도착과 이동시간 칸을 시트로 옮겨 그대로 쓴다(같은 값이라 여기서 바꾸면 탐색의 조건도 바뀐다). 닫으면 돌려놓는다
-let condFields = null;
-$("route-cond-btn").addEventListener("click", (e) => {
-  condFields = [...document.querySelectorAll(".settings > fieldset")];
-  $("cd-body").replaceChildren(...condFields);
-  openSheet($("cond-sheet"), e.currentTarget);
-});
-function condSheetClosed() {
-  if (condFields) document.querySelector(".settings").prepend(...condFields);
-  condFields = null;
-  if (screen === "route") renderRoute();
-}
-
 // ---- 후보 카드의 저장하기: 이름을 묻지 않고 새 시간표 '시간표 n'으로 저장하고 '✓ 저장됨'. 다시 누르면 지우고 되돌리기 스낵바.
 // 같은 시간·건물 분반은 함께 남겨 항목 시트의 다른 분반 맨 위에(T.itemsFromRanked 의 alts). 저장한 시간표가 내 시간표 탭에서 보는 시간표가 된다
 const meetSig = (it) => sigOf((it.custom ? it.meetings : it.own || it.base).map(meetOf));
@@ -4604,7 +4566,7 @@ function setSaveButton(b, ev, i) {
 }
 /** 후보 카드의 저장 버튼을 지금 목록에 맞춘다(지우기·되돌리기 뒤) */
 function syncSaves() {
-  if (screen !== "result" || !state.result || state.result.route) return;
+  if (screen !== "result" || !state.result) return;
   for (const b of document.querySelectorAll("#ranks [data-save]")) setSaveButton(b, state.result.ranked[Number(b.dataset.save)], Number(b.dataset.save));
 }
 function toggleSave(i, b) {
@@ -4849,7 +4811,7 @@ function licenseBlocks(text) {
 }
 
 // ---------------------------------------------------------------- 탭, 화면 이동과 뒤로 가기(디자인 규칙 '탭', '뒤로 가기')
-// 아래 탭 둘: 내 시간표(내 시간표 → 과목 추가·동선 → 전체 화면 지도)와 탐색(입력 → 결과 → 전체 화면 지도). 정보(정보 → 자료 출처·오픈소스 라이선스)는
+// 아래 탭 둘: 내 시간표(내 시간표 → 과목 추가)와 탐색(입력 → 결과 → 전체 화면 지도). 내 시간표의 동선 확인하기는 그 시간표를 탐색 탭으로 보낸다(routeTt). 정보(정보 → 자료 출처·오픈소스 라이선스)는
 // 탭과 같은 층의 셋째 묶음 'info' 다(10/23 사용자: 시간표 탭에서 정보를 열고 동선 탐색에 다녀오면 시간표 탭에 정보가 다시 떴다. "이걸 다 동일한 층위로 맞춰줘").
 // 탭처럼 제 화면 더미(stacks.info)와 스크롤 자리를 기억하고, 탭을 누르면 그 탭의 화면으로 가며(정보는 어느 탭에도 쌓이지 않는다), 열 때와 나갈 때는 탭을
 // 바꿀 때처럼 교차 페이드다. 막대·사이드바에서는 정보에 있는 동안 두 탭 모두 고르지 않은 모양이고 컴퓨터 사이드바의 '정보'가 고른 모양이다.
@@ -4857,13 +4819,13 @@ function licenseBlocks(text) {
 // 기록은 늘 [켤 때 연 탭의 첫 화면, (다른 탭이면 그 탭의 첫 화면), 그 탭에 쌓인 화면 …]이다: 탭을 바꾸면 기록을 첫 화면까지 되감고(history.go) 새 탭의
 // 것을 다시 쌓는다. 그래서 탭의 첫 화면에서 뒤로 가면 켤 때 연 탭의 첫 화면, 거기서 뒤로 가면 앱을 나간다(안드로이드 원칙. 스토어 앱의 뒤로 가기는
 // native.js 가 열린 시트를 닫거나 history.back 을 부르고, 되돌아갈 기록이 없으면 앱을 내린다). 앱을 켜면 그 학기에 저장한 시간표가 있으면 내 시간표,
-// 없으면 탐색에서 시작한다. 결과 화면은 동선 화면(내 시간표)으로도 쓴다: 그 화면이 보는 결과(state.result·rank·day)는 탭마다 따로 둔다(useCtx).
+// 없으면 탐색에서 시작한다. 내 시간표 탭의 동선 화면은 10/23 오후에 없앴다(동선 확인하기가 탐색 탭으로 보낸다).
 // 정보의 기록은 연 탭의 기록 위에 얹는다: [… 연 탭에 쌓인 화면, 정보, (자료 출처·라이선스)]. 그래서 정보의 첫 화면에서 뒤로 가면 정보를 연 그 화면이다.
 // 정보에서 다른 탭을 누르면 탭을 바꿀 때처럼 첫 화면까지 되감고 그 탭의 것을 쌓는다(정보를 연 탭이면 정보만큼 되돌린다)
 
-const VIEW_EL = { input: "view-input", mine: "view-mine", add: "view-add", result: "view-result", route: "view-result", map: "view-map", info: "view-info", page: "view-page" };
+const VIEW_EL = { input: "view-input", mine: "view-mine", add: "view-add", result: "view-result", map: "view-map", info: "view-info", page: "view-page" };
 const VIEW_ELS = [...new Set(Object.values(VIEW_EL))];
-const H1 = { input: "input-title", mine: "mine-title", add: "add-title", result: "result-title", route: "result-title", map: "map-title", info: "info-title", page: "page-title" };
+const H1 = { input: "input-title", mine: "mine-title", add: "add-title", result: "result-title", map: "map-title", info: "info-title", page: "page-title" };
 const ROOT = { mine: "mine", explore: "input", info: "info" };
 const TABS = ["mine", "explore"]; // 막대·사이드바의 탭 단추(정보는 폰은 탭 첫 화면 상단 바의 ⓘ, 컴퓨터는 사이드바 맨 아래 '정보')
 // 탭 이름(10/23 사용자: "'시간표', '동선 탐색' 뭐 이런 느낌으로"). 아래 탭 막대와 컴퓨터의 사이드바가 같은 이름을 보인다
@@ -4887,19 +4849,9 @@ let infoFrom = null, infoBase = null; // 정보를 연 탭, 기록에서 정보 
 /** 그 묶음 첫 화면의 기록 깊이: 켤 때 연 탭 0, 다른 탭 1, 정보는 연 탭의 기록 위 */
 const baseDepth = (t) => (t === "info" ? infoBase : t === launchTab ? 0 : 1);
 
-// 결과 화면이 보는 결과: 탐색 탭은 탐색 결과, 내 시간표 탭은 동선
-const ctxs = { explore: null, route: null };
-let ctxName = "explore";
-function useCtx(name) {
-  if (name === ctxName) return;
-  ctxs[ctxName] = { result: state.result, rank: state.rank, day: state.day, reveal: state.reveal };
-  Object.assign(state, ctxs[name] || { result: null, rank: 0, day: 0, reveal: false });
-  ctxName = name;
-}
-/** 탐색 결과를 지운다(담은 과목·분반·조건·학기가 바뀌었다). 동선 화면이 보는 것은 그대로 두고, 보이지 않는 탐색 탭에 쌓인 결과 화면은 거둔다 */
+/** 탐색 결과를 지운다(담은 과목·분반·조건·학기가 바뀌었다). 보이지 않는 탐색 탭에 쌓인 결과 화면은 거둔다 */
 function dropExplore() {
-  if (ctxName === "explore") state.result = null;
-  else if (ctxs.explore) ctxs.explore.result = null;
+  state.result = null;
   if (tab !== "explore") stacks.explore.length = 1;
 }
 
@@ -4917,8 +4869,9 @@ function back() {
 }
 
 /** 탭을 바꾼다: 그 탭에서 마지막으로 보던 화면과 스크롤 자리로. 고른 탭을 다시 누르면 그 탭의 첫 화면으로, 첫 화면이면 맨 위로.
- *  정보에서 누르면: 정보를 연 탭이면 정보만큼 기록을 되돌리고(그 탭의 마지막 화면), 다른 탭이면 탭을 바꿀 때처럼 되감아 쌓는다 */
-function switchTab(next) {
+ *  정보에서 누르면: 정보를 연 탭이면 정보만큼 기록을 되돌리고(그 탭의 마지막 화면), 다른 탭이면 탭을 바꿀 때처럼 되감아 쌓는다.
+ *  after: 다른 탭으로 바꾸고 그 화면을 보인 뒤 부른다(동선 확인하기가 탐색 탭에서 시간표 만들기를 돌린다) */
+function switchTab(next, after) {
   if (rebuild || !TAB_NAME[next]) return;
   if (next === tab) { toFirst(); return; }
   if (tab === "info" && next === infoFrom) { history.go(-(depth - infoBase + 1)); return; }
@@ -4930,6 +4883,7 @@ function switchTab(next) {
     enterTab(next);
     const top = target[target.length - 1];
     showView(top.view, "tab", top.extra);
+    if (after) after();
   };
   if (depth > 0) { rebuild = apply; history.go(-depth); } else apply();
 }
@@ -4941,7 +4895,6 @@ function toFirst() {
 }
 function enterTab(next) {
   tab = next;
-  if (next !== "info") useCtx(next === "mine" ? "route" : "explore"); // 정보는 결과를 보지 않는다(연 탭의 것을 그대로 둔다)
 }
 
 /** 아래 탭 막대(알약 안에 아이콘 20 + 이름)와 컴퓨터의 사이드바(아이콘 24 + 이름): 고른 것에 aria-current="page"와 채운 아이콘.
@@ -5011,7 +4964,7 @@ function transition(apply, dir) {
 /** 화면을 보인다. dir: forward(새 화면) · back(기록을 되돌아옴) · tab(탭을 바꿈) · init(켤 때) */
 function showView(name, dir, extra = {}) {
   if (!VIEW_EL[name]) name = ROOT[tab]; // 없어진 화면의 기록(10/22 밤까지 있던 라이선스 전문 화면 'text')
-  if (((name === "result" || name === "map") && !state.result) || (name === "route" && !makeRoute())) name = ROOT[tab]; // 결과가 지워졌거나(학기를 바꿨다) 시간표가 비었다
+  if ((name === "result" || name === "map") && !state.result) name = ROOT[tab]; // 결과가 지워졌다(학기를 바꿨다)
   if (name !== "input" || screen === "result") cancelCompute(); // 결과 화면을 떠나면 이어 찾던 것도 멈춘다
   const from = screen;
   // 넓은 화면에서 내 시간표 ↔ 과목 추가: 같은 화면의 오른쪽 칸만 바뀐다. 옆으로 밀지 않고 교차 페이드(탭 바꾸기와 같은 dur-fade), 스크롤 자리도 그대로
@@ -5024,12 +4977,10 @@ function showView(name, dir, extra = {}) {
     screen = name;
     screenTab = tab;
     layoutViews(name);
-    $("view-result").classList.toggle("is-route", name === "route");
     document.body.classList.toggle("tabbar-off", name === "map"); // 전체 화면 지도는 탭 막대를 덮는다
     document.body.classList.toggle("no-cta", name !== "input" && name !== "mine"); // 스낵바는 주요 버튼이 없는 화면에서 탭 막대 바로 위
     renderTabs();
     if (name === "result") { $("result-title").textContent = "추천 시간표"; renderResult(); }
-    if (name === "route") { $("result-title").textContent = "동선"; renderRoute({ reveal: dir === "forward" }); }
     if (name === "add") renderAdd();
     if (mineShown()) renderMine();
     if (name === "info") renderInfo();
@@ -5037,6 +4988,7 @@ function showView(name, dir, extra = {}) {
     if (name === "page") renderPage();
     document.title = titleOf(name);
     if (from !== name) hideSnackbar();
+    if (name === "result" && afterResult) { const f = afterResult; afterResult = null; f(); }
     if (!swap) window.scrollTo(0, dir === "back" || dir === "tab" ? scrollOf[`${tab}:${name}`] || 0 : 0);
     focusAfter(name, dir, from);
     if (name === "input") { showUpdateIfReady(); if (dir === "tab") setTimeout(askTheme, 400); }
@@ -5388,7 +5340,6 @@ history.scrollRestoration = "manual";
 // 탐색 입력 화면을 먼저 가려 둔다(data-launch, 켜자마자 입력 화면이 번쩍 보이지 않게). 학기 목록을 받은 뒤 다른 학기로 열려도 첫 탭은 그대로다
 readMine(String(store.get(T.STORE_KEYS.open, "") || store.get("semester", null)?.id || ""));
 launchTab = tab = screenTab = T.hasTimetables(store.get(semKey(T.STORE_KEYS.list, mine.sem), [])) ? "mine" : "explore";
-ctxName = tab === "mine" ? "route" : "explore";
 history.replaceState({ tab, view: ROOT[tab], depth: 0 }, "", location.pathname + location.search);
 // 교과구분 색 풀이: 결과 화면 시간표 아래, 입력 화면 담은 과목 아래, 내 시간표 격자 아래(교과구분별 칸 색일 때)
 for (const id of ["cls-legend", "picked-legend", "tt-legend"]) {
