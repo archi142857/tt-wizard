@@ -109,7 +109,29 @@
   "classification": "전선",
   "program": "학사",
   "status": "설강",
-  "meetings": []
+  "meetings": [
+   {
+    "day": 0,
+    "start": 720,
+    "end": 890,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 1,
+    "start": 720,
+    "end": 890,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 2,
+    "start": 720,
+    "end": 890,
+    "building": "",
+    "room": ""
+   }
+  ]
  },
  {
   "course_id": "M3500.002200",
@@ -145,7 +167,29 @@
   "classification": "전선",
   "program": "학사",
   "status": "설강",
-  "meetings": []
+  "meetings": [
+   {
+    "day": 0,
+    "start": 540,
+    "end": 710,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 1,
+    "start": 540,
+    "end": 710,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 2,
+    "start": 540,
+    "end": 710,
+    "building": "",
+    "room": ""
+   }
+  ]
  },
  {
   "course_id": "M3502.002500",
@@ -157,7 +201,29 @@
   "classification": "전선",
   "program": "학사",
   "status": "설강",
-  "meetings": []
+  "meetings": [
+   {
+    "day": 1,
+    "start": 900,
+    "end": 1070,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 3,
+    "start": 900,
+    "end": 1070,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 4,
+    "start": 900,
+    "end": 1070,
+    "building": "",
+    "room": ""
+   }
+  ]
  },
  {
   "course_id": "M3500.000300",
@@ -303,7 +369,29 @@
   "classification": "전선",
   "program": "학사",
   "status": "설강",
-  "meetings": []
+  "meetings": [
+   {
+    "day": 1,
+    "start": 720,
+    "end": 890,
+    "building": "301",
+    "room": "301-103(무선랜제공)"
+   },
+   {
+    "day": 2,
+    "start": 720,
+    "end": 890,
+    "building": "301",
+    "room": "301-103(무선랜제공)"
+   },
+   {
+    "day": 3,
+    "start": 720,
+    "end": 890,
+    "building": "301",
+    "room": "301-103(무선랜제공)"
+   }
+  ]
  },
  {
   "course_id": "M3500.001300",
@@ -315,7 +403,36 @@
   "classification": "전선",
   "program": "학사",
   "status": "설강",
-  "meetings": []
+  "meetings": [
+   {
+    "day": 0,
+    "start": 900,
+    "end": 1070,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 1,
+    "start": 900,
+    "end": 1070,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 2,
+    "start": 900,
+    "end": 1070,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 3,
+    "start": 900,
+    "end": 1070,
+    "building": "",
+    "room": ""
+   }
+  ]
  },
  {
   "course_id": "M3502.001900",
@@ -327,7 +444,29 @@
   "classification": "전선",
   "program": "학사",
   "status": "설강",
-  "meetings": []
+  "meetings": [
+   {
+    "day": 0,
+    "start": 720,
+    "end": 890,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 1,
+    "start": 720,
+    "end": 890,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 3,
+    "start": 720,
+    "end": 890,
+    "building": "",
+    "room": ""
+   }
+  ]
  },
  {
   "course_id": "M3502.005700",
@@ -373,7 +512,29 @@
   "classification": "전선",
   "program": "학사",
   "status": "설강",
-  "meetings": []
+  "meetings": [
+   {
+    "day": 0,
+    "start": 900,
+    "end": 1070,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 2,
+    "start": 900,
+    "end": 1070,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 3,
+    "start": 900,
+    "end": 1070,
+    "building": "",
+    "room": ""
+   }
+  ]
  },
  {
   "course_id": "M3502.015600",
@@ -397,7 +558,29 @@
   "classification": "전선",
   "program": "학사",
   "status": "설강",
-  "meetings": []
+  "meetings": [
+   {
+    "day": 0,
+    "start": 540,
+    "end": 710,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 1,
+    "start": 540,
+    "end": 710,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 2,
+    "start": 540,
+    "end": 710,
+    "building": "",
+    "room": ""
+   }
+  ]
  },
  {
   "course_id": "M3502.007000",
@@ -409,7 +592,29 @@
   "classification": "전선",
   "program": "학사",
   "status": "설강",
-  "meetings": []
+  "meetings": [
+   {
+    "day": 1,
+    "start": 540,
+    "end": 710,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 2,
+    "start": 540,
+    "end": 710,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 3,
+    "start": 540,
+    "end": 710,
+    "building": "",
+    "room": ""
+   }
+  ]
  },
  {
   "course_id": "M3502.008700",
@@ -489,7 +694,29 @@
   "classification": "전선",
   "program": "학사",
   "status": "설강",
-  "meetings": []
+  "meetings": [
+   {
+    "day": 0,
+    "start": 1080,
+    "end": 1190,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 1,
+    "start": 1080,
+    "end": 1190,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 3,
+    "start": 1080,
+    "end": 1190,
+    "building": "",
+    "room": ""
+   }
+  ]
  },
  {
   "course_id": "M3502.004100",
@@ -501,7 +728,29 @@
   "classification": "전선",
   "program": "학사",
   "status": "설강",
-  "meetings": []
+  "meetings": [
+   {
+    "day": 0,
+    "start": 1080,
+    "end": 1190,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 1,
+    "start": 1080,
+    "end": 1190,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 3,
+    "start": 1080,
+    "end": 1190,
+    "building": "",
+    "room": ""
+   }
+  ]
  },
  {
   "course_id": "E11.102",
@@ -1378,6 +1627,20 @@
   "meetings": [
    {
     "day": 0,
+    "start": 540,
+    "end": 710,
+    "building": "8",
+    "room": "8-101(무선랜제공)"
+   },
+   {
+    "day": 2,
+    "start": 540,
+    "end": 710,
+    "building": "8",
+    "room": "8-101(무선랜제공)"
+   },
+   {
+    "day": 4,
     "start": 540,
     "end": 710,
     "building": "8",
@@ -2297,6 +2560,20 @@
     "end": 890,
     "building": "6",
     "room": "6-105(무선랜제공)"
+   },
+   {
+    "day": 2,
+    "start": 720,
+    "end": 890,
+    "building": "6",
+    "room": "6-105(무선랜제공)"
+   },
+   {
+    "day": 4,
+    "start": 720,
+    "end": 890,
+    "building": "6",
+    "room": "6-105(무선랜제공)"
    }
   ]
  },
@@ -2791,6 +3068,20 @@
   "meetings": [
    {
     "day": 0,
+    "start": 540,
+    "end": 710,
+    "building": "8",
+    "room": "8-B101(무선랜제공)"
+   },
+   {
+    "day": 2,
+    "start": 540,
+    "end": 710,
+    "building": "8",
+    "room": "8-B101(무선랜제공)"
+   },
+   {
+    "day": 4,
     "start": 540,
     "end": 710,
     "building": "8",
@@ -3751,7 +4042,29 @@
   "classification": "교양",
   "program": "학사",
   "status": "설강",
-  "meetings": []
+  "meetings": [
+   {
+    "day": 2,
+    "start": 720,
+    "end": 890,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 3,
+    "start": 720,
+    "end": 890,
+    "building": "",
+    "room": ""
+   },
+   {
+    "day": 4,
+    "start": 720,
+    "end": 890,
+    "building": "",
+    "room": ""
+   }
+  ]
  },
  {
   "course_id": "T1831.000300",
@@ -4958,6 +5271,20 @@
     "end": 890,
     "building": "8",
     "room": "8-301(무선랜제공)"
+   },
+   {
+    "day": 2,
+    "start": 720,
+    "end": 890,
+    "building": "8",
+    "room": "8-301(무선랜제공)"
+   },
+   {
+    "day": 4,
+    "start": 720,
+    "end": 890,
+    "building": "8",
+    "room": "8-301(무선랜제공)"
    }
   ]
  },
@@ -4978,6 +5305,20 @@
     "end": 1070,
     "building": "8",
     "room": "8-301(무선랜제공)"
+   },
+   {
+    "day": 2,
+    "start": 900,
+    "end": 1070,
+    "building": "8",
+    "room": "8-301(무선랜제공)"
+   },
+   {
+    "day": 4,
+    "start": 900,
+    "end": 1070,
+    "building": "8",
+    "room": "8-301(무선랜제공)"
    }
   ]
  },
@@ -4994,6 +5335,20 @@
   "meetings": [
    {
     "day": 0,
+    "start": 720,
+    "end": 890,
+    "building": "8",
+    "room": "8-B101(무선랜제공)"
+   },
+   {
+    "day": 2,
+    "start": 720,
+    "end": 890,
+    "building": "8",
+    "room": "8-B101(무선랜제공)"
+   },
+   {
+    "day": 4,
     "start": 720,
     "end": 890,
     "building": "8",
@@ -5258,24 +5613,24 @@
   "meetings": [
    {
     "day": 0,
-    "start": 540,
-    "end": 710,
-    "building": "2",
-    "room": "2-110(무선랜제공)"
+    "start": 900,
+    "end": 1070,
+    "building": "",
+    "room": ""
    },
    {
     "day": 2,
-    "start": 540,
-    "end": 710,
-    "building": "2",
-    "room": "2-110(무선랜제공)"
+    "start": 900,
+    "end": 1070,
+    "building": "",
+    "room": ""
    },
    {
     "day": 4,
-    "start": 540,
-    "end": 710,
-    "building": "2",
-    "room": "2-110(무선랜제공)"
+    "start": 900,
+    "end": 1070,
+    "building": "",
+    "room": ""
    }
   ]
  },
@@ -6295,38 +6650,38 @@
   "meetings": [
    {
     "day": 0,
-    "start": 900,
-    "end": 1070,
-    "building": "3",
-    "room": "3-116(무선랜제공)"
+    "start": 540,
+    "end": 710,
+    "building": "",
+    "room": ""
    },
    {
     "day": 0,
-    "start": 720,
-    "end": 800,
-    "building": "3",
-    "room": "3-105(무선랜제공)/3-106(무선랜제공)"
+    "start": 810,
+    "end": 890,
+    "building": "2",
+    "room": "2-101-1(무선랜제공)/2-102(무선랜제공)"
    },
    {
     "day": 2,
-    "start": 900,
-    "end": 1070,
-    "building": "3",
-    "room": "3-116(무선랜제공)"
+    "start": 540,
+    "end": 710,
+    "building": "",
+    "room": ""
    },
    {
     "day": 2,
-    "start": 720,
-    "end": 800,
-    "building": "3",
-    "room": "3-105(무선랜제공)/3-106(무선랜제공)"
+    "start": 810,
+    "end": 890,
+    "building": "2",
+    "room": "2-101-1(무선랜제공)/2-102(무선랜제공)"
    },
    {
     "day": 4,
-    "start": 900,
-    "end": 1070,
-    "building": "3",
-    "room": "3-116(무선랜제공)"
+    "start": 540,
+    "end": 710,
+    "building": "",
+    "room": ""
    }
   ]
  },
@@ -7031,7 +7386,29 @@
   "classification": "전선",
   "program": "석박사통합",
   "status": "설강",
-  "meetings": []
+  "meetings": [
+   {
+    "day": 0,
+    "start": 540,
+    "end": 710,
+    "building": "57-1",
+    "room": "57-1-421"
+   },
+   {
+    "day": 1,
+    "start": 540,
+    "end": 710,
+    "building": "57-1",
+    "room": "57-1-421"
+   },
+   {
+    "day": 3,
+    "start": 540,
+    "end": 710,
+    "building": "57-1",
+    "room": "57-1-421"
+   }
+  ]
  },
  {
   "course_id": "T1831.000900",
