@@ -194,7 +194,7 @@ function clsKey(cls) {
 }
 const clsColor = (cls) => `var(--cls-${clsKey(cls)})`;
 const clsFill = (cls) => `var(--cls-${clsKey(cls)}-bg)`;
-/** 결과 화면 칸(.tt-block)의 글자색: 그 교과구분 칸 색의 글자색(디자인 80판. 기본 테마는 text·text2, 크리스마스의 짙은 칸은 흰색) */
+/** 결과 화면 칸(.tt-block)의 글자색: 그 교과구분 칸 색의 글자색(디자인 80판. 기본 테마는 text·text2, 크리스마스의 짙은 칸(전필·전선)은 흰 과목명과 옅은 같은 색 강의실) */
 const clsInk = (cls) => ({ "--fill-fg": `var(--cls-${clsKey(cls)}-fg)`, "--fill-fg2": `var(--cls-${clsKey(cls)}-fg2)` });
 
 // ---------------------------------------------------------------- 직접 넣은 강의실·시간
@@ -3389,8 +3389,8 @@ $("ranks-cancel").addEventListener("click", () => cancelCompute());
 // 시간이 겹치게 넣으면 묻지 않고 겹치는 항목을 뺀 뒤 되돌리기를 준다(묻는 창은 되돌릴 수 없는 일에만 쓴다)
 
 const COLOR_NAMES = ["파랑", "초록", "주황", "보라", "노랑", "분홍", "청록", "회색"]; // 칸 색 item-0~7 의 이름(색 고르기의 스크린리더 이름. 화면에는 쓰지 않는다)
-// 이벤트 테마의 칸 색 이름: 테마마다 팔레트가 따로라 이름도 그 테마의 것이다(디자인 80판. 크리스마스 '리스')
-const THEME_COLOR_NAMES = { xmas: ["초록", "빨강", "연두", "진초록", "금색", "청록", "와인", "은색"] };
+// 이벤트 테마의 칸 색 이름: 테마마다 팔레트가 따로라 이름도 그 테마의 것이다(디자인 80판. 크리스마스 값은 81판 '선명하게')
+const THEME_COLOR_NAMES = { xmas: ["초록", "연초록", "금색", "청록", "빨강", "크림", "연두", "은색"] };
 const colorNames = () => THEME_COLOR_NAMES[document.documentElement.dataset.theme] || COLOR_NAMES;
 // 시간표 칸 색: 과목별(item) | 교과구분별(cls). 이 기기 하나, 학기와 상관없다. 기기에 두는 열쇠는 다 백엔드 timetables.js 의 STORE_KEYS
 let ttColor = T.colorMode(store.get(T.STORE_KEYS.color, "item"));
@@ -3474,7 +3474,7 @@ const colorNo = (it) => (Number.isInteger(it.color) ? it.color : 0) % COLOR_NAME
 /** 칸 색과 점 색: 과목별이면 item-N, 교과구분별이면 탐색과 같은 교과구분 색(일정은 기타). 칸 색은 테마마다 따로다(디자인 80판) */
 const itemFill = (it) => (ttColor === "cls" ? clsFill(it.custom ? "" : it.cls) : `var(--item-${colorNo(it)})`);
 const itemDot = (it) => (ttColor === "cls" ? clsColor(it.custom ? "" : it.cls) : `var(--item-${colorNo(it)}-dot)`);
-/** 칸 위 글자색: 그 칸 색의 글자색(--block-fg 과목명·--block-fg2 강의실. 내 시간표·공유받은 시간표 격자·시간표 이미지. 크리스마스의 짙은 칸은 흰색) */
+/** 칸 위 글자색: 그 칸 색의 글자색(--block-fg 과목명·--block-fg2 강의실. 내 시간표·공유받은 시간표 격자·시간표 이미지. 크리스마스의 짙은 칸은 흰 과목명과 옅은 같은 색 강의실) */
 const itemInk = (it) => {
   const k = ttColor === "cls" ? `cls-${clsKey(it.custom ? "" : it.cls)}` : `item-${colorNo(it)}`;
   return { "--block-fg": `var(--${k}-fg)`, "--block-fg2": `var(--${k}-fg2)` };
