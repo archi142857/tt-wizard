@@ -132,6 +132,9 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
 사용자 10/23 "시간표 이미지로 내보내는 기능". 그림에 시간표 자료를 넣는 것은 `web/js/timetables.js`(`docs/timetables.md` '이미지 파일에 담기'),
 앱에서 나누고 저장하는 것은 이 앱 안의 플러그인 `app/android/app/src/main/java/com/ttwizard/app/ImagePlugin.java`(이름 `TTWImage`, `MainActivity` 가 등록한다).
 화면은 `native.js` 의 `TTW_APP.shareImage({bytes, name, title})`·`TTW_APP.saveImage({bytes, name})` 를 부른다.
+메뉴에 줄을 둘지는 `TTW_APP.canSaveImage`(사진에 저장되는 기기: 안드로이드 10 이상)·`TTW_APP.canShareImage`(공유 시트) 로 본다(디자인 10/23).
+`native.js` 가 켤 때 플러그인의 `info` 에 한 번 묻고 답이 오면 `true` 가 된다(처음엔 `false`, 보통 몇 ms 안). 기다려야 하면 `await TTW_APP.imageInfo`(`{save, share}`).
+iOS 앱·옛 앱은 플러그인이 없어 둘 다 `false` 이고, 웹에는 `TTW_APP` 이 없다(웹은 내려받기).
 
 - **권한을 더하지 않는다**: 공유는 앱 캐시(`cache/share/`, 지난번 것은 지운다)에 쓰고 `FileProvider`(템플릿에 있던 `${applicationId}.fileprovider`)로 공유 시트에 넘긴다.
   저장은 안드로이드 10(API 29) 이상에서 `MediaStore` 에 제 파일을 더한다(`Pictures/TT Wizard`. 권한 없음). 9 이하는 저장소 권한이 있어야 해서 `UNSUPPORTED` 로 거절하고 화면은 공유로 돌린다.
@@ -140,7 +143,8 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
   클라우드에서는 안드로이드 빌드를 못 해서, 고친 뒤에는 Actions `app` 이 컴파일하는지 본다(이 세션은 가짜 android·Capacitor 클래스로 `javac` 만 돌려 봤다).
 - 파일은 받은 바이트 그대로 쓴다(안의 시간표 자료가 남는다). 받는 앱이 다시 압축하면 자료는 빠진다(카카오톡 '사진' 등).
 - iOS 는 아직이다(Mac 이 없어 iOS 는 나중, 10/3): 플러그인이 없어 `UNSUPPORTED` 로 거절된다. 낼 때는 공유 시트(`UIActivityViewController`)를 붙이고,
-  공유 시트의 '이미지 저장'에 `NSPhotoLibraryAddUsageDescription` 이 있어야 한다(없으면 그 자리에서 앱이 꺼진다). 웹뷰의 파일 고르기도 iOS 에서는 '사진 찍기'를
+  공유 시트의 '이미지 저장'에 `NSPhotoLibraryAddUsageDescription` 이 있어야 한다(없으면 그 자리에서 앱이 꺼진다). 사용자가 사진 권한을 거부해도
+  공유 시트의 다른 길(파일·메신저)로는 내보낼 수 있게 둔다(법무 10/23: 선택 권한을 거부했다고 기능을 막지 않기). 웹뷰의 파일 고르기도 iOS 에서는 '사진 찍기'를
   같이 보여서 `NSCameraUsageDescription` 이 필요할 수 있다(그때 다시 본다).
 
 ## 앞으로 기능을 만들 때 (법무 10/22)
@@ -193,10 +197,12 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
 1. 비행기 모드로 처음 켜도 과목 검색과 시간표 만들기가 된다(앱에 넣은 자료). 켤 때 흰 화면이 번쩍이지 않는다.
 2. 뒤로 가기: 열린 시트 닫기 → 이전 화면 → 첫 화면에서는 앱이 내려간다(다시 열면 그대로).
 3. 상태 바의 시계·아이콘이 라이트·다크 기기 모두에서 보인다. 앱을 켜 둔 채 기기 테마를 바꾸고 돌아와도 보인다(위 '안드로이드 상태 바 글자색').
-4. 이벤트 테마: 기기 날짜를 12월 1~25일로 옮기면 크리스마스 테마가 켜진다(앱은 주소로 켤 수 없다). 짙은 초록 바탕 위에서 상태 바 글자가 밝게 나오고,
-   정보 화면에서 테마를 끄면 기기 테마에 맞게 돌아온다. 코드로는 `DARK` = 밝은 글자(안드로이드 `setAppearanceLightStatusBars(false)`, iOS `.lightContent`)다.
+4. 이벤트 테마: 기기 날짜를 12월(1~31일, 디자인 75판)로 옮기면 크리스마스 테마가 켜진다(앱은 주소로 켤 수 없다). 짙은 초록 바탕 위에서 상태 바 글자가 밝게 나오고,
+   `테마` 탭에서 `기본`을 고르면 기기 테마에 맞게 돌아온다. 코드로는 `DARK` = 밝은 글자(안드로이드 `setAppearanceLightStatusBars(false)`, iOS `.lightContent`)다.
 5. 정보 화면의 바깥 링크가 앱 안 브라우저(Custom Tab)로 열린다. 과목 시트의 `강의평`(프론트엔드가 넣은 뒤)은 기기의 기본 브라우저나 에브리타임 앱으로 열리고,
    돌아오면 앱 화면이 그대로다.
+6. 시간표 이미지: `이미지로 저장`이 사진 앱의 `TT Wizard` 앨범에 들어가고, `이미지 보내기`가 공유 시트를 연다. 저장한 이미지를 `이미지 불러오기`로 고르면
+   같은 시간표가 돌아온다. 카카오톡 '사진'으로 받은 것은 `jpeg` 오류, '파일'로 받은 것은 불러와진다.
 
 ## 확인한 것 (10/1)
 

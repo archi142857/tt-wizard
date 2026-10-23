@@ -22,7 +22,7 @@ function fakeIndexedDB() {
   };
 }
 
-function setup({ native = true, http = null, online = true, platform = "android", bars = true, image = true } = {}) {
+function setup({ native = true, http = null, online = true, platform = "android", bars = true, image = true, sdk = 34 } = {}) {
   const calls = { local: [], remote: [], back: 0, minimized: 0, bars: [], image: [] };
   const scheme = []; // 기기 테마(prefers-color-scheme)가 바뀔 때 부를 것들
   const visible = []; // 앱으로 돌아올 때(visibilitychange) 부를 것들
@@ -47,6 +47,7 @@ function setup({ native = true, http = null, online = true, platform = "android"
         ...(image ? { TTWImage: {
           share: (opts) => { calls.image.push(["share", opts]); return Promise.resolve(); },
           save: (opts) => { calls.image.push(["save", opts]); return Promise.resolve({ uri: "content://media/1" }); },
+          info: () => Promise.resolve({ save: sdk >= 29, sdk }),
         } } : {}),
       },
     } : undefined,
@@ -223,6 +224,15 @@ const out = {};
     big: Buffer.from(s.calls.image[2][1].data, "base64").equals(Buffer.alloc(70000, 7)),
     saved, unsupported: err, bad, count: s.calls.image.length,
   };
+  // 사진에 저장되는 기기인지: 켤 때 한 번 묻고(처음엔 false) 답이 오면 바뀐다. 플러그인이 없으면(iOS·옛 앱) 둘 다 false
+  const fresh = setup();
+  const before = [fresh.win.TTW_APP.canSaveImage, fresh.win.TTW_APP.canShareImage];
+  const info = await fresh.win.TTW_APP.imageInfo;
+  const old = setup({ sdk: 28 });
+  const oldInfo = await old.win.TTW_APP.imageInfo;
+  const noneInfo = await none.win.TTW_APP.imageInfo;
+  out.imageInfo = { before, info, after: [fresh.win.TTW_APP.canSaveImage, fresh.win.TTW_APP.canShareImage],
+    old: [oldInfo, old.win.TTW_APP.canSaveImage, old.win.TTW_APP.canShareImage], none: [noneInfo, none.win.TTW_APP.canSaveImage] };
 }
 
 console.log(JSON.stringify(out));
