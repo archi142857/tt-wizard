@@ -79,6 +79,14 @@
   --item-5: #ffdceb; --item-5-dot: #bf5884;
   --item-6: #c3f4f7; --item-6-dot: #0097a1;
   --item-7: #e6eaf2; --item-7-dot: #798090;
+  /* 칸 위 글자색(디자인 80판): 칸에 채움과 함께 넣는다(내 시간표·공유받은 시간표·시간표 이미지는 --block-fg·fg2, 결과 화면은 --fill-fg·fg2).
+     기본 테마는 라이트·다크 모두 text·text2(다크 값은 다크 블록의 text·text2 로 풀린다). 이벤트 테마는 그 칸 색에 맞춰 따로 둔다(짙은 칸은 흰 글자) */
+  --item-0-fg: var(--text); --item-0-fg2: var(--text2); --item-1-fg: var(--text); --item-1-fg2: var(--text2);
+  --item-2-fg: var(--text); --item-2-fg2: var(--text2); --item-3-fg: var(--text); --item-3-fg2: var(--text2);
+  --item-4-fg: var(--text); --item-4-fg2: var(--text2); --item-5-fg: var(--text); --item-5-fg2: var(--text2);
+  --item-6-fg: var(--text); --item-6-fg2: var(--text2); --item-7-fg: var(--text); --item-7-fg2: var(--text2);
+  --cls-req-fg: var(--text); --cls-req-fg2: var(--text2); --cls-elec-fg: var(--text); --cls-elec-fg2: var(--text2);
+  --cls-gen-fg: var(--text); --cls-gen-fg2: var(--text2); --cls-etc-fg: var(--text); --cls-etc-fg2: var(--text2);
   --map-land: #f2efe9;
   --map-campus: #f5f6ff;
   --map-campus-line: #d7dcfa;
@@ -815,12 +823,13 @@ html:has(#add-sheet[open]) #view-mine { padding-bottom: calc(55vh + var(--space-
 .tt-hours span { position: absolute; right: 0; transform: translateY(-50%); font-size: 0.75rem; line-height: 1rem; font-weight: 500; color: var(--text3); }
 .tt-grid { position: relative; flex: 1; min-width: 0; height: calc(var(--tt-h) + var(--tt-extra, 0px)); margin: var(--space-2) 0 0; padding: 0; list-style: none; }
 .tt-line { position: absolute; left: 0; right: 0; height: 1px; background: var(--line); }
-/* 수업 칸: 교과구분 연한 색 바탕(app.js 가 칠한다), 과목명 t-block(어느 칸이나 14px), 강의실 t-label(늘 보인다). 칸 높이에 맞춰 과목명 줄 수(--lines)를 정한다 */
+/* 수업 칸: 교과구분 칸 색 바탕과 그 색의 글자색(app.js 가 칠한다: background 와 --fill-fg·--fill-fg2, 디자인 80판), 과목명 t-block(어느 칸이나 14px),
+   강의실 t-label(늘 보인다). 칸 높이에 맞춰 과목명 줄 수(--lines)를 정한다 */
 .tt-block { position: absolute; left: 0; right: 0; display: flex; flex-direction: column; justify-content: center; padding: 3px var(--space-2); overflow: hidden;
   border-radius: var(--radius-xs); background: var(--cls-etc-bg); }
 .tt-block .b-title { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: var(--lines, 2); overflow: hidden; font-size: 0.875rem; line-height: 1.125rem;
-  font-weight: 500; color: var(--text); word-break: keep-all; overflow-wrap: anywhere; }
-.tt-block .b-room { overflow: hidden; font-size: 0.75rem; line-height: 1rem; font-weight: 500; color: var(--text2); white-space: nowrap; text-overflow: ellipsis; }
+  font-weight: 500; color: var(--fill-fg, var(--text)); word-break: keep-all; overflow-wrap: anywhere; }
+.tt-block .b-room { overflow: hidden; font-size: 0.75rem; line-height: 1rem; font-weight: 500; color: var(--fill-fg2, var(--text2)); white-space: nowrap; text-overflow: ellipsis; }
 /* 38px 보다 낮은 칸(50분 수업): 과목명(14px 그대로)과 강의실을 한 줄로, 사이 space-2(10/2 사용자·디자인: 낮은 칸이라고 과목명을 줄이지
    않는다. 가운뎃점 없이 크기·색으로 가른다). 과목명이 먼저 줄고(세 글자 + … 까지), 강의실은 app.js 가 폭을 재어 '43-1동 301호' → '43-1동'
    가운데 들어가는 것을 넣는다(그래서 줄이지 않는다). 늦음 알약 자리(--late-w)는 비운다 */
@@ -1200,7 +1209,8 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
 .tt-switch .tag { margin-left: var(--space-1); }
 .tt-switch:active { background: var(--bg-hover); }
 /* 주간 격자: --days(5~7), --hours, --hour-h(= max(mine-hour-min, 30rem ÷ 시간 수))는 app.js 가 넣는다. 칸은 요일·시각 순 <ol> 이고 자리만 절대 배치로 그린다.
-   칸은 칸 색으로 채운다(과목별 var(--item-N), 교과구분별 var(--cls-*-bg)). 과목명·강의실 모두 t-label(다섯 요일이 한 카드라 칸 폭 60px 안팎) */
+   칸은 칸 색으로 채우고 그 색의 글자색을 함께 넣는다(디자인 80판. 과목별 var(--item-N)와 --block-fg·--block-fg2: var(--item-N-fg)·var(--item-N-fg2),
+   교과구분별 var(--cls-*-bg)와 var(--cls-*-fg)·var(--cls-*-fg2)). 과목명·강의실 모두 t-label(다섯 요일이 한 카드라 칸 폭 60px 안팎) */
 .wk { padding: var(--space-2) var(--space-2) var(--space-3) var(--space-1); }
 .wk-head { display: grid; grid-template-columns: 1.375rem repeat(var(--days, 5), minmax(0, 1fr)); column-gap: 2px; padding-bottom: var(--space-1); }
 .wk-head span { text-align: center; font-size: 0.75rem; line-height: 1rem; font-weight: 500; color: var(--text3); }
@@ -1211,10 +1221,10 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
 .wk-blocks { position: absolute; top: 0; bottom: 0; left: calc(1.375rem + 2px); right: 0; margin: 0; padding: 0; list-style: none; }
 .wk-blocks > li { position: absolute; }
 .wk-block { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 3px 4px; overflow: hidden; border: 0;
-  border-radius: var(--radius-xs); color: var(--text); text-align: left; font: inherit; }
+  border-radius: var(--radius-xs); color: var(--block-fg, var(--text)); text-align: left; font: inherit; }
 .wk-block .b-title { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: var(--lines, 3); overflow: hidden;
   font-size: 0.75rem; line-height: 1rem; font-weight: 500; word-break: keep-all; overflow-wrap: anywhere; }
-.wk-block .b-room { flex: none; font-size: 0.75rem; line-height: 1rem; font-weight: 500; color: var(--text2); overflow: hidden; word-break: keep-all; overflow-wrap: anywhere; }
+.wk-block .b-room { flex: none; font-size: 0.75rem; line-height: 1rem; font-weight: 500; color: var(--block-fg2, var(--text2)); overflow: hidden; word-break: keep-all; overflow-wrap: anywhere; }
 .wk-block.half { right: auto; width: calc(50% - 1px); } /* 시간이 겹치는 칸: 반씩 나란히 */
 .wk-block.half.right { left: auto; right: 0; }
 button.wk-block:active { filter: brightness(0.96); } /* 공유받은 시간표 미리 보기의 칸(span)은 누르지 않는다 */
@@ -1276,8 +1286,8 @@ button.wk-block:active { filter: brightness(0.96); } /* 공유받은 시간표 �
 .tt-export .ex-block { position: absolute; display: flex; flex-direction: column; gap: 2px; overflow: hidden; padding: var(--bp, 9px); border-radius: 18px; }
 .tt-export .ex-block.is-tight { padding-top: 4px; padding-bottom: 4px; }
 .tt-export .ex-block b, .tt-export .ex-block i { flex: none; font-style: normal; font-weight: 500; word-break: keep-all; overflow-wrap: anywhere; }
-.tt-export .ex-block b { font-size: var(--ns, 30px); line-height: var(--nlh, 38px); color: var(--text); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
-.tt-export .ex-block i { font-size: var(--rs, 25px); line-height: var(--rlh, 33px); color: var(--text2); }
+.tt-export .ex-block b { font-size: var(--ns, 30px); line-height: var(--nlh, 38px); color: var(--block-fg, var(--text)); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+.tt-export .ex-block i { font-size: var(--rs, 25px); line-height: var(--rlh, 33px); color: var(--block-fg2, var(--text2)); }
 .tt-export .ex-notes { position: absolute; left: 56px; right: 44px; }
 .tt-export .ex-legend { display: flex; gap: 28px; width: fit-content; margin-top: 18px; font-size: 27px; line-height: 38px; color: var(--on-bg-text3); }
 .tt-export .ex-legend > span { display: inline-flex; align-items: center; gap: 10px; }
@@ -1415,7 +1425,7 @@ html[data-theme] .view-map .legend { background: var(--card); }
 /* 색 풀이 줄은 무늬 없는 판 위에(색 점이 무늬 점과 섞이지 않게). 자리는 그대로다 */
 html[data-theme] .cls-legend { width: fit-content; border-radius: var(--radius-2xs); background: var(--bg); box-shadow: 0 0 0 3px var(--bg); }
 
-/* 크리스마스(12월 1일~25일): 짙은 솔잎 초록 바탕에 같은 크기 점을 육각 격자로 깐 땡땡이(점 5px, 간격 16px), 흰 카드,
+/* 크리스마스(12월 한 달): 짙은 솔잎 초록 바탕에 같은 크기 점을 육각 격자로 깐 땡땡이(점 5px, 간격 16px), 흰 카드,
    빨강은 주요 버튼과 고른 요일 탭에만. 넓은 초록은 어둡고 탁하게, 좁은 빨강은 선명하게(면적 하양 5 : 초록 4 : 빨강 0.5).
    무늬와 바탕의 밝기 차는 1.36배이고 바탕 위 글자는 두 색 모두에서 4.5:1 을 넘는다. 워드마크는 흰 단색 */
 html[data-theme="xmas"], .mini.is-xmas {
@@ -1427,6 +1437,21 @@ html[data-theme="xmas"], .mini.is-xmas {
   --danger: #d8152f; --on-danger: #ffffff; --danger-weak: #ffedec; --inverse: #1f6441; --on-inverse: #ffffff; --inverse-accent: #f8d788;
   --scrim: #03140b80; --home: #0b3a23; --on-home: #ffffff; --route: #148753; --route-home: #0b3a23;
   --shadow-sm: 0 1px 3px #03140b40; --shadow-md: 0 6px 20px #03140b4d;
+  /* 시간표 칸 색 '리스'(디자인 80판. 10/23 밤 사용자: "테마들은 시간표 색깔 팔레트도 자체적으로 가져야 함", 교과구분도 "따른다"): 초록 잎에 빨간 열매와 금색 리본.
+     초록·빨강·연두·진초록·금색·청록·와인·은색. 짙은 칸(초록·빨강·진초록·청록·와인)은 과목명·강의실 모두 흰 글자(5.2:1 이상), 밝은 칸은 text·text2(위 기본 값 그대로).
+     점은 card 위 3:1 이상(짙은 색은 칸 색 그대로). 교과구분: 전필 빨강·전선 초록·교양 금색·기타 은색, 점은 card 와 색 풀이 판(bg) 양쪽에서 3:1 */
+  --item-0: #237c40; --item-0-dot: #237c40; --item-0-fg: #ffffff; --item-0-fg2: #ffffff;
+  --item-1: #c3292e; --item-1-dot: #c3292e; --item-1-fg: #ffffff; --item-1-fg2: #ffffff;
+  --item-2: #b4e2a5; --item-2-dot: #6f9a61;
+  --item-3: #164f38; --item-3-dot: #164f38; --item-3-fg: #ffffff; --item-3-fg2: #ffffff;
+  --item-4: #f5c553; --item-4-dot: #b58700;
+  --item-5: #21716e; --item-5-dot: #21716e; --item-5-fg: #ffffff; --item-5-fg2: #ffffff;
+  --item-6: #8a1b37; --item-6-dot: #8a1b37; --item-6-fg: #ffffff; --item-6-fg2: #ffffff;
+  --item-7: #d2dcd8; --item-7-dot: #86918b;
+  --cls-req: #e36b65; --cls-req-bg: #c3292e; --cls-req-fg: #ffffff; --cls-req-fg2: #ffffff;
+  --cls-elec: #499e64; --cls-elec-bg: #237c40; --cls-elec-fg: #ffffff; --cls-elec-fg2: #ffffff;
+  --cls-gen: #b2880e; --cls-gen-bg: #f5c553;
+  --cls-etc: #86918b; --cls-etc-bg: #d2dcd8;
   --bg-pattern: radial-gradient(circle, var(--bg-tone) 0 2.25px, transparent 2.75px) 0 0 / 16px 28px,
     radial-gradient(circle, var(--bg-tone) 0 2.25px, transparent 2.75px) 8px 14px / 16px 28px;
 }
@@ -1441,6 +1466,10 @@ html[data-theme="xmas"] dialog.sheet::backdrop { background: var(--scrim, #03140
 }
 /* 대비를 높인 기기와 강제 색에서는 무늬를 끈다 */
 @media (prefers-contrast: more), (forced-colors: active) { html[data-theme] { --bg-pattern: none; } }
+/* 짙은 칸이 있는 칸 색(디자인 80판): 결과 화면의 늦음 알약은 card 색 테두리 1.5px(빨강 칸 위에서도 알약이 갈린다).
+   넓은 화면 과목 추가 미리 보기에서 이미 넣은 분반 칸의 테두리는 그 칸의 글자색(초록 칸 위의 초록 accent 테두리는 1.2:1 이라 보이지 않는다. 짙은 칸은 흰색) */
+html[data-theme="xmas"] .tt-late { box-shadow: 0 0 0 1.5px var(--card); }
+html[data-theme="xmas"] .wk-block.is-hl { box-shadow: inset 0 0 0 2px var(--block-fg, var(--accent)); }
 
 /* 눈(크리스마스 테마. 10/4 사용자: "크리스마스 배경에서 눈에 안 거슬릴 정도로 눈 내리는 효과", "또렷할 필요는 없고 양은 ㄹ의 2배면 될 듯").
    맨 뒤 바탕 위, 카드·상단 바·하단 띠 아래에서만 내린다. 두 겹(멀리: 작고 덜 밝고 느리다 / 가까이: 조금 크고 밝고 빠르다)을 화면보다 한 장 길게 깔고
