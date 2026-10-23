@@ -9,8 +9,9 @@
 <meta name="theme-color" content="#16171b" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
 <!-- 이벤트 테마를 화면을 그리기 전에 건다(바탕이 번쩍이지 않게). 기간·색·저장 이름은 js/app.js 의 THEMES·seasonTheme 과 같게 둔다.
-     기간 안이고 이번 해에 돌아가기를 고르지 않았으면 켠다. 주소에 ?theme=xmas 를 붙이면 기간 밖에서도 켠다(시험용: 고른 것은 xmas-test 로 따로 기억한다) -->
-<script>(function(){try{var d=new Date(),k=("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2),t=/[?&]theme=xmas(&|$)/.test(location.search),o="";if(!t&&(k<"12-01"||k>"12-25"))return;try{o=JSON.parse(localStorage.getItem("ttw.themeOff"))}catch(e){}if(o===(t?"xmas-test":"xmas-"+d.getFullYear()))return;document.documentElement.dataset.theme="xmas";var m=document.querySelectorAll('meta[name="theme-color"]');m[0].content=m[1].content="#103924"}catch(e){}})()</script>
+     기간(크리스마스는 12월 한 달. 10/23 사용자 "12월 한 달")이고 이번 해에 기본 테마로 돌아가지 않았으면 켠다. 주소에 ?theme=xmas 를 붙이면 기간 밖에서도 켠다
+     (시험용: 고른 것은 xmas-test 로 따로 기억한다) -->
+<script>(function(){try{var d=new Date(),k=("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2),t=/[?&]theme=xmas(&|$)/.test(location.search),o="";if(!t&&(k<"12-01"||k>"12-31"))return;try{o=JSON.parse(localStorage.getItem("ttw.themeOff"))}catch(e){}if(o===(t?"xmas-test":"xmas-"+d.getFullYear()))return;document.documentElement.dataset.theme="xmas";var m=document.querySelectorAll('meta[name="theme-color"]');m[0].content=m[1].content="#103924"}catch(e){}})()</script>
 <!-- 첫 탭(디자인 규칙 '탭'): 지난번에 연 학기에 저장한 시간표가 있으면 내 시간표로 켠다. js/app.js 가 그리기 전에 탐색 입력 화면을 가려 둔다(번쩍 보이지 않게).
      판단은 app.js 시작 부분과 같다(openSem, 없으면 고른 학기 → timetables@학기 에 이 판이 읽는 시간표가 있나) -->
 <script>(function(){try{var g=function(k){return JSON.parse(localStorage.getItem("ttw."+k))},s=g("openSem")||(g("semester")||{}).id,l=s&&g("timetables@"+s);if(l&&l.some&&l.some(function(t){return t&&typeof t.id==="string"&&!(Number(t.v)>1)}))document.documentElement.dataset.launch="mine"}catch(e){}})()</script>
@@ -150,37 +151,13 @@
       <div class="card items"><ul class="list" id="items"></ul></div>
       <div class="bottom-bar"><button type="button" class="btn-primary" id="route-run" disabled>동선 확인하기</button></div>
     </div>
-    <!-- 넓은 화면(두 칸)의 과목 추가: 오른쪽 칸이 항목 목록 대신 찾기가 된다. 검색창과 결과 카드는 app.js 가 아래 과목 추가 화면에서 여기로 옮긴다(폰은 그 화면) -->
+    <!-- 넓은 화면(두 칸)의 과목 추가: 오른쪽 칸이 항목 목록 대신 찾기가 된다. 검색창과 결과 카드는 app.js 가 아래 과목 추가 시트에서 여기로 옮긴다(폰은 그 시트) -->
     <section class="mine-add" id="mine-add" aria-labelledby="add-panel-title" hidden>
       <div class="add-head">
         <button type="button" class="icon-btn back" aria-label="뒤로" data-back><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
         <h2 class="add-head-title" id="add-panel-title" tabindex="-1">과목 추가</h2>
       </div>
     </section>
-  </main>
-</div>
-
-<!-- 과목 추가(내 시간표의 '과목 추가'): 탐색과 같은 찾기, 결과는 분반마다 한 행이고 누르면 바로 넣는다(넣은 분반은 빼기). 넓은 화면은 따로 화면이 아니라 내 시간표의 오른쪽 칸(위 #mine-add) -->
-<div id="view-add" class="view" hidden>
-  <header class="topbar">
-    <button type="button" class="icon-btn back" aria-label="뒤로" data-back><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
-    <h1 class="title" id="add-title" tabindex="-1">과목 추가</h1>
-  </header>
-  <main hidden>
-    <div class="searchbox" id="add-box">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
-      <input id="add-q" type="search" enterkeyhint="search" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="과목명, 교과목번호, 교수" aria-label="과목 검색">
-      <button type="button" class="icon-btn" id="add-clear" aria-label="지우기" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
-    </div>
-    <div class="card results" id="add-results" hidden>
-      <div class="recent" id="add-recent" hidden>
-        <div class="list-head"><h2 class="recent-title" id="add-recent-title">최근 검색어</h2></div>
-        <ul class="recent-list" id="add-recent-list" aria-labelledby="add-recent-title"></ul>
-      </div>
-      <ul class="list" id="add-list"></ul>
-      <p class="empty" id="add-empty" hidden>검색 결과가 없어요</p>
-      <div class="more" id="add-more" hidden><button type="button" class="btn-text">더 보기</button></div>
-    </div>
   </main>
 </div>
 
@@ -261,9 +238,28 @@
   </main>
 </div>
 
-<!-- 아래 탭 막대(디자인 규칙 '탭'): 시간표 · 동선 탐색, 알약 안에 아이콘과 이름. 폰과 태블릿(1099px까지) -->
+<!-- 테마 탭(디자인 75판 '테마 탭', 10/23 사용자: "테마도 걍 탭 하나로 빼자"): 상단 바는 다른 탭 첫 화면과 같고(컴퓨터는 사이드바), 보이지 않는 h1.
+     테마마다 카드(라디오, 미리보기 + 이름). 고르면 바로 바뀐다. 카드는 app.js(renderThemes)가 채운다 -->
+<div id="view-theme" class="view" hidden>
+  <header class="topbar">
+    <picture class="wm-default">
+      <source srcset="icons/wordmark-dark.svg" media="(prefers-color-scheme: dark)">
+      <img class="wordmark" src="icons/wordmark.svg" alt="TT Wizard" width="124" height="29">
+    </picture>
+    <img class="wordmark wm-white" src="icons/wordmark-white.svg" alt="TT Wizard" width="124" height="29">
+    <span class="tag offline-tag" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 2l20 20M5.8 9.3A5.5 5.5 0 0 0 7 20h10.5M20.9 17.3A4.5 4.5 0 0 0 17.5 10h-.9A7 7 0 0 0 9.9 5.2"></path></svg>오프라인</span>
+    <span class="spacer"></span>
+    <button type="button" class="icon-btn" aria-label="정보" data-open-info><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><circle cx="12" cy="7.8" r=".6" fill="currentColor"></circle></svg></button>
+  </header>
+  <main hidden>
+    <h1 class="sr-only" id="theme-title" tabindex="-1">테마</h1>
+    <fieldset class="themes" id="themes"><legend class="sr-only">테마</legend></fieldset>
+  </main>
+</div>
+
+<!-- 아래 탭 막대(디자인 규칙 '탭'): 시간표 · 동선 탐색 · 테마, 알약 안에 아이콘과 이름. 폰과 태블릿(1099px까지) -->
 <nav class="tabbar" id="tabbar" aria-label="화면"><ul></ul></nav>
-<!-- 컴퓨터(1100px부터)의 왼쪽 사이드바(디자인 69판): 워드마크, 같은 탭 둘(아이콘 + 이름), 맨 아래 오프라인 태그·설치·정보. 그보다 좁으면 숨는다.
+<!-- 컴퓨터(1100px부터)의 왼쪽 사이드바(디자인 69판): 워드마크, 같은 탭 셋(아이콘 + 이름), 맨 아래 오프라인 태그·설치·정보. 그보다 좁으면 숨는다.
      화면 왼쪽에 보이지만 초점 순서는 본문 다음이다(그래서 본문 뒤에 둔다). 설치·정보는 nav 밖의 버튼.
      워드마크는 nav 안 머리에 둔다: 랜드마크 밖에 내용이 남지 않게(axe region. 폰은 상단 바 header 안에 있다) -->
 <div class="sidebar" id="sidebar">
@@ -340,7 +336,10 @@
       </div>
     </div>
     <ul class="sheet-list" id="tl-rows"></ul>
+    <!-- 목록 아래 오류 줄: 50개가 찼거나(새 시간표·복사하기·이미지 불러오기) 이미지를 못 불러왔다. 글은 app.js 가 넣는다 -->
     <p class="error-line" id="tl-limit" hidden>시간표는 학기마다 50개까지예요</p>
+    <!-- 이미지 불러오기의 파일 고르기(PNG 만. capture 를 붙이지 않는다: 붙이면 앱이 카메라 권한을 묻는다). 파일은 기기 안에서만 읽는다 -->
+    <input type="file" id="tl-file" accept="image/png" hidden>
     <!-- 칸 색(10/23 사용자: 정보 화면이 아니라 시간표 탭 안에). 기기 설정이고 내 시간표·동선 화면에만 걸린다 -->
     <fieldset class="tl-color">
       <legend class="field-label">칸 색</legend>
@@ -366,6 +365,42 @@
   <div class="sr-only" role="alert" data-live="alert"></div>
 </dialog>
 
+<!-- 내 시간표: 과목 추가(디자인 규칙 '과목 추가'). 탐색과 같은 찾기, 결과는 분반마다 한 행이고 누르면 바로 넣는다(넣은 분반은 빼기).
+     폰(679px까지)은 내 시간표 위에 반쯤 올라오는 이 시트다(10/23 사용자: 과목 추가할 때 기존 시간표가 안 보인다): 처음 55%, 손잡이로 올리면 90%.
+     바탕을 어둡게 덮지 않고 시트 밖 시간표는 스크롤만 된다(누르지 않는다. 모달이라 초점은 시트 안). 넓은 화면은 시트가 아니라 내 시간표의 오른쪽 칸(#mine-add)이고,
+     검색창과 결과 카드는 app.js(placeAdd)가 그리로 옮긴다. 검색 전 둘러보기(#add-browse)는 넓은 화면에만 -->
+<dialog class="sheet add-sheet" id="add-sheet" aria-labelledby="as-title">
+  <div class="sheet-head">
+    <div class="h"><h2 class="sheet-title" id="as-title" tabindex="-1" autofocus>과목 추가</h2></div>
+    <button type="button" class="btn-text" data-close>닫기</button>
+  </div>
+  <div class="sheet-body" id="as-body">
+    <div class="searchbox" id="add-box">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+      <input id="add-q" type="search" enterkeyhint="search" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="과목명, 교과목번호, 교수" aria-label="과목 검색">
+      <button type="button" class="icon-btn" id="add-clear" aria-label="지우기" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+    </div>
+    <div class="card results" id="add-results" hidden>
+      <div class="recent" id="add-recent" hidden>
+        <div class="list-head"><h2 class="recent-title" id="add-recent-title">최근 검색어</h2></div>
+        <ul class="recent-list" id="add-recent-list" aria-labelledby="add-recent-title"></ul>
+      </div>
+      <!-- 넓은 화면 검색 전: 과목 둘러보기(탐색과 같은 선택칸·고른 목록). 행은 분반 행 -->
+      <div class="browse" id="add-browse" hidden>
+        <div class="list-head browse-head">
+          <select id="add-browse-select" class="browse-select" aria-label="과목 목록"></select>
+        </div>
+        <ul class="list" id="add-browse-list" aria-label="과목 목록"></ul>
+      </div>
+      <ul class="list" id="add-list"></ul>
+      <p class="empty" id="add-empty" hidden>검색 결과가 없어요</p>
+      <div class="more" id="add-more" hidden><button type="button" class="btn-text">더 보기</button></div>
+    </div>
+  </div>
+  <div class="sr-only" role="status" data-live="status"></div>
+  <div class="sr-only" role="alert" data-live="alert"></div>
+</dialog>
+
 <!-- 내 시간표: 직접 추가(일정), 넣은 일정의 시트 -->
 <dialog class="sheet" id="custom-sheet" aria-labelledby="cu-title">
   <div class="sheet-head">
@@ -376,7 +411,7 @@
   <div class="sr-only" role="alert" data-live="alert"></div>
 </dialog>
 
-<!-- 이벤트 테마가 켜진 뒤 처음 들어왔을 때 한 번 묻는다(묻는 시트: 제목은 질문, 버튼은 닫기와 동사) -->
+<!-- 이벤트 테마가 저절로 켜진 뒤 처음 들어왔을 때 한 번 묻는다(묻는 팝업: 어느 폭에서나 화면 가운데. 10/23 사용자 "팝업". 제목은 질문, 버튼은 닫기와 동사) -->
 <dialog class="sheet ask" id="theme-ask" aria-labelledby="theme-ask-title">
   <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="theme-ask-title" tabindex="-1" autofocus>기본 테마로 돌아갈까요?</h2></div></div>
   <div class="sheet-actions">
