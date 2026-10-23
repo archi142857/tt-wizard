@@ -1388,7 +1388,7 @@ function openSheet(d, opener) {
 
 /** 완료·닫기, 바깥 누르기, 아래로 끌기: 200ms 에 내려가며 닫힌다. Esc·Android 뒤로 가기(cancel)는 브라우저가 바로 닫는다. */
 function closeSheet(d) {
-  if (!d.open || d.closing) return;
+  if (!d || !d.open || d.closing) return; // d 가 없으면(스낵바 [다시 시도]로 다시 저장할 때) 닫을 시트가 없다
   if (reduceMotion.matches || !d.animate) { d.close(); return; }
   d.closing = true;
   // 묻는 팝업은 어느 폭에서나 가운데, 폰의 과목 추가 시트는 600~679px 에서도 아래 시트
@@ -3878,9 +3878,16 @@ function ttListAct(k) {
 // 기능도 만들어 줘", "그 이미지에 … 시간표 정보를 지문처럼 … 파일 자체에"). 목록 시트 ⋯ 의 이미지로 저장, 머리 줄 공유의 이미지로 공유,
 // 항목 목록 맨 아래 이미지로 추가(10/23 저녁 사용자가 '이미지 보내기'·'이미지 불러오기'를 옮겼다).
 // 자료는 그림에 보이지 않고 PNG 파일 안의 글 조각(iTXt)에 들어간다(백엔드 timetables.js 의 addTimetableToPng·readTimetableImage·timetableFromImage. 메모는 빠진다).
-// 그림: 내 시간표와 같은 격자를 화면 밖(.tt-export)에 그려 두고 그 자리·색·글자를 캔버스로 옮겨 그린다(paintExport). 브라우저가 줄을 바꾼 그대로라 화면과 같다.
-// DOM 을 그림으로 바꾸는 SVG foreignObject 는 사파리에서 캔버스를 막아(내보낼 수 없게 된다) 쓰지 않는다. 폭 22.5rem(글자 100%에서 360px)을 1080px 로 찍는다
-const EXPORT_W = 1080;
+// 그림(디자인 79판, 10/23 저녁 사용자: "비율 이상함 … 어느 플랫폼에서나 항상 같은 이미지", "디자인 형태는 지금 괜찮음 … 비율이랑 글자 크기만 잘 조절해봐", 비율은 "9:16"):
+// 늘 1080×1920 한 장. 화면 밖(.tt-export)에 그림 px 그대로(화면 폭·기기 배율·글자 크기와 상관없이) 판을 짜고(layoutExport) 칸 글자 단계를 고른 뒤(fitExport)
+// 그 자리·색·글자를 캔버스로 옮겨 그린다(paintExport). 브라우저가 줄을 바꾼 그대로라 판과 같다.
+// DOM 을 그림으로 바꾸는 SVG foreignObject 는 사파리에서 캔버스를 막아(내보낼 수 없게 된다) 쓰지 않는다
+const EXPORT_W = 1080, EXPORT_H = 1920;
+// 판의 수치(그림 px, 디자인 79판 '시간표 이미지'): 판 여백 위·좌우·아래, 학기 줄, 이름(두 줄까지), 격자 카드 안 여백, 요일 줄, 시간 축, 칸 사이, 아래 줄(색 풀이·시간 미정), 워드마크
+const EX = { top: 60, side: 44, bottom: 44, semLh: 46, semGap: 4, nameLh: 80, nameGap: 32, padT: 22, padR: 14, padB: 28, padL: 6,
+  dayH: 36, dayGap: 10, axis: 44, gap: 4, noteGap: 18, noteLh: 38, markGap: 40, mark: 60 };
+// 칸 글자 단계 [과목명, 강의실, 칸 안 여백](줄 높이는 과목명 × 1.27, 강의실 × 1.3 을 반올림: 38·33, 34·30, 30·27, 28·25). 큰 것부터 맞는 단계 하나를 그림 전체에 쓴다
+const EX_LEVELS = [[30, 25, 9], [27, 23, 9], [24, 21, 8], [22, 19, 6]];
 const IMAGE_ICON = '<rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="9.8" r="1.6"/><path d="M20.5 15.5l-4.6-4.6-9.4 8.6"/>';
 const FULL_TEXT = "시간표는 학기마다 50개까지예요";
 // 못 불러올 때의 오류 줄(readTimetableImage 의 problem)
@@ -3898,9 +3905,10 @@ function tlError(text, from = null) {
   if (text) $("tl-limit").textContent = text;
   tlErrFrom = text ? from : null;
 }
-/** 사진 저장이 되는 곳: 웹(파일로 내려받기)과 안드로이드 10 이상 앱(사진). iOS 앱·안드로이드 9 이하 앱은 줄이 없다(공유 시트 안에 저장이 있다).
- *  앱은 앱 연결이 켤 때 플러그인에 물어 둔 값(TTW_APP.canSaveImage. 백엔드 update63: 답이 오기 전에는 false, 보통 몇 ms 안에 온다)이고,
- *  그 값이 없는 옛 앱 연결이면 웹뷰 사용자 에이전트로 본다. 그래도 저장이 거절되면(UNSUPPORTED) 공유 시트로 간다 */
+/** 사진 저장이 되는 곳: 웹(파일로 내려받기)과 앱 연결이 된다고 알린 앱(사진). 앱은 앱 연결이 켤 때 플러그인에 물어 둔 값(TTW_APP.canSaveImage.
+ *  백엔드 update63: 답이 오기 전에는 false, 보통 몇 ms 안에 온다. 디자인 79판 '모든 기기에 둔다': iOS·안드로이드 9 이하도 사진에 저장하게 백엔드에 요청했고
+ *  그 앱 연결은 true 를 알린다. 그 전 앱 연결에서 그 기기들은 줄이 없다(공유 시트 안에 저장이 있다)). 그 값이 없는 옛 앱 연결이면 웹뷰 사용자 에이전트로
+ *  안드로이드 10 이상인지 본다. 그래도 저장이 거절되면(UNSUPPORTED) 공유 시트로 간다 */
 function canSaveImage() {
   if (!IN_APP) return true; // 웹·설치한 웹 앱
   const app = window.TTW_APP;
@@ -3917,7 +3925,7 @@ const imageFile = (t) => `${imageTitle(t).replace(/[\\/:*?"<>|\u0000-\u001f]/g, 
 // 미리 그린 그림(시간표·테마·다크·칸 색이 같으면 다시 쓴다)
 let imageCache = null;
 function preparedImage(t) {
-  const key = [t.id, t.updated, t.title, document.documentElement.dataset.theme || "", matchMedia("(prefers-color-scheme: dark)").matches, ttColor, state.loaded && state.semester === t.sem, remPx()].join("|");
+  const key = [t.id, t.updated, t.title, document.documentElement.dataset.theme || "", matchMedia("(prefers-color-scheme: dark)").matches, ttColor, state.loaded && state.semester === t.sem].join("|");
   if (!imageCache || imageCache.key !== key) imageCache = { key, png: timetablePng(t) };
   return imageCache.png;
 }
@@ -3926,29 +3934,125 @@ function exportWordmark() {
   if (document.documentElement.dataset.theme) return "icons/wordmark-white.svg";
   return matchMedia("(prefers-color-scheme: dark)").matches ? "icons/wordmark-dark.svg" : "icons/wordmark.svg";
 }
-/** 시간표 하나 → 자료를 넣은 PNG 바이트(Uint8Array). 학기·학점 줄, 이름, 격자(한 시간 mine-hour-min), 교과구분별이면 색 풀이, 시간 미정 줄, 워드마크 */
+/** 시간표 하나 → 자료를 넣은 PNG 바이트(Uint8Array). 1080×1920: 학기·학점 줄, 이름(두 줄까지), 격자 카드(남는 높이를 채운다), 교과구분별이면 색 풀이, 시간 미정 줄, 워드마크 */
 async function timetablePng(t) {
   const entries = ttEntries(t), untimed = entries.filter((e) => !e.meetings.length);
   const sum = Math.round(T.credits(t) * 10) / 10, sem = semesterLabel(t.sem);
-  const card = h("div", { class: "card wk" });
   const legend = ttColor === "cls" && entries.length
-    ? h("div", { class: "cls-legend tt-legend" }, CLS_GROUPS.map(([name, key]) => h("span", {}, h("span", { class: "dot", style: { background: `var(--cls-${key})` } }), name))) : null;
+    ? h("div", { class: "ex-legend" }, CLS_GROUPS.map(([name, key]) => h("span", {}, h("span", { class: "dot", style: { background: `var(--cls-${key})` } }), name))) : null;
+  const late = untimed.length ? h("p", { class: "ex-untimed" }, `시간 미정 · ${untimed.map((e) => courseName(e)).join(", ")}`) : null;
+  const name = h("p", { class: "ex-name" }, t.title), card = h("div", { class: "ex-card" });
   const mark = h("img", { class: "ex-mark", alt: "", src: exportWordmark() });
   const root = h("div", { class: "tt-export", "aria-hidden": "true", inert: true },
-    h("p", { class: "ex-sem" }, sum ? `${sem} · ${sum}학점` : sem), h("p", { class: "ex-name" }, t.title), card, legend,
-    untimed.length ? h("p", { class: "ex-untimed" }, `시간 미정 · ${untimed.map((e) => courseName(e)).join(", ")}`) : null, mark);
+    h("p", { class: "ex-sem" }, sum ? `${sem} · ${sum}학점` : sem), name, card, legend || late ? h("div", { class: "ex-notes" }, legend, late) : null, mark);
   document.body.append(root);
   try {
-    const draw = () => renderWeek(t, entries, clashKeys(entries), { box: card, hourPx: 3.75 * remPx() });
-    draw();
     await Promise.all([document.fonts ? document.fonts.ready : null, mark.decode ? mark.decode().catch(() => null) : null]);
-    draw(); // 글꼴이 들어온 뒤 칸 글자의 줄 수를 다시 잰다
+    layoutExport(root, entries, { name, card, legend: !!legend, late: !!late });
+    root.dataset.level = String(fitExport(root));
     const pic = paintExport(root);
     const blob = await new Promise((res) => pic.toBlob(res, "image/png"));
     return blob ? T.addTimetableToPng(new Uint8Array(await blob.arrayBuffer()), t) : null;
   } finally {
     root.remove();
   }
+}
+/** 판 짜기(디자인 79판): 이름 줄 수에 따라 카드 위 끝, 아래 줄 수에 따라 카드 아래 끝이 정해지고 격자가 카드를 채운다(한 시간 = 격자 높이 ÷ 시간 수. 9~18시·이름 한 줄이면 162).
+ *  요일과 시간 범위는 내 시간표와 같다(월–금, 토·일 항목이 있으면 그 요일. 9~18시, 더 이르거나 늦으면 정시로). 칸은 요일 칸 안에 위아래 2씩 띄우고, 겹치는 칸은 반씩 */
+function layoutExport(root, entries, { name, card, legend, late }) {
+  const lines = Math.min(2, Math.max(1, Math.round(name.getBoundingClientRect().height / EX.nameLh)));
+  const head = EX.top + EX.semLh + EX.semGap + EX.nameLh * lines + EX.nameGap;
+  const notes = (legend ? EX.noteGap + EX.noteLh : 0) + (late ? (legend ? EX.noteLh : EX.noteGap + EX.noteLh) : 0);
+  const cardH = EXPORT_H - head - (EX.markGap + EX.mark + EX.bottom) - notes;
+  const bodyH = cardH - EX.padT - EX.dayH - EX.dayGap - EX.padB;
+  const blocks = [];
+  for (const e of entries) for (const m of e.meetings) blocks.push({ e, m, half: "" });
+  const days = [0, 1, 2, 3, 4];
+  for (const { m } of blocks) if (!days.includes(m.day)) days.push(m.day);
+  days.sort((a, b) => a - b);
+  let h0 = 9, h1 = 18;
+  for (const { m } of blocks) { h0 = Math.min(h0, Math.floor(m.start / 60)); h1 = Math.max(h1, Math.ceil(m.end / 60)); }
+  const hours = h1 - h0, hp = bodyH / hours, n = days.length;
+  const gridW = EXPORT_W - 2 * EX.side - EX.padL - EX.padR - EX.axis, cw = (gridW - (n - 1) * EX.gap) / n;
+  card.style.top = `${head}px`;
+  card.style.height = `${cardH}px`;
+  const notesEl = root.querySelector(".ex-notes");
+  if (notesEl) notesEl.style.top = `${head + cardH}px`;
+  const body = h("div", { class: "ex-body", style: { height: `${bodyH}px` } });
+  card.replaceChildren(h("div", { class: "ex-days", style: { "--days": String(n) } }, days.map((d) => h("span", {}, DAY_KO[d]))), body);
+  for (let i = 0; i <= hours; i++) {
+    body.append(h("div", { class: "ex-line", style: { top: `${i * hp - 1}px` } }));
+    if (i < hours) body.append(h("span", { class: "ex-hour", style: { top: `${i * hp}px` } }, String(h0 + i)));
+  }
+  blocks.sort((a, b) => a.m.day - b.m.day || a.m.start - b.m.start || a.m.end - b.m.end);
+  for (let i = 0; i < blocks.length; i++) {
+    for (let j = 0; j < i; j++) {
+      const a = blocks[j], b = blocks[i];
+      if (a.e !== b.e && meetsOverlap(a.m, b.m)) { if (!a.half) a.half = "left"; b.half = "right"; }
+    }
+  }
+  for (const { e, m, half } of blocks) {
+    const w = half ? (cw - EX.gap) / 2 : cw;
+    const x = EX.axis + days.indexOf(m.day) * (cw + EX.gap) + (half === "right" ? w + EX.gap : 0);
+    const room = e.item.custom ? (m.building ? buildingLabel(m.building) : "") : roomLabel(m);
+    const bld = m.building ? buildingLabel(m.building) : room;
+    body.append(h("div", { class: "ex-block", "data-min": String(m.end - m.start), style: {
+      left: `${x}px`, top: `${((m.start - h0 * 60) / 60) * hp + EX.gap / 2}px`, width: `${w}px`, height: `${((m.end - m.start) / 60) * hp - EX.gap}px`, background: itemFill(e.item) } },
+    h("b", {}, e.item.custom ? e.item.title : shortName(courseName(e))),
+    room ? h("i", { "data-full": room, "data-bld": bld }, room) : null));
+  }
+}
+/** 칸 글자 단계 고르기(디자인 79판): 큰 단계부터 그려 보고 한 칸이라도 걸리면 한 단계 줄인다(22 에서도 걸리면 22). 걸리는 것: 어느 칸이든 과목명의 낱말 하나가 한 줄보다 길다,
+ *  75분 이상인 칸에 과목명이 다 들어가지 않거나 강의실이 한 줄로 들어가지 않는다(위아래 여백을 4로 줄여 들어가면 들어간 것). 75분보다 짧은 칸은 단계를 고르는 데 넣지 않는다. → 고른 단계 번호 */
+function fitExport(root) {
+  const blocks = [...root.querySelectorAll(".ex-block")];
+  const measure = document.createElement("canvas").getContext("2d");
+  for (let k = 0; k < EX_LEVELS.length; k++) {
+    const [ns, rs, bp] = EX_LEVELS[k], last = k === EX_LEVELS.length - 1;
+    root.style.setProperty("--ns", `${ns}px`);
+    root.style.setProperty("--nlh", `${Math.round(ns * 1.27)}px`);
+    root.style.setProperty("--rs", `${rs}px`);
+    root.style.setProperty("--rlh", `${Math.round(rs * 1.3)}px`);
+    root.style.setProperty("--bp", `${bp}px`);
+    let ok = true;
+    for (const bk of blocks) {
+      const r = fitExportBlock(bk, measure);
+      if (r.broken || (!r.full && Number(bk.dataset.min) >= 75)) { ok = false; if (!last) break; }
+    }
+    if (ok || last) return k;
+  }
+  return EX_LEVELS.length - 1;
+}
+/** 칸 하나를 그 단계 글자로 맞춘다. 다 들어가지 않으면 이 차례로 줄인다: 위아래 여백 4 → 과목명 줄 수(마지막 줄 말줄임) → 강의실 건물만과 과목명 한 줄 → 과목명 한 줄만.
+ *  → { full: 과목명이 다 들어가고 강의실이 한 줄, broken: 과목명의 낱말 하나가 한 줄보다 길다 } */
+function fitExportBlock(bk, measure) {
+  const b = bk.querySelector("b"), i = bk.querySelector("i");
+  const fits = () => bk.scrollHeight <= bk.clientHeight + 0.5;
+  const clamp = (n) => b.style.setProperty("-webkit-line-clamp", String(n));
+  bk.classList.remove("is-tight");
+  if (i) { i.style.display = ""; i.textContent = i.dataset.full; }
+  b.style.setProperty("-webkit-line-clamp", "unset");
+  b.style.display = "block";
+  const bs = getComputedStyle(b), need = Math.max(1, Math.round(b.scrollHeight / parseFloat(bs.lineHeight)));
+  b.style.display = "";
+  measure.font = `${bs.fontWeight} ${bs.fontSize} ${bs.fontFamily}`;
+  const broken = b.textContent.split(" ").some((w) => measure.measureText(w).width > b.clientWidth + 0.5);
+  const tries = [[false, "full", need], [true, "full", need]];
+  for (let n = need - 1; n >= 1; n--) tries.push([false, "full", n], [true, "full", n]);
+  if (i) tries.push([false, "bld", 1], [true, "bld", 1]);
+  for (const [tight, room, n] of tries) {
+    bk.classList.toggle("is-tight", tight);
+    if (i) i.textContent = i.dataset[room];
+    clamp(n);
+    if (fits()) {
+      const roomLines = i ? Math.round(i.getBoundingClientRect().height / parseFloat(getComputedStyle(i).lineHeight)) : 1;
+      return { full: n === need && room === "full" && roomLines <= 1, broken };
+    }
+  }
+  bk.classList.add("is-tight");
+  clamp(1);
+  if (i) i.style.display = "none";
+  return { full: false, broken };
 }
 const clearColor = (c) => !c || c === "transparent" || /^rgba\(.*,\s*0\)$/.test(c);
 function roundPath(g, x, y, w, hh, r) {
@@ -3962,25 +4066,30 @@ function roundPath(g, x, y, w, hh, r) {
   g.closePath();
 }
 const cornerOf = (cs, r) => { const v = cs.borderTopLeftRadius; return v.endsWith("%") ? (Math.min(r.width, r.height) * parseFloat(v)) / 100 : parseFloat(v) || 0; };
-/** 화면 밖 판을 캔버스로: 바탕(이벤트 테마는 무늬 점까지), 요소마다 바탕색·둥근 모서리·잘림, 그림(워드마크), 글자(한 글자씩 화면의 그 자리에) */
+/** 화면 밖 판(그림 px 그대로 1080×1920)을 캔버스로: 바탕(이벤트 테마는 무늬 점까지), 요소마다 바탕색·둥근 모서리·잘림, 그림(워드마크), 글자(한 글자씩 판의 그 자리에) */
 function paintExport(root) {
   const R = root.getBoundingClientRect(), k = EXPORT_W / R.width;
-  const pic = h("canvas", { width: EXPORT_W, height: Math.round(R.height * k) });
+  const pic = h("canvas", { width: EXPORT_W, height: EXPORT_H });
   const g = pic.getContext("2d");
   g.scale(k, k);
   g.translate(-R.left, -R.top);
   g.fillStyle = getComputedStyle(root).backgroundColor;
   g.fillRect(R.left, R.top, R.width, R.height);
-  // 이벤트 테마의 땡땡이(style.css --bg-pattern: 16×28 칸 가운데 점과 (8, 14) 옮긴 점, 지름 5. 대비를 높인 기기는 무늬가 없다)
+  // 이벤트 테마의 땡땡이: 앱 무늬(style.css --bg-pattern: 16×28 칸 가운데 점과 (8, 14) 옮긴 점, 지름 5)의 3배(48×84 칸, 지름 15. 디자인 79판). 대비를 높인 기기는 무늬가 없다
   const doc = getComputedStyle(document.documentElement);
   if (document.documentElement.dataset.theme && doc.getPropertyValue("--bg-pattern").trim() !== "none") {
     g.fillStyle = doc.getPropertyValue("--bg-tone").trim();
-    for (let m = 0; m * 14 <= R.height + 14; m++) {
-      for (let x = m % 2 ? 8 : 0; x <= R.width + 16; x += 16) { g.beginPath(); g.arc(R.left + x, R.top + m * 14, 2.5, 0, Math.PI * 2); g.fill(); }
+    for (let m = 0; m * 42 <= R.height + 42; m++) {
+      for (let x = m % 2 ? 24 : 0; x <= R.width + 48; x += 48) { g.beginPath(); g.arc(R.left + x, R.top + m * 42, 7.5, 0, Math.PI * 2); g.fill(); }
     }
   }
   paintKids(g, root);
-  return pic;
+  // 알파 없는 PNG(디자인 규칙 '시간표 이미지'): 다 그린 판을 불투명 캔버스로 옮겨 RGB 로 내보낸다. 처음부터 불투명 캔버스에 그리면
+  // 크롬이 글자를 LCD 방식(색 번짐)으로 그려 기기 설정마다 그림이 달라진다. 옮긴 뒤 처음 캔버스는 비운다(iOS 캔버스 메모리)
+  const flat = h("canvas", { width: EXPORT_W, height: EXPORT_H });
+  flat.getContext("2d", { alpha: false }).drawImage(pic, 0, 0);
+  pic.width = pic.height = 0;
+  return flat;
 }
 function paintKids(g, el) {
   for (const n of el.childNodes) {
@@ -4033,9 +4142,10 @@ function paintText(g, node) {
   }
   for (const q of shown) g.fillText(q.ch, q.x, q.top + ascent);
 }
-/** 이미지로 저장(목록 시트 ⋯)·이미지로 공유(공유 시트). 앱: 사진에 저장(안드로이드 10 이상, 스낵바 '사진에 저장했어요'. 스낵바가 보이게 시트는 닫는다)·공유 시트,
- *  저장이 거절되면(UNSUPPORTED: iOS·안드로이드 9 이하) 공유 시트로. 웹: 파일로 내려받기(브라우저가 알린다)·공유 시트(navigator.share. 파일을 못 보내는 브라우저는
- *  내려받기). 공유를 마치면(앱은 공유 시트를 띄우면) 누른 시트(sheet)를 닫는다. 기기의 공유 시트를 그냥 닫았으면 그대로 둔다 */
+/** 이미지로 저장(목록 시트 ⋯)·이미지로 공유(공유 시트). 앱: 사진에 저장(스낵바 '사진에 저장했어요'. 스낵바가 보이게 시트는 닫는다)·공유 시트.
+ *  저장하지 못하면(디자인 79판, 앱 연결과 맞춘 꼴은 saveFailed) 시트를 닫고 스낵바, 앱 연결이 못 한다고 하면(UNSUPPORTED: 옛 앱 연결) 공유 시트로.
+ *  웹: 파일로 내려받기(브라우저가 알린다)·공유 시트(navigator.share. 파일을 못 보내는 브라우저는 내려받기). 공유를 마치면(앱은 공유 시트를 띄우면)
+ *  누른 시트(sheet)를 닫는다. 기기의 공유 시트를 그냥 닫았으면 그대로 둔다 */
 async function imageAct(k, t, sheet) {
   let bytes = null;
   try { bytes = await preparedImage(t); } catch { bytes = null; }
@@ -4049,7 +4159,7 @@ async function imageAct(k, t, sheet) {
       showSnackbar("사진에 저장했어요");
       return;
     } catch (e) {
-      if (!e || e.code !== "UNSUPPORTED") return; // 사용자가 그만뒀거나 기기가 못 했다
+      if (!e || e.code !== "UNSUPPORTED") { closeSheet(sheet); saveFailed(e, t); return; }
     }
   }
   if (appShares() && app.shareImage) {
@@ -4062,6 +4172,20 @@ async function imageAct(k, t, sheet) {
   }
   downloadPng(bytes, name);
   if (k !== "save-image") closeSheet(sheet);
+}
+/** 앱이 사진에 저장하지 못했다(디자인 79판 '문구'). 앱 연결 TTW_APP.saveImage 의 거절 code: "DENIED"(사진 접근을 허락하지 않았다. 다시 묻지 않는 것도)는
+ *  `사진 접근이 꺼져 있어요` [설정](TTW_APP.openSettings 가 앱의 설정 화면을 연다. 없는 앱 연결이면 버튼 없이), 그 밖은 `사진에 저장하지 못했어요` [다시 시도](그 시간표를 다시 저장) */
+function saveFailed(e, t) {
+  const app = window.TTW_APP;
+  if (e && e.code === "DENIED") {
+    const open = app && typeof app.openSettings === "function" ? () => Promise.resolve().then(() => app.openSettings()).catch(() => null) : null;
+    showSnackbar("사진 접근이 꺼져 있어요", open ? "설정" : "", open);
+    return;
+  }
+  showSnackbar("사진에 저장하지 못했어요", "다시 시도", () => {
+    const cur = mine.list.find((x) => x.id === t.id) || t; // 그사이 이름을 바꿨으면 바뀐 것으로
+    imageAct("save-image", cur, null);
+  });
 }
 function downloadPng(bytes, name) {
   const url = URL.createObjectURL(new Blob([bytes], { type: "image/png" }));
