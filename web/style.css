@@ -1204,7 +1204,7 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
 .wk-block .b-room { flex: none; font-size: 0.75rem; line-height: 1rem; font-weight: 500; color: var(--text2); overflow: hidden; word-break: keep-all; overflow-wrap: anywhere; }
 .wk-block.half { right: auto; width: calc(50% - 1px); } /* 시간이 겹치는 칸: 반씩 나란히 */
 .wk-block.half.right { left: auto; right: 0; }
-.wk-block:active { filter: brightness(0.96); }
+button.wk-block:active { filter: brightness(0.96); } /* 공유받은 시간표 미리 보기의 칸(span)은 누르지 않는다 */
 .wk-block:focus-visible { outline-offset: 1px; }
 /* 과목 추가의 미리 보기(넓은 화면, 행에 마우스를 올리거나 키보드로 고른 분반): 넣으면 생길 칸은 accent 점선 테두리와 옅은 accent 면, 빠질 항목은 흐리게,
    이미 넣은 분반이면 그 칸들에 accent 테두리. 칸들 위에 얹고 마우스를 받지 않는다 */

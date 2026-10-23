@@ -3146,7 +3146,7 @@ function twinText(twins) {
   return twins.length > 3 ? `${shown} 외 ${twins.length - 3}개` : shown;
 }
 
-/** 후보 카드: 순위, 한 주 걷는 시간·등교 요일(늦는 수업이 있으면 빨간 ' · 월수 2분 늦음'), 요일별 미리보기. 고른 카드는 테두리와 담은 분반 목록.
+/** 후보 카드: 순위, 한 주 걷는 시간·등교 요일(늦는 수업이 있으면 빨간 ' · 월수 2분 늦음'), 요일별 미리보기. 고른 카드는 테두리와 담은 분반 목록, 저장하기.
  *  늦는 분을 한 주치 더한 값(예전 ' · 10분 늦음')은 뜻이 없어서 쓰지 않는다(10/1 사용자). 그 뒤 '늦을 수 있음'(앱 말투에 안 맞음),
  *  '늦음'(가이드 형식 '분 + 늦음'·원칙 '늦음은 분으로'에 안 맞음)을 거쳐 늦는 요일과 그 분으로(10/1 밤 사용자 결정, lateText) */
 function rankItem(ev, i) {
@@ -3168,9 +3168,14 @@ function rankItem(ev, i) {
   },
   h("span", { class: "rank-head" }, h("span", { class: "rank-no" }, `${i + 1}위`), h("span", { class: "rank-sum" }, nodes)),
   week);
-  const save = h("button", { type: "button", class: "btn-save", "data-save": String(i) });
-  setSaveButton(save, ev, i);
-  return h("li", { class: cur ? "rank selected" : "rank" }, btn, cur ? rankPicks(ev) : null, h("div", { class: "rank-save" }, save));
+  // 저장하기는 고른 카드에만 둔다(10/23 저녁 사용자: "선택한 거 아니면 저장하기 버튼 안 뜨게 하셈"). 다른 후보는 카드를 눌러 고른 뒤 저장한다
+  let saveBox = null;
+  if (cur) {
+    const save = h("button", { type: "button", class: "btn-save", "data-save": String(i) });
+    setSaveButton(save, ev, i);
+    saveBox = h("div", { class: "rank-save" }, save);
+  }
+  return h("li", { class: cur ? "rank selected" : "rank" }, btn, cur ? rankPicks(ev) : null, saveBox);
 }
 
 /**
@@ -4297,21 +4302,27 @@ async function copyText(text) {
 // ---- 받는 쪽: 웹은 주소의 '#t=', 앱은 앱 연결이 알려 주는 주소(TTW_APP.launchUrl: 켤 때 연 주소의 Promise, 켜 둔 동안 열면 'ttw:open-url' 이벤트의 detail.url)
 let shared = null; // 공유받은 시간표 시트에 보이는 것 { payload, t }
 /** 받은 주소(또는 '#t=' 뒤 글)를 연다. 앱은 바로 넣고, 웹은 공유받은 시간표 시트 */
-async function receiveLink(code) {
+let lastLink = null; // 앱: 바로 넣은 링크와 그때(같은 주소가 켤 때 주소와 이벤트로 두 번 와도 한 번만 넣는다)
+const LAUNCH_DONE = "ttw.launchLink"; // 앱: 켤 때 연 주소를 넣었다(sessionStorage. 웹뷰를 새로 열어도 launchUrl 이 같으면 다시 넣지 않는다)
+async function receiveLink(code, { launch = false } = {}) {
   const r = await readLinkCode(code);
   await semReady; // 학기 목록과 보는 학기(mine.sem)가 정해진 뒤에
   if (r.problem) { showSnackbar(LINK_PROBLEM[r.problem]); return; }
   const payload = await linkToPayload(r.link);
   if (IN_APP) {
+    if (reopening) return; // 기기 저장소를 되살려 새로 여는 중: 새로 연 뒤에 다시 받는다
+    if (lastLink && lastLink.code === code && Date.now() - lastLink.at < 10000) return;
+    lastLink = { code, at: Date.now() };
     const got = addReceived(payload);
     if (!got) { showSnackbar(FULL_TEXT); return; }
+    if (launch) { try { sessionStorage.setItem(LAUNCH_DONE, code); } catch { /* 못 적으면 다음에 새로 열 때 한 번 더 넣을 수 있다 */ } }
     showReceived(got);
     return;
   }
   openShared(payload);
 }
-/** 주소 → '#t=' 뒤 글(없으면 null) */
-const linkCodeOf = (url) => { const m = /#(?:.*&)?t=([^&]+)/.exec(String(url || "")); return m ? m[1] : null; };
+/** 주소 → '#t=' 뒤 글(없으면 null). 메신저가 링크 끝에 붙여 넘긴 문장부호(')' '.' 등)는 글자 모양 밖이라 떼어 낸다 */
+const linkCodeOf = (url) => { const m = /#(?:.*&)?t=([A-Za-z0-9_-]+)/.exec(String(url || "")); return m ? m[1] : null; };
 /** 공유받은 시간표 시트(웹): 학기·이름·학점, 격자(누르지 않는다), 시간 미정 줄, '내 시간표에 넣기' */
 function openShared(payload) {
   const t = T.timetableFromImage(payload, []); // 보이기만 한다(이름 겹침은 넣을 때 그 학기 목록으로 본다)
@@ -6197,7 +6208,12 @@ window.addEventListener("hashchange", () => {
 // 앱: 앱 연결(native.js)이 앱으로 열린 시간표 링크를 알려 준다(백엔드에 요청한 약속 10/23 저녁: 켤 때 연 주소는 TTW_APP.launchUrl(주소 글이나 null 의 Promise),
 // 켜 둔 동안 열린 주소는 window 의 'ttw:open-url' 이벤트(detail.url)). 앱은 보여 주지 않고 바로 넣는다
 if (IN_APP) {
-  Promise.resolve(window.TTW_APP?.launchUrl).then((u) => { const c = linkCodeOf(u); if (c) receiveLink(c); }).catch(() => {});
+  Promise.resolve(window.TTW_APP?.launchUrl).then((u) => {
+    const c = linkCodeOf(u);
+    let done = false;
+    try { done = sessionStorage.getItem(LAUNCH_DONE) === c; } catch { done = false; }
+    if (c && !done) receiveLink(c, { launch: true });
+  }).catch(() => {});
   window.addEventListener("ttw:open-url", (e) => { const c = linkCodeOf(e.detail && e.detail.url); if (c) receiveLink(c); });
 }
 // 스토어 앱의 저장소 되살리기(백엔드 10/22 밤): 앱 연결(native.js)이 기기 저장소(Preferences)에서 지워진 localStorage 를 되살리면 TTW_APP.restored 가
