@@ -171,14 +171,10 @@
   --safe-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
   --gutter-left: max(var(--space-5), var(--safe-area-inset-left, env(safe-area-inset-left, 0px)));
   --gutter-right: max(var(--space-5), var(--safe-area-inset-right, env(safe-area-inset-right, 0px)));
-  /* 아래 안전 영역의 가장 큰 값. 안드로이드 크롬(135부터, viewport-fit=cover)은 처음에 화면 아래 띠(제스처 막대 자리)를 제가 칠하고 스크롤하면 걷어 내며
-     safe-area-inset-bottom 을 0에서 이 값까지 키운다. 탭 막대는 늘 이 높이를 갖고 자리만 옮겨(.tabbar 의 bottom) 띠가 걷히는 동안 높이·레이아웃이 바뀌지 않고,
-     걷히면 막대 색이 화면 아래 끝까지 간다. 이 값을 모르는 브라우저와 앱 셸(Capacitor 가 --safe-area-inset-bottom 을 넣는다)은 지금 값 */
-  --safe-max-bottom: max(env(safe-area-max-inset-bottom, 0px), var(--safe-bottom));
   /* 아래 탭 막대(폰·태블릿). 컴퓨터는 사이드바라 안전 영역만(아래 1100px 규칙).
-     tabbar-top 은 막대 위 끝(화면 아래 끝에서)이라 막대 바로 위에 붙는 것(하단 바·스낵바)의 자리, tabbar-space 는 막대가 가리는 만큼 내용 끝에 두는 여백(움직이지 않는 값) */
+     tabbar-top 은 막대 위 끝(화면 아래 끝에서)이라 막대 바로 위에 붙는 것(하단 바·스낵바)의 자리, tabbar-space 는 막대가 가리는 만큼 내용 끝에 두는 여백(지금은 같은 값) */
   --tabbar-top: calc(var(--tabbar-h) + var(--safe-bottom));
-  --tabbar-space: calc(var(--tabbar-h) + var(--safe-max-bottom));
+  --tabbar-space: calc(var(--tabbar-h) + var(--safe-bottom));
   --bottom-bar-h: calc(var(--cta-height) + var(--space-3) * 2 + var(--tabbar-space));
   color-scheme: light;
 }
@@ -598,6 +594,8 @@ button.btn-text[aria-disabled="true"], button.btn-text[aria-disabled="true"]:hov
   color: var(--text); font-size: 1rem; line-height: 1.5rem; }
 .rules-row .kv { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--space-3); }
 .rules-row .v { min-width: 0; margin-left: auto; text-align: right; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
+/* 무엇을 정하는 곳인지(10/23 사용자: "여기 옆에 흐리고 작은 글씨로 공강 점심시간"): 이름 바로 옆에 t-caption text3. 정한 것이 있으면 오른쪽 요약이 대신해서 숨긴다(app.js) */
+.rules-row .rules-hint { margin-left: calc(var(--space-2) - var(--space-3)); font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
 .rules-row svg { flex-shrink: 0; color: var(--muted); }
 .rules-row:active { background: var(--surface-hover); }
 .rules-row:active svg { color: var(--text2); } /* 누른·올린 면 위에서 muted 는 3:1 에 못 미친다(정보 화면 행과 같다) */
@@ -1029,10 +1027,11 @@ button.info-row:active, a.info-row:active, .pick-row:active { background: var(--
    알약(높이 36)과 채운 아이콘(accent-text), 채운 아이콘의 뚫린 선은 알약 색. 글자를 키워 칸이 모자라면 이름이 두 줄이 되고 알약이 그만큼 높아진다(막대도 rem 이라 들어간다).
    칸 전체가 누르는 영역이다. 화상 키보드가 떠 있으면(하단 주요 버튼과 같은 판단) 숨기고, 전체 화면 지도가 덮는다. 폰과 태블릿(1099px까지)에 있고
    컴퓨터는 아래 .sidebar.
-   제스처 막대 자리(10/23 사용자: "화면 밑에 바 같은 거 있는 부분은 탭 색깔이 아니고 배경 색이라 미완 느낌"): 막대는 늘 아래 안전 영역의 가장 큰 값(--safe-max-bottom)만큼
-   아래로 길고, 지금 값과의 차이만큼 화면 아래로 내려가 있다. 안드로이드 크롬이 그 자리를 제 띠로 칠하는 동안 띠 색은 페이지 맨 뒤 바탕(html)의 색이라 아래 '화면 아래 띠' */
-.tabbar { position: fixed; left: 0; right: 0; bottom: calc(var(--safe-bottom) - var(--safe-max-bottom)); z-index: 20; display: flex; justify-content: center;
-  padding: 0 var(--space-2) var(--safe-max-bottom); background: var(--card); border-top: 1px solid var(--line); }
+   제스처 막대 자리(10/23 사용자: "화면 밑에 바 같은 거 있는 부분은 탭 색깔이 아니고 배경 색이라 미완 느낌"): 막대는 아래 안전 영역만큼 아래로 길다(padding).
+   크롬 문서가 권하는 '가장 큰 안전 영역만큼 늘 길고 자리만 옮기기'(safe-area-max-inset-bottom)는 넣었다가 뺐다(10/23 아침 사용자: 폰에서 로딩할 때 그 자리에 검은 경계가 생김).
+   그 방식이면 크롬이 아래 띠를 스크롤에 따라 걷어 내고, 지금 방식(padding 에 안전 영역)이면 띠를 그대로 둔다. 띠 색은 아래 '화면 아래 띠' */
+.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; justify-content: center;
+  padding: 0 var(--space-2) var(--safe-bottom); background: var(--card); border-top: 1px solid var(--line); }
 .tabbar ul { display: flex; width: 100%; max-width: 30rem; margin: 0; padding: 0; list-style: none; }
 .tabbar li { flex: 1; min-width: 0; }
 .tabbar .tab { --tab-ind: var(--card); display: flex; align-items: center; justify-content: center; width: 100%; height: var(--tabbar-h);
@@ -1046,8 +1045,8 @@ button.info-row:active, a.info-row:active, .pick-row:active { background: var(--
 .tabbar .tab[aria-current="page"] .ind { background: var(--accent-weak); }
 .tabbar .tab:not([aria-current="page"]):active .ind { background: var(--surface-hover); }
 .tabbar .tab:focus-visible { outline-offset: -2px; }
-/* 화면 아래 띠: 안드로이드 크롬(135부터)은 페이지를 스크롤하기 전까지 화면 아래 제스처 막대 자리를 제 띠로 칠하고, 그 색은 페이지 맨 뒤 바탕(html 의
-   background-color)을 따른다. 탭 막대가 있는 폭(1099px까지)은 그 바탕을 막대 색(card)으로 두어 막대가 화면 아래 끝까지 이어 보이게 한다. 보이는 바탕은 body(기본
+/* 화면 아래 띠: 안드로이드 크롬은 화면 아래 제스처 막대 자리(아래 띠·내비게이션 막대)를 탭의 바탕색으로 칠하고(크로미움 TabbedNavigationBarColorController →
+   Tab.getBackgroundColor → 렌더러가 알리는 문서 바탕색 LocalFrameView::DocumentBackgroundColor), 그 색은 페이지 맨 뒤 바탕(html 의 background-color)이다. 탭 막대가 있는 폭(1099px까지)은 그 바탕을 막대 색(card)으로 두어 막대가 화면 아래 끝까지 이어 보이게 한다. 보이는 바탕은 body(기본
    테마)나 body::before(이벤트 테마)가 칠하므로 화면은 그대로다. 막대가 없는 전체 화면 지도는 그 화면 아래 끝의 색(기본 테마는 bg, 이벤트 테마는 범례 카드라 card),
    바닥 시트(폭 600px 미만)가 열려 있으면 시트 색(raised). 화면 전환 중에는 옆으로 미는 동안 드러나는 자리가 맨 뒤 바탕이라 그 층을 bg 로 칠한다(전에 보이던 대로) */
 @media (max-width: 68.6875em) {
@@ -1105,6 +1104,14 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
 }
 @media (min-width: 68.75em) and (min-height: 25em) {
   .input-left, .mine-add { max-height: calc(100vh - var(--space-4) - var(--safe-top)); max-height: calc(100dvh - var(--space-4) - var(--safe-top)); }
+  /* 내 시간표의 두 칸이 창 아래 끝까지(10/23 사용자: "뭔가 균형이 안 맞음. 배치 가이드 같은 거 찾아보고 반영해봐"). 격자 카드는 app.js(wkFillHour)가 한 시간 높이를 늘려
+     채우고, 오른쪽 칸은 목록을 위에 두고 동선 확인하기를 아래 끝에 둔다. 그러면 위 끝은 사이드바 탭, 아래 끝은 사이드바의 정보와 같은 줄이다(아래 여백 space-6 셋이 같다).
+     --mine-top = 격자 카드 위 끝(문서 기준, app.js 가 잰다. 없으면 위 여백 space-4 + 머리 줄 3.5rem). 칸은 제자리(그 높이)에 붙고 높이 = 창 높이 − 그 위 끝이라,
+     창이 낮아 격자가 한 시간 최소로도 창보다 길면(노트북) 격자만 스크롤되고 버튼은 늘 창 아래 space-6 위다(전에는 칸이 space-4 까지 올라가 버튼이 머리 줄만큼 떴다).
+     목록이 길면 전처럼 칸이 길어지고 버튼은 화면 아래에 붙는다(sticky) */
+  .mine-right { top: var(--mine-top, 4.5rem); display: flex; flex-direction: column;
+    min-height: calc(100vh - var(--mine-top, 4.5rem)); min-height: calc(100dvh - var(--mine-top, 4.5rem)); }
+  .mine-right .items { margin-bottom: auto; }
 }
 .sidebar::-webkit-scrollbar { display: none; }
 ::view-transition-old(sidebar) { display: none; }
