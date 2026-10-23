@@ -127,6 +127,22 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
   Apache-2.0 전문은 앞의 세 파일 끝에 각각 넣었다(파일 하나만 읽어도 되게. 10/22 밤부터 화면은 고지문 전문을 차례로 다 보여서 세 번 나온다).
   지도는 `vendor/leaflet/LICENSE`, 앱 글꼴 파일 옆에는 `vendor/pretendard/LICENSE.txt` 도 있다. 화면(정보 > 오픈소스 라이선스)이 이 파일들을 읽는다.
 
+## 시간표 이미지 (공유·저장, 10/23)
+
+사용자 10/23 "시간표 이미지로 내보내는 기능". 그림에 시간표 자료를 넣는 것은 `web/js/timetables.js`(`docs/timetables.md` '이미지 파일에 담기'),
+앱에서 나누고 저장하는 것은 이 앱 안의 플러그인 `app/android/app/src/main/java/com/ttwizard/app/ImagePlugin.java`(이름 `TTWImage`, `MainActivity` 가 등록한다).
+화면은 `native.js` 의 `TTW_APP.shareImage({bytes, name, title})`·`TTW_APP.saveImage({bytes, name})` 를 부른다.
+
+- **권한을 더하지 않는다**: 공유는 앱 캐시(`cache/share/`, 지난번 것은 지운다)에 쓰고 `FileProvider`(템플릿에 있던 `${applicationId}.fileprovider`)로 공유 시트에 넘긴다.
+  저장은 안드로이드 10(API 29) 이상에서 `MediaStore` 에 제 파일을 더한다(`Pictures/TT Wizard`. 권한 없음). 9 이하는 저장소 권한이 있어야 해서 `UNSUPPORTED` 로 거절하고 화면은 공유로 돌린다.
+- 공식 플러그인(`@capacitor/share` + `@capacitor/filesystem`)을 쓰지 않은 까닭: 파일을 쓰려면 `@capacitor/filesystem` 이 있어야 하는데, 그것이 `ionfilesystem-android`·
+  `kotlinx-coroutines`·iOS `ion-ios-filesystem` 을 더 끌고 온다(고지문이 늘고 네이티브 의존이 커진다). 필요한 일은 파일 하나 쓰고 넘기는 것뿐이라 앱 안에 40줄 남짓으로 뒀다.
+  클라우드에서는 안드로이드 빌드를 못 해서, 고친 뒤에는 Actions `app` 이 컴파일하는지 본다(이 세션은 가짜 android·Capacitor 클래스로 `javac` 만 돌려 봤다).
+- 파일은 받은 바이트 그대로 쓴다(안의 시간표 자료가 남는다). 받는 앱이 다시 압축하면 자료는 빠진다(카카오톡 '사진' 등).
+- iOS 는 아직이다(Mac 이 없어 iOS 는 나중, 10/3): 플러그인이 없어 `UNSUPPORTED` 로 거절된다. 낼 때는 공유 시트(`UIActivityViewController`)를 붙이고,
+  공유 시트의 '이미지 저장'에 `NSPhotoLibraryAddUsageDescription` 이 있어야 한다(없으면 그 자리에서 앱이 꺼진다). 웹뷰의 파일 고르기도 iOS 에서는 '사진 찍기'를
+  같이 보여서 `NSCameraUsageDescription` 이 필요할 수 있다(그때 다시 본다).
+
 ## 앞으로 기능을 만들 때 (법무 10/22)
 
 - GitHub Pages 에서 받는 JSON 으로 기능을 켜고 끄거나(원격 플래그) 웹 묶음을 바꾸는 구조는 만들지 않는다. 자료로 쓰는 JSON(편람 등)은 괜찮다

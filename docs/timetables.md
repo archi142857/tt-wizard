@@ -53,6 +53,9 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
 | `toSections(t, byId)` | 엔진이 읽는 분반 모양. `checkRoute` 와 시간표 칸 그리기에 쓴다 |
 | `serialize(list)` / `parseList(raw, sem)` | 기기에 둘 값 / 기기에서 읽은 값 → 목록(모양이 어긋난 것은 버리고 나머지는 살린다. 색 번호는 0~7 로) |
 | `STORE_KEYS`, `hasTimetables(raw)`, `colorMode(raw)` | 기기에 두는 열쇠 이름, 이 학기에 이 판이 읽는 시간표가 있나(첫 탭), 칸 색 설정 읽기(아래 '기기에 두기') |
+| `addTimetableToPng(png, t)` | 시간표 그림(PNG 바이트)에 시간표 자료를 파일 안의 글 조각으로 넣은 새 PNG(아래 '이미지 파일에 담기'). PNG 가 아니면 `null` |
+| `readTimetableImage(bytes)` | 고른 이미지 파일 → `{payload}` 또는 `{problem}`(`not-png`·`jpeg`·`no-data`·`broken`·`newer`) |
+| `timetableFromImage(payload, list)` | 읽은 자료 → 새 시간표(학기는 `payload.sem`, `list` 는 그 학기 목록. 이름이 겹치면 `(2)`, 꽉 찼으면 `null`) |
 
 `checkRoute(sections, travel, home, {weights})`(`engine.js`)는 `evaluate` 와 같은 모양(요일별 경로 `legs`, `cost` 등)에
 `overlaps: [[i, j], ...]`(시간이 겹치는 분반 쌍)을 더해 돌려준다. 탐색 결과를 저장한 시간표는 `checkRoute(toSections(t, byId), …)` 가 탐색 때와 같은 비용·경로를 낸다(시험이 본다).
@@ -76,6 +79,23 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
 그래서 링크는 `https://sugang.snu.ac.kr/` 를 기기 브라우저로 열고(과목·항목·과목 추가 시트의 `강의평` 옆, 프론트엔드 10/22), 그 사이트 검색에는
 시트에 보이는 교과목번호(시트 머리)·강좌번호(분반 행)를 넣는다. 번호 복사는 넣지 않는다(디자인 67판. 길게 눌러 고를 수 있다).
 스크린리더 이름은 `서울대학교 수강편람`(그 과목 화면이 아니라서). 주소에 아무것도 붙이지 않으니 처리방침에는 바깥 링크로만 적는다.
+
+## 이미지 파일에 담기 (10/23)
+
+사용자: 시간표를 이미지로 내보내고, 그 이미지로 시간표를 똑같이 불러오게. "OCR 방식 대신", "이미지 자체에 텍스트로 입력하라는 게 아니라 파일 자체에".
+
+- PNG 는 그림 말고도 글 조각(chunk)을 담는다. 화면이 그린 시간표 그림의 끝(`IEND`) 앞에 `iTXt` 조각 하나를 넣는다:
+  열쇠 `TTWizard`(`IMAGE_KEY`), 압축 없음, 글 = `imagePayload(t)` 의 JSON(UTF-8). 그림을 보는 프로그램은 이 조각을 지나친다(그림은 그대로. 시험이 Pillow 로 연다).
+- 넣는 것: `{app: "ttwizard", v: 1, sem, title, items}`. 항목은 저장 형식 그대로(강좌의 교과목번호·강좌번호·과목명·교수·학점·구분·`base`·`own`·`alts`·색,
+  직접 넣은 일정의 이름·시간·장소·색)에서 **메모만 뺀다**(그림에 안 보이는 사사로운 글). 시간표 id·만든 때·대표 표시·탐색 기준(`from`)도 넣지 않는다.
+- 불러오기: `readTimetableImage` 가 그 조각만 읽고(CRC 가 틀리거나 JSON 이 아니면 `broken`), `timetableFromImage` 가 기기에서 읽을 때(`parseList`)와 같은 규칙으로
+  다듬어 새 시간표를 만든다(어긋난 항목은 버린다, 직접 넣은 일정은 새 id). 남이 만든 파일이라도 그 이상은 하지 않는다.
+- 조각은 파일을 그대로 옮길 때만 남는다. 메신저가 '사진'으로 보내며 다시 압축하면(JPEG 로 바뀐다, `jpeg`) 사라지고, 화면 캡처도 마찬가지다(`no-data`).
+  '파일'로 보내거나 사진·파일 앱에 저장한 것은 남는다. 화면 문구는 디자인이 정한다.
+- `IMAGE_VERSION`(1)은 뜻을 바꿀 때만 올린다. 옛 앱은 새 판 이미지를 `newer` 로 알린다.
+- 앱에서 내보내기: `TTW_APP.shareImage({bytes, name, title})`(공유 시트)·`TTW_APP.saveImage({bytes, name})`(사진에 저장, 안드로이드 10 이상).
+  `docs/app.md` '시간표 이미지'. 웹은 화면이 내려받기(`<a download>`)나 `navigator.share` 로.
+- 불러오기의 파일 고르기는 `<input type="file" accept="image/png">`(`capture` 를 붙이지 않는다: 붙이면 앱이 카메라 권한을 묻는다).
 
 ## 기기에 두기 (프론트엔드)
 

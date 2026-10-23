@@ -22,8 +22,8 @@ function fakeIndexedDB() {
   };
 }
 
-function setup({ native = true, http = null, online = true, platform = "android", bars = true } = {}) {
-  const calls = { local: [], remote: [], back: 0, minimized: 0, bars: [] };
+function setup({ native = true, http = null, online = true, platform = "android", bars = true, image = true } = {}) {
+  const calls = { local: [], remote: [], back: 0, minimized: 0, bars: [], image: [] };
   const scheme = []; // 기기 테마(prefers-color-scheme)가 바뀔 때 부를 것들
   const visible = []; // 앱으로 돌아올 때(visibilitychange) 부를 것들
   const clicks = []; // 문서의 click 을 듣는 것들 [{fn, capture}]
@@ -44,6 +44,10 @@ function setup({ native = true, http = null, online = true, platform = "android"
         App: { addListener: (ev, fn) => { listeners[ev] = fn; }, minimizeApp: () => { calls.minimized += 1; } },
         ...(bars ? { SystemBars: { setStyle: (opts) => { calls.bars.push(opts.style); return Promise.resolve(); } } } : {}),
         ...(http ? { CapacitorHttp: { get: (opts) => { calls.remote.push(opts.url); return http(opts.url); } } } : {}),
+        ...(image ? { TTWImage: {
+          share: (opts) => { calls.image.push(["share", opts]); return Promise.resolve(); },
+          save: (opts) => { calls.image.push(["save", opts]); return Promise.resolve({ uri: "content://media/1" }); },
+        } } : {}),
       },
     } : undefined,
     matchMedia: (query) => ({ matches: false, addEventListener: (ev, fn) => { if (ev === "change" && /prefers-color-scheme/.test(query)) scheme.push(fn); } }),
@@ -65,7 +69,7 @@ function setup({ native = true, http = null, online = true, platform = "android"
     navigator: { onLine: online },
     indexedDB: idb,
     history: { back: () => { calls.back += 1; } },
-    Event, Response, URL, JSON, Promise, setTimeout, clearTimeout, String, structuredClone,
+    Event, Response, URL, JSON, Promise, setTimeout, clearTimeout, String, structuredClone, Uint8Array, ArrayBuffer, Blob, btoa,
   };
   vm.createContext(context);
   vm.runInContext(SRC, context);
@@ -202,6 +206,22 @@ const out = {};
       press(s, "https://noteverytime.kr/"), press(s, "#top"), press(s, "mailto:someone@everytime.kr", { "data-browser": "system" })],
     notLink: [press(s, null), press(s, "https://everytime.kr/", {}, false)],
     web: web.clicks.length,
+  };
+}
+
+// 시간표 이미지: 바이트를 base64 로 바꿔 앱 안 플러그인에 넘긴다(Uint8Array·ArrayBuffer·Blob). 플러그인이 없으면 UNSUPPORTED
+{
+  const s = setup();
+  await s.win.TTW_APP.shareImage({ bytes: new Uint8Array([137, 80, 78, 71, 0, 255]), name: "시간표 1", title: "시간표 보내기" });
+  const saved = await s.win.TTW_APP.saveImage({ bytes: new Blob([new Uint8Array([1, 2, 3])]).slice(0), name: "a.png" });
+  await s.win.TTW_APP.shareImage({ bytes: new Uint8Array(70000).fill(7).buffer });
+  const none = setup({ image: false });
+  const err = await none.win.TTW_APP.shareImage({ bytes: new Uint8Array([1]) }).then(() => null, (e) => e.code);
+  const bad = await s.win.TTW_APP.saveImage({ bytes: "글자" }).then(() => null, (e) => e.message);
+  out.image = {
+    calls: s.calls.image.slice(0, 2).map(([m, o]) => [m, o.data, o.name, o.title]),
+    big: Buffer.from(s.calls.image[2][1].data, "base64").equals(Buffer.alloc(70000, 7)),
+    saved, unsupported: err, bad, count: s.calls.image.length,
   };
 }
 

@@ -104,3 +104,33 @@ def test_storage(out):
     assert all(s["has"])  # 이 판이 읽는 시간표가 있나(첫 탭) = parseList 가 _newer 가 아닌 것을 하나라도 살리나
     assert s["colorMode"] == ["cls", "item", "item", "item", "item", "item"]  # 칸 색은 처음 '항목마다'
     assert s["keys"] == {"list": "timetables", "current": "timetable", "color": "timetableColor", "open": "openSem"}
+
+
+def test_image_file_carries_timetable(out):
+    """시간표 이미지(PNG) 파일 안의 iTXt 조각에 시간표 자료를 넣고 다시 읽는다(사용자 10/23: 그림이 아니라 파일 자체에. OCR 아님)."""
+    i = out["image"]
+    assert i["types"] == ["IHDR", "tEXt", "iTXt", "IDAT", "iTXt", "IEND"] and i["crcBad"] == []  # 우리 조각은 IEND 바로 앞, CRC 도 맞다
+    assert i["foreignKept"] and i["sameAsBefore"]  # 다른 조각과 그림은 그대로
+    assert i["payloadKeys"] == ["app", "v", "sem", "title", "items"] and i["memoGone"] and i["items"]  # 메모는 넣지 않는다
+    b = i["back"]
+    assert b == {"sem": "2026-2", "title": "내 시간표 ✓", "primary": True, "source": "manual", "items": True, "newCustomId": True}
+    assert i["againOne"] == 2 and i["againTitle"] == "다시"  # 다시 넣으면 우리 조각을 바꾼다(남의 iTXt 하나 + 우리 것 하나)
+    assert i["problems"] == ["no-data", "jpeg", "not-png", "broken", "broken", "newer", "not-png"]
+    assert i["notPng"] and i["full"] and i["dup"] == "내 시간표 ✓ (2)"
+    e = i["evil"]  # 어긋난 자료는 기기에서 읽을 때와 같은 규칙으로 다듬는다
+    assert e["title"] == "가" * 26 + " (2)" and [it.get("title") for it in e["items"]] == ["일정"]
+    assert e["items"][0]["meetings"] == [[2, 600, 660, "71", ""]] and e["items"][0]["color"] == 4
+
+
+def test_image_file_opens_in_other_programs(out):
+    """우리가 고친 PNG 를 다른 프로그램(Pillow)도 그대로 연다: 그림은 1×1 그대로, iTXt 열쇠 TTWizard 의 글이 JSON 이다."""
+    PIL = pytest.importorskip("PIL.Image")
+    import base64
+    import io
+    im = PIL.open(io.BytesIO(base64.b64decode(out["image"]["pngBase64"])))
+    im.load()
+    assert im.size == (1, 1) and im.mode == "RGBA"
+    payload = json.loads(im.text["TTWizard"])
+    assert payload["app"] == "ttwizard" and payload["v"] == 1 and payload["title"] == "내 시간표 ✓"
+    assert im.text["Comment"] == "다른 프로그램이 넣은 글" and im.text["Software"] == "paint"
+
