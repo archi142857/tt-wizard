@@ -1435,7 +1435,13 @@ function enableSheetDrag(d) {
   head.addEventListener("pointercancel", end);
 }
 
-for (const d of document.querySelectorAll("dialog.sheet")) {
+// 시트 머리는 위에 붙어 있다(sticky). 키보드로 거슬러 올라올 때 초점 받은 것이 그 밑에 가리지 않게 머리 높이 + 8px(초점 테두리 몫)만큼 스크롤 여백을 둔다
+// (WCAG 2.2 SC 2.4.11, 기법 C43). 머리 높이는 과목명 줄 수, 글자 크기, 추가 설정 시트의 오류 줄에 따라 달라서 재어서 넣는다(아래쪽 8px 은 style.css)
+const sheetHeads = new ResizeObserver((entries) => {
+  for (const { target } of entries) target.parentElement.style.scrollPaddingTop = `${Math.ceil(target.getBoundingClientRect().height) + 8}px`;
+});
+/** 시트 하나에 닫기·바깥 누르기·닫힐 때 초점 돌리기·붙은 머리 선·끌어 닫기를 붙인다(index.html 의 시트들과, 나중에 만드는 개발자 메뉴 시트) */
+function wireSheet(d) {
   d.addEventListener("click", (e) => {
     if (e.target.closest("[data-close]")) { closeSheet(d); return; }
     if (e.target === d && d !== addSheet) { // 바깥(::backdrop) 누르기. 폰의 과목 추가 시트는 바깥이 시간표를 보는 자리라 닫지 않는다
@@ -1466,13 +1472,10 @@ for (const d of document.querySelectorAll("dialog.sheet")) {
   // 내용이 붙어 있는 머리 밑으로 올라가 있는 동안 머리 아래에 선을 긋는다(잘린 글자가 머리의 글자에 붙어 보이지 않게). 맨 위에서는 없다
   d.addEventListener("scroll", () => d.classList.toggle("is-scrolled", d.scrollTop > 0), { passive: true });
   if (d !== addSheet) enableSheetDrag(d); // 과목 추가 시트는 55%·90% 두 높이라 따로(아래 '폰의 과목 추가 시트')
+  const head = d.querySelector(":scope > .sheet-head");
+  if (head) sheetHeads.observe(head);
 }
-// 시트 머리는 위에 붙어 있다(sticky). 키보드로 거슬러 올라올 때 초점 받은 것이 그 밑에 가리지 않게 머리 높이 + 8px(초점 테두리 몫)만큼 스크롤 여백을 둔다
-// (WCAG 2.2 SC 2.4.11, 기법 C43). 머리 높이는 과목명 줄 수, 글자 크기, 추가 설정 시트의 오류 줄에 따라 달라서 재어서 넣는다(아래쪽 8px 은 style.css)
-const sheetHeads = new ResizeObserver((entries) => {
-  for (const { target } of entries) target.parentElement.style.scrollPaddingTop = `${Math.ceil(target.getBoundingClientRect().height) + 8}px`;
-});
-for (const head of document.querySelectorAll("dialog.sheet > .sheet-head")) sheetHeads.observe(head);
+for (const d of document.querySelectorAll("dialog.sheet")) wireSheet(d);
 
 // ---------------------------------------------------------------- 조건
 
@@ -3727,7 +3730,10 @@ function placeItem(item) {
 }
 
 $("tt-switch").addEventListener("click", (e) => openTtList(e.currentTarget));
-$("route-run").addEventListener("click", () => routeTt(curTt()));
+$("route-run").addEventListener("click", () => {
+  const t = curTt();
+  if (devKey(t)) openDev($("route-run")); else routeTt(t);
+});
 $("items").addEventListener("click", (e) => {
   const drop = e.target.closest("[data-drop]");
   if (drop) { dropItem(drop.dataset.drop, { fromList: true }); return; }
@@ -4550,6 +4556,66 @@ function deleteTt(t) {
     syncSaves();
   });
 }
+
+// ---- 개발자 메뉴(웹만. 10/24 사용자: "차라리 개발자 루트 같은 걸 만들어놓자", "21년도 1학기에서 저 과목 하나만을 시간표에 추가하고 동선 확인하기를 눌렀을 때
+// 개발자 메뉴로 들어갈 수 있게 만들어줘. 테마라던지 이런 거 제한 없고 기능 같은 거 테스트 해볼 수 있는 메뉴로"): 2021년 1학기 시간표에 '신경계질환의 병인기작 및 약물 개발 전략'
+// 001(806.508A) 하나만 넣고 동선 확인하기를 누르면 동선 탐색 대신 연다. 메뉴는 따로 된 파일 js/dev.js 이고 열 때만 불러온다(그리기·스타일 모두 그 파일 안).
+// 스토어 앱에서는 열지 않는다(법무: 바이너리에 숨긴 기능은 Apple 2.5.19 의 앱 삭제·계정 해지 사유. dev.js 는 앱 묶음에서 빼게 백엔드에 요청했다)
+const DEV_KEY = { sem: "2021-1", course: "806.508A", no: "001" };
+const devKey = (t) => !IN_APP && mine.sem === DEV_KEY.sem && t.items.length === 1 && !t.items[0].custom
+  && t.items[0].course === DEV_KEY.course && t.items[0].no === DEV_KEY.no;
+let devMenu = null;
+async function openDev(opener) {
+  try {
+    devMenu = devMenu || await import("./dev.js");
+  } catch {
+    showSnackbar("개발자 메뉴를 열지 못했어요", "다시 시도", () => openDev(opener));
+    return;
+  }
+  devMenu.open(devApi(), opener);
+}
+/** 개발자 메뉴의 테마: 기간과 상관없이 고른다. 이벤트 테마는 시험으로 켜고(ttw.devTheme, 고른 것은 'xmas-test' 로 따로 기억해 실제 기간에 남지 않는다),
+ *  기본·라이트·다크는 시험을 끄고 테마 탭에서 고를 때와 같다(실제 기간이면 돌아가기와 같다) */
+function pickDevTheme(v) {
+  if (THEMES.some(([id]) => id === v)) store.set("devTheme", v); else store.del("devTheme");
+  const now = seasonTheme();
+  if ((now ? now.event : "") !== (season ? season.event : "")) {
+    if (themeOn()) applyTheme(false); // 시험 테마를 끄기 전에 그 모습부터 거둔다(아래에서 새 판단으로 다시 건다)
+    season = now;
+  }
+  if (season && v === season.id) setTheme(true);
+  else setScheme(v);
+  renderThemes();
+}
+/** 개발자 메뉴가 쓰는 것: 그리기·시트·스낵바와 화면이 가진 값·동작 몇 가지(js/dev.js 는 이것만 본다) */
+const devApi = () => ({
+  h, icon, I, store, openSheet, closeSheet, wireSheet, showSnackbar,
+  themes: [...SCHEMES.map(([id, name]) => [id, name]), ...THEMES.map(([id, name]) => [id, name])],
+  theme: () => (themeOn() ? season.id : scheme),
+  pickTheme: pickDevTheme,
+  ask(opener) { // 묻는 팝업(이벤트 테마가 꺼져 있으면 시험으로 켠 뒤)
+    if (!themeOn()) pickDevTheme(THEMES[0][0]);
+    showAsk(opener);
+  },
+  forgetTheme() { store.del("themeOff"); store.del("themeAsked"); }, // 끈 테마·물어본 테마를 잊는다(묻는 팝업을 처음부터)
+  update() { showSnackbar("새 버전이 있어요", "새로고침", () => location.reload()); announce("새 버전이 있어요"); },
+  image: () => timetablePng(curTt()), // 지금 보는 시간표의 그림(PNG 바이트, 자료 조각까지)
+  info() {
+    let keys = [];
+    try { keys = Object.keys(localStorage).filter((k) => k.startsWith("ttw.")); } catch { /* 못 읽으면 0 */ }
+    const chars = keys.reduce((n, k) => n + k.length + (localStorage.getItem(k) || "").length, 0);
+    return { version: APP_VERSION, shell: SHELL, sem: state.semester ? semesterLabel(state.semester) : "", courses: state.loaded ? state.courses.length : 0,
+      updated: (state.semesterMeta && state.semesterMeta.updated) || "", sw: !!(navigator.serviceWorker && navigator.serviceWorker.controller),
+      keys: keys.length, bytes: chars * 2 }; // localStorage 는 UTF-16
+  },
+  wipe() { // 이 기기의 기록(ttw.*)을 다 지우고 처음 켠 것처럼 다시 연다. 다시 열기 전 숨길 때 저장하는 것(담은 과목·스크롤)이 도로 쓰지 않게 막고 지운다
+    reopening = true;
+    for (const box of [localStorage, sessionStorage]) {
+      try { for (const k of Object.keys(box)) if (k.startsWith("ttw.")) box.removeItem(k); } catch { /* 못 지운 것은 그대로 */ }
+    }
+    location.replace(location.pathname);
+  },
+});
 
 /** 동선 확인하기(10/23 사용자: "동선 탐색에 넣기는 없애버리고 걍 동선 확인하기를 분반 정보 포함해서 동선탐색으로 보내"): 이 시간표의 과목을 그 분반만 켜서(다른 분반은 끈다)
  *  동선 탐색의 담은 과목으로 바꿔 넣고, 항목에서 바꾼 시간·장소(강의실 미정에 고른 건물 등, 항목의 own)는 탐색의 직접 입력으로 옮긴 뒤 동선 탐색 탭에서 시간표 만들기를 돌린다
@@ -5478,9 +5544,10 @@ const BASE_BAR = ["#eef0ff", "#16171b"]; // 기본 테마의 상태 바 색(라�
 const devHost = () => location.protocol === "http:" && /^(localhost|127\.\d+\.\d+\.\d+|\[::1\]|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)$|\.localhost$/.test(location.hostname);
 /** 지금 켤 이벤트 테마(없으면 null). event 는 돌아가기와 물어본 것을 기억하는 이름이다: 해마다 달라서('xmas-2026') 그 해 그 테마에만 남는다.
  *  시험용 주소(?theme=xmas)는 개발 서버에서만 기간 밖에서도 켜고, 그때 고른 것이 실제 기간에 남지 않게 따로 기억한다('xmas-test').
- *  배포한 웹·스토어 앱은 주소로 켜지 않는다(10/23 밤 사용자: 링크로 넣으면 날짜와 상관없이 테마가 보이는 문제. index.html 머리의 스크립트도 같다) */
+ *  배포한 웹·스토어 앱은 주소로 켜지 않는다(10/23 밤 사용자: 링크로 넣으면 날짜와 상관없이 테마가 보이는 문제. index.html 머리의 스크립트도 같다).
+ *  웹의 개발자 메뉴에서 고른 테마(ttw.devTheme, 10/24 사용자: 개발자 메뉴는 "테마라던지 이런 거 제한 없고")도 시험용 주소와 같다. 스토어 앱은 보지 않는다 */
 function seasonTheme(now = new Date()) {
-  const test = devHost() ? new URLSearchParams(location.search).get("theme") : null;
+  const test = (devHost() ? new URLSearchParams(location.search).get("theme") : null) || (IN_APP ? null : store.get("devTheme", null));
   const md = `${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
   const forced = THEMES.find(([id]) => id === test);
   const t = forced || THEMES.find(([, , from, to]) => md >= from && md <= to);
@@ -5552,8 +5619,12 @@ function askTheme() {
   if (!themeOn() || store.get("themeAsked", "") === season.event || !store.get("made", false) || launchLink) return; // 공유받은 시간표를 열 때는 묻지 않는다
   if ((screen !== "input" && screen !== "mine") || document.querySelector("dialog[open]")) return; // 그새 다른 화면이나 시트를 열었으면 끼어들지 않고 다음에 켤 때 묻는다
   store.set("themeAsked", season.event);
+  showAsk();
+}
+/** 묻는 팝업을 연다(제목은 돌아갈 곳의 이름). 이벤트 테마가 켜져 있을 때만 부른다 */
+function showAsk(opener) {
   $("theme-ask-title").textContent = `${SCHEMES.find(([id]) => id === scheme)[1]} 테마로 돌아갈까요?`;
-  openSheet($("theme-ask"));
+  openSheet($("theme-ask"), opener);
 }
 $("theme-ask-yes").addEventListener("click", () => { setTheme(false); renderThemes(); closeSheet($("theme-ask")); });
 
