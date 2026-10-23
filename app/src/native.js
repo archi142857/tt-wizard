@@ -203,6 +203,8 @@
   // 화면(app.js)은 시간표 그림에 시간표 자료를 넣은 PNG(web/js/timetables.js 의 addTimetableToPng)를 넘긴다.
   //   TTW_APP.shareImage({ bytes, name, title })  공유 시트(카카오톡·드라이브·파일 …). title 은 시트 제목
   //   TTW_APP.saveImage({ bytes, name })          사진에 저장(안드로이드 10 이상, Pictures/TT Wizard). → { uri }
+//   TTW_APP.canSaveImage / canShareImage        이 기기에서 되는지(true/false). 켤 때 플러그인에 한 번 묻고 답이 오면 바뀐다(처음엔 false).
+//   TTW_APP.imageInfo                           그 답을 기다리는 Promise({ save, share }). 메뉴를 그리기 전에 기다릴 때(보통은 켠 지 몇 ms 안에 온다)
   //   bytes: Uint8Array | ArrayBuffer | Blob, name: 파일 이름(.png 는 붙여 준다). 둘 다 Promise.
   // 앱 안 플러그인(app/android/.../ImagePlugin.java)이 없거나(iOS 는 아직) 안드로이드 9 이하에서 저장하면 code "UNSUPPORTED" 로 거절한다.
   // 그때 화면은 웹과 같은 길(공유 시트가 있으면 그것, 없으면 내려받기)로 간다. 권한은 더하지 않는다(docs/app.md '시간표 이미지').
@@ -231,9 +233,23 @@
     });
   }
 
-  window.TTW_APP = {
+  var app = {
     build: BUILD, remote: REMOTE, platform: platform,
     shareImage: function (opts) { return imageCall("share", opts); },
     saveImage: function (opts) { return imageCall("save", opts); },
+    canSaveImage: false,
+    canShareImage: false,
   };
+  app.imageInfo = (function () {
+    var p = (cap.Plugins || {}).TTWImage;
+    if (!p || typeof p.info !== "function") return Promise.resolve({ save: false, share: false });
+    return Promise.resolve().then(function () { return p.info(); }).then(function (r) {
+      app.canSaveImage = !!(r && r.save);
+      app.canShareImage = true;
+      return { save: app.canSaveImage, share: true };
+    }, function () {
+      return { save: false, share: false };
+    });
+  })();
+  window.TTW_APP = app;
 })();

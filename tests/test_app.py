@@ -156,6 +156,10 @@ def test_native_shim():
     i = r["image"]
     assert i["calls"] == [["share", "iVBORwD/", "시간표 1", "시간표 보내기"], ["save", "AQID", "a.png", ""]] and i["big"]
     assert i["saved"] == {"uri": "content://media/1"} and i["unsupported"] == "UNSUPPORTED" and i["bad"] == "no image data" and i["count"] == 3
+    # 메뉴에 '이미지로 저장' 줄을 둘지(디자인 10/23): 켤 때 한 번 묻고 답이 오면 canSaveImage·canShareImage 가 바뀐다
+    n = r["imageInfo"]
+    assert n["before"] == [False, False] and n["info"] == {"save": True, "share": True} and n["after"] == [True, True]
+    assert n["old"] == [{"save": False, "share": True}, False, True] and n["none"] == [{"save": False, "share": False}, False]
 
 
 def test_android_image_plugin_needs_no_permission():
@@ -163,6 +167,7 @@ def test_android_image_plugin_needs_no_permission():
     java = APP / "android" / "app" / "src" / "main" / "java" / "com" / "ttwizard" / "app"
     plugin = (java / "ImagePlugin.java").read_text(encoding="utf-8")
     assert '@CapacitorPlugin(name = "TTWImage")' in plugin and "public void share(PluginCall call)" in plugin and "public void save(PluginCall call)" in plugin
+    assert "public void info(PluginCall call)" in plugin and 'ret.put("save", Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)' in plugin
     assert "Build.VERSION_CODES.Q" in plugin and '"UNSUPPORTED"' in plugin and "getCacheDir()" in plugin and ".fileprovider" in plugin
     assert "@Permission" not in plugin and "requestPermissions" not in plugin
     main = (java / "MainActivity.java").read_text(encoding="utf-8")

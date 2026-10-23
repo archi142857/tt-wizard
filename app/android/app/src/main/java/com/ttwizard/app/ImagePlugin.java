@@ -26,6 +26,7 @@ import java.io.OutputStream;
  *   share  앱 캐시(cache/share/)에 쓰고 공유 시트(ACTION_SEND)로 넘긴다. 받는 앱은 FileProvider 주소를 이번 한 번만 읽는다.
  *   save   안드로이드 10(API 29) 이상에서 사진(Pictures/TT Wizard)에 넣는다(MediaStore 에 제 파일을 더하는 데는 권한이 없다).
  *          그 아래는 저장소 권한이 있어야 해서 "UNSUPPORTED" 로 거절한다(화면은 공유로 돌린다).
+ *   info   { save: 사진에 저장되는 기기인지, sdk } — native.js 가 켤 때 한 번 물어 TTW_APP.canSaveImage 로 둔다(메뉴에 줄을 둘지, 디자인 10/23).
  * 파일은 받은 바이트 그대로 쓴다: PNG 안에 넣은 시간표 자료(iTXt, web/js/timetables.js '이미지 파일에 담기')가 남는다.
  */
 @CapacitorPlugin(name = "TTWImage")
@@ -78,6 +79,14 @@ public class ImagePlugin extends Plugin {
         } catch (Exception e) {
             call.reject(e.getMessage() != null ? e.getMessage() : "share failed");
         }
+    }
+
+    @PluginMethod
+    public void info(PluginCall call) {
+        JSObject ret = new JSObject();
+        ret.put("save", Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q);
+        ret.put("sdk", Build.VERSION.SDK_INT);
+        call.resolve(ret);
     }
 
     @PluginMethod
