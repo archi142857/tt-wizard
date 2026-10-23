@@ -76,7 +76,7 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
 
 과목·항목 시트의 `수강편람` 링크: 수강신청 사이트는 과목 하나를 여는 주소가 없다. 강의계획서(`/sugang/cc/cc103.action`)·검색
 (`/sugang/cc/cc100InterfaceSrch.action`) 주소를 바로 열면 첫 화면으로 돌아간다(10/22 브라우저로 확인. 첫 화면은 접속 대기열(NetFunnel)을 거친다).
-그래서 링크는 `https://sugang.snu.ac.kr/` 를 기기 브라우저로 열고(과목·항목·과목 추가 시트의 `강의평` 옆, 프론트엔드 10/22), 그 사이트 검색에는
+그래서 링크는 `https://sugang.snu.ac.kr/` 를 기기 브라우저로 열고(과목·항목 시트의 `강의평` 옆. 10/23 부터 과목 추가는 검색과 분반 행뿐이라 링크가 없다), 그 사이트 검색에는
 시트에 보이는 교과목번호(시트 머리)·강좌번호(분반 행)를 넣는다. 번호 복사는 넣지 않는다(디자인 67판. 길게 눌러 고를 수 있다).
 스크린리더 이름은 `서울대학교 수강편람`(그 과목 화면이 아니라서). 주소에 아무것도 붙이지 않으니 처리방침에는 바깥 링크로만 적는다.
 
@@ -113,7 +113,11 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
   (디자인 규칙 '스토어 출시 > 개인정보'의 'Preferences 병행'. 백엔드가 `app/src/native.js` 와 앱 플러그인으로 붙일 남은 일).
   같이 둘 것: 학기마다 `timetables`·`timetable`, 기기 하나 `timetableColor`·`openSem`(머리 스크립트가 읽는 `semester` 도). 붙이면 iOS `PrivacyInfo.xcprivacy` 의 UserDefaults(사유 `CA92.1`)가
   필요한데 이미 들어 있다. Preferences 는 비동기라 머리 스크립트보다 늦게 읽힌다: OS 가 웹뷰 저장 공간을 비운 뒤 처음 켤 때는 머리 스크립트가 빈 값을 보고
-  탐색을 먼저 보일 수 있다(되살린 뒤 app.js 가 다시 고르게 할지, 네이티브에서 웹뷰를 열기 전에 되살릴지는 붙일 때 정한다).
+  탐색을 먼저 보일 수 있다. 화면 쪽은 정해서 붙여 두었다(프론트엔드 10/22 밤): `window.TTW_APP.restored` 가 `{ keys }` 로 풀리고 `keys` 가 비어 있지 않으면
+  그때부터 localStorage 에 쓰지 않고 `location.reload()` 를 한 번 한다(세션에 한 번, sessionStorage `ttw.reopened`). 그래서 `native.js` 가 지킬 것:
+  ① 되살릴지는 app.js 가 돌기 전에 정한다. 처음 돌 때 `ttw.` 열쇠가 하나도 없으면 Preferences 를 통째로 되살린다('없는 열쇠만'으로 하면 app.js 가 켜자마자 쓰는
+  `ttw.openSem`, 학기 자료를 받으면 빈 목록이어도 쓰는 `ttw.picks@학기` 가 빈 값으로 남는다) ② 되살린 값은 한 번에 쓰고 바로 `restored` 를 푼다
+  ③ localStorage → Preferences 거울은 되살리기가 끝난 뒤에 켠다(그 전에 app.js 가 쓴 빈 값이 Preferences 를 덮지 않게).
 
 ## SNUTT 와 견주어
 
