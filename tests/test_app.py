@@ -55,7 +55,8 @@ def test_build_app_bundle(tmp_path, monkeypatch):
     assert {"index.html", "js/app.js", "js/engine.js", "js/search-worker.js", "js/search.js", "js/timetables.js", "js/native.js", "data/courses.json",
             "data/semesters/2025-1.json", "vendor/leaflet/leaflet.js", "vendor/pretendard/LICENSE.txt",
             "vendor/pretendard/woff2-dynamic-subset/PretendardVariable.subset.0.woff2", "app-build.json",
-            "licenses/capacitor.txt", "licenses/androidx.txt", "licenses/cordova.txt", "licenses/snutt.txt", "licenses/pretendard.txt"} <= files
+            "licenses/capacitor.txt", "licenses/androidx.txt", "licenses/cordova.txt", "licenses/snutt.txt", "licenses/pretendard.txt",
+            "licenses/fredoka.txt", "licenses/odbl.txt", "licenses/kogl-type1.txt"} <= files
     assert not [f for f in files if f == "sw.js" or f.startswith(("model/", "field/", "vendor/three/")) or f.endswith("package.json")]
     html = (out / "index.html").read_text(encoding="utf-8")
     assert "cdn.jsdelivr.net" not in html and 'href="vendor/pretendard/' in html
@@ -101,13 +102,25 @@ def test_license_notices_match_app():
     assert apache in ax and apache in cap and "apache-2.0.txt" not in cap + ax + cordova
     # 웹에도 쓰는 고지문(web/licenses/): 웹은 그대로, 앱은 web/ 을 옮길 때 같은 licenses/ 로. 앱에만 넣는 것과 이름이 겹치지 않는다
     web_lic = ROOT / "web" / "licenses"
-    assert {p.name for p in web_lic.glob("*.txt")} == {"snutt.txt", "pretendard.txt"}
+    assert {p.name for p in web_lic.glob("*.txt")} == {"snutt.txt", "pretendard.txt", "fredoka.txt", "odbl.txt", "kogl-type1.txt"}
     assert not {p.name for p in web_lic.glob("*.txt")} & {p.name for p in lic.glob("*.txt")}
     assert "Copyright (c) 2025 Wafflestudio" in (web_lic / "snutt.txt").read_text(encoding="utf-8")
     font = (web_lic / "pretendard.txt").read_text(encoding="utf-8")
     font_version = json.loads((APP / "package.json").read_text(encoding="utf-8"))["devDependencies"]["pretendard"]
     assert font.startswith(f"Pretendard {font_version} ") and f"pretendard@v{font_version}/" in (ROOT / "web" / "index.html").read_text(encoding="utf-8")
     assert "Copyright (c) 2021, Kil Hyung-jin" in font and "SIL OPEN FONT LICENSE Version 1.1" in font and font.rstrip().endswith("OTHER DEALINGS IN THE FONT SOFTWARE.")
+    # 로고 글꼴(google/fonts ofl/fredoka/OFL.txt 그대로), 지도 자료의 두 조건(ODbL 1.0 원문, 공공누리 제1유형 출처 표시와 조건 요약·원문 링크)
+    fredoka = (web_lic / "fredoka.txt").read_text(encoding="utf-8")
+    assert "Copyright 2016 The Fredoka Project Authors" in fredoka and fredoka.rstrip().endswith("OTHER DEALINGS IN THE FONT SOFTWARE.")
+    odbl = (web_lic / "odbl.txt").read_text(encoding="utf-8")
+    assert "© OpenStreetMap contributors" in odbl and "Open Data Commons Open Database License (ODbL)" in odbl
+    assert "4.3 Notice for using output (Contents)" in odbl and odbl.rstrip().endswith("in order to meet the\nterms of this License.")  # 원문 끝까지
+    kogl = (web_lic / "kogl-type1.txt").read_text(encoding="utf-8")
+    assert "공공누리 제1유형으로 개방한 '수치지형도" in kogl and "https://map.ngii.go.kr" in kogl  # 공공누리가 권하는 출처 문장(법무 문안)
+    assert "https://www.kogl.or.kr/info/licenseType1.do" in kogl and "/etc/clause.do" not in kogl  # clause.do 는 누리집 회원 약관이다
+    # 바탕 지도 자료의 출처 표기(basemap.json src_layers)와 같은 두 조건이 고지문에도 있다
+    srcs = " ".join(g["src"] for g in json.loads((ROOT / "data" / "basemap.json").read_text(encoding="utf-8"))["src_layers"])
+    assert "ODbL" in srcs and "공공누리 제1유형" in srcs
 
 
 def test_patch_index_stops_on_unknown_markup():

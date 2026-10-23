@@ -7,6 +7,9 @@
 | --- | --- | --- |
 | `web/licenses/snutt.txt` | SNUTT(MIT, Wafflestudio)에서 가져온 값·규칙 | `scripts/sugang_client.py`, `ttwizard/parse_sugang.py`, `scripts/fetch_buildings.py`, `web/js/search.js`(파일 머리에도 적었다). 웹·앱 |
 | `web/licenses/pretendard.txt` | 글꼴 Pretendard(SIL OFL 1.1) | 웹(jsDelivr 에서 받는 글꼴), 앱(글꼴 파일을 넣는다. 묶음의 `vendor/pretendard/LICENSE.txt` 와 같은 글) |
+| `web/licenses/fredoka.txt` | 로고 글꼴 Fredoka(SIL OFL 1.1, google/fonts `ofl/fredoka/OFL.txt` 그대로) | 워드마크 그림(`web/icons/wordmark*.svg`). 글꼴 파일은 넣지 않는다 |
+| `web/licenses/odbl.txt` | © OpenStreetMap contributors, ODbL 1.0 원문(SPDX `ODbL-1.0` 과 낱말·차례가 같다) | 바탕 지도의 OSM 층과 출입구 자리(루트 `README.md` '라이선스와 자료 조건') |
+| `web/licenses/kogl-type1.txt` | 국토지리정보원 수치지형도의 출처 표시(공공누리가 권하는 꼴)와 공공누리 제1유형 조건 요약·원문 링크(법무 10/23 문안) | 바탕 지도·고도·경사·접속선 |
 | `capacitor.txt` | Capacitor 와 플러그인(MIT), 그 안의 다른 사람 코드(Apache-2.0, BSD, MIT) | 스토어 앱(안드로이드·iOS) |
 | `androidx.txt` | AndroidX(Apache-2.0) | 안드로이드 앱 |
 | `cordova.txt` | Apache Cordova(Apache-2.0)와 NOTICE | 안드로이드 앱(cordova-android framework), iOS 앱(CapacitorCordova) |
