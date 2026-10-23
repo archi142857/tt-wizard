@@ -27,12 +27,13 @@ TT Wizard 화면. 정적 사이트라 서버 없이 돈다: `data/*.json` 을 �
   - 테마 탭(10/23 디자인 75판, 사용자: "테마도 걍 탭 하나로 빼자 …"): 아래 탭 셋째 `테마`(팔레트 아이콘), 화면 `#view-theme`(상단 바는 다른 탭 첫 화면과 같고
     보이지 않는 h1 `테마`). 테마마다 카드(`.theme-card`, 라디오 하나가 카드 전체를 덮는다): 미리보기(`.mini`, 토큰으로 그린 작은 화면. 기본은 라이트 위에 다크를
     대각선으로 반), 이름, 이벤트 테마는 `시즌 한정` 태그와 고를 수 있는 때(`THEMES` 의 일곱째 값 `12월 한 달`). 고르면 바로 바뀐다(`setTheme`. 기간에 `기본`은
-    `돌아가기`와 같다). 기간 밖 카드는 흐리고(`is-off`, 미리보기 38%) `disabled`. 시험 주소 `?theme=xmas` 는 기간 안으로 본다. 미리보기 값은 토큰 블록이 함께 건다:
+    `돌아가기`와 같다). 기간 밖 카드는 흐리고(`is-off`, 미리보기 38%) `disabled`. 개발 서버의 시험 주소 `?theme=xmas` 는 기간 안으로 본다. 미리보기 값은 토큰 블록이 함께 건다:
     라이트 블록 `:root, .mini.is-light, .mini.is-xmas`, 크리스마스 블록 `html[data-theme="xmas"], .mini.is-xmas`, 다크는 미디어 쿼리 안이라 그 뒤의 `.mini.is-dark`
     에 미리보기가 쓰는 토큰만 같은 값으로 둔다(**다크 값을 바꾸면 같이 바꾼다**). 정보 화면의 `테마` 행(고르는 행 `.pick-row`·`.info-pick`)은 없앴다
   - 저장: `ttw.themeOff`(끈 테마)·`ttw.themeAsked`(물어본 테마), 값은 해마다 다른 이름 `xmas-2026` 이라 다음 해에는 다시 켜지고 다시 묻는다
-  - 시험: 주소에 `?theme=xmas` 를 붙이면 기간 밖에서도 켜진다(화면을 옮겨도 주소에 남는다). 이때 고른 것은 `xmas-test` 로 따로 기억해 실제 12월에 남지 않는다.
-    스토어 앱은 주소를 못 바꾸니 기기 날짜를 옮겨 본다
+  - 시험: 내 컴퓨터의 개발 서버(http 의 `localhost`·`127.0.0.1`·`[::1]`·`*.localhost`, `devHost`)에서만 주소에 `?theme=xmas` 를 붙이면 기간 밖에서도 켜진다
+    (화면을 옮겨도 주소에 남는다). 이때 고른 것은 `xmas-test` 로 따로 기억해 실제 12월에 남지 않는다. 배포한 웹(https)·스토어 앱(`https://localhost`·`capacitor://localhost`)은
+    주소로 켜지지 않는다(10/23 밤 사용자: 링크로 넣으면 날짜와 상관없이 테마가 보이는 문제. `index.html` 머리의 스크립트도 같은 판단). 그 밖에서는 기기 날짜를 옮겨 본다
   - 색: `style.css` 의 `html[data-theme="xmas"]` 블록(디자인 시스템 `tokens.json` 의 `xmas` 값). 테마는 한 벌이라 기기가 다크여도 같은 모습이고, 기본 테마의 다크 값과
     다크 전용 규칙은 테마가 꺼져 있을 때만 건다(`:root:not([data-theme])`, `html:not([data-theme])`). 바탕 위에 놓이는 것은 따로 나눈 토큰을 쓴다:
     `on-bg-heading`·`on-bg-text`·`on-bg-text2`·`on-bg-text3`·`on-bg-link`·`on-bg-danger`, `bg-hover`, 그리고 `inset`(카드 안 파인 면), `accent-line`(고른 후보 테두리),
