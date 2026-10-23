@@ -42,7 +42,7 @@
 <!-- 입력 화면 -->
 <div id="view-input" class="view">
   <header class="topbar">
-    <a class="brand" href="./" data-home>
+    <a class="brand" href="./" data-home tabindex="-1">
       <img class="wordmark wm-light" src="icons/wordmark.svg" alt="TT Wizard" width="124" height="29">
       <img class="wordmark wm-dark" src="icons/wordmark-dark.svg" alt="TT Wizard" width="124" height="29">
       <img class="wordmark wm-white" src="icons/wordmark-white.svg" alt="TT Wizard" width="124" height="29">
@@ -134,7 +134,7 @@
      넓은 화면에서 과목 추가를 열면 이 화면 그대로 오른쪽 칸만 찾기로 바뀐다(.is-adding, #mine-add) -->
 <div id="view-mine" class="view" hidden>
   <header class="topbar">
-    <a class="brand" href="./" data-home>
+    <a class="brand" href="./" data-home tabindex="-1">
       <img class="wordmark wm-light" src="icons/wordmark.svg" alt="TT Wizard" width="124" height="29">
       <img class="wordmark wm-dark" src="icons/wordmark-dark.svg" alt="TT Wizard" width="124" height="29">
       <img class="wordmark wm-white" src="icons/wordmark-white.svg" alt="TT Wizard" width="124" height="29">
@@ -253,7 +253,7 @@
      테마마다 카드(라디오, 미리보기 + 이름). 고르면 바로 바뀐다. 카드는 app.js(renderThemes)가 채운다 -->
 <div id="view-theme" class="view" hidden>
   <header class="topbar">
-    <a class="brand" href="./" data-home>
+    <a class="brand" href="./" data-home tabindex="-1">
       <img class="wordmark wm-light" src="icons/wordmark.svg" alt="TT Wizard" width="124" height="29">
       <img class="wordmark wm-dark" src="icons/wordmark-dark.svg" alt="TT Wizard" width="124" height="29">
       <img class="wordmark wm-white" src="icons/wordmark-white.svg" alt="TT Wizard" width="124" height="29">
@@ -275,7 +275,7 @@
      워드마크는 nav 안 머리에 둔다: 랜드마크 밖에 내용이 남지 않게(axe region. 폰은 상단 바 header 안에 있다) -->
 <div class="sidebar" id="sidebar">
   <nav aria-label="화면">
-    <a class="sb-brand brand" href="./" data-home>
+    <a class="sb-brand brand" href="./" data-home tabindex="-1">
       <img class="wordmark wm-light" src="icons/wordmark.svg" alt="TT Wizard" width="124" height="29">
       <img class="wordmark wm-dark" src="icons/wordmark-dark.svg" alt="TT Wizard" width="124" height="29">
       <img class="wordmark wm-white" src="icons/wordmark-white.svg" alt="TT Wizard" width="124" height="29">
