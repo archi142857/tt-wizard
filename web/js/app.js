@@ -194,6 +194,8 @@ function clsKey(cls) {
 }
 const clsColor = (cls) => `var(--cls-${clsKey(cls)})`;
 const clsFill = (cls) => `var(--cls-${clsKey(cls)}-bg)`;
+/** 결과 화면 칸(.tt-block)의 글자색: 그 교과구분 칸 색의 글자색(디자인 80판. 기본 테마는 text·text2, 크리스마스의 짙은 칸은 흰색) */
+const clsInk = (cls) => ({ "--fill-fg": `var(--cls-${clsKey(cls)}-fg)`, "--fill-fg2": `var(--cls-${clsKey(cls)}-fg2)` });
 
 // ---------------------------------------------------------------- 직접 넣은 강의실·시간
 // state.overrides[분반 키] = { rooms, meet, base }
@@ -2251,7 +2253,7 @@ function renderTimetable(ev, day, gridPx) {
         room = roomBeside(textW);
       }
     } else ({ lines } = fit(px - 6 - lateRow));
-    const fill = clsFill(state.byId.get(m.section.courseId)?.cls || "");
+    const kind = state.byId.get(m.section.courseId)?.cls || "", fill = clsFill(kind);
     const nx = legs[i + 1];
     let next = "";
     if (m.building && nx) {
@@ -2261,7 +2263,7 @@ function renderTimetable(ev, day, gridPx) {
     const said = [`${n}. ${hm(m.start)}~${hm(m.end)} ${m.section.name}`, place, late ? `${late}분 늦음(${lateWhy(l)})` : "", next].filter(Boolean).join(", ");
     grid.append(h("li", {
       class: `tt-block${short ? " short" : ""}${roomTop ? " room-top" : pillRow ? " is-late pill-row" : lateRow ? " is-late" : ""}`,
-      style: { top: top(m.start), height: `calc(${heightPct}% - 2px)`, background: fill, "--lines": String(lines),
+      style: { top: top(m.start), height: `calc(${heightPct}% - 2px)`, background: fill, ...clsInk(kind), "--lines": String(lines),
         ...(late && (short || roomTop) ? { "--late-w": `${Math.ceil(pillW + 6)}px` } : {}) }, // 알약과 같은 줄의 글은 알약 앞에서 끝난다
       title: `${m.section.name} ${hm(m.start)}~${hm(m.end)}${place ? ` ${place}` : ""}`,
     },
@@ -3387,6 +3389,9 @@ $("ranks-cancel").addEventListener("click", () => cancelCompute());
 // 시간이 겹치게 넣으면 묻지 않고 겹치는 항목을 뺀 뒤 되돌리기를 준다(묻는 창은 되돌릴 수 없는 일에만 쓴다)
 
 const COLOR_NAMES = ["파랑", "초록", "주황", "보라", "노랑", "분홍", "청록", "회색"]; // 칸 색 item-0~7 의 이름(색 고르기의 스크린리더 이름. 화면에는 쓰지 않는다)
+// 이벤트 테마의 칸 색 이름: 테마마다 팔레트가 따로라 이름도 그 테마의 것이다(디자인 80판. 크리스마스 '리스')
+const THEME_COLOR_NAMES = { xmas: ["초록", "빨강", "연두", "진초록", "금색", "청록", "와인", "은색"] };
+const colorNames = () => THEME_COLOR_NAMES[document.documentElement.dataset.theme] || COLOR_NAMES;
 // 시간표 칸 색: 과목별(item) | 교과구분별(cls). 이 기기 하나, 학기와 상관없다. 기기에 두는 열쇠는 다 백엔드 timetables.js 의 STORE_KEYS
 let ttColor = T.colorMode(store.get(T.STORE_KEYS.color, "item"));
 const mine = { sem: "", list: [], id: "" }; // 보는 학기, 그 학기 시간표 목록(T.parseList), 지금 보는 시간표 id
@@ -3466,9 +3471,14 @@ function clashKeys(entries) {
 }
 const courseName = (e) => (e.item.custom ? e.item.title : (state.loaded && state.byId.get(e.item.course)?.name) || e.item.name);
 const colorNo = (it) => (Number.isInteger(it.color) ? it.color : 0) % COLOR_NAMES.length;
-/** 칸 색과 점 색: 과목별이면 item-N, 교과구분별이면 탐색과 같은 교과구분 색(일정은 기타) */
+/** 칸 색과 점 색: 과목별이면 item-N, 교과구분별이면 탐색과 같은 교과구분 색(일정은 기타). 칸 색은 테마마다 따로다(디자인 80판) */
 const itemFill = (it) => (ttColor === "cls" ? clsFill(it.custom ? "" : it.cls) : `var(--item-${colorNo(it)})`);
 const itemDot = (it) => (ttColor === "cls" ? clsColor(it.custom ? "" : it.cls) : `var(--item-${colorNo(it)}-dot)`);
+/** 칸 위 글자색: 그 칸 색의 글자색(--block-fg 과목명·--block-fg2 강의실. 내 시간표·공유받은 시간표 격자·시간표 이미지. 크리스마스의 짙은 칸은 흰색) */
+const itemInk = (it) => {
+  const k = ttColor === "cls" ? `cls-${clsKey(it.custom ? "" : it.cls)}` : `item-${colorNo(it)}`;
+  return { "--block-fg": `var(--${k}-fg)`, "--block-fg2": `var(--${k}-fg2)` };
+};
 /** 일정의 메타·칸: '금 16:00~18:00 · 63동'(장소가 없으면 시각까지) */
 const customWhen = (meetings) => meetingGroups(meetings).map((g) => `${daysLabel(g.days)} ${hm(g.start)}~${hm(g.end)}${g.building ? ` · ${buildingLabel(g.building)}` : ""}`).join(", ");
 
@@ -3628,7 +3638,7 @@ function renderWeek(t, entries, clash, opts = {}) {
     const lines = Math.max(1, Math.floor((height - 6 - roomLines * rem) / rem));
     const said = [`${DAY_KO[m.day]} ${hm(m.start)}~${hm(m.end)} ${e.item.custom ? e.item.title : courseName(e)}`, full, clash.has(e.key) ? "시간 겹침" : ""].filter(Boolean).join(", ");
     const mark = pv && pv.out.has(e.key) ? " is-out" : pv && pv.own === e.key ? " is-hl" : ""; // 미리 보기: 빠질 항목은 흐리게, 이미 넣은 분반은 테두리
-    const cls = `wk-block${half ? ` ${half}` : ""}${mark}`, style = { background: itemFill(e.item), "--lines": String(lines) };
+    const cls = `wk-block${half ? ` ${half}` : ""}${mark}`, style = { background: itemFill(e.item), ...itemInk(e.item), "--lines": String(lines) };
     const parts = [h("span", { class: "b-title", "aria-hidden": "true" }, name), room ? h("span", { class: "b-room", "aria-hidden": "true" }, room) : null];
     list.append(h("li", { style: { top: `${top}px`, height: `${height}px`, left: `calc(${days.indexOf(m.day)} * (100% + 2px) / ${n})`, width: `calc((100% + 2px) / ${n} - 2px)` } },
       // 누르지 않는 격자(공유받은 시간표 미리 보기): 칸은 글이고 스크린리더는 목록의 글로 읽는다
@@ -3994,7 +4004,7 @@ function layoutExport(root, entries, { name, card, legend, late }) {
     const room = e.item.custom ? (m.building ? buildingLabel(m.building) : "") : roomLabel(m);
     const bld = m.building ? buildingLabel(m.building) : room;
     body.append(h("div", { class: "ex-block", "data-min": String(m.end - m.start), style: {
-      left: `${x}px`, top: `${((m.start - h0 * 60) / 60) * hp + EX.gap / 2}px`, width: `${w}px`, height: `${((m.end - m.start) / 60) * hp - EX.gap}px`, background: itemFill(e.item) } },
+      left: `${x}px`, top: `${((m.start - h0 * 60) / 60) * hp + EX.gap / 2}px`, width: `${w}px`, height: `${((m.end - m.start) / 60) * hp - EX.gap}px`, background: itemFill(e.item), ...itemInk(e.item) } },
     h("b", {}, e.item.custom ? e.item.title : shortName(courseName(e))),
     room ? h("i", { "data-full": room, "data-bld": bld }, room) : null));
   }
@@ -4621,9 +4631,10 @@ function renderItemSheet() {
   fillCurSec(cur, e);
   $("is-body").replaceChildren(...[
     ttColor === "item" ? h("fieldset", { class: "sheet-field" }, h("legend", { class: "field-label" }, "색"),
-      h("div", { class: "swatches" }, COLOR_NAMES.map((name, i) => h("label", {},
+      h("div", { class: "swatches" }, colorNames().map((name, i) => h("label", {},
         h("input", { type: "radio", name: "is-color", value: String(i), checked: colorNo(it) === i, "aria-label": name }),
-        h("span", { class: "sw", style: { background: `var(--item-${i})` } }, icon(I.check, 20)))))) : null,
+        // 체크는 그 색의 글자색(크리스마스의 짙은 원 위에서는 흰색)
+        h("span", { class: "sw", style: { background: `var(--item-${i})`, color: `var(--item-${i}-fg)` } }, icon(I.check, 20)))))) : null,
     h("div", { class: "sheet-field item-secs" }, h("span", { class: "field-label" }, "넣은 분반"), cur),
     others.length ? h("div", { class: "sheet-field item-secs" },
       h("div", { class: "list-head" }, h("span", {}, `다른 분반 ${others.length}`)),
