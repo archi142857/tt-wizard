@@ -360,6 +360,10 @@ async function getJson(url) {
   return r.json();
 }
 
+// 학기 목록(semesters.json)을 받았다: 공유받은 시간표 링크가 기다린다(못 받으면 다시 시도해 받을 때까지)
+let semKnown = null;
+const semReady = new Promise((res) => { semKnown = res; });
+
 async function startApp() {
   hideBanner();
   state.loading = true;
@@ -370,6 +374,7 @@ async function startApp() {
     buildingOpts = dormOpts = null;
     state.current = (index && index.current) || (campus.meta || {}).semester || "";
     state.semesters = index && index.list && index.list.length ? index.list : [[state.current, "courses.json"]];
+    semKnown(); // 받은 시간표 링크가 그 학기 편람을 받을 수 있다(coursesFor)
     migrateStore(state.current);
     // 출발·도착: 지난번 값, 처음에는 자료의 첫 출발 후보(homes 차례가 곧 세그먼트 차례다: 정문 · 기숙사. 차례와 처음 값을 여기에 따로 적지 않는다)
     const homes = (campus.homes || []).map(([b]) => b);
@@ -3443,7 +3448,7 @@ function selectTt(id) {
 
 /** 항목마다 그릴 것 [{key, item, meetings, state, live}]: 지금 편람과 견준 것(T.reconcile). 편람을 받기 전에는 적어 둔 수업 그대로 */
 function ttEntries(t) {
-  if (state.loaded && state.semester === mine.sem) return T.reconcile(t, state.byId);
+  if (state.loaded && state.semester === (t.sem || mine.sem)) return T.reconcile(t, state.byId); // 공유받은 시간표는 다른 학기일 수 있다
   return t.items.map((it) => ({ key: T.itemKey(it), item: it, meetings: (it.custom ? it.meetings : it.own || it.base).map(meetOf), state: it.custom ? "custom" : "same", live: null }));
 }
 const meetsOverlap = (a, b) => a.day === b.day && a.start < b.end && b.start < a.end;
@@ -3493,6 +3498,7 @@ function renderMine() {
   const t = curTt();
   const entries = ttEntries(t);
   const clash = clashKeys(entries);
+  if (itemsErrFor && itemsErrFor !== `${mine.sem}|${t.id}`) itemsError(null); // 이미지로 추가 오류 줄은 다른 시간표·학기로 바뀌면 거둔다
   renderMineHead(t);
   $("tt-legend").hidden = ttColor !== "cls" || !entries.length; // 격자 높이를 채울 때 색 풀이 자리를 뺀다(renderItems 에서도 같은 값)
   renderWeek(t, entries, clash);
@@ -3525,6 +3531,7 @@ function renderMineHead(t) {
   $("tt-name").textContent = t.title;
   $("tt-primary").hidden = !t.primary;
   $("tt-switch").setAttribute("aria-label", [sum ? `${sem} 총 ${sum}학점` : sem, t.title, t.primary ? "대표" : ""].filter(Boolean).join(", "));
+  $("tt-share").hidden = !t.items.length; // 비어 있는 시간표는 나눌 것이 없다(이미지 줄과 같다)
 }
 
 /**
@@ -3619,20 +3626,25 @@ function renderWeek(t, entries, clash, opts = {}) {
     const lines = Math.max(1, Math.floor((height - 6 - roomLines * rem) / rem));
     const said = [`${DAY_KO[m.day]} ${hm(m.start)}~${hm(m.end)} ${e.item.custom ? e.item.title : courseName(e)}`, full, clash.has(e.key) ? "시간 겹침" : ""].filter(Boolean).join(", ");
     const mark = pv && pv.out.has(e.key) ? " is-out" : pv && pv.own === e.key ? " is-hl" : ""; // 미리 보기: 빠질 항목은 흐리게, 이미 넣은 분반은 테두리
+    const cls = `wk-block${half ? ` ${half}` : ""}${mark}`, style = { background: itemFill(e.item), "--lines": String(lines) };
+    const parts = [h("span", { class: "b-title", "aria-hidden": "true" }, name), room ? h("span", { class: "b-room", "aria-hidden": "true" }, room) : null];
     list.append(h("li", { style: { top: `${top}px`, height: `${height}px`, left: `calc(${days.indexOf(m.day)} * (100% + 2px) / ${n})`, width: `calc((100% + 2px) / ${n} - 2px)` } },
-      h("button", { type: "button", class: `wk-block${half ? ` ${half}` : ""}${mark}`, "data-key": e.key, "aria-haspopup": "dialog", "aria-label": said, style: { background: itemFill(e.item), "--lines": String(lines) } },
-        h("span", { class: "b-title", "aria-hidden": "true" }, name),
-        room ? h("span", { class: "b-room", "aria-hidden": "true" }, room) : null)));
+      // 누르지 않는 격자(공유받은 시간표 미리 보기): 칸은 글이고 스크린리더는 목록의 글로 읽는다
+      opts.still ? h("span", { class: cls, style }, ...parts, h("span", { class: "sr-only" }, said))
+        : h("button", { type: "button", class: cls, "data-key": e.key, "aria-haspopup": "dialog", "aria-label": said, style }, ...parts)));
   }
   addGhosts();
 }
 
-/** 항목 목록: 첫 수업의 요일·시각 순(시간이 없는 것은 맨 뒤), 맨 아래 '+ 과목 추가' | '+ 직접 추가' */
+/** 항목 목록: 첫 수업의 요일·시각 순(시간이 없는 것은 맨 뒤), 맨 아래 셋으로 나눈 '과목 추가' | '직접 추가' | '이미지로 추가'(10/23 저녁 사용자:
+ *  "이미지로 추가는 과목추가, 직접 추가, 이 옆에 이미지로 추가 이렇게 3개로 구성하자". 칸이 좁아 아이콘 아래에 이름) */
 function renderItems(entries, clash) {
   const first = (e) => (e.meetings.length ? Math.min(...e.meetings.map((m) => m.day * 1440 + m.start)) : Infinity);
   const sorted = [...entries].sort((a, b) => first(a) - first(b));
-  const add = (kind, text) => h("button", { type: "button", class: "add-row", "data-add": kind }, icon(I.plus, 20), text);
-  $("items").replaceChildren(...sorted.map((e) => itemRow(e, clash)), h("li", { class: "add-pair" }, add("course", "과목 추가"), add("custom", "직접 추가")));
+  const add = (kind, paths, text) => h("button", { type: "button", class: "add-row", "data-add": kind,
+    "aria-describedby": kind === "image" && !$("items-error").hidden ? "items-error" : null }, icon(paths, 20), h("span", {}, text));
+  $("items").replaceChildren(...sorted.map((e) => itemRow(e, clash)),
+    h("li", { class: "add-trio" }, add("course", I.plus, "과목 추가"), add("custom", I.plus, "직접 추가"), add("image", IMAGE_ICON, "이미지로 추가")));
   $("tt-legend").hidden = ttColor !== "cls" || !entries.length;
 }
 
@@ -3710,9 +3722,13 @@ $("items").addEventListener("click", (e) => {
   const hit = e.target.closest("[data-item]");
   if (hit) { openItem(hit.dataset.item, hit); return; }
   const add = e.target.closest("[data-add]");
-  if (add && add.dataset.add === "course") openAdd(add);
-  else if (add) openCustom(null, add);
+  if (!add) return;
+  itemsError(null); // 지난 이미지로 추가 오류 줄은 다음 추가에서 거둔다
+  if (add.dataset.add === "course") openAdd(add);
+  else if (add.dataset.add === "image") $("tt-file").click();
+  else openCustom(null, add);
 });
+$("tt-share").addEventListener("click", (e) => openShare(e.currentTarget));
 $("wk").addEventListener("click", (e) => {
   const b = e.target.closest("[data-key]");
   if (b) openItem(b.dataset.key, b);
@@ -3735,8 +3751,9 @@ function openTtList(opener) {
   renderTtList();
   openSheet($("tt-list-sheet"), opener);
 }
-// 이미지 두 줄(10/23 디자인 75판): 기기에 따라 하나가 빠지고(canSaveImage·canShareImage) 비어 있는 시간표에는 없다
-const TT_ACTS = [["copy", "복사하기"], ["primary", "대표 시간표로 설정하기"], ["save-image", "이미지로 저장"], ["share-image", "이미지 보내기"], ["delete", "지우기"]];
+// 이미지로 저장(10/23 디자인 75판): 사진 저장이 안 되는 앱(canSaveImage)과 비어 있는 시간표에는 없다. '이미지 보내기'는 10/23 저녁 사용자가 없애고
+// 머리 줄의 공유 버튼으로 옮겼다("'이미지 보내기' 이거 없애버리고 오른쪽 위에 공유 … 버튼")
+const TT_ACTS = [["copy", "복사하기"], ["primary", "대표 시간표로 설정하기"], ["save-image", "이미지로 저장"], ["delete", "지우기"]];
 function renderTtList() {
   ttListDrawn += 1;
   fillTerm($("tl-year"), $("tl-term"));
@@ -3756,20 +3773,18 @@ function renderTtList() {
     // 아직 만들지 않은 빈 시간표 1은 이름만(만들면서 대표가 된다). 대표 시간표에는 '대표 시간표로 설정하기'가 없다
     // (10/23 사용자: "'대표에서 빼기' 이거 없애고, 걍 대표 시간표가 아닌 시간표 메뉴에 '대표 시간표로 설정하기' 이거 넣어". 대표는 학기마다 늘 하나: 처음 만든 시간표가 대표이고
     // 대표를 지우면 남은 것 중 하나가 대표다(T.createTimetable·T.deleteTimetable))
-    const acts = TT_ACTS.filter(([k]) => !t.virtual && (k !== "primary" || !t.primary)
-      && (k !== "save-image" || (t.items.length && canSaveImage())) && (k !== "share-image" || (t.items.length && canShareImage())));
-    if (t.items.length && acts.some(([k]) => k.endsWith("-image"))) preparedImage(t).catch(() => null); // 펼칠 때 미리 그려 둔다(누르면 바로 보낸다: 웹의 공유는 누른 바로 그때만 된다)
+    const acts = TT_ACTS.filter(([k]) => !t.virtual && (k !== "primary" || !t.primary) && (k !== "save-image" || (t.items.length && canSaveImage())));
+    if (acts.some(([k]) => k === "save-image")) preparedImage(t).catch(() => null); // 펼칠 때 미리 그려 둔다(누르면 바로 저장한다)
     const act = ([k, text]) => h("li", {}, h("button", { type: "button", class: k === "delete" ? "menu-row danger" : "menu-row", "data-tt-act": k,
       "aria-describedby": k === "copy" && tlErrFrom === "copy" && !$("tl-limit").hidden ? "tl-limit" : null }, text));
     const name = h("li", { class: "tl-rename" }, h("input", { class: "text-input", type: "text", "data-tt-name": t.id, maxlength: "30", value: t.title,
       autocomplete: "off", enterkeyhint: "done", "aria-label": "시간표 이름" }));
     return h("li", { class: "tl-item is-open" }, line, h("ul", { class: "tl-acts", id: actsId, "aria-label": `${t.title} 메뉴` }, name, acts.map(act)));
   });
-  // 목록 아래 반씩: + 새 시간표 | 이미지 불러오기(10/23 디자인 75판). 오류 줄은 그 일을 한 버튼이 가리킨다(50개: 새 시간표·복사하기, 불러오기: 이미지 불러오기)
+  // 목록 아래 + 새 시간표(10/23 저녁 사용자가 옆의 '이미지 불러오기'를 항목 목록의 '이미지로 추가'로 옮겼다: "그 시간표 거기서는 빼버리고").
+  // 오류 줄(50개)은 그 일을 한 버튼이 가리킨다(새 시간표·복사하기)
   const err = $("tl-limit").hidden ? null : "tl-limit";
-  rows.push(h("li", { class: "add-pair" },
-    h("button", { type: "button", class: "menu-row add", "data-tt-new": "", "aria-describedby": tlErrFrom === "new" ? err : null }, icon(I.plus, 20), "새 시간표"),
-    h("button", { type: "button", class: "menu-row add", "data-tt-import": "", "aria-describedby": tlErrFrom === "import" ? err : null }, icon(IMAGE_ICON, 20), "이미지 불러오기")));
+  rows.push(h("li", {}, h("button", { type: "button", class: "menu-row add", "data-tt-new": "", "aria-describedby": tlErrFrom === "new" ? err : null }, icon(I.plus, 20), "새 시간표")));
   $("tl-rows").replaceChildren(...rows);
   for (const r of document.querySelectorAll('input[name="tt-color"]')) r.checked = r.value === ttColor;
 }
@@ -3812,9 +3827,8 @@ $("tl-rows").addEventListener("click", (e) => {
     closeSheet(d);
     return;
   }
-  if (e.target.closest("[data-tt-import]")) { tlError(null); refillTtList("[data-tt-import]"); $("tl-file").click(); return; } // 다시 불러오면 지난 오류 줄은 거둔다
   if (!e.target.closest("[data-tt-new]")) return;
-  tlError(null); // 지난 오류 줄(이미지를 못 불러왔다)은 거둔다
+  tlError(null);
   const t = T.createTimetable(mine.list, mine.sem); // '시간표 n'(쓰지 않은 가장 작은 번호)
   if (!t) {
     tlError(FULL_TEXT, "new");
@@ -3848,15 +3862,16 @@ function ttListAct(k) {
     mine.list = T.setPrimary(mine.list, t.id);
     saveMine();
     renderMine();
-    // 그 줄이 사라지므로 초점은 바로 아래 줄로(이미지 줄이 있으면 그것, 없으면 지우기)
-    refillTtList(["save-image", "share-image", "delete"].map((x) => `[data-tt-act="${x}"]`).find((x) => $("tl-rows").querySelector(x) || x.includes("delete")));
+    // 그 줄이 사라지므로 초점은 바로 아래 줄로(이미지로 저장이 있으면 그것, 없으면 지우기)
+    refillTtList($("tl-rows").querySelector('[data-tt-act="save-image"]') ? '[data-tt-act="save-image"]' : '[data-tt-act="delete"]');
     announce("대표 시간표로 설정했어요");
   } else if (k === "delete") { closeSheet(d); deleteTt(t); }
-  else if (k === "save-image" || k === "share-image") imageAct(k, t);
+  else if (k === "save-image") imageAct(k, t, d);
 }
 
 // ---------------------------------------------------------------- 시간표 이미지(디자인 75판 '시간표 이미지', 컴포넌트 TimetableImage. 10/23 사용자: "시간표 이미지로 내보내는
-// 기능도 만들어 줘", "그 이미지에 … 시간표 정보를 지문처럼 … 파일 자체에"). 목록 시트 ⋯ 의 이미지로 저장·이미지 보내기, 목록 아래 이미지 불러오기.
+// 기능도 만들어 줘", "그 이미지에 … 시간표 정보를 지문처럼 … 파일 자체에"). 목록 시트 ⋯ 의 이미지로 저장, 머리 줄 공유의 이미지로 공유,
+// 항목 목록 맨 아래 이미지로 추가(10/23 저녁 사용자가 '이미지 보내기'·'이미지 불러오기'를 옮겼다).
 // 자료는 그림에 보이지 않고 PNG 파일 안의 글 조각(iTXt)에 들어간다(백엔드 timetables.js 의 addTimetableToPng·readTimetableImage·timetableFromImage. 메모는 빠진다).
 // 그림: 내 시간표와 같은 격자를 화면 밖(.tt-export)에 그려 두고 그 자리·색·글자를 캔버스로 옮겨 그린다(paintExport). 브라우저가 줄을 바꾼 그대로라 화면과 같다.
 // DOM 을 그림으로 바꾸는 SVG foreignObject 는 사파리에서 캔버스를 막아(내보낼 수 없게 된다) 쓰지 않는다. 폭 22.5rem(글자 100%에서 360px)을 1080px 로 찍는다
@@ -3871,7 +3886,7 @@ const IMPORT_PROBLEM = {
   "not-png": "PNG 이미지가 아니에요",
   newer: "새 버전 앱에서 만든 이미지예요",
 };
-let tlErrFrom = null; // 목록 아래 오류 줄을 띄운 일: "new" | "copy" | "import"
+let tlErrFrom = null; // 목록 아래 오류 줄을 띄운 일: "new" | "copy"
 /** 목록 아래 오류 줄을 띄우거나(글, 그 일) 거둔다(null). 다시 그릴 때 그 일의 버튼이 줄을 가리킨다(aria-describedby) */
 function tlError(text, from = null) {
   $("tl-limit").hidden = !text;
@@ -3891,11 +3906,6 @@ function canSaveImage() {
 }
 /** 앱 연결의 공유 시트(TTW_APP.shareImage)를 쓸 수 있다: 앱 연결이 알려 준 값(canShareImage, update63), 그 값이 없는 옛 앱 연결은 shareImage 가 있으면 */
 const appShares = () => { const app = IN_APP && window.TTW_APP; return !!app && ("canShareImage" in app ? !!app.canShareImage : !!app.shareImage); };
-/** 공유 시트: 앱 연결의 공유 시트, 아니면 파일을 보낼 수 있는 브라우저(navigator.canShare({ files }). 앱 웹뷰도 되면 그것) */
-function canShareImage() {
-  if (appShares()) return true;
-  try { return !!navigator.canShare && navigator.canShare({ files: [new File([new Uint8Array(8)], "a.png", { type: "image/png" })] }); } catch { return false; }
-}
 /** '2026년 2학기 시간표 1'(공유 제목), 파일 이름은 거기에 .png(파일 이름에 못 쓰는 글자는 _) */
 const imageTitle = (t) => `${semesterLabel(t.sem)} ${t.title}`;
 const imageFile = (t) => `${imageTitle(t).replace(/[\\/:*?"<>|\u0000-\u001f]/g, "_")}.png`;
@@ -4018,9 +4028,10 @@ function paintText(g, node) {
   }
   for (const q of shown) g.fillText(q.ch, q.x, q.top + ascent);
 }
-/** 이미지로 저장·이미지 보내기. 앱: 사진에 저장(안드로이드 10 이상, 스낵바 '사진에 저장했어요'. 스낵바가 보이게 시트는 닫는다)·공유 시트,
- *  저장이 거절되면(UNSUPPORTED: iOS·안드로이드 9 이하) 공유 시트로. 웹: 파일로 내려받기(브라우저가 알린다)·공유 시트(navigator.share) */
-async function imageAct(k, t) {
+/** 이미지로 저장(목록 시트 ⋯)·이미지로 공유(공유 시트). 앱: 사진에 저장(안드로이드 10 이상, 스낵바 '사진에 저장했어요'. 스낵바가 보이게 시트는 닫는다)·공유 시트,
+ *  저장이 거절되면(UNSUPPORTED: iOS·안드로이드 9 이하) 공유 시트로. 웹: 파일로 내려받기(브라우저가 알린다)·공유 시트(navigator.share. 파일을 못 보내는 브라우저는
+ *  내려받기). 공유를 마치면(앱은 공유 시트를 띄우면) 누른 시트(sheet)를 닫는다. 기기의 공유 시트를 그냥 닫았으면 그대로 둔다 */
+async function imageAct(k, t, sheet) {
   let bytes = null;
   try { bytes = await preparedImage(t); } catch { bytes = null; }
   if (!bytes) { announce("이미지를 만들지 못했어요", "alert"); return; }
@@ -4029,7 +4040,7 @@ async function imageAct(k, t) {
   if (k === "save-image" && app && app.saveImage) {
     try {
       await app.saveImage({ bytes, name });
-      closeSheet($("tt-list-sheet"));
+      closeSheet(sheet);
       showSnackbar("사진에 저장했어요");
       return;
     } catch (e) {
@@ -4037,14 +4048,15 @@ async function imageAct(k, t) {
     }
   }
   if (appShares() && app.shareImage) {
-    try { await app.shareImage({ bytes, name, title }); return; } catch (e) { if (!e || e.code !== "UNSUPPORTED") return; }
+    try { await app.shareImage({ bytes, name, title }); closeSheet(sheet); return; } catch (e) { if (!e || e.code !== "UNSUPPORTED") return; }
   }
   const file = new File([bytes], name, { type: "image/png" });
   if (navigator.canShare && navigator.canShare({ files: [file] })) {
-    try { await navigator.share({ files: [file], title }); } catch { /* 닫았다 */ }
+    try { await navigator.share({ files: [file], title }); closeSheet(sheet); } catch { /* 닫았다 */ }
     return;
   }
   downloadPng(bytes, name);
+  if (k !== "save-image") closeSheet(sheet);
 }
 function downloadPng(bytes, name) {
   const url = URL.createObjectURL(new Blob([bytes], { type: "image/png" }));
@@ -4054,39 +4066,282 @@ function downloadPng(bytes, name) {
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
-/** 이미지 불러오기: 같은 학기면 새 시간표로 넣고 그것으로 바꾼 뒤 시트를 닫고 '시간표를 불러왔어요'. 다른 학기면 그 학기에 넣고 보던 것은 그대로 두고
- *  '2026년 1학기에 불러왔어요' [보기](그 학기의 그 시간표로). 못 불러오면 목록 아래 오류 줄(다시 불러오기·새 시간표·시트 닫기에 사라진다).
- *  불러온 이름·과목명·일정 이름은 남이 만든 파일의 글이라 화면에 글로만 넣는다(h() 는 텍스트 노드로 넣는다. 10/23 법무) */
-$("tl-file").addEventListener("change", async () => {
-  const input = $("tl-file"), f = input.files && input.files[0];
+
+// ---------------------------------------------------------------- 받은 시간표 넣기(이미지로 추가, 시간표 링크)
+// 10/23 저녁 사용자: 이미지로 추가는 "해당 시간표의 학기에 새로운 시간표로 추가. 알림창으로 ~~학년도 ~~학기로 이동하였어요. 이런 느낌."
+// 그 학기에 새 시간표로 넣고(이름이 겹치면 ' (2)'부터) 내 시간표 탭에서 그것을 보인다. 다른 학기면 그 학기로 옮기고 스낵바 '2026년 1학기로 이동했어요',
+// 같은 학기면 '시간표를 추가했어요'. 받은 이름·과목명·일정 이름은 남이 만든 파일·링크의 글이라 화면에 글로만 넣는다(h() 는 텍스트 노드로 넣는다. 10/23 법무)
+const SEM_ID = /^\d{4}-[12SW]$/;
+let itemsErrFor = ""; // 항목 목록 아래 오류 줄을 띄운 때의 '학기|시간표'(다른 시간표로 바뀌면 거둔다)
+/** 항목 목록 아래 오류 줄(이미지로 추가를 못 했다)을 띄우거나(글) 거둔다(null). 이미지로 추가 버튼이 그 줄을 가리킨다 */
+function itemsError(text) {
+  const p = $("items-error");
+  p.hidden = !text;
+  if (text) p.textContent = text;
+  itemsErrFor = text ? `${mine.sem}|${curTt().id}` : "";
+  const b = $("items").querySelector('[data-add="image"]');
+  if (b && text) b.setAttribute("aria-describedby", "items-error");
+  else if (b) b.removeAttribute("aria-describedby");
+  // 폰은 목록 끝이 하단 바 바로 위라 새 줄이 바 밑에 생긴다: 보이게 올린다(html 의 scroll-padding-bottom 이 바 높이)
+  if (text) p.scrollIntoView({ block: "nearest", behavior: reduceMotion.matches ? "auto" : "smooth" });
+}
+/** 받은 자료(이미지에 넣는 꼴: T.imagePayload)를 그 학기에 새 시간표로 넣는다. → { t, sem, same } 또는 null(그 학기가 꽉 찼다) */
+function addReceived(payload) {
+  const sem = payload.sem, same = sem === mine.sem;
+  const list = same ? mine.list : T.parseList(store.get(semKey(T.STORE_KEYS.list, sem), []), sem);
+  const t = T.timetableFromImage(payload, list);
+  if (!t) return null;
+  if (same) putTt(t);
+  else {
+    store.set(semKey(T.STORE_KEYS.list, sem), T.serialize([...list, t]));
+    store.set(semKey(T.STORE_KEYS.current, sem), t.id); // 그 학기를 열면 이 시간표가 보인다
+  }
+  return { t, sem, same };
+}
+let afterPop = null; // 정보에서 내 시간표 탭으로 기록을 되돌린 뒤 할 일(popstate)
+/** 내 시간표 탭으로 가서(이미 거기면 그대로) then 을 부른다. 다른 탭에 쌓아 둔 과목 추가 화면은 거두고 첫 화면으로 */
+function goMine(then) {
+  if (tab === "mine") { then(); return; }
+  stacks.mine.length = 1;
+  if (tab === "info" && infoFrom === "mine") { afterPop = then; history.go(-(depth - infoBase + 1)); return; }
+  switchTab("mine", then);
+}
+/** 넣은 시간표를 보인다(위 머리): 내 시간표 탭, 다른 학기면 그 학기로 옮긴다. 편람이 없는 학기(학기 목록에 없다)는 옮기지 못해 '…에 추가했어요'만 */
+function showReceived({ sem, same }) {
+  goMine(() => {
+    if (same) { renderMine(); showSnackbar("시간표를 추가했어요"); return; }
+    if (!state.semesters.some(([x]) => x === sem)) { showSnackbar(`${semesterLabel(sem)}에 추가했어요`); return; }
+    switchSemester(sem);
+    showSnackbar(`${semesterLabel(sem)}로 이동했어요`);
+  });
+}
+/** 이미지로 추가(항목 목록 맨 아래): PNG 안의 시간표 자료(T.readTimetableImage)를 그 학기에 새 시간표로. 못 하면 항목 목록 아래 오류 줄 */
+$("tt-file").addEventListener("change", async () => {
+  const input = $("tt-file"), f = input.files && input.files[0];
   input.value = ""; // 같은 파일을 다시 골라도 알게
   if (!f) return;
-  const fail = (text) => { tlError(text, "import"); refillTtList("[data-tt-import]"); announce(text, "alert"); };
+  const fail = (text) => { itemsError(text); announce(text, "alert"); };
   let bytes;
   try { bytes = new Uint8Array(await f.arrayBuffer()); } catch { fail(IMPORT_PROBLEM.broken); return; }
   const r = T.readTimetableImage(bytes);
   if (r.problem) { fail(IMPORT_PROBLEM[r.problem] || IMPORT_PROBLEM.broken); return; }
-  const sem = r.payload.sem, [y, k] = sem.split("-");
-  if (!/^\d{4}$/.test(y || "") || !TERMS[k]) { fail(IMPORT_PROBLEM.broken); return; }
-  const same = sem === mine.sem;
-  const list = same ? mine.list : T.parseList(store.get(semKey(T.STORE_KEYS.list, sem), []), sem);
-  const t = T.timetableFromImage(r.payload, list);
-  if (!t) { fail(FULL_TEXT); return; }
-  tlError(null);
-  if (same) {
-    putTt(t);
-    renderMine();
-    closeSheet($("tt-list-sheet"));
-    showSnackbar("시간표를 불러왔어요");
+  if (!SEM_ID.test(r.payload.sem)) { fail(IMPORT_PROBLEM.broken); return; }
+  const got = addReceived(r.payload);
+  if (!got) { fail(FULL_TEXT); return; }
+  itemsError(null);
+  showReceived(got);
+});
+
+// ---------------------------------------------------------------- 공유(10/23 저녁 사용자: "오른쪽 위에 공유(그 삼각형 느낌 일반적인 공유 버튼) 버튼 만들어서 누르면 카톡, 인스타
+// 등등으로 공유할 수 있는 기능", "공유 옵션은 링크로 공유, 이미지로 공유 두 가지 기능", "링크로 공유 했을 때 어플이 있으면 어플 켜서 시간표 추가, 어플 없으면 웹으로
+// 시간표 띄우는 기능"). 머리 줄 오른쪽 공유 버튼 → 공유 시트(링크로 공유 · 이미지로 공유). 링크는 기기의 공유 시트(웹 navigator.share, 앱 TTW_APP.shareLink),
+// 못 쓰면 복사하고 스낵바 '링크를 복사했어요'. 받는 쪽: 앱은 바로 넣고(앱 연결이 열린 주소를 알려 준다), 웹은 '공유받은 시간표' 시트로 보여 주고 '내 시간표에 넣기'.
+//
+// 시간표 링크: <웹 앱 주소>#t=<글>. '#' 뒤는 서버로 가지 않는다(웹 서버 기록·링크 미리 보기를 만드는 메신저 서버에 시간표가 가지 않는다).
+// 글: 'z' + base64url(deflate-raw(JSON)), 압축을 못 하는 브라우저는 'j' + base64url(JSON).
+// JSON: [판(1), 학기, 이름, 항목들]. 강좌 항목은 [교과목번호, 강좌번호, 색, 과목명, 바꾼 수업?]만 넣고 교수·학점·구분·편람 수업은 받는 쪽이 그 학기 편람에서 채운다
+// (주소를 짧게: 다섯 과목이 200자 안팎. 이미지에 넣는 자료를 그대로 넣으면 600자쯤). 과목명은 받는 쪽 편람에 그 강좌가 없을 때 쓴다(없는 과목으로 남는다).
+// 보내는 쪽 편람에 없는 강좌와 직접 넣은 일정은 이미지에 넣는 항목 그대로(객체). 메모는 넣지 않는다(이미지와 같다)
+const LINK_VERSION = 1;
+const LINK_BASE = "https://archi142857.github.io/tt-wizard/"; // 앱이 만드는 링크의 주소(웹 앱. 앱 연결의 TTW_APP.remote 가 있으면 그것)
+const LINK_MAX = 64 * 1024; // 받은 글이 이보다 길면 읽지 않는다
+const LINK_PROBLEM = {
+  broken: "시간표 링크가 깨졌어요",
+  newer: "새 버전 앱에서 만든 링크예요",
+  old: "이 브라우저에서는 열 수 없는 링크예요",
+};
+const b64url = (bytes) => {
+  let s = "";
+  for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+};
+const unb64url = (s) => Uint8Array.from(atob(s.replace(/-/g, "+").replace(/_/g, "/")), (ch) => ch.charCodeAt(0));
+/** 바이트를 압축·풀기 스트림에 통과시킨다. max 를 넘게 나오면 멈추고 던진다(받은 링크의 압축 폭탄) */
+async function pipeBytes(bytes, stream, max = Infinity) {
+  const reader = new Blob([bytes]).stream().pipeThrough(stream).getReader();
+  const parts = [];
+  let n = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    n += value.length;
+    if (n > max) { reader.cancel().catch(() => null); throw new Error("too big"); }
+    parts.push(value);
+  }
+  const out = new Uint8Array(n);
+  let at = 0;
+  for (const p of parts) { out.set(p, at); at += p.length; }
+  return out;
+}
+/** 링크에 넣을 자료(위 머리의 JSON) */
+function linkPayload(t) {
+  const live = state.loaded && state.semester === t.sem ? state.byId : null;
+  const items = t.items.map((raw) => {
+    const it = { ...raw };
+    delete it.memo;
+    const c = !it.custom && live ? live.get(it.course) : null;
+    if (!c || !c.sections.some((s) => s.no === it.no)) return it; // 직접 넣은 일정, 지금 편람에 없는 강좌(또는 편람을 받기 전): 그대로
+    const x = [it.course, it.no, Number.isInteger(it.color) ? it.color : null, it.name];
+    if (it.own) x.push(it.own);
+    return x;
+  });
+  return [LINK_VERSION, t.sem, t.title, items];
+}
+/** 시간표 → 링크의 '#t=' 뒤 글 */
+async function linkCode(t) {
+  const bytes = new TextEncoder().encode(JSON.stringify(linkPayload(t)));
+  if (typeof CompressionStream === "function") {
+    try { return `z${b64url(await pipeBytes(bytes, new CompressionStream("deflate-raw")))}`; } catch { /* 압축 없이 */ }
+  }
+  return `j${b64url(bytes)}`;
+}
+/** 링크의 주소: 웹은 지금 연 주소(설치한 웹 앱도 같다), 앱은 웹 앱 주소(앱 안의 주소는 기기 안이라 남이 못 연다) */
+function linkBase() {
+  if (!IN_APP) return location.origin + location.pathname;
+  const r = window.TTW_APP && window.TTW_APP.remote;
+  return typeof r === "string" && /^https:\/\/[^/]+\/(.*\/)?$/.test(r) ? r : LINK_BASE;
+}
+/** 받은 글 → { link: {sem, title, items} } 또는 { problem } (LINK_PROBLEM 의 열쇠) */
+async function readLinkCode(code) {
+  if (typeof code !== "string" || code.length > LINK_MAX || !/^[zj][A-Za-z0-9_-]+$/.test(code)) return { problem: "broken" };
+  if (code[0] === "z" && typeof DecompressionStream !== "function") return { problem: "old" };
+  let data;
+  try {
+    let bytes = unb64url(code.slice(1));
+    if (code[0] === "z") bytes = await pipeBytes(bytes, new DecompressionStream("deflate-raw"), 256 * 1024);
+    data = JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(bytes));
+  } catch {
+    return { problem: "broken" };
+  }
+  if (!Array.isArray(data) || !Number.isInteger(data[0]) || data[0] < 1) return { problem: "broken" };
+  if (data[0] > LINK_VERSION) return { problem: "newer" };
+  const [, sem, title, items] = data;
+  if (typeof sem !== "string" || !SEM_ID.test(sem) || !Array.isArray(items)) return { problem: "broken" };
+  return { link: { sem, title: typeof title === "string" ? title : "", items } };
+}
+/** 그 학기의 강좌(id → 강좌). 지금 학기면 받아 둔 것, 아니면 그 학기 편람을 받는다(학기를 바꾸지 않는다). 학기 목록에 없으면 null */
+async function coursesFor(sem) {
+  await semReady;
+  if (state.loaded && state.semester === sem) return state.byId;
+  const entry = state.semesters.find(([x]) => x === sem);
+  if (!entry) return null;
+  let cj = state.cache.get(sem);
+  if (!cj) { cj = await getJson(`data/${entry[1]}`); state.cache.set(sem, cj); }
+  return new Map(parseCourses(cj).map((c) => [c.id, c]));
+}
+/** 받은 링크 → 이미지에 넣는 꼴의 자료(T.timetableFromImage 가 읽는다). 강좌 항목은 그 학기 편람으로 채우고, 편람에 없으면 과목명만 든 항목(없는 과목) */
+async function linkToPayload(link) {
+  const byId = link.items.some(Array.isArray) ? await coursesFor(link.sem).catch(() => null) : null;
+  const items = [];
+  for (const x of link.items) {
+    if (!Array.isArray(x)) { if (x && typeof x === "object") items.push(x); continue; }
+    const [course, no, color, name, own] = x;
+    if (typeof course !== "string" || typeof no !== "string") continue;
+    const c = byId && byId.get(course), s = c && c.sections.find((y) => y.no === no);
+    const it = s ? T.sectionItem(c, s) : { course, no, name: typeof name === "string" && name ? name : course, instructor: "", credit: 0, cls: "", base: [] };
+    if (Array.isArray(own)) it.own = own;
+    if (Number.isInteger(color)) it.color = color;
+    items.push(it);
+  }
+  return { app: "ttwizard", v: T.IMAGE_VERSION, sem: link.sem, title: link.title, items };
+}
+
+let shareTt = null, shareUrl = null; // 공유 시트를 연 시간표, 그 링크(Promise. 열 때 만들어 둔다: 웹의 공유는 누른 바로 그때만 된다)
+function openShare(opener) {
+  const t = curTt();
+  if (!t.items.length) return;
+  shareTt = t;
+  shareUrl = linkCode(t).then((code) => `${linkBase()}#t=${code}`);
+  shareUrl.catch(() => null);
+  preparedImage(t).catch(() => null); // 이미지도 미리 그려 둔다
+  $("sh-meta").textContent = `${semesterLabel(t.sem)} · ${t.title}`;
+  openSheet($("share-sheet"), opener);
+}
+$("share-sheet").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-share]");
+  if (!b || !shareTt) return;
+  if (b.dataset.share === "link") shareByLink(shareTt);
+  else imageAct("share-image", shareTt, $("share-sheet"));
+});
+/** 링크로 공유: 앱은 앱 연결의 공유 시트(TTW_APP.shareLink. 아직 없는 앱은 웹과 같은 길), 웹은 기기의 공유 시트(navigator.share). 둘 다 못 쓰면(컴퓨터 브라우저 등)
+ *  복사하고 시트를 닫은 뒤 스낵바 '링크를 복사했어요'. 공유 시트를 그냥 닫았으면 공유 시트는 그대로 둔다 */
+async function shareByLink(t) {
+  const sheet = $("share-sheet"), title = imageTitle(t);
+  let url = null;
+  try { url = await shareUrl; } catch { url = null; }
+  if (!url) { announce("링크를 만들지 못했어요", "alert"); return; }
+  const app = IN_APP && window.TTW_APP;
+  if (app && typeof app.shareLink === "function") {
+    try { await app.shareLink({ url, title }); closeSheet(sheet); return; } catch (e) { if (!e || e.code !== "UNSUPPORTED") return; }
+  }
+  if (navigator.share) {
+    try { await navigator.share({ title, url }); closeSheet(sheet); return; } catch (e) { if (e && e.name === "AbortError") return; } // 그 밖의 실패는 복사로
+  }
+  const ok = await copyText(url);
+  closeSheet(sheet);
+  showSnackbar(ok ? "링크를 복사했어요" : "링크를 복사하지 못했어요");
+}
+/** 글을 클립보드에: Clipboard API, 안 되면(앱 웹뷰 등) 잠깐 둔 입력칸을 골라 복사. 모달 시트 밖은 inert 라 그 칸은 열린 시트 안에 둔다 */
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch { /* 아래 */ }
+  const ta = h("textarea", { readonly: "", "aria-hidden": "true", style: { position: "fixed", top: "0", left: "-9999px", opacity: "0" } });
+  ta.value = text;
+  (document.querySelector("dialog[open]") || document.body).append(ta);
+  ta.select();
+  let ok = false;
+  try { ok = document.execCommand("copy"); } catch { ok = false; }
+  ta.remove();
+  return ok;
+}
+
+// ---- 받는 쪽: 웹은 주소의 '#t=', 앱은 앱 연결이 알려 주는 주소(TTW_APP.launchUrl: 켤 때 연 주소의 Promise, 켜 둔 동안 열면 'ttw:open-url' 이벤트의 detail.url)
+let shared = null; // 공유받은 시간표 시트에 보이는 것 { payload, t }
+/** 받은 주소(또는 '#t=' 뒤 글)를 연다. 앱은 바로 넣고, 웹은 공유받은 시간표 시트 */
+async function receiveLink(code) {
+  const r = await readLinkCode(code);
+  await semReady; // 학기 목록과 보는 학기(mine.sem)가 정해진 뒤에
+  if (r.problem) { showSnackbar(LINK_PROBLEM[r.problem]); return; }
+  const payload = await linkToPayload(r.link);
+  if (IN_APP) {
+    const got = addReceived(payload);
+    if (!got) { showSnackbar(FULL_TEXT); return; }
+    showReceived(got);
     return;
   }
-  store.set(semKey(T.STORE_KEYS.list, sem), T.serialize([...list, t]));
-  closeSheet($("tt-list-sheet"));
-  const open = state.semesters.some(([x]) => x === sem);
-  showSnackbar(`${semesterLabel(sem)}에 불러왔어요`, open ? "보기" : "", open ? () => {
-    store.set(semKey(T.STORE_KEYS.current, sem), t.id); // 그 학기를 열면 이 시간표가 보인다
-    switchSemester(sem);
-  } : null);
+  openShared(payload);
+}
+/** 주소 → '#t=' 뒤 글(없으면 null) */
+const linkCodeOf = (url) => { const m = /#(?:.*&)?t=([^&]+)/.exec(String(url || "")); return m ? m[1] : null; };
+/** 공유받은 시간표 시트(웹): 학기·이름·학점, 격자(누르지 않는다), 시간 미정 줄, '내 시간표에 넣기' */
+function openShared(payload) {
+  const t = T.timetableFromImage(payload, []); // 보이기만 한다(이름 겹침은 넣을 때 그 학기 목록으로 본다)
+  if (!t) { showSnackbar(LINK_PROBLEM.broken); return; }
+  shared = { payload, t };
+  const entries = ttEntries(t), untimed = entries.filter((e) => !e.meetings.length);
+  const sum = Math.round(T.credits(t) * 10) / 10;
+  $("sd-meta").textContent = [semesterLabel(t.sem), t.title, sum ? `${sum}학점` : ""].filter(Boolean).join(" · ");
+  $("sd-error").hidden = true;
+  $("sd-add").removeAttribute("aria-describedby");
+  const d = $("shared-sheet");
+  openSheet(d, null);
+  renderWeek(t, entries, clashKeys(entries), { box: $("sd-wk"), hourPx: 3.75 * remPx(), still: true }); // 시트가 열린 뒤 그린다(칸 폭을 잰다)
+  $("sd-legend").hidden = ttColor !== "cls" || !entries.length;
+  $("sd-untimed").hidden = !untimed.length;
+  $("sd-untimed").textContent = untimed.length ? `시간 미정 · ${untimed.map((e) => courseName(e)).join(", ")}` : "";
+}
+$("sd-add").addEventListener("click", () => {
+  if (!shared) return;
+  const got = addReceived(shared.payload);
+  if (!got) { // 그 학기가 꽉 찼다: 버튼 위 오류 줄(시트 안 알림 영역으로도 읽는다)
+    $("sd-error").textContent = FULL_TEXT;
+    $("sd-error").hidden = false;
+    $("sd-add").setAttribute("aria-describedby", "sd-error");
+    announce(FULL_TEXT, "alert");
+    return;
+  }
+  shared = null;
+  closeSheet($("shared-sheet"));
+  showReceived(got);
 });
 // 이름 입력칸: Enter 나 다른 곳을 누르면(change) 바꾼다. 비우면 원래 이름. Esc 는 고치던 것을 원래 이름으로 되돌리고(시트는 닫지 않는다), 고친 것이 없으면 시트를 닫는다
 function commitTtName(input) {
@@ -4757,12 +5012,21 @@ for (const el of [addQ, $("add-results")]) {
 }
 $("add-clear").addEventListener("click", () => { addQ.value = ""; renderAdd(); addQ.focus(); });
 $("add-more").addEventListener("click", () => { addShown += RESULTS_STEP; renderAdd({ more: true }); });
+// 최근 검색어 모두 지우기(디자인 78판: 탐색 입력 화면과 같은 모양·자리. 탐색과 같이 쓰는 목록이라 둘 다 빈다). 키보드로 눌렀으면 초점은 검색창으로
+$("add-recent-clear").addEventListener("click", (e) => {
+  const had = keptFocus(e, e.currentTarget);
+  setRecent([]);
+  renderAdd();
+  if (!$("recent").hidden) renderIdle(true); // 탐색 입력 화면에 그려 둔 최근 검색어도
+  if (had) addQ.focus({ preventScroll: true });
+});
 $("add-recent-list").addEventListener("click", (e) => {
   const del = e.target.closest("[data-del]");
   if (del) {
     const had = keptFocus(e, del), i = recent.indexOf(del.dataset.del);
     setRecent(recent.filter((x) => x !== del.dataset.del));
     renderAdd();
+    if (!$("recent").hidden) renderIdle(true);
     if (had) ($("add-recent-list").querySelectorAll(".chip-q")[Math.min(i, recent.length - 1)] || addQ).focus({ preventScroll: true });
     return;
   }
@@ -5116,7 +5380,7 @@ function setTheme(on) {
  *  내 시간표) 위 가운데 팝업이다(10/23 사용자: "팝업". 디자인 75판). 시간표를 만들어 본 적이 없는 사람에게는 묻지 않는다(돌아갈 '원래'를 본 적이 없다).
  *  닫기·바깥 누르기·뒤로 가기는 그대로 둔다는 뜻이다. 테마 탭에 있으면 묻지 않는다(거기서 고른다) */
 function askTheme() {
-  if (!themeOn() || store.get("themeAsked", "") === season.event || !store.get("made", false)) return;
+  if (!themeOn() || store.get("themeAsked", "") === season.event || !store.get("made", false) || launchLink) return; // 공유받은 시간표를 열 때는 묻지 않는다
   if ((screen !== "input" && screen !== "mine") || document.querySelector("dialog[open]")) return; // 그새 다른 화면이나 시트를 열었으면 끼어들지 않고 다음에 켤 때 묻는다
   store.set("themeAsked", season.event);
   openSheet($("theme-ask"));
@@ -5487,7 +5751,8 @@ function layoutViews(name) {
   else if (name === "add" && splitAdd() && addSheet.open) { addConverting = true; addSheet.close(); }
 }
 
-/** View Transitions 가 되면 결과·정보 화면이 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms), 탭을 바꾸면 교차 페이드(150ms). 안 되면 바로 바뀐다. */
+/** View Transitions 가 되면 결과 화면(지도, 결과 화면에서 연 자료 출처)이 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms),
+ *  탭을 바꾸면(정보 묶음 안도) 교차 페이드(150ms). 안 되면 바로 바뀐다. */
 function transition(apply, dir) {
   if (dir === "init" || !document.startViewTransition || reduceMotion.matches || document.visibilityState !== "visible") { apply(); return; }
   const root = document.documentElement;
@@ -5531,7 +5796,10 @@ function showView(name, dir, extra = {}) {
     focusAfter(name, dir, from);
     if (name === "input") showUpdateIfReady();
   };
-  transition(apply, swap ? "tab" : dir);
+  // 정보 묶음 안(정보 ↔ 자료 출처·개발자 정보·오픈소스 라이선스)도 옆으로 밀지 않고 교차 페이드(10/23 저녁 사용자: "정보탭 누를 때 화면 살짝 옆으로 흔들리는 것도
+  // 빼줘". 정보는 탭과 같은 층이라 탭을 바꿀 때와 같다). 결과 화면에서 연 자료 출처(탐색 탭)는 그대로 민다
+  const inInfo = tab === "info" && screenTab === "info" && (dir === "forward" || dir === "back");
+  transition(apply, swap || inInfo ? "tab" : dir);
 }
 
 /** 초점: 새 화면은 그 h1, 되돌아오면 그 화면을 연 요소, 탭을 바꾸면 그 탭에서 마지막에 있던 자리(없으면 h1). 스크린리더가 화면이 바뀐 것을 읽는다.
@@ -5576,6 +5844,7 @@ window.addEventListener("popstate", (e) => {
   const crossed = st.tab !== tab; // 다른 탭의 첫 화면에서 뒤로 가 켤 때 연 탭으로 왔다(앞으로 가기면 그 반대), 정보의 첫 화면에서 뒤로 가 연 탭으로 왔다
   if (crossed) enterTab(st.tab);
   showView(st.view, crossed ? "tab" : dir, st);
+  if (afterPop) { const f = afterPop; afterPop = null; if (tab === "mine") f(); } // 받은 시간표를 넣고 정보에서 내 시간표 탭으로 돌아왔다(goMine)
 });
 
 // ---------------------------------------------------------------- 스낵바 (되돌리기, 새 버전)
@@ -5903,9 +6172,11 @@ history.scrollRestoration = "manual";
 // 탐색 입력 화면을 먼저 가려 둔다(data-launch, 켜자마자 입력 화면이 번쩍 보이지 않게). 학기 목록을 받은 뒤 다른 학기로 열려도 첫 탭은 그대로다
 readMine(String(store.get(T.STORE_KEYS.open, "") || store.get("semester", null)?.id || ""));
 launchTab = tab = screenTab = T.hasTimetables(store.get(semKey(T.STORE_KEYS.list, mine.sem), [])) ? "mine" : "explore";
+// 공유받은 시간표 링크(웹 #t=…): 주소를 지우기 전에 읽어 둔다(지우면 새로 고쳐도 다시 열리지 않는다). 학기 목록을 받은 뒤 공유받은 시간표 시트로 연다
+const launchLink = IN_APP ? null : linkCodeOf(location.hash);
 history.replaceState({ tab, view: ROOT[tab], depth: 0 }, "", location.pathname + location.search);
-// 교과구분 색 풀이: 결과 화면 시간표 아래, 입력 화면 담은 과목 아래, 내 시간표 격자 아래(교과구분별 칸 색일 때)
-for (const id of ["cls-legend", "picked-legend", "tt-legend"]) {
+// 교과구분 색 풀이: 결과 화면 시간표 아래, 입력 화면 담은 과목 아래, 내 시간표 격자 아래(교과구분별 칸 색일 때), 공유받은 시간표 격자 아래
+for (const id of ["cls-legend", "picked-legend", "tt-legend", "sd-legend"]) {
   $(id).replaceChildren(...CLS_GROUPS.map(([name, key]) => h("span", {}, h("span", { class: "dot", "aria-hidden": "true", style: { background: `var(--cls-${key})` } }), name)));
 }
 renderInfo();
@@ -5914,7 +6185,21 @@ renderResults(); // 검색창 지우기 단추와 결과 카드(자료를 받기
 showView(ROOT[tab], "init");
 delete document.documentElement.dataset.launch;
 startApp();
+if (launchLink) receiveLink(launchLink);
 setTimeout(askTheme, 400); // 첫 화면이 그 테마로 보인 뒤에 묻는다
+// 이미 열어 둔 웹 앱의 주소 칸에 시간표 링크를 붙여 넣었다(주소의 # 만 바뀌면 새로 열리지 않는다)
+window.addEventListener("hashchange", () => {
+  const code = linkCodeOf(location.hash);
+  if (!code || IN_APP) return;
+  history.replaceState({ tab, view: screen, depth }, "", location.pathname + location.search);
+  receiveLink(code);
+});
+// 앱: 앱 연결(native.js)이 앱으로 열린 시간표 링크를 알려 준다(백엔드에 요청한 약속 10/23 저녁: 켤 때 연 주소는 TTW_APP.launchUrl(주소 글이나 null 의 Promise),
+// 켜 둔 동안 열린 주소는 window 의 'ttw:open-url' 이벤트(detail.url)). 앱은 보여 주지 않고 바로 넣는다
+if (IN_APP) {
+  Promise.resolve(window.TTW_APP?.launchUrl).then((u) => { const c = linkCodeOf(u); if (c) receiveLink(c); }).catch(() => {});
+  window.addEventListener("ttw:open-url", (e) => { const c = linkCodeOf(e.detail && e.detail.url); if (c) receiveLink(c); });
+}
 // 스토어 앱의 저장소 되살리기(백엔드 10/22 밤): 앱 연결(native.js)이 기기 저장소(Preferences)에서 지워진 localStorage 를 되살리면 TTW_APP.restored 가
 // { keys: [되살린 열쇠 …] } 로 풀린다(웹에는 없다). 되살린 것이 있으면 켤 때 읽은 것(빈 값)으로 그린 화면이라 한 번 새로 연다: 첫 탭(그 학기에 저장한 시간표가
 // 있으면 내 시간표)과 학기·담은 과목·시간표·설정을 되살린 값으로 다시 고른다. 한 세션에 한 번만(sessionStorage. 못 쓰면 새로 열지 않는다)

@@ -140,8 +140,10 @@
   </header>
   <main hidden>
     <h1 class="sr-only" id="mine-title" tabindex="-1">내 시간표</h1>
+    <!-- 머리 줄: 시간표 고르기, 오른쪽 끝에 공유(10/23 사용자: "오른쪽 위에 공유 … 버튼". 비어 있는 시간표에는 없다) -->
     <div class="tt-head">
       <button type="button" class="tt-switch" id="tt-switch" aria-haspopup="dialog"><span class="sem" id="tt-sem"></span><span class="nm"><span id="tt-name"></span><span class="tag" id="tt-primary" hidden>대표</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span></button>
+      <button type="button" class="icon-btn tt-share" id="tt-share" aria-label="공유" aria-haspopup="dialog" hidden><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="17.5" cy="5.5" r="2.5"></circle><circle cx="6.5" cy="12" r="2.5"></circle><circle cx="17.5" cy="18.5" r="2.5"></circle><path d="M8.65 10.73l6.7-3.96M8.65 13.27l6.7 3.96"></path></svg></button>
     </div>
     <div class="mine-left">
       <div class="card wk" id="wk"></div>
@@ -149,6 +151,10 @@
     </div>
     <div class="mine-right">
       <div class="card items"><ul class="list" id="items"></ul></div>
+      <!-- 항목 목록 맨 아래 '이미지로 추가'를 못 했을 때의 오류 줄(글은 app.js). 다시 추가하거나 다른 시간표로 바꾸면 사라진다 -->
+      <p class="error-line items-error" id="items-error" hidden></p>
+      <!-- 이미지로 추가의 파일 고르기(PNG 만. capture 를 붙이지 않는다: 붙이면 앱이 카메라 권한을 묻는다). 파일은 기기 안에서만 읽는다 -->
+      <input type="file" id="tt-file" accept="image/png" hidden>
       <div class="bottom-bar"><button type="button" class="btn-primary" id="route-run" disabled>동선 확인하기</button></div>
     </div>
     <!-- 넓은 화면(두 칸)의 과목 추가: 오른쪽 칸이 항목 목록 대신 찾기가 된다. 검색창과 결과 카드는 app.js 가 아래 과목 추가 시트에서 여기로 옮긴다(폰은 그 시트) -->
@@ -322,7 +328,7 @@
   </div>
 </dialog>
 
-<!-- 내 시간표: 시간표 목록(학기 선택칸, 시간표 행과 행마다 ⋯ 메뉴(이름 입력칸·복사하기·대표·동선 탐색에 담기·지우기), 새 시간표, 칸 색) -->
+<!-- 내 시간표: 시간표 목록(학기 선택칸, 시간표 행과 행마다 ⋯ 메뉴(이름 입력칸·복사하기·대표·이미지로 저장·지우기), 새 시간표, 칸 색) -->
 <dialog class="sheet" id="tt-list-sheet" aria-labelledby="tl-title">
   <div class="sheet-head">
     <div class="h"><h2 class="sheet-title" id="tl-title">내 시간표</h2></div>
@@ -336,10 +342,8 @@
       </div>
     </div>
     <ul class="sheet-list" id="tl-rows"></ul>
-    <!-- 목록 아래 오류 줄: 50개가 찼거나(새 시간표·복사하기·이미지 불러오기) 이미지를 못 불러왔다. 글은 app.js 가 넣는다 -->
+    <!-- 목록 아래 오류 줄: 50개가 찼다(새 시간표·복사하기). 이미지로 추가는 10/23 저녁 항목 목록 맨 아래로 옮겼다(그 오류 줄은 #items-error) -->
     <p class="error-line" id="tl-limit" hidden>시간표는 학기마다 50개까지예요</p>
-    <!-- 이미지 불러오기의 파일 고르기(PNG 만. capture 를 붙이지 않는다: 붙이면 앱이 카메라 권한을 묻는다). 파일은 기기 안에서만 읽는다 -->
-    <input type="file" id="tl-file" accept="image/png" hidden>
     <!-- 칸 색(10/23 사용자: 정보 화면이 아니라 시간표 탭 안에). 기기 설정이고 내 시간표·동선 화면에만 걸린다 -->
     <fieldset class="tl-color">
       <legend class="field-label">칸 색</legend>
@@ -348,6 +352,44 @@
         <label><input type="radio" name="tt-color" value="cls">교과구분별</label>
       </div>
     </fieldset>
+  </div>
+  <div class="sr-only" role="status" data-live="status"></div>
+  <div class="sr-only" role="alert" data-live="alert"></div>
+</dialog>
+
+<!-- 내 시간표: 공유(머리 줄 오른쪽 공유 버튼. 10/23 사용자: "공유 옵션은 링크로 공유, 이미지로 공유 두 가지").
+     링크: 받은 사람이 앱이 있으면 앱이 열려 바로 넣고, 없으면 웹이 그 시간표를 보여 주고 넣는 버튼을 둔다(아래 #shared-sheet). 이미지: 시간표 자료를 넣은 PNG -->
+<dialog class="sheet" id="share-sheet" aria-labelledby="sh-title">
+  <div class="sheet-head">
+    <div class="h"><h2 class="sheet-title" id="sh-title">공유</h2><p class="sheet-meta" id="sh-meta"></p></div>
+    <button type="button" class="btn-text" data-close>닫기</button>
+  </div>
+  <div class="sheet-body">
+    <ul class="sheet-list share-list">
+      <li><button type="button" class="menu-row" data-share="link"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 14.5l5-5"></path><path d="M11 6.5l1.4-1.4a4 4 0 0 1 5.6 5.6l-1.4 1.4"></path><path d="M13 17.5l-1.4 1.4a4 4 0 0 1-5.6-5.6l1.4-1.4"></path></svg>링크로 공유</button></li>
+      <li><button type="button" class="menu-row" data-share="image"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"></rect><circle cx="9" cy="9.8" r="1.6"></circle><path d="M20.5 15.5l-4.6-4.6-9.4 8.6"></path></svg>이미지로 공유</button></li>
+    </ul>
+  </div>
+  <div class="sr-only" role="status" data-live="status"></div>
+  <div class="sr-only" role="alert" data-live="alert"></div>
+</dialog>
+
+<!-- 공유받은 시간표(웹에서 연 시간표 링크): 그 시간표를 보여 주고 '내 시간표에 넣기'(10/23 사용자: "보여 주고 넣기 버튼"). 앱은 보여 주지 않고 바로 넣는다.
+     이름·과목명·일정 이름은 남이 만든 링크의 글이라 app.js 가 글로만 넣는다(10/23 법무). 격자는 내 시간표와 같은 .wk(누르지 않는 칸).
+     사용자가 누르지 않았는데 뜨는 시트라 처음 초점은 제목에 둔다(묻는 팝업과 같다: 닫기 버튼에 초점 테두리가 먼저 보이지 않게) -->
+<dialog class="sheet shared-sheet" id="shared-sheet" aria-labelledby="sd-title">
+  <div class="sheet-head">
+    <div class="h"><h2 class="sheet-title" id="sd-title" tabindex="-1" autofocus>공유받은 시간표</h2><p class="sheet-meta" id="sd-meta"></p></div>
+    <button type="button" class="btn-text" data-close>닫기</button>
+  </div>
+  <div class="sheet-body">
+    <div class="wk" id="sd-wk"></div>
+    <div class="cls-legend tt-legend" id="sd-legend" aria-hidden="true" hidden></div>
+    <p class="sd-untimed" id="sd-untimed" hidden></p>
+  </div>
+  <div class="sheet-cta">
+    <p class="error-line" id="sd-error" hidden></p>
+    <button type="button" class="btn-primary" id="sd-add">내 시간표에 넣기</button>
   </div>
   <div class="sr-only" role="status" data-live="status"></div>
   <div class="sr-only" role="alert" data-live="alert"></div>
@@ -381,8 +423,12 @@
       <button type="button" class="icon-btn" id="add-clear" aria-label="지우기" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
     </div>
     <div class="card results" id="add-results" hidden>
+      <!-- 최근 검색어는 탐색과 같이 쓴다: 머리 오른쪽 '모두 지우기'도 탐색 입력 화면과 같다(디자인 78판. 어디서 지워도 둘 다 빈다) -->
       <div class="recent" id="add-recent" hidden>
-        <div class="list-head"><h2 class="recent-title" id="add-recent-title">최근 검색어</h2></div>
+        <div class="list-head">
+          <h2 class="recent-title" id="add-recent-title">최근 검색어</h2>
+          <button type="button" class="btn-text small" id="add-recent-clear">모두 지우기</button>
+        </div>
         <ul class="recent-list" id="add-recent-list" aria-labelledby="add-recent-title"></ul>
       </div>
       <!-- 넓은 화면 검색 전: 과목 둘러보기(탐색과 같은 선택칸·고른 목록). 행은 분반 행 -->
