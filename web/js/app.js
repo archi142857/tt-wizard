@@ -4750,8 +4750,8 @@ const APACHE_URL = "https://www.apache.org/licenses/LICENSE-2.0";
 /** 오픈소스 라이선스 줄: 왼쪽 칸(k, 비면 앞 줄과 한 칸), 이름, 라이선스, 원문 주소, 고지문 파일(있으면 목록 아래에 전문).
  *  순서와 왼쪽 칸 이름은 디자인 규칙('화면과 동작'의 정보 화면, 10/22). 스토어 앱에는 앱의 바탕(Capacitor 와 그 안의 Apache Cordova, 안드로이드는 AndroidX)이
  *  더 있다: 고지문을 함께 내야 하는 라이선스다(10/22 법무·백엔드). SNUTT 는 과목 검색 규칙을 따온 곳(search.js 머리의 고지와 같은 레포).
- *  고지문 파일: Leaflet 은 vendor/leaflet/LICENSE, SNUTT·Pretendard 는 web/licenses/(10/22 밤 백엔드 update60. 앱도 web/ 을 옮길 때 같은 자리로 들어간다),
- *  앱에만 있는 셋은 앱 묶음의 licenses/(백엔드 build_app.py). 파일이 없는 줄(Fredoka·지도 자료)은 원문 링크다 */
+ *  고지문 파일: Leaflet 은 vendor/leaflet/LICENSE, 나머지 다섯(SNUTT·Pretendard 는 10/22 밤 백엔드 update60, Fredoka·ODbL·공공누리는 10/23 update61)은 web/licenses/
+ *  (앱도 web/ 을 옮길 때 같은 자리로 들어간다), 앱에만 있는 셋은 앱 묶음의 licenses/(백엔드 build_app.py). 파일을 못 읽은 줄은 원문 링크다 */
 function ossRows() {
   return [
     { k: "지도 표시", name: "Leaflet", lic: "BSD-2-Clause", href: "https://github.com/Leaflet/Leaflet/blob/main/LICENSE", file: "vendor/leaflet/LICENSE" },
@@ -4760,8 +4760,8 @@ function ossRows() {
     IN_APP && { k: "", name: "Apache Cordova", lic: "Apache-2.0", href: APACHE_URL, file: "licenses/cordova.txt" }, // 앱 실행 환경 한 칸에 두 줄(안드로이드·iOS 같다)
     SHELL === "android" && { k: "안드로이드", name: "AndroidX", lic: "Apache-2.0", href: APACHE_URL, file: "licenses/androidx.txt" },
     { k: "글꼴", name: "Pretendard", lic: "SIL OFL 1.1", href: "https://github.com/orioncactus/pretendard/blob/main/LICENSE", file: "licenses/pretendard.txt" },
-    // 아래 셋의 전문(10/23 사용자: "전문 말하는 거임")은 백엔드가 web/licenses/ 에 넣는다(web/licenses/ 와 그 시험이 백엔드 몫. Fredoka·ODbL 은 프론트엔드가 원문으로
-    // 만든 초안을 공유 폴더 '고지문 초안'에 두었고, 공공누리 제1유형은 원문을 받는 대로). 파일이 아직 없으면 지금처럼 이름이 원문 링크다(renderLicenseTexts)
+    // 아래 셋도 전문(10/23 사용자: "전문 말하는 거임"). 백엔드 update61 이 web/licenses/ 에 넣었다(Fredoka·ODbL 은 프론트엔드 초안, 공공누리 제1유형은 법무 문안.
+    // web/licenses/ 와 그 파일 목록을 정한 시험은 백엔드 몫). 공공누리 고지문은 줄표 줄이 없어 한 칸이다
     { k: "로고 글꼴", name: "Fredoka", lic: "SIL OFL 1.1", href: "https://github.com/google/fonts/blob/main/ofl/fredoka/OFL.txt", file: "licenses/fredoka.txt" },
     { k: "지도 자료", name: "OpenStreetMap", lic: "ODbL", href: "https://www.openstreetmap.org/copyright", file: "licenses/odbl.txt" },
     { k: "지도·경사 자료", name: "국토지리정보원 수치지형도", lic: "공공누리 제1유형", href: "https://www.kogl.or.kr/info/licenseType1.do", file: "licenses/kogl-type1.txt" },

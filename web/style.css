@@ -277,6 +277,11 @@ html { background: var(--bg); -webkit-text-size-adjust: 100%; text-size-adjust: 
   scroll-padding-top: calc(var(--topbar-h) + var(--safe-top)); scroll-padding-bottom: var(--bottom-bar-h); }
 html[data-shell="pwa"], html[data-shell="android"], html[data-shell="ios"] { overscroll-behavior-y: none; }
 html:has(dialog[open]) { overflow: hidden; }
+/* 스크롤 막대는 어디에도 두지 않는다(10/23 사용자: 화면에 "메인 스크롤바도 걍 없애", 시트에 "여기 있는 스크롤바도 없애". 넓은 화면 결과 카드·사이드바는 10/2 부터 그랬다).
+   휠·터치·키보드 스크롤은 그대로다. 윈도우처럼 막대가 자리를 차지하는 브라우저에서는 스크롤되는 화면만 본문이 막대만큼 좁아져 탭·화면을 오갈 때 폭과 가운데가 흔들렸는데
+   그것도 없어진다 */
+* { scrollbar-width: none; }
+::-webkit-scrollbar { display: none; }
 body { margin: 0; min-height: 100vh; min-height: 100dvh; font-family: var(--font-sans); font-size: 1rem; line-height: 1.5rem; color: var(--text);
   background: var(--bg); -webkit-font-smoothing: antialiased; word-break: keep-all; overflow-wrap: break-word; }
 button, input, select { font: inherit; color: inherit; }
@@ -1036,8 +1041,10 @@ button.info-row:active, a.info-row:active, .pick-row:active { background: var(--
 .tabbar li { flex: 1; min-width: 0; }
 .tabbar .tab { --tab-ind: var(--card); display: flex; align-items: center; justify-content: center; width: 100%; height: var(--tabbar-h);
   padding: 0 var(--space-1); border: 0; background: transparent; color: var(--text2); }
-.tabbar .tab .ind { display: flex; align-items: center; gap: var(--space-2); max-width: 100%; min-height: 2.25rem; padding: 2px var(--space-4) 2px var(--space-3);
-  border-radius: var(--radius-full); }
+/* 알약은 두 탭이 같은 폭(10/23 사용자: "시간표 탭이랑 동선 탭 너비 안 맞는거 맞춰봐". 이름 길이대로면 시간표 92·동선 탐색 107px 이었다):
+   긴 이름(동선 탐색)이 들어가는 7rem 을 둘 다의 최소 폭으로, 안의 아이콘·이름은 가운데. rem 이라 글자를 키우면 같이 커지고 칸보다 넓으면 칸 폭(이름이 두 줄) */
+.tabbar .tab .ind { display: flex; align-items: center; justify-content: center; gap: var(--space-2); min-width: min(100%, 7rem); max-width: 100%; min-height: 2.25rem;
+  padding: 2px var(--space-4) 2px var(--space-3); border-radius: var(--radius-full); }
 .tabbar .tab svg { flex: none; }
 .tabbar .tab .tab-name { min-width: 0; font-size: 0.875rem; line-height: 1.25rem; font-weight: 600; overflow-wrap: anywhere; }
 /* 고른 탭의 아이콘·이름은 accent-text: 다크의 accent(#4d6ce0)는 accent-weak 알약 위에서 2.86:1 이라 3:1 에 못 미친다(10/22 프론트엔드가 잼. 라이트·이벤트 테마는 accent 와 같은 값) */
@@ -1318,10 +1325,6 @@ html[data-theme="xmas"] {
     radial-gradient(circle, var(--bg-tone) 0 2.25px, transparent 2.75px) 8px 14px / 16px 28px;
 }
 html[data-theme="xmas"] dialog.sheet::backdrop { background: var(--scrim, #03140b80); } /* ::backdrop 이 :root 변수를 물려받지 않는 브라우저용 값 */
-/* 화면 스크롤 막대가 자리를 차지하는 브라우저(윈도우 등): 짙은 바탕 옆에 흰 띠로 남지 않게 길은 바탕색, 손잡이는 line-strong(길과 3.1:1).
-   카드·시트 안의 스크롤 막대는 밝은 면 위라 그대로 둔다 */
-html[data-theme="xmas"] { scrollbar-color: var(--line-strong) var(--bg); }
-html[data-theme="xmas"] body { scrollbar-color: auto; }
 /* 그림으로 넣은 색은 우리가 색을 칠할 때만 바꾼다(강제 색에서는 바탕이 기기 색으로 바뀌므로 기본 그대로): 흰 워드마크,
    선택칸 화살표(그림이라 변수를 못 쓴다. 이 테마의 text3, 둘러보기는 muted) */
 @media not (forced-colors: active) {
