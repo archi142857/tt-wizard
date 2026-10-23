@@ -5465,10 +5465,13 @@ function isSafariTab() {
 // 기간은 한 해 안에 두고(해를 넘기지 않는다) 서로 겹치지 않게 한다. index.html 머리의 스크립트가 같은 판단으로 그리기 전에 먼저 건다(테마를 더하면 거기도 고친다)
 const THEMES = [["xmas", "크리스마스", "12-01", "12-31", "#103924", "DARK", "12월 한 달"]];
 const BASE_BAR = ["#eef0ff", "#16171b"]; // 기본 테마의 상태 바 색(라이트, 다크)
+/** 내 컴퓨터의 개발 서버(http 의 localhost·127.0.0.1·[::1]·*.localhost). 배포한 웹(https)과 스토어 앱(https://localhost, capacitor://localhost)은 아니다 */
+const devHost = () => location.protocol === "http:" && /^(localhost|127\.0\.0\.1|\[::1\])$|\.localhost$/.test(location.hostname);
 /** 지금 켤 이벤트 테마(없으면 null). event 는 돌아가기와 물어본 것을 기억하는 이름이다: 해마다 달라서('xmas-2026') 그 해 그 테마에만 남는다.
- *  시험용 주소(?theme=xmas)는 기간 밖에서도 켜고, 그때 고른 것이 실제 기간에 남지 않게 따로 기억한다('xmas-test'). */
+ *  시험용 주소(?theme=xmas)는 개발 서버에서만 기간 밖에서도 켜고, 그때 고른 것이 실제 기간에 남지 않게 따로 기억한다('xmas-test').
+ *  배포한 웹·스토어 앱은 주소로 켜지 않는다(10/23 밤 사용자: 링크로 넣으면 날짜와 상관없이 테마가 보이는 문제. index.html 머리의 스크립트도 같다) */
 function seasonTheme(now = new Date()) {
-  const test = new URLSearchParams(location.search).get("theme");
+  const test = devHost() ? new URLSearchParams(location.search).get("theme") : null;
   const md = `${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
   const forced = THEMES.find(([id]) => id === test);
   const t = forced || THEMES.find(([, , from, to]) => md >= from && md <= to);
@@ -5523,7 +5526,7 @@ function askTheme() {
 $("theme-ask-yes").addEventListener("click", () => { setTheme(false); renderThemes(); closeSheet($("theme-ask")); });
 
 // ---- 테마 탭(디자인 75판 '테마 탭', 컴포넌트 ThemeTab): 테마마다 카드 하나(라디오. 미리보기 + 이름, 이벤트 테마는 '시즌 한정' 태그와 고를 수 있는 때).
-// 고르면 바로 바뀐다(확인 버튼·스낵바·알림 없음: 색이 바뀐 것은 화면이 알린다). 기간 밖 테마는 흐리고 눌리지 않는다(시험 주소 ?theme=xmas 는 기간 안으로 본다).
+// 고르면 바로 바뀐다(확인 버튼·스낵바·알림 없음: 색이 바뀐 것은 화면이 알린다). 기간 밖 테마는 흐리고 눌리지 않는다(개발 서버의 시험 주소 ?theme=xmas 는 기간 안으로 본다).
 // 미리보기는 토큰으로 그린 작은 화면이다(style.css .mini. 칸 자리는 디자인 미리보기 그대로): 기본은 라이트 위에 다크를 대각선으로 반, 크리스마스는 그 바탕과 흰 워드마크
 const MINI_BLOCKS = [[14, 10, 15, 22, 0], [48, 10, 15, 22, 0], [31, 6, 15, 20, 1], [65, 6, 15, 20, 1], [14, 38, 15, 20, 2], [48, 38, 15, 20, 2], [31, 58, 15, 30, 3], [82, 62, 14, 24, 7], [65, 45, 15, 22, 5]];
 const MINI_WORDMARK = { light: "icons/wordmark.svg", dark: "icons/wordmark-dark.svg", xmas: "icons/wordmark-white.svg" };
