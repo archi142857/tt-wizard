@@ -449,22 +449,22 @@
     "day": 0,
     "start": 720,
     "end": 890,
-    "building": "",
-    "room": ""
+    "building": "301",
+    "room": "301-B119"
    },
    {
     "day": 1,
     "start": 720,
     "end": 890,
-    "building": "",
-    "room": ""
+    "building": "301",
+    "room": "301-B119"
    },
    {
     "day": 3,
     "start": 720,
     "end": 890,
-    "building": "",
-    "room": ""
+    "building": "301",
+    "room": "301-B119"
    }
   ]
  },
@@ -1204,7 +1204,7 @@
   "course_id": "F21.301",
   "section_no": "001",
   "course_name": "고급영어: 문학",
-  "instructor": "Christiaan Prinsloo",
+  "instructor": "오한솔",
   "department": "영어영문학과",
   "credit": 3.0,
   "classification": "교양",
@@ -1272,7 +1272,7 @@
   "course_id": "F21.303",
   "section_no": "001",
   "course_name": "고급영어: 발표",
-  "instructor": "Christiaan Prinsloo",
+  "instructor": "송미경",
   "department": "영어영문학과",
   "credit": 3.0,
   "classification": "교양",
@@ -2918,11 +2918,11 @@
   ]
  },
  {
-  "course_id": "M2868.006700",
+  "course_id": "701.803",
   "section_no": "001",
   "course_name": "대학원논문연구",
-  "instructor": "강진호",
-  "department": "국제농업기술학과",
+  "instructor": "김동일",
+  "department": "교육학과",
   "credit": 3.0,
   "classification": "논문",
   "program": "석박사통합",
@@ -2935,6 +2935,18 @@
   "course_name": "대학원논문연구",
   "instructor": "",
   "department": "바이오시스템공학과",
+  "credit": 3.0,
+  "classification": "논문",
+  "program": "석박사통합",
+  "status": "설강",
+  "meetings": []
+ },
+ {
+  "course_id": "M2868.006700",
+  "section_no": "001",
+  "course_name": "대학원논문연구",
+  "instructor": "강진호",
+  "department": "국제농업기술학과",
   "credit": 3.0,
   "classification": "논문",
   "program": "석박사통합",
@@ -7126,22 +7138,22 @@
   "meetings": [
    {
     "day": 0,
-    "start": 540,
-    "end": 650,
+    "start": 780,
+    "end": 890,
     "building": "",
     "room": ""
    },
    {
     "day": 2,
-    "start": 540,
-    "end": 650,
+    "start": 780,
+    "end": 890,
     "building": "",
     "room": ""
    },
    {
     "day": 4,
-    "start": 540,
-    "end": 650,
+    "start": 780,
+    "end": 890,
     "building": "",
     "room": ""
    }
