@@ -1281,24 +1281,24 @@
   "meetings": [
    {
     "day": 0,
-    "start": 540,
-    "end": 710,
+    "start": 900,
+    "end": 1070,
     "building": "3",
-    "room": "3-116(무선랜제공)"
+    "room": "3-213(무선랜제공)"
    },
    {
     "day": 2,
-    "start": 540,
-    "end": 710,
+    "start": 900,
+    "end": 1070,
     "building": "3",
-    "room": "3-116(무선랜제공)"
+    "room": "3-213(무선랜제공)"
    },
    {
     "day": 4,
-    "start": 540,
-    "end": 710,
+    "start": 900,
+    "end": 1070,
     "building": "3",
-    "room": "3-116(무선랜제공)"
+    "room": "3-213(무선랜제공)"
    }
   ]
  },
@@ -2970,7 +2970,7 @@
   "section_no": "001",
   "course_name": "도시의 문화사",
   "instructor": "박용진",
-  "department": "서양사학과",
+  "department": "역사학부",
   "credit": 3.0,
   "classification": "교양",
   "program": "학사",
@@ -3276,7 +3276,7 @@
   "section_no": "001",
   "course_name": "매체로 보는 서양사",
   "instructor": "고재백",
-  "department": "서양사학과",
+  "department": "역사학부",
   "credit": 3.0,
   "classification": "교양",
   "program": "학사",
@@ -4110,7 +4110,7 @@
   "section_no": "001",
   "course_name": "서양문명의 역사 1: 고대에서 르네상스까지",
   "instructor": "박용진",
-  "department": "서양사학과",
+  "department": "역사학부",
   "credit": 3.0,
   "classification": "교양",
   "program": "학사",
@@ -4144,7 +4144,7 @@
   "section_no": "001",
   "course_name": "서양문명의 역사 2: 종교개혁에서 냉전까지",
   "instructor": "이하일",
-  "department": "서양사학과",
+  "department": "역사학부",
   "credit": 3.0,
   "classification": "교양",
   "program": "학사",
@@ -4314,7 +4314,7 @@
   "section_no": "001",
   "course_name": "성과 사랑의 역사",
   "instructor": "기계형",
-  "department": "서양사학과",
+  "department": "역사학부",
   "credit": 3.0,
   "classification": "교양",
   "program": "학사",
@@ -5627,22 +5627,22 @@
     "day": 0,
     "start": 900,
     "end": 1070,
-    "building": "",
-    "room": ""
+    "building": "3",
+    "room": "3-116(무선랜제공)"
    },
    {
     "day": 2,
     "start": 900,
     "end": 1070,
-    "building": "",
-    "room": ""
+    "building": "3",
+    "room": "3-116(무선랜제공)"
    },
    {
     "day": 4,
     "start": 900,
     "end": 1070,
-    "building": "",
-    "room": ""
+    "building": "3",
+    "room": "3-116(무선랜제공)"
    }
   ]
  },
@@ -5821,7 +5821,7 @@
   "section_no": "001",
   "course_name": "처음 배우는 서양사",
   "instructor": "구자섭",
-  "department": "서양사학과",
+  "department": "역사학부",
   "credit": 3.0,
   "classification": "교양",
   "program": "학사",
@@ -5855,7 +5855,7 @@
   "section_no": "002",
   "course_name": "처음 배우는 서양사",
   "instructor": "기계형",
-  "department": "서양사학과",
+  "department": "역사학부",
   "credit": 3.0,
   "classification": "교양",
   "program": "학사",
@@ -6664,8 +6664,8 @@
     "day": 0,
     "start": 540,
     "end": 710,
-    "building": "",
-    "room": ""
+    "building": "2",
+    "room": "2-110(무선랜제공)"
    },
    {
     "day": 0,
@@ -6678,8 +6678,8 @@
     "day": 2,
     "start": 540,
     "end": 710,
-    "building": "",
-    "room": ""
+    "building": "2",
+    "room": "2-110(무선랜제공)"
    },
    {
     "day": 2,
@@ -6692,8 +6692,8 @@
     "day": 4,
     "start": 540,
     "end": 710,
-    "building": "",
-    "room": ""
+    "building": "2",
+    "room": "2-110(무선랜제공)"
    }
   ]
  },
