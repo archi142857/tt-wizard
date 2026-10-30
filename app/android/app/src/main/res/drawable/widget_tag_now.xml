@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 오늘 수업 위젯의 '지금' 태그 바탕(accent-weak) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/widget_accent_weak" />
+    <corners android:radius="4dp" />
+</shape>

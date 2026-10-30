@@ -172,6 +172,11 @@ def test_native_shim():
     assert sh["calls"] == [["shareText", "https://archi142857.github.io/tt-wizard/#t=jAA", "2026년 2학기 시간표 1"], ["openSettings", "", ""]]
     assert sh["notLink"] == "no link" and sh["none"] == ["undefined", "undefined"]
     assert (sh["old"], sh["oldSettings"], sh["failed"]) == ("UNSUPPORTED", "UNSUPPORTED", "FAILED")
+    # 홈 화면 위젯(TTWWidget): 자료를 JSON 글로 넘기고 같은 자료는 다시 부르지 않는다. 못 넘기면 false(다음에 다시), iOS·옛 앱에는 함수가 없다
+    w = r["widgets"]
+    assert w["sent"] == [True, True, True] and w["calls"] == ["item", "cls"] and w["text"] == "string"
+    assert w["cyclic"] is False and w["failed"] == [False, 1] and w["retry"] == [False, 2]
+    assert w["info"] == [{"placed": 2}, None] and w["none"] == ["undefined", "undefined"]
 
 
 def test_android_plugins_permissions_and_links():

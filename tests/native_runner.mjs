@@ -24,8 +24,8 @@ function fakeIndexedDB() {
 }
 
 function setup({ native = true, http = null, online = true, platform = "android", bars = true, image = true, sdk = 34, imageInfo = null,
-  saveError = null, shell = true, shellError = null, launch, launchFails = false, appUrl = true } = {}) {
-  const calls = { local: [], remote: [], back: 0, minimized: 0, bars: [], image: [], shell: [], opened: [] };
+  saveError = null, shell = true, shellError = null, launch, launchFails = false, appUrl = true, widget = true, widgetError = null } = {}) {
+  const calls = { local: [], remote: [], back: 0, minimized: 0, bars: [], image: [], shell: [], opened: [], widget: [] };
   const scheme = []; // 기기 테마(prefers-color-scheme)가 바뀔 때 부를 것들
   const visible = []; // 앱으로 돌아올 때(visibilitychange) 부를 것들
   const clicks = []; // 문서의 click 을 듣는 것들 [{fn, capture}]
@@ -55,6 +55,10 @@ function setup({ native = true, http = null, online = true, platform = "android"
           share: (opts) => { calls.image.push(["share", opts]); return Promise.resolve(); },
           save: (opts) => { calls.image.push(["save", opts]); return saveError ? reject(saveError) : Promise.resolve({ uri: "content://media/1" }); },
           info: () => Promise.resolve(imageInfo || { save: true, sdk }),
+        } } : {}),
+        ...(widget ? { TTWWidget: {
+          update: (opts) => { calls.widget.push(opts.data); return widgetError ? reject(widgetError) : Promise.resolve({ placed: 2, changed: true }); },
+          info: () => (widgetError ? reject(widgetError) : Promise.resolve({ placed: 2 })),
         } } : {}),
         ...(shell ? { TTWShell: {
           shareText: (opts) => { calls.shell.push(["shareText", opts]); return shellError ? reject(shellError) : Promise.resolve(); },
@@ -285,6 +289,26 @@ const out = {};
     old: await old.win.TTW_APP.shareLink({ url: "https://a.example/" }).then(() => "ok", (e) => e.code),
     oldSettings: await old.win.TTW_APP.openSettings().then(() => "ok", (e) => e.code),
     failed: await failed.win.TTW_APP.shareLink({ url: "https://a.example/" }).then(() => "ok", (e) => e.code),
+  };
+}
+
+// 홈 화면 위젯(TTWWidget): 자료를 JSON 글로 넘기고, 이번에 켠 뒤 넘긴 것과 같으면 다시 부르지 않는다. 못 넘기면 false(거절하지 않는다).
+// 플러그인이 없는 곳(iOS·옛 앱)에는 함수가 없다
+{
+  const s = setup();
+  const data = { v: 1, colors: "item", terms: [{ sem: "2026-2", days: [[], [], [], [], [], [], []] }] };
+  const sent = [await s.win.TTW_APP.updateWidgets(data), await s.win.TTW_APP.updateWidgets(JSON.parse(JSON.stringify(data))),
+    await s.win.TTW_APP.updateWidgets({ ...data, colors: "cls" })];
+  const cyclic = {};
+  cyclic.self = cyclic;
+  const failing = setup({ widgetError: "BAD_DATA" });
+  const none = setup({ widget: false });
+  out.widgets = {
+    sent, calls: s.calls.widget.map((x) => JSON.parse(x).colors), text: typeof s.calls.widget[0],
+    cyclic: await s.win.TTW_APP.updateWidgets(cyclic), failed: [await failing.win.TTW_APP.updateWidgets(data), failing.calls.widget.length],
+    retry: [await failing.win.TTW_APP.updateWidgets(data), failing.calls.widget.length], // 못 넘긴 것은 다음에 다시 부른다
+    info: [await s.win.TTW_APP.widgetInfo(), await failing.win.TTW_APP.widgetInfo()],
+    none: [typeof none.win.TTW_APP.updateWidgets, typeof none.win.TTW_APP.widgetInfo],
   };
 }
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 홈 화면 위젯: 오늘 수업(4×2, 4×4 까지). 크기는 칸 수 n 에 70n-30dp(옛 런처), 12 이상은 targetCell. 다시 그리는 때는 WidgetUpdater 의 알람(수업 시작·끝, 0시)이 먼저이고,
+     updatePeriodMillis(3시간)는 알람을 놓쳤을 때의 받침이다(그때 기기를 깨운다) -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/widget_today_desc"
+    android:initialLayout="@layout/widget_today"
+    android:minWidth="250dp"
+    android:minHeight="110dp"
+    android:minResizeWidth="180dp"
+    android:minResizeHeight="110dp"
+    android:previewLayout="@layout/widget_today_preview"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="4"
+    android:targetCellHeight="2"
+    android:updatePeriodMillis="10800000"
+    android:widgetCategory="home_screen" />

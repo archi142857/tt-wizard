@@ -4,4 +4,63 @@
     <string name="title_activity_main">TT Wizard</string>
     <string name="package_name">com.ttwizard.app</string>
     <string name="custom_url_scheme">com.ttwizard.app</string>
+
+    <!-- 홈 화면 위젯(10/30). 위젯 고르는 화면의 이름·설명과 위젯 안의 글. 화면 문구는 디자인 규칙 '문구'를 따른다(디자인 세션이 다시 볼 것) -->
+    <string name="widget_next_name">다음 수업</string>
+    <string name="widget_next_desc">다음 수업의 시간·강의실과 나설 시각</string>
+    <string name="widget_today_name">오늘 수업</string>
+    <string name="widget_today_desc">오늘 수업과 걷는 시간</string>
+    <string name="widget_week_name">주간 시간표</string>
+    <string name="widget_week_desc">대표 시간표의 한 주</string>
+
+    <string name="w_next">다음 수업</string>
+    <string name="w_now">지금 수업</string>
+    <string name="w_tomorrow">내일</string>
+    <string name="w_term_start">개강 · %1$s</string>
+    <string name="w_last">오늘 마지막 수업</string>
+    <string name="w_leave">%1$s 출발 · 걷기 %2$d분</string>
+    <string name="w_walk">걷기 %1$d분</string>
+    <string name="w_late">%1$d분 늦음</string>
+    <string name="w_today">오늘 · %1$s</string>
+    <string name="w_no_class_today">오늘은 수업이 없어요</string>
+    <string name="w_before_term">아직 개강 전이에요</string>
+    <string name="w_next_line">다음 · %1$s %2$s %3$s</string>
+    <string name="w_no_term">이번 학기 대표 시간표가 없어요</string>
+    <string name="w_term_over">이번 학기 수업이 끝났어요</string>
+    <string name="w_empty">대표 시간표에 수업이 없어요</string>
+    <string name="w_no_data">앱을 열면 대표 시간표가 보여요</string>
+    <string name="w_more">외 %1$d개</string>
+    <string name="w_now_tag">지금</string>
+    <string name="w_date">%1$d월 %2$d일 (%3$s)</string>
+    <string name="w_week_said">%1$s 한 주 시간표. %2$s</string>
+    <string-array name="w_days">
+        <item>월요일</item>
+        <item>화요일</item>
+        <item>수요일</item>
+        <item>목요일</item>
+        <item>금요일</item>
+        <item>토요일</item>
+        <item>일요일</item>
+    </string-array>
+    <string-array name="w_days_short">
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+        <item>일</item>
+    </string-array>
+
+    <!-- 위젯 고르는 화면의 미리 보기(안드로이드 12 이상, layout/widget_*_preview.xml). 지어낸 보기다 -->
+    <string name="w_preview_name">생명과학 1</string>
+    <string name="w_preview_time">10:30~11:45</string>
+    <string name="w_preview_place">26동 104호</string>
+    <string name="w_preview_foot">10:18 출발 · 걷기 12분</string>
+    <string name="w_preview_today">오늘 · 10월 30일 (금)</string>
+    <string name="w_preview_title">시간표 1</string>
+    <string name="w_preview_name2">대학 글쓰기 1</string>
+    <string name="w_preview_time2">13:00~14:15</string>
+    <string name="w_preview_sub2">1동 303호 · 걷기 8분</string>
+    <string name="w_preview_week">2026년 2학기 · 시간표 1</string>
 </resources>

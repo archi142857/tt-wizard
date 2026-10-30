@@ -505,3 +505,109 @@ export function timetableFromImage(payload, list, { now = new Date() } = {}) {
   const items = clean.items.map((it) => (it.custom ? { ...it, custom: newId("c") } : it));
   return createTimetable(list, payload.sem, { title: cleanTitle(payload.title), items, now });
 }
+
+// ---------------------------------------------------------------- 홈 화면 위젯 (10/30 사용자: 다음 수업·오늘 수업·주간 시간표 "셋 다 만들고")
+//
+// 안드로이드 위젯 셋은 앱이 꺼져 있어도 그려야 해서, 화면(app.js)이 대표 시간표를 위젯이 읽는 자료(widgetData)로 바꿔 앱 연결에 넘기고
+// (TTW_APP.updateWidgets) 앱이 기기 안(SharedPreferences)에 둔다. 위젯은 그 자료만 보고 시각에 맞춰 그린다(docs/app.md '홈 화면 위젯'). 서버로 보내지 않는다.
+//
+// 자료 { v: 1, colors: "item" | "cls"(칸 색 설정), terms: [학기, ...] }. 같은 시간표면 같은 글이 되게 만든 시각은 넣지 않는다(앱 연결·앱이 같은 자료를 거른다)
+//   학기 { sem, label: "2026년 2학기", title: 대표 시간표 이름, from, to: "YYYY-MM-DD"(위젯이 이 학기를 보이는 날들, termDates),
+//          days: 월~일 일곱 칸 [[수업, ...], ...](시작 시각 차례), untimed: 시간이 정해지지 않은 항목 수 }
+//   수업 { name, place: "301동 118호"(강의실 미정이면 ""), start, end: 자정부터 분, color: 0~7, cls: "req"|"elec"|"gen"|"etc",
+//          walk: 앞 자리에서 걷는 분(반올림. 모르면 null), from: "home"(그날 첫 위치 확정 수업 = 출발 지점에서) | "class"(앞 수업에서),
+//          late: 앞 수업에서 오면 늦는 분(반올림. 늦지 않으면 0) }
+//   걷는 시간은 동선 탐색(engine.evaluate)과 같은 규칙이다: 강의실 미정 수업은 자리를 옮기지 않고 그 앞의 쉬는 시간을 다음 이동에 보탠다.
+
+export const WIDGET_VERSION = 1;
+const TERM_NAMES = { 1: "1학기", S: "여름학기", 2: "2학기", W: "겨울학기" };
+// 위젯이 학기를 보이는 날들(학사 일정 자료가 없어 어림. 1학기 3월~6월 21일, 여름 6월 22일~8월, 2학기 9월~12월 21일, 겨울 12월 22일~2월)
+const TERM_DAYS = { 1: ["03-01", "06-21"], S: ["06-22", "08-31"], 2: ["09-01", "12-21"], W: ["12-22", "02-"] };
+const CLS_KEYS = { 전필: "req", 전선: "elec", 교양: "gen" }; // app.js 의 CLS_GROUPS 와 같다(그 밖은 etc)
+const pad2 = (n) => String(n).padStart(2, "0");
+const ymd = (d) => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`; // 기기 시각의 날짜
+
+/** 학기 → { from, to }(위젯이 그 학기를 보이는 첫날·끝날, "YYYY-MM-DD"). 겨울학기는 다음 해 2월 끝날까지. 모르는 꼴이면 null */
+export function termDates(sem) {
+  const m = /^(\d{4})-([12SW])$/.exec(String(sem || ""));
+  if (!m) return null;
+  const y = Number(m[1]), [a, b] = TERM_DAYS[m[2]];
+  if (m[2] !== "W") return { from: `${y}-${a}`, to: `${y}-${b}` };
+  const leap = (y + 1) % 4 === 0 && ((y + 1) % 100 !== 0 || (y + 1) % 400 === 0);
+  return { from: `${y}-${a}`, to: `${y + 1}-${b}${leap ? 29 : 28}` };
+}
+
+/** 학기 이름 '2026년 2학기'(app.js 의 semesterLabel 과 같다) */
+export function termLabel(sem) {
+  const [y, k] = String(sem || "").split("-");
+  return TERM_NAMES[k] ? `${y}년 ${TERM_NAMES[k]}` : "";
+}
+
+/** 위젯에 넘길 학기들: 끝나지 않은 학기(to 가 오늘 이후)를 시작 차례로 셋까지. 화면은 이 학기들의 대표 시간표를 widgetData 에 넘긴다 */
+export function widgetSemesters(sems, now = new Date()) {
+  const today = ymd(now);
+  return [...new Set(sems)].map((sem) => [sem, termDates(sem)]).filter(([, d]) => d && d.to >= today)
+    .sort((a, b) => (a[1].from < b[1].from ? -1 : a[1].from > b[1].from ? 1 : 0)).slice(0, 3).map(([sem]) => sem);
+}
+
+/** 강의실 표기(app.js roomLabel 과 같은 꼴, 직접 입력 표시는 뺀다): 301동 118호, 호수가 글자면 301동 강당, 건물만 알면 301동 */
+function placeOf(m) {
+  if (!m.building) return "";
+  if (!m.room) return `${m.building}동`;
+  return /^[A-Za-z]?\d/.test(m.room) ? `${m.building}동 ${m.room}호` : `${m.building}동 ${m.room}`;
+}
+
+/** 하루 수업들(시작 차례) → 위젯의 수업. 걷는 시간·늦음은 engine.evaluate 와 같은 차례로 잰다 */
+function widgetDay(list, { name, place, minutes, home }) {
+  list.sort((x, y) => x.m.start - y.m.start || x.m.end - y.m.end);
+  let prevLoc = home || "", prevEnd = null, placed = false, spare = 0;
+  return list.map(({ e, m }) => {
+    const it = e.item;
+    const x = { name: String(name(e) || ""), place: m.building ? String(place(m) || "") : "", start: m.start, end: m.end,
+      color: Number.isInteger(it.color) && it.color >= 0 ? it.color % COLORS : 0, cls: it.custom ? "etc" : CLS_KEYS[it.cls] || "etc",
+      walk: null, from: placed ? "class" : "home", late: 0 };
+    if (!m.building) { // 강의실 미정: 자리를 옮기지 않고 쉬는 시간만 다음 이동에 보탠다
+      if (placed) spare += m.start - prevEnd;
+      prevEnd = m.end;
+      return x;
+    }
+    const t = minutes && prevLoc ? Number(minutes(prevLoc, m.building)) : NaN;
+    if (Number.isFinite(t)) {
+      x.walk = Math.round(t);
+      if (placed) {
+        const slack = spare + m.start - prevEnd - t;
+        if (slack < 0) x.late = Math.max(0, Math.round(-slack));
+      }
+    }
+    prevLoc = m.building;
+    prevEnd = m.end;
+    placed = true;
+    spare = 0;
+    return x;
+  });
+}
+
+/**
+ * 위젯 자료(위 머리의 꼴). terms = [{ t: 대표 시간표, entries }] — entries 는 화면이 그리는 항목(reconcile 이나 ttEntries 결과, 학기마다).
+ * opts: name(entry) 화면의 과목명, place(meeting) 강의실 표기, minutes(a, b) 걷는 분(TravelMatrix.minutes, 없으면 걷기를 적지 않는다),
+ *       home 출발 지점 id, colors 칸 색 설정("item" | "cls")
+ */
+export function widgetData(terms, { name = (e) => (e.item.custom ? e.item.title : e.item.name), place = placeOf, minutes = null, home = "",
+  colors = "item" } = {}) {
+  const out = [];
+  for (const term of terms || []) {
+    const { t, entries } = term || {};
+    const dates = t && termDates(t.sem);
+    if (!dates) continue;
+    const days = [[], [], [], [], [], [], []];
+    let untimed = 0;
+    for (const e of entries || []) {
+      const ms = (e.meetings || []).filter((m) => Number.isInteger(m.day) && m.day >= 0 && m.day < 7 && m.end > m.start);
+      if (!ms.length) { untimed += 1; continue; }
+      for (const m of ms) days[m.day].push({ e, m });
+    }
+    out.push({ sem: t.sem, label: termLabel(t.sem), title: String(t.title || ""), from: dates.from, to: dates.to,
+      days: days.map((list) => widgetDay(list, { name, place, minutes, home })), untimed });
+  }
+  return { v: WIDGET_VERSION, colors: colorMode(colors), terms: out };
+}
