@@ -12,7 +12,7 @@ import android.util.Log;
 import java.util.Calendar;
 
 /**
- * 홈 화면 위젯 셋(다음 수업·오늘 수업·주간 시간표)을 다시 그리고 다음 때를 잡는다 — 백엔드 세션(10/30).
+ * 홈 화면 위젯 넷(다음 수업·오늘 수업·주간 시간표, update71 의 동선 지도)을 다시 그리고 다음 때를 잡는다 — 백엔드 세션(10/30).
  *   자료: 화면이 넘긴 위젯 자료(WidgetData, JSON)를 이 앱의 SharedPreferences("ttw_widgets")에 둔다. 기기 밖으로 보내지 않는다.
  *   다시 그리는 때: 오늘 남은 수업의 시작·끝과 다음 날 0시(WidgetData.nextChange). 부정확 알람(AlarmManager.setWindow, RTC: 기기를 깨우지 않고
  *   화면이 켜질 때 온다)이라 정확한 알람 권한이 없다(법무: USE_EXACT_ALARM 은 쓰지 않는다). 창은 10분(안드로이드 12 이상의 가장 짧은 창)이라
@@ -25,12 +25,13 @@ public class WidgetUpdater extends BroadcastReceiver {
     static final int NEXT = 0;
     static final int TODAY = 1;
     static final int WEEK = 2;
+    static final int MAP = 3;
 
     private static final String TAG = "TTWWidget";
     private static final String PREFS = "ttw_widgets";
     private static final String KEY_DATA = "data";
     private static final long WINDOW_MS = 10 * 60 * 1000L;
-    private static final Class<?>[] PROVIDERS = { NextClassWidget.class, TodayWidget.class, WeekWidget.class };
+    private static final Class<?>[] PROVIDERS = { NextClassWidget.class, TodayWidget.class, WeekWidget.class, DayMapWidget.class };
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -57,7 +58,7 @@ public class WidgetUpdater extends BroadcastReceiver {
         return ids != null ? ids : new int[0];
     }
 
-    /** 홈 화면에 놓인 위젯 수(셋을 더한 것) */
+    /** 홈 화면에 놓인 위젯 수(넷을 더한 것) */
     static int placed(Context c) {
         int n = 0;
         for (int k = 0; k < PROVIDERS.length; k++) n += ids(c, k).length;

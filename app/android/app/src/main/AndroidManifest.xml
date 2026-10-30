@@ -86,6 +86,17 @@
         </receiver>
         <!-- 위젯을 다시 그리는 때: 부정확 알람(수업 시작·끝, 0시. 정확한 알람 권한 없음), 기기 시각·시간대가 바뀔 때, 앱을 업데이트했을 때 -->
         <receiver
+            android:name=".DayMapWidget"
+            android:exported="false"
+            android:label="@string/widget_map_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_map_info" />
+        </receiver>
+        <receiver
             android:name=".WidgetUpdater"
             android:exported="false">
             <intent-filter>

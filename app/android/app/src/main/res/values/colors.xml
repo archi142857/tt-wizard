@@ -33,4 +33,17 @@
     <color name="widget_fill_item5">#FFDCEB</color>
     <color name="widget_fill_item6">#C3F4F7</color>
     <color name="widget_fill_item7">#E6EAF2</color>
+    <!-- 동선 지도 위젯(update71)의 미리 보기 그림: map-land·map-green·map-road(·line)·map-building, 길 route, 핀 accent·on-color, 출발 자리 home·on-home -->
+    <color name="widget_map_land">#F2EFE9</color>
+    <color name="widget_map_green">#C9E2C2</color>
+    <color name="widget_map_road">#FFFFFF</color>
+    <color name="widget_map_road_line">#C3C0D0</color>
+    <color name="widget_map_building">#D3C8BE</color>
+    <color name="widget_route">#4F70FF</color>
+    <color name="widget_pin">#415FEC</color>
+    <color name="widget_on_pin">#FFFFFF</color>
+    <color name="widget_home">#1D2A78</color>
+    <color name="widget_on_home">#EEF0FF</color>
+    <!-- 지도 출처 글 바탕: card 90%(앱 지도의 .map-attr) -->
+    <color name="widget_attr_bg">#E6FFFFFF</color>
 </resources>

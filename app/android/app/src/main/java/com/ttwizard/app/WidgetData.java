@@ -16,7 +16,8 @@ import org.json.JSONObject;
  * 자료는 app/src/native.js 가 기기 저장소의 대표 시간표로 web/js/timetables.js 의 widgetDataFromStore 를 돌려 TTWWidget.update 로 넘기고
  * WidgetPlugin 이 기기 안(SharedPreferences)에 둔 JSON 이다(update68):
  *   { v, colors: "item"|"cls", home, terms: [{ sem, label, title, from, to, days: [[{ name, place, b, start, end, color, cls, walk, from, late }] × 7], untimed }] }
- * (b = 건물 id, home = 출발·도착 지점 id: 동선 지도 위젯이 길을 그린다. update70 에서 더함, 없으면 "")
+ * (b = 건물 id, home = 출발·도착 지점 id: 동선 지도 위젯이 길을 그린다. update70 에서 더함, 없으면 "".
+ *  back = 그날 마지막 위치 확정 수업에만, 출발·도착 지점으로 돌아가는 분: 동선 지도 위젯의 걷기 합. update71)
  * 위젯은 앱이 꺼져 있어도 이 자료와 기기 시각만으로 그린다. 이 클래스는 안드로이드 화면 코드를 쓰지 않는다(org.json 과 Calendar 만).
  */
 final class WidgetData {
@@ -35,13 +36,15 @@ final class WidgetData {
         final boolean fromHome; // 그날 첫 위치 확정 수업(출발 지점에서 걷는다)
         final int late; // 앞 수업에서 오면 늦는 분
         final String b; // 건물 id(이동시간 지점 "301"), 강의실 미정이면 ""
+        final int back; // 그날 마지막 위치 확정 수업이면 출발·도착 지점으로 돌아가는 분, 아니면(모르면) -1
 
         Lesson(String name, String place, String cls, int start, int end, int color, int walk, boolean fromHome, int late) {
-            this(name, place, cls, start, end, color, walk, fromHome, late, "");
+            this(name, place, cls, start, end, color, walk, fromHome, late, "", -1);
         }
 
-        Lesson(String name, String place, String cls, int start, int end, int color, int walk, boolean fromHome, int late, String b) {
+        Lesson(String name, String place, String cls, int start, int end, int color, int walk, boolean fromHome, int late, String b, int back) {
             this.b = b == null ? "" : b;
+            this.back = back;
             this.name = name;
             this.place = place;
             this.cls = cls;
@@ -137,7 +140,7 @@ final class WidgetData {
                 int walk = x.isNull("walk") ? -1 : x.optInt("walk", -1);
                 list.add(new Lesson(x.optString("name", ""), x.optString("place", ""), x.optString("cls", "etc"), start, end,
                     Math.floorMod(x.optInt("color", 0), 8), walk, !"class".equals(x.optString("from")), Math.max(0, x.optInt("late", 0)),
-                    x.optString("b", "")));
+                    x.optString("b", ""), x.isNull("back") ? -1 : x.optInt("back", -1)));
             }
             Collections.sort(list, (a, b) -> a.start != b.start ? Integer.compare(a.start, b.start) : Integer.compare(a.end, b.end));
             days.add(list);
@@ -310,6 +313,81 @@ final class WidgetData {
         if (sem != null && sem.matches("\\d{4}-[12SW]")) url.append("&sem=").append(sem);
         if (day >= 0 && day < 7) url.append("&route=").append(day);
         return url.toString();
+    }
+
+    // ------------------------------------------------------------ 동선 지도 위젯(update71)
+
+    /** 걷는 구간 하나: from → to(건물 id). num = 도착하는 수업의 그날 차례(1…, 앱 동선 지도의 핀 번호와 같다), 돌아가는 길은 0 */
+    static final class Leg {
+        final String from;
+        final String to;
+        final int num;
+
+        Leg(String from, String to, int num) {
+            this.from = from;
+            this.to = to;
+            this.num = num;
+        }
+    }
+
+    /**
+     * 그날 걷는 구간(engine.evaluate·앱 동선 지도와 같은 차례): 출발 지점 → 첫 위치 확정 수업 → … → 마지막 위치 확정 수업 → 출발 지점.
+     * 강의실 미정 수업은 자리를 옮기지 않지만 번호는 센다. 같은 건물 안에서는 걷지 않으니 빼고, 출발 지점을 모르면 그 두 구간을 뺀다
+     */
+    static List<Leg> legs(List<Lesson> day, String home) {
+        List<Leg> out = new ArrayList<>();
+        String at = home == null ? "" : home;
+        for (int i = 0; i < day.size(); i++) {
+            Lesson l = day.get(i);
+            if (l.b.isEmpty()) continue;
+            if (!at.isEmpty() && !at.equals(l.b)) out.add(new Leg(at, l.b, i + 1));
+            at = l.b;
+        }
+        if (home != null && !home.isEmpty() && !at.isEmpty() && !at.equals(home)) out.add(new Leg(at, home, 0));
+        return out;
+    }
+
+    /** 핀 하나: 건물과 그 건물의 수업 번호들(같은 건물의 수업은 '2·3' 처럼 한 핀. 앱 동선 지도와 같다). 출발 지점과 같은 건물이면 빼고 집 핀만 */
+    static final class Stop {
+        final String b;
+        final List<Integer> nums = new ArrayList<>();
+
+        Stop(String b) {
+            this.b = b;
+        }
+
+        String label() {
+            StringBuilder s = new StringBuilder();
+            for (int n : nums) s.append(s.length() == 0 ? "" : "·").append(n);
+            return s.toString();
+        }
+    }
+
+    static List<Stop> stops(List<Lesson> day, String home) {
+        List<Stop> out = new ArrayList<>();
+        for (int i = 0; i < day.size(); i++) {
+            Lesson l = day.get(i);
+            if (l.b.isEmpty() || l.b.equals(home)) continue;
+            Stop s = null;
+            for (Stop x : out) if (x.b.equals(l.b)) s = x;
+            if (s == null) out.add(s = new Stop(l.b));
+            s.nums.add(i + 1);
+        }
+        return out;
+    }
+
+    /** 그날 걷는 분 합(가는 길 + 돌아가는 길, 앱 결과의 하루 걷기와 같다). 하나라도 모르면 -1 */
+    static int dayWalk(List<Lesson> day) {
+        int sum = 0;
+        boolean any = false;
+        for (Lesson l : day) {
+            if (l.b.isEmpty()) continue;
+            if (l.walk < 0) return -1;
+            sum += l.walk;
+            any = true;
+            if (l.back >= 0) sum += l.back;
+        }
+        return any ? sum : -1;
     }
 
     // ------------------------------------------------------------ 그리기에 쓰는 셈(화면 코드 없이 시험한다)

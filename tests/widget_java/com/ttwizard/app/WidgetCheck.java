@@ -13,7 +13,8 @@ import java.util.TimeZone;
 /**
  * tests/test_widgets.py 가 부른다: 화면이 만든 위젯 자료(node 로 web/js/timetables.js 의 widgetData 를 돌린 JSON)를 앱의 WidgetData 로 읽고
  * 정한 시각마다 무엇을 보일지 JSON 으로 찍는다. 안드로이드 화면 코드 없이(org.json 은 tests/widget_java 의 작은 것) 돈다.
- *   java -cp <out> com.ttwizard.app.WidgetCheck <자료.json>
+ *   java -cp <out> com.ttwizard.app.WidgetCheck <자료.json> [basemap.json campus.json routes.json]
+ * 뒤 셋을 주면 동선 지도 위젯의 자료 읽기(RouteMap)와 그날 지도의 짜임(plan)을 실제 자료로 본다(update71).
  */
 public final class WidgetCheck {
 
@@ -59,6 +60,48 @@ public final class WidgetCheck {
         String[] kinds = { "leave", "walk", "end", "start" };
         return "{\"kind\":" + q(kinds[h.kind]) + ",\"at\":" + (h.minute < 0 ? "null" : q(WidgetData.hm(h.minute))) + ",\"walk\":" + h.walk
             + ",\"from\":" + q(h.from) + ",\"late\":" + h.late + "}";
+    }
+
+    private static WidgetData.Lesson placed(String b, int walk) {
+        return new WidgetData.Lesson("x", b.isEmpty() ? "" : b + "동", "etc", 540, 600, 0, walk, true, 0, b, b.equals("Y") ? 9 : -1);
+    }
+
+    private static String legs(List<WidgetData.Leg> list) {
+        StringBuilder s = new StringBuilder("[");
+        for (WidgetData.Leg l : list) s.append(s.length() == 1 ? "" : ",").append(q(l.from + ">" + l.to + ":" + l.num));
+        return s.append("]").toString();
+    }
+
+    private static String stops(List<WidgetData.Stop> list) {
+        StringBuilder s = new StringBuilder("[");
+        for (WidgetData.Stop x : list) s.append(s.length() == 1 ? "" : ",").append(q(x.b + ":" + x.label()));
+        return s.append("]").toString();
+    }
+
+    /** 실제 자료(앱에 넣는 data/*.json)로 읽기와 그날 지도의 짜임: 정문 → 첫·가운데·끝 건물(번호 1·2·3) → 정문, 4×2 위젯 그림(800×330 화소, dp 2.5) */
+    private static String real(String basemap, String campus, String routes) throws Exception {
+        RouteMap m = RouteMap.parse(read(basemap), read(campus), read(routes));
+        String[] ids = new String(Files.readAllBytes(Paths.get(campus)), StandardCharsets.UTF_8).replaceAll("(?s).*?\"ids\":\\[(.*?)\\].*", "$1").replace("\"", "").split(",");
+        List<String> rooms = new ArrayList<>();
+        for (String id : ids) if (!id.equals("GATE")) rooms.add(id); // 출발 지점(정문)이 아닌 지점
+        String home = "GATE";
+        String[] picks = { rooms.get(1), rooms.get(rooms.size() / 2), rooms.get(rooms.size() - 1) };
+        List<WidgetData.Lesson> day = new ArrayList<>();
+        for (int i = 0; i < 3; i++) day.add(new WidgetData.Lesson("x" + i, picks[i] + "동", "etc", 540 + i * 90, 615 + i * 90, 0, 5, i == 0, 0, picks[i], i == 2 ? 5 : -1));
+        RouteMap.Plan p = m.plan(day, home, 800, 330, 2.5f);
+        StringBuilder spots = new StringBuilder("[");
+        for (float[] xy : p.spots) spots.append(spots.length() == 1 ? "" : ",").append("[").append(xy[0]).append(",").append(xy[1]).append("]");
+        double[] path = m.path(picks[0], picks[1]);
+        return "{\"buildings\":" + m.areas.get("building").size() + ",\"roads\":" + m.lines.get("road").size() + ",\"contours\":" + m.contours.size()
+            + ",\"where\":" + m.where.size() + ",\"picks\":" + q(String.join("|", picks)) + ",\"lines\":" + p.lines.size() + ",\"back\":" + p.back
+            + ",\"labels\":" + q(String.join("|", p.labels)) + ",\"spots\":" + spots + "]" + ",\"home\":[" + p.x(p.home[0]) + "," + p.y(p.home[1]) + "]"
+            + ",\"zoom\":" + Math.log(p.scale / 640.0) / Math.log(2) + ",\"mpp\":" + p.metersPerPx
+            + ",\"path\":[" + path.length / 2 + "," + RouteMap.lat(path[1]) + "," + (path[0] * 360 - 180) + "," + RouteMap.lat(path[path.length - 1]) + ","
+            + (path[path.length - 2] * 360 - 180) + "]}";
+    }
+
+    private static String read(String path) throws Exception {
+        return new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8);
     }
 
     private static WidgetData.Lesson lesson(int start, int end) {
@@ -134,6 +177,29 @@ public final class WidgetCheck {
             out.append(i == 0 ? "" : ",").append(q(got.replace("\u00A0", "~")));
         }
         out.append("],\"asked\":").append(q(asked.isEmpty() ? "" : asked.get(0)));
+        // 동선 지도 위젯(update71): 그날 걷는 구간·핀·걷기 합
+        List<WidgetData.Lesson> monday = a.days.get(0);
+        out.append(",\"legs\":").append(legs(WidgetData.legs(monday, d.home))).append(",\"stops\":").append(stops(WidgetData.stops(monday, d.home)))
+            .append(",\"dayWalk\":").append(WidgetData.dayWalk(monday));
+        List<WidgetData.Lesson> mixed = Arrays.asList(placed("X", 5), placed("", -1), placed("X", 0), placed("Y", 7));
+        out.append(",\"mixedLegs\":[").append(legs(WidgetData.legs(mixed, "H"))).append(",").append(legs(WidgetData.legs(mixed, "")))
+            .append(",").append(legs(WidgetData.legs(mixed, "X"))).append("],\"mixedStops\":[").append(stops(WidgetData.stops(mixed, "H")))
+            .append(",").append(stops(WidgetData.stops(mixed, "X"))).append("],\"mixedWalk\":").append(WidgetData.dayWalk(mixed));
+        // 자료 읽기: 작은 바탕·건물·길. 한쪽 방향 길은 거꾸로, 없는 길은 곧게, 자리도 모르면 null
+        RouteMap tiny = RouteMap.parse("{\"area\":{\"building\":[[5,\"_p~iF~ps|U_ulL~ugC\"]]},\"line\":{\"road\":[[\"service\",\"_p~iF~ps|U\"]]},"
+            + "\"contour\":{\"index\":[[50,\"_p~iF~ps|U\"]]}}", "{\"buildings\":{\"A\":[\"a\",38.5,-120.2],\"B\":[\"b\",40.7,-120.95],\"C\":[\"c\",null,null]}}",
+            "{\"paths\":{\"A|B\":\"_p~iF~ps|U_ulLnnqC_mqNvxq`@\"}}");
+        double[] ab = tiny.path("A", "B"), ba = tiny.path("B", "A"), ac = tiny.path("A", "C"), bq = tiny.path("B", "Q");
+        out.append(",\"tiny\":{\"areas\":").append(tiny.areas.get("building").size()).append(",\"lines\":").append(tiny.lines.get("road").size())
+            .append(",\"contours\":").append(tiny.contours.size()).append(",\"where\":").append(tiny.where.size())
+            .append(",\"ab\":").append(ab.length / 2).append(",\"abFirst\":[").append(RouteMap.lat(ab[1])).append(",").append(ab[0] * 360 - 180).append("]")
+            .append(",\"baFirst\":[").append(RouteMap.lat(ba[1])).append(",").append(ba[0] * 360 - 180).append("]")
+            .append(",\"straight\":").append(bq == null ? "null" : String.valueOf(bq.length)).append(",\"noC\":").append(ac == null ? "null" : "1");
+        double[] fit = RouteMap.fit(new double[] { 0.1, 0.1, 0.2, 0.3 }, 200, 100, new double[] { 10, 10, 10, 20 }, 1e9);
+        double[] capped = RouteMap.fit(new double[] { 0.5, 0.5, 0.5, 0.5 }, 200, 100, new double[] { 10, 10, 10, 20 }, 1000);
+        out.append(",\"fit\":[").append(fit[0]).append(",").append(0.15 * fit[0] - fit[1]).append(",").append(0.2 * fit[0] - fit[2]).append("]")
+            .append(",\"capped\":[").append(capped[0]).append(",").append(0.5 * capped[0] - capped[1]).append(",").append(0.5 * capped[0] - capped[2]).append("]}");
+        if (args.length >= 4) out.append(",\"real\":").append(real(args[1], args[2], args[3]));
         // 깨진 자료는 읽지 않는다
         String[] bad = { "", "{}", "[]", "{\"v\":0,\"terms\":[]}", "{\"v\":1,\"terms\":[", "{\"v\":1,\"terms\":[{\"from\":\"2026-9-1\",\"to\":\"2026-12-21\",\"days\":[]}]}" };
         out.append(",\"bad\":[");

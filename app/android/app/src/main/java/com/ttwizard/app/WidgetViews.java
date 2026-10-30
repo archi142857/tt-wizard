@@ -26,9 +26,10 @@ import java.util.function.Predicate;
  *                    걷는 분·늦음(WidgetData.hero). 오늘이 끝났으면 다음 수업 날의 첫 수업(내일·요일·날짜), 개강 전이면 '개강 · 9월 1일 (화)'.
  *   오늘 수업(4×2~)  오늘 수업 행(높이만큼. 끝난 수업은 흐리게, 지금 수업에 '지금'). 넘치면 '외 n개'. 수업이 없는 날은 다음 수업 한 줄.
  *   주간 시간표(4×4) 대표 시간표 한 주 그림(WeekBitmap, 라이트·다크 두 장).
+ *   동선 지도(4×2~)  그날(오늘 수업이 끝났으면 다음 수업 날) 걷는 길과 수업 핀(DayMapBitmap, 라이트·다크 두 장), 머리에 그날 걷기 합(update71).
  * 보일 수업이 없으면 머리 줄 아래 가운데에 빈 상태(widget_empty: 아이콘, 한 문장, 다음 수업 줄이나 '내 시간표 열기').
  * 누르면 앱(MainActivity 에 주소를 넘긴다: native.js 의 launchUrl·'ttw:open-url' 로 화면에 간다). 다음 수업·오늘 수업은 그 요일 동선 지도
- * (주소의 route, WidgetData.openUrl), 주간 시간표는 내 시간표.
+ * (주소의 route, WidgetData.openUrl)이고 동선 지도는 그 지도의 요일, 주간 시간표는 내 시간표.
  * 글자색은 XML(values(-night)/colors.xml)이 정해서 기기 테마가 바뀌면 런처가 다시 펼칠 때 맞는다. 코드는 색을 숫자로 넣지 않는다.
  */
 final class WidgetViews {
@@ -46,6 +47,7 @@ final class WidgetViews {
     static RemoteViews build(Context c, int kind, WidgetData d, Calendar now, Bundle options) {
         if (kind == WidgetUpdater.NEXT) return next(c, d, now, options);
         if (kind == WidgetUpdater.TODAY) return today(c, d, now, options);
+        if (kind == WidgetUpdater.MAP) return map(c, d, now, options);
         return week(c, d, now, options);
     }
 
@@ -58,6 +60,8 @@ final class WidgetViews {
     static final int[] TODAY_HIDDEN = { R.id.w_sub, R.id.w_empty, R.id.w_msg_sub, R.id.w_action };
     static final int[] WEEK_SHOWN = { R.id.w_grid };
     static final int[] WEEK_HIDDEN = { R.id.w_empty, R.id.w_msg_sub, R.id.w_action };
+    static final int[] MAP_SHOWN = { R.id.w_map, R.id.w_sum };
+    static final int[] MAP_HIDDEN = { R.id.w_empty, R.id.w_msg_sub, R.id.w_action };
 
     private static void reset(RemoteViews v, int[] shown, int[] hidden) {
         for (int id : shown) v.setViewVisibility(id, View.VISIBLE);
@@ -257,6 +261,62 @@ final class WidgetViews {
         v.setContentDescription(R.id.w_grid_light, said);
         v.setContentDescription(R.id.w_grid_dark, said);
         return v;
+    }
+
+    // ------------------------------------------------------------ 동선 지도
+
+    static RemoteViews map(Context c, WidgetData d, Calendar now, Bundle options) {
+        RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.widget_map);
+        reset(v, MAP_SHOWN, MAP_HIDDEN);
+        WidgetData.Term t = d == null ? null : d.termOn(now);
+        String problem = problem(c, d, t);
+        // 보일 날: 오늘 수업이 남았으면(지금 수업 중 포함) 오늘, 다 끝났으면 다음 수업 날(다음 수업 위젯과 같다)
+        WidgetData.Next n = problem == null ? WidgetData.next(t, now) : null;
+        v.setOnClickPendingIntent(android.R.id.background, open(c, t, n == null ? -1 : WidgetData.weekday(n.day)));
+        if (n == null) {
+            v.setTextViewText(R.id.w_title, t != null ? t.label : c.getString(R.string.widget_map_name));
+            v.setViewVisibility(R.id.w_map, View.GONE);
+            v.setViewVisibility(R.id.w_sum, View.GONE);
+            v.setImageViewResource(R.id.w_empty_icon, R.drawable.widget_ic_route);
+            empty(v, problem != null ? problem : c.getString(R.string.w_term_over), "", problem != null && d != null);
+            return v;
+        }
+        List<WidgetData.Lesson> day = t.on(n.day);
+        String title = mapTitle(c, t, n, now);
+        v.setTextViewText(R.id.w_title, title);
+        int walk = WidgetData.dayWalk(day);
+        if (walk >= 0) v.setTextViewText(R.id.w_sum, c.getString(R.string.w_walk, walk));
+        else v.setViewVisibility(R.id.w_sum, View.GONE);
+        RouteMap m = DayMapBitmap.data(c);
+        if (!DayMapBitmap.drawable(m, day, d.home)) { // 강의실이 정해진 수업도 출발 자리도 지도에 없다
+            v.setViewVisibility(R.id.w_map, View.GONE);
+            v.setImageViewResource(R.id.w_empty_icon, R.drawable.widget_ic_route);
+            empty(v, c.getString(R.string.w_no_route), "", false);
+            return v;
+        }
+        int[] wh = size(c, options, 250, 110);
+        float mapW = wh[0] - 20, mapH = wh[1] - 20 - 6 - 18 * font(c); // 여백 10씩, 머리와 그 아래 6
+        v.setImageViewBitmap(R.id.w_map_light, DayMapBitmap.draw(c, m, day, d.home, mapW, mapH, false));
+        v.setImageViewBitmap(R.id.w_map_dark, DayMapBitmap.draw(c, m, day, d.home, mapW, mapH, true));
+        // 스크린리더: '오늘 · 10월 30일 (금) 동선 지도. 1 생명과학 1 26동 104호, 2 …'
+        StringBuilder said = new StringBuilder();
+        for (int i = 0; i < day.size(); i++) {
+            WidgetData.Lesson l = day.get(i);
+            said.append(i == 0 ? "" : ", ").append(i + 1).append(' ').append(l.name);
+            if (!l.place.isEmpty()) said.append(' ').append(l.place);
+        }
+        String text = c.getString(R.string.w_map_said, title, said.toString());
+        v.setContentDescription(R.id.w_map_light, text);
+        v.setContentDescription(R.id.w_map_dark, text);
+        return v;
+    }
+
+    /** 동선 지도의 머리: 오늘 · 10월 30일 (금) · 내일 · 10월 31일 (토) · 월요일 · 11월 2일 (월) · 11월 9일 (월) · 개강 · 9월 1일 (화) */
+    private static String mapTitle(Context c, WidgetData.Term t, WidgetData.Next n, Calendar now) {
+        if (n.kind != WidgetData.Next.LATER) return c.getString(R.string.w_today, date(c, now));
+        if (WidgetData.ymd(now) < t.from) return c.getString(R.string.w_term_start, date(c, n.day));
+        if (n.daysAhead < 7) return c.getString(R.string.w_on, when(c, n), date(c, n.day));
+        return date(c, n.day);
     }
 
     // ------------------------------------------------------------ 함께 쓰는 것

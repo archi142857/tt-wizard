@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 동선 지도 위젯의 다크 판(기기가 다크일 때 런처가 고른다): 다크 그림을 보인다. 나머지는 layout/widget_map.xml 과 같다 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_bg"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/w_title"
+            style="@style/TTWWidget.Heading"
+            android:layout_width="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/w_sum"
+            style="@style/TTWWidget.Caption"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/w_map"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="6dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/w_map_light"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/w_map_dark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/w_attr"
+            style="@style/TTWWidget.MapAttr"
+            android:layout_gravity="bottom|end"
+            android:text="@string/w_map_attr" />
+    </FrameLayout>
+
+    <include
+        android:id="@+id/w_empty"
+        layout="@layout/widget_empty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone" />
+</LinearLayout>

@@ -517,8 +517,9 @@ export function timetableFromImage(payload, list, { now = new Date() } = {}) {
 //          days: 월~일 일곱 칸 [[수업, ...], ...](시작 시각 차례), untimed: 시간이 정해지지 않은 항목 수 }
 //   수업 { name, place: "301동 118호"(강의실 미정이면 ""), b: 건물 id(이동시간 지점 "301", 강의실 미정이면 ""), start, end: 자정부터 분,
 //          color: 0~7, cls: "req"|"elec"|"gen"|"etc", walk: 앞 자리에서 걷는 분(반올림. 모르면 null),
-//          from: "home"(그날 첫 위치 확정 수업 = 출발 지점에서) | "class"(앞 수업에서), late: 앞 수업에서 오면 늦는 분(반올림. 늦지 않으면 0) }
-//   b·home 은 동선 지도 위젯이 길을 그리는 데 쓴다(10/30 update70)
+//          from: "home"(그날 첫 위치 확정 수업 = 출발 지점에서) | "class"(앞 수업에서), late: 앞 수업에서 오면 늦는 분(반올림. 늦지 않으면 0),
+//          back: 그날 마지막 위치 확정 수업에만, 출발·도착 지점으로 돌아가는 분(반올림. 모르면 없음) }
+//   b·home 은 동선 지도 위젯이 길을 그리고, back 은 그날 걷기 합을 세는 데 쓴다(10/30 update70·71)
 //   걷는 시간은 동선 탐색(engine.evaluate)과 같은 규칙이다: 강의실 미정 수업은 자리를 옮기지 않고 그 앞의 쉬는 시간을 다음 이동에 보탠다.
 
 export const WIDGET_VERSION = 1;
@@ -562,8 +563,8 @@ function placeOf(m) {
 /** 하루 수업들(시작 차례) → 위젯의 수업. 걷는 시간·늦음은 engine.evaluate 와 같은 차례로 잰다 */
 function widgetDay(list, { name, place, minutes, home }) {
   list.sort((x, y) => x.m.start - y.m.start || x.m.end - y.m.end);
-  let prevLoc = home || "", prevEnd = null, placed = false, spare = 0;
-  return list.map(({ e, m }) => {
+  let prevLoc = home || "", prevEnd = null, placed = false, spare = 0, last = null;
+  const day = list.map(({ e, m }) => {
     const it = e.item;
     const x = { name: String(name(e) || ""), place: m.building ? String(place(m) || "") : "", b: String(m.building || ""), start: m.start, end: m.end,
       color: Number.isInteger(it.color) && it.color >= 0 ? it.color % COLORS : 0, cls: it.custom ? "etc" : CLS_KEYS[it.cls] || "etc",
@@ -585,8 +586,13 @@ function widgetDay(list, { name, place, minutes, home }) {
     prevEnd = m.end;
     placed = true;
     spare = 0;
+    last = x;
     return x;
   });
+  // 마지막 위치 확정 수업 뒤 출발·도착 지점으로 돌아가는 길(engine.evaluate 의 마지막 구간)
+  const back = last && home && minutes ? Number(minutes(prevLoc, home)) : NaN;
+  if (Number.isFinite(back)) last.back = Math.round(back);
+  return day;
 }
 
 /**
