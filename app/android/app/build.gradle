@@ -9,7 +9,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         // 판: 웹 화면의 APP_VERSION(web/js/app.js)과 같게. 스토어에 올릴 때마다 versionCode 를 1씩 올린다
         versionCode 1
-        versionName "0.7.0"
+        versionName "0.9.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
