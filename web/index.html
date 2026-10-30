@@ -347,8 +347,6 @@
   </div>
   <div class="sheet-body">
     <ul class="sheet-list" id="tl-rows"></ul>
-    <!-- 오류 줄: 50개가 찼다(새 시간표·복사하기). app.js 가 지금 학기 묶음의 + 새 시간표 밑으로 옮긴다. 이미지로 추가는 10/23 저녁 항목 목록 맨 아래로 옮겼다(그 오류 줄은 #items-error) -->
-    <p class="error-line" id="tl-limit" hidden>시간표는 학기마다 50개까지 만들 수 있어요</p>
     <!-- 칸 색(10/23 사용자: 정보 화면이 아니라 시간표 탭 안에). 기기 설정이고 내 시간표·동선 화면에만 걸린다 -->
     <fieldset class="tl-color">
       <legend class="field-label">칸 색</legend>
@@ -384,6 +382,22 @@
     <button type="button" class="btn-text" data-close>닫기</button>
     <button type="button" class="btn-text" id="tn-make">만들기</button>
   </div>
+  <div class="sr-only" role="alert" data-live="alert"></div>
+</dialog>
+<!-- 시간표 메뉴 팝업(10/30 오후 사용자: "시간표 옵션은 그냥 창으로 띄우고". 그 전에는 목록의 행 아래에 펼쳤다): 목록 시트의 행마다 ⋯ 가 연다(app.js openTtOpts).
+     태그·학기·메타, 이름 입력칸(이름이 곧 입력칸, 오른쪽 끝 연필), 복사하기·대표 시간표로 설정하기·이미지로 저장·지우기, [닫기]. 닫으면 목록 시트로 돌아간다 -->
+<dialog class="sheet ask tt-opts" id="tt-opts" aria-labelledby="to-title">
+  <div class="sheet-head">
+    <h2 class="sr-only" id="to-title" tabindex="-1" autofocus></h2>
+    <p class="to-meta" id="to-meta"></p>
+    <span class="tl-field"><input class="text-input" id="to-name" type="text" maxlength="30" autocomplete="off" enterkeyhint="done" aria-label="시간표 이름"></span>
+  </div>
+  <ul class="to-acts" id="to-acts" aria-label="시간표 메뉴"></ul>
+  <p class="error-line" id="to-error" hidden></p>
+  <div class="sheet-actions">
+    <button type="button" class="btn-text" data-close>닫기</button>
+  </div>
+  <div class="sr-only" role="status" data-live="status"></div>
   <div class="sr-only" role="alert" data-live="alert"></div>
 </dialog>
 
