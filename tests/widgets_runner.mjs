@@ -40,7 +40,7 @@ writeFileSync(outPath, JSON.stringify(data));
 const mon = data.terms[0].days[0];
 out.data = {
   keys: Object.keys(data), v: data.v, same: JSON.stringify(data) === JSON.stringify(T.widgetData([{ t: a, entries: entries(a) }, { t: b, entries: entries(b) }], { minutes, home: "HOME" })), colors: data.colors, terms: data.terms.map((t) => [t.sem, t.label, t.title, t.from, t.to, t.untimed, t.days.map((d) => d.length)]),
-  monday: mon.map((l) => [l.name, l.place, l.start, l.end, l.color, l.cls, l.walk, l.from, l.late]), home: data.home, buildings: mon.map((l) => l.b),
+  monday: mon.map((l) => [l.name, l.place, l.start, l.end, l.color, l.cls, l.walk, l.from, l.late]), home: data.home, buildings: mon.map((l) => l.b), back: mon.map((l) => l.back ?? null),
   friday: data.terms[0].days[4].map((l) => [l.color, l.walk, l.from]), // 색 번호는 0~7 로
   noMinutes: T.widgetData([{ t: a, entries: entries(a) }], {}).terms[0].days[0].map((l) => [l.walk, l.late]),
   cls: T.widgetData([{ t: a, entries: entries(a) }], { colors: "cls" }).colors,
@@ -67,7 +67,11 @@ out.data = {
   const fromEngine = legs.map((l) => [l.day, l.meeting.start, l.meeting.building ? Math.round(l.minutes) : null,
     l.slack !== null && l.slack < 0 ? Math.max(0, Math.round(-l.slack)) : 0]);
   const fromWidget = [1, 3].flatMap((d) => w.days[d].map((l) => [d, l.start, l.walk, l.late]));
-  out.engine = { same: JSON.stringify(fromEngine) === JSON.stringify(fromWidget), fromEngine, fromWidget, buildings: [p, q, r].every(Boolean) };
+  // 돌아가는 길(마지막 위치 확정 수업 → 출발·도착 지점)도 같다: 그날 마지막 위치 확정 수업의 back
+  const backEngine = ev.legs.filter((l) => !l.meeting).map((l) => [l.day, Math.round(l.minutes)]);
+  const backWidget = [1, 3].map((d) => [d, w.days[d].filter((l) => l.back !== undefined).map((l) => l.back)[0]]);
+  out.engine = { same: JSON.stringify(fromEngine) === JSON.stringify(fromWidget), fromEngine, fromWidget, buildings: [p, q, r].every(Boolean),
+    back: [backEngine, backWidget] };
 }
 
 // 4) 기기에 둔 값만으로(앱 연결이 부르는 widgetDataFromStore): 대표 시간표만, 끝난 학기는 빼고, 모르는 출발 지점은 자료의 첫 출발 후보, 이동 기준 flat

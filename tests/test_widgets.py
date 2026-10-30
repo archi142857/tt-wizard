@@ -63,6 +63,7 @@ def test_widget_data_shape(made):
                            ["대학 글쓰기 1", "B동 303호", 660, 735, 2, "etc", 20, "class", 5]]
     assert d["friday"] == [[1, 12, "home"]]  # 색 번호는 0~7
     assert d["home"] == "HOME" and d["buildings"] == ["A", "B"]  # 동선 지도 위젯이 길을 그릴 건물 id 와 출발·도착 지점
+    assert d["back"] == [None, 30]  # 그날 마지막 위치 확정 수업에만 돌아가는 분(B → HOME)
     assert d["noMinutes"] == [[None, 0], [None, 0]]  # 이동시간을 모르면 걷기를 적지 않는다
     assert d["cls"] == "cls" and d["odd"] == {"v": 1, "colors": "item", "home": "", "terms": []}  # 모르는 학기·빈 칸은 뺀다
     assert d["names"] == [["[생명과학 1]", "A-104"], ["[대학 글쓰기 1]", "B-303"]]  # 이름·강의실 표기는 화면이 준다
@@ -73,6 +74,7 @@ def test_walking_matches_route_check(made):
     e = made[0]["engine"]
     assert e["buildings"] and e["same"], (e["fromEngine"], e["fromWidget"])
     assert any(row[3] > 0 for row in e["fromWidget"]) and any(row[2] is None for row in e["fromWidget"])  # 늦는 수업·미정 수업이 다 들어 있다
+    assert e["back"][0] == e["back"][1] and len(e["back"][0]) == 2  # 돌아가는 길도 동선 확인과 같다(동선 지도 위젯의 걷기 합)
 
 
 def test_widget_data_from_device_store(made):
@@ -87,9 +89,12 @@ def test_widget_data_from_device_store(made):
 def test_app_reads_widget_data(made, tmp_path):
     """앱의 WidgetData 가 화면이 만든 자료를 읽고, 시각마다 다음 수업·다시 그릴 때·오늘 행·주간 격자를 맞게 고른다(2026-10-26 은 월요일)"""
     out = tmp_path / "classes"
-    sources = [JAVA / "WidgetData.java", *sorted((ROOT / "tests" / "widget_java").rglob("*.java"))]
+    sources = [JAVA / "WidgetData.java", JAVA / "RouteMap.java", *sorted((ROOT / "tests" / "widget_java").rglob("*.java"))]
     subprocess.run(["javac", "-encoding", "UTF-8", "-d", str(out), *map(str, sources)], check=True, capture_output=True)
-    run = subprocess.run(["java", "-cp", str(out), "com.ttwizard.app.WidgetCheck", str(made[1])], check=True, capture_output=True)
+    real = tmp_path / "web"  # 앱에 넣는 실제 자료(바탕·길·건물): 동선 지도 위젯
+    assert ew.main(["--data", str(ROOT / "data"), "-o", str(real)]) == 0
+    run = subprocess.run(["java", "-cp", str(out), "com.ttwizard.app.WidgetCheck", str(made[1]),
+                          *(str(real / f) for f in ("basemap.json", "campus.json", "routes.json"))], check=True, capture_output=True)
     r = json.loads(run.stdout.decode("utf-8"))
     assert r["terms"] == 2 and r["colors"] == "item"
     assert r["first"] == {"sem": "2026-2", "label": "2026년 2학기", "title": "시간표 1", "from": 20260901, "to": 20261221,
@@ -130,6 +135,53 @@ def test_app_reads_widget_data(made, tmp_path):
     assert r["buildings"] == "HOME|A|B"  # 건물 id 와 출발·도착 지점을 읽는다(동선 지도 위젯)
     # 누르면 여는 주소: 학기·요일(월 0 … 일 6). 화면이 route 를 읽으면 그 요일 동선 지도
     assert r["url"] == ["https://x/#tab=mine&sem=2026-2&route=4", "https://x/#tab=mine", "https://x/#tab=mine", "https://x/#tab=mine&sem=2027-W&route=0"]
+    # 동선 지도 위젯(update71): 그날 구간(출발 지점 → 수업 → … → 출발 지점, 번호는 그날 차례, 돌아가는 길은 0)·핀·걷기 합
+    assert r["legs"] == ["HOME>A:1", "A>B:2", "B>HOME:0"] and r["stops"] == ["A:1", "B:2"] and r["dayWalk"] == 12 + 20 + 30
+    # 강의실 미정 수업은 자리를 옮기지 않고 번호만 센다, 같은 건물끼리는 걷지 않는다, 출발 지점을 모르면 그 두 구간이 없다, 출발 지점의 건물은 핀이 없다
+    assert r["mixedLegs"] == [["H>X:1", "X>Y:4", "Y>H:0"], ["X>Y:4"], ["X>Y:4", "Y>X:0"]]
+    assert r["mixedStops"] == [["X:1·3", "Y:4"], ["Y:4"]] and r["mixedWalk"] == 5 + 0 + 7 + 9
+    t = r["tiny"]
+    assert (t["areas"], t["lines"], t["contours"], t["where"], t["ab"]) == (1, 1, 1, 2, 3)  # 자리가 없는 건물은 뺀다
+    assert t["abFirst"] == pytest.approx([38.5, -120.2]) and t["baFirst"] == pytest.approx([43.252, -126.453])  # 한쪽 방향 길은 거꾸로
+    assert t["straight"] is None and t["noC"] is None  # 길도 자리도 모르면 그리지 않는다
+    assert t["fit"] == pytest.approx([350, 100, 45]) and t["capped"] == pytest.approx([1000, 100, 45])  # 여백 안 가운데, 배율 한도
+    _check_real_map(r["real"])
+
+
+def _decode(s: str, prec: int = 5) -> list:
+    """Google polyline → [(위도, 경도)] (engine.js decodePolyline 과 같은 셈)"""
+    out, i, lat, lon = [], 0, 0, 0
+    while i < len(s):
+        vals = []
+        for _ in range(2):
+            shift = res = 0
+            while True:
+                b = ord(s[i]) - 63
+                i += 1
+                res |= (b & 0x1F) << shift
+                shift += 5
+                if b < 0x20:
+                    break
+            vals.append(~(res >> 1) if res & 1 else res >> 1)
+        lat += vals[0]
+        lon += vals[1]
+        out.append((lat / 10 ** prec, lon / 10 ** prec))
+    return out
+
+
+def _check_real_map(m: dict) -> None:
+    """실제 자료로 읽은 바탕·길과 그날 지도의 짜임: 정문 → 건물 셋 → 정문을 4×2 그림(800×330 화소, dp 2.5)에"""
+    base = json.loads((ROOT / "data" / "basemap.json").read_text(encoding="utf-8"))
+    assert (m["buildings"], m["roads"], m["contours"]) == (len(base["area"]["building"]), len(base["line"]["road"]), len(base["contour"]["index"]))
+    assert m["where"] > 100 and m["lines"] == 4 and m["back"] == [False, False, False, True]
+    assert sorted(int(n) for part in m["labels"].split("|") for n in part.split("·")) == [1, 2, 3]
+    for x, y in m["spots"] + [m["home"]]:  # 핀(반지름 30 화소)이 그림 안: 가장자리 45, 아래는 출처 글 자리 65
+        assert 44 <= x <= 756 and 44 <= y <= 266, (x, y)
+    assert m["zoom"] <= 17 + 1e-9 and m["mpp"] > 0
+    paths = json.loads((ROOT / "data" / "route_paths.json").read_text(encoding="utf-8"))["paths"]
+    a, b = m["picks"].split("|")[:2]
+    pts = _decode(paths[f"{a}|{b}"]) if f"{a}|{b}" in paths else _decode(paths[f"{b}|{a}"])[::-1]
+    assert m["path"][0] == len(pts) and m["path"][1:] == pytest.approx([*pts[0], *pts[-1]], abs=1e-9)  # 앱 자료와 같은 길
 
 
 def _tokens(css: str, start: str) -> dict:
@@ -155,6 +207,9 @@ def test_widget_colors_follow_web_tokens():
     names.update({f"mark_item{i}": f"item-{i}-dot" for i in range(8)})
     names.update({f"mark_{k}": f"cls-{k}" for k in ("req", "elec", "gen", "etc")})
     names.update({f"fill_item{i}": f"item-{i}" for i in range(8)})
+    # 동선 지도 위젯의 미리 보기 그림(update71)
+    names.update({"map_land": "map-land", "map_green": "map-green", "map_road": "map-road", "map_road_line": "map-road-line",
+                  "map_building": "map-building", "route": "route", "pin": "accent", "on_pin": "on-color", "home": "home", "on_home": "on-home"})
     for folder, tokens, base in (("values", light, None), ("values-night", dark, light)):
         colors = dict(re.findall(r'<color name="widget_(\w+)">(#[0-9A-Fa-f]{6})</color>', (RES / folder / "colors.xml").read_text(encoding="utf-8")))
         assert colors.keys() == names.keys(), folder
@@ -167,12 +222,24 @@ def test_widget_colors_follow_web_tokens():
         want = [_resolve(tokens, k, base) for k in ("text", "text2", "text3", "line", "accent-text", "accent-weak")]
         want += [_resolve(tokens, f"item-{i}", base) for i in range(8)] + [_resolve(tokens, f"cls-{k}-bg", base) for k in ("req", "elec", "gen", "etc")]
         assert got == want, name
+    # 동선 지도 그림(DayMapBitmap)의 색: TOKENS 차례의 웹 토큰 값(라이트·다크), 출처 글 바탕은 card 90%
+    java = (JAVA / "DayMapBitmap.java").read_text(encoding="utf-8")
+    order = re.findall(r'"([a-z-]+)"', re.search(r"static final String\[\] TOKENS = \{(.*?)\};", java, re.S).group(1))
+    assert "map-building" in order and "route" in order
+    for name, tokens, base in (("LIGHT", light, None), ("DARK", dark, light)):
+        body = re.search(rf"static final int\[\] {name} = \{{(.*?)\}};", java, re.S).group(1)
+        got = ["#" + x[4:] for x in re.findall(r"0xFF[0-9A-F]{6}", body)]
+        assert got == [_resolve(tokens, k, base) for k in order], name
+    for folder, tokens, base in (("values", light, None), ("values-night", dark, light)):
+        attr = re.search(r'<color name="widget_attr_bg">#E6([0-9A-Fa-f]{6})</color>', (RES / folder / "colors.xml").read_text(encoding="utf-8"))
+        assert attr and "#" + attr.group(1).upper() == _resolve(tokens, "card", base), folder
 
 
 def test_widget_resources_and_manifest():
     """매니페스트의 위젯 셋과 다시 그리는 받는 곳, 위젯 정보, 자바가 쓰는 자원(R.*)이 다 있고, 정확한 알람·부팅 권한은 쓰지 않는다"""
     manifest = (ANDROID / "AndroidManifest.xml").read_text(encoding="utf-8")
-    for cls, info in (("NextClassWidget", "widget_next_info"), ("TodayWidget", "widget_today_info"), ("WeekWidget", "widget_week_info")):
+    for cls, info in (("NextClassWidget", "widget_next_info"), ("TodayWidget", "widget_today_info"), ("WeekWidget", "widget_week_info"),
+                      ("DayMapWidget", "widget_map_info")):
         block = re.search(rf'<receiver\s+android:name="\.{cls}"(.*?)</receiver>', manifest, re.S).group(1)
         assert 'android:exported="false"' in block and "android.appwidget.action.APPWIDGET_UPDATE" in block
         assert f'android:resource="@xml/{info}"' in block and (JAVA / f"{cls}.java").exists()
@@ -201,16 +268,22 @@ def test_widget_resources_and_manifest():
 
 
 def test_week_layouts_pick_light_or_dark_picture():
-    """주간 격자는 라이트·다크 두 장을 늘 넣고 layout(-night) 판이 한 장을 보인다(코드는 두 그림의 보이기를 건드리지 않는다)"""
-    day = (RES / "layout" / "widget_week.xml").read_text(encoding="utf-8")
-    night = (RES / "layout-night" / "widget_week.xml").read_text(encoding="utf-8")
-    vis = lambda xml, vid: re.search(rf'android:id="@\+id/{vid}".*?android:visibility="(\w+)"', xml, re.S).group(1)  # noqa: E731
-    assert (vis(day, "w_grid_light"), vis(day, "w_grid_dark")) == ("visible", "gone")
-    assert (vis(night, "w_grid_light"), vis(night, "w_grid_dark")) == ("gone", "visible")
-    strip = lambda xml: re.sub(r"<!--.*?-->|android:visibility=\"\w+\"", "", xml, flags=re.S)  # noqa: E731
-    assert strip(day) == strip(night)
+    """주간 격자·동선 지도(update71)는 라이트·다크 두 장을 늘 넣고 layout(-night) 판이 한 장을 보인다(코드는 두 그림의 보이기를 건드리지 않는다)"""
     views = (JAVA / "WidgetViews.java").read_text(encoding="utf-8")
-    assert not re.search(r"setViewVisibility\(R\.id\.w_grid_(light|dark)", views)
+    for layout, pic in (("widget_week", "w_grid"), ("widget_map", "w_map")):
+        day = (RES / "layout" / f"{layout}.xml").read_text(encoding="utf-8")
+        night = (RES / "layout-night" / f"{layout}.xml").read_text(encoding="utf-8")
+        vis = lambda xml, vid: re.search(rf'android:id="@\+id/{vid}".*?android:visibility="(\w+)"', xml, re.S).group(1)  # noqa: E731
+        assert (vis(day, f"{pic}_light"), vis(day, f"{pic}_dark")) == ("visible", "gone"), layout
+        assert (vis(night, f"{pic}_light"), vis(night, f"{pic}_dark")) == ("gone", "visible"), layout
+        strip = lambda xml: re.sub(r"<!--.*?-->|android:visibility=\"\w+\"", "", xml, flags=re.S)  # noqa: E731
+        assert strip(day) == strip(night), layout
+        assert not re.search(rf"setViewVisibility\(R\.id\.{pic}_(light|dark)", views)
+    # 동선 지도에는 출처(수치지형도·OpenStreetMap)를 지도 위에 늘 둔다(법무: 지도에 출처 표기)
+    day = (RES / "layout" / "widget_map.xml").read_text(encoding="utf-8")
+    assert 'android:id="@+id/w_attr"' in day and "@string/w_map_attr" in day and "w_attr" not in re.sub(r"(?s).*static RemoteViews map\(", "", views).split("\n    }\n")[0]
+    strings = (RES / "values" / "strings.xml").read_text(encoding="utf-8")
+    assert '<string name="w_map_attr">© 국토지리정보원 · © OpenStreetMap</string>' in strings
 
 
 def _visibility(xml: str, vid: str) -> str:
@@ -231,7 +304,7 @@ def test_widget_views_reset_what_they_change():
     """런처는 같은 레이아웃이면 전에 펼친 화면 위에 바꿈만 다시 얹으므로(update69) 위젯마다 그릴 때 바꾸는 보이기를 다 처음 모양으로 되돌린다.
     되돌리는 목록은 레이아웃 XML 의 처음 보이기와 같고, 그리는 코드가 보이기를 바꾸는 것은 모두 목록에 있다"""
     views = (JAVA / "WidgetViews.java").read_text(encoding="utf-8")
-    for kind, layout in (("NEXT", "widget_next"), ("TODAY", "widget_today"), ("WEEK", "widget_week")):
+    for kind, layout in (("NEXT", "widget_next"), ("TODAY", "widget_today"), ("WEEK", "widget_week"), ("MAP", "widget_map")):
         ids = {k: re.findall(r"R\.id\.(\w+)", re.search(rf"static final int\[\] {kind}_{k} = \{{(.*?)\}};", views).group(1))
                for k in ("SHOWN", "HIDDEN")}
         for folder in ("layout", "layout-night"):

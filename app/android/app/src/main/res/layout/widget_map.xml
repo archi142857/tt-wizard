@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 동선 지도 위젯(4×2, 4×4 까지 늘린다, update71). 지도는 그림(DayMapBitmap)이라 라이트·다크 두 장을 늘 같이 넣고, 어느 쪽을 보일지는 이 파일과
+     layout-night 판이 정한다(주간 시간표 위젯과 같다. 코드는 두 그림의 보이기를 건드리지 않는다). 라이트(낮) 판: 라이트 그림을 보인다.
+     출처(수치지형도·OpenStreetMap)는 지도 오른쪽 아래 글. 눌러서 앱의 그 요일 동선 지도 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_bg"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/w_title"
+            style="@style/TTWWidget.Heading"
+            android:layout_width="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/w_sum"
+            style="@style/TTWWidget.Caption"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/w_map"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="6dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/w_map_light"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/w_map_dark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/w_attr"
+            style="@style/TTWWidget.MapAttr"
+            android:layout_gravity="bottom|end"
+            android:text="@string/w_map_attr" />
+    </FrameLayout>
+
+    <include
+        android:id="@+id/w_empty"
+        layout="@layout/widget_empty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone" />
+</LinearLayout>

@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * 시험용 org.json(WidgetData 가 쓰는 것만): 작은 JSON 읽기와 opt*. 안드로이드에서는 기기의 org.json 을 쓴다(뜻은 같게: opt* 는 없거나 꼴이 다르면 기본값).
+ * 시험용 org.json(WidgetData·RouteMap 이 쓰는 것만): 작은 JSON 읽기와 opt*. 안드로이드에서는 기기의 org.json 을 쓴다(뜻은 같게: opt* 는 없거나 꼴이 다르면 기본값).
  */
 public class JSONObject {
     public static final Object NULL = new Object();
@@ -60,6 +60,14 @@ public class JSONObject {
     public JSONObject optJSONObject(String key) {
         Object v = map.get(key);
         return v instanceof JSONObject ? (JSONObject) v : null;
+    }
+
+    public boolean has(String key) {
+        return map.containsKey(key);
+    }
+
+    public java.util.Iterator<String> keys() {
+        return map.keySet().iterator();
     }
 
     @Override

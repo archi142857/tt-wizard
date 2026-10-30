@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 위젯 고르는 화면의 동선 지도 미리 보기(안드로이드 12 이상 previewLayout, update71). 지어낸 보기다: 그림은 지어낸 지도(widget_map_preview_art) -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_bg"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TTWWidget.Heading"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/w_preview_today" />
+
+        <TextView
+            style="@style/TTWWidget.Caption"
+            android:layout_marginStart="8dp"
+            android:text="@string/w_preview_walk" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="6dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop"
+            android:src="@drawable/widget_map_preview_art" />
+    </FrameLayout>
+</LinearLayout>

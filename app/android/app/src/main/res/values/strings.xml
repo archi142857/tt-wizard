@@ -13,6 +13,8 @@
     <string name="widget_week_name">주간 시간표</string>
     <string name="widget_week_desc">대표 시간표의 한 주</string>
 
+    <string name="widget_map_name">동선 지도</string>
+    <string name="widget_map_desc">그날 걷는 길과 수업 자리</string>
     <string name="w_next">다음 수업</string>
     <string name="w_now">지금 수업</string>
     <string name="w_tomorrow">내일</string>
@@ -25,6 +27,10 @@
     <string name="w_hero_start">%1$s 시작</string>
     <string name="w_from">%1$s에서</string>
     <string name="w_open_mine">내 시간표 열기</string>
+    <string name="w_on">%1$s · %2$s</string>
+    <string name="w_no_route">강의실이 정해진 수업이 없어요</string>
+    <string name="w_map_attr">© 국토지리정보원 · © OpenStreetMap</string>
+    <string name="w_map_said">%1$s 동선 지도. %2$s</string>
     <string name="w_late">%1$d분 늦음</string>
     <string name="w_today">오늘 · %1$s</string>
     <string name="w_no_class_today">오늘은 수업이 없어요</string>
@@ -69,4 +75,5 @@
     <string name="w_preview_time2">13:00~14:15</string>
     <string name="w_preview_sub2">1동 303호 · 걷기 8분</string>
     <string name="w_preview_week">2026년 2학기 · 시간표 1</string>
+    <string name="w_preview_walk">걷기 31분</string>
 </resources>
