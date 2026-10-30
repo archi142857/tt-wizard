@@ -4638,20 +4638,48 @@ async function receiveLink(code) {
   }
   openShared(payload);
 }
-/** 바로가기 주소 → { tab, sem } 또는 null(10/30 백엔드: 홈 화면 위젯을 누르면 앱이 '…/tt-wizard/#tab=mine&sem=<학기>' 로 열린다. 웹에서 같은 주소를 열어도 같다:
- *  나중의 홈 화면 바로가기). tab 은 탭 이름(TABS)일 때만, sem 은 학기 꼴('2026-2')일 때만. 시간표 링크(#t=)는 linkCodeOf */
+/** 바로가기 주소 → { tab, sem, route } 또는 null(10/30 백엔드: 홈 화면 위젯을 누르면 앱이 '…/tt-wizard/#tab=mine&sem=<학기>&route=<요일>' 로 열린다. 웹에서 같은 주소를
+ *  열어도 같다: 나중의 홈 화면 바로가기). tab 은 탭 이름(TABS)일 때만, sem 은 학기 꼴('2026-2')일 때만, route 는 요일(월 0 … 일 6)일 때만. 시간표 링크(#t=)는 linkCodeOf */
 function navOf(url) {
   const hash = String(url || "").split("#")[1];
-  if (!hash || !/(^|&)(tab|sem)=/.test(hash)) return null;
-  const q = new URLSearchParams(hash), t = q.get("tab"), sem = q.get("sem") || "";
-  const nav = { tab: TABS.includes(t) ? t : null, sem: /^\d{4}-[12SW]$/.test(sem) ? sem : null };
-  return nav.tab || nav.sem ? nav : null;
+  if (!hash || !/(^|&)(tab|sem|route)=/.test(hash)) return null;
+  const q = new URLSearchParams(hash), t = q.get("tab"), sem = q.get("sem") || "", day = q.get("route") || "";
+  const nav = { tab: TABS.includes(t) ? t : null, sem: /^\d{4}-[12SW]$/.test(sem) ? sem : null, route: /^[0-6]$/.test(day) ? Number(day) : null };
+  return nav.tab || nav.sem || nav.route !== null ? nav : null;
 }
-/** 바로가기를 연다: 학기 목록을 받은 뒤 그 학기(편람이 있는 학기면. 앱 전체의 학기)로 바꾸고 그 탭으로(이미 그 탭이면 그 탭의 첫 화면) */
+/** 바로가기를 연다: 학기 목록을 받은 뒤 그 학기(편람이 있는 학기면. 앱 전체의 학기)로 바꾸고, 요일(route)이 있으면 그 요일 동선 지도(아래 routeDay),
+ *  못 열면 그 탭으로(이미 그 탭이면 그 탭의 첫 화면) */
+let lastNav = null; // 앱: 켤 때 같은 위젯 주소가 launchUrl 과 'ttw:open-url' 로 거의 같이 두 번 온다. 동선 지도는 한 번만 연다
 async function goNav(nav) {
   await semReady;
   if (nav.sem && nav.sem !== state.semester && state.semesters.some(([x]) => x === nav.sem)) switchSemester(nav.sem);
+  if (nav.route !== null && nav.route !== undefined) {
+    const sig = `${nav.sem}|${nav.route}`;
+    if (lastNav && lastNav.sig === sig && Date.now() - lastNav.at < 3000) return;
+    lastNav = { sig, at: Date.now() };
+    if (await routeDay(nav.route, nav.sem)) return;
+  }
   if (nav.tab) switchTab(nav.tab);
+}
+/** 홈 화면 위젯을 누르면 그 요일 동선 지도(10/30 사용자: "위젯 눌렀을 때 딱 지도 화면이 떴으면 좋겠다니깐?", 백엔드 update72): 그 학기 편람을 받은 뒤
+ *  대표 시간표를 '동선 확인하기'처럼 동선 탐색으로 보내고(어느 탭에 있었든 내 시간표를 거친다: 동선 확인하기는 내 시간표에서 탐색 탭으로 간다),
+ *  결과가 뜨면 그 요일을 골라 전체 화면 지도를 연다. 가는 동안 화면은 밀지 않고 바로 바꾼다(snapUntil: 지도만 '딱' 보이게).
+ *  대표 시간표가 없거나, 그 학기(want)로 옮기지 못했거나, 편람에 그 시간표의 분반이 없으면(동선 확인하기가 꺼지는 경우) false: 부르는 쪽이 내 시간표를 연다.
+ *  편람을 기다리는 것은 20초까지 */
+async function routeDay(day, want = null) {
+  const sem = mine.sem, until = Date.now() + 20000;
+  if (want && sem !== want) return false;
+  while ((!state.loaded || busy || state.semester !== sem) && Date.now() < until) {
+    if (!state.loading && !state.loaded && state.semester === sem) return false; // 편람을 못 받았다(배너가 다시 시도를 알린다)
+    await new Promise((r) => setTimeout(r, 100));
+  }
+  await viewDone; // 웹: 주소의 # 를 바꾸면 popstate 가 먼저 와 화면 전환을 시작해 둔다(늦게 도는 그 apply 가 아래에서 바로 바꾼 화면을 덮지 않게)
+  const t = shownTts().find((x) => x.primary);
+  if (!t || mine.sem !== sem || !canRoute(t) || busy) return false;
+  for (const d of document.querySelectorAll("dialog[open]")) d.close(); // 열어 둔 시트·팝업 위로 지도를 띄우지 않는다
+  snapUntil = Date.now() + 15000;
+  goMine(() => routeTt(t, { day }));
+  return true;
 }
 /** 주소 → '#t=' 뒤 글(없으면 null). 메신저가 링크 끝에 붙여 넘긴 문장부호(')' '.' 등)는 글자 모양 밖이라 떼어 낸다 */
 const linkCodeOf = (url) => { const m = /#(?:.*&)?t=([A-Za-z0-9_-]+)/.exec(String(url || "")); return m ? m[1] : null; };
@@ -4784,7 +4812,8 @@ const devApi = () => ({
  *  결과 화면(조합이 없으면 입력 화면)에 되돌리기 스낵바. 직접 넣은 일정과 편람에서 사라진 과목·분반은 탐색에 담을 수 없어 빠진다 */
 const canRoute = (t) => state.loaded && state.semester === mine.sem && t.items.some((it) => !it.custom && state.byId.get(it.course)?.sections.some((s) => s.key === T.itemKey(it)));
 let afterResult = null; // 결과 화면이 뜬 뒤 할 일(동선 확인하기의 되돌리기 스낵바. showView 가 결과 화면을 그린 뒤 부른다)
-function routeTt(t) {
+/** 동선 확인하기. day(요일)가 있으면 결과가 뜬 뒤 그 요일 전체 화면 지도까지 연다(홈 화면 위젯, routeDay) */
+function routeTt(t, { day = null } = {}) {
   if (!canRoute(t) || busy) return;
   const picks = [], own = [];
   for (const it of t.items) {
@@ -4812,8 +4841,22 @@ function routeTt(t) {
     if (screen === "result") back(); // 결과는 바꿔 넣은 과목의 것이다
   };
   const snack = replaced ? () => showSnackbar("담은 과목을 이 시간표로 바꿨어요", "되돌리기", undo) : null;
+  // 위젯에서 왔으면: 결과 화면을 그린 뒤 그 요일을 고르고 전체 화면 지도로(그날 걷는 수업이 없으면 결과 화면의 그 요일까지).
+  // 되돌리기 스낵바는 전체 화면 지도가 덮으므로 지도에서 결과 화면으로 돌아왔을 때(그 결과 그대로일 때만) 띄운다
+  const toMap = () => {
+    if (!state.result) { snapUntil = 0; if (snack) snack(); return; } // 조합이 없거나 못 만들었다: 입력 화면에서 동선 확인하기와 같게
+    if (state.result.days.includes(day)) selectDay(day);
+    setTimeout(() => {
+      const R = state.result, ok = screen === "result" && R && state.day === day && (currentEv().days[day] || []).length > 0;
+      if (ok) {
+        if (snack) afterResult = () => { if (state.result === R) snack(); };
+        go("map");
+      } else if (snack && screen === "result") snack();
+      snapUntil = 0;
+    }, 0);
+  };
   switchTab("explore", async () => {
-    afterResult = snack;
+    afterResult = day === null ? snack : toMap;
     await run();
     if (afterResult && !state.result) { const f = afterResult; afterResult = null; f(); } // 조합이 없거나 못 만들었다: 입력 화면에서
   });
@@ -5780,6 +5823,7 @@ function setTheme(on) {
 function askTheme() {
   if (!themeOn() || store.get("themeAsked", "") === season.event || !store.get("made", false) || launchLink) return; // 공유받은 시간표를 열 때는 묻지 않는다
   if ((screen !== "input" && screen !== "mine") || document.querySelector("dialog[open]")) return; // 그새 다른 화면이나 시트를 열었으면 끼어들지 않고 다음에 켤 때 묻는다
+  if (launchNav?.route != null || lastNav) return; // 홈 화면 위젯으로 그 요일 지도를 여는 중(goNav): 지도 위에 띄우지 않고 다음에 켤 때 묻는다
   store.set("themeAsked", season.event);
   showAsk();
 }
@@ -6235,11 +6279,14 @@ function layoutViews(name) {
 
 /** View Transitions 가 되면 결과 화면(지도, 결과 화면에서 연 자료 출처)이 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms),
  *  탭을 바꾸면(정보 묶음 안도) 교차 페이드(150ms). 안 되면 바로 바뀐다. */
+let snapUntil = 0; // 이때(ms)까지 화면 바꾸기를 움직이지 않는다: 홈 화면 위젯에서 그 요일 지도로 가는 동안(routeDay. 내 시간표 → 탐색 → 결과 → 지도)
+let viewDone = Promise.resolve(); // 마지막 화면 전환의 화면 바꾸기(apply)가 끝나면 풀린다. routeDay 가 기다린다(늦게 도는 apply 가 바로 바꾼 화면을 덮지 않게)
 function transition(apply, dir) {
-  if (dir === "init" || !document.startViewTransition || reduceMotion.matches || document.visibilityState !== "visible") { apply(); return; }
+  if (dir === "init" || Date.now() < snapUntil || !document.startViewTransition || reduceMotion.matches || document.visibilityState !== "visible") { apply(); return; }
   const root = document.documentElement;
   root.dataset.nav = dir;
   const t = document.startViewTransition(apply);
+  viewDone = t.updateCallbackDone.catch(() => null);
   const done = () => { if (root.dataset.nav === dir) delete root.dataset.nav; };
   t.finished.then(done, done);
 }
@@ -6288,7 +6335,7 @@ function showView(name, dir, extra = {}) {
 /** 초점: 새 화면은 그 h1, 되돌아오면 그 화면을 연 요소, 탭을 바꾸면 그 탭에서 마지막에 있던 자리(없으면 h1). 스크린리더가 화면이 바뀐 것을 읽는다.
  *  넓은 화면의 과목 추가를 열면 마우스가 있는 기기는 바로 검색창(누른 까닭이 찾기라), 터치 기기는 칸의 제목(화상 키보드를 띄우지 않는다) */
 function focusAfter(name, dir, from) {
-  if (dir === "init") return;
+  if (dir === "init" || Date.now() < snapUntil) return; // 켤 때와 홈 화면 위젯에서 지도로 가는 동안(routeDay)은 옮기지 않는다(누른 적 없는 화면의 제목에 초점 테두리가 뜬다)
   if (name === "add") { // 폰의 시트에서 넓은 화면의 칸으로 옮겨 왔으면 초점도 옮겨 온다. 폰 폭이면 시트가 초점을 가졌다(제목, 마우스 기기는 검색창)
     const el = addRefocus;
     addRefocus = null;
@@ -6672,7 +6719,7 @@ showView(ROOT[tab], "init");
 delete document.documentElement.dataset.launch;
 startApp();
 if (launchLink) receiveLink(launchLink);
-if (launchNav?.sem) goNav({ sem: launchNav.sem, tab: null });
+if (launchNav && (launchNav.sem || launchNav.route !== null)) goNav({ sem: launchNav.sem, tab: null, route: launchNav.route });
 setTimeout(askTheme, 400); // 첫 화면이 그 테마로 보인 뒤에 묻는다
 // 이미 열어 둔 웹 앱의 주소 칸에 시간표 링크를 붙여 넣었다(주소의 # 만 바뀌면 새로 열리지 않는다)
 window.addEventListener("hashchange", () => {
