@@ -1314,14 +1314,15 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 .tt-row .nm > span:first-child { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .tt-row .mt { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); font-variant-numeric: tabular-nums; }
 /* 학기 묶음(10/30 사용자, SNUTT 의 시간표 목록 그림과 함께: "시간표 목록도 그 학기 선택하는 거 SNUTT처럼 저런 형식의 목록으로". 그 전에는 맨 위 연도·학기 선택칸):
-   머리는 학기 이름(17px 700 heading)과 바로 옆 펼침 화살표(20 muted, 펴면 위로), 높이 56. 묶음 사이에는 선이 없고 편 묶음 아래 space-2 */
-#tl-rows > li + li { border-top: 0; }
+   머리는 학기 이름(17px 700 heading)과 바로 옆 펼침 화살표(20 muted, 펴면 위로), 높이 56. 학기 머리 아래마다 두꺼운 선(line 4px. 10/30 오후 사용자: 머리 아래마다
+   빨간 줄을 그어 "빨간 줄 친 곳도 굵게 선 긋는 게 좋을 듯"): 묶음과 묶음 사이, 편 묶음은 머리와 첫 시간표 사이. 시간표 사이·+ 새 시간표 위와 같은 선이라 목록이 한 결로 나뉜다 */
+#tl-rows > li + li { border-top: 4px solid var(--line); }
 .tl-sem-head { display: flex; align-items: center; gap: var(--space-2); width: 100%; min-height: 3.5rem; padding: 0 var(--space-5); border: 0; background: transparent;
   color: var(--heading); font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; text-align: left; }
 .tl-sem-head svg { flex: none; color: var(--muted); transition: transform var(--dur-move) var(--ease-standard); }
 .tl-sem-head[aria-expanded="true"] svg { transform: rotate(180deg); }
 .tl-sem-head:active { background: var(--surface-hover); }
-.tl-tts { margin: 0 0 var(--space-2); padding: 0; list-style: none; }
+.tl-tts { margin: 0; padding: 0; border-top: 4px solid var(--line); list-style: none; }
 .tl-err .error-line { margin: var(--space-1) var(--space-5) var(--space-3); font-size: 0.875rem; line-height: 1.25rem; color: var(--danger); }
 /* 시간표 행마다 ⋯(10/23 사용자: 시간표를 통째로 바꾸는 일은 이 창에 시간표마다). 누르면 그 행이 펼쳐진다(한 번에 하나).
    펼친 행(10/30 사용자, 펼친 행 그림과 함께: 행의 이름과 그 아래 이름 입력칸을 "하나로 합치는 게 좋을 것 같고, 이름 수정하는 란이라는 게 좀 더 잘 드러났으면 좋겠음"):
@@ -1330,12 +1331,10 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
    건 제목 위로 올려버리고". 왼쪽 끝은 접힌 행의 메타와 같은 space-5), ⋯ 는 입력칸 줄(가로 자리는 접힌 행과 같다).
    시간표와 시간표 사이(+ 새 시간표 위도)는 두꺼운 선(line 4px), 펼친 줄들 사이는 얇은 선(line 1px, 시트 폭 끝까지. 사용자: "복사, 이미지 저장, 시간표 지우기 이런 건 각각
    얇은 선으로 나누고, 지우기 밑에 다른 시간표랑 구분은 좀 더 두꺼운 선으로", 이어 "나머지 시간표들도 똑같이 두꺼운 선으로 구분해줘").
-   펼친 묶음은 바탕 accent-weak(사용자: 펼친 묶음에 네모를 그려 "여기서 체크 표시는 빼고, 선택된 공간은 색을 좀 다르게", 이어 "시간표 메뉴 눌렀을 때만 색깔 바꿔줘". 고른 탭과 같은
-   '고름' 색): 누르고 올린 줄은 accent-weak 를 text 쪽으로 6%. 지금 보는 시간표에는 체크를 두지 않는다(10/30 오후 사용자: "걍 체크는 빼는 게 나아 보임") */
+   펼친 묶음에 바탕색을 칠하지 않는다(10/30 오후 사용자: "이거 색깔 칠하는 건 굳이 안해도 될 듯". 그 전에는 accent-weak). 펼친 것은 꺾쇠 방향, 입력칸과 선이 보인다.
+   지금 보는 시간표에는 체크를 두지 않는다(10/30 오후 사용자: "걍 체크는 빼는 게 나아 보임") */
 .tl-tts > li + li { border-top: 4px solid var(--line); }
 .tl-tts > li.tl-err { border-top: 0; }
-.tl-item.is-open { background: var(--accent-weak); }
-.tl-item.is-open .menu-row:active { background: color-mix(in srgb, var(--accent-weak), var(--text) 6%); }
 #tl-rows > li.tl-new { border-top: 4px solid var(--line); } /* 목록 맨 아래 + 새 시간표 하나(학기와 이름을 고르는 팝업을 연다) */
 /* 새 시간표 팝업(10/30 사용자: "새 시간표 추가할 때 학기랑 시간표 이름 선택하는 창을 하나 띄워주자"): 묻는 팝업(.sheet.ask)에 칸 둘. 필드 라벨 아래 space-2 에 칸,
    칸 사이 space-4. 학기 선택칸은 시트 위라 raised 바탕에 line-strong 1px(전에 목록 시트 맨 위에 있던 것과 같다). 오류 줄은 이름 칸 아래 t-body-sm danger */
@@ -1609,7 +1608,6 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
   .icon-btn:hover, .btn-text:hover, .result:hover, .rank-hit:hover, button.info-row:hover, a.info-row:hover, .course-hit:hover .c-title { background: var(--surface-hover); }
   .tabbar .tab:not([aria-current="page"]):hover .ind, .add-row:hover, .tt-row:hover, .menu-row:hover { background: var(--surface-hover); }
   .tl-sem-head:hover { background: var(--surface-hover); }
-  .tl-item.is-open .menu-row:hover { background: color-mix(in srgb, var(--accent-weak), var(--text) 6%); }
   .tt-switch:hover, .add-head .icon-btn:hover, .tt-share:hover { background: var(--bg-hover); }
   .topbar .icon-btn:hover, .topbar .btn-text:hover, .bottom-bar .btn-text:hover, .picked-error .btn-text:hover, .ranks-more .btn-text:hover, .footnote .btn-text:hover { background: var(--bg-hover); }
   .result.is-picked:hover { background: var(--row-picked); } /* 담은 행은 어두운 그대로, 버튼만 빨갛게(빼기) */
