@@ -101,6 +101,7 @@ const I = {
   out: '<path d="M8 16L16 8M9.5 8H16v6.5"/>',
   down: '<path d="M6 9l6 6 6-6"/>',
   more: '<path d="M5.5 12h.01M12 12h.01M18.5 12h.01" stroke-width="3.2"/>',
+  edit: '<path d="M4.5 19.5l.9-4.1L15.7 5.1a2 2 0 0 1 2.8 0l.4.4a2 2 0 0 1 0 2.8L8.6 18.6z"/><path d="M13.6 7.2l3.2 3.2"/>', // 연필(시간표 목록 시트의 이름 입력칸. 누르는 것이 아니라 고칠 수 있다는 표시)
 };
 const icon = (paths, size = 24) => svg(`<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`);
 const HOME_PIN = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"></path></svg>';
@@ -3759,8 +3760,10 @@ new ResizeObserver(() => {
 
 // ---- 시간표 목록 시트: 학기 선택칸(바꾸면 앱 전체의 학기), 시간표 행(지금 보는 것에 체크)과 행마다 ⋯, 맨 아래 '+ 새 시간표'(50개까지), 칸 색.
 // 시간표를 통째로 바꾸는 일은 그 시간표 행의 ⋯ 를 누르면 행 아래에 펼쳐진다(10/23 사용자: "사진의 창에 시간표마다". 그 전에는 머리 줄 ⋯ 의 메뉴 시트가 보는 시간표
-// 하나에만 걸었다): 맨 위에 이름이 든 입력칸(10/23 사용자: '이름 바꾸기' 줄 대신 이름이 입력칸 안에 있어 눌러 고칠 수 있는 것이 보이게. Enter·다른 곳을 누르면 바꾸고,
-// Esc 는 원래 이름으로), 그 아래 복사하기·대표 시간표로 설정하기(대표가 아닌 시간표에만. 10/23 사용자: '대표에서 빼기'는 없앴다)·지우기.
+// 하나에만 걸었다): 펼친 행은 이름 자리가 이름이 든 입력칸이 되고(10/23 사용자: '이름 바꾸기' 줄 대신 이름이 입력칸 안에 있어 눌러 고칠 수 있는 것이 보이게. 10/30 사용자:
+// 행의 이름과 그 아래 입력칸을 "하나로 합치는 게 좋을 것 같고, 이름 수정하는 란이라는 게 좀 더 잘 드러났으면". Enter·다른 곳을 누르면 바꾸고, Esc 는 원래 이름으로),
+// 그 아래 복사하기·대표 시간표로 설정하기(대표가 아닌 시간표에만. 10/23 사용자: '대표에서 빼기'는 없앴다)·이미지로 저장·지우기를 얇은 선으로 나눈다(10/30 사용자:
+// "각각 얇은 선으로 나누고, 지우기 밑에 다른 시간표랑 구분은 좀 더 두꺼운 선으로", 이어 "나머지 시간표들도 똑같이 두꺼운 선으로". style.css '시간표 목록').
 // '동선 탐색에 담기'는 10/23 오후 사용자가 없앴다("동선 탐색에 넣기는 없애버리고 걍 동선 확인하기를 분반 정보 포함해서 동선탐색으로 보내": 아래 routeTt)
 let ttListOpen = null, ttListDrawn = 0; // 펼친 행(시간표 id. 아직 만들지 않은 빈 시간표 1은 ""), 그린 횟수
 function openTtList(opener) {
@@ -3779,15 +3782,15 @@ function renderTtList() {
   const rows = (shownTts().length ? shownTts() : [cur]).map((t) => {
     const n = t.items.filter((it) => !it.custom).length, m = t.items.length - n, sum = Math.round(T.credits(t) * 10) / 10;
     const meta = t.items.length ? [n ? `총 ${sum}학점` : "", n ? `과목 ${n}` : "", m ? `일정 ${m}` : ""].filter(Boolean).join(" · ") : "비어 있음";
-    const on = t.id === cur.id, open = ttListOpen === t.id, actsId = `tl-acts-${uid(t.id || "new")}`;
-    const line = h("div", { class: "tl-line" },
-      h("button", { type: "button", class: "tt-row", "data-tt": t.id, "aria-current": on ? "true" : null },
-        h("span", { class: "it" },
-          h("span", { class: "nm" }, h("span", {}, t.title), t.primary ? h("span", { class: "tag" }, "대표") : null),
-          h("span", { class: "mt" }, meta)),
-        on ? h("span", { class: "chk" }, icon(I.check, 24)) : null),
-      h("button", { type: "button", class: "icon-btn tl-more", "data-tt-more": t.id, "aria-label": `${t.title} 메뉴`, "aria-expanded": String(open), "aria-controls": open ? actsId : null }, icon(I.more)));
-    if (!open) return h("li", { class: "tl-item" }, line);
+    const on = t.id === cur.id, open = ttListOpen === t.id, key = uid(t.id || "new"), actsId = `tl-acts-${key}`, nameId = `tl-name-${key}`;
+    const tag = t.primary ? h("span", { class: "tag" }, "대표") : null;
+    if (!open) {
+      return h("li", { class: "tl-item" }, h("div", { class: "tl-line" },
+        h("button", { type: "button", class: "tt-row", "data-tt": t.id, "aria-current": on ? "true" : null },
+          h("span", { class: "it" }, h("span", { class: "nm" }, h("span", {}, t.title), tag), h("span", { class: "mt" }, meta)),
+          on ? h("span", { class: "chk" }, icon(I.check, 24)) : null),
+        h("button", { type: "button", class: "icon-btn tl-more", "data-tt-more": t.id, "aria-label": `${t.title} 메뉴`, "aria-expanded": "false" }, icon(I.more))));
+    }
     // 아직 만들지 않은 빈 시간표 1은 이름만(만들면서 대표가 된다). 대표 시간표에는 '대표 시간표로 설정하기'가 없다
     // (10/23 사용자: "'대표에서 빼기' 이거 없애고, 걍 대표 시간표가 아닌 시간표 메뉴에 '대표 시간표로 설정하기' 이거 넣어". 대표는 학기마다 늘 하나: 처음 만든 시간표가 대표이고
     // 대표를 지우면 남은 것 중 하나가 대표다(T.createTimetable·T.deleteTimetable))
@@ -3795,9 +3798,19 @@ function renderTtList() {
     if (acts.some(([k]) => k === "save-image")) preparedImage(t).catch(() => null); // 펼칠 때 미리 그려 둔다(누르면 바로 저장한다)
     const act = ([k, text]) => h("li", {}, h("button", { type: "button", class: k === "delete" ? "menu-row danger" : "menu-row", "data-tt-act": k,
       "aria-describedby": k === "copy" && tlErrFrom === "copy" && !$("tl-limit").hidden ? "tl-limit" : null }, text));
-    const name = h("li", { class: "tl-rename" }, h("input", { class: "text-input", type: "text", "data-tt-name": t.id, maxlength: "30", value: t.title,
-      autocomplete: "off", enterkeyhint: "done", "aria-label": "시간표 이름" }));
-    return h("li", { class: "tl-item is-open" }, line, h("ul", { class: "tl-acts", id: actsId, "aria-label": `${t.title} 메뉴` }, name, acts.map(act)));
+    // 펼친 행(10/30): 행의 이름 자리가 이름이 든 입력칸이 된다(이름 글자는 행과 같은 t-body-strong, 오른쪽 끝 연필). 태그와 메타는 입력칸 위(10/30 사용자: "대표나 과목 수 같은 건
+    // 제목 위로 올려버리고"), 체크와 ⋯ 는 입력칸 줄. 행 버튼(누르면 그 시간표로)은 펼친 동안 없다(접으면 돌아온다).
+    // 초점 차례는 ⋯ 다음이 입력칸이다(펼친 것이 ⋯ 뒤. 보이는 자리는 style.css 의 grid 가 잡는다. 읽는 차례는 보이는 대로 메타 → 입력칸)
+    const head = h("div", { class: "tl-head" },
+      h("button", { type: "button", class: "icon-btn tl-more", "data-tt-more": t.id, "aria-label": `${t.title} 메뉴`, "aria-expanded": "true",
+        "aria-controls": acts.length ? `${nameId} ${actsId}` : nameId }, icon(I.more)),
+      h("span", { class: "mt" }, tag, meta),
+      h("span", { class: "tl-field" },
+        h("input", { class: "text-input", id: nameId, type: "text", "data-tt-name": t.id, maxlength: "30", value: t.title,
+          autocomplete: "off", enterkeyhint: "done", "aria-label": "시간표 이름" }),
+        icon(I.edit, 20)),
+      on ? h("span", { class: "chk" }, icon(I.check, 24), h("span", { class: "sr-only" }, "지금 보는 시간표")) : null);
+    return h("li", { class: "tl-item is-open" }, head, acts.length ? h("ul", { class: "tl-acts", id: actsId, "aria-label": `${t.title} 메뉴` }, acts.map(act)) : null);
   });
   // 목록 아래 + 새 시간표(10/23 저녁 사용자가 옆의 '이미지 불러오기'를 항목 목록의 '이미지로 추가'로 옮겼다: "그 시간표 거기서는 빼버리고").
   // 오류 줄(50개)은 그 일을 한 버튼이 가리킨다(새 시간표·복사하기)
@@ -4499,8 +4512,9 @@ function commitTtName(input) {
   ttListOpen = done.id;
   input.value = done.title;
   input.dataset.ttName = done.id;
-  const row = $("tl-rows").querySelector(`.tl-item.is-open .tt-row .nm > span`);
-  if (row) row.textContent = done.title;
+  // 펼친 행에는 이름이 입력칸에만 있다(10/30). 다시 그리기 전에 누른 ⋯ 도 새 이름·새 시간표를 가리키게(빈 시간표 1이면 이때 만들어져 id 가 생긴다)
+  const more = input.closest(".tl-item")?.querySelector("[data-tt-more]");
+  if (more) { more.dataset.ttMore = done.id; more.setAttribute("aria-label", `${done.title} 메뉴`); }
   announce("이름을 바꿨어요");
   return done;
 }
