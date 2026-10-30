@@ -1316,13 +1316,11 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 /* 학기 묶음(10/30 사용자, SNUTT 의 시간표 목록 그림과 함께: "시간표 목록도 그 학기 선택하는 거 SNUTT처럼 저런 형식의 목록으로". 그 전에는 맨 위 연도·학기 선택칸):
    머리는 학기 이름(17px 700 heading)과 바로 옆 펼침 화살표(20 muted, 펴면 위로), 높이 56.
    선은 모두 line 1px 이고 층은 색으로 나눈다(10/30 오후 사용자: "선은 그냥 아주 얇게 다 통일하고 색깔로 구분하는 건 어떰?". 그 사이 굵은 선 4px·2px 을 두었다가
-   "선 두께가 다 다르니까 통일성이 없는 느낌"): 다크·이벤트 테마는 학기 머리가 inset 바탕(다크 bg, 크리스마스 옅은 초록)이고 시간표 행은 시트 바탕 그대로,
-   라이트는 거꾸로 시간표 행이 inset(tt-pale)이고 학기 머리가 시트 바탕(사용자가 라이트를 보고 "반대로 하자. 시간표들이 진하게 나오도록", "라이트모드만", "다크랑 테마는 괜찮은 듯").
+   "선 두께가 다 다르니까 통일성이 없는 느낌"): 시간표 행이 inset 바탕(라이트 tt-pale, 다크 bg, 크리스마스 옅은 초록)이고 학기 머리는 시트 바탕이다(처음에는 거꾸로 학기 머리에
+   칠했다가 사용자가 라이트를 보고 "반대로 하자. 시간표들이 진하게 나오도록", 이어 "나머지 테마도 뒤집는 게 나을 듯").
    칠한 면 위에서 누르고 올린 것은 inset 을 text 쪽으로 6%, 칠하지 않은 면 위는 다른 줄처럼 surface-hover(--tl-head·--tl-row 와 그 -press).
    시트 머리 아래(첫 학기 머리 위), 묶음 사이, 학기 머리와 첫 시간표 사이, 시간표 사이, + 새 시간표 위가 모두 같은 선이다 */
-#tl-rows { --tl-head: var(--inset); --tl-head-press: color-mix(in srgb, var(--inset), var(--text) 6%); --tl-row: transparent; --tl-row-press: var(--surface-hover); }
-html[data-scheme="light"]:not([data-theme]) #tl-rows { --tl-head: transparent; --tl-head-press: var(--surface-hover); --tl-row: var(--inset);
-  --tl-row-press: color-mix(in srgb, var(--inset), var(--text) 6%); }
+#tl-rows { --tl-head: transparent; --tl-head-press: var(--surface-hover); --tl-row: var(--inset); --tl-row-press: color-mix(in srgb, var(--inset), var(--text) 6%); }
 #tl-rows { border-top: 1px solid var(--line); }
 #tl-rows > li + li { border-top: 1px solid var(--line); }
 .tl-sem-head { display: flex; align-items: center; gap: var(--space-2); width: 100%; min-height: 3.5rem; padding: 0 var(--space-5); border: 0; background: var(--tl-head);
