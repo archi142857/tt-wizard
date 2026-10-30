@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * 홈 화면 위젯이 읽는 자료와 '지금 무엇을 보일지' — 백엔드 세션(10/30).
- * 자료는 화면(web/js/timetables.js 의 widgetData)이 대표 시간표로 만들어 TTW_APP.updateWidgets → WidgetPlugin 이 기기 안(SharedPreferences)에 둔 JSON 이다:
+ * 자료는 app/src/native.js 가 기기 저장소의 대표 시간표로 web/js/timetables.js 의 widgetDataFromStore 를 돌려 TTWWidget.update 로 넘기고
+ * WidgetPlugin 이 기기 안(SharedPreferences)에 둔 JSON 이다(update68):
  *   { v, colors: "item"|"cls", terms: [{ sem, label, title, from, to, days: [[{ name, place, start, end, color, cls, walk, from, late }] × 7], untimed }] }
  * 위젯은 앱이 꺼져 있어도 이 자료와 기기 시각만으로 그린다. 이 클래스는 안드로이드 화면 코드를 쓰지 않는다(org.json 과 Calendar 만).
  */
@@ -298,5 +302,21 @@ final class WidgetData {
     /** 09:05 */
     static String hm(int minutes) {
         return String.format(java.util.Locale.ROOT, "%02d:%02d", minutes / 60, minutes % 60);
+    }
+
+    /** 과목명 끝의 짧은 번호(숫자 한두 자리, II 같은 로마 숫자, 영문 한 글자). web/js/app.js 의 TAIL_NO 와 같다 */
+    private static final Pattern TAIL_NO = Pattern.compile("^(.*\\S) (\\d{1,2}|[IVX]{1,4}|[\\u2160-\\u216B]|[A-Za-z])$");
+
+    /**
+     * 끝 번호를 앞 낱말에 붙인 글(디자인 89판 '홈 화면 위젯', 앱 화면의 glueTail 과 같다): `대학 글쓰기 1` 이 `대학 글쓰기` / `1` 로 끊기지 않게
+     * 앞 낱말과 번호 사이를 줄을 바꾸지 않는 띄어쓰기(U+00A0)로 바꾼다. 둘이 한 줄에 안 들어가면(fits 가 false) 그대로 둔다:
+     * 붙이면 둘이 다음 줄로 넘어간 뒤 거기서도 넘쳐 낱말 안에서 끊긴다. fits(앞 낱말 + " " + 번호) → 한 줄 폭에 드는지
+     */
+    static String glueTail(String text, Predicate<String> fits) {
+        String s = text == null ? "" : text;
+        Matcher m = TAIL_NO.matcher(s);
+        if (!m.matches()) return s;
+        String[] words = m.group(1).split("\\s+");
+        return fits.test(words[words.length - 1] + " " + m.group(2)) ? m.group(1) + " " + m.group(2) : s;
     }
 }

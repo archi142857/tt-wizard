@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 오늘 수업 위젯의 끝난 수업 행: widget_today_row 와 같은 모양에 글자를 흐리게(text3). 색을 XML 이 정해서 기기 테마가 바뀌어도 맞는다 -->
+<!-- 오늘 수업 위젯의 끝난 수업 행: widget_today_row 와 같은 모양에 글자를 흐리게(text3), 막대도 40%로(디자인 89판). 색을 XML 이 정해서 기기 테마가 바뀌어도 맞는다 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/r_root"
     android:layout_width="match_parent"
@@ -13,6 +13,7 @@
         android:layout_width="4dp"
         android:layout_height="match_parent"
         android:layout_marginEnd="8dp"
+        android:alpha="0.4"
         android:background="@drawable/widget_mark_item0"
         android:importantForAccessibility="no" />
 
