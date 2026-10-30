@@ -37,9 +37,11 @@
             android:visibility="gone" />
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/w_msg"
-        style="@style/TTWWidget.Message"
-        android:layout_marginTop="8dp"
+    <include
+        android:id="@+id/w_empty"
+        layout="@layout/widget_empty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:visibility="gone" />
 </LinearLayout>

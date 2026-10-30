@@ -20,6 +20,11 @@
     <string name="w_last">오늘 마지막 수업</string>
     <string name="w_leave">%1$s 출발 · 걷기 %2$d분</string>
     <string name="w_walk">걷기 %1$d분</string>
+    <string name="w_hero_leave">%1$s 출발</string>
+    <string name="w_hero_end">%1$s 끝</string>
+    <string name="w_hero_start">%1$s 시작</string>
+    <string name="w_from">%1$s에서</string>
+    <string name="w_open_mine">내 시간표 열기</string>
     <string name="w_late">%1$d분 늦음</string>
     <string name="w_today">오늘 · %1$s</string>
     <string name="w_no_class_today">오늘은 수업이 없어요</string>
@@ -56,7 +61,8 @@
     <string name="w_preview_name">생명과학 1</string>
     <string name="w_preview_time">10:30~11:45</string>
     <string name="w_preview_place">26동 104호</string>
-    <string name="w_preview_foot">10:18 출발 · 걷기 12분</string>
+    <string name="w_preview_hero">10:18 출발</string>
+    <string name="w_preview_hero_sub">걷기 12분</string>
     <string name="w_preview_today">오늘 · 10월 30일 (금)</string>
     <string name="w_preview_title">시간표 1</string>
     <string name="w_preview_name2">대학 글쓰기 1</string>

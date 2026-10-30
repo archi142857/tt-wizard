@@ -55,6 +55,12 @@ public final class WidgetCheck {
             c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE)));
     }
 
+    private static String hero(WidgetData.Hero h) {
+        String[] kinds = { "leave", "walk", "end", "start" };
+        return "{\"kind\":" + q(kinds[h.kind]) + ",\"at\":" + (h.minute < 0 ? "null" : q(WidgetData.hm(h.minute))) + ",\"walk\":" + h.walk
+            + ",\"from\":" + q(h.from) + ",\"late\":" + h.late + "}";
+    }
+
     private static WidgetData.Lesson lesson(int start, int end) {
         return new WidgetData.Lesson("x", "", "etc", start, end, 0, -1, true, 0);
     }
@@ -96,6 +102,27 @@ public final class WidgetCheck {
         int[] lane = new int[4], lanes = new int[4];
         WidgetData.laneOf(clash, lane, lanes);
         out.append(",\"lane\":").append(Arrays.toString(lane).replace(" ", "")).append(",\"lanes\":").append(Arrays.toString(lanes).replace(" ", "")).append("}");
+        // 다음 수업 위젯의 큰 줄(update70): 그날 첫 수업은 나설 시각, 앞 수업에서는 걷는 분과 앞 건물·늦음, 마지막 수업 중이면 끝 시각, 걷기를 모르면 시작 시각
+        String[][] heroAt = { { "monMorning", "2026-10-26 08:00" }, { "monFirst", "2026-10-26 10:00" }, { "monLast", "2026-10-26 11:30" },
+            { "winter", "2026-12-25 12:00" } };
+        out.append(",\"hero\":{");
+        for (int i = 0; i < heroAt.length; i++) {
+            String[] p = heroAt[i][1].split("[- :]");
+            Calendar now = at(Integer.parseInt(p[0]), Integer.parseInt(p[1]), Integer.parseInt(p[2]), Integer.parseInt(p[3]), Integer.parseInt(p[4]));
+            WidgetData.Term t = d.termOn(now);
+            out.append(i == 0 ? "" : ",").append(q(heroAt[i][0])).append(":").append(hero(WidgetData.hero(t, WidgetData.next(t, now))));
+        }
+        List<List<WidgetData.Lesson>> week = new ArrayList<>();
+        for (int k = 0; k < 7; k++) week.add(new ArrayList<>());
+        week.get(0).add(new WidgetData.Lesson("x", "", "etc", 600, 650, 0, -1, true, 0)); // 강의실 미정: 걷기를 모른다
+        WidgetData.Term unknown = new WidgetData.Term("2026-2", "", "", 20260901, 20261221, week, 0);
+        Calendar mon = at(2026, 10, 26, 8, 0);
+        out.append(",\"unknown\":").append(hero(WidgetData.hero(unknown, WidgetData.next(unknown, mon)))).append("}");
+        out.append(",\"buildings\":").append(q(d.home + "|" + a.days.get(0).get(0).b + "|" + a.days.get(0).get(1).b));
+        // 누르면 여는 주소: 학기와 요일(월 0 … 일 6). 모르는 꼴은 붙이지 않는다
+        String base = "https://x/#tab=mine";
+        out.append(",\"url\":[").append(q(WidgetData.openUrl(base, "2026-2", 4))).append(",").append(q(WidgetData.openUrl(base, null, -1)))
+            .append(",").append(q(WidgetData.openUrl(base, "2026-X", 7))).append(",").append(q(WidgetData.openUrl(base, "2027-W", 0))).append("]");
         // 과목명 끝 번호 붙이기(앱 화면의 glueTail 과 같다): 앞 낱말과 번호가 한 줄(여기서는 글자 수)에 들면 U+00A0, 아니면 그대로
         Object[][] glue = { { "대학 글쓰기 1", 9 }, { "대학 글쓰기 1", 4 }, { "화학", 9 }, { "수학 100", 9 }, { "English II", 20 },
             { "Data Science A", 20 }, { "수학 및 연습 \u2161", 20 }, { "1", 9 }, { "물리학실험 2", 9 } };

@@ -123,9 +123,11 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
 사용자 10/30: 위젯 셋(다음 수업 2×2, 오늘 수업 4×2~4×4, 주간 시간표 4×4) "셋 다 만들고". 안드로이드 위젯은 앱이 꺼져 있어도 그려야 해서
 화면이 대표 시간표를 위젯 자료로 바꿔 앱 연결에 넘기고(`TTW_APP.updateWidgets(widgetData(...))`), 앱이 기기 안에 둔다(`docs/app.md` '홈 화면 위젯').
 
-- 자료 `{v: 1, colors: "item" | "cls", terms: [학기]}`. 학기 `{sem, label, title, from, to, days, untimed}`: `days` 는 월~일 일곱 칸의 수업(시작 차례),
+- 자료 `{v: 1, colors: "item" | "cls", home, terms: [학기]}`(`home` 은 걷기를 셀 때 쓴 출발·도착 지점 id, 모르면 `""`).
+  학기 `{sem, label, title, from, to, days, untimed}`: `days` 는 월~일 일곱 칸의 수업(시작 차례),
   `from`·`to` 는 위젯이 그 학기를 보이는 날들(`termDates`), `untimed` 는 시간이 정해지지 않은 항목 수.
-  수업 `{name, place, start, end, color, cls, walk, from, late}`: `place` 는 화면의 강의실 표기(미정이면 `""`), `cls` 는 `req`·`elec`·`gen`·`etc`(칸 색 설정이
+  수업 `{name, place, b, start, end, color, cls, walk, from, late}`: `place` 는 화면의 강의실 표기(미정이면 `""`), `b` 는 건물 id(이동시간 지점, 미정이면 `""`.
+  `b`·`home` 은 동선 지도 위젯이 길을 그릴 때 쓴다, update70), `cls` 는 `req`·`elec`·`gen`·`etc`(칸 색 설정이
   교과구분일 때), `walk` 는 앞 자리에서 걷는 분(반올림, 모르면 `null`), `from` 은 `"home"`(그날 첫 위치 확정 수업: 출발 지점에서 걸어서 나설 시각을 셀 수 있다)
   이나 `"class"`(앞 수업에서), `late` 는 늦는 분. 걷는 셈은 `engine.evaluate` 와 같다(강의실 미정 수업은 자리를 옮기지 않고 쉬는 시간을 보탠다. 시험이 견준다).
 - 메모·시간표 id·만든 때는 넣지 않는다. 같은 시간표면 같은 글이라 앱 연결과 앱이 같은 자료를 거른다(자주 넘겨도 된다).

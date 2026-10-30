@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 위젯 빈 상태(update70, 10/30 사용자: "대표 시간표가 없을 때 위젯이 너무 날 것 느낌"): 머리 줄 아래 남는 자리 가운데에 아이콘, 지금 상태 한 문장,
+     있으면 그 아래 한 줄(오늘 수업이 없는 날의 '다음 · 월요일 09:00 과목명')이나 '내 시간표 열기'(위젯 전체가 앱을 연다).
+     위젯 레이아웃이 <include android:id="@+id/w_empty"> 로 넣는다. 처음에는 숨어 있고 WidgetViews 가 빈 상태일 때만 보인다 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingStart="4dp"
+    android:paddingEnd="4dp"
+    android:visibility="gone">
+
+    <ImageView
+        android:id="@+id/w_empty_icon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/widget_ic_timetable" />
+
+    <TextView
+        android:id="@+id/w_msg"
+        style="@style/TTWWidget.Message"
+        android:layout_marginTop="8dp"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/w_msg_sub"
+        style="@style/TTWWidget.Body"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/w_action"
+        style="@style/TTWWidget.Action"
+        android:layout_marginTop="8dp"
+        android:text="@string/w_open_mine"
+        android:visibility="gone" />
+</LinearLayout>
