@@ -140,6 +140,8 @@
       <img class="wordmark wm-white" src="icons/wordmark-white.svg" alt="TT Wizard" width="124" height="29">
     </a>
     <span class="tag offline-tag" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 2l20 20M5.8 9.3A5.5 5.5 0 0 0 7 20h10.5M20.9 17.3A4.5 4.5 0 0 0 17.5 10h-.9A7 7 0 0 0 9.9 5.2"></path></svg>오프라인</span>
+    <!-- 크리스마스 썰매 그림(디자인 88판 '썰매 그림'): 폰 한 칸 화면에서만, 글자·아이콘과 8px 안이거나 본문을 내리면 app.js 가 hidden 을 둔다 -->
+    <span class="xmas-sleigh" aria-hidden="true" hidden><img src="icons/xmas-sleigh.svg" alt="" width="286" height="92" loading="lazy" decoding="async"></span>
     <span class="spacer"></span>
     <button type="button" class="icon-btn" aria-label="정보" data-open-info><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><circle cx="12" cy="7.8" r=".6" fill="currentColor"></circle></svg></button>
   </header>
@@ -282,6 +284,11 @@
     </a>
     <ul></ul>
   </nav>
+  <!-- 탭 목록과 맨 아래 묶음 사이 빈 곳: 크리스마스 썰매 그림 둘(위는 작고 흐리게, 아래는 원래 썰매. 디자인 91판). 빈 곳이 낮으면 app.js 가 위의 것부터 hidden -->
+  <div class="sb-art" aria-hidden="true">
+    <span class="xmas-sleigh" hidden><img src="icons/xmas-sleigh.svg" alt="" width="286" height="92" loading="lazy" decoding="async"></span>
+    <span class="xmas-sleigh" hidden><img src="icons/xmas-sleigh.svg" alt="" width="286" height="92" loading="lazy" decoding="async"></span>
+  </div>
   <div class="sb-foot">
     <span class="tag offline-tag" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 2l20 20M5.8 9.3A5.5 5.5 0 0 0 7 20h10.5M20.9 17.3A4.5 4.5 0 0 0 17.5 10h-.9A7 7 0 0 0 9.9 5.2"></path></svg>오프라인</span>
     <button type="button" class="sb-item" data-install hidden><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg><span>설치</span></button>
