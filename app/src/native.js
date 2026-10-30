@@ -310,14 +310,16 @@
 
   // ------------------------------------------------------------ 홈 화면 위젯 (안드로이드, TTWWidget)
 
-  // 위젯(다음 수업·오늘 수업·주간 시간표)은 앱이 꺼져 있어도 그려서, 화면이 대표 시간표를 위젯 자료로 넘겨 기기 안에 둔다(docs/app.md '홈 화면 위젯').
-  //   TTW_APP.updateWidgets(data)  data = web/js/timetables.js 의 widgetData(...) 결과. Promise → true(넘겼다)·false(못 넘겼다). 거절하지 않는다.
-  //                                이번에 켠 뒤 넘긴 것과 같으면 플러그인을 부르지 않는다(자주 불러도 된다: 켤 때, 앱을 내릴 때, 대표 시간표·출발 지점이 바뀔 때)
+  // 위젯(다음 수업·오늘 수업·주간 시간표)은 앱이 꺼져 있어도 그려서, 대표 시간표를 위젯 자료로 넘겨 기기 안에 둔다(docs/app.md '홈 화면 위젯').
+  // 앱 연결이 직접 넘긴다(10/30): 앱을 켜고 조금 뒤와 앱을 내릴 때(visibilitychange 가 hidden, pagehide) 기기에 둔 값(localStorage 'ttw.')으로
+  // web/js/timetables.js 의 widgetDataFromStore 를 돌린다(대표 시간표는 적어 둔 수업, 걷는 분은 engine.js 의 이동 행렬과 앱에 넣은 data/campus.json).
+  //   TTW_APP.updateWidgets(data)  화면이 직접 넘길 때(widgetData(...) 결과, 편람과 맞춘 값). 한 번이라도 부르면 그 뒤로는 앱 연결이 넘기지 않는다.
+  //                                Promise → true(넘겼다)·false(못 넘겼다). 거절하지 않는다. 이번에 켠 뒤 넘긴 것과 같으면 플러그인을 부르지 않는다
   //   TTW_APP.widgetInfo()         Promise → { placed: 홈 화면에 놓인 위젯 수 } 또는 null
-  // 플러그인이 없는 곳(iOS·옛 앱)에는 두 함수가 없다.
+  // 플러그인이 없는 곳(iOS·옛 앱)에는 두 함수가 없고 아무것도 넘기지 않는다.
   if (plugins.TTWWidget) {
-    var sentWidgets = null;
-    app.updateWidgets = function (data) {
+    var sentWidgets = null, screenSends = false, widgetTools = null, travelCache = {};
+    var sendWidgets = function (data) {
       var json;
       try { json = JSON.stringify(data); } catch (e) { return Promise.resolve(false); }
       if (typeof json !== "string") return Promise.resolve(false);
@@ -327,9 +329,61 @@
         return true;
       }, function () { return false; });
     };
+    app.updateWidgets = function (data) {
+      screenSends = true;
+      return sendWidgets(data);
+    };
     app.widgetInfo = function () {
       return pluginCall("TTWWidget", "info", {}).then(function (r) { return r && typeof r.placed === "number" ? { placed: r.placed } : null; }, function () { return null; });
     };
+    // 기기에 둔 값('ttw.' 를 뗀 열쇠)
+    var storeKeys = function () {
+      var out = [];
+      try {
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i);
+          if (k && k.indexOf("ttw.") === 0) out.push(k.slice(4));
+        }
+      } catch (e) { /* 못 읽으면 없는 것으로 */ }
+      return out;
+    };
+    var storeGet = function (k) {
+      try {
+        var v = localStorage.getItem("ttw." + k);
+        return v === null ? undefined : JSON.parse(v);
+      } catch (e) {
+        return undefined;
+      }
+    };
+    // 모듈 둘과 캠퍼스 자료는 한 번만 부른다(앱에 넣은 것. 실패하면 다음에 다시)
+    var loadWidgetTools = function () {
+      if (!widgetTools) {
+        widgetTools = Promise.all([
+          import("./timetables.js"),
+          import("./engine.js"),
+          nativeFetch("data/campus.json").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
+        ]);
+        widgetTools.catch(function () { widgetTools = null; });
+      }
+      return widgetTools;
+    };
+    var refreshWidgets = function () {
+      if (screenSends) return Promise.resolve(false);
+      return loadWidgetTools().then(function (m) {
+        if (screenSends) return false;
+        var data = m[0].widgetDataFromStore({
+          get: storeGet, keys: storeKeys(), campus: m[2],
+          travel: function (campus, mode) { return travelCache[mode] || (travelCache[mode] = m[1].TravelMatrix.fromCampus(campus, mode)); },
+        });
+        return sendWidgets(data);
+      }).catch(function () { return false; });
+    };
+    app.refreshWidgets = refreshWidgets; // 시험·개발용(화면은 부르지 않아도 된다)
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "hidden") refreshWidgets();
+    });
+    window.addEventListener("pagehide", function () { refreshWidgets(); });
+    setTimeout(refreshWidgets, 2500); // 켤 때: 화면이 뜬 뒤(앱을 새로 깔았거나 업데이트한 뒤 첫 자료)
   }
 
   window.TTW_APP = app;

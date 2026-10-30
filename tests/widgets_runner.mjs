@@ -70,4 +70,21 @@ out.data = {
   out.engine = { same: JSON.stringify(fromEngine) === JSON.stringify(fromWidget), fromEngine, fromWidget, buildings: [p, q, r].every(Boolean) };
 }
 
+// 4) 기기에 둔 값만으로(앱 연결이 부르는 widgetDataFromStore): 대표 시간표만, 끝난 학기는 빼고, 모르는 출발 지점은 자료의 첫 출발 후보, 이동 기준 flat
+{
+  const travel = (c, mode) => TravelMatrix.fromCampus(c, mode);
+  const ids = campus.ids;
+  const t = { ...T.createTimetable([], "2099-2", { title: "대표", now: NOW }),
+    items: [custom("첫", [[0, 540, 615, ids[1], ""]], 0), custom("둘", [[0, 630, 700, ids[2], ""]], 1)] };
+  const other = { ...T.createTimetable([t], "2099-2", { title: "다른", now: NOW }), items: [custom("셋", [[1, 600, 650, ids[1], ""]], 2)] };
+  const old = { ...T.createTimetable([], "2020-1", { title: "옛", now: NOW }), items: [custom("넷", [[2, 600, 650, ids[1], ""]], 3)] };
+  const rows = { "timetables@2099-2": [t, other], "timetables@2020-1": [old], home: "없는 동", mode: "flat", timetableColor: "cls", "picks@2099-2": [] };
+  const got = T.widgetDataFromStore({ get: (k) => rows[k], keys: Object.keys(rows), campus, travel });
+  const first = (campus.homes && campus.homes[0] && campus.homes[0][0]) || ids[0];
+  const want = T.widgetData([{ t, entries: T.reconcile(t, new Map()) }], { minutes: (a, b) => travel(campus, "flat").minutes(a, b), home: first, colors: "cls" });
+  out.store = { same: JSON.stringify(got) === JSON.stringify(want), sems: got.terms.map((x) => [x.sem, x.title]),
+    walks: got.terms[0].days[0].map((l) => l.walk), noCampus: T.widgetDataFromStore({ get: (k) => rows[k], keys: Object.keys(rows) }).terms[0].days[0].map((l) => l.walk),
+    nothing: T.widgetDataFromStore({ get: () => undefined, keys: [] }) };
+}
+
 console.log(JSON.stringify(out));

@@ -74,6 +74,14 @@ def test_walking_matches_route_check(made):
     assert any(row[3] > 0 for row in e["fromWidget"]) and any(row[2] is None for row in e["fromWidget"])  # 늦는 수업·미정 수업이 다 들어 있다
 
 
+def test_widget_data_from_device_store(made):
+    """앱 연결이 기기에 둔 값만으로 만드는 자료(widgetDataFromStore) = 같은 대표 시간표로 widgetData 를 부른 것.
+    대표가 아닌 시간표·끝난 학기는 빼고, 모르는 출발 지점은 자료의 첫 출발 후보, 이동 기준은 둔 값(flat)"""
+    st = made[0]["store"]
+    assert st["same"] and st["sems"] == [["2099-2", "대표"]] and all(isinstance(w, int) for w in st["walks"])
+    assert st["noCampus"] == [None, None] and st["nothing"] == {"v": 1, "colors": "item", "terms": []}
+
+
 @pytest.mark.skipif(shutil.which("javac") is None or shutil.which("java") is None, reason="JDK 없음")
 def test_app_reads_widget_data(made, tmp_path):
     """앱의 WidgetData 가 화면이 만든 자료를 읽고, 시각마다 다음 수업·다시 그릴 때·오늘 행·주간 격자를 맞게 고른다(2026-10-26 은 월요일)"""

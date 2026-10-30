@@ -1,12 +1,28 @@
 // tests/test_app.py 가 부른다: 앱 연결 스크립트(app/src/native.js)를 가짜 Capacitor·브라우저 위에서 돌리고 결과를 JSON으로 출력한다.
 // 자료 받기(네트워크 → 받아 둔 것 → 앱에 넣은 것, 늦은 응답 저장), 바탕 지도(앱에 넣은 것만), 자료가 아닌 요청, 안드로이드 뒤로 가기,
 // 안드로이드 상태 바 글자색(기기 테마가 바뀔 때), 기기 브라우저로 여는 링크(에브리타임), 시간표 이미지(공유·저장·거절 code),
-// 앱으로 연 주소(launchUrl·'ttw:open-url'), 링크 공유·앱 설정(TTWShell), 웹에서는 아무것도 안 함.
+// 앱으로 연 주소(launchUrl·'ttw:open-url'), 링크 공유·앱 설정(TTWShell), 홈 화면 위젯 자료(TTWWidget, 기기에 둔 값으로), 웹에서는 아무것도 안 함.
 import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import vm from "node:vm";
 
 const SRC = readFileSync(new URL("../app/src/native.js", import.meta.url), "utf8")
   .replace("__BUILD__", "B1").replace("__REMOTE__", "https://remote.example/tt/");
+// 앱 묶음에서 native.js 는 js/ 에 들어가 './timetables.js'·'./engine.js' 를 부른다: 같은 자리(web/js/)에 있는 것처럼 돌린다
+const SCRIPT = new vm.Script(SRC, { filename: fileURLToPath(new URL("../web/js/native.js", import.meta.url)),
+  importModuleDynamically: vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER });
+
+/** 아주 작은 localStorage(ttw. 열쇠들) */
+function fakeStorage(init = {}) {
+  const rows = new Map(Object.entries(init).map(([k, v]) => [k, JSON.stringify(v)]));
+  return {
+    rows,
+    get length() { return rows.size; },
+    key: (i) => [...rows.keys()][i] ?? null,
+    getItem: (k) => (rows.has(k) ? rows.get(k) : null),
+    setItem: (k, v) => { rows.set(k, String(v)); },
+  };
+}
 
 /** 아주 작은 IndexedDB: open → onupgradeneeded/onsuccess, transaction().objectStore().get/put */
 function fakeIndexedDB() {
@@ -24,7 +40,8 @@ function fakeIndexedDB() {
 }
 
 function setup({ native = true, http = null, online = true, platform = "android", bars = true, image = true, sdk = 34, imageInfo = null,
-  saveError = null, shell = true, shellError = null, launch, launchFails = false, appUrl = true, widget = true, widgetError = null } = {}) {
+  saveError = null, shell = true, shellError = null, launch, launchFails = false, appUrl = true, widget = platform === "android", widgetError = null,
+  store = {}, campus = null } = {}) {
   const calls = { local: [], remote: [], back: 0, minimized: 0, bars: [], image: [], shell: [], opened: [], widget: [] };
   const scheme = []; // 기기 테마(prefers-color-scheme)가 바뀔 때 부를 것들
   const visible = []; // 앱으로 돌아올 때(visibilitychange) 부를 것들
@@ -35,8 +52,10 @@ function setup({ native = true, http = null, online = true, platform = "android"
   const localFetch = async (input) => {
     const url = typeof input === "string" ? input : input.url;
     calls.local.push(url);
+    if (campus && /(^|\/)data\/campus\.json$/.test(url)) return new Response(JSON.stringify(campus), { status: 200 });
     return new Response(JSON.stringify({ from: "bundle", url }), { status: 200 });
   };
+  const localStorage = fakeStorage(store);
   const reject = (code) => { const e = new Error(code.toLowerCase()); e.code = code; return Promise.reject(e); };
   const win = Object.assign(new EventTarget(), {
     fetch: localFetch,
@@ -85,12 +104,13 @@ function setup({ native = true, http = null, online = true, platform = "android"
     location: { origin: "https://localhost" },
     navigator: { onLine: online },
     indexedDB: idb,
+    localStorage,
     history: { back: () => { calls.back += 1; } },
     Event, CustomEvent, Response, URL, JSON, Promise, setTimeout, clearTimeout, String, structuredClone, Uint8Array, ArrayBuffer, Blob, btoa,
   };
   vm.createContext(context);
-  vm.runInContext(SRC, context);
-  return { win, calls, listeners, dialogs, idb, attrs, scheme, visible, clicks };
+  SCRIPT.runInContext(context);
+  return { win, calls, listeners, dialogs, idb, attrs, scheme, visible, clicks, context, localStorage };
 }
 
 const read = async (res) => ({ source: res.headers.get("X-TTW-Source"), body: await res.json() });
@@ -181,7 +201,7 @@ const out = {};
 // 8) 안드로이드 상태 바 글자색: 기기 테마가 바뀌거나 앱으로 돌아오면 'DEFAULT' 를 다시 요청한다. 이벤트 테마가 켜져 있으면(<html data-theme>)
 //    건드리지 않는다. iOS 에서는 듣지 않고, 플러그인이 없거나 던져도 멈추지 않는다
 {
-  const s = setup();
+  const s = setup({ widget: false }); // 위젯도 visibilitychange 를 들어서 여기서는 빼고 센다
   const start = s.calls.bars.length; // 켤 때는 부르지 않는다(처음 값은 capacitor.config.json 의 style)
   s.scheme.forEach((fn) => fn({ matches: true }));
   const afterChange = [...s.calls.bars];
@@ -192,8 +212,8 @@ const out = {};
   delete s.attrs["data-theme"];
   s.visible.forEach((fn) => fn());
   const ios = setup({ platform: "ios" });
-  const none = setup({ bars: false });
-  const throwing = setup();
+  const none = setup({ bars: false, widget: false });
+  const throwing = setup({ widget: false });
   throwing.win.Capacitor.Plugins.SystemBars.setStyle = () => { throw new Error("no"); };
   let threw = false;
   try { throwing.scheme.forEach((fn) => fn({ matches: true })); } catch { threw = true; }
@@ -309,6 +329,44 @@ const out = {};
     retry: [await failing.win.TTW_APP.updateWidgets(data), failing.calls.widget.length], // 못 넘긴 것은 다음에 다시 부른다
     info: [await s.win.TTW_APP.widgetInfo(), await failing.win.TTW_APP.widgetInfo()],
     none: [typeof none.win.TTW_APP.updateWidgets, typeof none.win.TTW_APP.widgetInfo],
+  };
+}
+
+// 홈 화면 위젯 자료를 앱 연결이 직접 만든다: 기기에 둔 대표 시간표·출발 지점·이동 기준으로(web/js/timetables.js widgetDataFromStore).
+// 켤 때 조금 뒤·앱을 내릴 때 넘기고, 같으면 다시 부르지 않고, 화면이 updateWidgets 를 부르면 그 뒤로는 넘기지 않는다
+{
+  const campus = { ids: ["HOME", "A", "B"], homes: [["HOME", "정문"]], dorms: [], estimate: {},
+    buildings: { HOME: ["정문", 37.46, 126.95], A: ["가", 37.461, 126.951], B: ["나", 37.462, 126.952] },
+    slope: [[0, 12, 15], [12, 0, 20], [15, 20, 0]], flat: [[0, 10, 13], [10, 0, 17], [13, 17, 0]] };
+  const timetable = { v: 1, id: "t1", sem: "2099-1", title: "시간표 1", primary: true, source: "manual", created: "", updated: "",
+    items: [
+      { custom: "c1", title: "생명과학 1", color: 1, meetings: [[0, 570, 645, "A", "104"]] },
+      { course: "X1", no: "001", name: "대학 글쓰기 1", instructor: "", credit: 3, cls: "교양", base: [[0, 660, 735, "B", "303"]], color: 2 },
+    ] };
+  const s = setup({ campus, store: { "ttw.timetables@2099-1": [timetable], "ttw.home": "HOME", "ttw.mode": "slope", "ttw.timetableColor": "cls" } });
+  await s.win.TTW_APP.refreshWidgets();
+  const first = JSON.parse(s.calls.widget[0]);
+  s.context.document.visibilityState = "hidden";
+  await Promise.all(s.visible.map((fn) => fn())); // 앱을 내린다: 같은 자료라 다시 부르지 않는다
+  await s.win.TTW_APP.refreshWidgets();
+  const same = s.calls.widget.length;
+  s.localStorage.setItem("ttw.mode", JSON.stringify("flat")); // 이동 기준을 바꾸고 내리면 새 자료
+  await s.win.TTW_APP.refreshWidgets();
+  const flat = JSON.parse(s.calls.widget[s.calls.widget.length - 1]).terms[0].days[0].map((l) => l.walk);
+  const before = s.calls.widget.length;
+  await s.win.TTW_APP.updateWidgets({ v: 1, colors: "item", terms: [] }); // 화면이 직접 넘기면
+  s.localStorage.setItem("ttw.mode", JSON.stringify("slope"));
+  await s.win.TTW_APP.refreshWidgets(); // 앱 연결은 더 넘기지 않는다
+  const empty = setup({ campus });
+  await empty.win.TTW_APP.refreshWidgets();
+  const noCampus = setup({ store: { "ttw.timetables@2099-1": [timetable] } });
+  await noCampus.win.TTW_APP.refreshWidgets();
+  out.widgetStore = {
+    colors: first.colors, terms: first.terms.map((t) => [t.sem, t.title, t.from]),
+    monday: first.terms[0].days[0].map((l) => [l.name, l.place, l.walk, l.from, l.late, l.cls]),
+    same, flat, afterScreen: [before + 1, s.calls.widget.length],
+    empty: JSON.parse(empty.calls.widget[0]), noCampus: JSON.parse(noCampus.calls.widget[0]).terms[0].days[0].map((l) => l.walk),
+    listening: [s.visible.length, setup({ platform: "ios" }).visible.length], // 안드로이드: 상태 바 + 위젯, iOS: 위젯 없음
   };
 }
 
