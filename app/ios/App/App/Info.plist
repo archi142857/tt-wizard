@@ -72,5 +72,7 @@
 	<true/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>시간표 이미지를 사진에 저장할 때 필요해요.</string>
 </dict>
 </plist>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- 시간표 링크로 앱 열기(Universal Links, 10/30): https://archi142857.github.io/tt-wizard/#t=… 를 이 앱이 연다.
+     확인 파일 https://archi142857.github.io/.well-known/apple-app-site-association 이 있어야 한다(docs/app.md '시간표 링크로 앱 열기').
+     무료 개인 팀(Personal Team)으로는 이 권한을 서명할 수 없다: 그때만 이 줄을 잠시 빼고 기기에 깐다 -->
+<plist version="1.0">
+<dict>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:archi142857.github.io</string>
+	</array>
+</dict>
+</plist>

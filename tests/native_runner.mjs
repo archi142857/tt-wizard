@@ -1,6 +1,7 @@
 // tests/test_app.py 가 부른다: 앱 연결 스크립트(app/src/native.js)를 가짜 Capacitor·브라우저 위에서 돌리고 결과를 JSON으로 출력한다.
 // 자료 받기(네트워크 → 받아 둔 것 → 앱에 넣은 것, 늦은 응답 저장), 바탕 지도(앱에 넣은 것만), 자료가 아닌 요청, 안드로이드 뒤로 가기,
-// 안드로이드 상태 바 글자색(기기 테마가 바뀔 때), 기기 브라우저로 여는 링크(에브리타임), 웹에서는 아무것도 안 함.
+// 안드로이드 상태 바 글자색(기기 테마가 바뀔 때), 기기 브라우저로 여는 링크(에브리타임), 시간표 이미지(공유·저장·거절 code),
+// 앱으로 연 주소(launchUrl·'ttw:open-url'), 링크 공유·앱 설정(TTWShell), 웹에서는 아무것도 안 함.
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
 
@@ -22,8 +23,9 @@ function fakeIndexedDB() {
   };
 }
 
-function setup({ native = true, http = null, online = true, platform = "android", bars = true, image = true, sdk = 34 } = {}) {
-  const calls = { local: [], remote: [], back: 0, minimized: 0, bars: [], image: [] };
+function setup({ native = true, http = null, online = true, platform = "android", bars = true, image = true, sdk = 34, imageInfo = null,
+  saveError = null, shell = true, shellError = null, launch, launchFails = false, appUrl = true } = {}) {
+  const calls = { local: [], remote: [], back: 0, minimized: 0, bars: [], image: [], shell: [], opened: [] };
   const scheme = []; // 기기 테마(prefers-color-scheme)가 바뀔 때 부를 것들
   const visible = []; // 앱으로 돌아올 때(visibilitychange) 부를 것들
   const clicks = []; // 문서의 click 을 듣는 것들 [{fn, capture}]
@@ -35,24 +37,34 @@ function setup({ native = true, http = null, online = true, platform = "android"
     calls.local.push(url);
     return new Response(JSON.stringify({ from: "bundle", url }), { status: 200 });
   };
-  const win = {
+  const reject = (code) => { const e = new Error(code.toLowerCase()); e.code = code; return Promise.reject(e); };
+  const win = Object.assign(new EventTarget(), {
     fetch: localFetch,
     Capacitor: native ? {
       isNativePlatform: () => true,
       getPlatform: () => platform,
       Plugins: {
-        App: { addListener: (ev, fn) => { listeners[ev] = fn; }, minimizeApp: () => { calls.minimized += 1; } },
+        App: {
+          addListener: (ev, fn) => { if (ev !== "appUrlOpen" || appUrl) listeners[ev] = fn; return Promise.resolve({ remove() {} }); },
+          minimizeApp: () => { calls.minimized += 1; },
+          getLaunchUrl: () => (launchFails ? reject("UNIMPLEMENTED") : Promise.resolve(launch === undefined ? undefined : { url: launch })),
+        },
         ...(bars ? { SystemBars: { setStyle: (opts) => { calls.bars.push(opts.style); return Promise.resolve(); } } } : {}),
         ...(http ? { CapacitorHttp: { get: (opts) => { calls.remote.push(opts.url); return http(opts.url); } } } : {}),
         ...(image ? { TTWImage: {
           share: (opts) => { calls.image.push(["share", opts]); return Promise.resolve(); },
-          save: (opts) => { calls.image.push(["save", opts]); return Promise.resolve({ uri: "content://media/1" }); },
-          info: () => Promise.resolve({ save: sdk >= 29, sdk }),
+          save: (opts) => { calls.image.push(["save", opts]); return saveError ? reject(saveError) : Promise.resolve({ uri: "content://media/1" }); },
+          info: () => Promise.resolve(imageInfo || { save: true, sdk }),
+        } } : {}),
+        ...(shell ? { TTWShell: {
+          shareText: (opts) => { calls.shell.push(["shareText", opts]); return shellError ? reject(shellError) : Promise.resolve(); },
+          openSettings: (opts) => { calls.shell.push(["openSettings", opts]); return shellError ? reject(shellError) : Promise.resolve(); },
         } } : {}),
       },
     } : undefined,
     matchMedia: (query) => ({ matches: false, addEventListener: (ev, fn) => { if (ev === "change" && /prefers-color-scheme/.test(query)) scheme.push(fn); } }),
-  };
+  });
+  win.addEventListener("ttw:open-url", (e) => calls.opened.push(e.detail && e.detail.url));
   const attrs = {};
   const context = {
     window: win,
@@ -70,7 +82,7 @@ function setup({ native = true, http = null, online = true, platform = "android"
     navigator: { onLine: online },
     indexedDB: idb,
     history: { back: () => { calls.back += 1; } },
-    Event, Response, URL, JSON, Promise, setTimeout, clearTimeout, String, structuredClone, Uint8Array, ArrayBuffer, Blob, btoa,
+    Event, CustomEvent, Response, URL, JSON, Promise, setTimeout, clearTimeout, String, structuredClone, Uint8Array, ArrayBuffer, Blob, btoa,
   };
   vm.createContext(context);
   vm.runInContext(SRC, context);
@@ -224,15 +236,56 @@ const out = {};
     big: Buffer.from(s.calls.image[2][1].data, "base64").equals(Buffer.alloc(70000, 7)),
     saved, unsupported: err, bad, count: s.calls.image.length,
   };
-  // 사진에 저장되는 기기인지: 켤 때 한 번 묻고(처음엔 false) 답이 오면 바뀐다. 플러그인이 없으면(iOS·옛 앱) 둘 다 false
+  // 사진에 저장되는 기기인지: 켤 때 한 번 묻고(처음엔 false) 답이 오면 바뀐다. 플러그인이 없으면(옛 iOS 앱) 둘 다 false.
+  // 10/30 부터 모든 기기가 저장한다(안드로이드 9 이하·iOS 는 권한을 물어서). 저장하지 않는다고 답하는 옛 앱 연결(9 이하)은 false 그대로
   const fresh = setup();
   const before = [fresh.win.TTW_APP.canSaveImage, fresh.win.TTW_APP.canShareImage];
   const info = await fresh.win.TTW_APP.imageInfo;
-  const old = setup({ sdk: 28 });
+  const ios = setup({ platform: "ios", imageInfo: { save: true, share: true } });
+  const iosInfo = await ios.win.TTW_APP.imageInfo;
+  const old = setup({ imageInfo: { save: false, sdk: 28 } });
   const oldInfo = await old.win.TTW_APP.imageInfo;
   const noneInfo = await none.win.TTW_APP.imageInfo;
-  out.imageInfo = { before, info, after: [fresh.win.TTW_APP.canSaveImage, fresh.win.TTW_APP.canShareImage],
+  out.imageInfo = { before, info, after: [fresh.win.TTW_APP.canSaveImage, fresh.win.TTW_APP.canShareImage], ios: [iosInfo, ios.win.TTW_APP.canSaveImage],
     old: [oldInfo, old.win.TTW_APP.canSaveImage, old.win.TTW_APP.canShareImage], none: [noneInfo, none.win.TTW_APP.canSaveImage] };
+  // 저장 거절: 플러그인의 code 를 그대로(DENIED: 사진 접근 거절, FAILED: 그 밖), 그 메서드가 없는 옛 플러그인(UNIMPLEMENTED)은 UNSUPPORTED
+  const codeOf = (opts) => setup(opts).win.TTW_APP.saveImage({ bytes: new Uint8Array([1]), name: "a" }).then(() => "ok", (e) => e.code);
+  out.saveCodes = [await codeOf({ saveError: "DENIED" }), await codeOf({ saveError: "FAILED" }), await codeOf({ saveError: "UNIMPLEMENTED" }), await codeOf({})];
+}
+
+// 앱으로 연 주소: 켤 때 연 주소는 launchUrl(Promise, 없으면 null), 켜 둔 동안 열린 주소는 window 의 'ttw:open-url'(detail.url)
+{
+  const link = "https://archi142857.github.io/tt-wizard/#t=jWzEsIjIwMjYtMiJd";
+  const s = setup({ launch: link });
+  const plain = setup();
+  const failing = setup({ launchFails: true });
+  const web = setup({ native: false });
+  const launched = [await s.win.TTW_APP.launchUrl, await plain.win.TTW_APP.launchUrl, await failing.win.TTW_APP.launchUrl];
+  s.listeners.appUrlOpen({ url: link + "x" });
+  s.listeners.appUrlOpen({});
+  s.listeners.appUrlOpen({ url: "" });
+  const ios = setup({ platform: "ios" });
+  ios.listeners.appUrlOpen({ url: link });
+  out.launch = { launched, opened: s.calls.opened, ios: ios.calls.opened, web: web.win.TTW_APP === undefined };
+}
+
+// 링크 공유·앱 설정(TTWShell): 링크를 글 공유로 넘긴다. 링크가 아니면 거절, 플러그인이 없는 옛 앱에는 함수가 없다, 메서드가 없으면 UNSUPPORTED
+{
+  const s = setup();
+  await s.win.TTW_APP.shareLink({ url: "https://archi142857.github.io/tt-wizard/#t=jAA", title: "2026년 2학기 시간표 1" });
+  const notLink = await s.win.TTW_APP.shareLink({ url: "javascript:alert(1)" }).then(() => "ok", (e) => e.message);
+  await s.win.TTW_APP.openSettings();
+  const none = setup({ shell: false });
+  const old = setup({ shellError: "UNIMPLEMENTED" });
+  const failed = setup({ shellError: "FAILED" });
+  out.shell = {
+    calls: s.calls.shell.map(([m, o]) => [m, o.text || "", o.title || ""]),
+    notLink,
+    none: [typeof none.win.TTW_APP.shareLink, typeof none.win.TTW_APP.openSettings],
+    old: await old.win.TTW_APP.shareLink({ url: "https://a.example/" }).then(() => "ok", (e) => e.code),
+    oldSettings: await old.win.TTW_APP.openSettings().then(() => "ok", (e) => e.code),
+    failed: await failed.win.TTW_APP.shareLink({ url: "https://a.example/" }).then(() => "ok", (e) => e.code),
+  };
 }
 
 console.log(JSON.stringify(out));
