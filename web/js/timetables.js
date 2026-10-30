@@ -611,3 +611,36 @@ export function widgetData(terms, { name = (e) => (e.item.custom ? e.item.title 
   }
   return { v: WIDGET_VERSION, colors: colorMode(colors), terms: out };
 }
+
+/** 출발 지점(app.js 와 같은 규칙): 둔 값이 지금 자료의 지점이면 그것, 없는 기숙사 동(919 → 919A~D)이면 첫 기숙사 동, 아니면 자료의 첫 출발 후보 */
+function homeOf(saved, campus) {
+  const homes = (campus.homes || []).map(([b]) => b), ids = campus.ids || [];
+  if (typeof saved === "string" && saved && (homes.includes(saved) || ids.includes(saved))) return saved;
+  const dorms = new Set((campus.dorms || []).map(([b]) => b));
+  const dorm = homes.find((b) => dorms.has(b));
+  if (typeof saved === "string" && dorms.has(saved) && dorm) return dorm;
+  return homes[0] || ids[0] || "";
+}
+
+/**
+ * 기기에 둔 값만으로 위젯 자료를 만든다: 앱 연결(app/src/native.js)이 화면을 기다리지 않고 앱을 켤 때·내릴 때 부른다(10/30).
+ *   get(key)  기기에 둔 값('ttw.' 를 뗀 열쇠, JSON 을 푼 값. 없으면 undefined), keys  둔 열쇠들('ttw.' 를 뗀 것)
+ *   campus    data/campus.json(없으면 걷기를 적지 않는다), travel(campus, mode)  이동 행렬(engine.js 의 TravelMatrix.fromCampus)
+ * 학기마다 'timetables@학기' 의 대표 시간표를 적어 둔 수업(own·base)으로 쓴다(편람과 맞추지 않는다. 화면이 updateWidgets 를 부르면 그쪽이 편람과 맞춘 값).
+ * 출발 지점 'home'·이동 기준 'mode'·칸 색 'timetableColor' 는 화면이 둔 값, 없으면 화면의 처음 값(자료의 첫 출발 후보, 경사 반영, 항목 색).
+ */
+export function widgetDataFromStore({ get, keys = [], campus = null, travel = null, now = new Date() }) {
+  const sems = keys.map((k) => /^timetables@(\d{4}-[12SW])$/.exec(k)).filter(Boolean).map((m) => m[1]);
+  const terms = [];
+  for (const sem of widgetSemesters(sems, now)) {
+    const t = parseList(get(`${STORE_KEYS.list}@${sem}`), sem).find((x) => x.primary && !x._newer);
+    if (t) terms.push({ t, entries: reconcile(t, new Map()) });
+  }
+  let minutes = null, home = "";
+  if (campus && Array.isArray(campus.ids) && typeof travel === "function") {
+    const matrix = travel(campus, campus.slope && get("mode") !== "flat" ? "slope" : "flat");
+    minutes = (a, b) => matrix.minutes(a, b);
+    home = homeOf(get("home"), campus);
+  }
+  return widgetData(terms, { minutes, home, colors: get(STORE_KEYS.color) });
+}

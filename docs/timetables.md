@@ -58,6 +58,7 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
 | `timetableFromImage(payload, list)` | 읽은 자료 → 새 시간표(학기는 `payload.sem`, `list` 는 그 학기 목록. 이름이 겹치면 `(2)`, 꽉 찼으면 `null`) |
 | `widgetData(terms, {name, place, minutes, home, colors})` | 홈 화면 위젯 자료(아래 '홈 화면 위젯'). `terms = [{t: 대표 시간표, entries}]`, 결과를 `TTW_APP.updateWidgets` 에 넘긴다 |
 | `widgetSemesters(sems, now)`, `termDates(sem)`, `termLabel(sem)` | 위젯에 넘길 학기(끝나지 않은 학기를 시작 차례로 셋까지), 위젯이 학기를 보이는 날들, `2026년 2학기` |
+| `widgetDataFromStore({get, keys, campus, travel})` | 기기에 둔 값(대표 시간표·출발 지점·이동 기준·칸 색)만으로 위젯 자료. 앱 연결(`native.js`)이 앱을 켤 때·내릴 때 부른다 |
 
 `checkRoute(sections, travel, home, {weights})`(`engine.js`)는 `evaluate` 와 같은 모양(요일별 경로 `legs`, `cost` 등)에
 `overlaps: [[i, j], ...]`(시간이 겹치는 분반 쌍)을 더해 돌려준다. 탐색 결과를 저장한 시간표는 `checkRoute(toSections(t, byId), …)` 가 탐색 때와 같은 비용·경로를 낸다(시험이 본다).
@@ -131,8 +132,9 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
 - 학기 고르기: 학사 일정 자료가 없어 어림으로 정한다. 1학기 3/1~6/21, 여름학기 6/22~8/31, 2학기 9/1~12/21, 겨울학기 12/22~2월 끝날.
   화면은 `widgetSemesters(학기 목록)` 이 고른 학기(끝나지 않은 것, 셋까지)의 대표 시간표를 넘기고, 위젯은 그날이 든 학기를, 없으면 가장 먼저 시작하는
   앞으로의 학기(개강 전)를 보인다. 그 학기에 대표 시간표가 없으면 `이번 학기 대표 시간표가 없어요`.
-- 화면이 넘길 때(프론트엔드): 학기 목록·캠퍼스 자료를 받은 뒤 한 번, 앱을 내릴 때(`visibilitychange` 가 `hidden`), 대표 시간표·그 항목·출발 지점·이동 기준·칸 색이
-  바뀔 때. 걷는 시간은 화면의 이동 행렬(`TravelMatrix.minutes`)과 출발 지점으로 잰다. 웹·iOS 에는 `updateWidgets` 가 없다(iOS 위젯은 나중).
+- 넘기는 곳: 앱 연결(`native.js`)이 앱을 켜고 조금 뒤와 앱을 내릴 때 `widgetDataFromStore` 로 만들어 넘긴다(기기에 둔 `timetables@학기` 의 대표 시간표를 적어 둔 수업으로,
+  출발 지점 `home`·이동 기준 `mode`·칸 색 `timetableColor`, 걷는 분은 `engine.js` 의 이동 행렬). 화면이 편람과 맞춘 값을 넘기고 싶으면
+  `TTW_APP.updateWidgets(widgetData(terms, {name, place, minutes, home, colors}))` 를 부르면 되고, 그 뒤로는 앱 연결이 넘기지 않는다. 웹·iOS 에는 위젯이 없다(iOS 는 나중).
 
 ## 기기에 두기 (프론트엔드)
 

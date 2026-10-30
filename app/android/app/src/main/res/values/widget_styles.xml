@@ -2,7 +2,10 @@
 <!-- 홈 화면 위젯의 글자(10/30). 크기는 웹 화면 타입 표(t-caption 12, t-body-sm 13, t-body 14, t-title 16)를 따르고 sp 라 기기 글자 크기를 따른다.
      글꼴은 기기 기본(위젯에는 앱 글꼴 Pretendard 를 넣지 않았다). 색은 values(-night)/colors.xml 의 widget_* -->
 <resources>
-    <style name="TTWWidget" />
+    <!-- 한국어 줄바꿈을 낱말(어절) 단위로: '보여 / 요' 처럼 글자 사이에서 끊지 않는다(안드로이드 13 이상, 그 아래는 그대로) -->
+    <style name="TTWWidget">
+        <item name="android:lineBreakWordStyle">phrase</item>
+    </style>
 
     <style name="TTWWidget.Caption">
         <item name="android:layout_width">wrap_content</item>

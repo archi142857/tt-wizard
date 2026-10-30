@@ -177,6 +177,13 @@ def test_native_shim():
     assert w["sent"] == [True, True, True] and w["calls"] == ["item", "cls"] and w["text"] == "string"
     assert w["cyclic"] is False and w["failed"] == [False, 1] and w["retry"] == [False, 2]
     assert w["info"] == [{"placed": 2}, None] and w["none"] == ["undefined", "undefined"]
+    # 앱 연결이 기기에 둔 값으로 위젯 자료를 만든다(대표 시간표·출발 지점·이동 기준·칸 색). 같으면 다시 안 부르고, 화면이 넘기기 시작하면 멈춘다
+    ws = r["widgetStore"]
+    assert ws["colors"] == "cls" and ws["terms"] == [["2099-1", "시간표 1", "2099-03-01"]]
+    assert ws["monday"] == [["생명과학 1", "A동 104호", 12, "home", 0, "etc"], ["대학 글쓰기 1", "B동 303호", 20, "class", 5, "gen"]]
+    assert ws["same"] == 1 and ws["flat"] == [10, 17] and ws["afterScreen"] == [3, 3]
+    assert ws["empty"] == {"v": 1, "colors": "item", "terms": []} and ws["noCampus"] == [None, None]
+    assert ws["listening"] == [2, 0]  # 안드로이드: 상태 바와 위젯이 visibilitychange 를 듣는다, iOS 는 위젯이 없다
 
 
 def test_android_plugins_permissions_and_links():
