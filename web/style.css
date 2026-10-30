@@ -1337,7 +1337,14 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 .tt-row .chk { flex-shrink: 0; color: var(--accent); }
 .tl-item.is-open { background: var(--accent-weak); }
 .tl-item.is-open .menu-row:active { background: color-mix(in srgb, var(--accent-weak), var(--text) 6%); }
-.tl-others .tl-sem-head { color: var(--text2); font-weight: 500; } /* 목록 끝 '다른 학기': 학기 머리보다 한 단계 약하게 */
+#tl-rows > li.tl-new { border-top: 4px solid var(--line); } /* 목록 맨 아래 + 새 시간표 하나(학기와 이름을 고르는 팝업을 연다) */
+/* 새 시간표 팝업(10/30 사용자: "새 시간표 추가할 때 학기랑 시간표 이름 선택하는 창을 하나 띄워주자"): 묻는 팝업(.sheet.ask)에 칸 둘. 필드 라벨 아래 space-2 에 칸,
+   칸 사이 space-4. 학기 선택칸은 시트 위라 raised 바탕에 line-strong 1px(전에 목록 시트 맨 위에 있던 것과 같다). 오류 줄은 이름 칸 아래 t-body-sm danger */
+.tn-body { padding: var(--space-2) var(--space-5) var(--space-3); }
+.tn-field + .tn-field { margin-top: var(--space-4); }
+.tn-field .field-label { margin-bottom: var(--space-2); }
+.tn-body .term-select { background-color: var(--raised); box-shadow: inset 0 0 0 1px var(--line-strong); }
+.tn-body .error-line { margin: var(--space-2) 0 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--danger); }
 .tl-line { display: flex; align-items: center; }
 .tl-line .tt-row { flex: 1; min-width: 0; padding-right: var(--space-2); }
 /* 행 끝 메뉴 단추(48): ⋯ 대신 학기 머리와 같은 펼침 꺾쇠 20 muted, 펴면 위로(10/30 사용자: "시간표 메뉴도 ... 이거 말고 위아래 꺾쇠로 동일하게 맞추는 게 나을 듯").

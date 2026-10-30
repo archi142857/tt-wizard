@@ -526,12 +526,12 @@ function renderTerm() {
   if ($("tt-list-sheet").open) refillTtList();
 }
 /** 연도·학기 선택칸 둘(탐색 학기 줄, 내 시간표의 시간표 목록 시트)을 지금 학기로 채운다. 고를 수 없는 학기(자료를 받기 전)면 숨긴다. */
-function fillTerm(ySel, tSel) {
+function fillTerm(ySel, tSel, sem = state.semester) {
   const ids = state.semesters.map(([id]) => id).filter((id) => /^\d{4}-[12SW]$/.test(id));
-  const ok = ids.includes(state.semester);
+  const ok = ids.includes(sem);
   ySel.hidden = tSel.hidden = !ok;
   if (ok) {
-    const [y, t] = state.semester.split("-");
+    const [y, t] = sem.split("-");
     const years = [...new Set(ids.map((id) => id.split("-")[0]))];
     if (ySel.dataset.key !== years.join()) {
       ySel.replaceChildren(...years.map((v) => h("option", { value: v }, `${v}년`)));
@@ -551,12 +551,13 @@ function fillTerm(ySel, tSel) {
 
 /** 연도를 바꾸면 같은 학기로, 그해에 그 학기가 없으면 그해의 가장 늦은 학기로. */
 function onYearChange(ySel) {
-  const y = ySel.value;
-  const t = state.semester.split("-")[1];
-  const has = (k) => state.semesters.some(([x]) => x === `${y}-${k}`);
-  const term = has(t) ? t : [...TERM_ORDER].reverse().find(has);
-  if (term) switchSemester(`${y}-${term}`); else renderTerm();
+  const term = termInYear(ySel.value, state.semester);
+  if (term) switchSemester(`${ySel.value}-${term}`); else renderTerm();
 }
+const termInYear = (y, from) => {
+  const t = String(from || "").split("-")[1], has = (k) => state.semesters.some(([x]) => x === `${y}-${k}`);
+  return has(t) ? t : [...TERM_ORDER].reverse().find(has);
+};
 
 /** 선택칸 폭을 고른 항목 글자에 맞춘다(화살표가 글자 바로 뒤에 오게). CSS field-sizing 은 글자 폭을 모자라게 잡아서 직접 잰다. */
 const canvas = document.createElement("canvas").getContext("2d");
@@ -3787,26 +3788,26 @@ new ResizeObserver(() => {
 let ttListOpen = null, ttListDrawn = 0; // 펼친 행(시간표 id. 아직 만들지 않은 빈 시간표 1은 ""), 그린 횟수
 // 학기는 접고 펴는 목록(10/30 사용자, SNUTT 의 시간표 목록 그림과 함께: "시간표 목록도 그 학기 선택하는 거 SNUTT처럼 저런 형식의 목록으로 정리하는 게 나을 듯").
 // 그 전에는 맨 위 연도·학기 선택칸 둘과 그 학기 시간표 목록이었다. 펼친 학기(tlSems)는 시트를 열 때 지금 학기 하나.
-// 목록 끝 '다른 학기'(tlOthers)를 펴면 나머지 학기(편람이 있는 모든 학기)도 같은 머리로 나와 거기서도 새 시간표를 만든다(10/30 사용자: "다른 학기의 시간표를 만들 수가 없음")
-let tlSems = new Set(), tlOthers = false;
-const tlLimit = $("tl-limit"); // 오류 줄(50개): 지금 학기 묶음의 + 새 시간표 밑으로 옮겨 그린다(접혀 있으면 목록 밑)
+// 새 시간표는 목록 맨 아래 '+ 새 시간표' 하나가 학기와 이름을 고르는 팝업을 띄운다(10/30 사용자: "다른 학기의 시간표를 만들 수가 없음", 이어 "걍 새 시간표 추가할 때
+// 학기랑 시간표 이름 선택하는 창을 하나 띄워주자". 아래 '새 시간표 팝업')
+let tlSems = new Set();
+const tlLimit = $("tl-limit"); // 오류 줄(50개, 복사하기): 지금 학기 묶음 끝으로 옮겨 그린다(접혀 있으면 목록 밑)
 function openTtList(opener) {
   tlError(null);
   ttListOpen = null;
   tlSems = new Set([mine.sem]);
-  tlOthers = false;
   renderTtList();
   openSheet($("tt-list-sheet"), opener);
 }
 // 이미지로 저장(10/23 디자인 75판): 사진 저장이 안 되는 앱(canSaveImage)과 비어 있는 시간표에는 없다. '이미지 보내기'는 10/23 저녁 사용자가 없애고
 // 머리 줄의 공유 버튼으로 옮겼다("'이미지 보내기' 이거 없애버리고 오른쪽 위에 공유 … 버튼")
 const TT_ACTS = [["copy", "복사하기"], ["primary", "대표 시간표로 설정하기"], ["save-image", "이미지로 저장"], ["delete", "지우기"]];
-/** 목록의 학기(최근 먼저): 시간표가 있는 학기, 지금 보는 학기, 가장 최근 학기 → { shown, others: 나머지(목록 끝 '다른 학기'를 펴면 나온다) } */
+/** 목록의 학기(최근 먼저): 시간표가 있는 학기와 지금 보는 학기(비어 있으면 아직 만들지 않은 빈 시간표 1). 다른 학기에는 + 새 시간표 팝업에서 만든다 */
 function tlSemesters() {
   const ids = state.semesters.map(([id]) => id).filter((id) => /^\d{4}-[12SW]$/.test(id));
-  const shown = ids.filter((id) => id === mine.sem || id === state.current || T.hasTimetables(store.get(semKey(T.STORE_KEYS.list, id), [])));
+  const shown = ids.filter((id) => id === mine.sem || T.hasTimetables(store.get(semKey(T.STORE_KEYS.list, id), [])));
   if (mine.sem && !shown.includes(mine.sem)) shown.unshift(mine.sem);
-  return { shown, others: ids.filter((id) => !shown.includes(id)) };
+  return shown;
 }
 function ttMeta(t) {
   const n = t.items.filter((it) => !it.custom).length, m = t.items.length - n, sum = Math.round(T.credits(t) * 10) / 10;
@@ -3850,27 +3851,21 @@ function renderTtList() {
         icon(I.edit, 20)));
     return h("li", { class: cls }, head, acts.length ? h("ul", { class: "tl-acts", id: actsId, "aria-label": `${t.title} 메뉴` }, acts.map(act)) : null);
   };
-  const { shown, others } = tlSemesters();
   const group = (sem) => {
     const open = tlSems.has(sem), here = sem === mine.sem, gid = `tl-sem-${uid(sem)}`;
     const head = h("button", { type: "button", class: "tl-sem-head", "data-sem-toggle": sem, "aria-expanded": String(open), "aria-controls": open ? gid : null },
       h("span", {}, semesterLabel(sem)), icon(I.down, 20));
     if (!open) return h("li", { class: "tl-sem" }, head);
     const list = here ? (shownTts().length ? shownTts() : [cur]) : T.parseList(store.get(semKey(T.STORE_KEYS.list, sem), []), sem).filter((t) => !t._newer);
-    // 학기마다 맨 아래 + 새 시간표(10/23 저녁 사용자가 옆의 '이미지 불러오기'를 항목 목록의 '이미지로 추가'로 옮겼다: "그 시간표 거기서는 빼버리고").
-    // 다른 학기의 것은 그 학기로 바꾼 뒤 만든다. 오류 줄(50개)은 그 일을 한 버튼이 가리킨다(새 시간표·복사하기)
+    // 복사하기의 오류 줄(50개)은 지금 학기 묶음 끝(복사하기가 aria-describedby 로 가리킨다)
     const rows = list.map((t) => ttRow(t, here ? null : sem));
-    rows.push(h("li", { class: "tl-new" }, h("button", { type: "button", class: "menu-row add", "data-tt-new": sem,
-      "aria-describedby": here && tlErrFrom === "new" && !tlLimit.hidden ? "tl-limit" : null }, icon(I.plus, 20), "새 시간표")));
     if (here) rows.push(h("li", { class: "tl-err", hidden: tlLimit.hidden }, tlLimit)); // 줄이 없으면 목록 항목도 없다(스크린리더가 빈 항목을 세지 않게)
     return h("li", { class: "tl-sem is-open" }, head, h("ul", { class: "tl-tts", id: gid, "aria-label": semesterLabel(sem) }, rows));
   };
-  const groups = shown.map(group);
-  if (others.length) {
-    groups.push(h("li", { class: "tl-sem tl-others" }, h("button", { type: "button", class: "tl-sem-head", "data-sem-others": "", "aria-expanded": String(tlOthers) },
-      h("span", {}, "다른 학기"), icon(I.down, 20))));
-    if (tlOthers) groups.push(...others.map(group));
-  }
+  const groups = tlSemesters().map(group);
+  // 목록 맨 아래 + 새 시간표 하나(10/23 저녁 사용자가 옆의 '이미지 불러오기'를 항목 목록의 '이미지로 추가'로 옮겼다: "그 시간표 거기서는 빼버리고"):
+  // 학기와 이름을 고르는 팝업(아래 openNewTt)
+  groups.push(h("li", { class: "tl-new" }, h("button", { type: "button", class: "menu-row add", "data-tt-new": "", "aria-haspopup": "dialog" }, icon(I.plus, 20), "새 시간표")));
   if (!tlSems.has(mine.sem)) $("tl-rows").after(tlLimit);
   $("tl-rows").replaceChildren(...groups);
   for (const r of document.querySelectorAll('input[name="tt-color"]')) r.checked = r.value === ttColor;
@@ -3882,7 +3877,7 @@ function refillTtList(focusSel) {
   const sel = focusSel || keep;
   if (sel) $("tl-rows").querySelector(sel)?.focus({ preventScroll: true });
 }
-const ttListSel = (el) => (["ttAct", "ttMore", "tt", "ttName", "ttNew", "semToggle", "semOthers"].map((k) => [k, el.dataset[k]]).filter(([, v]) => v !== undefined)
+const ttListSel = (el) => (["ttAct", "ttMore", "tt", "ttName", "ttNew", "semToggle"].map((k) => [k, el.dataset[k]]).filter(([, v]) => v !== undefined)
   .map(([k, v]) => `[data-${k.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)}="${CSS.escape(v)}"]`)[0] || null);
 const ttById = (id) => (id ? mine.list.find((x) => x.id === id) : curTt().virtual ? curTt() : null) || null;
 /** 이름 바꾸기: 비우거나 그대로면 바꾸지 않는다. 같은 학기에 같은 이름이 있으면 '이름 (2)'부터(renamed). 빈 시간표 1이면 이때 만든다 */
@@ -3906,11 +3901,6 @@ function tlGoSem(sem) {
 }
 $("tl-rows").addEventListener("click", (e) => {
   const d = $("tt-list-sheet");
-  if (e.target.closest("[data-sem-others]")) { // 목록 끝 '다른 학기': 나머지 학기 머리를 펴고 접는다
-    tlOthers = !tlOthers;
-    refillTtList("[data-sem-others]");
-    return;
-  }
   const semHead = e.target.closest("[data-sem-toggle]");
   if (semHead) { // 학기 머리: 접고 편다(여럿을 펴 둘 수 있다)
     const sem = semHead.dataset.semToggle;
@@ -3935,21 +3925,57 @@ $("tl-rows").addEventListener("click", (e) => {
     closeSheet(d);
     return;
   }
-  const add = e.target.closest("[data-tt-new]");
-  if (!add) return;
-  tlGoSem(add.dataset.ttNew);
-  tlError(null);
-  const t = T.createTimetable(mine.list, mine.sem); // '시간표 n'(쓰지 않은 가장 작은 번호)
-  if (!t) {
-    tlError(FULL_TEXT, "new");
-    refillTtList(`[data-tt-new="${CSS.escape(mine.sem)}"]`);
+  if (e.target.closest("[data-tt-new]")) openNewTt();
+});
+// ---- 새 시간표 팝업(10/30 사용자: "다른 학기의 시간표를 만들 수가 없음", 이어 "걍 새 시간표 추가할 때 학기랑 시간표 이름 선택하는 창을 하나 띄워주자").
+// 시간표 목록 맨 아래 + 새 시간표가 연다. 묻는 팝업과 같은 가운데 팝업(시트 위에 시트를 띄우지 않으므로 목록 시트는 닫히고, 닫으면 초점은 머리 줄 시간표 고르기로).
+// 학기(연도·학기 선택칸, 처음은 지금 학기. 편람이 있는 모든 학기)와 이름(처음은 그 학기의 '시간표 n', 고치지 않았으면 학기를 바꿀 때 따라 바뀐다. 비우면 '시간표 n'),
+// [닫기] [만들기]. 만들면 그 학기(다르면 앱 전체의 학기를 바꾼다)에 만들어 바로 보인다. 같은 이름이 있으면 뒤에 ' (2)'부터(T.createTimetable). 50개면 만들지 않고 팝업 안 오류 줄
+let tnEdited = false;
+const tnSem = () => ($("tn-year").hidden ? mine.sem : `${$("tn-year").value}-${$("tn-term").value}`);
+const tnList = (sem) => (sem === mine.sem ? mine.list : T.parseList(store.get(semKey(T.STORE_KEYS.list, sem), []), sem));
+function tnError(text) {
+  $("tn-error").hidden = !text;
+  $("tn-error").textContent = text || "";
+  if (text) $("tn-make").setAttribute("aria-describedby", "tn-error"); else $("tn-make").removeAttribute("aria-describedby");
+}
+function tnSemChanged() {
+  tnError(null);
+  if (!tnEdited) $("tn-name").value = T.nextTitle(tnList(tnSem()));
+}
+function openNewTt() {
+  fillTerm($("tn-year"), $("tn-term"), mine.sem || state.semester);
+  tnEdited = false;
+  tnSemChanged();
+  openSheet($("tt-new"), $("tt-switch"));
+}
+$("tn-year").addEventListener("change", () => {
+  const term = termInYear($("tn-year").value, tnSem());
+  if (term) fillTerm($("tn-year"), $("tn-term"), `${$("tn-year").value}-${term}`);
+  tnSemChanged();
+});
+$("tn-term").addEventListener("change", tnSemChanged);
+$("tn-name").addEventListener("input", () => { tnEdited = true; tnError(null); });
+$("tn-name").addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" || e.isComposing || e.keyCode === 229) return;
+  e.preventDefault();
+  makeNewTt();
+});
+$("tn-make").addEventListener("click", makeNewTt);
+function makeNewTt() {
+  const sem = tnSem(), title = $("tn-name").value;
+  if (!T.createTimetable(tnList(sem), sem, { title })) { // 50개: 학기를 바꾸지 않고 팝업 안에서 알린다
+    tnError(FULL_TEXT);
     announce(FULL_TEXT, "alert");
     return;
   }
+  if (sem !== mine.sem) switchSemester(sem); // 내 시간표는 바로 그 학기 것이 된다(편람은 이어서 받는다)
+  const t = T.createTimetable(mine.list, mine.sem, { title });
+  if (!t) return;
   putTt(t);
   renderMine();
-  closeSheet(d);
-});
+  closeSheet($("tt-new"));
+}
 /** 펼친 행의 일. 복사하기·대표는 시트를 그대로 두고 목록을 다시 그린다(복사한 시간표가 보는 시간표가 되고 그 행이 펼쳐진다). 지우기는 시트를 닫는다(스낵바의 되돌리기) */
 function ttListAct(k) {
   const d = $("tt-list-sheet"), id = ttListOpen;

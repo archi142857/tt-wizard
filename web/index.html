@@ -355,6 +355,31 @@
   <div class="sr-only" role="alert" data-live="alert"></div>
 </dialog>
 
+<!-- 새 시간표(10/30 사용자: "새 시간표 추가할 때 학기랑 시간표 이름 선택하는 창을 하나 띄워주자"): 시간표 목록 맨 아래 + 새 시간표가 여는 가운데 팝업(묻는 팝업과 같은 꼴).
+     학기(연도·학기 선택칸)와 이름(입력칸), 왼쪽 닫기 · 오른쪽 만들기. 50개면 만들지 않고 이름 아래 오류 줄 -->
+<dialog class="sheet ask tt-new" id="tt-new" aria-labelledby="tn-title">
+  <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="tn-title" tabindex="-1" autofocus>새 시간표</h2></div></div>
+  <div class="tn-body">
+    <div class="tn-field" role="group" aria-labelledby="tn-sem-label">
+      <span class="field-label" id="tn-sem-label">학기</span>
+      <div class="term-left">
+        <select id="tn-year" class="term-select" aria-label="연도"></select>
+        <select id="tn-term" class="term-select" aria-label="학기"></select>
+      </div>
+    </div>
+    <div class="tn-field">
+      <label class="field-label" for="tn-name">이름</label>
+      <input class="text-input" id="tn-name" type="text" maxlength="30" autocomplete="off" enterkeyhint="done">
+      <p class="error-line" id="tn-error" hidden></p>
+    </div>
+  </div>
+  <div class="sheet-actions">
+    <button type="button" class="btn-text" data-close>닫기</button>
+    <button type="button" class="btn-text" id="tn-make">만들기</button>
+  </div>
+  <div class="sr-only" role="alert" data-live="alert"></div>
+</dialog>
+
 <!-- 내 시간표: 공유(머리 줄 오른쪽 공유 버튼. 10/23 사용자: "공유 옵션은 링크로 공유, 이미지로 공유 두 가지").
      링크: 받은 사람이 앱이 있으면 앱이 열려 바로 넣고, 없으면 웹이 그 시간표를 보여 주고 넣는 버튼을 둔다(아래 #shared-sheet). 이미지: 시간표 자료를 넣은 PNG -->
 <dialog class="sheet" id="share-sheet" aria-labelledby="sh-title">
