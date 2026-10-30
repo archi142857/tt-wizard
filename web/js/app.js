@@ -128,7 +128,7 @@ const semKey = (k, sem = state.semester) => `${k}@${sem}`;
 const liveTimers = {};
 function announce(text, kind = "status") {
   // 시트(모달 dialog)가 열려 있으면 그 밖은 inert 라 화면의 알림 영역은 읽히지 않는다. 열린 시트 안에 알림 영역이 있으면 그것을 쓴다(과목 시트, 추가 설정 시트)
-  const sheet = document.querySelector("dialog[open]");
+  const sheet = topSheet(); // 시트 위에 띄운 팝업(시간표 목록 위의 메뉴·새 시간표)이 있으면 맨 위 것
   const el = (sheet && sheet.querySelector(`[data-live="${kind}"]`)) || $(kind);
   el.textContent = "";
   clearTimeout(liveTimers[kind]);
@@ -1376,8 +1376,15 @@ function courseSheetClosed() {
 
 // ---------------------------------------------------------------- 시트 (과목, 추가 설정, 이동시간 계산 방법, 홈 화면에 추가, 묻는 시트)
 
-function openSheet(d, opener) {
-  for (const x of document.querySelectorAll("dialog[open]")) x.close(); // 시트 위에 시트를 띄우지 않는다
+/** 열린 시트 가운데 맨 위 것(시트 위에 띄운 팝업은 index.html 에서 그 시트보다 뒤에 있다) */
+function topSheet() {
+  const open = document.querySelectorAll("dialog[open]");
+  return open[open.length - 1] || null;
+}
+/** 시트·팝업을 연다. 다른 시트는 닫는다(시트 위에 시트를 띄우지 않는다). over 면 연 시트를 그대로 두고 그 위에 띄운다: 시간표 목록 위의 시간표 메뉴·새 시간표 팝업
+ *  (10/30 오후 사용자: "첫번째 창이 두번째 창 위로 올라오게 만들어줘. … 두번째 창 없애고 첫번째 창만 남기지 말고") */
+function openSheet(d, opener, { over = false } = {}) {
+  if (!over) for (const x of document.querySelectorAll("dialog[open]")) x.close();
   d.returnTo = opener || document.activeElement;
   d.style.transform = d.style.margin = "";
   d.showModal();
@@ -3875,7 +3882,7 @@ $("tl-rows").addEventListener("click", (e) => {
   const more = e.target.closest("[data-tt-more]");
   if (more) {
     tlGoSem(more.dataset.sem);
-    openTtOpts(more.dataset.ttMore);
+    openTtOpts(more.dataset.ttMore, more);
     return;
   }
   const row = e.target.closest("[data-tt]");
@@ -3886,10 +3893,12 @@ $("tl-rows").addEventListener("click", (e) => {
     closeSheet(d);
     return;
   }
-  if (e.target.closest("[data-tt-new]")) openNewTt();
+  const make = e.target.closest("[data-tt-new]");
+  if (make) openNewTt(make);
 });
 // ---- 새 시간표 팝업(10/30 사용자: "다른 학기의 시간표를 만들 수가 없음", 이어 "걍 새 시간표 추가할 때 학기랑 시간표 이름 선택하는 창을 하나 띄워주자").
-// 시간표 목록 맨 아래 + 새 시간표가 연다. 묻는 팝업과 같은 가운데 팝업(시트 위에 시트를 띄우지 않으므로 목록 시트는 닫히고, 닫으면 초점은 머리 줄 시간표 고르기로).
+// 시간표 목록 맨 아래 + 새 시간표가 연다. 묻는 팝업과 같은 가운데 팝업이고 목록 시트 위에 뜬다(10/30 오후 사용자가 시간표 메뉴 팝업을 보고 "첫번째 창이 두번째 창 위로
+// 올라오게". 닫으면 목록 그대로, 초점은 + 새 시간표. 만들면 둘 다 닫고 새 시간표를 보인다).
 // 학기(연도·학기 선택칸, 처음은 지금 학기. 편람이 있는 모든 학기)와 이름(처음은 그 학기의 '시간표 n', 고치지 않았으면 학기를 바꿀 때 따라 바뀐다. 비우면 '시간표 n'),
 // [닫기] [만들기]. 만들면 그 학기(다르면 앱 전체의 학기를 바꾼다)에 만들어 바로 보인다. 같은 이름이 있으면 뒤에 ' (2)'부터(T.createTimetable). 50개면 만들지 않고 팝업 안 오류 줄
 let tnEdited = false;
@@ -3904,11 +3913,11 @@ function tnSemChanged() {
   tnError(null);
   if (!tnEdited) $("tn-name").value = T.nextTitle(tnList(tnSem()));
 }
-function openNewTt() {
+function openNewTt(opener) {
   fillTerm($("tn-year"), $("tn-term"), mine.sem || state.semester);
   tnEdited = false;
   tnSemChanged();
-  openSheet($("tt-new"), $("tt-switch"));
+  openSheet($("tt-new"), opener, { over: true });
 }
 $("tn-year").addEventListener("change", () => {
   const term = termInYear($("tn-year").value, tnSem());
@@ -3936,16 +3945,18 @@ function makeNewTt() {
   putTt(t);
   renderMine();
   closeSheet($("tt-new"));
+  closeSheet($("tt-list-sheet")); // 만들었으면 목록도 닫고 새 시간표를 보인다
 }
 // ---- 시간표 메뉴 팝업(10/30 오후 사용자: "시간표 옵션은 그냥 창으로 띄우고". 그 전에는 목록의 행 아래에 펼쳤다): 목록 시트 행마다 ⋯ 가 연다. 묻는 팝업과 같은 가운데 팝업이고
-// 시트 위에 시트를 띄우지 않으므로 목록 시트는 닫힌다. 닫기·바깥 누르기·Esc·뒤로 가기로 닫으면 목록 시트로 돌아간다(펼쳐 둔 학기 그대로, 초점은 그 시간표의 ⋯).
-// 지우기와 앱의 사진 저장은 팝업을 닫고 스낵바를 보인다(목록으로 돌아가지 않는다).
+// 목록 시트 위에 뜬다(이어서 "첫번째 창이 두번째 창 위로 올라오게 만들어줘. 없애고 두번째 창 없애고 첫번째 창만 남기지 말고". 처음 넣은 것은 목록을 닫았다가 팝업을 닫으면
+// 다시 열었다). 이름·복사·대표를 바꾸면 밑의 목록도 바로 다시 그린다. 닫기·바깥 누르기·Esc·뒤로 가기는 팝업만 닫고 초점은 목록의 그 시간표 ⋯.
+// 지우기와 앱의 사진 저장은 목록까지 닫고 스낵바를 보인다(스낵바의 되돌리기·다시 시도를 누를 수 있게).
 // 머리는 태그(대표)·학기·메타와 이름 입력칸(이름이 곧 입력칸이다. 10/30 사용자: 행의 이름과 입력칸을 "하나로 합치는 게 좋을 것 같고, 이름 수정하는 란이라는 게 좀 더
 // 잘 드러났으면", "대표나 과목 수 같은 건 제목 위로". Enter·다른 곳을 누르면 바꾸고, Esc 는 고치던 것을 원래 이름으로), 그 아래 복사하기·대표 시간표로 설정하기(대표가
 // 아닌 시간표에만. 10/23 사용자: "'대표에서 빼기' 이거 없애고, 걍 대표 시간표가 아닌 시간표 메뉴에 '대표 시간표로 설정하기' 이거 넣어". 대표는 학기마다 늘 하나:
 // 처음 만든 시간표가 대표이고 대표를 지우면 남은 것 중 하나가 대표다)·이미지로 저장·지우기, [닫기]. 복사하면 팝업은 사본을 가리킨다(이어서 이름을 바꿀 수 있게).
 // 아직 만들지 않은 빈 시간표 1은 이름 칸만(이름을 바꾸면 만들어진다)
-let toId = null, toBack = false; // 팝업이 가리키는 시간표 id(아직 만들지 않은 빈 시간표 1은 ""), 닫으면 목록 시트로 돌아가나
+let toId = null; // 팝업이 가리키는 시간표 id(아직 만들지 않은 빈 시간표 1은 "")
 const ttOpts = $("tt-opts");
 $("to-name").after(icon(I.edit, 20)); // 연필: 누르는 것이 아니라 고칠 수 있다는 표시(입력 중에는 숨긴다)
 function toError(text) {
@@ -3966,14 +3977,13 @@ function renderTtOpts(focusSel) {
   $("to-acts").hidden = !acts.length;
   if (focusSel) $("to-acts").querySelector(focusSel)?.focus({ preventScroll: true });
 }
-function openTtOpts(id) {
+function openTtOpts(id, opener) {
   toId = id;
-  toBack = false;
   toError(null);
   renderTtOpts();
-  openSheet(ttOpts, $("tt-switch")); // 목록 시트는 닫힌다
+  openSheet(ttOpts, opener, { over: true }); // 목록 시트 위에
 }
-/** 메뉴 줄의 일. 복사하기·대표는 팝업을 그대로 두고 다시 그린다. 지우기는 팝업을 닫는다(스낵바의 되돌리기) */
+/** 메뉴 줄의 일. 복사하기·대표는 팝업을 그대로 두고 팝업과 밑의 목록을 다시 그린다. 지우기는 목록까지 닫는다(스낵바의 되돌리기) */
 function ttOptsAct(k) {
   const t = ttById(toId);
   if (!t) return;
@@ -3987,6 +3997,7 @@ function ttOptsAct(k) {
     }
     putTt(c);
     renderMine();
+    renderTtList();
     toId = c.id;
     toError(null);
     renderTtOpts('[data-tt-act="copy"]');
@@ -3995,10 +4006,13 @@ function ttOptsAct(k) {
     mine.list = T.setPrimary(mine.list, t.id);
     saveMine();
     renderMine();
+    renderTtList();
     renderTtOpts($("to-acts").querySelector('[data-tt-act="save-image"]') ? '[data-tt-act="save-image"]' : '[data-tt-act="delete"]');
     announce("대표 시간표로 설정했어요");
-  } else if (k === "delete") { toBack = false; closeSheet(ttOpts); deleteTt(t); }
-  else if (k === "save-image") imageAct(k, t, ttOpts);
+  } else if (k === "delete") { closeSheet(ttOpts); closeSheet($("tt-list-sheet")); deleteTt(t); }
+  else if (k === "save-image") { // 웹은 내려받고 팝업 그대로. 앱이 저장하거나 공유 시트를 띄워 팝업을 닫았으면 목록도 닫는다(스낵바)
+    imageAct(k, t, ttOpts).then(() => { if (!ttOpts.open || ttOpts.closing) closeSheet($("tt-list-sheet")); });
+  }
 }
 $("to-acts").addEventListener("click", (e) => {
   const b = e.target.closest("[data-tt-act]");
@@ -4011,6 +4025,7 @@ function commitToName() {
   if (!done) { if (t) input.value = t.title; return null; }
   toId = done.id; // 빈 시간표 1이면 이때 만들어져 id 가 생긴다
   input.value = done.title;
+  renderTtList();
   renderTtOpts();
   announce("이름을 바꿨어요");
   return done;
@@ -4026,21 +4041,11 @@ $("to-name").addEventListener("keydown", (e) => {
   commitToName();
 });
 $("to-name").addEventListener("change", commitToName);
-// 닫기·바깥 누르기·Esc·뒤로 가기(cancel)로 닫으면 목록 시트로 돌아간다. 화면이 바뀌어 닫히거나(뒤로 가기 기록) 지우기·사진 저장으로 닫히면 돌아가지 않는다
-ttOpts.addEventListener("cancel", () => { toBack = true; });
-ttOpts.addEventListener("click", (e) => {
-  if (e.target.closest("[data-close]")) { toBack = true; return; }
-  if (e.target !== ttOpts) return;
-  const r = ttOpts.getBoundingClientRect();
-  if (e.clientY < r.top || e.clientY > r.bottom || e.clientX < r.left || e.clientX > r.right) toBack = true;
-});
+// 닫으면 밑의 목록(열려 있고 닫히는 중이 아니면)을 다시 그리고 초점은 그 시간표의 ⋯(이름을 바꾸거나 복사해 목록을 다시 그렸으면 연 ⋯ 는 없어졌다)
 ttOpts.addEventListener("close", () => {
-  if (ttOpts.open || !toBack) return;
-  toBack = false;
-  const id = toId;
-  renderTtList();
-  openSheet($("tt-list-sheet"), $("tt-switch"));
-  (($("tl-rows").querySelector(`[data-tt-more="${CSS.escape(id || "")}"]`)) || $("tl-rows").querySelector("[data-tt-more]"))?.focus({ preventScroll: true });
+  const list = $("tt-list-sheet");
+  if (ttOpts.open || !list.open || list.closing) return;
+  refillTtList(`[data-tt-more="${CSS.escape(toId || "")}"]`);
 });
 
 // ---------------------------------------------------------------- 시간표 이미지(디자인 75판 '시간표 이미지', 컴포넌트 TimetableImage. 10/23 사용자: "시간표 이미지로 내보내는
@@ -4600,7 +4605,7 @@ async function copyText(text) {
   try { await navigator.clipboard.writeText(text); return true; } catch { /* 아래 */ }
   const ta = h("textarea", { readonly: "", "aria-hidden": "true", style: { position: "fixed", top: "0", left: "-9999px", opacity: "0" } });
   ta.value = text;
-  (document.querySelector("dialog[open]") || document.body).append(ta);
+  (topSheet() || document.body).append(ta);
   ta.select();
   let ok = false;
   try { ok = document.execCommand("copy"); } catch { ok = false; }
