@@ -342,3 +342,23 @@ def _res_names(kind: str) -> set[str]:
     if kind == "color":
         return set(re.findall(r'<color name="(\w+)"', text))
     raise AssertionError(kind)
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="node 없음")
+def test_widget_url_opens_day_map():
+    """위젯을 누르면 여는 주소(WidgetData.openUrl)를 화면(web/js/app.js 의 navOf)이 같은 뜻으로 읽는다: 학기와 요일(월 0 … 일 6).
+    요일이 있으면 그 요일 동선 지도(goNav → routeDay → 동선 확인하기 → 전체 화면 지도, update72)"""
+    app = (ROOT / "web" / "js" / "app.js").read_text(encoding="utf-8")
+    tabs = re.search(r"^const TABS = \[.*?\];", app, re.M).group(0)
+    nav = re.search(r"^function navOf\(url\) \{.*?^\}", app, re.M | re.S).group(0)
+    urls = ["https://x/#tab=mine&sem=2026-2&route=4", "https://x/#tab=mine", "https://x/#tab=mine&sem=2027-W&route=0",
+            "https://x/#route=7", "https://x/#tab=mine&route=-1", "https://x/#t=AbC_1", "https://x/", "https://x/#sem=2026-9&route=6"]
+    js = f"{tabs}\n{nav}\nconsole.log(JSON.stringify({json.dumps(urls)}.map(navOf)));"
+    run = subprocess.run(["node", "--input-type=module", "-e", js], capture_output=True, text=True, timeout=60)
+    assert run.returncode == 0, run.stderr
+    assert json.loads(run.stdout) == [
+        {"tab": "mine", "sem": "2026-2", "route": 4}, {"tab": "mine", "sem": None, "route": None}, {"tab": "mine", "sem": "2027-W", "route": 0},
+        None, {"tab": "mine", "sem": None, "route": None}, None, None, {"tab": None, "sem": None, "route": 6}]
+    # 요일이 있으면 지도로 가는 길이 이어져 있다(대표 시간표가 없거나 못 열면 그 탭)
+    assert "if (await routeDay(nav.route, nav.sem)) return;" in app and "goMine(() => routeTt(t, { day }));" in app
+    assert 'afterResult = day === null ? snack : toMap;' in app and 'go("map");' in app
