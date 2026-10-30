@@ -3786,25 +3786,27 @@ new ResizeObserver(() => {
 // '동선 탐색에 담기'는 10/23 오후 사용자가 없앴다("동선 탐색에 넣기는 없애버리고 걍 동선 확인하기를 분반 정보 포함해서 동선탐색으로 보내": 아래 routeTt)
 let ttListOpen = null, ttListDrawn = 0; // 펼친 행(시간표 id. 아직 만들지 않은 빈 시간표 1은 ""), 그린 횟수
 // 학기는 접고 펴는 목록(10/30 사용자, SNUTT 의 시간표 목록 그림과 함께: "시간표 목록도 그 학기 선택하는 거 SNUTT처럼 저런 형식의 목록으로 정리하는 게 나을 듯").
-// 그 전에는 맨 위 연도·학기 선택칸 둘과 그 학기 시간표 목록이었다. 펼친 학기(tlSems)는 시트를 열 때 지금 학기 하나
-let tlSems = new Set();
+// 그 전에는 맨 위 연도·학기 선택칸 둘과 그 학기 시간표 목록이었다. 펼친 학기(tlSems)는 시트를 열 때 지금 학기 하나.
+// 목록 끝 '다른 학기'(tlOthers)를 펴면 나머지 학기(편람이 있는 모든 학기)도 같은 머리로 나와 거기서도 새 시간표를 만든다(10/30 사용자: "다른 학기의 시간표를 만들 수가 없음")
+let tlSems = new Set(), tlOthers = false;
 const tlLimit = $("tl-limit"); // 오류 줄(50개): 지금 학기 묶음의 + 새 시간표 밑으로 옮겨 그린다(접혀 있으면 목록 밑)
 function openTtList(opener) {
   tlError(null);
   ttListOpen = null;
   tlSems = new Set([mine.sem]);
+  tlOthers = false;
   renderTtList();
   openSheet($("tt-list-sheet"), opener);
 }
 // 이미지로 저장(10/23 디자인 75판): 사진 저장이 안 되는 앱(canSaveImage)과 비어 있는 시간표에는 없다. '이미지 보내기'는 10/23 저녁 사용자가 없애고
 // 머리 줄의 공유 버튼으로 옮겼다("'이미지 보내기' 이거 없애버리고 오른쪽 위에 공유 … 버튼")
 const TT_ACTS = [["copy", "복사하기"], ["primary", "대표 시간표로 설정하기"], ["save-image", "이미지로 저장"], ["delete", "지우기"]];
-/** 목록의 학기(최근 먼저): 시간표가 있는 학기, 지금 보는 학기, 가장 최근 학기. 다른 학기는 탐색의 학기 줄에서 고른다(거기서 고르면 여기에도 생긴다) */
+/** 목록의 학기(최근 먼저): 시간표가 있는 학기, 지금 보는 학기, 가장 최근 학기 → { shown, others: 나머지(목록 끝 '다른 학기'를 펴면 나온다) } */
 function tlSemesters() {
   const ids = state.semesters.map(([id]) => id).filter((id) => /^\d{4}-[12SW]$/.test(id));
-  const out = ids.filter((id) => id === mine.sem || id === state.current || T.hasTimetables(store.get(semKey(T.STORE_KEYS.list, id), [])));
-  if (mine.sem && !out.includes(mine.sem)) out.unshift(mine.sem);
-  return out;
+  const shown = ids.filter((id) => id === mine.sem || id === state.current || T.hasTimetables(store.get(semKey(T.STORE_KEYS.list, id), [])));
+  if (mine.sem && !shown.includes(mine.sem)) shown.unshift(mine.sem);
+  return { shown, others: ids.filter((id) => !shown.includes(id)) };
 }
 function ttMeta(t) {
   const n = t.items.filter((it) => !it.custom).length, m = t.items.length - n, sum = Math.round(T.credits(t) * 10) / 10;
@@ -3813,17 +3815,19 @@ function ttMeta(t) {
 function renderTtList() {
   ttListDrawn += 1;
   const cur = curTt();
-  // 시간표 행. 지금 보는 시간표는 체크 대신 행(펼치면 묶음 전체) 바탕이 accent-weak(10/30 사용자: "체크 표시는 빼고, 선택된 공간은 색을 좀 다르게").
+  // 시간표 행. 펼친 묶음은 바탕이 accent-weak(10/30 사용자: 펼친 묶음 그림에 네모를 그려 "여기서 체크 표시는 빼고, 선택된 공간은 색을 좀 다르게", 이어 "시간표 메뉴 눌렀을 때만
+  // 색깔 바꿔줘"). 지금 보는 시간표는 접힌 행에서 체크(원래대로), 펼친 머리에는 체크를 두지 않는다(입력칸 옆 체크가 '확인'처럼 보였다).
   // 다른 학기의 행(sem): 누르면 그 학기로 바꾸고 그 시간표를 보인다. 펼침 꺾쇠는 그 학기로 바꾼 뒤 펼친다(시간표를 바꾸는 일은 지금 학기 것만 한다).
   // 행 끝의 메뉴 단추는 ⋯ 대신 학기 머리와 같은 위아래 꺾쇠(10/30 사용자: "시간표 메뉴도 ... 이거 말고 위아래 꺾쇠로 동일하게 맞추는 게 나을 듯". 이름은 그대로 '시간표 1 메뉴')
   const ttRow = (t, sem) => {
     const meta = ttMeta(t), here = !sem, on = here && t.id === cur.id, open = here && ttListOpen === t.id;
     const key = uid(t.id || "new"), actsId = `tl-acts-${key}`, nameId = `tl-name-${key}`;
-    const tag = t.primary ? h("span", { class: "tag" }, "대표") : null, cls = `tl-item${on ? " is-cur" : ""}${open ? " is-open" : ""}`;
+    const tag = t.primary ? h("span", { class: "tag" }, "대표") : null, cls = `tl-item${open ? " is-open" : ""}`;
     if (!open) {
       return h("li", { class: cls }, h("div", { class: "tl-line" },
         h("button", { type: "button", class: "tt-row", "data-tt": t.id, "data-sem": sem || null, "aria-current": on ? "true" : null },
-          h("span", { class: "it" }, h("span", { class: "nm" }, h("span", {}, t.title), tag), h("span", { class: "mt" }, meta))),
+          h("span", { class: "it" }, h("span", { class: "nm" }, h("span", {}, t.title), tag), h("span", { class: "mt" }, meta)),
+          on ? h("span", { class: "chk" }, icon(I.check, 24)) : null),
         h("button", { type: "button", class: "icon-btn tl-more", "data-tt-more": t.id, "data-sem": sem || null, "aria-label": `${t.title} 메뉴`, "aria-expanded": "false" }, icon(I.down, 20))));
     }
     // 아직 만들지 않은 빈 시간표 1은 이름만(만들면서 대표가 된다). 대표 시간표에는 '대표 시간표로 설정하기'가 없다
@@ -3846,7 +3850,8 @@ function renderTtList() {
         icon(I.edit, 20)));
     return h("li", { class: cls }, head, acts.length ? h("ul", { class: "tl-acts", id: actsId, "aria-label": `${t.title} 메뉴` }, acts.map(act)) : null);
   };
-  const groups = tlSemesters().map((sem) => {
+  const { shown, others } = tlSemesters();
+  const group = (sem) => {
     const open = tlSems.has(sem), here = sem === mine.sem, gid = `tl-sem-${uid(sem)}`;
     const head = h("button", { type: "button", class: "tl-sem-head", "data-sem-toggle": sem, "aria-expanded": String(open), "aria-controls": open ? gid : null },
       h("span", {}, semesterLabel(sem)), icon(I.down, 20));
@@ -3859,7 +3864,13 @@ function renderTtList() {
       "aria-describedby": here && tlErrFrom === "new" && !tlLimit.hidden ? "tl-limit" : null }, icon(I.plus, 20), "새 시간표")));
     if (here) rows.push(h("li", { class: "tl-err", hidden: tlLimit.hidden }, tlLimit)); // 줄이 없으면 목록 항목도 없다(스크린리더가 빈 항목을 세지 않게)
     return h("li", { class: "tl-sem is-open" }, head, h("ul", { class: "tl-tts", id: gid, "aria-label": semesterLabel(sem) }, rows));
-  });
+  };
+  const groups = shown.map(group);
+  if (others.length) {
+    groups.push(h("li", { class: "tl-sem tl-others" }, h("button", { type: "button", class: "tl-sem-head", "data-sem-others": "", "aria-expanded": String(tlOthers) },
+      h("span", {}, "다른 학기"), icon(I.down, 20))));
+    if (tlOthers) groups.push(...others.map(group));
+  }
   if (!tlSems.has(mine.sem)) $("tl-rows").after(tlLimit);
   $("tl-rows").replaceChildren(...groups);
   for (const r of document.querySelectorAll('input[name="tt-color"]')) r.checked = r.value === ttColor;
@@ -3871,7 +3882,7 @@ function refillTtList(focusSel) {
   const sel = focusSel || keep;
   if (sel) $("tl-rows").querySelector(sel)?.focus({ preventScroll: true });
 }
-const ttListSel = (el) => (["ttAct", "ttMore", "tt", "ttName", "ttNew", "semToggle"].map((k) => [k, el.dataset[k]]).filter(([, v]) => v !== undefined)
+const ttListSel = (el) => (["ttAct", "ttMore", "tt", "ttName", "ttNew", "semToggle", "semOthers"].map((k) => [k, el.dataset[k]]).filter(([, v]) => v !== undefined)
   .map(([k, v]) => `[data-${k.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)}="${CSS.escape(v)}"]`)[0] || null);
 const ttById = (id) => (id ? mine.list.find((x) => x.id === id) : curTt().virtual ? curTt() : null) || null;
 /** 이름 바꾸기: 비우거나 그대로면 바꾸지 않는다. 같은 학기에 같은 이름이 있으면 '이름 (2)'부터(renamed). 빈 시간표 1이면 이때 만든다 */
@@ -3895,6 +3906,11 @@ function tlGoSem(sem) {
 }
 $("tl-rows").addEventListener("click", (e) => {
   const d = $("tt-list-sheet");
+  if (e.target.closest("[data-sem-others]")) { // 목록 끝 '다른 학기': 나머지 학기 머리를 펴고 접는다
+    tlOthers = !tlOthers;
+    refillTtList("[data-sem-others]");
+    return;
+  }
   const semHead = e.target.closest("[data-sem-toggle]");
   if (semHead) { // 학기 머리: 접고 편다(여럿을 펴 둘 수 있다)
     const sem = semHead.dataset.semToggle;
@@ -3978,7 +3994,7 @@ const EX = { top: 60, side: 44, bottom: 44, semLh: 46, semGap: 4, nameLh: 80, na
 // 칸 글자 단계 [과목명, 강의실, 칸 안 여백](줄 높이는 과목명 × 1.27, 강의실 × 1.3 을 반올림: 38·33, 34·30, 30·27, 28·25). 큰 것부터 맞는 단계 하나를 그림 전체에 쓴다
 const EX_LEVELS = [[30, 25, 9], [27, 23, 9], [24, 21, 8], [22, 19, 6]];
 const IMAGE_ICON = '<rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="9.8" r="1.6"/><path d="M20.5 15.5l-4.6-4.6-9.4 8.6"/>';
-const FULL_TEXT = "시간표는 학기마다 50개까지예요";
+const FULL_TEXT = "시간표는 학기마다 50개까지 만들 수 있어요"; // 10/30 사용자: "50개까지 에요도 50개까지 만들 수 있어요로 바꿔줘"(그 전 "시간표는 학기마다 50개까지예요")
 // 못 불러올 때의 오류 줄(readTimetableImage 의 problem)
 const IMPORT_PROBLEM = {
   jpeg: "사진으로 보내져 시간표 자료가 빠졌어요. 파일로 받은 이미지를 고르세요.",
@@ -5580,9 +5596,9 @@ function toggleSave(i, b) {
   const box = b.parentElement;
   box.querySelector(".error-line")?.remove();
   if (!t) {
-    box.prepend(h("p", { class: "error-line", id: `save-err-${i}` }, "시간표는 학기마다 50개까지예요"));
+    box.prepend(h("p", { class: "error-line", id: `save-err-${i}` }, FULL_TEXT));
     b.setAttribute("aria-describedby", `save-err-${i}`);
-    announce("시간표는 학기마다 50개까지예요", "alert");
+    announce(FULL_TEXT, "alert");
     return;
   }
   b.removeAttribute("aria-describedby");

@@ -1330,12 +1330,14 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
    건 제목 위로 올려버리고". 왼쪽 끝은 접힌 행의 메타와 같은 space-5), ⋯ 는 입력칸 줄(가로 자리는 접힌 행과 같다).
    시간표와 시간표 사이(+ 새 시간표 위도)는 두꺼운 선(line 4px), 펼친 줄들 사이는 얇은 선(line 1px, 시트 폭 끝까지. 사용자: "복사, 이미지 저장, 시간표 지우기 이런 건 각각
    얇은 선으로 나누고, 지우기 밑에 다른 시간표랑 구분은 좀 더 두꺼운 선으로", 이어 "나머지 시간표들도 똑같이 두꺼운 선으로 구분해줘").
-   지금 보는 시간표는 체크 대신 바탕 accent-weak(펼치면 묶음 전체. 사용자: "체크 표시는 빼고, 선택된 공간은 색을 좀 다르게". 고른 탭과 같은 '고름' 색): 누르고 올린 면은
-   accent-weak 를 text 쪽으로 6% */
+   펼친 묶음은 바탕 accent-weak(사용자: 펼친 묶음에 네모를 그려 "여기서 체크 표시는 빼고, 선택된 공간은 색을 좀 다르게", 이어 "시간표 메뉴 눌렀을 때만 색깔 바꿔줘". 고른 탭과 같은
+   '고름' 색): 누르고 올린 줄은 accent-weak 를 text 쪽으로 6%. 지금 보는 시간표는 접힌 행의 체크(accent)로 알리고 펼친 머리에는 체크를 두지 않는다 */
 .tl-tts > li + li { border-top: 4px solid var(--line); }
 .tl-tts > li.tl-err { border-top: 0; }
-.tl-item.is-cur { background: var(--accent-weak); }
-.tl-item.is-cur .tt-row:active, .tl-item.is-cur .menu-row:active { background: color-mix(in srgb, var(--accent-weak), var(--text) 6%); }
+.tt-row .chk { flex-shrink: 0; color: var(--accent); }
+.tl-item.is-open { background: var(--accent-weak); }
+.tl-item.is-open .menu-row:active { background: color-mix(in srgb, var(--accent-weak), var(--text) 6%); }
+.tl-others .tl-sem-head { color: var(--text2); font-weight: 500; } /* 목록 끝 '다른 학기': 학기 머리보다 한 단계 약하게 */
 .tl-line { display: flex; align-items: center; }
 .tl-line .tt-row { flex: 1; min-width: 0; padding-right: var(--space-2); }
 /* 행 끝 메뉴 단추(48): ⋯ 대신 학기 머리와 같은 펼침 꺾쇠 20 muted, 펴면 위로(10/30 사용자: "시간표 메뉴도 ... 이거 말고 위아래 꺾쇠로 동일하게 맞추는 게 나을 듯").
@@ -1582,7 +1584,7 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
   .icon-btn:hover, .btn-text:hover, .result:hover, .rank-hit:hover, button.info-row:hover, a.info-row:hover, .course-hit:hover .c-title { background: var(--surface-hover); }
   .tabbar .tab:not([aria-current="page"]):hover .ind, .add-row:hover, .tt-row:hover, .menu-row:hover { background: var(--surface-hover); }
   .tl-sem-head:hover { background: var(--surface-hover); }
-  .tl-item.is-cur .tt-row:hover, .tl-item.is-cur .menu-row:hover { background: color-mix(in srgb, var(--accent-weak), var(--text) 6%); }
+  .tl-item.is-open .menu-row:hover { background: color-mix(in srgb, var(--accent-weak), var(--text) 6%); }
   .tt-switch:hover, .add-head .icon-btn:hover, .tt-share:hover { background: var(--bg-hover); }
   .topbar .icon-btn:hover, .topbar .btn-text:hover, .bottom-bar .btn-text:hover, .picked-error .btn-text:hover, .ranks-more .btn-text:hover, .footnote .btn-text:hover { background: var(--bg-hover); }
   .result.is-picked:hover { background: var(--row-picked); } /* 담은 행은 어두운 그대로, 버튼만 빨갛게(빼기) */
@@ -1629,7 +1631,6 @@ html[data-scheme="dark"]:not([data-theme]) dialog.sheet::backdrop { background: 
   .wk-ghost { border-color: Highlight; }
   .theme-card { border: 1px solid CanvasText; }
   .theme-card:has(input:checked) { outline: 2px solid Highlight; outline-offset: -2px; }
-  .tl-item.is-cur { outline: 2px solid Highlight; outline-offset: -2px; } /* 지금 보는 시간표(평소에는 바탕색만) */
   .mini { forced-color-adjust: none; } /* 테마 미리보기는 그 테마의 색 그대로 */
   .swatches .sw { forced-color-adjust: none; }
   .swatches input:checked + .sw { outline: 2px solid Highlight; outline-offset: 3px; }
