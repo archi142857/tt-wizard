@@ -47,16 +47,6 @@
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="TTWWidget.Foot">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/widget_accent</item>
-        <item name="android:maxLines">2</item>
-        <item name="android:ellipsize">end</item>
-    </style>
-
     <style name="TTWWidget.Message">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -92,6 +82,40 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/widget_text2</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- 다음 수업 위젯의 출발 줄(update70): 큰 줄 t-h2 20 굵게 accent-text(시각은 자릿수 맞춤), 그 아래 13 text2 -->
+    <style name="TTWWidget.Hero">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/widget_accent</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TTWWidget.HeroSub">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/widget_text2</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- 빈 상태의 '내 시간표 열기'(작은 텍스트 버튼 t-body-sm-strong 14, 위젯은 굵게): 위젯 전체가 누르는 곳이라 글만 -->
+    <style name="TTWWidget.Action">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/widget_accent</item>
         <item name="android:maxLines">1</item>
         <item name="android:includeFontPadding">false</item>
     </style>

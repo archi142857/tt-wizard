@@ -54,7 +54,7 @@ def test_terms_and_semesters(made):
 
 def test_widget_data_shape(made):
     d = made[0]["data"]
-    assert d["keys"] == ["v", "colors", "terms"] and d["v"] == 1 and d["colors"] == "item"
+    assert d["keys"] == ["v", "colors", "home", "terms"] and d["v"] == 1 and d["colors"] == "item"
     assert d["same"]  # 같은 시간표면 같은 글(만든 시각을 넣지 않아 앱 연결·앱이 같은 자료를 거른다)
     assert d["terms"] == [["2026-2", "2026년 2학기", "시간표 1", "2026-09-01", "2026-12-21", 1, [2, 0, 2, 0, 1, 0, 0]],
                           ["2027-1", "2027년 1학기", "봄", "2027-03-01", "2027-06-21", 0, [0, 1, 0, 0, 0, 0, 0]]]
@@ -62,8 +62,9 @@ def test_widget_data_shape(made):
     assert d["monday"] == [["생명과학 1", "A동 104호", 570, 645, 1, "etc", 12, "home", 0],
                            ["대학 글쓰기 1", "B동 303호", 660, 735, 2, "etc", 20, "class", 5]]
     assert d["friday"] == [[1, 12, "home"]]  # 색 번호는 0~7
+    assert d["home"] == "HOME" and d["buildings"] == ["A", "B"]  # 동선 지도 위젯이 길을 그릴 건물 id 와 출발·도착 지점
     assert d["noMinutes"] == [[None, 0], [None, 0]]  # 이동시간을 모르면 걷기를 적지 않는다
-    assert d["cls"] == "cls" and d["odd"] == {"v": 1, "colors": "item", "terms": []}  # 모르는 학기·빈 칸은 뺀다
+    assert d["cls"] == "cls" and d["odd"] == {"v": 1, "colors": "item", "home": "", "terms": []}  # 모르는 학기·빈 칸은 뺀다
     assert d["names"] == [["[생명과학 1]", "A-104"], ["[대학 글쓰기 1]", "B-303"]]  # 이름·강의실 표기는 화면이 준다
 
 
@@ -79,7 +80,7 @@ def test_widget_data_from_device_store(made):
     대표가 아닌 시간표·끝난 학기는 빼고, 모르는 출발 지점은 자료의 첫 출발 후보, 이동 기준은 둔 값(flat)"""
     st = made[0]["store"]
     assert st["same"] and st["sems"] == [["2099-2", "대표"]] and all(isinstance(w, int) for w in st["walks"])
-    assert st["noCampus"] == [None, None] and st["nothing"] == {"v": 1, "colors": "item", "terms": []}
+    assert st["noCampus"] == [None, None] and st["nothing"] == {"v": 1, "colors": "item", "home": "", "terms": []}
 
 
 @pytest.mark.skipif(shutil.which("javac") is None or shutil.which("java") is None, reason="JDK 없음")
@@ -118,6 +119,17 @@ def test_app_reads_widget_data(made, tmp_path):
     assert r["glue"] == ["대학 글쓰기~1", "대학 글쓰기 1", "화학", "수학 100", "English~II", "Data Science~A", "수학 및 연습~\u2161", "1",
                          "물리학실험~2"]
     assert r["asked"] == "글쓰기 1"  # 폭은 앞 낱말과 번호로 잰다
+    # 다음 수업 위젯의 큰 줄(update70): 첫 수업은 '09:18 출발'·걷기 12분, 앞 수업에서는 '걷기 20분'·'A동에서'·5분 늦음,
+    # 마지막 수업 중이면 '12:15 끝', 학기가 끝난 뒤 다음 학기 첫 수업도 나설 시각, 걷기를 모르면 '10:00 시작'
+    h = r["hero"]
+    assert h["monMorning"] == {"kind": "leave", "at": "09:18", "walk": 12, "from": "", "late": 0}
+    assert h["monFirst"] == {"kind": "walk", "at": None, "walk": 20, "from": "A동", "late": 5}
+    assert h["monLast"] == {"kind": "end", "at": "12:15", "walk": -1, "from": "", "late": 0}
+    assert (h["winter"]["kind"], h["winter"]["at"]) == ("leave", "09:48")
+    assert h["unknown"] == {"kind": "start", "at": "10:00", "walk": -1, "from": "", "late": 0}
+    assert r["buildings"] == "HOME|A|B"  # 건물 id 와 출발·도착 지점을 읽는다(동선 지도 위젯)
+    # 누르면 여는 주소: 학기·요일(월 0 … 일 6). 화면이 route 를 읽으면 그 요일 동선 지도
+    assert r["url"] == ["https://x/#tab=mine&sem=2026-2&route=4", "https://x/#tab=mine", "https://x/#tab=mine", "https://x/#tab=mine&sem=2027-W&route=0"]
 
 
 def _tokens(css: str, start: str) -> dict:
@@ -207,6 +219,14 @@ def _visibility(xml: str, vid: str) -> str:
     return m.group(1) if m else "visible"
 
 
+def _with_includes(xml: str, folder: Path) -> str:
+    """<include layout="@layout/x"> 가 넣는 레이아웃도 붙인다(빈 상태 widget_empty). 넣는 쪽의 id·보이기가 넣은 뿌리의 것을 대신한다"""
+    for name in re.findall(r'<include[^<>]*layout="@layout/(\w+)"', xml):
+        path = folder / f"{name}.xml" if (folder / f"{name}.xml").exists() else RES / "layout" / f"{name}.xml"
+        xml += "\n" + path.read_text(encoding="utf-8")
+    return xml
+
+
 def test_widget_views_reset_what_they_change():
     """런처는 같은 레이아웃이면 전에 펼친 화면 위에 바꿈만 다시 얹으므로(update69) 위젯마다 그릴 때 바꾸는 보이기를 다 처음 모양으로 되돌린다.
     되돌리는 목록은 레이아웃 XML 의 처음 보이기와 같고, 그리는 코드가 보이기를 바꾸는 것은 모두 목록에 있다"""
@@ -217,13 +237,16 @@ def test_widget_views_reset_what_they_change():
         for folder in ("layout", "layout-night"):
             path = RES / folder / f"{layout}.xml"
             if path.exists():
-                xml = path.read_text(encoding="utf-8")
+                xml = _with_includes(path.read_text(encoding="utf-8"), RES / folder)
                 assert [_visibility(xml, v) for v in ids["SHOWN"]] == ["visible"] * len(ids["SHOWN"]), (folder, layout)
                 assert [_visibility(xml, v) for v in ids["HIDDEN"]] == ["gone"] * len(ids["HIDDEN"]), (folder, layout)
         start = views.index(f"static RemoteViews {kind.lower()}(")
         body = views[start:views.index("\n    }\n", start)]
         assert body.index(f"reset(v, {kind}_SHOWN, {kind}_HIDDEN);") < body.index("setOnClickPendingIntent")
         changed = set(re.findall(r"setViewVisibility\(R\.id\.(\w+)", body))
+        if "empty(v, " in body:  # 빈 상태 도우미가 바꾸는 것(widget_empty)
+            start_e = views.index("private static void empty(")
+            changed |= set(re.findall(r"setViewVisibility\(R\.id\.(\w+)", views[start_e:views.index("\n    }\n", start_e)]))
         for group in re.findall(r"for \(int id : new int\[\] \{(.*?)\}\) v\.setViewVisibility\(id", body):
             changed |= set(re.findall(r"R\.id\.(\w+)", group))
         assert changed and changed <= set(ids["SHOWN"]) | set(ids["HIDDEN"]), (kind, changed)

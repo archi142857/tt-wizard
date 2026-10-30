@@ -40,7 +40,7 @@ writeFileSync(outPath, JSON.stringify(data));
 const mon = data.terms[0].days[0];
 out.data = {
   keys: Object.keys(data), v: data.v, same: JSON.stringify(data) === JSON.stringify(T.widgetData([{ t: a, entries: entries(a) }, { t: b, entries: entries(b) }], { minutes, home: "HOME" })), colors: data.colors, terms: data.terms.map((t) => [t.sem, t.label, t.title, t.from, t.to, t.untimed, t.days.map((d) => d.length)]),
-  monday: mon.map((l) => [l.name, l.place, l.start, l.end, l.color, l.cls, l.walk, l.from, l.late]),
+  monday: mon.map((l) => [l.name, l.place, l.start, l.end, l.color, l.cls, l.walk, l.from, l.late]), home: data.home, buildings: mon.map((l) => l.b),
   friday: data.terms[0].days[4].map((l) => [l.color, l.walk, l.from]), // 색 번호는 0~7 로
   noMinutes: T.widgetData([{ t: a, entries: entries(a) }], {}).terms[0].days[0].map((l) => [l.walk, l.late]),
   cls: T.widgetData([{ t: a, entries: entries(a) }], { colors: "cls" }).colors,

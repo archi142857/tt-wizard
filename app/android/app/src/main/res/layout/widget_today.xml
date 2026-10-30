@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 오늘 수업 위젯(4×2, 4×4 까지 늘린다, 10/30). 행은 WidgetViews.today 가 widget_today_row 로 넣는다(높이만큼). 눌러서 앱의 내 시간표 -->
+<!-- 오늘 수업 위젯(4×2, 4×4 까지 늘린다, 10/30). 행은 WidgetViews.today 가 widget_today_row 로 넣는다(높이만큼). 눌러서 앱의 그 요일 동선 지도(update70) -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/background"
     android:layout_width="match_parent"
@@ -34,15 +34,19 @@
         android:layout_weight="1"
         android:orientation="vertical" />
 
-    <TextView
-        android:id="@+id/w_msg"
-        style="@style/TTWWidget.Message"
-        android:layout_marginTop="8dp"
-        android:visibility="gone" />
-
+    <!-- 넘치는 수업: '외 n개' -->
     <TextView
         android:id="@+id/w_sub"
         style="@style/TTWWidget.Body"
         android:layout_marginTop="4dp"
+        android:visibility="gone" />
+
+    <!-- 빈 상태(수업이 없는 날, 자료·대표 시간표가 없을 때): widget_empty -->
+    <include
+        android:id="@+id/w_empty"
+        layout="@layout/widget_empty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:visibility="gone" />
 </LinearLayout>
