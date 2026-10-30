@@ -6,17 +6,21 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.graphics.text.LineBreakConfig;
+import android.os.Build;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 주간 시간표 위젯의 격자 그림 — 백엔드 세션(10/30). RemoteViews 로는 칸을 시각 자리에 놓을 수 없어(안드로이드 12 아래) 그림으로 그린다.
  * 기기 테마가 바뀌어도 맞게 라이트·다크 두 장을 그리고 layout(-night)/widget_week.xml 이 한 장을 보인다.
  * 색은 웹 화면의 기본 테마 토큰(web/style.css: 라이트 :root, 다크 :root[data-scheme="dark"])과 같은 값(tests/test_app.py 가 견준다).
  * 요일은 월~금(토·일은 수업이 있을 때만), 시각은 수업이 있는 시간만(적어도 네 시간). 칸은 과목명(굵게)과 남는 자리에 강의실.
+ * 칸 글은 낱말(어절) 가운데서 끊지 않고(안드로이드 13 이상) 과목명 끝 번호를 앞 낱말에 붙인다(디자인 89판, 앱 화면 격자와 같게).
  * 화면처럼 기기 글자 크기를 따르되 칸이 작아 1.3배에서 멈춘다.
  */
 final class WeekBitmap {
@@ -110,9 +114,11 @@ final class WeekBitmap {
         name.setTextSize(9.5f * dp * font);
         name.setTypeface(Typeface.DEFAULT_BOLD);
         name.setColor(ink.text);
+        name.setTextLocale(Locale.KOREAN); // 기기 언어가 한국어가 아니어도 한국어 줄바꿈(어절)과 한자 모양
         TextPaint place = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         place.setTextSize(8.5f * dp * font);
         place.setColor(ink.text2);
+        place.setTextLocale(Locale.KOREAN);
         float radius = 4 * dp, gap = 1.5f * dp, pad = 3 * dp;
         RectF box = new RectF();
         for (int d = 0; d < days; d++) {
@@ -148,7 +154,8 @@ final class WeekBitmap {
         if (width <= 4 || height < name.getTextSize() * 0.9f) return;
         int nameLines = Math.max(1, (int) (height / (name.getTextSize() * 1.2f)));
         boolean withPlace = !l.place.isEmpty() && nameLines >= 2;
-        StaticLayout title = layout(l.name, name, width, withPlace ? nameLines - 1 : nameLines);
+        String text = WidgetData.glueTail(l.name, s -> name.measureText(s) <= width - 1);
+        StaticLayout title = layout(text, name, width, withPlace ? nameLines - 1 : nameLines);
         canvas.save();
         canvas.clipRect(box);
         canvas.translate(box.left + pad, box.top + pad);
@@ -161,12 +168,21 @@ final class WeekBitmap {
     }
 
     private static StaticLayout layout(String text, TextPaint paint, int width, int maxLines) {
-        return StaticLayout.Builder.obtain(text, 0, text.length(), paint, width)
+        StaticLayout.Builder b = StaticLayout.Builder.obtain(text, 0, text.length(), paint, width)
             .setAlignment(Layout.Alignment.ALIGN_NORMAL)
             .setIncludePad(false)
             .setMaxLines(maxLines)
-            .setEllipsize(TextUtils.TruncateAt.END)
-            .build();
+            .setEllipsize(TextUtils.TruncateAt.END);
+        if (Build.VERSION.SDK_INT >= 33) Api33.phrase(b);
+        return b.build();
+    }
+
+    /** 안드로이드 13 이상에만 있는 것(그 아래 기기는 이 클래스를 읽지 않는다) */
+    private static final class Api33 {
+        /** 위젯 글(TextView)의 lineBreakWordStyle="phrase" 와 같은 줄바꿈: '보여 / 요' 처럼 낱말 가운데서 끊지 않는다 */
+        static void phrase(StaticLayout.Builder b) {
+            b.setLineBreakConfig(new LineBreakConfig.Builder().setLineBreakWordStyle(LineBreakConfig.LINE_BREAK_WORD_STYLE_PHRASE).build());
+        }
     }
 
     /** 스크린리더에 읽을 한 주: '월 09:30 생명과학 1 26동 104호, 13:00 대학 글쓰기 1. 화 …' */

@@ -96,6 +96,17 @@ public final class WidgetCheck {
         int[] lane = new int[4], lanes = new int[4];
         WidgetData.laneOf(clash, lane, lanes);
         out.append(",\"lane\":").append(Arrays.toString(lane).replace(" ", "")).append(",\"lanes\":").append(Arrays.toString(lanes).replace(" ", "")).append("}");
+        // 과목명 끝 번호 붙이기(앱 화면의 glueTail 과 같다): 앞 낱말과 번호가 한 줄(여기서는 글자 수)에 들면 U+00A0, 아니면 그대로
+        Object[][] glue = { { "대학 글쓰기 1", 9 }, { "대학 글쓰기 1", 4 }, { "화학", 9 }, { "수학 100", 9 }, { "English II", 20 },
+            { "Data Science A", 20 }, { "수학 및 연습 \u2161", 20 }, { "1", 9 }, { "물리학실험 2", 9 } };
+        List<String> asked = new ArrayList<>();
+        out.append(",\"glue\":[");
+        for (int i = 0; i < glue.length; i++) {
+            int limit = (Integer) glue[i][1];
+            String got = WidgetData.glueTail((String) glue[i][0], s -> { asked.add(s); return s.length() <= limit; });
+            out.append(i == 0 ? "" : ",").append(q(got.replace("\u00A0", "~")));
+        }
+        out.append("],\"asked\":").append(q(asked.isEmpty() ? "" : asked.get(0)));
         // 깨진 자료는 읽지 않는다
         String[] bad = { "", "{}", "[]", "{\"v\":0,\"terms\":[]}", "{\"v\":1,\"terms\":[", "{\"v\":1,\"terms\":[{\"from\":\"2026-9-1\",\"to\":\"2026-12-21\",\"days\":[]}]}" };
         out.append(",\"bad\":[");

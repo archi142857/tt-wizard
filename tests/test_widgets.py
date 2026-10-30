@@ -114,6 +114,10 @@ def test_app_reads_widget_data(made, tmp_path):
     # 주간 격자: 월~금, 수업이 있는 시간만(9시~15시), 겹치는 수업은 나란히
     assert r["grid"] == {"days": 5, "hours": [9, 15], "lane": [0, 1, 2, 0], "lanes": [3, 3, 3, 1]}
     assert r["bad"] == [None, None, None, None, None, 0]  # 깨진 자료는 읽지 않는다(날짜가 틀린 학기만 뺀다)
+    # 과목명 끝 번호(~ 는 U+00A0): 앞 낱말과 번호가 한 줄에 들 때만 붙이고, 세 자리 숫자·번호만 있는 글은 그대로(web/js/app.js 의 glueTail 과 같다)
+    assert r["glue"] == ["대학 글쓰기~1", "대학 글쓰기 1", "화학", "수학 100", "English~II", "Data Science~A", "수학 및 연습~\u2161", "1",
+                         "물리학실험~2"]
+    assert r["asked"] == "글쓰기 1"  # 폭은 앞 낱말과 번호로 잰다
 
 
 def _tokens(css: str, start: str) -> dict:
@@ -195,6 +199,34 @@ def test_week_layouts_pick_light_or_dark_picture():
     assert strip(day) == strip(night)
     views = (JAVA / "WidgetViews.java").read_text(encoding="utf-8")
     assert not re.search(r"setViewVisibility\(R\.id\.w_grid_(light|dark)", views)
+
+
+def _visibility(xml: str, vid: str) -> str:
+    tag = re.search(rf'<[\w.]+\s[^<>]*android:id="@\+id/{vid}"[^<>]*>', xml).group(0)
+    m = re.search(r'android:visibility="(\w+)"', tag)
+    return m.group(1) if m else "visible"
+
+
+def test_widget_views_reset_what_they_change():
+    """런처는 같은 레이아웃이면 전에 펼친 화면 위에 바꿈만 다시 얹으므로(update69) 위젯마다 그릴 때 바꾸는 보이기를 다 처음 모양으로 되돌린다.
+    되돌리는 목록은 레이아웃 XML 의 처음 보이기와 같고, 그리는 코드가 보이기를 바꾸는 것은 모두 목록에 있다"""
+    views = (JAVA / "WidgetViews.java").read_text(encoding="utf-8")
+    for kind, layout in (("NEXT", "widget_next"), ("TODAY", "widget_today"), ("WEEK", "widget_week")):
+        ids = {k: re.findall(r"R\.id\.(\w+)", re.search(rf"static final int\[\] {kind}_{k} = \{{(.*?)\}};", views).group(1))
+               for k in ("SHOWN", "HIDDEN")}
+        for folder in ("layout", "layout-night"):
+            path = RES / folder / f"{layout}.xml"
+            if path.exists():
+                xml = path.read_text(encoding="utf-8")
+                assert [_visibility(xml, v) for v in ids["SHOWN"]] == ["visible"] * len(ids["SHOWN"]), (folder, layout)
+                assert [_visibility(xml, v) for v in ids["HIDDEN"]] == ["gone"] * len(ids["HIDDEN"]), (folder, layout)
+        start = views.index(f"static RemoteViews {kind.lower()}(")
+        body = views[start:views.index("\n    }\n", start)]
+        assert body.index(f"reset(v, {kind}_SHOWN, {kind}_HIDDEN);") < body.index("setOnClickPendingIntent")
+        changed = set(re.findall(r"setViewVisibility\(R\.id\.(\w+)", body))
+        for group in re.findall(r"for \(int id : new int\[\] \{(.*?)\}\) v\.setViewVisibility\(id", body):
+            changed |= set(re.findall(r"R\.id\.(\w+)", group))
+        assert changed and changed <= set(ids["SHOWN"]) | set(ids["HIDDEN"]), (kind, changed)
 
 
 def _res_names(kind: str) -> set[str]:

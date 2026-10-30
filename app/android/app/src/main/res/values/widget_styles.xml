@@ -96,10 +96,11 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
+    <!-- '지금' 태그: 타입 표의 가장 작은 글 12(디자인 89판, 전에는 11) -->
     <style name="TTWWidget.Tag">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/widget_accent</item>
         <item name="android:background">@drawable/widget_tag_now</item>
