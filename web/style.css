@@ -1363,7 +1363,7 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
   font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); font-variant-numeric: tabular-nums; }
 .tl-acts { margin: 0; padding: 0; list-style: none; }
 .tl-acts > li { border-top: 1px solid var(--line); }
-.tl-acts .menu-row { min-height: var(--touch); padding-left: calc(var(--space-5) + var(--space-4)); font-size: 0.9375rem; }
+.tl-acts .menu-row { min-height: var(--touch); padding-left: calc(var(--space-5) + var(--space-4)); } /* 글자는 .menu-row 그대로 t-body(디자인 88판: 15px 는 타입 표에 없다) */
 .menu-row.danger { color: var(--danger); }
 /* 칸 색(10/23 사용자: 정보 화면에서 시간표 탭으로): 목록 아래 세그먼트 */
 .tl-color { min-width: 0; margin: var(--space-5) 0 var(--space-2); padding: 0; border: 0; }
@@ -1415,6 +1415,7 @@ dialog.sheet.shared-sheet { padding-bottom: 0; }
 .text-input { display: block; width: 100%; min-height: var(--touch); padding: 0 var(--space-3); border: 1px solid var(--line-strong); border-radius: var(--radius-sm);
   background: var(--card); color: var(--text); font-size: 1rem; line-height: 1.5rem; }
 .text-input::placeholder { color: var(--text3); opacity: 1; }
+dialog.sheet .text-input { background: var(--raised); } /* 시트·팝업 위 입력칸은 옆 선택칸과 같은 raised(디자인 88판. card 면 다크에서 한 단 어둡다) */
 .cu-field { padding: var(--space-2) 0 var(--space-3); }
 .cu-field .field-label { margin-bottom: var(--space-2); }
 .cu-field .error-line { margin: var(--space-2) 0 0; }
@@ -1518,6 +1519,24 @@ html[data-theme="xmas"] dialog.sheet::backdrop { background: var(--scrim, #03140
    넓은 화면 과목 추가 미리 보기에서 이미 넣은 분반 칸의 테두리는 그 칸의 글자색(초록 칸 위의 초록 accent 테두리는 1.0:1 이라 보이지 않는다. 짙은 칸은 흰색) */
 html[data-theme="xmas"] .tt-late { box-shadow: 0 0 0 1.5px var(--card); }
 html[data-theme="xmas"] .wk-block.is-hl { box-shadow: inset 0 0 0 2px var(--block-fg, var(--accent)); }
+/* 크리스마스 썰매 그림(디자인 88~91판 '이벤트 테마'의 '썰매 그림', 컴포넌트 XmasSleigh. 10/30 사용자: "크리스마스 테마에 루돌프나 산타같은 이미지 추가되면 좋을 것 같은데",
+   시안을 보고 "순록이 산타 썰매 끌고 있는 옆모습 이미지를 만들어 줘. 그건 다 빈자리에 넣자". 자리·크기·기울기·진하기는 사용자가 디자인 시안 페이지에서 직접 맞췄다).
+   디자인 세션이 그린 그림 하나(icons/xmas-sleigh.svg, 왼쪽을 향한 286×92. 그림 파일이라 그림 안의 값으로 칠하고, 그 값은 크리스마스 토큰과 같다)를 정해 둔 빈자리에만 둔다.
+   가운데 점(left·top), 돌리기 전 폭(--sleigh-w), 시계 방향 기울기(--sleigh-tilt), 진하기(--sleigh-alpha)로 놓는다. 장식이라 aria-hidden 이고 눌리지 않으며 움직이지 않는다.
+   폰 내 시간표(한 칸 화면): 상단 바 안에 오른쪽 끝에서 120, 상단 바 위 끝(안전 영역 아래)에서 60, 폭 120, 10°. 상단 바보다 위에 그려 아래쪽이 바 밑으로 나온다.
+   컴퓨터 사이드바: 탭 목록과 맨 아래 묶음 사이 빈 곳(.sb-art, 사이드바 폭 그대로)에 둘. 위는 작고 흐린 썰매(왼쪽에서 140, 칸 높이의 28%, 폭 130, 10°, 55%),
+   아래는 원래 썰매(처음 시안 그대로: 125, 67%, 폭 202, 좌우로 뒤집어 반시계 10° = 오른쪽 위로, 100%).
+   글자·아이콘과 8px 안으로 가까워지거나(사이드바는 칸이 낮으면 위의 작은 것부터) 폰에서 본문을 내리면 app.js(placeSleighs)가 hidden 을 둔다. 시간표 이미지에는 캔버스로 그린다 */
+.xmas-sleigh { display: none; position: absolute; z-index: 1; width: var(--sleigh-w, 120px); aspect-ratio: 286 / 92; pointer-events: none;
+  transform: translate(-50%, -50%) rotate(var(--sleigh-tilt, 10deg)) scaleX(var(--sleigh-flip, 1)); opacity: var(--sleigh-alpha, 1); }
+.xmas-sleigh > img { display: block; width: 100%; height: 100%; }
+html[data-theme="xmas"] .xmas-sleigh:not([hidden]) { display: block; }
+.topbar .xmas-sleigh { left: calc(100% - 120px); top: calc(60px + var(--safe-top)); }
+.sidebar .sb-art { position: relative; flex: 1 1 0; min-height: 0; margin: 0 calc(var(--space-4) * -1) 0 calc(var(--space-6) * -1); }
+.sb-art .xmas-sleigh:nth-child(1) { left: 140px; top: 28%; --sleigh-w: 130px; --sleigh-alpha: .55; }
+.sb-art .xmas-sleigh:nth-child(2) { left: 125px; top: 67%; --sleigh-w: 202px; --sleigh-tilt: -10deg; --sleigh-flip: -1; } /* 원래 썰매: 오른쪽 위로 */
+@media (min-width: 42.5em), (horizontal-viewport-segments: 2) { html[data-theme="xmas"] .topbar .xmas-sleigh:not([hidden]) { display: none; } }
+@media (prefers-contrast: more), (forced-colors: active) { html[data-theme="xmas"] .xmas-sleigh:not([hidden]) { display: none; } }
 
 /* 눈(크리스마스 테마. 10/4 사용자: "크리스마스 배경에서 눈에 안 거슬릴 정도로 눈 내리는 효과", "또렷할 필요는 없고 양은 ㄹ의 2배면 될 듯").
    맨 뒤 바탕 위, 카드·상단 바·하단 띠 아래에서만 내린다. 두 겹(멀리: 작고 덜 밝고 느리다 / 가까이: 조금 크고 밝고 빠르다)을 화면보다 한 장 길게 깔고

@@ -3566,6 +3566,7 @@ function renderMineHead(t) {
   $("tt-primary").hidden = !t.primary;
   $("tt-switch").setAttribute("aria-label", [sum ? `${sem} 총 ${sum}학점` : sem, t.title, t.primary ? "대표" : ""].filter(Boolean).join(", "));
   $("tt-share").hidden = !t.items.length; // 비어 있는 시간표는 나눌 것이 없다(이미지 줄과 같다)
+  sleighSoon(); // 크리스마스 썰매 그림: 학기·학점 줄, 이름, 공유가 바뀌었을 수 있다
 }
 
 /**
@@ -4074,14 +4075,15 @@ async function timetablePng(t) {
   const late = untimed.length ? h("p", { class: "ex-untimed" }, `시간 미정 · ${untimed.map((e) => courseName(e)).join(", ")}`) : null;
   const name = h("p", { class: "ex-name" }, t.title), card = h("div", { class: "ex-card" });
   const mark = h("img", { class: "ex-mark", alt: "", src: exportWordmark() });
+  const art = document.documentElement.dataset.theme === "xmas" && !lowArt.matches ? h("img", { alt: "", src: SLEIGH_SRC }) : null; // 크리스마스 썰매 그림
   const root = h("div", { class: "tt-export", "aria-hidden": "true", inert: true },
     h("p", { class: "ex-sem" }, sum ? `${sem} · ${sum}학점` : sem), name, card, legend || late ? h("div", { class: "ex-notes" }, legend, late) : null, mark);
   document.body.append(root);
   try {
-    await Promise.all([document.fonts ? document.fonts.ready : null, mark.decode ? mark.decode().catch(() => null) : null]);
+    await Promise.all([document.fonts ? document.fonts.ready : null, ...[mark, art].map((im) => (im && im.decode ? im.decode().catch(() => null) : null))]);
     layoutExport(root, entries, { name, card, legend: !!legend, late: !!late });
     root.dataset.level = String(fitExport(root));
-    const pic = paintExport(root);
+    const pic = paintExport(root, art && art.complete && art.naturalWidth && exportSleighFits(root) ? art : null);
     const blob = await new Promise((res) => pic.toBlob(res, "image/png"));
     return blob ? T.addTimetableToPng(new Uint8Array(await blob.arrayBuffer()), t) : null;
   } finally {
@@ -4200,8 +4202,19 @@ function roundPath(g, x, y, w, hh, r) {
   g.closePath();
 }
 const cornerOf = (cs, r) => { const v = cs.borderTopLeftRadius; return v.endsWith("%") ? (Math.min(r.width, r.height) * parseFloat(v)) / 100 : parseFloat(v) || 0; };
-/** 화면 밖 판(그림 px 그대로 1080×1920)을 캔버스로: 바탕(이벤트 테마는 무늬 점까지), 요소마다 바탕색·둥근 모서리·잘림, 그림(워드마크), 글자(한 글자씩 판의 그 자리에) */
-function paintExport(root) {
+// 크리스마스 썰매 그림(디자인 88판 '시간표 이미지'·'썰매 그림'): 이름 오른쪽, 가운데 (760, 125), 돌리기 전 폭 415, 시계 방향 3°(그림 px)
+const EX_SLEIGH = { x: 760, y: 125, w: 415, deg: 3 };
+/** 썰매 그림이 학기 줄·이름의 글자와 8 넘게 떨어진다(이름이 길면 빠진다) */
+function exportSleighFits(root) {
+  const R = root.getBoundingClientRect(), box = sleighBox(R.left + EX_SLEIGH.x, R.top + EX_SLEIGH.y, EX_SLEIGH.w, EX_SLEIGH.deg), span = document.createRange();
+  return ![".ex-sem", ".ex-name"].some((sel) => {
+    span.selectNodeContents(root.querySelector(sel));
+    return [...span.getClientRects()].some((q) => nearBox(box, q));
+  });
+}
+/** 화면 밖 판(그림 px 그대로 1080×1920)을 캔버스로: 바탕(이벤트 테마는 무늬 점까지), 썰매 그림(art, 크리스마스), 요소마다 바탕색·둥근 모서리·잘림, 그림(워드마크),
+ *  글자(한 글자씩 판의 그 자리에) */
+function paintExport(root, art = null) {
   const R = root.getBoundingClientRect(), k = EXPORT_W / R.width;
   const pic = h("canvas", { width: EXPORT_W, height: EXPORT_H });
   const g = pic.getContext("2d");
@@ -4216,6 +4229,14 @@ function paintExport(root) {
     for (let m = 0; m * 42 <= R.height + 42; m++) {
       for (let x = m % 2 ? 24 : 0; x <= R.width + 48; x += 48) { g.beginPath(); g.arc(R.left + x, R.top + m * 42, 7.5, 0, Math.PI * 2); g.fill(); }
     }
+  }
+  if (art) {
+    const w = EX_SLEIGH.w, hh = (w * 92) / 286;
+    g.save();
+    g.translate(R.left + EX_SLEIGH.x, R.top + EX_SLEIGH.y);
+    g.rotate((EX_SLEIGH.deg * Math.PI) / 180);
+    g.drawImage(art, -w / 2, -hh / 2, w, hh);
+    g.restore();
   }
   paintKids(g, root);
   // 알파 없는 PNG(디자인 규칙 '시간표 이미지'): 다 그린 판을 불투명 캔버스로 옮겨 RGB 로 내보낸다. 처음부터 불투명 캔버스에 그리면
@@ -5720,6 +5741,7 @@ function applyTheme(on) {
   }
   mapColorCache = null; // 테마를 켜고 끄거나 라이트·다크가 바뀌면 지도 색도 바뀐다
   for (const mp of [maps.small, maps.full]) if (mp) mp.base.redraw();
+  sleighSoon(); // 크리스마스 썰매 그림
 }
 /** 라이트·다크 고르기(테마 탭). 기간에 켜진 이벤트 테마는 끈다(돌아가기와 같다: 그 해에는 저절로 다시 켜지지 않는다) */
 function setScheme(v) {
@@ -5765,6 +5787,70 @@ function showAsk(opener) {
   openSheet($("theme-ask"), opener);
 }
 $("theme-ask-yes").addEventListener("click", () => { setTheme(false); renderThemes(); closeSheet($("theme-ask")); });
+
+// ---- 크리스마스 썰매 그림(디자인 88~91판 '이벤트 테마'의 '썰매 그림', 컴포넌트 XmasSleigh. 10/30 사용자: "크리스마스 테마에 루돌프나 산타같은 이미지 추가되면 좋을 것 같은데",
+// 디자인 시안을 보고 "순록이 산타 썰매 끌고 있는 옆모습 이미지를 만들어 줘. 그건 다 빈자리에 넣자"). 디자인 세션이 그린 그림 하나(icons/xmas-sleigh.svg, 286×92)를
+// 폰 내 시간표 상단 바, 컴퓨터 사이드바 빈 곳 둘(index.html, 자리·크기는 style.css .xmas-sleigh), 시간표 이미지(EX_SLEIGH, 캔버스)에만 둔다. 크리스마스 테마에서만이고
+// 대비를 높인 기기·강제 색에서는 무늬처럼 없다. 돌린 그림의 둘레 상자가 글자·아이콘(버튼은 보이는 아이콘 24)과 8px 안으로 가까워지면 그리지 않는다.
+// 폰은 본문을 내리면(스크롤이 0이 아니면) 숨긴다: 내려간 시간표가 그림 밑으로 지나가지 않게. 숨기고 보일 때 움직임은 없다.
+// 사이드바는 둘끼리도 8px 띄우고, 빈 곳이 낮으면 위의 작은 것부터 빠진다(원래 썰매가 빠지면 작은 것도 없다: 빈 곳 높이 230px 아래면 원래 썰매만, 175px 아래면 없다)
+const SLEIGH_SRC = "icons/xmas-sleigh.svg";
+const lowArt = matchMedia("(prefers-contrast: more), (forced-colors: active)");
+/** 가운데 (cx, cy), 돌리기 전 폭 w 인 썰매 그림(286×92)을 deg 만큼 돌렸을 때의 둘레 상자 */
+function sleighBox(cx, cy, w, deg) {
+  const hh = (w * 92) / 286, a = (Math.abs(deg) * Math.PI) / 180;
+  const bw = w * Math.cos(a) + hh * Math.sin(a), bh = w * Math.sin(a) + hh * Math.cos(a);
+  return { left: cx - bw / 2, right: cx + bw / 2, top: cy - bh / 2, bottom: cy + bh / 2, width: bw, height: bh };
+}
+/** 상자 r 이 상자 b 에서 gap 안으로 가깝다(겹치면 물론). 크기가 없는 것(숨은 것)은 빼고 */
+const nearBox = (b, r, gap = 8) => r.width > 0 && r.height > 0 && r.left < b.right + gap && r.right > b.left - gap && r.top < b.bottom + gap && r.bottom > b.top - gap;
+const boxesOf = (el) => (el ? [...el.getClientRects()] : []);
+/** 다음 그림 때 자리를 다시 본다(여러 번 불러도 한 번). 함수 선언이라 앞에서 불러도 된다(applyTheme 는 이 모듈을 읽는 중에 부른다) */
+function sleighSoon() {
+  cancelAnimationFrame(sleighSoon.raf);
+  sleighSoon.raf = requestAnimationFrame(placeSleighs);
+}
+function placeSleighs() {
+  const on = document.documentElement.dataset.theme === "xmas" && !lowArt.matches;
+  // 폰 내 시간표(한 칸 화면): 상단 바 오른쪽 끝에서 120, 상단 바 위 끝(안전 영역 아래)에서 60, 폭 120, 10°. 워드마크·오프라인 태그·ⓘ·학기·학점 줄·이름·공유를 본다
+  const top = document.querySelector("#view-mine > .topbar > .xmas-sleigh");
+  if (top) {
+    const bar = top.parentElement, r = bar.getBoundingClientRect();
+    let show = on && !twoPane.matches && mineShown() && window.scrollY <= 0 && r.width > 0;
+    if (show) {
+      const box = sleighBox(r.right - 120, r.top + parseFloat(getComputedStyle(bar).paddingTop) + 60, 120, 10);
+      const near = [...bar.querySelectorAll(".brand img, .offline-tag, [data-open-info] svg"), $("tt-sem"), $("tt-switch").querySelector(".nm"), $("tt-share").querySelector("svg")];
+      show = !near.some((el) => boxesOf(el).some((q) => nearBox(box, q)));
+    }
+    if (top.hidden === show) top.hidden = !show;
+  }
+  // 컴퓨터 사이드바: 빈 곳(.sb-art) 높이의 28%에 작고 흐린 썰매(왼쪽에서 140, 폭 130, 10°), 67%에 원래 썰매(125, 폭 202, 반시계 10°). 탭 목록과 맨 아래 묶음을 본다
+  const art = document.querySelector(".sidebar > .sb-art");
+  if (art) {
+    const [small, orig] = art.children, a = art.getBoundingClientRect();
+    const near = [document.querySelector(".sidebar nav ul"), document.querySelector(".sidebar .sb-foot")].flatMap(boxesOf);
+    const ob = sleighBox(a.left + 125, a.top + a.height * 0.67, 202, 10), sb = sleighBox(a.left + 140, a.top + a.height * 0.28, 130, 10);
+    const showOrig = on && a.height > 0 && !near.some((q) => nearBox(ob, q));
+    const showSmall = showOrig && !near.some((q) => nearBox(sb, q)) && !nearBox(sb, ob);
+    if (orig.hidden === showOrig) orig.hidden = !showOrig;
+    if (small.hidden === showSmall) small.hidden = !showSmall;
+  }
+}
+// 다시 볼 때: 테마(applyTheme), 머리 줄 글(renderMineHead), 화면 바꾸기(showView), 연결 상태(renderOnline)는 그 자리에서 부른다. 그 밖은 아래
+// (창 크기·안전 영역, 글꼴을 받아 글자 폭이 바뀜, 칸 크기, 대비 설정). 스크롤은 0 인지 아닌지가 바뀔 때만
+window.addEventListener("resize", sleighSoon);
+lowArt.addEventListener("change", sleighSoon);
+if (document.fonts) document.fonts.addEventListener("loadingdone", sleighSoon);
+{
+  const ro = new ResizeObserver(sleighSoon);
+  for (const el of [document.querySelector(".sidebar > .sb-art"), document.querySelector("#view-mine > .topbar"), $("tt-switch")]) if (el) ro.observe(el);
+  let down = window.scrollY > 0;
+  window.addEventListener("scroll", () => {
+    if (down === window.scrollY > 0) return;
+    down = !down;
+    sleighSoon();
+  }, { passive: true });
+}
 
 // ---- 테마 탭(디자인 75판 '테마 탭', 컴포넌트 ThemeTab): 테마마다 카드 하나(라디오. 미리보기 + 이름, 이벤트 테마는 '시즌 한정' 태그와 고를 수 있는 때).
 // 카드는 기본(기기 설정) · 라이트 · 다크 · 이벤트 테마(10/23 밤 사용자: "테마에서 기본(기기설정), 라이트, 다크 모두 따로 만들어줘". 그전에는 기본과 크리스마스 둘).
@@ -6189,6 +6275,7 @@ function showView(name, dir, extra = {}) {
     if (!swap) window.scrollTo(0, dir === "back" || dir === "tab" ? scrollOf[`${tab}:${name}`] || 0 : 0);
     focusAfter(name, dir, from);
     if (name === "input") showUpdateIfReady();
+    sleighSoon(); // 폰 내 시간표 상단 바의 썰매(돌아온 스크롤 자리)
   };
   // 정보 묶음 안(정보 ↔ 자료 출처·개발자 정보·오픈소스 라이선스)도 옆으로 밀지 않고 교차 페이드(10/23 저녁 사용자: "정보탭 누를 때 화면 살짝 옆으로 흔들리는 것도
   // 빼줘". 정보는 탭과 같은 층이라 탭을 바꿀 때와 같다). 결과 화면에서 연 자료 출처(탐색 탭)는 그대로 민다
@@ -6349,6 +6436,7 @@ window.addEventListener("appinstalled", () => { installPrompt = null; updateInst
 
 function renderOnline() {
   for (const el of document.querySelectorAll(".offline-tag")) el.hidden = navigator.onLine !== false;
+  sleighSoon(); // 오프라인 태그가 생기면 폰 상단 바의 썰매가 빠진다
 }
 window.addEventListener("offline", renderOnline);
 window.addEventListener("online", () => {
