@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 오늘 수업 위젯의 행 하나: 항목 색 막대 | 과목명·강의실과 걷기 | 시각·'지금' -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/r_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp">
+
+    <ImageView
+        android:id="@+id/r_mark"
+        android:layout_width="4dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/widget_mark_item0"
+        android:importantForAccessibility="no" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/r_name"
+            style="@style/TTWWidget.RowName" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal">
+
+            <!-- 늦음을 앞에 둔다(강의실·걷기 글이 길면 그쪽이 줄어든다) -->
+            <TextView
+                android:id="@+id/r_late"
+                style="@style/TTWWidget.RowSub"
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:textColor="@color/widget_danger"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/r_sub"
+                style="@style/TTWWidget.RowSub"
+                android:layout_width="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:gravity="end"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/r_time"
+            style="@style/TTWWidget.RowTime" />
+
+        <TextView
+            android:id="@+id/r_now"
+            style="@style/TTWWidget.Tag"
+            android:layout_marginTop="3dp"
+            android:text="@string/w_now_tag"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

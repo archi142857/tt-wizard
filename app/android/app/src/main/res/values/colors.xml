@@ -2,4 +2,35 @@
 <!-- 시작 화면(시스템 스플래시)과 웹뷰 바탕: 디자인 규칙 '스토어 출시' > '시작 화면'의 bg. 다크는 values-night -->
 <resources>
     <color name="launch_background">#EEF0FF</color>
+
+    <!-- 홈 화면 위젯(10/30): 웹 화면의 기본 테마 토큰(web/style.css 라이트 :root)과 같은 값.
+         바탕 card, 글자 text·text2·text3, 선 line, 강조 accent-text·accent-weak, 위험 danger, 항목 표시 item-N-dot, 교과구분 표시 cls-*, 칸 채움 item-N. tests/test_app.py 가 견준다 -->
+    <color name="widget_bg">#FFFFFF</color>
+    <color name="widget_text">#182033</color>
+    <color name="widget_text2">#51596A</color>
+    <color name="widget_text3">#646C7E</color>
+    <color name="widget_line">#DEE1F7</color>
+    <color name="widget_accent">#415FEC</color>
+    <color name="widget_accent_weak">#EEF0FF</color>
+    <color name="widget_danger">#D8152F</color>
+    <color name="widget_mark_item0">#5C7AD3</color>
+    <color name="widget_mark_item1">#1C985A</color>
+    <color name="widget_mark_item2">#BE6517</color>
+    <color name="widget_mark_item3">#9468C2</color>
+    <color name="widget_mark_item4">#A89219</color>
+    <color name="widget_mark_item5">#BF5884</color>
+    <color name="widget_mark_item6">#0097A1</color>
+    <color name="widget_mark_item7">#798090</color>
+    <color name="widget_mark_req">#4F70FF</color>
+    <color name="widget_mark_elec">#0B9C7D</color>
+    <color name="widget_mark_gen">#D76C14</color>
+    <color name="widget_mark_etc">#828A9D</color>
+    <color name="widget_fill_item0">#DCE9FF</color>
+    <color name="widget_fill_item1">#CBF6D8</color>
+    <color name="widget_fill_item2">#FFE0C4</color>
+    <color name="widget_fill_item3">#F1E2FF</color>
+    <color name="widget_fill_item4">#FBEEB0</color>
+    <color name="widget_fill_item5">#FFDCEB</color>
+    <color name="widget_fill_item6">#C3F4F7</color>
+    <color name="widget_fill_item7">#E6EAF2</color>
 </resources>

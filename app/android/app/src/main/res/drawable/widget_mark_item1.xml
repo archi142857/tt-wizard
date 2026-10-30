@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 위젯의 항목 표시(오늘 수업 행의 막대, 다음 수업의 점). 색은 values(-night)/colors.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/widget_mark_item1" />
+    <corners android:radius="2dp" />
+</shape>

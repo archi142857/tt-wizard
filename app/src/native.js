@@ -13,6 +13,7 @@
 // 6) 시간표 이미지 공유·저장: TTW_APP.shareImage·saveImage(앱 안 플러그인 TTWImage. 아래 '시간표 이미지').
 // 7) 시간표 링크로 앱 열기: TTW_APP.launchUrl·'ttw:open-url' 이벤트(아래 '앱으로 연 주소').
 // 8) 링크 공유·앱 설정 열기: TTW_APP.shareLink·openSettings(앱 안 플러그인 TTWShell. 아래 '링크 공유·앱 설정').
+// 9) 홈 화면 위젯(안드로이드): TTW_APP.updateWidgets(앱 안 플러그인 TTWWidget. 아래 '홈 화면 위젯').
 (function () {
   "use strict";
   var cap = window.Capacitor;
@@ -305,6 +306,30 @@
       return pluginCall("TTWShell", "shareText", { text: url, title: String(opts.title || "") });
     };
     app.openSettings = function () { return pluginCall("TTWShell", "openSettings", {}); };
+  }
+
+  // ------------------------------------------------------------ 홈 화면 위젯 (안드로이드, TTWWidget)
+
+  // 위젯(다음 수업·오늘 수업·주간 시간표)은 앱이 꺼져 있어도 그려서, 화면이 대표 시간표를 위젯 자료로 넘겨 기기 안에 둔다(docs/app.md '홈 화면 위젯').
+  //   TTW_APP.updateWidgets(data)  data = web/js/timetables.js 의 widgetData(...) 결과. Promise → true(넘겼다)·false(못 넘겼다). 거절하지 않는다.
+  //                                이번에 켠 뒤 넘긴 것과 같으면 플러그인을 부르지 않는다(자주 불러도 된다: 켤 때, 앱을 내릴 때, 대표 시간표·출발 지점이 바뀔 때)
+  //   TTW_APP.widgetInfo()         Promise → { placed: 홈 화면에 놓인 위젯 수 } 또는 null
+  // 플러그인이 없는 곳(iOS·옛 앱)에는 두 함수가 없다.
+  if (plugins.TTWWidget) {
+    var sentWidgets = null;
+    app.updateWidgets = function (data) {
+      var json;
+      try { json = JSON.stringify(data); } catch (e) { return Promise.resolve(false); }
+      if (typeof json !== "string") return Promise.resolve(false);
+      if (json === sentWidgets) return Promise.resolve(true);
+      return pluginCall("TTWWidget", "update", { data: json }).then(function () {
+        sentWidgets = json;
+        return true;
+      }, function () { return false; });
+    };
+    app.widgetInfo = function () {
+      return pluginCall("TTWWidget", "info", {}).then(function (r) { return r && typeof r.placed === "number" ? { placed: r.placed } : null; }, function () { return null; });
+    };
   }
 
   window.TTW_APP = app;

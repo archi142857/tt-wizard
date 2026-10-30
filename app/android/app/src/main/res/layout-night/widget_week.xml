@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 주간 시간표 위젯(4×4, 10/30). 격자는 그림(WeekBitmap)이라 라이트·다크 두 장을 늘 같이 넣고, 어느 쪽을 보일지는 이 파일과
+     layout-night 판이 정한다(기기 테마가 바뀌면 런처가 위젯을 다시 펼치며 고른다. 코드는 두 그림의 보이기를 건드리지 않는다).
+     다크(밤) 판: 다크 그림을 보인다. 라이트 판은 layout/widget_week.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_bg"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/w_title"
+        style="@style/TTWWidget.Heading"
+        android:layout_marginStart="2dp" />
+
+    <FrameLayout
+        android:id="@+id/w_grid"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="6dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/w_grid_light"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/w_grid_dark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:visibility="visible" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/w_msg"
+        style="@style/TTWWidget.Message"
+        android:layout_marginTop="8dp"
+        android:visibility="gone" />
+</LinearLayout>

@@ -56,6 +56,8 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
 | `addTimetableToPng(png, t)` | 시간표 그림(PNG 바이트)에 시간표 자료를 파일 안의 글 조각으로 넣은 새 PNG(아래 '이미지 파일에 담기'). PNG 가 아니면 `null` |
 | `readTimetableImage(bytes)` | 고른 이미지 파일 → `{payload}` 또는 `{problem}`(`not-png`·`jpeg`·`no-data`·`broken`·`newer`) |
 | `timetableFromImage(payload, list)` | 읽은 자료 → 새 시간표(학기는 `payload.sem`, `list` 는 그 학기 목록. 이름이 겹치면 `(2)`, 꽉 찼으면 `null`) |
+| `widgetData(terms, {name, place, minutes, home, colors})` | 홈 화면 위젯 자료(아래 '홈 화면 위젯'). `terms = [{t: 대표 시간표, entries}]`, 결과를 `TTW_APP.updateWidgets` 에 넘긴다 |
+| `widgetSemesters(sems, now)`, `termDates(sem)`, `termLabel(sem)` | 위젯에 넘길 학기(끝나지 않은 학기를 시작 차례로 셋까지), 위젯이 학기를 보이는 날들, `2026년 2학기` |
 
 `checkRoute(sections, travel, home, {weights})`(`engine.js`)는 `evaluate` 와 같은 모양(요일별 경로 `legs`, `cost` 등)에
 `overlaps: [[i, j], ...]`(시간이 겹치는 분반 쌍)을 더해 돌려준다. 탐색 결과를 저장한 시간표는 `checkRoute(toSections(t, byId), …)` 가 탐색 때와 같은 비용·경로를 낸다(시험이 본다).
@@ -114,6 +116,23 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
 - 받기: 웹은 '공유받은 시간표' 시트로 보여 주고 `내 시간표에 넣기`, 앱은 보여 주지 않고 바로 넣는다(그 학기에 새 시간표, 다른 학기면 그 학기로 옮긴다).
   앱이 깔린 폰에서는 링크를 누르면 앱이 열린다(App Links·Universal Links, `docs/app.md` '시간표 링크로 앱 열기'). 받은 이름·과목명·일정 이름은 화면에 글로만 넣는다(법무 10/23).
 - 링크 만들기를 이 모듈(`timetables.js`)로 옮겨 node 시험에 넣을 수 있다(프론트엔드 제안). 지금은 화면 코드에 있다.
+
+## 홈 화면 위젯 (10/30)
+
+사용자 10/30: 위젯 셋(다음 수업 2×2, 오늘 수업 4×2~4×4, 주간 시간표 4×4) "셋 다 만들고". 안드로이드 위젯은 앱이 꺼져 있어도 그려야 해서
+화면이 대표 시간표를 위젯 자료로 바꿔 앱 연결에 넘기고(`TTW_APP.updateWidgets(widgetData(...))`), 앱이 기기 안에 둔다(`docs/app.md` '홈 화면 위젯').
+
+- 자료 `{v: 1, colors: "item" | "cls", terms: [학기]}`. 학기 `{sem, label, title, from, to, days, untimed}`: `days` 는 월~일 일곱 칸의 수업(시작 차례),
+  `from`·`to` 는 위젯이 그 학기를 보이는 날들(`termDates`), `untimed` 는 시간이 정해지지 않은 항목 수.
+  수업 `{name, place, start, end, color, cls, walk, from, late}`: `place` 는 화면의 강의실 표기(미정이면 `""`), `cls` 는 `req`·`elec`·`gen`·`etc`(칸 색 설정이
+  교과구분일 때), `walk` 는 앞 자리에서 걷는 분(반올림, 모르면 `null`), `from` 은 `"home"`(그날 첫 위치 확정 수업: 출발 지점에서 걸어서 나설 시각을 셀 수 있다)
+  이나 `"class"`(앞 수업에서), `late` 는 늦는 분. 걷는 셈은 `engine.evaluate` 와 같다(강의실 미정 수업은 자리를 옮기지 않고 쉬는 시간을 보탠다. 시험이 견준다).
+- 메모·시간표 id·만든 때는 넣지 않는다. 같은 시간표면 같은 글이라 앱 연결과 앱이 같은 자료를 거른다(자주 넘겨도 된다).
+- 학기 고르기: 학사 일정 자료가 없어 어림으로 정한다. 1학기 3/1~6/21, 여름학기 6/22~8/31, 2학기 9/1~12/21, 겨울학기 12/22~2월 끝날.
+  화면은 `widgetSemesters(학기 목록)` 이 고른 학기(끝나지 않은 것, 셋까지)의 대표 시간표를 넘기고, 위젯은 그날이 든 학기를, 없으면 가장 먼저 시작하는
+  앞으로의 학기(개강 전)를 보인다. 그 학기에 대표 시간표가 없으면 `이번 학기 대표 시간표가 없어요`.
+- 화면이 넘길 때(프론트엔드): 학기 목록·캠퍼스 자료를 받은 뒤 한 번, 앱을 내릴 때(`visibilitychange` 가 `hidden`), 대표 시간표·그 항목·출발 지점·이동 기준·칸 색이
+  바뀔 때. 걷는 시간은 화면의 이동 행렬(`TravelMatrix.minutes`)과 출발 지점으로 잰다. 웹·iOS 에는 `updateWidgets` 가 없다(iOS 위젯은 나중).
 
 ## 기기에 두기 (프론트엔드)
 
