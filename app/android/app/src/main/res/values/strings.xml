@@ -43,6 +43,7 @@
     <string name="w_more">외 %1$d개</string>
     <string name="w_now_tag">지금</string>
     <string name="w_date">%1$d월 %2$d일 (%3$s)</string>
+    <string name="w_month_day">%1$d월 %2$d일</string>
     <string name="w_week_said">%1$s 한 주 시간표. %2$s</string>
     <string-array name="w_days">
         <item>월요일</item>

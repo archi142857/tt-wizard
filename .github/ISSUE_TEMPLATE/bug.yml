@@ -1,0 +1,30 @@
+# 버그 제보 양식(백엔드 update73, 10/31 사용자: "버그 제보나 기능 제안 이런 거 받는 창구 필요함", "앱에서 입력해서 제보하면 깃허브에 쌓이도록").
+# 앱 정보 탭의 '의견 보내기'가 이 양식을 채운 주소로 연다: issues/new?template=bug.yml&title=…&what=…&app=… (칸 id 를 바꾸면 앱도 같이. docs/feedback.md)
+name: 버그 제보
+description: 앱이 이상하게 움직이거나 틀린 것을 알려 주세요.
+title: "[버그] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        올린 글은 누구나 볼 수 있어요. 이름·학번·연락처 같은 개인정보는 적지 마세요.
+        개인정보 정정·삭제 요청은 메일(sanger.lee138@gmail.com)로 보내 주세요.
+  - type: textarea
+    id: what
+    attributes:
+      label: 있었던 일
+      description: 무엇을 했고 무엇이 보였는지, 원래는 어땠어야 하는지 적어 주세요.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 다시 생기는 순서
+      description: 같은 일이 또 생기는 순서가 있으면 적어 주세요.
+  - type: input
+    id: app
+    attributes:
+      label: 앱 정보
+      description: 앱에서 보내면 저절로 채워져요.
+      placeholder: 0.9.0 · Android 14 · 앱 · 2026년 2학기

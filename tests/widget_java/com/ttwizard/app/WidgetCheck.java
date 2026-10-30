@@ -92,12 +92,33 @@ public final class WidgetCheck {
         StringBuilder spots = new StringBuilder("[");
         for (float[] xy : p.spots) spots.append(spots.length() == 1 ? "" : ",").append("[").append(xy[0]).append(",").append(xy[1]).append("]");
         double[] path = m.path(picks[0], picks[1]);
+        // 그린 선과 점선(update73): 구간마다 그린 선의 첫 변(원래 화소)·그린 첫 점, 점선 {선 끝 x, y, 핀 x, y}
+        StringBuilder drawn = new StringBuilder("["), stubs = new StringBuilder("[");
+        for (int i = 0; i < p.drawn.size(); i++) {
+            double[] w = p.lines.get(i);
+            float[] d = p.drawn.get(i);
+            drawn.append(i == 0 ? "" : ",").append("[").append(p.x(w[0])).append(",").append(p.y(w[1])).append(",").append(p.x(w[2])).append(",")
+                .append(p.y(w[3])).append(",").append(d[0]).append(",").append(d[1]).append(",").append(d[d.length - 2]).append(",").append(d[d.length - 1])
+                .append(",").append(d.length / 2).append("]");
+            stubs.append(i == 0 ? "" : ",").append("[");
+            for (int k = 0; k < p.stubs.get(i).size(); k++) {
+                float[] st = p.stubs.get(i).get(k);
+                stubs.append(k == 0 ? "" : ",").append("[").append(st[0]).append(",").append(st[1]).append(",").append(st[2]).append(",").append(st[3]).append("]");
+            }
+            stubs.append("]");
+        }
         return "{\"buildings\":" + m.areas.get("building").size() + ",\"roads\":" + m.lines.get("road").size() + ",\"contours\":" + m.contours.size()
             + ",\"where\":" + m.where.size() + ",\"picks\":" + q(String.join("|", picks)) + ",\"lines\":" + p.lines.size() + ",\"back\":" + p.back
             + ",\"labels\":" + q(String.join("|", p.labels)) + ",\"spots\":" + spots + "]" + ",\"home\":[" + p.x(p.home[0]) + "," + p.y(p.home[1]) + "]"
             + ",\"zoom\":" + Math.log(p.scale / 640.0) / Math.log(2) + ",\"mpp\":" + p.metersPerPx
             + ",\"path\":[" + path.length / 2 + "," + RouteMap.lat(path[1]) + "," + (path[0] * 360 - 180) + "," + RouteMap.lat(path[path.length - 1]) + ","
-            + (path[path.length - 2] * 360 - 180) + "]}";
+            + (path[path.length - 2] * 360 - 180) + "],\"drawn\":" + drawn + "],\"stubs\":" + stubs + "]}";
+    }
+
+    private static String floats(float[] a) {
+        StringBuilder s = new StringBuilder("[");
+        for (int i = 0; i < a.length; i++) s.append(i == 0 ? "" : ",").append(Math.round(a[i] * 1000) / 1000.0);
+        return s.append("]").toString();
     }
 
     private static String read(String path) throws Exception {
@@ -199,6 +220,10 @@ public final class WidgetCheck {
         double[] capped = RouteMap.fit(new double[] { 0.5, 0.5, 0.5, 0.5 }, 200, 100, new double[] { 10, 10, 10, 20 }, 1000);
         out.append(",\"fit\":[").append(fit[0]).append(",").append(0.15 * fit[0] - fit[1]).append(",").append(0.2 * fit[0] - fit[2]).append("]")
             .append(",\"capped\":[").append(capped[0]).append(",").append(0.5 * capped[0] - capped[1]).append(",").append(0.5 * capped[0] - capped[2]).append("]}");
+        out.append(",\"offset\":[").append(floats(RouteMap.offset(new float[] { 0, 0, 10, 0, 10, 10 }, 7, 0.5f))).append(",")
+            .append(floats(RouteMap.offset(new float[] { 0, 0, 10, 0, 0, 0 }, 7, 0.5f))).append(",")
+            .append(floats(RouteMap.offset(new float[] { 0, 0, 0.2f, 0, 10, 0 }, 7, 0.5f))).append(",")
+            .append(floats(RouteMap.offset(new float[] { 5, 5 }, 7, 0.5f))).append("]");
         if (args.length >= 4) out.append(",\"real\":").append(real(args[1], args[2], args[3]));
         // 깨진 자료는 읽지 않는다
         String[] bad = { "", "{}", "[]", "{\"v\":0,\"terms\":[]}", "{\"v\":1,\"terms\":[", "{\"v\":1,\"terms\":[{\"from\":\"2026-9-1\",\"to\":\"2026-12-21\",\"days\":[]}]}" };

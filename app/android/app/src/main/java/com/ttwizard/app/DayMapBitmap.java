@@ -24,7 +24,9 @@ import java.util.Map;
  * 동선 지도 위젯의 지도 그림 — 백엔드 세션(10/30 update71, 사용자: "그 날의 동선 지도 위젯도 하나 만들자").
  * 앱 화면의 요일 동선 지도(app.js renderMap·drawBasemap)를 위젯 크기로 옮겼다:
  *   바탕  땅·숲·잔디·캠퍼스·물·보행 면·도로면과 길·건물·계곡선(drawBasemap 과 같은 차례·색. 보행로 점선·계단·높이 글은 작아서 뺀다)
- *   길    수업 가는 길은 route 4px 실선 + card 2px 테두리, 마지막 수업 뒤 출발·도착 자리로 돌아가는 길은 route-home 3px 파선(8 6) + card 테두리
+ *   길    수업 가는 길은 route 4px 실선 + card 2px 테두리, 마지막 수업 뒤 출발·도착 자리로 돌아가는 길은 route-home 3px 파선(8 6) + 같은 파선
+ *         card 테두리를 진행 방향 오른쪽으로 7px 비켜 수업 가는 길 아래 층에(update73, 디자인: 같은 길을 되짚어도 가려지지 않게).
+ *         길은 건물 문 앞에서 끝나고 핀은 건물 자리라, 선 끝에서 핀 가운데까지 그 선 색 둥근 점으로 잇는다(앱 '선 끝과 핀', update73)
  *   핀    수업은 accent 원(24px, card 2px 테두리)에 번호(12 굵게, 같은 건물은 '2·3'), 출발·도착 자리는 home 원에 집 모양
  * 그날 경로 전체가 들어오게 맞추고(배율은 17 까지, 수업이 없으면 출발 자리를 가운데에 16), 핀이 잘리지 않게 가장자리를 비운다.
  * 아래 오른쪽은 출처 글(레이아웃의 w_attr)이 덮으므로 더 비운다. 라이트·다크 두 장을 그리고 layout(-night)/widget_map.xml 이 한 장을 보인다.
@@ -121,7 +123,6 @@ final class DayMapBitmap {
         // 그날 구간과 핀(앱 화면과 같은 차례·번호), 맞춘 배율: RouteMap.plan(화면 코드 없이 시험한다)
         RouteMap.Plan plan = m.plan(day, home, w, h, dp);
         if (plan == null) return bmp; // 그릴 것이 없다(부르는 쪽이 drawable 로 먼저 본다)
-        List<double[]> lines = plan.lines;
         List<Boolean> back = plan.back;
         double[] homeAt = plan.home;
         double metersPerPx = plan.metersPerPx;
@@ -129,31 +130,37 @@ final class DayMapBitmap {
 
         drawBase(canvas, m, view, ink, dp, metersPerPx);
 
-        // 길: 돌아가는 길(파선)을 먼저, 그 위에 수업 가는 길
+        // 길(앱 화면과 같은 층, app.js makeMap 의 칸): 점선 테두리(맨 아래) → 돌아가는 길(오른쪽으로 7 비킨 파선) → 그 점선 → 수업 가는 길 → 그 점선 → 핀
         Paint line = new Paint(Paint.ANTI_ALIAS_FLAG);
         line.setStyle(Paint.Style.STROKE);
-        line.setStrokeCap(Paint.Cap.ROUND);
         line.setStrokeJoin(Paint.Join.ROUND);
-        for (int i = 0; i < lines.size(); i++) {
+        List<float[]> drawn = plan.drawn;
+        // 선 끝과 핀을 잇는 점선의 테두리: 점마다 card 1(점보다 2 굵은 같은 간격의 점), 어느 선도 덮지 않게 맨 아래
+        for (int i = 0; i < drawn.size(); i++) stubs(canvas, plan.stubs.get(i), back.get(i), ink[CARD], 2 * dp, dp, line);
+        // 마지막 수업 뒤 출발·도착 자리로 가는 길: route-home 3 파선(8 6) + 같은 파선 card 테두리 7(app.js drawReturn), 수업 가는 길 아래 층
+        DashPathEffect dash = new DashPathEffect(new float[] { 8 * dp, 6 * dp }, 0);
+        line.setStrokeCap(Paint.Cap.BUTT);
+        line.setPathEffect(dash);
+        for (int i = 0; i < drawn.size(); i++) {
             if (!back.get(i)) continue;
-            Path p = view.path(lines.get(i), false);
-            line.setPathEffect(null);
+            Path p = path(drawn.get(i));
             line.setColor(ink[CARD]);
             line.setStrokeWidth(7 * dp);
             canvas.drawPath(p, line);
             line.setColor(ink[ROUTE_HOME]);
             line.setStrokeWidth(3 * dp);
-            line.setStrokeCap(Paint.Cap.BUTT);
-            line.setPathEffect(new DashPathEffect(new float[] { 8 * dp, 6 * dp }, 0));
             canvas.drawPath(p, line);
-            line.setStrokeCap(Paint.Cap.ROUND);
-            line.setPathEffect(null);
         }
+        line.setPathEffect(null);
+        for (int i = 0; i < drawn.size(); i++) if (back.get(i)) stubs(canvas, plan.stubs.get(i), true, ink[ROUTE_HOME], 0, dp, line);
+        // 수업 가는 길: route 4 실선 + card 2 테두리
+        line.setStrokeCap(Paint.Cap.ROUND);
         for (int pass = 0; pass < 2; pass++) {
             line.setColor(pass == 0 ? ink[CARD] : ink[ROUTE]);
             line.setStrokeWidth((pass == 0 ? 8 : 4) * dp);
-            for (int i = 0; i < lines.size(); i++) if (!back.get(i)) canvas.drawPath(view.path(lines.get(i), false), line);
+            for (int i = 0; i < drawn.size(); i++) if (!back.get(i)) canvas.drawPath(path(drawn.get(i)), line);
         }
+        for (int i = 0; i < drawn.size(); i++) if (!back.get(i)) stubs(canvas, plan.stubs.get(i), false, ink[ROUTE], 0, dp, line);
 
         // 핀: 출발·도착 자리 먼저, 그 위에 수업
         Paint fill = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -210,6 +217,34 @@ final class DayMapBitmap {
         clear.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         canvas.drawPath(corners, clear);
         return bmp;
+    }
+
+    /** 화소 점들(x0, y0, x1, y1, …)을 잇는 선 */
+    private static Path path(float[] pts) {
+        Path p = new Path();
+        if (pts.length < 2) return p;
+        p.moveTo(pts[0], pts[1]);
+        for (int i = 2; i + 1 < pts.length; i += 2) p.lineTo(pts[i], pts[i + 1]);
+        return p;
+    }
+
+    /**
+     * 선 끝과 핀을 잇는 점선(app.js drawStubs): 그 선 색의 둥근 점, 수업 가는 길은 굵기 4·간격 7, 돌아가는 길은 3·6. grow 는 테두리를 그릴 때
+     * 점에 더하는 굵기(card 1 이면 2), 점 간격은 그대로라 테두리 점이 색 점과 같은 자리에 선다
+     */
+    private static void stubs(Canvas canvas, List<float[]> list, boolean home, int color, float grow, float dp, Paint paint) {
+        if (list.isEmpty()) return;
+        paint.setColor(color);
+        paint.setStrokeWidth((home ? 3 : 4) * dp + grow);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        paint.setPathEffect(new DashPathEffect(new float[] { 0.1f * dp, (home ? 6 : 7) * dp }, 0));
+        for (float[] s : list) {
+            Path p = new Path();
+            p.moveTo(s[0], s[1]);
+            p.lineTo(s[2], s[3]);
+            canvas.drawPath(p, paint);
+        }
+        paint.setPathEffect(null);
     }
 
     /** 세계 좌표 → 그림 화소 */

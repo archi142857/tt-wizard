@@ -1,0 +1,28 @@
+# 기능 제안 양식(백엔드 update73). 앱이 여는 주소: issues/new?template=idea.yml&title=…&what=…&app=… (docs/feedback.md)
+name: 기능 제안
+description: 있었으면 하는 기능이나 바꿨으면 하는 것을 알려 주세요.
+title: "[제안] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        올린 글은 누구나 볼 수 있어요. 이름·학번·연락처 같은 개인정보는 적지 마세요.
+  - type: textarea
+    id: what
+    attributes:
+      label: 제안
+      description: 무엇이 있으면 좋겠는지, 무엇을 바꾸면 좋겠는지 적어 주세요.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: 쓰고 싶은 때
+      description: 어떤 때 필요한지 적어 주면 정하기 쉬워요.
+  - type: input
+    id: app
+    attributes:
+      label: 앱 정보
+      description: 앱에서 보내면 저절로 채워져요.
+      placeholder: 0.9.0 · Android 14 · 앱 · 2026년 2학기
