@@ -1315,31 +1315,23 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 .tt-row .mt { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); font-variant-numeric: tabular-nums; }
 /* 학기 묶음(10/30 사용자, SNUTT 의 시간표 목록 그림과 함께: "시간표 목록도 그 학기 선택하는 거 SNUTT처럼 저런 형식의 목록으로". 그 전에는 맨 위 연도·학기 선택칸):
    머리는 학기 이름(17px 700 heading)과 바로 옆 펼침 화살표(20 muted, 펴면 위로), 높이 56.
-   선은 세 단계(10/30 오후 사용자: 머리 아래마다 빨간 줄을 그어 "빨간 줄 친 곳도 굵게 선 긋는 게 좋을 듯", 이어 시트 머리 아래에도 "똑같이 굵은 선", 시간표 사이는
-   "앞의 굵은 줄 보다는 얇은 줄로 나눠줘. 층위가 없는 느낌. 두께는 … 얇은 줄과 두꺼운 줄 사이 정도"): 학기 4px(시트 머리 아래 = 첫 학기 머리 위, 학기 머리 아래마다, 묶음과 묶음 사이),
-   시간표 2px(한 학기 안의 시간표 사이, 편 묶음 끝의 시간표와 + 새 시간표 사이), 펼친 시간표의 메뉴 줄 1px. 색은 모두 line */
-#tl-rows { border-top: 4px solid var(--line); }
-#tl-rows > li + li { border-top: 4px solid var(--line); }
-.tl-sem-head { display: flex; align-items: center; gap: var(--space-2); width: 100%; min-height: 3.5rem; padding: 0 var(--space-5); border: 0; background: transparent;
+   선은 모두 line 1px 이고 층은 색으로 나눈다(10/30 오후 사용자: "선은 그냥 아주 얇게 다 통일하고 색깔로 구분하는 건 어떰?". 그 사이 굵은 선 4px·2px 을 두었다가
+   "선 두께가 다 다르니까 통일성이 없는 느낌"): 학기 머리는 inset 바탕(라이트 tt-pale, 다크 bg, 크리스마스 옅은 초록), 시간표 행은 시트 바탕 그대로.
+   시트 머리 아래(첫 학기 머리 위), 묶음 사이, 학기 머리와 첫 시간표 사이, 시간표 사이, + 새 시간표 위가 모두 같은 선이다. 누르고 올린 학기 머리는 inset 을 text 쪽으로 6% */
+#tl-rows { border-top: 1px solid var(--line); }
+#tl-rows > li + li { border-top: 1px solid var(--line); }
+.tl-sem-head { display: flex; align-items: center; gap: var(--space-2); width: 100%; min-height: 3.5rem; padding: 0 var(--space-5); border: 0; background: var(--inset);
   color: var(--heading); font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; text-align: left; }
 .tl-sem-head svg { flex: none; color: var(--muted); transition: transform var(--dur-move) var(--ease-standard); }
 .tl-sem-head[aria-expanded="true"] svg { transform: rotate(180deg); }
-.tl-sem-head:active { background: var(--surface-hover); }
-.tl-tts { margin: 0; padding: 0; border-top: 4px solid var(--line); list-style: none; }
-.tl-err .error-line { margin: var(--space-1) var(--space-5) var(--space-3); font-size: 0.875rem; line-height: 1.25rem; color: var(--danger); }
-/* 시간표 행마다 ⋯(10/23 사용자: 시간표를 통째로 바꾸는 일은 이 창에 시간표마다). 누르면 그 행이 펼쳐진다(한 번에 하나).
-   펼친 행(10/30 사용자, 펼친 행 그림과 함께: 행의 이름과 그 아래 이름 입력칸을 "하나로 합치는 게 좋을 것 같고, 이름 수정하는 란이라는 게 좀 더 잘 드러났으면 좋겠음"):
-   행의 이름 자리가 이름이 든 입력칸이 된다(.tl-head. 입력칸은 행 글자 자리 space-5 부터, 이름은 행과 같은 t-body-strong 이고 입력칸 안 왼쪽 space-4 라 아래 펼친 줄들의
-   글자와 같은 세로줄, 오른쪽 끝에 연필 20 text3: 누르는 것이 아니라 고칠 수 있다는 표시라 입력 중에는 숨긴다). 태그(대표)와 메타는 입력칸 위(이어서 사용자: "대표나 과목 수 같은
-   건 제목 위로 올려버리고". 왼쪽 끝은 접힌 행의 메타와 같은 space-5), ⋯ 는 입력칸 줄(가로 자리는 접힌 행과 같다).
-   시간표와 시간표 사이는 2px(위 '선은 세 단계'. 그 전에는 학기 선과 같은 4px), 펼친 줄들 사이는 얇은 선(line 1px, 시트 폭 끝까지. 사용자: "복사, 이미지 저장, 시간표 지우기
-   이런 건 각각 얇은 선으로 나누고, 지우기 밑에 다른 시간표랑 구분은 좀 더 두꺼운 선으로", 이어 "나머지 시간표들도 똑같이 두꺼운 선으로 구분해줘").
-   펼친 묶음에 바탕색을 칠하지 않는다(10/30 오후 사용자: "이거 색깔 칠하는 건 굳이 안해도 될 듯". 그 전에는 accent-weak). 펼친 것은 꺾쇠 방향, 입력칸과 선이 보인다.
-   지금 보는 시간표에는 체크를 두지 않는다(10/30 오후 사용자: "걍 체크는 빼는 게 나아 보임") */
-.tl-tts > li + li { border-top: 2px solid var(--line); }
-.tl-tts > li.tl-err { border-top: 0; }
-#tl-rows > li.tl-new { border-top: 4px solid var(--line); } /* 목록 맨 아래 + 새 시간표 하나(학기와 이름을 고르는 팝업을 연다). 접힌 학기 머리 아래면 학기 선 */
-#tl-rows > li.tl-sem.is-open + li.tl-new { border-top-width: 2px; } /* 편 묶음의 마지막 시간표 아래면 시간표 선 */
+.tl-sem-head:active { background: color-mix(in srgb, var(--inset), var(--text) 6%); }
+.tl-tts { margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
+.tl-tts > li + li { border-top: 1px solid var(--line); }
+/* 시간표 행: 이름(태그 대표)과 메타, 행 끝 ⋯(48, 아이콘 24 muted)가 시간표 메뉴 팝업을 연다(10/30 오후 사용자: "시간표 옵션은 그냥 창으로 띄우고". 그 전에는 행 아래에
+   펼쳤고 단추는 펼침 꺾쇠였다). 지금 보는 시간표에는 체크를 두지 않는다(10/30 오후 사용자: "걍 체크는 빼는 게 나아 보임") */
+.tl-line { display: flex; align-items: center; }
+.tl-line .tt-row { flex: 1; min-width: 0; padding-right: var(--space-2); }
+.tl-more { margin-right: var(--space-3); color: var(--muted); }
 /* 새 시간표 팝업(10/30 사용자: "새 시간표 추가할 때 학기랑 시간표 이름 선택하는 창을 하나 띄워주자"): 묻는 팝업(.sheet.ask)에 칸 둘. 필드 라벨 아래 space-2 에 칸,
    칸 사이 space-4. 학기 선택칸은 시트 위라 raised 바탕에 line-strong 1px(전에 목록 시트 맨 위에 있던 것과 같다). 오류 줄은 이름 칸 아래 t-body-sm danger */
 .tn-body { padding: var(--space-2) var(--space-5) var(--space-3); }
@@ -1347,25 +1339,22 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 .tn-field .field-label { margin-bottom: var(--space-2); }
 .tn-body .term-select { background-color: var(--raised); box-shadow: inset 0 0 0 1px var(--line-strong); }
 .tn-body .error-line { margin: var(--space-2) 0 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--danger); }
-.tl-line { display: flex; align-items: center; }
-.tl-line .tt-row { flex: 1; min-width: 0; padding-right: var(--space-2); }
-/* 행 끝 메뉴 단추(48): ⋯ 대신 학기 머리와 같은 펼침 꺾쇠 20 muted, 펴면 위로(10/30 사용자: "시간표 메뉴도 ... 이거 말고 위아래 꺾쇠로 동일하게 맞추는 게 나을 듯").
-   펼친 것은 꺾쇠 방향이 알린다(그 전의 fill 바탕은 없앴다) */
-.tl-more { margin-right: var(--space-3); color: var(--muted); }
-.tl-more svg { transition: transform var(--dur-move) var(--ease-standard); }
-.tl-more[aria-expanded="true"] svg { transform: rotate(180deg); }
-.tl-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "meta meta" "field more"; align-items: center;
-  padding: var(--space-3) var(--space-3) var(--space-2) var(--space-5); }
-.tl-head .tl-more { grid-area: more; margin: 0 0 0 var(--space-2); }
-.tl-field { grid-area: field; position: relative; min-width: 0; }
+/* 시간표 메뉴 팝업(#tt-opts, 묻는 팝업 .sheet.ask 꼴. 10/30 오후 사용자: "시간표 옵션은 그냥 창으로 띄우고"): 머리에 태그·학기·메타(t-label text3)와 그 아래 space-2 에
+   이름 입력칸(이름이 곧 입력칸. 이름 글자는 t-body-strong, 입력칸 안 왼쪽 space-4, 오른쪽 끝에 연필 20 text3: 누르는 것이 아니라 고칠 수 있다는 표시라 입력 중에는 숨긴다.
+   10/30 사용자: 이름과 입력칸을 "하나로 합치는 게 좋을 것 같고, 이름 수정하는 란이라는 게 좀 더 잘 드러났으면", "대표나 과목 수 같은 건 제목 위로"). 그 아래 메뉴 줄
+   (48, t-body. 지우기는 danger)을 줄마다 line 1px 으로 나누고(팝업 폭 끝까지, 마지막 줄 아래도), 오류 줄(50개), [닫기]. 제목은 화면에 없다(스크린리더 '시간표 1 메뉴') */
+.tt-opts .sheet-head { display: block; padding: var(--space-5) var(--space-5) var(--space-4); }
+.to-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-2); margin: 0 0 var(--space-2);
+  font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); font-variant-numeric: tabular-nums; }
+.tl-field { position: relative; display: block; min-width: 0; }
 .tl-field .text-input { padding: 0 calc(var(--space-3) + 20px + var(--space-2)) 0 calc(var(--space-4) - 1px); font-weight: 500; }
 .tl-field svg { position: absolute; top: calc(50% - 10px); right: var(--space-3); color: var(--text3); pointer-events: none; }
 .tl-field .text-input:focus + svg { visibility: hidden; }
-.tl-head .mt { grid-area: meta; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-2); min-width: 0; margin: 0 0 var(--space-2);
-  font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); font-variant-numeric: tabular-nums; }
-.tl-acts { margin: 0; padding: 0; list-style: none; }
-.tl-acts > li { border-top: 1px solid var(--line); }
-.tl-acts .menu-row { min-height: var(--touch); padding-left: calc(var(--space-5) + var(--space-4)); } /* 글자는 .menu-row 그대로 t-body(디자인 88판: 15px 는 타입 표에 없다) */
+.to-acts { margin: 0; padding: 0; border-bottom: 1px solid var(--line); list-style: none; }
+.to-acts > li { border-top: 1px solid var(--line); }
+.to-acts .menu-row { min-height: var(--touch); }
+.tt-opts .error-line { margin: var(--space-2) var(--space-5) 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--danger); }
+.tt-opts .sheet-actions { padding-top: var(--space-2); }
 .menu-row.danger { color: var(--danger); }
 /* 칸 색(10/23 사용자: 정보 화면에서 시간표 탭으로): 목록 아래 세그먼트 */
 .tl-color { min-width: 0; margin: var(--space-5) 0 var(--space-2); padding: 0; border: 0; }
@@ -1611,7 +1600,7 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
   .sidebar .sb-item:not([aria-current="page"]):hover { background: var(--bg-hover); }
   .icon-btn:hover, .btn-text:hover, .result:hover, .rank-hit:hover, button.info-row:hover, a.info-row:hover, .course-hit:hover .c-title { background: var(--surface-hover); }
   .tabbar .tab:not([aria-current="page"]):hover .ind, .add-row:hover, .tt-row:hover, .menu-row:hover { background: var(--surface-hover); }
-  .tl-sem-head:hover { background: var(--surface-hover); }
+  .tl-sem-head:hover { background: color-mix(in srgb, var(--inset), var(--text) 6%); }
   .tt-switch:hover, .add-head .icon-btn:hover, .tt-share:hover { background: var(--bg-hover); }
   .topbar .icon-btn:hover, .topbar .btn-text:hover, .bottom-bar .btn-text:hover, .picked-error .btn-text:hover, .ranks-more .btn-text:hover, .footnote .btn-text:hover { background: var(--bg-hover); }
   .result.is-picked:hover { background: var(--row-picked); } /* 담은 행은 어두운 그대로, 버튼만 빨갛게(빼기) */

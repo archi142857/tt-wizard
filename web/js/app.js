@@ -3779,23 +3779,16 @@ new ResizeObserver(() => {
   if (mineShown() && w && Math.abs(w - wkWidth) >= 1) renderMine();
 }).observe($("wk"));
 
-// ---- 시간표 목록 시트: 학기 선택칸(바꾸면 앱 전체의 학기), 시간표 행(지금 보는 것에 체크)과 행마다 ⋯, 맨 아래 '+ 새 시간표'(50개까지), 칸 색.
-// 시간표를 통째로 바꾸는 일은 그 시간표 행의 ⋯ 를 누르면 행 아래에 펼쳐진다(10/23 사용자: "사진의 창에 시간표마다". 그 전에는 머리 줄 ⋯ 의 메뉴 시트가 보는 시간표
-// 하나에만 걸었다): 펼친 행은 이름 자리가 이름이 든 입력칸이 되고(10/23 사용자: '이름 바꾸기' 줄 대신 이름이 입력칸 안에 있어 눌러 고칠 수 있는 것이 보이게. 10/30 사용자:
-// 행의 이름과 그 아래 입력칸을 "하나로 합치는 게 좋을 것 같고, 이름 수정하는 란이라는 게 좀 더 잘 드러났으면". Enter·다른 곳을 누르면 바꾸고, Esc 는 원래 이름으로),
-// 그 아래 복사하기·대표 시간표로 설정하기(대표가 아닌 시간표에만. 10/23 사용자: '대표에서 빼기'는 없앴다)·이미지로 저장·지우기를 얇은 선으로 나눈다(10/30 사용자:
-// "각각 얇은 선으로 나누고, 지우기 밑에 다른 시간표랑 구분은 좀 더 두꺼운 선으로", 이어 "나머지 시간표들도 똑같이 두꺼운 선으로". style.css '시간표 목록').
+// ---- 시간표 목록 시트: 학기 묶음(접고 편다. 다른 학기를 고르면 앱 전체의 학기가 바뀐다), 시간표 행과 행마다 ⋯(시간표 메뉴 팝업), 맨 아래 '+ 새 시간표'(50개까지), 칸 색.
+// 시간표를 통째로 바꾸는 일은 그 시간표 행의 ⋯ 가 여는 시간표 메뉴 팝업에서 한다(10/30 오후 사용자: "시간표 옵션은 그냥 창으로 띄우고". 그 전에는 행 아래에 펼쳤고
+// 10/23 까지는 머리 줄 ⋯ 의 메뉴 시트가 보는 시간표 하나에만 걸었다. 아래 '시간표 메뉴 팝업').
 // '동선 탐색에 담기'는 10/23 오후 사용자가 없앴다("동선 탐색에 넣기는 없애버리고 걍 동선 확인하기를 분반 정보 포함해서 동선탐색으로 보내": 아래 routeTt)
-let ttListOpen = null, ttListDrawn = 0; // 펼친 행(시간표 id. 아직 만들지 않은 빈 시간표 1은 ""), 그린 횟수
 // 학기는 접고 펴는 목록(10/30 사용자, SNUTT 의 시간표 목록 그림과 함께: "시간표 목록도 그 학기 선택하는 거 SNUTT처럼 저런 형식의 목록으로 정리하는 게 나을 듯").
 // 그 전에는 맨 위 연도·학기 선택칸 둘과 그 학기 시간표 목록이었다. 펼친 학기(tlSems)는 시트를 열 때 지금 학기 하나.
 // 새 시간표는 목록 맨 아래 '+ 새 시간표' 하나가 학기와 이름을 고르는 팝업을 띄운다(10/30 사용자: "다른 학기의 시간표를 만들 수가 없음", 이어 "걍 새 시간표 추가할 때
 // 학기랑 시간표 이름 선택하는 창을 하나 띄워주자". 아래 '새 시간표 팝업')
 let tlSems = new Set();
-const tlLimit = $("tl-limit"); // 오류 줄(50개, 복사하기): 지금 학기 묶음 끝으로 옮겨 그린다(접혀 있으면 목록 밑)
 function openTtList(opener) {
-  tlError(null);
-  ttListOpen = null;
   tlSems = new Set([mine.sem]);
   renderTtList();
   openSheet($("tt-list-sheet"), opener);
@@ -3815,42 +3808,18 @@ function ttMeta(t) {
   return t.items.length ? [n ? `총 ${sum}학점` : "", n ? `과목 ${n}` : "", m ? `일정 ${m}` : ""].filter(Boolean).join(" · ") : "비어 있음";
 }
 function renderTtList() {
-  ttListDrawn += 1;
   const cur = curTt();
-  // 시간표 행. 펼친 묶음에 바탕색은 칠하지 않는다(10/30 오후 사용자: "이거 색깔 칠하는 건 굳이 안해도 될 듯". 그 전에는 accent-weak, 펼친 묶음 그림에 네모를 그려
-  // "선택된 공간은 색을 좀 다르게", 이어 "시간표 메뉴 눌렀을 때만 색깔 바꿔줘"라고 했었다). 지금 보는 시간표에는 체크를 두지 않는다(10/30 오후 사용자: "체크표시랑 아래 꺾쇠 같이 있으니까 별로임. 걍 체크는 빼는 게 나아 보임".
-  // 머리 줄이 지금 시간표를 보인다). 스크린리더는 접힌 행의 aria-current, 펼친 머리의 ', 지금 보는 시간표'로 읽는다.
-  // 다른 학기의 행(sem): 누르면 그 학기로 바꾸고 그 시간표를 보인다. 펼침 꺾쇠는 그 학기로 바꾼 뒤 펼친다(시간표를 바꾸는 일은 지금 학기 것만 한다).
-  // 행 끝의 메뉴 단추는 ⋯ 대신 학기 머리와 같은 위아래 꺾쇠(10/30 사용자: "시간표 메뉴도 ... 이거 말고 위아래 꺾쇠로 동일하게 맞추는 게 나을 듯". 이름은 그대로 '시간표 1 메뉴')
+  // 시간표 행: 이름(태그 대표)과 메타, 행 끝 ⋯ 가 시간표 메뉴 팝업을 연다(10/30 오후 사용자: "시간표 옵션은 그냥 창으로 띄우고". 그 전에는 행 아래에 펼쳤고 단추는
+  // 학기 머리와 같은 펼침 꺾쇠였다: "시간표 메뉴도 ... 위아래 꺾쇠로 동일하게". 펼치지 않으니 꺾쇠 대신 ⋯). 지금 보는 시간표에는 체크를 두지 않는다(10/30 오후 사용자:
+  // "체크표시랑 아래 꺾쇠 같이 있으니까 별로임. 걍 체크는 빼는 게 나아 보임". 머리 줄이 지금 시간표를 보인다. 스크린리더는 aria-current).
+  // 다른 학기의 행(sem): 누르면 그 학기로 바꾸고 그 시간표를 보인다. ⋯ 는 그 학기로 바꾼 뒤 메뉴를 연다(시간표를 바꾸는 일은 지금 학기 것만 한다)
   const ttRow = (t, sem) => {
-    const meta = ttMeta(t), here = !sem, on = here && t.id === cur.id, open = here && ttListOpen === t.id;
-    const key = uid(t.id || "new"), actsId = `tl-acts-${key}`, nameId = `tl-name-${key}`;
-    const tag = t.primary ? h("span", { class: "tag" }, "대표") : null, cls = `tl-item${open ? " is-open" : ""}`;
-    if (!open) {
-      return h("li", { class: cls }, h("div", { class: "tl-line" },
-        h("button", { type: "button", class: "tt-row", "data-tt": t.id, "data-sem": sem || null, "aria-current": on ? "true" : null },
-          h("span", { class: "it" }, h("span", { class: "nm" }, h("span", {}, t.title), tag), h("span", { class: "mt" }, meta))),
-        h("button", { type: "button", class: "icon-btn tl-more", "data-tt-more": t.id, "data-sem": sem || null, "aria-label": `${t.title} 메뉴`, "aria-expanded": "false" }, icon(I.down, 20))));
-    }
-    // 아직 만들지 않은 빈 시간표 1은 이름만(만들면서 대표가 된다). 대표 시간표에는 '대표 시간표로 설정하기'가 없다
-    // (10/23 사용자: "'대표에서 빼기' 이거 없애고, 걍 대표 시간표가 아닌 시간표 메뉴에 '대표 시간표로 설정하기' 이거 넣어". 대표는 학기마다 늘 하나: 처음 만든 시간표가 대표이고
-    // 대표를 지우면 남은 것 중 하나가 대표다(T.createTimetable·T.deleteTimetable))
-    const acts = TT_ACTS.filter(([k]) => !t.virtual && (k !== "primary" || !t.primary) && (k !== "save-image" || (t.items.length && canSaveImage())));
-    if (acts.some(([k]) => k === "save-image")) preparedImage(t).catch(() => null); // 펼칠 때 미리 그려 둔다(누르면 바로 저장한다)
-    const act = ([k, text]) => h("li", {}, h("button", { type: "button", class: k === "delete" ? "menu-row danger" : "menu-row", "data-tt-act": k,
-      "aria-describedby": k === "copy" && tlErrFrom === "copy" && !tlLimit.hidden ? "tl-limit" : null }, text));
-    // 펼친 행(10/30): 행의 이름 자리가 이름이 든 입력칸이 된다(이름 글자는 행과 같은 t-body-strong, 오른쪽 끝 연필). 태그와 메타는 입력칸 위(10/30 사용자: "대표나 과목 수 같은 건
-    // 제목 위로 올려버리고"), ⋯ 는 입력칸 줄. 행 버튼(누르면 그 시간표로)은 펼친 동안 없다(접으면 돌아온다).
-    // 초점 차례는 ⋯ 다음이 입력칸이다(펼친 것이 ⋯ 뒤. 보이는 자리는 style.css 의 grid 가 잡는다. 읽는 차례는 보이는 대로 메타 → 입력칸)
-    const head = h("div", { class: "tl-head" },
-      h("button", { type: "button", class: "icon-btn tl-more", "data-tt-more": t.id, "aria-label": `${t.title} 메뉴`, "aria-expanded": "true",
-        "aria-controls": acts.length ? `${nameId} ${actsId}` : nameId }, icon(I.down, 20)),
-      h("span", { class: "mt" }, tag, meta, on ? h("span", { class: "sr-only" }, ", 지금 보는 시간표") : null),
-      h("span", { class: "tl-field" },
-        h("input", { class: "text-input", id: nameId, type: "text", "data-tt-name": t.id, maxlength: "30", value: t.title,
-          autocomplete: "off", enterkeyhint: "done", "aria-label": "시간표 이름" }),
-        icon(I.edit, 20)));
-    return h("li", { class: cls }, head, acts.length ? h("ul", { class: "tl-acts", id: actsId, "aria-label": `${t.title} 메뉴` }, acts.map(act)) : null);
+    const on = !sem && t.id === cur.id, tag = t.primary ? h("span", { class: "tag" }, "대표") : null;
+    return h("li", { class: "tl-item" }, h("div", { class: "tl-line" },
+      h("button", { type: "button", class: "tt-row", "data-tt": t.id, "data-sem": sem || null, "aria-current": on ? "true" : null },
+        h("span", { class: "it" }, h("span", { class: "nm" }, h("span", {}, t.title), tag), h("span", { class: "mt" }, ttMeta(t)))),
+      h("button", { type: "button", class: "icon-btn tl-more", "data-tt-more": t.id, "data-sem": sem || null, "aria-label": `${t.title} 메뉴`, "aria-haspopup": "dialog" },
+        icon(I.more, 24))));
   };
   const group = (sem) => {
     const open = tlSems.has(sem), here = sem === mine.sem, gid = `tl-sem-${uid(sem)}`;
@@ -3858,16 +3827,12 @@ function renderTtList() {
       h("span", {}, semesterLabel(sem)), icon(I.down, 20));
     if (!open) return h("li", { class: "tl-sem" }, head);
     const list = here ? (shownTts().length ? shownTts() : [cur]) : T.parseList(store.get(semKey(T.STORE_KEYS.list, sem), []), sem).filter((t) => !t._newer);
-    // 복사하기의 오류 줄(50개)은 지금 학기 묶음 끝(복사하기가 aria-describedby 로 가리킨다)
-    const rows = list.map((t) => ttRow(t, here ? null : sem));
-    if (here) rows.push(h("li", { class: "tl-err", hidden: tlLimit.hidden }, tlLimit)); // 줄이 없으면 목록 항목도 없다(스크린리더가 빈 항목을 세지 않게)
-    return h("li", { class: "tl-sem is-open" }, head, h("ul", { class: "tl-tts", id: gid, "aria-label": semesterLabel(sem) }, rows));
+    return h("li", { class: "tl-sem is-open" }, head, h("ul", { class: "tl-tts", id: gid, "aria-label": semesterLabel(sem) }, list.map((t) => ttRow(t, here ? null : sem))));
   };
   const groups = tlSemesters().map(group);
   // 목록 맨 아래 + 새 시간표 하나(10/23 저녁 사용자가 옆의 '이미지 불러오기'를 항목 목록의 '이미지로 추가'로 옮겼다: "그 시간표 거기서는 빼버리고"):
   // 학기와 이름을 고르는 팝업(아래 openNewTt)
   groups.push(h("li", { class: "tl-new" }, h("button", { type: "button", class: "menu-row add", "data-tt-new": "", "aria-haspopup": "dialog" }, icon(I.plus, 20), "새 시간표")));
-  if (!tlSems.has(mine.sem)) $("tl-rows").after(tlLimit);
   $("tl-rows").replaceChildren(...groups);
   for (const r of document.querySelectorAll('input[name="tt-color"]')) r.checked = r.value === ttColor;
 }
@@ -3878,7 +3843,7 @@ function refillTtList(focusSel) {
   const sel = focusSel || keep;
   if (sel) $("tl-rows").querySelector(sel)?.focus({ preventScroll: true });
 }
-const ttListSel = (el) => (["ttAct", "ttMore", "tt", "ttName", "ttNew", "semToggle"].map((k) => [k, el.dataset[k]]).filter(([, v]) => v !== undefined)
+const ttListSel = (el) => (["ttMore", "tt", "ttNew", "semToggle"].map((k) => [k, el.dataset[k]]).filter(([, v]) => v !== undefined)
   .map(([k, v]) => `[data-${k.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)}="${CSS.escape(v)}"]`)[0] || null);
 const ttById = (id) => (id ? mine.list.find((x) => x.id === id) : curTt().virtual ? curTt() : null) || null;
 /** 이름 바꾸기: 비우거나 그대로면 바꾸지 않는다. 같은 학기에 같은 이름이 있으면 '이름 (2)'부터(renamed). 빈 시간표 1이면 이때 만든다 */
@@ -3895,8 +3860,6 @@ function renameTt(id, raw) {
 /** 목록에서 다른 학기의 것을 누르면 그 학기로 바꾼다(앱 전체의 학기. 탐색 학기 줄과 같다). 내 시간표는 바로 그 학기 것이 된다(편람은 이어서 받는다) */
 function tlGoSem(sem) {
   if (!sem || sem === mine.sem) return;
-  tlError(null);
-  ttListOpen = null;
   switchSemester(sem);
   tlSems.add(sem);
 }
@@ -3911,13 +3874,10 @@ $("tl-rows").addEventListener("click", (e) => {
   }
   const more = e.target.closest("[data-tt-more]");
   if (more) {
-    const id = more.dataset.ttMore;
-    if (more.dataset.sem) { tlGoSem(more.dataset.sem); ttListOpen = id; } else ttListOpen = ttListOpen === id ? null : id;
-    refillTtList(`[data-tt-more="${CSS.escape(id)}"]`);
+    tlGoSem(more.dataset.sem);
+    openTtOpts(more.dataset.ttMore);
     return;
   }
-  const actEl = e.target.closest("[data-tt-act]");
-  if (actEl) { ttListAct(actEl.dataset.ttAct); return; }
   const row = e.target.closest("[data-tt]");
   if (row) {
     tlGoSem(row.dataset.sem);
@@ -3977,34 +3937,111 @@ function makeNewTt() {
   renderMine();
   closeSheet($("tt-new"));
 }
-/** 펼친 행의 일. 복사하기·대표는 시트를 그대로 두고 목록을 다시 그린다(복사한 시간표가 보는 시간표가 되고 그 행이 펼쳐진다). 지우기는 시트를 닫는다(스낵바의 되돌리기) */
-function ttListAct(k) {
-  const d = $("tt-list-sheet"), id = ttListOpen;
-  const t = ttById(id);
+// ---- 시간표 메뉴 팝업(10/30 오후 사용자: "시간표 옵션은 그냥 창으로 띄우고". 그 전에는 목록의 행 아래에 펼쳤다): 목록 시트 행마다 ⋯ 가 연다. 묻는 팝업과 같은 가운데 팝업이고
+// 시트 위에 시트를 띄우지 않으므로 목록 시트는 닫힌다. 닫기·바깥 누르기·Esc·뒤로 가기로 닫으면 목록 시트로 돌아간다(펼쳐 둔 학기 그대로, 초점은 그 시간표의 ⋯).
+// 지우기와 앱의 사진 저장은 팝업을 닫고 스낵바를 보인다(목록으로 돌아가지 않는다).
+// 머리는 태그(대표)·학기·메타와 이름 입력칸(이름이 곧 입력칸이다. 10/30 사용자: 행의 이름과 입력칸을 "하나로 합치는 게 좋을 것 같고, 이름 수정하는 란이라는 게 좀 더
+// 잘 드러났으면", "대표나 과목 수 같은 건 제목 위로". Enter·다른 곳을 누르면 바꾸고, Esc 는 고치던 것을 원래 이름으로), 그 아래 복사하기·대표 시간표로 설정하기(대표가
+// 아닌 시간표에만. 10/23 사용자: "'대표에서 빼기' 이거 없애고, 걍 대표 시간표가 아닌 시간표 메뉴에 '대표 시간표로 설정하기' 이거 넣어". 대표는 학기마다 늘 하나:
+// 처음 만든 시간표가 대표이고 대표를 지우면 남은 것 중 하나가 대표다)·이미지로 저장·지우기, [닫기]. 복사하면 팝업은 사본을 가리킨다(이어서 이름을 바꿀 수 있게).
+// 아직 만들지 않은 빈 시간표 1은 이름 칸만(이름을 바꾸면 만들어진다)
+let toId = null, toBack = false; // 팝업이 가리키는 시간표 id(아직 만들지 않은 빈 시간표 1은 ""), 닫으면 목록 시트로 돌아가나
+const ttOpts = $("tt-opts");
+$("to-name").after(icon(I.edit, 20)); // 연필: 누르는 것이 아니라 고칠 수 있다는 표시(입력 중에는 숨긴다)
+function toError(text) {
+  $("to-error").hidden = !text;
+  $("to-error").textContent = text || "";
+}
+/** 팝업 내용(태그·학기·메타, 이름, 메뉴 줄). focusSel 이 있으면 다시 그린 뒤 그 메뉴 줄에 초점 */
+function renderTtOpts(focusSel) {
+  const t = ttById(toId);
   if (!t) return;
-  if (k === "copy") { // '시간표 1 (2)'처럼 번호를 붙인 사본(T.copyTimetable)
+  $("to-title").textContent = `${t.title} 메뉴`;
+  $("to-meta").replaceChildren(...(t.primary ? [h("span", { class: "tag" }, "대표")] : []), h("span", {}, `${semesterLabel(mine.sem)} · ${ttMeta(t)}`));
+  if (document.activeElement !== $("to-name")) $("to-name").value = t.title;
+  const acts = TT_ACTS.filter(([k]) => !t.virtual && (k !== "primary" || !t.primary) && (k !== "save-image" || (t.items.length && canSaveImage())));
+  if (acts.some(([k]) => k === "save-image")) preparedImage(t).catch(() => null); // 열 때 미리 그려 둔다(누르면 바로 저장한다)
+  $("to-acts").replaceChildren(...acts.map(([k, text]) => h("li", {}, h("button", { type: "button", class: k === "delete" ? "menu-row danger" : "menu-row", "data-tt-act": k,
+    "aria-describedby": k === "copy" && !$("to-error").hidden ? "to-error" : null }, text))));
+  $("to-acts").hidden = !acts.length;
+  if (focusSel) $("to-acts").querySelector(focusSel)?.focus({ preventScroll: true });
+}
+function openTtOpts(id) {
+  toId = id;
+  toBack = false;
+  toError(null);
+  renderTtOpts();
+  openSheet(ttOpts, $("tt-switch")); // 목록 시트는 닫힌다
+}
+/** 메뉴 줄의 일. 복사하기·대표는 팝업을 그대로 두고 다시 그린다. 지우기는 팝업을 닫는다(스낵바의 되돌리기) */
+function ttOptsAct(k) {
+  const t = ttById(toId);
+  if (!t) return;
+  if (k === "copy") { // '시간표 1 (2)'처럼 번호를 붙인 사본(T.copyTimetable). 사본이 보는 시간표가 되고 팝업도 사본을 가리킨다
     const c = T.copyTimetable(t, mine.list);
     if (!c) {
-      tlError(FULL_TEXT, "copy");
-      refillTtList('[data-tt-act="copy"]');
+      toError(FULL_TEXT);
+      renderTtOpts('[data-tt-act="copy"]');
       announce(FULL_TEXT, "alert");
       return;
     }
     putTt(c);
     renderMine();
-    ttListOpen = c.id;
-    refillTtList('[data-tt-act="copy"]');
+    toId = c.id;
+    toError(null);
+    renderTtOpts('[data-tt-act="copy"]');
     announce("복사했어요");
-  } else if (k === "primary") { // 학기에 대표는 하나다: 이 시간표가 대표가 되고 전 대표는 대표가 아니다. 그 줄은 사라지므로 초점은 그 아래 줄로
+  } else if (k === "primary") { // 학기에 대표는 하나다: 이 시간표가 대표가 되고 전 대표는 대표가 아니다. 그 줄은 사라지므로 초점은 바로 아래 줄로
     mine.list = T.setPrimary(mine.list, t.id);
     saveMine();
     renderMine();
-    // 그 줄이 사라지므로 초점은 바로 아래 줄로(이미지로 저장이 있으면 그것, 없으면 지우기)
-    refillTtList($("tl-rows").querySelector('[data-tt-act="save-image"]') ? '[data-tt-act="save-image"]' : '[data-tt-act="delete"]');
+    renderTtOpts($("to-acts").querySelector('[data-tt-act="save-image"]') ? '[data-tt-act="save-image"]' : '[data-tt-act="delete"]');
     announce("대표 시간표로 설정했어요");
-  } else if (k === "delete") { closeSheet(d); deleteTt(t); }
-  else if (k === "save-image") imageAct(k, t, d);
+  } else if (k === "delete") { toBack = false; closeSheet(ttOpts); deleteTt(t); }
+  else if (k === "save-image") imageAct(k, t, ttOpts);
 }
+$("to-acts").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-tt-act]");
+  if (b) ttOptsAct(b.dataset.ttAct);
+});
+// 이름 입력칸: Enter 나 다른 곳을 누르면(change) 바꾼다. 비우면 원래 이름. Esc 는 고치던 것을 원래 이름으로 되돌리고(팝업은 닫지 않는다), 고친 것이 없으면 팝업을 닫는다
+function commitToName() {
+  const input = $("to-name"), t = ttById(toId);
+  const done = renameTt(toId, input.value);
+  if (!done) { if (t) input.value = t.title; return null; }
+  toId = done.id; // 빈 시간표 1이면 이때 만들어져 id 가 생긴다
+  input.value = done.title;
+  renderTtOpts();
+  announce("이름을 바꿨어요");
+  return done;
+}
+$("to-name").addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    const t = ttById(toId);
+    if (t && e.target.value !== t.title) { e.preventDefault(); e.stopPropagation(); e.target.value = t.title; e.target.select(); }
+    return;
+  }
+  if (e.key !== "Enter" || e.isComposing || e.keyCode === 229) return;
+  e.preventDefault();
+  commitToName();
+});
+$("to-name").addEventListener("change", commitToName);
+// 닫기·바깥 누르기·Esc·뒤로 가기(cancel)로 닫으면 목록 시트로 돌아간다. 화면이 바뀌어 닫히거나(뒤로 가기 기록) 지우기·사진 저장으로 닫히면 돌아가지 않는다
+ttOpts.addEventListener("cancel", () => { toBack = true; });
+ttOpts.addEventListener("click", (e) => {
+  if (e.target.closest("[data-close]")) { toBack = true; return; }
+  if (e.target !== ttOpts) return;
+  const r = ttOpts.getBoundingClientRect();
+  if (e.clientY < r.top || e.clientY > r.bottom || e.clientX < r.left || e.clientX > r.right) toBack = true;
+});
+ttOpts.addEventListener("close", () => {
+  if (ttOpts.open || !toBack) return;
+  toBack = false;
+  const id = toId;
+  renderTtList();
+  openSheet($("tt-list-sheet"), $("tt-switch"));
+  (($("tl-rows").querySelector(`[data-tt-more="${CSS.escape(id || "")}"]`)) || $("tl-rows").querySelector("[data-tt-more]"))?.focus({ preventScroll: true });
+});
 
 // ---------------------------------------------------------------- 시간표 이미지(디자인 75판 '시간표 이미지', 컴포넌트 TimetableImage. 10/23 사용자: "시간표 이미지로 내보내는
 // 기능도 만들어 줘", "그 이미지에 … 시간표 정보를 지문처럼 … 파일 자체에"). 목록 시트 ⋯ 의 이미지로 저장, 머리 줄 공유의 이미지로 공유,
@@ -4030,13 +4067,6 @@ const IMPORT_PROBLEM = {
   "not-png": "PNG 이미지가 아니에요",
   newer: "새 버전 앱에서 만든 이미지예요",
 };
-let tlErrFrom = null; // 목록 아래 오류 줄을 띄운 일: "new" | "copy"
-/** 목록 아래 오류 줄을 띄우거나(글, 그 일) 거둔다(null). 다시 그릴 때 그 일의 버튼이 줄을 가리킨다(aria-describedby) */
-function tlError(text, from = null) {
-  tlLimit.hidden = !text;
-  if (text) tlLimit.textContent = text;
-  tlErrFrom = text ? from : null;
-}
 /** 사진 저장이 되는 곳: 웹(파일로 내려받기)과 앱 연결이 된다고 알린 앱(사진). 앱은 앱 연결이 켤 때 플러그인에 물어 둔 값(TTW_APP.canSaveImage.
  *  백엔드 update63: 답이 오기 전에는 false, 보통 몇 ms 안에 온다. 디자인 79판 '모든 기기에 둔다': iOS·안드로이드 9 이하도 사진에 저장하게 백엔드에 요청했고
  *  그 앱 연결은 true 를 알린다. 그 전 앱 연결에서 그 기기들은 줄이 없다(공유 시트 안에 저장이 있다)). 그 값이 없는 옛 앱 연결이면 웹뷰 사용자 에이전트로
@@ -4650,39 +4680,6 @@ $("sd-add").addEventListener("click", () => {
   shared = null;
   closeSheet($("shared-sheet"));
   showReceived(got);
-});
-// 이름 입력칸: Enter 나 다른 곳을 누르면(change) 바꾼다. 비우면 원래 이름. Esc 는 고치던 것을 원래 이름으로 되돌리고(시트는 닫지 않는다), 고친 것이 없으면 시트를 닫는다
-function commitTtName(input) {
-  const id = input.dataset.ttName, t = ttById(id);
-  const done = renameTt(id, input.value);
-  if (!done) { if (t) input.value = t.title; return null; }
-  ttListOpen = done.id;
-  input.value = done.title;
-  input.dataset.ttName = done.id;
-  // 펼친 행에는 이름이 입력칸에만 있다(10/30). 다시 그리기 전에 누른 ⋯ 도 새 이름·새 시간표를 가리키게(빈 시간표 1이면 이때 만들어져 id 가 생긴다)
-  const more = input.closest(".tl-item")?.querySelector("[data-tt-more]");
-  if (more) { more.dataset.ttMore = done.id; more.setAttribute("aria-label", `${done.title} 메뉴`); }
-  announce("이름을 바꿨어요");
-  return done;
-}
-$("tl-rows").addEventListener("keydown", (e) => {
-  const input = e.target.closest?.("[data-tt-name]");
-  if (!input) return;
-  if (e.key === "Escape") {
-    const t = ttById(input.dataset.ttName);
-    if (t && input.value !== t.title) { e.preventDefault(); e.stopPropagation(); input.value = t.title; input.select(); }
-    return;
-  }
-  if (e.key !== "Enter" || e.isComposing || e.keyCode === 229) return;
-  e.preventDefault();
-  if (commitTtName(input)) refillTtList("[data-tt-name]");
-});
-// 다른 곳을 누르면: 이름만 먼저 바꾸고(누른 버튼이 그대로 눌리도록 바로 다시 그리지 않는다), 누른 것이 목록을 다시 그리지 않았으면 그 뒤에 그린다
-$("tl-rows").addEventListener("change", (e) => {
-  const input = e.target.closest?.("[data-tt-name]");
-  if (!input) return;
-  const n = ttListDrawn;
-  if (commitTtName(input)) setTimeout(() => { if (ttListDrawn === n && $("tt-list-sheet").open) refillTtList(); }, 0);
 });
 // 칸 색(10/23 사용자: 정보 화면이 아니라 시간표 탭 안에): 고르면 바로 바뀐다
 for (const r of document.querySelectorAll('input[name="tt-color"]')) {
