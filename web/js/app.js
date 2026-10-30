@@ -4562,22 +4562,40 @@ let shared = null; // 공유받은 시간표 시트에 보이는 것 { payload, 
 /** 받은 주소(또는 '#t=' 뒤 글)를 연다. 앱은 바로 넣고, 웹은 공유받은 시간표 시트 */
 let lastLink = null; // 앱: 바로 넣은 링크와 그때(같은 주소가 켤 때 주소와 이벤트로 두 번 와도 한 번만 넣는다)
 const LAUNCH_DONE = "ttw.launchLink"; // 앱: 켤 때 연 주소를 넣었다(sessionStorage. 웹뷰를 새로 열어도 launchUrl 이 같으면 다시 넣지 않는다)
-async function receiveLink(code, { launch = false } = {}) {
+async function receiveLink(code) {
   const r = await readLinkCode(code);
   await semReady; // 학기 목록과 보는 학기(mine.sem)가 정해진 뒤에
   if (r.problem) { showSnackbar(LINK_PROBLEM[r.problem]); return; }
   const payload = await linkToPayload(r.link);
   if (IN_APP) {
     if (reopening) return; // 기기 저장소를 되살려 새로 여는 중: 새로 연 뒤에 다시 받는다
+    // 같은 주소가 켤 때 주소(launchUrl)와 이벤트(ttw:open-url)로 두 번 온다(안드로이드: Capacitor 가 켤 때의 intent 를 한 번 더 넘긴다. 10/30 백엔드).
+    // 거르기는 기다린 뒤(위 await) 확인과 적기를 한 번에 하므로 둘이 같이 와도 하나만 넣고, 10초는 먼저 넣은 때부터 잰다
     if (lastLink && lastLink.code === code && Date.now() - lastLink.at < 10000) return;
     lastLink = { code, at: Date.now() };
     const got = addReceived(payload);
     if (!got) { showSnackbar(FULL_TEXT); return; }
-    if (launch) { try { sessionStorage.setItem(LAUNCH_DONE, code); } catch { /* 못 적으면 다음에 새로 열 때 한 번 더 넣을 수 있다 */ } }
+    // 어느 길로 왔든 넣은 주소를 적어 둔다: 켤 때 주소가 이벤트보다 늦게 풀리거나 웹뷰를 새로 열어도 다시 넣지 않는다
+    try { sessionStorage.setItem(LAUNCH_DONE, code); } catch { /* 못 적으면 다음에 새로 열 때 한 번 더 넣을 수 있다 */ }
     showReceived(got);
     return;
   }
   openShared(payload);
+}
+/** 바로가기 주소 → { tab, sem } 또는 null(10/30 백엔드: 홈 화면 위젯을 누르면 앱이 '…/tt-wizard/#tab=mine&sem=<학기>' 로 열린다. 웹에서 같은 주소를 열어도 같다:
+ *  나중의 홈 화면 바로가기). tab 은 탭 이름(TABS)일 때만, sem 은 학기 꼴('2026-2')일 때만. 시간표 링크(#t=)는 linkCodeOf */
+function navOf(url) {
+  const hash = String(url || "").split("#")[1];
+  if (!hash || !/(^|&)(tab|sem)=/.test(hash)) return null;
+  const q = new URLSearchParams(hash), t = q.get("tab"), sem = q.get("sem") || "";
+  const nav = { tab: TABS.includes(t) ? t : null, sem: /^\d{4}-[12SW]$/.test(sem) ? sem : null };
+  return nav.tab || nav.sem ? nav : null;
+}
+/** 바로가기를 연다: 학기 목록을 받은 뒤 그 학기(편람이 있는 학기면. 앱 전체의 학기)로 바꾸고 그 탭으로(이미 그 탭이면 그 탭의 첫 화면) */
+async function goNav(nav) {
+  await semReady;
+  if (nav.sem && nav.sem !== state.semester && state.semesters.some(([x]) => x === nav.sem)) switchSemester(nav.sem);
+  if (nav.tab) switchTab(nav.tab);
 }
 /** 주소 → '#t=' 뒤 글(없으면 null). 메신저가 링크 끝에 붙여 넘긴 문장부호(')' '.' 등)는 글자 모양 밖이라 떼어 낸다 */
 const linkCodeOf = (url) => { const m = /#(?:.*&)?t=([A-Za-z0-9_-]+)/.exec(String(url || "")); return m ? m[1] : null; };
@@ -6547,7 +6565,9 @@ history.scrollRestoration = "manual";
 // 첫 탭: 지난번에 연 학기(openSem, 학기 선택 전의 기기는 고른 학기)에 저장한 시간표가 있으면 내 시간표. index.html 머리의 스크립트가 같은 판단으로
 // 탐색 입력 화면을 먼저 가려 둔다(data-launch, 켜자마자 입력 화면이 번쩍 보이지 않게). 학기 목록을 받은 뒤 다른 학기로 열려도 첫 탭은 그대로다
 readMine(String(store.get(T.STORE_KEYS.open, "") || store.get("semester", null)?.id || ""));
-launchTab = tab = screenTab = T.hasTimetables(store.get(semKey(T.STORE_KEYS.list, mine.sem), [])) ? "mine" : "explore";
+// 바로가기 주소(웹 '#tab=mine&sem=2026-2', 아래 navOf)면 첫 탭은 그 탭(학기는 학기 목록을 받은 뒤 goNav)
+const launchNav = IN_APP ? null : navOf(location.href);
+launchTab = tab = screenTab = launchNav?.tab || (T.hasTimetables(store.get(semKey(T.STORE_KEYS.list, mine.sem), [])) ? "mine" : "explore");
 // 공유받은 시간표 링크(웹 #t=…): 주소를 지우기 전에 읽어 둔다(지우면 새로 고쳐도 다시 열리지 않는다). 학기 목록을 받은 뒤 공유받은 시간표 시트로 연다
 const launchLink = IN_APP ? null : linkCodeOf(location.hash);
 history.replaceState({ tab, view: ROOT[tab], depth: 0 }, "", location.pathname + location.search);
@@ -6562,24 +6582,32 @@ showView(ROOT[tab], "init");
 delete document.documentElement.dataset.launch;
 startApp();
 if (launchLink) receiveLink(launchLink);
+if (launchNav?.sem) goNav({ sem: launchNav.sem, tab: null });
 setTimeout(askTheme, 400); // 첫 화면이 그 테마로 보인 뒤에 묻는다
 // 이미 열어 둔 웹 앱의 주소 칸에 시간표 링크를 붙여 넣었다(주소의 # 만 바뀌면 새로 열리지 않는다)
 window.addEventListener("hashchange", () => {
-  const code = linkCodeOf(location.hash);
-  if (!code || IN_APP) return;
+  if (IN_APP) return;
+  const code = linkCodeOf(location.hash), nav = code ? null : navOf(location.href);
+  if (!code && !nav) return;
   history.replaceState({ tab, view: screen, depth }, "", location.pathname + location.search);
-  receiveLink(code);
+  if (code) receiveLink(code); else goNav(nav);
 });
 // 앱: 앱 연결(native.js)이 앱으로 열린 시간표 링크를 알려 준다(백엔드에 요청한 약속 10/23 저녁: 켤 때 연 주소는 TTW_APP.launchUrl(주소 글이나 null 의 Promise),
 // 켜 둔 동안 열린 주소는 window 의 'ttw:open-url' 이벤트(detail.url)). 앱은 보여 주지 않고 바로 넣는다
 if (IN_APP) {
   Promise.resolve(window.TTW_APP?.launchUrl).then((u) => {
     const c = linkCodeOf(u);
+    if (!c) { const nav = navOf(u); if (nav) goNav(nav); return; } // 홈 화면 위젯(navOf)
     let done = false;
     try { done = sessionStorage.getItem(LAUNCH_DONE) === c; } catch { done = false; }
-    if (c && !done) receiveLink(c, { launch: true });
+    if (!done) receiveLink(c);
   }).catch(() => {});
-  window.addEventListener("ttw:open-url", (e) => { const c = linkCodeOf(e.detail && e.detail.url); if (c) receiveLink(c); });
+  window.addEventListener("ttw:open-url", (e) => {
+    const u = e.detail && e.detail.url, c = linkCodeOf(u);
+    if (c) { receiveLink(c); return; }
+    const nav = navOf(u);
+    if (nav) goNav(nav);
+  });
 }
 // 스토어 앱의 저장소 되살리기(백엔드 10/22 밤): 앱 연결(native.js)이 기기 저장소(Preferences)에서 지워진 localStorage 를 되살리면 TTW_APP.restored 가
 // { keys: [되살린 열쇠 …] } 로 풀린다(웹에는 없다). 되살린 것이 있으면 켤 때 읽은 것(빈 값)으로 그린 화면이라 한 번 새로 연다: 첫 탭(그 학기에 저장한 시간표가
