@@ -25,6 +25,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <!-- 시간표 링크로 앱 열기(App Links, 10/30). 공유한 링크 https://archi142857.github.io/tt-wizard/#t=… 를 앱이 깔린 폰에서 누르면 이 앱이 연다
+                 (화면은 native.js 의 TTW_APP.launchUrl·'ttw:open-url' 로 받는다). 경로는 웹 앱 첫 주소 하나만(path): 같은 사이트의 실측 페이지(field/)·
+                 고지문·처리방침 같은 다른 페이지는 브라우저로 열려야 한다. '#' 뒤는 맞춰 보지 않는다.
+                 확인 파일은 https://archi142857.github.io/.well-known/assetlinks.json (사용자 사이트 저장소 archi142857.github.io, docs/app.md '시간표 링크로 앱 열기').
+                 그 파일이 없으면 안드로이드 12 이상은 브라우저로 연다(설정 > 앱 > TT Wizard > 기본으로 열기 에서 손으로 켤 수는 있다) -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="archi142857.github.io" android:path="/tt-wizard/" />
+            </intent-filter>
+
         </activity>
 
         <provider
@@ -41,4 +53,7 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 안드로이드 9 이하에서 시간표 이미지를 사진(Pictures/TT Wizard)에 저장할 때만 묻는다(디자인 79판 '모든 기기에 둔다', ImagePlugin.java).
+         10 이상은 MediaStore 에 제 파일을 더해서 권한이 없다. 거절해도 공유 시트로는 내보낼 수 있다 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
 </manifest>

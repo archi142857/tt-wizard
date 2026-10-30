@@ -7,7 +7,7 @@
 
 하는 일
   - web/ 의 화면·엔진·지도·아이콘·자료(지난 학기 포함)를 복사한다. 앱이 첫 실행부터 오프라인으로 돈다(디자인 규칙 '스토어 출시').
-    서비스 워커(sw.js, 앱은 파일을 품고 있다), 3D·2D 모델(model/, vendor/three/), 실측 페이지(field/), 개발용 파일은 뺀다.
+    서비스 워커(sw.js, 앱은 파일을 품고 있다), 3D·2D 모델(model/, vendor/three/), 실측 페이지(field/), 웹에만 둔 개발자 메뉴(js/dev.js), 개발용 파일은 뺀다.
   - 글꼴 Pretendard 를 CDN 대신 앱에 넣는다(app/node_modules/pretendard, npm ci 뒤). 없으면 CDN 그대로 두고 알린다.
   - 앱에만 들어가는 다른 사람 코드의 고지문(licenses/*.txt: Capacitor, AndroidX, Cordova)을 묶음의 licenses/ 로 넣는다.
     웹에도 쓰는 고지문(web/licenses/: SNUTT, Pretendard)은 web/ 을 복사할 때 같은 licenses/ 로 들어간다.
@@ -39,7 +39,8 @@ LICENSES = ROOT / "licenses"  # 앱에만 들어가는 다른 사람 코드의 �
 REMOTE = "https://archi142857.github.io/tt-wizard/"  # 앱이 자료를 새로 받는 곳 (GitHub Pages, 끝에 /)
 
 SKIP_DIRS = {"model", "field", "three"}  # 3D·2D 모델과 three.js, 실측 페이지
-SKIP_FILES = {"sw.js", "README.md", "package.json"}  # 서비스 워커, 설명, node 테스트용 모듈 표시
+SKIP_FILES = {"sw.js", "README.md", "package.json", "dev.js"}  # 서비스 워커, 설명, node 테스트용 모듈 표시,
+# 웹에만 둔 개발자 메뉴(js/dev.js: 스토어 앱은 열지 않는다. 숨긴 기능을 앱에 넣지 않는다, 법무 10/24)
 NEEDED = ("index.html", "style.css", "js/app.js", "js/engine.js", "js/search-worker.js", "js/search.js", "js/timetables.js",
           "data/campus.json", "data/courses.json")
 FONT_CSS = "pretendardvariable-dynamic-subset.css"

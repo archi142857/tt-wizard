@@ -10,7 +10,9 @@
 // 3) <html data-platform="android|ios">
 // 4) 안드로이드 상태 바 글자색: 앱을 켜 둔 채 기기가 라이트·다크로 바뀌면 다시 맞춘다(아래 '상태 바 글자색').
 // 5) 로그인해 둔 브라우저에서 열려야 하는 바깥 링크(에브리타임 강의평)는 앱 안 브라우저가 아니라 기기의 기본 브라우저로 보낸다(아래 '기기 브라우저로 여는 링크').
-// 6) 시간표 이미지 공유·저장: TTW_APP.shareImage·saveImage(안드로이드, 앱 안 플러그인 TTWImage. 아래 '시간표 이미지').
+// 6) 시간표 이미지 공유·저장: TTW_APP.shareImage·saveImage(앱 안 플러그인 TTWImage. 아래 '시간표 이미지').
+// 7) 시간표 링크로 앱 열기: TTW_APP.launchUrl·'ttw:open-url' 이벤트(아래 '앱으로 연 주소').
+// 8) 링크 공유·앱 설정 열기: TTW_APP.shareLink·openSettings(앱 안 플러그인 TTWShell. 아래 '링크 공유·앱 설정').
 (function () {
   "use strict";
   var cap = window.Capacitor;
@@ -202,16 +204,28 @@
 
   // 화면(app.js)은 시간표 그림에 시간표 자료를 넣은 PNG(web/js/timetables.js 의 addTimetableToPng)를 넘긴다.
   //   TTW_APP.shareImage({ bytes, name, title })  공유 시트(카카오톡·드라이브·파일 …). title 은 시트 제목
-  //   TTW_APP.saveImage({ bytes, name })          사진에 저장(안드로이드 10 이상, Pictures/TT Wizard). → { uri }
-//   TTW_APP.canSaveImage / canShareImage        이 기기에서 되는지(true/false). 켤 때 플러그인에 한 번 묻고 답이 오면 바뀐다(처음엔 false).
-//   TTW_APP.imageInfo                           그 답을 기다리는 Promise({ save, share }). 메뉴를 그리기 전에 기다릴 때(보통은 켠 지 몇 ms 안에 온다)
+  //   TTW_APP.saveImage({ bytes, name })          사진에 저장(안드로이드 Pictures/TT Wizard, iOS 사진 앱). → { uri? }
+  //   TTW_APP.canSaveImage / canShareImage        이 기기에서 되는지(true/false). 켤 때 플러그인에 한 번 묻고 답이 오면 바뀐다(처음엔 false).
+  //   TTW_APP.imageInfo                           그 답을 기다리는 Promise({ save, share }). 메뉴를 그리기 전에 기다릴 때(보통은 켠 지 몇 ms 안에 온다)
   //   bytes: Uint8Array | ArrayBuffer | Blob, name: 파일 이름(.png 는 붙여 준다). 둘 다 Promise.
-  // 앱 안 플러그인(app/android/.../ImagePlugin.java)이 없거나(iOS 는 아직) 안드로이드 9 이하에서 저장하면 code "UNSUPPORTED" 로 거절한다.
-  // 그때 화면은 웹과 같은 길(공유 시트가 있으면 그것, 없으면 내려받기)로 간다. 권한은 더하지 않는다(docs/app.md '시간표 이미지').
+  // 저장은 모든 기기(10/30, 디자인 79판 '모든 기기에 둔다'): 안드로이드 10 이상은 권한 없이, 9 이하와 iOS 는 처음 저장할 때 사진(저장소) 권한을 묻는다.
+  // 거절하는 code(디자인 79판 '문구', 화면의 saveFailed):
+  //   "DENIED"       사진 접근을 허락하지 않았다(이번에 거절, 전에 거절해 다시 묻지 않음, iOS 제한). 화면: '사진 접근이 꺼져 있어요' [설정](TTW_APP.openSettings)
+  //   "UNSUPPORTED"  이 앱 연결이 못 한다(플러그인이 없는 옛 앱). 화면은 웹과 같은 길(공유 시트가 있으면 그것, 없으면 내려받기)
+  //   "FAILED"·그 밖  저장하지 못했다. 화면: '사진에 저장하지 못했어요' [다시 시도]
   function unsupported() {
     var e = new Error("unsupported");
     e.code = "UNSUPPORTED";
     return Promise.reject(e);
+  }
+  /** 플러그인 호출: 플러그인이 없거나 그 메서드가 없는 판(Capacitor 의 UNIMPLEMENTED)이면 UNSUPPORTED 로 거절한다 */
+  function pluginCall(name, method, args) {
+    var p = (cap.Plugins || {})[name];
+    if (!p || typeof p[method] !== "function") return unsupported();
+    return Promise.resolve().then(function () { return p[method](args); }).catch(function (e) {
+      if (e && e.code === "UNIMPLEMENTED") return unsupported();
+      throw e;
+    });
   }
   function imageBytes(data) {
     if (data instanceof Uint8Array) return Promise.resolve(data);
@@ -229,7 +243,7 @@
     if (!p || typeof p[method] !== "function") return unsupported();
     opts = opts || {};
     return imageBytes(opts.bytes).then(function (b) {
-      return p[method]({ data: base64(b), name: String(opts.name || ""), title: String(opts.title || "") });
+      return pluginCall("TTWImage", method, { data: base64(b), name: String(opts.name || ""), title: String(opts.title || "") });
     });
   }
 
@@ -251,5 +265,47 @@
       return { save: false, share: false };
     });
   })();
+
+  // ------------------------------------------------------------ 앱으로 연 주소 (시간표 링크)
+
+  // 앱이 깔린 폰에서 시간표 링크(https://archi142857.github.io/tt-wizard/#t=…)를 누르면 이 앱이 열린다(안드로이드 App Links: AndroidManifest.xml
+  // 의 intent-filter, iOS Universal Links: App.entitlements. 확인 파일은 docs/app.md '시간표 링크로 앱 열기'). 연 주소를 화면(app.js)에 넘긴다:
+  //   TTW_APP.launchUrl  켤 때 연 주소(글) 또는 null 로 풀리는 Promise(App.getLaunchUrl). 그냥 켰으면 null. 늦게 풀려도 된다(화면이 학기 목록을 기다린다)
+  //   'ttw:open-url'     켜 둔 동안 링크로 다시 열리면 window 에 보내는 CustomEvent, detail.url = 주소(App 'appUrlOpen')
+  // 켤 때의 주소는 둘로 온다: 안드로이드는 BridgeActivity.load 가 켤 때의 intent 를 onNewIntent 로 한 번 더 넘겨 'appUrlOpen' 도 오고
+  // (8.5.2 소스), iOS 도 그럴 수 있다. 화면(app.js receiveLink)이 같은 링크를 10초 안에 두 번 넣지 않는다.
+  app.launchUrl = App && typeof App.getLaunchUrl === "function"
+    ? Promise.resolve().then(function () { return App.getLaunchUrl(); }).then(function (r) {
+      return r && typeof r.url === "string" && r.url ? r.url : null;
+    }, function () { return null; })
+    : Promise.resolve(null);
+  if (App && typeof App.addListener === "function") {
+    try {
+      var listening = App.addListener("appUrlOpen", function (ev) {
+        var url = ev && typeof ev.url === "string" ? ev.url : "";
+        if (url) window.dispatchEvent(new CustomEvent("ttw:open-url", { detail: { url: url } }));
+      });
+      if (listening && typeof listening.catch === "function") listening.catch(function () {});
+    } catch (e) {
+      // 듣지 못해도 켤 때의 주소(launchUrl)는 그대로다
+    }
+  }
+
+  // ------------------------------------------------------------ 링크 공유·앱 설정 (TTWShell)
+
+  //   TTW_APP.shareLink({ url, title })  기기의 공유 시트로 링크를 보낸다(안드로이드 웹뷰에는 navigator.share 가 없다). title 은 시트 제목.
+  //                                      못 하면 code "UNSUPPORTED"(화면은 복사로), 실패는 "FAILED"
+  //   TTW_APP.openSettings()             이 앱의 설정 화면(사진 접근을 다시 켤 곳). 거절 스낵바의 [설정]
+  // 앱 안 플러그인(ShellPlugin.java·ShellPlugin.swift)이 없는 옛 앱에는 두 함수가 없다(화면은 없으면 웹과 같은 길·버튼 없이).
+  if (plugins.TTWShell) {
+    app.shareLink = function (opts) {
+      opts = opts || {};
+      var url = String(opts.url || "");
+      if (!/^https?:\/\//i.test(url)) return Promise.reject(new Error("no link"));
+      return pluginCall("TTWShell", "shareText", { text: url, title: String(opts.title || "") });
+    };
+    app.openSettings = function () { return pluginCall("TTWShell", "openSettings", {}); };
+  }
+
   window.TTW_APP = app;
 })();

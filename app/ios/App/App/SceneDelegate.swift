@@ -26,9 +26,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 /// 앱 화면(웹뷰). 디자인 규칙 '스토어 출시':
 /// - 가장자리 스와이프로 뒤로 가기(웹 방문 기록 = 화면 이동, popstate)
 /// - 첫 화면을 그리기 전 바탕을 런치 화면과 같은 색(LaunchBackground, 라이트·다크)으로 둬서 흰 화면이 번쩍이지 않게
+/// - 이 앱 안의 플러그인을 등록한다(TTWImage 시간표 이미지 공유·저장, TTWShell 링크 공유·설정 열기. 웹 화면이 뜨기 전)
 class MainViewController: CAPBridgeViewController {
     override func capacitorDidLoad() {
         super.capacitorDidLoad()
+        bridge?.registerPluginInstance(ImagePlugin())
+        bridge?.registerPluginInstance(ShellPlugin())
         let background = UIColor(named: "LaunchBackground")
         view.backgroundColor = background
         webView?.isOpaque = false

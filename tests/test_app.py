@@ -21,7 +21,7 @@ IOS = APP / "ios" / "App"
 
 
 def fake_web(tmp_path: Path) -> Path:
-    """진짜 화면 파일 + 가짜 자료, 그리고 빠져야 할 것들(sw.js, model/, field/, vendor/three/, js/package.json)."""
+    """진짜 화면 파일 + 가짜 자료, 그리고 빠져야 할 것들(sw.js, model/, field/, vendor/three/, js/package.json, js/dev.js)."""
     web = tmp_path / "web"
     web.mkdir()
     for name in ("index.html", "style.css", "sw.js", "manifest.webmanifest"):
@@ -58,6 +58,7 @@ def test_build_app_bundle(tmp_path, monkeypatch):
             "licenses/capacitor.txt", "licenses/androidx.txt", "licenses/cordova.txt", "licenses/snutt.txt", "licenses/pretendard.txt",
             "licenses/fredoka.txt", "licenses/odbl.txt", "licenses/kogl-type1.txt"} <= files
     assert not [f for f in files if f == "sw.js" or f.startswith(("model/", "field/", "vendor/three/")) or f.endswith("package.json")]
+    assert (web / "js" / "dev.js").exists() and "js/dev.js" not in files  # 웹에만 둔 개발자 메뉴는 앱 묶음에 넣지 않는다(법무 10/24)
     html = (out / "index.html").read_text(encoding="utf-8")
     assert "cdn.jsdelivr.net" not in html and 'href="vendor/pretendard/' in html
     assert html.index('<script src="js/native.js"></script>') < html.index("</head>") < html.index('src="js/app.js"')
@@ -159,23 +160,47 @@ def test_native_shim():
     # 메뉴에 '이미지로 저장' 줄을 둘지(디자인 10/23): 켤 때 한 번 묻고 답이 오면 canSaveImage·canShareImage 가 바뀐다
     n = r["imageInfo"]
     assert n["before"] == [False, False] and n["info"] == {"save": True, "share": True} and n["after"] == [True, True]
+    assert n["ios"] == [{"save": True, "share": True}, True]  # iOS 도 사진에 저장한다(10/30)
     assert n["old"] == [{"save": False, "share": True}, False, True] and n["none"] == [{"save": False, "share": False}, False]
+    # 저장 거절 code 는 플러그인 그대로(DENIED → 화면 '사진 접근이 꺼져 있어요' [설정]), 메서드가 없는 옛 플러그인은 UNSUPPORTED(화면은 공유로)
+    assert r["saveCodes"] == ["DENIED", "FAILED", "UNSUPPORTED", "ok"]
+    # 시간표 링크로 앱 열기: 켤 때 연 주소(launchUrl, 없거나 못 물으면 null)와 켜 둔 동안 연 주소('ttw:open-url'). 빈 주소는 보내지 않는다
+    link = "https://archi142857.github.io/tt-wizard/#t=jWzEsIjIwMjYtMiJd"
+    assert r["launch"] == {"launched": [link, None, None], "opened": [link + "x"], "ios": [link], "web": True}
+    # 링크 공유·앱 설정(TTWShell): 링크만 글 공유로, 플러그인이 없는 옛 앱에는 함수가 없고, 메서드가 없으면 UNSUPPORTED
+    sh = r["shell"]
+    assert sh["calls"] == [["shareText", "https://archi142857.github.io/tt-wizard/#t=jAA", "2026년 2학기 시간표 1"], ["openSettings", "", ""]]
+    assert sh["notLink"] == "no link" and sh["none"] == ["undefined", "undefined"]
+    assert (sh["old"], sh["oldSettings"], sh["failed"]) == ("UNSUPPORTED", "UNSUPPORTED", "FAILED")
 
 
-def test_android_image_plugin_needs_no_permission():
-    """시간표 이미지 공유·저장 플러그인(앱 안): 등록돼 있고, 권한을 더하지 않는다(공유는 앱 캐시 + FileProvider, 저장은 안드로이드 10 이상의 MediaStore)."""
+def test_android_plugins_permissions_and_links():
+    """앱 안 플러그인(TTWImage 이미지 공유·저장, TTWShell 링크 공유·설정)이 등록돼 있고, 권한은 인터넷과 안드로이드 9 이하의 사진 저장뿐이다.
+    시간표 링크(웹 앱 첫 주소)는 App Links 로 앱이 연다."""
     java = APP / "android" / "app" / "src" / "main" / "java" / "com" / "ttwizard" / "app"
     plugin = (java / "ImagePlugin.java").read_text(encoding="utf-8")
-    assert '@CapacitorPlugin(name = "TTWImage")' in plugin and "public void share(PluginCall call)" in plugin and "public void save(PluginCall call)" in plugin
-    assert "public void info(PluginCall call)" in plugin and 'ret.put("save", Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)' in plugin
-    assert "Build.VERSION_CODES.Q" in plugin and '"UNSUPPORTED"' in plugin and "getCacheDir()" in plugin and ".fileprovider" in plugin
-    assert "@Permission" not in plugin and "requestPermissions" not in plugin
+    assert "name = \"TTWImage\"" in plugin and "public void share(PluginCall call)" in plugin and "public void save(PluginCall call)" in plugin
+    assert "public void info(PluginCall call)" in plugin and 'ret.put("save", true)' in plugin
+    # 저장: 10 이상 MediaStore(권한 없음), 9 이하는 저장소 권한을 물어서. 거절은 DENIED, 그 밖은 FAILED
+    assert "Build.VERSION_CODES.Q" in plugin and "MediaStore" in plugin and "getExternalStoragePublicDirectory" in plugin
+    assert "Manifest.permission.WRITE_EXTERNAL_STORAGE" in plugin and "@PermissionCallback" in plugin and '"DENIED"' in plugin and '"FAILED"' in plugin
+    assert "getCacheDir()" in plugin and ".fileprovider" in plugin
+    shell = (java / "ShellPlugin.java").read_text(encoding="utf-8")
+    assert '@CapacitorPlugin(name = "TTWShell")' in shell and "public void shareText(PluginCall call)" in shell and "public void openSettings(PluginCall call)" in shell
+    assert '"text/plain"' in shell and "Intent.EXTRA_TEXT" in shell and "Settings.ACTION_APPLICATION_DETAILS_SETTINGS" in shell
     main = (java / "MainActivity.java").read_text(encoding="utf-8")
-    assert main.index("registerPlugin(ImagePlugin.class)") < main.index("super.onCreate(savedInstanceState)")
+    for name in ("ImagePlugin", "ShellPlugin"):
+        assert main.index(f"registerPlugin({name}.class)") < main.index("super.onCreate(savedInstanceState)")
     manifest = (APP / "android" / "app" / "src" / "main" / "AndroidManifest.xml").read_text(encoding="utf-8")
-    assert re.findall(r'<uses-permission android:name="([^"]+)"', manifest) == ["android.permission.INTERNET"]
+    assert re.findall(r'<uses-permission android:name="([^"]+)"', manifest) == ["android.permission.INTERNET", "android.permission.WRITE_EXTERNAL_STORAGE"]
+    assert '<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />' in manifest
     paths = (APP / "android" / "app" / "src" / "main" / "res" / "xml" / "file_paths.xml").read_text(encoding="utf-8")
     assert '<cache-path name="my_cache_images" path="." />' in paths and 'android:authorities="${applicationId}.fileprovider"' in manifest
+    # App Links: 웹 앱 첫 주소(path 하나)만. 같은 사이트의 다른 페이지(실측·고지문·처리방침)는 브라우저로 열려야 한다
+    link = re.search(r'<intent-filter android:autoVerify="true">(.*?)</intent-filter>', manifest, re.S).group(1)
+    assert 'android.intent.action.VIEW' in link and 'android.intent.category.BROWSABLE' in link and 'android.intent.category.DEFAULT' in link
+    assert re.findall(r"<data ([^>]*)/>", link) == ['android:scheme="https" android:host="archi142857.github.io" android:path="/tt-wizard/" ']
+    assert build_app.REMOTE == "https://archi142857.github.io/tt-wizard/"  # 화면이 만드는 링크의 주소(TTW_APP.remote)와 같은 곳
 
 
 def test_native_projects_match_config():
@@ -218,10 +243,21 @@ def test_native_projects_match_config():
 
     info = plistlib.loads((IOS / "App" / "Info.plist").read_bytes())
     assert info["ITSAppUsesNonExemptEncryption"] is False and info["CFBundleDevelopmentRegion"] == "ko"
+    # 사진에 저장(TTWImage.save, 공유 시트의 '이미지 저장'): 목적 문구가 없으면 그 자리에서 앱이 꺼진다(디자인 79판 문구)
+    assert info["NSPhotoLibraryAddUsageDescription"] == "시간표 이미지를 사진에 저장할 때 필요해요."
+    # 시간표 링크로 앱 열기(Universal Links): 권한 파일이 앱 타깃 두 설정(Debug·Release)에 걸려 있다
+    ent = plistlib.loads((IOS / "App" / "App.entitlements").read_bytes())
+    assert ent == {"com.apple.developer.associated-domains": ["applinks:archi142857.github.io"]}
+    assert pbx.count("CODE_SIGN_ENTITLEMENTS = App/App.entitlements;") == 2
+    # 앱 안 플러그인(Swift): 컴파일 단계에 들고, 웹 화면이 뜨기 전에 등록하고, 이름이 안드로이드와 같다
+    for name, js in (("ImagePlugin", "TTWImage"), ("ShellPlugin", "TTWShell")):
+        assert pbx.count(f"{name}.swift in Sources") == 2, name  # 빌드 파일 + Sources 단계
+        assert f'public let jsName = "{js}"' in (IOS / "App" / f"{name}.swift").read_text(encoding="utf-8")
     privacy = plistlib.loads((IOS / "App" / "PrivacyInfo.xcprivacy").read_bytes())
     assert privacy["NSPrivacyTracking"] is False and privacy["NSPrivacyCollectedDataTypes"] == []
     assert privacy["NSPrivacyAccessedAPITypes"][0]["NSPrivacyAccessedAPITypeReasons"] == ["CA92.1"]
     assert pbx.count("PrivacyInfo.xcprivacy in Resources") == 2  # 빌드 파일 + Resources 단계
     swift = (IOS / "App" / "SceneDelegate.swift").read_text(encoding="utf-8")
     assert "rootViewController = MainViewController()" in swift and "allowsBackForwardNavigationGestures = true" in swift
+    assert "registerPluginInstance(ImagePlugin())" in swift and "registerPluginInstance(ShellPlugin())" in swift
     assert 'customClass="MainViewController"' in (IOS / "App" / "Base.lproj" / "Main.storyboard").read_text(encoding="utf-8")

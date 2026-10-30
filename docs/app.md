@@ -26,6 +26,13 @@ app/
 .github/workflows/app.yml           안드로이드 디버그 APK·iOS 시뮬레이터 빌드
 ```
 
+- 앱 안 플러그인(이 앱에만 있는 네이티브 코드): `TTWImage`(시간표 이미지 공유·저장, 안드로이드 `ImagePlugin.java`·iOS `ImagePlugin.swift`),
+  `TTWShell`(링크 공유·앱 설정 열기, `ShellPlugin.java`·`ShellPlugin.swift`). 안드로이드는 `MainActivity` 가, iOS 는 `MainViewController`(`SceneDelegate.swift`)가 등록한다.
+  화면은 이것들을 직접 부르지 않고 `native.js` 의 `TTW_APP` 으로 쓴다.
+- 앱 묶음(`www/`)에서 빼는 것: 서비스 워커 `sw.js`(앱은 파일을 품고 있다), 3D·2D 모델(`model/`, `vendor/three/`), 실측 페이지(`field/`), 설명(`README.md`),
+  node 시험용 표시(`js/package.json`), 웹에만 둔 개발자 메뉴(`js/dev.js`, 10/24. 스토어 앱은 열지 않고 숨긴 기능을 바이너리에 넣지 않는다, 법무: Apple 2.5.19).
+  앱은 `dev.js` 를 부르지 않아서 묶음에 없어도 오류가 나지 않는다(`build_app.py` 의 `SKIP_DIRS`·`SKIP_FILES`).
+
 - 앱 아이디 `com.ttwizard.app`(10/1 사용자 결정: 개인 GitHub 아이디와 떼어 두고, 나중에 `ttwizard.com` 같은 주소를 사면 그대로 맞게), 이름 `TT Wizard`.
   **스토어에 처음 올린 뒤에는 앱 아이디를 바꿀 수 없다.** 안드로이드 `namespace`·`applicationId`·`MainActivity` 패키지, iOS `PRODUCT_BUNDLE_IDENTIFIER`,
   `capacitor.config.json` 이 같아야 한다(`tests/test_app.py`).
@@ -87,6 +94,12 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
   `native.js` 가 문서의 `click` 을 capture 단계에서 먼저 받아 전파만 끊고 기본 동작은 둔다. 웹뷰가 앱 밖 주소로 가려 하면 Capacitor 가 기기에 넘긴다
   (안드로이드 `Bridge.launchIntent` 의 `ACTION_VIEW`, iOS `WebViewDelegationHandler` 의 `UIApplication.open`. 8.5.2 소스로 확인). 그 주소를 맡은 앱이 기기에 있으면
   그 앱이 열릴 수 있다. `capacitor.config.json` 의 `server.allowNavigation` 에 그 호스트를 넣으면 웹뷰 안에서 열리게 되니 넣지 않는다.
+- **앱으로 연 주소**(10/30, 아래 '시간표 링크로 앱 열기'): `TTW_APP.launchUrl` 은 켤 때 연 주소(글)나 `null` 로 풀리는 Promise(`App.getLaunchUrl`),
+  켜 둔 동안 링크로 다시 열리면 `window` 에 `ttw:open-url` 이벤트(`detail.url`, `App` 의 `appUrlOpen`). 켤 때의 주소는 둘로 다 온다
+  (안드로이드 `BridgeActivity.load` 가 켤 때의 intent 를 `onNewIntent` 로 한 번 더 넘긴다). 화면은 같은 링크를 10초 안에 두 번 넣지 않는다.
+- **링크 공유·앱 설정**(10/30): `TTW_APP.shareLink({url, title})` 는 공유 시트로 주소를 보낸다(안드로이드 웹뷰에는 `navigator.share` 가 없다.
+  안드로이드 `ACTION_SEND` `text/plain`·`EXTRA_TEXT`, 선택 창 제목 `title`. iOS `UIActivityViewController` 에 URL). `TTW_APP.openSettings()` 는 이 앱의 설정 화면
+  (안드로이드 앱 정보 `ACTION_APPLICATION_DETAILS_SETTINGS`, iOS 설정 앱). 플러그인이 없는 옛 앱에는 두 함수가 없고, 메서드가 없으면 `UNSUPPORTED` 로 거절한다.
 
 화면 쪽(`web/js/app.js`, 프론트엔드)은 `window.Capacitor` 가 있으면 셸을 `ios` 로 판별해 서비스 워커·설치 안내·새 버전 알림을 끄고,
 외부 링크는 Capacitor Browser(안드로이드는 Custom Tab, iOS 는 인앱 Safari), 완료 때 햅틱을 쓴다. 에브리타임으로 나가는 `강의평`만
@@ -109,9 +122,11 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
 
 ## 권한·기기 백업·오픈소스 고지 (10/22, 법무 검토의 질문)
 
-- **권한**: 앱 매니페스트는 `INTERNET` 하나다. 병합 매니페스트에는 플러그인과 라이브러리가 더한 것이 들어간다. 소스로 보면
+- **권한**: 앱 매니페스트는 `INTERNET` 과 `WRITE_EXTERNAL_STORAGE`(`maxSdkVersion="28"`: 안드로이드 9 이하에서 시간표 이미지를 사진에 저장할 때만 묻는다, 10/30.
+  10 이상 기기에는 이 권한이 아예 없다)다. iOS 는 사진 추가 권한(`NSPhotoLibraryAddUsageDescription`, 저장할 때만 묻는다). 둘 다 거절해도 공유 시트로는 내보낼 수 있다.
+  병합 매니페스트에는 플러그인과 라이브러리가 더한 것이 들어간다. 소스로 보면
   `VIBRATE`(@capacitor/haptics, 설치할 때 주는 보통 권한)와 AndroidX core 가 앱 안에서만 쓰려고 만드는 서명 권한
-  `com.ttwizard.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` 이고, 위치·저장소·카메라처럼 묻는 권한은 없다.
+  `com.ttwizard.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` 이고, 위치·카메라처럼 묻는 권한은 없다(묻는 것은 위의 9 이하 저장소 하나).
   @capacitor/browser 는 권한이 아니라 Custom Tab 을 찾는 `<queries>` 를 더한다. 빌드한 APK 의 실제 목록은 `app` 워크플로 실행 화면의
   요약(Summary)에 적힌다(`aapt2 dump permissions`. 앱에 들어가는 라이브러리 목록도 같이).
 - **기기 백업**: `android:allowBackup="true"` 를 둔다. 안드로이드 자동 백업(Google 계정)과 새 폰으로 옮기기에 앱 자료(웹뷰의 localStorage·IndexedDB,
@@ -130,22 +145,64 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
 ## 시간표 이미지 (공유·저장, 10/23)
 
 사용자 10/23 "시간표 이미지로 내보내는 기능". 그림에 시간표 자료를 넣는 것은 `web/js/timetables.js`(`docs/timetables.md` '이미지 파일에 담기'),
-앱에서 나누고 저장하는 것은 이 앱 안의 플러그인 `app/android/app/src/main/java/com/ttwizard/app/ImagePlugin.java`(이름 `TTWImage`, `MainActivity` 가 등록한다).
-화면은 `native.js` 의 `TTW_APP.shareImage({bytes, name, title})`·`TTW_APP.saveImage({bytes, name})` 를 부른다.
-메뉴에 줄을 둘지는 `TTW_APP.canSaveImage`(사진에 저장되는 기기: 안드로이드 10 이상)·`TTW_APP.canShareImage`(공유 시트) 로 본다(디자인 10/23).
+앱에서 나누고 저장하는 것은 이 앱 안의 플러그인 `TTWImage`(안드로이드 `app/android/app/src/main/java/com/ttwizard/app/ImagePlugin.java`, iOS `app/ios/App/App/ImagePlugin.swift`).
+화면은 `native.js` 의 `TTW_APP.shareImage({bytes, name, title})`·`TTW_APP.saveImage({bytes, name})` 를 부른다. 그림은 늘 1080×1920 RGB PNG(알파 없음, 100~200 KB 남짓)다.
+메뉴에 줄을 둘지는 `TTW_APP.canSaveImage`(사진에 저장되는 기기)·`TTW_APP.canShareImage`(공유 시트) 로 본다(디자인 10/23).
 `native.js` 가 켤 때 플러그인의 `info` 에 한 번 묻고 답이 오면 `true` 가 된다(처음엔 `false`, 보통 몇 ms 안). 기다려야 하면 `await TTW_APP.imageInfo`(`{save, share}`).
-iOS 앱·옛 앱은 플러그인이 없어 둘 다 `false` 이고, 웹에는 `TTW_APP` 이 없다(웹은 내려받기).
+10/30 부터 모든 기기가 저장한다(디자인 79판 '모든 기기에 둔다', 사용자 "어느 플랫폼에서나 항상 같은 이미지"). 옛 앱(플러그인이 없는 iOS 판)은 둘 다 `false` 이고, 웹에는 `TTW_APP` 이 없다(웹은 내려받기).
 
-- **권한을 더하지 않는다**: 공유는 앱 캐시(`cache/share/`, 지난번 것은 지운다)에 쓰고 `FileProvider`(템플릿에 있던 `${applicationId}.fileprovider`)로 공유 시트에 넘긴다.
-  저장은 안드로이드 10(API 29) 이상에서 `MediaStore` 에 제 파일을 더한다(`Pictures/TT Wizard`. 권한 없음). 9 이하는 저장소 권한이 있어야 해서 `UNSUPPORTED` 로 거절하고 화면은 공유로 돌린다.
+- **공유**: 앱 캐시(안드로이드 `cache/share/`, iOS `tmp/share/`. 지난번 것은 지운다)에 쓰고 공유 시트에 넘긴다(안드로이드는 템플릿에 있던 `FileProvider`
+  `${applicationId}.fileprovider`, iOS 는 `UIActivityViewController` 에 파일 주소). 권한이 없다.
+- **저장**(`Pictures/TT Wizard`, iOS 는 사진 앱): 안드로이드 10(API 29) 이상은 `MediaStore` 에 제 파일을 더한다(권한 없음, 이름이 겹치면 MediaStore 가 번호를 붙인다).
+  9 이하는 처음 저장할 때 저장소 쓰기 권한(`WRITE_EXTERNAL_STORAGE`, 매니페스트 `maxSdkVersion="28"`)을 묻고 파일로 쓴 뒤 미디어 스캔을 건다(이름이 겹치면 ` (2)`부터).
+  iOS 는 사진 추가 전용 권한(`PHPhotoLibrary` `.addOnly`, 목적 문구 `시간표 이미지를 사진에 저장할 때 필요해요.`)을 묻고 `PHAssetCreationRequest` 에 받은 바이트를 그대로 넣는다.
+- **거절 code**(화면 `saveFailed`, 디자인 79판 '문구'): `DENIED` 는 사진 접근을 허락하지 않은 것(이번에 거절, 전에 거절해 다시 묻지 않음, iOS 제한) → `사진 접근이 꺼져 있어요` [설정]
+  (`TTW_APP.openSettings()`), `UNSUPPORTED` 는 이 앱 연결이 못 하는 것(옛 앱) → 공유 시트로, `FAILED`·그 밖은 `사진에 저장하지 못했어요` [다시 시도].
+  메서드가 없는 옛 플러그인(Capacitor 의 `UNIMPLEMENTED`)은 `native.js` 가 `UNSUPPORTED` 로 바꾼다.
 - 공식 플러그인(`@capacitor/share` + `@capacitor/filesystem`)을 쓰지 않은 까닭: 파일을 쓰려면 `@capacitor/filesystem` 이 있어야 하는데, 그것이 `ionfilesystem-android`·
   `kotlinx-coroutines`·iOS `ion-ios-filesystem` 을 더 끌고 온다(고지문이 늘고 네이티브 의존이 커진다). 필요한 일은 파일 하나 쓰고 넘기는 것뿐이라 앱 안에 40줄 남짓으로 뒀다.
   클라우드에서는 안드로이드 빌드를 못 해서, 고친 뒤에는 Actions `app` 이 컴파일하는지 본다(이 세션은 가짜 android·Capacitor 클래스로 `javac` 만 돌려 봤다).
 - 파일은 받은 바이트 그대로 쓴다(안의 시간표 자료가 남는다). 받는 앱이 다시 압축하면 자료는 빠진다(카카오톡 '사진' 등).
-- iOS 는 아직이다(Mac 이 없어 iOS 는 나중, 10/3): 플러그인이 없어 `UNSUPPORTED` 로 거절된다. 낼 때는 공유 시트(`UIActivityViewController`)를 붙이고,
-  공유 시트의 '이미지 저장'에 `NSPhotoLibraryAddUsageDescription` 이 있어야 한다(없으면 그 자리에서 앱이 꺼진다). 사용자가 사진 권한을 거부해도
-  공유 시트의 다른 길(파일·메신저)로는 내보낼 수 있게 둔다(법무 10/23: 선택 권한을 거부했다고 기능을 막지 않기). 웹뷰의 파일 고르기도 iOS 에서는 '사진 찍기'를
-  같이 보여서 `NSCameraUsageDescription` 이 필요할 수 있다(그때 다시 본다).
+- iOS 플러그인(10/30)은 Mac 이 없어 Actions 의 시뮬레이터 빌드로만 컴파일을 본다. 공유 시트의 '이미지 저장'에도 `NSPhotoLibraryAddUsageDescription` 이 있어야
+  해서 같이 넣었다(없으면 그 자리에서 앱이 꺼진다). 사용자가 사진 권한을 거부해도 공유 시트의 다른 길(파일·메신저)로는 내보낼 수 있다(법무 10/23: 선택 권한을
+  거부했다고 기능을 막지 않기). 웹뷰의 파일 고르기도 iOS 에서는 '사진 찍기'를 같이 보여서 `NSCameraUsageDescription` 이 필요할 수 있고, 사진 앱에서 고른 그림을
+  JPEG 로 바꿔 넘기면 안의 자료가 빠진다(둘 다 iOS 기기에서 볼 것).
+
+## 시간표 링크로 앱 열기 (10/30)
+
+사용자 10/23 저녁: "링크로 공유 했을 때 어플이 있으면 어플 켜서 시간표 추가, 어플 없으면 웹으로 시간표 띄우는 기능". 링크 꼴은 `docs/timetables.md` '링크에 담기'.
+앱이 깔린 폰에서 `https://archi142857.github.io/tt-wizard/#t=…` 를 누르면 앱이 열리고(`native.js` 의 `launchUrl`·`ttw:open-url` 로 화면에 넘긴다),
+앱이 없으면 웹 앱이 열려 '공유받은 시간표' 시트를 보인다.
+
+- **안드로이드 App Links**: `MainActivity` 의 `autoVerify` intent-filter(`https`, 호스트 `archi142857.github.io`, `path="/tt-wizard/"`). 경로는 웹 앱 첫 주소 하나만이다:
+  같은 사이트의 실측 페이지(`field/`)·고지문·처리방침 같은 다른 페이지는 앱이 깔려 있어도 브라우저로 열려야 한다. `#` 뒤는 맞춰 보지 않는다.
+- **iOS Universal Links**: 권한 파일 `app/ios/App/App/App.entitlements` 의 `applinks:archi142857.github.io`(앱 타깃의 `CODE_SIGN_ENTITLEMENTS`).
+  Apple 쪽 확인 파일에는 경로와 `#` 뒤를 함께 적을 수 있어서 `#t=` 가 있는 주소만 앱으로 보낸다(아래). 무료 개인 팀(Personal Team)은 이 권한을 서명할 수 없어서
+  그때 기기에 깔려면 권한 파일의 줄을 잠시 뺀다.
+- **확인 파일은 도메인 맨 위에 있어야 한다**: `https://archi142857.github.io/.well-known/assetlinks.json`(안드로이드)과
+  `https://archi142857.github.io/.well-known/apple-app-site-association`(iOS). 이 레포는 `/tt-wizard/` 아래에 올라가서 거기에 둘 수 없다.
+  **사용자 사이트 저장소가 따로 있어야 한다**: GitHub 에 `archi142857.github.io` 라는 이름의 공개 저장소를 만들고 Pages 를 켠다(이 레포의 Pages 는 그대로다).
+  그 저장소 맨 위에 빈 `.nojekyll` 파일을 둔다(없으면 Jekyll 이 점으로 시작하는 `.well-known` 폴더를 올리지 않는다).
+- `assetlinks.json` 에 넣을 지문은 앱을 서명한 인증서의 SHA-256 이다. Play 에 올리면 Play Console > 앱 무결성 > 앱 서명 에 'Play 앱 서명 키'와 '업로드 키'의
+  SHA-256 이 보인다(같은 화면에 이 파일 견본도 있다). 둘 다 넣는다(Play 에서 받은 앱은 앱 서명 키, 직접 깐 출시 APK 는 업로드 키로 서명돼 있다):
+  ```json
+  [{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.ttwizard.app",
+      "sha256_cert_fingerprints": ["<Play 앱 서명 키 SHA-256>", "<업로드 키 SHA-256>"]
+    }
+  }]
+  ```
+- `apple-app-site-association`(확장자 없음)은 Apple 개발자 팀 ID 가 생긴 뒤에:
+  ```json
+  {"applinks": {"details": [{"appIDs": ["<팀 ID>.com.ttwizard.app"], "components": [{"/": "/tt-wizard/", "#": "t=*"}]}]}}
+  ```
+  Apple 은 이 파일을 자기 CDN 으로 받아 간다. GitHub Pages 가 확장자 없는 파일을 어떤 형식(Content-Type)으로 내는지와 Apple 이 받아 가는지는 iOS 를 낼 때 기기로 본다.
+- Actions 의 디버그 APK 는 실행마다 다른 디버그 키로 서명돼 확인 파일과 맞지 않는다. 그 APK 로 보려면 설정 > 앱 > TT Wizard > 기본으로 열기 >
+  `지원되는 링크 열기`·링크 추가에서 `archi142857.github.io` 를 손으로 켠다(안드로이드 12 이상. 그 전 판은 링크를 누를 때 앱을 고르는 창이 뜬다).
+- 확인 파일이 없거나 지문이 틀리면 안드로이드 12 이상은 링크를 브라우저로 연다(웹 앱의 '공유받은 시간표' → `내 시간표에 넣기`). 기능이 막히지는 않는다.
 
 ## 앞으로 기능을 만들 때 (법무 10/22)
 
@@ -182,7 +239,8 @@ iOS 앱·옛 앱은 플러그인이 없어 둘 다 `false` 이고, 웹에는 `TT
 
 1. 서명: 안드로이드 업로드 키(keystore)를 만들어 저장소 비밀값으로 넣고(`TTW_KEYSTORE_FILE`·`TTW_KEYSTORE_PASSWORD`·`TTW_KEY_ALIAS`·`TTW_KEY_PASSWORD`,
    `build.gradle` 이 읽는다) Actions 에 서명한 AAB(`bundleRelease`) 단계를 더한다. iOS 는 Apple 개발자 계정의 인증서·프로비저닝(또는 Mac 의 Xcode 자동 서명).
-2. 앱에서만 되는 쓸모(심사 4.2·Play 최소 기능): 시간표 저장(10/22)과 시간표 이미지 저장·보내기(10/23, 안드로이드)가 들어갔다.
+2. 앱에서만 되는 쓸모(심사 4.2·Play 최소 기능): 시간표 저장(10/22)과 시간표 이미지 저장·보내기(10/23, 10/30 iOS·모든 안드로이드), 시간표 링크로 앱 열기(10/30)가 들어갔다.
+   링크로 앱이 바로 열리려면 사용자 사이트 저장소에 확인 파일을 올려야 한다(위 '시간표 링크로 앱 열기').
    더 넣는다면 캘린더 내보내기, 위젯, 수강편람 알림(`앱_확장_계획.md`, 위 '앞으로 기능을 만들 때').
 3. 개인정보 처리방침 문안과 공개 주소(앱의 `PRIVACY_URL`). 보호책임자·문의는 정보 탭 개발자 정보와 같은 이름·메일이다(사용자·법무 10/23).
    스토어 등록 자료(디자인: 글·그래픽 이미지는 됐고 휴대전화 스크린샷이 남았다), 콘솔의 데이터 보안·개인정보 라벨.
@@ -203,8 +261,11 @@ iOS 앱·옛 앱은 플러그인이 없어 둘 다 `false` 이고, 웹에는 `TT
    `테마` 탭에서 `기본`을 고르면 기기 테마에 맞게 돌아온다. 코드로는 `DARK` = 밝은 글자(안드로이드 `setAppearanceLightStatusBars(false)`, iOS `.lightContent`)다.
 5. 정보 화면의 바깥 링크가 앱 안 브라우저(Custom Tab)로 열린다. 과목 시트의 `강의평`(프론트엔드가 넣은 뒤)은 기기의 기본 브라우저나 에브리타임 앱으로 열리고,
    돌아오면 앱 화면이 그대로다.
-6. 시간표 이미지: `이미지로 저장`이 사진 앱의 `TT Wizard` 앨범에 들어가고, `이미지 보내기`가 공유 시트를 연다. 저장한 이미지를 `이미지 불러오기`로 고르면
-   같은 시간표가 돌아온다. 카카오톡 '사진'으로 받은 것은 `jpeg` 오류, '파일'로 받은 것은 불러와진다.
+6. 시간표 이미지: 목록 시트의 `이미지로 저장`이 사진 앱의 `TT Wizard` 앨범에 들어가고, 머리 줄 공유 버튼의 `이미지로 공유`가 공유 시트를 연다. 저장한 이미지를
+   항목 목록 맨 아래의 `이미지로 추가`로 고르면 같은 시간표가 돌아온다. 카카오톡 '사진'으로 받은 것은 `jpeg` 오류, '파일'로 받은 것은 불러와진다.
+   안드로이드 9 이하 폰이 있으면: 처음 저장할 때 저장소 권한을 묻고, 거절하면 `사진 접근이 꺼져 있어요` [설정] 이 앱 정보 화면을 연다.
+7. 시간표 링크: 공유 버튼의 `링크로 공유`가 공유 시트를 연다(카카오톡 등). 받은 링크를 앱이 깔린 폰에서 누르면 앱이 열리고 시간표가 들어간다
+   (디버그 APK 는 설정의 '기본으로 열기'에서 링크를 손으로 켠 뒤. 위 '시간표 링크로 앱 열기'). 앱을 켜 둔 채 다른 링크를 눌러도 들어간다.
 
 ## 확인한 것 (10/1)
 
