@@ -1331,10 +1331,9 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
    시간표와 시간표 사이(+ 새 시간표 위도)는 두꺼운 선(line 4px), 펼친 줄들 사이는 얇은 선(line 1px, 시트 폭 끝까지. 사용자: "복사, 이미지 저장, 시간표 지우기 이런 건 각각
    얇은 선으로 나누고, 지우기 밑에 다른 시간표랑 구분은 좀 더 두꺼운 선으로", 이어 "나머지 시간표들도 똑같이 두꺼운 선으로 구분해줘").
    펼친 묶음은 바탕 accent-weak(사용자: 펼친 묶음에 네모를 그려 "여기서 체크 표시는 빼고, 선택된 공간은 색을 좀 다르게", 이어 "시간표 메뉴 눌렀을 때만 색깔 바꿔줘". 고른 탭과 같은
-   '고름' 색): 누르고 올린 줄은 accent-weak 를 text 쪽으로 6%. 지금 보는 시간표는 접힌 행의 체크(accent)로 알리고 펼친 머리에는 체크를 두지 않는다 */
+   '고름' 색): 누르고 올린 줄은 accent-weak 를 text 쪽으로 6%. 지금 보는 시간표에는 체크를 두지 않는다(10/30 오후 사용자: "걍 체크는 빼는 게 나아 보임") */
 .tl-tts > li + li { border-top: 4px solid var(--line); }
 .tl-tts > li.tl-err { border-top: 0; }
-.tt-row .chk { flex-shrink: 0; color: var(--accent); }
 .tl-item.is-open { background: var(--accent-weak); }
 .tl-item.is-open .menu-row:active { background: color-mix(in srgb, var(--accent-weak), var(--text) 6%); }
 #tl-rows > li.tl-new { border-top: 4px solid var(--line); } /* 목록 맨 아래 + 새 시간표 하나(학기와 이름을 고르는 팝업을 연다) */

@@ -3818,7 +3818,8 @@ function renderTtList() {
   ttListDrawn += 1;
   const cur = curTt();
   // 시간표 행. 펼친 묶음은 바탕이 accent-weak(10/30 사용자: 펼친 묶음 그림에 네모를 그려 "여기서 체크 표시는 빼고, 선택된 공간은 색을 좀 다르게", 이어 "시간표 메뉴 눌렀을 때만
-  // 색깔 바꿔줘"). 지금 보는 시간표는 접힌 행에서 체크(원래대로), 펼친 머리에는 체크를 두지 않는다(입력칸 옆 체크가 '확인'처럼 보였다).
+  // 색깔 바꿔줘"). 지금 보는 시간표에는 체크를 두지 않는다(10/30 오후 사용자: "체크표시랑 아래 꺾쇠 같이 있으니까 별로임. 걍 체크는 빼는 게 나아 보임".
+  // 머리 줄이 지금 시간표를 보인다). 스크린리더는 접힌 행의 aria-current, 펼친 머리의 ', 지금 보는 시간표'로 읽는다.
   // 다른 학기의 행(sem): 누르면 그 학기로 바꾸고 그 시간표를 보인다. 펼침 꺾쇠는 그 학기로 바꾼 뒤 펼친다(시간표를 바꾸는 일은 지금 학기 것만 한다).
   // 행 끝의 메뉴 단추는 ⋯ 대신 학기 머리와 같은 위아래 꺾쇠(10/30 사용자: "시간표 메뉴도 ... 이거 말고 위아래 꺾쇠로 동일하게 맞추는 게 나을 듯". 이름은 그대로 '시간표 1 메뉴')
   const ttRow = (t, sem) => {
@@ -3828,8 +3829,7 @@ function renderTtList() {
     if (!open) {
       return h("li", { class: cls }, h("div", { class: "tl-line" },
         h("button", { type: "button", class: "tt-row", "data-tt": t.id, "data-sem": sem || null, "aria-current": on ? "true" : null },
-          h("span", { class: "it" }, h("span", { class: "nm" }, h("span", {}, t.title), tag), h("span", { class: "mt" }, meta)),
-          on ? h("span", { class: "chk" }, icon(I.check, 24)) : null),
+          h("span", { class: "it" }, h("span", { class: "nm" }, h("span", {}, t.title), tag), h("span", { class: "mt" }, meta))),
         h("button", { type: "button", class: "icon-btn tl-more", "data-tt-more": t.id, "data-sem": sem || null, "aria-label": `${t.title} 메뉴`, "aria-expanded": "false" }, icon(I.down, 20))));
     }
     // 아직 만들지 않은 빈 시간표 1은 이름만(만들면서 대표가 된다). 대표 시간표에는 '대표 시간표로 설정하기'가 없다
