@@ -345,3 +345,5 @@ tests/                       pytest
 ## 만든 사람
 
 동물생명공학전공 25학번 이영표 · sanger.lee138@gmail.com
+
+버그 제보와 기능 제안은 [GitHub 이슈](https://github.com/Archi142857/tt-wizard/issues/new/choose)에 남겨 주세요(`버그 제보`·`기능 제안` 양식). 올린 글은 누구나 볼 수 있으니 개인정보는 적지 마세요. 개인정보 정정·삭제 요청은 메일로 보내 주세요. 양식과 앱이 여는 주소는 [docs/feedback.md](docs/feedback.md)에 있습니다.

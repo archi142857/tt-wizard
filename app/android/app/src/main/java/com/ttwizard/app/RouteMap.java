@@ -189,11 +189,20 @@ final class RouteMap {
     // ------------------------------------------------------------ 그날 지도의 짜임(DayMapBitmap 이 그대로 그린다)
 
     static final double MAX_ZOOM = 17, ONE_ZOOM = 16; // 앱 화면: 그날 경로에 맞추되 17 까지, 수업이 없는 날은 출발 자리를 16 으로
+    // 앱 화면(app.js)과 같은 값(CSS px, 그림에서는 × dp): 돌아가는 길은 진행 방향 오른쪽으로 7 비킨다(RETURN_OFFSET). 선 끝과 핀을 잇는 점선은
+    // 선 끝이 핀에서 2 안이면 긋지 않고, 한 핀에 닿는 선 끝이 서로 10 안이면 하나만 긋는다(STUB_NEAR, 수업 가는 길 먼저)
+    static final float RETURN_OFFSET = 7, STUB_MIN = 2, STUB_NEAR = 10;
 
-    /** 그날 지도에 그릴 것과 자리: 길(세계 좌표), 출발 자리, 핀 묶음(그림 화소), 세계 → 화소 변환과 그 배율의 CSS 화소당 m */
+    /**
+     * 그날 지도에 그릴 것과 자리: 길(세계 좌표)과 그 두 끝 건물, 그린 선(화소. 돌아가는 길은 오른쪽으로 비킨 선), 선 끝과 핀을 잇는 점선(화소),
+     * 출발 자리, 핀 묶음(화소), 세계 → 화소 변환과 그 배율의 CSS 화소당 m
+     */
     static final class Plan {
         final List<double[]> lines = new ArrayList<>();
         final List<Boolean> back = new ArrayList<>(); // 마지막 수업 뒤 돌아가는 길(파선)
+        final List<String[]> ends = new ArrayList<>(); // 구간의 두 끝 건물 { from, to }
+        final List<float[]> drawn = new ArrayList<>(); // 그리는 선(화소 x0, y0, x1, y1, …): 돌아가는 길은 진행 방향 오른쪽으로 RETURN_OFFSET 비킴
+        final List<List<float[]>> stubs = new ArrayList<>(); // 구간마다 선 끝 → 핀 가운데 점선 { x0, y0, x1, y1 }(app.js dayStubs)
         double[] home; // 출발·도착 자리(세계), 모르면 null
         final List<float[]> spots = new ArrayList<>(); // 핀 자리(화소)
         final List<String> labels = new ArrayList<>(); // 핀 글 '1', '2·3'
@@ -224,6 +233,7 @@ final class RouteMap {
             if (pts == null || pts.length < 4) continue;
             p.lines.add(pts);
             p.back.add(lg.num == 0);
+            p.ends.add(new String[] { lg.from, lg.to });
             for (int i = 0; i + 1 < pts.length; i += 2) {
                 x0 = Math.min(x0, pts[i]);
                 x1 = Math.max(x1, pts[i]);
@@ -255,6 +265,7 @@ final class RouteMap {
         p.metersPerPx = 156543.034 * Math.cos(Math.toRadians(lat((y0 + y1) / 2))) / Math.pow(2, zoom);
         float r = 12 * dp;
         List<List<Integer>> groups = new ArrayList<>();
+        Map<String, float[]> pinOf = new HashMap<>(); // 건물 → 그 핀이 선 자리(묶였으면 묶음 자리. app.js pinSpot)
         for (WidgetData.Stop s : stops) {
             double[] q = at(s.b);
             float px = p.x(q[0]), py = p.y(q[1]);
@@ -263,11 +274,13 @@ final class RouteMap {
                 if (Math.hypot(p.spots.get(g)[0] - px, p.spots.get(g)[1] - py) < 2 * r) into = g;
             }
             if (into < 0) {
+                into = p.spots.size();
                 p.spots.add(new float[] { px, py });
                 groups.add(new ArrayList<>(s.nums));
             } else {
                 groups.get(into).addAll(s.nums);
             }
+            pinOf.put(s.b, p.spots.get(into));
         }
         for (List<Integer> nums : groups) {
             java.util.Collections.sort(nums);
@@ -275,7 +288,83 @@ final class RouteMap {
             for (int n : nums) label.append(label.length() == 0 ? "" : "·").append(n);
             p.labels.add(label.toString());
         }
+        if (p.home != null && !pinOf.containsKey(home)) pinOf.put(home, new float[] { p.x(p.home[0]), p.y(p.home[1]) });
+        // 그리는 선: 돌아가는 길은 진행 방향 오른쪽으로 비킨다(같은 길을 되짚어도 수업 가는 길에 가려지지 않게. app.js drawReturn)
+        for (int i = 0; i < p.lines.size(); i++) {
+            double[] world = p.lines.get(i);
+            float[] px = new float[world.length];
+            for (int k = 0; k + 1 < world.length; k += 2) {
+                px[k] = p.x(world[k]);
+                px[k + 1] = p.y(world[k + 1]);
+            }
+            p.drawn.add(p.back.get(i) ? offset(px, RETURN_OFFSET * dp, 0.5f * dp) : px);
+            p.stubs.add(new ArrayList<>());
+        }
+        // 선 끝과 핀을 잇는 점선(app.js dayStubs): 수업 가는 길 먼저, 같은 갈래끼리는 구간 차례. 한 핀에 닿는 선 끝이 STUB_NEAR 안이면 하나만
+        List<float[]> kept = new ArrayList<>(); // { 핀 x, 핀 y, 선 끝 x, 선 끝 y }
+        for (int pass = 0; pass < 2; pass++) {
+            for (int i = 0; i < p.drawn.size(); i++) {
+                if (p.back.get(i) != (pass == 1)) continue;
+                float[] line = p.drawn.get(i);
+                if (line.length < 2) continue;
+                for (int side = 0; side < 2; side++) {
+                    float ex = side == 0 ? line[0] : line[line.length - 2], ey = side == 0 ? line[1] : line[line.length - 1];
+                    float[] pin = pinOf.get(p.ends.get(i)[side]);
+                    if (pin == null || Math.hypot(ex - pin[0], ey - pin[1]) < STUB_MIN * dp) continue;
+                    boolean near = false;
+                    for (float[] k : kept) near |= k[0] == pin[0] && k[1] == pin[1] && Math.hypot(k[2] - ex, k[3] - ey) <= STUB_NEAR * dp;
+                    if (near) continue;
+                    kept.add(new float[] { pin[0], pin[1], ex, ey });
+                    p.stubs.get(i).add(new float[] { ex, ey, pin[0], pin[1] }); // 선 끝에서 시작해야 점 간격이 선 끝에 맞는다
+                }
+            }
+        }
         return p;
+    }
+
+    /**
+     * 선(화소 x0, y0, x1, y1, …)을 진행 방향 오른쪽으로 d 만큼 평행하게 옮긴 점들(app.js offsetPoints): minGap 안으로 붙은 점은 하나로 치고,
+     * 모서리는 두 변 법선의 이등분선 쪽으로 d / cos(꺾인 각의 반)(뾰족하면, 곧 120° 넘게 꺾이면 다음 변의 법선 쪽으로 d). 점이 둘이 안 되면 그대로
+     */
+    static float[] offset(float[] pts, float d, float minGap) {
+        float[] q = new float[pts.length];
+        int n = 0;
+        for (int i = 0; i + 1 < pts.length; i += 2) {
+            if (n > 0 && Math.hypot(pts[i] - q[n - 2], pts[i + 1] - q[n - 1]) <= minGap) continue;
+            q[n++] = pts[i];
+            q[n++] = pts[i + 1];
+        }
+        if (n < 4) return Arrays.copyOf(pts, pts.length);
+        float[] out = new float[n];
+        for (int i = 0; i < n; i += 2) {
+            double[] n1 = i > 0 ? normal(q[i - 2], q[i - 1], q[i], q[i + 1]) : null;
+            double[] n2 = i + 2 < n ? normal(q[i], q[i + 1], q[i + 2], q[i + 3]) : null;
+            double ox, oy;
+            if (n1 != null && n2 != null) {
+                double sx = n1[0] + n2[0], sy = n1[1] + n2[1], s = Math.hypot(sx, sy);
+                if (s < 1) { // 거의 되돌아가는 꺾임: 이음매 없이 다음 변 쪽으로
+                    ox = n2[0] * d;
+                    oy = n2[1] * d;
+                } else {
+                    double m = 2 * d / s;
+                    ox = sx / s * m;
+                    oy = sy / s * m;
+                }
+            } else {
+                double[] k = n1 != null ? n1 : n2;
+                ox = k[0] * d;
+                oy = k[1] * d;
+            }
+            out[i] = (float) (q[i] + ox);
+            out[i + 1] = (float) (q[i + 1] + oy);
+        }
+        return out;
+    }
+
+    /** a → b 의 오른쪽 단위 법선(화면 좌표: y 가 아래로) */
+    private static double[] normal(float ax, float ay, float bx, float by) {
+        double dx = bx - ax, dy = by - ay, d = Math.hypot(dx, dy);
+        return new double[] { -dy / d, dx / d };
     }
 
     /**

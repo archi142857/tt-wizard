@@ -8,6 +8,7 @@
 """
 
 import json
+import math
 import re
 import shutil
 import subprocess
@@ -119,7 +120,9 @@ def test_app_reads_widget_data(made, tmp_path):
     assert r["rows"] == [[0, 2], [2, 5], [2, 5], [2, 5], [0, 1], [0, 2]]
     # 주간 격자: 월~금, 수업이 있는 시간만(9시~15시), 겹치는 수업은 나란히
     assert r["grid"] == {"days": 5, "hours": [9, 15], "lane": [0, 1, 2, 0], "lanes": [3, 3, 3, 1]}
-    assert r["bad"] == [None, None, None, None, None, 0]  # 깨진 자료는 읽지 않는다(날짜가 틀린 학기만 뺀다)
+    assert r["bad"] == [None, None, None, None, None, 0]
+    # 돌아가는 길을 오른쪽으로 7 비키기(app.js offsetPoints 와 같은 셈): 꺾인 곳은 이등분선 쪽, 되돌아가면 다음 변 쪽, 0.5 안의 점은 하나로
+    assert r["offset"] == [[0, 7, 3, 7, 3, 10], [0, 7, 10, -7, 0, -7], [0, 7, 10, 7], [5, 5]]  # 깨진 자료는 읽지 않는다(날짜가 틀린 학기만 뺀다)
     # 과목명 끝 번호(~ 는 U+00A0): 앞 낱말과 번호가 한 줄에 들 때만 붙이고, 세 자리 숫자·번호만 있는 글은 그대로(web/js/app.js 의 glueTail 과 같다)
     assert r["glue"] == ["대학 글쓰기~1", "대학 글쓰기 1", "화학", "수학 100", "English~II", "Data Science~A", "수학 및 연습~\u2161", "1",
                          "물리학실험~2"]
@@ -182,6 +185,24 @@ def _check_real_map(m: dict) -> None:
     a, b = m["picks"].split("|")[:2]
     pts = _decode(paths[f"{a}|{b}"]) if f"{a}|{b}" in paths else _decode(paths[f"{b}|{a}"])[::-1]
     assert m["path"][0] == len(pts) and m["path"][1:] == pytest.approx([*pts[0], *pts[-1]], abs=1e-9)  # 앱 자료와 같은 길
+    # 그린 선(update73): 수업 가는 길은 그대로, 돌아가는 길은 첫 점이 진행 방향 오른쪽으로 7 × dp(2.5) 비킨다
+    dp, pins = 2.5, [tuple(xy) for xy in m["spots"]] + [tuple(m["home"])]
+    for (x0, y0, x1, y1, dx, dy, lx, ly, n), back in zip(m["drawn"], m["back"]):
+        if not back:
+            assert (dx, dy) == pytest.approx((x0, y0), abs=1e-3)
+            continue
+        assert math.hypot(dx - x0, dy - y0) == pytest.approx(7 * dp, abs=1e-2)
+        assert (x1 - x0) * (dy - y0) - (y1 - y0) * (dx - x0) > 0  # 화면 좌표(y 아래)에서 오른쪽
+    # 선 끝과 핀을 잇는 점선: 그린 선의 끝에서 핀 가운데까지, 2 × dp 넘게 떨어진 것만, 한 핀에 닿는 선 끝은 10 × dp 안에 둘이 없다
+    ends, kept = [], []
+    for (x0, y0, x1, y1, dx, dy, lx, ly, n), stubs in zip(m["drawn"], m["stubs"]):
+        for sx, sy, px, py in stubs:
+            assert (sx, sy) in [pytest.approx((dx, dy), abs=1e-3), pytest.approx((lx, ly), abs=1e-3)]
+            assert any((px, py) == pytest.approx(pin, abs=1e-3) for pin in pins)
+            assert math.hypot(px - sx, py - sy) >= 2 * dp
+            assert not any((px, py) == pytest.approx(k[:2], abs=1e-3) and math.hypot(k[2] - sx, k[3] - sy) <= 10 * dp for k in kept)
+            kept.append((px, py, sx, sy))
+    assert kept, "길이 문 앞에서 끝나면 점선이 있다"
 
 
 def _tokens(css: str, start: str) -> dict:

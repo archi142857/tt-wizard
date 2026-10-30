@@ -311,11 +311,15 @@ final class WidgetViews {
         return v;
     }
 
-    /** 동선 지도의 머리: 오늘 · 10월 30일 (금) · 내일 · 10월 31일 (토) · 월요일 · 11월 2일 (월) · 11월 9일 (월) · 개강 · 9월 1일 (화) */
+    /**
+     * 동선 지도의 머리: 오늘 · 10월 30일 (금) · 내일 · 10월 31일 (토) · 월요일 · 11월 2일 · 11월 9일 (월) · 개강 · 9월 1일 (화).
+     * 일주일 안의 요일 이름 뒤에는 날짜의 (요일)을 붙이지 않는다(요일이 겹친다. 디자인 93판, update73)
+     */
     private static String mapTitle(Context c, WidgetData.Term t, WidgetData.Next n, Calendar now) {
         if (n.kind != WidgetData.Next.LATER) return c.getString(R.string.w_today, date(c, now));
         if (WidgetData.ymd(now) < t.from) return c.getString(R.string.w_term_start, date(c, n.day));
-        if (n.daysAhead < 7) return c.getString(R.string.w_on, when(c, n), date(c, n.day));
+        if (n.daysAhead == 1) return c.getString(R.string.w_on, when(c, n), date(c, n.day));
+        if (n.daysAhead < 7) return c.getString(R.string.w_on, when(c, n), c.getString(R.string.w_month_day, n.day.get(Calendar.MONTH) + 1, n.day.get(Calendar.DAY_OF_MONTH)));
         return date(c, n.day);
     }
 
