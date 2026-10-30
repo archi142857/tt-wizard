@@ -410,7 +410,8 @@
   </div>
   <div class="sheet-body">
     <ul class="sheet-list share-list">
-      <li><button type="button" class="menu-row" data-share="link"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 14.5l5-5"></path><path d="M11 6.5l1.4-1.4a4 4 0 0 1 5.6 5.6l-1.4 1.4"></path><path d="M13 17.5l-1.4 1.4a4 4 0 0 1-5.6-5.6l1.4-1.4"></path></svg>링크로 공유</button></li>
+      <!-- 링크로 공유 아래 한 줄(10/30 법무: 주소에 시간표가 그대로 들어가 받은 사람 누구나 볼 수 있다는 것을 공유하기 전에 알린다. 문구·자리는 디자인과 맞춘다) -->
+      <li><button type="button" class="menu-row share-link" data-share="link" aria-label="링크로 공유" aria-describedby="sh-link-note"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 14.5l5-5"></path><path d="M11 6.5l1.4-1.4a4 4 0 0 1 5.6 5.6l-1.4 1.4"></path><path d="M13 17.5l-1.4 1.4a4 4 0 0 1-5.6-5.6l1.4-1.4"></path></svg><span class="sl"><span>링크로 공유</span><span class="sl-note" id="sh-link-note">링크를 받은 사람은 누구나 이 시간표를 볼 수 있어요</span></span></button></li>
       <li><button type="button" class="menu-row" data-share="image"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"></rect><circle cx="9" cy="9.8" r="1.6"></circle><path d="M20.5 15.5l-4.6-4.6-9.4 8.6"></path></svg>이미지로 공유</button></li>
     </ul>
   </div>
