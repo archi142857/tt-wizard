@@ -1875,33 +1875,6 @@
   "meetings": []
  },
  {
-  "course_id": "700.004",
-  "section_no": "001",
-  "course_name": "교육사회",
-  "instructor": "김유연",
-  "department": "교육학과",
-  "credit": 2.0,
-  "classification": "교직",
-  "program": "학사",
-  "status": "설강",
-  "meetings": [
-   {
-    "day": 0,
-    "start": 600,
-    "end": 770,
-    "building": "10-1",
-    "room": "10-1-103(무선랜제공)"
-   },
-   {
-    "day": 2,
-    "start": 600,
-    "end": 770,
-    "building": "10-1",
-    "room": "10-1-103(무선랜제공)"
-   }
-  ]
- },
- {
   "course_id": "T1831.001100",
   "section_no": "001",
   "course_name": "교육사회",
@@ -1923,6 +1896,33 @@
     "day": 2,
     "start": 960,
     "end": 1130,
+    "building": "10-1",
+    "room": "10-1-103(무선랜제공)"
+   }
+  ]
+ },
+ {
+  "course_id": "700.004",
+  "section_no": "001",
+  "course_name": "교육사회",
+  "instructor": "김유연",
+  "department": "교육학과",
+  "credit": 2.0,
+  "classification": "교직",
+  "program": "학사",
+  "status": "설강",
+  "meetings": [
+   {
+    "day": 0,
+    "start": 600,
+    "end": 770,
+    "building": "10-1",
+    "room": "10-1-103(무선랜제공)"
+   },
+   {
+    "day": 2,
+    "start": 600,
+    "end": 770,
     "building": "10-1",
     "room": "10-1-103(무선랜제공)"
    }
@@ -2918,11 +2918,23 @@
   ]
  },
  {
-  "course_id": "701.803",
+  "course_id": "M2868.006700",
   "section_no": "001",
   "course_name": "대학원논문연구",
-  "instructor": "김동일",
-  "department": "교육학과",
+  "instructor": "강진호",
+  "department": "국제농업기술학과",
+  "credit": 3.0,
+  "classification": "논문",
+  "program": "석박사통합",
+  "status": "설강",
+  "meetings": []
+ },
+ {
+  "course_id": "M3311.000600",
+  "section_no": "001",
+  "course_name": "대학원논문연구",
+  "instructor": "황준석",
+  "department": "협동과정 기술경영·경제·정책전공",
   "credit": 3.0,
   "classification": "논문",
   "program": "석박사통합",
@@ -2942,23 +2954,11 @@
   "meetings": []
  },
  {
-  "course_id": "M2868.006700",
+  "course_id": "701.803",
   "section_no": "001",
   "course_name": "대학원논문연구",
-  "instructor": "강진호",
-  "department": "국제농업기술학과",
-  "credit": 3.0,
-  "classification": "논문",
-  "program": "석박사통합",
-  "status": "설강",
-  "meetings": []
- },
- {
-  "course_id": "M3311.000600",
-  "section_no": "001",
-  "course_name": "대학원논문연구",
-  "instructor": "황준석",
-  "department": "협동과정 기술경영·경제·정책전공",
+  "instructor": "김동일",
+  "department": "교육학과",
   "credit": 3.0,
   "classification": "논문",
   "program": "석박사통합",
@@ -3134,6 +3134,18 @@
     "room": "1-101(무선랜제공)"
    }
   ]
+ },
+ {
+  "course_id": "T2184.002400",
+  "section_no": "001",
+  "course_name": "디지털 교육",
+  "instructor": "권혜성",
+  "department": "교육학과",
+  "credit": 1.0,
+  "classification": "교직",
+  "program": "학사",
+  "status": "설강",
+  "meetings": []
  },
  {
   "course_id": "F29.103",
