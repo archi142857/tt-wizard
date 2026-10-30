@@ -1305,8 +1305,6 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 .tt-export .ex-mark { position: absolute; left: 50%; bottom: 44px; width: auto; height: 60px; transform: translateX(-50%); }
 
 /* ---------------------------------------------------------------- 내 시간표의 시트: 시간표 목록(.tt-row), 시간표 메뉴(.menu-row), 항목 시트의 칸(.sheet-field)과 색 고르기(.swatches) */
-.sheet-term { margin: 0 0 var(--space-2); }
-.sheet-term .term-select { background-color: var(--raised); box-shadow: inset 0 0 0 1px var(--line-strong); }
 .sheet-list { margin: 0 calc(var(--space-5) * -1); padding: 0; list-style: none; }
 .sheet-list > li + li { border-top: 1px solid var(--line); }
 .tt-row { display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: 4rem; padding: var(--space-2) var(--space-5);
@@ -1315,23 +1313,39 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 .tt-row .nm { display: flex; align-items: center; gap: var(--space-2); min-width: 0; font-size: 1rem; line-height: 1.5rem; font-weight: 500; }
 .tt-row .nm > span:first-child { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .tt-row .mt { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); font-variant-numeric: tabular-nums; }
-.tt-row .chk { flex-shrink: 0; color: var(--accent); }
+/* 학기 묶음(10/30 사용자, SNUTT 의 시간표 목록 그림과 함께: "시간표 목록도 그 학기 선택하는 거 SNUTT처럼 저런 형식의 목록으로". 그 전에는 맨 위 연도·학기 선택칸):
+   머리는 학기 이름(17px 700 heading)과 바로 옆 펼침 화살표(20 muted, 펴면 위로), 높이 56. 묶음 사이에는 선이 없고 편 묶음 아래 space-2 */
+#tl-rows > li + li { border-top: 0; }
+.tl-sem-head { display: flex; align-items: center; gap: var(--space-2); width: 100%; min-height: 3.5rem; padding: 0 var(--space-5); border: 0; background: transparent;
+  color: var(--heading); font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; text-align: left; }
+.tl-sem-head svg { flex: none; color: var(--muted); transition: transform var(--dur-move) var(--ease-standard); }
+.tl-sem-head[aria-expanded="true"] svg { transform: rotate(180deg); }
+.tl-sem-head:active { background: var(--surface-hover); }
+.tl-tts { margin: 0 0 var(--space-2); padding: 0; list-style: none; }
+.tl-err .error-line { margin: var(--space-1) var(--space-5) var(--space-3); font-size: 0.875rem; line-height: 1.25rem; color: var(--danger); }
 /* 시간표 행마다 ⋯(10/23 사용자: 시간표를 통째로 바꾸는 일은 이 창에 시간표마다). 누르면 그 행이 펼쳐진다(한 번에 하나).
    펼친 행(10/30 사용자, 펼친 행 그림과 함께: 행의 이름과 그 아래 이름 입력칸을 "하나로 합치는 게 좋을 것 같고, 이름 수정하는 란이라는 게 좀 더 잘 드러났으면 좋겠음"):
    행의 이름 자리가 이름이 든 입력칸이 된다(.tl-head. 입력칸은 행 글자 자리 space-5 부터, 이름은 행과 같은 t-body-strong 이고 입력칸 안 왼쪽 space-4 라 아래 펼친 줄들의
    글자와 같은 세로줄, 오른쪽 끝에 연필 20 text3: 누르는 것이 아니라 고칠 수 있다는 표시라 입력 중에는 숨긴다). 태그(대표)와 메타는 입력칸 위(이어서 사용자: "대표나 과목 수 같은
-   건 제목 위로 올려버리고". 왼쪽 끝은 접힌 행의 메타와 같은 space-5), 체크와 ⋯ 는 입력칸 줄(가로 자리는 접힌 행과 같다).
-   시간표와 시간표 사이는 두꺼운 선(line 4px), 펼친 줄들 사이는 얇은 선(line 1px, 시트 폭 끝까지. 사용자: "복사, 이미지 저장, 시간표 지우기 이런 건 각각 얇은 선으로 나누고,
-   지우기 밑에 다른 시간표랑 구분은 좀 더 두꺼운 선으로", 이어 "나머지 시간표들도 똑같이 두꺼운 선으로 구분해줘". 목록 끝의 + 새 시간표 위도 두껍다) */
-#tl-rows > li + li { border-top-width: 4px; }
+   건 제목 위로 올려버리고". 왼쪽 끝은 접힌 행의 메타와 같은 space-5), ⋯ 는 입력칸 줄(가로 자리는 접힌 행과 같다).
+   시간표와 시간표 사이(+ 새 시간표 위도)는 두꺼운 선(line 4px), 펼친 줄들 사이는 얇은 선(line 1px, 시트 폭 끝까지. 사용자: "복사, 이미지 저장, 시간표 지우기 이런 건 각각
+   얇은 선으로 나누고, 지우기 밑에 다른 시간표랑 구분은 좀 더 두꺼운 선으로", 이어 "나머지 시간표들도 똑같이 두꺼운 선으로 구분해줘").
+   지금 보는 시간표는 체크 대신 바탕 accent-weak(펼치면 묶음 전체. 사용자: "체크 표시는 빼고, 선택된 공간은 색을 좀 다르게". 고른 탭과 같은 '고름' 색): 누르고 올린 면은
+   accent-weak 를 text 쪽으로 6% */
+.tl-tts > li + li { border-top: 4px solid var(--line); }
+.tl-tts > li.tl-err { border-top: 0; }
+.tl-item.is-cur { background: var(--accent-weak); }
+.tl-item.is-cur .tt-row:active, .tl-item.is-cur .menu-row:active { background: color-mix(in srgb, var(--accent-weak), var(--text) 6%); }
 .tl-line { display: flex; align-items: center; }
 .tl-line .tt-row { flex: 1; min-width: 0; padding-right: var(--space-2); }
-.tl-more { margin-right: var(--space-3); color: var(--text2); }
-.tl-more[aria-expanded="true"] { background: var(--fill); color: var(--text); }
-.tl-head { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "meta meta meta" "field chk more"; align-items: center;
+/* 행 끝 메뉴 단추(48): ⋯ 대신 학기 머리와 같은 펼침 꺾쇠 20 muted, 펴면 위로(10/30 사용자: "시간표 메뉴도 ... 이거 말고 위아래 꺾쇠로 동일하게 맞추는 게 나을 듯").
+   펼친 것은 꺾쇠 방향이 알린다(그 전의 fill 바탕은 없앴다) */
+.tl-more { margin-right: var(--space-3); color: var(--muted); }
+.tl-more svg { transition: transform var(--dur-move) var(--ease-standard); }
+.tl-more[aria-expanded="true"] svg { transform: rotate(180deg); }
+.tl-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "meta meta" "field more"; align-items: center;
   padding: var(--space-3) var(--space-3) var(--space-2) var(--space-5); }
 .tl-head .tl-more { grid-area: more; margin: 0 0 0 var(--space-2); }
-.tl-head .chk { grid-area: chk; display: flex; margin-left: var(--space-3); color: var(--accent); }
 .tl-field { grid-area: field; position: relative; min-width: 0; }
 .tl-field .text-input { padding: 0 calc(var(--space-3) + 20px + var(--space-2)) 0 calc(var(--space-4) - 1px); font-weight: 500; }
 .tl-field svg { position: absolute; top: calc(50% - 10px); right: var(--space-3); color: var(--text3); pointer-events: none; }
@@ -1567,6 +1581,8 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
   .sidebar .sb-item:not([aria-current="page"]):hover { background: var(--bg-hover); }
   .icon-btn:hover, .btn-text:hover, .result:hover, .rank-hit:hover, button.info-row:hover, a.info-row:hover, .course-hit:hover .c-title { background: var(--surface-hover); }
   .tabbar .tab:not([aria-current="page"]):hover .ind, .add-row:hover, .tt-row:hover, .menu-row:hover { background: var(--surface-hover); }
+  .tl-sem-head:hover { background: var(--surface-hover); }
+  .tl-item.is-cur .tt-row:hover, .tl-item.is-cur .menu-row:hover { background: color-mix(in srgb, var(--accent-weak), var(--text) 6%); }
   .tt-switch:hover, .add-head .icon-btn:hover, .tt-share:hover { background: var(--bg-hover); }
   .topbar .icon-btn:hover, .topbar .btn-text:hover, .bottom-bar .btn-text:hover, .picked-error .btn-text:hover, .ranks-more .btn-text:hover, .footnote .btn-text:hover { background: var(--bg-hover); }
   .result.is-picked:hover { background: var(--row-picked); } /* 담은 행은 어두운 그대로, 버튼만 빨갛게(빼기) */
@@ -1613,6 +1629,7 @@ html[data-scheme="dark"]:not([data-theme]) dialog.sheet::backdrop { background: 
   .wk-ghost { border-color: Highlight; }
   .theme-card { border: 1px solid CanvasText; }
   .theme-card:has(input:checked) { outline: 2px solid Highlight; outline-offset: -2px; }
+  .tl-item.is-cur { outline: 2px solid Highlight; outline-offset: -2px; } /* 지금 보는 시간표(평소에는 바탕색만) */
   .mini { forced-color-adjust: none; } /* 테마 미리보기는 그 테마의 색 그대로 */
   .swatches .sw { forced-color-adjust: none; }
   .swatches input:checked + .sw { outline: 2px solid Highlight; outline-offset: 3px; }

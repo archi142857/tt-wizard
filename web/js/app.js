@@ -523,7 +523,7 @@ function renderTerm() {
   fillTerm($("year"), $("term"));
   $("past-tag").hidden = !state.current || state.semester === state.current;
   $("asof").textContent = state.loaded ? asofShort(state.semesterMeta.updated) : "";
-  if ($("tt-list-sheet").open) fillTerm($("tl-year"), $("tl-term"));
+  if ($("tt-list-sheet").open) refillTtList();
 }
 /** 연도·학기 선택칸 둘(탐색 학기 줄, 내 시간표의 시간표 목록 시트)을 지금 학기로 채운다. 고를 수 없는 학기(자료를 받기 전)면 숨긴다. */
 function fillTerm(ySel, tSel) {
@@ -567,7 +567,7 @@ function fitSelect(sel) {
   const text = sel.selectedIndex >= 0 ? sel.options[sel.selectedIndex].text : "";
   sel.style.width = `${Math.ceil(canvas.measureText(text).width + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + 2)}px`;
 }
-const fitTerm = () => { for (const id of ["year", "term", "browse-select", "add-browse-select", "tl-year", "tl-term"]) fitSelect($(id)); };
+const fitTerm = () => { for (const id of ["year", "term", "browse-select", "add-browse-select"]) fitSelect($(id)); };
 if (document.fonts) document.fonts.addEventListener("loadingdone", fitTerm);
 window.addEventListener("resize", fitTerm);
 
@@ -2213,7 +2213,7 @@ function renderTimetable(ev, day, gridPx) {
     // 낮은 칸(38px 미만, 50분 수업): 한 줄에 과목명과 강의실을 나란히(사이 8px, 가운뎃점 없이 크기·색으로 가른다). 넘치면 과목명이 먼저
     // 세 글자 + … 까지 줄고, 그래도 안 들어가면 호수를 빼고 건물만 '43-1동'
     const short = px < 38 * k;
-    const title = shortName(m.section.name);
+    const raw = shortName(m.section.name), title = glueTail(raw, textW, canvasWidth(titleFont)); // 끝 번호는 앞 낱말에(위 glueTail. 줄 어림도 그 덩이로)
     const need = Math.min(3, textLines(title, titleFont, textW));
     const place = roomLabel(m);
     const rooms = place ? [place] : [];
@@ -2234,9 +2234,9 @@ function renderTimetable(ev, day, gridPx) {
     // 글 자리(10/2 디자인 '시간표'의 순서). 한 줄에 나란히 둘 때는 캔버스로 잰 폭에 1px 여유를 둔다: 강의실은 줄이지 않으므로(flex: none)
     // 0.1px 만 모자라도 과목명 끝 글자가 … 로 바뀐다
     let room = rooms[0], roomTop = false, pillRow = false, roomOnly = false, lines = 1;
-    const gap = 8 * k + 1, tW = widthOf(title, titleFont);
+    const gap = 8 * k + 1, tW = widthOf(raw, titleFont); // 한 줄로 둘 때의 폭은 붙이기 전 글로(낮은 칸은 줄을 바꾸지 않는다)
     let head = "", count = 0;
-    for (const ch of title) { head += ch; if (ch.trim() && ++count >= 3) break; }
+    for (const ch of raw) { head += ch; if (ch.trim() && ++count >= 3) break; }
     const minT = Math.min(tW, widthOf(`${head}…`, titleFont)); // 과목명은 세 글자 + … 까지만 줄인다(그 아래로 자르면 읽히지 않는다)
     const roomBeside = (rowW) => rooms.find((r) => tW + gap + widthOf(r) <= rowW) || rooms.find((r) => minT + gap + widthOf(r) <= rowW) || "";
     if (short) {
@@ -2278,12 +2278,29 @@ function renderTimetable(ev, day, gridPx) {
   });
 }
 
+// ---- 과목명 끝 번호 붙이기(디자인 84판 '주간 시간표', 10/30 디자인: "과목명 끝의 짧은 번호(숫자 한두 자리, II 같은 로마 숫자, 영문 한 글자)는 앞 낱말에 붙여 줄을 같이 바꿔
+// 줘. 둘이 한 줄에 안 들어갈 때(앞 낱말이 한 줄을 다 쓸 때)만 지금처럼 번호 혼자 다음 줄이고, 번호를 붙이려고 낱말 안에서 끊지는 않아"): `대학 글쓰기` / `1` 이 될 폭이면
+// `대학` / `글쓰기 1`. 앞 낱말과 번호가 한 줄 폭에 들어갈 때만 사이 띄어쓰기를 줄을 바꾸지 않는 띄어쓰기(U+00A0)로 바꾼다. 안 들어가면 그대로 둔다: 붙여 두면 둘이 다음 줄로
+// 넘어간 뒤 거기서도 넘쳐 낱말 안에서 끊기거나 번호가 한 줄 더 밀린다. (띄어쓰기 뒤에 WORD JOINER 를 넣는 방법은 크롬이 keep-all 에서 띄어쓰기 뒤를 늘 끊어 듣지 않았다.)
+// 내 시간표·공유받은 시간표 격자(넣을 분반 미리 보기 포함), 결과 화면 시간표 칸, 시간표 이미지가 쓴다(일정 이름도 같은 칸이라 같이)
+const NBSP = "\u00a0";
+const TAIL_NO = /^(.*\S) (\d{1,2}|[IVX]{1,4}|[\u2160-\u216B]|[A-Za-z])$/;
+/** 끝 번호를 앞 낱말에 붙인 글(붙일 것이 없거나 둘이 width 에 안 들어가면 그대로). widthOf(글) → px */
+function glueTail(text, width, widthOf) {
+  const s = String(text ?? ""), m = TAIL_NO.exec(s);
+  if (!m || !(width > 0)) return s;
+  return widthOf(`${m[1].split(/\s+/).pop()} ${m[2]}`) <= width - 1 ? `${m[1]}${NBSP}${m[2]}` : s; // 캔버스와 화면의 글자 폭 차이에 1px 여유
+}
+/** 줄을 바꿀 수 있는 낱말들(띄어쓰기에서 나눈다. glueTail 이 붙인 끝 번호(U+00A0)는 앞 낱말과 한 덩이) */
+const lineWords = (text) => String(text).split(/[^\S\u00a0]+/).filter(Boolean);
+const canvasWidth = (font) => (s) => { canvas.font = font; return canvas.measureText(s).width; };
+
 /** 첫 줄의 폭 어림(textLines 와 같은 방식으로 줄을 바꾼다). */
 function firstLineWidth(text, font, width) {
   canvas.font = font;
   const space = canvas.measureText(" ").width;
   let cur = 0;
-  for (const word of String(text).split(/\s+/).filter(Boolean)) {
+  for (const word of lineWords(text)) {
     const w = canvas.measureText(word).width;
     if (!cur) { if (w >= width) return width; cur = w; continue; }
     if (cur + space + w > width) break;
@@ -2298,7 +2315,7 @@ function textLines(text, font, width) {
   canvas.font = font;
   const space = canvas.measureText(" ").width;
   let lines = 1, cur = 0;
-  for (const word of String(text).split(/\s+/).filter(Boolean)) {
+  for (const word of lineWords(text)) {
     const w = canvas.measureText(word).width;
     if (cur && cur + space + w <= width) { cur += space + w; continue; }
     if (cur) lines += 1;
@@ -3500,7 +3517,7 @@ function itemTags(e, clash) {
 
 /** 내 시간표가 바뀌었다: 보이는 곳만 다시 그린다(목록 시트, 내 시간표 화면, 과목 추가의 넣은 과목 표시) */
 function mineChanged() {
-  if ($("tt-list-sheet").open) renderTtList();
+  if ($("tt-list-sheet").open) refillTtList(); // 학기를 바꾼 뒤 편람을 받으면 다시 그린다: 목록 안의 초점은 같은 일을 하는 요소로
   if (mineShown()) renderMine();
 }
 
@@ -3613,8 +3630,10 @@ function renderWeek(t, entries, clash, opts = {}) {
   // 미리 보기: 넣으면 생길 칸(점선, 글자는 과목명과 강의실. 칸들 위에 얹는다). 마우스를 받지 않는다
   const addGhosts = () => {
     if (!ghosts.length) return;
+    // 끝 번호 붙이기(glueTail)의 폭: 칸 폭(.wk-ghosts 는 시각 칸 1.375rem + 2px 오른쪽) − 안쪽 여백 3·3 − 점선 2·2
+    const gw = (body.clientWidth - 1.375 * rem) / n - 2 - 10, gName = glueTail(shortName(pv.name), gw, canvasWidth(`500 ${0.75 * rem}px ${getComputedStyle(box).fontFamily}`));
     body.append(h("ol", { class: "wk-ghosts", "aria-hidden": "true" }, ghosts.map((m) => h("li", { style: at(m) },
-      h("span", { class: "wk-ghost" }, h("span", { class: "b-title" }, shortName(pv.name)), h("span", { class: "b-room" }, roomLabel(m)))))));
+      h("span", { class: "wk-ghost" }, h("span", { class: "b-title" }, gName), h("span", { class: "b-room" }, roomLabel(m)))))));
   };
   if (!t.items.length) { if (ghosts.length) addGhosts(); else body.append(h("p", { class: "wk-empty" }, "시간표가 비어 있어요")); return; }
   if (!blocks.length) { addGhosts(); return; }
@@ -3632,7 +3651,7 @@ function renderWeek(t, entries, clash, opts = {}) {
   for (const { e, m, half } of blocks) {
     const top = ((m.start - h0 * 60) / 60) * hourPx, height = ((m.end - m.start) / 60) * hourPx - 2;
     const textW = (half ? (colW - 2) / 2 : colW) - 8;
-    const name = e.item.custom ? e.item.title : shortName(courseName(e));
+    const name = glueTail(e.item.custom ? e.item.title : shortName(courseName(e)), textW, canvasWidth(font)); // 끝 번호는 앞 낱말에(glueTail)
     const full = e.item.custom ? (m.building ? buildingLabel(m.building) : "") : roomLabel(m);
     let room = full, roomLines = room ? textLines(room, font, textW) : 0;
     if (room && height - 6 - roomLines * rem < rem && m.building && room !== buildingLabel(m.building)) {
@@ -3766,30 +3785,46 @@ new ResizeObserver(() => {
 // "각각 얇은 선으로 나누고, 지우기 밑에 다른 시간표랑 구분은 좀 더 두꺼운 선으로", 이어 "나머지 시간표들도 똑같이 두꺼운 선으로". style.css '시간표 목록').
 // '동선 탐색에 담기'는 10/23 오후 사용자가 없앴다("동선 탐색에 넣기는 없애버리고 걍 동선 확인하기를 분반 정보 포함해서 동선탐색으로 보내": 아래 routeTt)
 let ttListOpen = null, ttListDrawn = 0; // 펼친 행(시간표 id. 아직 만들지 않은 빈 시간표 1은 ""), 그린 횟수
+// 학기는 접고 펴는 목록(10/30 사용자, SNUTT 의 시간표 목록 그림과 함께: "시간표 목록도 그 학기 선택하는 거 SNUTT처럼 저런 형식의 목록으로 정리하는 게 나을 듯").
+// 그 전에는 맨 위 연도·학기 선택칸 둘과 그 학기 시간표 목록이었다. 펼친 학기(tlSems)는 시트를 열 때 지금 학기 하나
+let tlSems = new Set();
+const tlLimit = $("tl-limit"); // 오류 줄(50개): 지금 학기 묶음의 + 새 시간표 밑으로 옮겨 그린다(접혀 있으면 목록 밑)
 function openTtList(opener) {
   tlError(null);
   ttListOpen = null;
+  tlSems = new Set([mine.sem]);
   renderTtList();
   openSheet($("tt-list-sheet"), opener);
 }
 // 이미지로 저장(10/23 디자인 75판): 사진 저장이 안 되는 앱(canSaveImage)과 비어 있는 시간표에는 없다. '이미지 보내기'는 10/23 저녁 사용자가 없애고
 // 머리 줄의 공유 버튼으로 옮겼다("'이미지 보내기' 이거 없애버리고 오른쪽 위에 공유 … 버튼")
 const TT_ACTS = [["copy", "복사하기"], ["primary", "대표 시간표로 설정하기"], ["save-image", "이미지로 저장"], ["delete", "지우기"]];
+/** 목록의 학기(최근 먼저): 시간표가 있는 학기, 지금 보는 학기, 가장 최근 학기. 다른 학기는 탐색의 학기 줄에서 고른다(거기서 고르면 여기에도 생긴다) */
+function tlSemesters() {
+  const ids = state.semesters.map(([id]) => id).filter((id) => /^\d{4}-[12SW]$/.test(id));
+  const out = ids.filter((id) => id === mine.sem || id === state.current || T.hasTimetables(store.get(semKey(T.STORE_KEYS.list, id), [])));
+  if (mine.sem && !out.includes(mine.sem)) out.unshift(mine.sem);
+  return out;
+}
+function ttMeta(t) {
+  const n = t.items.filter((it) => !it.custom).length, m = t.items.length - n, sum = Math.round(T.credits(t) * 10) / 10;
+  return t.items.length ? [n ? `총 ${sum}학점` : "", n ? `과목 ${n}` : "", m ? `일정 ${m}` : ""].filter(Boolean).join(" · ") : "비어 있음";
+}
 function renderTtList() {
   ttListDrawn += 1;
-  fillTerm($("tl-year"), $("tl-term"));
   const cur = curTt();
-  const rows = (shownTts().length ? shownTts() : [cur]).map((t) => {
-    const n = t.items.filter((it) => !it.custom).length, m = t.items.length - n, sum = Math.round(T.credits(t) * 10) / 10;
-    const meta = t.items.length ? [n ? `총 ${sum}학점` : "", n ? `과목 ${n}` : "", m ? `일정 ${m}` : ""].filter(Boolean).join(" · ") : "비어 있음";
-    const on = t.id === cur.id, open = ttListOpen === t.id, key = uid(t.id || "new"), actsId = `tl-acts-${key}`, nameId = `tl-name-${key}`;
-    const tag = t.primary ? h("span", { class: "tag" }, "대표") : null;
+  // 시간표 행. 지금 보는 시간표는 체크 대신 행(펼치면 묶음 전체) 바탕이 accent-weak(10/30 사용자: "체크 표시는 빼고, 선택된 공간은 색을 좀 다르게").
+  // 다른 학기의 행(sem): 누르면 그 학기로 바꾸고 그 시간표를 보인다. 펼침 꺾쇠는 그 학기로 바꾼 뒤 펼친다(시간표를 바꾸는 일은 지금 학기 것만 한다).
+  // 행 끝의 메뉴 단추는 ⋯ 대신 학기 머리와 같은 위아래 꺾쇠(10/30 사용자: "시간표 메뉴도 ... 이거 말고 위아래 꺾쇠로 동일하게 맞추는 게 나을 듯". 이름은 그대로 '시간표 1 메뉴')
+  const ttRow = (t, sem) => {
+    const meta = ttMeta(t), here = !sem, on = here && t.id === cur.id, open = here && ttListOpen === t.id;
+    const key = uid(t.id || "new"), actsId = `tl-acts-${key}`, nameId = `tl-name-${key}`;
+    const tag = t.primary ? h("span", { class: "tag" }, "대표") : null, cls = `tl-item${on ? " is-cur" : ""}${open ? " is-open" : ""}`;
     if (!open) {
-      return h("li", { class: "tl-item" }, h("div", { class: "tl-line" },
-        h("button", { type: "button", class: "tt-row", "data-tt": t.id, "aria-current": on ? "true" : null },
-          h("span", { class: "it" }, h("span", { class: "nm" }, h("span", {}, t.title), tag), h("span", { class: "mt" }, meta)),
-          on ? h("span", { class: "chk" }, icon(I.check, 24)) : null),
-        h("button", { type: "button", class: "icon-btn tl-more", "data-tt-more": t.id, "aria-label": `${t.title} 메뉴`, "aria-expanded": "false" }, icon(I.more))));
+      return h("li", { class: cls }, h("div", { class: "tl-line" },
+        h("button", { type: "button", class: "tt-row", "data-tt": t.id, "data-sem": sem || null, "aria-current": on ? "true" : null },
+          h("span", { class: "it" }, h("span", { class: "nm" }, h("span", {}, t.title), tag), h("span", { class: "mt" }, meta))),
+        h("button", { type: "button", class: "icon-btn tl-more", "data-tt-more": t.id, "data-sem": sem || null, "aria-label": `${t.title} 메뉴`, "aria-expanded": "false" }, icon(I.down, 20))));
     }
     // 아직 만들지 않은 빈 시간표 1은 이름만(만들면서 대표가 된다). 대표 시간표에는 '대표 시간표로 설정하기'가 없다
     // (10/23 사용자: "'대표에서 빼기' 이거 없애고, 걍 대표 시간표가 아닌 시간표 메뉴에 '대표 시간표로 설정하기' 이거 넣어". 대표는 학기마다 늘 하나: 처음 만든 시간표가 대표이고
@@ -3797,26 +3832,36 @@ function renderTtList() {
     const acts = TT_ACTS.filter(([k]) => !t.virtual && (k !== "primary" || !t.primary) && (k !== "save-image" || (t.items.length && canSaveImage())));
     if (acts.some(([k]) => k === "save-image")) preparedImage(t).catch(() => null); // 펼칠 때 미리 그려 둔다(누르면 바로 저장한다)
     const act = ([k, text]) => h("li", {}, h("button", { type: "button", class: k === "delete" ? "menu-row danger" : "menu-row", "data-tt-act": k,
-      "aria-describedby": k === "copy" && tlErrFrom === "copy" && !$("tl-limit").hidden ? "tl-limit" : null }, text));
+      "aria-describedby": k === "copy" && tlErrFrom === "copy" && !tlLimit.hidden ? "tl-limit" : null }, text));
     // 펼친 행(10/30): 행의 이름 자리가 이름이 든 입력칸이 된다(이름 글자는 행과 같은 t-body-strong, 오른쪽 끝 연필). 태그와 메타는 입력칸 위(10/30 사용자: "대표나 과목 수 같은 건
-    // 제목 위로 올려버리고"), 체크와 ⋯ 는 입력칸 줄. 행 버튼(누르면 그 시간표로)은 펼친 동안 없다(접으면 돌아온다).
+    // 제목 위로 올려버리고"), ⋯ 는 입력칸 줄. 행 버튼(누르면 그 시간표로)은 펼친 동안 없다(접으면 돌아온다).
     // 초점 차례는 ⋯ 다음이 입력칸이다(펼친 것이 ⋯ 뒤. 보이는 자리는 style.css 의 grid 가 잡는다. 읽는 차례는 보이는 대로 메타 → 입력칸)
     const head = h("div", { class: "tl-head" },
       h("button", { type: "button", class: "icon-btn tl-more", "data-tt-more": t.id, "aria-label": `${t.title} 메뉴`, "aria-expanded": "true",
-        "aria-controls": acts.length ? `${nameId} ${actsId}` : nameId }, icon(I.more)),
-      h("span", { class: "mt" }, tag, meta),
+        "aria-controls": acts.length ? `${nameId} ${actsId}` : nameId }, icon(I.down, 20)),
+      h("span", { class: "mt" }, tag, meta, on ? h("span", { class: "sr-only" }, ", 지금 보는 시간표") : null),
       h("span", { class: "tl-field" },
         h("input", { class: "text-input", id: nameId, type: "text", "data-tt-name": t.id, maxlength: "30", value: t.title,
           autocomplete: "off", enterkeyhint: "done", "aria-label": "시간표 이름" }),
-        icon(I.edit, 20)),
-      on ? h("span", { class: "chk" }, icon(I.check, 24), h("span", { class: "sr-only" }, "지금 보는 시간표")) : null);
-    return h("li", { class: "tl-item is-open" }, head, acts.length ? h("ul", { class: "tl-acts", id: actsId, "aria-label": `${t.title} 메뉴` }, acts.map(act)) : null);
+        icon(I.edit, 20)));
+    return h("li", { class: cls }, head, acts.length ? h("ul", { class: "tl-acts", id: actsId, "aria-label": `${t.title} 메뉴` }, acts.map(act)) : null);
+  };
+  const groups = tlSemesters().map((sem) => {
+    const open = tlSems.has(sem), here = sem === mine.sem, gid = `tl-sem-${uid(sem)}`;
+    const head = h("button", { type: "button", class: "tl-sem-head", "data-sem-toggle": sem, "aria-expanded": String(open), "aria-controls": open ? gid : null },
+      h("span", {}, semesterLabel(sem)), icon(I.down, 20));
+    if (!open) return h("li", { class: "tl-sem" }, head);
+    const list = here ? (shownTts().length ? shownTts() : [cur]) : T.parseList(store.get(semKey(T.STORE_KEYS.list, sem), []), sem).filter((t) => !t._newer);
+    // 학기마다 맨 아래 + 새 시간표(10/23 저녁 사용자가 옆의 '이미지 불러오기'를 항목 목록의 '이미지로 추가'로 옮겼다: "그 시간표 거기서는 빼버리고").
+    // 다른 학기의 것은 그 학기로 바꾼 뒤 만든다. 오류 줄(50개)은 그 일을 한 버튼이 가리킨다(새 시간표·복사하기)
+    const rows = list.map((t) => ttRow(t, here ? null : sem));
+    rows.push(h("li", { class: "tl-new" }, h("button", { type: "button", class: "menu-row add", "data-tt-new": sem,
+      "aria-describedby": here && tlErrFrom === "new" && !tlLimit.hidden ? "tl-limit" : null }, icon(I.plus, 20), "새 시간표")));
+    if (here) rows.push(h("li", { class: "tl-err", hidden: tlLimit.hidden }, tlLimit)); // 줄이 없으면 목록 항목도 없다(스크린리더가 빈 항목을 세지 않게)
+    return h("li", { class: "tl-sem is-open" }, head, h("ul", { class: "tl-tts", id: gid, "aria-label": semesterLabel(sem) }, rows));
   });
-  // 목록 아래 + 새 시간표(10/23 저녁 사용자가 옆의 '이미지 불러오기'를 항목 목록의 '이미지로 추가'로 옮겼다: "그 시간표 거기서는 빼버리고").
-  // 오류 줄(50개)은 그 일을 한 버튼이 가리킨다(새 시간표·복사하기)
-  const err = $("tl-limit").hidden ? null : "tl-limit";
-  rows.push(h("li", {}, h("button", { type: "button", class: "menu-row add", "data-tt-new": "", "aria-describedby": tlErrFrom === "new" ? err : null }, icon(I.plus, 20), "새 시간표")));
-  $("tl-rows").replaceChildren(...rows);
+  if (!tlSems.has(mine.sem)) $("tl-rows").after(tlLimit);
+  $("tl-rows").replaceChildren(...groups);
   for (const r of document.querySelectorAll('input[name="tt-color"]')) r.checked = r.value === ttColor;
 }
 /** 목록을 다시 그린 뒤 초점을 같은 자리에(selector 는 #tl-rows 안. 주지 않으면 그리기 전에 초점이 있던 것과 같은 일을 하는 요소) */
@@ -3826,7 +3871,7 @@ function refillTtList(focusSel) {
   const sel = focusSel || keep;
   if (sel) $("tl-rows").querySelector(sel)?.focus({ preventScroll: true });
 }
-const ttListSel = (el) => (["ttAct", "ttMore", "tt", "ttName"].map((k) => [k, el.dataset[k]]).filter(([, v]) => v !== undefined)
+const ttListSel = (el) => (["ttAct", "ttMore", "tt", "ttName", "ttNew", "semToggle"].map((k) => [k, el.dataset[k]]).filter(([, v]) => v !== undefined)
   .map(([k, v]) => `[data-${k.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)}="${CSS.escape(v)}"]`)[0] || null);
 const ttById = (id) => (id ? mine.list.find((x) => x.id === id) : curTt().virtual ? curTt() : null) || null;
 /** 이름 바꾸기: 비우거나 그대로면 바꾸지 않는다. 같은 학기에 같은 이름이 있으면 '이름 (2)'부터(renamed). 빈 시간표 1이면 이때 만든다 */
@@ -3840,12 +3885,27 @@ function renameTt(id, raw) {
   renderMine();
   return next;
 }
+/** 목록에서 다른 학기의 것을 누르면 그 학기로 바꾼다(앱 전체의 학기. 탐색 학기 줄과 같다). 내 시간표는 바로 그 학기 것이 된다(편람은 이어서 받는다) */
+function tlGoSem(sem) {
+  if (!sem || sem === mine.sem) return;
+  tlError(null);
+  ttListOpen = null;
+  switchSemester(sem);
+  tlSems.add(sem);
+}
 $("tl-rows").addEventListener("click", (e) => {
   const d = $("tt-list-sheet");
+  const semHead = e.target.closest("[data-sem-toggle]");
+  if (semHead) { // 학기 머리: 접고 편다(여럿을 펴 둘 수 있다)
+    const sem = semHead.dataset.semToggle;
+    if (tlSems.has(sem)) tlSems.delete(sem); else tlSems.add(sem);
+    refillTtList(`[data-sem-toggle="${CSS.escape(sem)}"]`);
+    return;
+  }
   const more = e.target.closest("[data-tt-more]");
   if (more) {
     const id = more.dataset.ttMore;
-    ttListOpen = ttListOpen === id ? null : id;
+    if (more.dataset.sem) { tlGoSem(more.dataset.sem); ttListOpen = id; } else ttListOpen = ttListOpen === id ? null : id;
     refillTtList(`[data-tt-more="${CSS.escape(id)}"]`);
     return;
   }
@@ -3853,17 +3913,20 @@ $("tl-rows").addEventListener("click", (e) => {
   if (actEl) { ttListAct(actEl.dataset.ttAct); return; }
   const row = e.target.closest("[data-tt]");
   if (row) {
+    tlGoSem(row.dataset.sem);
     if (row.dataset.tt) selectTt(row.dataset.tt);
     renderMine();
     closeSheet(d);
     return;
   }
-  if (!e.target.closest("[data-tt-new]")) return;
+  const add = e.target.closest("[data-tt-new]");
+  if (!add) return;
+  tlGoSem(add.dataset.ttNew);
   tlError(null);
   const t = T.createTimetable(mine.list, mine.sem); // '시간표 n'(쓰지 않은 가장 작은 번호)
   if (!t) {
     tlError(FULL_TEXT, "new");
-    refillTtList("[data-tt-new]");
+    refillTtList(`[data-tt-new="${CSS.escape(mine.sem)}"]`);
     announce(FULL_TEXT, "alert");
     return;
   }
@@ -3927,8 +3990,8 @@ const IMPORT_PROBLEM = {
 let tlErrFrom = null; // 목록 아래 오류 줄을 띄운 일: "new" | "copy"
 /** 목록 아래 오류 줄을 띄우거나(글, 그 일) 거둔다(null). 다시 그릴 때 그 일의 버튼이 줄을 가리킨다(aria-describedby) */
 function tlError(text, from = null) {
-  $("tl-limit").hidden = !text;
-  if (text) $("tl-limit").textContent = text;
+  tlLimit.hidden = !text;
+  if (text) tlLimit.textContent = text;
   tlErrFrom = text ? from : null;
 }
 /** 사진 저장이 되는 곳: 웹(파일로 내려받기)과 앱 연결이 된다고 알린 앱(사진). 앱은 앱 연결이 켤 때 플러그인에 물어 둔 값(TTW_APP.canSaveImage.
@@ -4024,7 +4087,7 @@ function layoutExport(root, entries, { name, card, legend, late }) {
     const bld = m.building ? buildingLabel(m.building) : room;
     body.append(h("div", { class: "ex-block", "data-min": String(m.end - m.start), style: {
       left: `${x}px`, top: `${((m.start - h0 * 60) / 60) * hp + EX.gap / 2}px`, width: `${w}px`, height: `${((m.end - m.start) / 60) * hp - EX.gap}px`, background: itemFill(e.item), ...itemInk(e.item) } },
-    h("b", {}, e.item.custom ? e.item.title : shortName(courseName(e))),
+    h("b", { "data-raw": e.item.custom ? e.item.title : shortName(courseName(e)) }), // 글은 단계마다 fitExportBlock 이 넣는다(끝 번호 붙이기가 글자 크기를 따른다)
     room ? h("i", { "data-full": room, "data-bld": bld }, room) : null));
   }
 }
@@ -4059,10 +4122,13 @@ function fitExportBlock(bk, measure) {
   if (i) { i.style.display = ""; i.textContent = i.dataset.full; }
   b.style.setProperty("-webkit-line-clamp", "unset");
   b.style.display = "block";
-  const bs = getComputedStyle(b), need = Math.max(1, Math.round(b.scrollHeight / parseFloat(bs.lineHeight)));
-  b.style.display = "";
+  const bs = getComputedStyle(b), raw = b.dataset.raw ?? "";
   measure.font = `${bs.fontWeight} ${bs.fontSize} ${bs.fontFamily}`;
-  const broken = b.textContent.split(" ").some((w) => measure.measureText(w).width > b.clientWidth + 0.5);
+  // 끝 번호는 이 단계 글자 크기로 앞 낱말에 붙인다(glueTail). '낱말 하나가 한 줄보다 길다'는 붙이기 전 낱말로 잰다(디자인 84판: 번호 하나 때문에 그림 전체 글자가 작아지지 않게)
+  b.textContent = glueTail(raw, b.clientWidth, (t) => measure.measureText(t).width);
+  const need = Math.max(1, Math.round(b.scrollHeight / parseFloat(bs.lineHeight)));
+  b.style.display = "";
+  const broken = raw.split(" ").some((w) => measure.measureText(w).width > b.clientWidth + 0.5);
   const tries = [[false, "full", need], [true, "full", need]];
   for (let n = need - 1; n >= 1; n--) tries.push([false, "full", n], [true, "full", n]);
   if (i) tries.push([false, "bld", 1], [true, "bld", 1]);
@@ -4546,8 +4612,6 @@ for (const r of document.querySelectorAll('input[name="tt-color"]')) {
     renderMine();
   });
 }
-$("tl-year").addEventListener("change", () => onYearChange($("tl-year")));
-$("tl-term").addEventListener("change", () => switchSemester(`${$("tl-year").value}-${$("tl-term").value}`));
 
 /** 지우기: 확인 없이 지우고 학기의 다른 시간표(대표, 없으면 맨 위)로 바꾼 뒤 스낵바 '시간표를 지웠어요' [되돌리기]. 마지막 하나를 지우면 빈 시간표 1 모습이 된다 */
 function deleteTt(t) {

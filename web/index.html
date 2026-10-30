@@ -331,21 +331,16 @@
   </div>
 </dialog>
 
-<!-- 내 시간표: 시간표 목록(학기 선택칸, 시간표 행과 행마다 ⋯ 메뉴(이름 입력칸·복사하기·대표·이미지로 저장·지우기), 새 시간표, 칸 색) -->
+<!-- 내 시간표: 시간표 목록(학기마다 접고 펴는 묶음(10/30 사용자: SNUTT 처럼. 그 전에는 연도·학기 선택칸), 시간표 행과 행마다 ⋯ 메뉴(이름 입력칸·복사하기·대표·이미지로 저장·지우기),
+     학기마다 새 시간표, 칸 색) -->
 <dialog class="sheet" id="tt-list-sheet" aria-labelledby="tl-title">
   <div class="sheet-head">
     <div class="h"><h2 class="sheet-title" id="tl-title">내 시간표</h2></div>
     <button type="button" class="btn-text" data-close>닫기</button>
   </div>
   <div class="sheet-body">
-    <div class="term-row sheet-term">
-      <div class="term-left">
-        <select id="tl-year" class="term-select" aria-label="연도"></select>
-        <select id="tl-term" class="term-select" aria-label="학기"></select>
-      </div>
-    </div>
     <ul class="sheet-list" id="tl-rows"></ul>
-    <!-- 목록 아래 오류 줄: 50개가 찼다(새 시간표·복사하기). 이미지로 추가는 10/23 저녁 항목 목록 맨 아래로 옮겼다(그 오류 줄은 #items-error) -->
+    <!-- 오류 줄: 50개가 찼다(새 시간표·복사하기). app.js 가 지금 학기 묶음의 + 새 시간표 밑으로 옮긴다. 이미지로 추가는 10/23 저녁 항목 목록 맨 아래로 옮겼다(그 오류 줄은 #items-error) -->
     <p class="error-line" id="tl-limit" hidden>시간표는 학기마다 50개까지예요</p>
     <!-- 칸 색(10/23 사용자: 정보 화면이 아니라 시간표 탭 안에). 기기 설정이고 내 시간표·동선 화면에만 걸린다 -->
     <fieldset class="tl-color">
