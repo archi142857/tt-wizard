@@ -4678,6 +4678,7 @@ async function routeDay(day, want = null) {
   if (!t || mine.sem !== sem || !canRoute(t) || busy) return false;
   for (const d of document.querySelectorAll("dialog[open]")) d.close(); // 열어 둔 시트·팝업 위로 지도를 띄우지 않는다
   snapUntil = Date.now() + 15000;
+  jumpVeil(true);
   goMine(() => routeTt(t, { day }));
   return true;
 }
@@ -4844,7 +4845,7 @@ function routeTt(t, { day = null } = {}) {
   // 위젯에서 왔으면: 결과 화면을 그린 뒤 그 요일을 고르고 전체 화면 지도로(그날 걷는 수업이 없으면 결과 화면의 그 요일까지).
   // 되돌리기 스낵바는 전체 화면 지도가 덮으므로 지도에서 결과 화면으로 돌아왔을 때(그 결과 그대로일 때만) 띄운다
   const toMap = () => {
-    if (!state.result) { snapUntil = 0; if (snack) snack(); return; } // 조합이 없거나 못 만들었다: 입력 화면에서 동선 확인하기와 같게
+    if (!state.result) { snapUntil = 0; jumpVeil(false); if (snack) snack(); return; } // 조합이 없거나 못 만들었다: 입력 화면에서 동선 확인하기와 같게
     if (state.result.days.includes(day)) selectDay(day);
     setTimeout(() => {
       const R = state.result, ok = screen === "result" && R && state.day === day && (currentEv().days[day] || []).length > 0;
@@ -4853,6 +4854,7 @@ function routeTt(t, { day = null } = {}) {
         go("map");
       } else if (snack && screen === "result") snack();
       snapUntil = 0;
+      jumpVeil(false);
     }, 0);
   };
   switchTab("explore", async () => {
@@ -6277,6 +6279,14 @@ function layoutViews(name) {
   else if (name === "add" && splitAdd() && addSheet.open) { addConverting = true; addSheet.close(); }
 }
 
+/** 홈 화면 위젯에서 그 요일 지도로 가는 동안(routeDay) 거치는 화면(내 시간표 → 입력 → 결과)을 가린다: 바탕만 보이다가 지도가 뜬다(백엔드 update72 가 남긴 다듬기:
+ *  "가는 동안 잠깐 보이는 내 시간표·입력 화면"). 찾기가 늦으면 0.6초 뒤 걷어 입력 화면의 찾는 중을 보인다. 지도가 뜨거나 지도까지 못 가면 바로 걷는다 */
+let jumpTimer = 0;
+function jumpVeil(on) {
+  clearTimeout(jumpTimer);
+  if (on) { document.documentElement.dataset.jump = ""; jumpTimer = setTimeout(() => jumpVeil(false), 600); }
+  else delete document.documentElement.dataset.jump;
+}
 /** View Transitions 가 되면 결과 화면(지도, 결과 화면에서 연 자료 출처)이 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms),
  *  탭을 바꾸면(정보 묶음 안도) 교차 페이드(150ms). 안 되면 바로 바뀐다. */
 let snapUntil = 0; // 이때(ms)까지 화면 바꾸기를 움직이지 않는다: 홈 화면 위젯에서 그 요일 지도로 가는 동안(routeDay. 내 시간표 → 탐색 → 결과 → 지도)
