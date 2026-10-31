@@ -1333,12 +1333,14 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 .tl-tts { margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
 .tl-tts > li { background: var(--tl-row); }
 .tl-tts > li + li { border-top: 1px solid var(--line); }
+.tl-tts .tt-row .mt { color: var(--text2); } /* 칠한 행의 메타(디자인 93판: text3 은 라이트의 누른 면 위에서 4.5:1 에 못 미친다) */
 .tl-tts .tt-row:active, .tl-tts .tl-more:active { background: var(--tl-row-press); }
+.tl-tts .tl-more:active { color: var(--text2); }
 /* 시간표 행: 이름(태그 대표)과 메타, 행 끝 ⋯(48, 아이콘 24 muted)가 시간표 메뉴 팝업을 연다(10/30 오후 사용자: "시간표 옵션은 그냥 창으로 띄우고". 그 전에는 행 아래에
    펼쳤고 단추는 펼침 꺾쇠였다). 지금 보는 시간표에는 체크를 두지 않는다(10/30 오후 사용자: "걍 체크는 빼는 게 나아 보임") */
 .tl-line { display: flex; align-items: center; }
 .tl-line .tt-row { flex: 1; min-width: 0; padding-right: var(--space-2); }
-.tl-more { margin-right: var(--space-3); color: var(--muted); }
+.tl-more { margin-right: var(--space-3); color: var(--text3); } /* 디자인 93판: muted 는 inset 위에서 3:1 아래(라이트 2.75:1, 크리스마스 2.68:1). 누르고 올리면 text2 */
 /* 새 시간표 팝업(10/30 사용자: "새 시간표 추가할 때 학기랑 시간표 이름 선택하는 창을 하나 띄워주자"): 묻는 팝업(.sheet.ask)에 칸 둘. 필드 라벨 아래 space-2 에 칸,
    칸 사이 space-4. 학기 선택칸은 시트 위라 raised 바탕에 line-strong 1px(전에 목록 시트 맨 위에 있던 것과 같다). 오류 줄은 이름 칸 아래 t-body-sm danger */
 .tn-body { padding: var(--space-2) var(--space-5) var(--space-3); }
@@ -1350,7 +1352,7 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
    이름 입력칸(이름이 곧 입력칸. 이름 글자는 t-body-strong, 입력칸 안 왼쪽 space-4, 오른쪽 끝에 연필 20 text3: 누르는 것이 아니라 고칠 수 있다는 표시라 입력 중에는 숨긴다.
    10/30 사용자: 이름과 입력칸을 "하나로 합치는 게 좋을 것 같고, 이름 수정하는 란이라는 게 좀 더 잘 드러났으면", "대표나 과목 수 같은 건 제목 위로"). 그 아래 메뉴 줄
    (48, t-body. 지우기는 danger)을 줄마다 line 1px 으로 나누고(팝업 폭 끝까지, 마지막 줄 아래도), 오류 줄(50개), [닫기]. 제목은 화면에 없다(스크린리더 '시간표 1 메뉴') */
-.tt-opts .sheet-head { display: block; padding: var(--space-5) var(--space-5) var(--space-4); }
+.sheet.ask.tt-opts .sheet-head { display: block; padding: var(--space-5) var(--space-5) var(--space-4); } /* 묻는 팝업 머리의 아래 4(.sheet.ask .sheet-head)보다 세게(디자인 93판) */
 .to-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-2); margin: 0 0 var(--space-2);
   font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); font-variant-numeric: tabular-nums; }
 .tl-field { position: relative; display: block; min-width: 0; }
@@ -1375,10 +1377,11 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 /* 공유 시트(링크로 공유 · 이미지로 공유): 아이콘(24, text2)과 이름(t-body text) */
 .share-list .menu-row { gap: var(--space-3); }
 .share-list .menu-row svg { flex-shrink: 0; color: var(--text2); }
-/* 링크로 공유 아래 한 줄(10/30 법무 권고: 받은 사람 누구나 볼 수 있다는 것을 공유하기 전에): t-label text2, 줄 높이 64 */
+/* 링크 고지(디자인 94판, 10/30 법무 권고): 링크로 공유 단추 안 둘째 줄 `링크가 있는 사람은 누구나 볼 수 있어요`, 다른 고지와 같은 t-caption text3. 그 행은 높이 64(위아래 space-2),
+   아이콘은 두 줄 가운데. 단추 이름은 '링크로 공유' 그대로이고 이 줄은 aria-describedby(받은 사람이 다시 보낸 링크도 열리니 '링크가 있는 사람') */
 .share-list .share-link { min-height: 4rem; padding-top: var(--space-2); padding-bottom: var(--space-2); }
-.share-link .sl { display: flex; flex-direction: column; min-width: 0; }
-.share-link .sl-note { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text2); }
+.share-link .share-txt { display: flex; flex-direction: column; min-width: 0; text-align: left; }
+.share-link .share-note { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
 /* 공유받은 시간표(웹에서 연 시간표 링크): 시간표 이미지처럼 격자(카드 바탕 없이 시트 바탕 위), 교과구분별이면 색 풀이, 시간 미정 줄.
    '내 시간표에 넣기'는 시트 아래 끝에 붙여 격자가 길어도 늘 보인다(안전 영역은 그 줄이 맡는다) */
 dialog.sheet.shared-sheet { padding-bottom: 0; }
@@ -1613,6 +1616,7 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
   .tabbar .tab:not([aria-current="page"]):hover .ind, .add-row:hover, .tt-row:hover, .menu-row:hover { background: var(--surface-hover); }
   .tl-sem-head:hover { background: var(--tl-head-press); }
   .tl-tts .tt-row:hover, .tl-tts .tl-more:hover { background: var(--tl-row-press); }
+  .tl-tts .tl-more:hover { color: var(--text2); }
   .tt-switch:hover, .add-head .icon-btn:hover, .tt-share:hover { background: var(--bg-hover); }
   .topbar .icon-btn:hover, .topbar .btn-text:hover, .bottom-bar .btn-text:hover, .picked-error .btn-text:hover, .ranks-more .btn-text:hover, .footnote .btn-text:hover { background: var(--bg-hover); }
   .result.is-picked:hover { background: var(--row-picked); } /* 담은 행은 어두운 그대로, 버튼만 빨갛게(빼기) */
