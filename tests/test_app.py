@@ -21,7 +21,7 @@ IOS = APP / "ios" / "App"
 
 
 def fake_web(tmp_path: Path) -> Path:
-    """진짜 화면 파일 + 가짜 자료, 그리고 빠져야 할 것들(sw.js, model/, field/, vendor/three/, js/package.json, js/dev.js)."""
+    """진짜 화면 파일 + 가짜 자료, 그리고 빠져야 할 것들(sw.js, model/, field/, vendor/three/, privacy/, support/, js/package.json, js/dev.js)."""
     web = tmp_path / "web"
     web.mkdir()
     for name in ("index.html", "style.css", "sw.js", "manifest.webmanifest"):
@@ -30,7 +30,7 @@ def fake_web(tmp_path: Path) -> Path:
     shutil.copytree(ROOT / "web" / "icons", web / "icons")
     shutil.copytree(ROOT / "web" / "vendor" / "leaflet", web / "vendor" / "leaflet")
     shutil.copytree(ROOT / "web" / "licenses", web / "licenses")
-    for extra in ("model/index.html", "field/index.html", "vendor/three/three.min.js"):
+    for extra in ("model/index.html", "field/index.html", "vendor/three/three.min.js", "privacy/index.html", "support/index.html"):
         (web / extra).parent.mkdir(parents=True, exist_ok=True)
         (web / extra).write_text("x", encoding="utf-8")
     (web / "data" / "semesters").mkdir(parents=True)
@@ -57,7 +57,7 @@ def test_build_app_bundle(tmp_path, monkeypatch):
             "vendor/pretendard/woff2-dynamic-subset/PretendardVariable.subset.0.woff2", "app-build.json",
             "licenses/capacitor.txt", "licenses/androidx.txt", "licenses/cordova.txt", "licenses/snutt.txt", "licenses/pretendard.txt",
             "licenses/fredoka.txt", "licenses/odbl.txt", "licenses/kogl-type1.txt"} <= files
-    assert not [f for f in files if f == "sw.js" or f.startswith(("model/", "field/", "vendor/three/")) or f.endswith("package.json")]
+    assert not [f for f in files if f == "sw.js" or f.startswith(("model/", "field/", "vendor/three/", "privacy/", "support/")) or f.endswith("package.json")]
     assert (web / "js" / "dev.js").exists() and "js/dev.js" not in files  # 웹에만 둔 개발자 메뉴는 앱 묶음에 넣지 않는다(법무 10/24)
     html = (out / "index.html").read_text(encoding="utf-8")
     assert "cdn.jsdelivr.net" not in html and 'href="vendor/pretendard/' in html

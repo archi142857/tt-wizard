@@ -47,3 +47,17 @@ def test_app_feedback_url_uses_forms():
     for name in WANT:
         assert name in app
     assert "what" in app and "labels=" not in app
+
+
+def test_feedback_url_fits_without_length_error():
+    """앱 칸 한도(제목 50·내용 500, 디자인 98판)를 다 한글로 채워도 주소가 6,000자 아래다: 그래서 앱에 길이 오류 줄이 없다.
+    한글은 주소에서 9자(UTF-8 세 바이트)로 입력칸 한 글자(UTF-16 단위)가 가장 길어지는 경우다. quote 는 encodeURIComponent 보다 더 많이 바꿔 넉넉하다"""
+    from urllib.parse import quote
+
+    def url(form, title, what, app):
+        enc = lambda v: quote(v, safe="")  # noqa: E731
+        return f"https://github.com/Archi142857/tt-wizard/issues/new?template={form}&title={enc(title)}&what={enc(what)}&app={enc(app)}"
+
+    app = "0.9.0 · Android 14 · 설치한 웹 앱 · 2026년 여름학기"
+    longest = max(len(url(form, head + "갈" * 50, "갈" * 500, app)) for form, head in (("bug.yml", "[버그] "), ("idea.yml", "[제안] ")))
+    assert longest < 6000, longest

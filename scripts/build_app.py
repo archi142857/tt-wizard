@@ -38,7 +38,8 @@ FONT = APP / "node_modules" / "pretendard"
 LICENSES = ROOT / "licenses"  # 앱에만 들어가는 다른 사람 코드의 고지문 → 앱 묶음의 licenses/(web/licenses/ 와 같은 곳)
 REMOTE = "https://archi142857.github.io/tt-wizard/"  # 앱이 자료를 새로 받는 곳 (GitHub Pages, 끝에 /)
 
-SKIP_DIRS = {"model", "field", "three"}  # 3D·2D 모델과 three.js, 실측 페이지
+SKIP_DIRS = {"model", "field", "three", "privacy", "support"}  # 3D·2D 모델과 three.js, 실측 페이지,
+# 개인정보 처리방침·문의 페이지(앱은 웹 주소를 바깥 링크로 연다. 앱에 옛 판이 남지 않게. scripts/legal_pages.py)
 SKIP_FILES = {"sw.js", "README.md", "package.json", "dev.js"}  # 서비스 워커, 설명, node 테스트용 모듈 표시,
 # 웹에만 둔 개발자 메뉴(js/dev.js: 스토어 앱은 열지 않는다. 숨긴 기능을 앱에 넣지 않는다, 법무 10/24)
 NEEDED = ("index.html", "style.css", "js/app.js", "js/engine.js", "js/search-worker.js", "js/search.js", "js/timetables.js",

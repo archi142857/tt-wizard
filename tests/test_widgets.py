@@ -346,6 +346,30 @@ def test_widget_views_reset_what_they_change():
         assert changed and changed <= set(ids["SHOWN"]) | set(ids["HIDDEN"]), (kind, changed)
 
 
+
+def test_map_attribution_reads_on_any_map():
+    """동선 지도 위젯 오른쪽 아래 출처 글(text2, card 90% 바탕)이 지도 그림의 어느 색 위에서도 4.5:1 이상(법무 10/31: 작은 위젯·다크에서도 읽혀야 한다.
+    OSM 표기 지침이 크기·대비를 본다). 지도 색은 DayMapBitmap 의 LIGHT·DARK 전부(핀·길 색 포함)"""
+    java = (JAVA / "DayMapBitmap.java").read_text(encoding="utf-8")
+
+    def lum(c: int) -> float:
+        ch = [((c >> k) & 255) / 255 for k in (16, 8, 0)]
+        r, g, b = [x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4 for x in ch]
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+    for folder, table in (("values", "LIGHT"), ("values-night", "DARK")):
+        colors = dict(re.findall(r'<color name="(\w+)">#([0-9A-Fa-f]{6,8})</color>', (RES / folder / "colors.xml").read_text(encoding="utf-8")))
+        text, bg = int(colors["widget_text2"][-6:], 16), colors["widget_attr_bg"]
+        alpha, card = int(bg[:2], 16) / 255, int(bg[-6:], 16)
+        base = [int(v, 16) & 0xFFFFFF for v in re.findall(r"0x([0-9A-F]{8})", java[java.index(f"int[] {table} = {{"):java.index("};", java.index(f"int[] {table} = {{"))])]
+        assert len(base) > 20
+        for m in base:
+            mixed = 0
+            for k in (16, 8, 0):
+                mixed |= round(alpha * ((card >> k) & 255) + (1 - alpha) * ((m >> k) & 255)) << k
+            hi, lo = sorted((lum(text), lum(mixed)), reverse=True)
+            assert (hi + 0.05) / (lo + 0.05) >= 4.5, (folder, hex(m))
+
 def _res_names(kind: str) -> set[str]:
     if kind == "layout":
         return {p.stem for p in RES.glob("layout*/*.xml")}

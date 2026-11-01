@@ -1,0 +1,209 @@
+"""개인정보 처리방침·문의 페이지를 웹에 올릴 HTML 로 만든다 (백엔드 update74, 11/1).
+
+원문은 docs/legal/privacy.md·support.md(문서·법무 세션이 공유 폴더 `개인정보_처리방침.md` 2·3절에 쓴 것을 그대로 옮김).
+나오는 곳: web/privacy/index.html(https://archi142857.github.io/tt-wizard/privacy/), web/support/index.html(…/support/).
+스토어(Play 처리방침 칸, App Store 처리방침·지원 주소)와 앱 정보 탭이 이 주소를 쓴다. 앱 묶음에는 넣지 않는다(scripts/build_app.py).
+
+원문에 쓰는 것은 문안에 나오는 만큼만 읽는다: ### 제목(h1), #### 제목(h2), 문단, 글머리표 목록(두 칸 들여 쓰면 안쪽 목록).
+글 속 주소(https://…)·메일 주소·기관 누리집(아래 SITES)은 링크로, 개발자 메일은 앱처럼 제목 'TT Wizard 문의'를 채운다.
+【올리는 날】은 EFFECTIVE 로 채우고, 【앱에 들어간 뒤에 넣음】이 붙은 줄과 【앱에 들어간 뒤에 넣음: …】 문장은 FEEDBACK_IN_APP 이 참일 때만 넣는다.
+
+    python scripts/legal_pages.py          # 다시 만든다
+    python scripts/legal_pages.py --check  # 원문과 같은지 본다(다르면 1)
+"""
+from __future__ import annotations
+
+import argparse
+import html
+import re
+import sys
+from pathlib import Path
+from urllib.parse import quote
+
+ROOT = Path(__file__).resolve().parent.parent
+SRC = ROOT / "docs" / "legal"
+WEB = ROOT / "web"
+
+EFFECTIVE = "2026년 11월 1일"  # 시행일(처음 올리는 날. 문안의 【올리는 날】 두 곳)
+FEEDBACK_IN_APP = False  # 앱 정보 탭에 '의견 보내기'가 들어간 판에서 True(문안의 【앱에 들어간 뒤에 넣음】)
+DEV_MAIL = "sanger.lee138@gmail.com"
+MAIL_SUBJECT = "TT Wizard 문의"  # 앱 개발자 정보의 메일 링크와 같다(web/js/app.js DEV_MAIL_HREF)
+SITES = ("privacy.kisa.or.kr", "www.kopico.go.kr", "www.spo.go.kr", "ecrm.police.go.kr")  # 16절 기관(글에는 https:// 없이)
+
+PAGES = {  # 원문 → (나오는 폴더, 문서 제목, 설명, 맞은편 페이지)
+    "privacy": ("privacy", "개인정보 처리방침", "TT Wizard가 다루는 개인정보와 요청하는 방법", ("support", "문의")),
+    "support": ("support", "문의", "TT Wizard 버그 제보·기능 제안과 문의", ("privacy", "개인정보 처리방침")),
+}
+
+LATER = "【앱에 들어간 뒤에 넣음】"
+LATER_INLINE = re.compile(r"\s*【앱에 들어간 뒤에 넣음:\s*(.*?)】")
+# 주소·메일은 ASCII 글자만(바로 뒤에 붙은 한글 조사 '으로' 같은 것을 먹지 않게), 주소 끝의 마침표·쉼표는 글의 것이다
+LINK = re.compile(r"https?://[!-'*-~]*[!-'*+\-/-~]|[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+|" + "|".join(re.escape(s) for s in SITES))
+
+STYLE = """
+:root { color-scheme: light dark; --bg: #eef0ff; --card: #ffffff; --text: #182033; --text2: #51596a; --text3: #646c7e; --line: #dee1f7;
+  --line-strong: #7d8599; --focus: #4f70ff; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #16171b; --card: #1e2026; --text: #e4e6eb; --text2: #c8cad2; --text3: #afb2bb; --line: #2f3138; --line-strong: #71747d; --focus: #a2b5fa; }
+}
+html { background: var(--bg); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text2); font: 400 1rem/1.625rem Pretendard, "Pretendard Variable", "Noto Sans KR", -apple-system,
+  BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; word-break: keep-all; overflow-wrap: break-word; }
+.page { box-sizing: border-box; max-width: 44rem; margin: 0 auto; padding: 16px 16px 48px; }
+.top { display: flex; align-items: center; min-height: 48px; margin-bottom: 8px; }
+.top a { color: var(--text); font-weight: 700; font-size: 1.125rem; text-decoration: none; }
+main { padding: 24px 20px 32px; border-radius: 16px; background: var(--card); }
+h1 { margin: 0 0 4px; color: var(--text); font-size: 1.5rem; line-height: 2rem; font-weight: 700; }
+h2 { margin: 32px 0 8px; color: var(--text); font-size: 1.125rem; line-height: 1.625rem; font-weight: 700; }
+p { margin: 0 0 12px; }
+.date { margin-bottom: 24px; color: var(--text3); font-size: .875rem; line-height: 1.25rem; }
+ul { margin: 0 0 12px; padding-left: 1.25rem; }
+ul ul { margin: 4px 0 0; }
+li { margin: 0 0 6px; }
+a { color: var(--text); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; overflow-wrap: anywhere; }
+a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+.bottom { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 16px; padding: 0 4px; color: var(--text3); font-size: .875rem; line-height: 1.25rem; }
+.bottom a { display: inline-flex; align-items: center; min-height: 48px; color: var(--text3); }
+@media (min-width: 37.5em) { .page { padding-top: 24px; } main { padding: 32px 32px 40px; } }
+"""
+
+
+def resolve(text: str) -> str:
+    """【】 자리를 판에 맞게 푼다"""
+    text = text.replace("【올리는 날】", EFFECTIVE)
+    text = LATER_INLINE.sub(lambda m: " " + m.group(1) if FEEDBACK_IN_APP else "", text)
+    lines = []
+    for line in text.split("\n"):
+        if LATER in line:
+            if not FEEDBACK_IN_APP:
+                continue
+            line = line.replace(" " + LATER, "").replace(LATER, "")
+        lines.append(line)
+    return "\n".join(lines)
+
+
+def inline(text: str) -> str:
+    """글 한 덩이 → HTML(링크 넣기)"""
+    out, last = [], 0
+    for m in LINK.finditer(text):
+        out.append(html.escape(text[last:m.start()], quote=False))
+        s = m.group(0)
+        if "@" in s and not s.startswith("http"):
+            href = f"mailto:{s}" + (f"?subject={quote(MAIL_SUBJECT)}" if s == DEV_MAIL else "")
+        elif s.startswith("http"):
+            href = s
+        else:
+            href = f"https://{s}"
+        out.append(f'<a href="{html.escape(href)}">{html.escape(s, quote=False)}</a>')
+        last = m.end()
+    out.append(html.escape(text[last:], quote=False))
+    return "".join(out)
+
+
+def body(md: str) -> tuple[str, str]:
+    """원문 → (h1 글, 본문 HTML). h1 바로 아래 '시행일: …' 문단은 날짜 줄로"""
+    md = re.sub(r"<!--.*?-->", "", md, flags=re.S).strip("\n")
+    title, parts, para, stack = "", [], [], []  # stack: 열린 목록의 들여쓰기 깊이
+
+    def close_para():
+        if para:
+            text = " ".join(para)
+            cls = ' class="date"' if text.startswith("시행일:") and not any(p.startswith("<h2") for p in parts) else ""
+            parts.append(f"<p{cls}>{inline(text)}</p>")
+            para.clear()
+
+    def close_lists(depth: int = -1):
+        while stack and stack[-1] > depth:
+            stack.pop()
+            parts.append("</li></ul>")
+
+    for line in resolve(md).split("\n"):
+        if not line.strip():
+            close_para()
+            continue
+        m = re.match(r"^( *)- (.*)$", line)
+        if m:
+            close_para()
+            depth = len(m.group(1)) // 2
+            if stack and stack[-1] == depth:
+                parts.append("</li>")
+            elif stack and stack[-1] > depth:
+                close_lists(depth)
+                parts.append("</li>")
+            if not stack or stack[-1] < depth:
+                parts.append("<ul>")
+                stack.append(depth)
+            parts.append(f"<li>{inline(m.group(2).strip())}")
+            continue
+        close_lists()
+        if line.startswith("#### "):
+            close_para()
+            parts.append(f"<h2>{inline(line[5:].strip())}</h2>")
+        elif line.startswith("### "):
+            close_para()
+            title = line[4:].strip()
+        else:
+            para.append(line.strip())
+    close_para()
+    close_lists()
+    return title, "\n".join(parts)
+
+
+def page(name: str) -> str:
+    folder, title, description, (other, other_title) = PAGES[name]
+    h1, content = body((SRC / f"{name}.md").read_text(encoding="utf-8"))
+    if h1 != title:
+        raise SystemExit(f"{name}.md: 맨 위 제목이 '{title}' 이 아니다: {h1!r}")
+    if "【" in content or "】" in content:
+        raise SystemExit(f"{name}.md: 풀지 않은 【】 가 있다")
+    return f"""<!doctype html>
+<!-- scripts/legal_pages.py 가 docs/legal/{name}.md 로 만든 파일이다. 여기를 고치지 말고 원문을 고친 뒤 다시 만든다 -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>{html.escape(title)} · TT Wizard</title>
+<meta name="description" content="{html.escape(description)}">
+<link rel="icon" href="../icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" crossorigin>
+<style>{STYLE}</style>
+</head>
+<body>
+<div class="page">
+<header class="top"><a href="../">TT Wizard</a></header>
+<main>
+<h1>{html.escape(h1)}</h1>
+{content}
+</main>
+<nav class="bottom" aria-label="다른 페이지"><a href="../{other}/">{html.escape(other_title)}</a><a href="../">TT Wizard 열기</a></nav>
+</div>
+</body>
+</html>
+"""
+
+
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("--check", action="store_true", help="만든 파일이 원문과 같은지만 본다")
+    args = ap.parse_args(argv)
+    stale = []
+    for name, (folder, *_rest) in PAGES.items():
+        out = WEB / folder / "index.html"
+        text = page(name)
+        if args.check:
+            if not out.exists() or out.read_text(encoding="utf-8") != text:
+                stale.append(str(out.relative_to(ROOT)))
+            continue
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(text, encoding="utf-8", newline="\n")
+        print(f"  {out.relative_to(ROOT)}")
+    if stale:
+        print("원문과 다르다(python scripts/legal_pages.py 로 다시 만든다): " + ", ".join(stale), file=sys.stderr)
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
