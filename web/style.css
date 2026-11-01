@@ -315,7 +315,7 @@ a { color: var(--accent-text); }
 
 .view { max-width: var(--width-input); margin: 0 auto; padding: 0 var(--gutter-right) calc(var(--bottom-bar-h) + var(--space-6)) var(--gutter-left); }
 #view-result { max-width: var(--width-result); padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
-#view-info, #view-page, #view-theme { padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
+#view-info, #view-page, #view-feedback, #view-theme { padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
 
 /* 화면 전환(View Transitions): 결과 화면(지도, 결과 화면에서 연 자료 출처)은 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms).
    정보 묶음 안은 10/23 저녁부터 탭처럼 교차 페이드다(app.js showView). 못 쓰는 브라우저와 동작 줄이기에서는 바로 바뀐다(app.js 가 전환을 건너뛴다) */
@@ -1050,6 +1050,22 @@ button.info-row:active, a.info-row:active { background: var(--surface-hover); }
 .license-text { margin: 0; padding: var(--space-4); white-space: pre-line; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); overflow-wrap: anywhere; word-break: keep-all; }
 /* 고지문 글 속 주소는 링크(10/23 사용자: "라이선스에 있는 링크들 다 하이퍼링크로"). 자료 출처 이름 링크(.src a)와 같은 모양: 글자는 text, 밑줄은 line-strong */
 .license-text a { color: var(--text); text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+/* 의견 보내기(디자인 102판 Feedback, bundle.css 그대로): 카드 하나(안 16, 정보 첫 카드와 같은 자리)에 종류 세그먼트(fieldset, 보이지 않는 legend '종류'),
+   20 아래 제목 입력칸(50자), 16 아래 내용 칸(500자. 여섯 줄 168에서 글을 따라 열두 줄 312까지 늘고 그다음은 칸 안에서 스크롤. field-sizing 을 모르는
+   브라우저는 app.js 가 높이를 맞춘다. 첫 줄은 한 줄 입력칸의 글과 같은 높이: 위 11 + 테두리 1), 그 아래 오른쪽 글자 수(t-caption text3, 자릿수 맞춤).
+   카드 아래 고지 한 줄(.info-foot 과 같은 꼴, 폰 폭에서는 두 줄로 고르게)과 그 바로 아래 흐름 안의 주요 버튼 + 바깥 링크 아이콘 20 */
+.fb-card { margin-top: var(--space-2); padding: var(--space-4); }
+.fb-card fieldset { margin: 0 0 var(--space-5); padding: 0; border: 0; min-width: 0; }
+.fb-field + .fb-field { margin-top: var(--space-4); }
+.fb-field .field-label { margin-bottom: var(--space-2); }
+.text-area { box-sizing: border-box; display: block; width: 100%; min-height: 168px; max-height: 312px; margin: 0; padding: calc(var(--space-3) - 1px) var(--space-3);
+  border: 1px solid var(--line-strong); border-radius: var(--radius-sm); background: var(--card); color: var(--text); font: inherit; font-size: 1rem; line-height: 1.5rem;
+  word-break: keep-all; overflow-wrap: anywhere; resize: none; field-sizing: content; overflow-y: auto; }
+.text-area::placeholder { color: var(--text3); opacity: 1; }
+.fb-count { margin: var(--space-1) 0 0; text-align: right; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); font-variant-numeric: tabular-nums; }
+.fb-note { margin: var(--space-4) var(--space-1) 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); word-break: keep-all; text-wrap: balance; }
+.fb-send { margin-top: var(--space-4); }
+.fb-send svg { flex: none; }
 
 /* ---------------------------------------------------------------- 아래 탭 막대(디자인 규칙 '탭', 10/22 사용자): 시간표 · 동선 탐색 · 테마(10/23 오후 셋째 탭).
    10/23 사용자: "탭 두께 이정도로 할 거면 걍 설명 넣어도 될 듯. '시간표', '동선 탐색'", "탭 두께는 더 줄여도 좋을 것 같음" → 아이콘(20) 옆에 이름(14px 500)을 넣고
@@ -1562,7 +1578,7 @@ html[data-theme="xmas"] { --snow-far: #ffffff94; --snow-near: #ffffffe0;
     drop-shadow(1px 0 var(--bg)) drop-shadow(-1px 0 var(--bg)) drop-shadow(0 1px var(--bg)) drop-shadow(0 -1px var(--bg)); }
 /* 강제 색에서는 바탕이 기기 색이라 바탕색 둘레가 짙은 테두리로 보인다(글자 그림자는 브라우저가 알아서 끈다) */
 @media (forced-colors: active) { html[data-theme="xmas"] { --on-bg-halo-icon: none; } }
-h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .ranks-more, .info-foot, .page-foot, .tt-switch, .add-head-title, .items-error,
+h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .ranks-more, .info-foot, .page-foot, .fb-note, .tt-switch, .add-head-title, .items-error,
 .picked-error .btn-text, .footnote .btn-text, .ranks-more .btn-text { text-shadow: var(--on-bg-halo, none); } /* 버튼은 글자 그림자를 물려받지 않아 따로 적는다 */
 .day-summary .tag, .tt-switch .tag { text-shadow: none; } /* 태그는 제 면(fill) 위라 둘레를 두지 않는다(두면 글자에 짙은 테두리) */
 /* 컴퓨터의 사이드바: 눈이 뒤로 지나가므로 고르지 않은 탭·설치·정보의 이름과 아이콘에 둘레를 둔다. 고른 것(card 알약)과 오프라인 태그는 제 면 위라 두지 않고,

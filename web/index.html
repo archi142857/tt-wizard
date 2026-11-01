@@ -238,7 +238,7 @@
   </main>
 </div>
 
-<!-- 자료 출처, 오픈소스 라이선스(목록 아래 #page-texts 에 고지문 전문을 차례로) -->
+<!-- 자료 출처, 개발자 정보, 오픈소스 라이선스(목록 아래 #page-texts 에 고지문 전문을 차례로) -->
 <div id="view-page" class="view" hidden>
   <header class="topbar">
     <button type="button" class="icon-btn back" aria-label="뒤로" data-back><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
@@ -248,6 +248,38 @@
     <div class="card page-card"><ul class="src" id="page-list"></ul></div>
     <p class="page-foot" id="page-foot" hidden>강의 시간과 강의실은 수강편람에서 한 번 더 확인하세요</p>
     <div id="page-texts" hidden></div>
+  </main>
+</div>
+
+<!-- 의견 보내기(디자인 102판 Feedback, 10/31 사용자: "앱에서 입력해서 제보하면 깃허브에 쌓이도록"): 정보 안의 하위 화면. 종류·제목·내용을 쓰고 누르면
+     그 글을 채운 GitHub 새 이슈 화면을 바깥 링크로 연다(app.js, 주소는 docs/feedback.md). 올리기는 그 화면에서 쓴 사람의 계정으로 한다(앱은 보내지 않는다).
+     자리표시 글·길이 오류 줄은 두지 않는다. 버튼은 하단 고정 바가 아니라 흐름 안(고지가 버튼 바로 위에서 읽히게) -->
+<div id="view-feedback" class="view" hidden>
+  <header class="topbar">
+    <button type="button" class="icon-btn back" aria-label="뒤로" data-back><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+    <h1 class="title" id="feedback-title" tabindex="-1">의견 보내기</h1>
+  </header>
+  <main hidden>
+    <div class="card fb-card">
+      <fieldset>
+        <legend class="sr-only">종류</legend>
+        <div class="seg" id="fb-kind">
+          <label><input type="radio" name="fb-kind" value="bug" checked>버그 제보</label>
+          <label><input type="radio" name="fb-kind" value="idea">기능 제안</label>
+        </div>
+      </fieldset>
+      <div class="fb-field">
+        <label class="field-label" for="fb-title">제목</label>
+        <input class="text-input" id="fb-title" type="text" maxlength="50" autocomplete="off" enterkeyhint="next">
+      </div>
+      <div class="fb-field">
+        <label class="field-label" for="fb-what" id="fb-what-label">있었던 일</label>
+        <textarea class="text-area" id="fb-what" maxlength="500" aria-describedby="fb-count"></textarea>
+        <p class="fb-count" id="fb-count">0/500</p>
+      </div>
+    </div>
+    <p class="fb-note" id="fb-note">GitHub 계정으로 올리는 글에 개인정보를 작성하면 외부에 공개될 수 있으니 조심하세요</p>
+    <button type="button" class="btn-primary fb-send" id="fb-send" disabled aria-describedby="fb-note">GitHub에 올리기<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 16L16 8M9.5 8H16v6.5"></path></svg></button>
   </main>
 </div>
 

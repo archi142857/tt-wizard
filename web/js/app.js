@@ -1,6 +1,6 @@
 // TT Wizard 화면(디자인 규칙 v3.5). 자료(data/*.json)는 scripts/export_web.py 가 만들고, 탐색은 engine.js 가 브라우저에서 한다.
 // 앱은 아래 탭 셋이다(10/22, 테마는 10/23 오후): 내 시간표(저장한 시간표, 과목 추가), 탐색(입력, 결과), 테마(테마 고르기). 정보(정보 → 자료 출처·
-// 개발자 정보·오픈소스 라이선스)는 탭과 같은 층의 따로 된 묶음이고(10/23) 전체 화면 지도가 그 위에 뜬다. 화면만 방문 기록(pushState)을 남기고 탭 바꾸기와 시트(<dialog>)는 남기지 않는다.
+// 의견 보내기·개발자 정보·오픈소스 라이선스)는 탭과 같은 층의 따로 된 묶음이고(10/23) 전체 화면 지도가 그 위에 뜬다. 화면만 방문 기록(pushState)을 남기고 탭 바꾸기와 시트(<dialog>)는 남기지 않는다.
 // 화면 문구는 디자인 규칙 '문구'를 따른다(문장은 해요체 한 줄, 그 밖에는 명사구).
 import { DAY_KO, parseCourses, TravelMatrix, search, countFeasible, routeLine, whyNone, meetsRules } from "./engine.js";
 import { indexCourses as indexSearch, searchCourses, splitMarks, normKey } from "./search.js";
@@ -22,7 +22,8 @@ document.documentElement.dataset.shell = SHELL;
 
 const APP_VERSION = "0.9.0";
 // 정보 화면 링크. 주소가 정해지면 넣는다(비어 있으면 그 행을 보이지 않는다)
-const PRIVACY_URL = ""; // 개인정보 처리방침 공개 페이지(스토어에 적는 주소와 같게)
+// 개인정보 처리방침 공개 페이지(스토어에 적는 주소와 같게). 백엔드 update74 가 docs/legal/privacy.md 로 만든 web/privacy/(GitHub Pages). 앱 묶음에는 넣지 않아 늘 이 주소를 연다
+const PRIVACY_URL = "https://archi142857.github.io/tt-wizard/privacy/";
 // 개발자 정보(10/23 사용자가 정한 글. 처리방침의 개인정보 보호책임자·스토어 연락처와 같다). 메일은 누르면 메일 앱이 제목을 채워 연다
 const DEV_NAME = "동물생명공학전공 25학번 이영표";
 const DEV_MAIL = "sanger.lee138@gmail.com";
@@ -5936,17 +5937,20 @@ $("themes").addEventListener("change", (e) => {
 
 /**
  * 정보 화면(10/22 디자인, 10/23 75판): 카드를 띄워 두고 묶음 제목은 두지 않는다. 자료 출처 /
- * 개발자 정보·리뷰 남기기(스토어 앱)·홈 화면에 추가(웹 Safari) / 개인정보 처리방침·오픈소스 라이선스·버전. 주소가 없는 행은 두지 않고, 줄이 다 빠진 카드도 두지 않는다.
+ * 의견 보내기(10/31 디자인 98판)·개발자 정보·리뷰 남기기(스토어 앱)·홈 화면에 추가(웹 Safari) / 개인정보 처리방침·오픈소스 라이선스·버전.
+ * 주소가 없는 행은 두지 않고, 줄이 다 빠진 카드도 두지 않는다.
  * '문의하기' 줄은 10/23 없앴다(메일 주소는 개발자 정보 안). 설정 카드도 10/23 없앴다(테마는 테마 탭, 시간표 칸 색은 시간표 목록 시트)
  * 이동시간 계산 방법은 10/22 밤 사용자가 뺐다(입력 화면 조건의 이동시간 ⓘ 시트로만 본다)
  */
 function renderInfo() {
   const next = (key, text) => h("button", { type: "button", class: "info-row", "data-info": key }, h("span", {}, text), icon(I.right, 20));
   const out = (href, text) => h("a", { class: "info-row", href, target: "_blank", rel: "noopener" }, h("span", {}, text), icon(I.out, 20));
-  const card = (rows) => (rows.some(Boolean) ? h("ul", { class: "card info-list" }, rows.filter(Boolean).map((r) => h("li", {}, r))) : null);
+  // 카드 안 줄 사이는 line 1px(.list. 디자인 InfoList '.card.info-list 안 .list'. 10/22 카드를 나누며 빠졌던 것을 11/1 되돌렸다)
+  const card = (rows) => (rows.some(Boolean) ? h("ul", { class: "card list info-list" }, rows.filter(Boolean).map((r) => h("li", {}, r))) : null);
   $("info-list").replaceChildren(...[
     card([next("sources", "자료 출처")]),
-    card([next("developer", "개발자 정보"), REVIEW_URL[SHELL] ? out(REVIEW_URL[SHELL], "리뷰 남기기") : null, isSafariTab() ? next("a2hs", "홈 화면에 추가") : null]),
+    card([next("feedback", "의견 보내기"), next("developer", "개발자 정보"), REVIEW_URL[SHELL] ? out(REVIEW_URL[SHELL], "리뷰 남기기") : null,
+      isSafariTab() ? next("a2hs", "홈 화면에 추가") : null]),
     card([PRIVACY_URL ? out(PRIVACY_URL, "개인정보 처리방침") : null, next("licenses", "오픈소스 라이선스"),
       h("div", { class: "info-row" }, h("span", {}, "버전"), h("span", { class: "v" }, APP_VERSION))]),
   ].filter(Boolean));
@@ -5957,6 +5961,7 @@ $("info-list").addEventListener("click", (e) => {
   if (!b) return;
   const k = b.dataset.info;
   if (k === "a2hs") openSheet($("a2hs-sheet"), b);
+  else if (k === "feedback") go("feedback");
   else go("page", { page: k });
 });
 
@@ -6092,9 +6097,110 @@ function licenseBlocks(text) {
   return blocks.map((b) => b.join("\n").trim()).filter(Boolean);
 }
 
+// ---------------------------------------------------------------- 의견 보내기
+// 디자인 102판 'Feedback'(10/31 사용자: "그 버그 제보나 기능 제안 이런 거 받는 창구 필요함", 창구는 "GitHub 이슈", "앱에서 입력해서 제보하면 깃허브에 쌓이도록"):
+// 정보 안의 하위 화면. 종류(버그 제보 | 기능 제안), 제목(50자, 비워도 된다), 내용(500자. 이름은 종류를 따라 '있었던 일'·'제안')을 쓰고 'GitHub에 올리기'를 누르면
+// 그 글을 채운 GitHub 새 이슈 주소를 바깥 링크처럼 연다(스토어 앱은 Capacitor Browser, 웹은 새 탭). 올리기는 열린 화면에서 쓴 사람이 자기 GitHub 계정으로 한다:
+// 앱은 아무것도 보내지 않는다(서버 없음). 주소와 칸은 백엔드 update73 의 양식(.github/ISSUE_TEMPLATE 의 bug.yml·idea.yml)과 docs/feedback.md 가 정했고
+// tests/test_issue_forms.py 가 이 파일의 주소를 본다(라벨 칸은 넣지 않는다: 쓰기 권한이 없는 사람이 주면 GitHub 가 404, 라벨은 양식이 단다).
+// 쓴 글은 기기에 두지 않는다. 누른 뒤 이 화면을 떠나면 비우고, 누르기 전에 떠나면 고른 종류와 함께 앱을 닫을 때까지 남는다(뒤로를 잘못 눌러도 잃지 않게).
+// 스낵바는 띄우지 않는다(열린 GitHub 화면이 알린다). 한도 안의 글은 주소가 6,000자를 넘지 않아 길이 오류 줄은 없다(한글은 주소에서 9자: 제목 50·내용 500·앱 정보로 5,300자 안팎)
+const FEEDBACK_URL = "https://github.com/Archi142857/tt-wizard/issues/new";
+const FEEDBACK_KIND = { // 종류 → 양식 파일, 제목 머리말(양식의 title 과 같다), 내용 칸 이름(양식의 'what' 칸 이름과 같아 GitHub 로 넘어가서도 같은 말이 보인다)
+  bug: { form: "bug.yml", head: "[버그]", what: "있었던 일" },
+  idea: { form: "idea.yml", head: "[제안]", what: "제안" },
+};
+const fbWhat = $("fb-what"), fbTitle = $("fb-title"), fbSend = $("fb-send");
+let fbSent = false; // 'GitHub에 올리기'를 누른 뒤 고치지 않았다(이 화면을 떠나면 비운다)
+const fbKind = () => document.querySelector('input[name="fb-kind"]:checked')?.value || "bug";
+/** 종류에 맞는 내용 칸 이름, 글자 수, 버튼(내용이 비었거나 빈칸뿐이면 꺼진다. 제목만으로는 켜지지 않는다). 글자 수는 알림 영역이 아니라 내용 칸의 설명이다 */
+function syncFeedback() {
+  $("fb-what-label").textContent = FEEDBACK_KIND[fbKind()].what;
+  // 글자 수는 maxlength 와 같은 UTF-16 단위. Safari 는 maxlength 를 글자 묶음(이모지 하나 = 1)으로 세어 조금 넘게 들어올 수 있어 한도에서 멈춰 보인다
+  $("fb-count").textContent = `${Math.min(fbWhat.value.length, fbWhat.maxLength)}/${fbWhat.maxLength}`;
+  fbSend.disabled = !fbWhat.value.trim();
+  fitFeedback();
+}
+/** 내용 칸 높이: 여섯 줄(168)에서 글을 따라 열두 줄(312)까지(style.css 의 min·max-height). field-sizing 을 아는 브라우저는 CSS 가 하고, 모르는 브라우저는 여기서 맞춘다.
+ *  잠깐 줄였다 늘리는 동안 문서가 짧아져 스크롤이 밀리지 않게 자리를 되돌린다 */
+const FIELD_SIZING = !!window.CSS?.supports?.("field-sizing", "content");
+function fitFeedback() {
+  if (FIELD_SIZING || screen !== "feedback") return;
+  const y = window.scrollY;
+  fbWhat.style.height = "auto";
+  fbWhat.style.height = `${fbWhat.scrollHeight + fbWhat.offsetHeight - fbWhat.clientHeight}px`; // 테두리까지(box-sizing: border-box)
+  if (window.scrollY !== y) window.scrollTo(0, y);
+}
+window.addEventListener("resize", fitFeedback); // 폭이 바뀌면 줄이 다시 나뉜다
+/** 다 비우고 처음(버그 제보)으로 */
+function clearFeedback() {
+  fbTitle.value = fbWhat.value = "";
+  document.querySelector('input[name="fb-kind"][value="bug"]').checked = true;
+  fbSent = false;
+  fbWhat.style.height = "";
+  syncFeedback();
+}
+$("fb-kind").addEventListener("change", () => { fbSent = false; syncFeedback(); }); // 종류를 바꿔도 쓴 글은 그대로, 내용 칸 이름만 바뀐다
+for (const el of [fbTitle, fbWhat]) el.addEventListener("input", () => { fbSent = false; syncFeedback(); });
+fbTitle.addEventListener("keydown", (e) => { // 제목에서 Enter(화상 키보드의 '다음')는 내용 칸으로. 한글 조합 중의 Enter 는 무시한다
+  if (e.key !== "Enter" || e.isComposing || e.keyCode === 229) return;
+  e.preventDefault();
+  fbWhat.focus();
+});
+fbSend.addEventListener("click", () => {
+  if (!fbWhat.value.trim()) return;
+  openOut(feedbackUrl());
+  fbSent = true;
+  fbSend.focus({ preventScroll: true }); // 브라우저를 닫고 돌아오면 초점은 이 버튼(Safari 는 누른 버튼에 초점을 주지 않는다)
+});
+/** 쓴 글을 채운 새 이슈 주소(docs/feedback.md): template=<양식>&title=<머리말 제목>&what=<내용>&app=<앱 정보>, 값마다 encodeURIComponent.
+ *  제목이 비었으면 내용의 첫 줄(50자까지)을 제목으로 */
+function feedbackUrl() {
+  const kind = FEEDBACK_KIND[fbKind()], what = fbWhat.value.trim();
+  let title = fbTitle.value.trim() || [...what.split("\n")[0].trim()].slice(0, Number(fbTitle.maxLength)).join("");
+  if (!title.startsWith(kind.head)) title = `${kind.head} ${title}`; // 쓴 사람이 머리말을 이미 붙였으면 한 번만
+  const q = { template: kind.form, title, what, app: appInfo() };
+  // 짝 잃은 서로게이트가 있으면 encodeURIComponent 가 멈추므로(URIError) 먼저 고친다
+  return `${FEEDBACK_URL}?${Object.entries(q).map(([k, v]) => `${k}=${encodeURIComponent(v.toWellFormed ? v.toWellFormed() : v)}`).join("&")}`;
+}
+/** 앱 정보 '0.9.0 · Android 14 · 앱 · 2026년 2학기'(docs/feedback.md): 판, 운영체제와 주 판, 앱·설치한 웹 앱·웹, 보던 학기(정보를 연 탭의 학기).
+ *  시간표·기기 이름은 넣지 않는다. 화면에는 보이지 않고 GitHub 양식에서 보고 고칠 수 있다 */
+function appInfo() {
+  const shell = IN_APP ? "앱" : SHELL === "pwa" ? "설치한 웹 앱" : "웹";
+  const sem = (infoFrom === "explore" ? state.semester : mine.sem) || state.semester || mine.sem;
+  return [APP_VERSION, osName(), shell, semesterLabel(sem)].filter(Boolean).join(" · ");
+}
+/** 운영체제와 주 판('Android 14', 'iOS 18', 'iPadOS 18', 'Windows 11', 'macOS 15'). 크로미움은 user agent 의 판을 고정해 두어(안드로이드는 늘 'Android 10; K',
+ *  윈도우는 10.0, 맥은 10_15_7) 알 수 있으면 사용자 에이전트 클라이언트 힌트의 판을 쓴다(이 화면을 열 때 물어 둔다. 기기 이름은 묻지 않는다).
+ *  iOS 26 Safari 도 판을 18_6 에 고정해 'Version/'(Safari 판 = iOS 판)과 큰 쪽을 쓴다. iPad 는 컴퓨터용 Safari 이름으로 오기도 한다(터치가 있는 Macintosh). 모르면 이름만 */
+let osHint = null; // 클라이언트 힌트의 운영체제 판('14.0.0'). 묻기 전 null, 못 받으면 ""
+function askOsHint() {
+  const ch = navigator.userAgentData;
+  if (osHint !== null || !ch?.getHighEntropyValues) return;
+  osHint = "";
+  ch.getHighEntropyValues(["platformVersion"]).then((v) => { osHint = String(v.platformVersion || ""); }, () => {});
+}
+function osName() {
+  const ua = navigator.userAgent, plat = navigator.userAgentData?.platform || "", hint = parseInt(osHint, 10) || 0;
+  const num = (re) => Number((re.exec(ua) || [])[1]) || 0;
+  const named = (name, v) => (v ? `${name} ${v}` : name);
+  const ipad = /iPad/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  if (/iPhone|iPod/.test(ua) || ipad) return named(ipad ? "iPadOS" : "iOS", Math.max(num(/ OS (\d+)_/), num(/Version\/(\d+)/)));
+  if (plat === "Android" || /Android/.test(ua)) return named("Android", hint || (/Android 10; K\b/.test(ua) ? 0 : num(/Android (\d+)/)));
+  if (plat === "Windows" || /Windows/.test(ua)) return hint ? (hint >= 13 ? "Windows 11" : "Windows 10") : "Windows";
+  if (plat === "macOS" || /Macintosh/.test(ua)) return named("macOS", hint);
+  if (plat === "Chrome OS" || /CrOS/.test(ua)) return "ChromeOS";
+  return plat === "Linux" || /Linux/.test(ua) ? "Linux" : "";
+}
+/** 이 화면을 보일 때: 칸 이름·글자 수·버튼·높이를 맞추고 운영체제 판을 물어 둔다 */
+function renderFeedback() {
+  askOsHint();
+  syncFeedback();
+}
+
 // ---------------------------------------------------------------- 탭, 화면 이동과 뒤로 가기(디자인 규칙 '탭', '뒤로 가기')
 // 아래 탭 셋: 내 시간표(내 시간표 → 과목 추가), 탐색(입력 → 결과 → 전체 화면 지도), 테마(한 화면. 10/23 오후). 내 시간표의 동선 확인하기는 그 시간표를 탐색 탭으로
-// 보낸다(routeTt). 정보(정보 → 자료 출처·개발자 정보·오픈소스 라이선스)는
+// 보낸다(routeTt). 정보(정보 → 자료 출처·의견 보내기·개발자 정보·오픈소스 라이선스)는
 // 탭과 같은 층의 셋째 묶음 'info' 다(10/23 사용자: 시간표 탭에서 정보를 열고 동선 탐색에 다녀오면 시간표 탭에 정보가 다시 떴다. "이걸 다 동일한 층위로 맞춰줘").
 // 탭처럼 제 화면 더미(stacks.info)와 스크롤 자리를 기억하고, 탭을 누르면 그 탭의 화면으로 가며(정보는 어느 탭에도 쌓이지 않는다), 열 때와 나갈 때는 탭을
 // 바꿀 때처럼 교차 페이드다. 막대·사이드바에서는 정보에 있는 동안 세 탭 모두 고르지 않은 모양이고 컴퓨터 사이드바의 '정보'가 고른 모양이다.
@@ -6107,9 +6213,11 @@ function licenseBlocks(text) {
 // 정보에서 다른 탭을 누르면 탭을 바꿀 때처럼 첫 화면까지 되감고 그 탭의 것을 쌓는다(정보를 연 탭이면 정보만큼 되돌린다)
 
 // 과목 추가(add)는 내 시간표 화면이다: 넓은 화면은 그 오른쪽 칸, 폰 폭은 그 위의 시트(넓은 화면에서 연 기록을 폰 폭에서 보일 때. 폰에서 연 시트는 화면이 아니다)
-const VIEW_EL = { input: "view-input", mine: "view-mine", add: "view-mine", result: "view-result", map: "view-map", info: "view-info", page: "view-page", theme: "view-theme" };
+const VIEW_EL = { input: "view-input", mine: "view-mine", add: "view-mine", result: "view-result", map: "view-map", info: "view-info", page: "view-page",
+  feedback: "view-feedback", theme: "view-theme" };
 const VIEW_ELS = [...new Set(Object.values(VIEW_EL))];
-const H1 = { input: "input-title", mine: "mine-title", add: "add-panel-title", result: "result-title", map: "map-title", info: "info-title", page: "page-title", theme: "theme-title" };
+const H1 = { input: "input-title", mine: "mine-title", add: "add-panel-title", result: "result-title", map: "map-title", info: "info-title", page: "page-title",
+  feedback: "feedback-title", theme: "theme-title" };
 const ROOT = { mine: "mine", explore: "input", theme: "theme", info: "info" };
 const TABS = ["mine", "explore", "theme"]; // 막대·사이드바의 탭 단추(정보는 폰은 탭 첫 화면 상단 바의 ⓘ, 컴퓨터는 사이드바 맨 아래 '정보')
 // 탭 이름(10/23 사용자: "'시간표', '동선 탐색' 뭐 이런 느낌으로", 오후 "테마도 걍 탭 하나로 빼자"). 아래 탭 막대와 컴퓨터의 사이드바가 같은 이름을 보인다
@@ -6327,6 +6435,8 @@ function showView(name, dir, extra = {}) {
     if (name === "info") renderInfo();
     if (name === "map") renderFullMap();
     if (name === "page") renderPage();
+    if (from === "feedback" && name !== "feedback" && fbSent) clearFeedback(); // 'GitHub에 올리기'를 누른 뒤 떠나면 비운다(누르기 전이면 남긴다)
+    if (name === "feedback") renderFeedback();
     if (name === "theme") renderThemes();
     document.title = titleOf(name);
     if (from !== name) hideSnackbar();
@@ -6336,7 +6446,7 @@ function showView(name, dir, extra = {}) {
     if (name === "input") showUpdateIfReady();
     sleighSoon(); // 폰 내 시간표 상단 바의 썰매(돌아온 스크롤 자리)
   };
-  // 정보 묶음 안(정보 ↔ 자료 출처·개발자 정보·오픈소스 라이선스)도 옆으로 밀지 않고 교차 페이드(10/23 저녁 사용자: "정보탭 누를 때 화면 살짝 옆으로 흔들리는 것도
+  // 정보 묶음 안(정보 ↔ 자료 출처·의견 보내기·개발자 정보·오픈소스 라이선스)도 옆으로 밀지 않고 교차 페이드(10/23 저녁 사용자: "정보탭 누를 때 화면 살짝 옆으로 흔들리는 것도
   // 빼줘". 정보는 탭과 같은 층이라 탭을 바꿀 때와 같다). 결과 화면에서 연 자료 출처(탐색 탭)는 그대로 민다
   const inInfo = tab === "info" && screenTab === "info" && (dir === "forward" || dir === "back");
   transition(apply, swap || inInfo ? "tab" : dir);
@@ -6515,6 +6625,12 @@ document.addEventListener("click", (e) => {
   e.preventDefault();
   browser.open({ url: a.href });
 });
+/** 링크가 아닌 버튼으로 바깥 주소를 연다(의견 보내기의 'GitHub에 올리기'): 위 a[target=_blank] 와 같은 길. 스토어 앱은 Capacitor Browser, 웹은 새 탭(opener 없이) */
+function openOut(url) {
+  const browser = IN_APP && capacitor?.Plugins?.Browser;
+  if (browser) browser.open({ url });
+  else window.open(url, "_blank", "noopener");
+}
 
 // ---------------------------------------------------------------- 시작
 
