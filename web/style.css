@@ -832,12 +832,12 @@ html:has(#add-sheet[open]) #view-mine { padding-bottom: calc(55vh + var(--space-
 .tt-block .b-room { overflow: hidden; font-size: 0.75rem; line-height: 1rem; font-weight: 500; color: var(--fill-fg2, var(--text2)); white-space: nowrap; text-overflow: ellipsis; }
 /* 38px 보다 낮은 칸(50분 수업): 과목명(14px 그대로)과 강의실을 한 줄로, 사이 space-2(10/2 사용자·디자인: 낮은 칸이라고 과목명을 줄이지
    않는다. 가운뎃점 없이 크기·색으로 가른다). 과목명이 먼저 줄고(세 글자 + … 까지), 강의실은 app.js 가 폭을 재어 '43-1동 301호' → '43-1동'
-   가운데 들어가는 것을 넣는다(그래서 줄이지 않는다). 늦음 알약 자리(--late-w)는 비운다 */
+   가운데 들어가는 것을 넣는다(그래서 줄이지 않는다). 지각 알약 자리(--late-w)는 비운다 */
 .tt-block.short { flex-direction: row; align-items: center; justify-content: flex-start; gap: var(--space-2); padding: 0 calc(var(--space-2) + var(--late-w, 0px)) 0 var(--space-2); }
 .tt-block.short .b-title, .tt-block .b-line .b-title { display: block; flex: 0 100 auto; min-width: 0; white-space: nowrap; text-overflow: ellipsis; }
 .tt-block.short .b-room, .tt-block .b-line .b-room { flex: none; } /* 폭은 app.js 가 재어 들어가는 것만 넣는다(줄면 0.1px 에도 말줄임이 된다) */
 .tt-block.short .tt-late { top: 50%; transform: translateY(-50%); }
-/* 늦는 수업: 빨간 'N분 늦음'을 오른쪽 위에. 자리는 app.js 가 글 폭을 재어 이 순서로 정한다(10/2 디자인):
+/* 늦는 수업: 빨간 'N분 지각'(11/2 까지 'N분 늦음')을 오른쪽 위에. 자리는 app.js 가 글 폭을 재어 이 순서로 정한다(10/2 디자인):
    1) 과목명 첫 줄 옆에 들어가거나 가운데 놓인 글이 알약 아래에서 시작하면 그대로 겹쳐 둔다 2) 칸에 여유가 있으면 .is-late: 과목명 위에 알약 줄
    3) 알약 줄 + 과목명 + 강의실이 안 들어가는 75분 칸은 .room-top: 강의실을 알약 줄 왼쪽(비어 있던 자리)에, 과목명은 그 아래
    4) 알약 옆에 건물 이름도 안 들어가는 좁은 칸(폰 360)은 .is-late.pill-row: 알약 줄은 알약만, 그 아래 .b-line 에 과목명과 강의실을 나란히
@@ -992,7 +992,7 @@ html[data-jump] .view, html[data-jump] .tabbar, html[data-jump] .sidebar, html[d
 .rank.selected .rank-no { color: var(--accent-text); }
 .rank-sum { min-width: 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text2); text-align: right; }
 .rank-sum .late { color: var(--danger); }
-.rank-sum .nw { white-space: nowrap; } /* 요약 덩이(걷기 주 105분, 월화수목 등교, 월수 2분 늦음) 안에서는 줄을 바꾸지 않는다 */
+.rank-sum .nw { white-space: nowrap; } /* 요약 덩이(걷기 주 105분, 월화수목 등교, 월수 2분 지각) 안에서는 줄을 바꾸지 않는다 */
 .week { display: grid; grid-template-columns: repeat(var(--days, 5), minmax(0, 1fr)); gap: 6px; }
 .week .wd { font-size: 0.75rem; line-height: 1rem; font-weight: 500; color: var(--text3); text-align: center; }
 .week .wc { position: relative; height: 48px; border-radius: var(--radius-xs); background: var(--inset); }
@@ -1334,8 +1334,9 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 /* 학기 묶음(10/30 사용자, SNUTT 의 시간표 목록 그림과 함께: "시간표 목록도 그 학기 선택하는 거 SNUTT처럼 저런 형식의 목록으로". 그 전에는 맨 위 연도·학기 선택칸):
    머리는 학기 이름(17px 700 heading)과 바로 옆 펼침 화살표(20 muted, 펴면 위로), 높이 56.
    선은 모두 line 1px 이고 층은 색으로 나눈다(10/30 오후 사용자: "선은 그냥 아주 얇게 다 통일하고 색깔로 구분하는 건 어떰?". 그 사이 굵은 선 4px·2px 을 두었다가
-   "선 두께가 다 다르니까 통일성이 없는 느낌"): 시간표 행이 inset 바탕(라이트 tt-pale, 다크 bg, 크리스마스 옅은 초록)이고 학기 머리는 시트 바탕이다(처음에는 거꾸로 학기 머리에
-   칠했다가 사용자가 라이트를 보고 "반대로 하자. 시간표들이 진하게 나오도록", 이어 "나머지 테마도 뒤집는 게 나을 듯").
+   "선 두께가 다 다르니까 통일성이 없는 느낌"): 대표 시간표 행만 inset 바탕(라이트 tt-pale, 다크 bg, 크리스마스 옅은 초록)이고 다른 시간표 행과 학기 머리는 시트 바탕이다
+   (처음에는 거꾸로 학기 머리에 칠했다가 사용자가 라이트를 보고 "반대로 하자. 시간표들이 진하게 나오도록", 이어 "나머지 테마도 뒤집는 게 나을 듯". 10/30 부터 시간표 행을 다
+   칠하다가 11/2 사용자: "이것도 대표 시간표만 색깔 칠해줘").
    칠한 면 위에서 누르고 올린 것은 inset 을 text 쪽으로 6%, 칠하지 않은 면 위는 다른 줄처럼 surface-hover(--tl-head·--tl-row 와 그 -press).
    시트 머리 아래(첫 학기 머리 위), 묶음 사이, 학기 머리와 첫 시간표 사이, 시간표 사이, + 새 시간표 위가 모두 같은 선이다 */
 #tl-rows { --tl-head: transparent; --tl-head-press: var(--surface-hover); --tl-row: var(--inset); --tl-row-press: color-mix(in srgb, var(--inset), var(--text) 6%); }
@@ -1347,16 +1348,17 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 .tl-sem-head[aria-expanded="true"] svg { transform: rotate(180deg); }
 .tl-sem-head:active { background: var(--tl-head-press); }
 .tl-tts { margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
-.tl-tts > li { background: var(--tl-row); }
+.tl-tts > li.is-primary { background: var(--tl-row); }
 .tl-tts > li + li { border-top: 1px solid var(--line); }
-.tl-tts .tt-row .mt { color: var(--text2); } /* 칠한 행의 메타(디자인 93판: text3 은 라이트의 누른 면 위에서 4.5:1 에 못 미친다) */
-.tl-tts .tt-row:active, .tl-tts .tl-more:active { background: var(--tl-row-press); }
+.tl-tts .is-primary .tt-row .mt { color: var(--text2); } /* 칠한 행의 메타(디자인 93판: text3 은 라이트의 누른 면 위에서 4.5:1 에 못 미친다). 칠하지 않은 행은 text3 */
+.tl-tts .is-primary .tl-more { color: var(--text3); } /* 칠한 행의 ⋯(디자인 93판: muted 는 inset 위에서 3:1 아래, 라이트 2.75:1·크리스마스 2.68:1). 칠하지 않은 행은 muted */
+.tl-tts .is-primary .tt-row:active, .tl-tts .is-primary .tl-more:active { background: var(--tl-row-press); }
 .tl-tts .tl-more:active { color: var(--text2); }
 /* 시간표 행: 이름(태그 대표)과 메타, 행 끝 ⋯(48, 아이콘 24 muted)가 시간표 메뉴 팝업을 연다(10/30 오후 사용자: "시간표 옵션은 그냥 창으로 띄우고". 그 전에는 행 아래에
    펼쳤고 단추는 펼침 꺾쇠였다). 지금 보는 시간표에는 체크를 두지 않는다(10/30 오후 사용자: "걍 체크는 빼는 게 나아 보임") */
 .tl-line { display: flex; align-items: center; }
 .tl-line .tt-row { flex: 1; min-width: 0; padding-right: var(--space-2); }
-.tl-more { margin-right: var(--space-3); color: var(--text3); } /* 디자인 93판: muted 는 inset 위에서 3:1 아래(라이트 2.75:1, 크리스마스 2.68:1). 누르고 올리면 text2 */
+.tl-more { margin-right: var(--space-3); color: var(--muted); } /* 다른 아이콘처럼 muted(칠한 대표 행은 위에서 text3), 누르고 올리면 text2 */
 /* 새 시간표 팝업(10/30 사용자: "새 시간표 추가할 때 학기랑 시간표 이름 선택하는 창을 하나 띄워주자"): 묻는 팝업(.sheet.ask)에 칸 둘. 필드 라벨 아래 space-2 에 칸,
    칸 사이 space-4. 학기 선택칸은 시트 위라 raised 바탕에 line-strong 1px(전에 목록 시트 맨 위에 있던 것과 같다). 오류 줄은 이름 칸 아래 t-body-sm danger */
 .tn-body { padding: var(--space-2) var(--space-5) var(--space-3); }
@@ -1536,7 +1538,7 @@ html[data-theme="xmas"] dialog.sheet::backdrop { background: var(--scrim, #03140
 }
 /* 대비를 높인 기기와 강제 색에서는 무늬를 끈다 */
 @media (prefers-contrast: more), (forced-colors: active) { html[data-theme] { --bg-pattern: none; } }
-/* 짙은 칸이 있는 칸 색(디자인 80판): 결과 화면의 늦음 알약은 card 색 테두리 1.5px(짙은 칸 위에서도 알약이 갈린다).
+/* 짙은 칸이 있는 칸 색(디자인 80판): 결과 화면의 지각 알약은 card 색 테두리 1.5px(짙은 칸 위에서도 알약이 갈린다).
    넓은 화면 과목 추가 미리 보기에서 이미 넣은 분반 칸의 테두리는 그 칸의 글자색(초록 칸 위의 초록 accent 테두리는 1.0:1 이라 보이지 않는다. 짙은 칸은 흰색) */
 html[data-theme="xmas"] .tt-late { box-shadow: 0 0 0 1.5px var(--card); }
 html[data-theme="xmas"] .wk-block.is-hl { box-shadow: inset 0 0 0 2px var(--block-fg, var(--accent)); }
@@ -1631,7 +1633,7 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
   .icon-btn:hover, .btn-text:hover, .result:hover, .rank-hit:hover, button.info-row:hover, a.info-row:hover, .course-hit:hover .c-title { background: var(--surface-hover); }
   .tabbar .tab:not([aria-current="page"]):hover .ind, .add-row:hover, .tt-row:hover, .menu-row:hover { background: var(--surface-hover); }
   .tl-sem-head:hover { background: var(--tl-head-press); }
-  .tl-tts .tt-row:hover, .tl-tts .tl-more:hover { background: var(--tl-row-press); }
+  .tl-tts .is-primary .tt-row:hover, .tl-tts .is-primary .tl-more:hover { background: var(--tl-row-press); }
   .tl-tts .tl-more:hover { color: var(--text2); }
   .tt-switch:hover, .add-head .icon-btn:hover, .tt-share:hover { background: var(--bg-hover); }
   .topbar .icon-btn:hover, .topbar .btn-text:hover, .bottom-bar .btn-text:hover, .picked-error .btn-text:hover, .ranks-more .btn-text:hover, .footnote .btn-text:hover { background: var(--bg-hover); }

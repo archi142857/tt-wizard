@@ -487,6 +487,7 @@ async function loadSemester(sem) {
   renderPicked();
   mineChanged(); // 편람과 견줘 다시 그린다(편람 바뀜, 없는 과목)
   if (addActive()) renderAdd(); // 편람이 들어왔다(폰의 과목 추가 시트를 연 채로 기다렸을 수도 있다)
+  if ($("item-sheet").open) refreshItemSheet(); // 편람보다 먼저 연 항목 시트(위젯에서 수업을 눌렀다, 백엔드 update77 의 itemNav): 학과·다른 분반을 채운다
   return true;
 }
 
@@ -2000,9 +2001,10 @@ function hourRange(ranked) {
 const lateOf = (l) => (l.slack !== null && l.slack < 0 ? Math.max(0, Math.round(-l.slack)) : 0); // 수치는 반올림한 정수 분
 
 /**
- * 늦는 수업 요약(가이드 형식 '분 + 늦음'). 늦는 분을 더한 합은 뜻이 없어 쓰지 않고(10/1 사용자) 수업마다의 분을 쓴다(10/1 밤 사용자 결정).
- * 한 주(후보 카드)는 같은 분끼리 요일을 묶어 '월수 2분·목 5분 늦음'(요일 글자는 '월화수목 등교'처럼 붙여 쓴다). 같은 요일들에서 늦는
- * 분이 둘이면 요일을 한 번만: '화목 11분·17분 늦음'. 하루(하루 요약 태그)는 그날 늦는 분을 시각 순서로 '2분·5분 늦음'.
+ * 늦는 수업 요약(가이드 형식 '분 + 지각'. 11/2 사용자가 위젯처럼 '늦음' 대신 '지각'으로: 백엔드가 "앱 화면의 `2분 늦음`도 위젯처럼 `지각`으로 바꿀까?" 묻자 "ㅇㅇ").
+ * 늦는 분을 더한 합은 뜻이 없어 쓰지 않고(10/1 사용자) 수업마다의 분을 쓴다(10/1 밤 사용자 결정).
+ * 한 주(후보 카드)는 같은 분끼리 요일을 묶어 '월수 2분·목 5분 지각'(요일 글자는 '월화수목 등교'처럼 붙여 쓴다). 같은 요일들에서 늦는
+ * 분이 둘이면 요일을 한 번만: '화목 11분·17분 지각'. 하루(하루 요약 태그)는 그날 늦는 분을 시각 순서로 '2분·5분 지각'.
  * 늦는 수업이 없으면 ''.
  */
 function lateText(legs, withDays) {
@@ -2014,14 +2016,14 @@ function lateText(legs, withDays) {
     if (!mins.get(m).includes(l.day)) mins.get(m).push(l.day);
   }
   if (!mins.size) return "";
-  if (!withDays) return `${[...mins.keys()].map((m) => `${m}분`).join("·")} 늦음`;
+  if (!withDays) return `${[...mins.keys()].map((m) => `${m}분`).join("·")} 지각`;
   const byDays = new Map(); // '화목' → [11, 17]
   for (const [m, ds] of mins) {
     const k = ds.map((d) => DAY_KO[d]).join("");
     if (!byDays.has(k)) byDays.set(k, []);
     byDays.get(k).push(m);
   }
-  return `${[...byDays].map(([k, ms]) => `${k} ${ms.map((m) => `${m}분`).join("·")}`).join("·")} 늦음`;
+  return `${[...byDays].map(([k, ms]) => `${k} ${ms.map((m) => `${m}분`).join("·")}`).join("·")} 지각`;
 }
 
 // 조합 수의 단위: 만 → 억 → 조 → 경(수는 Number 라 9천조쯤부터는 어림값이다)
@@ -2085,7 +2087,7 @@ function rankTitle(R) {
 const condText = (R) => dotted([`출발·도착 ${isDorm(R.home) ? `기숙사 ${buildingLabel(R.home)}` : placeLabel(R.home)}`,
   R.mode === "slope" ? "경사 반영" : "평지", ...rulesParts(R.rules)]);
 
-/** 한 주 요약: '걷기 주 187분 · 월화수목 등교'(늦으면 빨간 ' · 화목 3분 늦음'). 덩이 사이(가운뎃점 앞)에서만 줄을 바꾼다. 시간이 모두 미정이면 등교 요일이 없다 */
+/** 한 주 요약: '걷기 주 187분 · 월화수목 등교'(늦으면 빨간 ' · 화목 3분 지각'). 덩이 사이(가운뎃점 앞)에서만 줄을 바꾼다. 시간이 모두 미정이면 등교 요일이 없다 */
 function weekSum(ev, days) {
   const nw = (t) => h("span", { class: "nw" }, t);
   const walk = Math.round(ev.travel), late = lateText(ev.legs, true);
@@ -2185,7 +2187,7 @@ function lateWhy(l) {
   return `${placeLabel(l.from)}에서 ${buildingLabel(l.to)}까지 걷기 ${Math.round(l.minutes)}분, 쉬는 시간 ${Math.round(l.slack + l.minutes)}분`;
 }
 
-/** 칸 하나: 교과구분 연한 색 바탕에 과목명(부제 괄호 뺀 것)과 강의실, 늦으면 빨간 'N분 늦음'. */
+/** 칸 하나: 교과구분 연한 색 바탕에 과목명(부제 괄호 뺀 것)과 강의실, 늦으면 빨간 'N분 지각'. */
 function renderTimetable(ev, day, gridPx) {
   const box = $("tt");
   if (!(ev.days[day] || []).length) { box.replaceChildren(h("p", { class: "tt-empty" }, "수업 없음")); return; }
@@ -2203,7 +2205,7 @@ function renderTimetable(ev, day, gridPx) {
   box.replaceChildren(hours, grid);
   const fullW = grid.clientWidth - 16; // 칸 안 글자 폭(좌우 여백 8)
   const family = getComputedStyle(grid).fontFamily;
-  const titleFont = `500 ${14 * k}px ${family}`, labelFont = `500 ${12 * k}px ${family}`, pillFont = `700 ${12 * k}px ${family}`; // t-block, t-label, 늦음 알약
+  const titleFont = `500 ${14 * k}px ${family}`, labelFont = `500 ${12 * k}px ${family}`, pillFont = `700 ${12 * k}px ${family}`; // t-block, t-label, 지각 알약
   const widthOf = (text, font = labelFont) => { canvas.font = font; return canvas.measureText(text).width; };
   const legs = ev.legs.filter((l) => l.day === day);
   let n = 0;
@@ -2231,10 +2233,10 @@ function renderTimetable(ev, day, gridPx) {
       const lines = Math.max(1, Math.min(3, Math.floor((avail + 2 - 16 * k) / (18 * k))));
       return { lines, used: Math.min(lines, need) * 18 * k + 16 * k };
     };
-    // 늦음 알약은 오른쪽 위. 과목명 첫 줄 옆에 들어가거나(넓은 칸) 가운데 놓인 글이 알약 아래에서 시작하면(높은 칸) 그대로 두고,
+    // 지각 알약은 오른쪽 위. 과목명 첫 줄 옆에 들어가거나(넓은 칸) 가운데 놓인 글이 알약 아래에서 시작하면(높은 칸) 그대로 두고,
     // 둘 다 아니면 과목명 위에 알약 줄을 따로 둔다(과목명이 한 줄 밀린다). 낮은 칸은 한 줄의 오른쪽 끝(글은 알약 앞에서 끝난다)
     let lateRow = 0, pillW = 0;
-    if (late) pillW = widthOf(`${late}분 늦음`, pillFont) + 12;
+    if (late) pillW = widthOf(`${late}분 지각`, pillFont) + 12;
     if (late && !short) {
       const beside = firstLineWidth(title, titleFont, textW) + pillW + 4 <= textW;
       const below = (px - 6 - fit(px - 6).used) / 2 >= 16 * k + 2;
@@ -2273,7 +2275,7 @@ function renderTimetable(ev, day, gridPx) {
       if (nx.meeting && nx.meeting.building) next = `다음 수업까지 걷기 ${Math.round(nx.minutes)}분`;
       else if (!nx.meeting) next = `${placeLabel(state.result.home)}까지 걷기 ${Math.round(nx.minutes)}분`;
     }
-    const said = [`${n}. ${hm(m.start)}~${hm(m.end)} ${m.section.name}`, place, late ? `${late}분 늦음(${lateWhy(l)})` : "", next].filter(Boolean).join(", ");
+    const said = [`${n}. ${hm(m.start)}~${hm(m.end)} ${m.section.name}`, place, late ? `${late}분 지각(${lateWhy(l)})` : "", next].filter(Boolean).join(", ");
     grid.append(h("li", {
       class: `tt-block${short ? " short" : ""}${roomTop ? " room-top" : pillRow ? " is-late pill-row" : lateRow ? " is-late" : ""}`,
       style: { top: top(m.start), height: `calc(${heightPct}% - 2px)`, background: fill, ...clsInk(kind), "--lines": String(lines),
@@ -2281,7 +2283,7 @@ function renderTimetable(ev, day, gridPx) {
       title: `${m.section.name} ${hm(m.start)}~${hm(m.end)}${place ? ` ${place}` : ""}`,
     },
     h("span", { class: "sr-only" }, said),
-    late ? h("span", { class: "tt-late", "aria-hidden": "true", title: lateWhy(l) }, `${late}분 늦음`) : null,
+    late ? h("span", { class: "tt-late", "aria-hidden": "true", title: lateWhy(l) }, `${late}분 지각`) : null,
     ...(pillRow ? [h("span", { class: "b-line", "aria-hidden": "true" }, h("span", { class: "b-title" }, title), room ? h("span", { class: "b-room" }, room) : null)]
       : [roomOnly ? null : h("span", { class: "b-title", "aria-hidden": "true" }, title), room ? h("span", { class: "b-room", "aria-hidden": "true" }, room) : null])));
   });
@@ -2339,7 +2341,7 @@ function renderSummary(ev, day) {
   if (!ev.days[day]) { box.replaceChildren(); return; }
   const legs = ev.legs.filter((l) => l.day === day);
   const walk = Math.round(legs.reduce((s, l) => s + l.minutes, 0));
-  const late = lateText(legs, false); // '2분 늦음', 그날 둘이면 '2분·5분 늦음'(더한 값은 쓰지 않는다)
+  const late = lateText(legs, false); // '2분 지각', 그날 둘이면 '2분·5분 지각'(더한 값은 쓰지 않는다)
   const tag = (text) => h("span", { class: "tag danger" }, h("span", { class: "sr-only" }, ", "), text);
   box.replaceChildren(...[h("span", {}, "걷기 ", h("b", {}, `${walk}분`)), late ? tag(late) : null].filter(Boolean));
 }
@@ -3175,9 +3177,9 @@ function twinText(twins) {
   return twins.length > 3 ? `${shown} 외 ${twins.length - 3}개` : shown;
 }
 
-/** 후보 카드: 순위, 한 주 걷는 시간·등교 요일(늦는 수업이 있으면 빨간 ' · 월수 2분 늦음'), 요일별 미리보기. 고른 카드는 테두리와 담은 분반 목록, 저장하기.
+/** 후보 카드: 순위, 한 주 걷는 시간·등교 요일(늦는 수업이 있으면 빨간 ' · 월수 2분 지각'), 요일별 미리보기. 고른 카드는 테두리와 담은 분반 목록, 저장하기.
  *  늦는 분을 한 주치 더한 값(예전 ' · 10분 늦음')은 뜻이 없어서 쓰지 않는다(10/1 사용자). 그 뒤 '늦을 수 있음'(앱 말투에 안 맞음),
- *  '늦음'(가이드 형식 '분 + 늦음'·원칙 '늦음은 분으로'에 안 맞음)을 거쳐 늦는 요일과 그 분으로(10/1 밤 사용자 결정, lateText) */
+ *  '늦음'(가이드 형식 '분 + 늦음'·원칙 '늦음은 분으로'에 안 맞음)을 거쳐 늦는 요일과 그 분으로(10/1 밤 사용자 결정, lateText). 11/2 부터 낱말은 '지각' */
 function rankItem(ev, i) {
   const R = state.result;
   const [h0, h1] = R.axis;
@@ -3821,9 +3823,10 @@ function renderTtList() {
   // 학기 머리와 같은 펼침 꺾쇠였다: "시간표 메뉴도 ... 위아래 꺾쇠로 동일하게". 펼치지 않으니 꺾쇠 대신 ⋯). 지금 보는 시간표에는 체크를 두지 않는다(10/30 오후 사용자:
   // "체크표시랑 아래 꺾쇠 같이 있으니까 별로임. 걍 체크는 빼는 게 나아 보임". 머리 줄이 지금 시간표를 보인다. 스크린리더는 aria-current).
   // 다른 학기의 행(sem): 누르면 그 학기로 바꾸고 그 시간표를 보인다. ⋯ 는 그 학기로 바꾼 뒤 메뉴를 연다(시간표를 바꾸는 일은 지금 학기 것만 한다)
+  // 칠하는 것은 대표 시간표 행만이다(11/2 사용자: "이것도 대표 시간표만 색깔 칠해줘". style.css .tl-item.is-primary)
   const ttRow = (t, sem) => {
     const on = !sem && t.id === cur.id, tag = t.primary ? h("span", { class: "tag" }, "대표") : null;
-    return h("li", { class: "tl-item" }, h("div", { class: "tl-line" },
+    return h("li", { class: t.primary ? "tl-item is-primary" : "tl-item" }, h("div", { class: "tl-line" },
       h("button", { type: "button", class: "tt-row", "data-tt": t.id, "data-sem": sem || null, "aria-current": on ? "true" : null },
         h("span", { class: "it" }, h("span", { class: "nm" }, h("span", {}, t.title), tag), h("span", { class: "mt" }, ttMeta(t)))),
       h("button", { type: "button", class: "icon-btn tl-more", "data-tt-more": t.id, "data-sem": sem || null, "aria-label": `${t.title} 메뉴`, "aria-haspopup": "dialog" },
@@ -4939,6 +4942,20 @@ function renderItemSheet() {
       h("div", { class: "list-head" }, h("span", {}, `다른 분반 ${others.length}`)),
       h("ul", { class: "list secs" }, others.map((s) => otherSec(t, it, s)))) : null,
     h("div", { class: "sheet-foot" }, h("button", { type: "button", class: "btn-text", "data-act": "remove" }, "시간표에서 빼기"))].filter(Boolean));
+}
+
+/** 연 항목 시트를 다시 그린다(편람이 늦게 들어왔다: 위젯에서 연 시트는 편람을 5초까지만 기다린다). 본문 안에 있던 초점은 같은 일을 하는 요소로
+ *  (라디오는 이름·값, 버튼은 data-act 와 그 분반 행), 못 찾으면 완료 버튼으로 */
+function refreshItemSheet() {
+  const body = $("is-body"), a = document.activeElement, inside = !!a && body.contains(a);
+  let sel = null;
+  if (inside) {
+    const own = a.name ? `[name="${CSS.escape(a.name)}"][value="${CSS.escape(a.value)}"]` : a.dataset.act ? `[data-act="${CSS.escape(a.dataset.act)}"]` : null;
+    const sec = a.closest(".sec[data-key]");
+    sel = own && sec ? `.sec[data-key="${CSS.escape(sec.dataset.key)}"] ${own}` : own;
+  }
+  renderItemSheet();
+  if (inside) ((sel && body.querySelector(sel)) || $("item-sheet").querySelector("[data-close]")).focus({ preventScroll: true });
 }
 
 /** 다른 분반 행: 번호(교수), 둘째 줄 시각·강의실, 태그(이 시간표의 다른 항목과 겹치면 '시간 겹침'), 오른쪽 '바꾸기' */
