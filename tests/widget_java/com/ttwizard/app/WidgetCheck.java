@@ -187,6 +187,32 @@ public final class WidgetCheck {
         String base = "https://x/#tab=mine";
         out.append(",\"url\":[").append(q(WidgetData.openUrl(base, "2026-2", 4))).append(",").append(q(WidgetData.openUrl(base, null, -1)))
             .append(",").append(q(WidgetData.openUrl(base, "2026-X", 7))).append(",").append(q(WidgetData.openUrl(base, "2027-W", 0))).append("]");
+        // 수업을 누르면 여는 주소(update77): 학기·시간표 id·항목 열쇠. 열쇠·id 가 이상하면 빼고, 열쇠를 모르면 내 시간표
+        out.append(",\"itemUrl\":[").append(q(WidgetData.itemUrl(base, "2026-2", "t1x", "c123"))).append(",")
+            .append(q(WidgetData.itemUrl(base, "2026-2", "", "L0440.000600-001"))).append(",").append(q(WidgetData.itemUrl(base, "2026-2", "t1", "")))
+            .append(",").append(q(WidgetData.itemUrl(base, null, "bad id", "x y"))).append(",").append(q(WidgetData.itemUrl(base, "2026-2", "a&b", "k1"))).append("]");
+        out.append(",\"keys\":[").append(q(a.id)).append(",").append(q(a.days.get(0).get(0).key)).append(",").append(q(a.days.get(0).get(1).key)).append("]");
+        // 다음 수업 위젯의 줄(update77 출발 시각 블록): {과목명 두 줄, 강의실, 블록 안 아래 줄, 시각, 작은 블록}
+        int[][] rowsAt = { { 220, 100 }, { 186, 100 }, { 170, 100 }, { 150, 100 }, { 120, 100 }, { 110, 100 }, { 186, 130 }, { 240, 130 } };
+        out.append(",\"nextRows\":[");
+        for (int i = 0; i < rowsAt.length; i++) {
+            boolean[] r = WidgetData.nextRows(rowsAt[i][0], rowsAt[i][1] / 100f);
+            StringBuilder b = new StringBuilder();
+            for (boolean x : r) b.append(x ? '1' : '0');
+            out.append(i == 0 ? "" : ",").append(q(b.toString()));
+        }
+        out.append("]");
+        out.append(",\"bigPart\":[").append(Arrays.toString(WidgetData.bigPart("10:18 출발", "10:18")).replace(" ", "")).append(",")
+            .append(Arrays.toString(WidgetData.bigPart("걷기 12분", "12")).replace(" ", "")).append(",")
+            .append(String.valueOf(WidgetData.bigPart("10:18 출발", ""))).append("]");
+        // 주간 격자의 칸 자리(그림과 누르는 칸이 같은 셈): 월요일 두 수업, dp(1)와 화소(2배)
+        WidgetData.WeekGrid g1 = new WidgetData.WeekGrid(a, 300, 280, 1, 1), g2 = new WidgetData.WeekGrid(a, 600, 560, 2, 1);
+        List<WidgetData.Lesson> mo = a.days.get(0);
+        int[] mLane = new int[mo.size()], mLanes = new int[mo.size()];
+        WidgetData.laneOf(mo, mLane, mLanes);
+        out.append(",\"boxes\":[").append(floats(g1.box(0, mo.get(0), mLane[0], mLanes[0]))).append(",").append(floats(g1.box(0, mo.get(1), mLane[1], mLanes[1])))
+            .append(",").append(floats(g2.box(0, mo.get(1), mLane[1], mLanes[1]))).append("],\"weekFont\":[").append(WidgetData.weekFont(0.7f)).append(",")
+            .append(WidgetData.weekFont(1f)).append(",").append(WidgetData.weekFont(2f)).append("]");
         // 과목명 끝 번호 붙이기(앱 화면의 glueTail 과 같다): 앞 낱말과 번호가 한 줄(여기서는 글자 수)에 들면 U+00A0, 아니면 그대로
         Object[][] glue = { { "대학 글쓰기 1", 9 }, { "대학 글쓰기 1", 4 }, { "화학", 9 }, { "수학 100", 9 }, { "English II", 20 },
             { "Data Science A", 20 }, { "수학 및 연습 \u2161", 20 }, { "1", 9 }, { "물리학실험 2", 9 } };

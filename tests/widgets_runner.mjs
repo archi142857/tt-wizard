@@ -46,6 +46,10 @@ out.data = {
   cls: T.widgetData([{ t: a, entries: entries(a) }], { colors: "cls" }).colors,
   odd: T.widgetData([{ t: { ...a, sem: "2026-X" }, entries: [] }, null], { colors: "?" }),
   names: T.widgetData([{ t: a, entries: entries(a) }], { name: (e) => `[${e.item.title}]`, place: (m) => `${m.building}-${m.room}` }).terms[0].days[0].map((l) => [l.name, l.place]),
+  // 수업을 누르면 여는 항목 시트(update77): 학기마다 대표 시간표 id, 수업마다 항목 열쇠(T.itemKey)
+  ids: data.terms.map((t, i) => t.id === [a, b][i].id && t.id.length > 0), ttId: data.terms[0].id,
+  itemKeys: mon.map((l) => l.k),
+  keysMatch: mon.map((l) => a.items.filter((it) => T.itemKey(it) === l.k).map((it) => it.title)),
 };
 
 // 3) 걷는 시간·늦음이 동선 확인(engine.checkRoute)과 같다: 실제 건물·이동 행렬, 강의실 미정 수업이 사이에 낀 날

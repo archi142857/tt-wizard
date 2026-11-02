@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 다음 수업 위젯의 출발 시각 블록 바탕(accent-weak, 모서리 12 = radius-sm. update77, 사용자가 후보 ㄱ을 고름) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/widget_accent_weak" />
+    <corners android:radius="12dp" />
+</shape>

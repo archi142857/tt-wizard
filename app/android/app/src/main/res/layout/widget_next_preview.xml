@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 위젯 고르는 화면의 다음 수업 미리 보기(안드로이드 12 이상 previewLayout). 지어낸 보기다. 모양은 widget_next(update70 의 큰 출발 줄) -->
+<!-- 위젯 고르는 화면의 다음 수업 미리 보기(안드로이드 12 이상 previewLayout). 지어낸 보기다. 모양은 widget_next(update77 의 출발 시각 블록:
+     수 32 와 낱말 16 은 여기서는 글 둘로 나눠 글자 밑선을 맞춘다. 위젯은 한 글에 크기를 나눠 넣는다) -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -45,12 +46,35 @@
         android:layout_weight="1"
         android:minHeight="4dp" />
 
-    <TextView
-        style="@style/TTWWidget.Hero"
-        android:text="@string/w_preview_hero" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/widget_block"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="8dp">
 
-    <TextView
-        style="@style/TTWWidget.HeroSub"
-        android:layout_marginTop="2dp"
-        android:text="@string/w_preview_hero_sub" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:baselineAligned="true"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TTWWidget.Hero"
+                android:text="@string/w_preview_hero_time" />
+
+            <TextView
+                style="@style/TTWWidget.Hero"
+                android:layout_marginStart="4dp"
+                android:text="@string/w_preview_hero_word"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/TTWWidget.HeroSub"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="@string/w_preview_hero_sub" />
+    </LinearLayout>
 </LinearLayout>

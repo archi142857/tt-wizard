@@ -86,11 +86,13 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
-    <!-- 다음 수업 위젯의 출발 줄(update70): 큰 줄 t-h2 20 굵게 accent-text(시각은 자릿수 맞춤), 그 아래 13 text2 -->
+    <!-- 다음 수업 위젯의 출발 줄: 블록 가운데 큰 줄(update77: 수 32 굵게 accent-text, 시각은 자릿수 맞춤. '출발'·'걷기'·'분' 같은 낱말은
+         코드가 그 반(16)으로 줄인다. update70 의 20 을 사용자 11/2 요청으로 키움), 그 아래 13 text2 -->
     <style name="TTWWidget.Hero">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">32sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/widget_accent</item>
         <item name="android:fontFeatureSettings">tnum</item>

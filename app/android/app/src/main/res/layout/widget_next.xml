@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 다음 수업 위젯(2×2, 10/30). 위는 무슨 수업인지(과목명·시각·강의실), 아래는 이 위젯의 중심인 언제 나서는지를 크게(update70, 사용자: "출발, 걷기 이거 좀 더
-     내용의 중심이 되도록 크고 잘 보이게"): '14:44 출발'(t-h2 20 굵게 accent-text)과 그 아래 '걷기 16분'. 글과 보이기는 WidgetViews.next 가 정한다.
-     눌러서 앱의 그 요일 동선 지도(화면이 주소의 route 를 읽기 전에는 내 시간표) -->
+<!-- 다음 수업 위젯(2×2, 10/30). 위는 무슨 수업인지(과목명·시각·강의실), 아래는 이 위젯의 중심인 언제 나서는지.
+     update77(11/2 사용자: "시간을 좀 더 가운데에 큼지막하게, 블록처리해서 강조", 후보 ㄱ "밑 부분 패딩도 좌우랑 동일하게"): 아래쪽 옅은 블록
+     (accent-weak, 모서리 12) 가운데에 '10:18 출발'(수 32 굵게 accent-text, 낱말은 그 반)과 그 아래 '걷기 12분'(13 text2). 블록 아래 끝은 위젯 끝에서
+     좌우와 같은 12dp 이고 남는 높이는 수업 줄들과 블록 사이가 받는다. 글과 보이기·크기는 WidgetViews.next 가 정한다(줄 빼기는 WidgetData.nextRows).
+     누르면: 수업 줄(w_lecture)은 그 수업의 항목 시트(대표 시간표에 저장한 강의 정보), 나머지는 앱의 그 요일 동선 지도 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/background"
     android:layout_width="match_parent"
@@ -37,19 +39,26 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/w_name"
-            style="@style/TTWWidget.Title"
-            android:layout_marginTop="4dp" />
+        <LinearLayout
+            android:id="@+id/w_lecture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/w_time"
-            style="@style/TTWWidget.Body"
-            android:layout_marginTop="2dp" />
+            <TextView
+                android:id="@+id/w_name"
+                style="@style/TTWWidget.Title"
+                android:layout_marginTop="4dp" />
 
-        <TextView
-            android:id="@+id/w_place"
-            style="@style/TTWWidget.Body" />
+            <TextView
+                android:id="@+id/w_time"
+                style="@style/TTWWidget.Body"
+                android:layout_marginTop="2dp" />
+
+            <TextView
+                android:id="@+id/w_place"
+                style="@style/TTWWidget.Body" />
+        </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -57,29 +66,43 @@
             android:layout_weight="1"
             android:minHeight="4dp" />
 
-        <TextView
-            android:id="@+id/w_hero"
-            style="@style/TTWWidget.Hero" />
-
         <LinearLayout
+            android:id="@+id/w_block"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:orientation="horizontal">
+            android:background="@drawable/widget_block"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp">
 
             <TextView
-                android:id="@+id/w_hero_sub"
-                style="@style/TTWWidget.HeroSub"
-                android:layout_width="wrap_content" />
+                android:id="@+id/w_hero"
+                style="@style/TTWWidget.Hero" />
 
-            <TextView
-                android:id="@+id/w_late"
-                style="@style/TTWWidget.HeroSub"
+            <LinearLayout
+                android:id="@+id/w_hero_line"
                 android:layout_width="wrap_content"
-                android:layout_marginStart="6dp"
-                android:textColor="@color/widget_danger"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/w_hero_sub"
+                    style="@style/TTWWidget.HeroSub"
+                    android:layout_width="wrap_content" />
+
+                <TextView
+                    android:id="@+id/w_late"
+                    style="@style/TTWWidget.HeroSub"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:textColor="@color/widget_danger"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

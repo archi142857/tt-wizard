@@ -31,7 +31,7 @@
     <string name="w_no_route">강의실이 정해진 수업이 없어요</string>
     <string name="w_map_attr">© 국토지리정보원 · © OpenStreetMap</string>
     <string name="w_map_said">%1$s 동선 지도. %2$s</string>
-    <string name="w_late">%1$d분 늦음</string>
+    <string name="w_late">%1$d분 지각</string>
     <string name="w_today">오늘 · %1$s</string>
     <string name="w_no_class_today">오늘은 수업이 없어요</string>
     <string name="w_before_term">아직 개강 전이에요</string>
@@ -68,7 +68,8 @@
     <string name="w_preview_name">생명과학 1</string>
     <string name="w_preview_time">10:30~11:45</string>
     <string name="w_preview_place">26동 104호</string>
-    <string name="w_preview_hero">10:18 출발</string>
+    <string name="w_preview_hero_time">10:18</string>
+    <string name="w_preview_hero_word">출발</string>
     <string name="w_preview_hero_sub">걷기 12분</string>
     <string name="w_preview_today">오늘 · 10월 30일 (금)</string>
     <string name="w_preview_title">시간표 1</string>

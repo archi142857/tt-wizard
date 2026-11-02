@@ -68,6 +68,8 @@ def test_widget_data_shape(made):
     assert d["noMinutes"] == [[None, 0], [None, 0]]  # 이동시간을 모르면 걷기를 적지 않는다
     assert d["cls"] == "cls" and d["odd"] == {"v": 1, "colors": "item", "home": "", "terms": []}  # 모르는 학기·빈 칸은 뺀다
     assert d["names"] == [["[생명과학 1]", "A-104"], ["[대학 글쓰기 1]", "B-303"]]  # 이름·강의실 표기는 화면이 준다
+    # 수업을 누르면 앱이 여는 항목 시트(update77): 학기마다 대표 시간표 id, 수업마다 그 항목의 열쇠(T.itemKey)
+    assert d["ids"] == [True, True] and d["keysMatch"] == [["생명과학 1"], ["대학 글쓰기 1"]] and all(d["itemKeys"])
 
 
 def test_walking_matches_route_check(made):
@@ -136,6 +138,17 @@ def test_app_reads_widget_data(made, tmp_path):
     assert (h["winter"]["kind"], h["winter"]["at"]) == ("leave", "09:48")
     assert h["unknown"] == {"kind": "start", "at": "10:00", "walk": -1, "from": "", "late": 0}
     assert r["buildings"] == "HOME|A|B"  # 건물 id 와 출발·도착 지점을 읽는다(동선 지도 위젯)
+    # 수업을 누르면 여는 주소(update77): 화면이 만든 시간표 id·항목 열쇠를 그대로 읽고, 열쇠·id 가 주소에 못 넣는 글이면 뺀다(열쇠가 없으면 내 시간표)
+    assert r["keys"] == [made[0]["data"]["ttId"], *made[0]["data"]["itemKeys"]]
+    assert r["itemUrl"] == ["https://x/#tab=mine&sem=2026-2&tt=t1x&item=c123", "https://x/#tab=mine&sem=2026-2&item=L0440.000600-001",
+                            "https://x/#tab=mine&sem=2026-2", "https://x/#tab=mine", "https://x/#tab=mine&sem=2026-2&item=k1"]
+    # 다음 수업 위젯의 줄(update77 출발 시각 블록, 높이 dp·글자 크기): {과목명 두 줄, 강의실, 블록 안 아래 줄, 시각, 작은 블록}.
+    # 빼는 차례는 과목명 둘째 줄 → 강의실 → 블록 안 아래 줄 → 시각, 그래도 모자라면 블록을 줄인다(블록 아래 여백이 좌우와 같은 12 로 남게)
+    assert r["nextRows"] == ["11110", "01110", "00110", "00010", "00001", "00001", "00010", "01110"]
+    assert r["bigPart"] == [[0, 5], [3, 5], None]  # 큰 줄에서 크게 쓸 수: '10:18 출발'의 10:18, '걷기 12분'의 12
+    # 주간 격자의 칸 자리: 머리·시각 칸 16, 월~금, 9~15시. 그림(화소)과 누르는 칸(dp)이 같은 셈이라 배율만큼 같다
+    assert r["boxes"] == [[17.5, 38.75, 71.3, 92.25], [17.5, 104.75, 71.3, 158.25], [35.0, 209.5, 142.6, 316.5]]
+    assert r["weekFont"] == [0.85, 1.0, 1.3]
     # 누르면 여는 주소: 학기·요일(월 0 … 일 6). 화면이 route 를 읽으면 그 요일 동선 지도
     assert r["url"] == ["https://x/#tab=mine&sem=2026-2&route=4", "https://x/#tab=mine", "https://x/#tab=mine", "https://x/#tab=mine&sem=2027-W&route=0"]
     # 동선 지도 위젯(update71): 그날 구간(출발 지점 → 수업 → … → 출발 지점, 번호는 그날 차례, 돌아가는 길은 0)·핀·걷기 합
@@ -401,9 +414,44 @@ def test_widget_url_opens_day_map():
     js = f"{tabs}\n{nav}\nconsole.log(JSON.stringify({json.dumps(urls)}.map(navOf)));"
     run = subprocess.run(["node", "--input-type=module", "-e", js], capture_output=True, text=True, timeout=60)
     assert run.returncode == 0, run.stderr
+    no = {"tt": None, "item": None}
     assert json.loads(run.stdout) == [
-        {"tab": "mine", "sem": "2026-2", "route": 4}, {"tab": "mine", "sem": None, "route": None}, {"tab": "mine", "sem": "2027-W", "route": 0},
-        None, {"tab": "mine", "sem": None, "route": None}, None, None, {"tab": None, "sem": None, "route": 6}]
+        {"tab": "mine", "sem": "2026-2", "route": 4, **no}, {"tab": "mine", "sem": None, "route": None, **no},
+        {"tab": "mine", "sem": "2027-W", "route": 0, **no}, None, {"tab": "mine", "sem": None, "route": None, **no}, None, None,
+        {"tab": None, "sem": None, "route": 6, **no}]
     # 요일이 있으면 지도로 가는 길이 이어져 있다(대표 시간표가 없거나 못 열면 그 탭)
     assert "if (await routeDay(nav.route, nav.sem)) return;" in app and "goMine(() => routeTt(t, { day }));" in app
     assert 'afterResult = day === null ? snack : toMap;' in app and 'go("map");' in app
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="node 없음")
+def test_widget_item_url_opens_item_sheet():
+    """위젯에서 수업을 누르면 여는 주소(WidgetData.itemUrl, update77)를 화면(navOf)이 같은 뜻으로 읽는다: 학기·시간표 id·항목 열쇠.
+    goNav 는 itemNav 로 그 시간표(없으면 대표)를 내 시간표에 띄우고 항목 시트(openItem)를 연다"""
+    app = (ROOT / "web" / "js" / "app.js").read_text(encoding="utf-8")
+    tabs = re.search(r"^const TABS = \[.*?\];", app, re.M).group(0)
+    nav = re.search(r"^function navOf\(url\) \{.*?^\}", app, re.M | re.S).group(0)
+    urls = ["https://x/#tab=mine&sem=2026-2&tt=t1x&item=c123", "https://x/#tab=mine&sem=2026-2&item=L0440.000600-001",
+            "https://x/#tab=mine&sem=2026-2&tt=a%26b&item=x%20y", "https://x/#item=" + "a" * 65, "https://x/#item=k1"]
+    js = f"{tabs}\n{nav}\nconsole.log(JSON.stringify({json.dumps(urls)}.map(navOf)));"
+    run = subprocess.run(["node", "--input-type=module", "-e", js], capture_output=True, text=True, timeout=60)
+    assert run.returncode == 0, run.stderr
+    assert json.loads(run.stdout) == [
+        {"tab": "mine", "sem": "2026-2", "route": None, "tt": "t1x", "item": "c123"},
+        {"tab": "mine", "sem": "2026-2", "route": None, "tt": None, "item": "L0440.000600-001"},
+        {"tab": "mine", "sem": "2026-2", "route": None, "tt": None, "item": None},  # 주소에 못 넣는 글은 버린다(내 시간표만)
+        None, {"tab": None, "sem": None, "route": None, "tt": None, "item": "k1"}]
+    # 앱이 쓰는 열쇠 꼴(WidgetData.safeKey)과 화면이 받는 꼴이 같다
+    java = (JAVA / "WidgetData.java").read_text(encoding="utf-8")
+    assert 's.matches("[A-Za-z0-9._-]{1,64}")' in java and "/^[A-Za-z0-9._-]{1,64}$/" in nav
+    # 항목 시트로 가는 길: 시간표(tt, 없으면 대표)를 띄우고 openItem. 못 열면 그 탭(내 시간표)
+    assert "if (await itemNav(nav)) return;" in app and "openItem(nav.item, null);" in app
+    assert "list.find((x) => x.id === nav.tt) || list.find((x) => x.primary)" in app
+    # 위젯 쪽: 다음 수업의 수업 줄, 오늘 수업의 행, 주간 시간표의 칸(안드로이드 12 이상)이 그 수업의 주소를 연다
+    views = (JAVA / "WidgetViews.java").read_text(encoding="utf-8")
+    for call in ("v.setOnClickPendingIntent(R.id.w_lecture, openItem(c, t, l));", "r.setOnClickPendingIntent(R.id.r_root, openItem(c, t, l));",
+                 "hit.setOnClickPendingIntent(R.id.w_hit, openItem(c, t, l));"):
+        assert call in views
+    # 자바의 열쇠 꼴 확인: 주소에 넣는 열쇠는 timetables.js itemKey('교과목번호-강좌번호', 직접 넣은 일정 id)가 다 들어간다
+    tt = (ROOT / "web" / "js" / "timetables.js").read_text(encoding="utf-8")
+    assert "export const itemKey = (it) => (it.custom ? it.custom : `${it.course}-${it.no}`);" in tt

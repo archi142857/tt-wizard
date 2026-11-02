@@ -68,15 +68,17 @@ final class WeekBitmap {
         // 위젯 갱신의 그림 한도(화면 넓이 × 4바이트 × 1.5) 안에 두 장이 들게 한 장을 화면 넓이의 0.6 배까지로
         float area = Math.max(widthDp, 60) * Math.max(heightDp, 60) * dp * dp, cap = 0.6f * screen.widthPixels * screen.heightPixels;
         if (cap > 0 && area > cap) dp *= (float) Math.sqrt(cap / area);
-        float font = Math.min(Math.max(c.getResources().getConfiguration().fontScale, 0.85f), 1.3f);
+        float font = WidgetData.weekFont(c.getResources().getConfiguration().fontScale);
         int w = Math.max(1, Math.round(Math.max(widthDp, 60) * dp)), h = Math.max(1, Math.round(Math.max(heightDp, 60) * dp));
         Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bmp);
 
-        int days = WidgetData.dayCount(t);
-        int[] hrs = WidgetData.hours(t, days);
-        float head = 16 * dp * font, gutter = 16 * dp * font;
-        float colW = (w - gutter) / days, hourH = (h - head) / (hrs[1] - hrs[0]);
+        // 칸 자리는 WidgetData.WeekGrid(위젯의 누르는 칸도 같은 셈을 dp 로 쓴다: WidgetViews.week)
+        WidgetData.WeekGrid g = new WidgetData.WeekGrid(t, w, h, dp, font);
+        int days = g.days;
+        int[] hrs = g.hours;
+        float head = g.head, gutter = g.gutter;
+        float colW = g.colW, hourH = g.hourH;
         int today = WidgetData.weekday(now);
         int day = WidgetData.ymd(now);
         boolean inTerm = t.from <= day && day <= t.to;
@@ -119,7 +121,7 @@ final class WeekBitmap {
         place.setTextSize(8.5f * dp * font);
         place.setColor(ink.text2);
         place.setTextLocale(Locale.KOREAN);
-        float radius = 4 * dp, gap = 1.5f * dp, pad = 3 * dp;
+        float radius = 4 * dp, pad = 3 * dp;
         RectF box = new RectF();
         for (int d = 0; d < days; d++) {
             List<WidgetData.Lesson> list = t.days.get(d);
@@ -127,9 +129,8 @@ final class WeekBitmap {
             WidgetData.laneOf(list, lane, lanes);
             for (int i = 0; i < list.size(); i++) {
                 WidgetData.Lesson l = list.get(i);
-                float x0 = gutter + d * colW, laneW = colW / lanes[i];
-                box.set(x0 + lane[i] * laneW + gap, head + (l.start / 60f - hrs[0]) * hourH + gap / 2,
-                    x0 + (lane[i] + 1) * laneW - gap, head + (l.end / 60f - hrs[0]) * hourH - gap / 2);
+                float[] b = g.box(d, l, lane[i], lanes[i]);
+                box.set(b[0], b[1], b[2], b[3]);
                 fill.setColor("cls".equals(colors) ? ink.cls[clsIndex(l.cls)] : ink.items[Math.floorMod(l.color, ink.items.length)]);
                 canvas.drawRoundRect(box, radius, radius, fill);
                 drawText(canvas, box, pad, l, name, place);

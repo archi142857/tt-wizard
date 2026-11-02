@@ -35,6 +35,12 @@
             android:layout_height="match_parent"
             android:scaleType="fitCenter"
             android:visibility="visible" />
+
+        <!-- 수업 칸마다 투명한 누르는 칸(안드로이드 12 이상, WidgetViews.week 가 칸 자리에 dp 로 놓는다): 그 수업의 항목 시트. 칸 밖은 내 시간표 -->
+        <FrameLayout
+            android:id="@+id/w_hits"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </FrameLayout>
 
     <include

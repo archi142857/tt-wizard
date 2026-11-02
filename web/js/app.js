@@ -4639,14 +4639,17 @@ async function receiveLink(code) {
   }
   openShared(payload);
 }
-/** 바로가기 주소 → { tab, sem, route } 또는 null(10/30 백엔드: 홈 화면 위젯을 누르면 앱이 '…/tt-wizard/#tab=mine&sem=<학기>&route=<요일>' 로 열린다. 웹에서 같은 주소를
- *  열어도 같다: 나중의 홈 화면 바로가기). tab 은 탭 이름(TABS)일 때만, sem 은 학기 꼴('2026-2')일 때만, route 는 요일(월 0 … 일 6)일 때만. 시간표 링크(#t=)는 linkCodeOf */
+/** 바로가기 주소 → { tab, sem, route, tt, item } 또는 null(10/30 백엔드: 홈 화면 위젯을 누르면 앱이 '…/tt-wizard/#tab=mine&sem=<학기>&route=<요일>' 로 열린다. 웹에서 같은 주소를
+ *  열어도 같다: 나중의 홈 화면 바로가기). tab 은 탭 이름(TABS)일 때만, sem 은 학기 꼴('2026-2')일 때만, route 는 요일(월 0 … 일 6)일 때만. 시간표 링크(#t=)는 linkCodeOf.
+ *  item·tt(11/2 백엔드 update77): 위젯에서 수업을 누르면 '…&sem=<학기>&tt=<시간표 id>&item=<항목 열쇠>'(T.itemKey). 영문·숫자·'.'·'_'·'-' 64자까지일 때만 */
 function navOf(url) {
   const hash = String(url || "").split("#")[1];
-  if (!hash || !/(^|&)(tab|sem|route)=/.test(hash)) return null;
+  if (!hash || !/(^|&)(tab|sem|route|item)=/.test(hash)) return null;
   const q = new URLSearchParams(hash), t = q.get("tab"), sem = q.get("sem") || "", day = q.get("route") || "";
-  const nav = { tab: TABS.includes(t) ? t : null, sem: /^\d{4}-[12SW]$/.test(sem) ? sem : null, route: /^[0-6]$/.test(day) ? Number(day) : null };
-  return nav.tab || nav.sem || nav.route !== null ? nav : null;
+  const key = (x) => (/^[A-Za-z0-9._-]{1,64}$/.test(x || "") ? x : null);
+  const nav = { tab: TABS.includes(t) ? t : null, sem: /^\d{4}-[12SW]$/.test(sem) ? sem : null, route: /^[0-6]$/.test(day) ? Number(day) : null,
+    tt: key(q.get("tt")), item: key(q.get("item")) };
+  return nav.tab || nav.sem || nav.route !== null || nav.item ? nav : null;
 }
 /** 바로가기를 연다: 학기 목록을 받은 뒤 그 학기(편람이 있는 학기면. 앱 전체의 학기)로 바꾸고, 요일(route)이 있으면 그 요일 동선 지도(아래 routeDay),
  *  못 열면 그 탭으로(이미 그 탭이면 그 탭의 첫 화면) */
@@ -4654,13 +4657,36 @@ let lastNav = null; // 앱: 켤 때 같은 위젯 주소가 launchUrl 과 'ttw:o
 async function goNav(nav) {
   await semReady;
   if (nav.sem && nav.sem !== state.semester && state.semesters.some(([x]) => x === nav.sem)) switchSemester(nav.sem);
-  if (nav.route !== null && nav.route !== undefined) {
+  if (nav.item) { // 위젯에서 수업을 눌렀다: 그 수업의 항목 시트(아래 itemNav). 못 열면 그 탭으로
+    const sig = `item|${nav.sem}|${nav.tt}|${nav.item}`;
+    if (lastNav && lastNav.sig === sig && Date.now() - lastNav.at < 3000) return;
+    lastNav = { sig, at: Date.now() };
+    if (await itemNav(nav)) return;
+  } else if (nav.route !== null && nav.route !== undefined) {
     const sig = `${nav.sem}|${nav.route}`;
     if (lastNav && lastNav.sig === sig && Date.now() - lastNav.at < 3000) return;
     lastNav = { sig, at: Date.now() };
     if (await routeDay(nav.route, nav.sem)) return;
   }
   if (nav.tab) switchTab(nav.tab);
+}
+/** 홈 화면 위젯에서 수업을 누르면 그 수업의 항목 시트(11/2 사용자: "위젯은 강의를 눌렀을 때 그 강의 정보가 뜨도록, 시간표에 저장해놓은 강의 정보가 뜨도록",
+ *  백엔드 update77): 내 시간표에 그 시간표(tt. 없거나 못 찾으면 그 학기 대표 시간표: 위젯이 그리는 시간표)를 띄우고 그 항목 시트를 연다(과목은 넣은 분반과
+ *  바꾼 시간·장소, 직접 넣은 일정은 일정 시트. openItem). 그 학기 편람을 받는 중이면 다른 분반·편람 바뀜까지 보이게 5초까지 기다린다(못 받으면 적어 둔 값으로).
+ *  그 학기로 옮기지 못했거나(편람이 없는 학기) 시간표에 그 항목이 없으면(위젯 자료가 옛것) false: 부르는 쪽이 내 시간표를 연다 */
+async function itemNav(nav) {
+  const sem = mine.sem, until = Date.now() + 5000;
+  if (nav.sem && sem !== nav.sem) return false;
+  while (state.loading && state.semester === sem && Date.now() < until) await new Promise((r) => setTimeout(r, 100));
+  await viewDone; // 웹: 주소의 # 를 바꾸면 popstate 가 먼저 화면 전환을 시작해 둔다
+  const list = shownTts(), t = list.find((x) => x.id === nav.tt) || list.find((x) => x.primary);
+  if (mine.sem !== sem || !t || !t.items.some((x) => T.itemKey(x) === nav.item)) return false;
+  for (const d of document.querySelectorAll("dialog[open]")) d.close(); // 열어 둔 시트·팝업 위로 띄우지 않는다
+  goMine(() => {
+    if (curTt().id !== t.id) { selectTt(t.id); renderMine(); }
+    openItem(nav.item, null);
+  });
+  return true;
 }
 /** 홈 화면 위젯을 누르면 그 요일 동선 지도(10/30 사용자: "위젯 눌렀을 때 딱 지도 화면이 떴으면 좋겠다니깐?", 백엔드 update72): 그 학기 편람을 받은 뒤
  *  대표 시간표를 '동선 확인하기'처럼 동선 탐색으로 보내고(어느 탭에 있었든 내 시간표를 거친다: 동선 확인하기는 내 시간표에서 탐색 탭으로 간다),
@@ -5826,7 +5852,7 @@ function setTheme(on) {
 function askTheme() {
   if (!themeOn() || store.get("themeAsked", "") === season.event || !store.get("made", false) || launchLink) return; // 공유받은 시간표를 열 때는 묻지 않는다
   if ((screen !== "input" && screen !== "mine") || document.querySelector("dialog[open]")) return; // 그새 다른 화면이나 시트를 열었으면 끼어들지 않고 다음에 켤 때 묻는다
-  if (launchNav?.route != null || lastNav) return; // 홈 화면 위젯으로 그 요일 지도를 여는 중(goNav): 지도 위에 띄우지 않고 다음에 켤 때 묻는다
+  if (launchNav?.route != null || launchNav?.item || lastNav) return; // 홈 화면 위젯으로 그 요일 지도나 수업의 항목 시트를 여는 중(goNav): 그 위에 띄우지 않고 다음에 켤 때 묻는다
   store.set("themeAsked", season.event);
   showAsk();
 }
@@ -6845,7 +6871,7 @@ showView(ROOT[tab], "init");
 delete document.documentElement.dataset.launch;
 startApp();
 if (launchLink) receiveLink(launchLink);
-if (launchNav && (launchNav.sem || launchNav.route !== null)) goNav({ sem: launchNav.sem, tab: null, route: launchNav.route });
+if (launchNav && (launchNav.sem || launchNav.route !== null || launchNav.item)) goNav({ ...launchNav, tab: null });
 setTimeout(askTheme, 400); // 첫 화면이 그 테마로 보인 뒤에 묻는다
 // 이미 열어 둔 웹 앱의 주소 칸에 시간표 링크를 붙여 넣었다(주소의 # 만 바뀌면 새로 열리지 않는다)
 window.addEventListener("hashchange", () => {

@@ -15,9 +15,10 @@ import org.json.JSONObject;
  * 홈 화면 위젯이 읽는 자료와 '지금 무엇을 보일지' — 백엔드 세션(10/30).
  * 자료는 app/src/native.js 가 기기 저장소의 대표 시간표로 web/js/timetables.js 의 widgetDataFromStore 를 돌려 TTWWidget.update 로 넘기고
  * WidgetPlugin 이 기기 안(SharedPreferences)에 둔 JSON 이다(update68):
- *   { v, colors: "item"|"cls", home, terms: [{ sem, label, title, from, to, days: [[{ name, place, b, start, end, color, cls, walk, from, late }] × 7], untimed }] }
+ *   { v, colors: "item"|"cls", home, terms: [{ sem, id, label, title, from, to, days: [[{ name, k, place, b, start, end, color, cls, walk, from, late }] × 7], untimed }] }
  * (b = 건물 id, home = 출발·도착 지점 id: 동선 지도 위젯이 길을 그린다. update70 에서 더함, 없으면 "".
- *  back = 그날 마지막 위치 확정 수업에만, 출발·도착 지점으로 돌아가는 분: 동선 지도 위젯의 걷기 합. update71)
+ *  back = 그날 마지막 위치 확정 수업에만, 출발·도착 지점으로 돌아가는 분: 동선 지도 위젯의 걷기 합. update71.
+ *  id = 대표 시간표 id, k = 항목 열쇠: 수업을 누르면 앱이 그 항목 시트를 연다(itemUrl). update77, 옛 자료면 "")
  * 위젯은 앱이 꺼져 있어도 이 자료와 기기 시각만으로 그린다. 이 클래스는 안드로이드 화면 코드를 쓰지 않는다(org.json 과 Calendar 만).
  */
 final class WidgetData {
@@ -37,12 +38,19 @@ final class WidgetData {
         final int late; // 앞 수업에서 오면 늦는 분
         final String b; // 건물 id(이동시간 지점 "301"), 강의실 미정이면 ""
         final int back; // 그날 마지막 위치 확정 수업이면 출발·도착 지점으로 돌아가는 분, 아니면(모르면) -1
+        final String key; // 항목 열쇠(timetables.js itemKey: '교과목번호-강좌번호', 직접 넣은 일정은 그 id). 모르면 ""
 
         Lesson(String name, String place, String cls, int start, int end, int color, int walk, boolean fromHome, int late) {
-            this(name, place, cls, start, end, color, walk, fromHome, late, "", -1);
+            this(name, place, cls, start, end, color, walk, fromHome, late, "", -1, "");
         }
 
         Lesson(String name, String place, String cls, int start, int end, int color, int walk, boolean fromHome, int late, String b, int back) {
+            this(name, place, cls, start, end, color, walk, fromHome, late, b, back, "");
+        }
+
+        Lesson(String name, String place, String cls, int start, int end, int color, int walk, boolean fromHome, int late, String b, int back,
+               String key) {
+            this.key = key == null ? "" : key;
             this.b = b == null ? "" : b;
             this.back = back;
             this.name = name;
@@ -65,6 +73,7 @@ final class WidgetData {
     /** 대표 시간표가 있는 학기 하나 */
     static final class Term {
         final String sem;
+        final String id; // 대표 시간표 id(모르면 "")
         final String label; // "2026년 2학기"
         final String title; // 대표 시간표 이름
         final int from;
@@ -73,7 +82,12 @@ final class WidgetData {
         final int untimed;
 
         Term(String sem, String label, String title, int from, int to, List<List<Lesson>> days, int untimed) {
+            this(sem, "", label, title, from, to, days, untimed);
+        }
+
+        Term(String sem, String id, String label, String title, int from, int to, List<List<Lesson>> days, int untimed) {
             this.sem = sem;
+            this.id = id == null ? "" : id;
             this.label = label;
             this.title = title;
             this.from = from;
@@ -140,12 +154,13 @@ final class WidgetData {
                 int walk = x.isNull("walk") ? -1 : x.optInt("walk", -1);
                 list.add(new Lesson(x.optString("name", ""), x.optString("place", ""), x.optString("cls", "etc"), start, end,
                     Math.floorMod(x.optInt("color", 0), 8), walk, !"class".equals(x.optString("from")), Math.max(0, x.optInt("late", 0)),
-                    x.optString("b", ""), x.isNull("back") ? -1 : x.optInt("back", -1)));
+                    x.optString("b", ""), x.isNull("back") ? -1 : x.optInt("back", -1), x.optString("k", "")));
             }
             Collections.sort(list, (a, b) -> a.start != b.start ? Integer.compare(a.start, b.start) : Integer.compare(a.end, b.end));
             days.add(list);
         }
-        return new Term(o.optString("sem", ""), o.optString("label", ""), o.optString("title", ""), from, to, days, Math.max(0, o.optInt("untimed", 0)));
+        return new Term(o.optString("sem", ""), o.optString("id", ""), o.optString("label", ""), o.optString("title", ""), from, to, days,
+            Math.max(0, o.optInt("untimed", 0)));
     }
 
     /** "2026-09-01" → 20260901, 아니면 -1 */
@@ -253,7 +268,7 @@ final class WidgetData {
     /**
      * 다음 수업 위젯의 큰 줄과 그 아래 줄(update70, 사용자: 출발·걷기가 "내용의 중심이 되도록 크고 잘 보이게").
      *   LEAVE  그날 첫 수업(출발 지점에서): 큰 줄 '14:44 출발', 아래 '걷기 16분'
-     *   WALK   앞 수업에서: 큰 줄 '걷기 8분', 아래 '25동에서'(앞 위치 확정 수업의 건물)와 늦으면 '5분 늦음'
+     *   WALK   앞 수업에서: 큰 줄 '걷기 8분', 아래 '25동에서'(앞 위치 확정 수업의 건물)와 늦으면 '5분 지각'(update77. 전에는 '5분 늦음')
      *   END    지금 수업이 오늘 마지막: 큰 줄 '16:50 끝', 아래 '오늘 마지막 수업'
      *   START  걷는 시간을 모름(강의실 미정, 이동시간 자료 없음): 큰 줄 '15:00 시작'
      */
@@ -313,6 +328,82 @@ final class WidgetData {
         if (sem != null && sem.matches("\\d{4}-[12SW]")) url.append("&sem=").append(sem);
         if (day >= 0 && day < 7) url.append("&route=").append(day);
         return url.toString();
+    }
+
+    /** 열쇠·id 로 쓸 수 있는 글(화면 navOf 와 같은 꼴: 영문·숫자·'.'·'_'·'-' 64자까지) */
+    static boolean safeKey(String s) {
+        return s != null && s.matches("[A-Za-z0-9._-]{1,64}");
+    }
+
+    /**
+     * 수업을 누르면 여는 주소(update77, 사용자 11/2: "위젯은 강의를 눌렀을 때 그 강의 정보가 뜨도록, 시간표에 저장해놓은 강의 정보가 뜨도록"):
+     * '…#tab=mine&sem=2026-2&tt=<대표 시간표 id>&item=<항목 열쇠>' → 화면이 그 시간표를 내 시간표에 띄우고 그 항목 시트(저장한 분반·바꾼 시간·장소)를 연다.
+     * 열쇠를 모르면(옛 자료) 내 시간표(openUrl 과 같다)
+     */
+    static String itemUrl(String base, String sem, String id, String key) {
+        String url = openUrl(base, sem, -1);
+        if (!safeKey(key)) return url;
+        return url + (safeKey(id) ? "&tt=" + id : "") + "&item=" + key;
+    }
+
+    // ------------------------------------------------------------ 다음 수업 위젯의 줄(update77: 출발 시각 블록)
+
+    /**
+     * 높이 h(dp)·기기 글자 크기 f 에 들어가는 줄: {과목명 두 줄, 강의실, 블록 안 아래 줄, 시각, 작은 블록}. 머리 줄·과목명 한 줄·블록은 늘 둔다.
+     * 위아래 여백 24 + 머리와 과목명 사이 0 + 블록 위 띄움 8 + 블록 안 여백 16 에, 글자 크기를 따르는 줄(머리 16, 과목명 23씩, 시각·강의실 19씩,
+     * 큰 시각 38, 아래 줄 19 + 사이 2)을 더한 높이. 빼는 차례는 전과 같다: 과목명 둘째 줄 → 강의실 → 블록 안 아래 줄 → 시각.
+     * 그래도 모자라면(옛 런처 2×2 의 110dp) 블록을 줄인다(시각 26, 안 여백 5): 위아래 여백이 좌우와 같은 12 로 남게(사용자 11/2: "밑 부분 패딩도 좌우랑 동일하게")
+     */
+    static boolean[] nextRows(int h, float f) {
+        float base = 48 + (16 + 23 + 38) * f; // 블록 위 띄움 8 + 블록 안 여백 16 + 위아래 여백 24
+        boolean time = h >= base + 19 * f + 1;
+        boolean sub = h >= base + 2 + 38 * f + 1;
+        boolean place = h >= base + 2 + 57 * f + 1;
+        boolean twoLines = h >= base + 2 + 80 * f + 1;
+        boolean compact = h < base + 1;
+        return new boolean[] { twoLines, place, sub, time, compact };
+    }
+
+    /** 큰 줄 글에서 크게 쓸 수(시각 '10:18' 이나 걷는 분 '8')의 [처음, 끝). 없으면 null: 글 전체를 크게 */
+    static int[] bigPart(String text, String number) {
+        if (text == null || number == null || number.isEmpty()) return null;
+        int i = text.indexOf(number);
+        return i < 0 ? null : new int[] { i, i + number.length() };
+    }
+
+    // ------------------------------------------------------------ 주간 시간표 격자의 자리(그림과 누르는 칸이 같은 셈을 쓴다, update77)
+
+    /** 주간 격자의 칸 자리. unit = 1dp 가 몇 단위인지(그림은 화소, 누르는 칸은 dp 라 1), font = 격자 글자 배율(weekFont) */
+    static final class WeekGrid {
+        final int days;
+        final int[] hours;
+        final float head;
+        final float gutter;
+        final float colW;
+        final float hourH;
+        final float gap;
+
+        WeekGrid(Term t, float width, float height, float unit, float font) {
+            days = dayCount(t);
+            hours = hours(t, days);
+            head = 16 * unit * font;
+            gutter = 16 * unit * font;
+            colW = (width - gutter) / days;
+            hourH = (height - head) / (hours[1] - hours[0]);
+            gap = 1.5f * unit;
+        }
+
+        /** 그 요일(day) 수업 하나의 칸 {왼쪽, 위, 오른쪽, 아래}. lane·lanes 는 laneOf 의 값(겹치면 나란히) */
+        float[] box(int day, Lesson l, int lane, int lanes) {
+            float x0 = gutter + day * colW, laneW = colW / lanes;
+            return new float[] { x0 + lane * laneW + gap, head + (l.start / 60f - hours[0]) * hourH + gap / 2,
+                x0 + (lane + 1) * laneW - gap, head + (l.end / 60f - hours[0]) * hourH - gap / 2 };
+        }
+    }
+
+    /** 격자 글자 배율: 기기 글자 크기를 따르되 칸이 작아 0.85~1.3 배 */
+    static float weekFont(float fontScale) {
+        return Math.min(Math.max(fontScale, 0.85f), 1.3f);
     }
 
     // ------------------------------------------------------------ 동선 지도 위젯(update71)

@@ -513,13 +513,15 @@ export function timetableFromImage(payload, list, { now = new Date() } = {}) {
 //
 // 자료 { v: 1, colors: "item" | "cls"(칸 색 설정), home: 출발·도착 지점 id(걷기를 셀 때 쓴 것, 모르면 ""), terms: [학기, ...] }.
 //   같은 시간표면 같은 글이 되게 만든 시각은 넣지 않는다(앱 연결·앱이 같은 자료를 거른다)
-//   학기 { sem, label: "2026년 2학기", title: 대표 시간표 이름, from, to: "YYYY-MM-DD"(위젯이 이 학기를 보이는 날들, termDates),
+//   학기 { sem, id: 대표 시간표 id, label: "2026년 2학기", title: 대표 시간표 이름, from, to: "YYYY-MM-DD"(위젯이 이 학기를 보이는 날들, termDates),
 //          days: 월~일 일곱 칸 [[수업, ...], ...](시작 시각 차례), untimed: 시간이 정해지지 않은 항목 수 }
-//   수업 { name, place: "301동 118호"(강의실 미정이면 ""), b: 건물 id(이동시간 지점 "301", 강의실 미정이면 ""), start, end: 자정부터 분,
+//   수업 { name, k: 항목 열쇠(itemKey: '교과목번호-강좌번호' 또는 직접 넣은 일정의 id), place: "301동 118호"(강의실 미정이면 ""),
+//          b: 건물 id(이동시간 지점 "301", 강의실 미정이면 ""), start, end: 자정부터 분,
 //          color: 0~7, cls: "req"|"elec"|"gen"|"etc", walk: 앞 자리에서 걷는 분(반올림. 모르면 null),
 //          from: "home"(그날 첫 위치 확정 수업 = 출발 지점에서) | "class"(앞 수업에서), late: 앞 수업에서 오면 늦는 분(반올림. 늦지 않으면 0),
 //          back: 그날 마지막 위치 확정 수업에만, 출발·도착 지점으로 돌아가는 분(반올림. 모르면 없음) }
 //   b·home 은 동선 지도 위젯이 길을 그리고, back 은 그날 걷기 합을 세는 데 쓴다(10/30 update70·71)
+//   id·k 는 위젯에서 수업을 누르면 앱이 그 시간표에 저장한 항목 시트를 여는 데 쓴다(11/2 update77, 주소 '#tab=mine&sem=…&tt=<id>&item=<k>')
 //   걷는 시간은 동선 탐색(engine.evaluate)과 같은 규칙이다: 강의실 미정 수업은 자리를 옮기지 않고 그 앞의 쉬는 시간을 다음 이동에 보탠다.
 
 export const WIDGET_VERSION = 1;
@@ -566,7 +568,7 @@ function widgetDay(list, { name, place, minutes, home }) {
   let prevLoc = home || "", prevEnd = null, placed = false, spare = 0, last = null;
   const day = list.map(({ e, m }) => {
     const it = e.item;
-    const x = { name: String(name(e) || ""), place: m.building ? String(place(m) || "") : "", b: String(m.building || ""), start: m.start, end: m.end,
+    const x = { name: String(name(e) || ""), k: String(e.key || itemKey(it)), place: m.building ? String(place(m) || "") : "", b: String(m.building || ""), start: m.start, end: m.end,
       color: Number.isInteger(it.color) && it.color >= 0 ? it.color % COLORS : 0, cls: it.custom ? "etc" : CLS_KEYS[it.cls] || "etc",
       walk: null, from: placed ? "class" : "home", late: 0 };
     if (!m.building) { // 강의실 미정: 자리를 옮기지 않고 쉬는 시간만 다음 이동에 보탠다
@@ -614,7 +616,7 @@ export function widgetData(terms, { name = (e) => (e.item.custom ? e.item.title 
       if (!ms.length) { untimed += 1; continue; }
       for (const m of ms) days[m.day].push({ e, m });
     }
-    out.push({ sem: t.sem, label: termLabel(t.sem), title: String(t.title || ""), from: dates.from, to: dates.to,
+    out.push({ sem: t.sem, id: String(t.id || ""), label: termLabel(t.sem), title: String(t.title || ""), from: dates.from, to: dates.to,
       days: days.map((list) => widgetDay(list, { name, place, minutes, home })), untimed });
   }
   return { v: WIDGET_VERSION, colors: colorMode(colors), home: String(home || ""), terms: out };
