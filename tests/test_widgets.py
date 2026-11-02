@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 import build_app  # noqa: E402
 import export_web as ew  # noqa: E402
+import widget_themes as wt  # noqa: E402
 
 ANDROID = ROOT / "app" / "android" / "app" / "src" / "main"
 JAVA = ANDROID / "java" / "com" / "ttwizard" / "app"
@@ -55,7 +56,7 @@ def test_terms_and_semesters(made):
 
 def test_widget_data_shape(made):
     d = made[0]["data"]
-    assert d["keys"] == ["v", "colors", "home", "terms"] and d["v"] == 1 and d["colors"] == "item"
+    assert d["keys"] == ["v", "colors", "home", "scheme", "themeOff", "terms"] and d["v"] == 1 and d["colors"] == "item"
     assert d["same"]  # 같은 시간표면 같은 글(만든 시각을 넣지 않아 앱 연결·앱이 같은 자료를 거른다)
     assert d["terms"] == [["2026-2", "2026년 2학기", "시간표 1", "2026-09-01", "2026-12-21", 1, [2, 0, 2, 0, 1, 0, 0]],
                           ["2027-1", "2027년 1학기", "봄", "2027-03-01", "2027-06-21", 0, [0, 1, 0, 0, 0, 0, 0]]]
@@ -66,10 +67,13 @@ def test_widget_data_shape(made):
     assert d["home"] == "HOME" and d["buildings"] == ["A", "B"]  # 동선 지도 위젯이 길을 그릴 건물 id 와 출발·도착 지점
     assert d["back"] == [None, 30]  # 그날 마지막 위치 확정 수업에만 돌아가는 분(B → HOME)
     assert d["noMinutes"] == [[None, 0], [None, 0]]  # 이동시간을 모르면 걷기를 적지 않는다
-    assert d["cls"] == "cls" and d["odd"] == {"v": 1, "colors": "item", "home": "", "terms": []}  # 모르는 학기·빈 칸은 뺀다
+    assert d["cls"] == "cls" and d["odd"] == {"v": 1, "colors": "item", "home": "", "scheme": "system", "themeOff": "", "terms": []}  # 모르는 학기·빈 칸은 뺀다
     assert d["names"] == [["[생명과학 1]", "A-104"], ["[대학 글쓰기 1]", "B-303"]]  # 이름·강의실 표기는 화면이 준다
     # 수업을 누르면 앱이 여는 항목 시트(update77): 학기마다 대표 시간표 id, 수업마다 그 항목의 열쇠(T.itemKey)
     assert d["ids"] == [True, True] and d["keysMatch"] == [["생명과학 1"], ["대학 글쓰기 1"]] and all(d["itemKeys"])
+    # 앱 테마(update78): 고른 라이트·다크(그 밖은 기본 = 기기 설정)와 그 해에 끈 이벤트 테마('<테마>-<해>'·'<테마>-test', 그 밖은 "")
+    assert d["theme"] == ["system", ""]
+    assert d["themes"] == [["light", "xmas-2026"], ["dark", "xmas-test"], ["system", ""], ["system", ""], ["system", ""], ["system", ""], ["dark", ""]]
 
 
 def test_walking_matches_route_check(made):
@@ -85,7 +89,8 @@ def test_widget_data_from_device_store(made):
     대표가 아닌 시간표·끝난 학기는 빼고, 모르는 출발 지점은 자료의 첫 출발 후보, 이동 기준은 둔 값(flat)"""
     st = made[0]["store"]
     assert st["same"] and st["sems"] == [["2099-2", "대표"]] and all(isinstance(w, int) for w in st["walks"])
-    assert st["noCampus"] == [None, None] and st["nothing"] == {"v": 1, "colors": "item", "home": "", "terms": []}
+    assert st["noCampus"] == [None, None] and st["nothing"] == {"v": 1, "colors": "item", "home": "", "scheme": "system", "themeOff": "", "terms": []}
+    assert st["theme"] == ["dark", "xmas-2099"]  # 테마 탭에서 고른 것·그 해에 끈 이벤트 테마(update78)
 
 
 @pytest.mark.skipif(shutil.which("javac") is None or shutil.which("java") is None, reason="JDK 없음")
@@ -145,7 +150,19 @@ def test_app_reads_widget_data(made, tmp_path):
     # 다음 수업 위젯의 줄(update77 출발 시각 블록, 높이 dp·글자 크기): {과목명 두 줄, 강의실, 블록 안 아래 줄, 시각, 작은 블록}.
     # 빼는 차례는 과목명 둘째 줄 → 강의실 → 블록 안 아래 줄 → 시각, 그래도 모자라면 블록을 줄인다(블록 아래 여백이 좌우와 같은 12 로 남게)
     assert r["nextRows"] == ["11110", "01110", "00110", "00010", "00001", "00001", "00010", "01110"]
+    # 머리 띠(update78): 띠 글(13 굵게)이 그전 머리 줄 16 보다 높게 나온 만큼만 기준을 올린다(낮게 나오면 그대로)
+    assert r["nextRowsBand"] == ["01110", "00110", "01110", "01110", "11110"]
     assert r["bigPart"] == [[0, 5], [3, 5], None]  # 큰 줄에서 크게 쓸 수: '10:18 출발'의 10:18, '걷기 12분'의 12
+    # 큰 줄은 말줄임하지 않는다(update78, 디자인 106판): 32(작은 블록 26)가 들면 그것, 아니면 26, 그래도 넘치면 드는 크기(0.5 내림, 적어도 12)
+    assert r["heroSize"] == [32, 26, 22.5, 26, 12, 32]
+    # 블록 아래 줄 {아래 글, 지각}: 둘이 들면 둘 다, 넘치면 '25동에서'를 빼고 '5분 지각'만, 그것도 넘치면 줄째
+    assert r["heroLine"] == ["11", "01", "00", "10", "00", "01", "00"]
+    # 오늘 수업 행 아래 줄: 넘치면 '걷기 n분' → '10:18 출발' 차례로 덩이째 뺀다. 강의실은 남기고(넘치면 끝이 줄어든다), 강의실이 없으면 줄이 없다
+    assert r["rowSub"] == ["26동 104호 · 10:18 출발 · 걷기 12분", "26동 104호 · 10:18 출발", "26동 104호", "26동 104호", "10:18 출발", "", "1동 303호", ""]
+    # 위젯 테마(update78, 0 기본·1 라이트·2 다크·3 크리스마스): 11/30 23:59, 12/1 0:00, 12/31 23:59, 1/1 0:00, 이듬해 12/15.
+    # 크리스마스 기간(12월 한 달, 기기 날짜)이면 고른 라이트·다크보다 앞서고, 그 해에 끈 것(xmas-2026)은 그 해에만 꺼진다. 모르는 고르기는 기본
+    assert r["theme"] == ["system:03303", "light:13313", "dark:22223", "system:03303"]
+    assert r["themes"] == "1:xmas/12-01/12-31"
     # 주간 격자의 칸 자리: 머리·시각 칸 16, 월~금, 9~15시. 그림(화소)과 누르는 칸(dp)이 같은 셈이라 배율만큼 같다
     assert r["boxes"] == [[17.5, 38.75, 71.3, 92.25], [17.5, 104.75, 71.3, 158.25], [35.0, 209.5, 142.6, 316.5]]
     assert r["weekFont"] == [0.85, 1.0, 1.3]
@@ -231,42 +248,156 @@ def _resolve(tokens: dict, name: str, base: dict | None = None) -> str:
     return value.upper()
 
 
+XMAS = 'html[data-theme="xmas"], .mini.is-xmas {'  # 크리스마스 블록(없는 토큰은 라이트 값)
+
+
+def _java_colors(body: str) -> list[str]:
+    """자바 색 표의 값들(#RRGGBB). all(n, 0xFF…) 는 n 번"""
+    out = []
+    for m in re.finditer(r"all\((\d+), 0xFF([0-9A-F]{6})\)|0xFF([0-9A-F]{6})", body):
+        out += ["#" + m.group(2)] * int(m.group(1)) if m.group(1) else ["#" + m.group(3)]
+    return out
+
+
 def test_widget_colors_follow_web_tokens():
-    """위젯 색(values·values-night 의 widget_*, 주간 격자 그림의 색)이 웹 화면의 기본 테마 토큰(라이트·다크)과 같다"""
+    """위젯 색이 웹 화면의 테마 토큰과 같다: 기본(기기 설정) 판의 values·values-night 의 widget_*, 앱 테마 한 벌(update78)의 widget_*_light·_dark·_xmas,
+    주간 격자·동선 지도 그림의 색(LIGHT·DARK·XMAS). 크리스마스는 그 블록에 없는 토큰이 라이트 값이다(바탕 지도 등)"""
     css = (ROOT / "web" / "style.css").read_text(encoding="utf-8")
     light = _tokens(css, ":root, .mini.is-light, .mini.is-xmas {")
     dark = _tokens(css, ':root[data-scheme="dark"]:not([data-theme]) {')
-    names = {"bg": "card", "text": "text", "text2": "text2", "text3": "text3", "line": "line", "accent": "accent-text",
-             "accent_weak": "accent-weak", "danger": "danger"}
-    names.update({f"mark_item{i}": f"item-{i}-dot" for i in range(8)})
-    names.update({f"mark_{k}": f"cls-{k}" for k in ("req", "elec", "gen", "etc")})
-    names.update({f"fill_item{i}": f"item-{i}" for i in range(8)})
-    # 동선 지도 위젯의 미리 보기 그림(update71)
-    names.update({"map_land": "map-land", "map_green": "map-green", "map_road": "map-road", "map_road_line": "map-road-line",
-                  "map_building": "map-building", "route": "route", "pin": "accent", "on_pin": "on-color", "home": "home", "on_home": "on-home"})
+    xmas = _tokens(css, XMAS)
+    names = wt.COLOR_TOKENS
+    assert {"band", "on_band", "on_band3"} <= names.keys()  # 머리 띠(update78): bg, on-bg-heading, on-bg-text3
     for folder, tokens, base in (("values", light, None), ("values-night", dark, light)):
         colors = dict(re.findall(r'<color name="widget_(\w+)">(#[0-9A-Fa-f]{6})</color>', (RES / folder / "colors.xml").read_text(encoding="utf-8")))
         assert colors.keys() == names.keys(), folder
         for res, token in names.items():
             assert colors[res].upper() == _resolve(tokens, token, base), (folder, res, token)
+    # 앱 테마 한 벌의 색(scripts/widget_themes.py 가 만든 values/widget_themes.xml): 그 한 벌이 쓰는 이름마다 같은 토큰 값, 출처 글 바탕은 card 90%
+    made = dict(re.findall(r'<color name="widget_(\w+)">(#[0-9A-Fa-f]{6,8})</color>', (RES / "values" / "widget_themes.xml").read_text(encoding="utf-8")))
+    for theme, tokens, base in (("light", light, None), ("dark", dark, light), ("xmas", xmas, light)):
+        mine = {k[: -len(theme) - 1]: v for k, v in made.items() if k.endswith(f"_{theme}")}
+        assert {"bg", "text", "text2", "text3", "accent", "accent_weak", "danger", "band", "on_band", "on_band3", "attr_bg"} <= mine.keys(), theme
+        for res, value in mine.items():
+            want = "#E6" + _resolve(tokens, "card", base)[1:] if res == "attr_bg" else _resolve(tokens, names[res], base)
+            assert value.upper() == want, (theme, res)
+    assert made["band_xmas"] == "#103924" and made["on_band_xmas"] == "#FFFFFF" and made["accent_xmas"] == "#0D6F44"  # 디자인 106판 '크리스마스 한 벌'
     java = (JAVA / "WeekBitmap.java").read_text(encoding="utf-8")
-    for name, tokens, base in (("LIGHT", light, None), ("DARK", dark, light)):
+    for name, tokens, base in (("LIGHT", light, None), ("DARK", dark, light), ("XMAS", xmas, light)):
         body = re.search(rf"static final Ink {name} = new Ink\((.*?)\);", java, re.S).group(1)
-        got = ["#" + x[4:] for x in re.findall(r"0xFF[0-9A-F]{6}", body)]
-        want = [_resolve(tokens, k, base) for k in ("text", "text2", "text3", "line", "accent-text", "accent-weak")]
+        want = [_resolve(tokens, k, base) for k in ("text3", "line", "accent-text", "accent-weak")]
         want += [_resolve(tokens, f"item-{i}", base) for i in range(8)] + [_resolve(tokens, f"cls-{k}-bg", base) for k in ("req", "elec", "gen", "etc")]
-        assert got == want, name
-    # 동선 지도 그림(DayMapBitmap)의 색: TOKENS 차례의 웹 토큰 값(라이트·다크), 출처 글 바탕은 card 90%
+        # 칸 위 글자색(칸마다, 디자인 106판: 크리스마스의 짙은 칸은 흰 글자)
+        want += [_resolve(tokens, f"item-{i}-fg", base) for i in range(8)] + [_resolve(tokens, f"item-{i}-fg2", base) for i in range(8)]
+        want += [_resolve(tokens, f"cls-{k}-fg", base) for k in ("req", "elec", "gen", "etc")]
+        want += [_resolve(tokens, f"cls-{k}-fg2", base) for k in ("req", "elec", "gen", "etc")]
+        assert _java_colors(body) == want, name
+    # 동선 지도 그림(DayMapBitmap)의 색: TOKENS 차례의 웹 토큰 값(라이트·다크·크리스마스), 출처 글 바탕은 card 90%
     java = (JAVA / "DayMapBitmap.java").read_text(encoding="utf-8")
     order = re.findall(r'"([a-z-]+)"', re.search(r"static final String\[\] TOKENS = \{(.*?)\};", java, re.S).group(1))
     assert "map-building" in order and "route" in order
-    for name, tokens, base in (("LIGHT", light, None), ("DARK", dark, light)):
+    for name, tokens, base in (("LIGHT", light, None), ("DARK", dark, light), ("XMAS", xmas, light)):
         body = re.search(rf"static final int\[\] {name} = \{{(.*?)\}};", java, re.S).group(1)
         got = ["#" + x[4:] for x in re.findall(r"0xFF[0-9A-F]{6}", body)]
         assert got == [_resolve(tokens, k, base) for k in order], name
     for folder, tokens, base in (("values", light, None), ("values-night", dark, light)):
         attr = re.search(r'<color name="widget_attr_bg">#E6([0-9A-Fa-f]{6})</color>', (RES / folder / "colors.xml").read_text(encoding="utf-8"))
         assert attr and "#" + attr.group(1).upper() == _resolve(tokens, "card", base), folder
+
+
+def test_widget_follows_app_theme():
+    """위젯 넷이 앱 테마를 따른다(update78, 11/2 사용자: "색깔이 테마에 맞춰서 바뀌게 색을 넣어줘. 나머지 위젯들도 마찬가지임", 디자인 106판 '테마').
+    기본이면 기기 라이트·다크(손으로 쓴 layout(-night)), 라이트·다크를 골랐으면 그 한 벌, 크리스마스 기간이면 그 한 벌(scripts/widget_themes.py 가 만든 판).
+    이벤트 테마의 기간은 앱(app.js THEMES, index.html 머리의 스크립트)과 같고 저장 이름도 같다"""
+    assert wt.main(["--check"]) == 0  # 한 벌 판이 손으로 쓴 판·style.css 와 맞다(아니면 python scripts/widget_themes.py 로 다시 만든다)
+    java = (JAVA / "WidgetData.java").read_text(encoding="utf-8")
+    periods = re.findall(r'\{ "(\w+)", "(\d\d-\d\d)", "(\d\d-\d\d)" \}', re.search(r"static final String\[\]\[\] THEMES = \{(.*?)\};", java, re.S).group(1))
+    app = (ROOT / "web" / "js" / "app.js").read_text(encoding="utf-8")
+    in_app = re.findall(r'\["(\w+)", "[^"]*", "(\d\d-\d\d)", "(\d\d-\d\d)"', re.search(r"^const THEMES = \[(.*)\];$", app, re.M).group(1))
+    assert periods == in_app == [("xmas", "12-01", "12-31")]  # 테마를 더하면 그 한 벌의 자원·WidgetData.theme 도 더한다
+    head = (ROOT / "web" / "index.html").read_text(encoding="utf-8")
+    for tid, start, end in periods:
+        assert f'(k<"{start}"||k>"{end}")' in head and f'"{tid}-"+d.getFullYear()' in head and f'dataset.theme="{tid}"' in head
+    # 저장 이름: 앱이 두는 ttw.scheme("light"·"dark", 기본은 지움)·ttw.themeOff('<테마>-<해>')를 위젯 자료가 그대로 읽는다
+    assert 'store.set("scheme", v)' in app and 'store.set("themeOff", season.event)' in app
+    assert 'event: `${t[0]}-${forced ? "test" : now.getFullYear()}`' in app
+    tt = (ROOT / "web" / "js" / "timetables.js").read_text(encoding="utf-8")
+    assert 'scheme: get("scheme"), themeOff: get("themeOff")' in tt
+    assert dict(re.findall(r"static final int (DEVICE|LIGHT|DARK|XMAS) = (\d);", java)) == {"DEVICE": "0", "LIGHT": "1", "DARK": "2", "XMAS": "3"}
+    # WidgetViews 는 한 벌마다 다른 레이아웃을 고른다(같은 레이아웃이면 런처가 전 화면 위에 바꿈만 얹어 색이 남는다). 그 차례가 DEVICE·LIGHT·DARK·XMAS
+    views = (JAVA / "WidgetViews.java").read_text(encoding="utf-8")
+    for res, name in (("layout", "widget_next"), ("layout", "widget_today"), ("layout", "widget_week"), ("layout", "widget_map"),
+                      ("layout", "widget_today_row"), ("layout", "widget_today_row_past"), ("drawable", "widget_ic_route")):
+        assert re.search(rf"R\.{res}\.{name}, R\.{res}\.{name}_light, R\.{res}\.{name}_dark, R\.{res}\.{name}_xmas\b", views), name
+    for table, names in (("ITEM_MARKS", [f"widget_mark_item{i}" for i in range(8)]), ("CLS_MARKS", [f"widget_mark_{k}" for k in ("req", "elec", "gen", "etc")])):
+        rows = re.findall(r"\{([^{}]*)\}", re.search(rf"static final int\[\]\[\] {table} = \{{(.*?)\n    \}};", views, re.S).group(1))
+        got = [re.findall(r"R\.drawable\.(\w+)", row) for row in rows]
+        assert got == [names, *([f"{n}_{t}" for n in names] for t in ("light", "dark", "xmas"))], table
+    assert "theme == WidgetData.DEVICE" in views and "WeekBitmap.ink(theme)" in views and "DayMapBitmap.ink(theme)" in views
+    # 한 벌 판은 손으로 쓴 라이트 판을 옮긴 것이라 주간·동선 지도는 _light 그림만 보인다(코드가 그 한 장만 그린다)
+    for layout, pic in (("widget_week", "w_grid"), ("widget_map", "w_map")):
+        for theme in ("light", "dark", "xmas"):
+            xml = (RES / "layout" / f"{layout}_{theme}.xml").read_text(encoding="utf-8")
+            assert (_visibility(xml, f"{pic}_light"), _visibility(xml, f"{pic}_dark")) == ("visible", "gone"), (layout, theme)
+            assert "@color/widget_" not in re.sub(rf"@color/widget_\w+_{theme}\b", "", xml), (layout, theme)  # 기기 다크 모드를 따르는 색이 남지 않았다
+    # 위젯 고르는 화면의 미리 보기는 앱 테마를 모르니 기기 라이트·다크 그대로(한 벌 판이 없다)
+    assert not list(RES.glob("layout/widget_*_preview_*.xml"))
+
+
+def test_widget_xml_names_resolve():
+    """위젯 레이아웃·그림·스타일 XML 이 가리키는 자원(@color·@drawable·@style·@layout·@string)이 다 있다: 빌드(aapt)가 잡을 이름 틀림을 클라우드에서 먼저 잡는다.
+    한 벌 판(update78)은 원본의 이름에 꼬리를 단 것이라 하나라도 빠지면 여기서 걸린다"""
+    have = {k: _res_names(k) for k in ("layout", "drawable", "color", "string")}
+    have["style"] = set(re.findall(r'<style name="([\w.]+)"', "\n".join(p.read_text(encoding="utf-8") for p in RES.glob("values*/*.xml"))))
+    files = [*RES.glob("layout*/widget_*.xml"), *RES.glob("drawable*/widget_*.xml"), RES / "values" / "widget_styles.xml", RES / "values" / "widget_themes.xml"]
+    bad = [(p.name, kind, name) for p in files for kind, name in re.findall(r"@(color|drawable|style|layout|string)/([\w.]+)", p.read_text(encoding="utf-8"))
+           if name not in have[kind]]
+    assert len(files) > 100 and not bad, bad
+
+
+def _attrs(el) -> dict:
+    return {k.split("}")[-1]: v for k, v in el.attrib.items()}
+
+
+def test_widget_header_band_and_ripples():
+    """머리 띠(update78, 디자인 106판 '머리 띠'·'모양'): 위젯 넷(과 한 벌 판·미리 보기)의 맨 위에 그 테마 bg 띠(위 모서리 16, 아래 곧게, 선 없음),
+    위아래 6, 좌우는 몸과 같게(12, 주간·동선 지도 10). 제목 13 굵게 on-bg-heading, 오른쪽 흐린 글 12 on-bg-text3. 몸은 띠 아래 6(다음 수업은 0, 과목명 위 4)·
+    좌우·아래 12(10). 다음 수업의 항목 색 점 8 에는 card 1 테두리. 누르는 곳(수업 줄·행·주간 칸)에는 눌림 물결"""
+    import xml.etree.ElementTree as ET
+    for layout, pad, top in (("widget_next", 12, 0), ("widget_today", 12, 6), ("widget_week", 10, 6), ("widget_map", 10, 6)):
+        paths = [RES / "layout" / f"{layout}.xml", RES / "layout" / f"{layout}_preview.xml", *(RES / "layout" / f"{layout}_{t}.xml" for t in ("light", "dark", "xmas"))]
+        if (RES / "layout-night" / f"{layout}.xml").exists():
+            paths.append(RES / "layout-night" / f"{layout}.xml")
+        for path in paths:
+            root = ET.parse(path).getroot()
+            assert not any(k.startswith("padding") for k in _attrs(root)), path.name  # 여백은 띠와 몸이 따로
+            band, body = list(root)
+            a, b = _attrs(band), _attrs(body)
+            assert re.fullmatch(r"@drawable/widget_band(_light|_dark|_xmas)?", a["background"]), path.name
+            assert (a["paddingStart"], a["paddingEnd"], a["paddingTop"], a["paddingBottom"]) == (f"{pad}dp", f"{pad}dp", "6dp", "6dp"), path.name
+            assert (b["paddingStart"], b["paddingEnd"], b.get("paddingTop", "0dp"), b["paddingBottom"]) == (f"{pad}dp", f"{pad}dp", f"{top}dp", f"{pad}dp"), path.name
+            styles = [_attrs(t).get("style", "") for t in band.iter() if t.tag == "TextView"]
+            assert re.fullmatch(r"@style/TTWWidget\.BandTitle(\.\w+)?", styles[0]) and all(re.fullmatch(r"@style/TTWWidget\.BandText(\.\w+)?", x) for x in styles[1:]), path.name
+            if layout == "widget_next":
+                dot = [_attrs(t) for t in band.iter() if t.tag == "ImageView"][0]
+                assert (dot["layout_width"], dot["padding"], dot["layout_marginStart"]) == ("10dp", "1dp", "-1dp")  # 점 8 + 둘레 1(점 자리는 그대로)
+                assert re.fullmatch(r"@drawable/widget_dot_ring(_\w+)?", dot["background"])
+                lecture = [_attrs(t) for t in root.iter() if _attrs(t).get("id") == "@+id/w_lecture"]
+                assert path.name.endswith("_preview.xml") or lecture[0]["background"] == "?android:attr/selectableItemBackground"
+    styles = (RES / "values" / "widget_styles.xml").read_text(encoding="utf-8")
+    title = re.search(r'<style name="TTWWidget.BandTitle">(.*?)</style>', styles, re.S).group(1)
+    text = re.search(r'<style name="TTWWidget.BandText">(.*?)</style>', styles, re.S).group(1)
+    assert ">13sp<" in title and ">bold<" in title and "@color/widget_on_band<" in title
+    assert ">12sp<" in text and "bold" not in text and "@color/widget_on_band3<" in text
+    band = (RES / "drawable" / "widget_band.xml").read_text(encoding="utf-8")
+    assert 'android:color="@color/widget_band"' in band and 'topLeftRadius="16dp"' in band and 'bottomLeftRadius="0dp"' in band
+    assert 'android:color="@color/widget_bg"' in (RES / "drawable" / "widget_dot_ring.xml").read_text(encoding="utf-8")  # card 테두리
+    # 큰 줄은 말줄임하지 않는다(코드가 폭에 맞춰 줄인다)
+    assert "ellipsize" not in re.search(r'<style name="TTWWidget.Hero">(.*?)</style>', styles, re.S).group(1)
+    # 눌림 물결(디자인 106판: 한 위젯에 누르는 곳이 여럿이라 어디가 눌렸는지 보여야 한다)
+    for name, vid in (("widget_today_row", "r_root"), ("widget_today_row_past", "r_root"), ("widget_week_hit", "w_hit")):
+        el = [_attrs(t) for t in ET.parse(RES / "layout" / f"{name}.xml").getroot().iter() if _attrs(t).get("id") == f"@+id/{vid}"][0]
+        assert el["background"] == "?android:attr/selectableItemBackground", name
 
 
 def test_widget_resources_and_manifest():
@@ -341,12 +472,11 @@ def test_widget_views_reset_what_they_change():
     for kind, layout in (("NEXT", "widget_next"), ("TODAY", "widget_today"), ("WEEK", "widget_week"), ("MAP", "widget_map")):
         ids = {k: re.findall(r"R\.id\.(\w+)", re.search(rf"static final int\[\] {kind}_{k} = \{{(.*?)\}};", views).group(1))
                for k in ("SHOWN", "HIDDEN")}
-        for folder in ("layout", "layout-night"):
-            path = RES / folder / f"{layout}.xml"
-            if path.exists():
-                xml = _with_includes(path.read_text(encoding="utf-8"), RES / folder)
-                assert [_visibility(xml, v) for v in ids["SHOWN"]] == ["visible"] * len(ids["SHOWN"]), (folder, layout)
-                assert [_visibility(xml, v) for v in ids["HIDDEN"]] == ["gone"] * len(ids["HIDDEN"]), (folder, layout)
+        for path in (RES / "layout" / f"{layout}.xml", RES / "layout-night" / f"{layout}.xml", *(RES / "layout" / f"{layout}_{t}.xml" for t in ("light", "dark", "xmas"))):
+            if path.exists():  # 기본 판(layout·layout-night)과 앱 테마 한 벌 판(update78)
+                xml = _with_includes(path.read_text(encoding="utf-8"), path.parent)
+                assert [_visibility(xml, v) for v in ids["SHOWN"]] == ["visible"] * len(ids["SHOWN"]), path.name
+                assert [_visibility(xml, v) for v in ids["HIDDEN"]] == ["gone"] * len(ids["HIDDEN"]), path.name
         start = views.index(f"static RemoteViews {kind.lower()}(")
         body = views[start:views.index("\n    }\n", start)]
         assert body.index(f"reset(v, {kind}_SHOWN, {kind}_HIDDEN);") < body.index("setOnClickPendingIntent")
@@ -362,7 +492,7 @@ def test_widget_views_reset_what_they_change():
 
 def test_map_attribution_reads_on_any_map():
     """동선 지도 위젯 오른쪽 아래 출처 글(text2, card 90% 바탕)이 지도 그림의 어느 색 위에서도 4.5:1 이상(법무 10/31: 작은 위젯·다크에서도 읽혀야 한다.
-    OSM 표기 지침이 크기·대비를 본다). 지도 색은 DayMapBitmap 의 LIGHT·DARK 전부(핀·길 색 포함)"""
+    OSM 표기 지침이 크기·대비를 본다). 지도 색은 DayMapBitmap 의 LIGHT·DARK·XMAS 전부(핀·길 색 포함)"""
     java = (JAVA / "DayMapBitmap.java").read_text(encoding="utf-8")
 
     def lum(c: int) -> float:
@@ -370,8 +500,12 @@ def test_map_attribution_reads_on_any_map():
         r, g, b = [x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4 for x in ch]
         return 0.2126 * r + 0.7152 * g + 0.0722 * b
 
-    for folder, table in (("values", "LIGHT"), ("values-night", "DARK")):
-        colors = dict(re.findall(r'<color name="(\w+)">#([0-9A-Fa-f]{6,8})</color>', (RES / folder / "colors.xml").read_text(encoding="utf-8")))
+    themes = dict(re.findall(r'<color name="(\w+)">#([0-9A-Fa-f]{6,8})</color>', (RES / "values" / "widget_themes.xml").read_text(encoding="utf-8")))
+    for folder, table in (("values", "LIGHT"), ("values-night", "DARK"), ("xmas", "XMAS")):  # 크리스마스 한 벌(update78)은 widget_themes.xml 의 _xmas
+        if folder == "xmas":
+            colors = {k[: -len("_xmas")]: v for k, v in themes.items() if k.endswith("_xmas")}
+        else:
+            colors = dict(re.findall(r'<color name="(\w+)">#([0-9A-Fa-f]{6,8})</color>', (RES / folder / "colors.xml").read_text(encoding="utf-8")))
         text, bg = int(colors["widget_text2"][-6:], 16), colors["widget_attr_bg"]
         alpha, card = int(bg[:2], 16) / 255, int(bg[-6:], 16)
         base = [int(v, 16) & 0xFFFFFF for v in re.findall(r"0x([0-9A-F]{8})", java[java.index(f"int[] {table} = {{"):java.index("};", java.index(f"int[] {table} = {{"))])]

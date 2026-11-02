@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.style.RelativeSizeSpan;
 import android.util.DisplayMetrics;
@@ -35,30 +36,60 @@ import java.util.function.Predicate;
  * 누르면 앱(MainActivity 에 주소를 넘긴다: native.js 의 launchUrl·'ttw:open-url' 로 화면에 간다). 다음 수업·오늘 수업은 그 요일 동선 지도
  * (주소의 route, WidgetData.openUrl)이고 동선 지도는 그 지도의 요일, 주간 시간표는 내 시간표.
  * 수업을 누르면(update77) 그 수업의 항목 시트: 다음 수업의 수업 줄, 오늘 수업의 행, 주간 시간표의 칸(안드로이드 12 이상) → WidgetData.itemUrl.
- * 글자색은 XML(values(-night)/colors.xml)이 정해서 기기 테마가 바뀌면 런처가 다시 펼칠 때 맞는다. 코드는 색을 숫자로 넣지 않는다.
+ * 맨 위는 머리 띠(update78, 디자인 106판: 앱 테마의 bg 단색에 제목 13 굵게, 오른쪽 흐린 글 12), 그 아래 몸(card).
+ * 색은 앱 테마의 한 벌(update78, 11/2 사용자: "색깔이 테마에 맞춰서 바뀌게", WidgetData.theme)이고 XML 이 정한다. 코드는 색을 숫자로 넣지 않는다:
+ *   기본(기기 설정)      layout(-night)·values(-night)/colors.xml. 기기 테마가 바뀌면 런처가 다시 펼칠 때 맞는다(그림은 라이트·다크 두 장)
+ *   라이트·다크·크리스마스 그 한 벌의 레이아웃(scripts/widget_themes.py 가 만든 widget_*_light·_dark·_xmas)과 그 한 벌의 그림 한 장
+ * 한 벌마다 레이아웃이 따로라 테마를 바꾸면 런처가 새로 펼친다(같은 레이아웃이면 전 화면 위에 바꿈만 얹는다: 아래 reset).
  */
 final class WidgetViews {
 
     /** 위젯을 누르면 여는 주소의 앞(화면이 '#tab=mine' 을 보고 내 시간표로 간다. 뒤에 sem·route 를 붙인다: WidgetData.openUrl) */
     static final String OPEN_URL = "https://archi142857.github.io/tt-wizard/#tab=mine";
 
-    private static final int[] ITEM_MARKS = {
-        R.drawable.widget_mark_item0, R.drawable.widget_mark_item1, R.drawable.widget_mark_item2, R.drawable.widget_mark_item3,
-        R.drawable.widget_mark_item4, R.drawable.widget_mark_item5, R.drawable.widget_mark_item6, R.drawable.widget_mark_item7,
+    // 한 벌(WidgetData.DEVICE·LIGHT·DARK·XMAS)마다의 레이아웃과 그림. 첫째 줄 차례는 WidgetUpdater 의 NEXT·TODAY·WEEK·MAP
+    private static final int[][] LAYOUTS = {
+        { R.layout.widget_next, R.layout.widget_next_light, R.layout.widget_next_dark, R.layout.widget_next_xmas },
+        { R.layout.widget_today, R.layout.widget_today_light, R.layout.widget_today_dark, R.layout.widget_today_xmas },
+        { R.layout.widget_week, R.layout.widget_week_light, R.layout.widget_week_dark, R.layout.widget_week_xmas },
+        { R.layout.widget_map, R.layout.widget_map_light, R.layout.widget_map_dark, R.layout.widget_map_xmas },
+    };
+    private static final int[] ROWS = { R.layout.widget_today_row, R.layout.widget_today_row_light, R.layout.widget_today_row_dark, R.layout.widget_today_row_xmas };
+    private static final int[] PAST_ROWS = {
+        R.layout.widget_today_row_past, R.layout.widget_today_row_past_light, R.layout.widget_today_row_past_dark, R.layout.widget_today_row_past_xmas,
+    };
+    private static final int[] ROUTE_ICONS = { R.drawable.widget_ic_route, R.drawable.widget_ic_route_light, R.drawable.widget_ic_route_dark, R.drawable.widget_ic_route_xmas };
+    private static final int[][] ITEM_MARKS = {
+        { R.drawable.widget_mark_item0, R.drawable.widget_mark_item1, R.drawable.widget_mark_item2, R.drawable.widget_mark_item3,
+            R.drawable.widget_mark_item4, R.drawable.widget_mark_item5, R.drawable.widget_mark_item6, R.drawable.widget_mark_item7 },
+        { R.drawable.widget_mark_item0_light, R.drawable.widget_mark_item1_light, R.drawable.widget_mark_item2_light, R.drawable.widget_mark_item3_light,
+            R.drawable.widget_mark_item4_light, R.drawable.widget_mark_item5_light, R.drawable.widget_mark_item6_light, R.drawable.widget_mark_item7_light },
+        { R.drawable.widget_mark_item0_dark, R.drawable.widget_mark_item1_dark, R.drawable.widget_mark_item2_dark, R.drawable.widget_mark_item3_dark,
+            R.drawable.widget_mark_item4_dark, R.drawable.widget_mark_item5_dark, R.drawable.widget_mark_item6_dark, R.drawable.widget_mark_item7_dark },
+        { R.drawable.widget_mark_item0_xmas, R.drawable.widget_mark_item1_xmas, R.drawable.widget_mark_item2_xmas, R.drawable.widget_mark_item3_xmas,
+            R.drawable.widget_mark_item4_xmas, R.drawable.widget_mark_item5_xmas, R.drawable.widget_mark_item6_xmas, R.drawable.widget_mark_item7_xmas },
+    };
+    // 교과구분 표시(전필·전선·교양·기타, WeekBitmap.clsIndex 차례)
+    private static final int[][] CLS_MARKS = {
+        { R.drawable.widget_mark_req, R.drawable.widget_mark_elec, R.drawable.widget_mark_gen, R.drawable.widget_mark_etc },
+        { R.drawable.widget_mark_req_light, R.drawable.widget_mark_elec_light, R.drawable.widget_mark_gen_light, R.drawable.widget_mark_etc_light },
+        { R.drawable.widget_mark_req_dark, R.drawable.widget_mark_elec_dark, R.drawable.widget_mark_gen_dark, R.drawable.widget_mark_etc_dark },
+        { R.drawable.widget_mark_req_xmas, R.drawable.widget_mark_elec_xmas, R.drawable.widget_mark_gen_xmas, R.drawable.widget_mark_etc_xmas },
     };
 
     private WidgetViews() {}
 
     static RemoteViews build(Context c, int kind, WidgetData d, Calendar now, Bundle options) {
-        if (kind == WidgetUpdater.NEXT) return next(c, d, now, options);
-        if (kind == WidgetUpdater.TODAY) return today(c, d, now, options);
-        if (kind == WidgetUpdater.MAP) return map(c, d, now, options);
-        return week(c, d, now, options);
+        int theme = d == null ? WidgetData.DEVICE : d.theme(now); // 자료가 아직 없으면 기기 설정
+        if (kind == WidgetUpdater.NEXT) return next(c, d, now, options, theme);
+        if (kind == WidgetUpdater.TODAY) return today(c, d, now, options, theme);
+        if (kind == WidgetUpdater.MAP) return map(c, d, now, options, theme);
+        return week(c, d, now, options, theme);
     }
 
     // 런처는 같은 레이아웃이면 전에 펼친 화면을 버리지 않고 이번 RemoteViews 의 바꿈만 그 위에 다시 얹는다(AppWidgetHostView 의 재사용, update69).
     // 그래서 그릴 때마다 바뀔 수 있는 보이기는 먼저 레이아웃의 처음 모양으로 되돌린다. 안 그러면 '자료가 아직 없어요' 같은 글이 수업이 들어온 뒤에도 남는다.
-    // 아래 둘은 레이아웃 XML 의 처음 보이기와 같아야 한다(tests/test_widgets.py 가 견준다). 주간의 w_grid_light·dark 는 layout(-night) 이 정하므로 넣지 않는다
+    // 아래 둘은 레이아웃 XML 의 처음 보이기와 같아야 한다(tests/test_widgets.py 가 한 벌마다 견준다). 주간의 w_grid_light·dark 는 layout(-night) 이 정하므로 넣지 않는다
     static final int[] NEXT_SHOWN = { R.id.w_body, R.id.w_time, R.id.w_place, R.id.w_hero, R.id.w_hero_line, R.id.w_hero_sub };
     static final int[] NEXT_HIDDEN = { R.id.w_mark, R.id.w_late, R.id.w_empty, R.id.w_msg_sub, R.id.w_action };
     static final int[] TODAY_SHOWN = { R.id.w_rows };
@@ -86,10 +117,62 @@ final class WidgetViews {
         return Math.max(1f, c.getResources().getConfiguration().fontScale);
     }
 
+    /** 위젯 글의 폭을 기기 글꼴로 잰다(화소. 크기는 sp 라 기기 글자 크기를 따른다): 큰 줄 맞추기, 아래 줄 덩이 빼기(update78) */
+    private static final class Measure {
+        private final DisplayMetrics m;
+        private final TextPaint p = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+
+        Measure(Context c) {
+            m = c.getResources().getDisplayMetrics();
+        }
+
+        TextPaint paint(float sp, boolean bold) {
+            p.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, m));
+            p.setTypeface(bold ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
+            p.setFontFeatureSettings(null);
+            return p;
+        }
+
+        float width(String s, float sp, boolean bold) {
+            return s == null || s.isEmpty() ? 0 : paint(sp, bold).measureText(s);
+        }
+
+        /** 큰 줄(TTWWidget.Hero: 굵게, 자릿수 맞춤)의 폭: 수는 sp, 나머지 낱말은 그 반(bigLine 과 같다) */
+        float big(String text, String number, float sp) {
+            int[] at = WidgetData.bigPart(text, number);
+            TextPaint q = paint(sp, true);
+            q.setFontFeatureSettings("tnum");
+            if (at == null) return q.measureText(text);
+            float w = q.measureText(text, at[0], at[1]);
+            q.setTextSize(q.getTextSize() / 2);
+            return w + q.measureText(text, 0, at[0]) + q.measureText(text, at[1], text.length());
+        }
+
+        float px(float dp) {
+            return dp * m.density;
+        }
+
+        float dp(float px) {
+            return px / m.density;
+        }
+    }
+
+    /**
+     * 머리 띠 글(TTWWidget.BandTitle: 13 굵게, 글자 위아래 여백 없음) 한 줄이 위젯에서 차지하는 높이(dp, 기기 글꼴로 잰다).
+     * 안드로이드 13 이상은 한글 같은 대체 글꼴의 줄 높이까지 따른다(TextView 의 fallbackLineSpacing 이 한 줄 글에도 걸린다). 그 아래는 기본 글꼴의 줄 높이
+     */
+    static float bandLine(Context c, String text) {
+        Measure me = new Measure(c);
+        TextPaint p = me.paint(13, true);
+        if (Build.VERSION.SDK_INT >= 33 && text != null && !text.isEmpty()) return me.dp(Api33.lineHeight(text, p));
+        Paint.FontMetricsInt fm = p.getFontMetricsInt();
+        return me.dp(fm.descent - fm.ascent);
+    }
+
     // ------------------------------------------------------------ 다음 수업
 
-    static RemoteViews next(Context c, WidgetData d, Calendar now, Bundle options) {
-        RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.widget_next);
+    static RemoteViews next(Context c, WidgetData d, Calendar now, Bundle options, int theme) {
+        RemoteViews v = new RemoteViews(c.getPackageName(), LAYOUTS[WidgetUpdater.NEXT][theme]);
         reset(v, NEXT_SHOWN, NEXT_HIDDEN);
         WidgetData.Term t = d == null ? null : d.termOn(now);
         String problem = problem(c, d, t);
@@ -103,15 +186,17 @@ final class WidgetViews {
         }
         WidgetData.Lesson l = n.lesson;
         // 자리(update70 출발 줄을 크게, update77 출발 시각 블록): 높이(dp)가 모자라면 덜 중요한 줄부터 뺀다. 과목명 두 줄 → 한 줄 → 강의실 줄 →
-        // 블록 안 아래 줄 → 시각 줄, 그래도 모자라면 블록을 줄인다. 머리 줄과 블록은 늘 둔다(언제 나서는지가 이 위젯의 일이다). 기준은 WidgetData.nextRows
+        // 블록 안 아래 줄 → 시각 줄, 그래도 모자라면 블록을 줄인다. 머리 띠와 블록은 늘 둔다(언제 나서는지가 이 위젯의 일이다). 기준은 WidgetData.nextRows.
+        // 머리 띠(update78)는 그전 위 여백과 머리 줄 자리라 기준이 그대로이고, 띠 글이 그전 머리 줄 16 보다 높게 나오면 그만큼만 올린다
         int[] wh = size(c, options, 110, 110);
         float f = font(c);
-        boolean[] rows = WidgetData.nextRows(wh[1], f);
+        String caption = caption(c, t, n, now);
+        boolean[] rows = WidgetData.nextRows(wh[1], f, bandLine(c, caption) - 16 * f);
         boolean twoLines = rows[0], place = rows[1], sub = rows[2], time = rows[3], compact = rows[4];
         v.setOnClickPendingIntent(R.id.w_lecture, openItem(c, t, l)); // 수업 줄은 그 수업의 항목 시트, 나머지(블록 포함)는 그 요일 동선 지도
-        v.setTextViewText(R.id.w_caption, caption(c, t, n, now));
+        v.setTextViewText(R.id.w_caption, caption);
         v.setViewVisibility(R.id.w_mark, View.VISIBLE);
-        v.setInt(R.id.w_mark, "setBackgroundResource", mark(d, l));
+        v.setImageViewResource(R.id.w_mark, mark(d, l, theme)); // 점(8)은 그림, 둘레의 card 1 테두리는 바탕(widget_dot_ring)
         v.setInt(R.id.w_name, "setMaxLines", twoLines ? 2 : 1);
         v.setTextViewText(R.id.w_name, twoLines ? WidgetData.glueTail(l.name, titleFits(c, wh[0] - 24)) : l.name);
         if (time) v.setTextViewText(R.id.w_time, WidgetData.hm(l.start) + "~" + WidgetData.hm(l.end));
@@ -140,19 +225,24 @@ final class WidgetViews {
                 number = WidgetData.hm(hero.minute);
                 big = c.getString(R.string.w_hero_start, number);
         }
-        // 블록 가운데 큰 줄: 시각·분은 32(낮으면 26), '출발'·'걷기'·'분' 같은 낱말은 그 반(update77, 사용자 11/2 "시간을 좀 더 가운데에 큼지막하게")
+        // 블록 가운데 큰 줄: 시각·분은 32(낮으면 26), '출발'·'걷기'·'분' 같은 낱말은 그 반(update77, 사용자 11/2 "시간을 좀 더 가운데에 큼지막하게").
+        // 말줄임하지 않고 블록 안 폭(위젯 폭 − 몸 좌우 24 − 블록 안 16)에 맞춰 줄인다(update78, 디자인 106판: '10:1…' 처럼 잘린 시각은 틀린 시각으로 읽힌다)
+        Measure me = new Measure(c);
+        float room = me.px(wh[0] - 24 - 16 - 2); // 2: 잰 폭과 그린 폭의 작은 차이
         v.setTextViewText(R.id.w_hero, bigLine(big, number));
-        v.setTextViewTextSize(R.id.w_hero, TypedValue.COMPLEX_UNIT_SP, compact ? 26 : 32);
+        v.setTextViewTextSize(R.id.w_hero, TypedValue.COMPLEX_UNIT_SP, WidgetData.heroSize(me.big(big, number, 32), room, compact));
         int padH = px(c, 8), padV = px(c, compact ? 5 : 8);
         v.setViewPadding(R.id.w_block, padH, padV, padH, padV);
-        boolean late = hero.late > 0 && sub;
-        if (small.isEmpty() || !sub) v.setViewVisibility(R.id.w_hero_sub, View.GONE);
-        else v.setTextViewText(R.id.w_hero_sub, small);
-        if (late) {
+        // 블록 아래 줄(13): 폭이 모자라면 '25동에서'를 빼고 '5분 지각'만, 그래도 넘치면 줄째 뺀다(update78). 높이가 모자라면(sub 가 거짓) 처음부터 없다
+        String lateText = hero.late > 0 ? c.getString(R.string.w_late, hero.late) : "";
+        boolean[] line = sub ? WidgetData.heroLine(me.width(small, 13, false), me.width(lateText, 13, true), me.px(6), room) : new boolean[] { false, false };
+        if (line[0]) v.setTextViewText(R.id.w_hero_sub, small);
+        else v.setViewVisibility(R.id.w_hero_sub, View.GONE);
+        if (line[1]) {
             v.setViewVisibility(R.id.w_late, View.VISIBLE);
-            v.setTextViewText(R.id.w_late, c.getString(R.string.w_late, hero.late));
+            v.setTextViewText(R.id.w_late, lateText);
         }
-        if (!late && (small.isEmpty() || !sub)) v.setViewVisibility(R.id.w_hero_line, View.GONE); // 아래 줄이 없으면 그 띄움도 뺀다(블록 위아래 여백이 같게)
+        if (!line[0] && !line[1]) v.setViewVisibility(R.id.w_hero_line, View.GONE); // 아래 줄이 없으면 그 띄움도 뺀다(블록 위아래 여백이 같게)
         return v;
     }
 
@@ -185,13 +275,6 @@ final class WidgetViews {
         return date(c, n.day);
     }
 
-    /** 걷기 줄: 그날 첫 수업은 '10:18 출발 · 걷기 12분', 앞 수업에서 오면 '걷기 8분', 모르면 "" */
-    private static String walk(Context c, WidgetData.Lesson l) {
-        if (l.walk < 0) return "";
-        if (l.fromHome) return c.getString(R.string.w_leave, WidgetData.hm(Math.max(0, l.leave())), l.walk);
-        return c.getString(R.string.w_walk, l.walk);
-    }
-
     /** 다음 수업 과목명(TTWWidget.Title: 16sp 굵게)이 폭 widthDp 한 줄에 드는지(끝 번호 붙이기에 쓴다) */
     private static Predicate<String> titleFits(Context c, int widthDp) {
         DisplayMetrics m = c.getResources().getDisplayMetrics();
@@ -204,11 +287,12 @@ final class WidgetViews {
 
     // ------------------------------------------------------------ 오늘 수업
 
-    static RemoteViews today(Context c, WidgetData d, Calendar now, Bundle options) {
-        RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.widget_today);
+    static RemoteViews today(Context c, WidgetData d, Calendar now, Bundle options, int theme) {
+        RemoteViews v = new RemoteViews(c.getPackageName(), LAYOUTS[WidgetUpdater.TODAY][theme]);
         reset(v, TODAY_SHOWN, TODAY_HIDDEN);
         WidgetData.Term t = d == null ? null : d.termOn(now);
-        v.setTextViewText(R.id.w_date, c.getString(R.string.w_today, date(c, now)));
+        String day = c.getString(R.string.w_today, date(c, now));
+        v.setTextViewText(R.id.w_date, day);
         v.setTextViewText(R.id.w_title, t != null ? t.title : "");
         String problem = problem(c, d, t);
         List<WidgetData.Lesson> lessons = problem == null ? t.on(WidgetData.startOfDay(now)) : new ArrayList<>();
@@ -227,9 +311,11 @@ final class WidgetViews {
         }
         v.setOnClickPendingIntent(android.R.id.background, open(c, t, WidgetData.weekday(now)));
         int min = WidgetData.minuteOfDay(now);
-        int[] pick = WidgetData.rowsToShow(lessons, min, rowsThatFit(c, options));
+        int[] wh = size(c, options, 250, 110);
+        int[] pick = WidgetData.rowsToShow(lessons, min, rowsThatFit(c, wh[1], bandLine(c, day)));
         v.removeAllViews(R.id.w_rows);
-        for (int i = pick[0]; i < pick[1]; i++) v.addView(R.id.w_rows, row(c, d, t, lessons.get(i), min));
+        Measure me = new Measure(c);
+        for (int i = pick[0]; i < pick[1]; i++) v.addView(R.id.w_rows, row(c, d, t, lessons.get(i), min, theme, me, wh[0]));
         int more = lessons.size() - pick[1];
         if (more > 0) {
             v.setViewVisibility(R.id.w_sub, View.VISIBLE);
@@ -238,42 +324,51 @@ final class WidgetViews {
         return v;
     }
 
-    /** 위젯 높이에 들어가는 행 수(글자 크기를 따른다). 높이를 모르면 4×2 */
-    private static int rowsThatFit(Context c, Bundle options) {
-        float font = font(c);
-        int h = size(c, options, 250, 110)[1];
-        float room = h - 24 - 6 - 18 * font; // 위아래 여백, 머리 아래 여백, 머리
-        float rowH = 6 + 33 * font; // 위아래 3 + 두 줄(14sp·12sp)과 사이 3
+    /** 위젯 높이 h(dp)에 들어가는 행 수(글자 크기를 따른다). band = 머리 띠 글 한 줄(dp, bandLine) */
+    private static int rowsThatFit(Context c, int h, float band) {
+        float room = h - 12 - band - 6 - 12; // 머리 띠(위아래 6 + 글), 띠 아래 6, 아래 여백 12
+        float rowH = 6 + 33 * font(c); // 위아래 3 + 두 줄(14sp·12sp)과 사이 3
         return Math.max(1, (int) (room / rowH));
     }
 
-    private static RemoteViews row(Context c, WidgetData d, WidgetData.Term t, WidgetData.Lesson l, int min) {
+    /** 행 하나. widthDp = 위젯 폭(아래 줄이 넘치면 덩이째 뺀다) */
+    private static RemoteViews row(Context c, WidgetData d, WidgetData.Term t, WidgetData.Lesson l, int min, int theme, Measure me, int widthDp) {
         boolean past = l.end <= min, current = l.start <= min && min < l.end;
-        RemoteViews r = new RemoteViews(c.getPackageName(), past ? R.layout.widget_today_row_past : R.layout.widget_today_row);
+        RemoteViews r = new RemoteViews(c.getPackageName(), past ? PAST_ROWS[theme] : ROWS[theme]);
         r.setOnClickPendingIntent(R.id.r_root, openItem(c, t, l)); // 행을 누르면 그 수업의 항목 시트(update77). 행 밖은 그 요일 동선 지도
-        r.setInt(R.id.r_mark, "setBackgroundResource", mark(d, l));
+        r.setInt(R.id.r_mark, "setBackgroundResource", mark(d, l, theme));
         r.setTextViewText(R.id.r_name, l.name);
-        r.setTextViewText(R.id.r_time, WidgetData.hm(l.start) + "~" + WidgetData.hm(l.end));
-        String walk = walk(c, l);
-        String sub = l.place.isEmpty() ? walk : walk.isEmpty() ? l.place : l.place + " · " + walk;
-        if (sub.isEmpty()) r.setViewVisibility(R.id.r_sub, View.GONE);
-        else r.setTextViewText(R.id.r_sub, sub);
-        if (l.late > 0 && !past) {
+        String time = WidgetData.hm(l.start) + "~" + WidgetData.hm(l.end);
+        r.setTextViewText(R.id.r_time, time);
+        boolean late = l.late > 0 && !past;
+        String lateText = late ? c.getString(R.string.w_late, l.late) : "";
+        if (late) {
             r.setViewVisibility(R.id.r_late, View.VISIBLE);
-            r.setTextViewText(R.id.r_late, c.getString(R.string.w_late, l.late));
+            r.setTextViewText(R.id.r_late, lateText);
         }
         if (current) r.setViewVisibility(R.id.r_now, View.VISIBLE);
+        // 아래 줄 '강의실 · 10:18 출발 · 걷기 12분'(그날 첫 수업), '강의실 · 걷기 8분': 넘치면 '걷기 n분' → '10:18 출발' 차례로 덩이째 뺀다(update78).
+        // 들 폭 = 위젯 폭 − 몸 좌우 24 − 막대 4와 사이 8 − 오른쪽 칸(사이 8 + 시각, 지금 수업이면 '지금' 태그와 넓은 쪽) − 지각 글과 사이 6
+        String leave = l.fromHome && l.walk >= 0 ? c.getString(R.string.w_hero_leave, WidgetData.hm(Math.max(0, l.leave()))) : "";
+        String walk = l.walk >= 0 ? c.getString(R.string.w_walk, l.walk) : "";
+        float right = me.width(time, 12, false);
+        if (current) right = Math.max(right, me.width(c.getString(R.string.w_now_tag), 12, true) + me.px(10));
+        float room = me.px(widthDp - 24 - 12 - 8 - 1) - right - (late ? me.width(lateText, 12, true) + me.px(6) : 0);
+        String sub = WidgetData.rowSub(l.place, leave, walk, s -> me.width(s, 12, false) <= room);
+        if (sub.isEmpty()) r.setViewVisibility(R.id.r_sub, View.GONE);
+        else r.setTextViewText(R.id.r_sub, sub);
         return r;
     }
 
     // ------------------------------------------------------------ 주간 시간표
 
-    static RemoteViews week(Context c, WidgetData d, Calendar now, Bundle options) {
-        RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.widget_week);
+    static RemoteViews week(Context c, WidgetData d, Calendar now, Bundle options, int theme) {
+        RemoteViews v = new RemoteViews(c.getPackageName(), LAYOUTS[WidgetUpdater.WEEK][theme]);
         reset(v, WEEK_SHOWN, WEEK_HIDDEN);
         WidgetData.Term t = d == null ? null : d.termOn(now);
         v.setOnClickPendingIntent(android.R.id.background, open(c, t, -1)); // 한 주 전체라 내 시간표로
-        v.setTextViewText(R.id.w_title, t != null ? (t.label + " · " + t.title) : c.getString(R.string.widget_week_name));
+        String title = t != null ? (t.label + " · " + t.title) : c.getString(R.string.widget_week_name);
+        v.setTextViewText(R.id.w_title, title);
         String problem = problem(c, d, t);
         if (problem != null) {
             v.setViewVisibility(R.id.w_grid, View.GONE);
@@ -281,15 +376,17 @@ final class WidgetViews {
             return v;
         }
         int[] wh = size(c, options, 250, 250);
-        float gridW = wh[0] - 20, gridH = wh[1] - 20 - 6 - 18 * font(c); // 여백 10씩, 머리와 그 아래 6
+        float gridW = wh[0] - 20, gridH = wh[1] - (12 + bandLine(c, title)) - 6 - 10; // 몸 좌우 10씩, 머리 띠(위아래 6 + 글)와 그 아래 6, 아래 10
         String[] days = c.getResources().getStringArray(R.array.w_days_short);
-        Bitmap light = WeekBitmap.draw(c, t, d.colors, now, gridW, gridH, false, days);
-        Bitmap dark = WeekBitmap.draw(c, t, d.colors, now, gridW, gridH, true, days);
-        v.setImageViewBitmap(R.id.w_grid_light, light);
-        v.setImageViewBitmap(R.id.w_grid_dark, dark);
         String said = c.getString(R.string.w_week_said, t.label + " " + t.title, WeekBitmap.describe(t, days));
+        if (theme == WidgetData.DEVICE) { // 기기 설정: 두 장(layout(-night) 이 한 장을 보인다)
+            v.setImageViewBitmap(R.id.w_grid_light, WeekBitmap.draw(c, t, d.colors, now, gridW, gridH, WeekBitmap.LIGHT, days));
+            v.setImageViewBitmap(R.id.w_grid_dark, WeekBitmap.draw(c, t, d.colors, now, gridW, gridH, WeekBitmap.DARK, days));
+            v.setContentDescription(R.id.w_grid_dark, said);
+        } else { // 고른 한 벌: 그 레이아웃(widget_week_light 등)은 w_grid_light 만 보인다
+            v.setImageViewBitmap(R.id.w_grid_light, WeekBitmap.draw(c, t, d.colors, now, gridW, gridH, WeekBitmap.ink(theme), days));
+        }
         v.setContentDescription(R.id.w_grid_light, said);
-        v.setContentDescription(R.id.w_grid_dark, said);
         // 수업 칸을 누르면 그 항목 시트(update77): 칸 자리에 투명한 누르는 칸을 그림과 같은 셈(WidgetData.WeekGrid)으로 놓는다.
         // 자리를 dp 로 정하는 것은 안드로이드 12 부터라 그 아래는 격자 전체가 내 시간표다
         v.removeAllViews(R.id.w_hits);
@@ -323,10 +420,20 @@ final class WidgetViews {
         }
     }
 
+    /** 안드로이드 13 이상에만 있는 것(그 아래 기기는 이 클래스를 읽지 않는다) */
+    private static final class Api33 {
+        /** 한 줄 글의 높이(화소): 위젯 TextView 처럼 글자 위아래 여백 없이, 대체 글꼴(한글)의 줄 높이까지 */
+        static float lineHeight(String text, TextPaint p) {
+            int width = Math.max(1, (int) Math.ceil(p.measureText(text)) + 1);
+            return StaticLayout.Builder.obtain(text, 0, text.length(), p, width).setIncludePad(false).setUseLineSpacingFromFallbacks(true)
+                .setMaxLines(1).build().getHeight();
+        }
+    }
+
     // ------------------------------------------------------------ 동선 지도
 
-    static RemoteViews map(Context c, WidgetData d, Calendar now, Bundle options) {
-        RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.widget_map);
+    static RemoteViews map(Context c, WidgetData d, Calendar now, Bundle options, int theme) {
+        RemoteViews v = new RemoteViews(c.getPackageName(), LAYOUTS[WidgetUpdater.MAP][theme]);
         reset(v, MAP_SHOWN, MAP_HIDDEN);
         WidgetData.Term t = d == null ? null : d.termOn(now);
         String problem = problem(c, d, t);
@@ -337,7 +444,7 @@ final class WidgetViews {
             v.setTextViewText(R.id.w_title, t != null ? t.label : c.getString(R.string.widget_map_name));
             v.setViewVisibility(R.id.w_map, View.GONE);
             v.setViewVisibility(R.id.w_sum, View.GONE);
-            v.setImageViewResource(R.id.w_empty_icon, R.drawable.widget_ic_route);
+            v.setImageViewResource(R.id.w_empty_icon, ROUTE_ICONS[theme]);
             empty(v, problem != null ? problem : c.getString(R.string.w_term_over), "", problem != null && d != null);
             return v;
         }
@@ -350,14 +457,18 @@ final class WidgetViews {
         RouteMap m = DayMapBitmap.data(c);
         if (!DayMapBitmap.drawable(m, day, d.home)) { // 강의실이 정해진 수업도 출발 자리도 지도에 없다
             v.setViewVisibility(R.id.w_map, View.GONE);
-            v.setImageViewResource(R.id.w_empty_icon, R.drawable.widget_ic_route);
+            v.setImageViewResource(R.id.w_empty_icon, ROUTE_ICONS[theme]);
             empty(v, c.getString(R.string.w_no_route), "", false);
             return v;
         }
         int[] wh = size(c, options, 250, 110);
-        float mapW = wh[0] - 20, mapH = wh[1] - 20 - 6 - 18 * font(c); // 여백 10씩, 머리와 그 아래 6
-        v.setImageViewBitmap(R.id.w_map_light, DayMapBitmap.draw(c, m, day, d.home, mapW, mapH, false));
-        v.setImageViewBitmap(R.id.w_map_dark, DayMapBitmap.draw(c, m, day, d.home, mapW, mapH, true));
+        float mapW = wh[0] - 20, mapH = wh[1] - (12 + bandLine(c, title)) - 6 - 10; // 몸 좌우 10씩, 머리 띠(위아래 6 + 글)와 그 아래 6, 아래 10
+        if (theme == WidgetData.DEVICE) { // 기기 설정: 두 장(layout(-night) 이 한 장을 보인다)
+            v.setImageViewBitmap(R.id.w_map_light, DayMapBitmap.draw(c, m, day, d.home, mapW, mapH, DayMapBitmap.LIGHT));
+            v.setImageViewBitmap(R.id.w_map_dark, DayMapBitmap.draw(c, m, day, d.home, mapW, mapH, DayMapBitmap.DARK));
+        } else { // 고른 한 벌: 그 레이아웃(widget_map_light 등)은 w_map_light 만 보인다
+            v.setImageViewBitmap(R.id.w_map_light, DayMapBitmap.draw(c, m, day, d.home, mapW, mapH, DayMapBitmap.ink(theme)));
+        }
         // 스크린리더: '오늘 · 10월 30일 (금) 동선 지도. 1 생명과학 1 26동 104호, 2 …'
         StringBuilder said = new StringBuilder();
         for (int i = 0; i < day.size(); i++) {
@@ -367,7 +478,7 @@ final class WidgetViews {
         }
         String text = c.getString(R.string.w_map_said, title, said.toString());
         v.setContentDescription(R.id.w_map_light, text);
-        v.setContentDescription(R.id.w_map_dark, text);
+        if (theme == WidgetData.DEVICE) v.setContentDescription(R.id.w_map_dark, text);
         return v;
     }
 
@@ -408,17 +519,10 @@ final class WidgetViews {
         return null;
     }
 
-    /** 항목 표시 색: 칸 색 설정이 교과구분이면 교과구분, 아니면 항목 색 */
-    static int mark(WidgetData d, WidgetData.Lesson l) {
-        if ("cls".equals(d.colors)) {
-            switch (l.cls) {
-                case "req": return R.drawable.widget_mark_req;
-                case "elec": return R.drawable.widget_mark_elec;
-                case "gen": return R.drawable.widget_mark_gen;
-                default: return R.drawable.widget_mark_etc;
-            }
-        }
-        return ITEM_MARKS[Math.floorMod(l.color, ITEM_MARKS.length)];
+    /** 항목 표시 색(그 한 벌의 그림): 칸 색 설정이 교과구분이면 교과구분, 아니면 항목 색 */
+    static int mark(WidgetData d, WidgetData.Lesson l, int theme) {
+        if ("cls".equals(d.colors)) return CLS_MARKS[theme][WeekBitmap.clsIndex(l.cls)];
+        return ITEM_MARKS[theme][Math.floorMod(l.color, ITEM_MARKS[theme].length)];
     }
 
     /** 10월 30일 (금) */

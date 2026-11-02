@@ -202,6 +202,49 @@ public final class WidgetCheck {
             out.append(i == 0 ? "" : ",").append(q(b.toString()));
         }
         out.append("]");
+        // 머리 띠(update78): 띠 글이 그전 머리 줄 16 보다 높게 나오면 그만큼만 기준을 올린다(낮으면 그대로)
+        out.append(",\"nextRowsBand\":[");
+        float[][] bandAt = { { 186, 0 }, { 186, 3 }, { 186, -3 }, { 208, 3 }, { 211, 3 } };
+        for (int i = 0; i < bandAt.length; i++) {
+            boolean[] r = WidgetData.nextRows((int) bandAt[i][0], 1f, bandAt[i][1]);
+            StringBuilder b = new StringBuilder();
+            for (boolean x : r) b.append(x ? '1' : '0');
+            out.append(i == 0 ? "" : ",").append(q(b.toString()));
+        }
+        out.append("]");
+        // 큰 줄 글자 크기(update78): 32 로 잰 폭·블록 안 폭 → 32(작은 블록 26), 26, 드는 크기(0.5 내림, 적어도 12)
+        out.append(",\"heroSize\":[").append(WidgetData.heroSize(80, 100, false)).append(",").append(WidgetData.heroSize(110, 100, false)).append(",")
+            .append(WidgetData.heroSize(140, 100, false)).append(",").append(WidgetData.heroSize(80, 100, true)).append(",")
+            .append(WidgetData.heroSize(1000, 100, false)).append(",").append(WidgetData.heroSize(0, 100, false)).append("]");
+        // 블록 아래 줄(update78): {아래 글, 지각}. 둘이 들면 둘 다, 넘치면 지각만, 지각도 넘치면 줄째 뺀다
+        float[][] lineAt = { { 50, 40, 6, 100 }, { 60, 40, 6, 100 }, { 60, 110, 6, 100 }, { 60, 0, 6, 100 }, { 120, 0, 6, 100 }, { 0, 40, 6, 100 }, { 0, 0, 6, 100 } };
+        out.append(",\"heroLine\":[");
+        for (int i = 0; i < lineAt.length; i++) {
+            boolean[] r = WidgetData.heroLine(lineAt[i][0], lineAt[i][1], lineAt[i][2], lineAt[i][3]);
+            out.append(i == 0 ? "" : ",").append(q((r[0] ? "1" : "0") + (r[1] ? "1" : "0")));
+        }
+        out.append("]");
+        // 오늘 수업 행 아래 줄(update78): 글자 수를 폭으로 보고 '걷기 n분' → '10:18 출발' 차례로 덩이째 뺀다
+        Object[][] subAt = { { "26동 104호", "10:18 출발", "걷기 12분", 40 }, { "26동 104호", "10:18 출발", "걷기 12분", 19 }, { "26동 104호", "10:18 출발", "걷기 12분", 12 },
+            { "26동 104호", "10:18 출발", "걷기 12분", 3 }, { "", "10:18 출발", "걷기 12분", 9 }, { "", "10:18 출발", "걷기 12분", 3 }, { "1동 303호", "", "걷기 8분", 9 },
+            { "", "", "", 3 } };
+        out.append(",\"rowSub\":[");
+        for (int i = 0; i < subAt.length; i++) {
+            int limit = (Integer) subAt[i][3];
+            out.append(i == 0 ? "" : ",").append(q(WidgetData.rowSub((String) subAt[i][0], (String) subAt[i][1], (String) subAt[i][2], x -> x.length() <= limit)));
+        }
+        out.append("]");
+        // 위젯 테마(update78): 이벤트 테마 기간(기기 날짜, 그 해에 끄지 않았으면) → 고른 라이트·다크 → 기본(기기 설정). 0 기본, 1 라이트, 2 다크, 3 크리스마스
+        String[] themeData = { "", "\"scheme\":\"light\",", "\"scheme\":\"dark\",\"themeOff\":\"xmas-2026\",", "\"scheme\":\"auto\",\"themeOff\":\"xmas-2025\"," };
+        Calendar[] themeAt = { at(2026, 11, 30, 23, 59), at(2026, 12, 1, 0, 0), at(2026, 12, 31, 23, 59), at(2027, 1, 1, 0, 0), at(2027, 12, 15, 9, 0) };
+        out.append(",\"theme\":[");
+        for (int i = 0; i < themeData.length; i++) {
+            WidgetData x = WidgetData.parse("{\"v\":1," + themeData[i] + "\"terms\":[]}");
+            StringBuilder b = new StringBuilder();
+            for (Calendar when : themeAt) b.append(x.theme(when));
+            out.append(i == 0 ? "" : ",").append(q(x.scheme + ":" + b));
+        }
+        out.append("],\"themes\":").append(q(WidgetData.THEMES.length + ":" + String.join("/", WidgetData.THEMES[0])));
         out.append(",\"bigPart\":[").append(Arrays.toString(WidgetData.bigPart("10:18 출발", "10:18")).replace(" ", "")).append(",")
             .append(Arrays.toString(WidgetData.bigPart("걷기 12분", "12")).replace(" ", "")).append(",")
             .append(String.valueOf(WidgetData.bigPart("10:18 출발", ""))).append("]");

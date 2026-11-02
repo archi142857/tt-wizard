@@ -3,7 +3,7 @@
 <resources>
     <color name="launch_background">#EEF0FF</color>
 
-    <!-- 홈 화면 위젯(10/30): 웹 화면의 기본 테마 토큰(web/style.css 라이트 :root)과 같은 값.
+    <!-- 홈 화면 위젯(10/30): 앱 테마가 기본(기기 설정)일 때 쓰는 색(고른 라이트·다크·크리스마스는 values/widget_themes.xml, update78). 웹 화면의 기본 테마 토큰(web/style.css 라이트 :root)과 같은 값.
          바탕 card, 글자 text·text2·text3, 선 line, 강조 accent-text·accent-weak, 위험 danger, 항목 표시 item-N-dot, 교과구분 표시 cls-*, 칸 채움 item-N. tests/test_app.py 가 견준다 -->
     <color name="widget_bg">#FFFFFF</color>
     <color name="widget_text">#182033</color>
@@ -33,6 +33,10 @@
     <color name="widget_fill_item5">#FFDCEB</color>
     <color name="widget_fill_item6">#C3F4F7</color>
     <color name="widget_fill_item7">#E6EAF2</color>
+    <!-- 머리 띠(update78, 디자인 106판 '머리 띠'): 바탕 bg 단색, 제목 on-bg-heading, 오른쪽 흐린 글 on-bg-text3 -->
+    <color name="widget_band">#EEF0FF</color>
+    <color name="widget_on_band">#1D2A78</color>
+    <color name="widget_on_band3">#646C7E</color>
     <!-- 동선 지도 위젯(update71)의 미리 보기 그림: map-land·map-green·map-road(·line)·map-building, 길 route, 핀 accent·on-color, 출발 자리 home·on-home -->
     <color name="widget_map_land">#F2EFE9</color>
     <color name="widget_map_green">#C9E2C2</color>

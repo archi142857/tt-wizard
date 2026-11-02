@@ -20,7 +20,6 @@
     <string name="w_tomorrow">내일</string>
     <string name="w_term_start">개강 · %1$s</string>
     <string name="w_last">오늘 마지막 수업</string>
-    <string name="w_leave">%1$s 출발 · 걷기 %2$d분</string>
     <string name="w_walk">걷기 %1$d분</string>
     <string name="w_hero_leave">%1$s 출발</string>
     <string name="w_hero_end">%1$s 끝</string>

@@ -46,3 +46,22 @@ def test_feedback_lines_wait_for_app(monkeypatch):
         monkeypatch.setattr(lp, "FEEDBACK_IN_APP", True)
         later = lp.page(name)
         assert words in later and "【" not in later
+
+
+def test_page_style_follows_design():
+    """모양(디자인 규칙 '정보 화면'의 '처리방침·문의 웹 페이지', 11/2 디자인 요청 → update78): 머리는 앱 상단 바와 같은 워드마크(높이 29, 다크는 wordmark-dark,
+    머리 높이 56), 제목 t-h2 20/28·절 제목 t-button 17/24(둘 다 heading), 본문 16/24, 카드 모서리 20, 폰 좌우 여백 20"""
+    text = (ROOT / "web" / "privacy" / "index.html").read_text(encoding="utf-8")
+    assert ('<a href="../"><picture><source srcset="../icons/wordmark-dark.svg" media="(prefers-color-scheme: dark)">'
+            '<img src="../icons/wordmark.svg" alt="TT Wizard" width="124" height="29"></picture></a>') in text
+    assert all((ROOT / "web" / "icons" / f).exists() for f in ("wordmark.svg", "wordmark-dark.svg"))
+    st = lp.STYLE
+    assert ".top { display: flex; align-items: center; min-height: 56px; margin-bottom: 4px; }" in st
+    assert ".top a { display: inline-flex; align-items: center; min-height: 48px; }" in st and ".top img { display: block; height: 29px; width: auto; }" in st
+    assert "h1 { margin: 0 0 4px; color: var(--heading); font-size: 1.25rem; line-height: 1.75rem; letter-spacing: -0.01em; font-weight: 700; }" in st
+    assert "h2 { margin: 32px 0 8px; color: var(--heading); font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; }" in st
+    assert "font: 400 1rem/1.5rem " in st and "border-radius: 20px;" in st and "padding: 16px 20px 48px;" in st
+    # heading 은 앱 토큰 값(라이트 tt-deep-navy, 다크 #e5e8f0)
+    css = (ROOT / "web" / "style.css").read_text(encoding="utf-8")
+    assert "--tt-deep-navy: #1d2a78;" in css and "--heading: var(--tt-deep-navy);" in css and "--heading: #e5e8f0;" in css
+    assert "--heading: #1d2a78;" in st and "--heading: #e5e8f0;" in st

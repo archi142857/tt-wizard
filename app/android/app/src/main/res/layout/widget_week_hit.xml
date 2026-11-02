@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 주간 시간표 위젯의 수업 칸 하나를 누르는 자리(update77). 보이는 것은 격자 그림이라 바탕이 없다. 크기·자리·이름·누르면 여는 주소는 WidgetViews.week -->
+<!-- 주간 시간표 위젯의 수업 칸 하나를 누르는 자리(update77). 보이는 것은 격자 그림이라 바탕은 눌린 동안의 기기 기본 물결뿐이다(update78, 디자인 106판).
+     크기·자리·이름·누르면 여는 주소는 WidgetViews.week -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/w_hit"
     android:layout_width="0dp"
-    android:layout_height="0dp" />
+    android:layout_height="0dp"
+    android:background="?android:attr/selectableItemBackground" />

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 오늘 수업 위젯의 행 하나: 항목 색 막대 | 과목명·강의실과 걷기 | 시각·'지금' -->
+<!-- 오늘 수업 위젯의 행 하나: 항목 색 막대 | 과목명·강의실과 걷기 | 시각·'지금'. 누르면 그 수업의 항목 시트(update77, 눌린 동안 기기 기본 물결 update78).
+     아래 줄이 넘치면 '걷기 n분' → '10:18 출발' 차례로 덩이째 뺀다(WidgetData.rowSub) -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/r_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
     android:paddingTop="3dp"
     android:paddingBottom="3dp">

@@ -1,52 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 오늘 수업 위젯(4×2, 4×4 까지 늘린다, 10/30). 행은 WidgetViews.today 가 widget_today_row 로 넣는다(높이만큼). 눌러서 앱의 그 요일 동선 지도(update70) -->
+<!-- 오늘 수업 위젯(4×2, 4×4 까지 늘린다, 10/30). 맨 위 머리 띠(update78, 디자인 106판: 앱 테마의 bg 단색에 날짜 13 굵게와 오른쪽 시간표 이름 12),
+     그 아래 몸(card, 띠 아래 6·좌우·아래 12)에 행. 행은 WidgetViews.today 가 widget_today_row 로 넣는다(높이만큼). 행을 누르면 그 수업의 항목 시트,
+     그 밖은 앱의 그 요일 동선 지도(update70). 이 파일은 앱 테마가 기본(기기 설정)일 때이고 다른 한 벌은 scripts/widget_themes.py 로 만든다 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/widget_bg"
-    android:orientation="vertical"
-    android:padding="12dp">
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/w_band"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/widget_band"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="6dp">
 
         <TextView
             android:id="@+id/w_date"
-            style="@style/TTWWidget.Heading"
+            style="@style/TTWWidget.BandTitle"
             android:layout_width="0dp"
             android:layout_weight="1" />
 
         <TextView
             android:id="@+id/w_title"
-            style="@style/TTWWidget.Caption"
+            style="@style/TTWWidget.BandText"
             android:layout_marginStart="8dp" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/w_rows"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="6dp"
-        android:layout_weight="1"
-        android:orientation="vertical" />
-
-    <!-- 넘치는 수업: '외 n개' -->
-    <TextView
-        android:id="@+id/w_sub"
-        style="@style/TTWWidget.Body"
-        android:layout_marginTop="4dp"
-        android:visibility="gone" />
-
-    <!-- 빈 상태(수업이 없는 날, 자료·대표 시간표가 없을 때): widget_empty -->
-    <include
-        android:id="@+id/w_empty"
-        layout="@layout/widget_empty"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:visibility="gone" />
+        android:orientation="vertical"
+        android:paddingStart="12dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="12dp">
+
+        <LinearLayout
+            android:id="@+id/w_rows"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical" />
+
+        <!-- 넘치는 수업: '외 n개' -->
+        <TextView
+            android:id="@+id/w_sub"
+            style="@style/TTWWidget.Body"
+            android:layout_marginTop="4dp"
+            android:visibility="gone" />
+
+        <!-- 빈 상태(수업이 없는 날, 자료·대표 시간표가 없을 때): widget_empty -->
+        <include
+            android:id="@+id/w_empty"
+            layout="@layout/widget_empty"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone" />
+    </LinearLayout>
 </LinearLayout>

@@ -11,20 +11,22 @@
 <link rel="icon" href="../icons/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" crossorigin>
 <style>
-:root { color-scheme: light dark; --bg: #eef0ff; --card: #ffffff; --text: #182033; --text2: #51596a; --text3: #646c7e; --line: #dee1f7;
+:root { color-scheme: light dark; --bg: #eef0ff; --card: #ffffff; --heading: #1d2a78; --text: #182033; --text2: #51596a; --text3: #646c7e; --line: #dee1f7;
   --line-strong: #7d8599; --focus: #4f70ff; }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #16171b; --card: #1e2026; --text: #e4e6eb; --text2: #c8cad2; --text3: #afb2bb; --line: #2f3138; --line-strong: #71747d; --focus: #a2b5fa; }
+  :root { --bg: #16171b; --card: #1e2026; --heading: #e5e8f0; --text: #e4e6eb; --text2: #c8cad2; --text3: #afb2bb; --line: #2f3138; --line-strong: #71747d;
+    --focus: #a2b5fa; }
 }
 html { background: var(--bg); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body { margin: 0; background: var(--bg); color: var(--text2); font: 400 1rem/1.625rem Pretendard, "Pretendard Variable", "Noto Sans KR", -apple-system,
+body { margin: 0; background: var(--bg); color: var(--text2); font: 400 1rem/1.5rem Pretendard, "Pretendard Variable", "Noto Sans KR", -apple-system,
   BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; word-break: keep-all; overflow-wrap: break-word; }
-.page { box-sizing: border-box; max-width: 44rem; margin: 0 auto; padding: 16px 16px 48px; }
-.top { display: flex; align-items: center; min-height: 48px; margin-bottom: 8px; }
-.top a { color: var(--text); font-weight: 700; font-size: 1.125rem; text-decoration: none; }
-main { padding: 24px 20px 32px; border-radius: 16px; background: var(--card); }
-h1 { margin: 0 0 4px; color: var(--text); font-size: 1.5rem; line-height: 2rem; font-weight: 700; }
-h2 { margin: 32px 0 8px; color: var(--text); font-size: 1.125rem; line-height: 1.625rem; font-weight: 700; }
+.page { box-sizing: border-box; max-width: 44rem; margin: 0 auto; padding: 16px 20px 48px; }
+.top { display: flex; align-items: center; min-height: 56px; margin-bottom: 4px; }
+.top a { display: inline-flex; align-items: center; min-height: 48px; }
+.top img { display: block; height: 29px; width: auto; }
+main { padding: 24px 20px 32px; border-radius: 20px; background: var(--card); }
+h1 { margin: 0 0 4px; color: var(--heading); font-size: 1.25rem; line-height: 1.75rem; letter-spacing: -0.01em; font-weight: 700; }
+h2 { margin: 32px 0 8px; color: var(--heading); font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; }
 p { margin: 0 0 12px; }
 .date { margin-bottom: 24px; color: var(--text3); font-size: .875rem; line-height: 1.25rem; }
 ul { margin: 0 0 12px; padding-left: 1.25rem; }
@@ -39,7 +41,7 @@ a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-r
 </head>
 <body>
 <div class="page">
-<header class="top"><a href="../">TT Wizard</a></header>
+<header class="top"><a href="../"><picture><source srcset="../icons/wordmark-dark.svg" media="(prefers-color-scheme: dark)"><img src="../icons/wordmark.svg" alt="TT Wizard" width="124" height="29"></picture></a></header>
 <main>
 <h1>개인정보 처리방침</h1>
 <p class="date">시행일: 2026년 11월 1일</p>

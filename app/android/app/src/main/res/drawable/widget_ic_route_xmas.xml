@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- scripts/widget_themes.py 가 drawable/widget_ic_route.xml 에서 옮겨 만든 'xmas' 한 벌이다(update78, 위젯이 앱 테마로 그린다). 여기를 고치지 말고 원본을 고친 뒤 다시 만든다 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="28dp"
+    android:height="28dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M2.5,7a2,2 0,1 0,4 0a2,2 0,1 0,-4 0ZM17.5,7a2,2 0,1 0,4 0a2,2 0,1 0,-4 0Z"
+        android:strokeWidth="2"
+        android:strokeColor="@color/widget_text3_xmas" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M4.5,9C4.5,15 6.4,19 8.25,19S12,11.5 12,11.5 13.9,19 15.75,19 19.5,15 19.5,9"
+        android:strokeWidth="2"
+        android:strokeColor="@color/widget_text3_xmas"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

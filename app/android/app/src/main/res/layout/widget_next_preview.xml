@@ -1,80 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 위젯 고르는 화면의 다음 수업 미리 보기(안드로이드 12 이상 previewLayout). 지어낸 보기다. 모양은 widget_next(update77 의 출발 시각 블록:
-     수 32 와 낱말 16 은 여기서는 글 둘로 나눠 글자 밑선을 맞춘다. 위젯은 한 글에 크기를 나눠 넣는다) -->
+<!-- 위젯 고르는 화면의 다음 수업 미리 보기(안드로이드 12 이상 previewLayout). 지어낸 보기다. 모양은 widget_next(update78 의 머리 띠, update77 의 출발 시각 블록:
+     수 32 와 낱말 16 은 여기서는 글 둘로 나눠 글자 밑선을 맞춘다. 위젯은 한 글에 크기를 나눠 넣는다). 미리 보기는 앱 테마를 모르니 기기 라이트·다크 그대로다 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/widget_bg"
-    android:orientation="vertical"
-    android:padding="12dp">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/widget_band"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="6dp">
 
         <ImageView
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_marginEnd="6dp"
-            android:background="@drawable/widget_mark_item1"
-            android:importantForAccessibility="no" />
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="-1dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/widget_dot_ring"
+            android:importantForAccessibility="no"
+            android:padding="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/widget_mark_item1" />
 
         <TextView
-            style="@style/TTWWidget.Caption"
+            style="@style/TTWWidget.BandTitle"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:text="@string/w_next" />
     </LinearLayout>
 
-    <TextView
-        style="@style/TTWWidget.Title"
-        android:layout_marginTop="4dp"
-        android:text="@string/w_preview_name" />
-
-    <TextView
-        style="@style/TTWWidget.Body"
-        android:layout_marginTop="2dp"
-        android:text="@string/w_preview_time" />
-
-    <TextView
-        style="@style/TTWWidget.Body"
-        android:text="@string/w_preview_place" />
-
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:minHeight="4dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/widget_block"
-        android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="8dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:baselineAligned="true"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/TTWWidget.Hero"
-                android:text="@string/w_preview_hero_time" />
-
-            <TextView
-                style="@style/TTWWidget.Hero"
-                android:layout_marginStart="4dp"
-                android:text="@string/w_preview_hero_word"
-                android:textSize="16sp" />
-        </LinearLayout>
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="12dp">
 
         <TextView
-            style="@style/TTWWidget.HeroSub"
-            android:layout_width="wrap_content"
+            style="@style/TTWWidget.Title"
+            android:layout_marginTop="4dp"
+            android:text="@string/w_preview_name" />
+
+        <TextView
+            style="@style/TTWWidget.Body"
             android:layout_marginTop="2dp"
-            android:text="@string/w_preview_hero_sub" />
+            android:text="@string/w_preview_time" />
+
+        <TextView
+            style="@style/TTWWidget.Body"
+            android:text="@string/w_preview_place" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:minHeight="4dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/widget_block"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:baselineAligned="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TTWWidget.Hero"
+                    android:text="@string/w_preview_hero_time" />
+
+                <TextView
+                    style="@style/TTWWidget.Hero"
+                    android:layout_marginStart="4dp"
+                    android:text="@string/w_preview_hero_word"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/TTWWidget.HeroSub"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/w_preview_hero_sub" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

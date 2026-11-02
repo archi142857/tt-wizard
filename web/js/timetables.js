@@ -511,7 +511,11 @@ export function timetableFromImage(payload, list, { now = new Date() } = {}) {
 // 안드로이드 위젯 셋은 앱이 꺼져 있어도 그려야 해서, 화면(app.js)이 대표 시간표를 위젯이 읽는 자료(widgetData)로 바꿔 앱 연결에 넘기고
 // (TTW_APP.updateWidgets) 앱이 기기 안(SharedPreferences)에 둔다. 위젯은 그 자료만 보고 시각에 맞춰 그린다(docs/app.md '홈 화면 위젯'). 서버로 보내지 않는다.
 //
-// 자료 { v: 1, colors: "item" | "cls"(칸 색 설정), home: 출발·도착 지점 id(걷기를 셀 때 쓴 것, 모르면 ""), terms: [학기, ...] }.
+// 자료 { v: 1, colors: "item" | "cls"(칸 색 설정), home: 출발·도착 지점 id(걷기를 셀 때 쓴 것, 모르면 ""),
+//        scheme: "system" | "light" | "dark"(테마 탭에서 고른 것, 기기 저장소 ttw.scheme. 없으면 기본 = 기기 설정),
+//        themeOff: 그 해에 끈 이벤트 테마("xmas-2026", ttw.themeOff. 없으면 ""), terms: [학기, ...] }.
+//   scheme·themeOff 는 위젯이 앱 테마로 그리는 데 쓴다(11/2 update78, 사용자: 위젯도 "테마에 맞춰서"). 이벤트 테마의 기간(app.js THEMES)은 위젯이
+//   그릴 때의 기기 날짜로 정한다(WidgetData.theme: 앱을 열지 않아도 12월 1일 0시에 바뀐다)
 //   같은 시간표면 같은 글이 되게 만든 시각은 넣지 않는다(앱 연결·앱이 같은 자료를 거른다)
 //   학기 { sem, id: 대표 시간표 id, label: "2026년 2학기", title: 대표 시간표 이름, from, to: "YYYY-MM-DD"(위젯이 이 학기를 보이는 날들, termDates),
 //          days: 월~일 일곱 칸 [[수업, ...], ...](시작 시각 차례), untimed: 시간이 정해지지 않은 항목 수 }
@@ -597,13 +601,18 @@ function widgetDay(list, { name, place, minutes, home }) {
   return day;
 }
 
+/** 테마 탭에서 고른 라이트·다크(app.js SCHEMES 의 값). 그 밖(없음·기본·옛 값)은 기본 = 기기 설정 */
+const schemeOf = (v) => (v === "light" || v === "dark" ? v : "system");
+/** 그 해에 끈 이벤트 테마의 이름(app.js seasonTheme 의 event: '<테마>-<해>', 개발 서버 시험은 '<테마>-test'). 다른 꼴이면 "" */
+const themeOffOf = (v) => (typeof v === "string" && /^[a-z]{1,16}-(\d{4}|test)$/.test(v) ? v : "");
+
 /**
  * 위젯 자료(위 머리의 꼴). terms = [{ t: 대표 시간표, entries }] — entries 는 화면이 그리는 항목(reconcile 이나 ttEntries 결과, 학기마다).
  * opts: name(entry) 화면의 과목명, place(meeting) 강의실 표기, minutes(a, b) 걷는 분(TravelMatrix.minutes, 없으면 걷기를 적지 않는다),
- *       home 출발 지점 id, colors 칸 색 설정("item" | "cls")
+ *       home 출발 지점 id, colors 칸 색 설정("item" | "cls"), scheme 고른 라이트·다크(ttw.scheme), themeOff 그 해에 끈 이벤트 테마(ttw.themeOff)
  */
 export function widgetData(terms, { name = (e) => (e.item.custom ? e.item.title : e.item.name), place = placeOf, minutes = null, home = "",
-  colors = "item" } = {}) {
+  colors = "item", scheme = "system", themeOff = "" } = {}) {
   const out = [];
   for (const term of terms || []) {
     const { t, entries } = term || {};
@@ -619,7 +628,7 @@ export function widgetData(terms, { name = (e) => (e.item.custom ? e.item.title 
     out.push({ sem: t.sem, id: String(t.id || ""), label: termLabel(t.sem), title: String(t.title || ""), from: dates.from, to: dates.to,
       days: days.map((list) => widgetDay(list, { name, place, minutes, home })), untimed });
   }
-  return { v: WIDGET_VERSION, colors: colorMode(colors), home: String(home || ""), terms: out };
+  return { v: WIDGET_VERSION, colors: colorMode(colors), home: String(home || ""), scheme: schemeOf(scheme), themeOff: themeOffOf(themeOff), terms: out };
 }
 
 /** 출발 지점(app.js 와 같은 규칙): 둔 값이 지금 자료의 지점이면 그것, 없는 기숙사 동(919 → 919A~D)이면 첫 기숙사 동, 아니면 자료의 첫 출발 후보 */
@@ -638,6 +647,7 @@ function homeOf(saved, campus) {
  *   campus    data/campus.json(없으면 걷기를 적지 않는다), travel(campus, mode)  이동 행렬(engine.js 의 TravelMatrix.fromCampus)
  * 학기마다 'timetables@학기' 의 대표 시간표를 적어 둔 수업(own·base)으로 쓴다(편람과 맞추지 않는다. 화면이 updateWidgets 를 부르면 그쪽이 편람과 맞춘 값).
  * 출발 지점 'home'·이동 기준 'mode'·칸 색 'timetableColor' 는 화면이 둔 값, 없으면 화면의 처음 값(자료의 첫 출발 후보, 경사 반영, 항목 색).
+ * 테마 'scheme'·'themeOff' 도 화면이 둔 값 그대로다(update78. 앱을 내릴 때 넘기므로 테마 탭에서 바꾼 것이 그때 위젯에 간다).
  */
 export function widgetDataFromStore({ get, keys = [], campus = null, travel = null, now = new Date() }) {
   const sems = keys.map((k) => /^timetables@(\d{4}-[12SW])$/.exec(k)).filter(Boolean).map((m) => m[1]);
@@ -652,5 +662,5 @@ export function widgetDataFromStore({ get, keys = [], campus = null, travel = nu
     minutes = (a, b) => matrix.minutes(a, b);
     home = homeOf(get("home"), campus);
   }
-  return widgetData(terms, { minutes, home, colors: get(STORE_KEYS.color) });
+  return widgetData(terms, { minutes, home, colors: get(STORE_KEYS.color), scheme: get("scheme"), themeOff: get("themeOff") });
 }

@@ -353,6 +353,10 @@ const out = {};
   s.localStorage.setItem("ttw.mode", JSON.stringify("flat")); // 이동 기준을 바꾸고 내리면 새 자료
   await s.win.TTW_APP.refreshWidgets();
   const flat = JSON.parse(s.calls.widget[s.calls.widget.length - 1]).terms[0].days[0].map((l) => l.walk);
+  s.localStorage.setItem("ttw.scheme", JSON.stringify("dark")); // 테마 탭에서 다크를 고르고(그 해 크리스마스는 끄고) 내리면 새 자료(update78: 위젯이 앱 테마로)
+  s.localStorage.setItem("ttw.themeOff", JSON.stringify("xmas-2099"));
+  await s.win.TTW_APP.refreshWidgets();
+  const themed = JSON.parse(s.calls.widget[s.calls.widget.length - 1]);
   const before = s.calls.widget.length;
   await s.win.TTW_APP.updateWidgets({ v: 1, colors: "item", terms: [] }); // 화면이 직접 넘기면
   s.localStorage.setItem("ttw.mode", JSON.stringify("slope"));
@@ -364,7 +368,7 @@ const out = {};
   out.widgetStore = {
     colors: first.colors, terms: first.terms.map((t) => [t.sem, t.title, t.from]),
     monday: first.terms[0].days[0].map((l) => [l.name, l.place, l.walk, l.from, l.late, l.cls]),
-    same, flat, afterScreen: [before + 1, s.calls.widget.length],
+    same, flat, afterScreen: [before + 1, s.calls.widget.length], theme: [first.scheme, first.themeOff, themed.scheme, themed.themeOff],
     empty: JSON.parse(empty.calls.widget[0]), noCampus: JSON.parse(noCampus.calls.widget[0]).terms[0].days[0].map((l) => l.walk),
     listening: [s.visible.length, setup({ platform: "ios" }).visible.length], // 안드로이드: 상태 바 + 위젯, iOS: 위젯 없음
   };

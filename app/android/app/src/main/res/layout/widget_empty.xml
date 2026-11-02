@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 위젯 빈 상태(update70, 10/30 사용자: "대표 시간표가 없을 때 위젯이 너무 날 것 느낌"): 머리 줄 아래 남는 자리 가운데에 아이콘, 지금 상태 한 문장,
+<!-- 위젯 빈 상태(update70, 10/30 사용자: "대표 시간표가 없을 때 위젯이 너무 날 것 느낌"): 머리 띠 아래 남는 자리 가운데에 아이콘, 지금 상태 한 문장,
      있으면 그 아래 한 줄(오늘 수업이 없는 날의 '다음 · 월요일 09:00 과목명')이나 '내 시간표 열기'(위젯 전체가 앱을 연다).
      위젯 레이아웃이 <include android:id="@+id/w_empty"> 로 넣는다. 처음에는 숨어 있고 WidgetViews 가 빈 상태일 때만 보인다 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

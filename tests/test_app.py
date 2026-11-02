@@ -181,9 +181,11 @@ def test_native_shim():
     ws = r["widgetStore"]
     assert ws["colors"] == "cls" and ws["terms"] == [["2099-1", "시간표 1", "2099-03-01"]]
     assert ws["monday"] == [["생명과학 1", "A동 104호", 12, "home", 0, "etc"], ["대학 글쓰기 1", "B동 303호", 20, "class", 5, "gen"]]
-    assert ws["same"] == 1 and ws["flat"] == [10, 17] and ws["afterScreen"] == [3, 3]
+    assert ws["same"] == 1 and ws["flat"] == [10, 17] and ws["afterScreen"] == [4, 4]
+    # 앱 테마(update78): 테마 탭에서 고른 것(ttw.scheme)과 그 해에 끈 이벤트 테마(ttw.themeOff)를 그대로 넘긴다. 없으면 기본(기기 설정)
+    assert ws["theme"] == ["system", "", "dark", "xmas-2099"]
     # 대표 시간표가 없어도 출발·도착 지점은 넘긴다(자료의 첫 출발 후보. 동선 지도 위젯)
-    assert ws["empty"] == {"v": 1, "colors": "item", "home": "HOME", "terms": []} and ws["noCampus"] == [None, None]
+    assert ws["empty"] == {"v": 1, "colors": "item", "home": "HOME", "scheme": "system", "themeOff": "", "terms": []} and ws["noCampus"] == [None, None]
     assert ws["listening"] == [2, 0]  # 안드로이드: 상태 바와 위젯이 visibilitychange 를 듣는다, iOS 는 위젯이 없다
 
 

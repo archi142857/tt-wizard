@@ -15,10 +15,11 @@ import org.json.JSONObject;
  * 홈 화면 위젯이 읽는 자료와 '지금 무엇을 보일지' — 백엔드 세션(10/30).
  * 자료는 app/src/native.js 가 기기 저장소의 대표 시간표로 web/js/timetables.js 의 widgetDataFromStore 를 돌려 TTWWidget.update 로 넘기고
  * WidgetPlugin 이 기기 안(SharedPreferences)에 둔 JSON 이다(update68):
- *   { v, colors: "item"|"cls", home, terms: [{ sem, id, label, title, from, to, days: [[{ name, k, place, b, start, end, color, cls, walk, from, late }] × 7], untimed }] }
+ *   { v, colors: "item"|"cls", home, scheme, themeOff, terms: [{ sem, id, label, title, from, to, days: [[{ name, k, place, b, start, end, color, cls, walk, from, late }] × 7], untimed }] }
  * (b = 건물 id, home = 출발·도착 지점 id: 동선 지도 위젯이 길을 그린다. update70 에서 더함, 없으면 "".
  *  back = 그날 마지막 위치 확정 수업에만, 출발·도착 지점으로 돌아가는 분: 동선 지도 위젯의 걷기 합. update71.
- *  id = 대표 시간표 id, k = 항목 열쇠: 수업을 누르면 앱이 그 항목 시트를 연다(itemUrl). update77, 옛 자료면 "")
+ *  id = 대표 시간표 id, k = 항목 열쇠: 수업을 누르면 앱이 그 항목 시트를 연다(itemUrl). update77, 옛 자료면 "".
+ *  scheme = 테마 탭에서 고른 "light"|"dark"(그 밖은 기본 = 기기 설정), themeOff = 그 해에 끈 이벤트 테마 "xmas-2026": 위젯이 앱 테마로 그린다(theme). update78)
  * 위젯은 앱이 꺼져 있어도 이 자료와 기기 시각만으로 그린다. 이 클래스는 안드로이드 화면 코드를 쓰지 않는다(org.json 과 Calendar 만).
  */
 final class WidgetData {
@@ -111,11 +112,15 @@ final class WidgetData {
 
     final String colors; // "item" | "cls"
     final String home; // 출발·도착 지점 id(모르면 "")
+    final String scheme; // 앱 테마 탭에서 고른 것: "system"(기본 = 기기 설정) | "light" | "dark"
+    final String themeOff; // 그 해에 끈 이벤트 테마('xmas-2026', 앱 seasonTheme 의 event). 없으면 ""
     final List<Term> terms;
 
-    private WidgetData(String colors, String home, List<Term> terms) {
+    private WidgetData(String colors, String home, String scheme, String themeOff, List<Term> terms) {
         this.colors = colors;
         this.home = home == null ? "" : home;
+        this.scheme = "light".equals(scheme) || "dark".equals(scheme) ? scheme : "system";
+        this.themeOff = themeOff == null ? "" : themeOff;
         this.terms = terms;
     }
 
@@ -131,7 +136,8 @@ final class WidgetData {
                 Term t = term(rawTerms.optJSONObject(i));
                 if (t != null) terms.add(t);
             }
-            return new WidgetData("cls".equals(root.optString("colors")) ? "cls" : "item", root.optString("home", ""), terms);
+            return new WidgetData("cls".equals(root.optString("colors")) ? "cls" : "item", root.optString("home", ""), root.optString("scheme", ""),
+                root.optString("themeOff", ""), terms);
         } catch (JSONException e) {
             return null;
         }
@@ -201,6 +207,34 @@ final class WidgetData {
             if (t.from > day && (next == null || t.from < next.from)) next = t;
         }
         return next;
+    }
+
+    // ------------------------------------------------------------ 위젯 테마(update78, 11/2 사용자: 위젯도 "색깔이 테마에 맞춰서 바뀌게". 디자인 106판 '테마')
+
+    /** 위젯이 그리는 한 벌: 기기 설정을 따르는 라이트·다크(layout·layout-night), 고른 라이트, 고른 다크, 크리스마스 */
+    static final int DEVICE = 0;
+    static final int LIGHT = 1;
+    static final int DARK = 2;
+    static final int XMAS = 3;
+
+    /**
+     * 이벤트 테마 {이름, 시작 MM-DD, 끝 MM-DD(그날까지, 기기 날짜)}: web/js/app.js 의 THEMES·index.html 머리의 스크립트와 같은 기간이다(tests/test_widgets.py 가 견준다).
+     * 앱처럼 켜져 있으면 고른 라이트·다크보다 앞선다(기기가 다크여도 한 벌). 테마를 더하면 그 한 벌의 자원도 더한다(scripts/widget_themes.py)
+     */
+    static final String[][] THEMES = { { "xmas", "12-01", "12-31" } };
+
+    /**
+     * 지금 그릴 한 벌(앱 화면과 같은 판단): 기간 안의 이벤트 테마(그 해에 끄지 않았으면) → 고른 라이트·다크 → 기본(기기 설정).
+     * 기간은 그릴 때의 날짜로 정한다: 다음 날 0시에 다시 그리므로(nextChange) 앱을 열지 않아도 12월 1일 0시에 바뀐다
+     */
+    int theme(Calendar now) {
+        String md = String.format(java.util.Locale.ROOT, "%02d-%02d", now.get(Calendar.MONTH) + 1, now.get(Calendar.DAY_OF_MONTH));
+        for (String[] t : THEMES) {
+            if (md.compareTo(t[1]) >= 0 && md.compareTo(t[2]) <= 0 && !themeOff.equals(t[0] + "-" + now.get(Calendar.YEAR))) return XMAS;
+        }
+        if ("light".equals(scheme)) return LIGHT;
+        if ("dark".equals(scheme)) return DARK;
+        return DEVICE;
     }
 
     /** 다음 수업 위젯이 보일 것 */
@@ -355,13 +389,59 @@ final class WidgetData {
      * 그래도 모자라면(옛 런처 2×2 의 110dp) 블록을 줄인다(시각 26, 안 여백 5): 위아래 여백이 좌우와 같은 12 로 남게(사용자 11/2: "밑 부분 패딩도 좌우랑 동일하게")
      */
     static boolean[] nextRows(int h, float f) {
-        float base = 48 + (16 + 23 + 38) * f; // 블록 위 띄움 8 + 블록 안 여백 16 + 위아래 여백 24
+        return nextRows(h, f, 0);
+    }
+
+    /**
+     * 머리 띠(update78, 디자인 106판)를 단 다음: 띠 28(위아래 6 + 글 16)이 그전 위 여백 12 + 머리 줄 16 자리라 기준은 그대로다.
+     * extra = 띠 글(13 굵게)의 실제 줄이 16·f 보다 높은 만큼(dp, 기기 글꼴로 잰다: WidgetViews.bandLine). 그만큼만 기준을 올린다
+     */
+    static boolean[] nextRows(int h, float f, float extra) {
+        float base = 48 + (16 + 23 + 38) * f + Math.max(0, extra); // 블록 위 띄움 8 + 블록 안 여백 16 + 위아래 여백 24
         boolean time = h >= base + 19 * f + 1;
         boolean sub = h >= base + 2 + 38 * f + 1;
         boolean place = h >= base + 2 + 57 * f + 1;
         boolean twoLines = h >= base + 2 + 80 * f + 1;
         boolean compact = h < base + 1;
         return new boolean[] { twoLines, place, sub, time, compact };
+    }
+
+    /**
+     * 블록 큰 줄의 글자 크기(sp, update78 디자인 106판: 말줄임하지 않는다. '10:1…' 처럼 잘린 시각은 틀린 시각으로 읽힌다).
+     * width32 = 32 로 잰 큰 줄 폭, room = 블록 안 폭(같은 단위). 32(작은 블록이면 26)가 들면 그것, 아니면 26, 그래도 넘치면 드는 크기(0.5 단위로 내림, 적어도 12)
+     */
+    static float heroSize(float width32, float room, boolean compact) {
+        float first = compact ? 26 : 32;
+        if (width32 <= 0 || width32 * first / 32 <= room) return first;
+        if (width32 * 26 / 32 <= room) return 26;
+        return Math.max(12, (float) Math.floor(32 * room / width32 * 2) / 2);
+    }
+
+    /**
+     * 블록 아래 줄에서 보일 것 {아래 글, 지각}(update78): 둘이 폭 room 에 들면 둘 다, 넘치면 아래 글('25동에서')을 빼고 '5분 지각'만,
+     * 그것도 넘치면(지각이 없으면 아래 글이 넘치면) 줄째 뺀다. sub·late = 잰 폭(없으면 0), gap = 둘 사이
+     */
+    static boolean[] heroLine(float sub, float late, float gap, float room) {
+        if (sub > 0 && late > 0 && sub + gap + late <= room) return new boolean[] { true, true };
+        if (late > 0) return new boolean[] { false, late <= room };
+        return new boolean[] { sub > 0 && sub <= room, false };
+    }
+
+    /**
+     * 오늘 수업 행의 아래 줄 '강의실 · 10:18 출발 · 걷기 12분'(update78, 디자인 106판: 수가 든 덩이가 말줄임으로 잘리지 않게).
+     * 한 줄 폭에 안 들면(fits 가 false) '걷기 n분' → '10:18 출발' 차례로 덩이째 뺀다. 강의실은 남기고 그래도 넘치면 끝이 줄어든다(TextView).
+     * 강의실이 없는데 '10:18 출발'도 안 들면 "": 줄이 없다
+     */
+    static String rowSub(String place, String leave, String walk, Predicate<String> fits) {
+        List<String> parts = new ArrayList<>();
+        for (String x : new String[] { place, leave, walk }) if (x != null && !x.isEmpty()) parts.add(x);
+        boolean hasPlace = place != null && !place.isEmpty();
+        while (true) {
+            String text = String.join(" · ", parts);
+            if (parts.isEmpty() || fits.test(text)) return text;
+            if (parts.size() == 1) return hasPlace ? text : "";
+            parts.remove(parts.size() - 1);
+        }
     }
 
     /** 큰 줄 글에서 크게 쓸 수(시각 '10:18' 이나 걷는 분 '8')의 [처음, 끝). 없으면 null: 글 전체를 크게 */

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 홈 화면 위젯의 글자(10/30). 크기는 웹 화면 타입 표(t-caption 12, t-body-sm 13, t-body 14, t-title 16)를 따르고 sp 라 기기 글자 크기를 따른다.
-     글꼴은 기기 기본(위젯에는 앱 글꼴 Pretendard 를 넣지 않았다). 색은 values(-night)/colors.xml 의 widget_* -->
+     글꼴은 기기 기본(위젯에는 앱 글꼴 Pretendard 를 넣지 않았다). 색은 values(-night)/colors.xml 의 widget_*(앱 테마가 기본일 때).
+     고른 라이트·다크·크리스마스 한 벌은 scripts/widget_themes.py 가 이 스타일마다 색만 바꾼 TTWWidget.<이름>.Light·Dark·Xmas 를 values/widget_themes.xml 에 만든다 -->
 <resources>
     <!-- 한국어 줄바꿈을 낱말(어절) 단위로: '보여 / 요' 처럼 글자 사이에서 끊지 않는다(안드로이드 13 이상, 그 아래는 그대로) -->
     <style name="TTWWidget">
         <item name="android:lineBreakWordStyle">phrase</item>
     </style>
 
+    <!-- 주간 시간표 미리 보기의 요일(12 text3). 위젯 머리 줄의 글은 update78 부터 머리 띠(BandTitle·BandText) -->
     <style name="TTWWidget.Caption">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -17,12 +19,23 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
-    <style name="TTWWidget.Heading">
+    <!-- 머리 띠(update78, 디자인 106판): 제목 13 굵게 on-bg-heading, 오른쪽 흐린 글(시간표 이름, 걷기 합) 12 on-bg-text3 -->
+    <style name="TTWWidget.BandTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">13sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/widget_text</item>
+        <item name="android:textColor">@color/widget_on_band</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TTWWidget.BandText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/widget_on_band3</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
         <item name="android:includeFontPadding">false</item>
@@ -87,7 +100,8 @@
     </style>
 
     <!-- 다음 수업 위젯의 출발 줄: 블록 가운데 큰 줄(update77: 수 32 굵게 accent-text, 시각은 자릿수 맞춤. '출발'·'걷기'·'분' 같은 낱말은
-         코드가 그 반(16)으로 줄인다. update70 의 20 을 사용자 11/2 요청으로 키움), 그 아래 13 text2 -->
+         코드가 그 반(16)으로 줄인다. update70 의 20 을 사용자 11/2 요청으로 키움), 그 아래 13 text2.
+         말줄임하지 않는다(update78, 디자인 106판): 블록 폭에 안 들면 코드가 26, 그래도 넘치면 드는 크기로 줄인다(WidgetData.heroSize) -->
     <style name="TTWWidget.Hero">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -97,7 +111,6 @@
         <item name="android:textColor">@color/widget_accent</item>
         <item name="android:fontFeatureSettings">tnum</item>
         <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">end</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 

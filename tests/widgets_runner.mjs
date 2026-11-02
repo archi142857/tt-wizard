@@ -50,6 +50,10 @@ out.data = {
   ids: data.terms.map((t, i) => t.id === [a, b][i].id && t.id.length > 0), ttId: data.terms[0].id,
   itemKeys: mon.map((l) => l.k),
   keysMatch: mon.map((l) => a.items.filter((it) => T.itemKey(it) === l.k).map((it) => it.title)),
+  // 앱 테마(update78): 고른 라이트·다크와 그 해에 끈 이벤트 테마. 모르는 값은 기본(기기 설정)·""
+  theme: [data.scheme, data.themeOff],
+  themes: [["light", "xmas-2026"], ["dark", "xmas-test"], ["system", ""], ["auto", "xmas"], [null, 2026], [undefined, "XMAS-2026"], ["dark", "xmas-2026-1"]]
+    .map(([scheme, themeOff]) => { const d = T.widgetData([], { scheme, themeOff }); return [d.scheme, d.themeOff]; }),
 };
 
 // 3) 걷는 시간·늦음이 동선 확인(engine.checkRoute)과 같다: 실제 건물·이동 행렬, 강의실 미정 수업이 사이에 낀 날
@@ -86,13 +90,15 @@ out.data = {
     items: [custom("첫", [[0, 540, 615, ids[1], ""]], 0), custom("둘", [[0, 630, 700, ids[2], ""]], 1)] };
   const other = { ...T.createTimetable([t], "2099-2", { title: "다른", now: NOW }), items: [custom("셋", [[1, 600, 650, ids[1], ""]], 2)] };
   const old = { ...T.createTimetable([], "2020-1", { title: "옛", now: NOW }), items: [custom("넷", [[2, 600, 650, ids[1], ""]], 3)] };
-  const rows = { "timetables@2099-2": [t, other], "timetables@2020-1": [old], home: "없는 동", mode: "flat", timetableColor: "cls", "picks@2099-2": [] };
+  const rows = { "timetables@2099-2": [t, other], "timetables@2020-1": [old], home: "없는 동", mode: "flat", timetableColor: "cls", "picks@2099-2": [],
+    scheme: "dark", themeOff: "xmas-2099" };
   const got = T.widgetDataFromStore({ get: (k) => rows[k], keys: Object.keys(rows), campus, travel });
   const first = (campus.homes && campus.homes[0] && campus.homes[0][0]) || ids[0];
-  const want = T.widgetData([{ t, entries: T.reconcile(t, new Map()) }], { minutes: (a, b) => travel(campus, "flat").minutes(a, b), home: first, colors: "cls" });
+  const want = T.widgetData([{ t, entries: T.reconcile(t, new Map()) }], { minutes: (a, b) => travel(campus, "flat").minutes(a, b), home: first, colors: "cls",
+    scheme: "dark", themeOff: "xmas-2099" });
   out.store = { same: JSON.stringify(got) === JSON.stringify(want), sems: got.terms.map((x) => [x.sem, x.title]),
     walks: got.terms[0].days[0].map((l) => l.walk), noCampus: T.widgetDataFromStore({ get: (k) => rows[k], keys: Object.keys(rows) }).terms[0].days[0].map((l) => l.walk),
-    nothing: T.widgetDataFromStore({ get: () => undefined, keys: [] }) };
+    nothing: T.widgetDataFromStore({ get: () => undefined, keys: [] }), theme: [got.scheme, got.themeOff] };
 }
 
 console.log(JSON.stringify(out));

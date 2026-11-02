@@ -56,7 +56,7 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
 | `addTimetableToPng(png, t)` | 시간표 그림(PNG 바이트)에 시간표 자료를 파일 안의 글 조각으로 넣은 새 PNG(아래 '이미지 파일에 담기'). PNG 가 아니면 `null` |
 | `readTimetableImage(bytes)` | 고른 이미지 파일 → `{payload}` 또는 `{problem}`(`not-png`·`jpeg`·`no-data`·`broken`·`newer`) |
 | `timetableFromImage(payload, list)` | 읽은 자료 → 새 시간표(학기는 `payload.sem`, `list` 는 그 학기 목록. 이름이 겹치면 `(2)`, 꽉 찼으면 `null`) |
-| `widgetData(terms, {name, place, minutes, home, colors})` | 홈 화면 위젯 자료(아래 '홈 화면 위젯'). `terms = [{t: 대표 시간표, entries}]`, 결과를 `TTW_APP.updateWidgets` 에 넘긴다 |
+| `widgetData(terms, {name, place, minutes, home, colors, scheme, themeOff})` | 홈 화면 위젯 자료(아래 '홈 화면 위젯'). `terms = [{t: 대표 시간표, entries}]`, 결과를 `TTW_APP.updateWidgets` 에 넘긴다 |
 | `widgetSemesters(sems, now)`, `termDates(sem)`, `termLabel(sem)` | 위젯에 넘길 학기(끝나지 않은 학기를 시작 차례로 셋까지), 위젯이 학기를 보이는 날들, `2026년 2학기` |
 | `widgetDataFromStore({get, keys, campus, travel})` | 기기에 둔 값(대표 시간표·출발 지점·이동 기준·칸 색)만으로 위젯 자료. 앱 연결(`native.js`)이 앱을 켤 때·내릴 때 부른다 |
 
@@ -123,7 +123,9 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
 사용자 10/30: 위젯 셋(다음 수업 2×2, 오늘 수업 4×2~4×4, 주간 시간표 4×4) "셋 다 만들고". 안드로이드 위젯은 앱이 꺼져 있어도 그려야 해서
 화면이 대표 시간표를 위젯 자료로 바꿔 앱 연결에 넘기고(`TTW_APP.updateWidgets(widgetData(...))`), 앱이 기기 안에 둔다(`docs/app.md` '홈 화면 위젯').
 
-- 자료 `{v: 1, colors: "item" | "cls", home, terms: [학기]}`(`home` 은 걷기를 셀 때 쓴 출발·도착 지점 id, 모르면 `""`).
+- 자료 `{v: 1, colors: "item" | "cls", home, scheme, themeOff, terms: [학기]}`(`home` 은 걷기를 셀 때 쓴 출발·도착 지점 id, 모르면 `""`.
+  `scheme` 은 테마 탭에서 고른 `"light"`·`"dark"`, 그 밖은 `"system"`(기본 = 기기 설정), `themeOff` 는 그 해에 끈 이벤트 테마 `'<테마>-<해>'`(`xmas-2026`, 개발 서버 시험은
+  `xmas-test`), 없거나 다른 꼴이면 `""`: 위젯이 앱 테마로 그린다, update78. 이벤트 테마의 기간은 위젯이 그릴 때 날짜로 정한다).
   학기 `{sem, id, label, title, from, to, days, untimed}`: `id` 는 대표 시간표 id, `days` 는 월~일 일곱 칸의 수업(시작 차례),
   `from`·`to` 는 위젯이 그 학기를 보이는 날들(`termDates`), `untimed` 는 시간이 정해지지 않은 항목 수.
   수업 `{name, k, place, b, start, end, color, cls, walk, from, late}`: `k` 는 항목 열쇠(`itemKey`. 위젯에서 수업을 누르면 앱이 `id`·`k` 로 그 항목 시트를 연다, update77),
@@ -137,8 +139,9 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
   화면은 `widgetSemesters(학기 목록)` 이 고른 학기(끝나지 않은 것, 셋까지)의 대표 시간표를 넘기고, 위젯은 그날이 든 학기를, 없으면 가장 먼저 시작하는
   앞으로의 학기(개강 전)를 보인다. 그 학기에 대표 시간표가 없으면 `이번 학기 대표 시간표가 없어요`.
 - 넘기는 곳: 앱 연결(`native.js`)이 앱을 켜고 조금 뒤와 앱을 내릴 때 `widgetDataFromStore` 로 만들어 넘긴다(기기에 둔 `timetables@학기` 의 대표 시간표를 적어 둔 수업으로,
-  출발 지점 `home`·이동 기준 `mode`·칸 색 `timetableColor`, 걷는 분은 `engine.js` 의 이동 행렬). 화면이 편람과 맞춘 값을 넘기고 싶으면
-  `TTW_APP.updateWidgets(widgetData(terms, {name, place, minutes, home, colors}))` 를 부르면 되고, 그 뒤로는 앱 연결이 넘기지 않는다. 웹·iOS 에는 위젯이 없다(iOS 는 나중).
+  출발 지점 `home`·이동 기준 `mode`·칸 색 `timetableColor`, 테마 `scheme`·`themeOff`, 걷는 분은 `engine.js` 의 이동 행렬). 화면이 편람과 맞춘 값을 넘기고 싶으면
+  `TTW_APP.updateWidgets(widgetData(terms, {name, place, minutes, home, colors, scheme, themeOff}))` 를 부르면 되고(테마 둘을 빼면 위젯이 기기 설정을 따른다),
+  그 뒤로는 앱 연결이 넘기지 않는다. 웹·iOS 에는 위젯이 없다(iOS 는 나중).
 
 ## 기기에 두기 (프론트엔드)
 

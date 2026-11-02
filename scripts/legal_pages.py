@@ -40,21 +40,26 @@ LATER_INLINE = re.compile(r"\s*【앱에 들어간 뒤에 넣음:\s*(.*?)】")
 # 주소·메일은 ASCII 글자만(바로 뒤에 붙은 한글 조사 '으로' 같은 것을 먹지 않게), 주소 끝의 마침표·쉼표는 글의 것이다
 LINK = re.compile(r"https?://[!-'*-~]*[!-'*+\-/-~]|[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+|" + "|".join(re.escape(s) for s in SITES))
 
+# 모양(디자인 규칙 '정보 화면'의 '처리방침·문의 웹 페이지', 11/2 디자인이 고쳐 달라고 함 → update78): 앱 토큰만. 머리는 앱 상단 바와 같은 워드마크(높이 29,
+# 다크는 wordmark-dark, 머리 높이 56), 제목 t-h2 20/28·절 제목 t-button 17/24 굵게(둘 다 heading), 본문 t-body 16/24 text2, 카드 모서리 20, 폰 좌우 여백 20.
+# 다크는 기기 설정(prefers-color-scheme)이고 크리스마스는 없다(페이지는 앱 테마를 모른다)
 STYLE = """
-:root { color-scheme: light dark; --bg: #eef0ff; --card: #ffffff; --text: #182033; --text2: #51596a; --text3: #646c7e; --line: #dee1f7;
+:root { color-scheme: light dark; --bg: #eef0ff; --card: #ffffff; --heading: #1d2a78; --text: #182033; --text2: #51596a; --text3: #646c7e; --line: #dee1f7;
   --line-strong: #7d8599; --focus: #4f70ff; }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #16171b; --card: #1e2026; --text: #e4e6eb; --text2: #c8cad2; --text3: #afb2bb; --line: #2f3138; --line-strong: #71747d; --focus: #a2b5fa; }
+  :root { --bg: #16171b; --card: #1e2026; --heading: #e5e8f0; --text: #e4e6eb; --text2: #c8cad2; --text3: #afb2bb; --line: #2f3138; --line-strong: #71747d;
+    --focus: #a2b5fa; }
 }
 html { background: var(--bg); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body { margin: 0; background: var(--bg); color: var(--text2); font: 400 1rem/1.625rem Pretendard, "Pretendard Variable", "Noto Sans KR", -apple-system,
+body { margin: 0; background: var(--bg); color: var(--text2); font: 400 1rem/1.5rem Pretendard, "Pretendard Variable", "Noto Sans KR", -apple-system,
   BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; word-break: keep-all; overflow-wrap: break-word; }
-.page { box-sizing: border-box; max-width: 44rem; margin: 0 auto; padding: 16px 16px 48px; }
-.top { display: flex; align-items: center; min-height: 48px; margin-bottom: 8px; }
-.top a { color: var(--text); font-weight: 700; font-size: 1.125rem; text-decoration: none; }
-main { padding: 24px 20px 32px; border-radius: 16px; background: var(--card); }
-h1 { margin: 0 0 4px; color: var(--text); font-size: 1.5rem; line-height: 2rem; font-weight: 700; }
-h2 { margin: 32px 0 8px; color: var(--text); font-size: 1.125rem; line-height: 1.625rem; font-weight: 700; }
+.page { box-sizing: border-box; max-width: 44rem; margin: 0 auto; padding: 16px 20px 48px; }
+.top { display: flex; align-items: center; min-height: 56px; margin-bottom: 4px; }
+.top a { display: inline-flex; align-items: center; min-height: 48px; }
+.top img { display: block; height: 29px; width: auto; }
+main { padding: 24px 20px 32px; border-radius: 20px; background: var(--card); }
+h1 { margin: 0 0 4px; color: var(--heading); font-size: 1.25rem; line-height: 1.75rem; letter-spacing: -0.01em; font-weight: 700; }
+h2 { margin: 32px 0 8px; color: var(--heading); font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; }
 p { margin: 0 0 12px; }
 .date { margin-bottom: 24px; color: var(--text3); font-size: .875rem; line-height: 1.25rem; }
 ul { margin: 0 0 12px; padding-left: 1.25rem; }
@@ -172,7 +177,7 @@ def page(name: str) -> str:
 </head>
 <body>
 <div class="page">
-<header class="top"><a href="../">TT Wizard</a></header>
+<header class="top"><a href="../"><picture><source srcset="../icons/wordmark-dark.svg" media="(prefers-color-scheme: dark)"><img src="../icons/wordmark.svg" alt="TT Wizard" width="124" height="29"></picture></a></header>
 <main>
 <h1>{html.escape(h1)}</h1>
 {content}

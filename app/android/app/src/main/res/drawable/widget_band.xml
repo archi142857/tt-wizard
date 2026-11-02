@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 위젯 머리 띠(update78, 디자인 106판 '머리 띠'): 앱 테마의 바탕색(bg) 단색. 위 모서리는 위젯 바탕(widget_bg 16)을 따르고 아래는 곧다(몸과 사이에 선 없음) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/widget_band" />
+    <corners
+        android:bottomLeftRadius="0dp"
+        android:bottomRightRadius="0dp"
+        android:topLeftRadius="16dp"
+        android:topRightRadius="16dp" />
+</shape>

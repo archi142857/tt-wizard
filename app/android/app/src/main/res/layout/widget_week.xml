@@ -1,53 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 주간 시간표 위젯(4×4, 10/30). 격자는 그림(WeekBitmap)이라 라이트·다크 두 장을 늘 같이 넣고, 어느 쪽을 보일지는 이 파일과
+<!-- 주간 시간표 위젯(4×4, 10/30). 맨 위 머리 띠(update78, 디자인 106판: 앱 테마의 bg 단색에 '2026년 2학기 · 시간표 1' 13 굵게, 좌우 10), 그 아래 몸(card, 띠 아래 6·좌우·아래 10)에
+     한 주 격자. 격자는 그림(WeekBitmap)이라 앱 테마가 기본(기기 설정)이면 라이트·다크 두 장을 늘 같이 넣고, 어느 쪽을 보일지는 이 파일과
      layout-night 판이 정한다(기기 테마가 바뀌면 런처가 위젯을 다시 펼치며 고른다. 코드는 두 그림의 보이기를 건드리지 않는다).
-     라이트(낮) 판: 라이트 그림을 보인다. 다크 판은 layout-night/widget_week.xml -->
+     라이트(낮) 판: 라이트 그림을 보인다. 다크 판은 layout-night/widget_week.xml.
+     고른 라이트·다크·크리스마스 한 벌은 scripts/widget_themes.py 가 layout/widget_week.xml 로 만들고(widget_week_light 등) 그 한 벌의 그림 한 장을 w_grid_light 에 넣는다 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/widget_bg"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/w_title"
-        style="@style/TTWWidget.Heading"
-        android:layout_marginStart="2dp" />
-
-    <FrameLayout
-        android:id="@+id/w_grid"
+    <LinearLayout
+        android:id="@+id/w_band"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="6dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:background="@drawable/widget_band"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="6dp">
 
-        <ImageView
-            android:id="@+id/w_grid_light"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:visibility="visible" />
+        <TextView
+            android:id="@+id/w_title"
+            style="@style/TTWWidget.BandTitle"
+            android:layout_width="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
 
-        <ImageView
-            android:id="@+id/w_grid_dark"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:visibility="gone" />
-
-        <!-- 수업 칸마다 투명한 누르는 칸(안드로이드 12 이상, WidgetViews.week 가 칸 자리에 dp 로 놓는다): 그 수업의 항목 시트. 칸 밖은 내 시간표 -->
-        <FrameLayout
-            android:id="@+id/w_hits"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
-
-    <include
-        android:id="@+id/w_empty"
-        layout="@layout/widget_empty"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:visibility="gone" />
+        android:orientation="vertical"
+        android:paddingStart="10dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp">
+
+        <FrameLayout
+            android:id="@+id/w_grid"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/w_grid_light"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/w_grid_dark"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:visibility="gone" />
+
+            <!-- 수업 칸마다 투명한 누르는 칸(안드로이드 12 이상, WidgetViews.week 가 칸 자리에 dp 로 놓는다): 그 수업의 항목 시트. 칸 밖은 내 시간표 -->
+            <FrameLayout
+                android:id="@+id/w_hits"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+
+        <include
+            android:id="@+id/w_empty"
+            layout="@layout/widget_empty"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone" />
+    </LinearLayout>
 </LinearLayout>

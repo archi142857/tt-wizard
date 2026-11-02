@@ -29,9 +29,10 @@ import java.util.Map;
  *         길은 건물 문 앞에서 끝나고 핀은 건물 자리라, 선 끝에서 핀 가운데까지 그 선 색 둥근 점으로 잇는다(앱 '선 끝과 핀', update73)
  *   핀    수업은 accent 원(24px, card 2px 테두리)에 번호(12 굵게, 같은 건물은 '2·3'), 출발·도착 자리는 home 원에 집 모양
  * 그날 경로 전체가 들어오게 맞추고(배율은 17 까지, 수업이 없으면 출발 자리를 가운데에 16), 핀이 잘리지 않게 가장자리를 비운다.
- * 아래 오른쪽은 출처 글(레이아웃의 w_attr)이 덮으므로 더 비운다. 라이트·다크 두 장을 그리고 layout(-night)/widget_map.xml 이 한 장을 보인다.
+ * 아래 오른쪽은 출처 글(레이아웃의 w_attr)이 덮으므로 더 비운다. 위젯이 기기 테마를 따를 때(기본)는 라이트·다크 두 장을 그리고 layout(-night)/widget_map.xml 이
+ * 한 장을 보인다. 앱에서 라이트·다크를 골랐거나 크리스마스 기간이면(update78) 그 한 벌로 한 장만(크리스마스는 앱처럼 라이트 바탕 지도에 초록 길·핀).
  * 자료는 앱에 넣은 것(public/data/*.json)을 한 번 읽어 둔다(RouteMap). 앱이 켤 때 새로 받는 자료는 화면만 쓴다.
- * 색은 웹 화면 기본 테마 토큰과 같은 값(TOKENS 차례, tests/test_widgets.py 가 web/style.css 와 견준다).
+ * 색은 웹 화면 테마 토큰과 같은 값(TOKENS 차례, tests/test_widgets.py 가 web/style.css 와 견준다).
  */
 final class DayMapBitmap {
 
@@ -60,6 +61,19 @@ final class DayMapBitmap {
         0xFF7D4E43, 0xFF4C2F28, 0xFF35364A, 0xFF121218, 0xFF463F39, 0xFF605750,
         0xFF758BE7, 0xFFCED1D9, 0xFF1E2026, 0xFF4D6CE0, 0xFFFFFFFF, 0xFFCED1D9, 0xFF16171B,
     };
+
+    // 크리스마스(update78, 디자인 106판): 바탕 지도는 라이트 그대로(앱의 크리스마스 지도), 수업 가는 길 route #148753, 돌아가는 길·⌂ home #0B3A23, 번호 핀 accent #0D6F44
+    static final int[] XMAS = {
+        0xFFF2EFE9, 0xFFF5F6FF, 0xFFD7DCFA, 0xFFC9E2C2, 0xFFD3EACB, 0xFFD7EDCF, 0xFFBFE4D2, 0xFFAFC9F2, 0xFFCAC4D6,
+        0xFFFBFBFE, 0xFFFFFFFF, 0xFFC3C0D0, 0xFFF2F1C4, 0xFFC2C08A, 0xFFF9D9AF, 0xFFD2AE78,
+        0xFFF7BBA8, 0xFFD99683, 0xFFE3E4F4, 0xFFB3B6D2, 0xFFD3C8BE, 0xFFAE9F91,
+        0xFF148753, 0xFF0B3A23, 0xFFFFFFFF, 0xFF0D6F44, 0xFFFFFFFF, 0xFF0B3A23, 0xFFFFFFFF,
+    };
+
+    /** 고른 한 벌(WidgetData.LIGHT·DARK·XMAS)의 색. 기본(DEVICE)은 부르는 쪽이 LIGHT·DARK 두 장을 그린다 */
+    static int[] ink(int theme) {
+        return theme == WidgetData.XMAS ? XMAS : theme == WidgetData.DARK ? DARK : LIGHT;
+    }
 
     private static final float MAX_DENSITY = 2.5f; // WeekBitmap 과 같다(위젯 갱신 자료를 가볍게)
     // 캠퍼스 안 찻길 폭(m, OSM highway 값). app.js ROAD_M 과 같다
@@ -108,8 +122,7 @@ final class DayMapBitmap {
         return false;
     }
 
-    static Bitmap draw(Context c, RouteMap m, List<WidgetData.Lesson> day, String home, float widthDp, float heightDp, boolean dark) {
-        int[] ink = dark ? DARK : LIGHT;
+    static Bitmap draw(Context c, RouteMap m, List<WidgetData.Lesson> day, String home, float widthDp, float heightDp, int[] ink) {
         android.util.DisplayMetrics screen = c.getResources().getDisplayMetrics();
         float dp = Math.min(screen.density, MAX_DENSITY);
         // 위젯 갱신의 그림 한도(화면 넓이 × 4바이트 × 1.5) 안에 두 장이 들게 한 장을 화면 넓이의 0.6 배까지로(WeekBitmap 과 같다)
