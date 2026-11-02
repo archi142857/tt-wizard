@@ -137,15 +137,21 @@ final class WidgetViews {
             return s == null || s.isEmpty() ? 0 : paint(sp, bold).measureText(s);
         }
 
-        /** 큰 줄(TTWWidget.Hero: 굵게, 자릿수 맞춤)의 폭: 수는 sp, 나머지 낱말은 그 반(bigLine 과 같다) */
+        /** 큰 줄(TTWWidget.Hero: 굵게, 자릿수 맞춤)의 폭: 수는 sp, 나머지 낱말은 그 반이되 12 아래로는 안 내린다(bigLine 과 같다: WidgetData.wordScale) */
         float big(String text, String number, float sp) {
             int[] at = WidgetData.bigPart(text, number);
             TextPaint q = paint(sp, true);
             q.setFontFeatureSettings("tnum");
             if (at == null) return q.measureText(text);
             float w = q.measureText(text, at[0], at[1]);
-            q.setTextSize(q.getTextSize() / 2);
+            q.setTextSize(q.getTextSize() * WidgetData.wordScale(sp));
             return w + q.measureText(text, 0, at[0]) + q.measureText(text, at[1], text.length());
+        }
+
+        /** 큰 줄 한 줄의 높이(dp)를 글자 크기 1sp 마다: 기본 글꼴(숫자) 굵게의 줄 높이. 낱말은 반 크기라 줄 높이를 정하지 않는다 */
+        float bigLinePerSp() {
+            Paint.FontMetricsInt fm = paint(26, true).getFontMetricsInt();
+            return dp(fm.descent - fm.ascent) / 26f;
         }
 
         float px(float dp) {
@@ -158,15 +164,27 @@ final class WidgetViews {
     }
 
     /**
-     * 머리 띠 글(TTWWidget.BandTitle: 13 굵게, 글자 위아래 여백 없음) 한 줄이 위젯에서 차지하는 높이(dp, 기기 글꼴로 잰다).
+     * 한 줄 글이 위젯 TextView 에서 차지하는 높이(dp, 기기 글꼴로 잰다). pad = 글자 위아래 여백(includeFontPadding)을 둔 글인지.
      * 안드로이드 13 이상은 한글 같은 대체 글꼴의 줄 높이까지 따른다(TextView 의 fallbackLineSpacing 이 한 줄 글에도 걸린다). 그 아래는 기본 글꼴의 줄 높이
      */
-    static float bandLine(Context c, String text) {
+    static float lineDp(Context c, String text, float sp, boolean bold, boolean pad) {
         Measure me = new Measure(c);
-        TextPaint p = me.paint(13, true);
-        if (Build.VERSION.SDK_INT >= 33 && text != null && !text.isEmpty()) return me.dp(Api33.lineHeight(text, p));
+        TextPaint p = me.paint(sp, bold);
+        if (Build.VERSION.SDK_INT >= 33 && text != null && !text.isEmpty()) return me.dp(Api33.lineHeight(text, p, pad));
         Paint.FontMetricsInt fm = p.getFontMetricsInt();
-        return me.dp(fm.descent - fm.ascent);
+        return me.dp(pad ? fm.bottom - fm.top : fm.descent - fm.ascent);
+    }
+
+    /**
+     * 머리 띠(update78)를 16·f + 12 높이(글자 크기 1 에서 28)로 둔다(update79, 디자인 108판): 띠 글(TTWWidget.BandTitle: 13 굵게, 글자 위아래 여백 없음) 한 줄을
+     * 기기 글꼴로 재어 위아래 여백을 정하고(WidgetData.bandPad: 안드로이드 13 이상의 한글은 줄이 19 안팎이라 여백이 4.5 안팎, 3 아래로는 안 줄인다) 좌우는 sideDp
+     * (12, 주간·동선 지도 10). 그 띠의 높이(dp)를 돌려준다: 몸에 남는 높이를 셀 때 쓴다
+     */
+    private static float band(Context c, RemoteViews v, String title, int sideDp) {
+        float line = lineDp(c, title, 13, true, false), padV = WidgetData.bandPad(line, font(c));
+        int side = px(c, sideDp), top = px(c, padV);
+        v.setViewPadding(R.id.w_band, side, top, side, top);
+        return line + 2 * top / c.getResources().getDisplayMetrics().density;
     }
 
     // ------------------------------------------------------------ 다음 수업
@@ -179,7 +197,9 @@ final class WidgetViews {
         WidgetData.Next n = problem == null ? WidgetData.next(t, now) : null;
         v.setOnClickPendingIntent(android.R.id.background, open(c, t, n == null ? -1 : WidgetData.weekday(n.day)));
         if (n == null) {
-            v.setTextViewText(R.id.w_caption, t != null ? t.label : c.getString(R.string.widget_next_name));
+            String label = t != null ? t.label : c.getString(R.string.widget_next_name);
+            v.setTextViewText(R.id.w_caption, label);
+            band(c, v, label, 12);
             v.setViewVisibility(R.id.w_body, View.GONE);
             empty(v, problem != null ? problem : c.getString(R.string.w_term_over), "", problem != null && d != null); // 학기의 남은 날에 수업이 없다
             return v;
@@ -187,11 +207,12 @@ final class WidgetViews {
         WidgetData.Lesson l = n.lesson;
         // 자리(update70 출발 줄을 크게, update77 출발 시각 블록): 높이(dp)가 모자라면 덜 중요한 줄부터 뺀다. 과목명 두 줄 → 한 줄 → 강의실 줄 →
         // 블록 안 아래 줄 → 시각 줄, 그래도 모자라면 블록을 줄인다. 머리 띠와 블록은 늘 둔다(언제 나서는지가 이 위젯의 일이다). 기준은 WidgetData.nextRows.
-        // 머리 띠(update78)는 그전 위 여백과 머리 줄 자리라 기준이 그대로이고, 띠 글이 그전 머리 줄 16 보다 높게 나오면 그만큼만 올린다
+        // 머리 띠(update78)는 그전 위 여백과 머리 줄 자리(16·f + 12)라 기준이 그대로다(update79: 띠를 그 높이로 둔다. 그래도 높아지면 그만큼만 올린다)
         int[] wh = size(c, options, 110, 110);
         float f = font(c);
         String caption = caption(c, t, n, now);
-        boolean[] rows = WidgetData.nextRows(wh[1], f, bandLine(c, caption) - 16 * f);
+        float bandH = band(c, v, caption, 12);
+        boolean[] rows = WidgetData.nextRows(wh[1], f, bandH - (16 * f + 12));
         boolean twoLines = rows[0], place = rows[1], sub = rows[2], time = rows[3], compact = rows[4];
         v.setOnClickPendingIntent(R.id.w_lecture, openItem(c, t, l)); // 수업 줄은 그 수업의 항목 시트, 나머지(블록 포함)는 그 요일 동선 지도
         v.setTextViewText(R.id.w_caption, caption);
@@ -226,11 +247,19 @@ final class WidgetViews {
                 big = c.getString(R.string.w_hero_start, number);
         }
         // 블록 가운데 큰 줄: 시각·분은 32(낮으면 26), '출발'·'걷기'·'분' 같은 낱말은 그 반(update77, 사용자 11/2 "시간을 좀 더 가운데에 큼지막하게").
-        // 말줄임하지 않고 블록 안 폭(위젯 폭 − 몸 좌우 24 − 블록 안 16)에 맞춰 줄인다(update78, 디자인 106판: '10:1…' 처럼 잘린 시각은 틀린 시각으로 읽힌다)
+        // 말줄임하지 않고 블록 안 폭(위젯 폭 − 몸 좌우 24 − 블록 안 16)에 맞춰 줄인다(update78, 디자인 106판: '10:1…' 처럼 잘린 시각은 틀린 시각으로 읽힌다).
+        // 작은 블록은 높이에도 맞춘다(update79, 디자인 108판: 블록 아래가 좌우와 같은 12 로 남는 데까지 26 에서 줄인다. 옛 런처 2×2 의 110dp 에서 7~8 이던 것)
         Measure me = new Measure(c);
         float room = me.px(wh[0] - 24 - 16 - 2); // 2: 잰 폭과 그린 폭의 작은 차이
-        v.setTextViewText(R.id.w_hero, bigLine(big, number));
-        v.setTextViewTextSize(R.id.w_hero, TypedValue.COMPLEX_UNIT_SP, WidgetData.heroSize(me.big(big, number, 32), room, compact));
+        float maxSp = Float.POSITIVE_INFINITY;
+        if (compact) { // 띠, 과목명 한 줄(그 위 4), 블록 위 띄움 4, 블록 안 위아래 5씩, 아래 여백 12 를 빼고 남는 높이가 큰 줄 한 줄
+            float left = wh[1] - bandH - 4 - lineDp(c, l.name, 16, true, true) - 4 - 10 - 12;
+            maxSp = Math.max(0, left) / me.bigLinePerSp();
+        }
+        final String bigText = big, num = number;
+        float heroSp = WidgetData.heroSize(s -> me.big(bigText, num, (float) s), room, compact, maxSp);
+        v.setTextViewText(R.id.w_hero, bigLine(big, number, heroSp));
+        v.setTextViewTextSize(R.id.w_hero, TypedValue.COMPLEX_UNIT_SP, heroSp);
         int padH = px(c, 8), padV = px(c, compact ? 5 : 8);
         v.setViewPadding(R.id.w_block, padH, padV, padH, padV);
         // 블록 아래 줄(13): 폭이 모자라면 '25동에서'를 빼고 '5분 지각'만, 그래도 넘치면 줄째 뺀다(update78). 높이가 모자라면(sub 가 거짓) 처음부터 없다
@@ -246,13 +275,17 @@ final class WidgetViews {
         return v;
     }
 
-    /** 큰 줄 글: number(시각·분)만 큰 글자 그대로 두고 나머지 낱말은 반 크기(RelativeSizeSpan. 위젯 글은 한 줄이라 글자 밑선이 맞는다) */
-    static CharSequence bigLine(String text, String number) {
+    /**
+     * 큰 줄 글: number(시각·분)만 큰 글자 그대로 두고 나머지 낱말은 반 크기(RelativeSizeSpan. 위젯 글은 한 줄이라 글자 밑선이 맞는다).
+     * 큰 줄을 sp 로 줄였을 때 낱말은 12 아래로는 안 내린다(update79, WidgetData.wordScale)
+     */
+    static CharSequence bigLine(String text, String number, float sp) {
         int[] at = WidgetData.bigPart(text, number);
         if (at == null) return text;
+        float scale = WidgetData.wordScale(sp);
         SpannableString s = new SpannableString(text);
-        if (at[0] > 0) s.setSpan(new RelativeSizeSpan(0.5f), 0, at[0], Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        if (at[1] < text.length()) s.setSpan(new RelativeSizeSpan(0.5f), at[1], text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (at[0] > 0) s.setSpan(new RelativeSizeSpan(scale), 0, at[0], Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (at[1] < text.length()) s.setSpan(new RelativeSizeSpan(scale), at[1], text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return s;
     }
 
@@ -293,6 +326,7 @@ final class WidgetViews {
         WidgetData.Term t = d == null ? null : d.termOn(now);
         String day = c.getString(R.string.w_today, date(c, now));
         v.setTextViewText(R.id.w_date, day);
+        float bandH = band(c, v, day, 12);
         v.setTextViewText(R.id.w_title, t != null ? t.title : "");
         String problem = problem(c, d, t);
         List<WidgetData.Lesson> lessons = problem == null ? t.on(WidgetData.startOfDay(now)) : new ArrayList<>();
@@ -312,7 +346,7 @@ final class WidgetViews {
         v.setOnClickPendingIntent(android.R.id.background, open(c, t, WidgetData.weekday(now)));
         int min = WidgetData.minuteOfDay(now);
         int[] wh = size(c, options, 250, 110);
-        int[] pick = WidgetData.rowsToShow(lessons, min, rowsThatFit(c, wh[1], bandLine(c, day)));
+        int[] pick = WidgetData.rowsToShow(lessons, min, rowsThatFit(c, wh[1], bandH));
         v.removeAllViews(R.id.w_rows);
         Measure me = new Measure(c);
         for (int i = pick[0]; i < pick[1]; i++) v.addView(R.id.w_rows, row(c, d, t, lessons.get(i), min, theme, me, wh[0]));
@@ -324,9 +358,9 @@ final class WidgetViews {
         return v;
     }
 
-    /** 위젯 높이 h(dp)에 들어가는 행 수(글자 크기를 따른다). band = 머리 띠 글 한 줄(dp, bandLine) */
-    private static int rowsThatFit(Context c, int h, float band) {
-        float room = h - 12 - band - 6 - 12; // 머리 띠(위아래 6 + 글), 띠 아래 6, 아래 여백 12
+    /** 위젯 높이 h(dp)에 들어가는 행 수(글자 크기를 따른다). bandH = 머리 띠 높이(dp, band) */
+    private static int rowsThatFit(Context c, int h, float bandH) {
+        float room = h - bandH - 6 - 12; // 머리 띠, 띠 아래 6, 아래 여백 12
         float rowH = 6 + 33 * font(c); // 위아래 3 + 두 줄(14sp·12sp)과 사이 3
         return Math.max(1, (int) (room / rowH));
     }
@@ -369,6 +403,7 @@ final class WidgetViews {
         v.setOnClickPendingIntent(android.R.id.background, open(c, t, -1)); // 한 주 전체라 내 시간표로
         String title = t != null ? (t.label + " · " + t.title) : c.getString(R.string.widget_week_name);
         v.setTextViewText(R.id.w_title, title);
+        float bandH = band(c, v, title, 10);
         String problem = problem(c, d, t);
         if (problem != null) {
             v.setViewVisibility(R.id.w_grid, View.GONE);
@@ -376,7 +411,7 @@ final class WidgetViews {
             return v;
         }
         int[] wh = size(c, options, 250, 250);
-        float gridW = wh[0] - 20, gridH = wh[1] - (12 + bandLine(c, title)) - 6 - 10; // 몸 좌우 10씩, 머리 띠(위아래 6 + 글)와 그 아래 6, 아래 10
+        float gridW = wh[0] - 20, gridH = wh[1] - bandH - 6 - 10; // 몸 좌우 10씩, 머리 띠와 그 아래 6, 아래 10
         String[] days = c.getResources().getStringArray(R.array.w_days_short);
         String said = c.getString(R.string.w_week_said, t.label + " " + t.title, WeekBitmap.describe(t, days));
         if (theme == WidgetData.DEVICE) { // 기기 설정: 두 장(layout(-night) 이 한 장을 보인다)
@@ -422,10 +457,10 @@ final class WidgetViews {
 
     /** 안드로이드 13 이상에만 있는 것(그 아래 기기는 이 클래스를 읽지 않는다) */
     private static final class Api33 {
-        /** 한 줄 글의 높이(화소): 위젯 TextView 처럼 글자 위아래 여백 없이, 대체 글꼴(한글)의 줄 높이까지 */
-        static float lineHeight(String text, TextPaint p) {
+        /** 한 줄 글의 높이(화소): 위젯 TextView 처럼(pad = 글자 위아래 여백), 대체 글꼴(한글)의 줄 높이까지 */
+        static float lineHeight(String text, TextPaint p, boolean pad) {
             int width = Math.max(1, (int) Math.ceil(p.measureText(text)) + 1);
-            return StaticLayout.Builder.obtain(text, 0, text.length(), p, width).setIncludePad(false).setUseLineSpacingFromFallbacks(true)
+            return StaticLayout.Builder.obtain(text, 0, text.length(), p, width).setIncludePad(pad).setUseLineSpacingFromFallbacks(true)
                 .setMaxLines(1).build().getHeight();
         }
     }
@@ -441,7 +476,9 @@ final class WidgetViews {
         WidgetData.Next n = problem == null ? WidgetData.next(t, now) : null;
         v.setOnClickPendingIntent(android.R.id.background, open(c, t, n == null ? -1 : WidgetData.weekday(n.day)));
         if (n == null) {
-            v.setTextViewText(R.id.w_title, t != null ? t.label : c.getString(R.string.widget_map_name));
+            String label = t != null ? t.label : c.getString(R.string.widget_map_name);
+            v.setTextViewText(R.id.w_title, label);
+            band(c, v, label, 10);
             v.setViewVisibility(R.id.w_map, View.GONE);
             v.setViewVisibility(R.id.w_sum, View.GONE);
             v.setImageViewResource(R.id.w_empty_icon, ROUTE_ICONS[theme]);
@@ -451,6 +488,7 @@ final class WidgetViews {
         List<WidgetData.Lesson> day = t.on(n.day);
         String title = mapTitle(c, t, n, now);
         v.setTextViewText(R.id.w_title, title);
+        float bandH = band(c, v, title, 10);
         int walk = WidgetData.dayWalk(day);
         if (walk >= 0) v.setTextViewText(R.id.w_sum, c.getString(R.string.w_walk, walk));
         else v.setViewVisibility(R.id.w_sum, View.GONE);
@@ -462,7 +500,7 @@ final class WidgetViews {
             return v;
         }
         int[] wh = size(c, options, 250, 110);
-        float mapW = wh[0] - 20, mapH = wh[1] - (12 + bandLine(c, title)) - 6 - 10; // 몸 좌우 10씩, 머리 띠(위아래 6 + 글)와 그 아래 6, 아래 10
+        float mapW = wh[0] - 20, mapH = wh[1] - bandH - 6 - 10; // 몸 좌우 10씩, 머리 띠와 그 아래 6, 아래 10
         if (theme == WidgetData.DEVICE) { // 기기 설정: 두 장(layout(-night) 이 한 장을 보인다)
             v.setImageViewBitmap(R.id.w_map_light, DayMapBitmap.draw(c, m, day, d.home, mapW, mapH, DayMapBitmap.LIGHT));
             v.setImageViewBitmap(R.id.w_map_dark, DayMapBitmap.draw(c, m, day, d.home, mapW, mapH, DayMapBitmap.DARK));

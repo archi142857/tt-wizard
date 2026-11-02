@@ -212,10 +212,21 @@ public final class WidgetCheck {
             out.append(i == 0 ? "" : ",").append(q(b.toString()));
         }
         out.append("]");
-        // 큰 줄 글자 크기(update78): 32 로 잰 폭·블록 안 폭 → 32(작은 블록 26), 26, 드는 크기(0.5 내림, 적어도 12)
-        out.append(",\"heroSize\":[").append(WidgetData.heroSize(80, 100, false)).append(",").append(WidgetData.heroSize(110, 100, false)).append(",")
-            .append(WidgetData.heroSize(140, 100, false)).append(",").append(WidgetData.heroSize(80, 100, true)).append(",")
-            .append(WidgetData.heroSize(1000, 100, false)).append(",").append(WidgetData.heroSize(0, 100, false)).append("]");
+        // 큰 줄 글자 크기(update78·79): 폭 함수·블록 안 폭·작은 블록·높이 한도 → 32(작은 블록 26), 26, 0.5씩 줄여 드는 크기(적어도 12). 높이 한도가 있으면 그 아래(0.5 내림)
+        float inf = Float.POSITIVE_INFINITY;
+        float[][] sizeAt = { { 80, 100, 0, inf }, { 110, 100, 0, inf }, { 140, 100, 0, inf }, { 80, 100, 1, inf }, { 1000, 100, 0, inf }, { 0, 100, 0, inf },
+            { 80, 100, 1, 24.3f }, { 140, 100, 1, 24.3f }, { 80, 100, 1, 5 } };
+        out.append(",\"heroSize\":[");
+        for (int i = 0; i < sizeAt.length; i++) {
+            float w32 = sizeAt[i][0];
+            out.append(i == 0 ? "" : ",").append(WidgetData.heroSize(x -> w32 * x / 32, sizeAt[i][1], sizeAt[i][2] > 0, sizeAt[i][3]));
+        }
+        // 낱말은 수의 반이되 12 아래로는 안 내린다(update79): 수 폭 2.5·sp + 낱말 둘의 폭 2·max(sp/2, 12) 가 70 에 드는 크기
+        out.append(",").append(WidgetData.heroSize(x -> 2.5 * x + 2 * x * WidgetData.wordScale((float) x), 70, false, inf)).append("]");
+        out.append(",\"wordScale\":[").append(WidgetData.wordScale(32)).append(",").append(WidgetData.wordScale(24)).append(",").append(WidgetData.wordScale(16)).append("]");
+        // 머리 띠 위아래 여백(update79): 띠 = 16·f + 12. 줄 18.8(13 이상 한글)·15.2(기본 글꼴)·24(3 에서 멈춤)·글자 크기 1.3 에서 24.4
+        out.append(",\"bandPad\":[").append(Math.round(WidgetData.bandPad(18.8f, 1) * 10) / 10.0).append(",").append(Math.round(WidgetData.bandPad(15.2f, 1) * 10) / 10.0)
+            .append(",").append(Math.round(WidgetData.bandPad(24, 1) * 10) / 10.0).append(",").append(Math.round(WidgetData.bandPad(24.4f, 1.3f) * 10) / 10.0).append("]");
         // 블록 아래 줄(update78): {아래 글, 지각}. 둘이 들면 둘 다, 넘치면 지각만, 지각도 넘치면 줄째 뺀다
         float[][] lineAt = { { 50, 40, 6, 100 }, { 60, 40, 6, 100 }, { 60, 110, 6, 100 }, { 60, 0, 6, 100 }, { 120, 0, 6, 100 }, { 0, 40, 6, 100 }, { 0, 0, 6, 100 } };
         out.append(",\"heroLine\":[");

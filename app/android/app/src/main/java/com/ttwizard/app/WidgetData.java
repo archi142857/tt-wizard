@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.DoubleUnaryOperator;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -393,8 +394,9 @@ final class WidgetData {
     }
 
     /**
-     * 머리 띠(update78, 디자인 106판)를 단 다음: 띠 28(위아래 6 + 글 16)이 그전 위 여백 12 + 머리 줄 16 자리라 기준은 그대로다.
-     * extra = 띠 글(13 굵게)의 실제 줄이 16·f 보다 높은 만큼(dp, 기기 글꼴로 잰다: WidgetViews.bandLine). 그만큼만 기준을 올린다
+     * 머리 띠(update78, 디자인 106판)를 단 다음: 띠 28(16·f + 12)이 그전 위 여백 12 + 머리 줄 16 자리라 기준은 그대로다.
+     * 띠는 위아래 여백을 줄여서라도 16·f + 12 로 두므로(update79, 디자인 108판: bandPad) extra 는 보통 0 이다. 여백이 3 까지 줄어도 띠 글이 더 높아
+     * 띠가 그보다 높아지면(아주 큰 글꼴) 그 차이(dp)만큼 기준을 올린다
      */
     static boolean[] nextRows(int h, float f, float extra) {
         float base = 48 + (16 + 23 + 38) * f + Math.max(0, extra); // 블록 위 띄움 8 + 블록 안 여백 16 + 위아래 여백 24
@@ -407,14 +409,33 @@ final class WidgetData {
     }
 
     /**
-     * 블록 큰 줄의 글자 크기(sp, update78 디자인 106판: 말줄임하지 않는다. '10:1…' 처럼 잘린 시각은 틀린 시각으로 읽힌다).
-     * width32 = 32 로 잰 큰 줄 폭, room = 블록 안 폭(같은 단위). 32(작은 블록이면 26)가 들면 그것, 아니면 26, 그래도 넘치면 드는 크기(0.5 단위로 내림, 적어도 12)
+     * 머리 띠의 위아래 여백(dp, update79 디자인 108판): 띠는 16·f + 12(글자 크기 1 에서 28)로 둔다. 띠 글 한 줄(line, 기기 글꼴로 잰 dp)이 16·f 보다 높으면
+     * (안드로이드 13 이상의 한글은 대체 글꼴 줄 높이라 19 안팎) 여백을 (띠 − 줄)/2 로 줄인다(글자 위아래로 보이는 틈은 그대로 8~9). 3 아래로는 줄이지 않는다
      */
-    static float heroSize(float width32, float room, boolean compact) {
-        float first = compact ? 26 : 32;
-        if (width32 <= 0 || width32 * first / 32 <= room) return first;
-        if (width32 * 26 / 32 <= room) return 26;
-        return Math.max(12, (float) Math.floor(32 * room / width32 * 2) / 2);
+    static float bandPad(float line, float f) {
+        return Math.max(3, (16 * f + 12 - line) / 2);
+    }
+
+    /** 큰 줄 낱말('출발'·'걷기'·'분')의 크기 비율: 수의 반, 12sp 아래로는 내리지 않는다(update79 디자인 108판: 수가 24 아래면 낱말은 12) */
+    static float wordScale(float sp) {
+        return Math.max(0.5f, 12f / sp);
+    }
+
+    /**
+     * 블록 큰 줄의 글자 크기(sp, update78 디자인 106판: 말줄임하지 않는다. '10:1…' 처럼 잘린 시각은 틀린 시각으로 읽힌다).
+     * widthAt(sp) = 그 크기의 큰 줄 폭(낱말은 wordScale), room = 블록 안 폭(같은 단위). 32(작은 블록이면 26)가 들면 그것, 아니면 26,
+     * 그래도 넘치면 0.5씩 줄여 드는 크기(적어도 12). maxSp = 높이로 정한 한도(update79 디자인 108판: 작은 블록은 블록 아래가 좌우와 같은 12 로 남는 데까지.
+     * 0.5 단위로 내림, 한도가 없으면 무한): 폭으로 맞춘 크기와 둘 중 작은 쪽
+     */
+    static float heroSize(DoubleUnaryOperator widthAt, float room, boolean compact, float maxSp) {
+        float cap = Float.isInfinite(maxSp) ? Float.MAX_VALUE : (float) Math.floor(maxSp * 2) / 2;
+        for (float s : new float[] { compact ? 26 : 32, 26 }) {
+            if (s <= cap && widthAt.applyAsDouble(s) <= room) return s;
+        }
+        for (float s = Math.min(25.5f, cap); s > 12; s -= 0.5f) {
+            if (widthAt.applyAsDouble(s) <= room) return s;
+        }
+        return 12;
     }
 
     /**

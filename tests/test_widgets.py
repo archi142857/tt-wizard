@@ -150,11 +150,16 @@ def test_app_reads_widget_data(made, tmp_path):
     # 다음 수업 위젯의 줄(update77 출발 시각 블록, 높이 dp·글자 크기): {과목명 두 줄, 강의실, 블록 안 아래 줄, 시각, 작은 블록}.
     # 빼는 차례는 과목명 둘째 줄 → 강의실 → 블록 안 아래 줄 → 시각, 그래도 모자라면 블록을 줄인다(블록 아래 여백이 좌우와 같은 12 로 남게)
     assert r["nextRows"] == ["11110", "01110", "00110", "00010", "00001", "00001", "00010", "01110"]
-    # 머리 띠(update78): 띠 글(13 굵게)이 그전 머리 줄 16 보다 높게 나온 만큼만 기준을 올린다(낮게 나오면 그대로)
+    # 머리 띠(update78·79): 띠는 16·f + 12(28)로 두므로 보통 그대로이고, 아주 큰 글꼴로 띠가 그보다 높아지면 그만큼만 기준을 올린다(낮으면 그대로)
     assert r["nextRowsBand"] == ["01110", "00110", "01110", "01110", "11110"]
+    # 띠 위아래 여백(update79, 디자인 108판): 띠 = 16·f + 12. 안드로이드 13 이상 한글 띠 글(19 안팎)은 4.6, 기본 글꼴 줄(15.2)은 6.4, 3 아래로는 안 줄인다
+    assert r["bandPad"] == [4.6, 6.4, 3.0, 4.2]
     assert r["bigPart"] == [[0, 5], [3, 5], None]  # 큰 줄에서 크게 쓸 수: '10:18 출발'의 10:18, '걷기 12분'의 12
-    # 큰 줄은 말줄임하지 않는다(update78, 디자인 106판): 32(작은 블록 26)가 들면 그것, 아니면 26, 그래도 넘치면 드는 크기(0.5 내림, 적어도 12)
-    assert r["heroSize"] == [32, 26, 22.5, 26, 12, 32]
+    # 큰 줄은 말줄임하지 않는다(update78, 디자인 106판): 32(작은 블록 26)가 들면 그것, 아니면 26, 그래도 넘치면 0.5씩 줄여 드는 크기(적어도 12).
+    # 작은 블록은 높이 한도 아래로도(update79, 디자인 108판: 블록 아래 12 를 지킨다): 한도 24.3 → 24, 폭도 모자라면 22.5, 한도가 12 아래면 12.
+    # 낱말은 수의 반이되 12 아래로는 안 내려서(수가 24 아래면 낱말 12) 폭을 그 크기로 다시 잰다: 폭 70 에 18
+    assert r["heroSize"] == [32, 26, 22.5, 26, 12, 32, 24, 22.5, 12, 18]
+    assert r["wordScale"] == [0.5, 0.5, 0.75]
     # 블록 아래 줄 {아래 글, 지각}: 둘이 들면 둘 다, 넘치면 '25동에서'를 빼고 '5분 지각'만, 그것도 넘치면 줄째
     assert r["heroLine"] == ["11", "01", "00", "10", "00", "01", "00"]
     # 오늘 수업 행 아래 줄: 넘치면 '걷기 n분' → '10:18 출발' 차례로 덩이째 뺀다. 강의실은 남기고(넘치면 끝이 줄어든다), 강의실이 없으면 줄이 없다
@@ -353,6 +358,21 @@ def test_widget_xml_names_resolve():
     bad = [(p.name, kind, name) for p in files for kind, name in re.findall(r"@(color|drawable|style|layout|string)/([\w.]+)", p.read_text(encoding="utf-8"))
            if name not in have[kind]]
     assert len(files) > 100 and not bad, bad
+
+
+def test_map_preview_art():
+    """위젯 고르는 화면의 동선 지도 미리 보기 그림(update79, 디자인 108판. 사용자 11/2 "그 지도 위젯 미리보기 화면도 '샤' 모양으로 만들어 줘"): Play 그래픽 이미지와
+    같은 길(집 → 1 → 2, 기둥과 왼팔 끝 5, 가로대 둘 끝 4·3)을 지어낸 지도에 경로 선과 핀으로만 그린다. 그림에 글자가 없고 스크린리더에 읽히지 않으며, 그림·파일 이름에서
+    학교의 장소 이름으로 부르지 않는다. 광고·유료 테마 전에 바꿀 지어낸 길 판(update71 그림)을 남겨 둔다(법무 10/22 조건)"""
+    art = (RES / "drawable" / "widget_map_preview_art.xml").read_text(encoding="utf-8")
+    plain = (RES / "drawable" / "widget_map_preview_art_plain.xml").read_text(encoding="utf-8")
+    assert "<vector" in art and "<vector" in plain and "<text" not in art
+    assert art.count('android:fillColor="@color/widget_pin"') == 5 and art.count('android:fillColor="@color/widget_home"') == 1  # 수업 핀 다섯과 집
+    assert plain.count('android:fillColor="@color/widget_pin"') == 2  # 지어낸 길 판: 집 → 1 → 2
+    assert "정문" not in art + plain and not [p.name for p in RES.rglob("*") if "gate" in p.name.lower()]
+    layout = (RES / "layout" / "widget_map_preview.xml").read_text(encoding="utf-8")
+    tag = re.search(r'<ImageView[^>]*@drawable/widget_map_preview_art"[^>]*/>', layout).group(0)
+    assert 'android:importantForAccessibility="no"' in tag
 
 
 def _attrs(el) -> dict:

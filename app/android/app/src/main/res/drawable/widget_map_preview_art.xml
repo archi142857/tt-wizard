@@ -1,39 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 위젯 고르는 화면의 동선 지도 미리 보기 그림(update71). 지어낸 지도다: 실제 캠퍼스나 지도 자료를 보고 그리지 않았다(법무 10/22 '지어낸 지도 그림').
-     출발 자리(집) → 1 → 2 로 가는 길(route 실선 + card 테두리)과 건물·숲·길. 색은 colors.xml 의 widget_map_*·route·pin·home(라이트·다크) -->
+<!-- 위젯 고르는 화면의 동선 지도 미리 보기 그림(디자인 108판, 11월 2일 사용자 "그 지도 위젯 미리보기 화면도 '샤' 모양으로 만들어 줘").
+     Play 그래픽 이미지와 같은 '샤' 모양 경로: ㅅ(집 → 1 → 2), 기둥(2 → 꼭대기 → 왼팔 5), 기둥 오른편 가로대 둘(4·3).
+     지어낸 지도다(실제 캠퍼스나 지도 자료를 보고 그리지 않았다. 법무 10/22). 경로 선과 핀으로만 모양을 내고 학교 이름·상징은 넣지 않는다.
+     그림 이름·대체 텍스트·스토어 글에서 이 그림을 학교의 어떤 장소·상징으로도 부르지 않는다(그림은 스크린리더에 읽히지 않는다: widget_map_preview 의 importantForAccessibility).
+     광고·유료 테마 전에는 바꾸거나 허락받는다(그때는 update71 의 지어낸 길 판 widget_map_preview_art_plain 으로. 법무 10/22 조건). update79 에 넣었다.
+     색은 colors.xml 의 widget_map_*·route·pin·home(기기 라이트·다크). 디자인이 만든 파일: design\v3\작업 자료\홈 화면 위젯\스크립트.zip 의 sha_art.py -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="320dp"
     android:height="140dp"
     android:viewportWidth="320"
     android:viewportHeight="140">
     <path android:fillColor="@color/widget_map_land" android:pathData="M0,0h320v140h-320z" />
-    <path android:fillColor="@color/widget_map_green" android:pathData="M0,0h96c10,18 -6,40 -34,46c-24,5 -46,-2 -62,-12z" />
-    <path android:fillColor="@color/widget_map_green" android:pathData="M262,140c4,-22 26,-36 58,-34v34z" />
-    <path android:strokeColor="@color/widget_map_road_line" android:strokeWidth="12" android:pathData="M0,104C80,98 150,112 320,92" />
-    <path android:strokeColor="@color/widget_map_road" android:strokeWidth="9" android:pathData="M0,104C80,98 150,112 320,92" />
-    <path android:strokeColor="@color/widget_map_road_line" android:strokeWidth="10" android:pathData="M176,0C170,40 188,70 214,140" />
-    <path android:strokeColor="@color/widget_map_road" android:strokeWidth="7" android:pathData="M176,0C170,40 188,70 214,140" />
-    <path android:fillColor="@color/widget_map_building" android:pathData="M112,22h34a3,3 0,0 1,3 3v18a3,3 0,0 1,-3 3h-34a3,3 0,0 1,-3 -3v-18a3,3 0,0 1,3 -3z" />
-    <path android:fillColor="@color/widget_map_building" android:pathData="M122,58h22a3,3 0,0 1,3 3v14a3,3 0,0 1,-3 3h-22a3,3 0,0 1,-3 -3v-14a3,3 0,0 1,3 -3z" />
-    <path android:fillColor="@color/widget_map_building" android:pathData="M202,24h40a3,3 0,0 1,3 3v12a3,3 0,0 1,-3 3h-40a3,3 0,0 1,-3 -3v-12a3,3 0,0 1,3 -3z" />
-    <path android:fillColor="@color/widget_map_building" android:pathData="M226,52h30a3,3 0,0 1,3 3v20a3,3 0,0 1,-3 3h-30a3,3 0,0 1,-3 -3v-20a3,3 0,0 1,3 -3z" />
-    <path android:fillColor="@color/widget_map_building" android:pathData="M268,30h28a3,3 0,0 1,3 3v16a3,3 0,0 1,-3 3h-28a3,3 0,0 1,-3 -3v-16a3,3 0,0 1,3 -3z" />
-    <path android:fillColor="@color/widget_map_building" android:pathData="M60,64h24a3,3 0,0 1,3 3v12a3,3 0,0 1,-3 3h-24a3,3 0,0 1,-3 -3v-12a3,3 0,0 1,3 -3z" />
-    <path android:fillColor="@color/widget_map_building" android:pathData="M30,118h40a3,3 0,0 1,3 3v10a3,3 0,0 1,-3 3h-40a3,3 0,0 1,-3 -3v-10a3,3 0,0 1,3 -3z" />
+    <path android:fillColor="@color/widget_map_green" android:pathData="M0,0h70c8,16 -6,34 -30,38c-18,3 -32,-2 -40,-8z" />
+    <path android:fillColor="@color/widget_map_green" android:pathData="M124,90a18,11 0,1 0,36 0a18,11 0,1 0,-36 0z" />
+    <path android:fillColor="@color/widget_map_green" android:pathData="M268,140c4,-18 24,-28 52,-26v26z" />
+    <path android:strokeColor="@color/widget_map_road_line" android:strokeWidth="12" android:pathData="M0,112C90,110 200,114 320,108" />
+    <path android:strokeColor="@color/widget_map_road" android:strokeWidth="9" android:pathData="M0,112C90,110 200,114 320,108" />
+    <path android:strokeColor="@color/widget_map_road_line" android:strokeWidth="10" android:pathData="M0,60C40,52 70,32 90,0" />
+    <path android:strokeColor="@color/widget_map_road" android:strokeWidth="7" android:pathData="M0,60C40,52 70,32 90,0" />
+    <path android:strokeColor="@color/widget_map_road_line" android:strokeWidth="10" android:pathData="M296,0C288,44 298,92 304,140" />
+    <path android:strokeColor="@color/widget_map_road" android:strokeWidth="7" android:pathData="M296,0C288,44 298,92 304,140" />
+    <path android:fillColor="@color/widget_map_building" android:pathData="M103,12h26a3,3 0,0 1,3,3v8a3,3 0,0 1,-3,3h-26a3,3 0,0 1,-3,-3v-8a3,3 0,0 1,3,-3z" />
+    <path android:fillColor="@color/widget_map_building" android:pathData="M25,80h22a3,3 0,0 1,3,3v10a3,3 0,0 1,-3,3h-22a3,3 0,0 1,-3,-3v-10a3,3 0,0 1,3,-3z" />
+    <path android:fillColor="@color/widget_map_building" android:pathData="M231,86h24a3,3 0,0 1,3,3v12a3,3 0,0 1,-3,3h-24a3,3 0,0 1,-3,-3v-12a3,3 0,0 1,3,-3z" />
+    <path android:fillColor="@color/widget_map_building" android:pathData="M273,18h26a3,3 0,0 1,3,3v10a3,3 0,0 1,-3,3h-26a3,3 0,0 1,-3,-3v-10a3,3 0,0 1,3,-3z" />
+    <path android:fillColor="@color/widget_map_building" android:pathData="M277,54h20a3,3 0,0 1,3,3v16a3,3 0,0 1,-3,3h-20a3,3 0,0 1,-3,-3v-16a3,3 0,0 1,3,-3z" />
+    <path android:fillColor="@color/widget_map_building" android:pathData="M107,120h34a3,3 0,0 1,3,3v6a3,3 0,0 1,-3,3h-34a3,3 0,0 1,-3,-3v-6a3,3 0,0 1,3,-3z" />
     <path android:strokeColor="@color/widget_bg" android:strokeWidth="8" android:strokeLineCap="round" android:strokeLineJoin="round"
-        android:pathData="M48,100C66,96 82,82 98,70S128,48 150,50C170,52 184,62 198,68S232,74 246,66" />
+        android:pathData="M74,108 L142,52 L210,108" />
+    <path android:strokeColor="@color/widget_bg" android:strokeWidth="8" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M210,108 L210,28 L170,28" />
+    <path android:strokeColor="@color/widget_bg" android:strokeWidth="8" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M210,36 L246,36" />
+    <path android:strokeColor="@color/widget_bg" android:strokeWidth="8" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M210,66 L246,66" />
     <path android:strokeColor="@color/widget_route" android:strokeWidth="4" android:strokeLineCap="round" android:strokeLineJoin="round"
-        android:pathData="M48,100C66,96 82,82 98,70S128,48 150,50C170,52 184,62 198,68S232,74 246,66" />
+        android:pathData="M74,108 L142,52 L210,108" />
+    <path android:strokeColor="@color/widget_route" android:strokeWidth="4" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M210,108 L210,28 L170,28" />
+    <path android:strokeColor="@color/widget_route" android:strokeWidth="4" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M210,36 L246,36" />
+    <path android:strokeColor="@color/widget_route" android:strokeWidth="4" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M210,66 L246,66" />
     <path android:fillColor="@color/widget_home" android:strokeColor="@color/widget_bg" android:strokeWidth="2"
-        android:pathData="M36,100a12,12 0,1 0,24 0a12,12 0,1 0,-24 0z" />
-    <path android:strokeColor="@color/widget_on_home" android:strokeWidth="1.5" android:strokeLineJoin="round"
-        android:pathData="M44,99.5l4,-3.5 4,3.5v4.5h-8z" />
+        android:pathData="M62,108a12,12 0,1 0,24,0a12,12 0,1 0,-24,0z" />
+    <path android:strokeColor="@color/widget_on_home" android:strokeWidth="1.5" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M70,107.5l4,-3.5 4,3.5v4.5h-8z" />
     <path android:fillColor="@color/widget_pin" android:strokeColor="@color/widget_bg" android:strokeWidth="2"
-        android:pathData="M138,50a12,12 0,1 0,24 0a12,12 0,1 0,-24 0z" />
+        android:pathData="M130,52a12,12 0,1 0,24,0a12,12 0,1 0,-24,0z" />
     <path android:strokeColor="@color/widget_on_pin" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round"
-        android:pathData="M148,46.5l2.5,-2v12" />
+        android:pathData="M140,49L142.5,47L142.5,57" />
     <path android:fillColor="@color/widget_pin" android:strokeColor="@color/widget_bg" android:strokeWidth="2"
-        android:pathData="M234,66a12,12 0,1 0,24 0a12,12 0,1 0,-24 0z" />
+        android:pathData="M198,108a12,12 0,1 0,24,0a12,12 0,1 0,-24,0z" />
     <path android:strokeColor="@color/widget_on_pin" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round"
-        android:pathData="M242.5,62.5c0,-2.5 7,-2.5 7,0.5c0,2.5 -7,4.5 -7,8h7" />
+        android:pathData="M207,105.6C207,102.4 213,102.4 213,105.7C213,108.2 207,110 207,113L213,113" />
+    <path android:fillColor="@color/widget_pin" android:strokeColor="@color/widget_bg" android:strokeWidth="2"
+        android:pathData="M234,66a12,12 0,1 0,24,0a12,12 0,1 0,-24,0z" />
+    <path android:strokeColor="@color/widget_on_pin" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M243,61.8C244.5,60.3 249,60.5 249,63.4C249,65.2 247.3,65.9 245.6,65.9C247.4,65.9 249.2,66.7 249.2,68.5C249.2,71.7 244.4,71.9 242.8,70.2" />
+    <path android:fillColor="@color/widget_pin" android:strokeColor="@color/widget_bg" android:strokeWidth="2"
+        android:pathData="M234,36a12,12 0,1 0,24,0a12,12 0,1 0,-24,0z" />
+    <path android:strokeColor="@color/widget_on_pin" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M247.5,41L247.5,31L242.5,38L249.6,38" />
+    <path android:fillColor="@color/widget_pin" android:strokeColor="@color/widget_bg" android:strokeWidth="2"
+        android:pathData="M158,28a12,12 0,1 0,24,0a12,12 0,1 0,-24,0z" />
+    <path android:strokeColor="@color/widget_on_pin" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M173,23L167.8,23L167.2,27.5C168.2,26.8 169.4,26.6 170.4,26.6C172.4,26.6 173.4,28.2 173.4,29.9C173.4,32.1 171.8,33.2 169.8,33.2C168.6,33.2 167.4,32.7 166.8,32" />
 </vector>
