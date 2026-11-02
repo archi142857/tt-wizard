@@ -1,0 +1,61 @@
+{
+ "trials": 6,
+ "routes": 6,
+ "walkers": 1,
+ "slope": {
+  "mae": 2.09,
+  "bias": -2.09,
+  "rmse": 2.39
+ },
+ "flat": {
+  "mae": 1.03,
+  "bias": -1.03,
+  "rmse": 1.18
+ },
+ "app": {
+  "mae": 2.09,
+  "bias": -2.09,
+  "rmse": 2.39
+ },
+ "magicmap": {
+  "mae": 1.21,
+  "bias": -1.14,
+  "rmse": 1.38
+ },
+ "slope_calibrated": {
+  "mae": 0.3,
+  "bias": -0.14,
+  "rmse": 0.43
+ },
+ "flat_calibrated": {
+  "mae": 0.41,
+  "bias": 0.3,
+  "rmse": 0.68
+ },
+ "speed_cv": 0.089,
+ "v0_cv": 0.069,
+ "v0_median": 1.488,
+ "walker_v0": {
+  "A": 1.488
+ },
+ "pairs": [
+  {
+   "up": "39→301",
+   "measured_ratio": 1.281,
+   "slope_ratio": 1.392,
+   "flat_ratio": 1.0
+  },
+  {
+   "up": "12→21",
+   "measured_ratio": 1.012,
+   "slope_ratio": 1.075,
+   "flat_ratio": 1.0
+  },
+  {
+   "up": "15→12",
+   "measured_ratio": 1.109,
+   "slope_ratio": 1.151,
+   "flat_ratio": 1.0
+  }
+ ]
+}

@@ -279,6 +279,7 @@ CHUNK_M = 50.0  # 경사별 속도를 재는 조각 길이 (m)
 MAX_ACC = 25.0  # 이보다 부정확한 GPS 점은 뺀다 (m)
 ON_ROUTE_M = 20.0  # 모형 경로에서 이만큼 안이면 경로 위로 본다 (m)
 MIN_ON_ROUTE = 0.8  # 경로 위 점이 이 비율보다 적으면 다른 길로 걸은 것으로 보고 뺀다
+PAGE_TOL = 3.0  # 분석에 쓰는 모형 경로가 측정 페이지가 그린 선(route_paths.json)에서 이만큼(m) 안이어야 같은 길이다
 STOP_SPEED, STOP_S = 0.35, 6.0  # 기기가 준 속도(GNSS 도플러)가 6초 넘게 0.35 m/s 미만이면 멈춘 것(신호 대기 등)
 DWELL_S, DWELL_M = 20.0, 4.0  # 속도가 없는 기기: 20초 동안 4 m 도 못 가면 멈춘 것 (짧은 멈춤은 못 잡는다)
 SMOOTH_S = 8.0  # 경로 위 위치를 앞뒤 이만큼(초) 평균해 GPS 흔들림을 줄인다
@@ -389,9 +390,13 @@ class RouteModel:
                 if u != v and (k not in best or float(e["distance"]) < best[k][0]):
                     best[k] = (float(e["distance"]), e.get("kind", ""))
         self.kind = {k: v[1] for k, v in best.items()}
-        ids = json.loads((DATA / "route_paths.json").read_text(encoding="utf-8"))["ids"]
+        stored = json.loads((DATA / "route_paths.json").read_text(encoding="utf-8"))
+        ids = stored["ids"]
+        self.lines = stored["paths"]  # 측정 페이지가 그리는 선(걷는 사람이 따라간 길)
         self.order = {b: i for i, b in enumerate(ids)}
-        self.points = stv.load_points(ids)
+        # slope_travel.py 를 기본값으로 돌릴 때와 같은 출입구: 그래프 패치의 제보 출입구(21동 북쪽 출입구 같은 것)까지 읽는다.
+        # 빠뜨리면 출입구가 달라져 다른 길이 나온다(R3 이 271 m 대신 420 m, update76 에서 고침)
+        self.points = stv.load_points(ids, extra=stv.EXTRA, patch=[stv.gp.PATCH_DIR])
         self.cache: dict[tuple[str, str], dict] = {}
 
     def route(self, a: str, b: str) -> dict:
@@ -408,10 +413,22 @@ class RouteModel:
                 self.cache[(a, b)] = go
                 L = back["L"]
                 self.cache[(b, a)] = {"s": L - back["s"][::-1], "z": back["z"][::-1], "xy": back["xy"][::-1],
-                                      "vs": L - back["vs"][::-1], "kinds": back["kinds"][::-1], "L": L}
+                                      "vs": L - back["vs"][::-1], "kinds": back["kinds"][::-1], "L": L,
+                                      "page_gap": back["page_gap"]}
         return self.cache[(a, b)]
 
+    def page_line(self, a: str, b: str) -> np.ndarray | None:
+        """측정 페이지가 그리는 a → b 선(m 좌표). route_paths.json 에 없으면 None"""
+        line = route_line(self.lines, a, b)
+        if not line:
+            return None
+        lat, lon = (np.array(v, float) for v in zip(*line))
+        return np.column_stack(self.proj.fwd(lon, lat))
+
     def _routes(self, a: str, b: str) -> tuple[dict, dict]:
+        """(a → b, b → a 를 a → b 쪽으로 적은 것). slope_travel 의 규칙으로 고른 경로가 측정 페이지의 선과 다르면
+        (고도 단면이 달라 '빠른 경로'가 바뀐 경우: DEM 이 없는 곳에서 돌릴 때) 다른 후보(반대 방향 경로, 최단거리 경로) 가운데
+        페이지 선과 맞는 것을 쓴다. page_gap = 쓴 경로와 페이지 선 사이의 가장 먼 거리(m)."""
         R = self.router
         acc = {}
         for x in (a, b):
@@ -422,8 +439,29 @@ class RouteModel:
         if got is None:
             raise ValueError(f"{a} → {b}: 경로가 없습니다")
         go, back = got
-        first = self._describe(go)
-        return first, first if back is go else self._describe(back)
+        done: dict[int, dict] = {}
+
+        def describe(rec) -> dict:
+            if id(rec) not in done:
+                done[id(rec)] = self._describe(rec)
+            return done[id(rec)]
+
+        out = []
+        for x, y, first in ((a, b, go), (b, a, back)):
+            page = self.page_line(x, y)
+            cands = [first] + [c for c in (go, back) if c is not first]
+            best = None
+            for i, rec in enumerate(cands + [None]):
+                if rec is None:  # 마지막 후보: 최단거리 경로
+                    rec = R.pick(acc[a], acc[b], choose="shortest")[0]
+                d = describe(rec)
+                gap = 0.0 if page is None else line_gap(d["xy"], page)
+                if best is None or gap < best[1]:
+                    best = (d, gap)
+                if gap <= PAGE_TOL:
+                    break
+            out.append({**best[0], "page_gap": round(best[1], 2)})
+        return out[0], out[1]
 
     def _describe(self, rec) -> dict:
         R = self.router
@@ -441,6 +479,29 @@ class RouteModel:
         lens = [dj0, p0] + [R.dist[k] for k in pairs] + [p1, dj1]
         kinds = ["connector", k0] + [self.kind.get(k, "") for k in pairs] + [k1, "connector"]
         return {"s": s, "z": z, "xy": xy, "vs": np.concatenate([[0.0], np.cumsum(lens)]), "kinds": kinds, "L": float(s[-1])}
+
+
+def line_gap(p: np.ndarray, q: np.ndarray, step: float = 2.0) -> float:
+    """두 선(m 좌표, 점 줄) 사이의 가장 먼 거리: 한쪽 선을 step 간격으로 찍은 점에서 다른 선까지의 거리 가운데 가장 큰 것(양쪽으로).
+    같은 길이면 페이지 선의 단순화 오차(1 m)·좌표 반올림만큼이다."""
+    def dense(xy: np.ndarray) -> np.ndarray:
+        out = [xy[:1]]
+        for a, b in zip(xy[:-1], xy[1:]):
+            n = max(1, int(math.ceil(float(np.hypot(*(b - a))) / step)))
+            out.append(a + (b - a) * (np.arange(1, n + 1) / n)[:, None])
+        return np.concatenate(out)
+
+    def far(P: np.ndarray, xy: np.ndarray) -> float:
+        if len(xy) < 2:
+            return float(np.hypot(*(P - xy[0]).T).max())
+        A, AB = xy[:-1], np.diff(xy, axis=0)
+        L2 = np.einsum("ij,ij->i", AB, AB)
+        t = np.clip(np.einsum("pij,ij->pi", P[:, None, :] - A[None], AB) / np.where(L2 == 0, 1.0, L2), 0.0, 1.0)
+        d = np.hypot(*np.moveaxis(P[:, None, :] - (A[None] + AB[None] * t[..., None]), -1, 0))
+        return float(d.min(axis=1).max())
+
+    p, q = np.asarray(p, float), np.asarray(q, float)
+    return max(far(dense(p), q), far(dense(q), p))
 
 
 def project(xy: np.ndarray, vs: np.ndarray, P: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
@@ -563,7 +624,7 @@ def analyse_walk(w: Walk, model: RouteModel, chunk_m: float = CHUNK_M) -> tuple[
                "date": w.start.strftime("%Y-%m-%d"), "start_time": w.start.strftime("%H:%M:%S"), "weather": w.weather,
                "note": w.note, "total_s": round(T, 1), "points": int(len(w.t)), "good_points": int(ok.sum()),
                "median_acc_m": round(float(np.median(w.acc[np.isfinite(w.acc)])), 1) if np.isfinite(w.acc).any() else "",
-               "route_m": round(L, 1)}
+               "route_m": round(L, 1), "page_gap_m": r["page_gap"]}
     if len(t) < 5:
         summary.update(on_route=0.0, dwell_s=0.0, gap_s=round(T, 1), moving_s=round(T, 1), status="GPS 없음")
         return summary, []
@@ -591,6 +652,8 @@ def analyse_walk(w: Walk, model: RouteModel, chunk_m: float = CHUNK_M) -> tuple[
     status = "ok" if on >= MIN_ON_ROUTE else "경로 다름"
     if status == "ok" and L / max(T - dwell_s, 1.0) > MAX_SPEED:
         status = "너무 빠름"  # 뛰었거나 셔틀·자전거
+    if status == "ok" and r["page_gap"] > PAGE_TOL:
+        status = "모형 경로 다름"  # 분석에 쓴 경로가 페이지가 그린 길과 달라 조각 시간을 믿을 수 없다(구간 시간은 쓴다)
     summary.update(on_route=round(on, 3), dwell_s=round(dwell_s, 1), gap_s=round(sum(b - a for a, b in gaps), 1),
                    moving_s=round(T - dwell_s, 1), status=status)
 
@@ -725,11 +788,14 @@ def track(items: list[str], out: Path, measurements: Path | None = None, dem_arg
         key = (s["walker"], s["from"], s["to"])
         trial[key] = trial.get(key, 0) + 1
         s["trial"] = trial[key]
-        if s["status"] in ("ok", "GPS 없음"):  # 다른 길로 걸었거나 너무 빠른 기록은 구간 비교에서 뺀다
+        if s["status"] in ("ok", "GPS 없음", "모형 경로 다름"):  # 다른 길로 걸었거나 너무 빠른 기록은 구간 비교에서 뺀다
             rows.append({"route": s["route"], "from": s["from"], "to": s["to"], "date": s["date"], "start_time": s["start_time"],
                          "walker": s["walker"], "trial": s["trial"], "time": f"{s['moving_s']:.1f}",
                          "total_time": f"{s['total_s']:.1f}", "stopped": f"{s['dwell_s']:.1f}", "weather": s["weather"],
                          "note": s["note"], "source": "gps"})
+    odd = sorted({f"{s['from']}→{s['to']} ({s['page_gap_m']:g} m)" for s in summaries if s["status"] == "모형 경로 다름"})
+    if odd:
+        print(f"  분석 경로가 측정 페이지의 선과 {PAGE_TOL:g} m 넘게 다른 구간(조각에서 뺌): {', '.join(odd)}", file=sys.stderr)
     fit = fit_slope(chunks)
     out.mkdir(parents=True, exist_ok=True)
     meas = measurements or (out / "measurements_gps.csv")

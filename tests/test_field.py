@@ -136,6 +136,25 @@ def test_page_matches_analysis():
     assert "watchPosition" in html and "wakeLock" in html and "enableHighAccuracy: true" in html
 
 
+def test_line_gap():
+    a = np.array([[0.0, 0.0], [100.0, 0.0]])
+    assert fv.line_gap(a, a + [0.0, 5.0]) == pytest.approx(5.0)
+    assert fv.line_gap(a, np.array([[0.0, 0.0], [40.0, 0.0], [100.0, 0.0]])) == pytest.approx(0.0)  # 꼭짓점만 다르다
+    detour = np.array([[0.0, 0.0], [40.0, 0.0], [50.0, 12.0], [60.0, 0.0], [100.0, 0.0]])
+    assert fv.line_gap(a, detour) == pytest.approx(12.0) and fv.line_gap(detour, a) == pytest.approx(12.0)
+
+
+def test_model_follows_page_routes(model):
+    """분석에 쓰는 경로 = 측정 페이지가 그린 길(route_paths.json)이고 길이도 route_stats.csv 와 같다.
+    출입구를 slope_travel.py 와 다르게 읽으면(그래프 패치의 제보 출입구를 빠뜨리면) R3 이 271 m 대신 420 m 길로 나온다."""
+    stats = fv.load_stats()
+    for r in fv._rows(ROOT / "data" / "field" / "routes.csv"):
+        for a, b in ((r["from"], r["to"]), (r["to"], r["from"])):
+            got = model.route(a, b)
+            assert got["page_gap"] <= fv.PAGE_TOL, (a, b, got["page_gap"])
+            assert got["L"] == pytest.approx(stats[(a, b)]["route_m"], abs=2.0), (a, b)
+
+
 def test_isotonic_and_stops():
     assert fv.isotonic(np.array([1.0, 3.0, 2.0, 4.0]), np.ones(4)).tolist() == [1.0, 2.5, 2.5, 4.0]
     t = np.arange(0, 60, 1.0)

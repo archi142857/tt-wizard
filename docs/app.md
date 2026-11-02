@@ -317,7 +317,7 @@ iOS 위젯(WidgetKit)은 iOS 를 낼 때 붙인다(App Group 을 쓰면 개인�
    더 넣는다면 캘린더 내보내기, 위젯, 수강편람 알림(`앱_확장_계획.md`, 위 '앞으로 기능을 만들 때').
 3. 개인정보 처리방침과 문의 페이지(update74, 11/1): 문서·법무가 쓴 문안(공유 폴더 `개인정보_처리방침.md` 2·3절)을 `docs/legal/privacy.md`·`support.md` 로 옮기고
    `scripts/legal_pages.py` 가 `web/privacy/index.html`(https://archi142857.github.io/tt-wizard/privacy/)·`web/support/index.html`(…/support/)로 만든다
-   (시행일 2026년 11월 1일, 의견 보내기 줄은 앱에 들어간 판에서 `FEEDBACK_IN_APP`, 앱 묶음에는 넣지 않는다. 시험 `tests/test_legal_pages.py`).
+   (시행일 2026년 11월 1일, 의견 보내기 줄은 앱에 들어가서(프론트엔드 e9a70a9) update76 에서 `FEEDBACK_IN_APP` 를 켰다, 앱 묶음에는 넣지 않는다. 시험 `tests/test_legal_pages.py`).
    앱의 `PRIVACY_URL` 은 프론트엔드가 넣는다. Play 처리방침 칸과 App Store 처리방침·지원 주소에 이 둘을 적는다.
    보호책임자·문의는 정보 탭 개발자 정보와 같은 이름·메일이다(사용자·법무 10/23).
    스토어 등록 자료(디자인: 글·그래픽 이미지는 됐고 휴대전화 스크린샷이 남았다), 콘솔의 데이터 보안·개인정보 라벨.

@@ -25,7 +25,7 @@ SRC = ROOT / "docs" / "legal"
 WEB = ROOT / "web"
 
 EFFECTIVE = "2026년 11월 1일"  # 시행일(처음 올리는 날. 문안의 【올리는 날】 두 곳)
-FEEDBACK_IN_APP = False  # 앱 정보 탭에 '의견 보내기'가 들어간 판에서 True(문안의 【앱에 들어간 뒤에 넣음】)
+FEEDBACK_IN_APP = True  # 앱 정보 탭에 '의견 보내기'가 들어간 판에서 True(문안의 【앱에 들어간 뒤에 넣음】). 프론트엔드 e9a70a9(11/1)에 들어가 켰다(update76)
 DEV_MAIL = "sanger.lee138@gmail.com"
 MAIL_SUBJECT = "TT Wizard 문의"  # 앱 개발자 정보의 메일 링크와 같다(web/js/app.js DEV_MAIL_HREF)
 SITES = ("privacy.kisa.or.kr", "www.kopico.go.kr", "www.spo.go.kr", "ecrm.police.go.kr")  # 16절 기관(글에는 https:// 없이)

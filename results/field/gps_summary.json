@@ -1,0 +1,109 @@
+{
+ "walks": 6,
+ "used_walks": 6,
+ "profile": "그래프 노드 고도(DEM 없음)",
+ "chunk_m": 50.0,
+ "chunks": 50,
+ "walkers": [
+  "A"
+ ],
+ "k_hat": 1.75,
+ "rms_flat": 0.1443,
+ "rms_tobler": 0.1456,
+ "rms_fit": 0.1159,
+ "walker_v0": {
+  "A": 1.489
+ },
+ "windows": {
+  "10": 0.1508,
+  "20": 0.146,
+  "30": 0.1456,
+  "50": 0.1462
+ },
+ "flat_speed": {
+  "A": 1.401
+ },
+ "bins": [
+  {
+   "bin": "~-8",
+   "n": 10,
+   "grade_pct": -12.6,
+   "measured": 0.995,
+   "model": 0.916,
+   "tobler": 0.914,
+   "fit": 0.956
+  },
+  {
+   "bin": "-8~-4",
+   "n": 3,
+   "grade_pct": -6.5,
+   "measured": 1.012,
+   "model": 1.118,
+   "tobler": 1.13,
+   "fit": 1.063
+  },
+  {
+   "bin": "-4~-1.5",
+   "n": 3,
+   "grade_pct": -2.7,
+   "measured": 0.931,
+   "model": 1.069,
+   "tobler": 1.1,
+   "fit": 1.049
+  },
+  {
+   "bin": "-1.5~1.5",
+   "n": 7,
+   "grade_pct": -0.1,
+   "measured": 1.0,
+   "model": 0.986,
+   "tobler": 1.002,
+   "fit": 1.001
+  },
+  {
+   "bin": "1.5~4",
+   "n": 3,
+   "grade_pct": 2.9,
+   "measured": 1.021,
+   "model": 0.911,
+   "tobler": 0.903,
+   "fit": 0.95
+  },
+  {
+   "bin": "4~8",
+   "n": 4,
+   "grade_pct": 6.1,
+   "measured": 0.926,
+   "model": 0.81,
+   "tobler": 0.807,
+   "fit": 0.898
+  },
+  {
+   "bin": "8~",
+   "n": 10,
+   "grade_pct": 12.5,
+   "measured": 0.774,
+   "model": 0.648,
+   "tobler": 0.645,
+   "fit": 0.803
+  },
+  {
+   "bin": "계단 오르막",
+   "n": 5,
+   "grade_pct": 8.8,
+   "measured": 0.837,
+   "model": 0.835,
+   "tobler": 0.735,
+   "fit": 0.857
+  },
+  {
+   "bin": "계단 내리막",
+   "n": 5,
+   "grade_pct": -8.1,
+   "measured": 0.991,
+   "model": 0.947,
+   "tobler": 1.07,
+   "fit": 1.034
+  }
+ ]
+}
