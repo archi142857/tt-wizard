@@ -9,7 +9,7 @@
 ```bash
 python scripts/field_validation.py track data/field/tracks              # 측정 페이지 기록 → results/field/ (구간 시간 + 경사별 속도)
 python scripts/field_validation.py suggest                              # 경사로 시간이 많이 느는 강의 건물 쌍 (평지 15분 이하)
-python scripts/field_validation.py plan --routes data/field/routes.csv  # → results/field/plan.md, plan.csv, plan.geojson
+python scripts/field_validation.py plan --routes data/field/routes.csv  # → data/local/field/plan.md, plan.csv, plan.geojson (PC 에만)
 python scripts/field_validation.py check data/field/measurements.csv    # 스톱워치 기록 → results/field/README.md, CSV, 그림
 ```
 
@@ -37,11 +37,12 @@ python scripts/field_validation.py check data/field/measurements.csv    # 스톱
 
 | 구간 | 출발 → 도착 | 길이 | 높이차 | 길 |
 | --- | --- | --- | --- | --- |
-| R1 공대 오르막 | 39 대학원연구동 → 301 제1공학관 | 564 m | +62.1 m | 도로 오르막 |
-| R2 계단 | 15 법학관1 → 12 사범교육협력센터 | 440 m | +30.4 m | 계단 약 210 m |
-| R3 평지 | 12 사범교육협력센터 → 21 약학관1 | 271 m | +3.6 m | 평지 (사람마다 평지 속도) |
-| R4 경영대 오르막 | 58 SK경영관 → 223 우석경제관 | 342 m | +24.7 m | 도로 오르막 |
+| R1 공대 오르막 | 39 대학원연구동 → 301 제1공학관 | 564 m | +62 m | 도로 오르막 |
+| R2 계단 | 15 법학관1 → 12 사범교육협력센터 | 440 m | +30 m | 계단 약 210 m |
+| R3 평지 | 12 사범교육협력센터 → 21 약학관1 | 271 m | +4 m | 평지 (사람마다 평지 속도) |
+| R4 경영대 오르막 | 58 SK경영관 → 223 우석경제관 | 342 m | +25 m | 도로 오르막 |
 
+- 높이차는 m 단위로 반올림한 값이다(수치지형도에서 나온 높이라 공개 문서·결과에는 반올림한 구간 높이차만 둔다, 법무 11/3 밤. `docs/elevation_method.md` '높이 자료는 PC 에만').
 - 길이·높이차는 2026-10-02 점검 뒤 값이다(출입구를 확인하고 접속선을 넣으면서 경로의 양 끝이 조금 바뀌었다. R3 은 21동 북쪽 출입구로 닿아 383 m → 271 m).
   걸을 때는 페이지 지도의 파란 선과 출입구 표시를 따른다.
 - 넷 다 '경로 다름'(마법 지도 표와 우리 경로가 크게 다름)이 아니다. 갔다가 같은 길로 돌아온다(양방향).
@@ -73,8 +74,9 @@ python scripts/field_validation.py track data/field/tracks --dem data/dem   # �
   맞춰, log(실측 ÷ 예측) 제곱합이 가장 작은 k 를 찾는다. k = 0 이면 평지 모형, 3.5 면 Tobler. 계단 엣지 위는 k 와 상관없이
   계단 속도식으로 둔다(k 는 계단이 아닌 길에만 맞춘다). 경사를 재는 창 길이
   (10·20·30·50 m)별로 남는 차이도 낸다.
-- 결과: `results/field/README.md` 의 'GPS 기록' 절, `gps_walks.csv`(기록별), `gps_chunks.csv`(조각별), `gps_summary.json`,
-  `fig_field_grade`(경사별 속도). 위치(위도·경도) 원자료는 결과에 남기지 않는다. `data/field/tracks/` 는 git 에 올리지 않는다.
+- 결과: `results/field/README.md` 의 'GPS 기록' 절, `gps_walks.csv`(기록별), `gps_summary.json`, `fig_field_grade`(경사별 속도).
+  조각별 표 `gps_chunks.csv`(50 m 조각마다의 경사)는 위치에 붙은 높이라 PC 의 `data/local/field/` 에만 쓴다(update89, `--local-output`).
+  위치(위도·경도) 원자료는 결과에 남기지 않는다. `data/field/tracks/` 는 git 에 올리지 않는다.
 - 가짜 기록(R1~R3 왕복, 두 사람, GPS 오차 3 m·상관시간 15초, 난수 씨앗 4개)으로 확인하면 사람별 평지 속도는 1 % 남짓 안,
   k 는 3.55~3.65(참값 3.5), 30초 멈춤은 27~28초로 되찾는다. 오차 4 m·상관시간 20초에 폰 속도가 없을 때도 k 는 3.45~3.65
   (`tests/test_field.py`).
@@ -147,12 +149,12 @@ python scripts/field_validation.py track data/field/tracks --dem data/dem   # �
 | R1 39 → 301 (오름) | 8분 21초 | 12.64분 | 8.55분 | 8.13분 | 1.28 / 1.39 |
 | R2 12 → 15 (계단 내림 30 m) | 5분 15초 | 6.96분 | 6.67분 | 6.32분 | |
 | R2 15 → 12 (계단 오름) | 5분 49초 | 8.01분 | 6.67분 | 6.32분 | 1.11 / 1.15 |
-| R3 12 → 21 (평지, +3.6 m) | 3분 17초 | 4.30분 | 4.10분 | 5.18분 | 1.01 / 1.08 |
+| R3 12 → 21 (평지, +4 m) | 3분 17초 | 4.30분 | 4.10분 | 5.18분 | 1.01 / 1.08 |
 | R3 21 → 12 | 3분 14초 | 4.00분 | 4.10분 | 5.18분 | |
 | R4 58 → 223 (오름 25 m) | 4분 05초 | 6.70분 | 5.18분 | 5.24분 | 1.11 / 1.36 |
 | R4 223 → 58 (내림) | 3분 41초 | 4.93분 | 5.18분 | 5.24분 | |
 
-- 멈춘 시간 0초. GPS 점은 R1~R3 모두 경로 20 m 안, R4 는 89·91 %(오차 중앙값 4.4~5.1 m). 고도 단면은 그래프 노드 고도(클라우드에서 돌림, DEM 없음).
+- 멈춘 시간 0초. GPS 점은 R1~R3 모두 경로 20 m 안, R4 는 89·91 %(오차 중앙값 4.4~5.1 m). 고도 단면은 그래프 노드 고도(수치지형도 DEM 에서 나온 값. 11/3 은 클라우드에서 돌렸고, 높이 자료가 PC 에만 있게 된 뒤로는 PC 에서 돌린다).
   아래 숫자는 두 날 기록 여덟 개를 한꺼번에 낸 값이다(11/3 에 내보낸 CSV 하나에 11/2 기록도 들어 있다. 같은 기록은 한 번만 센다).
 - **구간 시간.** 사람별 속도를 맞춘 뒤 남는 차이(MAE·RMSE): 경사 모형 0.33·0.47분, 평지 모형 0.36·0.62분(11/2 R1~R3 만으로는 0.30·0.43, 0.41·0.68).
   오름 ÷ 내림 비는 네 구간 다 평지 모형(1)보다 경사 모형 쪽이지만 경사 모형보다 작다. R4 가 가장 작다(실측 1.11, 경사 모형 1.36):

@@ -222,7 +222,7 @@ python scripts/slope_travel.py
 python scripts/field_validation.py track data/field/tracks
 # 잴 만한 구간 후보
 python scripts/field_validation.py suggest
-# 모형 경로와 예측 → results/field/plan.*
+# 모형 경로와 예측 → data/local/field/plan.* (경로 선·높이차가 들어서 PC 에만)
 python scripts/field_validation.py plan --routes data/field/routes.csv
 # 실측과 모형 견주기 → results/field/
 python scripts/field_validation.py check data/field/measurements.csv

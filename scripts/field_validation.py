@@ -1,10 +1,15 @@
 """오르막 실측으로 경사 반영 이동시간을 검증한다. 측정 방법·기록 양식은 docs/field_measurement.md.
 
   python scripts/field_validation.py suggest                         # 잴 만한 구간 후보 (경사로 시간이 많이 느는 강의 건물 쌍)
-  python scripts/field_validation.py plan GATE-302 919A-301 63-301   # 구간별 모형 경로·예측 시간 → results/field/plan.*
+  python scripts/field_validation.py plan GATE-302 919A-301 63-301   # 구간별 모형 경로·예측 시간 → data/local/field/plan.* (PC 에만)
   python scripts/field_validation.py plan --routes data/field/routes.csv
   python scripts/field_validation.py check data/field/measurements.csv   # 실측 vs 모형 → results/field/
   python scripts/field_validation.py track data/field/tracks            # 측정 페이지(web/field/) GPS 기록 → 구간 시간 + 경사별 속도
+
+공개 결과(results/field/)와 PC 에만 두는 것(data/local/field/, git 에 없음. 법무 11/3 밤 '남은 연구 결과', update89):
+  높이는 수치지형도 DEM 에서 나왔다(그래프 노드 고도). 위치에 붙은 높이 — 50 m 조각마다의 경사(gps_chunks.csv: 구간·거리 자리와 묶임),
+  계획의 경로 선·오르막·높이차(plan.*) — 는 PC 에만 쓴다. 공개 결과에는 위치를 되살릴 수 없는 묶음만: 경사 구간별 속도(표·그림),
+  구간 몇 개의 높이차를 m 단위로 반올림한 값(validation_*.csv·README). 폰 GPS 고도는 쓰지 않는다.
 
 모형 값 (data/local/route_stats.csv, slope_travel.py 결과. PC 에만: 높이차·오르막이 들어 있다. 없으면 공개 판 data/route_stats.csv 로 읽고 그 열은 nan)
   route_slope_min  우리 경로의 경사 반영 시간 (평지 1.1 m/s, Tobler, 30 m 창. 계단 엣지는 계단 속도식) — 실측과 같은 길이라 1차 비교 대상
@@ -49,10 +54,16 @@ from ttwizard.parse_sugang import sections_from_json  # noqa: E402
 
 DATA = ROOT / "data"
 OUT = ROOT / "results" / "field"
+LOCAL_OUT = DATA / "local" / "field"  # PC 에만(.gitignore 의 data/local/): 위치에 붙은 높이(조각별 경사, 계획 경로의 높이차)
 V0 = 1.1  # 모형의 평지 보행 속도 (m/s)
 
 
 # ---------------------------------------------------------------- 자료
+
+def rise_m(x):
+    """공개 결과의 높이차: m 단위로 반올림(법무 11/3 밤: 구간 몇 개의 반올림한 높이차는 둬도 된다). 모르면(nan) 그대로"""
+    return int(round(x)) if isinstance(x, (int, float)) and math.isfinite(x) else x
+
 
 def _rows(path: Path) -> list[dict]:
     with open(path, newline="", encoding="utf-8-sig") as f:
@@ -213,7 +224,7 @@ def check(path: Path, routes_csv: Path | None, out: Path, figures: bool = True) 
             "route": r.get("route") or f"{a}→{b}", "from": a, "to": b, "walker": r.get("walker") or "-",
             "date": r.get("date", ""), "trial": r.get("trial", ""), "measured_min": round(mins, 3),
             "slope_min": s["route_slope_min"], "flat_min": s["route_flat_min"], "app_min": s["minutes"],
-            "magicmap_min": s["magicmap_min"], "route_m": s["route_m"], "net_rise_m": s["net_rise_m"],
+            "magicmap_min": s["magicmap_min"], "route_m": s["route_m"], "net_rise_m": rise_m(s["net_rise_m"]),
             "err_slope": round(mins - s["route_slope_min"], 3), "err_flat": round(mins - s["route_flat_min"], 3),
             "err_app": round(mins - s["minutes"], 3), "err_magicmap": round(mins - s["magicmap_min"], 3),
             "speed": round(s["route_m"] / sec, 3),  # 거리 ÷ 시간 (경사 무시)
@@ -783,8 +794,9 @@ def fit_slope(chunks: list[dict]) -> dict:
 
 
 def track(items: list[str], out: Path, measurements: Path | None = None, dem_args: list[str] | None = None,
-          chunk_m: float = CHUNK_M, figures: bool = True) -> dict:
-    """GPS 기록 → 구간 시간 표(check 입력) + 조각별 경사·속도. 위치 원자료는 결과에 남기지 않는다."""
+          chunk_m: float = CHUNK_M, figures: bool = True, local_out: Path | None = None) -> dict:
+    """GPS 기록 → 구간 시간 표(check 입력) + 조각별 경사·속도. 위치 원자료는 결과에 남기지 않는다.
+    조각 표(gps_chunks.csv)는 위치에 붙은 경사라 local_out(기본 data/local/field/, PC 에만)에 쓴다."""
     walks = load_tracks(track_files(items))
     if not walks:
         raise ValueError("기록이 없습니다")
@@ -817,7 +829,9 @@ def track(items: list[str], out: Path, measurements: Path | None = None, dem_arg
         write_csv(meas, rows)
         route_summary = check(meas, None, out, figures)
     write_csv(out / "gps_walks.csv", summaries)
-    write_csv(out / "gps_chunks.csv", [{k: v for k, v in c.items() if not k.startswith("_")} for c in chunks])
+    local_out = local_out or LOCAL_OUT
+    local_out.mkdir(parents=True, exist_ok=True)
+    write_csv(local_out / "gps_chunks.csv", [{k: v for k, v in c.items() if not k.startswith("_")} for c in chunks])
     summary = {"walks": len(walks), "used_walks": len(rows), "profile": model.source, "chunk_m": chunk_m, **fit}
     (out / "gps_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
     figs = draw_grade(out, chunks, fit) if figures and fit.get("chunks") else []
@@ -868,7 +882,9 @@ def write_gps_readme(path: Path, items: list[str], s: dict, walks: list[dict], f
              f"`python scripts/field_validation.py track {src}` 결과. 기록 {s['walks']}개 중 구간 비교에 쓴 것 {s['used_walks']}개. "
              f"고도 단면: {s['profile']}.",
              f"위 구간 시간은 멈춘 시간(신호 대기 등: 기기 속도가 {STOP_S:g}초 넘게 {STOP_SPEED:g} m/s 미만, 속도를 안 주는 기기는 "
-             f"{DWELL_S:g}초 동안 {DWELL_M:g} m 미만)을 뺀 값이다. 전체 걸린 시간은 `gps_walks.csv` 의 `total_s`.", "",
+             f"{DWELL_S:g}초 동안 {DWELL_M:g} m 미만)을 뺀 값이다. 전체 걸린 시간은 `gps_walks.csv` 의 `total_s`.",
+             "조각마다의 경사·속도 표(`gps_chunks.csv`)는 위치에 붙은 높이라 PC 의 `data/local/field/` 에만 둔다. "
+             "아래 표와 그림은 경사 구간별로 묶은 값이다.", "",
              "| 걷는 사람 | 구간 | 번째 | 날짜 | 걸린 시간 | 멈춘 시간 | 끊긴 시간 | 경로 위 점 | GPS 오차 중앙값 | 상태 |",
              "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
     for w in walks:
@@ -990,7 +1006,7 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("plan", help="구간별 모형 경로·예측")
     p.add_argument("pairs", nargs="*", help="출발-도착 (예: GATE-302, R1:919A-301, 220-1>301)")
     p.add_argument("--routes", default="", help="route,from,to[,note] CSV")
-    p.add_argument("-o", "--output", default=str(OUT))
+    p.add_argument("-o", "--output", default=str(LOCAL_OUT), help="경로 선과 오르막·높이차가 들어서 PC 에만(기본 data/local/field)")
     p = sub.add_parser("check", help="실측 vs 모형")
     p.add_argument("measurements")
     p.add_argument("--routes", default=str(DATA / "field" / "routes.csv"))
@@ -1004,6 +1020,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--chunk", type=float, default=CHUNK_M, help="경사별 속도를 재는 조각 길이(m)")
     p.add_argument("--no-figures", action="store_true")
     p.add_argument("-o", "--output", default=str(OUT))
+    p.add_argument("--local-output", default=str(LOCAL_OUT), help="조각별 경사 표(위치에 붙은 높이)를 둘 PC 쪽 폴더")
     args = ap.parse_args(argv)
 
     if args.cmd == "suggest":
@@ -1027,13 +1044,14 @@ def main(argv: list[str] | None = None) -> int:
         print(f"저장: {Path(args.output) / 'plan.md'}, plan.csv, plan.geojson")
         return 0
     if args.cmd == "track":
-        s = track(args.files, Path(args.output), Path(args.measurements), args.dem, args.chunk, not args.no_figures)
+        s = track(args.files, Path(args.output), Path(args.measurements), args.dem, args.chunk, not args.no_figures,
+                  Path(args.local_output))
         print(f"기록 {s['walks']}개 (구간 비교에 쓴 것 {s['used_walks']}개), 고도 단면: {s['profile']}")
         if s.get("chunks"):
             print(f"  조각 {s['chunks']}개: 실측에 맞춘 경사 계수 k {s['k_hat']:g} (Tobler {K_TOBLER:g}, 평지 0)")
             print(f"  남는 차이(log RMS): 평지 {s['rms_flat']}, Tobler {s['rms_tobler']}, 맞춘 k {s['rms_fit']}")
             print("  사람별 평지 속도: " + ", ".join(f"{k} {v} m/s" for k, v in s["walker_v0"].items()))
-        print(f"저장: {args.measurements}, {Path(args.output)} (README.md, gps_walks.csv, gps_chunks.csv)")
+        print(f"저장: {args.measurements}, {Path(args.output)} (README.md, gps_walks.csv), {Path(args.local_output) / 'gps_chunks.csv'}")
         return 0
     s = check(Path(args.measurements), Path(args.routes) if args.routes else None, Path(args.output), not args.no_figures)
     print(f"측정 {s['trials']}번, 구간 {s['routes']}개")

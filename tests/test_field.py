@@ -49,6 +49,36 @@ def test_plan_uses_route_stats(tmp_path):
     assert (tmp_path / "plan.geojson").exists() and (tmp_path / "plan.md").exists()
 
 
+def test_track_keeps_chunk_table_local(tmp_path, monkeypatch):
+    """조각별 경사 표(gps_chunks.csv, 위치에 붙은 높이)는 local_out(PC 의 data/local/field/)에만 쓰고 공개 결과(out)에는 묶은 값만 둔다.
+    높이는 반올림한 m(법무 11/3 밤 '남은 연구 결과', update89). 기록 읽기·경로 모형은 가짜로 바꿔 높이 자료 없이 돈다"""
+    from types import SimpleNamespace
+
+    walks = [("GATE", "302"), ("302", "GATE")]
+    monkeypatch.setattr(fv, "track_files", lambda items: [])
+    monkeypatch.setattr(fv, "load_tracks", lambda files: list(walks))
+    monkeypatch.setattr(fv, "RouteModel", lambda dem_args: SimpleNamespace(source="가짜 단면"))
+    monkeypatch.setattr(fv, "fit_slope", lambda chunks: {"chunks": 0})
+
+    def fake(w, model, chunk_m):
+        a, b = w
+        s = {"walk": f"w-{a}-{b}", "walker": "A", "route": "", "from": a, "to": b, "date": "2026-11-03", "start_time": "15:00:00",
+             "weather": "", "note": "", "total_s": 300.0, "points": 100, "good_points": 100, "median_acc_m": 4.0, "route_m": 400.0,
+             "page_gap_m": 0.5, "on_route": 1.0, "dwell_s": 0.0, "gap_s": 0.0, "moving_s": 300.0, "status": "ok"}
+        return s, [{"walk": s["walk"], "walker": "A", "from": a, "to": b, "s0": 0.0, "s1": 50.0, "length_m": 50.0, "grade_pct": 5.0,
+                    "flag": "ok", "_x": 1}]
+
+    monkeypatch.setattr(fv, "analyse_walk", fake)
+    fv.track(["x"], tmp_path / "out", tmp_path / "m.csv", None, figures=False, local_out=tmp_path / "local")
+    chunks = fv._rows(tmp_path / "local" / "gps_chunks.csv")
+    assert len(chunks) == 2 and "grade_pct" in chunks[0] and "_x" not in chunks[0]
+    assert not (tmp_path / "out" / "gps_chunks.csv").exists() and (tmp_path / "out" / "gps_walks.csv").exists()
+    assert "`data/local/field/` 에만" in (tmp_path / "out" / "README.md").read_text(encoding="utf-8")
+    for name in ("validation_routes.csv", "validation_trials.csv"):  # 높이차는 m 단위 정수(PC 의 온전한 표가 없으면 nan)
+        assert all(r["net_rise_m"] == "nan" or r["net_rise_m"].lstrip("-").isdigit() for r in fv._rows(tmp_path / "out" / name))
+    assert fv.LOCAL_OUT == LOCAL / "field" and fv.rise_m(62.1) == 62 and fv.rise_m(-24.7) == -25 and fv.rise_m(3.6) == 4
+
+
 def test_check_recovers_walking_speed(tmp_path):
     """경사 모형대로, 사람마다 다른 속도로 걸었다고 치면: 속도를 되찾고 보정 뒤 남는 차이가 0이다."""
     stats = fv.load_stats()
@@ -185,7 +215,8 @@ def test_track_recovers_speed_and_slope(tmp_path, model):
             rows += rs
             truth[(walker, a, b)] = T
             start += timedelta(minutes=15)
-    s = fv.track([str(write_track(tmp_path / "t.csv", rows))], tmp_path / "out", tmp_path / "m.csv", None, figures=False)
+    s = fv.track([str(write_track(tmp_path / "t.csv", rows))], tmp_path / "out", tmp_path / "m.csv", None, figures=False,
+                 local_out=tmp_path / "local")
     assert s["walks"] == s["used_walks"] == 12 and s["chunks"] > 80
     assert s["walker_v0"]["A"] == pytest.approx(1.3, rel=0.04) and s["walker_v0"]["B"] == pytest.approx(1.05, rel=0.04)
     assert 2.8 <= s["k_hat"] <= 4.3 and s["rms_tobler"] < 0.8 * s["rms_flat"]
@@ -199,8 +230,9 @@ def test_track_recovers_speed_and_slope(tmp_path, model):
     assert float(m["time"]) == pytest.approx(float(m["total_time"]) - 30, abs=6)
     text = (tmp_path / "out" / "README.md").read_text(encoding="utf-8")
     assert "## GPS 기록" in text and "경사별 걷는 속도" in text
-    for name in ("gps_chunks.csv", "gps_walks.csv"):  # 결과에는 위치(위도·경도)를 남기지 않는다
-        assert not {"lat", "lon"} & set(fv._rows(tmp_path / "out" / name)[0])
+    for path in (tmp_path / "local" / "gps_chunks.csv", tmp_path / "out" / "gps_walks.csv"):  # 위치(위도·경도) 원자료는 남기지 않는다
+        assert not {"lat", "lon"} & set(fv._rows(path)[0])
+    assert not (tmp_path / "out" / "gps_chunks.csv").exists()  # 조각별 경사(위치에 붙은 높이)는 PC 쪽에만(update89)
 
 
 @needs_local
@@ -218,7 +250,7 @@ def test_track_flat_walker_off_route_and_duplicates(tmp_path, model):
     f2 = write_track(tmp_path / "b.csv", rows[: len(rows) // 3])  # 앞부분만 먼저 내보낸 파일
     walks = fv.load_tracks([f2, f1])
     assert len(walks) == 6 and {w.walker for w in walks} == {"A-cccc", "A-dddd"}
-    s = fv.track([str(tmp_path)], tmp_path / "out", tmp_path / "m.csv", None, figures=False)
+    s = fv.track([str(tmp_path)], tmp_path / "out", tmp_path / "m.csv", None, figures=False, local_out=tmp_path / "local")
     assert s["walks"] == 6 and s["used_walks"] == 5 and s["k_hat"] <= 1.0
     status = {w["walk"]: w["status"] for w in fv._rows(tmp_path / "out" / "gps_walks.csv")}
     assert status["cccc-off"] == "경로 다름"

@@ -21,11 +21,15 @@
 | 쌍마다의 오르막·내리막·높이차 | `data/local/route_stats.csv`. 공개 `data/route_stats.csv` 는 그 열을 뺀 것 |
 | 출입구 접속선의 최대 경사 | 적지 않는다(`links.geojson`. 가파른지는 `check` 의 `steep` 로만) |
 | 3D·2D 지형 모형 | `data/local/model/`(웹 `model/` 은 내림) |
+| 실측의 조각별 경사(50 m 조각마다, 구간·거리 자리와 묶임), 실측 계획의 경로 선·오르막·높이차 | `data/local/field/gps_chunks.csv`·`plan.*`(update89). 공개 `results/field/` 에는 경사 구간별로 묶은 속도(표·그림)와 m 단위로 반올림한 구간 높이차만 |
 
 남기는 것: 이동시간 표(평지·경사 반영, 앱과 웹이 쓰는 것), 경로 모양, 거리, 계단 길이, 층 추정(1층/2층), surface(지면·터널·다리).
 규칙과 열 목록은 `scripts/local_data.py`, 지키는 시험은 `tests/test_public_data.py`. 높이 자료를 만드는 스크립트(`building_elevation.py`,
 `graph_slopes.py`, `slope_travel.py`, `campus_model.py`)는 DEM 이 있는 PC 에서만 돌고, 온전한 것은 `data/local/` 에, 공개 자리에는 열을 뺀 판을 쓴다.
-지난 커밋에는 예전 파일이 남아 있다(지울지는 법무에 물었다). 실측 결과(`results/field/`)의 구간 경사·높이차와 문서 속 숫자도 법무에 물었다.
+실측 결과(법무 11/3 밤): 높이가 수치지형도 DEM(그래프 노드 고도)에서 나왔으니 위치에 붙은 높이(조각별 경사·높이 단면)는 PC 로,
+위치를 되살릴 수 없는 묶음(경사별 속도 그림, 구간 몇 개의 반올림한 높이차)은 둬도 된다. 폰 GPS 고도로 낸 값이면 이 규칙과 상관없다.
+지난 커밋과 태그(`v0.2.0-alpha`~`v0.6.0-alpha`)에는 예전 파일이 남아 있다. 법무 의견은 기록 다시 쓰기(공유 폴더 `법무_검토.md` 2절 할 일 1 의
+방법 ㄴ: 지금 main 한 장으로 새 저장소, 또는 ㄱ: 전 기록에서 빼고 강제 푸시). 고르는 것은 사용자다.
 
 만드는 스크립트: `scripts/fetch_campus_buildings.py` → `scripts/fetch_osm_footprints.py` → `scripts/dem_from_contours.py`
 → `scripts/building_elevation.py`

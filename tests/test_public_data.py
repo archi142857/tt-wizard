@@ -88,6 +88,27 @@ def test_scripts_write_heights_only_locally():
     assert ld.local_path(DATA / "magicmap" / "roads_graph_slope.json") == gs.OUT_JSON
 
 
+def test_results_have_no_located_heights():
+    """연구 결과(results/)에도 위치에 붙은 높이가 없다(법무 11/3 밤 '남은 연구 결과', update89). 높이가 수치지형도 DEM(그래프 노드 고도)에서
+    나왔으니 조각마다의 경사(gps_chunks.csv)와 실측 계획(plan.*: 경로 선·오르막·높이차)은 PC 의 data/local/field/ 에만 두고,
+    공개 결과에는 경사 구간별로 묶은 값과 m 단위로 반올림한 구간 높이차만 둔다"""
+    import field_validation as fv
+    assert fv.LOCAL_OUT == ld.LOCAL / "field"
+    files = [p for p in sorted((ROOT / "results").rglob("*")) if p.is_file()]
+    assert files and not [p for p in files if p.name == "gps_chunks.csv" or p.name.startswith("plan.")]
+    for p in files:
+        rel = p.relative_to(ROOT).as_posix()
+        if p.suffix == ".csv":
+            with open(p, newline="", encoding="utf-8-sig") as f:
+                rows = list(csv.DictReader(f))
+            head = set(rows[0]) if rows else set()
+            assert not {"s0", "s1", "grade_pct"} <= head, rel  # 경로 위 자리와 묶인 경사
+            assert not (head & ld.HEIGHT_NAMES) - {"net_rise_m"}, rel
+            assert all(r.get("net_rise_m", "") in ("", "nan") or re.fullmatch(r"-?\d+", r["net_rise_m"]) for r in rows), rel
+        elif p.suffix == ".md":
+            assert not re.search(r"\| [+-]\d+\.\d+ m \|", p.read_text(encoding="utf-8")), rel  # 표의 높이차는 정수 m
+
+
 def test_strip_graph_and_public_csv(tmp_path):
     graph = {"nodes": [{"id": 1, "lng": 1.0, "lat": 2.0, "ele": 80.5}],
              "edges": [{"id": 1, "from": 1, "to": 1, "distance": 3.0, "surface": "ground", "eleFrom": 1, "eleTo": 2, "rise": 1,
