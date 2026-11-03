@@ -4675,10 +4675,11 @@ async function goNav(nav) {
 }
 /** 홈 화면 위젯에서 수업을 누르면 그 수업의 항목 시트(11/2 사용자: "위젯은 강의를 눌렀을 때 그 강의 정보가 뜨도록, 시간표에 저장해놓은 강의 정보가 뜨도록",
  *  백엔드 update77): 내 시간표에 그 시간표(tt. 없거나 못 찾으면 그 학기 대표 시간표: 위젯이 그리는 시간표)를 띄우고 그 항목 시트를 연다(과목은 넣은 분반과
- *  바꾼 시간·장소, 직접 넣은 일정은 일정 시트. openItem). 그 학기 편람을 받는 중이면 다른 분반·편람 바뀜까지 보이게 5초까지 기다린다(못 받으면 적어 둔 값으로).
+ *  바꾼 시간·장소, 직접 넣은 일정은 일정 시트. openItem). 그 학기 편람을 받는 중이면 1초까지 기다려 한 번에 그리고(앱에 넣은 편람은 보통 그 안에 든다), 늦으면
+ *  적어 둔 값으로 먼저 띄운 뒤 편람이 들어올 때 refreshItemSheet 가 다른 분반·학과를 채운다(11/3 백엔드: 위젯을 누르고 몇 초 기다리는 것보다 낫다. 그전에는 5초).
  *  그 학기로 옮기지 못했거나(편람이 없는 학기) 시간표에 그 항목이 없으면(위젯 자료가 옛것) false: 부르는 쪽이 내 시간표를 연다 */
 async function itemNav(nav) {
-  const sem = mine.sem, until = Date.now() + 5000;
+  const sem = mine.sem, until = Date.now() + 1000;
   if (nav.sem && sem !== nav.sem) return false;
   while (state.loading && state.semester === sem && Date.now() < until) await new Promise((r) => setTimeout(r, 100));
   await viewDone; // 웹: 주소의 # 를 바꾸면 popstate 가 먼저 화면 전환을 시작해 둔다
@@ -4944,7 +4945,7 @@ function renderItemSheet() {
     h("div", { class: "sheet-foot" }, h("button", { type: "button", class: "btn-text", "data-act": "remove" }, "시간표에서 빼기"))].filter(Boolean));
 }
 
-/** 연 항목 시트를 다시 그린다(편람이 늦게 들어왔다: 위젯에서 연 시트는 편람을 5초까지만 기다린다). 본문 안에 있던 초점은 같은 일을 하는 요소로
+/** 연 항목 시트를 다시 그린다(편람이 늦게 들어왔다: 위젯에서 연 시트는 편람을 1초까지만 기다린다). 본문 안에 있던 초점은 같은 일을 하는 요소로
  *  (라디오는 이름·값, 버튼은 data-act 와 그 분반 행), 못 찾으면 완료 버튼으로 */
 function refreshItemSheet() {
   const body = $("is-body"), a = document.activeElement, inside = !!a && body.contains(a);
