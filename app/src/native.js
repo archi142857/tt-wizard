@@ -14,6 +14,7 @@
 // 7) 시간표 링크로 앱 열기: TTW_APP.launchUrl·'ttw:open-url' 이벤트(아래 '앱으로 연 주소').
 // 8) 링크 공유·앱 설정 열기: TTW_APP.shareLink·openSettings(앱 안 플러그인 TTWShell. 아래 '링크 공유·앱 설정').
 // 9) 홈 화면 위젯(안드로이드): TTW_APP.updateWidgets(앱 안 플러그인 TTWWidget. 아래 '홈 화면 위젯').
+// 10) 공유 카드의 바로 보내기(안드로이드): TTW_APP.shareTargets·shareTo(앱 안 플러그인 TTWShare. 아래 '바로 보내기').
 (function () {
   "use strict";
   var cap = window.Capacitor;
@@ -306,6 +307,44 @@
       return pluginCall("TTWShell", "shareText", { text: url, title: String(opts.title || "") });
     };
     app.openSettings = function () { return pluginCall("TTWShell", "openSettings", {}); };
+  }
+
+  // ------------------------------------------------------------ 바로 보내기 (안드로이드, TTWShare)
+
+  // 공유 카드(11/3 사용자: 구글 공유 창 꼴로 링크 칸·링크 복사, 아래 동그란 앱 단추. "카카오톡, 인스타(스토리, DM), 메세지 등등")의 앱 단추.
+  //   TTW_APP.shareTargets()  Promise → [{ id, app, icon, text, image }] 이 폰에서 바로 보낼 수 있는 곳(깔린 앱만). 거절하지 않는다(못 물으면 []).
+  //                           id: "kakao"(카카오톡) · "instagram-story"(인스타 스토리) · "instagram-dm"(인스타 DM) · "sms"(기본 문자 앱), 이 순서.
+  //                           app: 그 앱이 기기에 알리는 이름(카카오톡, Instagram, 메시지 …. 단추 이름은 화면이 정한다)
+  //                           icon: 그 앱 아이콘(PNG data URL, 144px. 기기 공유 창처럼 기기가 주는 그대로) 또는 ""(못 받음)
+  //                           text·image: 링크·시간표 이미지를 받는지. 인스타 스토리는 이미지만(링크를 붙여 보낼 길이 없다)
+  //   TTW_APP.shareTo({ target, text })         링크(글)를 그 앱의 공유 화면으로 바로. 문자는 받는 사람 없이 글만 채운 새 메시지
+  //   TTW_APP.shareTo({ target, bytes, name })  시간표 이미지(PNG). bytes·name 은 shareImage 와 같다
+  //                           거절 code: "UNSUPPORTED"(앱 연결에 없음), "MISSING"(그 앱이 없어졌거나 그 내용을 받지 않음), "FAILED"(그 밖)
+  // 플러그인(SharePlugin.java)이 없는 곳(iOS·옛 앱)에는 두 함수가 없다. 화면은 그때 앱 단추 없이 링크 복사와 기기 공유 시트(shareLink·shareImage)만 둔다.
+  if (plugins.TTWShare) {
+    app.shareTargets = function () {
+      return pluginCall("TTWShare", "targets", {}).then(function (r) {
+        var list = r && Array.isArray(r.targets) ? r.targets : [];
+        return list.filter(function (t) { return t && typeof t.id === "string" && t.id; }).map(function (t) {
+          return {
+            id: t.id, app: String(t.app || ""), icon: typeof t.icon === "string" && t.icon ? "data:image/png;base64," + t.icon : "",
+            text: t.text === true, image: t.image === true,
+          };
+        });
+      }, function () { return []; });
+    };
+    app.shareTo = function (opts) {
+      opts = opts || {};
+      var target = String(opts.target || "");
+      if (opts.bytes != null) {
+        return imageBytes(opts.bytes).then(function (b) {
+          return pluginCall("TTWShare", "send", { target: target, data: base64(b), name: String(opts.name || "") });
+        });
+      }
+      var text = String(opts.text || "");
+      if (!text) return Promise.reject(new Error("nothing to share"));
+      return pluginCall("TTWShare", "send", { target: target, text: text });
+    };
   }
 
   // ------------------------------------------------------------ 홈 화면 위젯 (안드로이드, TTWWidget)

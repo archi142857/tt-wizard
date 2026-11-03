@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -43,7 +44,8 @@ public class ImagePlugin extends Plugin {
 
     private static final String FOLDER = "TT Wizard";
 
-    private static byte[] bytes(PluginCall call) {
+    /** 받은 PNG(base64). 공유 카드의 바로 보내기(SharePlugin.send)도 쓴다 */
+    static byte[] bytes(PluginCall call) {
         String data = call.getString("data");
         if (data == null || data.isEmpty()) return null;
         try {
@@ -54,7 +56,7 @@ public class ImagePlugin extends Plugin {
     }
 
     /** 파일 이름: 경로·제어 글자를 빼고 .png 로 끝나게 */
-    private static String fileName(PluginCall call) {
+    static String fileName(PluginCall call) {
         String name = call.getString("name", "");
         name = name == null ? "" : name.replaceAll("[\\\\/:*?\"<>|\\p{Cntrl}]", "_").trim();
         if (name.isEmpty() || name.startsWith(".")) name = "timetable";
@@ -74,15 +76,7 @@ public class ImagePlugin extends Plugin {
             return;
         }
         try {
-            File dir = new File(getContext().getCacheDir(), "share");
-            if (!dir.isDirectory() && !dir.mkdirs()) throw new IOException("cache dir");
-            File[] old = dir.listFiles();
-            if (old != null) for (File f : old) f.delete(); // 지난번에 나눈 파일은 지운다
-            File file = new File(dir, fileName(call));
-            try (FileOutputStream out = new FileOutputStream(file)) {
-                out.write(data);
-            }
-            Uri uri = FileProvider.getUriForFile(getContext(), getContext().getPackageName() + ".fileprovider", file);
+            Uri uri = cacheForShare(getContext(), data, fileName(call));
             Intent send = new Intent(Intent.ACTION_SEND);
             send.setType("image/png");
             send.putExtra(Intent.EXTRA_STREAM, uri);
@@ -94,6 +88,20 @@ public class ImagePlugin extends Plugin {
         } catch (Exception e) {
             call.reject(message(e, "share failed"), "FAILED");
         }
+    }
+
+    /** 나눌 PNG 를 앱 캐시(cache/share/)에 쓰고 FileProvider 주소를 돌려준다. 받는 앱은 그 주소를 이번 한 번만 읽고, 지난번에 나눈 파일은 지운다.
+     *  공유 카드의 바로 보내기(SharePlugin.send)도 쓴다 */
+    static Uri cacheForShare(Context context, byte[] data, String name) throws IOException {
+        File dir = new File(context.getCacheDir(), "share");
+        if (!dir.isDirectory() && !dir.mkdirs()) throw new IOException("cache dir");
+        File[] old = dir.listFiles();
+        if (old != null) for (File f : old) f.delete(); // 지난번에 나눈 파일은 지운다
+        File file = new File(dir, name);
+        try (FileOutputStream out = new FileOutputStream(file)) {
+            out.write(data);
+        }
+        return FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", file);
     }
 
     @PluginMethod

@@ -1,7 +1,8 @@
 // tests/test_app.py 가 부른다: 앱 연결 스크립트(app/src/native.js)를 가짜 Capacitor·브라우저 위에서 돌리고 결과를 JSON으로 출력한다.
 // 자료 받기(네트워크 → 받아 둔 것 → 앱에 넣은 것, 늦은 응답 저장), 바탕 지도(앱에 넣은 것만), 자료가 아닌 요청, 안드로이드 뒤로 가기,
 // 안드로이드 상태 바 글자색(기기 테마가 바뀔 때), 기기 브라우저로 여는 링크(에브리타임), 시간표 이미지(공유·저장·거절 code),
-// 앱으로 연 주소(launchUrl·'ttw:open-url'), 링크 공유·앱 설정(TTWShell), 홈 화면 위젯 자료(TTWWidget, 기기에 둔 값으로), 웹에서는 아무것도 안 함.
+// 앱으로 연 주소(launchUrl·'ttw:open-url'), 링크 공유·앱 설정(TTWShell), 공유 카드의 바로 보내기(TTWShare), 홈 화면 위젯 자료(TTWWidget, 기기에 둔 값으로),
+// 웹에서는 아무것도 안 함.
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
@@ -40,9 +41,9 @@ function fakeIndexedDB() {
 }
 
 function setup({ native = true, http = null, online = true, platform = "android", bars = true, image = true, sdk = 34, imageInfo = null,
-  saveError = null, shell = true, shellError = null, launch, launchFails = false, appUrl = true, widget = platform === "android", widgetError = null,
+  saveError = null, shell = true, shellError = null, share = platform === "android", shareError = null, targets = null, launch, launchFails = false, appUrl = true, widget = platform === "android", widgetError = null,
   store = {}, campus = null } = {}) {
-  const calls = { local: [], remote: [], back: 0, minimized: 0, bars: [], image: [], shell: [], opened: [], widget: [] };
+  const calls = { local: [], remote: [], back: 0, minimized: 0, bars: [], image: [], shell: [], share: [], opened: [], widget: [] };
   const scheme = []; // 기기 테마(prefers-color-scheme)가 바뀔 때 부를 것들
   const visible = []; // 앱으로 돌아올 때(visibilitychange) 부를 것들
   const clicks = []; // 문서의 click 을 듣는 것들 [{fn, capture}]
@@ -82,6 +83,10 @@ function setup({ native = true, http = null, online = true, platform = "android"
         ...(shell ? { TTWShell: {
           shareText: (opts) => { calls.shell.push(["shareText", opts]); return shellError ? reject(shellError) : Promise.resolve(); },
           openSettings: (opts) => { calls.shell.push(["openSettings", opts]); return shellError ? reject(shellError) : Promise.resolve(); },
+        } } : {}),
+        ...(share ? { TTWShare: {
+          targets: () => (shareError ? reject(shareError) : Promise.resolve(targets === null ? { targets: [] } : targets)),
+          send: (opts) => { calls.share.push(opts); return shareError ? reject(shareError) : Promise.resolve(); },
         } } : {}),
       },
     } : undefined,
@@ -309,6 +314,35 @@ const out = {};
     old: await old.win.TTW_APP.shareLink({ url: "https://a.example/" }).then(() => "ok", (e) => e.code),
     oldSettings: await old.win.TTW_APP.openSettings().then(() => "ok", (e) => e.code),
     failed: await failed.win.TTW_APP.shareLink({ url: "https://a.example/" }).then(() => "ok", (e) => e.code),
+  };
+}
+
+// 공유 카드의 바로 보내기(TTWShare): 곳 목록의 아이콘은 data URL 로, 이상한 줄은 뺀다. 못 물으면 [](거절하지 않는다).
+// 링크는 글로, 이미지는 base64 로 넘긴다. 빈 글은 거절, 플러그인이 없는 곳(iOS·옛 앱)에는 함수가 없다, 메서드가 없으면 UNSUPPORTED
+{
+  const s = setup({ targets: { targets: [
+    { id: "kakao", app: "카카오톡", icon: "iVBO", text: true, image: true },
+    { id: "instagram-story", app: "Instagram", icon: "", text: false, image: true },
+    { id: "", app: "x" }, null, { app: "no id" },
+    { id: "sms", app: "메시지", text: 1, image: "yes" },
+  ] } });
+  const list = await s.win.TTW_APP.shareTargets();
+  await s.win.TTW_APP.shareTo({ target: "kakao", text: "https://archi142857.github.io/tt-wizard/#t=jAA" });
+  await s.win.TTW_APP.shareTo({ target: "instagram-story", bytes: new Uint8Array([137, 80, 78, 71]), name: "시간표 1" });
+  const empty = await s.win.TTW_APP.shareTo({ target: "sms", text: "" }).then(() => "ok", (e) => e.message);
+  const none = setup({ share: false });
+  const ios = setup({ platform: "ios" });
+  const old = setup({ shareError: "UNIMPLEMENTED" });
+  const missing = setup({ shareError: "MISSING" });
+  const odd = setup({ targets: { targets: "x" } });
+  out.share = {
+    list,
+    calls: s.calls.share,
+    empty,
+    none: [typeof none.win.TTW_APP.shareTargets, typeof none.win.TTW_APP.shareTo, typeof ios.win.TTW_APP.shareTargets],
+    old: [await old.win.TTW_APP.shareTargets(), await old.win.TTW_APP.shareTo({ target: "kakao", text: "a" }).then(() => "ok", (e) => e.code)],
+    missing: [await missing.win.TTW_APP.shareTargets(), await missing.win.TTW_APP.shareTo({ target: "kakao", text: "a" }).then(() => "ok", (e) => e.code)],
+    odd: await odd.win.TTW_APP.shareTargets(),
   };
 }
 

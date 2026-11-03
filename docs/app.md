@@ -27,7 +27,8 @@ app/
 ```
 
 - 앱 안 플러그인(이 앱에만 있는 네이티브 코드): `TTWImage`(시간표 이미지 공유·저장, 안드로이드 `ImagePlugin.java`·iOS `ImagePlugin.swift`),
-  `TTWShell`(링크 공유·앱 설정 열기, `ShellPlugin.java`·`ShellPlugin.swift`), `TTWWidget`(홈 화면 위젯 자료, 안드로이드 `WidgetPlugin.java`. 아래 '홈 화면 위젯').
+  `TTWShell`(링크 공유·앱 설정 열기, `ShellPlugin.java`·`ShellPlugin.swift`), `TTWWidget`(홈 화면 위젯 자료, 안드로이드 `WidgetPlugin.java`. 아래 '홈 화면 위젯'),
+  `TTWShare`(공유 카드의 바로 보내기: 카카오톡·인스타·문자, 안드로이드 `SharePlugin.java`. 아래 '공유 카드의 바로 보내기').
   안드로이드는 `MainActivity` 가, iOS 는 `MainViewController`(`SceneDelegate.swift`)가 등록한다.
   화면은 이것들을 직접 부르지 않고 `native.js` 의 `TTW_APP` 으로 쓴다.
 - 앱 묶음(`www/`)에서 빼는 것: 서비스 워커 `sw.js`(앱은 파일을 품고 있다), 3D·2D 모델(`model/`, `vendor/three/`), 실측 페이지(`field/`), 설명(`README.md`),
@@ -101,6 +102,9 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
 - **링크 공유·앱 설정**(10/30): `TTW_APP.shareLink({url, title})` 는 공유 시트로 주소를 보낸다(안드로이드 웹뷰에는 `navigator.share` 가 없다.
   안드로이드 `ACTION_SEND` `text/plain`·`EXTRA_TEXT`, 선택 창 제목 `title`. iOS `UIActivityViewController` 에 URL). `TTW_APP.openSettings()` 는 이 앱의 설정 화면
   (안드로이드 앱 정보 `ACTION_APPLICATION_DETAILS_SETTINGS`, iOS 설정 앱). 플러그인이 없는 옛 앱에는 두 함수가 없고, 메서드가 없으면 `UNSUPPORTED` 로 거절한다.
+- **바로 보내기**(update80, 안드로이드. 아래 '공유 카드의 바로 보내기'): `TTW_APP.shareTargets()` 는 이 폰에서 바로 보낼 수 있는 곳
+  `[{id, app, icon, text, image}]`(거절하지 않는다, 못 물으면 `[]`), `TTW_APP.shareTo({target, text})`·`({target, bytes, name})` 는 링크·시간표 이미지를 그 앱의
+  공유 화면으로 바로 넘긴다. iOS·옛 앱에는 두 함수가 없다.
 
 화면 쪽(`web/js/app.js`, 프론트엔드)은 `window.Capacitor` 가 있으면 셸을 `ios` 로 판별해 서비스 워커·설치 안내·새 버전 알림을 끄고,
 외부 링크는 Capacitor Browser(안드로이드는 Custom Tab, iOS 는 인앱 Safari), 완료 때 햅틱을 쓴다. 에브리타임으로 나가는 `강의평`만
@@ -129,7 +133,9 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
   병합 매니페스트에는 플러그인과 라이브러리가 더한 것이 들어간다. 소스로 보면
   `VIBRATE`(@capacitor/haptics, 설치할 때 주는 보통 권한)와 AndroidX core 가 앱 안에서만 쓰려고 만드는 서명 권한
   `com.ttwizard.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` 이고, 위치·카메라처럼 묻는 권한은 없다(묻는 것은 위의 9 이하 저장소 하나).
-  @capacitor/browser 는 권한이 아니라 Custom Tab 을 찾는 `<queries>` 를 더한다. 빌드한 APK 의 실제 목록은 `app` 워크플로 실행 화면의
+  @capacitor/browser 는 권한이 아니라 Custom Tab 을 찾는 `<queries>` 를 더한다. 앱 매니페스트도 바로 보내기(update80)용 `<queries>` 를 둔다:
+  카카오톡(`com.kakao.talk`)·인스타그램(`com.instagram.android`) 패키지와 `smsto:` 를 받는 문자 앱. 권한이 아니고 묻지도 않으며, 모든 앱을 보는
+  `QUERY_ALL_PACKAGES` 는 쓰지 않는다(Play 의 패키지 공개 범위 정책에서 따로 신고할 것이 없는 길). 빌드한 APK 의 실제 목록은 `app` 워크플로 실행 화면의
   요약(Summary)에 적힌다(`aapt2 dump permissions`. 앱에 들어가는 라이브러리 목록도 같이).
 - **기기 백업**: `android:allowBackup="true"` 를 둔다. 안드로이드 자동 백업(Google 계정)과 새 폰으로 옮기기에 앱 자료(웹뷰의 localStorage·IndexedDB,
   앞으로 Preferences)가 들어가서, 담은 과목·저장한 시간표·출발 지점이 새 폰에서 이어질 수 있다(웹뷰 저장 공간보다 Preferences 가 확실해서
@@ -169,6 +175,33 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
   해서 같이 넣었다(없으면 그 자리에서 앱이 꺼진다). 사용자가 사진 권한을 거부해도 공유 시트의 다른 길(파일·메신저)로는 내보낼 수 있다(법무 10/23: 선택 권한을
   거부했다고 기능을 막지 않기). 웹뷰의 파일 고르기도 iOS 에서는 '사진 찍기'를 같이 보여서 `NSCameraUsageDescription` 이 필요할 수 있고, 사진 앱에서 고른 그림을
   JPEG 로 바꿔 넘기면 안의 자료가 빠진다(둘 다 iOS 기기에서 볼 것).
+
+## 공유 카드의 바로 보내기 (안드로이드, update80)
+
+사용자 11/3(구글 공유 창 캡처: `공유` 제목과 닫기, 주소 칸과 `링크 복사`, 아래 동그란 앱 단추와 이름): "공유 탭은 이런 형태로 바꿔줘. 카카오톡, 인스타(스토리, DM),
+메세지 등등 넣어주고". 카드 모양은 디자인, 화면은 프론트엔드가 하고, 앱 단추가 부를 기기 기능을 앱 안 플러그인 `TTWShare`
+(`app/android/app/src/main/java/com/ttwizard/app/SharePlugin.java`)가 맡는다. 화면은 `native.js` 의 `TTW_APP.shareTargets()`·`TTW_APP.shareTo(...)` 로 쓴다.
+
+- **곳**(이 순서): `kakao` 카카오톡, `instagram-story` 인스타 스토리, `instagram-dm` 인스타 DM, `sms` 기기의 기본 문자 앱(`Telephony.Sms.getDefaultSmsPackage`).
+  깔려 있지 않거나 그 내용을 받지 않는 곳은 목록에서 빠진다. `text`·`image` 는 링크·시간표 이미지를 받는지. 인스타 스토리는 이미지만이다
+  (스토리에 링크를 붙여 보낼 길이 없다. 링크는 화면이 복사해 두면 스토리의 링크 스티커에 붙여 넣을 수 있다).
+- **어떻게**: SDK·키·계정 없이 안드로이드 공유 인텐트를 그 앱으로 좁힌다. 링크는 `ACTION_SEND` `text/plain`(`EXTRA_TEXT`), 문자는 받는 사람 없이 글만 채운 새 메시지
+  (`ACTION_SENDTO` `smsto:`, `sms_body`), 이미지는 `ACTION_SEND` `image/png`(`TTWImage` 공유와 같은 `cache/share/`·FileProvider, 이번 한 번 읽기 허락).
+  앱이 받는 화면이 여럿이면(인스타의 피드·스토리·채팅) 화면 이름의 낱말로 고른다(스토리 `story`, DM `direct`). 못 고르면 그 앱의 받는 화면만 든 기기 선택 창이 뜬다
+  (인스타가 화면 이름을 바꿔도 막히지 않고 한 번 더 고르게 될 뿐이다).
+- **인스타 스토리의 공식 길을 쓰지 않는 까닭**: Meta 문서의 'Sharing to Stories'(`com.instagram.share.ADD_TO_STORY`)는 2023년 1월부터 Facebook 앱 ID 가 있어야 하고
+  (없으면 인스타가 '공유한 앱이 스토리 공유를 지원하지 않는다'는 오류를 띄운다), 앱 ID 는 Meta 개발자 계정과 앱 등록이 필요하다(다른 서비스라 법무 먼저).
+  그래서 기기 공유 창에서 사용자가 인스타의 '스토리'를 고를 때와 같은 받는 화면을 연다.
+- **아이콘·이름**: `app` 은 그 앱이 기기에 알리는 이름(카카오톡, Instagram, 메시지 …), `icon` 은 그 앱 아이콘을 기기에서 받아 144px PNG 로 그린 것(data URL. 적응형 아이콘은
+  기기의 아이콘 모양 그대로). 기기 공유 창이 보여 주는 것과 같고, 우리가 로고를 그리거나 저장소에 두지 않는다. 단추 이름은 화면(디자인)이 정한다.
+- **보이는 범위**: 안드로이드 11 이상은 매니페스트 `<queries>` 에 적은 앱만 보인다(위 '권한'). 곳을 더하면 `SharePlugin.TARGETS` 와 `<queries>` 를 함께 고친다.
+  무엇이 깔렸는지는 기기 안에서만 보고 밖으로 보내지 않는다(Play 데이터 보안의 '설치된 앱'은 기기 밖으로 보낼 때 적는 것).
+- **거절 code**: `UNSUPPORTED`(앱 연결에 없음: iOS·옛 앱, 메서드가 없는 판), `MISSING`(그 앱이 지워졌거나 그 내용을 받지 않음), `FAILED`(그 밖). 화면은 `MISSING` 이면
+  목록을 다시 묻고, 그 밖에는 기기 공유 시트(`shareLink`·`shareImage`)로 돌린다(프론트엔드).
+- **웹·iOS**: 웹은 앱을 골라 보낼 길이 없다(카카오톡은 카카오 JavaScript SDK·앱 키·사이트 등록, 인스타는 길이 없다). 웹과 iOS 는 링크 복사, 문자(폰 브라우저의
+  `sms:` 주소), 기기 공유 시트(`navigator.share`·`shareLink`. 거기에 카카오톡·인스타가 나온다)로 둔다. 카카오 SDK·Meta 앱 ID 를 쓰려면 사용자가 계정을 만들고
+  법무가 먼저 본다(정하지 않았다).
+- 클라우드에서는 가짜 android·Capacitor 클래스로 `javac` 만 돌려 봤다. Actions `app` 이 컴파일하는지와 폰에서 아래 '폰에서 볼 것' 9 를 본다.
 
 ## 시간표 링크로 앱 열기 (10/30)
 
@@ -397,6 +430,9 @@ iOS 위젯(WidgetKit)은 iOS 를 낼 때 붙인다(App Group 을 쓰면 개인�
    update78: 위젯 넷 맨 위의 머리 띠(위 모서리가 위젯 모서리와 맞는지), 테마 탭에서 라이트·다크를 고르고 앱을 내리면 위젯이 그 한 벌이 되는지(기기 다크 모드와 반대로 골라서),
    기본으로 돌리면 다시 기기를 따르는지, 기기 날짜를 12월로 옮기고 다음 날 0시(또는 앱을 열었다 내리기) 뒤 크리스마스 한 벌(흰 카드·초록 띠, 격자의 짙은 칸은 흰 글자, 초록 길·핀)이 되는지,
    그 해 크리스마스를 끄면 고른 것으로 돌아오는지. 좁은 2×2·큰 글자 크기에서 큰 시각이 `…` 없이 줄어드는지, 수업 줄·행·칸을 누를 때 물결이 보이는지.
+9. 공유 카드의 바로 보내기(update80, 프론트엔드가 카드를 넣은 뒤): 카카오톡·인스타·문자가 깔린 앱만 단추로 나오고 아이콘이 폰의 앱 아이콘과 같은지.
+   카카오톡 → 친구·채팅 고르는 화면에 링크, 인스타 DM → 받는 사람 고르는 화면, 인스타 스토리 → 시간표 이미지가 든 스토리 편집 화면, 문자 → 글이 채워진 새 메시지가 바로 뜨는지
+   (한 번 더 고르는 창이 뜨면 그 앱이 받는 화면 이름을 바꾼 것: 동작은 하지만 `SharePlugin.TARGETS` 의 낱말을 고친다). 카카오톡을 지운 뒤 카드를 다시 열면 단추가 없어지는지.
 
 ## 확인한 것 (10/1)
 

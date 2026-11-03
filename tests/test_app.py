@@ -172,6 +172,16 @@ def test_native_shim():
     assert sh["calls"] == [["shareText", "https://archi142857.github.io/tt-wizard/#t=jAA", "2026년 2학기 시간표 1"], ["openSettings", "", ""]]
     assert sh["notLink"] == "no link" and sh["none"] == ["undefined", "undefined"]
     assert (sh["old"], sh["oldSettings"], sh["failed"]) == ("UNSUPPORTED", "UNSUPPORTED", "FAILED")
+    # 공유 카드의 바로 보내기(TTWShare, update80): 곳 목록(아이콘은 data URL, 받는 것은 true 만), 링크는 글로·이미지는 base64 로 넘긴다.
+    # 못 물으면 [](거절하지 않는다), 빈 글은 거절, iOS·옛 앱에는 함수가 없고, 메서드가 없으면 UNSUPPORTED, 그 앱이 없어졌으면 MISSING
+    sr = r["share"]
+    assert sr["list"] == [{"id": "kakao", "app": "카카오톡", "icon": "data:image/png;base64,iVBO", "text": True, "image": True},
+                          {"id": "instagram-story", "app": "Instagram", "icon": "", "text": False, "image": True},
+                          {"id": "sms", "app": "메시지", "icon": "", "text": False, "image": False}]
+    assert sr["calls"] == [{"target": "kakao", "text": "https://archi142857.github.io/tt-wizard/#t=jAA"},
+                           {"target": "instagram-story", "data": "iVBORw==", "name": "시간표 1"}]
+    assert sr["empty"] == "nothing to share" and sr["none"] == ["undefined", "undefined", "undefined"]
+    assert sr["old"] == [[], "UNSUPPORTED"] and sr["missing"] == [[], "MISSING"] and sr["odd"] == []
     # 홈 화면 위젯(TTWWidget): 자료를 JSON 글로 넘기고 같은 자료는 다시 부르지 않는다. 못 넘기면 false(다음에 다시), iOS·옛 앱에는 함수가 없다
     w = r["widgets"]
     assert w["sent"] == [True, True, True] and w["calls"] == ["item", "cls"] and w["text"] == "string"
@@ -203,12 +213,27 @@ def test_android_plugins_permissions_and_links():
     shell = (java / "ShellPlugin.java").read_text(encoding="utf-8")
     assert '@CapacitorPlugin(name = "TTWShell")' in shell and "public void shareText(PluginCall call)" in shell and "public void openSettings(PluginCall call)" in shell
     assert '"text/plain"' in shell and "Intent.EXTRA_TEXT" in shell and "Settings.ACTION_APPLICATION_DETAILS_SETTINGS" in shell
+    # 공유 카드의 바로 보내기(TTWShare, update80): SDK 없이 공유 인텐트를 그 앱으로 좁힌다. 인스타 스토리의 ADD_TO_STORY(Facebook 앱 ID 필요)는 쓰지 않는다.
+    # 곳 id 는 native.js 가 알리는 것과 같다. 이미지는 TTWImage 와 같은 캐시·FileProvider 로
+    send = (java / "SharePlugin.java").read_text(encoding="utf-8")
+    assert '@CapacitorPlugin(name = "TTWShare")' in send and "public void targets(PluginCall call)" in send and "public void send(PluginCall call)" in send
+    ids = re.findall(r'\{ "([a-z-]+)", ', send)
+    assert ids == ["kakao", "instagram-story", "instagram-dm", "sms"]
+    native_js = (APP / "src" / "native.js").read_text(encoding="utf-8")
+    assert all(f'"{i}"' in native_js for i in ids)
+    assert "ADD_TO_STORY\")" not in send and "source_application" not in send and "Telephony.Sms.getDefaultSmsPackage" in send
+    assert "ImagePlugin.cacheForShare(" in send and '"MISSING"' in send and '"FAILED"' in send
     main = (java / "MainActivity.java").read_text(encoding="utf-8")
-    for name in ("ImagePlugin", "ShellPlugin"):
+    for name in ("ImagePlugin", "ShellPlugin", "SharePlugin"):
         assert main.index(f"registerPlugin({name}.class)") < main.index("super.onCreate(savedInstanceState)")
     manifest = (APP / "android" / "app" / "src" / "main" / "AndroidManifest.xml").read_text(encoding="utf-8")
     assert re.findall(r'<uses-permission android:name="([^"]+)"', manifest) == ["android.permission.INTERNET", "android.permission.WRITE_EXTERNAL_STORAGE"]
     assert '<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />' in manifest
+    # 다른 앱이 보이는 범위(안드로이드 11 이상): 바로 보내기 곳의 앱(카카오톡·인스타그램)과 문자 앱만. 모든 앱(QUERY_ALL_PACKAGES)은 보지 않는다
+    queries = re.search(r"<queries>(.*?)</queries>", manifest, re.S).group(1)
+    assert re.findall(r'<package android:name="([^"]+)" />', queries) == ["com.kakao.talk", "com.instagram.android"]
+    assert re.findall(r'android:(?:name|scheme)="([^"]+)"', re.sub(r"<package [^>]*/>", "", queries)) == ["android.intent.action.SENDTO", "smsto"]
+    assert "android.permission.QUERY_ALL_PACKAGES" not in manifest and manifest.count("<queries>") == 1
     paths = (APP / "android" / "app" / "src" / "main" / "res" / "xml" / "file_paths.xml").read_text(encoding="utf-8")
     assert '<cache-path name="my_cache_images" path="." />' in paths and 'android:authorities="${applicationId}.fileprovider"' in manifest
     # App Links: 웹 앱 첫 주소(path 하나)만. 같은 사이트의 다른 페이지(실측·고지문·처리방침)는 브라우저로 열려야 한다

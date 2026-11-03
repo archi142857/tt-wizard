@@ -113,4 +113,16 @@
     <!-- 안드로이드 9 이하에서 시간표 이미지를 사진(Pictures/TT Wizard)에 저장할 때만 묻는다(디자인 79판 '모든 기기에 둔다', ImagePlugin.java).
          10 이상은 MediaStore 에 제 파일을 더해서 권한이 없다. 거절해도 공유 시트로는 내보낼 수 있다 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+
+    <!-- 공유 카드의 바로 보내기(update80, SharePlugin.java): 안드로이드 11 이상은 여기 적은 앱만 보인다(깔렸는지, 그 앱 아이콘·이름, 받는 화면).
+         카카오톡·인스타그램과 문자 앱(smsto: 를 받는 앱, 기본 문자 앱을 찾으려고)만. 모든 앱을 보는 QUERY_ALL_PACKAGES 는 쓰지 않는다.
+         단추를 더하면 SharePlugin.TARGETS 와 여기를 함께 고친다 -->
+    <queries>
+        <package android:name="com.kakao.talk" />
+        <package android:name="com.instagram.android" />
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="smsto" />
+        </intent>
+    </queries>
 </manifest>
