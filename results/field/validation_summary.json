@@ -1,42 +1,42 @@
 {
- "trials": 6,
- "routes": 6,
+ "trials": 8,
+ "routes": 8,
  "walkers": 1,
  "slope": {
-  "mae": 2.09,
-  "bias": -2.09,
-  "rmse": 2.39
+  "mae": 2.05,
+  "bias": -2.05,
+  "rmse": 2.31
  },
  "flat": {
-  "mae": 1.03,
-  "bias": -1.03,
-  "rmse": 1.18
+  "mae": 1.1,
+  "bias": -1.1,
+  "rmse": 1.21
  },
  "app": {
-  "mae": 2.09,
-  "bias": -2.09,
-  "rmse": 2.39
+  "mae": 2.05,
+  "bias": -2.05,
+  "rmse": 2.31
  },
  "magicmap": {
-  "mae": 1.21,
-  "bias": -1.14,
+  "mae": 1.25,
+  "bias": -1.19,
   "rmse": 1.38
  },
  "slope_calibrated": {
-  "mae": 0.3,
-  "bias": -0.14,
-  "rmse": 0.43
+  "mae": 0.33,
+  "bias": -0.18,
+  "rmse": 0.47
  },
  "flat_calibrated": {
-  "mae": 0.41,
-  "bias": 0.3,
-  "rmse": 0.68
+  "mae": 0.36,
+  "bias": 0.19,
+  "rmse": 0.62
  },
- "speed_cv": 0.089,
- "v0_cv": 0.069,
- "v0_median": 1.488,
+ "speed_cv": 0.092,
+ "v0_cv": 0.092,
+ "v0_median": 1.496,
  "walker_v0": {
-  "A": 1.488
+  "A": 1.496
  },
  "pairs": [
   {
@@ -55,6 +55,12 @@
    "up": "15→12",
    "measured_ratio": 1.109,
    "slope_ratio": 1.151,
+   "flat_ratio": 1.0
+  },
+  {
+   "up": "58→223",
+   "measured_ratio": 1.111,
+   "slope_ratio": 1.359,
    "flat_ratio": 1.0
   }
  ]

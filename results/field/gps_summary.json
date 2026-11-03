@@ -1,24 +1,24 @@
 {
- "walks": 6,
- "used_walks": 6,
+ "walks": 8,
+ "used_walks": 8,
  "profile": "그래프 노드 고도(DEM 없음)",
  "chunk_m": 50.0,
- "chunks": 50,
+ "chunks": 64,
  "walkers": [
   "A"
  ],
- "k_hat": 1.75,
- "rms_flat": 0.1443,
- "rms_tobler": 0.1456,
- "rms_fit": 0.1159,
+ "k_hat": 1.3,
+ "rms_flat": 0.1678,
+ "rms_tobler": 0.1829,
+ "rms_fit": 0.1467,
  "walker_v0": {
   "A": 1.489
  },
  "windows": {
-  "10": 0.1508,
-  "20": 0.146,
-  "30": 0.1456,
-  "50": 0.1462
+  "10": 0.1886,
+  "20": 0.1845,
+  "30": 0.1829,
+  "50": 0.1818
  },
  "flat_speed": {
   "A": 1.401
@@ -26,21 +26,21 @@
  "bins": [
   {
    "bin": "~-8",
-   "n": 10,
-   "grade_pct": -12.6,
-   "measured": 0.995,
-   "model": 0.916,
-   "tobler": 0.914,
-   "fit": 0.956
+   "n": 14,
+   "grade_pct": -11.0,
+   "measured": 1.014,
+   "model": 0.972,
+   "tobler": 0.966,
+   "fit": 0.987
   },
   {
    "bin": "-8~-4",
-   "n": 3,
-   "grade_pct": -6.5,
-   "measured": 1.012,
+   "n": 5,
+   "grade_pct": -6.3,
+   "measured": 1.078,
    "model": 1.118,
-   "tobler": 1.13,
-   "fit": 1.063
+   "tobler": 1.139,
+   "fit": 1.05
   },
   {
    "bin": "-4~-1.5",
@@ -49,11 +49,11 @@
    "measured": 0.931,
    "model": 1.069,
    "tobler": 1.1,
-   "fit": 1.049
+   "fit": 1.036
   },
   {
    "bin": "-1.5~1.5",
-   "n": 7,
+   "n": 9,
    "grade_pct": -0.1,
    "measured": 1.0,
    "model": 0.986,
@@ -67,25 +67,25 @@
    "measured": 1.021,
    "model": 0.911,
    "tobler": 0.903,
-   "fit": 0.95
+   "fit": 0.963
   },
   {
    "bin": "4~8",
-   "n": 4,
-   "grade_pct": 6.1,
-   "measured": 0.926,
-   "model": 0.81,
-   "tobler": 0.807,
-   "fit": 0.898
+   "n": 6,
+   "grade_pct": 6.4,
+   "measured": 0.911,
+   "model": 0.801,
+   "tobler": 0.8,
+   "fit": 0.921
   },
   {
    "bin": "8~",
-   "n": 10,
-   "grade_pct": 12.5,
-   "measured": 0.774,
-   "model": 0.648,
-   "tobler": 0.645,
-   "fit": 0.803
+   "n": 14,
+   "grade_pct": 10.4,
+   "measured": 0.865,
+   "model": 0.702,
+   "tobler": 0.695,
+   "fit": 0.874
   },
   {
    "bin": "계단 오르막",
@@ -94,7 +94,7 @@
    "measured": 0.837,
    "model": 0.835,
    "tobler": 0.735,
-   "fit": 0.857
+   "fit": 0.892
   },
   {
    "bin": "계단 내리막",
@@ -103,7 +103,7 @@
    "measured": 0.991,
    "model": 0.947,
    "tobler": 1.07,
-   "fit": 1.034
+   "fit": 1.025
   }
  ]
 }
