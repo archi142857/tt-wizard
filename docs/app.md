@@ -391,7 +391,12 @@ iOS 위젯(WidgetKit)은 iOS 를 낼 때 붙인다(App Group 을 쓰면 개인�
    더 넣는다면 캘린더 내보내기, 위젯, 수강편람 알림(`앱_확장_계획.md`, 위 '앞으로 기능을 만들 때').
 3. 개인정보 처리방침과 문의 페이지(update74, 11/1): 문서·법무가 쓴 문안(공유 폴더 `개인정보_처리방침.md` 2·3절)을 `docs/legal/privacy.md`·`support.md` 로 옮기고
    `scripts/legal_pages.py` 가 `web/privacy/index.html`(https://archi142857.github.io/tt-wizard/privacy/)·`web/support/index.html`(…/support/)로 만든다
-   (시행일 2026년 11월 1일, 의견 보내기 줄은 앱에 들어가서(프론트엔드 e9a70a9) update76 에서 `FEEDBACK_IN_APP` 를 켰다, 앱 묶음에는 넣지 않는다. 시험 `tests/test_legal_pages.py`).
+   (처음 시행일 2026년 11월 1일, 의견 보내기 줄은 앱에 들어가서(프론트엔드 e9a70a9) update76 에서 `FEEDBACK_IN_APP` 를 켰다, 앱 묶음에는 넣지 않는다. 시험 `tests/test_legal_pages.py`).
+   **바꿀 때**(update81, 11/3 법무·문서가 비공개 테스트 신청·오픈채팅방·테스트 의견을 더한 판): 17절 '바꾸면 시행일 7일 전에 이 페이지에 알려요 … 이전 판도 볼 수 있게 둬요'
+   (사용자 11/1). 그래서 올리는 날 + 7일을 `REVISED`(지금 2026년 11월 10일)로 두고 맨 위 시행일과 17절 기록에 쓰며(원문의 `【이 판 시행일】`), 지난 판은 풀어 둔 채로
+   `docs/legal/privacy-2026-11-01.md` → `web/privacy/2026-11-01/` 에 남긴다(17절 '처음 시행' 줄에서 링크). 다시 바꾸면 그 판을 새 이전 판으로 남기고 `REVISED`·`PAGES` 를 고친다.
+   `【앱에 들어간 뒤에 넣음】` 은 기능마다 따로 켠다(`LATER_FEATURES`: 의견 보내기 `FEEDBACK_IN_APP`, 공유 화면의 앱 단추 `SHARE_APPS_IN_APP` — 공유 카드가 앱에 들어간 판에서 켜고,
+   그것도 처리방침을 바꾸는 일이라 7일 전 알림).
    모양은 디자인 규칙 '처리방침·문의 웹 페이지'(update78 에 11/2 디자인 요청대로: 머리는 앱 상단 바와 같은 워드마크 그림(다크는 `wordmark-dark`), 제목 20/28·절 제목 17/24 `heading`,
    본문 16/24, 카드 모서리 20, 폰 좌우 여백 20).
    앱의 `PRIVACY_URL` 은 프론트엔드가 넣는다. Play 처리방침 칸과 App Store 처리방침·지원 주소에 이 둘을 적는다.

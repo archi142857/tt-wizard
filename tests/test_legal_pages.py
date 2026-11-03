@@ -1,5 +1,6 @@
 """개인정보 처리방침·문의 페이지(web/privacy/, web/support/, update74): 원문(docs/legal/*.md)에서 만든 그대로인지, 문안의 【】 를 다 풀었는지,
-링크(글 속 주소·메일·기관 누리집)와 개발자 메일 제목, 의견 보내기 줄이 앱에 들어가기 전에는 빠지는지."""
+링크(글 속 주소·메일·기관 누리집)와 개발자 메일 제목, 앱에 들어가기 전의 기능 줄(의견 보내기, 공유 화면의 앱 단추)이 빠지는지,
+처리방침을 바꾼 판의 시행일·바뀐 기록·이전 판(web/privacy/2026-11-01/, update81)."""
 import re
 import sys
 from pathlib import Path
@@ -15,10 +16,12 @@ def test_pages_are_built_from_sources():
     assert lp.main(["--check"]) == 0  # 원문을 고쳤으면 python scripts/legal_pages.py
 
 
-@pytest.mark.parametrize("name", ["privacy", "support"])
+@pytest.mark.parametrize("name", ["privacy", "support", "privacy-2026-11-01"])
 def test_page_shape(name):
     folder, title, *_ = lp.PAGES[name]
     text = (ROOT / "web" / folder / "index.html").read_text(encoding="utf-8")
+    up = "../" * (folder.count("/") + 1)  # 이전 판(privacy/2026-11-01/)은 두 칸 위가 웹 앱
+    assert f'<a href="{up}"><picture><source srcset="{up}icons/wordmark-dark.svg"' in text and f'<a href="{up}">TT Wizard 열기</a>' in text
     assert '<html lang="ko">' in text and f"<h1>{title}</h1>" in text and f"<title>{title} · TT Wizard</title>" in text
     assert "【" not in text and "】" not in text
     assert 'name="viewport"' in text and "prefers-color-scheme: dark" in text
@@ -32,20 +35,43 @@ def test_page_shape(name):
 def test_privacy_sections_and_dates():
     text = (ROOT / "web" / "privacy" / "index.html").read_text(encoding="utf-8")
     assert re.findall(r"<h2>(\d+)\. ", text) == [str(i) for i in range(1, 18)]
-    assert text.count(lp.EFFECTIVE) == 2  # 맨 위 시행일과 17절 기록
+    # 바꾼 판(update81): 맨 위 시행일은 이 판의 것, 17절에 처음 시행(이전 판 링크)과 이 판의 바뀐 것
+    assert f'<p class="date">시행일: {lp.REVISED}</p>' in text and text.count(lp.REVISED) == 2 and text.count(lp.EFFECTIVE) == 1
+    old = "https://archi142857.github.io/tt-wizard/privacy/2026-11-01/"
+    assert f'<li>{lp.EFFECTIVE} 처음 시행(이전 판: <a href="{old}">{old}</a>)' in text
+    assert f"<li>{lp.REVISED} 비공개 테스트 신청" in text
     for site in lp.SITES:
         assert f'href="https://{site}"' in text
     assert 'href="mailto:privacy@github.com"' in text and 'href="https://support.google.com/policies?p=privpol_privts"' in text
 
 
 def test_feedback_lines_wait_for_app(monkeypatch):
-    """【앱에 들어간 뒤에 넣음】: 앱에 의견 보내기가 없으면 처리방침 12절 줄과 문의 페이지 문장을 빼고, 들어간 판에서는 표시 없이 넣는다"""
-    for name, words in (("privacy", "정보 탭의 ‘의견 보내기’는"), ("support", "‘의견 보내기’를 누르면 같은 양식이 열려요")):
-        monkeypatch.setattr(lp, "FEEDBACK_IN_APP", False)
+    """【앱에 들어간 뒤에 넣음】: 그 기능이 앱에 없으면 줄·문장을 빼고, 들어간 판에서는 표시 없이 넣는다. 기능은 글에 든 낱말로 찾는다
+    (의견 보내기: 처리방침 12절 줄과 문의 페이지 문장, 공유 화면의 앱 단추: 처리방침 1절 기기 안 줄. 서로 따로 켠다)"""
+    cases = (("FEEDBACK_IN_APP", "privacy", "정보 탭의 ‘의견 보내기’는"), ("FEEDBACK_IN_APP", "support", "‘의견 보내기’를 누르면 같은 양식이 열려요"),
+             ("SHARE_APPS_IN_APP", "privacy", "공유 화면의 앱 단추(안드로이드)"))
+    for flag, name, words in cases:
+        monkeypatch.setattr(lp, flag, False)
         assert words not in lp.page(name)
-        monkeypatch.setattr(lp, "FEEDBACK_IN_APP", True)
+        monkeypatch.setattr(lp, flag, True)
         later = lp.page(name)
         assert words in later and "【" not in later
+    monkeypatch.setattr(lp, "FEEDBACK_IN_APP", True)
+    monkeypatch.setattr(lp, "SHARE_APPS_IN_APP", False)
+    text = lp.page("privacy")
+    assert "정보 탭의 ‘의견 보내기’는" in text and "공유 화면의 앱 단추" not in text
+    with pytest.raises(SystemExit):
+        lp.later_on("어느 기능인지 모르는 줄 【앱에 들어간 뒤에 넣음】")
+
+
+def test_old_version_stays_as_published():
+    """이전 판(17절 '이전 판도 볼 수 있게 둬요'): 올렸던 글을 풀어 둔 채로 둔다(【】 는 지금 판 시행일 하나뿐). 의견 보내기 줄이 들어 있고, 지금 판으로 가는 링크가 있다"""
+    src = re.sub(r"<!--.*?-->", "", (ROOT / "docs" / "legal" / "privacy-2026-11-01.md").read_text(encoding="utf-8"), flags=re.S)
+    assert re.findall(r"【[^】]*】", src) == ["【이 판 시행일】"]
+    text = (ROOT / "web" / "privacy" / "2026-11-01" / "index.html").read_text(encoding="utf-8")
+    assert '<p class="date">시행일: 2026년 11월 1일</p>' in text and f"2026년 11월 1일부터 {lp.REVISED} 전날까지의 이전 판이에요" in text
+    assert "정보 탭의 ‘의견 보내기’는" in text and "구글 설문지" not in text
+    assert '<a href="../../privacy/">지금 판 개인정보 처리방침</a>' in text
 
 
 def test_page_style_follows_design():
