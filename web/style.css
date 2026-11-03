@@ -95,9 +95,7 @@
   --map-grass: #d7edcf;
   --map-pitch: #bfe4d2;
   --map-water: #afc9f2;
-  --map-contour: #dfdce6;
-  --map-contour-index: #cac4d6;
-  --map-contour-label: #968eae;
+  --map-contour-index: #cac4d6; /* 웹은 등고선을 그리지 않는다(디자인 117판). 동선 지도 위젯(백엔드 DayMapBitmap)이 아직 읽어서 그쪽에서 빼면 지운다 */
   --map-walk-area: #fbfbfe;
   --map-road: #ffffff;
   --map-road-line: #c3c0d0;
@@ -254,9 +252,7 @@
   --map-grass: #1f2b22;
   --map-pitch: #1b2d27;
   --map-water: #1c2b45;
-  --map-contour: #25252c;
-  --map-contour-index: #32313c;
-  --map-contour-label: #7a7690;
+  --map-contour-index: #32313c; /* 위와 같다(위젯이 빼면 지운다) */
   --map-walk-area: #22222a;
   --map-road: #3b3c45;
   --map-road-line: #0d0d10;

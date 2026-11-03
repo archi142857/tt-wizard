@@ -2358,7 +2358,7 @@ function coordOf(b) {
 }
 
 // ---------------------------------------------------------------- 바탕 지도
-// 10/1 사용자 결정: OSM 타일 대신 우리 자료(data/basemap.json: 수치지형도 1:5,000 건물·도로·물·등고선 + OSM 숲·길)로 직접 그린다
+// 10/1 사용자 결정: OSM 타일 대신 우리 자료(data/basemap.json: 수치지형도 1:5,000 건물·도로·물 + OSM 숲·길. 등고선은 11/3 뺐다)로 직접 그린다
 // (자료 형식은 레포 docs/basemap.md, 그리는 법은 이 절이 기준). 타일 서버를 안 써서 오프라인에서도 바탕이 있고, 다크 모드는 필터가 아니라
 // 지도 색(--map-*)으로 그린다. 면·선은 처음 한 번 메르카토르 좌표(0~1)로 풀어 두고, 캔버스 하나에 화면에 걸리는 것만 그린다
 
@@ -2394,9 +2394,9 @@ function boxOf(arrays) {
   return [x0, y0, x1, y1];
 }
 
-/** 자료 v1: 면 = [소수 자리, 바깥 고리, 구멍…], 선 = [OSM highway, polyline], 등고선 = [높이 m, polyline]. */
+/** 자료 v1: 면 = [소수 자리, 바깥 고리, 구멍…], 선 = [OSM highway, polyline]. 높이 정보(등고선)는 11/3 자료에서 뺐다(백엔드 update82, 디자인 117판) */
 function prepareBasemap(B) {
-  const areas = {}, lines = {}, contours = {};
+  const areas = {}, lines = {};
   for (const [k, list] of Object.entries(B.area || {})) {
     areas[k] = list.map(([prec, ...rings]) => { const rs = rings.map((r) => decodeWorld(r, prec)); return { rings: rs, bb: boxOf(rs) }; });
   }
@@ -2405,9 +2405,8 @@ function prepareBasemap(B) {
   const trail = (f) => f.kind === "path" || f.kind === "track";
   lines.trail = (lines.walk || []).filter(trail);
   lines.foot = (lines.walk || []).filter((f) => !trail(f));
-  for (const [k, list] of Object.entries(B.contour || {})) contours[k] = list.map(([z, s]) => { const p = decodeWorld(s, 5); return { z, pts: p, bb: boxOf([p]) }; });
   const [south, west, north, east] = B.bounds;
-  return { areas, lines, contours, bounds: L.latLngBounds([south, west], [north, east]) };
+  return { areas, lines, bounds: L.latLngBounds([south, west], [north, east]) };
 }
 
 /** 처음 지도를 만들 때 한 번 받는다(웹은 서비스 워커가 저장, 앱은 앱에 넣은 것). 실패하면 다음에 다시. */
@@ -2447,7 +2446,7 @@ function applyMinZoom(map) {
 
 // 지도 색은 디자인 토큰 map-*(style.css)에서 읽는다. 기기 테마가 바뀌면 다시 읽고 다시 그린다.
 // 10/2 토큰을 정하며 찻길·보행자 길 양옆 테두리(예전 road-case·ped-case)는 road-line·ped-line 으로 합쳤다
-const MAP_COLORS = ["land", "green", "park", "grass", "pitch", "campus", "campus-line", "contour", "contour-index", "contour-label", "water", "walk-area",
+const MAP_COLORS = ["land", "green", "park", "grass", "pitch", "campus", "campus-line", "water", "walk-area",
   "road", "road-line", "road-secondary", "road-secondary-line", "road-primary", "road-primary-line", "road-trunk", "road-trunk-line",
   "ped", "ped-line", "foot", "steps", "building", "building-line", "halo"];
 let mapColorCache = null;
@@ -2455,7 +2454,7 @@ function mapColors() {
   if (!mapColorCache) {
     const cs = getComputedStyle(document.documentElement);
     mapColorCache = Object.fromEntries(MAP_COLORS.map((k) => [k, cs.getPropertyValue(`--map-${k}`).trim()]));
-    mapColorCache.font = getComputedStyle(document.body).fontFamily;
+    mapColorCache.font = getComputedStyle(document.body).fontFamily; // 지도 글자 폭(mapTextW)
   }
   return mapColorCache;
 }
@@ -2464,7 +2463,7 @@ function mapColors() {
 // 선 폭은 미터로 정하고 배율마다 화소로 바꾼다(최소 화소 아래로는 가늘어지지 않는다). 캠퍼스 안 찻길 폭(m)은 OSM highway 값으로
 const ROAD_M = { service: 4.5, residential: 6, living_street: 5, unclassified: 6, tertiary: 7, tertiary_link: 6 };
 
-/** 바탕을 그린다. b = 캔버스가 덮는 범위(layer 좌표), m = 화소 배수. 순서: 땅 → 등고선 → 물 → 도로면 → 길(선) → 건물 → 등고선 높이.
+/** 바탕을 그린다. b = 캔버스가 덮는 범위(layer 좌표), m = 화소 배수. 순서: 땅 → 물 → 도로면 → 길(선) → 건물(높이 정보는 그리지 않는다: 디자인 117판).
  *  보행로·계단은 처음 시안의 주황 점선 대신 옅은 회색 점·사다리로, 확대했을 때만(10/1 사용자: 주황 점선이 너무 많아 시선을 빼앗는다).
  *  산길은 15부터, 캠퍼스 안 보행로는 15.5부터, 계단은 16.25부터. 경로선(파랑)이 지도에서 가장 눈에 띄게 */
 function drawBasemap(ctx, map, b, m) {
@@ -2522,14 +2521,12 @@ function drawBasemap(ctx, map, b, m) {
     ctx.setLineDash([]);
   };
   const px = (meters, min, extra = 0) => Math.max(min, meters / k) + extra;
-  const { areas: A, lines: Ln, contours: Z } = basemap;
+  const { areas: A, lines: Ln } = basemap;
   fill(A.green, C.green);
   fill(A.park, C.park);
   fill(A.grass, C.grass);
   fill(A.campus, C.campus, C["campus-line"], 1.2);
   fill(A.pitch, C.pitch);
-  if (z >= 15.75) stroke(Z.minor, C.contour, 0.7);
-  stroke(Z.index, C["contour-index"], 1.1);
   fill(A.water, C.water);
   fill(A.walk, C["walk-area"]);
   fill(A.road, C.road, C["road-line"], 0.9);
@@ -2544,24 +2541,6 @@ function drawBasemap(ctx, map, b, m) {
   if (z >= 15.5) stroke(Ln.foot, C.foot, px(0.8, 1.6), { dash: dots });
   if (z >= 16.25) stroke(Ln.steps, C.steps, px(2.2, 3), { dash: [Math.max(1.2, 0.35 / k), Math.max(1.2, 0.35 / k)], cap: "butt" });
   fill(A.building, C.building, C["building-line"], 0.8);
-  // 많이 확대하면 계곡선(25 m) 가운데에 높이: t-label(12px 500), map-halo 2px 테두리(10/2 디자인: 지도 안 글자도 12px 이상)
-  if (z >= 17 && Z.index) {
-    ctx.font = `500 12px ${C.font}`;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.lineWidth = 4;
-    ctx.lineJoin = "round";
-    ctx.strokeStyle = C.halo;
-    ctx.fillStyle = C["contour-label"];
-    for (const f of Z.index) {
-      if (!seen(f)) continue;
-      const i = Math.floor(f.pts.length / 4) * 2;
-      const x = f.pts[i] * S - ox, y = f.pts[i + 1] * S - oy;
-      if (x < 0 || y < 0 || x > size.x || y > size.y) continue;
-      ctx.strokeText(String(f.z), x, y);
-      ctx.fillText(String(f.z), x, y);
-    }
-  }
 }
 
 /** 바탕 지도 층: Leaflet 의 캔버스 그리기 틀(L.Renderer: 화면보다 조금 넓은 캔버스, 확대·축소 애니메이션 동안 늘였다 줄임)에 그림만 우리 것. */
@@ -2623,10 +2602,61 @@ function allBuildingMarks() {
     const ids = new Set(state.campus.ids);
     buildingMarks = Object.entries(state.campus.buildings || {})
       .filter(([id, v]) => v && v[1] !== null && v[1] !== undefined && !(isDorm(id) && !ids.has(id)))
-      .map(([id, v]) => ({ id, text: id === "GATE" ? "정문" : id, name: buildingName(id), at: L.latLng(v[1], v[2]), pri: /^\d+$/.test(id) ? 0 : 1 }))
+      .map(([id, v]) => ({ id, text: id === "GATE" ? "정문" : id, name: id === "GATE" ? "" : buildingName(id), at: L.latLng(v[1], v[2]), pri: /^\d+$/.test(id) ? 0 : 1 }))
       .sort((a, b) => a.pri - b.pri || a.id.length - b.id.length);
   }
   return buildingMarks;
+}
+
+/** 지도 건물 이름의 줄(117판): 폭 120px(열 자 남짓)까지 한 줄, 넘으면 두 줄. 가운데에 가장 가까운 띄어쓰기에서 나누고,
+ *  띄어쓰기가 없는 이름은 자료의 나눌 자리(campus.json buildings 의 넷째 값, "\n")에서 나눈다. 말줄임·짧게 지은 이름은 쓰지 않는다
+ *  (말줄임은 '…강의동 1'과 '…강의동 2'가 같아지고, 짧은 이름은 건물 안내판·캠퍼스맵 이름과 달라진다). */
+const NAME_MAX = 120;
+function nameLines(id, name) {
+  if (!name) return [];
+  if (mapTextW(500, name) <= NAME_MAX) return [name];
+  const split = ((state.campus.buildings || {})[id] || [])[3];
+  if (typeof split === "string" && split.replace("\n", "") === name) return split.split("\n");
+  const sp = [...name.matchAll(/ /g)].map((m) => m.index);
+  if (!sp.length) return [name];
+  const mid = name.length / 2, k = sp.reduce((a, b) => (Math.abs(b - mid) <= Math.abs(a - mid) ? b : a));
+  return [name.slice(0, k), name.slice(k + 1)];
+}
+
+/** 핀 옆 이름의 줄: 한 건물이면 nameLines, 묶인 핀이면 이름을 `·`로 잇고 120px 를 넘으면 `·` 자리에서 줄을 바꾼다. */
+function tagLines(bs) {
+  const ns = bs.map((b) => [b, buildingName(b)]).filter(([b, n]) => n && b !== "GATE"); // 정문은 번호 줄이 '정문'이라 이름 줄을 두지 않는다(117판)
+  if (ns.length === 1) return nameLines(...ns[0]);
+  const out = [];
+  for (const [, n] of ns) {
+    const k = out.length - 1;
+    if (k >= 0 && mapTextW(500, `${out[k]}·${n}`) <= NAME_MAX) out[k] += `·${n}`;
+    else out.push(n);
+  }
+  return out;
+}
+
+/** 수업이 있는 날 확대하면 두는 다른 건물 이름의 차례(117판): 강의 건물(이동시간 지점)이 먼저, 그다음 짧은 이름부터. */
+let otherMarks = null;
+function allOtherMarks() {
+  if (!otherMarks) {
+    const ids = new Set(state.campus.ids);
+    otherMarks = allBuildingMarks().map((lb) => ({ ...lb, name: lb.id === "GATE" ? "정문" : lb.name, lect: ids.has(lb.id) ? 0 : 1 }))
+      .filter((lb) => lb.name)
+      .sort((a, b) => a.lect - b.lect || a.name.length - b.name.length || a.id.localeCompare(b.id, "en", { numeric: true }));
+  }
+  return otherMarks;
+}
+
+/** 그날 경로선의 토막(layer 좌표): 구간 선(출발·도착 자리로 가는 길은 그려진 대로 비킨 선)과 선 끝과 핀을 잇는 점선. 다른 건물 이름이 피한다. */
+function routeSegs(mp) {
+  const { map, data } = mp, out = [];
+  for (const lg of data.legs) {
+    const pts = lg.home ? offsetPoints(map, lg.line, RETURN_OFFSET) : lg.line.map((ll) => map.latLngToLayerPoint(ll));
+    for (let k = 1; k < pts.length; k++) out.push([pts[k - 1], pts[k]]);
+  }
+  for (const st of dayStubs(mp)) for (const [a, b] of st) out.push([map.latLngToLayerPoint(a), map.latLngToLayerPoint(b)]);
+  return out;
 }
 
 /** 지도 둘 다 확대·축소된다. 마우스: 확대·축소 버튼, 휠, 끌기. 터치: 두 손가락으로 확대·이동, 두 번 눌러 확대.
@@ -2927,8 +2957,12 @@ const mapTextW = (() => {
     return v;
   };
 })();
-/** 건물 번호(.blabel b, 12px 700)와 이름(span, 12px 500) 가운데 넓은 쪽 + 테두리 여유. */
-const blabelW = (text, name) => Math.max(mapTextW(700, text), name ? mapTextW(500, name) : 0) + 4;
+/** 핀 옆 번호 상자(layer 좌표). p: 핀 가운데, t: pinTag. 구간 라벨과 다른 건물 이름이 피한다. */
+const tagBox = (p, pin, t) => {
+  const hw = pin.w / 2;
+  return t.side === "below" ? [p.x + t.dx - t.lw / 2 - 2, p.y + 12, p.x + t.dx + t.lw / 2 + 2, p.y + 16 + 2 * t.hh]
+    : t.side === "left" ? [p.x - hw - 5 - t.lw, p.y - t.hh, p.x - hw, p.y + t.hh] : [p.x + hw, p.y - t.hh, p.x + hw + 5 + t.lw, p.y + t.hh];
+};
 
 /** 지도 오른쪽 위 버튼(크게 보기, 마우스·전체 화면 지도의 확대·축소)의 상자, 지도 칸 좌표 [x0, y0, x1, y1]. */
 function mapButtonBoxes(mp) {
@@ -2945,8 +2979,9 @@ function mapButtonBoxes(mp) {
 function pinTag(mp, pin, withName) {
   const { map } = mp;
   const text = pin.bs.map((b) => (b === "GATE" ? "정문" : b)).join("·");
-  const name = withName ? pin.bs.map(buildingName).filter(Boolean).join("·") : "";
-  const pt = map.latLngToContainerPoint(pin.at), x = pt.x, lw = blabelW(text, name), W = map.getSize().x, hw = pin.w / 2, hh = name ? 15 : 9;
+  const lines = withName ? tagLines(pin.bs) : [];
+  const pt = map.latLngToContainerPoint(pin.at), x = pt.x, W = map.getSize().x, hw = pin.w / 2;
+  const lw = Math.max(mapTextW(700, text), ...lines.map((s) => mapTextW(500, s))) + 4, hh = lines.length ? 7 * (1 + lines.length) + 1 : 9;
   const right = [x + hw + 3, pt.y - hh, x + hw + 3 + lw, pt.y + hh], left = [x - hw - 3 - lw, pt.y - hh, x - hw - 3, pt.y + hh];
   let side = right[2] > W - 4 || mapButtonBoxes(mp).some((b) => boxHit(right, b)) ? "left" : "right", dx = 0;
   if (side === "left" && x - hw >= 0 && x + hw <= W) { // 핀이 화면 안에 있을 때만(지도를 끌어 핀이 나가면 번호도 따라 나간다)
@@ -2957,7 +2992,7 @@ function pinTag(mp, pin, withName) {
       dx = Math.max(4 + lw / 2 - x, Math.min(0, W - 4 - lw / 2 - x));
     }
   }
-  return { text, name, lw, side, dx };
+  return { text, lines, lw, hh, side, dx };
 }
 
 // ---- 구간 라벨 자리
@@ -2999,10 +3034,9 @@ function placeLegLabels(mp) {
   const pins = [], avoid = [];
   if (data.homeAt) { const p = map.latLngToLayerPoint(data.homeAt); pins.push([p.x - 14, p.y - 14, p.x + 14, p.y + 14]); }
   for (const pin of mp.pins || []) {
-    const p = map.latLngToLayerPoint(pin.at), hw = pin.w / 2, t = pinTag(mp, pin, withName), hh = t.name ? 15 : 9;
+    const p = map.latLngToLayerPoint(pin.at), hw = pin.w / 2;
     pins.push([p.x - hw - 2, p.y - 14, p.x + hw + 2, p.y + 14]);
-    avoid.push(t.side === "below" ? [p.x + t.dx - t.lw / 2 - 2, p.y + 12, p.x + t.dx + t.lw / 2 + 2, p.y + 16 + 2 * hh]
-      : t.side === "left" ? [p.x - hw - 5 - t.lw, p.y - hh, p.x - hw, p.y + hh] : [p.x + hw, p.y - hh, p.x + hw + 5 + t.lw, p.y + hh]);
+    avoid.push(tagBox(p, pin, pinTag(mp, pin, withName)));
   }
   const ui = [];
   const host = mp.el.getBoundingClientRect();
@@ -3107,9 +3141,13 @@ function placeLegLabels(mp) {
 }
 
 /**
- * 건물 번호(사용자 결정 10/1). 수업이 있는 날: 그날 수업 건물 번호만 핀 오른쪽에(겹쳐도 숨기지 않는다).
+ * 지도 건물 번호·이름(10/1 사용자 결정, 117판). 꾸밈이라 스크린리더는 읽지 않는다(핀 이름과 아래 번호표가 같은 것을 말한다).
+ * 수업이 있는 날: 그날 수업 건물 번호를 핀 옆에(배율 17.25 이상이면 이름도). 확대해서 핀이 칸 밖으로 나가 가장자리에 걸리면 숨긴다(이름 끝만 걸려 보였다).
+ *   배율 17.25 이상이면 그날 가지 않는 건물의 이름도 번호 없이 둔다(11/3 사용자 "글씨가 보일정도로 화면을 확대하는 경우 건물 이름 다 뜨게").
+ *   핀·핀 옆 번호·구간 라벨·지도 버튼·저작권 표기와 서로를 비키고, 경로선(선 끝 점선 포함)이 가까이 지나거나 가장자리에 걸리면 숨긴다.
+ *   강의 건물이 먼저, 그다음 짧은 이름부터. 이름끼리는 위아래 10px·옆 12px 를 띄운다(붙으면 두 이름이 한 이름의 두 줄로 읽혔다).
  * 수업이 없는 날: 배율 15.5 이상에서 모든 건물 번호, 화면에서 겹치거나(핀·구간 라벨 자리도) 가장자리에 걸리면 숨긴다. 배율 17.25 이상이면 이름도.
- * 꾸밈이라 스크린리더는 읽지 않는다(핀 이름과 아래 번호표가 같은 것을 말한다).
+ * 긴 이름(120px 넘게)은 두 줄(nameLines).
  */
 function placeLabels(mp) {
   const { map, names, data } = mp;
@@ -3118,26 +3156,47 @@ function placeLabels(mp) {
   const z = map.getZoom(), withName = z >= 17.25;
   const labelIcon = (html) => L.divIcon({ className: "", html, iconSize: [0, 0] });
   const size = map.getSize();
+  const o = map.containerPointToLayerPoint([0, 0]);
+  const inView = (box) => !(box[0] < o.x + 2 || box[1] < o.y + 2 || box[2] > o.x + size.x - 2 || box[3] > o.y + size.y - 2);
+  const spans = (lines) => lines.map((s) => `<span>${esc(s)}</span>`).join("");
   if (data.stops.length) {
+    const placed = (mp.boxes || []).slice(), dayB = new Set();
     for (const pin of mp.pins || []) {
-      const { text, name, side, dx } = pinTag(mp, pin, withName); // 오른쪽 가장자리·버튼에 걸리면 핀 왼쪽, 왼쪽도 걸리면 핀 아래
+      pin.bs.forEach((b) => dayB.add(b));
+      const t = pinTag(mp, pin, withName); // 오른쪽 가장자리·버튼에 걸리면 핀 왼쪽, 왼쪽도 걸리면 핀 아래
+      const box = tagBox(map.latLngToLayerPoint(pin.at), pin, t);
+      if (!inView(box)) continue;
+      placed.push(box);
       L.marker(pin.at, { interactive: false, keyboard: false, zIndexOffset: 50,
-        icon: labelIcon(`<div class="blabel day${side === "right" ? "" : " " + side}" style="--pin-half:${pin.w / 2}px;--dx:${dx}px" aria-hidden="true"><b>${esc(text)}</b>${name ? `<span>${esc(name)}</span>` : ""}</div>`) }).addTo(names);
+        icon: labelIcon(`<div class="blabel day${t.side === "right" ? "" : " " + t.side}" style="--pin-half:${pin.w / 2}px;--dx:${t.dx}px" aria-hidden="true"><b>${esc(t.text)}</b>${spans(t.lines)}</div>`) }).addTo(names);
+    }
+    if (!withName) return;
+    const segs = routeSegs(mp);
+    for (const lb of allOtherMarks()) {
+      if (dayB.has(lb.id)) continue;
+      const lines = nameLines(lb.id, lb.name);
+      const p = map.latLngToLayerPoint(lb.at);
+      const w = Math.max(...lines.map((s) => mapTextW(500, s))) + 4, hh = 14 * lines.length;
+      const box = [p.x - w / 2 - 4, p.y - hh / 2 - 5, p.x + w / 2 + 4, p.y + hh / 2 + 5]; // 글자에서 옆 6·위아래 5(줄 상자에서): 이름끼리 옆 12·위아래 10
+      if (!inView(box) || placed.some((q) => boxHit(box, q)) || segs.some(([a, b]) => boxSegDist(box, a, b) < 4)) continue;
+      placed.push(box);
+      L.marker(lb.at, { interactive: false, keyboard: false,
+        icon: labelIcon(`<div class="blabel" aria-hidden="true">${spans(lines)}</div>`) }).addTo(names);
     }
     return;
   }
   if (z < 15.5) return;
-  const o = map.containerPointToLayerPoint([0, 0]);
   const placed = (mp.boxes || []).slice();
   for (const lb of allBuildingMarks()) {
     const p = map.latLngToLayerPoint(lb.at);
-    const w = blabelW(lb.text, withName ? lb.name : ""), hh = withName ? 28 : 15;
+    const lines = withName ? nameLines(lb.id, lb.name) : [];
+    const w = Math.max(mapTextW(700, lb.text), ...lines.map((s) => mapTextW(500, s))) + 4, hh = 14 * (1 + lines.length) + 1;
     const box = [p.x - w / 2 - 2, p.y - hh / 2 - 1, p.x + w / 2 + 2, p.y + hh / 2 + 1];
-    if (box[0] < o.x + 2 || box[1] < o.y + 2 || box[2] > o.x + size.x - 2 || box[3] > o.y + size.y - 2) continue;
+    if (!inView(box)) continue;
     if (placed.some((q) => !(box[2] < q[0] || box[0] > q[2] || box[3] < q[1] || box[1] > q[3]))) continue;
     placed.push(box);
     L.marker(lb.at, { interactive: false, keyboard: false,
-      icon: labelIcon(`<div class="blabel" aria-hidden="true"><b>${esc(lb.text)}</b>${withName && lb.name ? `<span>${esc(lb.name)}</span>` : ""}</div>`) }).addTo(names);
+      icon: labelIcon(`<div class="blabel" aria-hidden="true"><b>${esc(lb.text)}</b>${spans(lines)}</div>`) }).addTo(names);
   }
 }
 
