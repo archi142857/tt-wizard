@@ -4518,8 +4518,8 @@ $("tt-file").addEventListener("change", async () => {
 // ---------------------------------------------------------------- 공유(10/23 저녁 사용자: "오른쪽 위에 공유(그 삼각형 느낌 일반적인 공유 버튼) 버튼 만들어서 누르면 카톡, 인스타
 // 등등으로 공유할 수 있는 기능", "공유 옵션은 링크로 공유, 이미지로 공유 두 가지 기능", "링크로 공유 했을 때 어플이 있으면 어플 켜서 시간표 추가, 어플 없으면 웹으로
 // 시간표 띄우는 기능"). 머리 줄 오른쪽 공유 버튼 → 공유 시트. 11/3 부터 공유 카드(아래 openShare): 링크 | 이미지를 고르고 링크 복사·이미지로 저장, 앱 단추
-// (안드로이드 앱은 카카오톡·인스타그램·메시지에 바로, 웹·iOS 는 메시지·더 보기). 받는 쪽: 앱은 바로 넣고(앱 연결이 열린 주소를 알려 준다), 웹은 '공유받은 시간표' 시트로
-// 보여 주고 '내 시간표에 넣기'.
+// (안드로이드 앱은 카카오톡·인스타그램·메시지에 바로, 웹·iOS 는 메시지·더 보기). 받는 쪽: 웹과 앱(앱 연결이 열린 주소를 알려 준다) 모두 '공유받은 시간표' 시트로
+// 보여 주고 '내 시간표에 넣기'(11/4 사용자: 앱도 미리 보기. 그 전에는 앱은 바로 넣었다).
 //
 // 시간표 링크: <웹 앱 주소>#t=<글>. '#' 뒤는 서버로 가지 않는다(웹 서버 기록·링크 미리 보기를 만드는 메신저 서버에 시간표가 가지 않는다).
 // 글: 'z' + base64url(deflate-raw(JSON)), 압축을 못 하는 브라우저는 'j' + base64url(JSON).
@@ -4818,28 +4818,26 @@ async function copyText(text) {
 
 // ---- 받는 쪽: 웹은 주소의 '#t=', 앱은 앱 연결이 알려 주는 주소(TTW_APP.launchUrl: 켤 때 연 주소의 Promise, 켜 둔 동안 열면 'ttw:open-url' 이벤트의 detail.url)
 let shared = null; // 공유받은 시간표 시트에 보이는 것 { payload, t }
-/** 받은 주소(또는 '#t=' 뒤 글)를 연다. 앱은 바로 넣고, 웹은 공유받은 시간표 시트 */
-let lastLink = null; // 앱: 바로 넣은 링크와 그때(같은 주소가 켤 때 주소와 이벤트로 두 번 와도 한 번만 넣는다)
-const LAUNCH_DONE = "ttw.launchLink"; // 앱: 켤 때 연 주소를 넣었다(sessionStorage. 웹뷰를 새로 열어도 launchUrl 이 같으면 다시 넣지 않는다)
+/** 받은 주소(또는 '#t=' 뒤 글)를 연다: 웹·앱 모두 공유받은 시간표 시트이고 '내 시간표에 넣기'를 누를 때만 넣는다(11/4 사용자, 백엔드 전달: 앱도 미리 보기.
+ *  카톡 링크가 앱으로 바로 열리게 되자 구경만 하려고 눌러도 시간표가 쌓였다). 시트가 떠 있을 때 다른 링크가 오면 그 시간표로 바꾼다(openShared) */
+let lastLink = null; // 앱: 시트를 띄운 링크와 그때(같은 주소가 켤 때 주소와 이벤트로 두 번 와도 한 번만 띄운다)
+let linkSeen = false; // 시간표 링크를 받는 중이다(앱: 켤 때 연 주소. 이벤트 테마 묻는 팝업을 띄우지 않는다)
+const LAUNCH_DONE = "ttw.launchLink"; // 앱: 켤 때 연 주소를 받았다(sessionStorage. 웹뷰를 새로 열어도 launchUrl 이 같으면 시트를 다시 띄우지 않는다)
 async function receiveLink(code) {
+  linkSeen = true;
   const r = await readLinkCode(code);
   await semReady; // 학기 목록과 보는 학기(mine.sem)가 정해진 뒤에
-  if (r.problem) { showSnackbar(LINK_PROBLEM[r.problem]); return; }
-  const payload = await linkToPayload(r.link);
   if (IN_APP) {
     if (reopening) return; // 기기 저장소를 되살려 새로 여는 중: 새로 연 뒤에 다시 받는다
     // 같은 주소가 켤 때 주소(launchUrl)와 이벤트(ttw:open-url)로 두 번 온다(안드로이드: Capacitor 가 켤 때의 intent 를 한 번 더 넘긴다. 10/30 백엔드).
-    // 거르기는 기다린 뒤(위 await) 확인과 적기를 한 번에 하므로 둘이 같이 와도 하나만 넣고, 10초는 먼저 넣은 때부터 잰다
+    // 거르기는 기다린 뒤(위 await) 확인과 적기를 한 번에 하므로 둘이 같이 와도 하나만 띄우고(깨진 링크의 스낵바도 하나), 10초는 먼저 띄운 때부터 잰다
     if (lastLink && lastLink.code === code && Date.now() - lastLink.at < 10000) return;
     lastLink = { code, at: Date.now() };
-    const got = addReceived(payload);
-    if (!got) { showSnackbar(FULL_TEXT); return; }
-    // 어느 길로 왔든 넣은 주소를 적어 둔다: 켤 때 주소가 이벤트보다 늦게 풀리거나 웹뷰를 새로 열어도 다시 넣지 않는다
-    try { sessionStorage.setItem(LAUNCH_DONE, code); } catch { /* 못 적으면 다음에 새로 열 때 한 번 더 넣을 수 있다 */ }
-    showReceived(got);
-    return;
+    // 어느 길로 왔든 받은 주소를 적어 둔다: 켤 때 주소가 이벤트보다 늦게 풀리거나 웹뷰를 새로 열어도 같은 시트를 다시 띄우지 않는다(닫았으면 그대로)
+    try { sessionStorage.setItem(LAUNCH_DONE, code); } catch { /* 못 적으면 다음에 새로 열 때 한 번 더 띄울 수 있다 */ }
   }
-  openShared(payload);
+  if (r.problem) { showSnackbar(LINK_PROBLEM[r.problem]); return; }
+  openShared(await linkToPayload(r.link));
 }
 /** 바로가기 주소 → { tab, sem, route, tt, item } 또는 null(10/30 백엔드: 홈 화면 위젯을 누르면 앱이 '…/tt-wizard/#tab=mine&sem=<학기>&route=<요일>' 로 열린다. 웹에서 같은 주소를
  *  열어도 같다: 나중의 홈 화면 바로가기). tab 은 탭 이름(TABS)일 때만, sem 은 학기 꼴('2026-2')일 때만, route 는 요일(월 0 … 일 6)일 때만. 시간표 링크(#t=)는 linkCodeOf.
@@ -4914,18 +4912,27 @@ async function routeDay(day, want = null) {
 }
 /** 주소 → '#t=' 뒤 글(없으면 null). 메신저가 링크 끝에 붙여 넘긴 문장부호(')' '.' 등)는 글자 모양 밖이라 떼어 낸다 */
 const linkCodeOf = (url) => { const m = /#(?:.*&)?t=([A-Za-z0-9_-]+)/.exec(String(url || "")); return m ? m[1] : null; };
-/** 공유받은 시간표 시트(웹): 학기·이름·학점, 격자(누르지 않는다), 시간 미정 줄, '내 시간표에 넣기' */
+/** 공유받은 시간표 시트(웹·앱): 학기·이름·학점, 격자(누르지 않는다), 시간 미정 줄, '내 시간표에 넣기'(디자인 118판, 11/4 사용자: 앱도 미리 보기).
+ *  보던 화면 위에 띄우고 닫으면 그 화면 그대로다(탭·화면을 옮기지 않는다). 다른 시트·팝업이 열려 있으면 닫지 않고 그 위에 띄운다(닫으면 그리로 돌아간다: 쓰던 글을
+ *  잃지 않게). 맨 위 시트(topSheet·안드로이드 뒤로 가기)는 index.html 차례로 보니 이 시트를 맨 뒤로 옮겨 띄운다. 떠 있을 때 새 링크가 오면 내용만 바꾸고
+ *  (50개 오류 줄은 지운다) 초점은 다시 제목 */
 function openShared(payload) {
   const t = T.timetableFromImage(payload, []); // 보이기만 한다(이름 겹침은 넣을 때 그 학기 목록으로 본다)
   if (!t) { showSnackbar(LINK_PROBLEM.broken); return; }
+  const d = $("shared-sheet");
+  if (d.closing) { d.addEventListener("close", () => openShared(payload), { once: true }); return; } // 닫히는 중: 닫힌 뒤에 다시 띄운다
   shared = { payload, t };
   const entries = ttEntries(t), untimed = entries.filter((e) => !e.meetings.length);
   const sum = Math.round(T.credits(t) * 10) / 10;
   $("sd-meta").textContent = [semesterLabel(t.sem), t.title, sum ? `${sum}학점` : ""].filter(Boolean).join(" · ");
   $("sd-error").hidden = true;
   $("sd-add").removeAttribute("aria-describedby");
-  const d = $("shared-sheet");
-  openSheet(d, null);
+  if (d.open) { d.scrollTop = 0; $("sd-title").focus({ preventScroll: true }); }
+  else {
+    const below = !!document.querySelector("dialog[open]");
+    document.body.append(d);
+    openSheet(d, null, { over: below });
+  }
   renderWeek(t, entries, clashKeys(entries), { box: $("sd-wk"), hourPx: 3.75 * remPx(), still: true }); // 시트가 열린 뒤 그린다(칸 폭을 잰다)
   $("sd-legend").hidden = ttColor !== "cls" || !entries.length;
   $("sd-untimed").hidden = !untimed.length;
@@ -4942,7 +4949,11 @@ $("sd-add").addEventListener("click", () => {
     return;
   }
   shared = null;
-  closeSheet($("shared-sheet"));
+  // 아래에 열려 있던 시트·팝업도 닫고 '넣으면'대로(디자인 118판). 초점은 맨 아래 시트를 연 자리로, 답하지 않고 닫힌 이벤트 테마 묻는 팝업은 다음에 켤 때 묻는다
+  const d = $("shared-sheet"), below = [...document.querySelectorAll("dialog[open]")].filter((x) => x !== d);
+  if (below.length) d.returnTo = below[0].returnTo || null;
+  for (const x of below) { if (x.id === "theme-ask") store.del("themeAsked"); x.close(); }
+  closeSheet(d);
   showReceived(got);
 });
 // 칸 색(10/23 사용자: 정보 화면이 아니라 시간표 탭 안에): 고르면 바로 바뀐다
@@ -6067,7 +6078,7 @@ function setTheme(on) {
  *  닫기·바깥 누르기·뒤로 가기는 그대로 둔다는 뜻이다. 테마 탭에 있으면 묻지 않는다(거기서 고른다).
  *  돌아갈 곳은 테마 탭에서 고른 것이라 제목도 그 이름이다(10/23 밤: '라이트 테마로 돌아갈까요?', '다크 테마로 돌아갈까요?') */
 function askTheme() {
-  if (!themeOn() || store.get("themeAsked", "") === season.event || !store.get("made", false) || launchLink) return; // 공유받은 시간표를 열 때는 묻지 않는다
+  if (!themeOn() || store.get("themeAsked", "") === season.event || !store.get("made", false) || launchLink || linkSeen) return; // 공유받은 시간표를 열 때는 묻지 않는다(앱은 linkSeen)
   if ((screen !== "input" && screen !== "mine") || document.querySelector("dialog[open]")) return; // 그새 다른 화면이나 시트를 열었으면 끼어들지 않고 다음에 켤 때 묻는다
   if (launchNav?.route != null || launchNav?.item || lastNav) return; // 홈 화면 위젯으로 그 요일 지도나 수업의 항목 시트를 여는 중(goNav): 그 위에 띄우지 않고 다음에 켤 때 묻는다
   store.set("themeAsked", season.event);
@@ -7099,7 +7110,7 @@ window.addEventListener("hashchange", () => {
   if (code) receiveLink(code); else goNav(nav);
 });
 // 앱: 앱 연결(native.js)이 앱으로 열린 시간표 링크를 알려 준다(백엔드에 요청한 약속 10/23 저녁: 켤 때 연 주소는 TTW_APP.launchUrl(주소 글이나 null 의 Promise),
-// 켜 둔 동안 열린 주소는 window 의 'ttw:open-url' 이벤트(detail.url)). 앱은 보여 주지 않고 바로 넣는다
+// 켜 둔 동안 열린 주소는 window 의 'ttw:open-url' 이벤트(detail.url)). 웹처럼 공유받은 시간표 시트를 띄운다(11/4 사용자. 그 전에는 보여 주지 않고 바로 넣었다)
 if (IN_APP) {
   Promise.resolve(window.TTW_APP?.launchUrl).then((u) => {
     const c = linkCodeOf(u);
