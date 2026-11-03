@@ -39,7 +39,9 @@ def test_privacy_sections_and_dates():
     assert f'<p class="date">시행일: {lp.REVISED}</p>' in text and text.count(lp.REVISED) == 2 and text.count(lp.EFFECTIVE) == 1
     old = "https://archi142857.github.io/tt-wizard/privacy/2026-11-01/"
     assert f'<li>{lp.EFFECTIVE} 처음 시행(이전 판: <a href="{old}">{old}</a>)' in text
-    assert f"<li>{lp.REVISED} 비공개 테스트 신청" in text
+    assert f"<li>{lp.REVISED} 비공개 테스트 신청" in text and "안드로이드 공유 화면의 앱 단추를 더하고" in text
+    # 공유 카드가 앱에 들어가서(프론트엔드 ui100a, update83) 1절 기기 안 줄이 이 판에 있다
+    assert lp.SHARE_APPS_IN_APP and "<li>공유 화면의 앱 단추(안드로이드): 공유 화면에 카카오톡·인스타그램·문자 단추를" in text
     for site in lp.SITES:
         assert f'href="https://{site}"' in text
     assert 'href="mailto:privacy@github.com"' in text and 'href="https://support.google.com/policies?p=privpol_privts"' in text
@@ -59,7 +61,7 @@ def test_feedback_lines_wait_for_app(monkeypatch):
     monkeypatch.setattr(lp, "FEEDBACK_IN_APP", True)
     monkeypatch.setattr(lp, "SHARE_APPS_IN_APP", False)
     text = lp.page("privacy")
-    assert "정보 탭의 ‘의견 보내기’는" in text and "공유 화면의 앱 단추" not in text
+    assert "정보 탭의 ‘의견 보내기’는" in text and "공유 화면의 앱 단추(안드로이드)" not in text  # 17절 바뀐 줄의 말은 표시 없는 글이라 남는다
     with pytest.raises(SystemExit):
         lp.later_on("어느 기능인지 모르는 줄 【앱에 들어간 뒤에 넣음】")
 

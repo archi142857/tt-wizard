@@ -31,7 +31,9 @@ EFFECTIVE = "2026년 11월 1일"  # 처음 시행일(처음 올린 날. 문안�
 # 17절 '바꾸면 시행일 7일 전에 이 페이지에 알려요'(사용자 11/1): 11/3 에 올리면 11/10. 처리방침을 다시 바꾸면 이 날짜와 이전 판(ARCHIVES)을 같이 고친다
 REVISED = "2026년 11월 10일"
 FEEDBACK_IN_APP = True  # 앱 정보 탭에 '의견 보내기'가 들어간 판에서 True. 프론트엔드 e9a70a9(11/1)에 들어가 켰다(update76)
-SHARE_APPS_IN_APP = False  # 공유 화면의 앱 단추(update80 의 TTW_APP.shareTargets, 프론트엔드 공유 카드 115판)가 앱에 들어간 판에서 True
+# 공유 화면의 앱 단추(update80 의 TTW_APP.shareTargets + 프론트엔드 공유 카드 ui100a eab3a92, 11/3 15:35 푸시)가 앱에 들어가 켰다(update83).
+# 11/3 에 올린 11/10 시행 판에 같이 넣어서 17절 7일 전 알림을 지킨다(11/3 안에 올려야 한다)
+SHARE_APPS_IN_APP = True
 # 【앱에 들어간 뒤에 넣음】이 붙은 줄·문장이 어느 기능인지: 그 글에 든 낱말 → 켜는 이름(위). 낱말이 없거나 둘 이상이면 멈춘다
 LATER_FEATURES = {"의견 보내기": "FEEDBACK_IN_APP", "공유 화면의 앱 단추": "SHARE_APPS_IN_APP"}
 DEV_MAIL = "sanger.lee138@gmail.com"
