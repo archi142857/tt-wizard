@@ -6,7 +6,7 @@
 입력
   data/topo/<도엽 폴더>/   수치지형도 1:5,000(도엽번호 8자리) SHP. 관악캠퍼스 둘레 네 장(37612018·019·028·029)
       원본은 저장소에 없다(국외 반출 금지 자료). 국토정보플랫폼에서 받아 PC 에 둔다: docs/topo.md
-      N3A_A0010000 도로경계(면)   N3A_A0033320 인도   N3A_B0010000 건물   N3L_F0010000 등고선
+      N3A_A0010000 도로경계(면)   N3A_A0033320 인도   N3A_B0010000 건물   N3L_F0010000 등고선(범위를 잡을 때만)
       N3A_E0010001 하천경계   N3A_E0032111 실폭하천   N3A_E0052114 호수·저수지
   data/osm_basemap.geojson  숲·잔디·공원(면)과 길(선), 자료 범위 전체. fetch_osm_basemap.py(인터넷 되는 PC)가 만든다
   data/osm_paths.geojson    osm_basemap 이 없을 때 쓰는 캠퍼스 둘레 길(fetch_osm_footprints.py)
@@ -15,8 +15,10 @@
   data/basemap.json         형식·그리는 법은 docs/basemap.md. export_web.py 가 web/data/ 로 복사한다
 
 - 범위(bounds)는 도엽 네 장 전체(약 4.4 × 5.6 km). 지도는 이 범위 밖을 보여 주면 안 된다(빈 땅). docs/basemap.md 의 최소 배율 규칙
-- 캠퍼스 땅에서 400 m 안은 자세히(건물 0.2 m·좌표 소수 6자리, 등고선 1.2 m), 그 밖은 간단히(건물은 2.4 m 안쪽 틈을
-  메운 덩어리 1 m·소수 5자리, 등고선 5 m) 줄인다. 멀리는 작게 보는 곳이라
+- 캠퍼스 땅에서 400 m 안은 자세히(건물 0.2 m·좌표 소수 6자리), 그 밖은 간단히(건물은 2.4 m 안쪽 틈을
+  메운 덩어리 1 m·소수 5자리) 줄인다. 멀리는 작게 보는 곳이라
+- 등고선은 넣지 않는다(2026-11-03, 법무 '그대로 갈 때' 1·사용자 "내리자": 인터넷·휴대폰 지도에 1:5,000 등고선·표고값을 보이지 않는다.
+  예전 판은 contour.minor·index 를 넣었다). 높이 자료는 PC 의 data/local/ 에만(scripts/local_data.py)
 - 초록(숲·잔디)은 osm_basemap 의 면을 쓴다. 그 파일이 없으면 '캠퍼스·건물 둘레·도로·물이 아닌 땅'으로 어림한다(green_approx: true)
 - 출처: 국토지리정보원 수치지형도(공공누리 제1유형, 출처 표시), © OpenStreetMap contributors(ODbL). 층마다의 출처는 파일의
   src_layers 에 적는다. OSM 을 쓴 층(초록, 길 선, 큰길 등급을 입힌 도로면)은 ODbL 로 공개한다(레포가 공개라 따로 할 일은 없다)
@@ -217,7 +219,7 @@ def osm_tm(proj: Proj, feature):
 
 def build(topo: Path = TOPO, osm_basemap: Path = OSM_BASEMAP, osm_paths: Path = OSM_PATHS, campus: Path = CAMPUS) -> dict:
     from shapely.geometry import Point, box
-    from shapely.ops import linemerge, unary_union
+    from shapely.ops import unary_union
     from shapely.strtree import STRtree
 
     proj = Proj()
@@ -314,22 +316,7 @@ def build(topo: Path = TOPO, osm_basemap: Path = OSM_BASEMAP, osm_paths: Path = 
     # 캠퍼스 안 찻길은 수치지형도 도로면에 없어서 OSM 선으로 그린다. 캠퍼스에서 먼 동네 길은 도로면이 있으니 선은 뺀다
     data["line"] = {k: B.line_items(v, within=near if k == "road" else None) for k, v in line_kinds.items() if v}
 
-    # 등고선: 5 m 주곡선, 25 m 계곡선. 도엽 경계에서 잘린 조각은 잇는다. 캠퍼스에서 멀면 더 간단히
-    cont: dict[tuple[str, int], list] = {}
-    for g, a in read_layer(dirs, CONTOUR):
-        if g.intersects(clip):
-            key = ("index" if a.get("구분") == "계곡선" else "minor", int(round(float(a.get("등고수치") or 0))))
-            cont.setdefault(key, []).extend(lines(g.intersection(clip)))
-    contour: dict = {"minor": [], "index": []}
-    for (kind, z), ls in sorted(cont.items()):
-        merged = linemerge(ls) if len(ls) > 1 else ls[0]
-        for l in lines(merged):
-            for part, tol in ((l.intersection(near), 1.2), (l.difference(near), 5.0)):
-                for seg in lines(part):
-                    seg = seg.simplify(tol)
-                    if seg.length >= 8:
-                        contour[kind].append([z, encode_polyline(proj.latlon(seg.coords), 5, dedupe=True)])
-    data["contour"] = contour
+    # 등고선은 넣지 않는다(위 머리글. 2026-11-03)
     data["src_layers"] = layer_sources(data)
     return data
 
@@ -337,8 +324,8 @@ def build(topo: Path = TOPO, osm_basemap: Path = OSM_BASEMAP, osm_paths: Path = 
 def layer_sources(data: dict) -> list[dict]:
     """층마다 출처 → [{src, layers: ["area.green", ...]}, ...]. 지도 위 표기와 따로, 이 파일을 받아 쓰는 사람에게 알린다.
     OSM 을 쓴 층(초록, 길 선, 큰길 등급을 입힌 도로면)에는 ODbL 이 그 층 전체에 걸린다. 초록이 어림이면 수치지형도로 만든 것이다."""
-    have = {f"{sec}.{k}" for sec in ("area", "line", "contour") for k in data.get(sec, {})}
-    ngii = ["area.water", "area.walk", "area.building", "contour.minor", "contour.index"]
+    have = {f"{sec}.{k}" for sec in ("area", "line") for k in data.get(sec, {})}
+    ngii = ["area.water", "area.walk", "area.building"]
     osm = ["area.park", "area.grass", "area.pitch"] + [f"line.{k}" for k in data.get("line", {})]
     (ngii if data["green_approx"] else osm).insert(0, "area.green")
     groups = ((SRC[0], ngii), (SRC[1], osm), (ROAD_SRC, ["area.road", "area.road_secondary", "area.road_primary", "area.road_trunk"]),
@@ -362,7 +349,6 @@ def sizes(data: dict) -> list[tuple[str, int, float]]:
 
     rows = [(f"area.{k}", len(v), kb(v)) for k, v in data["area"].items()]
     rows += [(f"line.{k}", len(v), kb(v)) for k, v in data["line"].items()]
-    rows += [(f"contour.{k}", len(v), kb(v)) for k, v in data["contour"].items()]
     return rows
 
 

@@ -6,7 +6,7 @@
   python scripts/field_validation.py check data/field/measurements.csv   # 실측 vs 모형 → results/field/
   python scripts/field_validation.py track data/field/tracks            # 측정 페이지(web/field/) GPS 기록 → 구간 시간 + 경사별 속도
 
-모형 값 (data/route_stats.csv, slope_travel.py 결과)
+모형 값 (data/local/route_stats.csv, slope_travel.py 결과. PC 에만: 높이차·오르막이 들어 있다. 없으면 공개 판 data/route_stats.csv 로 읽고 그 열은 nan)
   route_slope_min  우리 경로의 경사 반영 시간 (평지 1.1 m/s, Tobler, 30 m 창. 계단 엣지는 계단 속도식) — 실측과 같은 길이라 1차 비교 대상
   route_flat_min   같은 경로의 평지 시간(route_stats.csv 의 route_flat_min 은 최단거리 경로 기준이라, 더 빠른 길로 돌아가는 쌍은
                    고른 경로의 길이 route_m ÷ 1.1 m/s 로 다시 낸다: 재는 길과 같은 길의 값이어야 한다)
@@ -59,10 +59,22 @@ def _rows(path: Path) -> list[dict]:
         return [{k.strip(): (v or "").strip() for k, v in r.items() if k} for r in csv.DictReader(f)]
 
 
+def stats_path() -> Path:
+    """쌍마다의 모형 표: PC 의 온전한 표(data/local/route_stats.csv: 오르막·높이차 포함)가 있으면 그것, 없으면 공개 판(그 열이 없다.
+    2026-11-03 높이 자료는 PC 에만, scripts/local_data.py)"""
+    from local_data import LOCAL
+    full = LOCAL / "route_stats.csv"
+    return full if full.exists() else DATA / "route_stats.csv"
+
+
 def load_stats() -> dict[tuple[str, str], dict]:
+    """공개 판으로 읽으면 오르막·내리막·높이차는 nan 이다(그 값이 필요한 분석은 PC 에서)"""
+    from local_data import ROUTE_HEIGHT
     out = {}
-    for r in _rows(DATA / "route_stats.csv"):
+    for r in _rows(stats_path()):
         row = {k: (v if k in ("from", "to", "check") else float(v or "nan")) for k, v in r.items()}
+        for k in ROUTE_HEIGHT:
+            row.setdefault(k, float("nan"))
         if row.get("shortest_m", row["route_m"]) < row["route_m"] - 0.5:  # 돌아가는 길을 고른 쌍: 평지 시간도 그 길로
             row["route_flat_min"] = round(row["route_m"] / 1.1 / 60, 2)
         out[(r["from"], r["to"])] = row

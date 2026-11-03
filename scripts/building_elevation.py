@@ -31,8 +31,12 @@
               출입구 정보가 없는 평지 건물은 1층 기준면. 그 밖(여러 높이)은 비워 두고 '확정 필요'로 표시.
 
 출력
-  data/buildings_elevation.csv / .geojson   건물별
-  data/building_entrances.csv / .geojson    출입구별
+  data/local/buildings_elevation.csv / .geojson   건물별 (PC 에만: 고도가 든 온전한 표)
+  data/local/building_entrances.csv / .geojson    출입구별 (PC 에만)
+  data/buildings_elevation.csv / .geojson          공개 판: 같은 표에서 고도 열(local_data.BUILDING_HEIGHT)을 뺀 것.
+                                                   건물 좌표·윤곽·출입구 수·층(1층/2층)·확정 필요 표시는 남는다(export_web.py 가 이름·좌표를 읽는다)
+  data/building_entrances.csv / .geojson           공개 판: 출입구 고도(ground_m)·1층과의 높이차(rel_to_1f_m)를 뺀 것. 층 추정은 남는다
+  고도는 수치지형도로 만든 높이 정보라 공개 저장소·웹에 두지 않는다(2026-11-03, scripts/local_data.py)
 """
 
 from __future__ import annotations
@@ -49,6 +53,7 @@ from pathlib import Path
 import numpy as np
 
 from common import OSM_META, console_safe
+from local_data import BUILDING_HEIGHT, ENTRANCE_HEIGHT, LOCAL, write_public_csv
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
@@ -61,8 +66,10 @@ ENTRANCES = DATA / "osm_entrances.geojson"
 PATHS = DATA / "osm_paths.geojson"
 MANUAL = DATA / "entrances_manual.csv"
 DEM_DIR = DATA / "dem"
-OUT_CSV = DATA / "buildings_elevation.csv"
-OUT_ENT = DATA / "building_entrances.csv"
+OUT_CSV = LOCAL / "buildings_elevation.csv"  # 온전한 표(PC 에만). 공개 판은 PUBLIC_CSV
+OUT_ENT = LOCAL / "building_entrances.csv"
+PUBLIC_CSV = DATA / "buildings_elevation.csv"
+PUBLIC_ENT = DATA / "building_entrances.csv"
 DEM_EXT = {".img", ".tif", ".tiff"}
 
 FIELDS = ["building", "name", "lat", "lon", "first_floor_est_m", "lobby_est_m", "lobby_source",
@@ -77,6 +84,8 @@ WALK = {"footway", "path", "steps", "pedestrian", "service", "living_street", "r
 SOURCE_RANK = {"manual": 0, "osm-entrance": 1, "osm-path-join": 2, "osm-path-end": 3}
 # 출입구 자리는 OSM 에서 온다(entrance 노드, 보행로가 윤곽에 닿는 점) → building_entrances.geojson 머리에 ODbL
 ENT_META = {**OSM_META, "note": "고도(ground_m 등)는 국토지리정보원 수치지형도로 만든 DEM 에서 읽었다(공공누리 제1유형)"}
+# 공개 판의 머리 글: 고도 열이 없다는 것
+PUBLIC_NOTE = "고도 열은 이 공개 파일에 없다(수치지형도로 만든 높이 정보, 2026-11-03). 층 추정(floor_est 등)은 DEM 으로 낸 것이다"
 
 
 # ---------------------------------------------------------------- 좌표
@@ -782,25 +791,28 @@ def estimate(buildings: dict[str, dict], fps: list[Footprint], dem: Dem, proj: L
     return out, ent_out
 
 
-def _write(rows: list[dict], fields: list[str], csv_path: Path, meta: dict | None = None) -> Path:
+def _write(rows: list[dict], fields: list[str], csv_path: Path, meta: dict | None = None, drop: list[str] | None = None) -> Path:
+    """csv 와 같은 이름의 .geojson. drop 이 있으면 그 열을 뺀 공개 판(local_data.write_public_csv)"""
     csv_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
-        w = csv.DictWriter(f, fieldnames=fields)
-        w.writeheader()
-        w.writerows(rows)
+    keep = write_public_csv(rows, fields, drop or [], csv_path)
     gj = csv_path.with_suffix(".geojson")
     feats = [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [float(r["lon"]), float(r["lat"])]},
-              "properties": r} for r in rows if r["lat"]]
+              "properties": {k: r.get(k, "") for k in keep}} for r in rows if r["lat"]]
     fc = {"type": "FeatureCollection", **({"meta": meta} if meta else {}), "features": feats}
     gj.write_text(json.dumps(fc, ensure_ascii=False), encoding="utf-8")
     return gj
 
 
-def write_outputs(rows: list[dict], csv_path: Path) -> Path:
+def write_outputs(rows: list[dict], csv_path: Path, public: Path | None = None) -> Path:
+    """온전한 표를 csv_path 에, public 이 있으면 고도 열을 뺀 공개 판을 거기에"""
+    if public:
+        _write(rows, FIELDS, Path(public), {"note": PUBLIC_NOTE}, BUILDING_HEIGHT)
     return _write(rows, FIELDS, csv_path)
 
 
-def write_entrances(rows: list[dict], csv_path: Path) -> Path:
+def write_entrances(rows: list[dict], csv_path: Path, public: Path | None = None) -> Path:
+    if public:
+        _write(rows, ENT_FIELDS, Path(public), {**OSM_META, "note": PUBLIC_NOTE}, ENTRANCE_HEIGHT)
     return _write(rows, ENT_FIELDS, csv_path, ENT_META)
 
 
@@ -823,9 +835,12 @@ def main() -> int:
     ap.add_argument("--margin", type=float, default=0.005, help="DEM을 읽을 범위: 건물 좌표 범위 ± 이 값(도)")
     ap.add_argument("--entrance-dist", type=float, default=3.0, help="출입구 노드를 윤곽에 붙일 거리(m)")
     ap.add_argument("--end-dist", type=float, default=2.5, help="보행로 끝점을 출입구로 볼 벽과의 거리(m)")
-    ap.add_argument("-o", "--output", default=str(OUT_CSV))
+    ap.add_argument("-o", "--output", default=str(OUT_CSV), help="온전한 건물 표(PC 에만, 기본 data/local/)")
     ap.add_argument("--entrance-output", default=str(OUT_ENT))
+    ap.add_argument("--public", default=None, help="고도 열을 뺀 공개 판(기본: -o 를 안 바꾸면 data/ 의 두 파일, 바꾸면 쓰지 않음. 빈 값이면 쓰지 않음)")
     args = ap.parse_args()
+    default_out = args.output == str(OUT_CSV) and args.entrance_output == str(OUT_ENT)
+    public = args.public if args.public is not None else ("data" if default_out else "")
 
     paths = dem_paths(args.dem)
     if not paths:
@@ -875,8 +890,12 @@ def main() -> int:
                           step=args.step, radius=args.radius, match_dist=args.match_dist, slope=args.slope,
                           floor_h=args.floor_height, lectures=lecture_set(HISTORY),
                           entrance_dist=args.entrance_dist, end_dist=args.end_dist)
-    gj = write_outputs(rows, Path(args.output))
-    egj = write_entrances(ents, Path(args.entrance_output))
+    pub_b = pub_e = None
+    if public:
+        base = DATA if public == "data" else Path(public)
+        pub_b, pub_e = base / PUBLIC_CSV.name, base / PUBLIC_ENT.name
+    gj = write_outputs(rows, Path(args.output), pub_b)
+    egj = write_entrances(ents, Path(args.entrance_output), pub_e)
 
     done = [r for r in rows if r["first_floor_est_m"]]
     by_match = {k: sum(1 for r in done if r["footprint_match"] == k) for k in ("ref", "inside", "near", "none")}
@@ -885,6 +904,8 @@ def main() -> int:
         by_src[e["source"]] += 1
     print(f"\n저장: {args.output}, {gj}")
     print(f"      {args.entrance_output}, {egj}")
+    if pub_b:
+        print(f"      공개 판(고도 열 없음): {pub_b}, {pub_e} (+ .geojson)")
     print(f"  고도 추정 {len(done)}/{len(rows)}개 · 윤곽 사용 ref {by_match['ref']}, 안 {by_match['inside']}, "
           f"근처 {by_match['near']} · 원형 표본 {by_match['none']}")
     print(f"  경사지(둘레 고도차 ≥ {args.slope:g} m): {sum(1 for r in done if r['slope_site'] == 'Y')}개")

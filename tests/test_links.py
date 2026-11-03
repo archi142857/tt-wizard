@@ -524,13 +524,16 @@ def test_stairs_use_stair_speed():
     assert float(old.sections(*short[:3])[2].sum()) == 20  # 계단 자리는 그대로 안다(속도식만 다르다)
 
 
-SLOPE = DATA / "magicmap" / "roads_graph_slope.json"
+SLOPE = DATA / "magicmap" / "roads_graph_slope.json"  # 공개 판(노드 고도·경사 없음, 2026-11-03)
+SLOPE_FULL = DATA / "local" / "magicmap" / "roads_graph_slope.json"  # 노드 고도가 든 온전한 그래프(PC 에만, scripts/local_data.py)
 
 
-@pytest.mark.skipif(not (SLOPE.exists() and LINKS.exists()), reason="경사 그래프 없음")
+@pytest.mark.skipif(not ((SLOPE_FULL.exists() or SLOPE.exists()) and LINKS.exists()), reason="경사 그래프 없음")
 def test_real_routes_do_not_pass_doors():
-    """실제 그래프: 경로의 중간 노드에 출입구 노드가 없다(양 끝만). 접속선이 없어 직선으로 잇는 지점은 공사 중인 73동뿐."""
-    graph = json.loads(SLOPE.read_text(encoding="utf-8"))
+    """실제 그래프: 경로의 중간 노드에 출입구 노드가 없다(양 끝만). 접속선이 없어 직선으로 잇는 지점은 공사 중인 73동뿐.
+    PC 의 온전한 그래프가 있으면 그것으로(경사 때문에 돌아가는 길까지 본다), 없으면 공개 판으로(높이가 없어 돌아가는 길은 안 본다)."""
+    full = SLOPE_FULL.exists()
+    graph = json.loads((SLOPE_FULL if full else SLOPE).read_text(encoding="utf-8"))
     ids = ["1", "3", "26", "30", "43-1", "59", "73", "83", "101", "220", "301", "500", "900", "919A", "919C", "GATE"]
     pts = st.load_points(ids, extra=DATA / "dorm_buildings.csv", patch=[DATA / "graph_patch"])
     assert set(pts) == set(ids)
@@ -556,4 +559,4 @@ def test_real_routes_do_not_pass_doors():
             if rec[1] != paths[k][1]:
                 changed += 1
                 assert r.round_trip(*rec[:3])[way] < base[way] - st.GAIN, k
-    assert changed > 10  # 캠퍼스가 비탈이라 표본 120쌍에서도 여러 쌍이 돌아가는 길을 쓴다
+    assert changed > 10 or not full  # 캠퍼스가 비탈이라 표본 120쌍에서도 여러 쌍이 돌아가는 길을 쓴다(높이가 있을 때)

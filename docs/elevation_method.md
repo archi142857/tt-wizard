@@ -1,8 +1,31 @@
 # 관악캠퍼스 건물별 1층·로비층·출입구 고도와 도로 경사 — 방법과 열 설명
 
-결과 파일
-- `data/buildings_elevation.csv` — 건물별 (UTF-8 BOM). 같은 내용의 점 GeoJSON `.geojson`
-- `data/building_entrances.csv` — 지상 출입구별 (UTF-8 BOM). 같은 내용의 점 GeoJSON `.geojson`
+결과 파일 (고도가 든 것은 PC 에만. 아래 '높이 자료는 PC 에만')
+- `data/local/buildings_elevation.csv` — 건물별 (UTF-8 BOM). 같은 내용의 점 GeoJSON `.geojson`
+- `data/local/building_entrances.csv` — 지상 출입구별 (UTF-8 BOM). 같은 내용의 점 GeoJSON `.geojson`
+- 저장소의 `data/buildings_elevation.csv`·`data/building_entrances.csv`(+ `.geojson`)는 위 표에서 고도 열을 뺀 공개 판이다
+  (건물 좌표·윤곽·출입구 수·층 추정·확정 필요 표시는 남는다. `export_web.py` 가 건물 이름·좌표를 읽는다)
+
+## 높이 자료는 PC 에만 (2026-11-03)
+
+법무 의견(공유 폴더 `법무_검토.md` 2절 '그대로 갈 때' 1: 비공개 테스트 전에 꼭)과 사용자 결정("내리자"): 수치지형도로 만든 높이 정보는
+웹·앱 묶음·공개 저장소에 두지 않는다. 간행심사·국외반출 허가를 거치지 않은 배포이고, 관리기관 보안 분류표가 '인터넷·휴대폰으로
+1:5,000 이상 지도의 등고선·표고값 표시 불가'라고 적어서다. 바탕 지도(건물·도로·물)는 사용자가 그대로 쓰기로 했고(11/3, 테스트는 이 판),
+심사·허가는 나중에 받는다.
+
+| 무엇 | 어디에 |
+| --- | --- |
+| 바탕 지도의 등고선(주곡선·계곡선 2,589줄) | 만들지 않는다(`scripts/basemap.py`). 앱·웹·위젯 지도에 등고선이 없다 |
+| 건물·출입구 고도, 1층과의 높이차 | `data/local/buildings_elevation.*`·`building_entrances.*`. 공개 판은 그 열을 뺀 것 |
+| 그래프 노드 고도, 엣지 높이차·경사·오르막·내리막 | `data/local/magicmap/roads_graph_slope.json`·`graph_nodes_elevation.csv`·`graph_edges_slope.csv`. 공개 `data/magicmap/roads_graph_slope.json` 은 그 칸을 뺀 것 |
+| 쌍마다의 오르막·내리막·높이차 | `data/local/route_stats.csv`. 공개 `data/route_stats.csv` 는 그 열을 뺀 것 |
+| 출입구 접속선의 최대 경사 | 적지 않는다(`links.geojson`. 가파른지는 `check` 의 `steep` 로만) |
+| 3D·2D 지형 모형 | `data/local/model/`(웹 `model/` 은 내림) |
+
+남기는 것: 이동시간 표(평지·경사 반영, 앱과 웹이 쓰는 것), 경로 모양, 거리, 계단 길이, 층 추정(1층/2층), surface(지면·터널·다리).
+규칙과 열 목록은 `scripts/local_data.py`, 지키는 시험은 `tests/test_public_data.py`. 높이 자료를 만드는 스크립트(`building_elevation.py`,
+`graph_slopes.py`, `slope_travel.py`, `campus_model.py`)는 DEM 이 있는 PC 에서만 돌고, 온전한 것은 `data/local/` 에, 공개 자리에는 열을 뺀 판을 쓴다.
+지난 커밋에는 예전 파일이 남아 있다(지울지는 법무에 물었다). 실측 결과(`results/field/`)의 구간 경사·높이차와 문서 속 숫자도 법무에 물었다.
 
 만드는 스크립트: `scripts/fetch_campus_buildings.py` → `scripts/fetch_osm_footprints.py` → `scripts/dem_from_contours.py`
 → `scripts/building_elevation.py`

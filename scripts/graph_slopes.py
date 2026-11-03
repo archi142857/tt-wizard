@@ -25,11 +25,12 @@
              bridge_osm(OSM 다리·위층 길과 겹침) / no_dem(2 m DEM 범위 밖이라 비워 둠)
              OSM과 겹침 = 엣지 위 점의 60 % 이상이 그 길에서 3 m 이내
 
-출력
-  data/magicmap/roads_graph_slope.json   받은 그래프와 같은 구조에 노드 ele, 엣지 eleFrom·eleTo·rise·grade·ascent·
+출력 (높이가 든 것은 PC 의 data/local/ 에만. 2026-11-03 법무 '그대로 갈 때' 1·사용자 "내리자", scripts/local_data.py)
+  data/local/magicmap/roads_graph_slope.json   받은 그래프와 같은 구조에 노드 ele, 엣지 eleFrom·eleTo·rise·grade·ascent·
                                          descent·maxGrade·surface 를 더한 것 (마법 지도 개발자 전달용). 패치로 더한 노드·엣지는
                                          src = "ttwizard"(출입구 노드는 building = 동 번호, 엣지는 osm = way 번호·split_of·connector)
-  data/magicmap/graph_nodes_elevation.csv, graph_edges_slope.csv   같은 내용의 표
+  data/local/magicmap/graph_nodes_elevation.csv, graph_edges_slope.csv   같은 내용의 표
+  data/magicmap/roads_graph_slope.json         공개 판: 위 그래프에서 노드 ele 와 엣지의 높이·경사 칸을 뺀 것(구조·거리·surface·패치는 남는다)
 """
 
 from __future__ import annotations
@@ -48,15 +49,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import building_elevation as be  # noqa: E402
 import graph_patch as gp  # noqa: E402
 from common import console_safe  # noqa: E402
+from local_data import LOCAL, dump_graph, strip_graph  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 MAGIC = DATA / "magicmap"
 GRAPH = MAGIC / "roads_graph_updated.json"
 OSM_PATHS = DATA / "osm_paths.geojson"
-OUT_JSON = MAGIC / "roads_graph_slope.json"
-OUT_NODES = MAGIC / "graph_nodes_elevation.csv"
-OUT_EDGES = MAGIC / "graph_edges_slope.csv"
+OUT_JSON = LOCAL / "magicmap" / "roads_graph_slope.json"  # 온전한 것(PC 에만). 공개 판은 PUBLIC_JSON
+OUT_NODES = LOCAL / "magicmap" / "graph_nodes_elevation.csv"
+OUT_EDGES = LOCAL / "magicmap" / "graph_edges_slope.csv"
+PUBLIC_JSON = MAGIC / "roads_graph_slope.json"
 EDGE_FIELDS = ["id", "from", "to", "distance_m", "kind", "walkable", "isTunnel", "surface", "ele_from_m", "ele_to_m",
                "rise_m", "grade_pct", "ascent_m", "descent_m", "max_grade_pct"]
 
@@ -275,7 +278,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("-o", "--output", default=str(OUT_JSON))
     ap.add_argument("--nodes-csv", default=str(OUT_NODES))
     ap.add_argument("--edges-csv", default=str(OUT_EDGES))
+    ap.add_argument("--public", default=None, help="높이·경사 칸을 뺀 공개 판(기본: -o 를 안 바꾸면 data/magicmap/roads_graph_slope.json, 바꾸면 쓰지 않음)")
     args = ap.parse_args(argv)
+    public = args.public if args.public is not None else (str(PUBLIC_JSON) if args.output == str(OUT_JSON) else "")
 
     graph = load_graph(Path(args.graph))
     received = (len(graph["nodes"]), len(graph["edges"]))
@@ -322,8 +327,11 @@ def main(argv: list[str] | None = None) -> int:
         **({"patch": patch_note} if patch_note else {}),
     }
     out = Path(args.output)
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(graph, ensure_ascii=False), encoding="utf-8")
+    dump_graph(graph, out)
+    if public:
+        dump_graph(strip_graph(graph), Path(public))
+    for p in (args.nodes_csv, args.edges_csv):
+        Path(p).parent.mkdir(parents=True, exist_ok=True)
     with open(args.nodes_csv, "w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f)
         w.writerow(["id", "lng", "lat", "ele_m"])
@@ -340,7 +348,7 @@ def main(argv: list[str] | None = None) -> int:
     for e in graph["edges"]:
         length[e["surface"]] += e["distance"]
     total = sum(length.values())
-    print(f"\n저장: {out}\n      {args.nodes_csv}\n      {args.edges_csv}")
+    print(f"\n저장: {out}\n      {args.nodes_csv}\n      {args.edges_csv}" + (f"\n      공개 판(높이·경사 없음): {public}" if public else ""))
     print(f"  노드 고도 {have:,}/{len(ele):,}개 ({have / len(ele):.0%})")
     print("  엣지(방향별): " + ", ".join(f"{k} {surf[k]:,}개·{length[k] / total:.1%}"
                                      for k in ("ground", "tunnel", "tunnel_osm", "bridge_osm", "no_dem")))

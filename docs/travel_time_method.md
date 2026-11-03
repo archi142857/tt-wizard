@@ -6,8 +6,9 @@
 ```bash
 python scripts/graph_patch.py       # 기숙사 둘레 OSM 길 → data/graph_patch/dorm.geojson
 python scripts/entrance_links.py    # 출입구마다 길까지 접속선 → data/graph_patch/links.geojson
-python scripts/graph_slopes.py      # 받은 그래프 + data/graph_patch/ 에 노드 고도·엣지 경사 → data/magicmap/roads_graph_slope.json
-python scripts/slope_travel.py      # → data/travel_slope.csv, data/route_stats.csv, data/route_paths.json
+python scripts/graph_slopes.py      # 받은 그래프 + data/graph_patch/ 에 노드 고도·엣지 경사 → data/local/magicmap/roads_graph_slope.json
+                                    #   (공개 판 data/magicmap/roads_graph_slope.json 은 높이·경사 칸을 뺀 것)
+python scripts/slope_travel.py      # → data/travel_slope.csv, data/route_paths.json, data/local/route_stats.csv(+ 공개 판 data/route_stats.csv)
 python -m ttwizard search --courses ... --home 919A --travel data/travel_slope.csv
 ```
 
@@ -16,7 +17,7 @@ python -m ttwizard search --courses ... --home 919A --travel data/travel_slope.c
 | 파일 | 내용 |
 | --- | --- |
 | `data/travel_slope.csv` | `from,to,minutes,source` (source = `slope`). 알고리즘 입력. 오르막 방향이 더 길다 |
-| `data/route_stats.csv` | 쌍마다 아래 열 |
+| `data/local/route_stats.csv` | 쌍마다 아래 열(PC 에만). 저장소의 `data/route_stats.csv` 는 `ascent_m`·`descent_m`·`net_rise_m` 을 뺀 공개 판(2026-11-03, `docs/elevation_method.md` '높이 자료는 PC 에만') |
 | `data/route_paths.json` | 웹 지도에 그릴 경로 모양. `{"ids": [...], "paths": {"a|b": 선}}`, a → b 방향, Google polyline(소수 5자리), 1 m 넘게 벗어나지 않는 점만 남김. 오는 경로가 가는 경로와 다른 쌍만 `"b|a"` 도 있다(없으면 `"a|b"` 를 뒤집어 쓴다) |
 
 | 열 | 뜻 |

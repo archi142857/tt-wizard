@@ -84,7 +84,7 @@
 
 걷는 시간은 [캠퍼스 마법 지도](https://moreadorecampus.com/)의 도로 그래프 위에서 건물 출입구 사이 길을 찾아 계산합니다. 받은 그래프에서 끊긴 갈림목은 잇고, 빠진 보도와 계단, 출입구는 더하고, 건물을 뚫고 지나가는 길은 막았습니다.
 
-평지는 초속 1.1m로 걷는다고 봅니다. 경사는 30m 구간마다 재서 Tobler 보행 함수로, 계단은 계단 보행 실측(Fujiyama & Tyler, 2004)에 맞춘 식으로 계산합니다. 그래서 같은 두 건물 사이도 올라갈 때와 내려올 때 시간이 다르고, 방향마다 더 빠른 길을 고릅니다. 길마다 경사가 어떤지는 [관악캠퍼스 3D 모형](https://archi142857.github.io/tt-wizard/model/campus-3d.html)에서 볼 수 있습니다.
+평지는 초속 1.1m로 걷는다고 봅니다. 경사는 30m 구간마다 재서 Tobler 보행 함수로, 계단은 계단 보행 실측(Fujiyama & Tyler, 2004)에 맞춘 식으로 계산합니다. 그래서 같은 두 건물 사이도 올라갈 때와 내려올 때 시간이 다르고, 방향마다 더 빠른 길을 고릅니다.
 
 조합은 과목마다 분반을 하나씩 고르는 문제로 풉니다. 시간이 겹치는 조합은 빼고, 나머지는 한 주 동안 걷는 시간에 늦는 시간의 두 배를 더한 값으로 줄을 세웁니다. 찾을 때는 백트래킹과 분기 한정으로 가망 없는 가지를 미리 쳐 냅니다.
 
@@ -176,6 +176,8 @@ SNUTT와 같은 방식입니다. 학기 전체 강좌 엑셀을 주기적으로 
 <details>
 <summary>자료 다시 만들기 (고도, 길 보강, 이동시간, 실측, 3D 모형, 실험)</summary>
 
+**높이 자료는 PC에만 둡니다.** 수치지형도로 만든 높이 정보(등고선, 건물·출입구·길 그래프의 고도, 높이차와 경사, 3D·2D 지형 모형)는 저장소·웹·앱에 올리지 않습니다(2026년 11월 3일부터). 아래 스크립트는 DEM이 있는 PC에서 돌고, 높이가 든 결과는 `data/local/`(git에 없음)에 쓰며, 저장소에는 그 열을 뺀 판을 씁니다. 앱과 웹이 쓰는 이동시간 표는 그대로입니다. 까닭과 규칙은 [docs/elevation_method.md](docs/elevation_method.md) '높이 자료는 PC에만'에 있습니다.
+
 **건물 고도.** 동 번호가 있는 모든 건물의 1층 기준면과 로비층 고도, 지상 출입구마다의 고도와 층을 추정합니다. 캠퍼스 마법 지도 개발자께 드리려고 만들었습니다. 방법과 열 설명은 [docs/elevation_method.md](docs/elevation_method.md)에 있습니다.
 
 ```
@@ -185,7 +187,8 @@ python scripts/fetch_campus_buildings.py
 python scripts/fetch_osm_footprints.py
 # 등고선·표고점 → data/dem/topo_dem.tif (2 m), 건물 윤곽 → data/topo_buildings.geojson
 python scripts/dem_from_contours.py
-# → data/buildings_elevation.csv, data/building_entrances.csv (+ .geojson)
+# → data/local/buildings_elevation.csv, building_entrances.csv (+ .geojson, 고도 포함)
+#   data/buildings_elevation.csv, data/building_entrances.csv (+ .geojson, 고도 열을 뺀 공개 판)
 python scripts/building_elevation.py
 ```
 
@@ -198,9 +201,11 @@ python scripts/building_elevation.py
 python scripts/graph_patch.py
 # 출입구에서 길까지 건물·담장·옹벽을 피해 가는 접속선 → data/graph_patch/links.geojson
 python scripts/entrance_links.py
-# 그래프에 노드 고도와 구간별 경사 → data/magicmap/roads_graph_slope.json, *.csv
+# 그래프에 노드 고도와 구간별 경사 → data/local/magicmap/roads_graph_slope.json, *.csv
+#   공개 판(높이·경사 칸 없음) → data/magicmap/roads_graph_slope.json
 python scripts/graph_slopes.py
-# 출입구 사이 경로 → data/travel.csv(평지), data/travel_slope.csv(경사, 방향별), data/route_stats.csv
+# 출입구 사이 경로 → data/travel.csv(평지), data/travel_slope.csv(경사, 방향별), data/route_paths.json,
+#   data/local/route_stats.csv(오르막·높이차 포함), data/route_stats.csv(그 열을 뺀 공개 판)
 python scripts/slope_travel.py
 ```
 
@@ -223,16 +228,12 @@ python scripts/field_validation.py plan --routes data/field/routes.csv
 python scripts/field_validation.py check data/field/measurements.csv
 ```
 
-**관악캠퍼스 3D·2D 모형.** 도로 그래프를 수치지형도로 만든 지형 위에 올리고, 길마다 경사(길 방향 30m 구간)를 색으로 칠한 모형입니다. 높이는 2.5배 과장했습니다. [3D](https://archi142857.github.io/tt-wizard/model/campus-3d.html)와 [2D](https://archi142857.github.io/tt-wizard/model/campus-2d.html)는 브라우저에서 바로 열립니다. 왼쪽 버튼으로 끌면 옮겨지고, 오른쪽 버튼으로 끌면 회전하며(3D), 휠을 앞으로 굴리면 확대됩니다. 가운데 버튼을 두 번 누르면 처음 시점으로 돌아가고, 가운데 버튼으로 끌어도 옮겨집니다. 3D에서는 Shift를 같이 누르면 회전합니다.
+**관악캠퍼스 3D·2D 모형.** 도로 그래프를 수치지형도로 만든 지형 위에 올리고, 길마다 경사(길 방향 30m 구간)를 색으로 칠한 모형입니다. 높이는 2.5배 과장했습니다. 지형과 높이가 들어 있어 웹에 올리지 않고 PC에서만 엽니다(2026년 11월 3일까지는 웹에 있었습니다). 파일을 더블클릭하면 브라우저에서 열립니다. 왼쪽 버튼으로 끌면 옮겨지고, 오른쪽 버튼으로 끌면 회전하며(3D), 휠을 앞으로 굴리면 확대됩니다. 가운데 버튼을 두 번 누르면 처음 시점으로 돌아가고, 가운데 버튼으로 끌어도 옮겨집니다. 3D에서는 Shift를 같이 누르면 회전합니다.
 
 ```
-# DEM(data/dem)이 있는 PC에서 → web/model/campus-3d.html, campus-2d.html
+# DEM(data/dem)이 있는 PC에서 → data/local/model/campus-3d.html, campus-2d.html (three.js 를 파일 안에 넣는다)
 python scripts/campus_model.py
-# three.js 를 파일 안에 넣은 3D 파일 하나 (따로 보낼 때)
-python scripts/campus_model.py --standalone
 ```
-
-DEM이 저장소에 없어서 Actions에서 다시 만들 수 없으므로 결과 HTML을 같이 커밋합니다.
 
 **비교 실험.** 분반–건물 분산, 프로그램 1위와 무작위, TSP 하한과의 차이, 경사를 무시하고 골랐을 때, 탐색 시간과 부하 시험, 실제 시간표 비교를 잽니다.
 
@@ -269,27 +270,29 @@ scripts/
   fetch_osm_footprints.py    OpenStreetMap 건물 윤곽·출입구·보행로 → osm_*.geojson
   fetch_osm_basemap.py       OpenStreetMap 숲·잔디·길 → osm_basemap.geojson
   dem_from_contours.py       수치지형도 등고선·표고점 → DEM, 건물 윤곽
-  building_elevation.py      건물별·출입구별 고도
+  building_elevation.py      건물별·출입구별 고도 (고도가 든 것은 PC 의 data/local/, 저장소에는 그 열을 뺀 판)
   graph_patch.py             도로 그래프 보강 (끊긴 갈림목 잇기, 없는 엣지 막기, 기숙사 둘레 길)
   entrance_links.py          출입구 접속선
-  graph_slopes.py            그래프에 노드 고도와 구간별 경사
+  graph_slopes.py            그래프에 노드 고도와 구간별 경사 (같은 식으로 data/local/ 과 공개 판)
   slope_travel.py            건물쌍 이동시간(평지·경사), 경로 통계, 지도용 경로
   basemap.py                 수치지형도 + OSM → data/basemap.json (앱과 웹이 직접 그리는 바탕 지도)
   export_web.py              data/ → web/data/*.json
   export_magicmap.py         마법 지도 개발자께 보낼 건물 목록
-  campus_model.py            관악캠퍼스 3D·2D 모형 (템플릿 campus_model_3d.html, campus_model_2d.html)
+  campus_model.py            관악캠퍼스 3D·2D 모형 → data/local/model/ (템플릿 campus_model_3d.html, campus_model_2d.html)
   experiments.py             비교 실험 (웹 엔진 시간은 engine_bench.mjs)
   restrictions.py            수강편람 비고의 수강 제한(®) 읽기
   field_validation.py        실측 구간 고르기, 실측과 모형 견주기, GPS 기록 분석
   build_app.py               web/ → app/www/ (스토어 앱 묶음)
   app_icons.py               아이콘 → 안드로이드 mipmap, iOS AppIcon
+  local_data.py              높이 자료(PC 의 data/local/)와 공개 파일 나누기
   common.py                  스크립트들이 같이 쓰는 작은 도구
 data/
   sample/                    데모용 가짜 자료
   raw/                       편람 엑셀 원본 (latest와 바뀐 날짜별, history/는 지난 학기)
   history/                   지난 학기 편람 (학기 선택용)
   topo/                      수치지형도 원본 자리. 저장소에는 없습니다 (docs/topo.md)
-  magicmap/                  캠퍼스 마법 지도에서 받은 그래프·거리표와 경사를 붙인 결과
+  local/                     높이 자료(고도·높이차·경사, 3D·2D 모형) 자리. PC 에만 있고 저장소에는 없습니다 (docs/elevation_method.md)
+  magicmap/                  캠퍼스 마법 지도에서 받은 그래프·거리표와 패치를 더한 그래프(높이 칸을 뺀 공개 판)
   graph_patch/               그래프에 더할 길, 막을 엣지, 출입구, 접속선
   field/                     실측 구간과 기록 양식
   lectures.json, buildings.csv, travel.csv, travel_slope.csv, route_stats.csv, route_paths.json, basemap.json, stats.csv, changes/
@@ -297,7 +300,6 @@ web/                         웹 앱 (GitHub Pages)
   js/                        app.js(화면), engine.js(탐색·동선), search.js(과목 검색), search-worker.js(탐색 워커),
                              timetables.js(저장한 시간표), dev.js(개발자 메뉴)
   licenses/                  고지문 (SNUTT, Pretendard, Fredoka, OpenStreetMap, 공공누리)
-  model/                     관악캠퍼스 3D·2D 모형
   field/                     실측 기록 페이지 (앱 화면에서는 연결하지 않는 페이지)
 app/                         스토어 앱 (Capacitor 8): android/, ios/, src/native.js, assets/icons/
 results/experiments/         비교 실험 결과
@@ -325,9 +327,9 @@ tests/                       pytest
 | --- | --- | --- |
 | 코드: `ttwizard/`, `scripts/`, `tests/`, `web/` 의 HTML·CSS·JS(`web/vendor/` 빼고), `app/`(아이콘 빼고), 가짜 예시 자료 `data/sample/` | 이 저장소 | MIT (`LICENSE`) |
 | `data/magicmap/` 의 받은 파일 셋(`roads_graph_updated.json`, `roads.geojson`, `building_pair_times.csv`) | [캠퍼스 마법 지도](https://moreadorecampus.com/) | 이 저장소에 비상업으로 게시하도록 허락받은 자료입니다. 다시 쓰려면 제공자의 허락이 필요합니다. MIT 대상이 아닙니다(`data/magicmap/README.md`) |
-| 받은 그래프로 만든 것: `data/magicmap/` 의 나머지(`roads_graph_slope.json` 등), 그 위에서 계산한 `travel.csv`·`travel_slope.csv`·`route_stats.csv`·`route_paths.json`, `web/model/` 의 길 | 캠퍼스 마법 지도 + 이 저장소 | 받은 파일과 같게 다룹니다. OSM·수치지형도에서 온 부분은 아래 조건도 따릅니다 |
+| 받은 그래프로 만든 것: `data/magicmap/` 의 나머지(`roads_graph_slope.json`), 그 위에서 계산한 `travel.csv`·`travel_slope.csv`·`route_stats.csv`·`route_paths.json` | 캠퍼스 마법 지도 + 이 저장소 | 받은 파일과 같게 다룹니다. OSM·수치지형도에서 온 부분은 아래 조건도 따릅니다 |
 | OpenStreetMap 에서 온 것: `data/osm_*.geojson`, `building_entrances.*`(출입구 자리), `graph_patch/dorm.geojson`, `basemap.json` 의 초록·길 선·도로면(큰길 등급) 층 | © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors | [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). GeoJSON 은 파일 안 `meta`, `basemap.json` 은 층마다 `src_layers` 에도 적었습니다. 전문은 `web/licenses/odbl.txt` 에 있습니다 |
-| 국토지리정보원 수치지형도에서 온 것: `basemap.json` 의 건물·도로면 모양·인도·물·등고선, 고도(`buildings_elevation.*`, 출입구·그래프 노드의 고도), 1:1,000 으로 그린 길·접속선(`graph_patch/gwanaksa.geojson`·`links.geojson`, `campus.geojson` 의 일부), `web/model/` 의 지형 | 국토지리정보원 수치지형도(1:5,000·1:1,000, [국토정보플랫폼](https://map.ngii.go.kr)) | 공공누리 제1유형(출처 표시). 원본은 저장소에 없습니다. 공간정보관리법의 절차가 따로 있습니다(`docs/topo.md`). 출처 문장과 조건은 `web/licenses/kogl-type1.txt` 에 있습니다 |
+| 국토지리정보원 수치지형도에서 온 것: `basemap.json` 의 건물·도로면 모양·인도·물, 경사를 반영한 이동시간(`travel_slope.csv`)과 층 추정(`building_entrances.*`의 `floor_est`), 1:1,000 으로 그린 길·접속선(`graph_patch/gwanaksa.geojson`·`links.geojson`, `campus.geojson` 의 일부). 등고선과 고도·높이차·경사, 지형 모형은 2026-11-03 부터 저장소에 두지 않습니다 | 국토지리정보원 수치지형도(1:5,000·1:1,000, [국토정보플랫폼](https://map.ngii.go.kr)) | 공공누리 제1유형(출처 표시). 원본은 저장소에 없습니다. 공간정보관리법의 절차가 따로 있습니다(`docs/topo.md`). 출처 문장과 조건은 `web/licenses/kogl-type1.txt` 에 있습니다 |
 | 수강편람: `data/raw/`, `lectures.json`, `data/history/`, `data/changes/`, `stats.csv`, `buildings_history.csv` | 서울대학교 수강신청 시스템 강좌검색 | 서울대학교 자료. MIT 대상이 아닙니다 |
 | 건물 번호·이름·좌표: `buildings.csv`, `campus_buildings.csv` | [서울대학교 캠퍼스맵](https://map.snu.ac.kr) | 서울대학교 자료. MIT 대상이 아닙니다 |
 | 이름 `TT Wizard`, 로고·아이콘(`web/icons/`, `app/assets/icons/` 와 거기서 만든 앱 아이콘) | 이 저장소 | 라이선스를 주지 않습니다(MIT 대상이 아닙니다) |
@@ -340,7 +342,7 @@ tests/                       pytest
 
 - [wafflestudio/snutt](https://github.com/wafflestudio/snutt) (MIT, 예전 이름 snutt-timetable): 수강편람 엑셀을 받는 곳, 파싱 규칙, 캠퍼스맵 API 쓰는 법, 과목 검색 규칙(줄임말, 학과 줄임, 특별 낱말. `web/js/search.js`)을 참고했습니다. SNUTT에서 가져온 값과 규칙이 있는 파일 머리에 저작권 표시를 적었고, 고지 전문은 `web/licenses/snutt.txt`에 있습니다. 라이선스가 없는 SNUTT 저장소(snutt-v2, snutt-android, snutt-web, snutt-webclient-v2)에서는 가져오지 않습니다.
 - [Leaflet](https://leafletjs.com) 1.9.4 (BSD-2): 웹 화면 지도 (`web/vendor/leaflet`)
-- [three.js](https://threejs.org) r128 (MIT): 3D 모형 (`web/vendor/three`)
+- [three.js](https://threejs.org) r128 (MIT): 3D 모형 (`web/vendor/three`. 모형은 PC 에서만 만들어 엽니다)
 
 ## 만든 사람
 

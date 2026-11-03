@@ -19,8 +19,8 @@
 
 | 파일 | 만드는 스크립트 | 내용 |
 | --- | --- | --- |
-| `roads_graph_slope.json` | `scripts/graph_slopes.py` | 받은 그래프와 같은 구조에 노드 `ele`, 엣지 `eleFrom`·`eleTo`·`rise`·`grade`·`ascent`·`descent`·`maxGrade`·`surface`를 더한 것 (마법 지도 전달용). 우리가 더한 길·출입구 접속선·끊긴 갈림목을 이은 조각(`../graph_patch/`)도 들어 있다: 노드 9,194번·엣지 19,351번부터, `src: "ttwizard"` (출입구 노드는 `building`·`entrance`, 엣지는 `osm`·`split_of`·`connector`·`role`: `entrance_link` 접속선, `junction` 갈림목 조각). 받은 엣지 가운데 실제로 없다고 본 것(건물을 뚫는 선, 공사 구역)에는 `blocked`(이유)가 붙는다. 다른 값은 받은 그대로다 |
-| `graph_nodes_elevation.csv`, `graph_edges_slope.csv` | 〃 | 같은 내용의 표 |
+| `roads_graph_slope.json` | `scripts/graph_slopes.py` | 받은 그래프와 같은 구조에 엣지 `surface`(지면·터널·다리)를 더한 것. 노드 `ele`, 엣지 `eleFrom`·`eleTo`·`rise`·`grade`·`ascent`·`descent`·`maxGrade` 는 2026-11-03 부터 이 공개 판에서 빼고 PC 의 `data/local/magicmap/` 에만 둔다(수치지형도로 만든 높이 정보, `docs/elevation_method.md` '높이 자료는 PC 에만'. 마법 지도 개발자께 드릴 때는 PC 의 온전한 판). 우리가 더한 길·출입구 접속선·끊긴 갈림목을 이은 조각(`../graph_patch/`)도 들어 있다: 노드 9,194번·엣지 19,351번부터, `src: "ttwizard"` (출입구 노드는 `building`·`entrance`, 엣지는 `osm`·`split_of`·`connector`·`role`: `entrance_link` 접속선, `junction` 갈림목 조각). 받은 엣지 가운데 실제로 없다고 본 것(건물을 뚫는 선, 공사 구역)에는 `blocked`(이유)가 붙는다. 다른 값은 받은 그대로다 |
+| (`graph_nodes_elevation.csv`, `graph_edges_slope.csv`) | 〃 | 노드 고도·엣지 경사 표. 2026-11-03 부터 PC 의 `data/local/magicmap/` 에만 |
 | `../travel.csv` | `scripts/slope_travel.py` | 시간표 알고리즘 입력(`from,to,minutes,source`): 우리 경로의 평지 시간(source `route`). 2026-10-02 까지는 이 표의 시간을 그대로 옮겨 썼다(source `magicmap`, 그 스크립트는 10/22 에 지웠다. 견줄 때는 `slope_travel.py --base magicmap`). 표와 우리 경로의 차이는 `docs/travel_time_method.md` '표와 우리 경로' |
 
 경사 계산 방법은 `docs/elevation_method.md`의 '도로 그래프 경사'.

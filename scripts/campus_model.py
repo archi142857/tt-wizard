@@ -1,17 +1,17 @@
 """서울대학교 관악캠퍼스 3D·2D 모델링: 도로 그래프 + 지형 → 브라우저에서 바로 여는 HTML 두 개.
 
-  python scripts/campus_model.py                 # → web/model/campus-3d.html, web/model/campus-2d.html
-  python scripts/campus_model.py --standalone    # three.js 까지 파일 안에 넣는다(3D 파일 하나만 보내 줄 때)
+  python scripts/campus_model.py                 # → data/local/model/campus-3d.html, campus-2d.html (PC 에만)
 
-입력  data/magicmap/roads_graph_slope.json  graph_slopes.py 결과 (노드 고도, 엣지 surface)
+입력  data/local/magicmap/roads_graph_slope.json  graph_slopes.py 결과 (노드 고도, 엣지 surface. PC 에만)
       data/dem/                             dem_from_contours.py 결과 (git 에는 없음 → 이 스크립트는 DEM이 있는 PC에서 돌린다)
       건물 좌표·이름                          export_web.py 와 같은 규칙 (이동시간 행렬의 지점 = 강의 건물·정문·기숙사)
 표시  길 색 = 그 길 방향 30 m 구간의 지형 경사: 5 % 미만 / 5~10 / 10~20 / 20 % 이상. 터널·지하는 점선
       지형 = DEM을 15 m 간격으로 읽은 격자. 고도가 없는 노드(DEM 범위 밖)와 그 엣지, 막은 엣지(blocked: 실제로 없는 길)는 뺀다
 조작  왼쪽 버튼 드래그 = 이동, 오른쪽 버튼 드래그 = 회전(3D), 휠 = 커서가 가리키는 곳으로 확대·축소(앞으로 굴리면 확대),
       가운데 버튼 드래그 = 이동(3D 에서 Shift 를 누르면 회전), 가운데 버튼 두 번 = 처음 시점
-출력  web/model/*.html 은 자료를 파일 안에 담고 있어 GitHub Pages 와 로컬(더블클릭) 모두에서 열린다.
-      3D 는 web/vendor/three/ 의 three.js 를 쓴다(--standalone 이면 파일 안에 넣는다)
+출력  data/local/model/*.html: 자료와 three.js(web/vendor/three/)를 파일 안에 담아 더블클릭으로 열린다.
+      웹(GitHub Pages)에는 올리지 않는다(2026-11-03, 법무 '그대로 갈 때' 1·사용자 "내리자": 수치지형도로 만든 지형·높이 정보.
+      예전에는 web/model/ 에 두고 README 에서 걸었다). 높이 자료는 PC 의 data/local/ 에만(scripts/local_data.py)
 """
 
 from __future__ import annotations
@@ -33,10 +33,11 @@ ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
 import building_elevation as be  # noqa: E402
 import export_web  # noqa: E402
+from local_data import LOCAL  # noqa: E402
 
 DATA = ROOT / "data"
-GRAPH = DATA / "magicmap" / "roads_graph_slope.json"
-OUT = ROOT / "web" / "model"
+GRAPH = LOCAL / "magicmap" / "roads_graph_slope.json"
+OUT = LOCAL / "model"
 THREE = ROOT / "web" / "vendor" / "three"
 BINS = [5, 10, 20]  # 경사 단계 경계(%)
 
@@ -158,7 +159,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--max-res", type=float, default=5.0, help="이보다 거친 DEM(m)은 쓰지 않는다")
     ap.add_argument("--step", type=float, default=15.0, help="지형 격자 간격(m)")
     ap.add_argument("-o", "--output", default=str(OUT))
-    ap.add_argument("--standalone", action="store_true", help="three.js 를 3D 파일 안에 넣는다")
+    ap.add_argument("--link-three", action="store_true", help="three.js 를 넣지 않고 ../vendor/three/ 로 건다(web/ 아래에 둘 때만)")
     args = ap.parse_args(argv)
 
     graph = json.loads(Path(args.graph).read_text(encoding="utf-8"))
@@ -180,10 +181,10 @@ def main(argv: list[str] | None = None) -> int:
     out.mkdir(parents=True, exist_ok=True)
     p3 = out / "campus-3d.html"
     p2 = out / "campus-2d.html"
-    p3.write_text(render(HERE / "campus_model_3d.html", data, three_libs(args.standalone)), encoding="utf-8")
+    p3.write_text(render(HERE / "campus_model_3d.html", data, three_libs(not args.link_three)), encoding="utf-8")
     p2.write_text(render(HERE / "campus_model_2d.html", data), encoding="utf-8")
     c = data["counts"]
-    print(f"저장: {p3} ({p3.stat().st_size / 1e6:.2f} MB{', three.js 포함' if args.standalone else ''})")
+    print(f"저장: {p3} ({p3.stat().st_size / 1e6:.2f} MB{'' if args.link_three else ', three.js 포함'})")
     print(f"      {p2} ({p2.stat().st_size / 1e6:.2f} MB)")
     print(f"  노드 {c['nodes']:,}/{c['nodes_all']:,}개 · 구간 {c['edges']:,}개(터널 {c['tunnel']}) · 강의 건물 {len(data['buildings'])}곳"
           f" · 지형 {data['terrain']['nx']}×{data['terrain']['ny']} ({args.step:g} m)")

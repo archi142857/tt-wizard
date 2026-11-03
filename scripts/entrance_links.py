@@ -31,9 +31,11 @@
 출력 (data/graph_patch/links.geojson)
   type = path, role = entrance_link: 첫 점 = 출입구(그래프 출입구 노드), 끝 점 = 길 위 접점. building(첫 동), entrances
   ('동#번호' 목록), kind(footway, 계단을 지나면 steps), costFactor, snap 0.5·link 1.0(끝을 정확히 그 접점에 붙인다),
-  length_m(접속선 길이), straight_m(접점까지 직선거리), detour(꺾여 돌아가면 true), max_grade(DEM, 6 m 창 %),
+  length_m(접속선 길이), straight_m(접점까지 직선거리), detour(꺾여 돌아가면 true),
   door_depth_m(출입구가 건물 윤곽 안쪽으로 들어간 깊이), door_clear_m(그 출입구에 준 clear),
-  check(확인 필요: 'long' 25 m 넘음, 'steep' DEM 경사 30 % 넘고 높이차 2 m 넘음, 'deep' 출입구가 윤곽 안 3 m 넘게)
+  check(확인 필요: 'long' 25 m 넘음, 'steep' DEM 경사 30 % 넘고 높이차 2 m 넘음, 'deep' 출입구가 윤곽 안 3 m 넘게).
+  경사 값(예전 max_grade, DEM 6 m 창 %)은 적지 않는다: 수치지형도로 만든 높이 정보라 공개 파일에 두지 않는다(2026-11-03,
+  scripts/local_data.py). 가파른지는 check 의 'steep' 로만 남는다
   접속선을 못 찾은 출입구(MAX_DIST m 안에 길이 없거나 막힘)는 type = entrance_unlinked 점으로 남긴다(손으로 그려야 한다)
 """
 
@@ -468,7 +470,7 @@ def build(graph_path: Path = gp.GRAPH, entrances: Path = gp.ENTRANCES, topo: Pat
                               "source": LINK_SOURCE,
                               "kind": kind, "costFactor": 1.2 if kind == "steps" else 1, "snap": 0.5, "link": 1.0,
                               "length_m": round(line.length, 1), "straight_m": round(float(np.hypot(*(c["foot"] - q))), 1),
-                              "detour": len(line.coords) > 2 or None, "max_grade": round(mg * 100) if mg else None,
+                              "detour": len(line.coords) > 2 or None,
                               "door_depth_m": round(depth, 1) if depth > 0.05 else None,
                               "door_clear_m": d["clear"] or None,
                               "check": check or None}.items() if v is not None}})
@@ -507,7 +509,7 @@ def main(argv: list[str] | None = None) -> int:
         for f in fc["features"]:
             p = f["properties"]
             if p.get("check") or p["type"] == "entrance_unlinked":
-                print("  ", ",".join(p["entrances"]), p.get("check") or "못 이음", p.get("length_m", ""), p.get("max_grade", ""))
+                print("  ", ",".join(p["entrances"]), p.get("check") or "못 이음", p.get("length_m", ""))
     return 0
 
 

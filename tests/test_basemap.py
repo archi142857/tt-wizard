@@ -63,7 +63,8 @@ def test_basemap_file():
     for k, items in d["line"].items():
         assert k in ("road", "pedestrian", "walk", "steps") and all(isinstance(kind, str) and isinstance(p, str) for kind, p in items)
     assert d["line"]["walk"] and d["line"]["steps"]
-    assert all(z % 5 == 0 for z, _ in d["contour"]["minor"]) and all(z % 25 == 0 for z, _ in d["contour"]["index"])
+    # 등고선은 넣지 않는다(2026-11-03 법무 '그대로 갈 때' 1·사용자 "내리자": 인터넷·휴대폰 지도에 1:5,000 등고선·표고값을 보이지 않는다)
+    assert "contour" not in d and not any(n.startswith("contour.") for g in d["src_layers"] for n in g["layers"])
     # OSM 숲·잔디 자료가 레포에 있으면 어림이 아니라 그것으로 칠했어야 한다
     assert d["green_approx"] is not (ROOT / "data" / "osm_basemap.geojson").exists()
     _check_layer_sources(d)
@@ -72,13 +73,13 @@ def test_basemap_file():
 def _check_layer_sources(d):
     """층마다 출처(src_layers): 모든 층이 한 번씩, OSM 을 쓴 층(초록·길 선·큰길 등급)은 ODbL 이 적힌 묶음에."""
     named = [n for g in d["src_layers"] for n in g["layers"]]
-    have = [f"{sec}.{k}" for sec in ("area", "line", "contour") for k in d[sec]]
+    have = [f"{sec}.{k}" for sec in ("area", "line") for k in d[sec]]
     assert sorted(named) == sorted(have)
     by = {n: g["src"] for g in d["src_layers"] for n in g["layers"]}
     osm = [f"line.{k}" for k in d["line"]] + [f"area.{k}" for k in d["area"] if k.startswith("road")]
     osm += [] if d["green_approx"] else ["area.green"]
     assert all("OpenStreetMap" in by[n] and "ODbL" in by[n] for n in osm)
-    assert all("OpenStreetMap" not in by[n] for n in ("area.building", "area.water", "contour.minor") if n in by)
+    assert all("OpenStreetMap" not in by[n] for n in ("area.building", "area.water") if n in by)
 
 
 @pytest.mark.parametrize("name", ["osm_basemap", "osm_buildings", "osm_entrances", "osm_paths", "building_entrances"])
@@ -162,8 +163,7 @@ def test_build_from_small_sheet(tmp_path):
     assert len(d["area"]["building"]) == 3 and d["area"]["water"] and d["area"]["walk"]
     assert d["area"].get("road_trunk") and d["area"].get("road")  # 큰길과 겹친 도로면만 큰길 색
     assert {k for k in d["line"]} == {"road", "walk", "steps"}  # 실내 통로는 빠진다
-    assert [z for z, _ in d["contour"]["index"]] and all(z == 100 for z, _ in d["contour"]["index"])
-    assert sorted({z for z, _ in d["contour"]["minor"]}) == [95, 105]
+    assert "contour" not in d  # 도엽에 등고선 층이 있어도 넣지 않는다(범위를 잡는 데만 쓴다)
     s, w, n, e = d["bounds"]
     assert s < lat0 < n and w < lon0 < e
     # 가까운 건물은 소수 6자리, 먼 건물(1.5 km 밖)은 5자리

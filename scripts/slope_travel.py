@@ -4,7 +4,7 @@
   python scripts/slope_travel.py --window 20      # 경사를 재는 창 길이(m)를 바꿔 민감도 확인
 
 입력
-  data/magicmap/roads_graph_slope.json   graph_slopes.py 결과(노드 고도, 엣지 surface). 걸을 수 있는 엣지만 쓴다
+  data/local/magicmap/roads_graph_slope.json   graph_slopes.py 결과(노드 고도, 엣지 surface. PC 에만). 걸을 수 있는 엣지만 쓴다
   data/dem/                              지면 엣지의 단면을 2 m마다 읽는다. 없으면 노드 고도 사이를 직선으로 본다
   data/building_entrances.csv            지상 출입구 좌표(data/graph_patch/*.geojson 의 replace = true 출입구가 있으면 그것, 없는 기숙사 동은
                                          그 패치의 출입구). 그래도 없는 건물은 data/buildings_elevation.csv 의
@@ -42,9 +42,10 @@
 
 출력
   data/travel_slope.csv   from,to,minutes,source (= slope). python -m ttwizard search ... --travel data/travel_slope.csv
-  data/route_stats.csv    쌍마다 마법 지도 표 시간(견줄 값), 우리 경로의 평지·경사 시간, 경사 계수, 최종 시간, 고른 경로 길이(route_m)와
-                          최단거리 경로 길이(shortest_m), 계단 엣지 위를 걷는 길이(stairs_m), 오르막·내리막, 우리 경로와 마법 지도 표가
-                          크게 다른 쌍 표시(check)
+  data/local/route_stats.csv  쌍마다 마법 지도 표 시간(견줄 값), 우리 경로의 평지·경사 시간, 경사 계수, 최종 시간, 고른 경로 길이(route_m)와
+                          최단거리 경로 길이(shortest_m), 계단 엣지 위를 걷는 길이(stairs_m), 오르막·내리막·높이차, 우리 경로와 마법 지도 표가
+                          크게 다른 쌍 표시(check). PC 에만(높이에서 나온 값이 들어 있다)
+  data/route_stats.csv    공개 판: 위 표에서 오르막·내리막·높이차(local_data.ROUTE_HEIGHT)를 뺀 것(2026-11-03, scripts/local_data.py)
   data/travel.csv         모든 쌍의 평지 시간을 source = route 로 쓴다(실측 행은 그대로). --base magicmap 이면 표에 없는 쌍만
   data/route_paths.json   웹 지도에 그릴 경로 모양. {"ids": [...], "paths": {"a|b": 인코딩한 선}} (a → b 방향,
                           Google polyline 형식·소수 5자리, 1 m 넘게 벗어나지 않는 점만 남김). a 가 지점 목록에서 앞선 쌍만 적고,
@@ -68,16 +69,18 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import building_elevation as be  # noqa: E402
 import graph_patch as gp  # noqa: E402
 from common import console_safe, encode_polyline, read_rows  # noqa: E402
+from local_data import LOCAL, ROUTE_HEIGHT  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
-GRAPH = DATA / "magicmap" / "roads_graph_slope.json"
+GRAPH = LOCAL / "magicmap" / "roads_graph_slope.json"  # 노드 고도가 든 온전한 그래프(PC 에만)
 PAIRS = DATA / "magicmap" / "building_pair_times.csv"
 ENTRANCES = DATA / "building_entrances.csv"
 ELEVATION = DATA / "buildings_elevation.csv"
 POINTS = DATA / "buildings_for_magicmap.csv"
 OUT = DATA / "travel_slope.csv"
-OUT_STATS = DATA / "route_stats.csv"
+OUT_STATS = LOCAL / "route_stats.csv"  # 온전한 표(PC 에만). 공개 판은 PUBLIC_STATS
+PUBLIC_STATS = DATA / "route_stats.csv"
 OUT_PATHS = DATA / "route_paths.json"
 EXTRA = DATA / "dorm_buildings.csv"
 FLAT = DATA / "travel.csv"
@@ -89,6 +92,16 @@ STAIRS_UP, STAIRS_DOWN = 2.2, 1.6
 ALIASES = {"71-1": "71"}  # 제 출입구도 좌표도 없는 지점이 대신 쓸 건물(71-1동은 이제 출입구·좌표가 있어 쓰이지 않는다)
 STAT_FIELDS = ["from", "to", "magicmap_min", "route_flat_min", "route_slope_min", "slope_factor", "minutes",
                "route_m", "shortest_m", "stairs_m", "ascent_m", "descent_m", "net_rise_m", "check"]
+
+
+def write_public_stats(rows: list[dict], path: Path) -> None:
+    """route_stats 의 공개 판: 오르막·내리막·높이차 열을 뺀다(높이에서 나온 값. scripts/local_data.py)"""
+    keep = [f for f in STAT_FIELDS if f not in ROUTE_HEIGHT]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", newline="", encoding="utf-8-sig") as f:
+        w = csv.DictWriter(f, fieldnames=keep, lineterminator="\n", extrasaction="ignore")
+        w.writeheader()
+        w.writerows(rows)
 
 
 def tobler(grade, v0: float = 1.1):
@@ -684,9 +697,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--base", choices=["route", "magicmap"], default="route",
                     help="route(기본): 우리 경로의 경사 반영 시간, magicmap: 마법 지도 표 시간 × 경사 계수(표에 없는 쌍만 우리 경로)")
     ap.add_argument("-o", "--output", default=str(OUT))
-    ap.add_argument("--stats", default=str(OUT_STATS))
+    ap.add_argument("--stats", default=str(OUT_STATS), help="쌍마다의 표(오르막·높이차 포함, PC 에만)")
+    ap.add_argument("--public-stats", default=None,
+                    help="오르막·내리막·높이차를 뺀 공개 판(기본: --stats 를 안 바꾸면 data/route_stats.csv, 바꾸면 쓰지 않음)")
     ap.add_argument("--paths", default=str(OUT_PATHS), help="웹 지도용 경로 모양(JSON)")
     args = ap.parse_args(argv)
+    public_stats = args.public_stats if args.public_stats is not None else (str(PUBLIC_STATS) if args.stats == str(OUT_STATS) else "")
 
     graph = json.loads(Path(args.graph).read_text(encoding="utf-8"))
     magic = {}
@@ -761,10 +777,13 @@ def main(argv: list[str] | None = None) -> int:
         w.writerow(["from", "to", "minutes", "source"])
         for r in rows:
             w.writerow([r["from"], r["to"], r["minutes"], "slope"])
+    Path(args.stats).parent.mkdir(parents=True, exist_ok=True)
     with open(args.stats, "w", newline="", encoding="utf-8-sig") as f:
         w = csv.DictWriter(f, fieldnames=STAT_FIELDS, lineterminator="\n")
         w.writeheader()
         w.writerows(rows)
+    if public_stats:
+        write_public_stats(rows, Path(public_stats))
     restored = 0
     if args.flat and (route_flat or Path(args.flat).exists()):
         restored = write_flat(Path(args.flat), route_flat, ("route", "magicmap") if args.base == "route" else ("route",),
@@ -789,7 +808,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.flat and (route_flat or restored):
         print(f"      {args.flat} ({'모든' if args.base == 'route' else '표 밖'} {len(route_flat):,}쌍 평지 시간, source = route"
               + (f"; 표 쌍 {restored:,}개는 표 시간으로 되돌림" if restored else "") + ")")
-    print(f"      {args.stats}\n      {args.paths} (경로 {len(paths):,}개)")
+    print(f"      {args.stats}" + (f"\n      {public_stats} (공개 판: 오르막·높이차 없음)" if public_stats else "")
+          + f"\n      {args.paths} (경로 {len(paths):,}개)")
     if len(gap):
         print(f"  우리 경로(평지) − 마법 지도 표: 중앙값 {np.median(gap):+.2f}분, |차이| 90% {np.percentile(np.abs(gap), 90):.2f}분,"
               f" 크게 다른 쌍(1분·30% 넘게) {sum(1 for r in rows if r['check'])}개")

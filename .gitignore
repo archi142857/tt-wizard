@@ -234,3 +234,6 @@ data/experiments/
 results/experiments/real.csv
 # 측정 페이지(web/field/)에서 내보낸 GPS 기록(위치 원자료)은 올리지 않는다. 분석 결과(results/field/)만 올린다
 data/field/tracks/
+# 높이 자료(수치지형도로 만든 고도·높이차·경사, 3D·2D 지형 모형)는 PC 에만 둔다(2026-11-03 법무 의견·사용자 "내리자").
+# 공개 파일은 그 열을 뺀 것이다. scripts/local_data.py, docs/elevation_method.md '높이 자료는 PC 에만'
+data/local/

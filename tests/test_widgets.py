@@ -210,7 +210,9 @@ def _decode(s: str, prec: int = 5) -> list:
 def _check_real_map(m: dict) -> None:
     """실제 자료로 읽은 바탕·길과 그날 지도의 짜임: 정문 → 건물 셋 → 정문을 4×2 그림(800×330 화소, dp 2.5)에"""
     base = json.loads((ROOT / "data" / "basemap.json").read_text(encoding="utf-8"))
-    assert (m["buildings"], m["roads"], m["contours"]) == (len(base["area"]["building"]), len(base["line"]["road"]), len(base["contour"]["index"]))
+    # 등고선은 바탕 자료에 없다(2026-11-03, 높이 자료는 PC 에만). 그리는 코드는 자료에 있을 때만 그린다(tiny 의 가짜 자료로 본다)
+    assert "contour" not in base
+    assert (m["buildings"], m["roads"], m["contours"]) == (len(base["area"]["building"]), len(base["line"]["road"]), 0)
     assert m["where"] > 100 and m["lines"] == 4 and m["back"] == [False, False, False, True]
     assert sorted(int(n) for part in m["labels"].split("|") for n in part.split("·")) == [1, 2, 3]
     for x, y in m["spots"] + [m["home"]]:  # 핀(반지름 30 화소)이 그림 안: 가장자리 45, 아래는 출처 글 자리 65

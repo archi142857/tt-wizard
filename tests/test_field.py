@@ -1,4 +1,7 @@
-"""실측 검증 스크립트(scripts/field_validation.py): 입력 읽기, 경로, 속도 보정."""
+"""실측 검증 스크립트(scripts/field_validation.py): 입력 읽기, 경로, 속도 보정.
+
+경사가 든 그래프·쌍마다의 높이차는 2026-11-03 부터 PC 의 data/local/ 에만 있다(scripts/local_data.py). 그것으로 걸음을 꾸며 보는 시험은
+그 자료가 있을 때만 돈다(LOCAL_HEIGHTS). 공개 판만 있으면 높이차가 nan 이라 오르막·내리막 짝을 만들지 않는다."""
 
 import csv
 import sys
@@ -9,6 +12,10 @@ import pytest
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 import field_validation as fv  # noqa: E402
+from local_data import LOCAL  # noqa: E402
+
+LOCAL_HEIGHTS = (LOCAL / "magicmap" / "roads_graph_slope.json").exists() and (LOCAL / "route_stats.csv").exists()
+needs_local = pytest.mark.skipif(not LOCAL_HEIGHTS, reason="높이 자료(data/local/) 없음: DEM 이 있는 PC 에서 돈다")
 
 
 def test_parse_time():
@@ -58,7 +65,8 @@ def test_check_recovers_walking_speed(tmp_path):
     s = fv.check(path, None, tmp_path / "out", figures=False)
     assert s["walker_v0"] == {"A": 1.3, "B": 1.0}
     assert s["slope_calibrated"]["rmse"] == 0 and s["flat_calibrated"]["rmse"] > 0.5
-    assert s["pairs"] and all(p["measured_ratio"] == pytest.approx(p["slope_ratio"], abs=0.01) for p in s["pairs"])
+    # 오르막·내리막 짝은 높이차(PC 의 온전한 표)가 있을 때만 만든다
+    assert (bool(s["pairs"]) == LOCAL_HEIGHTS) and all(p["measured_ratio"] == pytest.approx(p["slope_ratio"], abs=0.01) for p in s["pairs"])
     assert (tmp_path / "out" / "README.md").exists()
 
 
@@ -144,6 +152,7 @@ def test_line_gap():
     assert fv.line_gap(a, detour) == pytest.approx(12.0) and fv.line_gap(detour, a) == pytest.approx(12.0)
 
 
+@needs_local
 def test_model_follows_page_routes(model):
     """분석에 쓰는 경로 = 측정 페이지가 그린 길(route_paths.json)이고 길이도 route_stats.csv 와 같다.
     출입구를 slope_travel.py 와 다르게 읽으면(그래프 패치의 제보 출입구를 빠뜨리면) R3 이 271 m 대신 420 m 길로 나온다."""
@@ -163,6 +172,7 @@ def test_isotonic_and_stops():
     assert fv.stops_from_speed(t, np.full(60, np.nan)) is None  # 속도를 안 주는 기기: 위치로 판단
 
 
+@needs_local
 def test_track_recovers_speed_and_slope(tmp_path, model):
     """두 사람(평지 1.3·1.05 m/s)이 Tobler 대로 걸은 가짜 기록: 속도·경사 계수·멈춘 시간을 되찾는다."""
     rng = np.random.default_rng(0)
@@ -193,6 +203,7 @@ def test_track_recovers_speed_and_slope(tmp_path, model):
         assert not {"lat", "lon"} & set(fv._rows(tmp_path / "out" / name)[0])
 
 
+@needs_local
 def test_track_flat_walker_off_route_and_duplicates(tmp_path, model):
     """경사를 안 타는 사람은 k ≈ 0. 다른 길로 걸은 기록은 구간 비교에서 빠진다. 같은 기록을 두 번 내보내도 하나."""
     rng = np.random.default_rng(1)
