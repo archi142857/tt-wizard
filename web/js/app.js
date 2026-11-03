@@ -6406,7 +6406,7 @@ function feedbackUrl() {
   // 짝 잃은 서로게이트가 있으면 encodeURIComponent 가 멈추므로(URIError) 먼저 고친다
   return `${FEEDBACK_URL}?${Object.entries(q).map(([k, v]) => `${k}=${encodeURIComponent(v.toWellFormed ? v.toWellFormed() : v)}`).join("&")}`;
 }
-/** 앱 정보 '0.9.0 · Android 14 · 앱 · 2026년 2학기'(docs/feedback.md): 판, 운영체제와 주 판, 앱·설치한 웹 앱·웹, 보던 학기(정보를 연 탭의 학기).
+/** 앱 정보 '0.10.0 · Android 14 · 앱 · 2026년 2학기'(docs/feedback.md): 판, 운영체제와 주 판, 앱·설치한 웹 앱·웹, 보던 학기(정보를 연 탭의 학기).
  *  시간표·기기 이름은 넣지 않는다. 화면에는 보이지 않고 GitHub 양식에서 보고 고칠 수 있다 */
 function appInfo() {
   const shell = IN_APP ? "앱" : SHELL === "pwa" ? "설치한 웹 앱" : "웹";
