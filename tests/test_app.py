@@ -301,3 +301,31 @@ def test_native_projects_match_config():
     assert "rootViewController = MainViewController()" in swift and "allowsBackForwardNavigationGestures = true" in swift
     assert "registerPluginInstance(ImagePlugin())" in swift and "registerPluginInstance(ShellPlugin())" in swift
     assert 'customClass="MainViewController"' in (IOS / "App" / "Base.lproj" / "Main.storyboard").read_text(encoding="utf-8")
+
+
+def test_release_workflow_keeps_key_secret():
+    """출시 AAB(release 워크플로, update86): 손으로만 돌리고, 업로드 키는 저장소 비밀값으로만 받아 단계의 env 로 넘기며(명령 줄·로그에 비밀값을 쓰지 않는다),
+    키 파일은 저장소 폴더 밖(RUNNER_TEMP)에 풀었다가 늘 지운다. versionCode 는 실행 번호 + 100, build.gradle 은 환경 변수로만 서명한다."""
+    text = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
+    assert re.search(r"^on:\n  workflow_dispatch: \{\}\n\n", text, re.M) and "pull_request" not in text and "push:" not in text
+    assert "permissions:\n  contents: read" in text
+    names = {"TTW_KEYSTORE_BASE64", "TTW_KEYSTORE_PASSWORD", "TTW_KEY_ALIAS", "TTW_KEY_PASSWORD"}
+    uses = re.findall(r"\$\{\{\s*secrets\.(\w+)\s*\}\}", text)
+    assert set(uses) == names
+    for line in text.splitlines():  # 비밀값은 env 의 'NAME: ${{ secrets.X }}' 줄에서만
+        if "secrets." in line and not line.lstrip().startswith("#"):
+            assert re.fullmatch(r"\s+[A-Z_]+: \$\{\{ secrets\.[A-Z_0-9]+ \}\}", line), line
+    run_lines = [l for l in text.splitlines() if "echo" in l]
+    assert not [l for l in run_lines if re.search(r"\$(KEYSTORE|STORE_PASSWORD|KEY_PASSWORD|KEY_ALIAS|TTW_KEYSTORE_PASSWORD|TTW_KEY_PASSWORD)\b", l)]
+    assert 'base64 -d > "$RUNNER_TEMP/upload-key.jks"' in text and "TTW_KEYSTORE_FILE=$RUNNER_TEMP/upload-key.jks" in text
+    assert "export TTW_VERSION_CODE=$((GITHUB_RUN_NUMBER + 100))" in text and "./gradlew bundleRelease" in text
+    assert 'jarsigner -verify "$aab" | grep -q "jar verified."' in text
+    assert "path: app/android/app/build/outputs/bundle/release/app-release.aab" in text
+    assert re.search(r"- name: Remove key file\n\s+if: always\(\)\n\s+run: rm -f \"\$RUNNER_TEMP/upload-key.jks\"", text)
+    gradle = (APP / "android" / "app" / "build.gradle").read_text(encoding="utf-8")
+    assert 'versionCode((System.getenv("TTW_VERSION_CODE") ?: "1") as Integer)' in gradle
+    for env in ("TTW_KEYSTORE_FILE", "TTW_KEYSTORE_PASSWORD", "TTW_KEY_ALIAS", "TTW_KEY_PASSWORD"):
+        assert f'System.getenv("{env}")' in gradle
+    assert not re.search(r"(storePassword|keyPassword)\s+['\"]", gradle)  # 비밀번호를 글로 적지 않는다
+    ignore = (ROOT / ".gitignore").read_text(encoding="utf-8").splitlines()
+    assert "*.jks" in ignore and "*.keystore" in ignore

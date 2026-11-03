@@ -219,6 +219,9 @@ __marimo__/
 
 # tt-wizard
 .env
+# 서명 키 파일은 어디에 두든 올리지 않는다(업로드 키는 저장소 밖에 두고 비밀값으로만. docs/app.md '출시 빌드 (서명한 AAB)')
+*.jks
+*.keystore
 data/raw/latest.xls
 data/raw/latest.xlsx
 data/raw/campusmap/

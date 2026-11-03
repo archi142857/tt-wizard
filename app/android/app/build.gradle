@@ -7,8 +7,9 @@ android {
         applicationId "com.ttwizard.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        // 판: 웹 화면의 APP_VERSION(web/js/app.js)과 같게. 스토어에 올릴 때마다 versionCode 를 1씩 올린다
-        versionCode 1
+        // 판: 웹 화면의 APP_VERSION(web/js/app.js)과 같게. versionCode 는 출시 빌드(.github/workflows/release.yml)가 TTW_VERSION_CODE 로 준다
+        // (그 워크플로 실행 번호 + 100: Play 에 올릴 때마다 커져야 한다). 그 밖(디버그 APK·PC 빌드)은 1
+        versionCode((System.getenv("TTW_VERSION_CODE") ?: "1") as Integer)
         versionName "0.9.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {

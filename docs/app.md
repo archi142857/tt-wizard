@@ -52,6 +52,35 @@ app/
   (설치할 때 '출처를 알 수 없는 앱' 허용을 묻는다). 14일 동안 받을 수 있다.
 - iOS: 시뮬레이터용으로 서명 없이 빌드해 컴파일만 확인한다. 아이폰에 설치하거나 TestFlight 에 올리려면 Apple 개발자 계정과 서명이 필요하다.
 
+### 출시 빌드 (서명한 AAB, update86)
+
+Play 에 올리는 파일은 업로드 키로 서명한 AAB 다. `release` 워크플로(`.github/workflows/release.yml`, Actions 화면 → release → Run workflow)가 만든다.
+서명은 '이 앱을 누가 만들었고 그 뒤로 바뀌지 않았다'는 도장이다. 폰은 같은 키로 서명한 판만 업데이트로 깔고, Play 는 올린 파일이 개발자의 업로드 키로
+서명됐는지 본다(Play 앱 서명: 사용자 폰에 가는 앱은 Google 이 보관하는 앱 서명 키로 다시 서명한다). 처음 한 번만 1·2 를 한다.
+
+1. **업로드 키 만들기**(사용자, PC 에서 한 번). 저장소 폴더 밖(예: `문서\TT Wizard 서명\`)에서 cmd 로:
+   ```
+   "C:\Program Files\Android\Android Studio\jbr\bin\keytool.exe" -genkeypair -v -keystore upload-key.jks -storetype PKCS12 -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+   ```
+   (Android Studio 가 없으면 JDK 의 `keytool`.) 비밀번호를 두 번 묻고, 이름·조직 같은 칸은 채우거나 비워 두고 마지막에 `y`. PKCS12 라 키 비밀번호도 같은 것이다.
+   키 파일과 비밀번호는 따로 백업한다(USB·비밀번호 관리자). 잃어버리면 Play Console 에서 업로드 키 재설정을 요청해야 한다(며칠 걸린다).
+   저장소에는 올리지 않는다(`.gitignore` 의 `*.jks`). 백엔드(Claude)는 키 파일·비밀번호를 받지도 넣지도 않는다.
+2. **저장소 비밀값 넷**(사용자): GitHub 저장소 → Settings → Secrets and variables → Actions → New repository secret.
+   - `TTW_KEYSTORE_BASE64`: 키 파일이 있는 폴더의 PowerShell 에서 `[Convert]::ToBase64String([IO.File]::ReadAllBytes("$PWD\upload-key.jks")) | Set-Clipboard` 한 뒤 붙여 넣는다
+     (한 줄 글이어야 한다. `certutil -encode` 는 머리·꼬리 줄이 붙어 안 된다)
+   - `TTW_KEYSTORE_PASSWORD`, `TTW_KEY_PASSWORD`: 1의 비밀번호(둘 다 같은 것), `TTW_KEY_ALIAS`: `upload`
+   비밀값은 넣은 뒤 아무도(저장소 주인도) 다시 볼 수 없고 Actions 가 돌 때만 읽는다. 워크플로는 그것을 단계의 환경 변수로만 넘기고 로그에 찍지 않는다.
+3. **빌드**: Actions → release → Run workflow. 끝나면 실행 화면 아래 **Artifacts > tt-wizard-android-release**(압축 안에 `app-release.aab`, 14일).
+   요약(Summary)에 versionCode·versionName, 서명 확인, 업로드 인증서 지문(SHA-256)이 적힌다. 비밀값이 없으면 첫 단계에서 어느 것이 없는지 알리고 멈춘다.
+4. **Play Console**: 테스트 → 비공개 테스트 → 새 버전 만들기 → AAB 를 올린다. 처음 올릴 때 Play 앱 서명(Google 이 앱 서명 키를 만들어 보관)을 쓴다(새 앱은 기본).
+   그 뒤 '앱 무결성' 화면에 앱 서명 키 인증서와 업로드 키 인증서(3의 지문과 같아야 한다)의 SHA-256 이 나온다.
+5. **링크로 앱 열기**: `archi142857.github.io` 저장소의 `.well-known/assetlinks.json` 에 앱 서명 키 SHA-256(Play 로 깐 앱). 직접 깐 출시 빌드도 열리게 하려면 업로드 키 SHA-256 도
+   (위 '시간표 링크로 앱 열기').
+
+- versionCode = release 실행 번호 + 100(Play 는 올릴 때마다 커져야 한다. 올리지 않은 실행이 번호를 건너뛰어도 된다). 디버그·PC 빌드는 1. versionName 은 아래 '판'.
+- 디버그 APK(app 워크플로)는 안드로이드 기본 디버그 키로 서명돼 Play 에 올릴 수 없고, Play 로 받은 앱과 서명이 달라 서로 덮어 깔리지 않는다.
+  비공개 테스트 앱을 깔기 전에 디버그 앱을 지워야 하고, 그러면 그 앱에 저장한 시간표가 없어진다(링크로 공유나 이미지로 저장해 두었다가 새 앱에 넣는다).
+
 ### PC (Windows, 안드로이드)
 
 Android Studio Otter(2025.2.1) 이상을 깐다(JDK 21 이 함께 온다). Node 22 이상.
@@ -379,12 +408,12 @@ iOS 위젯(WidgetKit)은 iOS 를 낼 때 붙인다(App Group 을 쓰면 개인�
   `v0.8.0-alpha`(10/23, a3a1a9a): 테마 탭·시간표 이미지·폰 과목 추가 시트. 사용자가 태그만 붙여서 그 커밋의 판 숫자는 0.7.0 이다(고치지 않고 그대로 둔다).
   0.9.0(10/30, 사용자 "이번에 위젯 들어갔으니까 0.9.0"): 안드로이드 홈 화면 위젯 셋, 시간표 링크로 앱 열기·링크 공유, 모든 기기 사진 저장, 테마 기본·라이트·다크, 학기 묶음 시간표 목록.
   여기서부터 판 숫자와 태그가 맞는다(이 판을 올린 커밋에 `v0.9.0-alpha`).
-- 스토어에 올릴 때마다 안드로이드 `versionCode`, iOS `CURRENT_PROJECT_VERSION` 을 1씩 올린다.
+- 안드로이드 `versionCode` 는 release 워크플로가 실행 번호 + 100 으로 넣는다(손으로 올리지 않는다, update86). iOS `CURRENT_PROJECT_VERSION` 은 iOS 를 낼 때 올릴 때마다 1씩.
 
 ## 아직 안 한 것 (출시 전에)
 
-1. 서명: 안드로이드 업로드 키(keystore)를 만들어 저장소 비밀값으로 넣고(`TTW_KEYSTORE_FILE`·`TTW_KEYSTORE_PASSWORD`·`TTW_KEY_ALIAS`·`TTW_KEY_PASSWORD`,
-   `build.gradle` 이 읽는다) Actions 에 서명한 AAB(`bundleRelease`) 단계를 더한다. iOS 는 Apple 개발자 계정의 인증서·프로비저닝(또는 Mac 의 Xcode 자동 서명).
+1. 서명: 안드로이드는 update86 의 release 워크플로(위 '출시 빌드 (서명한 AAB)'). 사용자가 업로드 키를 만들어 저장소 비밀값 넷을 넣으면 된다.
+   iOS 는 Apple 개발자 계정의 인증서·프로비저닝(또는 Mac 의 Xcode 자동 서명).
 2. 앱에서만 되는 쓸모(심사 4.2·Play 최소 기능): 시간표 저장(10/22)과 시간표 이미지 저장·보내기(10/23, 10/30 iOS·모든 안드로이드), 시간표 링크로 앱 열기,
    안드로이드 홈 화면 위젯 셋(10/30)이 들어갔다. iOS 위젯은 iOS 를 낼 때.
    링크로 앱이 바로 열리려면 사용자 사이트 저장소에 확인 파일을 올려야 한다(위 '시간표 링크로 앱 열기').

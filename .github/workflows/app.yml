@@ -1,7 +1,7 @@
 # 스토어 앱(Capacitor, app/) 빌드 확인. 방법은 docs/app.md.
 # - 안드로이드: 디버그 APK 를 만들어 올린다(Actions 실행 화면 아래 Artifacts 에서 받아 안드로이드 폰에 설치해 볼 수 있다)
 # - iOS: 시뮬레이터용으로 서명 없이 빌드해 컴파일이 되는지만 본다(기기 설치·TestFlight 는 Apple 개발자 계정과 서명 키가 있어야 한다)
-# 출시용(서명한 AAB·IPA)은 서명 키를 저장소 비밀값으로 넣은 뒤 더한다.
+# 출시용 안드로이드 AAB(업로드 키로 서명)는 release 워크플로(.github/workflows/release.yml, 손으로 돌린다). iOS 출시(IPA)는 아직 없다.
 # web/ 화면이나 app/ 이 바뀌어 main 에 올라갈 때, 그리고 Actions 화면에서 손으로(Run workflow) 돌린다.
 
 name: app
