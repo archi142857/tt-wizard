@@ -1392,14 +1392,44 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 .tt-row:active, .menu-row:active { background: var(--surface-hover); }
 /* 목록 아래 오류 줄(50개, 이미지를 못 불러왔다): t-body-sm danger. .sheet-body > p(본문 글, text2 16px)보다 세게 */
 .sheet-body > .sheet-list + .error-line { margin: var(--space-1) 0 var(--space-3); font-size: 0.875rem; line-height: 1.25rem; color: var(--danger); }
-/* 공유 시트(링크로 공유 · 이미지로 공유): 아이콘(24, text2)과 이름(t-body text) */
-.share-list .menu-row { gap: var(--space-3); }
-.share-list .menu-row svg { flex-shrink: 0; color: var(--text2); }
-/* 링크 고지(디자인 94판, 10/30 법무 권고): 링크로 공유 단추 안 둘째 줄 `링크가 있는 사람은 누구나 볼 수 있어요`, 다른 고지와 같은 t-caption text3. 그 행은 높이 64(위아래 space-2),
-   아이콘은 두 줄 가운데. 단추 이름은 '링크로 공유' 그대로이고 이 줄은 aria-describedby(받은 사람이 다시 보낸 링크도 열리니 '링크가 있는 사람') */
-.share-list .share-link { min-height: 4rem; padding-top: var(--space-2); padding-bottom: var(--space-2); }
-.share-link .share-txt { display: flex; flex-direction: column; min-width: 0; text-align: left; }
-.share-link .share-note { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
+/* 공유 카드(디자인 115판, bundle.css 그대로. 11/3 사용자가 구글 공유 창 캡처를 보내며 "공유 탭은 이런 형태로 바꿔줘. 카카오톡, 인스타(스토리, DM), 메세지 등등 넣어주고".
+   그 전의 두 행 '링크로 공유'·'이미지로 공유'(84판)는 고르는 칸으로 옮겼다): 위에서 아래로 고르는 칸 .share-kind(세그먼트 링크 | 이미지), 보내는 것 .share-what
+   (알약 칸 .share-field 와 그 아래 링크 고지 .share-note), 앱 단추 줄 .share-apps(동그라미 단추 .share-app, 다섯 칸 격자에 왼쪽부터).
+   .share-what 는 늘 링크일 때의 높이(알약 52 + 8 + 고지 18 = 78)를 차지한다: 이미지일 때는 알약을 그 가운데에 두어 고르는 동안 세그먼트와 단추 줄이 밀리지 않는다.
+   알약 칸·칸 안 단추·앱 동그라미는 radius-full, 바탕은 셋 다 inset(라이트·다크 bg, 크리스마스 옅은 초록)이고 칸 안의 단추만 raised */
+.share-kind { min-width: 0; margin: 0 0 var(--space-4); padding: 0; border: 0; }
+.share-what { display: flex; flex-direction: column; justify-content: center; min-height: 4.875rem; }
+.share-field { display: flex; align-items: center; gap: var(--space-3); min-height: 3.25rem; padding: 6px 6px 6px var(--space-5);
+  border-radius: var(--radius-full); background: var(--inset); }
+.share-field.is-image { padding-left: var(--space-3); } /* 썸네일이 앞: 알약 둥근 끝 안쪽 12 */
+.share-field .v { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
+.share-field .v[dir="ltr"] { text-align: left; }
+.share-thumb { flex: none; display: block; width: 23px; height: 40px; border-radius: var(--radius-2xs); box-shadow: 0 0 0 1px var(--line); object-fit: cover; }
+/* 칸 안의 단추(링크 복사, 이미지로 저장): 보이는 높이 40, 누르는 영역 48(::before. 칸 위아래 여백 6 안에 든다), raised 바탕에 accent-text t-body-sm-strong, 아이콘 20 */
+.share-act { position: relative; flex: none; display: inline-flex; align-items: center; gap: 6px; height: 2.5rem; padding: 0 var(--space-4) 0 var(--space-3);
+  border: 0; border-radius: var(--radius-full); background: var(--raised); color: var(--accent-text); box-shadow: var(--shadow-sm);
+  font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; white-space: nowrap; }
+.share-act svg { flex: none; width: 20px; height: 20px; }
+.share-act::before { content: ""; position: absolute; top: 50%; left: 0; right: 0; height: var(--touch); transform: translateY(-50%); }
+.share-act:active { box-shadow: var(--shadow-press), var(--shadow-sm); }
+/* 링크 고지(94판, 10/30 법무 권고): 링크 칸 바로 아래, 칸의 글과 같은 왼쪽 20. 다른 고지와 같은 t-caption text3. 링크 라디오와 링크 복사의 aria-describedby */
+.share-what .share-note { margin: var(--space-2) 0 0; padding: 0 var(--space-5); font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
+/* 앱 단추 줄: 다섯 칸(폭 390 시트에서 칸 70, 360에서 64, 320에서 56). 단추는 칸 전체(동그라미 + 이름)이고 동그라미는 56(칸이 좁으면 칸 − 8),
+   inset 바탕 가운데에 폰이 주는 앱 아이콘 36(img. 모양·색을 바꾸거나 동그라미로 자르지 않는다) 또는 우리 아이콘 24(text2).
+   동그라미 아래 6에 이름 .nm(t-caption text2, 한 줄, 넘치면 …): 앱은 기기가 알려 주는 이름 그대로(법무 11/3), 인스타그램 둘만 그 아래에 .sub 스토리·DM(text3).
+   누르거나 올리면 동그라미가 inset 을 text 쪽으로 6%(시간표 목록의 칠한 행과 같다), 키보드 초점 테두리는 동그라미에 */
+.share-apps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: var(--space-5) 0 0; padding: 0; list-style: none; }
+.share-apps > li { display: flex; min-width: 0; }
+.share-app { display: flex; flex-direction: column; align-items: center; width: 100%; min-width: 0; padding: 0 0 2px; border: 0; background: transparent;
+  color: var(--text2); font-size: 0.8125rem; line-height: 1.125rem; text-align: center; }
+.share-app .ic { display: grid; place-items: center; width: min(3.5rem, 100% - 8px); aspect-ratio: 1; margin-bottom: 6px; border-radius: 50%; background: var(--inset); }
+.share-app .ic img { display: block; width: 2.25rem; height: 2.25rem; }
+.share-app .ic svg { width: 24px; height: 24px; color: var(--text2); }
+.share-app .nm, .share-app .sub { max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.share-app .sub { color: var(--text3); }
+.share-app:active .ic { background: color-mix(in srgb, var(--inset), var(--text) 6%); }
+.share-app:focus-visible { outline: none; }
+.share-app:focus-visible .ic { outline: 2px solid var(--focus); outline-offset: 2px; }
 /* 공유받은 시간표(웹에서 연 시간표 링크): 시간표 이미지처럼 격자(카드 바탕 없이 시트 바탕 위), 교과구분별이면 색 풀이, 시간 미정 줄.
    '내 시간표에 넣기'는 시트 아래 끝에 붙여 격자가 길어도 늘 보인다(안전 영역은 그 줄이 맡는다) */
 dialog.sheet.shared-sheet { padding-bottom: 0; }
@@ -1635,6 +1665,8 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
   .tl-sem-head:hover { background: var(--tl-head-press); }
   .tl-tts .is-primary .tt-row:hover, .tl-tts .is-primary .tl-more:hover { background: var(--tl-row-press); }
   .tl-tts .tl-more:hover { color: var(--text2); }
+  .share-act:hover { box-shadow: var(--shadow-press), var(--shadow-sm); }
+  .share-app:hover .ic { background: color-mix(in srgb, var(--inset), var(--text) 6%); }
   .tt-switch:hover, .add-head .icon-btn:hover, .tt-share:hover { background: var(--bg-hover); }
   .topbar .icon-btn:hover, .topbar .btn-text:hover, .bottom-bar .btn-text:hover, .picked-error .btn-text:hover, .ranks-more .btn-text:hover, .footnote .btn-text:hover { background: var(--bg-hover); }
   .result.is-picked:hover { background: var(--row-picked); } /* 담은 행은 어두운 그대로, 버튼만 빨갛게(빼기) */
@@ -1661,7 +1693,8 @@ html[data-scheme="dark"]:not([data-theme]) dialog.sheet::backdrop { background: 
 
 /* ---------------------------------------------------------------- 고대비(강제 색) */
 @media (forced-colors: active) {
-  .btn-primary, .btn-add, .btn-save, .btn-text, .tag, .daytabs button, .seg label, .days label, .snackbar, .banner, .searchbox, .chip, .term-select, .browse-select, .tt-late { border: 1px solid CanvasText; }
+  .btn-primary, .btn-add, .btn-save, .btn-text, .tag, .daytabs button, .seg label, .days label, .snackbar, .banner, .searchbox, .chip, .term-select, .browse-select, .tt-late,
+  .share-field, .share-act, .share-app .ic { border: 1px solid CanvasText; } /* 공유 카드의 알약 칸·칸 안 단추·앱 동그라미도 바탕 대신 테두리 */
   /* 강제 색에서는 바탕과 면이 같은 기기 색이 되고 그림자와 그라데이션(주소가 아닌 background-image)이 사라진다. 면의 가장자리와 선을 테두리로 그린다(10/5 디자인).
      카드와 시트는 평소에 테두리가 없어서 여기서만 1px 생긴다 */
   .card, dialog.sheet { border: 1px solid CanvasText; }

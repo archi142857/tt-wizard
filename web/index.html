@@ -434,18 +434,37 @@
 </dialog>
 
 <!-- 내 시간표: 공유(머리 줄 오른쪽 공유 버튼. 10/23 사용자: "공유 옵션은 링크로 공유, 이미지로 공유 두 가지").
-     링크: 받은 사람이 앱이 있으면 앱이 열려 바로 넣고, 없으면 웹이 그 시간표를 보여 주고 넣는 버튼을 둔다(아래 #shared-sheet). 이미지: 시간표 자료를 넣은 PNG -->
+     링크: 받은 사람이 앱이 있으면 앱이 열려 바로 넣고, 없으면 웹이 그 시간표를 보여 주고 넣는 버튼을 둔다(아래 #shared-sheet). 이미지: 시간표 자료를 넣은 PNG.
+     공유 카드(디자인 115판. 11/3 사용자가 구글 공유 창 캡처를 보내며 "공유 탭은 이런 형태로 바꿔줘. 카카오톡, 인스타(스토리, DM), 메세지 등등 넣어주고"):
+     위에서 아래로 고르는 칸(링크 | 이미지), 보내는 것(늘 78 높이: 링크 칸과 고지, 또는 그 가운데의 이미지 칸), 앱 단추 줄(app.js 가 채운다: 안드로이드 앱은 깔린 앱,
+     웹·iOS 는 메시지·더 보기. 남의 앱 아이콘·이름은 기기가 준 그대로이고 우리가 그리지 않는다, 법무 11/3) -->
 <dialog class="sheet" id="share-sheet" aria-labelledby="sh-title">
   <div class="sheet-head">
     <div class="h"><h2 class="sheet-title" id="sh-title">공유</h2><p class="sheet-meta" id="sh-meta"></p></div>
     <button type="button" class="btn-text" data-close>닫기</button>
   </div>
   <div class="sheet-body">
-    <ul class="sheet-list share-list">
-      <!-- 링크로 공유 단추 안 둘째 줄(10/30 법무: 주소에 시간표가 그대로 들어가 링크가 있는 사람 누구나 볼 수 있다는 것을 공유하기 전에 알린다. 문구·자리는 디자인 94판) -->
-      <li><button type="button" class="menu-row share-link" data-share="link" aria-label="링크로 공유" aria-describedby="sh-link-note"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 14.5l5-5"></path><path d="M11 6.5l1.4-1.4a4 4 0 0 1 5.6 5.6l-1.4 1.4"></path><path d="M13 17.5l-1.4 1.4a4 4 0 0 1-5.6-5.6l1.4-1.4"></path></svg><span class="share-txt"><span>링크로 공유</span><span class="share-note" id="sh-link-note">링크가 있는 사람은 누구나 볼 수 있어요</span></span></button></li>
-      <li><button type="button" class="menu-row" data-share="image"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"></rect><circle cx="9" cy="9.8" r="1.6"></circle><path d="M20.5 15.5l-4.6-4.6-9.4 8.6"></path></svg>이미지로 공유</button></li>
-    </ul>
+    <fieldset class="share-kind">
+      <legend class="sr-only">공유 방식</legend>
+      <div class="seg" id="sh-kind">
+        <label><input type="radio" name="share-kind" value="link" checked aria-describedby="sh-link-note">링크</label>
+        <label><input type="radio" name="share-kind" value="image">이미지</label>
+      </div>
+    </fieldset>
+    <div class="share-what">
+      <div class="share-field" id="sh-link-field">
+        <span class="v" id="sh-url" dir="ltr" aria-hidden="true"></span>
+        <button type="button" class="share-act" data-share="copy" aria-describedby="sh-link-note"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="12" height="12" rx="2.5"></rect><path d="M15.5 8.5V6A2.5 2.5 0 0 0 13 3.5H6A2.5 2.5 0 0 0 3.5 6v7A2.5 2.5 0 0 0 6 15.5h2.5"></path></svg>링크 복사</button>
+      </div>
+      <!-- 링크 고지(10/30 법무 권고: 주소에 시간표가 그대로 들어가 링크가 있는 사람 누구나 볼 수 있다는 것을 공유하기 전에 알린다. 94판 문구, 115판에 링크 칸 곁으로) -->
+      <p class="share-note" id="sh-link-note">링크가 있는 사람은 누구나 볼 수 있어요</p>
+      <div class="share-field is-image" id="sh-image-field" hidden>
+        <img class="share-thumb" id="sh-thumb" alt="" width="23" height="40">
+        <span class="v" id="sh-file"></span>
+        <button type="button" class="share-act" data-share="save"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5v11"></path><path d="M7.5 10l4.5 4.5 4.5-4.5"></path><path d="M4.5 15.5v2A2.5 2.5 0 0 0 7 20h10a2.5 2.5 0 0 0 2.5-2.5v-2"></path></svg>이미지로 저장</button>
+      </div>
+    </div>
+    <ul class="share-apps" id="sh-apps" aria-label="공유할 앱" hidden></ul>
   </div>
   <div class="sr-only" role="status" data-live="status"></div>
   <div class="sr-only" role="alert" data-live="alert"></div>

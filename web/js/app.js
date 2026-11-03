@@ -102,6 +102,7 @@ const I = {
   out: '<path d="M8 16L16 8M9.5 8H16v6.5"/>',
   down: '<path d="M6 9l6 6 6-6"/>',
   more: '<path d="M5.5 12h.01M12 12h.01M18.5 12h.01" stroke-width="3.2"/>',
+  msg: '<path d="M20.5 11.5c0 4.1-3.8 7.4-8.5 7.4-1.2 0-2.3-.2-3.3-.6L4 19.5l1.2-3.6c-1.1-1.2-1.7-2.8-1.7-4.4 0-4.1 3.8-7.4 8.5-7.4s8.5 3.3 8.5 7.4z"/>', // 말풍선(공유 카드의 메시지: 웹·iOS)
   edit: '<path d="M4.5 19.5l.9-4.1L15.7 5.1a2 2 0 0 1 2.8 0l.4.4a2 2 0 0 1 0 2.8L8.6 18.6z"/><path d="M13.6 7.2l3.2 3.2"/>', // 연필(시간표 목록 시트의 이름 입력칸. 누르는 것이 아니라 고칠 수 있다는 표시)
 };
 const icon = (paths, size = 24) => svg(`<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`);
@@ -4053,7 +4054,7 @@ ttOpts.addEventListener("close", () => {
 });
 
 // ---------------------------------------------------------------- 시간표 이미지(디자인 75판 '시간표 이미지', 컴포넌트 TimetableImage. 10/23 사용자: "시간표 이미지로 내보내는
-// 기능도 만들어 줘", "그 이미지에 … 시간표 정보를 지문처럼 … 파일 자체에"). 목록 시트 ⋯ 의 이미지로 저장, 머리 줄 공유의 이미지로 공유,
+// 기능도 만들어 줘", "그 이미지에 … 시간표 정보를 지문처럼 … 파일 자체에"). 목록 시트 ⋯ 의 이미지로 저장, 머리 줄 공유(공유 카드의 이미지),
 // 항목 목록 맨 아래 이미지로 추가(10/23 저녁 사용자가 '이미지 보내기'·'이미지 불러오기'를 옮겼다).
 // 자료는 그림에 보이지 않고 PNG 파일 안의 글 조각(iTXt)에 들어간다(백엔드 timetables.js 의 addTimetableToPng·readTimetableImage·timetableFromImage. 메모는 빠진다).
 // 그림(디자인 79판, 10/23 저녁 사용자: "비율 이상함 … 어느 플랫폼에서나 항상 같은 이미지", "디자인 형태는 지금 괜찮음 … 비율이랑 글자 크기만 잘 조절해봐", 비율은 "9:16"):
@@ -4336,7 +4337,7 @@ function paintText(g, node) {
   }
   for (const q of shown) g.fillText(q.ch, q.x, q.top + ascent);
 }
-/** 이미지로 저장(목록 시트 ⋯)·이미지로 공유(공유 시트). 앱: 사진에 저장(스낵바 '사진에 저장했어요'. 스낵바가 보이게 시트는 닫는다)·공유 시트.
+/** 이미지로 저장(목록 시트 ⋯, 공유 카드의 이미지 칸)·이미지 공유(공유 카드의 더 보기, 앱 단추를 바로 못 보낼 때). 앱: 사진에 저장(스낵바 '사진에 저장했어요'. 스낵바가 보이게 시트는 닫는다)·공유 시트.
  *  저장하지 못하면(디자인 79판, 앱 연결과 맞춘 꼴은 saveFailed) 시트를 닫고 스낵바, 앱 연결이 못 한다고 하면(UNSUPPORTED: 옛 앱 연결) 공유 시트로.
  *  웹: 파일로 내려받기(브라우저가 알린다)·공유 시트(navigator.share. 파일을 못 보내는 브라우저는 내려받기). 공유를 마치면(앱은 공유 시트를 띄우면)
  *  누른 시트(sheet)를 닫는다. 기기의 공유 시트를 그냥 닫았으면 그대로 둔다 */
@@ -4457,8 +4458,9 @@ $("tt-file").addEventListener("change", async () => {
 
 // ---------------------------------------------------------------- 공유(10/23 저녁 사용자: "오른쪽 위에 공유(그 삼각형 느낌 일반적인 공유 버튼) 버튼 만들어서 누르면 카톡, 인스타
 // 등등으로 공유할 수 있는 기능", "공유 옵션은 링크로 공유, 이미지로 공유 두 가지 기능", "링크로 공유 했을 때 어플이 있으면 어플 켜서 시간표 추가, 어플 없으면 웹으로
-// 시간표 띄우는 기능"). 머리 줄 오른쪽 공유 버튼 → 공유 시트(링크로 공유 · 이미지로 공유). 링크는 기기의 공유 시트(웹 navigator.share, 앱 TTW_APP.shareLink),
-// 못 쓰면 복사하고 스낵바 '링크를 복사했어요'. 받는 쪽: 앱은 바로 넣고(앱 연결이 열린 주소를 알려 준다), 웹은 '공유받은 시간표' 시트로 보여 주고 '내 시간표에 넣기'.
+// 시간표 띄우는 기능"). 머리 줄 오른쪽 공유 버튼 → 공유 시트. 11/3 부터 공유 카드(아래 openShare): 링크 | 이미지를 고르고 링크 복사·이미지로 저장, 앱 단추
+// (안드로이드 앱은 카카오톡·인스타그램·메시지에 바로, 웹·iOS 는 메시지·더 보기). 받는 쪽: 앱은 바로 넣고(앱 연결이 열린 주소를 알려 준다), 웹은 '공유받은 시간표' 시트로
+// 보여 주고 '내 시간표에 넣기'.
 //
 // 시간표 링크: <웹 앱 주소>#t=<글>. '#' 뒤는 서버로 가지 않는다(웹 서버 기록·링크 미리 보기를 만드는 메신저 서버에 시간표가 가지 않는다).
 // 글: 'z' + base64url(deflate-raw(JSON)), 압축을 못 하는 브라우저는 'j' + base64url(JSON).
@@ -4569,40 +4571,178 @@ async function linkToPayload(link) {
   return { app: "ttwizard", v: T.IMAGE_VERSION, sem: link.sem, title: link.title, items };
 }
 
+// 공유 카드(디자인 115판. 11/3 사용자가 구글 공유 창 캡처를 보내며 "공유 탭은 이런 형태로 바꿔줘. 카카오톡, 인스타(스토리, DM), 메세지 등등 넣어주고"):
+// 고르는 칸 링크 | 이미지(이 기기에 둔다, 처음은 링크) → 보내는 것(링크 칸과 링크 복사·고지, 또는 썸네일·파일 이름과 이미지로 저장) → 앱 단추 줄.
+// 앱 단추: 안드로이드 앱은 앱 연결 update80 의 TTW_APP.shareTargets() 가운데 고른 것을 받는 앱(카카오톡 · 인스타그램 스토리 · 인스타그램 DM · 메시지 차례)을
+// TTW_APP.shareTo 로 그 앱의 받는 화면에 바로 보낸다. 아이콘·이름은 기기가 준 그대로다(11/3 법무: 모양·색을 바꾸지 않고 로고를 그리지 않는다).
+// 웹·iOS 앱은 카카오톡·인스타그램 단추가 없고(SDK·앱 등록이 있어야 한다) 메시지(폰의 링크만, sms:)와 더 보기(기기 공유 창)
 let shareTt = null, shareUrl = null; // 공유 시트를 연 시간표, 그 링크(Promise. 열 때 만들어 둔다: 웹의 공유는 누른 바로 그때만 된다)
+let shareThumb = ""; // 이미지 칸 썸네일의 blob 주소(다시 열 때 놓는다)
+let shareTargets = null; // 안드로이드 앱: 바로 보낼 수 있는 앱(shareTargets() 의 지난 답. 시트를 열 때마다 다시 묻는다)
+const SHARE_KIND = "shareKind"; // 고른 공유 방식(이 기기에 둔다)
+const shareKind = () => (document.querySelector('input[name="share-kind"]:checked')?.value === "image" ? "image" : "link");
+const SHARE_SUB = { "instagram-story": "스토리", "instagram-dm": "DM" }; // 인스타그램 둘은 아이콘·이름이 같아 둘째 줄(사용자의 말)
+const SHARE_NAME = { kakao: "카카오톡", "instagram-story": "Instagram", "instagram-dm": "Instagram", sms: "메시지" }; // 기기가 이름을 주지 않았을 때만
 function openShare(opener) {
   const t = curTt();
   if (!t.items.length) return;
   shareTt = t;
   shareUrl = linkCode(t).then((code) => `${linkBase()}#t=${code}`);
   shareUrl.catch(() => null);
-  preparedImage(t).catch(() => null); // 이미지도 미리 그려 둔다
+  const png = preparedImage(t); // 이미지도 미리 그려 둔다
+  png.catch(() => null);
   $("sh-meta").textContent = `${semesterLabel(t.sem)} · ${t.title}`;
+  const kind = store.get(SHARE_KIND, "link") === "image" ? "image" : "link";
+  for (const r of document.querySelectorAll('input[name="share-kind"]')) r.checked = r.value === kind;
+  $("sh-url").textContent = ""; // 링크를 만들지 못하면 비어 있다
+  shareUrl.then((url) => { if (shareTt === t) $("sh-url").textContent = url.replace(/^https:\/\//, ""); }, () => null);
+  $("sh-file").textContent = imageFile(t);
+  $("sh-image-field").querySelector('[data-share="save"]').hidden = !canSaveImage(); // 사진에 저장하지 못하는 앱에는 없다
+  setShareThumb(null);
+  png.then((bytes) => { if (shareTt === t && bytes) setShareThumb(bytes); }, () => null);
+  renderShareKind();
   openSheet($("share-sheet"), opener);
+  refreshShareTargets();
 }
+function setShareThumb(bytes) {
+  if (shareThumb) URL.revokeObjectURL(shareThumb);
+  shareThumb = bytes ? URL.createObjectURL(new Blob([bytes], { type: "image/png" })) : "";
+  if (shareThumb) $("sh-thumb").src = shareThumb; else $("sh-thumb").removeAttribute("src");
+}
+/** 링크 | 이미지: 보내는 것의 칸(늘 78 높이라 바꿔도 단추 줄이 움직이지 않는다)과 앱 단추 */
+function renderShareKind() {
+  const link = shareKind() === "link";
+  $("sh-link-field").hidden = $("sh-link-note").hidden = !link;
+  $("sh-image-field").hidden = link;
+  renderShareApps();
+}
+$("sh-kind").addEventListener("change", () => { store.set(SHARE_KIND, shareKind()); renderShareKind(); });
+/** 문자 앱에 링크를 넣어 여는 '메시지'(sms:): 폰 브라우저(디자인 115판. 태블릿·컴퓨터는 더 보기만)와 iOS 앱. 안드로이드 앱은 shareTargets 의 sms 가 맡는다 */
+const smsOk = () => SHELL === "ios" || (!IN_APP && /iPhone|iPod|Android.+Mobile/.test(navigator.userAgent));
+/** 기기 공유 창(더 보기): 앱은 앱 연결의 shareLink·shareImage, 웹은 navigator.share(이미지는 파일을 받을 때). 없으면 그 단추가 없다 */
+function moreOk(link) {
+  const app = IN_APP && window.TTW_APP;
+  if (app) return link ? typeof app.shareLink === "function" : appShares();
+  if (!navigator.share) return false;
+  if (link) return true;
+  try { return !!navigator.canShare && navigator.canShare({ files: [new File([new Uint8Array(1)], "a.png", { type: "image/png" })] }); } catch { return false; }
+}
+/** 앱 단추 줄(다섯 칸 격자에 왼쪽부터, 맨 끝은 더 보기). 안드로이드 앱은 깔린 앱 가운데 고른 것을 받는 것(스토리는 링크일 때도 둔다: 이미지를 보낸다),
+ *  웹·iOS 는 메시지(링크일 때)·더 보기. 단추가 없으면 줄을 두지 않는다(링크 복사·이미지로 저장만) */
+function renderShareApps() {
+  const list = $("sh-apps"), link = shareKind() === "link", app = IN_APP && window.TTW_APP;
+  const had = list.contains(document.activeElement) ? document.activeElement : null; // 다시 그려도 초점은 같은 단추에
+  const ours = (k, path, name) => h("button", { type: "button", class: "share-app", "data-share": k }, h("span", { class: "ic" }, icon(path, 24)), h("span", { class: "nm" }, name));
+  const rows = [];
+  for (const g of app && typeof app.shareTo === "function" ? shareTargets || [] : []) {
+    if (!(link ? g.text || g.id === "instagram-story" : g.image)) continue;
+    const name = g.app || SHARE_NAME[g.id] || g.id, sub = SHARE_SUB[g.id] || "";
+    rows.push(h("button", { type: "button", class: "share-app", "data-target": g.id, "aria-label": sub ? `${name} ${sub}` : null },
+      h("span", { class: "ic" }, g.icon ? h("img", { src: g.icon, alt: "", width: "36", height: "36" }) : null),
+      h("span", { class: "nm" }, name), sub ? h("span", { class: "sub" }, sub) : null));
+  }
+  if (link && smsOk()) rows.push(ours("sms", I.msg, "메시지"));
+  if (moreOk(link)) rows.push(ours("more", I.more, "더 보기"));
+  list.replaceChildren(...rows.map((b) => h("li", {}, b)));
+  list.hidden = !rows.length;
+  if (had) (list.querySelector(had.dataset.target ? `[data-target="${CSS.escape(had.dataset.target)}"]` : `[data-share="${CSS.escape(had.dataset.share || "")}"]`) || $("share-sheet").querySelector("[data-close]")).focus({ preventScroll: true });
+}
+/** 안드로이드 앱: 바로 보낼 수 있는 앱을 다시 묻는다(켤 때 조금 뒤와 시트를 열 때. 지난 답으로 먼저 그리고 달라졌으면 다시 그린다). 기기 안에서만 본다(법무 11/3) */
+function refreshShareTargets() {
+  const app = IN_APP && window.TTW_APP;
+  if (!app || typeof app.shareTargets !== "function") return;
+  Promise.resolve().then(() => app.shareTargets()).then((got) => {
+    const next = Array.isArray(got) ? got : [];
+    const same = JSON.stringify(next) === JSON.stringify(shareTargets);
+    shareTargets = next;
+    if (!same && $("share-sheet").open) renderShareApps();
+  }, () => null);
+}
+if (IN_APP) setTimeout(refreshShareTargets, 3000); // 처음 여는 시트도 단추가 한 번에 그려지게
 $("share-sheet").addEventListener("click", (e) => {
-  const b = e.target.closest("[data-share]");
+  const b = e.target.closest("[data-share], [data-target]");
   if (!b || !shareTt) return;
-  if (b.dataset.share === "link") shareByLink(shareTt);
-  else imageAct("share-image", shareTt, $("share-sheet"));
+  if (b.dataset.target) shareToApp(b.dataset.target);
+  else if (b.dataset.share === "copy") copyShareLink();
+  else if (b.dataset.share === "save") imageAct("save-image", shareTt, $("share-sheet")); // 목록 ⋯ 의 이미지로 저장과 같다
+  else if (b.dataset.share === "sms") smsShare();
+  else if (b.dataset.share === "more") moreShare();
 });
-/** 링크로 공유: 앱은 앱 연결의 공유 시트(TTW_APP.shareLink. 아직 없는 앱은 웹과 같은 길), 웹은 기기의 공유 시트(navigator.share). 둘 다 못 쓰면(컴퓨터 브라우저 등)
- *  복사하고 시트를 닫은 뒤 스낵바 '링크를 복사했어요'. 공유 시트를 그냥 닫았으면 공유 시트는 그대로 둔다 */
-async function shareByLink(t) {
-  const sheet = $("share-sheet"), title = imageTitle(t);
+/** 만들어 둔 링크. 못 만들었으면 시트 안 알림 '링크를 만들지 못했어요' 하고 null */
+async function shareLinkNow() {
   let url = null;
   try { url = await shareUrl; } catch { url = null; }
-  if (!url) { announce("링크를 만들지 못했어요", "alert"); return; }
+  if (!url) announce("링크를 만들지 못했어요", "alert");
+  return url;
+}
+/** 링크 복사: 복사하고 시트를 닫은 뒤 스낵바(못 하면 '링크를 복사하지 못했어요') */
+async function copyShareLink() {
+  const url = await shareLinkNow();
+  if (!url) return;
+  const ok = await copyText(url);
+  closeSheet($("share-sheet"));
+  showSnackbar(ok ? "링크를 복사했어요" : "링크를 복사하지 못했어요");
+}
+/** 메시지(웹·iOS): 문자 앱에 링크를 넣어 연다(받는 사람 없이). iOS·안드로이드가 다 여는 꼴 sms:?&body= */
+async function smsShare() {
+  const url = await shareLinkNow();
+  if (!url) return;
+  closeSheet($("share-sheet"));
+  location.href = `sms:?&body=${encodeURIComponent(url)}`;
+}
+/** 더 보기: 기기 공유 창에 제목과 링크, 또는 이미지 파일. 공유 창을 그냥 닫으면 시트는 그대로 */
+async function moreShare() {
+  const sheet = $("share-sheet"), t = shareTt;
+  if (shareKind() === "image") { imageAct("share-image", t, sheet); return; }
+  const url = await shareLinkNow();
+  if (url && await deviceShareLink(url, imageTitle(t))) closeSheet(sheet);
+}
+/** 링크를 기기 공유 창으로: 앱은 앱 연결(shareLink), 웹은 navigator.share. 보냈으면 true, 닫았거나 못 하면 false */
+async function deviceShareLink(url, title) {
   const app = IN_APP && window.TTW_APP;
   if (app && typeof app.shareLink === "function") {
-    try { await app.shareLink({ url, title }); closeSheet(sheet); return; } catch (e) { if (!e || e.code !== "UNSUPPORTED") return; }
+    try { await app.shareLink({ url, title }); return true; } catch (e) { if (!e || e.code !== "UNSUPPORTED") return false; }
   }
-  if (navigator.share) {
-    try { await navigator.share({ title, url }); closeSheet(sheet); return; } catch (e) { if (e && e.name === "AbortError") return; } // 그 밖의 실패는 복사로
+  if (!navigator.share) return false;
+  try { await navigator.share({ title, url }); return true; } catch { return false; }
+}
+/** 앱 단추(안드로이드 앱): 그 앱의 받는 화면에 칸의 링크(주소 그대로)나 이미지를 바로 보내고 시트를 닫는다. 스토리는 이미지만 받아 링크를 골랐어도 이미지를 보내고,
+ *  보내기 전에 링크를 복사해 둔다(링크 스티커에 붙일 수 있게. 앱으로 돌아오면 스낵바). 그 앱이 없어졌거나 받지 않으면(MISSING) 단추를 빼고,
+ *  바로 못 보내면(UNSUPPORTED·FAILED) 같은 것을 기기 공유 창으로 */
+async function shareToApp(id) {
+  const sheet = $("share-sheet"), t = shareTt, app = window.TTW_APP, link = shareKind() === "link", story = id === "instagram-story";
+  const asImage = !link || story;
+  const url = link ? await shareLinkNow() : null;
+  if (link && !url) return;
+  let bytes = null;
+  if (asImage) {
+    try { bytes = await preparedImage(t); } catch { bytes = null; }
+    if (!bytes) { announce("이미지를 만들지 못했어요", "alert"); return; }
   }
-  const ok = await copyText(url);
-  closeSheet(sheet);
-  showSnackbar(ok ? "링크를 복사했어요" : "링크를 복사하지 못했어요");
+  const copied = story && link ? await copyText(url) : null;
+  const note = copied === null ? null : copied ? "링크를 복사했어요" : "링크를 복사하지 못했어요";
+  try {
+    await app.shareTo(asImage ? { target: id, bytes, name: imageFile(t) } : { target: id, text: url });
+    closeSheet(sheet);
+    if (note) snackOnReturn(note);
+    return;
+  } catch (e) {
+    if (e && e.code === "MISSING") { // 지워졌거나 받지 않는다: 단추를 빼고 목록을 다시 묻는다
+      shareTargets = (shareTargets || []).filter((g) => g.id !== id);
+      renderShareApps();
+      refreshShareTargets();
+    }
+  }
+  if (asImage) { await imageAct("share-image", t, sheet); if (note && !sheet.open) snackOnReturn(note); return; }
+  if (await deviceShareLink(url, imageTitle(t))) closeSheet(sheet);
+}
+/** 다른 앱에 갔다가 돌아오면 띄울 스낵바(스토리: 링크를 복사해 두었다). 1.5초가 지나도 이 앱이 보이고 있으면(다른 앱으로 가지 않았다) 그때 띄운다 */
+function snackOnReturn(text) {
+  let timer = 0;
+  const done = () => { clearTimeout(timer); document.removeEventListener("visibilitychange", back); };
+  const back = () => { if (document.visibilityState !== "visible") return; done(); setTimeout(() => showSnackbar(text), 300); };
+  document.addEventListener("visibilitychange", back);
+  timer = setTimeout(() => { if (document.visibilityState === "visible") { done(); showSnackbar(text); } }, 1500);
 }
 /** 글을 클립보드에: Clipboard API, 안 되면(앱 웹뷰 등) 잠깐 둔 입력칸을 골라 복사. 모달 시트 밖은 inert 라 그 칸은 열린 시트 안에 둔다 */
 async function copyText(text) {
