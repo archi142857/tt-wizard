@@ -79,6 +79,18 @@ def read_travel(path: Path) -> dict[tuple[str, str], float]:
     return {(r["from"].strip(), r["to"].strip()): float(r["minutes"]) for r in read_rows(path)}
 
 
+# 캠퍼스맵이 몇 동을 '관악 223동[우석경제관]' 꼴로 적는다. 화면(지도의 건물 이름, 건물 고르기의 '223동 …')에는 대괄호 안만 쓴다(update85, 11/3
+# 사용자: 확대하면 건물 이름이 다 보이게 → 이름이 지도에 많이 나온다). 원본 목록(campus_buildings.csv 등)은 받은 그대로 둔다
+CAMPUS_NAME = re.compile(r"^관악\s*[0-9A-Za-z-]+동\s*\[(.+)\]$")
+
+
+def display_name(name: str) -> str:
+    """건물 이름 → 화면에 쓰는 이름: 끝의 괄호 덧말을 빼고, '관악 N동[이름]' 은 대괄호 안만"""
+    name = re.sub(r"\s*\(.*\)$", "", name.strip())
+    m = CAMPUS_NAME.match(name)
+    return m.group(1).strip() if m else name
+
+
 def export_campus(data: Path) -> dict:
     flat = read_travel(data / "travel.csv")
     slope = read_travel(data / "travel_slope.csv")
@@ -98,7 +110,7 @@ def export_campus(data: Path) -> dict:
     for path in ["dorm_buildings.csv"] + files[:-1]:
         for r in read_rows(data / path):
             if r.get("name"):
-                names.setdefault(r["building"].strip(), re.sub(r"\s*\(.*\)$", "", r["name"].strip()))
+                names.setdefault(r["building"].strip(), display_name(r["name"]))
     for path in reversed(files):  # 뒤에 읽는 쪽이 우선
         for r in read_rows(data / path):
             if r.get("lat") and r.get("lon"):

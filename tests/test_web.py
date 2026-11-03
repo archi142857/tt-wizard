@@ -45,6 +45,22 @@ def test_room_no():
     assert ew.room_no("220-1-201") == "201" and ew.room_no("083-302") == "302" and ew.room_no("") == ""
 
 
+def test_building_display_names():
+    """화면에 쓰는 건물 이름(update85): 캠퍼스맵의 '관악 223동[우석경제관]' 꼴은 대괄호 안만, 끝의 괄호 덧말은 뺀다. 지도의 건물 이름과
+    건물 고르기('223동 우석경제관')가 이 이름을 쓴다. 원본 목록은 그대로 둔다"""
+    assert ew.display_name("관악 223동[우석경제관]") == "우석경제관"
+    assert ew.display_name("관악 43-2동[데이터사이언스대학원 및 공과대학 강의동 2]") == "데이터사이언스대학원 및 공과대학 강의동 2"
+    assert ew.display_name(" 관악 300동[유회진 학술정보관] ") == "유회진 학술정보관"
+    assert ew.display_name("예술관(미대)1") == "예술관(미대)1" and ew.display_name("관악사후생관") == "관악사후생관"
+    assert ew.display_name("행정관(본부)") == "행정관"
+    campus = ew.export_campus(ROOT / "data")
+    names = {b: v[0] for b, v in campus["buildings"].items()}
+    assert names["223"] == "우석경제관" and names["56-1"] == "김철수물리관"
+    assert not [n for n in names.values() if re.match(r"^관악\s*\S+동\s*\[", n or "")]
+    raw = (ROOT / "data" / "campus_buildings.csv").read_text(encoding="utf-8-sig")
+    assert "관악 223동[우석경제관]" in raw  # 받은 목록은 그대로
+
+
 def test_export_web(tmp_path):
     courses, campus, out = _export(tmp_path)
     assert courses["courses"] and all(len(c) == 7 for c in courses["courses"])
