@@ -107,7 +107,7 @@ public final class WidgetCheck {
             }
             stubs.append("]");
         }
-        return "{\"buildings\":" + m.areas.get("building").size() + ",\"roads\":" + m.lines.get("road").size() + ",\"contours\":" + m.contours.size()
+        return "{\"buildings\":" + m.areas.get("building").size() + ",\"roads\":" + m.lines.get("road").size()
             + ",\"where\":" + m.where.size() + ",\"picks\":" + q(String.join("|", picks)) + ",\"lines\":" + p.lines.size() + ",\"back\":" + p.back
             + ",\"labels\":" + q(String.join("|", p.labels)) + ",\"spots\":" + spots + "]" + ",\"home\":[" + p.x(p.home[0]) + "," + p.y(p.home[1]) + "]"
             + ",\"zoom\":" + Math.log(p.scale / 640.0) / Math.log(2) + ",\"mpp\":" + p.metersPerPx
@@ -286,13 +286,13 @@ public final class WidgetCheck {
         out.append(",\"mixedLegs\":[").append(legs(WidgetData.legs(mixed, "H"))).append(",").append(legs(WidgetData.legs(mixed, "")))
             .append(",").append(legs(WidgetData.legs(mixed, "X"))).append("],\"mixedStops\":[").append(stops(WidgetData.stops(mixed, "H")))
             .append(",").append(stops(WidgetData.stops(mixed, "X"))).append("],\"mixedWalk\":").append(WidgetData.dayWalk(mixed));
-        // 자료 읽기: 작은 바탕·건물·길. 한쪽 방향 길은 거꾸로, 없는 길은 곧게, 자리도 모르면 null
+        // 자료 읽기: 작은 바탕·건물·길. 한쪽 방향 길은 거꾸로, 없는 길은 곧게, 자리도 모르면 null. 옛 등고선 칸(contour)은 읽지 않고 넘어간다(update88)
         RouteMap tiny = RouteMap.parse("{\"area\":{\"building\":[[5,\"_p~iF~ps|U_ulL~ugC\"]]},\"line\":{\"road\":[[\"service\",\"_p~iF~ps|U\"]]},"
             + "\"contour\":{\"index\":[[50,\"_p~iF~ps|U\"]]}}", "{\"buildings\":{\"A\":[\"a\",38.5,-120.2],\"B\":[\"b\",40.7,-120.95],\"C\":[\"c\",null,null]}}",
             "{\"paths\":{\"A|B\":\"_p~iF~ps|U_ulLnnqC_mqNvxq`@\"}}");
         double[] ab = tiny.path("A", "B"), ba = tiny.path("B", "A"), ac = tiny.path("A", "C"), bq = tiny.path("B", "Q");
         out.append(",\"tiny\":{\"areas\":").append(tiny.areas.get("building").size()).append(",\"lines\":").append(tiny.lines.get("road").size())
-            .append(",\"contours\":").append(tiny.contours.size()).append(",\"where\":").append(tiny.where.size())
+            .append(",\"where\":").append(tiny.where.size())
             .append(",\"ab\":").append(ab.length / 2).append(",\"abFirst\":[").append(RouteMap.lat(ab[1])).append(",").append(ab[0] * 360 - 180).append("]")
             .append(",\"baFirst\":[").append(RouteMap.lat(ba[1])).append(",").append(ba[0] * 360 - 180).append("]")
             .append(",\"straight\":").append(bq == null ? "null" : String.valueOf(bq.length)).append(",\"noC\":").append(ac == null ? "null" : "1");

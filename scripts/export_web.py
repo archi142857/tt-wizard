@@ -91,6 +91,18 @@ def display_name(name: str) -> str:
     return m.group(1).strip() if m else name
 
 
+# 지도 건물 이름을 두 줄로 나눌 자리(디자인 117판 '지도 건물 이름', 11/3). 화면은 폭 120px 를 넘는 이름을 가운데에 가까운 띄어쓰기에서 나누는데,
+# 띄어쓰기가 없는 다섯 동은 여기 적은 자리("\n")에서 나눈다. campus.json buildings 의 넷째 값. 줄바꿈을 빼면 화면 이름(display_name)과 같아야
+# 화면이 쓴다(이름이 바뀌어 어긋나면 넷째 값을 넣지 않고, tests/test_web.py 가 알린다). 말줄임·짧게 지은 이름은 쓰지 않는다
+NAME_BREAKS = {
+    "83": "인문사회계\n멀티미디어강의동",
+    "84": "근대법학교육\n100주년기념관",
+    "105-1": "창업보육센터및\n유전공학연구소",
+    "312": "정밀기계연구소\n실험연구동",
+    "314": "차세대자동차\n신기술연구소",
+}
+
+
 def export_campus(data: Path) -> dict:
     flat = read_travel(data / "travel.csv")
     slope = read_travel(data / "travel_slope.csv")
@@ -120,6 +132,9 @@ def export_campus(data: Path) -> dict:
             coords[b] = coords[other]
     buildings = {b: [names.get(b, ""), *coords[b]] if b in coords else [names.get(b, ""), None, None]
                  for b in sorted(set(names) | set(coords) | set(ids))}
+    for b, split in NAME_BREAKS.items():  # [이름, 위도, 경도, 두 줄로 나눈 이름]
+        if b in buildings and split.replace("\n", "") == buildings[b][0]:
+            buildings[b].append(split)
     state = json.loads((data / "sync_state.json").read_text(encoding="utf-8")) if (data / "sync_state.json").exists() else {}
     homes = {}
     for b, label in HOMES:

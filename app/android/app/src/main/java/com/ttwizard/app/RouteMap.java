@@ -13,14 +13,14 @@ import org.json.JSONObject;
 /**
  * 동선 지도 위젯의 자료와 셈 — 백엔드 세션(10/30 update71). 화면 코드 없이 시험한다(tests/widget_java 의 WidgetCheck).
  * 앱 묶음에 넣은 자료 셋을 읽어 세계 좌표(웹 메르카토르 0~1. 앱 화면 app.js 의 decodeWorld 와 같다)로 둔다:
- *   data/basemap.json  바탕 지도(docs/basemap.md: 면 = [소수 자리, 고리…], 선 = [OSM 길 종류, polyline], 등고선 = [높이 m, polyline])
+ *   data/basemap.json  바탕 지도(docs/basemap.md: 면 = [소수 자리, 고리…], 선 = [OSM 길 종류, polyline]. 등고선은 없다)
  *   data/routes.json   건물 사이 걷는 길("a|b" → polyline 소수 5자리. 한쪽 방향만 있으면 거꾸로 읽는다: engine.js routeLine 과 같다)
  *   data/campus.json   건물 자리(buildings: id → [이름, 위도, 경도])
  * 그리기는 DayMapBitmap.
  */
 final class RouteMap {
 
-    /** 바탕의 도형 하나: 면(고리 여럿, 첫 고리가 바깥)이나 선·등고선(고리 하나). kind 는 선의 OSM 길 종류, bb = [x0, y0, x1, y1] */
+    /** 바탕의 도형 하나: 면(고리 여럿, 첫 고리가 바깥)이나 선(고리 하나). kind 는 선의 OSM 길 종류, bb = [x0, y0, x1, y1] */
     static final class Shape {
         final double[][] rings;
         final String kind;
@@ -48,7 +48,6 @@ final class RouteMap {
 
     final Map<String, List<Shape>> areas = new HashMap<>();
     final Map<String, List<Shape>> lines = new HashMap<>();
-    final List<Shape> contours = new ArrayList<>(); // 계곡선(index)만: 위젯 크기에서는 주곡선이 너무 촘촘하다
     final Map<String, double[]> where = new HashMap<>();
     private JSONObject paths;
 
@@ -62,7 +61,6 @@ final class RouteMap {
         } catch (JSONException | RuntimeException e) {
             m.areas.clear();
             m.lines.clear();
-            m.contours.clear();
         }
         try {
             JSONObject b = campus == null ? null : new JSONObject(campus).optJSONObject("buildings");
@@ -109,12 +107,6 @@ final class RouteMap {
                 if (f != null && f.length() >= 2) out.add(new Shape(new double[][] { decode(f.optString(1, ""), 5) }, f.optString(0, "")));
             }
             lines.put(k, out);
-        }
-        JSONObject contour = b.optJSONObject("contour");
-        JSONArray index = contour == null ? null : contour.optJSONArray("index");
-        for (int i = 0; index != null && i < index.length(); i++) {
-            JSONArray f = index.optJSONArray(i);
-            if (f != null && f.length() >= 2) contours.add(new Shape(new double[][] { decode(f.optString(1, ""), 5) }, f.optString(0, "")));
         }
     }
 

@@ -337,7 +337,7 @@ iOS 위젯(WidgetKit)은 iOS 를 낼 때 붙인다(App Group 을 쓰면 개인�
 - **동선 지도 그리기**(update71, `RouteMap.java`·`DayMapBitmap.java`): 앱 화면의 요일 동선 지도(`app.js` 의 `renderMap`·`drawBasemap`)를 위젯 크기로 옮겼다.
   자료는 앱에 넣은 `data/basemap.json`·`routes.json`·`campus.json`(앱 묶음 `public/data/`)을 한 번 읽어 둔다(앱이 켤 때 새로 받는 자료는 화면만 쓴다).
   구간은 `engine.evaluate` 와 같은 차례(출발 지점 → 위치 확정 수업들 → 출발 지점, 강의실 미정 수업은 자리를 옮기지 않고 번호만 센다: `WidgetData.legs`),
-  길은 `routes.json` 의 건물 사이 길(한쪽 방향만 있으면 거꾸로, 없으면 곧게). 바탕은 `drawBasemap` 과 같은 차례·색이고 보행로 점선·계단·높이 글은 뺀다.
+  길은 `routes.json` 의 건물 사이 길(한쪽 방향만 있으면 거꾸로, 없으면 곧게). 바탕은 `drawBasemap` 과 같은 차례·색이고 보행로 점선·계단은 뺀다(등고선은 update88 에서 그리는 코드까지 뺐다).
   그날 경로 전체가 들어오게 맞추고(배율 17 까지, 길 없이 핀 하나면 16) 핀이 잘리지 않게 가장자리 18·아래 26(출처 글)을 비운다. 색은 웹 토큰 값(시험이 견준다),
   라이트·다크 두 장을 늘 넣고 `layout(-night)/widget_map.xml` 이 한 장을 보인다(주간 격자와 같다). 위젯 자료에 건물 id(`b`)·출발 지점(`home`)·돌아가는 분(`back`)을 더했다
   (`docs/timetables.md` '홈 화면 위젯'). 지도 자료 조건은 앱 화면과 같다: 수치지형도에서 온 바탕이 들어가니 바탕 지도를 정하는 일(`법무_검토.md` 2절)을 따른다.

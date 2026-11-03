@@ -179,7 +179,8 @@ def test_app_reads_widget_data(made, tmp_path):
     assert r["mixedLegs"] == [["H>X:1", "X>Y:4", "Y>H:0"], ["X>Y:4"], ["X>Y:4", "Y>X:0"]]
     assert r["mixedStops"] == [["X:1·3", "Y:4"], ["Y:4"]] and r["mixedWalk"] == 5 + 0 + 7 + 9
     t = r["tiny"]
-    assert (t["areas"], t["lines"], t["contours"], t["where"], t["ab"]) == (1, 1, 1, 2, 3)  # 자리가 없는 건물은 뺀다
+    assert (t["areas"], t["lines"], t["where"], t["ab"]) == (1, 1, 2, 3)  # 자리가 없는 건물은 뺀다
+    assert "contours" not in t  # 위젯은 등고선을 읽지도 그리지도 않는다(update88)
     assert t["abFirst"] == pytest.approx([38.5, -120.2]) and t["baFirst"] == pytest.approx([43.252, -126.453])  # 한쪽 방향 길은 거꾸로
     assert t["straight"] is None and t["noC"] is None  # 길도 자리도 모르면 그리지 않는다
     assert t["fit"] == pytest.approx([350, 100, 45]) and t["capped"] == pytest.approx([1000, 100, 45])  # 여백 안 가운데, 배율 한도
@@ -210,9 +211,9 @@ def _decode(s: str, prec: int = 5) -> list:
 def _check_real_map(m: dict) -> None:
     """실제 자료로 읽은 바탕·길과 그날 지도의 짜임: 정문 → 건물 셋 → 정문을 4×2 그림(800×330 화소, dp 2.5)에"""
     base = json.loads((ROOT / "data" / "basemap.json").read_text(encoding="utf-8"))
-    # 등고선은 바탕 자료에 없다(2026-11-03, 높이 자료는 PC 에만). 그리는 코드는 자료에 있을 때만 그린다(tiny 의 가짜 자료로 본다)
-    assert "contour" not in base
-    assert (m["buildings"], m["roads"], m["contours"]) == (len(base["area"]["building"]), len(base["line"]["road"]), 0)
+    # 등고선은 바탕 자료에 없고(2026-11-03, 높이 자료는 PC 에만) 위젯도 그리지 않는다(update88)
+    assert "contour" not in base and "contours" not in m
+    assert (m["buildings"], m["roads"]) == (len(base["area"]["building"]), len(base["line"]["road"]))
     assert m["where"] > 100 and m["lines"] == 4 and m["back"] == [False, False, False, True]
     assert sorted(int(n) for part in m["labels"].split("|") for n in part.split("·")) == [1, 2, 3]
     for x, y in m["spots"] + [m["home"]]:  # 핀(반지름 30 화소)이 그림 안: 가장자리 45, 아래는 출처 글 자리 65
@@ -302,7 +303,17 @@ def test_widget_colors_follow_web_tokens():
     # 동선 지도 그림(DayMapBitmap)의 색: TOKENS 차례의 웹 토큰 값(라이트·다크·크리스마스), 출처 글 바탕은 card 90%
     java = (JAVA / "DayMapBitmap.java").read_text(encoding="utf-8")
     order = re.findall(r'"([a-z-]+)"', re.search(r"static final String\[\] TOKENS = \{(.*?)\};", java, re.S).group(1))
-    assert "map-building" in order and "route" in order
+    assert "map-building" in order and "route" in order and not [k for k in order if "contour" in k]  # 등고선 색은 쓰지 않는다(update88)
+    # 이름 붙인 차례(LAND = 0, …)가 그 토큰을 가리킨다: 표에서 하나를 빼고 넣을 때 번호가 밀리지 않게
+    consts = dict((k, int(v)) for k, v in re.findall(r"\b([A-Z_]+) = (\d+)", re.search(r"private static final int LAND = 0,(.*?);", java, re.S).group(0)))
+    named = {"LAND": "map-land", "CAMPUS": "map-campus", "CAMPUS_LINE": "map-campus-line", "GREEN": "map-green", "PARK": "map-park",
+             "GRASS": "map-grass", "PITCH": "map-pitch", "WATER": "map-water", "WALK": "map-walk-area", "ROAD": "map-road", "ROAD_LINE": "map-road-line",
+             "ROAD_SECONDARY": "map-road-secondary", "ROAD_PRIMARY": "map-road-primary", "ROAD_TRUNK": "map-road-trunk", "PED": "map-ped",
+             "PED_LINE": "map-ped-line", "BUILDING": "map-building", "BUILDING_LINE": "map-building-line", "ROUTE": "route", "ROUTE_HOME": "route-home",
+             "CARD": "card", "ACCENT": "accent", "ON_COLOR": "on-color", "HOME": "home", "ON_HOME": "on-home"}
+    assert consts.keys() == named.keys() and {k: order[i] for k, i in consts.items()} == named
+    for k in ("ROAD_SECONDARY", "ROAD_PRIMARY", "ROAD_TRUNK"):  # 테두리 색은 그 바로 뒤(ink[ROAD_x + 1])
+        assert order[consts[k] + 1] == named[k] + "-line", k
     for name, tokens, base in (("LIGHT", light, None), ("DARK", dark, light), ("XMAS", xmas, light)):
         body = re.search(rf"static final int\[\] {name} = \{{(.*?)\}};", java, re.S).group(1)
         got = ["#" + x[4:] for x in re.findall(r"0xFF[0-9A-F]{6}", body)]

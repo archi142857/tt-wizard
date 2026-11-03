@@ -61,6 +61,20 @@ def test_building_display_names():
     assert "관악 223동[우석경제관]" in raw  # 받은 목록은 그대로
 
 
+def test_building_name_breaks():
+    """지도 건물 이름을 두 줄로 나눌 자리(디자인 117판, update88): 띄어쓰기가 없는 긴 이름 다섯 동은 buildings 의 넷째 값에 "\n" 하나로 나눈 이름.
+    줄바꿈을 빼면 화면 이름과 같아야 화면(app.js nameLines)이 쓴다. 다른 동은 세 값 그대로(위젯·실험 스크립트는 앞 세 값만 읽는다)"""
+    campus = ew.export_campus(ROOT / "data")
+    b = campus["buildings"]
+    assert set(ew.NAME_BREAKS) == {"83", "84", "105-1", "312", "314"}
+    for k, split in ew.NAME_BREAKS.items():
+        assert b[k][3] == split and split.count("\n") == 1 and " " not in split, k  # 이름이 바뀌면 여기서 걸린다(나눌 자리를 다시 받는다)
+        assert split.replace("\n", "") == b[k][0] and all(split.split("\n")), k
+        assert b[k][1] is not None and len(b[k]) == 4, k
+    assert all(len(v) == 3 for k, v in b.items() if k not in ew.NAME_BREAKS)
+    assert b["84"][3] == "근대법학교육\n100주년기념관"
+
+
 def test_export_web(tmp_path):
     courses, campus, out = _export(tmp_path)
     assert courses["courses"] and all(len(c) == 7 for c in courses["courses"])

@@ -23,7 +23,8 @@ import java.util.Map;
 /**
  * 동선 지도 위젯의 지도 그림 — 백엔드 세션(10/30 update71, 사용자: "그 날의 동선 지도 위젯도 하나 만들자").
  * 앱 화면의 요일 동선 지도(app.js renderMap·drawBasemap)를 위젯 크기로 옮겼다:
- *   바탕  땅·숲·잔디·캠퍼스·물·보행 면·도로면과 길·건물·계곡선(drawBasemap 과 같은 차례·색. 보행로 점선·계단·높이 글은 작아서 뺀다)
+ *   바탕  땅·숲·잔디·캠퍼스·물·보행 면·도로면과 길·건물(drawBasemap 과 같은 차례·색. 보행로 점선·계단은 작아서 뺀다).
+ *         등고선은 그리지 않는다(update88. 바탕 자료에 높이 정보를 두지 않는다, update82·디자인 117판)
  *   길    수업 가는 길은 route 4px 실선 + card 2px 테두리, 마지막 수업 뒤 출발·도착 자리로 돌아가는 길은 route-home 3px 파선(8 6) + 같은 파선
  *         card 테두리를 진행 방향 오른쪽으로 7px 비켜 수업 가는 길 아래 층에(update73, 디자인: 같은 길을 되짚어도 가려지지 않게).
  *         길은 건물 문 앞에서 끝나고 핀은 건물 자리라, 선 끝에서 핀 가운데까지 그 선 색 둥근 점으로 잇는다(앱 '선 끝과 핀', update73)
@@ -40,23 +41,23 @@ final class DayMapBitmap {
 
     /** 색 차례(웹 토큰 이름). LIGHT·DARK 는 이 차례의 값 */
     static final String[] TOKENS = {
-        "map-land", "map-campus", "map-campus-line", "map-green", "map-park", "map-grass", "map-pitch", "map-water", "map-contour-index",
+        "map-land", "map-campus", "map-campus-line", "map-green", "map-park", "map-grass", "map-pitch", "map-water",
         "map-walk-area", "map-road", "map-road-line", "map-road-secondary", "map-road-secondary-line", "map-road-primary", "map-road-primary-line",
         "map-road-trunk", "map-road-trunk-line", "map-ped", "map-ped-line", "map-building", "map-building-line",
         "route", "route-home", "card", "accent", "on-color", "home", "on-home",
     };
-    private static final int LAND = 0, CAMPUS = 1, CAMPUS_LINE = 2, GREEN = 3, PARK = 4, GRASS = 5, PITCH = 6, WATER = 7, CONTOUR = 8,
-        WALK = 9, ROAD = 10, ROAD_LINE = 11, ROAD_SECONDARY = 12, ROAD_PRIMARY = 14, ROAD_TRUNK = 16, PED = 18, PED_LINE = 19,
-        BUILDING = 20, BUILDING_LINE = 21, ROUTE = 22, ROUTE_HOME = 23, CARD = 24, ACCENT = 25, ON_COLOR = 26, HOME = 27, ON_HOME = 28;
+    private static final int LAND = 0, CAMPUS = 1, CAMPUS_LINE = 2, GREEN = 3, PARK = 4, GRASS = 5, PITCH = 6, WATER = 7,
+        WALK = 8, ROAD = 9, ROAD_LINE = 10, ROAD_SECONDARY = 11, ROAD_PRIMARY = 13, ROAD_TRUNK = 15, PED = 17, PED_LINE = 18,
+        BUILDING = 19, BUILDING_LINE = 20, ROUTE = 21, ROUTE_HOME = 22, CARD = 23, ACCENT = 24, ON_COLOR = 25, HOME = 26, ON_HOME = 27;
 
     static final int[] LIGHT = {
-        0xFFF2EFE9, 0xFFF5F6FF, 0xFFD7DCFA, 0xFFC9E2C2, 0xFFD3EACB, 0xFFD7EDCF, 0xFFBFE4D2, 0xFFAFC9F2, 0xFFCAC4D6,
+        0xFFF2EFE9, 0xFFF5F6FF, 0xFFD7DCFA, 0xFFC9E2C2, 0xFFD3EACB, 0xFFD7EDCF, 0xFFBFE4D2, 0xFFAFC9F2,
         0xFFFBFBFE, 0xFFFFFFFF, 0xFFC3C0D0, 0xFFF2F1C4, 0xFFC2C08A, 0xFFF9D9AF, 0xFFD2AE78,
         0xFFF7BBA8, 0xFFD99683, 0xFFE3E4F4, 0xFFB3B6D2, 0xFFD3C8BE, 0xFFAE9F91,
         0xFF4F70FF, 0xFF1D2A78, 0xFFFFFFFF, 0xFF415FEC, 0xFFFFFFFF, 0xFF1D2A78, 0xFFEEF0FF,
     };
     static final int[] DARK = {
-        0xFF17171B, 0xFF1C1D25, 0xFF2B2E40, 0xFF1B261F, 0xFF1E2A21, 0xFF1F2B22, 0xFF1B2D27, 0xFF1C2B45, 0xFF32313C,
+        0xFF17171B, 0xFF1C1D25, 0xFF2B2E40, 0xFF1B261F, 0xFF1E2A21, 0xFF1F2B22, 0xFF1B2D27, 0xFF1C2B45,
         0xFF22222A, 0xFF3B3C45, 0xFF0D0D10, 0xFF5E5E3E, 0xFF3B3B27, 0xFF7A6142, 0xFF4A3B28,
         0xFF7D4E43, 0xFF4C2F28, 0xFF35364A, 0xFF121218, 0xFF463F39, 0xFF605750,
         0xFF758BE7, 0xFFCED1D9, 0xFF1E2026, 0xFF4D6CE0, 0xFFFFFFFF, 0xFFCED1D9, 0xFF16171B,
@@ -64,7 +65,7 @@ final class DayMapBitmap {
 
     // 크리스마스(update78, 디자인 106판): 바탕 지도는 라이트 그대로(앱의 크리스마스 지도), 수업 가는 길 route #148753, 돌아가는 길·⌂ home #0B3A23, 번호 핀 accent #0D6F44
     static final int[] XMAS = {
-        0xFFF2EFE9, 0xFFF5F6FF, 0xFFD7DCFA, 0xFFC9E2C2, 0xFFD3EACB, 0xFFD7EDCF, 0xFFBFE4D2, 0xFFAFC9F2, 0xFFCAC4D6,
+        0xFFF2EFE9, 0xFFF5F6FF, 0xFFD7DCFA, 0xFFC9E2C2, 0xFFD3EACB, 0xFFD7EDCF, 0xFFBFE4D2, 0xFFAFC9F2,
         0xFFFBFBFE, 0xFFFFFFFF, 0xFFC3C0D0, 0xFFF2F1C4, 0xFFC2C08A, 0xFFF9D9AF, 0xFFD2AE78,
         0xFFF7BBA8, 0xFFD99683, 0xFFE3E4F4, 0xFFB3B6D2, 0xFFD3C8BE, 0xFFAE9F91,
         0xFF148753, 0xFF0B3A23, 0xFFFFFFFF, 0xFF0D6F44, 0xFFFFFFFF, 0xFF0B3A23, 0xFFFFFFFF,
@@ -315,7 +316,6 @@ final class DayMapBitmap {
         fill(canvas, v, m.areas.get("grass"), ink[GRASS], 0, 0, paint);
         fill(canvas, v, m.areas.get("campus"), ink[CAMPUS], ink[CAMPUS_LINE], 1.2f * dp, paint);
         fill(canvas, v, m.areas.get("pitch"), ink[PITCH], 0, 0, paint);
-        stroke(canvas, v, m.contours, ink[CONTOUR], 1.1f * dp, paint, null);
         fill(canvas, v, m.areas.get("water"), ink[WATER], 0, 0, paint);
         fill(canvas, v, m.areas.get("walk"), ink[WALK], 0, 0, paint);
         fill(canvas, v, m.areas.get("road"), ink[ROAD], ink[ROAD_LINE], 0.9f * dp, paint);
