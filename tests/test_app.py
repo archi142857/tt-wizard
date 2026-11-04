@@ -56,7 +56,7 @@ def test_build_app_bundle(tmp_path, monkeypatch):
             "data/semesters/2025-1.json", "vendor/leaflet/leaflet.js", "vendor/pretendard/LICENSE.txt",
             "vendor/pretendard/woff2-dynamic-subset/PretendardVariable.subset.0.woff2", "app-build.json",
             "licenses/capacitor.txt", "licenses/androidx.txt", "licenses/cordova.txt", "licenses/snutt.txt", "licenses/pretendard.txt",
-            "licenses/fredoka.txt", "licenses/odbl.txt", "licenses/kogl-type1.txt"} <= files
+            "licenses/fredoka.txt", "licenses/odbl.txt", "licenses/kogl-type1.txt", "licenses/leaflet.txt"} <= files
     assert not [f for f in files if f == "sw.js" or f.startswith(("model/", "field/", "vendor/three/", "privacy/", "support/")) or f.endswith("package.json")]
     assert (web / "js" / "dev.js").exists() and "js/dev.js" not in files  # 웹에만 둔 개발자 메뉴는 앱 묶음에 넣지 않는다(법무 10/24)
     html = (out / "index.html").read_text(encoding="utf-8")
@@ -103,7 +103,7 @@ def test_license_notices_match_app():
     assert apache in ax and apache in cap and "apache-2.0.txt" not in cap + ax + cordova
     # 웹에도 쓰는 고지문(web/licenses/): 웹은 그대로, 앱은 web/ 을 옮길 때 같은 licenses/ 로. 앱에만 넣는 것과 이름이 겹치지 않는다
     web_lic = ROOT / "web" / "licenses"
-    assert {p.name for p in web_lic.glob("*.txt")} == {"snutt.txt", "pretendard.txt", "fredoka.txt", "odbl.txt", "kogl-type1.txt"}
+    assert {p.name for p in web_lic.glob("*.txt")} == {"snutt.txt", "pretendard.txt", "fredoka.txt", "odbl.txt", "kogl-type1.txt", "leaflet.txt"}
     assert not {p.name for p in web_lic.glob("*.txt")} & {p.name for p in lic.glob("*.txt")}
     assert "Copyright (c) 2025 Wafflestudio" in (web_lic / "snutt.txt").read_text(encoding="utf-8")
     font = (web_lic / "pretendard.txt").read_text(encoding="utf-8")
@@ -119,10 +119,31 @@ def test_license_notices_match_app():
     kogl = (web_lic / "kogl-type1.txt").read_text(encoding="utf-8")
     assert "공공누리 제1유형으로 개방한 '수치지형도" in kogl and "https://map.ngii.go.kr" in kogl  # 공공누리가 권하는 출처 문장(법무 문안)
     assert "https://www.kogl.or.kr/info/licenseType1.do" in kogl and "/etc/clause.do" not in kogl  # clause.do 는 누리집 회원 약관이다
+    assert "등고선" not in kogl.splitlines()[1]  # 등고선은 2026-11-03 에 바탕 지도에서 뺐다(docs/basemap.md)
+    # Leaflet: vendor/leaflet/LICENSE 그대로에 판·주소 머리. 앱 안 서버는 확장자 없는 주소에 index.html 을 주니 화면은 이 파일을 읽는다
+    leaflet = (web_lic / "leaflet.txt").read_text(encoding="utf-8")
+    js_version = re.search(r"Leaflet (\d+\.\d+\.\d+)", (ROOT / "web" / "vendor" / "leaflet" / "leaflet.js").read_text(encoding="utf-8")[:300]).group(1)
+    assert leaflet.startswith(f"Leaflet {js_version} — https://github.com/Leaflet/Leaflet\n")
+    assert leaflet.endswith((ROOT / "web" / "vendor" / "leaflet" / "LICENSE").read_text(encoding="utf-8")) and "BSD 2-Clause License" in leaflet
     # 바탕 지도 자료의 출처 표기(basemap.json src_layers)와 같은 두 조건이 고지문에도 있다
     srcs = " ".join(g["src"] for g in json.loads((ROOT / "data" / "basemap.json").read_text(encoding="utf-8"))["src_layers"])
     assert "ODbL" in srcs and "공공누리 제1유형" in srcs
 
+
+
+@pytest.mark.xfail(reason="프론트엔드가 Leaflet 줄을 licenses/leaflet.txt 로 바꾸면(요청 11/4) 이 표시를 뗀다", strict=False)
+def test_app_license_files_have_extensions():
+    """오픈소스 라이선스 화면이 읽는 파일은 주소 끝에 확장자가 있다. 앱 안 서버(Capacitor 8: 안드로이드 WebViewLocalServer,
+    iOS Router)는 마지막 조각에 '.' 이 없는 주소에 index.html 을 주어서, 화면에 고지문 대신 페이지 소스가 보인다(11/4 Leaflet).
+    파일은 web/ 이나 앱에만 넣는 licenses/ 에 있다."""
+    app_js = (ROOT / "web" / "js" / "app.js").read_text(encoding="utf-8")
+    body = app_js[app_js.index("function ossRows()"):]
+    body = body[:body.index("\n}\n")]
+    files = re.findall(r'file: "([^"]+)"', body)
+    assert len(files) >= 8
+    for f in files:
+        assert "." in f.rsplit("/", 1)[-1], f"{f}: 확장자가 없으면 앱에서 index.html 이 온다"
+        assert (ROOT / "web" / f).exists() or (f.startswith("licenses/") and (ROOT / f).exists()), f
 
 def test_patch_index_stops_on_unknown_markup():
     with pytest.raises(SystemExit):

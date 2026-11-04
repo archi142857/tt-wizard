@@ -10,6 +10,7 @@
 | `web/licenses/fredoka.txt` | 로고 글꼴 Fredoka(SIL OFL 1.1, google/fonts `ofl/fredoka/OFL.txt` 그대로) | 워드마크 그림(`web/icons/wordmark*.svg`). 글꼴 파일은 넣지 않는다 |
 | `web/licenses/odbl.txt` | © OpenStreetMap contributors, ODbL 1.0 원문(SPDX `ODbL-1.0` 과 낱말·차례가 같다) | 바탕 지도의 OSM 층과 출입구 자리(루트 `README.md` '라이선스와 자료 조건') |
 | `web/licenses/kogl-type1.txt` | 국토지리정보원 수치지형도의 출처 표시(공공누리가 권하는 꼴)와 공공누리 제1유형 조건 요약·원문 링크(법무 10/23 문안) | 바탕 지도·고도·경사·접속선 |
+| `web/licenses/leaflet.txt` | 지도 라이브러리 Leaflet(BSD-2-Clause). `web/vendor/leaflet/LICENSE` 그대로에 판·주소 머리 | `web/vendor/leaflet/`. 웹·앱 |
 | `capacitor.txt` | Capacitor 와 플러그인(MIT), 그 안의 다른 사람 코드(Apache-2.0, BSD, MIT) | 스토어 앱(안드로이드·iOS) |
 | `androidx.txt` | AndroidX(Apache-2.0) | 안드로이드 앱 |
 | `cordova.txt` | Apache Cordova(Apache-2.0)와 NOTICE | 안드로이드 앱(cordova-android framework), iOS 앱(CapacitorCordova) |
@@ -17,10 +18,11 @@
 Apache License 2.0 전문은 따로 두지 않고 그 라이선스가 걸리는 세 파일(`capacitor.txt`·`androidx.txt`·`cordova.txt`) 끝에 같이 넣었다(파일 하나만 읽어도 되게).
 10/22 밤부터 앱 화면은 고지문 전문을 차례로 다 보여서 전문이 세 번 나온다. 그대로 둔다.
 
-웹에도 쓰는 것(SNUTT, Pretendard)은 `web/licenses/` 에 둔다. 웹은 그대로 `licenses/…` 주소로 열고, `scripts/build_app.py` 가 `web/` 을 앱 묶음으로 옮길 때 같이 들어간다.
+웹에도 쓰는 것(SNUTT, Pretendard, Fredoka, OpenStreetMap, 공공누리, Leaflet)은 `web/licenses/` 에 둔다. 웹은 그대로 `licenses/…` 주소로 열고, `scripts/build_app.py` 가 `web/` 을 앱 묶음으로 옮길 때 같이 들어간다.
 앱에만 들어가는 것(이 폴더의 `*.txt`: Capacitor·AndroidX·Cordova)은 `build_app.py` 가 같은 묶음 `licenses/` 에 더한다(두 곳에 같은 이름이 있으면 멈춘다).
 그래서 앱과 웹이 같은 주소 `licenses/<이름>.txt` 를 연다. 앱의 '오픈소스 라이선스' 화면이 이 파일들을 읽는다.
-그 밖에 Leaflet 은 `web/vendor/leaflet/LICENSE`, three.js 는 `web/vendor/three/LICENSE`, 앱에 넣는 글꼴 파일 옆에는 `vendor/pretendard/LICENSE.txt` 가 있다.
+그 밖에 Leaflet 은 `web/vendor/leaflet/LICENSE`(화면은 같은 글의 `web/licenses/leaflet.txt` 를 읽는다), three.js 는 `web/vendor/three/LICENSE`, 앱에 넣는 글꼴 파일 옆에는 `vendor/pretendard/LICENSE.txt` 가 있다.
+화면이 읽는 고지문은 이름 끝에 확장자를 붙인다: 앱 안 서버(Capacitor)는 확장자 없는 주소에 `index.html` 을 준다(11/4, `LICENSE` 를 읽던 Leaflet 칸에 페이지 소스가 보였다. `docs/app.md` '오픈소스 고지').
 Pretendard 판을 올리면(`app/package.json`, `web/index.html` 의 CDN 주소) `web/licenses/pretendard.txt` 첫 줄의 판도 고친다(`tests/test_app.py` 가 본다).
 
 Capacitor·AndroidX·Cordova 의 판을 올리면(`app/package.json`, `app/android/variables.gradle`) 위 파일의 판 숫자도 같이 고친다(`tests/test_app.py` 가 본다).

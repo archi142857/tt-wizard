@@ -194,7 +194,11 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
   웹에도 쓰는 `snutt.txt`·`pretendard.txt`(SIL OFL 1.1)·`fredoka.txt`(로고 글꼴, OFL)와 지도 자료의 `odbl.txt`(OSM, ODbL 1.0 원문)·`kogl-type1.txt`(수치지형도 출처 표시와
   공공누리 제1유형 조건 요약·원문 링크, 법무 문안)는 `web/licenses/` 에 있어 웹은 그대로, 앱은 `web/` 을 옮길 때 같은 `licenses/` 로 들어간다(10/22·23).
   Apache-2.0 전문은 앞의 세 파일 끝에 각각 넣었다(파일 하나만 읽어도 되게. 10/22 밤부터 화면은 고지문 전문을 차례로 다 보여서 세 번 나온다).
-  지도는 `vendor/leaflet/LICENSE`, 앱 글꼴 파일 옆에는 `vendor/pretendard/LICENSE.txt` 도 있다. 화면(정보 > 오픈소스 라이선스)이 이 파일들을 읽는다.
+  지도(Leaflet)는 `web/licenses/leaflet.txt`(`vendor/leaflet/LICENSE` 와 같은 글, update92), 앱 글꼴 파일 옆에는 `vendor/pretendard/LICENSE.txt` 도 있다. 화면(정보 > 오픈소스 라이선스)이 `licenses/` 파일들을 읽는다.
+  화면이 읽는 파일은 이름 끝에 확장자가 있어야 한다: 앱 안 서버는 마지막 조각에 '.' 이 없는 주소에 `index.html` 을 준다(Capacitor 8.5.2 안드로이드
+  `WebViewLocalServer` 의 html5mode, iOS `Router` 도 확장자가 없으면 `index.html`). 그래서 11/4 사용자 폰(0.10.0)의 Leaflet 칸에 고지문 대신 `index.html` 소스가 보였다
+  (웹은 파일을 그대로 줘서 괜찮았다). update92 가 `web/licenses/leaflet.txt` 를 넣고, 프론트엔드가 그 줄의 파일을 바꾸고 HTML 이 오면 고지문으로 쓰지 않는다(요청 11/4).
+  `tests/test_app.py` 의 확장자 시험은 프론트엔드가 바꿀 때까지 xfail 이다(바꾸면 표시를 뗀다).
 
 ## 시간표 이미지 (공유·저장, 10/23)
 
@@ -442,7 +446,7 @@ iOS 위젯(WidgetKit)은 iOS 를 낼 때 붙인다(App Group 을 쓰면 개인�
   등고선을 빼고 확대하면 건물 이름, 서명한 출시 AAB(release 워크플로). 태그 `v0.10.0-alpha` 는 사용자가 판 숫자를 올리기 전 커밋 f720637(update86)에
   먼저 붙여 그 커밋의 판 숫자는 0.9.0 이다(`v0.8.0-alpha` 처럼 그대로 둔다). Play 내부 테스트 102 가 0.10.0 이다(11/4).
   0.10.1(11/4, update90): 앱도 받은 시간표 링크를 '공유받은 시간표' 시트로 보여 주고 누를 때만 넣기(ui103b), 카톡 인앱 브라우저에서 시간표 링크를 밖으로 다시 열기
-  (ui102a, 웹). Play 에 새로 올릴 판이라 숫자만 올렸다(작은 판이라 태그는 붙여도 되고 안 붙여도 된다).
+  (ui102a, 웹), 오픈소스 라이선스의 Leaflet 전문(update92·프론트엔드). Play 에 새로 올릴 판이라 숫자만 올렸다(작은 판이라 태그는 붙여도 되고 안 붙여도 된다).
 - 안드로이드 `versionCode` 는 release 워크플로가 실행 번호 + 100 으로 넣는다(손으로 올리지 않는다, update86). iOS `CURRENT_PROJECT_VERSION` 은 iOS 를 낼 때 올릴 때마다 1씩.
 
 ## 아직 안 한 것 (출시 전에)
