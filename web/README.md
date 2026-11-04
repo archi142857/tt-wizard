@@ -632,14 +632,16 @@ TT Wizard 화면. 정적 사이트라 서버 없이 돈다: `data/*.json` 을 �
 - 오픈소스 라이선스(10/22 법무·백엔드 요청, 디자인 규칙 63판. 10/22 밤 사용자: "라이센스는 앱 안에서 전문 쭉 작성해줘"): 위에 쓰는 것 목록, 그 아래 고지문 전문을 차례로 쭉.
   목록은 지도 표시 Leaflet, 과목 검색 SNUTT, 앱 실행 환경 Capacitor·Apache Cordova(스토어 앱만), 안드로이드 AndroidX(안드로이드만), 글꼴 Pretendard, 로고 글꼴 Fredoka,
   지도 자료 OpenStreetMap, 지도·경사 자료 국토지리정보원 차례(`ossRows`). 자료 출처와 같은 두 칸 목록(카드 하나에 구분선 행)이고 앱 실행 환경은 한 칸에 두 줄이다.
-  Capacitor·Cordova·AndroidX 는 고지문을 앱과 함께 내야 하는 라이선스다. 목록 아래 `#page-texts` 에 고지문(`vendor/leaflet/LICENSE`, 웹·앱 같은 `licenses/snutt.txt`·
-  `licenses/pretendard.txt`(백엔드 update60 의 `web/licenses/`), 앱에만 있는 `licenses/capacitor.txt`·`cordova.txt`·`androidx.txt`(백엔드 `scripts/build_app.py` 가 넣는다))을 목록 차례대로
+  Capacitor·Cordova·AndroidX 는 고지문을 앱과 함께 내야 하는 라이선스다. 목록 아래 `#page-texts` 에 고지문(웹·앱 같은 `licenses/leaflet.txt`·`licenses/snutt.txt`·
+  `licenses/pretendard.txt`(백엔드 update60·update92 의 `web/licenses/`), 앱에만 있는 `licenses/capacitor.txt`·`cordova.txt`·`androidx.txt`(백엔드 `scripts/build_app.py` 가 넣는다))을 목록 차례대로
   이름·라이선스 머리(`.section-title`)와 칸으로 보인다(`renderLicenseTexts`). 전문이 있는 이름은 목록에서 글자 그대로 두고(바로 아래 전문), 없는 것은 원문 링크다.
   고지문 글 속 주소(http·https)는 링크다(`linkify`, 10/23 사용자: "라이선스에 있는 링크들 다 하이퍼링크로". 글자는 그대로, 주소 끝의 문장부호와 짝 없는 닫는 괄호는 링크 밖.
   모양은 자료 출처 이름 링크와 같은 `text` 글자 + `line-strong` 밑줄, 새 창·스토어 앱은 Capacitor Browser).
   줄표만 있는 줄에서 칸(카드)을 나누고(구분선을 긋지 않는다. 10/22 사용자), 글은 줄만 다시 나눈다(`licenseBlocks`: 폭에 맞춰 70~80자로 끊어 둔 줄은 앞줄에 잇고,
   빈 줄·목록 머리·짧은 줄·한글 설명과 `이름 — 주소` 줄은 그대로. 낱말과 그 차례는 바꾸지 않는다. 그대로 두면 80자 줄이 폰에서 한 줄 반씩 꺾인다). 파일을 못 읽으면
-  (그 파일이 없는 빌드) 그 전문은 두지 않고 목록의 이름을 원문 링크로 바꾼다. 웹·PWA 도 여섯 모두 전문이다(Leaflet, `licenses/` 의 SNUTT·Pretendard·Fredoka·ODbL·공공누리.
+  (그 파일이 없는 빌드, HTML 이 온 것: 앱 안 서버(Capacitor)는 없는 파일·확장자 없는 주소에 `index.html` 을 준다) 그 전문은 두지 않고 목록의 이름을 원문 링크로 바꾼다
+  (`loadLicense`. 11/4 사용자 폰 0.10.0 의 Leaflet 칸에 고지문 대신 `index.html` 소스가 떠서, 확장자 없는 `vendor/leaflet/LICENSE` 대신 백엔드 update92 의 `licenses/leaflet.txt`
+  (같은 글에 판·주소 머리)를 읽는다). 웹·PWA 도 여섯 모두 전문이다(`licenses/` 의 Leaflet·SNUTT·Pretendard·Fredoka·ODbL·공공누리.
   서비스 워커 `SHELL` 에 고지문도 넣어 오프라인에서도 보인다. 10/23 사용자: "전문 말하는 거임", "오픈 소스 라이센스 나머지들도 쭉 전문 적으라는 것도 반영 안됐음").
   `licenses/fredoka.txt`·`odbl.txt`·`kogl-type1.txt` 는 백엔드 update61 이 넣었다(Fredoka·ODbL 은 프론트엔드가 원문 그대로 만든 초안, 공공누리 제1유형은 법무 문안이고 줄표 줄이 없어 한 칸.
   그 폴더의 파일 목록은 백엔드 시험 `test_license_notices_match_app` 이 정해 둔다). SNUTT 원문은 옮긴 레포 `wafflestudio/snutt` 의 LICENSE).
@@ -698,7 +700,7 @@ python -m http.server 8000 -d web
 | `js/app.js` | 화면 동작(검색, 과목 시트, 추가 설정, 화면 이동과 뒤로 가기, 결과·지도, 정보 화면). 담은 과목·조건·추가 설정·직접 넣거나 바꾼 강의실과 시간·최근 검색어·끈 이벤트 테마·고른 라이트·다크는 브라우저(localStorage)에만 저장 |
 | `data/` | `scripts/export_web.py` 가 만든다. git 에는 올리지 않고, 배포 때 GitHub Actions 가 다시 만든다. `semesters.json`(학기 목록)과 `semesters/<학기>.json`(지난 학기) 포함 |
 | `vendor/leaflet/` | Leaflet 1.9.4 (npm 배포본 그대로) |
-| `licenses/` | 오픈소스 라이선스 화면의 고지문 전문(머리 `이름 — 주소`·한글 설명 한 줄, 그 아래 원문 그대로). 백엔드가 넣는다(update60 의 `snutt.txt`·`pretendard.txt`, update61 의 `fredoka.txt`·`odbl.txt`·`kogl-type1.txt`). 넣으면 `sw.js` 의 `SHELL` 에도 |
+| `licenses/` | 오픈소스 라이선스 화면의 고지문 전문(머리 `이름 — 주소`·한글 설명 한 줄, 그 아래 원문 그대로). 백엔드가 넣는다(update60 의 `snutt.txt`·`pretendard.txt`, update61 의 `fredoka.txt`·`odbl.txt`·`kogl-type1.txt`, update92 의 `leaflet.txt`). 넣으면 `sw.js` 의 `SHELL` 에도. 확장자를 붙인다(앱 안 서버는 확장자 없는 주소에 `index.html` 을 준다) |
 | `model/` | 없다. 서울대학교 관악캠퍼스 3D·2D 모형은 높이 정보라 11/3 레포·웹·앱에서 내렸고(백엔드 update82, 법무 '그대로 갈 때' 1) PC 에서만 만든다(`scripts/campus_model.py` → `data/local/model/`) |
 | `vendor/three/` | three.js r128 과 OrbitControls (npm 배포본 그대로. PC 에서 만드는 3D 모형이 파일 안에 담아 쓴다, 웹 화면은 쓰지 않는다) |
 | `field/` | 오르막 실측 페이지: 폰 GPS 기록(백엔드 몫, 앱에서 링크하지 않음). `../js/engine.js`·`../data/`·`../vendor/leaflet/`·`../icons/favicon.svg` 를 함께 쓴다 |

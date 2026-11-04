@@ -6225,11 +6225,12 @@ const APACHE_URL = "https://www.apache.org/licenses/LICENSE-2.0";
 /** 오픈소스 라이선스 줄: 왼쪽 칸(k, 비면 앞 줄과 한 칸), 이름, 라이선스, 원문 주소, 고지문 파일(있으면 목록 아래에 전문).
  *  순서와 왼쪽 칸 이름은 디자인 규칙('화면과 동작'의 정보 화면, 10/22). 스토어 앱에는 앱의 바탕(Capacitor 와 그 안의 Apache Cordova, 안드로이드는 AndroidX)이
  *  더 있다: 고지문을 함께 내야 하는 라이선스다(10/22 법무·백엔드). SNUTT 는 과목 검색 규칙을 따온 곳(search.js 머리의 고지와 같은 레포).
- *  고지문 파일: Leaflet 은 vendor/leaflet/LICENSE, 나머지 다섯(SNUTT·Pretendard 는 10/22 밤 백엔드 update60, Fredoka·ODbL·공공누리는 10/23 update61)은 web/licenses/
- *  (앱도 web/ 을 옮길 때 같은 자리로 들어간다), 앱에만 있는 셋은 앱 묶음의 licenses/(백엔드 build_app.py). 파일을 못 읽은 줄은 원문 링크다 */
+ *  고지문 파일: 여섯은 web/licenses/(SNUTT·Pretendard 는 10/22 밤 백엔드 update60, Fredoka·ODbL·공공누리는 10/23 update61, Leaflet 은 11/4 update92 가 vendor/leaflet/LICENSE 와
+ *  같은 글에 판·주소 머리를 붙인 leaflet.txt. 앱 안 서버(Capacitor)는 확장자 없는 주소에 index.html 을 줘서 LICENSE 로는 Leaflet 칸에 페이지 소스가 보였다. 앱도 web/ 을 옮길 때
+ *  같은 자리로 들어간다), 앱에만 있는 셋은 앱 묶음의 licenses/(백엔드 build_app.py). 파일을 못 읽은 줄(HTML 이 온 것 포함)은 원문 링크다 */
 function ossRows() {
   return [
-    { k: "지도 표시", name: "Leaflet", lic: "BSD-2-Clause", href: "https://github.com/Leaflet/Leaflet/blob/main/LICENSE", file: "vendor/leaflet/LICENSE" },
+    { k: "지도 표시", name: "Leaflet", lic: "BSD-2-Clause", href: "https://github.com/Leaflet/Leaflet/blob/main/LICENSE", file: "licenses/leaflet.txt" },
     { k: "과목 검색", name: "SNUTT", lic: "MIT", href: "https://github.com/wafflestudio/snutt/blob/develop/LICENSE", file: "licenses/snutt.txt" },
     IN_APP && { k: "앱 실행 환경", name: "Capacitor", lic: "MIT", href: "https://github.com/ionic-team/capacitor/blob/main/LICENSE", file: "licenses/capacitor.txt" },
     IN_APP && { k: "", name: "Apache Cordova", lic: "Apache-2.0", href: APACHE_URL, file: "licenses/cordova.txt" }, // 앱 실행 환경 한 칸에 두 줄(안드로이드·iOS 같다)
@@ -6322,11 +6323,14 @@ function linkify(text) {
   if (at < text.length) out.push(text.slice(at));
   return out;
 }
+/** 고지문 파일 글. HTML 이 오면(앱 안 서버는 없는 파일·확장자 없는 주소에 index.html 을 준다. 11/4 사용자 폰의 Leaflet 칸) 고지문으로 쓰지 않고 못 읽은 것으로 본다 */
 async function loadLicense(file) {
   if (!licenseTexts.has(file)) {
     const r = await fetch(file);
     if (!r.ok) throw new Error(`${file} ${r.status}`);
-    licenseTexts.set(file, await r.text());
+    const text = await r.text();
+    if (/text\/html/i.test(r.headers.get("content-type") || "") || /^\s*<(!doctype html|html)[\s>]/i.test(text)) throw new Error(`${file} html`);
+    licenseTexts.set(file, text);
   }
   return licenseTexts.get(file);
 }
