@@ -10,7 +10,7 @@ android {
         // 판: 웹 화면의 APP_VERSION(web/js/app.js)과 같게. versionCode 는 출시 빌드(.github/workflows/release.yml)가 TTW_VERSION_CODE 로 준다
         // (그 워크플로 실행 번호 + 100: Play 에 올릴 때마다 커져야 한다). 그 밖(디버그 APK·PC 빌드)은 1
         versionCode((System.getenv("TTW_VERSION_CODE") ?: "1") as Integer)
-        versionName "0.10.1"
+        versionName "0.10.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.

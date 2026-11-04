@@ -20,7 +20,7 @@ document.documentElement.dataset.shell = SHELL;
 
 // ---------------------------------------------------------------- 설정
 
-const APP_VERSION = "0.10.1";
+const APP_VERSION = "0.10.2";
 // 정보 화면 링크. 주소가 정해지면 넣는다(비어 있으면 그 행을 보이지 않는다)
 // 개인정보 처리방침 공개 페이지(스토어에 적는 주소와 같게). 백엔드 update74 가 docs/legal/privacy.md 로 만든 web/privacy/(GitHub Pages). 앱 묶음에는 넣지 않아 늘 이 주소를 연다
 const PRIVACY_URL = "https://archi142857.github.io/tt-wizard/privacy/";
