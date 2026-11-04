@@ -197,8 +197,8 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
   지도(Leaflet)는 `web/licenses/leaflet.txt`(`vendor/leaflet/LICENSE` 와 같은 글, update92), 앱 글꼴 파일 옆에는 `vendor/pretendard/LICENSE.txt` 도 있다. 화면(정보 > 오픈소스 라이선스)이 `licenses/` 파일들을 읽는다.
   화면이 읽는 파일은 이름 끝에 확장자가 있어야 한다: 앱 안 서버는 마지막 조각에 '.' 이 없는 주소에 `index.html` 을 준다(Capacitor 8.5.2 안드로이드
   `WebViewLocalServer` 의 html5mode, iOS `Router` 도 확장자가 없으면 `index.html`). 그래서 11/4 사용자 폰(0.10.0)의 Leaflet 칸에 고지문 대신 `index.html` 소스가 보였다
-  (웹은 파일을 그대로 줘서 괜찮았다). update92 가 `web/licenses/leaflet.txt` 를 넣고, 프론트엔드가 그 줄의 파일을 바꾸고 HTML 이 오면 고지문으로 쓰지 않는다(요청 11/4).
-  `tests/test_app.py` 의 확장자 시험은 프론트엔드가 바꿀 때까지 xfail 이다(바꾸면 표시를 뗀다).
+  (웹은 파일을 그대로 줘서 괜찮았다). update92 가 `web/licenses/leaflet.txt` 를 넣고, 프론트엔드 ui104a 가 그 줄의 파일을 바꾸고 HTML(content-type `text/html`,
+  또는 몸이 `<!doctype html`·`<html` 로 시작)이 오면 고지문으로 쓰지 않고 원문 링크로 바꾼다(11/4). 화면이 읽는 고지문 주소의 확장자는 `tests/test_app.py` 가 본다(update93).
 
 ## 시간표 이미지 (공유·저장, 10/23)
 

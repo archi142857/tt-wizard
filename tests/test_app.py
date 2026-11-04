@@ -131,7 +131,6 @@ def test_license_notices_match_app():
 
 
 
-@pytest.mark.xfail(reason="프론트엔드가 Leaflet 줄을 licenses/leaflet.txt 로 바꾸면(요청 11/4) 이 표시를 뗀다", strict=False)
 def test_app_license_files_have_extensions():
     """오픈소스 라이선스 화면이 읽는 파일은 주소 끝에 확장자가 있다. 앱 안 서버(Capacitor 8: 안드로이드 WebViewLocalServer,
     iOS Router)는 마지막 조각에 '.' 이 없는 주소에 index.html 을 주어서, 화면에 고지문 대신 페이지 소스가 보인다(11/4 Leaflet).
