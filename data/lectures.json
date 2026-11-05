@@ -80,22 +80,22 @@
     "day": 0,
     "start": 900,
     "end": 1070,
-    "building": "",
-    "room": ""
+    "building": "500",
+    "room": "500-L302(무선랜제공)"
    },
    {
     "day": 1,
     "start": 900,
     "end": 1070,
-    "building": "",
-    "room": ""
+    "building": "500",
+    "room": "500-L302(무선랜제공)"
    },
    {
     "day": 2,
     "start": 900,
     "end": 1070,
-    "building": "",
-    "room": ""
+    "building": "500",
+    "room": "500-L302(무선랜제공)"
    }
   ]
  },
@@ -240,22 +240,22 @@
     "day": 0,
     "start": 540,
     "end": 710,
-    "building": "",
-    "room": ""
+    "building": "500",
+    "room": "500-L302(무선랜제공)"
    },
    {
     "day": 1,
     "start": 540,
     "end": 710,
-    "building": "",
-    "room": ""
+    "building": "500",
+    "room": "500-L302(무선랜제공)"
    },
    {
     "day": 2,
     "start": 540,
     "end": 710,
-    "building": "",
-    "room": ""
+    "building": "500",
+    "room": "500-L302(무선랜제공)"
    }
   ]
  },
@@ -3145,7 +3145,22 @@
   "classification": "교직",
   "program": "학사",
   "status": "설강",
-  "meetings": []
+  "meetings": [
+   {
+    "day": 0,
+    "start": 780,
+    "end": 950,
+    "building": "10",
+    "room": "10-105(무선랜제공)"
+   },
+   {
+    "day": 2,
+    "start": 780,
+    "end": 950,
+    "building": "10",
+    "room": "10-105(무선랜제공)"
+   }
+  ]
  },
  {
   "course_id": "F29.103",
