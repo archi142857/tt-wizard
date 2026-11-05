@@ -1328,9 +1328,9 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 /* 학기 묶음(10/30 사용자, SNUTT 의 시간표 목록 그림과 함께: "시간표 목록도 그 학기 선택하는 거 SNUTT처럼 저런 형식의 목록으로". 그 전에는 맨 위 연도·학기 선택칸):
    머리는 학기 이름(17px 700 heading)과 바로 옆 펼침 화살표(20 muted, 펴면 위로), 높이 56.
    선은 모두 line 1px 이고 층은 색으로 나눈다(10/30 오후 사용자: "선은 그냥 아주 얇게 다 통일하고 색깔로 구분하는 건 어떰?". 그 사이 굵은 선 4px·2px 을 두었다가
-   "선 두께가 다 다르니까 통일성이 없는 느낌"): 대표 시간표 행만 inset 바탕(라이트 tt-pale, 다크 bg, 크리스마스 옅은 초록)이고 다른 시간표 행과 학기 머리는 시트 바탕이다
+   "선 두께가 다 다르니까 통일성이 없는 느낌"): 지금 보는 시간표 행만 inset 바탕(라이트 tt-pale, 다크 bg, 크리스마스 옅은 초록)이고 다른 시간표 행과 학기 머리는 시트 바탕이다
    (처음에는 거꾸로 학기 머리에 칠했다가 사용자가 라이트를 보고 "반대로 하자. 시간표들이 진하게 나오도록", 이어 "나머지 테마도 뒤집는 게 나을 듯". 10/30 부터 시간표 행을 다
-   칠하다가 11/2 사용자: "이것도 대표 시간표만 색깔 칠해줘").
+   칠하다가 11/2 사용자: "이것도 대표 시간표만 색깔 칠해줘", 11/5 사용자: "이거 현재 보고있는 시간표만 색칠하는 게 좋을 듯. 대표 시간표를 칠하지 말고").
    칠한 면 위에서 누르고 올린 것은 inset 을 text 쪽으로 6%, 칠하지 않은 면 위는 다른 줄처럼 surface-hover(--tl-head·--tl-row 와 그 -press).
    시트 머리 아래(첫 학기 머리 위), 묶음 사이, 학기 머리와 첫 시간표 사이, 시간표 사이, + 새 시간표 위가 모두 같은 선이다 */
 #tl-rows { --tl-head: transparent; --tl-head-press: var(--surface-hover); --tl-row: var(--inset); --tl-row-press: color-mix(in srgb, var(--inset), var(--text) 6%); }
@@ -1342,11 +1342,11 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 .tl-sem-head[aria-expanded="true"] svg { transform: rotate(180deg); }
 .tl-sem-head:active { background: var(--tl-head-press); }
 .tl-tts { margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
-.tl-tts > li.is-primary { background: var(--tl-row); }
+.tl-tts > li.is-current { background: var(--tl-row); }
 .tl-tts > li + li { border-top: 1px solid var(--line); }
-.tl-tts .is-primary .tt-row .mt { color: var(--text2); } /* 칠한 행의 메타(디자인 93판: text3 은 라이트의 누른 면 위에서 4.5:1 에 못 미친다). 칠하지 않은 행은 text3 */
-.tl-tts .is-primary .tl-more { color: var(--text3); } /* 칠한 행의 ⋯(디자인 93판: muted 는 inset 위에서 3:1 아래, 라이트 2.75:1·크리스마스 2.68:1). 칠하지 않은 행은 muted */
-.tl-tts .is-primary .tt-row:active, .tl-tts .is-primary .tl-more:active { background: var(--tl-row-press); }
+.tl-tts .is-current .tt-row .mt { color: var(--text2); } /* 칠한 행의 메타(디자인 93판: text3 은 라이트의 누른 면 위에서 4.5:1 에 못 미친다). 칠하지 않은 행은 text3 */
+.tl-tts .is-current .tl-more { color: var(--text3); } /* 칠한 행의 ⋯(디자인 93판: muted 는 inset 위에서 3:1 아래, 라이트 2.75:1·크리스마스 2.68:1). 칠하지 않은 행은 muted */
+.tl-tts .is-current .tt-row:active, .tl-tts .is-current .tl-more:active { background: var(--tl-row-press); }
 .tl-tts .tl-more:active { color: var(--text2); }
 /* 시간표 행: 이름(태그 대표)과 메타, 행 끝 ⋯(48, 아이콘 24 muted)가 시간표 메뉴 팝업을 연다(10/30 오후 사용자: "시간표 옵션은 그냥 창으로 띄우고". 그 전에는 행 아래에
    펼쳤고 단추는 펼침 꺾쇠였다). 지금 보는 시간표에는 체크를 두지 않는다(10/30 오후 사용자: "걍 체크는 빼는 게 나아 보임") */
@@ -1657,7 +1657,7 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
   .icon-btn:hover, .btn-text:hover, .result:hover, .rank-hit:hover, button.info-row:hover, a.info-row:hover, .course-hit:hover .c-title { background: var(--surface-hover); }
   .tabbar .tab:not([aria-current="page"]):hover .ind, .add-row:hover, .tt-row:hover, .menu-row:hover { background: var(--surface-hover); }
   .tl-sem-head:hover { background: var(--tl-head-press); }
-  .tl-tts .is-primary .tt-row:hover, .tl-tts .is-primary .tl-more:hover { background: var(--tl-row-press); }
+  .tl-tts .is-current .tt-row:hover, .tl-tts .is-current .tl-more:hover { background: var(--tl-row-press); }
   .tl-tts .tl-more:hover { color: var(--text2); }
   .share-act:hover { box-shadow: var(--shadow-press), var(--shadow-sm); }
   .share-app:hover .ic { background: color-mix(in srgb, var(--inset), var(--text) 6%); }

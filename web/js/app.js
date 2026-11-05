@@ -3883,10 +3883,11 @@ function renderTtList() {
   // 학기 머리와 같은 펼침 꺾쇠였다: "시간표 메뉴도 ... 위아래 꺾쇠로 동일하게". 펼치지 않으니 꺾쇠 대신 ⋯). 지금 보는 시간표에는 체크를 두지 않는다(10/30 오후 사용자:
   // "체크표시랑 아래 꺾쇠 같이 있으니까 별로임. 걍 체크는 빼는 게 나아 보임". 머리 줄이 지금 시간표를 보인다. 스크린리더는 aria-current).
   // 다른 학기의 행(sem): 누르면 그 학기로 바꾸고 그 시간표를 보인다. ⋯ 는 그 학기로 바꾼 뒤 메뉴를 연다(시간표를 바꾸는 일은 지금 학기 것만 한다)
-  // 칠하는 것은 대표 시간표 행만이다(11/2 사용자: "이것도 대표 시간표만 색깔 칠해줘". style.css .tl-item.is-primary)
+  // 칠하는 것은 지금 보는 시간표 행만이다(11/5 사용자: "이거 현재 보고있는 시간표만 색칠하는 게 좋을 듯. 대표 시간표를 칠하지 말고". 11/2 부터는 대표 시간표 행만
+  // 칠했다: "이것도 대표 시간표만 색깔 칠해줘". style.css .tl-item.is-current. 대표는 이름 옆 태그로 보인다)
   const ttRow = (t, sem) => {
     const on = !sem && t.id === cur.id, tag = t.primary ? h("span", { class: "tag" }, "대표") : null;
-    return h("li", { class: t.primary ? "tl-item is-primary" : "tl-item" }, h("div", { class: "tl-line" },
+    return h("li", { class: on ? "tl-item is-current" : "tl-item" }, h("div", { class: "tl-line" },
       h("button", { type: "button", class: "tt-row", "data-tt": t.id, "data-sem": sem || null, "aria-current": on ? "true" : null },
         h("span", { class: "it" }, h("span", { class: "nm" }, h("span", {}, t.title), tag), h("span", { class: "mt" }, ttMeta(t)))),
       h("button", { type: "button", class: "icon-btn tl-more", "data-tt-more": t.id, "data-sem": sem || null, "aria-label": `${t.title} 메뉴`, "aria-haspopup": "dialog" },
