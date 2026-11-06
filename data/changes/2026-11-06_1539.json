@@ -1,0 +1,18 @@
+{
+ "created": [],
+ "deleted": [],
+ "updated": [
+  {
+   "key": "3346.329A-001",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": ""
+   },
+   "after": {
+    "instructor": "정충원"
+   }
+  }
+ ]
+}
