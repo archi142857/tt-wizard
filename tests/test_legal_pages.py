@@ -50,7 +50,7 @@ def test_privacy_sections_and_dates():
 def test_feedback_lines_wait_for_app(monkeypatch):
     """【앱에 들어간 뒤에 넣음】: 그 기능이 앱에 없으면 줄·문장을 빼고, 들어간 판에서는 표시 없이 넣는다. 기능은 글에 든 낱말로 찾는다
     (의견 보내기: 처리방침 12절 줄과 문의 페이지 문장, 공유 화면의 앱 단추: 처리방침 1절 기기 안 줄. 서로 따로 켠다)"""
-    cases = (("FEEDBACK_IN_APP", "privacy", "정보 탭의 ‘의견 보내기’는"), ("FEEDBACK_IN_APP", "support", "‘의견 보내기’를 누르면 같은 양식이 열려요"),
+    cases = (("FEEDBACK_IN_APP", "privacy", "정보 탭의 ‘의견 보내기’는"), ("FEEDBACK_IN_APP", "support", "‘의견 보내기’를 누르면 같은 양식이 열립니다"),
              ("SHARE_APPS_IN_APP", "privacy", "공유 화면의 앱 단추(안드로이드)"))
     for flag, name, words in cases:
         monkeypatch.setattr(lp, flag, False)

@@ -349,3 +349,16 @@ def test_release_workflow_keeps_key_secret():
     assert not re.search(r"(storePassword|keyPassword)\s+['\"]", gradle)  # 비밀번호를 글로 적지 않는다
     ignore = (ROOT / ".gitignore").read_text(encoding="utf-8").splitlines()
     assert "*.jks" in ignore and "*.keystore" in ignore
+
+
+def test_notice_sentences_are_formal():
+    """고지문의 한국어 문장은 -ㅂ니다 체로 쓴다(사용자 11/7: 처리방침·오픈소스 고지문처럼 법무 성격의 글. 앱 화면 글은 해요체 그대로).
+    '다.' 로 끝나는 한국어 줄은 '니다.' 로 끝난다(줄 앞의 짧은 이름·목록 줄은 문장이 아니라 보지 않는다)"""
+    files = sorted((ROOT / "web" / "licenses").glob("*.txt")) + sorted((ROOT / "licenses").glob("*.txt"))
+    assert files
+    for f in files:
+        for line in f.read_text(encoding="utf-8").splitlines():
+            text = line.rstrip()
+            if re.search(r"[가-힣]", text) and text.endswith("다."):
+                assert text.endswith("니다."), (f.name, text)
+

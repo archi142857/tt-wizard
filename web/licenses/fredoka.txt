@@ -1,5 +1,5 @@
 Fredoka — https://github.com/google/fonts/tree/main/ofl/fredoka
-로고 글꼴. 로고 워드마크(icons/wordmark*.svg)의 글자가 이 글꼴이다. 글꼴 파일은 웹·앱에 넣지 않는다.
+로고 글꼴. 로고 워드마크(icons/wordmark*.svg)의 글자가 이 글꼴입니다. 글꼴 파일은 웹·앱에 넣지 않습니다.
 
 Copyright 2016 The Fredoka Project Authors (https://github.com/hafontia/Fredoka-One)
 

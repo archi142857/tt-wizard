@@ -1,5 +1,5 @@
 AndroidX (Android Jetpack) — https://developer.android.com/jetpack/androidx
-안드로이드 앱에 들어간다. Capacitor 와 그 플러그인이 쓰는 것:
+안드로이드 앱에 들어갑니다. Capacitor 와 그 플러그인이 쓰는 것:
   androidx.appcompat:appcompat 1.7.1, androidx.core:core 1.17.0, androidx.activity:activity 1.11.0,
   androidx.fragment:fragment 1.8.9, androidx.coordinatorlayout:coordinatorlayout 1.3.0, androidx.webkit:webkit 1.14.0,
   androidx.core:core-splashscreen 1.2.0, androidx.browser:browser 1.9.0

@@ -1,5 +1,5 @@
 Leaflet 1.9.4 — https://github.com/Leaflet/Leaflet
-지도 표시. 웹과 스토어 앱 모두 vendor/leaflet/ 의 Leaflet 을 쓴다(그 폴더의 LICENSE 와 같은 고지문).
+지도 표시. 웹과 스토어 앱 모두 vendor/leaflet/ 의 Leaflet 을 씁니다(그 폴더의 LICENSE 와 같은 고지문입니다).
 
 BSD 2-Clause License
 

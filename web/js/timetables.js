@@ -12,7 +12,7 @@
 //   직접 넣은 일정 { custom: id, title, meetings: [[요일, 시작, 끝, 건물, ""], ...], memo?, color }
 //   요일 0 = 월, 시각은 자정부터 센 분. 건물은 campus.json 의 지점 id(모르면 ""). color 는 0~7(COLORS 개. 화면의 item-0 ~ item-7)
 //
-// 편람과 맞추기: 강좌 항목은 편람을 따른다(SNUTT 와 같다). 편람은 하루 네 번 새로 받으니, 화면은 그릴 때 reconcile 로
+// 편람과 맞추기: 강좌 항목은 편람을 따른다(SNUTT 와 같다). 편람은 하루 두 번에서 네 번 새로 받으니, 화면은 그릴 때 reconcile 로
 //   지금 편람과 견준다. 저장할 때 본 편람(base)과 달라졌으면 changed(새 편람 값을 쓰고 '편람 바뀜'), 편람에서 사라졌으면
 //   gone(적어 둔 값을 쓴다. 과목째 사라졌는지 분반만 사라졌는지는 missing). own 이 있으면 편람이 바뀌어도 own 을 쓰고 changed 만 알린다.
 //   acknowledge 로 base 를 지금 편람에 맞추면 알림이 꺼진다.

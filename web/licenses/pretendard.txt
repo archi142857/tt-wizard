@@ -1,5 +1,5 @@
 Pretendard 1.3.9 — https://github.com/orioncactus/pretendard
-화면 글꼴. 웹은 jsDelivr 에서 받고, 스토어 앱은 글꼴 파일을 앱에 넣는다(vendor/pretendard/, 같은 고지문이 LICENSE.txt 로 함께 들어간다).
+화면 글꼴. 웹은 jsDelivr 에서 받고, 스토어 앱은 글꼴 파일을 앱에 넣습니다(vendor/pretendard/, 같은 고지문이 LICENSE.txt 로 함께 들어갑니다).
 
 Copyright (c) 2021, Kil Hyung-jin (https://github.com/orioncactus/pretendard),
 with Reserved Font Name Pretendard.

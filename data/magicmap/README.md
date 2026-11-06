@@ -3,14 +3,17 @@
 출처: **캠퍼스 마법 지도 (https://moreadorecampus.com/)**
 
 '캠퍼스 마법 지도' 개발자 신용범 님이 2026년 9월 29일 메일로 보내 준 자료와, 이 저장소에서 거기에 고도·경사를 붙인 결과.
-보내 준 세 파일은 비상업 공개 저장소에 올려도 된다는 허락을 받았고(9/29), 2026-11-05 에 Google Play 무료 배포와 iOS 의 같은 조건 배포도 허락받았다.
-보고서·웹앱 화면·스토어 설명·README 에 위 출처를 적고, 광고·유료 기능을 넣을 때는 제공자와 다시 협의한다.
 
-**자료 조건: ODbL 1.0, © OpenStreetMap 기여자·캠퍼스 마법 지도.** 보행 그래프는 OpenStreetMap 도로 자료를 바탕으로 빠진 보행로·연결을 손으로 보강한 것이라
-(개발자 2026-11-05 메일) OSM 의 파생 데이터베이스다. 받은 세 파일과 이 저장소가 거기서 만든 것(아래 '만든 자료', `../travel.csv`·`../travel_slope.csv`·
-`../route_stats.csv`·`../route_paths.json`, 웹의 `campus.json`·`routes.json`)이 모두 여기에 든다. 전문은 `../../web/licenses/odbl.txt`.
-경사를 반영한 값에는 국토지리정보원 수치지형도 몫이 있어 공공누리 제1유형 출처도 같이 적는다(`../../web/licenses/kogl-type1.txt`).
-이 저장소의 MIT(`LICENSE`)는 이 자료에 걸리지 않는다(루트 README '라이선스와 자료 조건').
+**자료 조건: [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). © [OpenStreetMap 기여자](https://www.openstreetmap.org/copyright), © [캠퍼스 마법 지도](https://moreadorecampus.com/).**
+보행 그래프는 OpenStreetMap 도로 자료를 바탕으로 빠진 보행로·연결을 손으로 보강한 것이라(개발자 2026-11-05 메일) OSM 의 파생 데이터베이스입니다.
+받은 세 파일과 이 저장소가 거기서 만든 것(아래 '만든 자료', `../travel.csv`·`../travel_slope.csv`·`../route_stats.csv`·`../route_paths.json`, 웹의 `campus.json`·`routes.json`)이
+모두 여기에 들고, 다른 분이 이 자료를 쓸 때의 조건은 ODbL 입니다. 전문은 `../../web/licenses/odbl.txt` 에 있습니다.
+경사를 반영한 값에는 국토지리정보원 수치지형도 몫이 있어 공공누리 제1유형 출처도 같이 적습니다(`../../web/licenses/kogl-type1.txt`).
+이 저장소의 MIT(`LICENSE`)는 이 자료에 걸리지 않습니다(루트 README '라이선스와 자료 조건').
+
+TT Wizard 는 이 저장소에 싣는 것(2026-09-29)과 스토어 무료 배포(2026-11-05, iOS 도 같은 조건)를 제공자에게 허락받았고, 광고나 유료 기능에 쓰게 되면 제공자와 다시 협의하기로 했습니다.
+보고서·웹앱 화면·스토어 설명·README 에 위 출처를 적습니다.
+
 마법 지도의 건물 GeoJSON 원본은 받은 자료에 포함돼 있지 않다.
 
 ## 받은 자료 (고치지 않는다)

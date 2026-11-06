@@ -5,9 +5,9 @@
 마법 지도 개발자는 보행 그래프를 OpenStreetMap 도로 자료를 바탕으로 빠진 보행로·연결을 손으로 보강해 만들었다고 했다(2026-11-05 메일. 국토지리정보원 건물 정보는
 건물 자료를 보강할 때 참고만 했고, 그래프를 1:1,000 수치지형도로 그린 것은 아니다. 9/25 에는 보강에 사용자 제보·네이버 지도도 썼다고 했다).
 여기서는 OSM 과 국토지리정보원 1:1,000 수치지형도에 사진(카카오맵 로드뷰·스카이뷰)을 더해 채운다.
-자료 조건: `dorm.geojson` 은 OSM 에서 온 길이라 ODbL 1.0(© OpenStreetMap contributors), `gwanaksa.geojson`·`links.geojson` 과 `campus.geojson` 의 일부는
-국토지리정보원 1:1,000 수치지형도로 그렸다(공공누리 제1유형). 그래프에 합친 결과(`../magicmap/roads_graph_slope.json`)는 OSM 바탕 그래프의 파생이라
-ODbL 1.0(`../magicmap/README.md`)이고, 수치지형도로 그린 부분은 그 출처도 같이 적는다. 이 저장소의 MIT 는 코드에만 걸린다(루트 README '라이선스와 자료 조건').
+자료 조건: `dorm.geojson` 은 OSM 에서 온 길이라 [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/)(© [OpenStreetMap 기여자](https://www.openstreetmap.org/copyright))입니다. `gwanaksa.geojson`·`links.geojson` 과 `campus.geojson` 의 일부는
+국토지리정보원 1:1,000 수치지형도로 그렸습니다(공공누리 제1유형). 그래프에 합친 결과(`../magicmap/roads_graph_slope.json`)는 OSM 바탕 그래프의 파생이라
+ODbL 1.0(© [OpenStreetMap 기여자](https://www.openstreetmap.org/copyright), © [캠퍼스 마법 지도](https://moreadorecampus.com/), `../magicmap/README.md`)이고, 수치지형도로 그린 부분은 그 출처도 같이 적습니다. 이 저장소의 MIT 는 코드에만 걸립니다(루트 README '라이선스와 자료 조건').
 
 | 파일 | 만드는 법 | 맡는 것 |
 | --- | --- | --- |

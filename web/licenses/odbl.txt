@@ -1,6 +1,6 @@
 OpenStreetMap — https://www.openstreetmap.org/copyright
-지도 자료와 걷는 길. 바탕 지도의 길 선(찻길·보행로·계단), 숲·잔디·공원·운동장, 큰길 등급과 건물 출입구 자리의 일부는 OpenStreetMap 자료로 만들었고 그 부분은 ODbL 1.0 이다.
-걷는 길 계산에 쓰는 캠퍼스 마법 지도(https://moreadorecampus.com/)의 보행 그래프도 OpenStreetMap 바탕이라, 그 그래프와 거기서 나온 경로 모양·걷는 시간도 ODbL 1.0 이다.
+지도 자료와 걷는 길. 바탕 지도의 길 선(찻길·보행로·계단), 숲·잔디·공원·운동장, 큰길 등급과 건물 출입구 자리의 일부는 OpenStreetMap 자료로 만들었고 그 부분은 ODbL 1.0 입니다.
+걷는 길 계산에 쓰는 캠퍼스 마법 지도(https://moreadorecampus.com/)의 보행 그래프도 OpenStreetMap 바탕이라, 그 그래프와 거기서 나온 경로 모양·걷는 시간도 ODbL 1.0 입니다.
 
 © OpenStreetMap contributors
 © 캠퍼스 마법 지도 (보행 그래프)

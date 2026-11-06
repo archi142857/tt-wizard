@@ -1,5 +1,5 @@
 Apache Cordova — https://cordova.apache.org
-Capacitor 가 Cordova 플러그인과 맞추려고 쓰는 코드다.
+Capacitor 가 Cordova 플러그인과 맞추려고 쓰는 코드입니다.
   안드로이드: cordova-android 14.0.1 의 framework(org.apache.cordova:framework)
   iOS: Capacitor 에 들어 있는 CapacitorCordova(cordova-ios 에서 온 코드)
 
