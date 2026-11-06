@@ -92,6 +92,19 @@ def test_osm_files_say_odbl(name):
     assert meta["license"] == "ODbL 1.0" and "OpenStreetMap" in meta["source"]
 
 
+def test_walk_data_say_odbl():
+    """마법 지도 보행 그래프는 OSM 바탕이라(개발자 11/5 메일) 받은 그래프와 거기서 나온 걷는 시간·경로 파일 가까이에 ODbL 을 적는다(법무 11/5)."""
+    for rel in ("data/README.md", "data/magicmap/README.md"):
+        text = (ROOT / rel).read_text(encoding="utf-8")
+        assert "ODbL 1.0" in text and "OpenStreetMap" in text and "캠퍼스 마법 지도" in text, rel
+    data_readme = (ROOT / "data" / "README.md").read_text(encoding="utf-8")
+    assert all(f"`{n}`" in data_readme for n in ("travel.csv", "travel_slope.csv", "route_stats.csv", "route_paths.json"))
+    assert "공공누리 제1유형" in data_readme  # 경사를 반영한 값은 수치지형도 출처도
+    assert "`data/README.md`" in (ROOT / "README.md").read_text(encoding="utf-8")
+    odbl = (ROOT / "web" / "licenses" / "odbl.txt").read_text(encoding="utf-8")
+    assert "캠퍼스 마법 지도" in odbl.split("-----")[0]  # 앱의 오픈소스 라이선스 화면에 보이는 머리
+
+
 # ---------------------------------------------------------------- 만들기 (작은 가짜 도엽)
 
 def _write_sheet(root: Path, proj):

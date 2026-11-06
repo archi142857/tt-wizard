@@ -82,7 +82,7 @@
 
 ## 걷는 시간은 이렇게 계산합니다
 
-걷는 시간은 [캠퍼스 마법 지도](https://moreadorecampus.com/)의 도로 그래프 위에서 건물 출입구 사이 길을 찾아 계산합니다. 받은 그래프에서 끊긴 갈림목은 잇고, 빠진 보도와 계단, 출입구는 더하고, 건물을 뚫고 지나가는 길은 막았습니다.
+걷는 시간은 [캠퍼스 마법 지도](https://moreadorecampus.com/)의 도로 그래프(OpenStreetMap 바탕) 위에서 건물 출입구 사이 길을 찾아 계산합니다. 받은 그래프에서 끊긴 갈림목은 잇고, 빠진 보도와 계단, 출입구는 더하고, 건물을 뚫고 지나가는 길은 막았습니다.
 
 평지는 초속 1.1m로 걷는다고 봅니다. 경사는 30m 구간마다 재서 Tobler 보행 함수로, 계단은 계단 보행 실측(Fujiyama & Tyler, 2004)에 맞춘 식으로 계산합니다. 그래서 같은 두 건물 사이도 올라갈 때와 내려올 때 시간이 다르고, 방향마다 더 빠른 길을 고릅니다.
 
@@ -295,6 +295,7 @@ data/
   magicmap/                  캠퍼스 마법 지도에서 받은 그래프·거리표와 패치를 더한 그래프(높이 칸을 뺀 공개 판)
   graph_patch/               그래프에 더할 길, 막을 엣지, 출입구, 접속선
   field/                     실측 구간과 기록 양식
+  README.md                  걷는 시간·경로 파일(travel*.csv, route_stats.csv, route_paths.json)의 자료 조건(ODbL)
   lectures.json, buildings.csv, travel.csv, travel_slope.csv, route_stats.csv, route_paths.json, basemap.json, stats.csv, changes/
 web/                         웹 앱 (GitHub Pages)
   js/                        app.js(화면), engine.js(탐색·동선), search.js(과목 검색), search-worker.js(탐색 워커),
@@ -326,8 +327,8 @@ tests/                       pytest
 | 무엇 | 출처 | 조건 |
 | --- | --- | --- |
 | 코드: `ttwizard/`, `scripts/`, `tests/`, `web/` 의 HTML·CSS·JS(`web/vendor/` 빼고), `app/`(아이콘 빼고), 가짜 예시 자료 `data/sample/` | 이 저장소 | MIT (`LICENSE`) |
-| `data/magicmap/` 의 받은 파일 셋(`roads_graph_updated.json`, `roads.geojson`, `building_pair_times.csv`) | [캠퍼스 마법 지도](https://moreadorecampus.com/) | 이 저장소에 비상업으로 게시하도록 허락받은 자료입니다. 다시 쓰려면 제공자의 허락이 필요합니다. MIT 대상이 아닙니다(`data/magicmap/README.md`) |
-| 받은 그래프로 만든 것: `data/magicmap/` 의 나머지(`roads_graph_slope.json`), 그 위에서 계산한 `travel.csv`·`travel_slope.csv`·`route_stats.csv`·`route_paths.json` | 캠퍼스 마법 지도 + 이 저장소 | 받은 파일과 같게 다룹니다. OSM·수치지형도에서 온 부분은 아래 조건도 따릅니다 |
+| `data/magicmap/` 의 받은 파일 셋(`roads_graph_updated.json`, `roads.geojson`, `building_pair_times.csv`) | [캠퍼스 마법 지도](https://moreadorecampus.com/) | [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/), © OpenStreetMap 기여자·캠퍼스 마법 지도. 보행 그래프가 OpenStreetMap 바탕이라 그 파생 데이터베이스입니다. 이 저장소 게시(2026-09-29)와 스토어 무료 배포(2026-11-05)는 제공자의 허락을 받았고, 광고·유료로 쓸 때는 제공자와 다시 협의합니다. MIT 대상이 아닙니다(`data/magicmap/README.md`) |
+| 받은 그래프로 만든 것: `data/magicmap/` 의 나머지(`roads_graph_slope.json`), 그 위에서 계산한 `travel.csv`·`travel_slope.csv`·`route_stats.csv`·`route_paths.json` | 캠퍼스 마법 지도 + 이 저장소 | 받은 파일과 같이 ODbL 1.0, © OpenStreetMap 기여자·캠퍼스 마법 지도(`data/README.md`). 경사를 반영한 값(`travel_slope.csv`, `route_stats.csv` 의 경사 칸)과 수치지형도로 그린 패치는 국토지리정보원 출처(공공누리 제1유형, 아래 줄)도 같이 따릅니다 |
 | OpenStreetMap 에서 온 것: `data/osm_*.geojson`, `building_entrances.*`(출입구 자리), `graph_patch/dorm.geojson`, `basemap.json` 의 초록·길 선·도로면(큰길 등급) 층 | © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors | [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). GeoJSON 은 파일 안 `meta`, `basemap.json` 은 층마다 `src_layers` 에도 적었습니다. 전문은 `web/licenses/odbl.txt` 에 있습니다 |
 | 국토지리정보원 수치지형도에서 온 것: `basemap.json` 의 건물·도로면 모양·인도·물, 경사를 반영한 이동시간(`travel_slope.csv`)과 층 추정(`building_entrances.*`의 `floor_est`), 1:1,000 으로 그린 길·접속선(`graph_patch/gwanaksa.geojson`·`links.geojson`, `campus.geojson` 의 일부). 등고선과 고도·높이차·경사, 지형 모형은 2026-11-03 부터 저장소에 두지 않습니다 | 국토지리정보원 수치지형도(1:5,000·1:1,000, [국토정보플랫폼](https://map.ngii.go.kr)) | 공공누리 제1유형(출처 표시). 원본은 저장소에 없습니다. 공간정보관리법의 절차가 따로 있습니다(`docs/topo.md`). 출처 문장과 조건은 `web/licenses/kogl-type1.txt` 에 있습니다 |
 | 수강편람: `data/raw/`, `lectures.json`, `data/history/`, `data/changes/`, `stats.csv`, `buildings_history.csv` | 서울대학교 수강신청 시스템 강좌검색 | 서울대학교 자료. MIT 대상이 아닙니다 |
