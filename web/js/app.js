@@ -3640,14 +3640,17 @@ function renderMineHead(t) {
 }
 
 /**
- * 주간 격자: 월–금(토·일 항목이 있으면 그 요일까지), 9~18시(항목이 더 이르거나 늦으면 정시로 넓힌다). 한 시간 = max(mine-hour-min, 30rem ÷ 시간 수).
+ * 주간 격자: 월–금(토·일 항목이 있으면 그 요일까지), 9~18시(항목이 더 이르거나 늦으면 정시로 넓힌다). 한 시간 = max(mine-hour-min, 30rem ÷ 시간 수),
+ * 컴퓨터는 창에 맞춘 높이(아래 wkFillHour, 2.5rem ~ 8rem).
  * 칸은 요일·시각 순 <ol> 이고 자리만 절대 배치다. 칸 글자는 t-label: 강의실은 늘 보이고(좁으면 건물과 호 사이에서 줄을 바꾼다) 과목명은 남는 줄만큼,
  * 칸이 낮아 과목명 한 줄도 못 두면 강의실을 건물만('43-1동'). 시간이 겹치는 칸은 반씩 나란히. 시간이 미정인 항목은 격자에 없다(목록에 '미정')
  */
 let wkWidth = 0, wkFill = 0, wkGeom = null; // 내 시간표 격자의 첫 시각·한 시간 높이(폰 과목 추가 시트의 넣은 자리로 스크롤이 시각 → 자리로 쓴다)
 // 컴퓨터(사이드바, 1100px부터)는 격자 카드가 화면 아래 끝(space-6 위, 색 풀이가 있으면 그 아래 끝)까지 오게 한 시간 높이를 늘린다(10/23 사용자: "뭔가 균형이 안 맞음.
 // 배치 가이드 같은 거 찾아보고 반영해봐". 안드로이드 큰 화면 '보조 칸' 배치처럼 두 칸이 창의 본문 높이를 채우면 위 끝은 사이드바 탭, 아래 끝은 사이드바의 정보와
-// 같은 줄에 선다. 전에는 격자가 내용만큼이라 화면 아래 5분의 1이 비었다). 높이가 25em 보다 낮은 창은 하지 않고, 한 시간은 8rem 까지
+// 같은 줄에 선다. 전에는 격자가 내용만큼이라 화면 아래 5분의 1이 비었다). 높이가 25em 보다 낮은 창은 하지 않고, 한 시간은 8rem 까지.
+// 낮은 창에서도 페이지가 스크롤하지 않게 한 시간을 mine-hour-min(3.75rem)보다 낮게 2.5rem 까지 줄인다(11/11 사용자: "여기서 스크롤 안되도록? 딱 화면에 맞아서
+// 한 번에 보이도록, 필요하다면 과목 부분만 스크롤 되도록". 그보다 낮아야 하는 창은 전처럼 페이지가 스크롤한다). 합이 창을 넘지 않게 0.1px 아래로 자른다
 const wkFillWide = matchMedia("(min-width: 68.75em) and (min-height: 25em)");
 function wkFillHour(box, body, hours, rem) {
   if (!wkFillWide.matches || !mineShown()) return 0;
@@ -3657,7 +3660,7 @@ function wkFillHour(box, body, hours, rem) {
   $("view-mine").style.setProperty("--mine-top", `${Math.round(top)}px`);
   const legend = $("tt-legend"), below = legend.hidden ? 0 : legend.getBoundingClientRect().height + parseFloat(getComputedStyle(legend).marginTop);
   const room = window.innerHeight - top - chrome - below - 24; // 24 = space-6(사이드바 아래 여백과 같다)
-  return Math.min(8 * rem, room / hours);
+  return Math.min(8 * rem, Math.floor((room / hours) * 10) / 10);
 }
 // 창 높이가 바뀌면(컴퓨터) 격자를 다시 채운다
 let wkFillRaf = 0;
@@ -3685,7 +3688,8 @@ function renderWeek(t, entries, clash, opts = {}) {
   box.style.setProperty("--hours", String(hours));
   const body = h("div", { class: "wk-body" });
   box.replaceChildren(h("div", { class: "wk-head", "aria-hidden": "true" }, h("span"), days.map((d) => h("span", {}, DAY_KO[d]))), body);
-  const hourPx = opts.hourPx || Math.max(3.75 * rem, (30 * rem) / hours, wkFillHour(box, body, hours, rem));
+  const fill = opts.hourPx ? 0 : wkFillHour(box, body, hours, rem);
+  const hourPx = opts.hourPx || (fill ? Math.max(2.5 * rem, fill) : Math.max(3.75 * rem, (30 * rem) / hours));
   box.style.setProperty("--hour-h", `${hourPx}px`);
   for (let i = 0; i <= hours; i++) {
     body.append(h("div", { class: "wk-line", "aria-hidden": "true", style: { top: `${i * hourPx}px` } }));
@@ -6240,7 +6244,7 @@ function ossRows() {
     // 아래 셋도 전문(10/23 사용자: "전문 말하는 거임"). 백엔드 update61 이 web/licenses/ 에 넣었다(Fredoka·ODbL 은 프론트엔드 초안, 공공누리 제1유형은 법무 문안.
     // web/licenses/ 와 그 파일 목록을 정한 시험은 백엔드 몫). 공공누리 고지문은 줄표 줄이 없어 한 칸이다
     { k: "로고 글꼴", name: "Fredoka", lic: "SIL OFL 1.1", href: "https://github.com/google/fonts/blob/main/ofl/fredoka/OFL.txt", file: "licenses/fredoka.txt" },
-    { k: "지도 자료", name: "OpenStreetMap", lic: "ODbL", href: "https://www.openstreetmap.org/copyright", file: "licenses/odbl.txt" },
+    { k: "지도·길 자료", name: "OpenStreetMap", lic: "ODbL", href: "https://www.openstreetmap.org/copyright", file: "licenses/odbl.txt" },
     { k: "지도·경사 자료", name: "국토지리정보원 수치지형도", lic: "공공누리 제1유형", href: "https://www.kogl.or.kr/info/licenseType1.do", file: "licenses/kogl-type1.txt" },
   ].filter(Boolean);
 }
@@ -6267,7 +6271,8 @@ function renderPage() {
     list([
       ["과목", [link(CATALOG_URL, "서울대학교 수강편람"), state.semesterMeta.updated ? ` · ${asofLong(state.semesterMeta.updated)}` : ""]],
       ["건물", "서울대학교 캠퍼스맵"],
-      ["길", link("https://moreadorecampus.com/", "캠퍼스 마법 지도")],
+      // 걷는 길 그래프가 OpenStreetMap 바탕이라 그 그래프와 거기서 나온 경로 모양·걷는 시간은 ODbL(11/5 법무, 백엔드 update95). 모양은 '지도' 줄처럼
+      ["길", [link("https://moreadorecampus.com/", "캠퍼스 마법 지도"), " · ", link("https://www.openstreetmap.org/copyright", "OpenStreetMap"), " 바탕, ODbL"]],
       // 공공누리 제1유형: 온라인에서는 가능하면 출처 누리집으로 가는 링크를 준다(국토정보플랫폼. 10/5 디자인)
       ["경사", [link(NGII_URL, "국토지리정보원 수치지형도"), " · 공공누리 제1유형"]],
       ["지도", [link(NGII_URL, "국토지리정보원 수치지형도"), " · 공공누리 제1유형, ", link("https://www.openstreetmap.org/copyright", "© OpenStreetMap contributors"), " · ODbL"]],
@@ -6497,7 +6502,7 @@ const TAB_ICON = {
 // 사이드바 '정보'의 ⓘ [선, 채운 판]: 정보에 있는 동안 탭처럼 고른 모양(채운 원, 안의 i 는 알약 색)
 const INFO_ICON = ['<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r=".6" fill="currentColor"/>',
   '<circle cx="12" cy="12" r="9" fill="currentColor"/><path d="M12 11v5" stroke="var(--tab-ind)"/><circle cx="12" cy="7.8" r=".6" fill="var(--tab-ind)" stroke="var(--tab-ind)"/>'];
-let screen = "input", depth = 0, tab = "explore", launchTab = "explore", screenTab = "explore";
+let screen = "input", depth = 0, tab = "mine", launchTab = "mine", screenTab = "mine";
 let rebuild = null; // 탭을 바꾸며 기록을 되감는 중: 되감기가 끝나면(popstate) 새 탭의 기록을 쌓는다
 const stacks = { explore: [{ view: "input", extra: {} }], mine: [{ view: "mine", extra: {} }], theme: [{ view: "theme", extra: {} }], info: [{ view: "info", extra: {} }] };
 const scrollOf = {}, openers = {}, lastFocus = {};
@@ -7084,12 +7089,13 @@ document.addEventListener("visibilitychange", () => {
 });
 
 history.scrollRestoration = "manual";
-// 첫 탭: 지난번에 연 학기(openSem, 학기 선택 전의 기기는 고른 학기)에 저장한 시간표가 있으면 내 시간표. index.html 머리의 스크립트가 같은 판단으로
-// 탐색 입력 화면을 먼저 가려 둔다(data-launch, 켜자마자 입력 화면이 번쩍 보이지 않게). 학기 목록을 받은 뒤 다른 학기로 열려도 첫 탭은 그대로다
+// 첫 탭은 늘 내 시간표(11/11 사용자: "시간표 화면이 메인으로 가게 해 둬야 할 듯". 그 전에는 지난번에 연 학기에 저장한 시간표가 있을 때만 내 시간표, 없으면 탐색).
+// 시간표가 없는 학기는 빈 '시간표 1'(디자인 규칙: 처음 항목을 넣을 때 만든다). index.html 머리의 스크립트가 같은 판단으로 탐색 입력 화면을 먼저 가려 둔다
+// (data-launch, 켜자마자 입력 화면이 번쩍 보이지 않게). 바로가기 주소의 탭(#tab=explore 등)이면 그 탭. 학기 목록을 받은 뒤 다른 학기로 열려도 첫 탭은 그대로다
 readMine(String(store.get(T.STORE_KEYS.open, "") || store.get("semester", null)?.id || ""));
 // 바로가기 주소(웹 '#tab=mine&sem=2026-2', 아래 navOf)면 첫 탭은 그 탭(학기는 학기 목록을 받은 뒤 goNav)
 const launchNav = IN_APP ? null : navOf(location.href);
-launchTab = tab = screenTab = launchNav?.tab || (T.hasTimetables(store.get(semKey(T.STORE_KEYS.list, mine.sem), [])) ? "mine" : "explore");
+launchTab = tab = screenTab = launchNav?.tab || "mine";
 // 공유받은 시간표 링크(웹 #t=…): 주소를 지우기 전에 읽어 둔다(지우면 새로 고쳐도 다시 열리지 않는다). 학기 목록을 받은 뒤 공유받은 시간표 시트로 연다
 const launchLink = IN_APP ? null : linkCodeOf(location.hash);
 history.replaceState({ tab, view: ROOT[tab], depth: 0 }, "", location.pathname + location.search);

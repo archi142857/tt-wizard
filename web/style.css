@@ -1157,11 +1157,17 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
   /* 내 시간표의 두 칸이 창 아래 끝까지(10/23 사용자: "뭔가 균형이 안 맞음. 배치 가이드 같은 거 찾아보고 반영해봐"). 격자 카드는 app.js(wkFillHour)가 한 시간 높이를 늘려
      채우고, 오른쪽 칸은 목록을 위에 두고 동선 확인하기를 아래 끝에 둔다. 그러면 위 끝은 사이드바 탭, 아래 끝은 사이드바의 정보와 같은 줄이다(아래 여백 space-6 셋이 같다).
      --mine-top = 격자 카드 위 끝(문서 기준, app.js 가 잰다. 없으면 위 여백 space-4 + 머리 줄 3.5rem). 칸은 제자리(그 높이)에 붙고 높이 = 창 높이 − 그 위 끝이라,
-     창이 낮아 격자가 한 시간 최소로도 창보다 길면(노트북) 격자만 스크롤되고 버튼은 늘 창 아래 space-6 위다(전에는 칸이 space-4 까지 올라가 버튼이 머리 줄만큼 떴다).
-     목록이 길면 전처럼 칸이 길어지고 버튼은 화면 아래에 붙는다(sticky) */
+     페이지는 스크롤하지 않는다(11/11 사용자: "여기서 스크롤 안되도록? 딱 화면에 맞아서 한 번에 보이도록, 필요하다면 과목 부분만 스크롤 되도록"): 격자는 한 시간을
+     2.5rem 까지 줄여 창에 맞추고(그래도 길면 전처럼 페이지가 스크롤하고 버튼은 창 아래 space-6 위), 오른쪽 칸은 늘 그 높이라 목록이 길면 과목 줄만 카드 안에서
+     스크롤한다. 과목 추가·직접 추가·이미지로 추가 줄은 카드 아래 끝에 붙어 있고(sticky) 그 밑으로 초점이 숨지 않게 그 높이만큼 scroll-padding. 스크롤 막대는 두지 않는다
+     (결과 카드와 같다. 10/2 사용자). 전에는 목록이 길면 칸이 길어져 페이지가 스크롤했다 */
   .mine-right { top: var(--mine-top, 4.5rem); display: flex; flex-direction: column;
-    min-height: calc(100vh - var(--mine-top, 4.5rem)); min-height: calc(100dvh - var(--mine-top, 4.5rem)); }
-  .mine-right .items { margin-bottom: auto; }
+    height: calc(100vh - var(--mine-top, 4.5rem)); height: calc(100dvh - var(--mine-top, 4.5rem)); }
+  .mine-right > * { flex-shrink: 0; }
+  .mine-right .items { flex: 0 1 auto; min-height: 0; margin-bottom: auto; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none;
+    scroll-padding-bottom: 4.25rem; }
+  .mine-right .items::-webkit-scrollbar { display: none; }
+  .mine-right .items .add-trio { position: sticky; bottom: 0; z-index: 1; background: var(--card); }
 }
 .sidebar::-webkit-scrollbar { display: none; }
 ::view-transition-old(sidebar) { display: none; }
