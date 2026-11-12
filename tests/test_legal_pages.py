@@ -1,6 +1,6 @@
 """개인정보 처리방침·문의 페이지(web/privacy/, web/support/, update74): 원문(docs/legal/*.md)에서 만든 그대로인지, 문안의 【】 를 다 풀었는지,
 링크(글 속 주소·메일·기관 누리집)와 개발자 메일 제목, 앱에 들어가기 전의 기능 줄(의견 보내기, 공유 화면의 앱 단추)이 빠지는지,
-처리방침을 바꾼 판의 시행일·바뀐 기록·이전 판(web/privacy/2026-11-01/, update81)."""
+처리방침을 바꾼 판의 시행일·바뀐 기록·이전 판(web/privacy/2026-11-01/ update81, 2026-11-11/ update99)."""
 import re
 import sys
 from pathlib import Path
@@ -16,7 +16,7 @@ def test_pages_are_built_from_sources():
     assert lp.main(["--check"]) == 0  # 원문을 고쳤으면 python scripts/legal_pages.py
 
 
-@pytest.mark.parametrize("name", ["privacy", "support", "privacy-2026-11-01"])
+@pytest.mark.parametrize("name", ["privacy", "support", "privacy-2026-11-01", "privacy-2026-11-11"])
 def test_page_shape(name):
     folder, title, *_ = lp.PAGES[name]
     text = (ROOT / "web" / folder / "index.html").read_text(encoding="utf-8")
@@ -35,11 +35,16 @@ def test_page_shape(name):
 def test_privacy_sections_and_dates():
     text = (ROOT / "web" / "privacy" / "index.html").read_text(encoding="utf-8")
     assert re.findall(r"<h2>(\d+)\. ", text) == [str(i) for i in range(1, 18)]
-    # 바꾼 판(update81): 맨 위 시행일은 이 판의 것, 17절에 처음 시행(이전 판 링크)과 이 판의 바뀐 것
+    # 바꾼 판(update81·99): 맨 위 시행일은 이 판의 것, 17절에 판마다 시행일과 바뀐 것, 지난 판은 이전 판 링크
     assert f'<p class="date">시행일: {lp.REVISED}</p>' in text and text.count(lp.REVISED) == 2 and text.count(lp.EFFECTIVE) == 1
     old = "https://archi142857.github.io/tt-wizard/privacy/2026-11-01/"
     assert f'<li>{lp.EFFECTIVE} 처음 시행(이전 판: <a href="{old}">{old}</a>)' in text
-    assert f"<li>{lp.REVISED} 비공개 테스트 신청" in text and "안드로이드 공유 화면의 앱 단추를 더하고" in text
+    old = "https://archi142857.github.io/tt-wizard/privacy/2026-11-11/"
+    assert "<li>2026년 11월 11일 비공개 테스트 신청" in text and "안드로이드 공유 화면의 앱 단추를 더하고" in text
+    assert f'고쳤습니다(3·8절). 이전 판: <a href="{old}">{old}</a>' in text
+    # 2-2절(테스트용 구글 그룹, 법무 11/11): 이 판의 줄과, 그룹은 알림과 함께 연다는 줄
+    assert (f"<li>{lp.REVISED} 비공개 테스트에 참여하는 길로 테스트용 구글 그룹을 더했습니다(1·3·4·5·7·8·15절). "
+            "테스트용 구글 그룹은 알림과 함께 엽니다(받는 것·목적·받는 곳은 지금 판과 같습니다).") in text
     # 공유 카드가 앱에 들어가서(프론트엔드 ui100a, update83) 1절 기기 안 줄이 이 판에 있다
     assert lp.SHARE_APPS_IN_APP and "<li>공유 화면의 앱 단추(안드로이드): 공유 화면에 카카오톡·인스타그램·문자 단추를" in text
     for site in lp.SITES:
@@ -67,13 +72,28 @@ def test_feedback_lines_wait_for_app(monkeypatch):
 
 
 def test_old_version_stays_as_published():
-    """이전 판(17절 '이전 판도 볼 수 있게 둬요'): 올렸던 글을 풀어 둔 채로 둔다(【】 는 지금 판 시행일 하나뿐). 의견 보내기 줄이 들어 있고, 지금 판으로 가는 링크가 있다"""
-    src = re.sub(r"<!--.*?-->", "", (ROOT / "docs" / "legal" / "privacy-2026-11-01.md").read_text(encoding="utf-8"), flags=re.S)
-    assert re.findall(r"【[^】]*】", src) == ["【이 판 시행일】"]
-    text = (ROOT / "web" / "privacy" / "2026-11-01" / "index.html").read_text(encoding="utf-8")
-    assert '<p class="date">시행일: 2026년 11월 1일</p>' in text and f"2026년 11월 1일부터 {lp.REVISED} 전날까지의 이전 판이에요" in text
-    assert "정보 탭의 ‘의견 보내기’는" in text and "구글 설문지" not in text
-    assert '<a href="../../privacy/">지금 판 개인정보 처리방침</a>' in text
+    """이전 판(17절 '이전 판도 볼 수 있게 둡니다'): 올렸던 글을 풀어 둔 채로 둔다. 【】 는 마지막 이전 판의 '…전날까지' 하나(지금 판 시행일)뿐이고
+    그 앞 이전 판은 다음 판 시행일로 굳혔다(update99). 판마다 그때 들어 있던 줄이 있고, 지금 판으로 가는 링크가 있다"""
+    for name, effective, until, ending in (("2026-11-01", "2026년 11월 1일", "2026년 11월 11일", "이전 판이에요"),
+                                           ("2026-11-11", "2026년 11월 11일", lp.REVISED, "이전 판입니다")):
+        src = re.sub(r"<!--.*?-->", "", (ROOT / "docs" / "legal" / f"privacy-{name}.md").read_text(encoding="utf-8"), flags=re.S)
+        assert re.findall(r"【[^】]*】", src) == ([] if name == "2026-11-01" else ["【이 판 시행일】"]), name
+        text = (ROOT / "web" / "privacy" / name / "index.html").read_text(encoding="utf-8")
+        assert f'<p class="date">시행일: {effective}</p>' in text and f"{effective}부터 {until} 전날까지의 {ending}" in text
+        assert "정보 탭의 ‘의견 보내기’는" in text and "구글 그룹" not in text
+        assert '<a href="../../privacy/">지금 판 개인정보 처리방침</a>' in text
+        assert ("구글 설문지" in text) == (name == "2026-11-11")
+
+
+def test_group_version_lines():
+    """2-2절(테스트용 구글 그룹, 문서 초안 11/11, 법무 11/11 '그대로'): 바뀐 1·3·4·5·7·8·15절. 2절(목적)과 12절(채팅방 초대는 설문을 낸 사람에게만)은 그대로"""
+    text = (ROOT / "web" / "privacy" / "index.html").read_text(encoding="utf-8")
+    for words in ("또는 테스트용 구글 그룹에 가입한 Google 계정 메일 주소", "구글 설문지, 테스트용 구글 그룹, 카카오톡 팀채팅방",
+                  "테스트 참가 신청(설문 응답, 테스트용 구글 그룹 회원 목록, Play 테스터 목록)", "테스트용 구글 그룹은 없애고",
+                  "테스터 그룹(Google 그룹스)", "또는 테스트용 구글 그룹 회원의 Google 계정 메일 주소", "테스트를 신청하거나 그룹에 가입할 때",
+                  "테스트를 신청하거나 그룹에 가입하지 않으면 됩니다", "만 14세 이상만 신청하거나 테스트용 구글 그룹에 가입할 수 있습니다"):
+        assert text.count(words) == 1, words
+    assert "테스트 참가 신청은 비공개 테스트 초대에" in text and "초대 링크는 구글 설문지를 낸 사람에게만 줍니다" in text
 
 
 def test_page_style_follows_design():
