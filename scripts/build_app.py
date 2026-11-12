@@ -42,6 +42,8 @@ SKIP_DIRS = {"model", "field", "three", "privacy", "support"}  # 3D·2D 모델�
 # 개인정보 처리방침·문의 페이지(앱은 웹 주소를 바깥 링크로 연다. 앱에 옛 판이 남지 않게. scripts/legal_pages.py)
 SKIP_FILES = {"sw.js", "README.md", "package.json", "dev.js"}  # 서비스 워커, 설명, node 테스트용 모듈 표시,
 # 웹에만 둔 개발자 메뉴(js/dev.js: 스토어 앱은 열지 않는다. 숨긴 기능을 앱에 넣지 않는다, 법무 10/24)
+UNTIL_USED = {"js/requirements.js": "requirements.js", "data/requirements": "data/requirements"}  # 화면이 아직 부르지 않는 모듈·자료:
+# 묶음의 다른 HTML·JS 가 이름을 부를 때만 넣는다(졸업 요건·성적 계산, docs/requirements.md. 숨긴 기능을 앱에 넣지 않는다, 법무 10/24)
 NEEDED = ("index.html", "style.css", "js/app.js", "js/engine.js", "js/search-worker.js", "js/search.js", "js/timetables.js",
           "data/campus.json", "data/courses.json")
 FONT_CSS = "pretendardvariable-dynamic-subset.css"
@@ -70,6 +72,27 @@ def copy_web(web: Path, out: Path) -> int:
         shutil.rmtree(out)
     shutil.copytree(web, out, ignore=ignore)
     return sum(1 for p in out.rglob("*") if p.is_file())
+
+
+def drop_unused(out: Path) -> list[str]:
+    """UNTIL_USED 가운데 묶음의 다른 HTML·JS 가 이름을 부르지 않는 것을 뺀다(뺀 것의 목록). 빼려는 것 안의 글은 세지 않는다."""
+    pending = {rel: out / rel for rel in UNTIL_USED if (out / rel).exists()}
+
+    def inside(p: Path) -> bool:
+        return any(p == q or q in p.parents for q in pending.values())
+
+    texts = [p.read_text(encoding="utf-8", errors="ignore") for p in out.rglob("*")
+             if p.is_file() and p.suffix in (".html", ".js", ".mjs") and not inside(p)]
+    dropped = []
+    for rel, path in pending.items():
+        if any(UNTIL_USED[rel] in t for t in texts):
+            continue
+        if path.is_dir():
+            shutil.rmtree(path)
+        else:
+            path.unlink()
+        dropped.append(rel)
+    return dropped
 
 
 def patch_index(html: str, local_font: bool) -> str:
@@ -121,6 +144,7 @@ def build(web: Path = WEB, out: Path = OUT, remote: str = REMOTE, tag: str | Non
     if not remote.endswith("/"):
         remote += "/"
     copy_web(web, out)
+    left_out = drop_unused(out)
     copy_licenses(out)
     local_font = copy_font(out)
     index = out / "index.html"
@@ -136,6 +160,7 @@ def build(web: Path = WEB, out: Path = OUT, remote: str = REMOTE, tag: str | Non
     info = {"build": bid, "remote": remote, "files": len(paths), "bytes": sum(p.stat().st_size for p in paths),
             "font": "앱에 넣음" if local_font else "CDN"}
     (out / "app-build.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
+    info["left_out"] = left_out
     return info
 
 
@@ -147,6 +172,8 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
     info = build(out=Path(args.output), remote=args.remote)
     print(f"저장: {args.output} (파일 {info['files']}개, {info['bytes'] / 1e6:.1f} MB, 글꼴 {info['font']}, 빌드 {info['build']})")
+    if info["left_out"]:
+        print(f"  화면이 아직 부르지 않아 뺌: {', '.join(info['left_out'])}")
     if info["font"] == "CDN":
         print("  글꼴을 앱에 넣으려면 먼저 app 폴더에서 npm ci")
     print("다음: cd app && npx cap sync")

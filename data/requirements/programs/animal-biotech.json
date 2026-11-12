@@ -1,0 +1,795 @@
+{
+ "id": "animal-biotech",
+ "college": "농업생명과학대학",
+ "unit": "식품·동물생명공학부",
+ "program": "동물생명공학전공",
+ "depts": [
+  "식품·동물생명공학부"
+ ],
+ "code_prefixes": [
+  "5252.",
+  "M1702."
+ ],
+ "ge_key": "농업생명과학대학 자연계",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "식품생명공학전공",
+   "동물생명공학전공"
+  ],
+  "when": "입학 후 27학점 이상 이수한 뒤 학부 내 전공 배정(2학년부터 전공 표준이수형태)",
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2021,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 48,
+    "parallel": 48,
+    "double": 48,
+    "minor": 24,
+    "status": "부분",
+    "src": [
+     "s11",
+     "s12",
+     "s13",
+     "s14",
+     "s15",
+     "s16"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s17",
+    "s18",
+    "s19",
+    "s20",
+    "s21",
+    "s22",
+    "s23"
+   ],
+   "requirements": [
+    {
+     "id": "animal-main-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 15과목 46학점",
+     "min_count": 15,
+     "min_credits": 46,
+     "courses": [
+      {
+       "code": "M1702.001000",
+       "name": "동물생화학 1",
+       "credits": 3
+      },
+      {
+       "code": "M1702.001100",
+       "name": "동물생화학 2",
+       "credits": 3
+      },
+      {
+       "code": "519.002",
+       "name": "유기화학",
+       "credits": 3
+      },
+      {
+       "code": "500.301A",
+       "name": "통계학개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "5252.201A",
+       "name": "동물해부생리학 입문 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "5252.202A",
+       "name": "동물유전학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5252.308A",
+       "name": "동물미생물학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5252.301",
+       "name": "동물영양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5252.302",
+       "name": "동물세포공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5252.410",
+       "name": "동물육종유전체학 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "5252.307A",
+       "name": "동물번식학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5252.309A",
+       "name": "반추동물영양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5252.310A",
+       "name": "동물면역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5252.405",
+       "name": "동물성식품학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1702.000600",
+       "name": "경제동물생산학 및 실습",
+       "credits": 4
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4"
+     ],
+     "note": "별표 15과목: 2022 졸업요건 페이지(2학년 7·3학년 7·4학년 1), 2023 교육과정 페이지, 2024 본부 목록 이수표준형태(519.002*·500.301A* 포함)가 모두 같다. '13과목 40학점'은 목록의 동물생명 과목 칸(5252·M1702 번호)만 센 값이다. 편람 2023–2026 에서도 그 13과목은 '전필'. 2023 교육과정 페이지는 면역학·동물성식품학 번호가 서로 바뀌어 있다(편람 기준 5252.310A = 동물면역학, 5252.405 = 동물성식품학). 2025학번 적용 문서는 없어 '부분'."
+    },
+    {
+     "id": "animal-stat-once",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "통계학개론 및 실습 500.301A 는 1·2학기 모두 열리며 한 번만 이수",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "500.301A",
+       "name": "통계학개론 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s1"
+     ]
+    },
+    {
+     "id": "animal-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "동물생명공학논문연구 M1702.000400(3학점, 전선) — 졸업학기 이수 원칙. 필수 여부 미확인",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1702.000400",
+       "name": "동물생명공학논문연구",
+       "credits": 3
+      }
+     ],
+     "status": "미확인",
+     "src": [
+      "s3",
+      "s1",
+      "s5",
+      "s4"
+     ],
+     "note": "편람 2023–2026 모두 '전선'. 학과 자료실에 '[졸업]학사 졸업논문양식'(2021-06-03)이 있어 졸업논문을 내는 구조로 보이지만, 공개 요건 문장에는 필수라는 말이 없다."
+    },
+    {
+     "id": "animal-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공 48학점 + 자연계 학번별 교양 이수 요건 모두 충족",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s6"
+     ]
+    },
+    {
+     "id": "animal-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 전공필수 9학점과 경제동물생산학 및 실습 M1702.000600 을 포함해 24학점 이상",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "M1702.000600",
+       "name": "경제동물생산학 및 실습",
+       "credits": 4
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s7",
+      "s6"
+     ],
+     "note": "'전공필수 9학점'이 어느 과목인지 정해져 있지 않다."
+    },
+    {
+     "id": "animal-rename",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "동물자원품질학 및 실험 5252.312 → 동물자원품질과 윤리 M1702.000800(2021-2 이름 바뀜, 같은 과목이라 두 번 인정 안 됨)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1702.000800",
+       "name": "동물자원품질과 윤리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s10",
+      "s1"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "note": "전필 15과목 46학점은 2021·2022년도 판, 2023 교육과정 페이지, 학부 페이지(2022-04), 2022·2024 본부 목록에서 모두 같다. 1차가 본 '2022·2023 웹표 충돌'은 2023 페이지가 면역학·동물성식품학 번호를 뒤바꿔 적은 오기다: 2022 판·학부 페이지·2022/2024 목록·편람(2021~2026)이 모두 5252.310A = 동물면역학 및 실험, 5252.405 = 동물성식품학 및 실험. 판의 '20NN년도'는 입학 연도로 본다(2019년도 판에서 교양 글쓰기가 2019 입학생 체계로 바뀜, 2021년도 판의 동물생화학 1 은 2021학번이 2학년이 되는 2022-1 에 처음 열림). 2025·2026학번 판은 아직 없다."
+  },
+  {
+   "entry_years": [
+    2019,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 48,
+    "parallel": 48,
+    "double": 48,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s26",
+     "s27"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s28",
+    "s29",
+    "s30"
+   ],
+   "requirements": [
+    {
+     "id": "animal-main-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 15과목 46학점(2019·2020년도 판) — 생화학 1·2 는 300.312·300.313",
+     "min_count": 15,
+     "min_credits": 46,
+     "courses": [
+      {
+       "code": "300.312",
+       "name": "생화학 1",
+       "credits": 3
+      },
+      {
+       "code": "300.313",
+       "name": "생화학 2",
+       "credits": 3
+      },
+      {
+       "code": "519.002",
+       "name": "유기화학",
+       "credits": 3
+      },
+      {
+       "code": "500.301A",
+       "name": "통계학개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "5252.201A",
+       "name": "동물해부생리학 입문 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "5252.202A",
+       "name": "동물유전학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5252.308A",
+       "name": "동물미생물학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5252.301",
+       "name": "동물영양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5252.302",
+       "name": "동물세포공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5252.410",
+       "name": "동물육종유전체학 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "5252.307A",
+       "name": "동물번식학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5252.309A",
+       "name": "반추동물영양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5252.310A",
+       "name": "동물면역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5252.405",
+       "name": "동물성식품학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1702.000600",
+       "name": "경제동물생산학 및 실습",
+       "credits": 4
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s24",
+      "s25"
+     ],
+     "note": "동물생화학 1 은 2022-1, 동물생화학 2 는 2022-2 첫 개설(편람)."
+    },
+    {
+     "id": "animal-stat-once",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "통계학개론 및 실습 500.301A 는 1·2학기 모두 열리며 한 번만 이수",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "500.301A",
+       "name": "통계학개론 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s1"
+     ]
+    },
+    {
+     "id": "animal-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "동물생명공학논문연구 M1702.000400(3학점, 전선) — 졸업학기 이수 원칙. 필수 여부 미확인",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1702.000400",
+       "name": "동물생명공학논문연구",
+       "credits": 3
+      }
+     ],
+     "status": "미확인",
+     "src": [
+      "s3",
+      "s1",
+      "s5",
+      "s4"
+     ],
+     "note": "편람 2023–2026 모두 '전선'. 학과 자료실에 '[졸업]학사 졸업논문양식'(2021-06-03)이 있어 졸업논문을 내는 구조로 보이지만, 공개 요건 문장에는 필수라는 말이 없다."
+    },
+    {
+     "id": "animal-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공 48학점 + 자연계 학번별 교양 이수 요건 모두 충족",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s6"
+     ]
+    },
+    {
+     "id": "animal-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 전공필수 9학점과 경제동물생산학 및 실습 M1702.000600 을 포함해 24학점 이상",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "M1702.000600",
+       "name": "경제동물생산학 및 실습",
+       "credits": 4
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s7",
+      "s6"
+     ],
+     "note": "'전공필수 9학점'이 어느 과목인지 정해져 있지 않다."
+    },
+    {
+     "id": "animal-rename",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "동물자원품질학 및 실험 5252.312 → 동물자원품질과 윤리 M1702.000800(2021-2 이름 바뀜, 같은 과목이라 두 번 인정 안 됨)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1702.000800",
+       "name": "동물자원품질과 윤리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s10",
+      "s1"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "changed": "동물생화학 1·2(M1702.001000·001100) 대신 생화학 1·2(300.312·300.313)",
+   "note": "2019·2020년도 판은 생화학 1·2 를 자연대 번호(300.312·300.313)로 적은 것 말고는 2021년도 판과 같다(15과목 46학점, 복수 48 + 자연계 교양, 부전공 전필 9학점 + 경제동물생산학 및 실습 포함 24). 2018년도 판(범위 밖)은 동물미생물학 및 실험이 전필이 아니라 14과목이었다."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "생화학 1·2(300.312·300.313) → 동물생화학 1·2(M1702.001000·001100)(2021년도 판부터, 과목은 2022 첫 개설).",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "5252.312 동물자원품질학 및 실험 → M1702.000800 동물자원품질과 윤리(2021-2 이름 변경, 같은 과목).",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "전필 500.301A 통계학개론 및 실습은 2025-1 이 마지막 개설. 농생대 공통 M2179.007700 통계 인공지능 개론 및 실습(2026-1~)으로 바뀌었다는 안내가 산업인력개발학과 공지에 있다. 동물생명공학 전필 대체 인정은 학과 문서로 못 봄.",
+   "status": "부분"
+  }
+ ],
+ "ask_department": [
+  "2025·2026학번 졸업요건 판(2023 이후 판 미게시)",
+  "통계학개론 및 실습 → 통계 인공지능 개론 및 실습 전필 대체 인정",
+  "동물생명공학논문연구가 졸업 필수인지(1차 질문 그대로)",
+  "2019·2020학번 중 300.312·300.313 미이수자가 동물생화학 1·2 로 대체하는지",
+  "2025학번 전공 이수 학점(단일, 다른 전공 병행)",
+  "전공필수 목록과 학점(통계학개론 및 실습·유기화학 포함 여부 = 15과목 46학점인지)",
+  "동물생명공학논문연구가 졸업에 필수인지",
+  "복수전공·부전공 학점과 필수 과목(부전공 '전필 9학점'의 범위)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "동물생명공학전공 — 졸업요건 학부과정(2022년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_08",
+   "locator": "학점 표·복수/부전공 문장·이수표준형태(별표 15과목)·비고",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "동물생명공학전공 — 학부과정 교과과정('동물생명공학전공 학사 교육과정 (2023)')",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_01",
+   "locator": "학년·학기별 표(별표 15과목, 면역학·식품학 번호가 서로 바뀌어 있음)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "525 동물생명공학전공 과목(p.79–80)·이수표준형태·교과목 이수규정 ①② (p.80)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "2025-1·2025-2·2026-1·2026-2 학기, 교과구분·학점",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s5": {
+   "title": "동물생명공학전공 — 게시판 자료실",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=BOARD&bo_idx=5",
+   "locator": "'[졸업]학사 졸업논문양식'(2021-06-03)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 학사과정 복수·부전공 이수학점 기준, 농업생명과학대학 행 (p.10)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "동물생명공학전공 — 졸업요건 학부과정(2021년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_07",
+   "locator": "학점 표·복수/부전공 문장",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 농업생명과학대학 자연계(스마트시스템과학과 제외한 전체), 인쇄 p.135 (PDF p.31)",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "2026학년도 단과대학별 공통교육과정 이수 규정(학부대학, 2026-01 게시)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "농업생명과학대학 세 표, 인쇄 p.71–73 ('2025학년도 입학생부터 적용' 문구 그대로)",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "바이오시스템공학전공 누리집 — 학부교과과정(2025)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B5%90%EA%B3%BC%EA%B3%BC%EC%A0%952025/",
+   "locator": "2026-06-10 수정, 트랙 A/B 표준 이수체계(* 전공필수, ▪ 트랙필수)",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "동물생명공학전공 누리집 — 졸업요건 학부과정(2021년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_07",
+   "locator": "1. 기본 이수 요건 가·나",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "동물생명공학전공 누리집 — 졸업요건 학부과정(2022년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_08",
+   "locator": "1. 기본 이수 요건 가·나",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행 '아래 이외의 학과(부)' 48/48, 복수 48·부 24",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "동물생명공학전공 누리집 — 졸업요건 학부과정(2021년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_07",
+   "locator": "3. 전공 이수 요건 * 표시",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "동물생명공학전공 누리집 — 졸업요건 학부과정(2022년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_08",
+   "locator": "3. 전공 이수 요건 * 표시",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "동물생명공학전공 누리집 — 학부과정 교과과정('동물생명공학전공 학사 교육과정 (2023)')",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_01",
+   "locator": "* 전필교과목 표",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "식품·동물생명공학부 누리집 — 교과과정(2022-04 판)",
+   "url": "https://fabio.snu.ac.kr/%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/",
+   "locator": "식품생명공학·동물생명공학 이수표준형태 표",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "동물생명공학전공 과목·이수표준형태(p.76~77)",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "동물생명공학전공 과목·이수표준형태(p.79~80)",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "5252.310A·5252.405·M1702.001000·M1702.001100",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s24": {
+   "title": "동물생명공학전공 누리집 — 졸업요건 학부과정(2019년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_05",
+   "locator": "3. 전공 이수 요건",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "동물생명공학전공 누리집 — 졸업요건 학부과정(2020년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_06",
+   "locator": "3. 전공 이수 요건",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "동물생명공학전공 누리집 — 졸업요건 학부과정(2019년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_05",
+   "locator": "1. 기본 이수 요건 가·나",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "동물생명공학전공 누리집 — 졸업요건 학부과정(2020년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_06",
+   "locator": "1. 기본 이수 요건 가·나",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "동물생명공학전공 누리집 — 졸업요건 학부과정(2019년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_05",
+   "locator": "3. 전공 이수 요건 * 표시·다. 졸업 자격 요건",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "동물생명공학전공 누리집 — 졸업요건 학부과정(2020년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_06",
+   "locator": "같은 곳",
+   "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "300.312·300.313 2021 개설",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

@@ -36,7 +36,34 @@ def fake_web(tmp_path: Path) -> Path:
     (web / "data" / "semesters").mkdir(parents=True)
     for name in ("campus.json", "courses.json", "routes.json", "semesters.json", "semesters/2025-1.json"):
         (web / "data" / name).write_text("{}", encoding="utf-8")
+    (web / "data" / "requirements" / "programs").mkdir(parents=True)
+    for name in ("index.json", "common.json", "programs/animal-biotech.json"):
+        (web / "data" / "requirements" / name).write_text("{}", encoding="utf-8")
     return web
+
+
+def test_until_used(tmp_path):
+    """화면이 아직 부르지 않는 모듈·자료(졸업 요건·성적 계산)는 앱 묶음에서 빼고, 화면이 부르면 넣는다."""
+    def bundle(app_js: str) -> Path:
+        out = tmp_path / "www"
+        if out.exists():
+            shutil.rmtree(out)
+        (out / "js").mkdir(parents=True)
+        (out / "data" / "requirements" / "programs").mkdir(parents=True)
+        (out / "js" / "app.js").write_text(app_js, encoding="utf-8")
+        (out / "js" / "requirements.js").write_text("// 자료: data/requirements/index.json", encoding="utf-8")
+        (out / "data" / "requirements" / "index.json").write_text("{}", encoding="utf-8")
+        (out / "data" / "requirements" / "programs" / "x.json").write_text("{}", encoding="utf-8")
+        return out
+
+    out = bundle('import { x } from "./engine.js";')
+    assert build_app.drop_unused(out) == ["js/requirements.js", "data/requirements"]
+    assert not (out / "js" / "requirements.js").exists() and not (out / "data" / "requirements").exists()
+    assert (out / "js" / "app.js").exists()
+    out = bundle('import { gpa } from "./requirements.js?v=1a2b";')  # 모듈만 부르면 자료는 뺀다(모듈 안의 주소는 세지 않는다)
+    assert build_app.drop_unused(out) == ["data/requirements"] and (out / "js" / "requirements.js").exists()
+    out = bundle('import { gpa } from "./requirements.js";\nfetch("data/requirements/index.json");')
+    assert build_app.drop_unused(out) == [] and (out / "data" / "requirements" / "programs" / "x.json").exists()
 
 
 def test_build_app_bundle(tmp_path, monkeypatch):
@@ -59,6 +86,13 @@ def test_build_app_bundle(tmp_path, monkeypatch):
             "licenses/fredoka.txt", "licenses/odbl.txt", "licenses/kogl-type1.txt", "licenses/leaflet.txt"} <= files
     assert not [f for f in files if f == "sw.js" or f.startswith(("model/", "field/", "vendor/three/", "privacy/", "support/")) or f.endswith("package.json")]
     assert (web / "js" / "dev.js").exists() and "js/dev.js" not in files  # 웹에만 둔 개발자 메뉴는 앱 묶음에 넣지 않는다(법무 10/24)
+    pending = tuple(build_app.UNTIL_USED)  # 화면이 아직 부르지 않는 모듈·자료는 묶음의 다른 HTML·JS 가 부를 때만 넣는다
+    calls = "\n".join(p.read_text(encoding="utf-8") for p in out.rglob("*")
+                      if p.suffix in (".html", ".js", ".mjs") and not p.relative_to(out).as_posix().startswith(pending))
+    for rel, name in build_app.UNTIL_USED.items():
+        assert (web / rel).exists(), rel
+        assert any(f == rel or f.startswith(rel + "/") for f in files) == (name in calls), rel
+    assert info["left_out"] == [rel for rel, name in build_app.UNTIL_USED.items() if name not in calls]
     html = (out / "index.html").read_text(encoding="utf-8")
     assert "cdn.jsdelivr.net" not in html and 'href="vendor/pretendard/' in html
     assert html.index('<script src="js/native.js"></script>') < html.index("</head>") < html.index('src="js/app.js"')

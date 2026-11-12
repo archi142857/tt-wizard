@@ -34,6 +34,9 @@ app/
 - 앱 묶음(`www/`)에서 빼는 것: 서비스 워커 `sw.js`(앱은 파일을 품고 있다), 3D·2D 모델(`model/`, `vendor/three/`), 실측 페이지(`field/`), 설명(`README.md`),
   node 시험용 표시(`js/package.json`), 웹에만 둔 개발자 메뉴(`js/dev.js`, 10/24. 스토어 앱은 열지 않고 숨긴 기능을 바이너리에 넣지 않는다, 법무: Apple 2.5.19).
   앱은 `dev.js` 를 부르지 않아서 묶음에 없어도 오류가 나지 않는다(`build_app.py` 의 `SKIP_DIRS`·`SKIP_FILES`).
+- 화면이 아직 부르지 않는 모듈·자료(update100 졸업 요건·성적 계산 `js/requirements.js`, `data/requirements/`, `docs/requirements.md`)는
+  묶음의 다른 HTML·JS 가 그 이름(`requirements.js`, `data/requirements`)을 부를 때만 넣는다(`build_app.py` 의 `UNTIL_USED`).
+  화면이 부르기 시작하면 따로 손대지 않아도 들어간다. 그때 앱이 켤 때 새로 받는 자료(`native.js`)에 넣을지는 따로 정한다.
 
 - 앱 아이디 `com.ttwizard.app`(10/1 사용자 결정: 개인 GitHub 아이디와 떼어 두고, 나중에 `ttwizard.com` 같은 주소를 사면 그대로 맞게), 이름 `TT Wizard`.
   **스토어에 처음 올린 뒤에는 앱 아이디를 바꿀 수 없다.** 안드로이드 `namespace`·`applicationId`·`MainActivity` 패키지, iOS `PRODUCT_BUNDLE_IDENTIFIER`,
