@@ -127,6 +127,18 @@ def test_app_reads_widget_data(made, tmp_path):
     assert r["rows"] == [[0, 2], [2, 5], [2, 5], [2, 5], [0, 1], [0, 2]]
     # 주간 격자: 월~금, 수업이 있는 시간만(9시~15시), 겹치는 수업은 나란히
     assert r["grid"] == {"days": 5, "hours": [9, 15], "lane": [0, 1, 2, 0], "lanes": [3, 3, 3, 1]}
+    # 오늘 열의 지금 줄(update98, 사용자 11/12): 보이는 시각 [9시, 15시) 안, 학기 안의 보이는 요일만(수업이 없는 화요일도). 토요일·학기 뒤·개강 전은 없다
+    assert r["nowLine"] == [-1, 540, 575, 899, -1, -1, -1, -1]
+    # 다음 알람: 주간 시간표가 놓였으면 줄이 보이기 시작할 때(9시)와 보이는 동안 10분마다(끝 15시에 지운다), 다 그릴 때는 nextChange 그대로.
+    # 놓이지 않았으면 nextChange 에만 울린다
+    assert r["tick"] == [["2026-10-26 09:00", "2026-10-26 09:30", "2026-10-26 09:30", True],
+                         ["2026-10-26 09:30", "2026-10-26 09:30", "2026-10-26 09:30", True],
+                         ["2026-10-26 09:40", "2026-10-26 10:45", "2026-10-26 10:45", True],
+                         ["2026-10-26 10:45", "2026-10-26 10:45", "2026-10-26 10:45", True],
+                         ["2026-10-26 15:00", "2026-10-27 00:00", "2026-10-27 00:00", True],
+                         ["2026-10-27 00:00", "2026-10-27 00:00", "2026-10-27 00:00", True],
+                         ["2026-11-01 00:00", "2026-11-01 00:00", "2026-11-01 00:00", True],
+                         ["2026-12-26 00:00", "2026-12-26 00:00", "2026-12-26 00:00", True]]
     assert r["bad"] == [None, None, None, None, None, 0]
     # 돌아가는 길을 오른쪽으로 7 비키기(app.js offsetPoints 와 같은 셈): 꺾인 곳은 이등분선 쪽, 되돌아가면 다음 변 쪽, 0.5 안의 점은 하나로
     assert r["offset"] == [[0, 7, 3, 7, 3, 10], [0, 7, 10, -7, 0, -7], [0, 7, 10, 7], [5, 5]]  # 깨진 자료는 읽지 않는다(날짜가 틀린 학기만 뺀다)
@@ -293,7 +305,7 @@ def test_widget_colors_follow_web_tokens():
     java = (JAVA / "WeekBitmap.java").read_text(encoding="utf-8")
     for name, tokens, base in (("LIGHT", light, None), ("DARK", dark, light), ("XMAS", xmas, light)):
         body = re.search(rf"static final Ink {name} = new Ink\((.*?)\);", java, re.S).group(1)
-        want = [_resolve(tokens, k, base) for k in ("text3", "line", "accent-text", "accent-weak")]
+        want = [_resolve(tokens, k, base) for k in ("text3", "line", "accent-text", "accent-weak", "danger")]  # danger: 지금 줄(update98)
         want += [_resolve(tokens, f"item-{i}", base) for i in range(8)] + [_resolve(tokens, f"cls-{k}-bg", base) for k in ("req", "elec", "gen", "etc")]
         # 칸 위 글자색(칸마다, 디자인 106판: 크리스마스의 짙은 칸은 흰 글자)
         want += [_resolve(tokens, f"item-{i}-fg", base) for i in range(8)] + [_resolve(tokens, f"item-{i}-fg2", base) for i in range(8)]
@@ -482,6 +494,28 @@ def test_week_layouts_pick_light_or_dark_picture():
     assert 'android:id="@+id/w_attr"' in day and "@string/w_map_attr" in day and "w_attr" not in re.sub(r"(?s).*static RemoteViews map\(", "", views).split("\n    }\n")[0]
     strings = (RES / "values" / "strings.xml").read_text(encoding="utf-8")
     assert '<string name="w_map_attr">© 국토지리정보원 · © OpenStreetMap</string>' in strings
+
+
+def test_week_now_line():
+    """주간 시간표 오늘 열의 지금 줄(update98, 사용자 11/12 "현재 시간이 해당하는 날에 가로 막대로", "빨간색(처럼 보색)으로 통일", "모양도 걍 평평하게"):
+    칸 위에 테마의 빨강(danger) 2 굵기 평평한 줄(점·테두리 없음).
+    줄이 보이는 동안 10분마다 부정확 알람으로 다시 그리되 그때는 주간 시간표만(위젯 넷은 nextChange 에). 언제 무엇을 그릴지는 test_app_reads_widget_data 가 본다"""
+    week = (JAVA / "WeekBitmap.java").read_text(encoding="utf-8")
+    body = re.search(r"static Bitmap draw\(.*?\n    }\n", week, re.S).group(0)
+    line = body[body.index("WidgetData.nowLine(t, now)"):]
+    assert body.index("drawText(canvas, box") < body.index("WidgetData.nowLine(t, now)")  # 칸 위에
+    line = line[:line.index("return bmp;")]
+    assert "fill.setColor(ink.danger);" in line and "g.y(nowMin)" in line and "canvas.drawRect(x0, y - dp, x0 + colW, y + dp, fill);" in line
+    assert "drawCircle" not in line and "accent" not in line  # 평평하게(점·둘레 없이), 빨강으로 통일
+    data = (JAVA / "WidgetData.java").read_text(encoding="utf-8")
+    assert "static final int NOW_STEP = 10;" in data
+    updater = (JAVA / "WidgetUpdater.java").read_text(encoding="utf-8")
+    assert "d.nextTick(now, ids(c, WEEK).length > 0)" in updater and "tick.putExtra(EXTRA_FULL_AT, at[1])" in updater
+    assert "alarms.setWindow(AlarmManager.RTC, at[0], WINDOW_MS, pi)" in updater
+    receive = re.search(r"public void onReceive\(.*?\n    }\n", updater, re.S).group(0)
+    assert "ACTION_TICK.equals(intent.getAction())" in receive and "refreshWeek(context)" in receive and "refreshAll(context)" in receive
+    week_only = re.search(r"static void refreshWeek\(.*?\n    }\n", updater, re.S).group(0)
+    assert "render(c, m, ids(c, WEEK), WEEK, d, now)" in week_only and "schedule(c, d, now)" in week_only
 
 
 def _visibility(xml: str, vid: str) -> str:

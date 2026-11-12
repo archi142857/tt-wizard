@@ -300,6 +300,50 @@ final class WidgetData {
         return at;
     }
 
+    // ------------------------------------------------------------ 주간 시간표의 지금 줄(update98, 사용자 11/12 "현재 시간이 해당하는 날에 가로 막대로")
+
+    /** 지금 줄을 옮겨 그리는 간격(분). 부정확 알람이라 실제로는 10~20분마다 옮긴다(화면이 꺼져 있던 동안 지난 때는 켜자마자) */
+    static final int NOW_STEP = 10;
+
+    /**
+     * 주간 격자 오늘 열에 지금 줄을 그릴 분(자정부터). 오늘이 그 학기 안(오늘 열을 칠하는 때와 같다)이고 보이는 요일이며
+     * 보이는 시각 [시작 시, 끝 시) 안일 때만, 아니면 -1. 오늘 수업이 없어도 그린다
+     */
+    static int nowLine(Term t, Calendar now) {
+        if (t == null) return -1;
+        int day = ymd(now), days = dayCount(t);
+        if (day < t.from || day > t.to || weekday(now) >= days) return -1;
+        int[] h = hours(t, days);
+        int min = minuteOfDay(now);
+        return h[0] * 60 <= min && min < h[1] * 60 ? min : -1;
+    }
+
+    /**
+     * 지금 줄을 다시 그릴 때(밀리초): 보이기 전이면 보이기 시작할 때, 보이는 동안 다음 10분(끝 시각에 지운다).
+     * 오늘 더 그릴 줄이 없으면 Long.MAX_VALUE(그 뒤는 nextChange 의 다음 날 0시)
+     */
+    long nextNowLine(Calendar now) {
+        Term t = termOn(now);
+        if (t == null) return Long.MAX_VALUE;
+        int day = ymd(now), days = dayCount(t);
+        if (day < t.from || day > t.to || weekday(now) >= days) return Long.MAX_VALUE;
+        int[] h = hours(t, days);
+        int min = minuteOfDay(now), lo = h[0] * 60, hi = h[1] * 60;
+        if (min >= hi) return Long.MAX_VALUE;
+        Calendar c = startOfDay(now);
+        c.add(Calendar.MINUTE, min < lo ? lo : Math.min((min / NOW_STEP + 1) * NOW_STEP, hi));
+        return c.getTimeInMillis();
+    }
+
+    /**
+     * 다음 알람 {울릴 때, 위젯 넷을 다 그릴 때}(밀리초, WidgetUpdater.schedule). week = 주간 시간표 위젯이 놓였는지:
+     * 그러면 지금 줄을 옮길 때에도 울리고, 그때가 다 그릴 때보다 이르면 주간 시간표만 그린다(동선 지도 그림까지 10분마다 다시 그리지 않게)
+     */
+    long[] nextTick(Calendar now, boolean week) {
+        long full = nextChange(now);
+        return new long[] { week ? Math.min(full, nextNowLine(now)) : full, full };
+    }
+
     /**
      * 다음 수업 위젯의 큰 줄과 그 아래 줄(update70, 사용자: 출발·걷기가 "내용의 중심이 되도록 크고 잘 보이게").
      *   LEAVE  그날 첫 수업(출발 지점에서): 큰 줄 '14:44 출발', 아래 '걷기 16분'
@@ -494,11 +538,15 @@ final class WidgetData {
             gap = 1.5f * unit;
         }
 
+        /** 그 분(자정부터)의 높이: 칸의 위·아래, 지금 줄(update98) */
+        float y(int minute) {
+            return head + (minute / 60f - hours[0]) * hourH;
+        }
+
         /** 그 요일(day) 수업 하나의 칸 {왼쪽, 위, 오른쪽, 아래}. lane·lanes 는 laneOf 의 값(겹치면 나란히) */
         float[] box(int day, Lesson l, int lane, int lanes) {
             float x0 = gutter + day * colW, laneW = colW / lanes;
-            return new float[] { x0 + lane * laneW + gap, head + (l.start / 60f - hours[0]) * hourH + gap / 2,
-                x0 + (lane + 1) * laneW - gap, head + (l.end / 60f - hours[0]) * hourH - gap / 2 };
+            return new float[] { x0 + lane * laneW + gap, y(l.start) + gap / 2, x0 + (lane + 1) * laneW - gap, y(l.end) - gap / 2 };
         }
     }
 

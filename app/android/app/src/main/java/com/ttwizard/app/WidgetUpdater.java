@@ -17,11 +17,14 @@ import java.util.Calendar;
  *   다시 그리는 때: 오늘 남은 수업의 시작·끝과 다음 날 0시(WidgetData.nextChange). 부정확 알람(AlarmManager.setWindow, RTC: 기기를 깨우지 않고
  *   화면이 켜질 때 온다)이라 정확한 알람 권한이 없다(법무: USE_EXACT_ALARM 은 쓰지 않는다). 창은 10분(안드로이드 12 이상의 가장 짧은 창)이라
  *   늦으면 10분쯤 늦게 바뀐다. 위젯 정보의 updatePeriodMillis(3시간)와 시각·시간대 바뀜·앱 업데이트(이 받는 곳의 intent-filter)가 받침이다.
+ *   주간 시간표 위젯이 놓였으면 오늘 열의 지금 줄(update98)이 보이는 동안 10분마다도 울리고, 그때는 주간 시간표만 다시 그린다(WidgetData.nextTick, EXTRA_FULL_AT).
  * 이 클래스는 알람과 시각 바뀜을 받는 BroadcastReceiver 이기도 하다(AndroidManifest.xml).
  */
 public class WidgetUpdater extends BroadcastReceiver {
 
     static final String ACTION_TICK = "com.ttwizard.app.action.WIDGET_TICK";
+    /** 알람에 넣는 '위젯 넷을 다 그릴 때'(밀리초). 그 전에 울리면 지금 줄을 옮기는 알람이라 주간 시간표만 그린다(update98). 없으면 0: 다 그린다 */
+    static final String EXTRA_FULL_AT = "com.ttwizard.app.extra.FULL_AT";
     static final int NEXT = 0;
     static final int TODAY = 1;
     static final int WEEK = 2;
@@ -35,7 +38,9 @@ public class WidgetUpdater extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        refreshAll(context);
+        long fullAt = ACTION_TICK.equals(intent.getAction()) ? intent.getLongExtra(EXTRA_FULL_AT, 0) : 0;
+        if (System.currentTimeMillis() < fullAt) refreshWeek(context); // 지금 줄만 옮긴다(늦게 와서 다 그릴 때가 지났으면 다 그린다)
+        else refreshAll(context);
     }
 
     private static SharedPreferences prefs(Context c) {
@@ -74,6 +79,15 @@ public class WidgetUpdater extends BroadcastReceiver {
         schedule(c, d, now);
     }
 
+    /** 주간 시간표만: 오늘 열의 지금 줄을 옮길 때(update98) */
+    static void refreshWeek(Context c) {
+        AppWidgetManager m = AppWidgetManager.getInstance(c);
+        WidgetData d = load(c);
+        Calendar now = Calendar.getInstance();
+        render(c, m, ids(c, WEEK), WEEK, d, now);
+        schedule(c, d, now);
+    }
+
     /** 한 종류의 위젯 몇 개(새로 놓았거나 크기를 바꿨을 때) */
     static void update(Context c, AppWidgetManager m, int[] ids, int kind) {
         WidgetData d = load(c);
@@ -101,19 +115,20 @@ public class WidgetUpdater extends BroadcastReceiver {
         AlarmManager alarms = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
         if (alarms == null) return;
         Intent tick = new Intent(c, WidgetUpdater.class).setAction(ACTION_TICK);
-        PendingIntent pi = PendingIntent.getBroadcast(c, 0, tick, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         if (placed(c) == 0) {
-            alarms.cancel(pi);
+            alarms.cancel(PendingIntent.getBroadcast(c, 0, tick, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT));
             return;
         }
-        long at;
+        long[] at; // {울릴 때, 다 그릴 때}
         if (d != null) {
-            at = d.nextChange(now);
+            at = d.nextTick(now, ids(c, WEEK).length > 0);
         } else {
             Calendar midnight = WidgetData.startOfDay(now);
             midnight.add(Calendar.DAY_OF_MONTH, 1);
-            at = midnight.getTimeInMillis();
+            at = new long[] { midnight.getTimeInMillis(), midnight.getTimeInMillis() };
         }
-        alarms.setWindow(AlarmManager.RTC, at, WINDOW_MS, pi);
+        tick.putExtra(EXTRA_FULL_AT, at[1]); // 같은 알람(받는 곳·action 이 같은 PendingIntent)을 고쳐 잡는다. 덧붙인 값은 같은지 견주지 않는다
+        PendingIntent pi = PendingIntent.getBroadcast(c, 0, tick, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        alarms.setWindow(AlarmManager.RTC, at[0], WINDOW_MS, pi);
     }
 }

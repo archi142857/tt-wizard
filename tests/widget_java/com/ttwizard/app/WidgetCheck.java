@@ -49,11 +49,20 @@ public final class WidgetCheck {
             + ",\"leave\":" + (l.leave() < 0 ? "null" : q(WidgetData.hm(l.leave()))) + ",\"walk\":" + l.walk + ",\"late\":" + l.late + "}";
     }
 
-    private static String change(WidgetData d, Calendar now) {
+    private static String ms(long at) {
         Calendar c = Calendar.getInstance(SEOUL);
-        c.setTimeInMillis(d.nextChange(now));
+        c.setTimeInMillis(at);
         return q(String.format("%d-%02d-%02d %02d:%02d", c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH),
             c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE)));
+    }
+
+    private static String change(WidgetData d, Calendar now) {
+        return ms(d.nextChange(now));
+    }
+
+    private static Calendar when(String s) {
+        String[] p = s.split("[- :]");
+        return at(Integer.parseInt(p[0]), Integer.parseInt(p[1]), Integer.parseInt(p[2]), Integer.parseInt(p[3]), Integer.parseInt(p[4]));
     }
 
     private static String hero(WidgetData.Hero h) {
@@ -166,6 +175,24 @@ public final class WidgetCheck {
         int[] lane = new int[4], lanes = new int[4];
         WidgetData.laneOf(clash, lane, lanes);
         out.append(",\"lane\":").append(Arrays.toString(lane).replace(" ", "")).append(",\"lanes\":").append(Arrays.toString(lanes).replace(" ", "")).append("}");
+        // 주간 시간표의 지금 줄(update98): 오늘 열에 그릴 분(-1 은 안 그림), 다음 알람 {울릴 때, 다 그릴 때}(주간 시간표가 놓였을 때)와 놓이지 않았을 때 울릴 때
+        String[] nowAt = { "2026-10-26 08:59", "2026-10-26 09:00", "2026-10-26 09:35", "2026-10-27 14:59", "2026-10-26 15:00", "2026-10-31 10:00",
+            "2026-12-25 10:00", "2026-08-20 10:00" };
+        out.append(",\"nowLine\":[");
+        for (int i = 0; i < nowAt.length; i++) {
+            Calendar now = when(nowAt[i]);
+            out.append(i == 0 ? "" : ",").append(WidgetData.nowLine(d.termOn(now), now));
+        }
+        String[] tickAt = { "2026-10-26 08:00", "2026-10-26 09:25", "2026-10-26 09:35", "2026-10-26 10:40", "2026-10-26 14:55", "2026-10-26 15:00",
+            "2026-10-31 10:00", "2026-12-25 10:00" };
+        out.append("],\"tick\":[");
+        for (int i = 0; i < tickAt.length; i++) {
+            Calendar now = when(tickAt[i]);
+            long[] week = d.nextTick(now, true), none = d.nextTick(now, false);
+            out.append(i == 0 ? "" : ",").append("[").append(ms(week[0])).append(",").append(ms(week[1])).append(",").append(ms(none[0]))
+                .append(",").append(none[0] == none[1]).append("]");
+        }
+        out.append("]");
         // 다음 수업 위젯의 큰 줄(update70): 그날 첫 수업은 나설 시각, 앞 수업에서는 걷는 분과 앞 건물·늦음, 마지막 수업 중이면 끝 시각, 걷기를 모르면 시작 시각
         String[][] heroAt = { { "monMorning", "2026-10-26 08:00" }, { "monFirst", "2026-10-26 10:00" }, { "monLast", "2026-10-26 11:30" },
             { "winter", "2026-12-25 12:00" } };
