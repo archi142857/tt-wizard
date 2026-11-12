@@ -4284,21 +4284,21 @@
     "start": 540,
     "end": 710,
     "building": "28",
-    "room": "28-301"
+    "room": "28-102"
    },
    {
     "day": 2,
     "start": 540,
     "end": 710,
     "building": "28",
-    "room": "28-301"
+    "room": "28-102"
    },
    {
     "day": 4,
     "start": 540,
     "end": 710,
     "building": "28",
-    "room": "28-301"
+    "room": "28-102"
    }
   ]
  },
@@ -5824,22 +5824,22 @@
     "day": 0,
     "start": 900,
     "end": 1070,
-    "building": "2",
-    "room": "2-110(무선랜제공)"
+    "building": "14",
+    "room": "14-203(무선랜제공)"
    },
    {
     "day": 2,
     "start": 900,
     "end": 1070,
-    "building": "2",
-    "room": "2-110(무선랜제공)"
+    "building": "14",
+    "room": "14-203(무선랜제공)"
    },
    {
     "day": 4,
     "start": 900,
     "end": 1070,
-    "building": "2",
-    "room": "2-110(무선랜제공)"
+    "building": "14",
+    "room": "14-203(무선랜제공)"
    }
   ]
  },
@@ -7633,22 +7633,22 @@
     "day": 0,
     "start": 900,
     "end": 1070,
-    "building": "1",
-    "room": "1-101(무선랜제공)"
+    "building": "5",
+    "room": "5-211(무선랜제공)"
    },
    {
     "day": 2,
     "start": 900,
     "end": 1070,
-    "building": "1",
-    "room": "1-101(무선랜제공)"
+    "building": "5",
+    "room": "5-211(무선랜제공)"
    },
    {
     "day": 4,
     "start": 900,
     "end": 1070,
-    "building": "1",
-    "room": "1-101(무선랜제공)"
+    "building": "5",
+    "room": "5-211(무선랜제공)"
    }
   ]
  },
@@ -7762,22 +7762,22 @@
     "day": 0,
     "start": 720,
     "end": 890,
-    "building": "2",
-    "room": "2-110(무선랜제공)"
+    "building": "9",
+    "room": "9-119(무선랜제공)"
    },
    {
     "day": 2,
     "start": 720,
     "end": 890,
-    "building": "2",
-    "room": "2-110(무선랜제공)"
+    "building": "9",
+    "room": "9-119(무선랜제공)"
    },
    {
     "day": 4,
     "start": 720,
     "end": 890,
-    "building": "2",
-    "room": "2-110(무선랜제공)"
+    "building": "9",
+    "room": "9-119(무선랜제공)"
    }
   ]
  },
@@ -8132,11 +8132,11 @@
   "meetings": []
  },
  {
-  "course_id": "M3502.020200",
+  "course_id": "M2177.010700",
   "section_no": "002",
   "course_name": "현장실습 3",
-  "instructor": "허진회",
-  "department": "혁신공유학부",
+  "instructor": "임영섭",
+  "department": "공과대학",
   "credit": 3.0,
   "classification": "일선",
   "program": "학사",
@@ -8144,11 +8144,11 @@
   "meetings": []
  },
  {
-  "course_id": "M2177.010700",
+  "course_id": "M3502.020200",
   "section_no": "002",
   "course_name": "현장실습 3",
-  "instructor": "임영섭",
-  "department": "공과대학",
+  "instructor": "허진회",
+  "department": "혁신공유학부",
   "credit": 3.0,
   "classification": "일선",
   "program": "학사",
