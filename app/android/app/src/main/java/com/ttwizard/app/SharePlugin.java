@@ -36,6 +36,11 @@ import java.util.Locale;
  * 안드로이드 11 이상은 매니페스트 <queries> 에 적은 앱(카카오톡·인스타그램·문자 앱)만 보인다. QUERY_ALL_PACKAGES 와 권한은 쓰지 않고,
  * 무엇이 깔렸는지는 기기 안에서만 본다(밖으로 보내지 않는다).
  * 거절 code: "MISSING"(그 앱이 없거나 그 내용을 받지 않는다), "FAILED"(그 밖).
+ * 캘린더(update104, 디자인 122판 공유 시트 '캘린더'의 단추 줄):
+ *   calendarApps  이 폰에서 캘린더 파일(.ics, text/calendar)을 여는 앱 셋까지 { targets: [{ id(패키지), app, icon }] }. 기기가 알려 주는 차례,
+ *                 우리 앱은 뺀다. 안드로이드 11 이상은 매니페스트 <queries> 의 VIEW text/calendar 로 보인다. 못 물으면 [].
+ *   openCalendar  { target(패키지), data(.ics base64), name } 그 앱으로 파일을 연다(ACTION_VIEW, FileProvider 주소, 읽기만 허락).
+ *                 그 앱이 없거나 못 열면 MISSING(화면은 기기 공유 창 TTW_APP.shareFile 로).
  */
 @CapacitorPlugin(name = "TTWShare")
 public class SharePlugin extends Plugin {
@@ -137,6 +142,58 @@ public class SharePlugin extends Plugin {
             return String.valueOf(pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0)));
         } catch (Exception e) {
             return "";
+        }
+    }
+
+    static final String CALENDAR = "text/calendar";
+    static final int MAX_CALENDARS = 3;
+
+    @PluginMethod
+    public void calendarApps(PluginCall call) {
+        PackageManager pm = getContext().getPackageManager();
+        String self = getContext().getPackageName();
+        JSArray list = new JSArray();
+        try {
+            Uri probe = Uri.parse("content://" + self + ".fileprovider/my_cache_images/share/timetable.ics");
+            java.util.Set<String> seen = new java.util.LinkedHashSet<>();
+            for (ResolveInfo r : found(new Intent(Intent.ACTION_VIEW).setDataAndType(probe, CALENDAR))) {
+                if (r.activityInfo == null) continue;
+                String pkg = r.activityInfo.packageName;
+                if (pkg.equals(self) || !seen.add(pkg)) continue;
+                JSObject one = new JSObject();
+                one.put("id", pkg);
+                one.put("app", labelOf(pm, pkg));
+                one.put("icon", iconOf(pm, pkg));
+                list.put(one);
+                if (seen.size() >= MAX_CALENDARS) break;
+            }
+        } catch (Exception e) {
+            // 못 물은 곳은 빼고 물은 데까지(화면은 '더 보기'가 남는다)
+        }
+        JSObject ret = new JSObject();
+        ret.put("targets", list);
+        call.resolve(ret);
+    }
+
+    @PluginMethod
+    public void openCalendar(PluginCall call) {
+        String pkg = call.getString("target", "");
+        byte[] data = ImagePlugin.bytes(call);
+        if (pkg == null || pkg.isEmpty() || data == null) {
+            call.reject("no target or data", "FAILED");
+            return;
+        }
+        try {
+            Uri uri = ImagePlugin.cacheForShare(getContext(), data, ImagePlugin.fileName(call, ".ics"));
+            Intent view = new Intent(Intent.ACTION_VIEW).setDataAndType(uri, CALENDAR).setPackage(pkg);
+            view.setClipData(ClipData.newRawUri("", uri));
+            view.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            getActivity().startActivity(view);
+            call.resolve();
+        } catch (ActivityNotFoundException e) {
+            call.reject("app missing", "MISSING");
+        } catch (Exception e) {
+            call.reject(e.getMessage() == null ? "open failed" : e.getMessage(), "FAILED");
         }
     }
 

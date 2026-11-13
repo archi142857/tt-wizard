@@ -217,6 +217,19 @@ def test_native_shim():
                          "title": "캘린더에 넣기", "old": "UNSUPPORTED", "gone": "UNSUPPORTED"}
     java = (APP / "android" / "app" / "src" / "main" / "java" / "com" / "ttwizard" / "app" / "ImagePlugin.java").read_text(encoding="utf-8")
     assert "public void shareFile(PluginCall call)" in java and '"text/calendar".equals(mime) ? ".ics" : null' in java  # 받는 mime 은 캘린더 하나
+    # 캘린더(update104): 다운로드에 저장(10 이상, MediaStore.Downloads, 권한 없음)·캘린더 앱 셋까지·그 앱으로 열기(VIEW)
+    c = r["calendar"]
+    assert c["canSave"] is True and c["canSave9"] is False
+    assert c["save"] == ["saveFile", "BEGIN:VCALENDAR", "2026년 2학기 시간표 1.ics", "text/calendar"]
+    assert [a["id"] for a in c["apps"]] == ["com.samsung.android.calendar", "a", "b"] and c["apps"][0]["icon"] == "data:image/png;base64,QUJD"
+    assert c["open"] == ["com.samsung.android.calendar", "BEGIN:VCALENDAR\r\n나", "2026년 2학기 시간표 1.ics"] and c["failedApps"] == []
+    assert "MediaStore.Downloads.getContentUri" in java and "Environment.DIRECTORY_DOWNLOADS" in java
+    assert 'ret.put("saveFile", Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)' in java
+    share = (APP / "android" / "app" / "src" / "main" / "java" / "com" / "ttwizard" / "app" / "SharePlugin.java").read_text(encoding="utf-8")
+    assert "public void calendarApps(PluginCall call)" in share and "public void openCalendar(PluginCall call)" in share
+    assert "MAX_CALENDARS = 3" in share and "Intent.ACTION_VIEW).setDataAndType(uri, CALENDAR).setPackage(pkg)" in share
+    manifest = (APP / "android" / "app" / "src" / "main" / "AndroidManifest.xml").read_text(encoding="utf-8")
+    assert '<data android:mimeType="text/calendar" />' in manifest and "android.permission.QUERY_ALL_PACKAGES" not in manifest
     n = r["imageInfo"]
     assert n["before"] == [False, False] and n["info"] == {"save": True, "share": True} and n["after"] == [True, True]
     assert n["ios"] == [{"save": True, "share": True}, True]  # iOS 도 사진에 저장한다(10/30)
@@ -291,7 +304,8 @@ def test_android_plugins_permissions_and_links():
     # 다른 앱이 보이는 범위(안드로이드 11 이상): 바로 보내기 곳의 앱(카카오톡·인스타그램)과 문자 앱만. 모든 앱(QUERY_ALL_PACKAGES)은 보지 않는다
     queries = re.search(r"<queries>(.*?)</queries>", manifest, re.S).group(1)
     assert re.findall(r'<package android:name="([^"]+)" />', queries) == ["com.kakao.talk", "com.instagram.android"]
-    assert re.findall(r'android:(?:name|scheme)="([^"]+)"', re.sub(r"<package [^>]*/>", "", queries)) == ["android.intent.action.SENDTO", "smsto"]
+    assert re.findall(r'android:(?:name|scheme|mimeType)="([^"]+)"', re.sub(r"<package [^>]*/>", "", queries)) == [
+        "android.intent.action.SENDTO", "smsto", "android.intent.action.VIEW", "text/calendar"]  # 캘린더 파일을 여는 앱(update104)
     assert "android.permission.QUERY_ALL_PACKAGES" not in manifest and manifest.count("<queries>") == 1
     paths = (APP / "android" / "app" / "src" / "main" / "res" / "xml" / "file_paths.xml").read_text(encoding="utf-8")
     assert '<cache-path name="my_cache_images" path="." />' in paths and 'android:authorities="${applicationId}.fileprovider"' in manifest

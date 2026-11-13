@@ -35,6 +35,7 @@ final class WeekBitmap {
         final int accent;
         final int accentWeak;
         final int danger; // 오늘 열의 지금 줄(update98)
+        final int card; // 지금 줄 위아래 1dp 띠(update104, 디자인 122판: 칸 위에서도 줄이 칸에서 떨어져 보이게)
         final int[] items; // item-0 ~ item-7 칸 채움
         final int[] cls; // cls-req-bg, cls-elec-bg, cls-gen-bg, cls-etc-bg
         final int[] itemFg; // item-N-fg: 칸 위 과목명
@@ -42,12 +43,13 @@ final class WeekBitmap {
         final int[] clsFg; // cls-*-fg
         final int[] clsFg2; // cls-*-fg2
 
-        Ink(int text3, int line, int accent, int accentWeak, int danger, int[] items, int[] cls, int[] itemFg, int[] itemFg2, int[] clsFg, int[] clsFg2) {
+        Ink(int text3, int line, int accent, int accentWeak, int danger, int card, int[] items, int[] cls, int[] itemFg, int[] itemFg2, int[] clsFg, int[] clsFg2) {
             this.text3 = text3;
             this.line = line;
             this.accent = accent;
             this.accentWeak = accentWeak;
             this.danger = danger;
+            this.card = card;
             this.items = items;
             this.cls = cls;
             this.itemFg = itemFg;
@@ -63,19 +65,19 @@ final class WeekBitmap {
         return out;
     }
 
-    // 라이트: text3, line, accent-text, accent-weak, danger(지금 줄), item-0~7, cls-*-bg, item-N-fg·fg2, cls-*-fg·fg2(기본 테마는 모두 text·text2).
-    // 바탕(card)은 위젯 바탕 그림(widget_bg)이라 그림은 비워 둔다
-    static final Ink LIGHT = new Ink(0xFF646C7E, 0xFFDEE1F7, 0xFF415FEC, 0xFFEEF0FF, 0xFFD8152F,
+    // 라이트: text3, line, accent-text, accent-weak, danger(지금 줄), card(지금 줄 띠), item-0~7, cls-*-bg, item-N-fg·fg2, cls-*-fg·fg2(기본 테마는 모두 text·text2).
+    // 바탕(card)은 위젯 바탕 그림(widget_bg)이라 그림은 비워 둔다(card 는 지금 줄 위아래 띠에만)
+    static final Ink LIGHT = new Ink(0xFF646C7E, 0xFFDEE1F7, 0xFF415FEC, 0xFFEEF0FF, 0xFFD8152F, 0xFFFFFFFF,
         new int[] { 0xFFDCE9FF, 0xFFCBF6D8, 0xFFFFE0C4, 0xFFF1E2FF, 0xFFFBEEB0, 0xFFFFDCEB, 0xFFC3F4F7, 0xFFE6EAF2 },
         new int[] { 0xFFEAF0FF, 0xFFDAF8ED, 0xFFFFECE1, 0xFFEDEEF7 },
         all(8, 0xFF182033), all(8, 0xFF51596A), all(4, 0xFF182033), all(4, 0xFF51596A));
     // 다크: 같은 토큰의 다크 값
-    static final Ink DARK = new Ink(0xFFAFB2BB, 0xFF2F3138, 0xFFA2B5FA, 0xFF282F47, 0xFFF2908D,
+    static final Ink DARK = new Ink(0xFFAFB2BB, 0xFF2F3138, 0xFFA2B5FA, 0xFF282F47, 0xFFF2908D, 0xFF1E2026,
         new int[] { 0xFF364879, 0xFF175432, 0xFF6F3D19, 0xFF574071, 0xFF554A0B, 0xFF70384F, 0xFF065356, 0xFF454A54 },
         new int[] { 0xFF3C4871, 0xFF125443, 0xFF684123, 0xFF454954 },
         all(8, 0xFFE4E6EB), all(8, 0xFFC8CAD2), all(4, 0xFFE4E6EB), all(4, 0xFFC8CAD2));
     // 크리스마스(update78, 디자인 106판 '크리스마스 한 벌'): 앱의 크리스마스 칸 색(81판 '선명하게'). 짙은 칸(초록·청록·크랜베리, 전필·전선)은 흰 과목명과 옅은 같은 색 강의실
-    static final Ink XMAS = new Ink(0xFF525E56, 0xFFD7E6DC, 0xFF0D6F44, 0xFFDEF8E7, 0xFFD8152F,
+    static final Ink XMAS = new Ink(0xFF525E56, 0xFFD7E6DC, 0xFF0D6F44, 0xFFDEF8E7, 0xFFD8152F, 0xFFFFFFFF,
         new int[] { 0xFF1C6E47, 0xFFA1D6B2, 0xFFF7CD6C, 0xFF227A7E, 0xFF92182E, 0xFFFBEDD1, 0xFFD6E69D, 0xFFD5D4D1 },
         new int[] { 0xFF1C6E47, 0xFF227A7E, 0xFFF7CD6C, 0xFFD5D4D1 },
         new int[] { 0xFFFFFFFF, 0xFF17211B, 0xFF17211B, 0xFFFFFFFF, 0xFFFFFFFF, 0xFF17211B, 0xFF17211B, 0xFF17211B },
@@ -170,10 +172,13 @@ final class WeekBitmap {
         }
 
         // 지금 줄(update98, 사용자 11/12 "현재 시간이 해당하는 날에 가로 막대로", 같은 날 "빨간색(처럼 보색)으로 통일", "모양도 걍 평평하게"):
-        // 오늘 열 너비의 빨간(테마의 danger) 2 굵기 평평한 줄을 수업 칸 위에. 다시 그리는 때는 WidgetData.nextNowLine
+        // 오늘 열 너비의 빨간(테마의 danger) 2 굵기 평평한 줄을 수업 칸 위에. 다시 그리는 때는 WidgetData.nextNowLine.
+        // 위아래 1dp 씩 테마의 card 띠(합 4dp, 빨강이 가운데. update104, 디자인 122판): 빈 격자에서는 바탕과 같아 안 보이고 칸 위에서는 줄이 칸에서 떨어진다
         int nowMin = WidgetData.nowLine(t, now);
         if (nowMin >= 0) {
             float y = g.y(nowMin), x0 = gutter + today * colW;
+            fill.setColor(ink.card);
+            canvas.drawRect(x0, y - 2 * dp, x0 + colW, y + 2 * dp, fill);
             fill.setColor(ink.danger);
             canvas.drawRect(x0, y - dp, x0 + colW, y + dp, fill);
         }

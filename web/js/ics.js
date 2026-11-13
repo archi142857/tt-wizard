@@ -101,8 +101,22 @@ export function buildIcs(items, info, { name = null, now = new Date(), place = p
   return { text: lines.map(fold).join(CRLF) + CRLF, events, skipped };
 }
 
-/** 내려받을 파일 이름: 'TT Wizard 2026-2 시간표 1.ics'(경로·제어 글자 뺌) */
-export function icsFileName(term, title = "") {
-  const base = `TT Wizard ${term}${title ? " " + title : ""}`.replace(/[\\/:*?"<>|\u0000-\u001f]/g, "_").trim().slice(0, 80);
+/** 학기 이름: '2026-2' → '2026년 2학기', '2026-S' → '2026년 여름학기', '2026-W' → '2026년 겨울학기' */
+export function termLabel(term) {
+  const m = /^(\d{4})-([12SW])$/.exec(String(term || ""));
+  if (!m) return String(term || "");
+  return `${m[1]}년 ${{ 1: "1학기", 2: "2학기", S: "여름학기", W: "겨울학기" }[m[2]]}`;
+}
+
+/** 칸에 보일 학기 기간: '9월 1일~12월 14일'(화면은 뒤에 '매주'를 붙인다. 디자인 122판). info 가 없으면 '' */
+export function termRangeLabel(info) {
+  if (!info) return "";
+  const md = (s) => { const [, m, d] = String(s).split("-").map(Number); return `${m}월 ${d}일`; };
+  return `${md(info.start)}~${md(info.end)}`;
+}
+
+/** 파일 이름: '2026년 2학기 시간표 1.ics'(디자인 122판. 경로·제어 글자는 _ 로) */
+export function icsFileName(term, title = "시간표") {
+  const base = `${termLabel(term)} ${title || "시간표"}`.replace(/[\\/:*?"<>|\u0000-\u001f]/g, "_").trim().slice(0, 80);
   return `${base}.ics`;
 }

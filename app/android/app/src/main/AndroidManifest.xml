@@ -124,5 +124,10 @@
             <action android:name="android.intent.action.SENDTO" />
             <data android:scheme="smsto" />
         </intent>
+        <!-- 캘린더 파일(.ics)을 여는 앱(update104, SharePlugin.calendarApps) -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:mimeType="text/calendar" />
+        </intent>
     </queries>
 </manifest>

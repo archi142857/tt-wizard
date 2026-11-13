@@ -35,6 +35,7 @@ import java.io.OutputStream;
  *          거절(다시 묻지 않음 포함)이면 "DENIED"(화면: '사진 접근이 꺼져 있어요' [설정] → TTWShell.openSettings), 그 밖의 실패는 "FAILED".
  *   info   { save: 사진에 저장되는 기기인지(지금은 모든 기기), sdk } — native.js 가 켤 때 한 번 물어 TTW_APP.canSaveImage 로 둔다.
  *   shareFile  캘린더 파일(.ics, text/calendar, update102)을 share 처럼 앱 캐시에 쓰고 공유 시트로. 다른 mime 은 받지 않는다(UNSUPPORTED). 권한 없음.
+ *   saveFile   캘린더 파일을 기기 다운로드에(update104, 10 이상만, 권한 없음). info 의 saveFile 로 되는지 알린다.
  * 파일은 받은 바이트 그대로 쓴다: PNG 안에 넣은 시간표 자료(iTXt, web/js/timetables.js '이미지 파일에 담기')가 남는다.
  */
 @CapacitorPlugin(
@@ -68,6 +69,54 @@ public class ImagePlugin extends Plugin {
         if (name.isEmpty() || name.startsWith(".")) name = "timetable";
         if (name.length() > 80) name = name.substring(0, 80);
         return name.toLowerCase().endsWith(ext) ? name : name + ext;
+    }
+
+    /**
+     * 캘린더 파일(.ics)을 기기 다운로드(Download/)에 넣는다(update104, 디자인 122판 공유 시트 '캘린더'의 '파일로 저장').
+     * 안드로이드 10 이상만: MediaStore.Downloads 에 제 파일을 더해 권한을 묻지 않는다(이름이 겹치면 MediaStore 가 번호를 붙인다).
+     * 9 이하와 받지 않는 mime 은 UNSUPPORTED(화면은 info 의 saveFile 이 false 면 단추를 두지 않는다).
+     */
+    @PluginMethod
+    public void saveFile(PluginCall call) {
+        String mime = call.getString("mime", "");
+        String ext = extensionFor(mime);
+        if (ext == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            call.reject("unsupported", "UNSUPPORTED");
+            return;
+        }
+        byte[] data = bytes(call);
+        if (data == null) {
+            call.reject("no file data");
+            return;
+        }
+        saveToDownloads(call, data, fileName(call, ext), mime);
+    }
+
+    private void saveToDownloads(PluginCall call, byte[] data, String name, String mime) {
+        ContentResolver resolver = getContext().getContentResolver();
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
+        values.put(MediaStore.MediaColumns.MIME_TYPE, mime);
+        values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
+        values.put(MediaStore.MediaColumns.IS_PENDING, 1);
+        Uri uri = null;
+        try {
+            uri = resolver.insert(MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY), values);
+            if (uri == null) throw new IOException("insert");
+            try (OutputStream out = resolver.openOutputStream(uri)) {
+                if (out == null) throw new IOException("open");
+                out.write(data);
+            }
+            ContentValues done = new ContentValues();
+            done.put(MediaStore.MediaColumns.IS_PENDING, 0);
+            resolver.update(uri, done, null, null);
+            JSObject ret = new JSObject();
+            ret.put("uri", uri.toString());
+            call.resolve(ret);
+        } catch (Exception e) {
+            if (uri != null) resolver.delete(uri, null, null);
+            call.reject(message(e, "save failed"), "FAILED");
+        }
     }
 
     /** 공유 시트로 넘길 수 있는 다른 파일: mime → 확장자. 지금은 캘린더 파일 하나 */
@@ -147,6 +196,7 @@ public class ImagePlugin extends Plugin {
     public void info(PluginCall call) {
         JSObject ret = new JSObject();
         ret.put("save", true); // 10 이상은 MediaStore, 9 이하는 저장소 권한을 물어서
+        ret.put("saveFile", Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q); // 캘린더 파일을 다운로드에(10 이상, 권한 없음. update104)
         ret.put("sdk", Build.VERSION.SDK_INT);
         call.resolve(ret);
     }

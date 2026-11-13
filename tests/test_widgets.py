@@ -305,7 +305,7 @@ def test_widget_colors_follow_web_tokens():
     java = (JAVA / "WeekBitmap.java").read_text(encoding="utf-8")
     for name, tokens, base in (("LIGHT", light, None), ("DARK", dark, light), ("XMAS", xmas, light)):
         body = re.search(rf"static final Ink {name} = new Ink\((.*?)\);", java, re.S).group(1)
-        want = [_resolve(tokens, k, base) for k in ("text3", "line", "accent-text", "accent-weak", "danger")]  # danger: 지금 줄(update98)
+        want = [_resolve(tokens, k, base) for k in ("text3", "line", "accent-text", "accent-weak", "danger", "card")]  # danger: 지금 줄(update98), card: 그 위아래 띠(update104)
         want += [_resolve(tokens, f"item-{i}", base) for i in range(8)] + [_resolve(tokens, f"cls-{k}-bg", base) for k in ("req", "elec", "gen", "etc")]
         # 칸 위 글자색(칸마다, 디자인 106판: 크리스마스의 짙은 칸은 흰 글자)
         want += [_resolve(tokens, f"item-{i}-fg", base) for i in range(8)] + [_resolve(tokens, f"item-{i}-fg2", base) for i in range(8)]
@@ -506,6 +506,9 @@ def test_week_now_line():
     assert body.index("drawText(canvas, box") < body.index("WidgetData.nowLine(t, now)")  # 칸 위에
     line = line[:line.index("return bmp;")]
     assert "fill.setColor(ink.danger);" in line and "g.y(nowMin)" in line and "canvas.drawRect(x0, y - dp, x0 + colW, y + dp, fill);" in line
+    # 위아래 1dp 씩 card 띠를 먼저 그리고 빨간 줄을 가운데에(합 4dp, update104 디자인 122판)
+    band = "fill.setColor(ink.card);\n            canvas.drawRect(x0, y - 2 * dp, x0 + colW, y + 2 * dp, fill);"
+    assert band in line and line.index(band) < line.index("fill.setColor(ink.danger);")
     assert "drawCircle" not in line and "accent" not in line  # 평평하게(점·둘레 없이), 빨강으로 통일
     data = (JAVA / "WidgetData.java").read_text(encoding="utf-8")
     assert "static final int NOW_STEP = 10;" in data

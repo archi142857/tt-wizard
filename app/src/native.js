@@ -257,13 +257,14 @@
     for (var i = 0; i < s.length; i++) b[i] = s.charCodeAt(i);
     return b;
   }
-  function fileCall(opts) {
+  function fileCall(opts, method) {
+    method = method || "shareFile";
     var p = (cap.Plugins || {}).TTWImage;
-    if (!p || typeof p.shareFile !== "function") return unsupported();
+    if (!p || typeof p[method] !== "function") return unsupported();
     opts = opts || {};
     var data = typeof opts.text === "string" ? Promise.resolve(utf8(opts.text)) : imageBytes(opts.bytes);
     return data.then(function (b) {
-      return pluginCall("TTWImage", "shareFile", { data: base64(b), name: String(opts.name || ""), mime: String(opts.mime || ""),
+      return pluginCall("TTWImage", method, { data: base64(b), name: String(opts.name || ""), mime: String(opts.mime || ""),
         title: String(opts.title || "") });
     });
   }
@@ -272,9 +273,13 @@
     build: BUILD, remote: REMOTE, platform: platform,
     shareImage: function (opts) { return imageCall("share", opts); },
     saveImage: function (opts) { return imageCall("save", opts); },
-    shareFile: fileCall,
+    shareFile: function (opts) { return fileCall(opts, "shareFile"); },
+    // 캘린더 파일을 기기 다운로드에(update104, 디자인 122판 '파일로 저장'): TTW_APP.saveFile({ text, name, mime: "text/calendar" }).
+    //   되는 기기(안드로이드 10 이상)인지는 canSaveFile(켤 때 한 번 묻고 답이 오면 바뀐다, 처음엔 false). 안 되면 UNSUPPORTED
+    saveFile: function (opts) { return fileCall(opts, "saveFile"); },
     canSaveImage: false,
     canShareImage: false,
+    canSaveFile: false,
   };
   app.imageInfo = (function () {
     var p = (cap.Plugins || {}).TTWImage;
@@ -282,6 +287,7 @@
     return Promise.resolve().then(function () { return p.info(); }).then(function (r) {
       app.canSaveImage = !!(r && r.save);
       app.canShareImage = true;
+      app.canSaveFile = !!(r && r.saveFile);
       return { save: app.canSaveImage, share: true };
     }, function () {
       return { save: false, share: false };
@@ -352,6 +358,21 @@
           };
         });
       }, function () { return []; });
+    };
+    // 캘린더 앱(update104, 디자인 122판 공유 시트 '캘린더'의 단추 줄): TTW_APP.calendarApps() → [{ id, app, icon }] 셋까지(못 물으면 []),
+    //   TTW_APP.openCalendar({ target, text, name }) 그 앱으로 .ics 를 연다. 못 열면 code MISSING → 화면은 TTW_APP.shareFile(기기 공유 창)
+    app.calendarApps = function () {
+      return pluginCall("TTWShare", "calendarApps", {}).then(function (r) {
+        var list = r && Array.isArray(r.targets) ? r.targets : [];
+        return list.filter(function (t) { return t && typeof t.id === "string" && t.id; }).slice(0, 3).map(function (t) {
+          return { id: t.id, app: String(t.app || ""), icon: typeof t.icon === "string" && t.icon ? "data:image/png;base64," + t.icon : "" };
+        });
+      }, function () { return []; });
+    };
+    app.openCalendar = function (opts) {
+      opts = opts || {};
+      return pluginCall("TTWShare", "openCalendar", { target: String(opts.target || ""), data: base64(utf8(String(opts.text || ""))),
+        name: String(opts.name || "") });
     };
     app.shareTo = function (opts) {
       opts = opts || {};

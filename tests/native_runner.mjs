@@ -75,7 +75,8 @@ function setup({ native = true, http = null, online = true, platform = "android"
           share: (opts) => { calls.image.push(["share", opts]); return Promise.resolve(); },
           save: (opts) => { calls.image.push(["save", opts]); return saveError ? reject(saveError) : Promise.resolve({ uri: "content://media/1" }); },
           info: () => Promise.resolve(imageInfo || { save: true, sdk }),
-          ...(oldImage ? {} : { shareFile: (opts) => { calls.image.push(["shareFile", opts]); return Promise.resolve(); } }),
+          ...(oldImage ? {} : { shareFile: (opts) => { calls.image.push(["shareFile", opts]); return Promise.resolve(); },
+            saveFile: (opts) => { calls.image.push(["saveFile", opts]); return Promise.resolve({ uri: "content://media/downloads/1" }); } }),
         } } : {}),
         ...(widget ? { TTWWidget: {
           update: (opts) => { calls.widget.push(opts.data); return widgetError ? reject(widgetError) : Promise.resolve({ placed: 2, changed: true }); },
@@ -88,6 +89,10 @@ function setup({ native = true, http = null, online = true, platform = "android"
         ...(share ? { TTWShare: {
           targets: () => (shareError ? reject(shareError) : Promise.resolve(targets === null ? { targets: [] } : targets)),
           send: (opts) => { calls.share.push(opts); return shareError ? reject(shareError) : Promise.resolve(); },
+          calendarApps: () => (shareError ? reject(shareError) : Promise.resolve({ targets: [
+            { id: "com.samsung.android.calendar", app: "캘린더", icon: "QUJD" }, { id: "", app: "빈 것" },
+            { id: "a", app: "A" }, { id: "b", app: "B" }, { id: "c", app: "C" }] })),
+          openCalendar: (opts) => { calls.share.push(["openCalendar", opts]); return shareError ? reject(shareError) : Promise.resolve(); },
         } } : {}),
       },
     } : undefined,
@@ -273,6 +278,19 @@ const out = {};
   const gone = await setup({ image: false }).win.TTW_APP.shareFile({ text: "x", mime: "text/calendar" }).then(() => null, (e) => e.code);
   const [fm, fo] = f.calls.image[0];
   out.file = { method: fm, text: Buffer.from(fo.data, "base64").toString("utf8"), name: fo.name, mime: fo.mime, title: fo.title, old: oldFile, gone };
+  // 캘린더(update104): 다운로드에 저장(되는 기기인지는 info 의 saveFile), 캘린더 앱 셋까지와 그 앱으로 열기
+  const g = setup({ imageInfo: { save: true, saveFile: true, sdk: 34 } });
+  await g.win.TTW_APP.imageInfo;
+  await g.win.TTW_APP.saveFile({ text: "BEGIN:VCALENDAR", name: "2026년 2학기 시간표 1.ics", mime: "text/calendar" });
+  const apps = await g.win.TTW_APP.calendarApps();
+  await g.win.TTW_APP.openCalendar({ target: apps[0].id, text: "BEGIN:VCALENDAR\r\n나", name: "2026년 2학기 시간표 1.ics" });
+  const [sm, so] = g.calls.image.find((x) => x[0] === "saveFile");
+  const oc = g.calls.share.find((x) => Array.isArray(x) && x[0] === "openCalendar")[1];
+  const old9 = setup({ imageInfo: { save: true, sdk: 28 } });
+  await old9.win.TTW_APP.imageInfo;
+  const failedApps = await setup({ shareError: "boom" }).win.TTW_APP.calendarApps();
+  out.calendar = { canSave: g.win.TTW_APP.canSaveFile, canSave9: old9.win.TTW_APP.canSaveFile, save: [sm, Buffer.from(so.data, "base64").toString("utf8"), so.name, so.mime],
+    apps, open: [oc.target, Buffer.from(oc.data, "base64").toString("utf8"), oc.name], failedApps };
   // 사진에 저장되는 기기인지: 켤 때 한 번 묻고(처음엔 false) 답이 오면 바뀐다. 플러그인이 없으면(옛 iOS 앱) 둘 다 false.
   // 10/30 부터 모든 기기가 저장한다(안드로이드 9 이하·iOS 는 권한을 물어서). 저장하지 않는다고 답하는 옛 앱 연결(9 이하)은 false 그대로
   const fresh = setup();

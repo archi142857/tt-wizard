@@ -143,4 +143,6 @@ def test_text_helpers(tmp_path):
     assert all(len(p.encode("utf-8")) <= 75 for p in parts) and parts[1].startswith(" ") and "".join(p.lstrip(" ") if i else p for i, p in enumerate(parts)) == long
     assert got["fold"][1] == "SHORT:x"
     assert got["place"] == ["301동 118호", "83동 강당", "500동", ""]
-    assert got["file"] == "TT Wizard 2026-2 시간표_1.ics"
+    assert got["file"] == "2026년 2학기 시간표_1.ics" and got["plain"] == "2026년 2학기 시간표.ics"  # 디자인 122판 꼴
+    assert got["labels"] == ["2026년 1학기", "2026년 여름학기", "2026년 겨울학기", "x"]
+    assert got["range"] == "9월 1일~12월 14일" and got["none"] == ""

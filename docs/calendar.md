@@ -29,18 +29,25 @@
 | `itemsFromSections(sections)` | 엔진 분반 → 일정 항목 `{key, title, detail, meetings}`(설명은 '과목번호 · 분반'. 교수 이름은 넣지 않는다) |
 | `buildIcs(items, info, {name, now, place})` | .ics 글과 일정 수. 수업마다 VEVENT 하나(첫 그 요일 DTSTART, `RRULE:FREQ=WEEKLY;UNTIL=종강일 23:59:59 KST`, 공휴일 EXDATE), 시각은 `TZID=Asia/Seoul`(VTIMEZONE 포함) |
 | `placeOf(m)` | 장소 글: 화면과 같은 꼴(301동 118호, 83동 강당). 직접 넣은 일정은 `meetings[].place` 를 그대로 |
-| `icsFileName(term, title)` | 'TT Wizard 2026-2 시간표 1.ics' |
+| `icsFileName(term, title)` | '2026년 2학기 시간표 1.ics'(update104, 디자인 122판) |
+| `termLabel(term)` · `termRangeLabel(info)` | '2026년 2학기' · 칸의 학기 기간 '9월 1일~12월 14일'(화면이 '매주'를 붙인다. 끝은 종강일, 보강 기간은 빼므로 12월 14일) |
 | `escapeText`·`fold` | RFC 5545 글 이스케이프와 75 옥텟 접기(UTF-8, 글자 가운데서 자르지 않음), 줄 끝 CRLF |
 
 - UID 는 '학기-분반-요일-시작@ttwizard.app' 라 같은 시간표를 다시 내보내면 같은 일정으로 읽힌다(캘린더 앱에 따라 덮어쓰거나 겹친다).
 - 직접 넣은 일정(시간표의 내 일정)은 항목으로 함께 넘긴다: `{key, title, meetings: [{day, start, end, place}]}`.
 
-## 3. 넘기기
+## 3. 넘기기 (디자인 122판 공유 시트 셋째 종류 '캘린더')
 
-- 웹: `new Blob([text], {type: "text/calendar"})` 를 파일로 내려받기(또는 파일을 받는 브라우저의 공유 시트).
-- 안드로이드 앱: `TTW_APP.shareFile({ text, name: icsFileName(...), mime: "text/calendar", title })` → 공유 시트(앱 캐시에 쓰고 FileProvider 주소로, 권한 없음, `ImagePlugin.shareFile`).
-  플러그인에 shareFile 이 없는 판(옛 앱, iOS)은 code `UNSUPPORTED` 로 거절한다 → 화면은 웹과 같은 길.
-- 받는 앱: 삼성 캘린더·Apple 캘린더는 파일을 열면 일정을 더한다. 구글 캘린더 안드로이드 앱은 .ics 를 직접 가져오지 못한다(컴퓨터의 구글 캘린더 '가져오기'로). 화면 안내 문구는 디자인.
+- 파일은 공유 시트를 연 그 시간표로 만든다(대표 시간표가 아니어도).
+- **파일로 저장**: 웹은 `new Blob([text], {type: "text/calendar"})` 내려받기. 안드로이드 앱은 `TTW_APP.saveFile({ text, name, mime: "text/calendar" })` →
+  기기 다운로드(Download/, MediaStore.Downloads, 권한 없음, `ImagePlugin.saveFile`). 되는 기기(안드로이드 10 이상)인지는 `TTW_APP.canSaveFile`
+  (켤 때 `info` 에 한 번 묻고 답이 오면 바뀐다, 처음엔 false). 안 되면 code `UNSUPPORTED`.
+- **캘린더 앱 단추**: `TTW_APP.calendarApps()` → 이 폰에서 .ics(text/calendar)를 여는 앱 셋까지 `[{id(패키지), app, icon}]`(기기가 주는 이름·아이콘 그대로, 못 물으면 []).
+  누르면 `TTW_APP.openCalendar({ target: id, text, name })`: 그 앱으로 파일을 연다(ACTION_VIEW, FileProvider 주소, 읽기만 허락). 못 열면 code `MISSING` → 기기 공유 창.
+  안드로이드 11 이상은 매니페스트 `<queries>` 의 VIEW text/calendar 로 그 앱들이 보인다(모든 앱을 보는 권한은 쓰지 않는다).
+- **더 보기**: `TTW_APP.shareFile({ text, name, mime: "text/calendar", title })` → 기기 공유 창(앱 캐시에 쓰고 FileProvider 주소로, 권한 없음, `ImagePlugin.shareFile`).
+  플러그인에 그 함수가 없는 판(옛 앱, iOS)은 `UNSUPPORTED` → 화면은 웹과 같은 길.
+- 구글 캘린더 안드로이드 앱이 .ics 를 직접 못 가져온다는 안내는 두지 않는다(디자인 122판: 구글 캘린더에 넣는 길은 Tachyon 이 맡는다).
 
 ## 4. 시험
 
