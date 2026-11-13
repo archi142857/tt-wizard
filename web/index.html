@@ -459,7 +459,7 @@
       <div class="seg" id="sh-kind">
         <label><input type="radio" name="share-kind" value="link" checked aria-describedby="sh-link-note">링크</label>
         <label><input type="radio" name="share-kind" value="image">이미지</label>
-        <label><input type="radio" name="share-kind" value="cal">캘린더</label>
+        <label><input type="radio" name="share-kind" value="cal" aria-describedby="sh-cal-note">캘린더</label>
       </div>
     </fieldset>
     <div class="share-what">
@@ -476,7 +476,7 @@
       </div>
       <div class="share-field is-cal" id="sh-cal-field" hidden>
         <span class="v" id="sh-cal"></span>
-        <button type="button" class="share-act" data-share="cal-save" aria-label="캘린더 파일로 저장"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5v11"></path><path d="M7.5 10l4.5 4.5 4.5-4.5"></path><path d="M4.5 15.5v2A2.5 2.5 0 0 0 7 20h10a2.5 2.5 0 0 0 2.5-2.5v-2"></path></svg>파일로 저장</button>
+        <button type="button" class="share-act" data-share="cal-save" aria-label="캘린더 파일로 저장" aria-describedby="sh-cal-note"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5v11"></path><path d="M7.5 10l4.5 4.5 4.5-4.5"></path><path d="M4.5 15.5v2A2.5 2.5 0 0 0 7 20h10a2.5 2.5 0 0 0 2.5-2.5v-2"></path></svg>파일로 저장</button>
       </div>
       <!-- 캘린더 자료 고지(법무 11/13: 학기 기간·공휴일은 학교 학사일정과 공휴일 규정에서 옮긴 날짜라 빠지는 날이 있을 수 있다는 것을 단다. 출처는 정보 > 자료 출처 '학기 일정') -->
       <p class="share-note" id="sh-cal-note" hidden>휴강·보강·임시공휴일은 빠질 수 있어요</p>
@@ -571,6 +571,16 @@
 </dialog>
 
 <!-- 이벤트 테마가 저절로 켜진 뒤 처음 들어왔을 때 한 번 묻는다(묻는 팝업: 어느 폭에서나 화면 가운데. 10/23 사용자 "팝업". 제목은 질문, 버튼은 닫기와 동사) -->
+<!-- Tachyon 처음 누를 때 한 줄(디자인 123판, 법무 11/13 '단추나 처음 누를 때 같은 개발자의 다른 앱으로 보낸다는 한 줄'): 공유 시트 위 묻는 팝업(시트 위 팝업 예외).
+     보내기 → Tachyon 을 열고 두 창을 닫고 이 기기에 물었다는 것을 둔다(ttw.tachyonAsked). 닫기 → 공유 시트로, 다음에 다시 묻는다 -->
+<dialog class="sheet ask" id="tachyon-ask" aria-labelledby="ty-title">
+  <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="ty-title" tabindex="-1" autofocus>Tachyon(같은 개발자의 다른 앱)으로 시간표를 보낼까요?</h2></div></div>
+  <div class="sheet-actions">
+    <button type="button" class="btn-text" data-close>닫기</button>
+    <button type="button" class="btn-text" id="ty-send">보내기</button>
+  </div>
+</dialog>
+
 <dialog class="sheet ask" id="theme-ask" aria-labelledby="theme-ask-title">
   <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="theme-ask-title" tabindex="-1" autofocus>기본 테마로 돌아갈까요?</h2></div></div>
   <div class="sheet-actions">

@@ -5,7 +5,7 @@
 import { DAY_KO, parseCourses, TravelMatrix, search, countFeasible, routeLine, whyNone, meetsRules } from "./engine.js";
 import { indexCourses as indexSearch, searchCourses, splitMarks, normKey } from "./search.js";
 import * as T from "./timetables.js";
-import { termInfo, buildIcs, MIME as ICS_MIME } from "./ics.js"; // 캘린더 파일(.ics, 백엔드 update102. docs/calendar.md)
+import { termInfo, buildIcs, termRangeLabel, MIME as ICS_MIME } from "./ics.js"; // 캘린더 파일(.ics, 백엔드 update102·104. docs/calendar.md)
 
 const $ = (id) => document.getElementById(id);
 
@@ -4726,10 +4726,13 @@ function renderShareKind() {
 /** 캘린더 칸: 학기 기간 '9월 1일~12월 15일 매주'(만드는 동안은 비어 있다), 그 학기 기간이 없으면 '이 학기 기간이 아직 없어요'만(칸 안 단추 없음) */
 function renderShareCal() {
   const r = shareIcsNow, v = $("sh-cal");
-  v.textContent = !r || r.failed ? "" : r.info ? `${monthDay(r.info.start)}~${monthDay(r.info.end)} 매주` : "이 학기 기간이 아직 없어요";
+  v.textContent = !r || r.failed ? "" : r.info ? `${termRangeLabel(r.info)} 매주` : "이 학기 기간이 아직 없어요"; // 디자인 123판: termRangeLabel + ' 매주'
   v.classList.toggle("is-none", !!r && !r.info && !r.failed);
   $("sh-cal-field").querySelector('[data-share="cal-save"]').hidden = !(r && r.info) || !calSaveOk();
   $("sh-cal-note").hidden = shareKind() !== "cal" || !(r && r.info);
+  // 고지는 캘린더 라디오와 파일로 저장의 설명으로도 잇는다(디자인 123판). 학기 기간이 없어 고지가 없으면 라디오 설명도 뺀다(숨긴 것도 이름 붙여 읽히므로)
+  const radio = document.querySelector('input[name="share-kind"][value="cal"]');
+  if (r && !r.info) radio.removeAttribute("aria-describedby"); else radio.setAttribute("aria-describedby", "sh-cal-note");
 }
 /** 파일로 저장: 웹은 내려받기. 앱은 앱 연결이 권한 없이 다운로드에 넣을 수 있다고 알릴 때만(canSaveFile·saveFile. 백엔드에 부탁한 이름, 디자인 122판) */
 function calSaveOk() {
@@ -4895,15 +4898,23 @@ async function calOpen(id) {
   }
   calMore();
 }
-/** Tachyon 으로 보내기: 링크의 #t= 뒤 글 그대로 #ttw= 에 넣어 연다(# 뒤는 서버로 가지 않는다). 앱은 바깥 브라우저, 웹은 새 탭. 시트를 닫는다 */
-async function tachyonSend() {
+/** Tachyon 으로 보내기: 링크의 #t= 뒤 글 그대로 #ttw= 에 넣어 연다(# 뒤는 서버로 가지 않는다). 앱은 바깥 브라우저, 웹은 새 탭. 시트를 닫는다.
+ *  처음 한 번은 공유 시트 위에서 '같은 개발자의 다른 앱으로 보낼까요?'를 묻는다(디자인 123판). 보내기면 이 기기에 물었다는 것을 두고 그다음부터는 바로 연다 */
+const TACHYON_ASKED = "tachyonAsked";
+async function tachyonSend(asked = store.get(TACHYON_ASKED, false)) {
+  if (!asked) { openSheet($("tachyon-ask"), document.querySelector('#sh-apps [data-share="tachyon"]'), { over: true }); return; }
   const url = await shareLinkNow();
   if (!url) return;
   const code = url.slice(url.indexOf("#t=") + 3);
-  const to = `${TACHYON_URL}#ttw=${code}`;
-  openSystem(to);
+  openSystem(`${TACHYON_URL}#ttw=${code}`);
   closeSheet($("share-sheet"));
 }
+$("ty-send").addEventListener("click", () => {
+  store.set(TACHYON_ASKED, true);
+  const ask = $("tachyon-ask");
+  ask.returnTo = $("share-sheet").returnTo; // 공유 시트도 닫으니 초점은 둘 중 나중에 닫히는 쪽이 공유 시트를 연 곳으로 돌려준다
+  tachyonSend(true).finally(() => closeSheet(ask));
+});
 /** 바깥 브라우저로 연다: 웹은 새 탭, 앱은 기기의 기본 브라우저(native.js 가 data-browser="system" 링크를 기기에 넘긴다. 강의평·수강편람과 같다).
  *  모달 시트 밖은 inert 라 링크는 열린 시트 안에 잠깐 둔다 */
 function openSystem(url) {
