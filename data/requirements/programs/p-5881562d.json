@@ -1,0 +1,1817 @@
+{
+ "id": "p-5881562d",
+ "college": "의과대학",
+ "unit": "의예과",
+ "program": "의예과(예과 2년)",
+ "kind": "major",
+ "depts": [
+  "의예과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "의과대학 의예과",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 74,
+    "ge": 41,
+    "single": 26,
+    "parallel": 26,
+    "double": null,
+    "minor": null,
+    "status": "부분",
+    "src": [
+     "s7",
+     "s8",
+     "s9",
+     "s10",
+     "s11",
+     "s12"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s11",
+    "s12"
+   ],
+   "requirements": [
+    {
+     "id": "premed-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 5과목 14학점",
+     "min_count": 5,
+     "min_credits": 14,
+     "courses": [
+      {
+       "code": "801P.101A",
+       "name": "의예과신입생세미나",
+       "credits": 2
+      },
+      {
+       "code": "801P.102",
+       "name": "의학입문",
+       "credits": 3
+      },
+      {
+       "code": "M2605.000600",
+       "name": "의학연구의 이해",
+       "credits": 3
+      },
+      {
+       "code": "801P.108",
+       "name": "기초의학통계학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2605.001200",
+       "name": "자유주제탐구",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "기초의학통계학 및 실험의 전필 여부와 의학입문·의학연구의 이해의 개설 번호가 엇갈려 '부분'. 이수표준형태에서 <학문의 기초> 교양 과목에 붙은 * 는 교양 필수 표시라 전필로 세지 않는다."
+    },
+    {
+     "id": "premed-major-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 12학점 이상: 의예과 개설 전선 + 자연계 대학·의학계 대학 개설 과목 중 학과장이 인정하는 과목",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "801P.105",
+       "name": "바이오창업자들을 위한 마인드세팅과 법 개론",
+       "credits": 3
+      },
+      {
+       "code": "801P.109",
+       "name": "성의학이해",
+       "credits": 3
+      },
+      {
+       "code": "801P.110",
+       "name": "한국근현대의학사의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2605.000100",
+       "name": "대학생을 위한 지식재산권개요",
+       "credits": 3
+      },
+      {
+       "code": "M2605.000400",
+       "name": "의대생을 위한 고전읽기",
+       "credits": 3
+      },
+      {
+       "code": "M2605.000500",
+       "name": "국제의학의 이해",
+       "credits": 2
+      },
+      {
+       "code": "M2605.000700",
+       "name": "세계예술 속 의학의 이해",
+       "credits": 2
+      },
+      {
+       "code": "M2605.000800",
+       "name": "통일의료",
+       "credits": 2
+      },
+      {
+       "code": "M2605.001100",
+       "name": "의학 전문용어의 길잡이: 원어 어근부터 우리말 용어 제작까지",
+       "credits": 2
+      },
+      {
+       "code": "M2605.001300",
+       "name": "몸 속으로의 여행: 인체와 수술",
+       "credits": 2
+      },
+      {
+       "code": "M2605.001500",
+       "name": "의학을 위한 수학응용",
+       "credits": 3
+      },
+      {
+       "code": "M2605.001600",
+       "name": "생명과 과학",
+       "credits": 2
+      },
+      {
+       "code": "M2605.001700",
+       "name": "디지털 데이터 의학개론",
+       "credits": 2
+      },
+      {
+       "code": "M2605.001800",
+       "name": "의학연구의 실제 1",
+       "credits": 3
+      },
+      {
+       "code": "M2605.001900",
+       "name": "여성의 건강",
+       "credits": 2
+      },
+      {
+       "code": "M2605.002000",
+       "name": "사례별 질병 진단의 실제",
+       "credits": 3
+      },
+      {
+       "code": "M2605.002100",
+       "name": "의생명과학 논문의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2605.002200",
+       "name": "의학연구의 실제 2",
+       "credits": 3
+      },
+      {
+       "code": "M2605.002300",
+       "name": "사회와 의료현장에서의 리빙랩",
+       "credits": 3
+      },
+      {
+       "code": "M2605.002400",
+       "name": "의료와 데이터사이언스",
+       "credits": 3
+      },
+      {
+       "code": "M2605.002500",
+       "name": "바이오헬스케어와 혁신사고",
+       "credits": 3
+      },
+      {
+       "code": "M2605.002600",
+       "name": "의료인을 위한 스포츠 리더십",
+       "credits": 1
+      },
+      {
+       "code": "M2605.002700",
+       "name": "기초의생명과학",
+       "credits": 2
+      },
+      {
+       "code": "300.310",
+       "name": "유전학",
+       "credits": 3
+      },
+      {
+       "code": "3346.001",
+       "name": "세포분자생물학",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s3",
+      "s4"
+     ],
+     "note": "목록 밖 자연계·의학계 과목은 학과장 인정이 필요해 앱은 '확인 필요'."
+    },
+    {
+     "id": "premed-arts",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 이수학점 중 예체능 3학점 이상(선택교양 '체육'·'예술실기' 영역 또는 예술대학 교과목)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5"
+     ],
+     "note": "2025 교양 체계(지성의 확장 '예술과 체육' 등)에서 어떻게 세는지, 2025학번에도 적용되는지 미확인."
+    },
+    {
+     "id": "premed-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 7학점: 말하기와 토론(1-1), 대학 글쓰기 1(1-2), 대학 글쓰기 2: 과학기술글쓰기(2학년). 글쓰기 1 먼저",
+     "min_count": 3,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "F12.102",
+       "name": "말하기와 토론",
+       "credits": 3
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6"
+     ],
+     "extra": {
+      "ge_area": "글쓰기와 말하기"
+     }
+    },
+    {
+     "id": "premed-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ],
+     "note": "입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수.",
+     "extra": {
+      "ge_area": "외국어"
+     }
+    },
+    {
+     "id": "premed-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 3학점 택 1: 생명과학을 위한 수학 1, 생명과학을 위한 수학 2, 고급수학 1+연습 1, 고급수학 2+연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F31.111",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.112",
+       "name": "생명과학을 위한 수학 2",
+       "credits": 3
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6"
+     ],
+     "note": "고급수학 대상자 중 희망자는 대신 수리과학부 전공과목 3학점을 들을 수 있다(앱: 확인 필요). 고급수학은 연습과 같은 학기.",
+     "extra": {
+      "ge_area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "premed-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학 8학점: (화학+화학실험) 또는 (고급화학+화학실험), 그리고 생물학+생물학실험(같은 학기)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6"
+     ],
+     "extra": {
+      "ge_area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "premed-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상 3, 역사적 탐구와 철학적 사유 3, 인간의 이해와 사회 분석 3(영역 지정, 과학적 사고와 응용은 칸 비어 있음)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ],
+     "extra": {
+      "ge_area": "지성의 열쇠",
+      "per_area": {
+       "문화 해석과 상상": 3,
+       "역사적 탐구와 철학적 사유": 3,
+       "인간의 이해와 사회 분석": 3
+      }
+     }
+    },
+    {
+     "id": "premed-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 영역에서 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ],
+     "extra": {
+      "ge_area": "베리타스"
+     }
+    },
+    {
+     "id": "premed-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 5학점(자유 선택)",
+     "min_count": null,
+     "min_credits": 5,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ],
+     "extra": {
+      "ge_area": "전체 교양"
+     }
+    },
+    {
+     "id": "premed-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합계 41학점 이상",
+     "min_count": null,
+     "min_credits": 41,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    }
+   ],
+   "note": "2026학번 교양은 2026 길잡이 p.158·2026 이수규정 p.91('2025학년도 입학생부터')로 2025학번과 같다. 전공 규정(2024학년도 입학생부터)을 바꾼 공개 자료는 없어 2025·2026학번도 같다고 봤다(학과 자료는 2024 판이 마지막)."
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 74,
+    "ge": 41,
+    "single": 26,
+    "parallel": 26,
+    "double": null,
+    "minor": null,
+    "status": "확인",
+    "src": [
+     "s18",
+     "s19"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s13",
+    "s20"
+   ],
+   "requirements": [
+    {
+     "id": "premed-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 5과목 14학점",
+     "min_count": 5,
+     "min_credits": 14,
+     "courses": [
+      {
+       "code": "801P.101A",
+       "name": "의예과신입생세미나",
+       "credits": 2
+      },
+      {
+       "code": "801P.102",
+       "name": "의학입문",
+       "credits": 3
+      },
+      {
+       "code": "M2605.000600",
+       "name": "의학연구의 이해",
+       "credits": 3
+      },
+      {
+       "code": "801P.108",
+       "name": "기초의학통계학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2605.001200",
+       "name": "자유주제탐구",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "기초의학통계학 및 실험의 전필 여부와 의학입문·의학연구의 이해의 개설 번호가 엇갈려 '부분'. 이수표준형태에서 <학문의 기초> 교양 과목에 붙은 * 는 교양 필수 표시라 전필로 세지 않는다."
+    },
+    {
+     "id": "premed-major-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 12학점 이상: 의예과 개설 전선 + 자연계 대학·의학계 대학 개설 과목 중 학과장이 인정하는 과목",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "801P.105",
+       "name": "바이오창업자들을 위한 마인드세팅과 법 개론",
+       "credits": 3
+      },
+      {
+       "code": "801P.109",
+       "name": "성의학이해",
+       "credits": 3
+      },
+      {
+       "code": "801P.110",
+       "name": "한국근현대의학사의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2605.000100",
+       "name": "대학생을 위한 지식재산권개요",
+       "credits": 3
+      },
+      {
+       "code": "M2605.000400",
+       "name": "의대생을 위한 고전읽기",
+       "credits": 3
+      },
+      {
+       "code": "M2605.000500",
+       "name": "국제의학의 이해",
+       "credits": 2
+      },
+      {
+       "code": "M2605.000700",
+       "name": "세계예술 속 의학의 이해",
+       "credits": 2
+      },
+      {
+       "code": "M2605.000800",
+       "name": "통일의료",
+       "credits": 2
+      },
+      {
+       "code": "M2605.001100",
+       "name": "의학 전문용어의 길잡이: 원어 어근부터 우리말 용어 제작까지",
+       "credits": 2
+      },
+      {
+       "code": "M2605.001300",
+       "name": "몸 속으로의 여행: 인체와 수술",
+       "credits": 2
+      },
+      {
+       "code": "M2605.001500",
+       "name": "의학을 위한 수학응용",
+       "credits": 3
+      },
+      {
+       "code": "M2605.001600",
+       "name": "생명과 과학",
+       "credits": 2
+      },
+      {
+       "code": "M2605.001700",
+       "name": "디지털 데이터 의학개론",
+       "credits": 2
+      },
+      {
+       "code": "M2605.001800",
+       "name": "의학연구의 실제 1",
+       "credits": 3
+      },
+      {
+       "code": "M2605.001900",
+       "name": "여성의 건강",
+       "credits": 2
+      },
+      {
+       "code": "M2605.002000",
+       "name": "사례별 질병 진단의 실제",
+       "credits": 3
+      },
+      {
+       "code": "M2605.002100",
+       "name": "의생명과학 논문의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2605.002200",
+       "name": "의학연구의 실제 2",
+       "credits": 3
+      },
+      {
+       "code": "M2605.002300",
+       "name": "사회와 의료현장에서의 리빙랩",
+       "credits": 3
+      },
+      {
+       "code": "M2605.002400",
+       "name": "의료와 데이터사이언스",
+       "credits": 3
+      },
+      {
+       "code": "M2605.002500",
+       "name": "바이오헬스케어와 혁신사고",
+       "credits": 3
+      },
+      {
+       "code": "M2605.002600",
+       "name": "의료인을 위한 스포츠 리더십",
+       "credits": 1
+      },
+      {
+       "code": "M2605.002700",
+       "name": "기초의생명과학",
+       "credits": 2
+      },
+      {
+       "code": "300.310",
+       "name": "유전학",
+       "credits": 3
+      },
+      {
+       "code": "3346.001",
+       "name": "세포분자생물학",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s3",
+      "s4"
+     ],
+     "note": "목록 밖 자연계·의학계 과목은 학과장 인정이 필요해 앱은 '확인 필요'."
+    },
+    {
+     "id": "premed-arts",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 이수학점 중 예체능 3학점 이상(선택교양 '체육'·'예술실기' 영역 또는 예술대학 교과목)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16"
+     ]
+    },
+    {
+     "id": "premed-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 7학점: 말하기와 토론(1-1), 대학 글쓰기 1(1-2), 대학 글쓰기 2: 과학기술글쓰기(2학년). 대학 글쓰기 1 먼저",
+     "min_count": 3,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "031.031",
+       "name": "말하기와 토론",
+       "credits": 3
+      },
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s13"
+     ],
+     "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
+     "extra": {
+      "ge_area": "사고와 표현"
+     }
+    },
+    {
+     "id": "premed-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점(TEPS 900 이하이면 영어 1과목 필수)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13"
+     ],
+     "extra": {
+      "ge_area": "외국어"
+     }
+    },
+    {
+     "id": "premed-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 3학점 택 1: 생명과학을 위한 수학 1, 생명과학을 위한 수학 2, 고급수학 1+고급수학연습 1, 고급수학 2+고급수학연습 2(고급수학 대상자 중 희망자는 수리과학부 전공 3학점으로 대신)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.008",
+       "name": "생명과학을 위한 수학 2",
+       "credits": 3
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s13"
+     ],
+     "extra": {
+      "ge_area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "premed-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 8학점: (화학+화학실험) 또는 (고급화학+화학실험) 택 1, 생물학+생물학실험 필수(같은 학기)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s13",
+      "s14"
+     ],
+     "extra": {
+      "ge_area": "과학적 사고와 실험"
+     }
+    },
+    {
+     "id": "premed-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 5학점(자유 선택)",
+     "min_count": null,
+     "min_credits": 5,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13"
+     ],
+     "extra": {
+      "ge_area": "전체 교양"
+     }
+    },
+    {
+     "id": "premed-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합계 41학점 이상",
+     "min_count": null,
+     "min_credits": 41,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13",
+      "s15"
+     ]
+    },
+    {
+     "id": "premed-ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 인문사회 5개 분야(언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회) 중 4개 분야 이상",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13",
+      "s17"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "언어와 문학",
+       "문화와 예술",
+       "역사와 철학",
+       "정치와 경제",
+       "인간과 사회"
+      ],
+      "min_areas": 4
+     }
+    }
+   ],
+   "changed": "교양만 옛 체계(41: 사고와 표현 7·외국어 6·수량 3·과학 8·학문의 세계 12·전체 5). 전공(전필 14 + 전선 12)·기타 7·예체능 3 은 같다.",
+   "note": "2024 판에서 기초의학통계학 및 실험(801P.108)에 * 가 붙고 규정 ③이 전필 14 라서 이 과목이 2024학번부터 전필이다(1차의 '801P.108 전필 여부'를 풀었음). 다만 같은 판 이수표준형태는 이 과목을 '801P.018'로 잘못 적어 전공선택 칸에 두었고, 편람 교과구분은 '전선'이며 편람에는 2023-1·2024-1 에만 보인다."
+  },
+  {
+   "entry_years": [
+    2021,
+    2023
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 74,
+    "ge": 41,
+    "single": 23,
+    "parallel": 23,
+    "double": null,
+    "minor": null,
+    "status": "확인",
+    "src": [
+     "s21",
+     "s22"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s21",
+    "s22",
+    "s23"
+   ],
+   "requirements": [
+    {
+     "id": "premed-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 4과목 11학점",
+     "min_count": 4,
+     "min_credits": 11,
+     "courses": [
+      {
+       "code": "801P.101A",
+       "name": "의예과신입생세미나",
+       "credits": 2
+      },
+      {
+       "code": "801P.102",
+       "name": "의학입문",
+       "credits": 3
+      },
+      {
+       "code": "M2605.000600",
+       "name": "의학연구의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2605.001200",
+       "name": "자유주제탐구",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22"
+     ],
+     "note": "의학입문(801P.102)·의학연구의 이해(M2605.000600)는 편람 자료에 2021-2 에만 보인다(2022-2 이후 개설·번호 미확인)."
+    },
+    {
+     "id": "premed-major-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 12학점 이상: 의예과 개설 전선(기초의학통계학 및 실험 801P.108 포함) + 자연계·의학계 대학 개설 과목 중 학과장 인정 과목",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "801P.108",
+       "name": "기초의학통계학 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22"
+     ]
+    },
+    {
+     "id": "premed-arts",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 이수학점 중 예체능 3학점 이상(선택교양 '체육'·'예술실기' 영역 또는 예술대학 교과목)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16"
+     ]
+    },
+    {
+     "id": "premed-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 7학점: 말하기와 토론(1-1), 대학 글쓰기 1(1-2), 대학 글쓰기 2: 과학기술글쓰기(2학년). 대학 글쓰기 1 먼저",
+     "min_count": 3,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "031.031",
+       "name": "말하기와 토론",
+       "credits": 3
+      },
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s13"
+     ],
+     "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
+     "extra": {
+      "ge_area": "사고와 표현"
+     }
+    },
+    {
+     "id": "premed-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점(TEPS 900 이하이면 영어 1과목 필수)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13"
+     ],
+     "extra": {
+      "ge_area": "외국어"
+     }
+    },
+    {
+     "id": "premed-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 3학점 택 1: 생명과학을 위한 수학 1, 생명과학을 위한 수학 2, 고급수학 1+고급수학연습 1, 고급수학 2+고급수학연습 2(고급수학 대상자 중 희망자는 수리과학부 전공 3학점으로 대신)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.008",
+       "name": "생명과학을 위한 수학 2",
+       "credits": 3
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s13"
+     ],
+     "extra": {
+      "ge_area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "premed-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 8학점: (화학+화학실험) 또는 (고급화학+화학실험) 택 1, 생물학+생물학실험 필수(같은 학기)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s13",
+      "s14"
+     ],
+     "extra": {
+      "ge_area": "과학적 사고와 실험"
+     }
+    },
+    {
+     "id": "premed-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 5학점(자유 선택)",
+     "min_count": null,
+     "min_credits": 5,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13"
+     ],
+     "extra": {
+      "ge_area": "전체 교양"
+     }
+    },
+    {
+     "id": "premed-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합계 41학점 이상",
+     "min_count": null,
+     "min_credits": 41,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13",
+      "s15"
+     ]
+    },
+    {
+     "id": "premed-ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 인문사회 5개 분야(언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회) 중 4개 분야 이상",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13",
+      "s17"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "언어와 문학",
+       "문화와 예술",
+       "역사와 철학",
+       "정치와 경제",
+       "인간과 사회"
+      ],
+      "min_areas": 4
+     }
+    }
+   ],
+   "changed": "전공 23 = 전필 11(4과목, 기초의학통계학 및 실험은 전선) + 전선 12, 기타 선택 10. 교양은 2024학번과 같다.",
+   "note": "2023학번용 판은 없지만 2021 규정('2021학년도 입학생부터')과 2024 규정('2024학년도 입학생부터') 사이라 2021 규정이 걸린다."
+  },
+  {
+   "entry_years": [
+    2019,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 74,
+    "ge": 41,
+    "single": 23,
+    "parallel": 23,
+    "double": null,
+    "minor": null,
+    "status": "확인",
+    "src": [
+     "s30",
+     "s31",
+     "s32",
+     "s24",
+     "s25"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s24",
+    "s25",
+    "s26",
+    "s33"
+   ],
+   "requirements": [
+    {
+     "id": "premed-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 23학점 이상(전필·전선 합). 전공필수 목록·학점 구분은 미확인(2021 이전 학과 규정 원문 없음)",
+     "min_count": null,
+     "min_credits": 23,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s27",
+      "s28"
+     ],
+     "note": "합 23 은 2018·2020 판 표 1 로 확인. 의예과신입생세미나·자유주제탐구는 편람 2021-1 에 전필로 열려 이 학번도 들었을 가능성이 크다."
+    },
+    {
+     "id": "premed-arts",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "예체능 3학점 규정이 있었는지 미확인",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s29"
+     ]
+    },
+    {
+     "id": "premed-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 7학점: 말하기와 토론(1-1), 대학 글쓰기 1(1-2), 대학 글쓰기 2: 과학기술글쓰기(2학년). 대학 글쓰기 1 먼저",
+     "min_count": 3,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "031.031",
+       "name": "말하기와 토론",
+       "credits": 3
+      },
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s13"
+     ],
+     "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
+     "extra": {
+      "ge_area": "사고와 표현"
+     }
+    },
+    {
+     "id": "premed-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4~6학점(TEPS 900 이하이면 영어 1과목 필수)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s24",
+      "s25",
+      "s26"
+     ],
+     "extra": {
+      "ge_area": "외국어"
+     }
+    },
+    {
+     "id": "premed-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 3학점 택 1: 생명과학을 위한 수학 1, 생명과학을 위한 수학 2, 고급수학 1+고급수학연습 1, 고급수학 2+고급수학연습 2(고급수학 대상자 중 희망자는 수리과학부 전공 3학점으로 대신)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.008",
+       "name": "생명과학을 위한 수학 2",
+       "credits": 3
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s13"
+     ],
+     "extra": {
+      "ge_area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "premed-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 8학점: 물리학+물리학실험, 고급물리학 1+물리학실험 1, 고급물리학 2+물리학실험 2, 화학+화학실험, 고급화학+화학실험, 생물학+생물학실험 중 택 2(같은 학기)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s24",
+      "s25",
+      "s26"
+     ],
+     "extra": {
+      "ge_area": "과학적 사고와 실험"
+     }
+    },
+    {
+     "id": "premed-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 5~7학점(외국어와 합쳐 11)",
+     "min_count": null,
+     "min_credits": 5,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s24",
+      "s25",
+      "s26"
+     ],
+     "extra": {
+      "ge_area": "전체 교양"
+     }
+    },
+    {
+     "id": "premed-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합계 41학점 이상",
+     "min_count": null,
+     "min_credits": 41,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13",
+      "s15"
+     ]
+    },
+    {
+     "id": "premed-ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 인문사회 5개 분야(언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회) 중 4개 분야 이상",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13",
+      "s17"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "언어와 문학",
+       "문화와 예술",
+       "역사와 철학",
+       "정치와 경제",
+       "인간과 사회"
+      ],
+      "min_areas": 4
+     }
+    }
+   ],
+   "changed": "2021 규정 이전(종전) 규정. 학점 74/41/23 은 같고, 교양 표가 학부대학 2019·2020 판(외국어 4~6, 과학 6과목 중 택 2, 전체 5~7; 사고와 표현 7 은 같음). 전필·전선 구분, 예체능 규정 유무는 미확인.",
+   "note": "2019·2020학번은 정상 진행이면 이미 본과(2021·2022 진입)에 있어 예과 요건은 유급·휴학 학생에게만 쓰인다."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "의예과 규정 개정: 전공 23 = 전필 11 + 전선 12, 기타 10, 교양 과학 화학(고급화학)+생물학, 학문의 세계 5개 분야 중 4개, 예체능 3학점",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "전공 23→26(전필 11→14: 기초의학통계학 및 실험 추가), 기타 10→7",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 새 체계(41, 지성의 열쇠 세 영역 지정)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "교양 외국어 4~6→6, 과학 '6과목 중 택 2'→'화학(고급화학) + 생물학', 전체 5~7→5",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "2019·2020학번 전공필수 목록과 기타 선택·예체능 규정(2021 이전 규정 원문)",
+  "의학입문(801P.102)·의학연구의 이해(M2605.000600)가 2022-2 이후 편람에 안 보이는 이유(번호 변경·대체 과목)",
+  "기초의학통계학 및 실험(801P.108)이 2025-1·2026-1 편람에 안 보이는데 2024학번 이후 전필을 어떻게 채우는지(치의학 개설 883.016 과 같은 과목인지)",
+  "2025·2026학번 전공 규정이 2024학년도 입학생 규정과 같은지, 예체능 3학점을 새 교양 체계에서 어떻게 세는지",
+  "2025학번 의예과 전공필수 목록: 기초의학통계학 및 실험(801P.108)이 전필인지(목록 * vs 이수표준형태·편람 전선)",
+  "의학입문(801P.102)·의학연구의 이해(M2605.000600)의 현재 과목 번호와 개설 학기(편람 자료에 안 보임)",
+  "예체능 3학점 규정(⑦)이 2025학번에도 있는지, 어떤 교양 영역·과목이 인정되는지",
+  "전공선택으로 인정되는 자연계·의학계 대학 개설 과목의 범위(목록이 있는지)",
+  "수료 74학점 외에 의학과 진입 조건(평점, 서울대학교 유급규정)이 있는지",
+  "의예과 학생이 다른 전공을 복수·부전공으로 신청할 수 있는지(표 1 '다른 전공 병행 이수' 26)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.130 의예과 과목 목록(* 표)·이수표준형태, p.131 이수규정 ③ '전공필수는 14학점'",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "TT Wizard 수강편람 자료(과목 번호·이름·학점·교과구분)",
+   "locator": "편람 2022-1~2026-2",
+   "accessed": "2026-11-12",
+   "repo": "data/history/<학기>.json"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.130 과목 목록·이수표준형태 <전공선택>, p.131 전공선택 인정과목·이수규정 ③",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "TT Wizard 수강편람 자료(과목 번호·이름·학점·교과구분)",
+   "locator": "편람 2024~2026 의예과 전선",
+   "accessed": "2026-11-12",
+   "repo": "data/history/<학기>.json"
+  },
+  "s5": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.131 이수규정 ⑦(2024학년도 입학생부터)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.152 □ 의과대학 (의예과)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.131 규정 ①·③·⑧ '2024학년도 입학생부터'",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2024 교과과정 해설(본부, 2024학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1> p.9 의예과 74/41/26/26 '2024학년도 입학자부터 적용'",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.152",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "학부대학, 2025학년도 시행 공통교육과정 대학별 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/01/2025학년도-시행-공통교육과정-대학별-이수규정국문.pdf",
+   "locator": "p.41 '2025학년도 입학생부터 적용'",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.158 (2025 길잡이와 같은 표)",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "학부대학, 2026학년도 시행 단과대학별 공통교육과정 이수 규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "p.91 '상기 이수규정은 2025학년도 입학생부터 적용함'",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 2024 교과과정 해설(본부, 2024학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 6> 대학별 교양 필수과목 표 — p.41",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.131 규정 ④·⑤",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.131 규정 ①",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.131 규정 ⑦",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.131 규정 ⑥",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.131 규정 ①·③·⑧",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "서울대학교 2024 교과과정 해설(본부, 2024학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1> p.9",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.130~131",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "p.126 과목 목록(801P.108 은 * 없음)·이수표준형태, p.127 규정 ① 교양 41·전공 23·기타 10, ③ 전필 11·전선 12, ⑧ '2021학년도 입학생부터'",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "서울대학교 2022 교과과정 해설(본부, 2022학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 1> p.9 의예과 74/41/23/23",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.131 ⑧ '2024학년도 입학생부터'(따라서 2023학번까지는 2021 규정)",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "학부대학(옛 기초교육원), 2019학년도 단과대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/04/liberaledu_2019.pdf",
+   "locator": "PDF p.30 □ 의과대학(의예과) 표",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "학부대학(옛 기초교육원), 2020학년도 단과대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/04/liberaledu_2020.pdf",
+   "locator": "PDF p.30 □ 의과대학(의예과) 표",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "서울대학교 2020 교과과정 해설(본부, 2020학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 6> 대학별 교양 필수과목 표 — p.37",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "서울대학교 2018 교과과정 해설(본부, 2018학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 1> p.9",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "서울대학교 2020 교과과정 해설(본부, 2020학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 1> p.9",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "p.127 ⑦(2021학년도 입학생부터 규정)",
+   "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "서울대학교 2018 교과과정 해설(본부, 2018학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 1> p.9 의예과 74/41/23/23",
+   "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "서울대학교 2020 교과과정 해설(본부, 2020학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 1> p.9 의예과 74/41/23/23",
+   "accessed": "2026-11-12"
+  },
+  "s32": {
+   "title": "서울대학교 2018 교과과정 해설(본부, 2018학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "3.가 p.8 '의예과의 수료학점 … 74학점 이상'",
+   "accessed": "2026-11-12"
+  },
+  "s33": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "p.127 ⑧",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

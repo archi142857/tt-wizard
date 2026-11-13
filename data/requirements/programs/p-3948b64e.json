@@ -1,0 +1,1916 @@
+{
+ "id": "p-3948b64e",
+ "college": "음악대학",
+ "unit": "관현악과",
+ "program": "관현악과 관악전공",
+ "kind": "major",
+ "depts": [],
+ "code_prefixes": [],
+ "ge_key": "음악대학",
+ "exists_for": [
+  2023,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": {
+  "name": "기악과 관악전공",
+  "entry_years": [
+   2019,
+   2022
+  ],
+  "note": "2023학번부터 관현악과. 2019~2022학번은 관현악과(구 기악과) 내규의 \"2019~2022학번\" 표를 따른다."
+ },
+ "structure": {
+  "splits_into": [
+   "현악전공(바이올린·비올라·첼로·더블베이스·하프·기타)",
+   "관악전공(목관·금관·타악·색소폰)"
+  ],
+  "when": "입학 때",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 68,
+    "parallel": 74,
+    "double": 62,
+    "minor": 30,
+    "status": "충돌",
+    "src": [
+     "s1",
+     "s10",
+     "s4",
+     "s9"
+    ]
+   },
+   "status": "충돌",
+   "src": [
+    "s11",
+    "s12",
+    "s13"
+   ],
+   "requirements": [
+    {
+     "id": "wind-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 68학점(2023학번 이후): 이론(화성·대위·분석) 1~6, 시창청음 1~4, 서양음악사 1~4, 연주 4학기, 관현악 1 4학기, 관현악 2 4학기, 관악실기 8학기, 관악합주 1 4학기, 실내악앙상블(중주) 4학기",
+     "min_count": null,
+     "min_credits": 68,
+     "courses": [
+      {
+       "code": "M1797.001700",
+       "name": "이론(화성·대위·분석)1",
+       "credits": 2
+      },
+      {
+       "code": "M1797.002000",
+       "name": "이론(화성·대위·분석)2",
+       "credits": 2
+      },
+      {
+       "code": "M1797.002300",
+       "name": "이론(화성·대위·분석)3",
+       "credits": 2
+      },
+      {
+       "code": "M1796.000200",
+       "name": "이론(화성·대위·분석)4",
+       "credits": 2
+      },
+      {
+       "code": "M1796.000500",
+       "name": "이론(화성·대위·분석)5",
+       "credits": 2
+      },
+      {
+       "code": "M2183.003300",
+       "name": "이론(화성·대위·분석)6",
+       "credits": 2
+      },
+      {
+       "code": "650.1240",
+       "name": "시창청음 1",
+       "credits": 1
+      },
+      {
+       "code": "650.1245",
+       "name": "시창청음 2",
+       "credits": 1
+      },
+      {
+       "code": "650.2246",
+       "name": "시창청음 3",
+       "credits": 1
+      },
+      {
+       "code": "650.2247",
+       "name": "시창청음 4",
+       "credits": 1
+      },
+      {
+       "code": "650.2241",
+       "name": "서양음악사 1",
+       "credits": 2
+      },
+      {
+       "code": "650.2242",
+       "name": "서양음악사 2",
+       "credits": 2
+      },
+      {
+       "code": "650.3243",
+       "name": "서양음악사 3",
+       "credits": 2
+      },
+      {
+       "code": "650.3244",
+       "name": "서양음악사 4",
+       "credits": 2
+      },
+      {
+       "code": "650.3307",
+       "name": "연주",
+       "credits": 1
+      },
+      {
+       "code": "6532.1337",
+       "name": "관현악 1",
+       "credits": 2,
+       "alt_codes": [
+        "650.1337(내규 표기)"
+       ]
+      },
+      {
+       "code": "6532.3337",
+       "name": "관현악 2",
+       "credits": 2,
+       "alt_codes": [
+        "650.3337(내규 표기)"
+       ]
+      },
+      {
+       "code": "6532.2240",
+       "name": "관악실기(악기명)",
+       "credits": 2,
+       "alt_codes": [
+        "653.2240(내규 표기)"
+       ]
+      },
+      {
+       "code": "6532.1111",
+       "name": "관악합주 1",
+       "credits": 1
+      },
+      {
+       "code": "6532.3303",
+       "name": "실내악앙상블(중주)",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "관악합주 1: 1~4회 전필, 5~8회 전선(1·2학년에 이수). 관악합주 2는 23학번부터 1~8회 전선. 실내악앙상블: 1~4회 전필, 5~6회 전선, 그 이상 무효. 관악실기 8회 누락 시 졸업 불가. 선택실기(부전공악기)는 3개 학기까지(2023년도부터)."
+    },
+    {
+     "id": "wind-sax",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "색소폰 전공은 관현악 1·2를 이수하지 않는다(2024 목록 \"단 색소폰, 기타 제외\")",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s2",
+      "s1"
+     ],
+     "note": "내규 6.1.3은 색소폰 전필 58(19학번부터 56)+전선(관현악) 16까지만 있고 2023학번 이후 값은 없다(23학번 문장도 중간에 끊김)."
+    },
+    {
+     "id": "wind-recital",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학사 졸업연주(8번째 학기): 세 시대 이상, 현대음악 포함, 인터미션 포함 60분 정도 독주회(실내악 제외), 암보, 두 달 전 곡목 심사, 곡목해설 발표, DVD 제출. 졸업연주 점수는 4학년 2학기 기말 전공실기 점수",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "wind-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "관악 복수전공(2023학번부터, 타과·우리과 복전 모두): 전필 총 62학점(관현악 1 3회, 관현악 2 3회, 실내악앙상블 2회, 관악합주 2 전선)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "내규 표는 이수학점수 \"72(72) → 72(62)\"로 적어 총 이수학점이 72이고 그중 전필 62인지 불분명. 해설 표 2는 62."
+    },
+    {
+     "id": "wind-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "관현악과 부전공 30학점(해설 표 2). 관악 내규에 부전공 조항 없음",
+     "min_count": null,
+     "min_credits": 30,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "music-practice-substitute",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "5학기 이상 등록자는 해당 전공 승인을 받아 작곡과·국악과의 이론 또는 지휘실기를 전공실기 대신 2개 학기 이내 수강 가능",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s6",
+      "s7"
+     ]
+    },
+    {
+     "id": "music-elective-scope",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정과목: 음악대학 전 과목",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7"
+     ]
+    },
+    {
+     "id": "music-double-overlap",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "음악대학 복수·부전공 내규: 주전공·복수전공 간 공통 인정 전공교과목(대학 공통 포함)은 최대 3개까지 중복 인정, 부전공은 중복 인정 없음. 복수전공 전공실기는 학과 내규대로 반복이수하되 4개 학기 이상 이수 뒤 심사로 학기 수 감면 가능. 작곡과·관현악과·국악과 안 세부전공끼리는 복수·부전공 불가",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8"
+     ],
+     "note": "2026.3.1. 시행. 그 전에 복수·부전공을 이수 중인 학생은 원하면 종전 내규 적용. 신청 자격: 2개 정규학기 이상, 33학점 이상, 평점 3.0 이상, 실기능력(이론 분야는 음악이론 지식)."
+    },
+    {
+     "id": "ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학년도 입학생부터 적용)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9"
+     ]
+    },
+    {
+     "id": "ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1 필수 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기) 중 택 1",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000700"
+       ]
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000800"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s9"
+     ],
+     "note": "대학 글쓰기 1(F11.101) 필수, 대학 글쓰기 2 세 과목 중 1과목. 권장 이수학기 [1-1](미대) / [1-1,1-2]·[2-1](음대)."
+    },
+    {
+     "id": "ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9"
+     ]
+    },
+    {
+     "id": "ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학·과학·컴퓨팅 3학점(지정 과목 없음)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9"
+     ]
+    },
+    {
+     "id": "ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상, 역사적 탐구와 철학적 사유, 인간의 이해와 사회 분석, 과학적 사고와 응용 4개 영역 중 3개 영역에서 9학점 이상",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9"
+     ],
+     "extra": {
+      "distribution": {
+       "areas": [
+        "문화 해석과 상상",
+        "역사적 탐구와 철학적 사유",
+        "인간의 이해와 사회 분석",
+        "과학적 사고와 응용"
+       ],
+       "min_areas": 3
+      }
+     }
+    },
+    {
+     "id": "ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1, 베리타스 강좌 2, 베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9"
+     ]
+    },
+    {
+     "id": "ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 중 자유 선택 11학점",
+     "min_count": null,
+     "min_credits": 11,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9"
+     ]
+    }
+   ],
+   "note": "1차 2025학번 요건 그대로. 2026학번도 같다고 본다(2024.1.30 판 내규가 최신, \"2023학번 이후\")."
+  },
+  {
+   "entry_years": [
+    2023,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 68,
+    "parallel": 74,
+    "double": 62,
+    "minor": 30,
+    "status": "충돌",
+    "src": [
+     "s1",
+     "s10",
+     "s4",
+     "s9"
+    ]
+   },
+   "status": "충돌",
+   "src": [
+    "s11"
+   ],
+   "requirements": [
+    {
+     "id": "wind-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 68학점(2023학번 이후): 이론(화성·대위·분석) 1~6, 시창청음 1~4, 서양음악사 1~4, 연주 4학기, 관현악 1 4학기, 관현악 2 4학기, 관악실기 8학기, 관악합주 1 4학기, 실내악앙상블(중주) 4학기",
+     "min_count": null,
+     "min_credits": 68,
+     "courses": [
+      {
+       "code": "M1797.001700",
+       "name": "이론(화성·대위·분석)1",
+       "credits": 2
+      },
+      {
+       "code": "M1797.002000",
+       "name": "이론(화성·대위·분석)2",
+       "credits": 2
+      },
+      {
+       "code": "M1797.002300",
+       "name": "이론(화성·대위·분석)3",
+       "credits": 2
+      },
+      {
+       "code": "M1796.000200",
+       "name": "이론(화성·대위·분석)4",
+       "credits": 2
+      },
+      {
+       "code": "M1796.000500",
+       "name": "이론(화성·대위·분석)5",
+       "credits": 2
+      },
+      {
+       "code": "M2183.003300",
+       "name": "이론(화성·대위·분석)6",
+       "credits": 2
+      },
+      {
+       "code": "650.1240",
+       "name": "시창청음 1",
+       "credits": 1
+      },
+      {
+       "code": "650.1245",
+       "name": "시창청음 2",
+       "credits": 1
+      },
+      {
+       "code": "650.2246",
+       "name": "시창청음 3",
+       "credits": 1
+      },
+      {
+       "code": "650.2247",
+       "name": "시창청음 4",
+       "credits": 1
+      },
+      {
+       "code": "650.2241",
+       "name": "서양음악사 1",
+       "credits": 2
+      },
+      {
+       "code": "650.2242",
+       "name": "서양음악사 2",
+       "credits": 2
+      },
+      {
+       "code": "650.3243",
+       "name": "서양음악사 3",
+       "credits": 2
+      },
+      {
+       "code": "650.3244",
+       "name": "서양음악사 4",
+       "credits": 2
+      },
+      {
+       "code": "650.3307",
+       "name": "연주",
+       "credits": 1
+      },
+      {
+       "code": "6532.1337",
+       "name": "관현악 1",
+       "credits": 2,
+       "alt_codes": [
+        "650.1337(내규 표기)"
+       ]
+      },
+      {
+       "code": "6532.3337",
+       "name": "관현악 2",
+       "credits": 2,
+       "alt_codes": [
+        "650.3337(내규 표기)"
+       ]
+      },
+      {
+       "code": "6532.2240",
+       "name": "관악실기(악기명)",
+       "credits": 2,
+       "alt_codes": [
+        "653.2240(내규 표기)"
+       ]
+      },
+      {
+       "code": "6532.1111",
+       "name": "관악합주 1",
+       "credits": 1
+      },
+      {
+       "code": "6532.3303",
+       "name": "실내악앙상블(중주)",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "관악합주 1: 1~4회 전필, 5~8회 전선(1·2학년에 이수). 관악합주 2는 23학번부터 1~8회 전선. 실내악앙상블: 1~4회 전필, 5~6회 전선, 그 이상 무효. 관악실기 8회 누락 시 졸업 불가. 선택실기(부전공악기)는 3개 학기까지(2023년도부터)."
+    },
+    {
+     "id": "wind-sax",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "색소폰 전공은 관현악 1·2를 이수하지 않는다(2024 목록 \"단 색소폰, 기타 제외\")",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s2",
+      "s1"
+     ],
+     "note": "내규 6.1.3은 색소폰 전필 58(19학번부터 56)+전선(관현악) 16까지만 있고 2023학번 이후 값은 없다(23학번 문장도 중간에 끊김)."
+    },
+    {
+     "id": "wind-recital",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학사 졸업연주(8번째 학기): 세 시대 이상, 현대음악 포함, 인터미션 포함 60분 정도 독주회(실내악 제외), 암보, 두 달 전 곡목 심사, 곡목해설 발표, DVD 제출. 졸업연주 점수는 4학년 2학기 기말 전공실기 점수",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "wind-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "관악 복수전공(2023학번부터, 타과·우리과 복전 모두): 전필 총 62학점(관현악 1 3회, 관현악 2 3회, 실내악앙상블 2회, 관악합주 2 전선)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "내규 표는 이수학점수 \"72(72) → 72(62)\"로 적어 총 이수학점이 72이고 그중 전필 62인지 불분명. 해설 표 2는 62."
+    },
+    {
+     "id": "wind-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "관현악과 부전공 30학점(해설 표 2). 관악 내규에 부전공 조항 없음",
+     "min_count": null,
+     "min_credits": 30,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "music-practice-substitute",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "5학기 이상 등록자는 해당 전공 승인을 받아 작곡과·국악과의 이론 또는 지휘실기를 전공실기 대신 2개 학기 이내 수강 가능",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s6",
+      "s7"
+     ]
+    },
+    {
+     "id": "music-elective-scope",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정과목: 음악대학 전 과목",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7"
+     ]
+    },
+    {
+     "id": "music-double-overlap",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "음악대학 복수·부전공 내규: 주전공·복수전공 간 공통 인정 전공교과목(대학 공통 포함)은 최대 3개까지 중복 인정, 부전공은 중복 인정 없음. 복수전공 전공실기는 학과 내규대로 반복이수하되 4개 학기 이상 이수 뒤 심사로 학기 수 감면 가능. 작곡과·관현악과·국악과 안 세부전공끼리는 복수·부전공 불가",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8"
+     ],
+     "note": "2026.3.1. 시행. 그 전에 복수·부전공을 이수 중인 학생은 원하면 종전 내규 적용. 신청 자격: 2개 정규학기 이상, 33학점 이상, 평점 3.0 이상, 실기능력(이론 분야는 음악이론 지식)."
+    },
+    {
+     "id": "ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(학문의 기초·학문의 세계 체계, 2019~2024학번)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17"
+     ]
+    },
+    {
+     "id": "ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1 필수 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기) 중 택 1",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101(2025-1부터 개설 번호)"
+       ]
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.201"
+       ]
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.202"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17",
+      "s18"
+     ],
+     "note": "2025-1부터 같은 과목이 F11 번호로 열린다(옛 학번이 지금 들으면 F11 번호)."
+    },
+    {
+     "id": "ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목: 2021~2024학번 6학점, 2019·2020학번 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17"
+     ],
+     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort."
+    },
+    {
+     "id": "ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 중 자유 선택: 2021~2024학번 14학점, 2019·2020학번 14~16학점(외국어 학점에 따라)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17"
+     ]
+    },
+    {
+     "id": "ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회, 자연과 기술, 생명과 환경 중 4개 영역 이상에서 12학점 이상",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17"
+     ]
+    }
+   ],
+   "changed": "교양만 옛 체계. 전공 요건 같음(68).",
+   "note": "관현악과 첫 학번(2023). 교양은 college_common.ge_by_cohort(학번별)를 따른다."
+  },
+  {
+   "entry_years": [
+    2020,
+    2022
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 72,
+    "parallel": 74,
+    "double": 72,
+    "minor": 30,
+    "status": "충돌",
+    "src": [
+     "s19",
+     "s23",
+     "s24",
+     "s25",
+     "s20",
+     "s21",
+     "s22"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s19",
+    "s26"
+   ],
+   "requirements": [
+    {
+     "id": "wind-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 72학점(2019~2022학번): 2023학번 이후 68학점 과목 + 관악합주 2 4학기(3·4학년, 1~4회 전필·5~8회 전선)",
+     "min_count": null,
+     "min_credits": 72,
+     "courses": [
+      {
+       "code": "M1797.001700",
+       "name": "이론(화성·대위·분석)1",
+       "credits": 2
+      },
+      {
+       "code": "M1797.002000",
+       "name": "이론(화성·대위·분석)2",
+       "credits": 2
+      },
+      {
+       "code": "M1797.002300",
+       "name": "이론(화성·대위·분석)3",
+       "credits": 2
+      },
+      {
+       "code": "M1796.000200",
+       "name": "이론(화성·대위·분석)4",
+       "credits": 2
+      },
+      {
+       "code": "M1796.000500",
+       "name": "이론(화성·대위·분석)5",
+       "credits": 2
+      },
+      {
+       "code": "M2183.003300",
+       "name": "이론(화성·대위·분석)6",
+       "credits": 2
+      },
+      {
+       "code": "650.1240",
+       "name": "시창청음 1",
+       "credits": 1
+      },
+      {
+       "code": "650.1245",
+       "name": "시창청음 2",
+       "credits": 1
+      },
+      {
+       "code": "650.2246",
+       "name": "시창청음 3",
+       "credits": 1
+      },
+      {
+       "code": "650.2247",
+       "name": "시창청음 4",
+       "credits": 1
+      },
+      {
+       "code": "650.2241",
+       "name": "서양음악사 1",
+       "credits": 2
+      },
+      {
+       "code": "650.2242",
+       "name": "서양음악사 2",
+       "credits": 2
+      },
+      {
+       "code": "650.3243",
+       "name": "서양음악사 3",
+       "credits": 2
+      },
+      {
+       "code": "650.3244",
+       "name": "서양음악사 4",
+       "credits": 2
+      },
+      {
+       "code": "650.3307",
+       "name": "연주",
+       "credits": 1
+      },
+      {
+       "code": "6532.1337",
+       "name": "관현악 1",
+       "credits": 2,
+       "alt_codes": [
+        "650.1337(내규 표기)"
+       ]
+      },
+      {
+       "code": "6532.3337",
+       "name": "관현악 2",
+       "credits": 2,
+       "alt_codes": [
+        "650.3337(내규 표기)"
+       ]
+      },
+      {
+       "code": "6532.2240",
+       "name": "관악실기(악기명)",
+       "credits": 2,
+       "alt_codes": [
+        "653.2240(내규 표기)"
+       ]
+      },
+      {
+       "code": "6532.1111",
+       "name": "관악합주 1",
+       "credits": 1
+      },
+      {
+       "code": "6532.3303",
+       "name": "실내악앙상블(중주)",
+       "credits": 1
+      },
+      {
+       "code": "6532.3111",
+       "name": "관악합주 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "실내악앙상블: 19학번부터 1~4회 전필(2022 목록 과목 설명은 \"2개 학기 반복이수 필수\"로 적어 차이 있음)."
+    },
+    {
+     "id": "wind-sax",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "색소폰 전공(19학번부터): 전필 56학점 + 전선(관현악) 16학점(관현악 1·2를 전필로 듣지 않음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ]
+    },
+    {
+     "id": "wind-recital",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학사 졸업연주(8번째 학기): 세 시대 이상, 현대음악 포함, 인터미션 포함 60분 정도 독주회(실내악 제외), 암보, 두 달 전 곡목 심사, 곡목해설 발표, DVD 제출. 졸업연주 점수는 4학년 2학기 기말 전공실기 점수",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "wind-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "관악 복수전공(2023학번 전): 이수학점 72(전필 72) — 관현악 1·2 각 4회, 실내악앙상블 4회, 관악합주 2 전필",
+     "min_count": null,
+     "min_credits": 72,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s11",
+      "s20",
+      "s21",
+      "s22"
+     ],
+     "note": "내규의 변경 전 값 \"72(72)\". 해설 2018·2020·2022 판 표 2는 기악과(현악·관악) 74."
+    },
+    {
+     "id": "wind-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "관현악과 부전공 30학점(해설 표 2). 관악 내규에 부전공 조항 없음",
+     "min_count": null,
+     "min_credits": 30,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "music-practice-substitute",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "5학기 이상 등록자는 해당 전공 승인을 받아 작곡과·국악과의 이론 또는 지휘실기를 전공실기 대신 2개 학기 이내 수강 가능",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s6",
+      "s7"
+     ]
+    },
+    {
+     "id": "music-elective-scope",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정과목: 음악대학 전 과목",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7"
+     ]
+    },
+    {
+     "id": "music-double-overlap",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "음악대학 복수·부전공 내규: 주전공·복수전공 간 공통 인정 전공교과목(대학 공통 포함)은 최대 3개까지 중복 인정, 부전공은 중복 인정 없음. 복수전공 전공실기는 학과 내규대로 반복이수하되 4개 학기 이상 이수 뒤 심사로 학기 수 감면 가능. 작곡과·관현악과·국악과 안 세부전공끼리는 복수·부전공 불가",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8"
+     ],
+     "note": "2026.3.1. 시행. 그 전에 복수·부전공을 이수 중인 학생은 원하면 종전 내규 적용. 신청 자격: 2개 정규학기 이상, 33학점 이상, 평점 3.0 이상, 실기능력(이론 분야는 음악이론 지식)."
+    },
+    {
+     "id": "ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(학문의 기초·학문의 세계 체계, 2019~2024학번)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17"
+     ]
+    },
+    {
+     "id": "ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1 필수 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기) 중 택 1",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101(2025-1부터 개설 번호)"
+       ]
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.201"
+       ]
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.202"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17",
+      "s18"
+     ],
+     "note": "2025-1부터 같은 과목이 F11 번호로 열린다(옛 학번이 지금 들으면 F11 번호)."
+    },
+    {
+     "id": "ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목: 2021~2024학번 6학점, 2019·2020학번 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17"
+     ],
+     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort."
+    },
+    {
+     "id": "ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 중 자유 선택: 2021~2024학번 14학점, 2019·2020학번 14~16학점(외국어 학점에 따라)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17"
+     ]
+    },
+    {
+     "id": "ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회, 자연과 기술, 생명과 환경 중 4개 영역 이상에서 12학점 이상",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17"
+     ]
+    },
+    {
+     "id": "wind-flute-piccolo",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "2020~2022학번 플루트 전공은 선택실기(피콜로) 2회 필수(전필 74학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M2183.000100",
+       "name": "선택실기",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ]
+    }
+   ],
+   "changed": "전필 72(관악합주 2 4학기 전필), 색소폰 56+16, 플루트 피콜로 2회, 다른 학과 학생 복수 72.",
+   "note": "이 학번은 기악과 관악전공으로 입학했고 지금은 관현악과(구 기악과) 내규의 \"2019~2022학번\" 표를 따른다."
+  },
+  {
+   "entry_years": [
+    2019,
+    2019
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 72,
+    "parallel": 74,
+    "double": 72,
+    "minor": 30,
+    "status": "충돌",
+    "src": [
+     "s19",
+     "s23",
+     "s24",
+     "s25",
+     "s20",
+     "s21",
+     "s22"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s19"
+   ],
+   "requirements": [
+    {
+     "id": "wind-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 72학점(2019~2022학번): 2023학번 이후 68학점 과목 + 관악합주 2 4학기(3·4학년, 1~4회 전필·5~8회 전선)",
+     "min_count": null,
+     "min_credits": 72,
+     "courses": [
+      {
+       "code": "M1797.001700",
+       "name": "이론(화성·대위·분석)1",
+       "credits": 2
+      },
+      {
+       "code": "M1797.002000",
+       "name": "이론(화성·대위·분석)2",
+       "credits": 2
+      },
+      {
+       "code": "M1797.002300",
+       "name": "이론(화성·대위·분석)3",
+       "credits": 2
+      },
+      {
+       "code": "M1796.000200",
+       "name": "이론(화성·대위·분석)4",
+       "credits": 2
+      },
+      {
+       "code": "M1796.000500",
+       "name": "이론(화성·대위·분석)5",
+       "credits": 2
+      },
+      {
+       "code": "M2183.003300",
+       "name": "이론(화성·대위·분석)6",
+       "credits": 2
+      },
+      {
+       "code": "650.1240",
+       "name": "시창청음 1",
+       "credits": 1
+      },
+      {
+       "code": "650.1245",
+       "name": "시창청음 2",
+       "credits": 1
+      },
+      {
+       "code": "650.2246",
+       "name": "시창청음 3",
+       "credits": 1
+      },
+      {
+       "code": "650.2247",
+       "name": "시창청음 4",
+       "credits": 1
+      },
+      {
+       "code": "650.2241",
+       "name": "서양음악사 1",
+       "credits": 2
+      },
+      {
+       "code": "650.2242",
+       "name": "서양음악사 2",
+       "credits": 2
+      },
+      {
+       "code": "650.3243",
+       "name": "서양음악사 3",
+       "credits": 2
+      },
+      {
+       "code": "650.3244",
+       "name": "서양음악사 4",
+       "credits": 2
+      },
+      {
+       "code": "650.3307",
+       "name": "연주",
+       "credits": 1
+      },
+      {
+       "code": "6532.1337",
+       "name": "관현악 1",
+       "credits": 2,
+       "alt_codes": [
+        "650.1337(내규 표기)"
+       ]
+      },
+      {
+       "code": "6532.3337",
+       "name": "관현악 2",
+       "credits": 2,
+       "alt_codes": [
+        "650.3337(내규 표기)"
+       ]
+      },
+      {
+       "code": "6532.2240",
+       "name": "관악실기(악기명)",
+       "credits": 2,
+       "alt_codes": [
+        "653.2240(내규 표기)"
+       ]
+      },
+      {
+       "code": "6532.1111",
+       "name": "관악합주 1",
+       "credits": 1
+      },
+      {
+       "code": "6532.3303",
+       "name": "실내악앙상블(중주)",
+       "credits": 1
+      },
+      {
+       "code": "6532.3111",
+       "name": "관악합주 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "실내악앙상블: 19학번부터 1~4회 전필(2022 목록 과목 설명은 \"2개 학기 반복이수 필수\"로 적어 차이 있음)."
+    },
+    {
+     "id": "wind-sax",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "색소폰 전공(19학번부터): 전필 56학점 + 전선(관현악) 16학점(관현악 1·2를 전필로 듣지 않음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ]
+    },
+    {
+     "id": "wind-recital",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학사 졸업연주(8번째 학기): 세 시대 이상, 현대음악 포함, 인터미션 포함 60분 정도 독주회(실내악 제외), 암보, 두 달 전 곡목 심사, 곡목해설 발표, DVD 제출. 졸업연주 점수는 4학년 2학기 기말 전공실기 점수",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "wind-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "관악 복수전공(2023학번 전): 이수학점 72(전필 72) — 관현악 1·2 각 4회, 실내악앙상블 4회, 관악합주 2 전필",
+     "min_count": null,
+     "min_credits": 72,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s11",
+      "s20",
+      "s21",
+      "s22"
+     ],
+     "note": "내규의 변경 전 값 \"72(72)\". 해설 2018·2020·2022 판 표 2는 기악과(현악·관악) 74."
+    },
+    {
+     "id": "wind-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "관현악과 부전공 30학점(해설 표 2). 관악 내규에 부전공 조항 없음",
+     "min_count": null,
+     "min_credits": 30,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "music-practice-substitute",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "5학기 이상 등록자는 해당 전공 승인을 받아 작곡과·국악과의 이론 또는 지휘실기를 전공실기 대신 2개 학기 이내 수강 가능",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s6",
+      "s7"
+     ]
+    },
+    {
+     "id": "music-elective-scope",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정과목: 음악대학 전 과목",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7"
+     ]
+    },
+    {
+     "id": "music-double-overlap",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "음악대학 복수·부전공 내규: 주전공·복수전공 간 공통 인정 전공교과목(대학 공통 포함)은 최대 3개까지 중복 인정, 부전공은 중복 인정 없음. 복수전공 전공실기는 학과 내규대로 반복이수하되 4개 학기 이상 이수 뒤 심사로 학기 수 감면 가능. 작곡과·관현악과·국악과 안 세부전공끼리는 복수·부전공 불가",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8"
+     ],
+     "note": "2026.3.1. 시행. 그 전에 복수·부전공을 이수 중인 학생은 원하면 종전 내규 적용. 신청 자격: 2개 정규학기 이상, 33학점 이상, 평점 3.0 이상, 실기능력(이론 분야는 음악이론 지식)."
+    },
+    {
+     "id": "ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(학문의 기초·학문의 세계 체계, 2019~2024학번)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17"
+     ]
+    },
+    {
+     "id": "ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1 필수 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기) 중 택 1",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101(2025-1부터 개설 번호)"
+       ]
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.201"
+       ]
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.202"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17",
+      "s18"
+     ],
+     "note": "2025-1부터 같은 과목이 F11 번호로 열린다(옛 학번이 지금 들으면 F11 번호)."
+    },
+    {
+     "id": "ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목: 2021~2024학번 6학점, 2019·2020학번 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17"
+     ],
+     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort."
+    },
+    {
+     "id": "ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 중 자유 선택: 2021~2024학번 14학점, 2019·2020학번 14~16학점(외국어 학점에 따라)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17"
+     ]
+    },
+    {
+     "id": "ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회, 자연과 기술, 생명과 환경 중 4개 영역 이상에서 12학점 이상",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17"
+     ]
+    }
+   ],
+   "changed": "플루트 피콜로 조항(20~22학번)만 없다."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2019,
+   "basis": "입학 연도",
+   "what": "전필 74→72(이론 과목 개편)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2020,
+   "basis": "입학 연도",
+   "what": "플루트 선택실기(피콜로) 2회 필수(20~22학번)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2023,
+   "basis": "입학 연도",
+   "what": "관현악과 신설(기악과에서 분리). 관악합주 2 전선 전환(72→68), 복수전공 전필 62(관현악 1·2 각 3회, 실내악 2회)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 체계 개편",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "2019~2022학번 단일 72(내규)와 해설 74, 병행 74의 근거",
+  "2023학번 이후 색소폰 학점",
+  "2023학번 전 관악 복수전공 72와 해설 74",
+  "다른 전공 병행 시 주전공 학점(해설 74)",
+  "색소폰 전공 2023학번 이후 전필·전선 학점",
+  "복수전공 \"72(62)\"가 총 72인지 62인지",
+  "부전공 30의 필수 과목"
+ ],
+ "sources": {
+  "s1": {
+   "title": "서울대학교 음악대학 관현악과(구 기악과) 관악·타악 전공 및 동 대학원 학사내규(수정 2024. 1. 30.)",
+   "url": "https://music.snu.ac.kr/rule/8",
+   "locator": "6.1 2023학번 이후 전필 68(11쪽), 23학번 이후 복수전공 전필 62(11쪽), 6.1.3(12쪽), 1.10 졸업연주(2–3쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "127쪽 관악전공(쪽 머리는 654. 국악과)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본)",
+   "locator": "과목번호별 이름·학점·교과구분·개설 학기",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s4": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 2> 학사과정 복수·부전공 이수학점 기준, 11쪽 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "122–123쪽 651. 성악과(이수표준형태는 123쪽 머리 652. 작곡과)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "125–126쪽 663. 피아노과(쪽 머리는 653. 기악과)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "126쪽 664. 관현악과 현악전공(쪽 머리는 653. 기악과)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "음악대학 복수전공 및 부전공에 관한 내규(2025.12.10. 개정, 2026.3.1. 시행)",
+   "url": "https://music.snu.ac.kr/rule/16",
+   "locator": "제1조 신청자격·제한, 제3조 교과목 중복인정, 제4조 전공실기 반복이수, 부칙",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "151쪽(PDF 47쪽) □ 음악대학",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 음악대학 관현악과(구 기악과) 관악·타악 전공 및 동 대학원 학사내규(수정 2024. 1. 30.)",
+   "url": "https://music.snu.ac.kr/rule/8",
+   "locator": "6.1 2023학번 이후~ 표(PDF 11쪽), 23학번 이후 복수전공 변경(PDF 11쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "157쪽(PDF 49쪽) □ 음악대학",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "2026학년도 시행 단과대학별 공통교육과정 이수 규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "90쪽(PDF 43쪽) □ 음악대학, \"상기 이수규정은 2025학년도 입학생부터 적용함\"",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "교양 이수규정 36쪽(PDF 29쪽) □ 음악대학",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "교양 이수규정 37쪽(PDF 30쪽) □ 음악대학",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "교양 이수규정 40쪽(PDF 33쪽) □ 음악대학",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "서울대학교 음악대학 관현악과(구 기악과) 관악·타악 전공 및 동 대학원 학사내규(수정 2024. 1. 30.)",
+   "url": "https://music.snu.ac.kr/rule/8",
+   "locator": "6.1.1 교양과목의 수학(PDF 12쪽): 19학번부터 대학 글쓰기 2과목, 19~20학번 외국어 4~6학점, 21학번부터 최소 6학점",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본, 학기별 개설 과목·교과구분)",
+   "locator": "대학 글쓰기 번호: L0440.0006~0009는 2024학년도까지, 2025-1부터 F11.101·201~203",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s19": {
+   "title": "서울대학교 음악대학 관현악과(구 기악과) 관악·타악 전공 및 동 대학원 학사내규(수정 2024. 1. 30.)",
+   "url": "https://music.snu.ac.kr/rule/8",
+   "locator": "6.1 2019~2022학번 표(PDF 10쪽), 6.1.3 학점 이수 규정(PDF 12쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 2> 복수·부전공 이수학점 기준, 10–11쪽(PDF 3–4쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 2> 복수·부전공 이수학점 기준, 10–11쪽(PDF 3–4쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 2> 복수·부전공 이수학점 기준, 10–11쪽(PDF 3–4쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽(PDF 2쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽(PDF 2쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽(PDF 2쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "118–125쪽 651. 성악과 ~ 654. 국악과(653. 기악과 피아노·현악·관악전공 121–122쪽)",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

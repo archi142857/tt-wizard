@@ -1,0 +1,380 @@
+{
+ "id": "p-3d1bae16",
+ "college": "농업생명과학대학",
+ "unit": "조경·지역시스템공학부",
+ "program": "조경학전공",
+ "kind": "major",
+ "depts": [
+  "조경·지역시스템공학부"
+ ],
+ "code_prefixes": [
+  "5271."
+ ],
+ "ge_key": "농업생명과학대학 자연계",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "조경학전공",
+   "지역시스템공학전공"
+  ],
+  "when": "입학 후 27학점 이상 이수한 뒤 학부 내 전공 배정(2학년부터 전공 표준이수형태)",
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2019,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 48,
+    "double": 48,
+    "minor": 24,
+    "status": "부분",
+    "src": [
+     "s9",
+     "s10",
+     "s11",
+     "s12",
+     "s13",
+     "s14"
+    ]
+   },
+   "status": "충돌",
+   "src": [
+    "s15",
+    "s10",
+    "s16",
+    "s17"
+   ],
+   "requirements": [
+    {
+     "id": "la-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 14과목 42학점(학부 누리집 2025-08-05 판의 *) — 2024 목록은 경관생태학을 뺀 13과목 39학점",
+     "min_count": 14,
+     "min_credits": 42,
+     "courses": [
+      {
+       "code": "5271.212A",
+       "name": "조경식물재료학",
+       "credits": 3
+      },
+      {
+       "code": "5271.213",
+       "name": "조경컴퓨터그래픽",
+       "credits": 3
+      },
+      {
+       "code": "5271.214A",
+       "name": "공간디자인",
+       "credits": 3
+      },
+      {
+       "code": "5271.221B",
+       "name": "GIS와 계량분석 실습",
+       "credits": 3
+      },
+      {
+       "code": "5271.225",
+       "name": "경관생태학",
+       "credits": 3
+      },
+      {
+       "code": "5271.226",
+       "name": "서양 조경의 역사와 이론",
+       "credits": 3
+      },
+      {
+       "code": "5271.227",
+       "name": "조경생태분석",
+       "credits": 3
+      },
+      {
+       "code": "5271.324",
+       "name": "조경설계 1",
+       "credits": 3
+      },
+      {
+       "code": "5271.224A",
+       "name": "조경공학",
+       "credits": 3
+      },
+      {
+       "code": "5271.311",
+       "name": "조경계획",
+       "credits": 3
+      },
+      {
+       "code": "5271.321",
+       "name": "공원녹지계획",
+       "credits": 3
+      },
+      {
+       "code": "5271.422",
+       "name": "조경미학",
+       "credits": 3
+      },
+      {
+       "code": "5271.323A",
+       "name": "동양조경의 역사와 이론",
+       "credits": 3
+      },
+      {
+       "code": "5271.412",
+       "name": "조경설계 2",
+       "credits": 3
+      }
+     ],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "경관생태학 5271.225 는 2024 목록에 * 없음, 편람 2024-2 '전선'. 2025학번에 전필인지 확인 필요."
+    },
+    {
+     "id": "la-studio-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업작품스튜디오 1·2(M1707.000300·000400), 졸업논문 세미나 1·2(M1707.001000·001100), 각 3학점 전선 — 졸업작품·논문 요건 미확인",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1707.000300",
+       "name": "졸업작품스튜디오 1",
+       "credits": 3
+      },
+      {
+       "code": "M1707.000400",
+       "name": "졸업작품스튜디오 2",
+       "credits": 3
+      },
+      {
+       "code": "M1707.001000",
+       "name": "졸업논문 세미나 1",
+       "credits": 3
+      },
+      {
+       "code": "M1707.001100",
+       "name": "졸업논문 세미나 2",
+       "credits": 3
+      }
+     ],
+     "status": "미확인",
+     "src": [
+      "s2",
+      "s1",
+      "s3"
+     ]
+    },
+    {
+     "id": "la-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 조경학 전공과목 48학점 이상(세부 이수과목은 학부 학사운영내규)",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s4"
+     ]
+    },
+    {
+     "id": "la-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 조경학 전공과목 24학점 이상(세부는 학부 학사운영내규)",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s4"
+     ]
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "note": "학번 경계 근거는 없다(경과조치는 2009학년도 입학자). 다만 경관생태학(5271.225)이 2022 목록·편람 2021-2·2022-2 에서 전필, 2024 목록·편람 2024-2 에서 전선, 학부 페이지(2025-08)에서 다시 전필로 나와 자료끼리 다르다(1차 충돌 그대로). 2023·2025·2026 에는 개설 기록이 없다. 졸업논문 세미나 1·2(M1707.001000·001100)는 2024-1 에 새로 열렸다(전선). 2026학번: 같게 둔다."
+  }
+ ],
+ "change_points": [
+  {
+   "basis": "교과 개편 학기",
+   "what": "졸업논문 세미나 1·2(M1707.001000·001100, 전선) 신설 — 졸업작품스튜디오 1·2 와의 관계(졸업 요건 여부) 미확인.",
+   "status": "미확인"
+  }
+ ],
+ "ask_department": [
+  "경관생태학이 어느 학번에 전필인지(2022 목록·학부 페이지는 전필, 2024 목록·편람 2024-2 는 전선)",
+  "졸업작품·졸업논문 요건과 졸업논문 세미나 신설(2024) 관계",
+  "2025학번 전필에 경관생태학이 들어가는지",
+  "졸업작품·졸업논문 중 무엇이 졸업 요건인지",
+  "학부 학사운영내규 공개본"
+ ],
+ "sources": {
+  "s1": {
+   "title": "조경·지역시스템공학부 누리집 — 교과과정",
+   "url": "https://larse.snu.ac.kr/%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/",
+   "locator": "2025-08-05 수정, 두 전공 학년별 표, '*** 는 전공필수 교과목' 안내",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "527 조경·지역시스템공학부 1학년 전공탐색, 조경학전공 과목·이수표준형태·교과목 이수규정 ①(p.82)·복수/부전공(p.83)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "2025-1·2025-2·2026-1·2026-2 학기, 교과구분·학점",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s4": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 학사과정 복수·부전공 이수학점 기준, 농업생명과학대학 행 (p.10)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 농업생명과학대학 자연계(스마트시스템과학과 제외한 전체), 인쇄 p.135 (PDF p.31)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "2026학년도 단과대학별 공통교육과정 이수 규정(학부대학, 2026-01 게시)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "농업생명과학대학 세 표, 인쇄 p.71–73 ('2025학년도 입학생부터 적용' 문구 그대로)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "바이오시스템공학전공 누리집 — 학부교과과정(2025)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B5%90%EA%B3%BC%EA%B3%BC%EC%A0%952025/",
+   "locator": "2026-06-10 수정, 트랙 A/B 표준 이수체계(* 전공필수, ▪ 트랙필수)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "동물생명공학전공 — 졸업요건 학부과정(2022년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_08",
+   "locator": "학점 표·복수/부전공 문장·이수표준형태(별표 15과목)·비고",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "조경학 교과목·복수·부전공 이수규정(p.79)",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "같은 칸(p.82)",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행 '아래 이외의 학과(부)' 48/48, 복수 48·부 24",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "조경학 이수표준형태 *(p.79)",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "조경·지역시스템공학부 누리집 — 교과과정",
+   "url": "https://larse.snu.ac.kr/%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/",
+   "locator": "조경학·지역시스템공학 이수표준형태 표(* 전필)",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "5271.225 2021-2·2022-2 전필, 2024-2 전선",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

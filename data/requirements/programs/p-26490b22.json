@@ -1,0 +1,272 @@
+{
+ "id": "p-26490b22",
+ "college": "인문대학",
+ "unit": "종교학과",
+ "program": "종교학과",
+ "kind": "major",
+ "depts": [
+  "종교학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "인문대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2019,
+    2026
+   ],
+   "basis": "입학 연도(복수·부전공은 전공 진입 연도: 2019년 진입생부터)",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s8",
+     "s9",
+     "s10",
+     "s11",
+     "s12"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s13",
+    "s14",
+    "s15"
+   ],
+   "requirements": [
+    {
+     "id": "rel-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 3과목: 종교학의 전개, 한국종교, 종교학졸업논문지도(2019학번~; 복수전공은 2019년 진입생부터)",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "114.220",
+       "name": "종교학의 전개",
+       "credits": 3
+      },
+      {
+       "code": "114.322",
+       "name": "한국종교",
+       "credits": 3
+      },
+      {
+       "code": "114.408A",
+       "name": "종교학졸업논문지도",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4"
+     ],
+     "note": "학과 페이지 본문은 '전공필수 학점 6학점'(옛 2과목 기준 문구로 보임)과 2019학번 이후 3과목을 같이 적음."
+    },
+    {
+     "id": "rel-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 발표(1학기 5월, 2학기 11월; 발표일은 학기 초 결정) — 종교학졸업논문지도 수강",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "rel-foreign-taught",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "외국어진행 3과목 이상, 그중 종교학 전공 또는 종교학과 교수 개설 종교학 관련 교양 1과목(3학점)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "rel-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 종교학의 전개·한국종교 중 1과목 전필(2019년 부전공 진입생부터)",
+     "min_count": 1,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "114.220",
+       "name": "종교학의 전개",
+       "credits": 3
+      },
+      {
+       "code": "114.322",
+       "name": "한국종교",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통(2025학번 교양 36과 인문대 졸업 의무: 제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학 세미나) — college_common 참조",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "extra": {
+      "see": [
+       "college_common.requirements"
+      ]
+     }
+    }
+   ],
+   "note": "2019학번~ 전필 3과목이 범위 전체에 걸림."
+  }
+ ],
+ "change_points": [],
+ "ask_department": [
+  "전공선택 인정과목과 한도(교과목 안내 페이지 접근 실패)",
+  "복수전공생 페이지 내용(접근 실패)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "종교학과 주전공생(수정 2021-11-24)",
+   "url": "https://religion.snu.ac.kr/?page_id=1968",
+   "locator": "학번별 학점, 전공필수, 외국어진행, 졸업논문",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "22쪽 114.220*·114.322*·114.408A*",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "23쪽 교과목·복수전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "수강편람 자료(백엔드 수집) 2025-1",
+   "locator": "세 과목 전필",
+   "accessed": "2026-11-12",
+   "repo": "data/history/2025-1.json"
+  },
+  "s5": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "23쪽 부전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 인문대학 표, PDF 4쪽(인쇄 108쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "인문대학 졸업이수 의무사항 안내(관련: 인문대학-2710, 2025.1.25., 게시 2025-02-03)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림(https://humanities.snu.ac.kr/webdata/upimages/7efzf51z874zf93z1c2za09z28cz23ezd11z697zb8.png), '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "인문대학 졸업이수 의무사항 안내(인문대학-2710, 2025.1.25.)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림 '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "114. 종교학과 교과목 이수규정('2019학번부터 적용', 복수 '2019년 복수전공 진입생부터', 부전공 '2019년 부전공 진입생부터')",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "종교학과 졸업 안내(수정 2021-11-24)",
+   "url": "https://religion.snu.ac.kr/?page_id=1968",
+   "locator": "2018학번 이전/2019학번부터 전필(WebFetch 요약)",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "수강편람 자료(백엔드 수집)",
+   "locator": "전필 3과목 2021~2026",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

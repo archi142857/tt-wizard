@@ -1,0 +1,1472 @@
+{
+ "id": "p-e2c4f272",
+ "college": "농업생명과학대학",
+ "unit": "바이오시스템·소재학부",
+ "program": "바이오시스템공학전공",
+ "kind": "major",
+ "depts": [
+  "바이오시스템·소재학부"
+ ],
+ "code_prefixes": [
+  "500.",
+  "5261.",
+  "M1704."
+ ],
+ "ge_key": "농업생명과학대학 자연계",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "바이오시스템공학전공",
+   "바이오소재공학전공"
+  ],
+  "when": "입학 후 27학점 이상 이수한 뒤 학부 내 전공 배정. 바이오시스템공학은 2학년 첫 학기 말에 트랙(A 물리학·B 생물학·화학) 선택",
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 54,
+    "parallel": 42,
+    "double": 41,
+    "minor": 22,
+    "status": "충돌",
+    "src": [
+     "s8",
+     "s9"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s10",
+    "s11",
+    "s12"
+   ],
+   "requirements": [
+    {
+     "id": "bse-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 9과목 21학점(제38조①)",
+     "min_count": 9,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "881.001",
+       "name": "응용해석 1",
+       "credits": 3
+      },
+      {
+       "code": "5261.221",
+       "name": "생물재료역학",
+       "credits": 3
+      },
+      {
+       "code": "M1704.000900",
+       "name": "바이오시스템공학개론",
+       "credits": 1
+      },
+      {
+       "code": "5261.226",
+       "name": "유체역학 및 기계",
+       "credits": 3
+      },
+      {
+       "code": "5261.228",
+       "name": "바이오열역학",
+       "credits": 3
+      },
+      {
+       "code": "5261.322",
+       "name": "전기전자응용 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5261.427",
+       "name": "바이오시스템공학연습",
+       "credits": 1
+      },
+      {
+       "code": "5261.430",
+       "name": "바이오시스템공학세미나",
+       "credits": 1
+      },
+      {
+       "code": "M1704.001000",
+       "name": "기계학습 기초 및 바이오시스템공학 응용",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "bse-track",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "트랙필수: 고른 트랙의 과목 전부 — 트랙 A(물리학) 3과목 9학점 또는 트랙 B(생물학·화학) 4과목 12학점. 고르지 않은 트랙의 트랙필수는 전선 인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "5261.325",
+       "name": "농업동력 및 트랙터",
+       "credits": 3
+      },
+      {
+       "code": "5261.326",
+       "name": "바이오시스템제어 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5261.425",
+       "name": "생물환경시스템설계",
+       "credits": 3
+      },
+      {
+       "code": "5261.223C",
+       "name": "생체분자개론",
+       "credits": 3
+      },
+      {
+       "code": "5261.429",
+       "name": "생체역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5261.323",
+       "name": "생체물성공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1704.000700",
+       "name": "바이오센서 응용 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "A = 5261.325·5261.326·5261.425, B = 5261.223C·5261.429·5261.323·M1704.000700."
+    },
+    {
+     "id": "bse-major-total",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전필 + 고른 트랙필수 포함, 표 1 지정 전공교과목 중 54학점 이상(제39조①). 농업경제학개론·공학기술과 사회는 둘 중 1과목만, 식품생화학 1·생화학은 둘 중 1과목만 인정",
+     "min_count": null,
+     "min_credits": 54,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "bse-multi",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다전공 이수 학생: 전필 포함, 트랙필수·트랙공통 교과목 중 42학점 이상(제39조②)",
+     "min_count": null,
+     "min_credits": 42,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "bse-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 제출·통과(제17조). 6학기 뒤 바이오시스템공학연습에서 제목·지도교수 정함, 45시간 이상 연구, 종강 직후 발표회, 심사위원 3인 이상, S/U",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "bse-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "타 학부생 복수전공: 전필 중 바이오시스템공학개론·연습·세미나를 뺀 1과목 이상 + 전공개설 교과목 41학점 이상 + 졸업논문(제40조①)",
+     "min_count": null,
+     "min_credits": 41,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s4"
+     ]
+    },
+    {
+     "id": "bse-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "타 학부생 부전공: 같은 전필 1과목 이상 + 전공개설 교과목 22학점 이상(제40조②)",
+     "min_count": null,
+     "min_credits": 22,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s4"
+     ]
+    },
+    {
+     "id": "bse-multi-apply",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "다전공 신청은 정규학기 2개 이상, 33학점 이상 취득 후(제30조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s7"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "note": "1차(2025학번) 요건 그대로. 2026학번도 2025 내규가 적용된다(더 새 내규 없음). 편람 2026-2 에 '바이오시스템공학 심화 연구 1(3)·2(1)'이 전필로 새로 열렸는데 2025 내규 표 1 에는 없어 적용 대상 미확인."
+  },
+  {
+   "entry_years": [
+    2023,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 48,
+    "double": 41,
+    "minor": 22,
+    "status": "확인",
+    "src": [
+     "s15",
+     "s16"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s17",
+    "s18",
+    "s19"
+   ],
+   "requirements": [
+    {
+     "id": "bse-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 5과목 15학점",
+     "min_count": 5,
+     "min_credits": 15,
+     "courses": [
+      {
+       "code": "881.001",
+       "name": "응용해석 1",
+       "credits": 3
+      },
+      {
+       "code": "5261.221",
+       "name": "생물재료역학",
+       "credits": 3
+      },
+      {
+       "code": "5261.226",
+       "name": "유체역학 및 기계",
+       "credits": 3
+      },
+      {
+       "code": "5261.228",
+       "name": "바이오열역학",
+       "credits": 3
+      },
+      {
+       "code": "5261.322",
+       "name": "전기전자응용 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s13"
+     ]
+    },
+    {
+     "id": "bse-track",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "트랙필수: 고른 트랙 과목 전부 — 트랙 A(물리학) 3과목 9학점 또는 트랙 B(생물학·화학) 4과목 12학점. 고르지 않은 트랙 과목은 전선 인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "5261.425",
+       "name": "생물환경시스템설계",
+       "credits": 3
+      },
+      {
+       "code": "5261.326",
+       "name": "바이오시스템제어 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5261.325",
+       "name": "농업동력 및 트랙터",
+       "credits": 3
+      },
+      {
+       "code": "5261.429",
+       "name": "생체역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5261.223C",
+       "name": "생체분자개론",
+       "credits": 3
+      },
+      {
+       "code": "5261.323",
+       "name": "생체물성공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1704.000700",
+       "name": "바이오센서 응용 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s13"
+     ],
+     "note": "A = 5261.425·5261.326·5261.325, B = 5261.429·5261.223C·5261.323·M1704.000700. 트랙은 2학년 진입 뒤 첫 학기 말에 고른다."
+    },
+    {
+     "id": "bse-major-total",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "심화(단일)전공 60학점 이상: 전필·고른 트랙필수·바이오시스템공학연습·세미나 포함, 표 1 지정 과목 중",
+     "min_count": null,
+     "min_credits": 60,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13"
+     ]
+    },
+    {
+     "id": "bse-multi",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다전공 이수 학생 48학점 이상: 전필·연습·세미나 포함, 트랙필수·트랙공통 과목 중",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13"
+     ]
+    },
+    {
+     "id": "bse-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 제출·통과(제17조). 6학기 뒤 바이오시스템공학연습에서 제목·지도교수 정함, 45시간 이상 연구, 종강 직후 발표회, 심사위원 3인 이상, S/U",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "bse-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "타 학부생 복수전공: 전필 1과목 이상 + 바이오시스템공학연습·세미나 포함 전공개설 교과목 41학점 이상 + 졸업논문",
+     "min_count": null,
+     "min_credits": 41,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13"
+     ]
+    },
+    {
+     "id": "bse-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "타 학부생 부전공: 전필 1과목 이상 + 바이오시스템공학세미나 포함 전공개설 교과목 22학점 이상",
+     "min_count": null,
+     "min_credits": 22,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13"
+     ]
+    },
+    {
+     "id": "bse-multi-apply",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "다전공 신청은 정규학기 2개 이상, 33학점 이상 취득 후(제30조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s7"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    },
+    {
+     "id": "bse-seminar",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "바이오시스템공학연습(5261.427, 1)·바이오시스템공학세미나(5261.430, 1) 필수(전공 소속·복수전공 학생)",
+     "min_count": 2,
+     "min_credits": 2,
+     "courses": [
+      {
+       "code": "5261.427",
+       "name": "바이오시스템공학연습",
+       "credits": 1
+      },
+      {
+       "code": "5261.430",
+       "name": "바이오시스템공학세미나",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14"
+     ],
+     "note": "연습은 4개 학기 이후(졸업논문 제목·지도교수 결정)."
+    }
+   ],
+   "changed": "54/42·전필 9과목 21학점 대신 60/48·전필 5과목 15학점 + 연습·세미나 필수",
+   "note": "학사내규(2023). 2025 내규와 다른 점: 단일 60·다전공 48, 전필 5과목 15학점(바이오시스템공학개론·연습·세미나·기계학습 기초는 전필이 아님 — 연습·세미나는 따로 필수)."
+  },
+  {
+   "entry_years": [
+    2022,
+    2022
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 48,
+    "double": 41,
+    "minor": 22,
+    "status": "확인",
+    "src": [
+     "s21"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s22"
+   ],
+   "requirements": [
+    {
+     "id": "bse-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 5과목 15학점",
+     "min_count": 5,
+     "min_credits": 15,
+     "courses": [
+      {
+       "code": "881.001",
+       "name": "응용해석 1",
+       "credits": 3
+      },
+      {
+       "code": "5261.221",
+       "name": "생물재료역학",
+       "credits": 3
+      },
+      {
+       "code": "5261.226",
+       "name": "유체역학 및 기계",
+       "credits": 3
+      },
+      {
+       "code": "5261.228",
+       "name": "바이오열역학",
+       "credits": 3
+      },
+      {
+       "code": "5261.322",
+       "name": "전기전자응용 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s13"
+     ]
+    },
+    {
+     "id": "bse-track",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "트랙필수: 트랙 A 3과목 9학점 또는 트랙 B 4과목 12학점(트랙 B 바이오센서 과목은 5261.402)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "5261.425",
+       "name": "생물환경시스템설계",
+       "credits": 3
+      },
+      {
+       "code": "5261.326",
+       "name": "바이오시스템제어 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5261.325",
+       "name": "농업동력 및 트랙터",
+       "credits": 3
+      },
+      {
+       "code": "5261.429",
+       "name": "생체역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5261.223C",
+       "name": "생체분자개론",
+       "credits": 3
+      },
+      {
+       "code": "5261.323",
+       "name": "생체물성공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5261.402",
+       "name": "바이오센서·생체계측 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s20"
+     ],
+     "note": "A = 5261.325·5261.326·5261.425, B = 5261.223C·5261.429·5261.323·M1704.000700."
+    },
+    {
+     "id": "bse-major-total",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "심화(단일)전공 60학점 이상: 전필·고른 트랙필수·바이오시스템공학연습·세미나 포함, 표 1 지정 과목 중",
+     "min_count": null,
+     "min_credits": 60,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13"
+     ]
+    },
+    {
+     "id": "bse-multi",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다전공 이수 학생 48학점 이상: 전필·연습·세미나 포함, 트랙필수·트랙공통 과목 중",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13"
+     ]
+    },
+    {
+     "id": "bse-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 제출·통과(제17조). 6학기 뒤 바이오시스템공학연습에서 제목·지도교수 정함, 45시간 이상 연구, 종강 직후 발표회, 심사위원 3인 이상, S/U",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "bse-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "타 학부생 복수전공: 전필 1과목 이상 + 바이오시스템공학연습·세미나 포함 전공개설 교과목 41학점 이상 + 졸업논문",
+     "min_count": null,
+     "min_credits": 41,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13"
+     ]
+    },
+    {
+     "id": "bse-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "타 학부생 부전공: 전필 1과목 이상 + 바이오시스템공학세미나 포함 전공개설 교과목 22학점 이상",
+     "min_count": null,
+     "min_credits": 22,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13"
+     ]
+    },
+    {
+     "id": "bse-multi-apply",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "다전공 신청은 정규학기 2개 이상, 33학점 이상 취득 후(제30조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s7"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    },
+    {
+     "id": "bse-seminar",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "바이오시스템공학연습(5261.427, 1)·바이오시스템공학세미나(5261.430, 1) 필수(전공 소속·복수전공 학생)",
+     "min_count": 2,
+     "min_credits": 2,
+     "courses": [
+      {
+       "code": "5261.427",
+       "name": "바이오시스템공학연습",
+       "credits": 1
+      },
+      {
+       "code": "5261.430",
+       "name": "바이오시스템공학세미나",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14"
+     ],
+     "note": "연습은 4개 학기 이후(졸업논문 제목·지도교수 결정)."
+    }
+   ],
+   "changed": "2023 내규와 같고 트랙 B 바이오센서 과목 번호만 다름(5261.402)",
+   "note": "학사내규(2022). 2023 내규와 같고 트랙 B 의 바이오센서 과목만 5261.402 바이오센서·생체계측 및 실험(2023 내규는 M1704.000700 바이오센서 응용 및 실험). 부칙 단서로 교과 요구사항은 '전공 진입 당시 내규'(이 학번은 보통 2023 진입 → 2023 내규와 사실상 같음)."
+  },
+  {
+   "entry_years": [
+    2019,
+    2021
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 48,
+    "double": 48,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s23",
+     "s24",
+     "s25",
+     "s26",
+     "s27",
+     "s28"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s23",
+    "s29"
+   ],
+   "requirements": [
+    {
+     "id": "bse-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 8과목 24학점(2017 내규 표3)",
+     "min_count": 8,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "881.001",
+       "name": "응용해석 1",
+       "credits": 3
+      },
+      {
+       "code": "5261.221",
+       "name": "생물재료역학",
+       "credits": 3
+      },
+      {
+       "code": "5261.226",
+       "name": "유체역학 및 기계",
+       "credits": 3
+      },
+      {
+       "code": "5261.321",
+       "name": "생체열·물질전달",
+       "credits": 3
+      },
+      {
+       "code": "5261.429",
+       "name": "생체역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5261.322",
+       "name": "전기전자응용 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5261.326",
+       "name": "바이오시스템제어 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5261.323",
+       "name": "생체물성공학 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s23"
+     ]
+    },
+    {
+     "id": "bse-track",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "단일전공 교과목 23학점: Track 공통 9학점 + 고른 Track 1(기계) 또는 Track 2(생물)에서 14학점",
+     "min_count": null,
+     "min_credits": 23,
+     "courses": [
+      {
+       "code": "5272.202",
+       "name": "응용공학수학 2 (Track 공통)",
+       "credits": 3
+      },
+      {
+       "code": "5261.423",
+       "name": "마이크로프로세서응용 (Track 공통)",
+       "credits": 3
+      },
+      {
+       "code": "5261.402",
+       "name": "바이오센서·생체계측 및 실험 (Track 공통)",
+       "credits": 3
+      },
+      {
+       "code": "5272.424",
+       "name": "농촌지리정보시스템 및 원격탐사 (Track 공통)",
+       "credits": 3
+      },
+      {
+       "code": "M1704.000600",
+       "name": "농업인공지능개론 (Track 공통)",
+       "credits": 3
+      },
+      {
+       "code": "5261.328A",
+       "name": "농업기계분석과 설계 (Track 1)",
+       "credits": 3
+      },
+      {
+       "code": "5261.330",
+       "name": "기계요소설계학 (Track 1)",
+       "credits": 3
+      },
+      {
+       "code": "5261.325",
+       "name": "농업동력 및 트랙터 (Track 1)",
+       "credits": 3
+      },
+      {
+       "code": "5261.425",
+       "name": "생물환경시스템설계 (Track 1)",
+       "credits": 3
+      },
+      {
+       "code": "5261.329",
+       "name": "정밀농업시스템공학 (Track 1)",
+       "credits": 3
+      },
+      {
+       "code": "5261.222",
+       "name": "동역학 (Track 1)",
+       "credits": 3
+      },
+      {
+       "code": "5261.223C",
+       "name": "생체분자개론 (Track 2)",
+       "credits": 3
+      },
+      {
+       "code": "5261.324",
+       "name": "바이오시스템실험 (Track 2)",
+       "credits": 2
+      },
+      {
+       "code": "5261.424",
+       "name": "수확후 공정공학 및 실험 (Track 2)",
+       "credits": 3
+      },
+      {
+       "code": "519.002",
+       "name": "유기화학 (Track 2)",
+       "credits": 3
+      },
+      {
+       "code": "5251.308",
+       "name": "식품공정학 (Track 2)",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s23"
+     ],
+     "note": "표3 의 Track 2 '바이오시스템공학생물'은 번호를 못 찾았다."
+    },
+    {
+     "id": "bse-major-total",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 60학점 이상: 전공최소이수교과목 38(전필 24 + 공통 14) + 단일전공 교과목 23. 4학년은 연습·세미나 필수",
+     "min_count": null,
+     "min_credits": 60,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23"
+     ]
+    },
+    {
+     "id": "bse-multi",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행: 전공최소이수교과목·단일전공 교과목 중 48학점 이상",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23"
+     ]
+    },
+    {
+     "id": "bse-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 제출·통과(제17조). 6학기 뒤 바이오시스템공학연습에서 제목·지도교수 정함, 45시간 이상 연구, 종강 직후 발표회, 심사위원 3인 이상, S/U",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "bse-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "타 학부(과) 복수전공: 전공최소이수교과목·단일전공 교과목 중 48학점 이상",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23"
+     ]
+    },
+    {
+     "id": "bse-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "타 학부(과) 부전공: '전공필수 교과목(27학점)' 중 24학점 이상(내규 문구 그대로 — 표3 전필은 24학점)",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s23"
+     ]
+    },
+    {
+     "id": "bse-multi-apply",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "다전공 신청은 정규학기 2개 이상, 33학점 이상 취득 후(제30조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s7"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    },
+    {
+     "id": "bse-seminar",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "바이오시스템공학연습(5261.427, 1)·바이오시스템공학세미나(5261.430, 1) 필수(전공 소속·복수전공 학생)",
+     "min_count": 2,
+     "min_credits": 2,
+     "courses": [
+      {
+       "code": "5261.427",
+       "name": "바이오시스템공학연습",
+       "credits": 1
+      },
+      {
+       "code": "5261.430",
+       "name": "바이오시스템공학세미나",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14"
+     ],
+     "note": "연습은 4개 학기 이후(졸업논문 제목·지도교수 결정)."
+    },
+    {
+     "id": "bse-common14",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공통교과목 14학점(전공최소이수교과목에 포함): 농업경제학개론과 공학기술과 사회는 둘 다 들어도 3학점만 인정",
+     "min_count": 6,
+     "min_credits": 14,
+     "courses": [
+      {
+       "code": "500.405",
+       "name": "컴퓨터프로그래밍개론",
+       "credits": 3
+      },
+      {
+       "code": "5261.228",
+       "name": "바이오열역학",
+       "credits": 3
+      },
+      {
+       "code": "500.301A",
+       "name": "통계학개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "5261.427",
+       "name": "바이오시스템공학연습",
+       "credits": 1
+      },
+      {
+       "code": "5261.430",
+       "name": "바이오시스템공학세미나",
+       "credits": 1
+      },
+      {
+       "code": "500.207",
+       "name": "농업경제학개론(또는 400.310 공학기술과 사회)",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s23"
+     ],
+     "note": "통계학개론 및 실습(500.301A)은 2025-1 이 마지막 개설(농생대 공통 M2179.007700 통계 인공지능 개론 및 실습으로 바뀜) — 미이수자 대체는 학과 확인."
+    }
+   ],
+   "changed": "60 = 전공최소이수 38(전필 8과목 24 + 공통교과목 14) + 단일전공 교과목 23(Track 공통 9 + Track 1 또는 2 의 14), 다전공 48, 타 학부 복수 48·부 24",
+   "note": "학사내규(2017), '2017학년도 입학자부터 적용'(교과목 이수 체계 자체는 '2011학년도 신입생부터'). 2022 내규 부칙 단서('진입 당시 내규')를 따르면 2021학번(보통 2022-1 진입, 2022 내규 시행 2022-04-25 전)도 이 내규다."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "학사내규(2025): 54/42, 전필 9과목 21학점(바이오시스템공학개론·연습·세미나·기계학습 기초 추가), 타 학부 복수 41·부 22 조건 조정.",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2023,
+   "basis": "입학 연도",
+   "what": "학사내규(2023): 트랙 B 바이오센서 과목 M1704.000700 으로, 다전공 48 범위 문구 정리.",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2022,
+   "basis": "입학 연도",
+   "what": "학사내규(2022): 전필 5과목 15학점 + 트랙필수(A 9 / B 12) 체계, 타 학부 복수 41·부 22. 단서: 교과 요구사항은 전공 진입 당시 내규(전공 진입 연도 혼합).",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "해설 표(60/48·48/24)와 내규(54/42·41/22) 중 졸업 사정 기준(1차 질문 그대로)",
+  "심화 연구 1·2(2026-2 전필)가 어느 학번·이수 형태에 필수인지",
+  "2022 내규 단서('전공 진입 당시 내규')를 2021학번 이하에 어떻게 적용하는지",
+  "다른 학과 학생의 복수·부전공(41/22 vs 48/24)은 그 학생의 입학 연도 기준인지 다전공 선발 시기 기준인지",
+  "졸업 사정 때 해설 표 1(60/48)과 학사내규(54/42) 중 무엇을 쓰는지",
+  "심화 연구 1·2 가 2025학번 전필인지"
+ ],
+ "sources": {
+  "s1": {
+   "title": "바이오시스템공학전공 누리집 — 학사내규(2025)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EC%82%AC%EB%82%B4%EA%B7%9C2025/",
+   "locator": "제17조, 제30조, 제31조, 제37–40조, 제43–44조, 부칙(2025-09-01 시행, 2025학년도 입학자부터)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "바이오시스템공학전공 누리집 — 학부교과과정(2025)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B5%90%EA%B3%BC%EA%B3%BC%EC%A0%952025/",
+   "locator": "2026-06-10 수정, 트랙 A/B 표준 이수체계(* 전공필수, ▪ 트랙필수)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "2025-1·2025-2·2026-1·2026-2 학기, 교과구분·학점",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s4": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "526 바이오시스템공학전공 과목(p.80)·트랙 A/B 표준 이수체계·복수/부전공 이수규정·경과조치 (p.81)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 농업생명과학대학 자연계(스마트시스템과학과 제외한 전체), 인쇄 p.135 (PDF p.31)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "2026학년도 단과대학별 공통교육과정 이수 규정(학부대학, 2026-01 게시)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "농업생명과학대학 세 표, 인쇄 p.71–73 ('2025학년도 입학생부터 적용' 문구 그대로)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "동물생명공학전공 — 졸업요건 학부과정(2022년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_08",
+   "locator": "학점 표·복수/부전공 문장·이수표준형태(별표 15과목)·비고",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "바이오시스템공학전공 누리집 — 학사내규(2025)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EC%82%AC%EB%82%B4%EA%B7%9C2025/",
+   "locator": "제31·39·40조, 부칙 '2025학년도 입학자부터'",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행 바이오시스템공학 60/48, 표 2 '아래 이외' 48/24",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "바이오시스템공학전공 누리집 — 학사내규(2025)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EC%82%AC%EB%82%B4%EA%B7%9C2025/",
+   "locator": "부칙: '2025년 9월 1일부터 적용', 경과 '2025학년도 입학자부터, 이전 입학자는 종전 규정(희망 시 본 규정)'",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "바이오시스템공학전공 누리집 — 학부교과과정(2025)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B5%90%EA%B3%BC%EA%B3%BC%EC%A0%952025/",
+   "locator": "트랙 A·B 표준 이수체계",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "M1704.001300·001400 심화 연구 1·2 2026-2 전필",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s13": {
+   "title": "바이오시스템공학전공 누리집 — 학사내규(2023)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EC%82%AC%EB%82%B4%EA%B7%9C2023/",
+   "locator": "제3장 전공 교과목(표 1)·전공 이수학점·타 학부생 복수·부전공, 부칙",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "바이오시스템공학전공 누리집 — 학사내규(2023)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EC%82%AC%EB%82%B4%EA%B7%9C2023/",
+   "locator": "제3장 전공 교과목 ③",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "바이오시스템공학전공 누리집 — 학사내규(2023)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EC%82%AC%EB%82%B4%EA%B7%9C2023/",
+   "locator": "전공 이수학점·타 학부생 복수·부전공",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "바이오시스템공학 복수 41·부 22(p.81)",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "바이오시스템공학전공 누리집 — 학사내규(2023)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EC%82%AC%EB%82%B4%EA%B7%9C2023/",
+   "locator": "부칙 '2024년 9월 23일부터 적용', 경과 '2023학년도 입학자부터 적용, 이전 입학자는 종전 규정(희망 시 새 규정)'",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "바이오시스템공학전공 누리집 — 학부교과과정(2023)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B5%90%EA%B3%BC%EA%B3%BC%EC%A0%952023/",
+   "locator": "표준 이수체계",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "바이오시스템공학 트랙 A·B 표준 이수체계(p.80~81)",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "바이오시스템공학전공 누리집 — 학사내규(2022)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EC%82%AC%EB%82%B4%EA%B7%9C2022/",
+   "locator": "제3장 표 1",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "바이오시스템공학전공 누리집 — 학사내규(2022)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EC%82%AC%EB%82%B4%EA%B7%9C2022/",
+   "locator": "전공 이수학점·타 학부생 복수·부전공",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "바이오시스템공학전공 누리집 — 학사내규(2022)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EC%82%AC%EB%82%B4%EA%B7%9C2022/",
+   "locator": "부칙 '2022년 4월 25일부터 2022학년도 입학생부터 적용. 단, 학생별 전공 교과목과 전공필수 교과목 등 교과이수 요구사항은 전공 진입 당시의 내규를 따른다'",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "바이오시스템공학전공 누리집 — 학사내규(2017)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EC%82%AC%EB%82%B4%EA%B7%9C2017/",
+   "locator": "<교과목 이수>·<표3> 교과목 이수 구분, 부칙",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "바이오시스템공학 교과목·복수·부전공 이수규정(p.78)",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행 '아래 이외의 학과(부)' 48/48, 복수 48·부 24",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "바이오시스템공학전공 이수표준형태·교과목 이수규정(p.77~78)",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

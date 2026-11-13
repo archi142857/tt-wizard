@@ -1,0 +1,332 @@
+{
+ "id": "p-1b7f1668",
+ "college": "농업생명과학대학",
+ "unit": "식물생산과학부",
+ "program": "작물생명과학전공",
+ "kind": "major",
+ "depts": [
+  "식물생산과학부"
+ ],
+ "code_prefixes": [
+  "5171."
+ ],
+ "ge_key": "농업생명과학대학 자연계",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "작물생명과학전공",
+   "원예생명공학전공",
+   "산업인력개발학전공"
+  ],
+  "when": "입학 후 27학점 이상 이수한 뒤 학부 내 전공 배정(보통 1학년을 마치고 2학년부터 전공 과정)",
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2019,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 48,
+    "parallel": 48,
+    "double": 48,
+    "minor": 24,
+    "status": "부분",
+    "src": [
+     "s7",
+     "s8",
+     "s9",
+     "s10",
+     "s11",
+     "s12"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s13",
+    "s12",
+    "s14"
+   ],
+   "requirements": [
+    {
+     "id": "crop-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 10과목 26학점(2024 목록 기준)",
+     "min_count": 10,
+     "min_credits": 26,
+     "courses": [
+      {
+       "code": "5171.201",
+       "name": "작물유전학",
+       "credits": 3
+      },
+      {
+       "code": "5171.202",
+       "name": "재배학",
+       "credits": 3
+      },
+      {
+       "code": "5171.205",
+       "name": "작물생리학",
+       "credits": 3
+      },
+      {
+       "code": "5171.208",
+       "name": "작물생명공학개론",
+       "credits": 3
+      },
+      {
+       "code": "5171.209",
+       "name": "식량작물학",
+       "credits": 3
+      },
+      {
+       "code": "5171.307",
+       "name": "작물육종학",
+       "credits": 3
+      },
+      {
+       "code": "5171.310",
+       "name": "공예·사료작물학",
+       "credits": 3
+      },
+      {
+       "code": "5171.312",
+       "name": "작물생명과학실험 및 실습 1",
+       "credits": 2
+      },
+      {
+       "code": "5171.313",
+       "name": "작물생명과학실험 및 실습 2",
+       "credits": 2
+      },
+      {
+       "code": "5171.405",
+       "name": "작물생명과학연습",
+       "credits": 1
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "편람 2025-1·2부터 작물생명과학실험 및 실습 1·2 가 3학점(2024까지 2학점)이라 2025학번은 합이 28일 수 있다. 공예·사료작물학 5171.310 은 2025-1 까지, 2026-1 에 M1672.000200 특용 및 사료작물학(3, 전필)이 새로 열렸다(대체 여부 미확인)."
+    },
+    {
+     "id": "crop-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학부 작물생명과학 전공선택 중 22학점 이상",
+     "min_count": null,
+     "min_credits": 22,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "전선 인정 범위는 '식물생산과학부(작물생명과학전공) 내규에 의함'(내규 미공개)."
+    },
+    {
+     "id": "crop-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "작물생명과학 학사논문연구 M1672.000100(3학점, 전선) — 필수 여부 미확인",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1672.000100",
+       "name": "작물생명과학 학사논문연구",
+       "credits": 3
+      }
+     ],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "crop-double-minor",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "복수전공·부전공 이수규정은 '전공내규에 의함'",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "note": "학번별 규정은 1개(2013학년도 입학생부터)다. 2022 목록과 2024 목록의 작물 쪽은 전필·문구가 같다. 바뀐 것은 과목 쪽(교과 개편 학기)뿐이다: 실험 및 실습 1·2 학점, 공예·사료작물학 → 특용 및 사료작물학. 2026학번: 새 규정 문서 없음, 2025학번과 같게 둔다."
+  }
+ ],
+ "change_points": [
+  {
+   "basis": "교과 개편 학기",
+   "what": "작물생명과학실험 및 실습 1·2(5171.312·5171.313)가 2학점 → 3학점. 2024-2 까지 들은 사람은 전필 합 26, 2025-1 이후 들은 사람은 28이 된다(학번이 아니라 들은 학기 기준).",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "공예·사료작물학(5171.310, 전필)은 2025-1 이 마지막 개설이고 2026-1 에 특용 및 사료작물학(M1672.000200, 3, 전필)이 처음 열렸다. 대체 관계는 공개 자료에 없다.",
+   "status": "부분"
+  }
+ ],
+ "ask_department": [
+  "공예·사료작물학 미이수자가 특용 및 사료작물학으로 대체하는지",
+  "실험 및 실습 1·2 학점 변경 뒤 '전필 26학점' 문구를 어떻게 적용하는지(2학점짜리 이수자 포함)",
+  "2025학번 전필 학점(26 또는 28)과 공예·사료작물학 → 특용 및 사료작물학 대체 여부",
+  "학사논문연구가 졸업에 필요한지",
+  "복수전공·부전공 내규(학점·필수 과목)",
+  "전공선택 인정 범위(타학과·대학원)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "517 식물생산과학부 작물생명과학전공 과목·이수표준형태·교과목 이수규정 ② (p.71–72)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "2025-1·2025-2·2026-1·2026-2 학기, 교과구분·학점",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s3": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 농업생명과학대학 자연계(스마트시스템과학과 제외한 전체), 인쇄 p.135 (PDF p.31)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "2026학년도 단과대학별 공통교육과정 이수 규정(학부대학, 2026-01 게시)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "농업생명과학대학 세 표, 인쇄 p.71–73 ('2025학년도 입학생부터 적용' 문구 그대로)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "바이오시스템공학전공 누리집 — 학부교과과정(2025)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B5%90%EA%B3%BC%EA%B3%BC%EC%A0%952025/",
+   "locator": "2026-06-10 수정, 트랙 A/B 표준 이수체계(* 전공필수, ▪ 트랙필수)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "동물생명공학전공 — 졸업요건 학부과정(2022년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_08",
+   "locator": "학점 표·복수/부전공 문장·이수표준형태(별표 15과목)·비고",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행 '아래 이외의 학과(부)' 48/48, 복수 48·부 24",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "517 식물생산과학부, 작물생명과학전공 교과목 이수규정(p.69)",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "같은 칸(p.72)",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "작물생명과학전공 교과목 이수규정 ① '2013학년도 입학생부터 적용함'(p.69)",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "5171.312·5171.313 학점, 5171.310·M1672.000200 개설 학기",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

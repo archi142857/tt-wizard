@@ -1,0 +1,255 @@
+{
+ "id": "p-2cfbd5f9",
+ "college": "학부대학(자유전공학부·광역)·첨단융합학부·혁신공유학부·연합전공·연계전공·학생설계전공",
+ "unit": "학생설계전공(복수전공)",
+ "program": "학생설계전공(복수전공)",
+ "kind": "multi",
+ "depts": [],
+ "code_prefixes": [],
+ "ge_key": null,
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "selection",
+ "predecessor": null,
+ "structure": {
+  "when": "2개 정규학기 이상 이수·33학점 이상 취득 뒤 신청 기간",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2022,
+    2026
+   ],
+   "basis": "다전공 선발 시기",
+   "credits": {
+    "grad": null,
+    "ge": null,
+    "single": null,
+    "parallel": null,
+    "double": 39,
+    "minor": null,
+    "text": {
+     "parallel": "소속 학과(부)의 다른 전공 병행 학점"
+    },
+    "status": "확인",
+    "src": [
+     "s5",
+     "s6",
+     "s7"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s5",
+    "s7"
+   ],
+   "requirements": [
+    {
+     "id": "sdmd-apply",
+     "type": "other",
+     "applies_to": [
+      "double"
+     ],
+     "text": "신청 자격: 2개 정규학기·33학점 이상, 전체 평점 3.3 이상, 전공설계 2 이수",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "991.202A",
+       "name": "전공설계 2",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "sdmd-core",
+     "type": "major_required",
+     "applies_to": [
+      "double"
+     ],
+     "text": "전공필수 13학점·5과목 이상(자유전공학부 '전공설계 2'·'종합설계' 포함)",
+     "min_count": 5,
+     "min_credits": 13,
+     "courses": [
+      {
+       "code": "991.202A",
+       "name": "전공설계 2",
+       "credits": 1.0
+      },
+      {
+       "code": "991.401",
+       "name": "종합설계",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "sdmd-limits",
+     "type": "other",
+     "applies_to": [
+      "double"
+     ],
+     "text": "기 이수 과목 처음 편성 때 10학점까지, 타 대학 과목 편성 불가(사전 승인 12학점 이내 인정), 교과과정 변경 1회 원칙, 매 학기 지도교수 수강 승인, 다른 전공과 과목 중복 인정 안 함",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4"
+     ]
+    }
+   ],
+   "note": "2022학년도 1학기 신청자부터(시행세칙 제정 2022.1.4., 2022년 3월부터 전체 학생의 복수전공으로 확대) 39학점. 2026학번은 2027년 이후 신청."
+  },
+  {
+   "entry_years": [
+    2019,
+    2021
+   ],
+   "basis": "다전공 선발 시기",
+   "credits": {
+    "grad": null,
+    "ge": null,
+    "single": null,
+    "parallel": null,
+    "double": 21,
+    "minor": null,
+    "text": {
+     "parallel": "소속 학과(부)의 다른 전공 병행 학점"
+    },
+    "status": "확인",
+    "src": [
+     "s8",
+     "s9",
+     "s6",
+     "s7"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s8",
+    "s9",
+    "s6",
+    "s7"
+   ],
+   "requirements": [
+    {
+     "id": "sdmd-limits",
+     "type": "other",
+     "applies_to": [
+      "double"
+     ],
+     "text": "기 이수 과목 처음 편성 때 10학점까지, 타 대학 과목 편성 불가(사전 승인 12학점 이내 인정), 교과과정 변경 1회 원칙, 매 학기 지도교수 수강 승인, 다른 전공과 과목 중복 인정 안 함",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4"
+     ]
+    },
+    {
+     "id": "sdmd-old21",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "학생설계전공(2021-2 이전 신청자) 21학점 이상 — 심사위원회가 승인한 교과목",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7",
+      "s8"
+     ],
+     "note": "2018·2020 해설은 학생설계전공 일반을 21학점으로, 2022·2024 해설은 '2021학년도 2학기 이전 신청자'만 21학점으로 적는다."
+    }
+   ],
+   "changed": "2021학년도 2학기까지 신청한 학생(자유전공학부 소속 제외)은 학생설계전공 심사위원회가 따로 승인한 교과목 21학점 이상. 신청 자격(33학점·평점 3.3·전공설계 2)·편성 기준(51~78학점, 전필 13학점·5과목)은 2022 시행세칙 것이라 이 신청자에게는 미확인.",
+   "note": "학번이 아니라 신청 학기로 정한다. 2019~2020학번(드물게 2021학번)만 해당할 수 있다. 다른 전공과 중복 인정 없음은 같다."
+  }
+ ],
+ "change_points": [
+  {
+   "basis": "다전공 선발 시기",
+   "what": "학생설계전공 21학점 → 39학점(복수전공), 신청 자격 2개 학기·33학점·평점 3.3·전공설계 2",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "'2021학년도 2학기 이전 신청'의 경계(2022-1 신청 기간이 2021-2학기 중인지)",
+  "21학점 기준 신청자의 세부 규정"
+ ],
+ "sources": {
+  "s1": {
+   "title": "서울대학교 학생설계전공 시행세칙(2025.3.1. 개정)",
+   "url": "https://sdm.snu.ac.kr/wp-content/uploads/sites/209/2025/09/서울대학교-학생설계전공-시행세칙2025.03.01.pdf",
+   "locator": "제2조 제1항",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서울대학교 학생설계전공 시행세칙(2025.3.1. 개정)",
+   "url": "https://sdm.snu.ac.kr/wp-content/uploads/sites/209/2025/09/서울대학교-학생설계전공-시행세칙2025.03.01.pdf",
+   "locator": "제4조 제2항",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교 학생설계전공 시행세칙(2025.3.1. 개정)",
+   "url": "https://sdm.snu.ac.kr/wp-content/uploads/sites/209/2025/09/서울대학교-학생설계전공-시행세칙2025.03.01.pdf",
+   "locator": "제4조~제7조",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.44 4.나(2)(다)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교 학생설계전공 시행세칙(2025.3.1. 개정)",
+   "url": "https://sdm.snu.ac.kr/wp-content/uploads/sites/209/2025/09/서울대학교-학생설계전공-시행세칙2025.03.01.pdf",
+   "locator": "제2조·제4조·제9조, 부칙(제정 2022.1.4.)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "PDF p.33 4.나(1)(라)(마)·(2)·(5) 혁신공유학부",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "PDF p.37 4.나(1)(라)(마)·(2)·(5)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "PDF p.29 4.나(1)(라)(마)·(2) 중복인정",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "PDF p.32 4.나(1)(라)(마)·(2)",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

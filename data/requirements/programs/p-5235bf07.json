@@ -1,0 +1,2021 @@
+{
+ "id": "p-5235bf07",
+ "college": "사회과학대학",
+ "unit": "정치외교학부",
+ "program": "정치학전공",
+ "kind": "major",
+ "depts": [
+  "정치외교학부"
+ ],
+ "code_prefixes": [
+  "216A."
+ ],
+ "ge_key": "사회과학대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "정치학전공",
+   "외교학전공"
+  ],
+  "when": "2학년 진입 무렵(1학년 2학기 말 신청 — 여름·겨울 계절학기 종강 뒤 신청기간, 날짜는 학부 공지)",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s10",
+     "s11",
+     "s12",
+     "s13"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s14",
+    "s11",
+    "s12",
+    "s15",
+    "s16"
+   ],
+   "requirements": [
+    {
+     "id": "psir-ps-ge-soc-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학년도 입학생부터, 사회과학대학)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "영역 학점 합: 글쓰기와 말하기 4 + 외국어 6 + 수학·과학·컴퓨팅 3 + 지성의 열쇠 9 + 베리타스 3 + 전체 교양 11 = 36."
+    },
+    {
+     "id": "psir-ps-ge-soc-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 토대 > 글쓰기와 말하기 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 사회과학글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "길잡이는 글쓰기 1 을 1학년 안에 먼저 듣고 사회과학글쓰기를 2학년 안에 듣기를 '권장'한다(이수학기 [1-1,1-2]/[1-2,2-1,2-2] 는 권장). 2024 이전 번호: L0440.000600, L0440.000800. 과목 번호는 편람에서 채움."
+    },
+    {
+     "id": "psir-ps-ge-soc-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 토대 > 외국어 6학점: 외국어 2개 교과목([1-2] 권장)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "입학 시 TEPS 900점(New TEPS 525점) 이하인 학생은 영어 1과목 필수. TEPS 점수는 앱이 모르므로 '확인 필요'로 둔다."
+    },
+    {
+     "id": "psir-ps-ge-soc-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 토대 > 수학·과학·컴퓨팅 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "사회과학대학 표에는 지정 과목이 없다."
+    },
+    {
+     "id": "psir-ps-ge-soc-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상 / 역사적 탐구와 철학적 사유 / 인간의 이해와 사회 분석 / 과학적 사고와 응용 중 3개 영역 이상에서 9학점 이상",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "min_count 는 영역 수(3개 영역 이상)."
+    },
+    {
+     "id": "psir-ps-ge-soc-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점: 베리타스 강좌 1 / 베리타스 강좌 2 / 베리타스 실천",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "편람의 베리타스 과목 번호 머리: 강좌 1 = V10., 강좌 2 = V20., 실천 = V30.(2025-1~)."
+    },
+    {
+     "id": "psir-ps-ge-soc-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 11학점(학생이 자유롭게 선택)",
+     "min_count": null,
+     "min_credits": 11,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "psir-ps-common-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "학부 공통 전공필수: 정치학원론, 국제정치학개론",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "200.103",
+       "name": "정치학원론",
+       "credits": 3
+      },
+      {
+       "code": "200.104",
+       "name": "국제정치학개론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4",
+      "s5",
+      "s2"
+     ],
+     "note": "부전공도 두 과목 필수(복수전공/부전공 페이지). 편람 2021-1~2026-2 교과구분 전필."
+    },
+    {
+     "id": "psir-ps-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "정치학전공 전공필수: 정치학연습(4학년 1/2학기)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "216A.416",
+       "name": "정치학연습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4",
+      "s6",
+      "s7",
+      "s2"
+     ],
+     "note": "복수전공은 '동일 년도 입학자와 같은 이수규정'이라 같은 과목을 듣는 것으로 읽음. 표준형태엔 4학년 1학기에 놓였으나 규정 문장은 '4학년 1/2학기'."
+    },
+    {
+     "id": "psir-ps-ga",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학부 공통 전공선택 가군(사상·역사·기초) 6학점 이상",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "M2170.006600",
+       "name": "사회과학 고전강독 1",
+       "credits": 3
+      },
+      {
+       "code": "M2170.006700",
+       "name": "사회과학 고전강독 2",
+       "credits": 3
+      },
+      {
+       "code": "216A.202",
+       "name": "비교정치론",
+       "credits": 3
+      },
+      {
+       "code": "216A.203",
+       "name": "서양정치사상 1",
+       "credits": 3
+      },
+      {
+       "code": "216A.219",
+       "name": "시민정치론",
+       "credits": 3
+      },
+      {
+       "code": "216B.211",
+       "name": "국제관계사개설",
+       "credits": 3
+      },
+      {
+       "code": "M1320.001900",
+       "name": "정치사회 고전연구",
+       "credits": 3
+      },
+      {
+       "code": "216A.204",
+       "name": "서양정치사상 2",
+       "credits": 3
+      },
+      {
+       "code": "216A.214A",
+       "name": "한국정치사입문",
+       "credits": 3
+      },
+      {
+       "code": "216A.220",
+       "name": "정치경제론",
+       "credits": 3
+      },
+      {
+       "code": "216B.209",
+       "name": "한국외교사",
+       "credits": 3
+      },
+      {
+       "code": "216B.221",
+       "name": "국제정치사상",
+       "credits": 3
+      },
+      {
+       "code": "M1320.001100",
+       "name": "인권",
+       "credits": 3
+      },
+      {
+       "code": "M1321.002200",
+       "name": "국제정치 자료분석",
+       "credits": 3
+      },
+      {
+       "code": "M1321.003200",
+       "name": "서양정치사상 개론",
+       "credits": null
+      },
+      {
+       "code": "216A.301",
+       "name": "정치학연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "216B.337A",
+       "name": "한국 정치·외교사상",
+       "credits": 3
+      },
+      {
+       "code": "M1321.000200",
+       "name": "현대국제정치사상",
+       "credits": 3
+      },
+      {
+       "code": "M0000.022400",
+       "name": "한국정치사",
+       "credits": 3
+      },
+      {
+       "code": "216A.310A",
+       "name": "동아시아정치사상",
+       "credits": 3
+      },
+      {
+       "code": "216B.340",
+       "name": "외교론",
+       "credits": 3
+      },
+      {
+       "code": "M1320.000600",
+       "name": "법과 민주주의",
+       "credits": 3
+      },
+      {
+       "code": "M1320.001600",
+       "name": "한국헌정사",
+       "credits": 3
+      },
+      {
+       "code": "216A.403",
+       "name": "한국정치사상",
+       "credits": 3
+      },
+      {
+       "code": "M1320.001800",
+       "name": "계량정치",
+       "credits": 3
+      },
+      {
+       "code": "216B.428",
+       "name": "동아시아국제정치사상론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s3",
+      "s7"
+     ],
+     "note": "정치학전공 6학점은 누리집과 2024 목록이 같다. 가군 과목 목록은 2024 이수표준형태에서 옮김(누리집 교과과정 탭엔 전선 목록이 안 보임) → 목록 자체는 '부분'."
+    },
+    {
+     "id": "psir-ps-na",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학부 공통 전공선택 나군(각국 정치 및 외교정책·지역연구) 6학점 이상",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "216A.207",
+       "name": "일본정치론",
+       "credits": 3
+      },
+      {
+       "code": "216B.214",
+       "name": "중국외교정책론",
+       "credits": 3
+      },
+      {
+       "code": "216B.227",
+       "name": "외교정책론",
+       "credits": 3
+      },
+      {
+       "code": "M1320.001300",
+       "name": "정치 체제와 변동",
+       "credits": 3
+      },
+      {
+       "code": "216B.219A",
+       "name": "세계지역연구개론",
+       "credits": 3
+      },
+      {
+       "code": "216B.222",
+       "name": "미국과 국제관계",
+       "credits": 3
+      },
+      {
+       "code": "216B.341",
+       "name": "일본과 국제관계",
+       "credits": 3
+      },
+      {
+       "code": "M1319.000800",
+       "name": "유럽정치론",
+       "credits": 3
+      },
+      {
+       "code": "216A.308",
+       "name": "중국정치론",
+       "credits": 3
+      },
+      {
+       "code": "216A.328",
+       "name": "동아시아정치경제",
+       "credits": 3
+      },
+      {
+       "code": "216B.335A",
+       "name": "미국 정책결정과정의 이해",
+       "credits": 3
+      },
+      {
+       "code": "216B.338A",
+       "name": "러시아 국제관계론",
+       "credits": 3
+      },
+      {
+       "code": "216B.339",
+       "name": "유라시아 국제관계론",
+       "credits": 3
+      },
+      {
+       "code": "M1321.001400",
+       "name": "현대동북아국제정치경제",
+       "credits": 3
+      },
+      {
+       "code": "216A.320",
+       "name": "러시아동구정치론",
+       "credits": 3
+      },
+      {
+       "code": "216A.323",
+       "name": "미국정치론",
+       "credits": 3
+      },
+      {
+       "code": "216B.342",
+       "name": "비교 연방제와 연방국가",
+       "credits": 3
+      },
+      {
+       "code": "216B.345",
+       "name": "중동/아프리카 지역연구",
+       "credits": 3
+      },
+      {
+       "code": "M1320.001400",
+       "name": "중국의 부상과 아시아의 미래",
+       "credits": 3
+      },
+      {
+       "code": "M1321.001200",
+       "name": "유럽지역연구",
+       "credits": 3
+      },
+      {
+       "code": "216B.427",
+       "name": "동남아의 정치와 외교",
+       "credits": 3
+      },
+      {
+       "code": "M1321.002000",
+       "name": "한일관계론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s3",
+      "s7"
+     ],
+     "note": "정치학전공 6학점은 누리집과 2024 목록이 같다. 연계전공 유럽지역학 개설 전공교과목도 나군으로 인정(2024 목록·누리집). 목록은 2024 이수표준형태."
+    },
+    {
+     "id": "psir-ps-da",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "별도 전공선택 다군(세부전공) 중 소속 전공(정치학전공) 개설 과목 6학점 이상",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "216A.210",
+       "name": "행정학서론",
+       "credits": 3
+      },
+      {
+       "code": "216A.217",
+       "name": "지구화 시대의 정치",
+       "credits": 3
+      },
+      {
+       "code": "216A.211",
+       "name": "인사행정",
+       "credits": 3
+      },
+      {
+       "code": "216A.216",
+       "name": "북한의 정치와 사회",
+       "credits": 3
+      },
+      {
+       "code": "M1320.002000",
+       "name": "정치사회 현대이론",
+       "credits": 3
+      },
+      {
+       "code": "216A.209A",
+       "name": "현대민주주의의 쟁점",
+       "credits": 3
+      },
+      {
+       "code": "216A.303",
+       "name": "정당론",
+       "credits": 3
+      },
+      {
+       "code": "216A.311",
+       "name": "근대정치사상",
+       "credits": 3
+      },
+      {
+       "code": "216A.314",
+       "name": "행정조직론",
+       "credits": 3
+      },
+      {
+       "code": "216A.325",
+       "name": "공공선택이론",
+       "credits": 3
+      },
+      {
+       "code": "216A.304",
+       "name": "한국정치론",
+       "credits": 3
+      },
+      {
+       "code": "216A.315",
+       "name": "재무행정",
+       "credits": 3
+      },
+      {
+       "code": "216A.321",
+       "name": "의회정치론",
+       "credits": 3
+      },
+      {
+       "code": "216A.329",
+       "name": "거버넌스의 이해",
+       "credits": 3
+      },
+      {
+       "code": "216A.405",
+       "name": "정치철학",
+       "credits": 3
+      },
+      {
+       "code": "216A.407",
+       "name": "정치학특강",
+       "credits": 3
+      },
+      {
+       "code": "216A.415",
+       "name": "게임이론과 정치",
+       "credits": 3
+      },
+      {
+       "code": "216A.414",
+       "name": "현대정치사상",
+       "credits": 3
+      },
+      {
+       "code": "M1320.001700",
+       "name": "헌법",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s3",
+      "s7"
+     ],
+     "note": "정치학전공 6학점은 누리집과 2024 목록이 같다. 다군 가운데 정치학전공 개설분만 셈(216A.·M1320. 번호). 목록은 2024 이수표준형태."
+    },
+    {
+     "id": "psir-ps-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "심화전공(단일전공): 위 필수·가·나·다군·타학과·해외수학 학점을 포함해 전공선택 51학점 이상(전공 합 60학점), 전체·전공 평점 각 2.0 이상",
+     "min_count": null,
+     "min_credits": 51,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7"
+     ],
+     "note": "대상: 주전공 밖 다른 전공(복수·부·연합·연계·설계)을 하지 않는 학생, 따로 신청 없음. 타 학과 개설 전공선택 9학점까지 인정(분야분류 불산입), 해외수학은 전공주임 승인 전공교과목 15학점까지 전선 인정."
+    },
+    {
+     "id": "psir-ps-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행 주전공: 전공 39학점(필수 9 + 가·나·다군 포함 전선)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s8",
+      "s4",
+      "s3"
+     ],
+     "note": "39학점은 해설 표 1. 타과 인정 한도가 자료마다 다름: 누리집 '학부 내규 전공선택 인정교과목은 전공학점 이내 6학점', '타과 전공인정 교과목은 정치외교학부 개설 전공교과목 39학점 이내 이수 시 6학점, 39학점 이상 이수 시 9학점(분야분류 불산입)' / 2024 목록 '타학과 개설 전공인정교과목은 정치외교학부 개설 전공 39학점 이상 이수한 경우 인정', '학부 내규 상 전공선택 인정교과목은 단일전공 이수자에 한해 9학점까지'.",
+     "extra": {
+      "recognized_courses": [
+       {
+        "code": "M3544.002200",
+        "name": "20세기 한국사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3544.000300",
+        "name": "한국근대사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3544.001000",
+        "name": "한국독립운동사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3544.001200",
+        "name": "한국현대사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3545.000500",
+        "name": "일본근현대사1",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3545.001000",
+        "name": "중국근대사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3546.000200",
+        "name": "미국사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3546.001300",
+        "name": "영국사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3546.000900",
+        "name": "서양근대사2: 긴 19세기의 역사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3546.001200",
+        "name": "독일사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3546.000300",
+        "name": "프랑스사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3546.001000",
+        "name": "20세기 전반의 역사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3546.001100",
+        "name": "20세기 후반의 역사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3546.001400",
+        "name": "러시아사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "1003.232",
+        "name": "이슬람 문명의 기원과 전개",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "1003.321",
+        "name": "아시아문명교류사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M2751.000500",
+        "name": "동남아시아의 국가와 사회",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "205.245A",
+        "name": "정치사회학",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "205.344A",
+        "name": "민족사회학과 북한연구",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "205.345A",
+        "name": "일본과 동아시아",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M1304.001300",
+        "name": "동아시아 사회",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "206.320",
+        "name": "문화와 권력",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "M1307.000700",
+        "name": "전지구화와 문화변동",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "208.407A",
+        "name": "공간정치와 지정학",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "M1310.000400",
+        "name": "북한지역연구특강",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "211.311",
+        "name": "정치커뮤니케이션",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "212.203",
+        "name": "경제사",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "212.214",
+        "name": "경제수학",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "212.314",
+        "name": "한국경제사",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "212.341",
+        "name": "국제경제사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "212.412",
+        "name": "한국경제론",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "212.472",
+        "name": "이행기 경제와 경제체제론",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "M1314.000200",
+        "name": "북한경제론",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "3341.201",
+        "name": "해석개론 1",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "3341.202",
+        "name": "해석개론 2",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "300.203A",
+        "name": "선형대수학 1",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "300.206A",
+        "name": "선형대수학 2",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "326.311",
+        "name": "수리통계 1",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "326.312",
+        "name": "수리통계 2",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "326.313",
+        "name": "회귀분석 및 실습",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "326.411",
+        "name": "베이즈통계 및 실습",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "2021.301",
+        "name": "유럽지역학입문 1",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "2021.401",
+        "name": "유럽지역통합이론",
+        "credits": null,
+        "credits_from": null
+       }
+      ]
+     }
+    },
+    {
+     "id": "psir-ps-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 정치학전공 복수전공: 정치외교학부 동일 년도 입학자와 같은 이수규정(공통 전필·정치학연습·가·나·다군), 39학점",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s3",
+      "s9"
+     ],
+     "note": "39는 해설 표 2(복수전공 페이지엔 학점 숫자 없음). 정치학·외교학 전공이 인정하는 타학과 개설 전공선택은 6학점까지만, 해외수학 15학점까지 전선(전공주임 승인), 복수전공 평점 2.0 이상. 정치학전공과 외교학전공은 동시에 다전공할 수 없다. 신청: 2개 정규학기·33학점 이상, 우선선발(정치외교 전공과목 2개 이상 기이수 + 평균 3.3 이상)."
+    },
+    {
+     "id": "psir-ps-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "정치학전공 부전공: 정치학원론·국제정치학개론(부전공 필수) 포함, 정치학전공 개설 전공선택 교과목을 영역(가·나·다군) 구분 없이 21학점 이상",
+     "min_count": 2,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "200.103",
+       "name": "정치학원론",
+       "credits": 3
+      },
+      {
+       "code": "200.104",
+       "name": "국제정치학개론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s4",
+      "s3"
+     ],
+     "note": "타학과 개설 전공교과목 불인정, 해외수학 7학점까지 전선(전공주임 승인), 주전공·다른 제2전공과 과목 중복 인정 안 함."
+    },
+    {
+     "id": "psir-ps-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문·졸업시험 요건",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s4",
+      "s7"
+     ],
+     "note": "학부 공개 페이지(졸업/이수규정·심화전공·학사안내)에 졸업논문 언급이 없다."
+    }
+   ],
+   "note": "1차 요건 그대로. 2026학번도 같다고 본다: 학부 누리집 이수규정·다전공 페이지에 학번 구분이 없고 경과조치는 '2018학년도 입학자부터'. 편람에서 공통 전필 2과목과 정치학연습은 2021-1~2026-2 내내 전필."
+  },
+  {
+   "entry_years": [
+    2019,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s17",
+     "s18",
+     "s19",
+     "s10",
+     "s11"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s20",
+    "s15",
+    "s14",
+    "s12",
+    "s16"
+   ],
+   "requirements": [
+    {
+     "id": "psir-ps-common-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "학부 공통 전공필수: 정치학원론, 국제정치학개론",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "200.103",
+       "name": "정치학원론",
+       "credits": 3
+      },
+      {
+       "code": "200.104",
+       "name": "국제정치학개론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4",
+      "s5",
+      "s2"
+     ],
+     "note": "부전공도 두 과목 필수(복수전공/부전공 페이지). 편람 2021-1~2026-2 교과구분 전필."
+    },
+    {
+     "id": "psir-ps-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "정치학전공 전공필수: 정치학연습(4학년 1/2학기)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "216A.416",
+       "name": "정치학연습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4",
+      "s6",
+      "s7",
+      "s2"
+     ],
+     "note": "복수전공은 '동일 년도 입학자와 같은 이수규정'이라 같은 과목을 듣는 것으로 읽음. 표준형태엔 4학년 1학기에 놓였으나 규정 문장은 '4학년 1/2학기'."
+    },
+    {
+     "id": "psir-ps-ga",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학부 공통 전공선택 가군(사상·역사·기초) 6학점 이상",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "M2170.006600",
+       "name": "사회과학 고전강독 1",
+       "credits": 3
+      },
+      {
+       "code": "M2170.006700",
+       "name": "사회과학 고전강독 2",
+       "credits": 3
+      },
+      {
+       "code": "216A.202",
+       "name": "비교정치론",
+       "credits": 3
+      },
+      {
+       "code": "216A.203",
+       "name": "서양정치사상 1",
+       "credits": 3
+      },
+      {
+       "code": "216A.219",
+       "name": "시민정치론",
+       "credits": 3
+      },
+      {
+       "code": "216B.211",
+       "name": "국제관계사개설",
+       "credits": 3
+      },
+      {
+       "code": "M1320.001900",
+       "name": "정치사회 고전연구",
+       "credits": 3
+      },
+      {
+       "code": "216A.204",
+       "name": "서양정치사상 2",
+       "credits": 3
+      },
+      {
+       "code": "216A.214A",
+       "name": "한국정치사입문",
+       "credits": 3
+      },
+      {
+       "code": "216A.220",
+       "name": "정치경제론",
+       "credits": 3
+      },
+      {
+       "code": "216B.209",
+       "name": "한국외교사",
+       "credits": 3
+      },
+      {
+       "code": "216B.221",
+       "name": "국제정치사상",
+       "credits": 3
+      },
+      {
+       "code": "M1320.001100",
+       "name": "인권",
+       "credits": 3
+      },
+      {
+       "code": "M1321.002200",
+       "name": "국제정치 자료분석",
+       "credits": 3
+      },
+      {
+       "code": "M1321.003200",
+       "name": "서양정치사상 개론",
+       "credits": null
+      },
+      {
+       "code": "216A.301",
+       "name": "정치학연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "216B.337A",
+       "name": "한국 정치·외교사상",
+       "credits": 3
+      },
+      {
+       "code": "M1321.000200",
+       "name": "현대국제정치사상",
+       "credits": 3
+      },
+      {
+       "code": "M0000.022400",
+       "name": "한국정치사",
+       "credits": 3
+      },
+      {
+       "code": "216A.310A",
+       "name": "동아시아정치사상",
+       "credits": 3
+      },
+      {
+       "code": "216B.340",
+       "name": "외교론",
+       "credits": 3
+      },
+      {
+       "code": "M1320.000600",
+       "name": "법과 민주주의",
+       "credits": 3
+      },
+      {
+       "code": "M1320.001600",
+       "name": "한국헌정사",
+       "credits": 3
+      },
+      {
+       "code": "216A.403",
+       "name": "한국정치사상",
+       "credits": 3
+      },
+      {
+       "code": "M1320.001800",
+       "name": "계량정치",
+       "credits": 3
+      },
+      {
+       "code": "216B.428",
+       "name": "동아시아국제정치사상론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s3",
+      "s7"
+     ],
+     "note": "정치학전공 6학점은 누리집과 2024 목록이 같다. 가군 과목 목록은 2024 이수표준형태에서 옮김(누리집 교과과정 탭엔 전선 목록이 안 보임) → 목록 자체는 '부분'."
+    },
+    {
+     "id": "psir-ps-na",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학부 공통 전공선택 나군(각국 정치 및 외교정책·지역연구) 6학점 이상",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "216A.207",
+       "name": "일본정치론",
+       "credits": 3
+      },
+      {
+       "code": "216B.214",
+       "name": "중국외교정책론",
+       "credits": 3
+      },
+      {
+       "code": "216B.227",
+       "name": "외교정책론",
+       "credits": 3
+      },
+      {
+       "code": "M1320.001300",
+       "name": "정치 체제와 변동",
+       "credits": 3
+      },
+      {
+       "code": "216B.219A",
+       "name": "세계지역연구개론",
+       "credits": 3
+      },
+      {
+       "code": "216B.222",
+       "name": "미국과 국제관계",
+       "credits": 3
+      },
+      {
+       "code": "216B.341",
+       "name": "일본과 국제관계",
+       "credits": 3
+      },
+      {
+       "code": "M1319.000800",
+       "name": "유럽정치론",
+       "credits": 3
+      },
+      {
+       "code": "216A.308",
+       "name": "중국정치론",
+       "credits": 3
+      },
+      {
+       "code": "216A.328",
+       "name": "동아시아정치경제",
+       "credits": 3
+      },
+      {
+       "code": "216B.335A",
+       "name": "미국 정책결정과정의 이해",
+       "credits": 3
+      },
+      {
+       "code": "216B.338A",
+       "name": "러시아 국제관계론",
+       "credits": 3
+      },
+      {
+       "code": "216B.339",
+       "name": "유라시아 국제관계론",
+       "credits": 3
+      },
+      {
+       "code": "M1321.001400",
+       "name": "현대동북아국제정치경제",
+       "credits": 3
+      },
+      {
+       "code": "216A.320",
+       "name": "러시아동구정치론",
+       "credits": 3
+      },
+      {
+       "code": "216A.323",
+       "name": "미국정치론",
+       "credits": 3
+      },
+      {
+       "code": "216B.342",
+       "name": "비교 연방제와 연방국가",
+       "credits": 3
+      },
+      {
+       "code": "216B.345",
+       "name": "중동/아프리카 지역연구",
+       "credits": 3
+      },
+      {
+       "code": "M1320.001400",
+       "name": "중국의 부상과 아시아의 미래",
+       "credits": 3
+      },
+      {
+       "code": "M1321.001200",
+       "name": "유럽지역연구",
+       "credits": 3
+      },
+      {
+       "code": "216B.427",
+       "name": "동남아의 정치와 외교",
+       "credits": 3
+      },
+      {
+       "code": "M1321.002000",
+       "name": "한일관계론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s3",
+      "s7"
+     ],
+     "note": "정치학전공 6학점은 누리집과 2024 목록이 같다. 연계전공 유럽지역학 개설 전공교과목도 나군으로 인정(2024 목록·누리집). 목록은 2024 이수표준형태."
+    },
+    {
+     "id": "psir-ps-da",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "별도 전공선택 다군(세부전공) 중 소속 전공(정치학전공) 개설 과목 6학점 이상",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "216A.210",
+       "name": "행정학서론",
+       "credits": 3
+      },
+      {
+       "code": "216A.217",
+       "name": "지구화 시대의 정치",
+       "credits": 3
+      },
+      {
+       "code": "216A.211",
+       "name": "인사행정",
+       "credits": 3
+      },
+      {
+       "code": "216A.216",
+       "name": "북한의 정치와 사회",
+       "credits": 3
+      },
+      {
+       "code": "M1320.002000",
+       "name": "정치사회 현대이론",
+       "credits": 3
+      },
+      {
+       "code": "216A.209A",
+       "name": "현대민주주의의 쟁점",
+       "credits": 3
+      },
+      {
+       "code": "216A.303",
+       "name": "정당론",
+       "credits": 3
+      },
+      {
+       "code": "216A.311",
+       "name": "근대정치사상",
+       "credits": 3
+      },
+      {
+       "code": "216A.314",
+       "name": "행정조직론",
+       "credits": 3
+      },
+      {
+       "code": "216A.325",
+       "name": "공공선택이론",
+       "credits": 3
+      },
+      {
+       "code": "216A.304",
+       "name": "한국정치론",
+       "credits": 3
+      },
+      {
+       "code": "216A.315",
+       "name": "재무행정",
+       "credits": 3
+      },
+      {
+       "code": "216A.321",
+       "name": "의회정치론",
+       "credits": 3
+      },
+      {
+       "code": "216A.329",
+       "name": "거버넌스의 이해",
+       "credits": 3
+      },
+      {
+       "code": "216A.405",
+       "name": "정치철학",
+       "credits": 3
+      },
+      {
+       "code": "216A.407",
+       "name": "정치학특강",
+       "credits": 3
+      },
+      {
+       "code": "216A.415",
+       "name": "게임이론과 정치",
+       "credits": 3
+      },
+      {
+       "code": "216A.414",
+       "name": "현대정치사상",
+       "credits": 3
+      },
+      {
+       "code": "M1320.001700",
+       "name": "헌법",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s3",
+      "s7"
+     ],
+     "note": "정치학전공 6학점은 누리집과 2024 목록이 같다. 다군 가운데 정치학전공 개설분만 셈(216A.·M1320. 번호). 목록은 2024 이수표준형태."
+    },
+    {
+     "id": "psir-ps-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "심화전공(단일전공): 위 필수·가·나·다군·타학과·해외수학 학점을 포함해 전공선택 51학점 이상(전공 합 60학점), 전체·전공 평점 각 2.0 이상",
+     "min_count": null,
+     "min_credits": 51,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7"
+     ],
+     "note": "대상: 주전공 밖 다른 전공(복수·부·연합·연계·설계)을 하지 않는 학생, 따로 신청 없음. 타 학과 개설 전공선택 9학점까지 인정(분야분류 불산입), 해외수학은 전공주임 승인 전공교과목 15학점까지 전선 인정."
+    },
+    {
+     "id": "psir-ps-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행 주전공: 전공 39학점(필수 9 + 가·나·다군 포함 전선)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s8",
+      "s4",
+      "s3"
+     ],
+     "note": "39학점은 해설 표 1. 타과 인정 한도가 자료마다 다름: 누리집 '학부 내규 전공선택 인정교과목은 전공학점 이내 6학점', '타과 전공인정 교과목은 정치외교학부 개설 전공교과목 39학점 이내 이수 시 6학점, 39학점 이상 이수 시 9학점(분야분류 불산입)' / 2024 목록 '타학과 개설 전공인정교과목은 정치외교학부 개설 전공 39학점 이상 이수한 경우 인정', '학부 내규 상 전공선택 인정교과목은 단일전공 이수자에 한해 9학점까지'.",
+     "extra": {
+      "recognized_courses": [
+       {
+        "code": "M3544.002200",
+        "name": "20세기 한국사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3544.000300",
+        "name": "한국근대사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3544.001000",
+        "name": "한국독립운동사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3544.001200",
+        "name": "한국현대사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3545.000500",
+        "name": "일본근현대사1",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3545.001000",
+        "name": "중국근대사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3546.000200",
+        "name": "미국사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3546.001300",
+        "name": "영국사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3546.000900",
+        "name": "서양근대사2: 긴 19세기의 역사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3546.001200",
+        "name": "독일사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3546.000300",
+        "name": "프랑스사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3546.001000",
+        "name": "20세기 전반의 역사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3546.001100",
+        "name": "20세기 후반의 역사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M3546.001400",
+        "name": "러시아사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "1003.232",
+        "name": "이슬람 문명의 기원과 전개",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "1003.321",
+        "name": "아시아문명교류사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M2751.000500",
+        "name": "동남아시아의 국가와 사회",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "205.245A",
+        "name": "정치사회학",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "205.344A",
+        "name": "민족사회학과 북한연구",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "205.345A",
+        "name": "일본과 동아시아",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "M1304.001300",
+        "name": "동아시아 사회",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "206.320",
+        "name": "문화와 권력",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "M1307.000700",
+        "name": "전지구화와 문화변동",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "208.407A",
+        "name": "공간정치와 지정학",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "M1310.000400",
+        "name": "북한지역연구특강",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "211.311",
+        "name": "정치커뮤니케이션",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "212.203",
+        "name": "경제사",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "212.214",
+        "name": "경제수학",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "212.314",
+        "name": "한국경제사",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "212.341",
+        "name": "국제경제사",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "212.412",
+        "name": "한국경제론",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "212.472",
+        "name": "이행기 경제와 경제체제론",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "M1314.000200",
+        "name": "북한경제론",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "3341.201",
+        "name": "해석개론 1",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "3341.202",
+        "name": "해석개론 2",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "300.203A",
+        "name": "선형대수학 1",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "300.206A",
+        "name": "선형대수학 2",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "326.311",
+        "name": "수리통계 1",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "326.312",
+        "name": "수리통계 2",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "326.313",
+        "name": "회귀분석 및 실습",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "326.411",
+        "name": "베이즈통계 및 실습",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록"
+       },
+       {
+        "code": "2021.301",
+        "name": "유럽지역학입문 1",
+        "credits": null,
+        "credits_from": null
+       },
+       {
+        "code": "2021.401",
+        "name": "유럽지역통합이론",
+        "credits": null,
+        "credits_from": null
+       }
+      ]
+     }
+    },
+    {
+     "id": "psir-ps-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 정치학전공 복수전공: 정치외교학부 동일 년도 입학자와 같은 이수규정(공통 전필·정치학연습·가·나·다군), 39학점",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s3",
+      "s9"
+     ],
+     "note": "39는 해설 표 2(복수전공 페이지엔 학점 숫자 없음). 정치학·외교학 전공이 인정하는 타학과 개설 전공선택은 6학점까지만, 해외수학 15학점까지 전선(전공주임 승인), 복수전공 평점 2.0 이상. 정치학전공과 외교학전공은 동시에 다전공할 수 없다. 신청: 2개 정규학기·33학점 이상, 우선선발(정치외교 전공과목 2개 이상 기이수 + 평균 3.3 이상)."
+    },
+    {
+     "id": "psir-ps-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "정치학전공 부전공: 정치학원론·국제정치학개론(부전공 필수) 포함, 정치학전공 개설 전공선택 교과목을 영역(가·나·다군) 구분 없이 21학점 이상",
+     "min_count": 2,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "200.103",
+       "name": "정치학원론",
+       "credits": 3
+      },
+      {
+       "code": "200.104",
+       "name": "국제정치학개론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s4",
+      "s3"
+     ],
+     "note": "타학과 개설 전공교과목 불인정, 해외수학 7학점까지 전선(전공주임 승인), 주전공·다른 제2전공과 과목 중복 인정 안 함."
+    },
+    {
+     "id": "psir-ps-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문·졸업시험 요건",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s4",
+      "s7"
+     ],
+     "note": "학부 공개 페이지(졸업/이수규정·심화전공·학사안내)에 졸업논문 언급이 없다."
+    }
+   ],
+   "changed": "교양만 옛 체계(학문의 기초·학문의 세계 — college_common.ge_by_cohort 2019–2020/2021–2022/2023–2024). 전공 요건(공통 전필 2·정치학연습·가·나·다군·심화 51·복수·부전공)은 2018학년도 입학자부터 같은 규정.",
+   "note": "2022 목록(2022 신입생 판)·2024 목록·학부 누리집이 모두 경과조치 '2018학년도 입학자부터'라 2019~2024학번을 한 판으로 묶었다(2019~2021 신입생 판 목록은 못 봄). 가·나·다군 과목 목록은 교과과정 해마다 조금씩 바뀐다: 2024 목록에 M1321.002000 한일관계론(나군)·M1321.002300 테러리즘과 반테러리즘의 정치(다군)·M1321.003200 서양정치사상 개론(가군)이 더해졌고, 216A.413 국가론은 2022 목록·누리집 다군에 있으나 2024 목록엔 없으며 편람 2021-1~2026-2 개설이 없다. 학번이 아니라 교과 개편 기준이라 1차 목록(2024)을 그대로 쓴다."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 체계 개편(사회대 공통, college_common.ge_by_cohort) — 2019~2024학번 안에서도 2021(외국어 6)·2023(TEPS 900) 경계가 있음",
+   "status": "확인"
+  },
+  {
+   "basis": "다전공 선발 시기",
+   "what": "다른 학과 학생이 정치학전공을(를) 복수·연합전공할 때 겹쳐 인정 9+3학점 → 최대 3과목(2026-03-01 시행, 그 전에 이수 중이면 종전 선택) — 학번 무관",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "전공선택 인정교과목(타과) 표 개정(누리집 '※ 2024년 7월 개정') — 적용 기준(수강 시기/학번) 미확인",
+   "status": "부분"
+  }
+ ],
+ "ask_department": [
+  "전공선택 인정교과목(타과) 표의 '2024년 7월 개정'이 수강 시기 기준인지 학번 기준인지(2019~2023학번이 개정 전 표의 과목을 들었을 때 인정되는지).",
+  "가·나·다군 소속이 교과과정 판마다 다를 때(예: 216A.413 국가론은 2022 목록 다군, 2024 목록에 없음) 옛 학번은 어느 판의 군을 쓰는지.",
+  "2026-1 학기에 복수·연합전공을 시작한(2025년 말~2026년 초 선발) 학생이 '시행 전 이수 중'으로 종전 겹쳐 인정(9+3학점)을 고를 수 있는지.",
+  "가·나군·다군 최소 학점: 누리집은 두 전공 모두 '각 6학점', 2024 전공별 교과목 목록은 '정치학전공 6 / 외교학전공 9' — 2025학번 외교학전공은 어느 쪽인가?",
+  "학부 내규 전공선택 인정교과목·타과 인정 한도: 누리집 '전공학점 이내 6학점, 타과는 39학점 이내 6·이상 9', 2024 목록 '단일전공 이수자에 한해 9학점', 심화전공 페이지 '타학과 9학점', 복수전공 '6학점' — 병행 주전공(39학점)은 몇 학점까지인가?",
+  "2024 이수표준형태에 없는 새 과목(정치외교학방법론 1·2·3 M1319.001700~, 현대민주주의이론 등)의 가·나·다군 소속.",
+  "사회과학 고전강독 1·2(편람 '일선')가 가군 전공학점으로 바로 들어가는지, 교과구분 변경이 필요한지.",
+  "졸업논문·졸업시험 요건이 있는지(공개 페이지에서 못 찾음).",
+  "타과 전공인정 교과목 표: 누리집 표(옛 번호, 사회복지정책·거시경제이론·게임이론 및 응용 등 포함)와 2024 목록 표가 다르다 — 지금 쓰는 표는?"
+ ],
+ "sources": {
+  "s1": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "5. 2025학년도 단과대학별 공통교육과정 이수규정 □ 사회과학대학, PDF 5쪽(인쇄 109쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "TT Wizard 수강편람 자료 data/history(2021-1~2026-2) — 학교 수강편람에서 모은 것",
+   "locator": "학기별 과목 이름·학점·교과구분",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s3": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "216. 정치외교학부, PDF 29–32쪽(교과목 29–30, 이수표준형태·교과목 이수규정 30–31, 전공선택 인정 교과목 목록 31–32 머리)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "정치외교학부, 졸업/이수규정(교양/전공이수규정)",
+   "url": "https://psir.snu.ac.kr/view/undergraduate/liberal-arts",
+   "locator": "전공 이수규정·전공선택 인정·타과 인정 교과목 표·복수/부전공·경과조치, 교양 학번별 표",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "정치외교학부, 다전공 > 복수전공/부전공",
+   "url": "https://psir.snu.ac.kr/view/undergraduate/major",
+   "locator": "신청 자격·우선선발·인정 한도·부전공 필수",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "정치외교학부, 교과과정(전공 필수 탭)",
+   "url": "https://psir.snu.ac.kr/undergraduate/majorreq",
+   "locator": "전공 필수 탭",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "정치외교학부, 다전공 > 심화전공",
+   "url": "https://psir.snu.ac.kr/view/undergraduate/advanced-major",
+   "locator": "대상·필수·전공선택 51학점·타학과 9학점·해외수학 15학점·평점",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준, PDF 1–2쪽(인쇄 8–9쪽) 사회과학대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 학사과정 복수·부전공 이수학점 기준, PDF 3쪽(인쇄 10쪽) 사회과학대학 학과(부) 줄",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 사회과학대학 줄 PDF 1쪽(인쇄 8쪽), 표 2 PDF 3쪽(인쇄 10쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "정치외교학부, 다전공 > 심화전공",
+   "url": "https://psir.snu.ac.kr/view/undergraduate/advanced-major",
+   "locator": "교과목 이수 1)~6)(가·나군 각 6, 다군 6, 타학과 9, 해외수학 15, 전공선택 51)",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "정치외교학부, 다전공 > 복수전공/부전공",
+   "url": "https://psir.snu.ac.kr/view/undergraduate/major",
+   "locator": "교과목 이수 표('같은 학번의 학생들과 동일한 기준', 타학과 6, 부전공 21)",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 사회과학대학, PDF 5쪽(인쇄 109쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "정치외교학부, 졸업/이수규정(교양/전공이수규정)",
+   "url": "https://psir.snu.ac.kr/view/undergraduate/liberal-arts",
+   "locator": "교양이수(14학번 이후/19학번 이후/25학번 이후) 표, 교과목 이수규정('각 6학점'), [경과조치] 2018학년도 입학자부터, 전공선택 인정교과목 표('2024년 7월 개정')",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "216. 정치외교학부, PDF 29–32쪽(이수표준형태·교과목 이수규정·경과조치)",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "TT Wizard 수강편람 자료 data/history(2021-1~2026-2) — 학교 수강편람에서 모은 것",
+   "locator": "학기별 과목 이름·학점·교과구분(전필/전선 표기 바뀐 학기)",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s17": {
+   "title": "서울대학교, 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 졸업(수료) 이수학점 기준 사회과학대학 줄 PDF 1쪽(인쇄 8쪽), 표 2 복수·부전공 PDF 3쪽(인쇄 10쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 사회과학대학 줄 PDF 1쪽(인쇄 8쪽), 표 2 PDF 3쪽(인쇄 10쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1 사회과학대학 줄 PDF 1쪽(인쇄 8쪽), 표 2 PDF 3쪽(인쇄 10쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "서울대학교, 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "216. 정치외교학부, PDF 26–28쪽(교과목 이수규정 ①~④, 복수·부전공, [경과조치] 2018학년도 입학자부터)",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

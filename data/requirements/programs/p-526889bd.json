@@ -1,0 +1,320 @@
+{
+ "id": "p-526889bd",
+ "college": "학부대학(자유전공학부·광역)·첨단융합학부·혁신공유학부·연합전공·연계전공·학생설계전공",
+ "unit": "연합전공",
+ "program": "과학기술의학",
+ "kind": "multi",
+ "depts": [],
+ "code_prefixes": [],
+ "ge_key": null,
+ "exists_for": null,
+ "version_key": "selection",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "동아시아비교인문학",
+   "정치-경제-철학",
+   "정보문화학",
+   "기술경영",
+   "글로벌환경경영학",
+   "계산과학",
+   "벤처경영학",
+   "영상매체예술",
+   "인공지능",
+   "인공지능반도체공학",
+   "지능형통신",
+   "과학기술의학"
+  ],
+  "when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "다전공 선발 시기",
+   "credits": {
+    "grad": null,
+    "ge": null,
+    "single": null,
+    "parallel": null,
+    "double": 39,
+    "minor": null,
+    "text": {
+     "parallel": "소속 학과(부)의 다른 전공 병행 학점(최소 39)"
+    },
+    "status": "확인",
+    "src": [
+     "s10",
+     "s11",
+     "s12",
+     "s13",
+     "s14"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s15",
+    "s16",
+    "s17"
+   ],
+   "requirements": [
+    {
+     "id": "hst-intro",
+     "type": "major_choose",
+     "applies_to": [
+      "double"
+     ],
+     "text": "필수: 공학/의학 개론 2과목 — 의학입문 1 또는 '공대생을 위한 의학 개론' 1과목",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "과목 번호는 자료에 없음(신설)."
+    },
+    {
+     "id": "hst-eng",
+     "type": "major_choose",
+     "applies_to": [
+      "double"
+     ],
+     "text": "필수: 공학개론 1과목(기계·산업·전기정보·재료·화학생물공학개론, 공학전공탐색 중)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "400.013",
+       "name": "기계공학개론",
+       "credits": 3.0
+      },
+      {
+       "code": "400.015",
+       "name": "산업공학개론",
+       "credits": 3.0
+      },
+      {
+       "code": "400.019A",
+       "name": "전기.정보공학개론",
+       "credits": 3.0
+      },
+      {
+       "code": "400.020",
+       "name": "재료공학개론",
+       "credits": 3.0
+      },
+      {
+       "code": "400.023",
+       "name": "화학생물공학개론",
+       "credits": 3.0
+      },
+      {
+       "code": "M2177.008100",
+       "name": "공학 전공 탐색",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "공대생은 소속 학과 전공입문/개론 전필(3학점)을 공학개론 대신 중복 인정."
+    },
+    {
+     "id": "hst-core",
+     "type": "major_required",
+     "applies_to": [
+      "double"
+     ],
+     "text": "필수: 과학기술의학 1, 과학기술의학 2, 과학기술의학 연구과정 1, 과학기술의학 연구과정 2(필수 6과목 18학점에 포함)",
+     "min_count": 4,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4"
+     ],
+     "note": "과목 번호 미정(과학기술의학 1은 2027-1 개설 예정)."
+    },
+    {
+     "id": "hst-area-eng",
+     "type": "distribution",
+     "applies_to": [
+      "double"
+     ],
+     "text": "공과대학 학생: 영역 1~5(해부/생리, 병리/약리, 생명과학, 신경, 면역/종양)에서 15학점 이상, 영역 1~3은 각 1과목 이상",
+     "min_count": null,
+     "min_credits": 15,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ]
+    },
+    {
+     "id": "hst-area-med",
+     "type": "distribution",
+     "applies_to": [
+      "double"
+     ],
+     "text": "의과대학(의약학·생명과학 계열) 학생: 영역 6~9(기기/장비, 분자-세포공학/소재, 정보/데이터, 공학 기초/공통)에서 15학점 이상, 영역 6~8은 각 1과목 이상",
+     "min_count": null,
+     "min_credits": 15,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7"
+     ]
+    },
+    {
+     "id": "hst-overlap",
+     "type": "other",
+     "applies_to": [
+      "double"
+     ],
+     "text": "소속 학과가 제공하는 과목은 최대 3과목까지 중복 인정. 의대생: 의학입문 1 전필, 임상추론 2·종합시험 3 전선으로 중복 인정. 공대·의대 밖 학생은 계열에 따라 기준 적용(운영위원회 조정).",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8"
+     ]
+    },
+    {
+     "id": "hst-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "double"
+     ],
+     "text": "졸업논문 필수. 연합전공으로만 이수(주전공·부전공 전환 불가).",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s9"
+     ],
+     "note": "공식 교과과정 PDF에는 졸업논문 문장이 없고 서울대뉴스 기사에 있음."
+    }
+   ],
+   "note": "선발 연도 2025~2026 기준(1차 조사). 그 전에 선발된 학생의 이 과정 규정은 조사하지 않았다. 유형 규칙(2019~2026 같음): 2개 정규학기·33학점 뒤 신청, 연합전공 39 + 소속 학과 39, 평점 2.0, 소속 학과가 연합전공에 제공한 과목 9학점·공통 인정 타 학과 과목 3학점까지 중복 인정, 연합전공만 단일 전공 불가 — 2018·2020·2022·2024 해설 4.나와 지금 학부대학 안내가 같다. 전공별 세부 규정은 '선발 시기' 기준으로 바뀐다(multi_major_roster 참고). 2026학번은 빨라야 2027년에 선발되므로 그때 규정."
+  }
+ ],
+ "change_points": [],
+ "ask_department": [
+  "정원(30 vs 50)과 2025학번 지원 자격",
+  "필수 과목 번호·학점(각 3학점인지)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "연합전공 과학기술의학 교과과정(붙임2, 260929 update)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/09/붙임2_과학기술의학_교과과정_260929_update.pdf",
+   "locator": "III. 필수 교과목 (i)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "연합전공 과학기술의학 교과과정(붙임2, 260929 update)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/09/붙임2_과학기술의학_교과과정_260929_update.pdf",
+   "locator": "III (i) 2",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "연합전공 과학기술의학 교과과정(붙임2, 260929 update)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/09/붙임2_과학기술의학_교과과정_260929_update.pdf",
+   "locator": "III (ii)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "학부대학 주관 연합전공 과학기술의학",
+   "url": "https://snuc.snu.ac.kr/학부대학-주관-연합전공/과학기술의학/",
+   "locator": "39학점(전공필수 6과목, 18학점)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "연합전공 과학기술의학 교과과정(붙임2, 260929 update)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/09/붙임2_과학기술의학_교과과정_260929_update.pdf",
+   "locator": "II. 이수 규정 ◇ 공과대학",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대뉴스 「의학과 공학의 경계를 잇다, 연합전공 과학기술의학」(2026.10.19.)",
+   "url": "https://www.snu.ac.kr/snunow/snu_story?bbsidx=177581&md=v",
+   "locator": "공대생 의학 영역 15학점",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "연합전공 과학기술의학 교과과정(붙임2, 260929 update)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/09/붙임2_과학기술의학_교과과정_260929_update.pdf",
+   "locator": "II ◇ 의과대학",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "연합전공 과학기술의학 교과과정(붙임2, 260929 update)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/09/붙임2_과학기술의학_교과과정_260929_update.pdf",
+   "locator": "II ◇ 전체·의과대학",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대뉴스 「의학과 공학의 경계를 잇다, 연합전공 과학기술의학」(2026.10.19.)",
+   "url": "https://www.snu.ac.kr/snunow/snu_story?bbsidx=177581&md=v",
+   "locator": "졸업논문·전환 불가",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "학부대학 주관 연합전공 과학기술의학",
+   "url": "https://snuc.snu.ac.kr/학부대학-주관-연합전공/과학기술의학/",
+   "locator": "이수 학점·정원",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "연합전공 과학기술의학 교과과정(붙임2, 260929 update)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/09/붙임2_과학기술의학_교과과정_260929_update.pdf",
+   "locator": "II~V",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대뉴스 「의학과 공학의 경계를 잇다, 연합전공 과학기술의학」(2026.10.19.)",
+   "url": "https://www.snu.ac.kr/snunow/snu_story?bbsidx=177581&md=v",
+   "locator": "2027-1 첫 모집",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "학부대학 연합전공 안내",
+   "url": "https://snuc.snu.ac.kr/연합전공/",
+   "locator": "일반 규정",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.11 <표 3>, p.44 4.나(1)(라)·(2)(나)",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "PDF p.29 4.나(1)(라)(마)·(2) 중복인정",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "PDF p.37 4.나(1)(라)(마)·(2)·(5)",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "학부대학 연합전공 안내",
+   "url": "https://snuc.snu.ac.kr/연합전공/",
+   "locator": "신청자격·과정이수 학점·교과목 중복인정",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

@@ -1,0 +1,605 @@
+{
+ "id": "p-ff570a3c",
+ "college": "농업생명과학대학",
+ "unit": "응용생물화학부",
+ "program": "응용생명화학전공",
+ "kind": "major",
+ "depts": [
+  "응용생물화학부"
+ ],
+ "code_prefixes": [
+  "5191."
+ ],
+ "ge_key": "농업생명과학대학 자연계",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "응용생명화학전공",
+   "응용생물학전공"
+  ],
+  "when": "입학 후 27학점 이상 이수한 뒤 학부 내 전공 배정('2024학년도 진입생'처럼 전공 진입 시기 기준 규정을 씀)",
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2023,
+    2026
+   ],
+   "basis": "전공 진입 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 48,
+    "double": 48,
+    "minor": 30,
+    "status": "확인",
+    "src": [
+     "s9",
+     "s10",
+     "s11"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s9",
+    "s12"
+   ],
+   "requirements": [
+    {
+     "id": "alc-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공필수 12과목 30학점",
+     "min_count": 12,
+     "min_credits": 30,
+     "courses": [
+      {
+       "code": "5191.308",
+       "name": "생명유기화학실험",
+       "credits": 2
+      },
+      {
+       "code": "M1678.000400",
+       "name": "유기화학 1",
+       "credits": 3
+      },
+      {
+       "code": "519.204",
+       "name": "생화학 1",
+       "credits": 3
+      },
+      {
+       "code": "M1678.001200",
+       "name": "생화학실험",
+       "credits": 2
+      },
+      {
+       "code": "519.203",
+       "name": "토양학",
+       "credits": 3
+      },
+      {
+       "code": "M1678.001400",
+       "name": "토양학실험",
+       "credits": 2
+      },
+      {
+       "code": "500.402",
+       "name": "분자생물학",
+       "credits": 3
+      },
+      {
+       "code": "5191.303",
+       "name": "식물영양화학",
+       "credits": 3
+      },
+      {
+       "code": "M1678.000300",
+       "name": "고급응용생명화학",
+       "credits": 1
+      },
+      {
+       "code": "M1678.001300",
+       "name": "분자생물학실험",
+       "credits": 2
+      },
+      {
+       "code": "5191.413A",
+       "name": "응용생명화학실험 1",
+       "credits": 3
+      },
+      {
+       "code": "5191.414A",
+       "name": "응용생명화학실험 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "학점은 2024 목록·편람으로 채움(합 30 이 규정과 맞음)."
+    },
+    {
+     "id": "alc-elective-scope",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "농생대 공통교과목·응용생물학전공 표준 이수 과목은 18학점까지 전공선택 인정. 응용생물화학개론은 1학년 수강분만 인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "alc-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 전필 30학점 모두 이수",
+     "min_count": null,
+     "min_credits": 30,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "alc-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 주전공 이수규정과 동일(표 2 = 48)",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "'주전공과 동일'이 48(병행 기준)인지 60인지 문장만으로는 단정 못 해 표 2 값 48 을 둔다."
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "note": "규정 기준이 학번이 아니라 전공 진입 연도다. 보통 1학년을 마치고 2학년 1학기에 진입하므로 2024학년도 진입생 = 대개 2023학번. 진입이 늦으면(휴학·학부대학 광역 등) 진입 연도로 정한다. 1차(2025학번) 요건 그대로. 2026학번(진입 2027)도 새 규정이 없어 같게 둔다."
+  },
+  {
+   "entry_years": [
+    2019,
+    2022
+   ],
+   "basis": "전공 진입 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 48,
+    "double": 48,
+    "minor": 24,
+    "status": "부분",
+    "src": [
+     "s18",
+     "s19",
+     "s20",
+     "s16"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s21"
+   ],
+   "requirements": [
+    {
+     "id": "alc-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공필수 17과목 45학점(2022 목록 * — 2020학년도 진입생부터)",
+     "min_count": 17,
+     "min_credits": 45,
+     "courses": [
+      {
+       "code": "300.312",
+       "name": "생화학 1",
+       "credits": 3
+      },
+      {
+       "code": "300.313",
+       "name": "생화학 2",
+       "credits": 3
+      },
+      {
+       "code": "519.203",
+       "name": "토양학",
+       "credits": 3
+      },
+      {
+       "code": "519.301",
+       "name": "물리화학 1",
+       "credits": 3
+      },
+      {
+       "code": "519.304",
+       "name": "농약학",
+       "credits": 3
+      },
+      {
+       "code": "5191.303",
+       "name": "식물영양화학",
+       "credits": 3
+      },
+      {
+       "code": "5191.308",
+       "name": "생명유기화학실험",
+       "credits": 2
+      },
+      {
+       "code": "5191.310",
+       "name": "생명분석화학실험",
+       "credits": 2
+      },
+      {
+       "code": "5191.412",
+       "name": "미생물생화학",
+       "credits": 3
+      },
+      {
+       "code": "5191.413A",
+       "name": "응용생명화학실험 1",
+       "credits": 3
+      },
+      {
+       "code": "5191.414A",
+       "name": "응용생명화학실험 2",
+       "credits": 3
+      },
+      {
+       "code": "M1678.000100",
+       "name": "생화학 및 분자생물학실험 1",
+       "credits": 2
+      },
+      {
+       "code": "M1678.000200",
+       "name": "생화학 및 분자생물학실험 2",
+       "credits": 2
+      },
+      {
+       "code": "M1678.000300",
+       "name": "고급응용생명화학",
+       "credits": 1
+      },
+      {
+       "code": "M1678.000400",
+       "name": "유기화학 1",
+       "credits": 3
+      },
+      {
+       "code": "M1678.000600",
+       "name": "분석화학 1",
+       "credits": 3
+      },
+      {
+       "code": "300.319",
+       "name": "분자생물학",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s13"
+     ],
+     "note": "학점은 2022 목록. 생화학 1·2·분자생물학은 자연대 번호(300.312·300.313·300.319)로 적혀 있다. 21~23 진입생 중간 개정 여부 미확인."
+    },
+    {
+     "id": "alc-elective-scope",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "응용생물학 전공 이수표준형태 과목을 전공선택으로 인정(2022 목록, 학점 상한 문구 없음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s17"
+     ]
+    },
+    {
+     "id": "alc-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 전공필수 중 실험과목 8학점 이상(응용생명화학실험 1·2 필수)을 포함해 24학점 이상",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "5191.413A",
+       "name": "응용생명화학실험 1",
+       "credits": 3
+      },
+      {
+       "code": "5191.414A",
+       "name": "응용생명화학실험 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14"
+     ]
+    },
+    {
+     "id": "alc-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 주전공 이수규정과 동일(해설 표 2 '아래 이외의 학과(부)' 48)",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s15",
+      "s16"
+     ],
+     "note": "'주전공과 동일'이 48(병행 기준)인지 60인지 문장만으로는 단정 못 해 표 2 값 48 을 둔다."
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "changed": "전필이 17과목 45학점(2024 진입 규정은 12과목 30학점), 부전공은 '실험과목 8학점 이상(응용생명화학실험 1·2 필수) 포함 24학점', 전선 인정에 18학점 상한 없음",
+   "note": "2022 목록의 '2020학년도 응용생명화학전공 진입생부터' 규정(전필 17과목 45학점). 2021~2023학년도 진입생에 중간 개정이 있었는지는 2023 판 목록이 없어 미확인. 300.312·300.313·300.319 는 자연대 번호로, 뒤에 519.204 생화학 1(2023-2~)·519.306 생화학 2(2024-1~)·500.402 분자생물학(2024-2~)이 생겼다(교과 개편)."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2024,
+   "basis": "전공 진입 연도",
+   "what": "2024학년도(1학기) 진입생부터: 전필 30학점(12과목) 포함 60/48, 부전공 = 전필 30학점 모두, 복수 = 주전공 규정과 같음. 학부 공통·응용생물학 과목 18학점까지 전선 인정.",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2020,
+   "basis": "전공 진입 연도",
+   "what": "2020학년도 진입생부터의 규정(전필 17과목) — 범위 안 가장 옛 학번(2019, 진입 2020)부터 적용.",
+   "status": "부분"
+  }
+ ],
+ "ask_department": [
+  "2021~2023학년도 진입생 규정이 2020 진입 규정(전필 17과목)과 같은지",
+  "2019~2022학번의 300.312·300.313·300.319 와 519.204·519.306·500.402 동일 인정",
+  "복수전공 학점이 48인지 60인지('주전공 이수규정과 동일')",
+  "복수전공 학점이 48인지(주전공과 동일의 뜻)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "응용생물화학부 누리집 — 응용생명화학전공 교과과정",
+   "url": "https://abc.snu.ac.kr/%ec%9d%91%ec%9a%a9%ec%83%9d%eb%aa%85%ed%99%94%ed%95%99%ec%a0%84%ea%b3%b5-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/",
+   "locator": "2024-12-09 수정, 전공 이수 규정('2024학년도 응용생명화학전공 진입생부터'), 별표 12과목, 전선 인정 18학점",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "519 응용생물화학부 학부 1학년 전공탐색과목, 응용생명화학전공 과목·이수표준형태·복수/부전공 (p.73–74)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "2025-1·2025-2·2026-1·2026-2 학기, 교과구분·학점",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s4": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 학사과정 복수·부전공 이수학점 기준, 농업생명과학대학 행 (p.10)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 농업생명과학대학 자연계(스마트시스템과학과 제외한 전체), 인쇄 p.135 (PDF p.31)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "2026학년도 단과대학별 공통교육과정 이수 규정(학부대학, 2026-01 게시)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "농업생명과학대학 세 표, 인쇄 p.71–73 ('2025학년도 입학생부터 적용' 문구 그대로)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "바이오시스템공학전공 누리집 — 학부교과과정(2025)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B5%90%EA%B3%BC%EA%B3%BC%EC%A0%952025/",
+   "locator": "2026-06-10 수정, 트랙 A/B 표준 이수체계(* 전공필수, ▪ 트랙필수)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "동물생명공학전공 — 졸업요건 학부과정(2022년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_08",
+   "locator": "학점 표·복수/부전공 문장·이수표준형태(별표 15과목)·비고",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "응용생물화학부 누리집 — 응용생명화학전공 교과과정",
+   "url": "https://abc.snu.ac.kr/%ec%9d%91%ec%9a%a9%ec%83%9d%eb%aa%85%ed%99%94%ed%95%99%ec%a0%84%ea%b3%b5-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/",
+   "locator": "<전공 이수 규정> ② '2024학년도 응용생명화학전공 진입생부터', 복수·부전공 '2024학년도 1학기 진입생부터'",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행 표 2 응용생명화학 48/30 '2024학년도 1학기 이수자부터 적용(진입시기 기준)'",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "응용생명화학 복수·부전공(p.74)",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "응용생명화학전공 과목 목록·이수표준형태(p.71)",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "응용생명화학 부전공 이수규정(p.71)",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "응용생명화학 복수전공 이수규정(p.71)",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "응용생명화학 전공선택 인정과목(p.71)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "응용생명화학전공 교과목 이수규정 ①·②(p.71)",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "응용생명화학전공 이수표준형태(*)·교과목 이수규정·복수·부전공(p.71)",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

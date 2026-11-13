@@ -1,0 +1,2989 @@
+{
+ "id": "p-234741e0",
+ "college": "간호대학",
+ "unit": "간호학과",
+ "program": "간호학과",
+ "kind": "major",
+ "depts": [
+  "간호학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "간호대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 85,
+    "parallel": 85,
+    "double": null,
+    "minor": null,
+    "status": "확인",
+    "src": [
+     "s6",
+     "s7"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s6",
+    "s7",
+    "s8"
+   ],
+   "requirements": [
+    {
+     "id": "nur-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "대학 글쓰기 1(2) + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 1과목, 2) = 4학점",
+     "min_count": null,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "글쓰기와 말하기"
+     }
+    },
+    {
+     "id": "nur-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수(대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "nur-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "화학(또는 고급화학)·화학실험, 생물학·생물학실험 = 8학점(이론과 실험은 같은 학기)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1.0
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3.0
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "nur-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 12학점: 문화 해석과 상상·역사적 탐구와 철학적 사유·과학적 사고와 응용 세 영역 중 2개 영역 이상에서 9학점 + 인간의 이해와 사회 분석 1과목(3학점) 필수",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "두 갈래 조건: {문화·역사·과학적 사고 중 2영역 이상, 9학점} 과 {인간의 이해와 사회 분석 ≥ 3학점}.",
+     "extra": {
+      "area": "지성의 열쇠",
+      "areas": [
+       "문화 해석과 상상",
+       "역사적 탐구와 철학적 사유",
+       "인간의 이해와 사회 분석",
+       "과학적 사고와 응용"
+      ]
+     }
+    },
+    {
+     "id": "nur-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "베리타스"
+     }
+    },
+    {
+     "id": "nur-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목에서 자유롭게 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "nur-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 32과목 76학점(전공필수 76학점 이상)",
+     "min_count": 32,
+     "min_credits": 76,
+     "courses": [
+      {
+       "code": "811.214",
+       "name": "인간과건강",
+       "credits": 3
+      },
+      {
+       "code": "M2186.000300",
+       "name": "간호학입문",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001200",
+       "name": "인체구조와 기능 1",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001600",
+       "name": "기본간호학",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001700",
+       "name": "기본간호학실습",
+       "credits": 1
+      },
+      {
+       "code": "M1991.001300",
+       "name": "인체구조와 기능 2",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001400",
+       "name": "병태생리학 1",
+       "credits": 2
+      },
+      {
+       "code": "811.210",
+       "name": "간호통계학",
+       "credits": 2
+      },
+      {
+       "code": "811.221",
+       "name": "약물기전과 효과",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001800",
+       "name": "인간관계와 의사소통",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001500",
+       "name": "병태생리학 2",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001900",
+       "name": "보건커뮤니케이션과 건강교육",
+       "credits": 2
+      },
+      {
+       "code": "811.323",
+       "name": "간호정보학및실습",
+       "credits": 2
+      },
+      {
+       "code": "811.328",
+       "name": "아동건강간호학",
+       "credits": 3
+      },
+      {
+       "code": "811.324",
+       "name": "성인건강간호학 1",
+       "credits": 3
+      },
+      {
+       "code": "811.325",
+       "name": "성인건강간호학실습 1",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002300",
+       "name": "노인건강간호학",
+       "credits": 2
+      },
+      {
+       "code": "M1991.002400",
+       "name": "노인건강간호학실습",
+       "credits": 1
+      },
+      {
+       "code": "M1991.002000",
+       "name": "여성건강간호학",
+       "credits": 3
+      },
+      {
+       "code": "811.409",
+       "name": "간호관리학",
+       "credits": 3
+      },
+      {
+       "code": "811.326",
+       "name": "성인건강간호학 2",
+       "credits": 3
+      },
+      {
+       "code": "811.327",
+       "name": "성인건강간호학실습 2",
+       "credits": 3
+      },
+      {
+       "code": "811.329",
+       "name": "아동건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.403",
+       "name": "간호연구개론",
+       "credits": 2
+      },
+      {
+       "code": "M1991.002100",
+       "name": "여성건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.410",
+       "name": "간호관리학실습",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002500",
+       "name": "정신건강간호학",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002600",
+       "name": "지역사회간호학",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002700",
+       "name": "간호윤리",
+       "credits": 2
+      },
+      {
+       "code": "811.424",
+       "name": "정신건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.332",
+       "name": "지역사회간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002800",
+       "name": "통합간호실습",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3",
+      "s4"
+     ],
+     "note": "2024 목록의 * 32과목과 간호대 2025학번 이후 표의 전필 과목·학점이 같다(합 76). 과목 번호는 2024 목록(우리 편람에는 강의 과목 다수가 없음). 기본간호학실습·통합간호실습은 분반(001~003)."
+    },
+    {
+     "id": "nur-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 9학점 이상(전공 85 − 전필 76). 간호학과 과목만 인정(타학과 과목 불인정)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "M1991.002900",
+       "name": "인간발달",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003100",
+       "name": "생애주기별 건강증진",
+       "credits": 3
+      },
+      {
+       "code": "811.219",
+       "name": "영양과 식이",
+       "credits": 2
+      },
+      {
+       "code": "M2186.001000",
+       "name": "장애, 돌봄 그리고 간호",
+       "credits": 1
+      },
+      {
+       "code": "811.436",
+       "name": "중환자간호 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "811.437",
+       "name": "보건의료와 간호정책",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003200",
+       "name": "다문화사회의 이해와 간호",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003500",
+       "name": "지역사회 정신간호",
+       "credits": 2
+      },
+      {
+       "code": "M1991.004100",
+       "name": "여성의 건강과 간호",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003300",
+       "name": "현대건강문제와 간호",
+       "credits": 2
+      },
+      {
+       "code": "M1991.003600",
+       "name": "치매간호와 테크놀로지",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003400",
+       "name": "간호통계프로그래밍개론",
+       "credits": 3
+      },
+      {
+       "code": "M2186.000500",
+       "name": "통합간호실무",
+       "credits": 1
+      },
+      {
+       "code": "M2186.000900",
+       "name": "응급간호실무",
+       "credits": 2
+      },
+      {
+       "code": "M1991.004200",
+       "name": "뇌와 뇌질환의 이해",
+       "credits": 1
+      },
+      {
+       "code": "M1991.004300",
+       "name": "국제보건과 간호",
+       "credits": 3
+      },
+      {
+       "code": "M1991.004400",
+       "name": "정보기술의 간호 도입 최신 동향",
+       "credits": 1
+      },
+      {
+       "code": "M1991.004600",
+       "name": "간호통계세미나",
+       "credits": 1
+      },
+      {
+       "code": "M1991.004900",
+       "name": "의료관련감염관리",
+       "credits": 2
+      },
+      {
+       "code": "M1991.005000",
+       "name": "수면 건강과 간호",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "2025 표의 전선 28과목. 그중 8과목은 공개 자료에 번호가 없다. 2학년 1·2학기, 4학년 2학기에 나눠 듣기 권장."
+    },
+    {
+     "id": "nur-free",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "자유선택 9학점(교양 36 + 전공 85 외 졸업 130 채우기; 전선·교양·부전공·복수전공 등)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "별도 과목 조건 없음. 졸업 130 학점만 채우면 된다."
+    },
+    {
+     "id": "nur-practicum",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "임상·실습 과목은 모두 전필에 포함(10과목). 총 실습 시간 기준은 공개 자료에 없음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1991.001700",
+       "name": "기본간호학실습",
+       "credits": 1
+      },
+      {
+       "code": "811.323",
+       "name": "간호정보학및실습",
+       "credits": 2
+      },
+      {
+       "code": "811.325",
+       "name": "성인건강간호학실습 1",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002400",
+       "name": "노인건강간호학실습",
+       "credits": 1
+      },
+      {
+       "code": "811.327",
+       "name": "성인건강간호학실습 2",
+       "credits": 3
+      },
+      {
+       "code": "811.329",
+       "name": "아동건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002100",
+       "name": "여성건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.410",
+       "name": "간호관리학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.424",
+       "name": "정신건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.332",
+       "name": "지역사회간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002800",
+       "name": "통합간호실습",
+       "credits": 1
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s3",
+      "s2"
+     ],
+     "note": "2024 목록 표기: 성인 1·2, 아동, 여성, 간호관리, 정신, 지역사회 실습 각 3－0－135, 노인 1－0－45, 기본간호학실습·통합간호실습 1－0－2. 졸업 판정은 전필 이수로 끝나며 시간 합계를 따로 세지 않는다."
+    },
+    {
+     "id": "nur-license",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "간호사 국가시험 응시는 졸업(간호교육 인증 대학) 뒤의 일 — 졸업 요건이 아님",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4"
+     ],
+     "note": "간호대 안내 책자: 2024 4주기 한국간호교육평가원 간호교육인증. 법령·국시원 원문은 열지 못했다(robots 차단). 보건교사 자격은 선발 뒤 교직 22학점 추가(선택).",
+     "extra": {
+      "graduation_required": false
+     }
+    },
+    {
+     "id": "nur-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 의무 — 공개 자료에서 찾지 못함",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "간호대 교과과정 페이지·2024 목록·안내 책자 어디에도 언급이 없다. 요건이 없을 수도 있으니 앱은 '확인 필요'로만 둔다."
+    },
+    {
+     "id": "nur-double-minor",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "간호학과는 다른 학과 학생에게 복수전공·부전공을 제공하지 않는다",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s3"
+     ],
+     "note": "2024 목록: 복수전공·부전공 이수규정 '해당사항 없음'. 간호학과 학생이 다른 전공을 복수·부전공하는 것은 가능(자유선택으로 안내)."
+    }
+   ],
+   "note": "1차 2025학번 요건 그대로. 간호대 표가 '2025학번 이후'로 묶었고 2026 길잡이 간호대 교양도 2025와 같다. 2026 교과과정 책자 게시물은 권한이 필요해 열지 않았다(1차의 '부분' 항목 그대로)."
+  },
+  {
+   "entry_years": [
+    2021,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 85,
+    "parallel": 85,
+    "double": null,
+    "minor": null,
+    "status": "확인",
+    "src": [
+     "s11",
+     "s14",
+     "s15"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s11",
+    "s13",
+    "s9",
+    "s16",
+    "s10"
+   ],
+   "requirements": [
+    {
+     "id": "nur-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1(2) + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 1과목, 2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10",
+      "s11"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "nur-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수(대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "nur-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 8학점: [1-1] 화학(또는 고급화학)(3)+화학실험(1), [1-2] 생물학(3)+생물학실험(1) (이론·실험 같은 학기)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "과학적 사고와 실험"
+     }
+    },
+    {
+     "id": "nur-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목에서 자유롭게 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "nur-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 32과목 76학점(전공필수 76학점 이상)",
+     "min_count": 32,
+     "min_credits": 76,
+     "courses": [
+      {
+       "code": "811.214",
+       "name": "인간과건강",
+       "credits": 3
+      },
+      {
+       "code": "M2186.000300",
+       "name": "간호학입문",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001200",
+       "name": "인체구조와 기능 1",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001600",
+       "name": "기본간호학",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001700",
+       "name": "기본간호학실습",
+       "credits": 1
+      },
+      {
+       "code": "M1991.001300",
+       "name": "인체구조와 기능 2",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001400",
+       "name": "병태생리학 1",
+       "credits": 2
+      },
+      {
+       "code": "811.210",
+       "name": "간호통계학",
+       "credits": 2
+      },
+      {
+       "code": "811.221",
+       "name": "약물기전과 효과",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001800",
+       "name": "인간관계와 의사소통",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001500",
+       "name": "병태생리학 2",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001900",
+       "name": "보건커뮤니케이션과 건강교육",
+       "credits": 2
+      },
+      {
+       "code": "811.323",
+       "name": "간호정보학및실습",
+       "credits": 2
+      },
+      {
+       "code": "811.328",
+       "name": "아동건강간호학",
+       "credits": 3
+      },
+      {
+       "code": "811.324",
+       "name": "성인건강간호학 1",
+       "credits": 3
+      },
+      {
+       "code": "811.325",
+       "name": "성인건강간호학실습 1",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002300",
+       "name": "노인건강간호학",
+       "credits": 2
+      },
+      {
+       "code": "M1991.002400",
+       "name": "노인건강간호학실습",
+       "credits": 1
+      },
+      {
+       "code": "M1991.002000",
+       "name": "여성건강간호학",
+       "credits": 3
+      },
+      {
+       "code": "811.409",
+       "name": "간호관리학",
+       "credits": 3
+      },
+      {
+       "code": "811.326",
+       "name": "성인건강간호학 2",
+       "credits": 3
+      },
+      {
+       "code": "811.327",
+       "name": "성인건강간호학실습 2",
+       "credits": 3
+      },
+      {
+       "code": "811.329",
+       "name": "아동건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.403",
+       "name": "간호연구개론",
+       "credits": 2
+      },
+      {
+       "code": "M1991.002100",
+       "name": "여성건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.410",
+       "name": "간호관리학실습",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002500",
+       "name": "정신건강간호학",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002600",
+       "name": "지역사회간호학",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002700",
+       "name": "간호윤리",
+       "credits": 2
+      },
+      {
+       "code": "811.424",
+       "name": "정신건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.332",
+       "name": "지역사회간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002800",
+       "name": "통합간호실습",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3",
+      "s4"
+     ],
+     "note": "2024 목록의 * 32과목과 간호대 2025학번 이후 표의 전필 과목·학점이 같다(합 76). 과목 번호는 2024 목록(우리 편람에는 강의 과목 다수가 없음). 기본간호학실습·통합간호실습은 분반(001~003)."
+    },
+    {
+     "id": "nur-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 9학점 이상(전공 85 − 전필 76). 간호학과 과목만 인정(타학과 과목 불인정)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "M1991.002900",
+       "name": "인간발달",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003100",
+       "name": "생애주기별 건강증진",
+       "credits": 3
+      },
+      {
+       "code": "811.219",
+       "name": "영양과 식이",
+       "credits": 2
+      },
+      {
+       "code": "M2186.001000",
+       "name": "장애, 돌봄 그리고 간호",
+       "credits": 1
+      },
+      {
+       "code": "811.436",
+       "name": "중환자간호 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "811.437",
+       "name": "보건의료와 간호정책",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003200",
+       "name": "다문화사회의 이해와 간호",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003500",
+       "name": "지역사회 정신간호",
+       "credits": 2
+      },
+      {
+       "code": "M1991.004100",
+       "name": "여성의 건강과 간호",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003300",
+       "name": "현대건강문제와 간호",
+       "credits": 2
+      },
+      {
+       "code": "M1991.003600",
+       "name": "치매간호와 테크놀로지",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003400",
+       "name": "간호통계프로그래밍개론",
+       "credits": 3
+      },
+      {
+       "code": "M2186.000500",
+       "name": "통합간호실무",
+       "credits": 1
+      },
+      {
+       "code": "M2186.000900",
+       "name": "응급간호실무",
+       "credits": 2
+      },
+      {
+       "code": "M1991.004200",
+       "name": "뇌와 뇌질환의 이해",
+       "credits": 1
+      },
+      {
+       "code": "M1991.004300",
+       "name": "국제보건과 간호",
+       "credits": 3
+      },
+      {
+       "code": "M1991.004400",
+       "name": "정보기술의 간호 도입 최신 동향",
+       "credits": 1
+      },
+      {
+       "code": "M1991.004600",
+       "name": "간호통계세미나",
+       "credits": 1
+      },
+      {
+       "code": "M1991.004900",
+       "name": "의료관련감염관리",
+       "credits": 2
+      },
+      {
+       "code": "M1991.005000",
+       "name": "수면 건강과 간호",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "2025 표의 전선 28과목. 그중 8과목은 공개 자료에 번호가 없다. 2학년 1·2학기, 4학년 2학기에 나눠 듣기 권장."
+    },
+    {
+     "id": "nur-free",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "자유선택 9학점(교양 36 + 전공 85 외 졸업 130 채우기; 전선·교양·부전공·복수전공 등)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "별도 과목 조건 없음. 졸업 130 학점만 채우면 된다."
+    },
+    {
+     "id": "nur-practicum",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "임상·실습 과목은 모두 전필에 포함(10과목). 총 실습 시간 기준은 공개 자료에 없음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1991.001700",
+       "name": "기본간호학실습",
+       "credits": 1
+      },
+      {
+       "code": "811.323",
+       "name": "간호정보학및실습",
+       "credits": 2
+      },
+      {
+       "code": "811.325",
+       "name": "성인건강간호학실습 1",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002400",
+       "name": "노인건강간호학실습",
+       "credits": 1
+      },
+      {
+       "code": "811.327",
+       "name": "성인건강간호학실습 2",
+       "credits": 3
+      },
+      {
+       "code": "811.329",
+       "name": "아동건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002100",
+       "name": "여성건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.410",
+       "name": "간호관리학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.424",
+       "name": "정신건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.332",
+       "name": "지역사회간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002800",
+       "name": "통합간호실습",
+       "credits": 1
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s3",
+      "s2"
+     ],
+     "note": "2024 목록 표기: 성인 1·2, 아동, 여성, 간호관리, 정신, 지역사회 실습 각 3－0－135, 노인 1－0－45, 기본간호학실습·통합간호실습 1－0－2. 졸업 판정은 전필 이수로 끝나며 시간 합계를 따로 세지 않는다."
+    },
+    {
+     "id": "nur-license",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "간호사 국가시험 응시는 졸업(간호교육 인증 대학) 뒤의 일 — 졸업 요건이 아님",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4"
+     ],
+     "note": "간호대 안내 책자: 2024 4주기 한국간호교육평가원 간호교육인증. 법령·국시원 원문은 열지 못했다(robots 차단). 보건교사 자격은 선발 뒤 교직 22학점 추가(선택).",
+     "extra": {
+      "graduation_required": false
+     }
+    },
+    {
+     "id": "nur-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 의무 — 공개 자료에서 찾지 못함",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "간호대 교과과정 페이지·2024 목록·안내 책자 어디에도 언급이 없다. 요건이 없을 수도 있으니 앱은 '확인 필요'로만 둔다."
+    },
+    {
+     "id": "nur-double-minor",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "간호학과는 다른 학과 학생에게 복수전공·부전공을 제공하지 않는다",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s3"
+     ],
+     "note": "2024 목록: 복수전공·부전공 이수규정 '해당사항 없음'. 간호학과 학생이 다른 전공을 복수·부전공하는 것은 가능(자유선택으로 안내)."
+    },
+    {
+     "id": "nur-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제 중 3개 영역 이상에서 12학점, '언어와 문학, 문화와 예술' 영역 권장과목(*표시) 1과목 필수",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s10",
+      "s13"
+     ],
+     "note": "표에서 12학점 칸은 위 네 영역에 걸쳐 있고 자연과 기술·생명과 환경 칸은 비어 있다. 권장과목(*) 목록은 해설의 교양 교과목 표 표시를 쓴다.",
+     "extra": {
+      "area": "학문의 세계"
+     }
+    },
+    {
+     "id": "nur-ge-humsoc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 인간과 사회 영역 1과목(3학점) 필수",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10"
+     ],
+     "extra": {
+      "area": "학문의 세계(인간과 사회)"
+     }
+    }
+   ],
+   "changed": "교양 옛 체계(사고와 표현 4, 외국어 6, 과학적 사고와 실험 8, 학문의 세계 12 + 인간과 사회 3, 전체 3). 전공 요건은 2025와 같음.",
+   "note": "전공은 2025와 같다: 130 = 교양 36 + 전공 85(전필 32과목 76 이상) + 자유 9, 전필 과목·학점 표가 2020·2021·2025 판 모두 같다. 2021판 전선 목록이 짧지만 새로 생긴 간호학과 과목도 전선으로 센다(전선은 간호학과 과목만). 교양만 옛 체계."
+  },
+  {
+   "entry_years": [
+    2020,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 85,
+    "parallel": 85,
+    "double": null,
+    "minor": null,
+    "status": "확인",
+    "src": [
+     "s19",
+     "s20"
+    ]
+   },
+   "status": "충돌",
+   "src": [
+    "s19",
+    "s18"
+   ],
+   "requirements": [
+    {
+     "id": "nur-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1(2) + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 1과목, 2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10",
+      "s11"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "nur-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "note": "2021학번부터 6학점.",
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "nur-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 8학점: [1-1] 화학(또는 고급화학)(3)+화학실험(1), [1-2] 생물학(3)+생물학실험(1) (이론·실험 같은 학기)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "과학적 사고와 실험"
+     }
+    },
+    {
+     "id": "nur-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 3~5학점(외국어 학점과 합쳐 36 맞추기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s19",
+      "s18"
+     ],
+     "note": "간호대 표는 3~5, 2020 해설은 4~6(2018학번 표의 숫자가 남은 것으로 보임: 4+4~6+8+12+3+3~5 = 36). 교양 합 36은 같으니 앱은 36만 맞으면 충족으로 본다.",
+     "extra": {
+      "area": "전체 교양",
+      "conflict": [
+       {
+        "value": "3-5",
+        "source": "간호대학 2020 교과과정 표"
+       },
+       {
+        "value": "4-6",
+        "source": "본부 2020 교과과정 해설 p.17"
+       }
+      ]
+     }
+    },
+    {
+     "id": "nur-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 32과목 76학점(전공필수 76학점 이상)",
+     "min_count": 32,
+     "min_credits": 76,
+     "courses": [
+      {
+       "code": "811.214",
+       "name": "인간과건강",
+       "credits": 3
+      },
+      {
+       "code": "M2186.000300",
+       "name": "간호학입문",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001200",
+       "name": "인체구조와 기능 1",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001600",
+       "name": "기본간호학",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001700",
+       "name": "기본간호학실습",
+       "credits": 1
+      },
+      {
+       "code": "M1991.001300",
+       "name": "인체구조와 기능 2",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001400",
+       "name": "병태생리학 1",
+       "credits": 2
+      },
+      {
+       "code": "811.210",
+       "name": "간호통계학",
+       "credits": 2
+      },
+      {
+       "code": "811.221",
+       "name": "약물기전과 효과",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001800",
+       "name": "인간관계와 의사소통",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001500",
+       "name": "병태생리학 2",
+       "credits": 2
+      },
+      {
+       "code": "M1991.001900",
+       "name": "보건커뮤니케이션과 건강교육",
+       "credits": 2
+      },
+      {
+       "code": "811.323",
+       "name": "간호정보학및실습",
+       "credits": 2
+      },
+      {
+       "code": "811.328",
+       "name": "아동건강간호학",
+       "credits": 3
+      },
+      {
+       "code": "811.324",
+       "name": "성인건강간호학 1",
+       "credits": 3
+      },
+      {
+       "code": "811.325",
+       "name": "성인건강간호학실습 1",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002300",
+       "name": "노인건강간호학",
+       "credits": 2
+      },
+      {
+       "code": "M1991.002400",
+       "name": "노인건강간호학실습",
+       "credits": 1
+      },
+      {
+       "code": "M1991.002000",
+       "name": "여성건강간호학",
+       "credits": 3
+      },
+      {
+       "code": "811.409",
+       "name": "간호관리학",
+       "credits": 3
+      },
+      {
+       "code": "811.326",
+       "name": "성인건강간호학 2",
+       "credits": 3
+      },
+      {
+       "code": "811.327",
+       "name": "성인건강간호학실습 2",
+       "credits": 3
+      },
+      {
+       "code": "811.329",
+       "name": "아동건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.403",
+       "name": "간호연구개론",
+       "credits": 2
+      },
+      {
+       "code": "M1991.002100",
+       "name": "여성건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.410",
+       "name": "간호관리학실습",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002500",
+       "name": "정신건강간호학",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002600",
+       "name": "지역사회간호학",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002700",
+       "name": "간호윤리",
+       "credits": 2
+      },
+      {
+       "code": "811.424",
+       "name": "정신건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.332",
+       "name": "지역사회간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002800",
+       "name": "통합간호실습",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3",
+      "s4"
+     ],
+     "note": "2024 목록의 * 32과목과 간호대 2025학번 이후 표의 전필 과목·학점이 같다(합 76). 과목 번호는 2024 목록(우리 편람에는 강의 과목 다수가 없음). 기본간호학실습·통합간호실습은 분반(001~003)."
+    },
+    {
+     "id": "nur-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 9학점 이상(전공 85 − 전필 76). 간호학과 과목만 인정(타학과 과목 불인정)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "M1991.002900",
+       "name": "인간발달",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003100",
+       "name": "생애주기별 건강증진",
+       "credits": 3
+      },
+      {
+       "code": "811.219",
+       "name": "영양과 식이",
+       "credits": 2
+      },
+      {
+       "code": "M2186.001000",
+       "name": "장애, 돌봄 그리고 간호",
+       "credits": 1
+      },
+      {
+       "code": "811.436",
+       "name": "중환자간호 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "811.437",
+       "name": "보건의료와 간호정책",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003200",
+       "name": "다문화사회의 이해와 간호",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003500",
+       "name": "지역사회 정신간호",
+       "credits": 2
+      },
+      {
+       "code": "M1991.004100",
+       "name": "여성의 건강과 간호",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003300",
+       "name": "현대건강문제와 간호",
+       "credits": 2
+      },
+      {
+       "code": "M1991.003600",
+       "name": "치매간호와 테크놀로지",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003400",
+       "name": "간호통계프로그래밍개론",
+       "credits": 3
+      },
+      {
+       "code": "M2186.000500",
+       "name": "통합간호실무",
+       "credits": 1
+      },
+      {
+       "code": "M2186.000900",
+       "name": "응급간호실무",
+       "credits": 2
+      },
+      {
+       "code": "M1991.004200",
+       "name": "뇌와 뇌질환의 이해",
+       "credits": 1
+      },
+      {
+       "code": "M1991.004300",
+       "name": "국제보건과 간호",
+       "credits": 3
+      },
+      {
+       "code": "M1991.004400",
+       "name": "정보기술의 간호 도입 최신 동향",
+       "credits": 1
+      },
+      {
+       "code": "M1991.004600",
+       "name": "간호통계세미나",
+       "credits": 1
+      },
+      {
+       "code": "M1991.004900",
+       "name": "의료관련감염관리",
+       "credits": 2
+      },
+      {
+       "code": "M1991.005000",
+       "name": "수면 건강과 간호",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "2025 표의 전선 28과목. 그중 8과목은 공개 자료에 번호가 없다. 2학년 1·2학기, 4학년 2학기에 나눠 듣기 권장."
+    },
+    {
+     "id": "nur-free",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "자유선택 9학점(교양 36 + 전공 85 외 졸업 130 채우기; 전선·교양·부전공·복수전공 등)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "별도 과목 조건 없음. 졸업 130 학점만 채우면 된다."
+    },
+    {
+     "id": "nur-practicum",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "임상·실습 과목은 모두 전필에 포함(10과목). 총 실습 시간 기준은 공개 자료에 없음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1991.001700",
+       "name": "기본간호학실습",
+       "credits": 1
+      },
+      {
+       "code": "811.323",
+       "name": "간호정보학및실습",
+       "credits": 2
+      },
+      {
+       "code": "811.325",
+       "name": "성인건강간호학실습 1",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002400",
+       "name": "노인건강간호학실습",
+       "credits": 1
+      },
+      {
+       "code": "811.327",
+       "name": "성인건강간호학실습 2",
+       "credits": 3
+      },
+      {
+       "code": "811.329",
+       "name": "아동건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002100",
+       "name": "여성건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.410",
+       "name": "간호관리학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.424",
+       "name": "정신건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.332",
+       "name": "지역사회간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002800",
+       "name": "통합간호실습",
+       "credits": 1
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s3",
+      "s2"
+     ],
+     "note": "2024 목록 표기: 성인 1·2, 아동, 여성, 간호관리, 정신, 지역사회 실습 각 3－0－135, 노인 1－0－45, 기본간호학실습·통합간호실습 1－0－2. 졸업 판정은 전필 이수로 끝나며 시간 합계를 따로 세지 않는다."
+    },
+    {
+     "id": "nur-license",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "간호사 국가시험 응시는 졸업(간호교육 인증 대학) 뒤의 일 — 졸업 요건이 아님",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4"
+     ],
+     "note": "간호대 안내 책자: 2024 4주기 한국간호교육평가원 간호교육인증. 법령·국시원 원문은 열지 못했다(robots 차단). 보건교사 자격은 선발 뒤 교직 22학점 추가(선택).",
+     "extra": {
+      "graduation_required": false
+     }
+    },
+    {
+     "id": "nur-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 의무 — 공개 자료에서 찾지 못함",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "간호대 교과과정 페이지·2024 목록·안내 책자 어디에도 언급이 없다. 요건이 없을 수도 있으니 앱은 '확인 필요'로만 둔다."
+    },
+    {
+     "id": "nur-double-minor",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "간호학과는 다른 학과 학생에게 복수전공·부전공을 제공하지 않는다",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s3"
+     ],
+     "note": "2024 목록: 복수전공·부전공 이수규정 '해당사항 없음'. 간호학과 학생이 다른 전공을 복수·부전공하는 것은 가능(자유선택으로 안내)."
+    },
+    {
+     "id": "nur-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제 중 3개 영역 이상에서 12학점, '언어와 문학, 문화와 예술' 영역 권장과목(*표시) 1과목 필수",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s10",
+      "s13"
+     ],
+     "note": "표에서 12학점 칸은 위 네 영역에 걸쳐 있고 자연과 기술·생명과 환경 칸은 비어 있다. 권장과목(*) 목록은 해설의 교양 교과목 표 표시를 쓴다.",
+     "extra": {
+      "area": "학문의 세계"
+     }
+    },
+    {
+     "id": "nur-ge-humsoc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 인간과 사회 영역 1과목(3학점) 필수",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10"
+     ],
+     "extra": {
+      "area": "학문의 세계(인간과 사회)"
+     }
+    }
+   ],
+   "changed": "외국어 4~6, 전체 교양 3~5(해설과 충돌).",
+   "note": "새 교과과정 첫 학번. 전공은 2021~2024와 같다. 외국어 4~6·전체 교양 3~5(간호대 표; 2020 해설은 전체 4~6)."
+  },
+  {
+   "entry_years": [
+    2019,
+    2019
+   ],
+   "basis": "졸업 시기",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 85,
+    "parallel": 85,
+    "double": null,
+    "minor": null,
+    "status": "부분",
+    "src": [
+     "s21",
+     "s22",
+     "s24",
+     "s25"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s21",
+    "s22",
+    "s23"
+   ],
+   "requirements": [
+    {
+     "id": "nur-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1(2) + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 1과목, 2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10",
+      "s11"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "nur-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "note": "2021학번부터 6학점.",
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "nur-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 8학점: [1-1] 화학(또는 고급화학)(3)+화학실험(1), [1-2] 생물학(3)+생물학실험(1) (이론·실험 같은 학기)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "과학적 사고와 실험"
+     }
+    },
+    {
+     "id": "nur-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 3~5학점(외국어 학점과 합쳐 36 맞추기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s19",
+      "s18"
+     ],
+     "note": "간호대 표는 3~5, 2020 해설은 4~6(2018학번 표의 숫자가 남은 것으로 보임: 4+4~6+8+12+3+3~5 = 36). 교양 합 36은 같으니 앱은 36만 맞으면 충족으로 본다.",
+     "extra": {
+      "area": "전체 교양",
+      "conflict": [
+       {
+        "value": "3-5",
+        "source": "간호대학 2020 교과과정 표"
+       },
+       {
+        "value": "4-6",
+        "source": "본부 2020 교과과정 해설 p.17"
+       }
+      ]
+     }
+    },
+    {
+     "id": "nur-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "2019학번 이전: 원래 140학점(전공필수 96) 교과과정. 2024년 2월 졸업부터 신 기준 적용 — 전공 85학점 중 전공필수 76~85학점(옛 교과과정 전필 과목), 자유선택 9, 총 130",
+     "min_count": null,
+     "min_credits": 76,
+     "courses": [
+      {
+       "code": "811.214",
+       "name": "인간과 건강",
+       "credits": 3
+      },
+      {
+       "code": "M2186.000300",
+       "name": "간호학 입문",
+       "credits": 2
+      },
+      {
+       "code": "811.207",
+       "name": "기본간호학 및 실습 1",
+       "credits": 3
+      },
+      {
+       "code": "811.208",
+       "name": "기본간호학 및 실습 2",
+       "credits": 2
+      },
+      {
+       "code": "M1991.000800",
+       "name": "기본간호학 2",
+       "credits": 1
+      },
+      {
+       "code": "M1991.000900",
+       "name": "기본간호학실습 2",
+       "credits": 1
+      },
+      {
+       "code": "811.210",
+       "name": "간호통계학",
+       "credits": 2
+      },
+      {
+       "code": "811.212",
+       "name": "지역사회간호학 1",
+       "credits": 2
+      },
+      {
+       "code": "811.215",
+       "name": "건강교육과 상담",
+       "credits": 3
+      },
+      {
+       "code": "811.217",
+       "name": "인체구조와 기능 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "811.218",
+       "name": "병태생리학",
+       "credits": 4
+      },
+      {
+       "code": "811.219",
+       "name": "영양과 식이",
+       "credits": 2
+      },
+      {
+       "code": "811.220",
+       "name": "병원미생물학",
+       "credits": 2
+      },
+      {
+       "code": "811.221",
+       "name": "약물기전과 효과",
+       "credits": 2
+      },
+      {
+       "code": "811.222",
+       "name": "의사소통/인간관계 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "811.320",
+       "name": "지역사회간호학 2",
+       "credits": 2
+      },
+      {
+       "code": "811.322",
+       "name": "재활간호학 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "811.323",
+       "name": "간호정보학 및 실습",
+       "credits": 2
+      },
+      {
+       "code": "811.324",
+       "name": "성인건강간호학 1",
+       "credits": 3
+      },
+      {
+       "code": "811.325",
+       "name": "성인건강간호학실습 1",
+       "credits": 3
+      },
+      {
+       "code": "811.326",
+       "name": "성인건강간호학 2",
+       "credits": 3
+      },
+      {
+       "code": "811.327",
+       "name": "성인건강간호학실습 2",
+       "credits": 3
+      },
+      {
+       "code": "811.328",
+       "name": "아동건강간호학",
+       "credits": 3
+      },
+      {
+       "code": "811.329",
+       "name": "아동건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.330",
+       "name": "정신건강간호학 1",
+       "credits": 2
+      },
+      {
+       "code": "811.331",
+       "name": "노인건강간호학 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "811.332",
+       "name": "지역사회간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.403",
+       "name": "간호연구개론",
+       "credits": 2
+      },
+      {
+       "code": "811.409",
+       "name": "간호관리학",
+       "credits": 3
+      },
+      {
+       "code": "811.410",
+       "name": "간호관리학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.416",
+       "name": "간호특론",
+       "credits": 2
+      },
+      {
+       "code": "811.421",
+       "name": "간호연구실습",
+       "credits": 1
+      },
+      {
+       "code": "811.422",
+       "name": "간호윤리세미나",
+       "credits": 1
+      },
+      {
+       "code": "811.423",
+       "name": "정신건강간호학 2",
+       "credits": 2
+      },
+      {
+       "code": "811.424",
+       "name": "정신건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.425",
+       "name": "출산기가족간호학",
+       "credits": 3
+      },
+      {
+       "code": "811.426",
+       "name": "출산기가족간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "M1991.000500",
+       "name": "가족건강간호학",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s21",
+      "s22",
+      "s23"
+     ],
+     "note": "옛 교과과정 표(간호대)의 전필 과목을 2022 목록 번호에 맞춘 것. 표의 '건강증진행위 개론(2)'은 2022 목록에서 번호를 못 찾았고, 성인건강간호학 1(표 4학점 vs 목록 3학점)·출산기간호학(목록 이름 출산기가족간호학)처럼 표와 목록이 어긋난 곳이 있다. 옛 과목과 새 전필(32과목)의 대응·76학점 계산 방식은 공개 자료에 없다."
+    },
+    {
+     "id": "nur-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 9학점 이상(전공 85 − 전필 76). 간호학과 과목만 인정(타학과 과목 불인정)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "M1991.002900",
+       "name": "인간발달",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003100",
+       "name": "생애주기별 건강증진",
+       "credits": 3
+      },
+      {
+       "code": "811.219",
+       "name": "영양과 식이",
+       "credits": 2
+      },
+      {
+       "code": "M2186.001000",
+       "name": "장애, 돌봄 그리고 간호",
+       "credits": 1
+      },
+      {
+       "code": "811.436",
+       "name": "중환자간호 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "811.437",
+       "name": "보건의료와 간호정책",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003200",
+       "name": "다문화사회의 이해와 간호",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003500",
+       "name": "지역사회 정신간호",
+       "credits": 2
+      },
+      {
+       "code": "M1991.004100",
+       "name": "여성의 건강과 간호",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003300",
+       "name": "현대건강문제와 간호",
+       "credits": 2
+      },
+      {
+       "code": "M1991.003600",
+       "name": "치매간호와 테크놀로지",
+       "credits": 3
+      },
+      {
+       "code": "M1991.003400",
+       "name": "간호통계프로그래밍개론",
+       "credits": 3
+      },
+      {
+       "code": "M2186.000500",
+       "name": "통합간호실무",
+       "credits": 1
+      },
+      {
+       "code": "M2186.000900",
+       "name": "응급간호실무",
+       "credits": 2
+      },
+      {
+       "code": "M1991.004200",
+       "name": "뇌와 뇌질환의 이해",
+       "credits": 1
+      },
+      {
+       "code": "M1991.004300",
+       "name": "국제보건과 간호",
+       "credits": 3
+      },
+      {
+       "code": "M1991.004400",
+       "name": "정보기술의 간호 도입 최신 동향",
+       "credits": 1
+      },
+      {
+       "code": "M1991.004600",
+       "name": "간호통계세미나",
+       "credits": 1
+      },
+      {
+       "code": "M1991.004900",
+       "name": "의료관련감염관리",
+       "credits": 2
+      },
+      {
+       "code": "M1991.005000",
+       "name": "수면 건강과 간호",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "2025 표의 전선 28과목. 그중 8과목은 공개 자료에 번호가 없다. 2학년 1·2학기, 4학년 2학기에 나눠 듣기 권장."
+    },
+    {
+     "id": "nur-free",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "자유선택 9학점(교양 36 + 전공 85 외 졸업 130 채우기; 전선·교양·부전공·복수전공 등)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21"
+     ],
+     "note": "2019학번 이전 원래 기준은 자유선택 8(140 = 교양 36 + 전필 96 + 8). 2024-02 졸업부터 신 기준 9."
+    },
+    {
+     "id": "nur-practicum",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "임상·실습 과목은 모두 전필에 포함(10과목). 총 실습 시간 기준은 공개 자료에 없음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1991.001700",
+       "name": "기본간호학실습",
+       "credits": 1
+      },
+      {
+       "code": "811.323",
+       "name": "간호정보학및실습",
+       "credits": 2
+      },
+      {
+       "code": "811.325",
+       "name": "성인건강간호학실습 1",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002400",
+       "name": "노인건강간호학실습",
+       "credits": 1
+      },
+      {
+       "code": "811.327",
+       "name": "성인건강간호학실습 2",
+       "credits": 3
+      },
+      {
+       "code": "811.329",
+       "name": "아동건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002100",
+       "name": "여성건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.410",
+       "name": "간호관리학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.424",
+       "name": "정신건강간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "811.332",
+       "name": "지역사회간호학실습",
+       "credits": 3
+      },
+      {
+       "code": "M1991.002800",
+       "name": "통합간호실습",
+       "credits": 1
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s3",
+      "s2"
+     ],
+     "note": "2024 목록 표기: 성인 1·2, 아동, 여성, 간호관리, 정신, 지역사회 실습 각 3－0－135, 노인 1－0－45, 기본간호학실습·통합간호실습 1－0－2. 졸업 판정은 전필 이수로 끝나며 시간 합계를 따로 세지 않는다."
+    },
+    {
+     "id": "nur-license",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "간호사 국가시험 응시는 졸업(간호교육 인증 대학) 뒤의 일 — 졸업 요건이 아님",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4"
+     ],
+     "note": "간호대 안내 책자: 2024 4주기 한국간호교육평가원 간호교육인증. 법령·국시원 원문은 열지 못했다(robots 차단). 보건교사 자격은 선발 뒤 교직 22학점 추가(선택).",
+     "extra": {
+      "graduation_required": false
+     }
+    },
+    {
+     "id": "nur-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 의무 — 공개 자료에서 찾지 못함",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "간호대 교과과정 페이지·2024 목록·안내 책자 어디에도 언급이 없다. 요건이 없을 수도 있으니 앱은 '확인 필요'로만 둔다."
+    },
+    {
+     "id": "nur-double-minor",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "간호학과는 다른 학과 학생에게 복수전공·부전공을 제공하지 않는다",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s3"
+     ],
+     "note": "2024 목록: 복수전공·부전공 이수규정 '해당사항 없음'. 간호학과 학생이 다른 전공을 복수·부전공하는 것은 가능(자유선택으로 안내)."
+    },
+    {
+     "id": "nur-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제 중 3개 영역 이상에서 12학점, '언어와 문학, 문화와 예술' 영역 권장과목(*표시) 1과목 필수",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s10",
+      "s13"
+     ],
+     "note": "표에서 12학점 칸은 위 네 영역에 걸쳐 있고 자연과 기술·생명과 환경 칸은 비어 있다. 권장과목(*) 목록은 해설의 교양 교과목 표 표시를 쓴다.",
+     "extra": {
+      "area": "학문의 세계"
+     }
+    },
+    {
+     "id": "nur-ge-humsoc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 인간과 사회 영역 1과목(3학점) 필수",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10"
+     ],
+     "extra": {
+      "area": "학문의 세계(인간과 사회)"
+     }
+    }
+   ],
+   "changed": "옛 교과과정(2019학번 이전) 전필 과목으로 전공 85(전필 76~85) — 학점은 졸업 시기 경과조치로 130.",
+   "note": "학점은 졸업 시기 기준(2024-02 이후 졸업 → 130). 교양은 입학 연도 기준으로 2020과 같다(간호대 2019 표: 사고와 표현 4, 외국어 4~6, 과학 8, 학문의 세계 12 + 인간과 사회 3, 전체 3~5). 옛 전필 과목이 새 76학점에 어떻게 들어가는지는 학과 판단."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2019,
+   "basis": "졸업 시기",
+   "what": "2019학번 이전 입학생도 2024년 2월 졸업부터 130 = 교양 36 + 전공 85(전필 76~85) + 자유 9 (2022-02~2023-08 졸업자는 140 유지·전필 일부 전선 대체 경과)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2020,
+   "basis": "입학 연도",
+   "what": "새 교과과정: 졸업 140 → 130, 전공 96(모두 전필) → 85(전필 76 이상 + 전선 9), 자유선택 9",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "외국어 4~6 → 6, 전체 교양 3~5 → 3(간호대 2020 표 각주)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 체계 개편(지성의 열쇠 12: 문화·역사·과학 중 2개 영역 이상 9 + 인간의 이해와 사회 분석 3), 전선 목록 확대(신설 과목)",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "2019학번(신 기준 130 적용)의 옛 전필 과목이 '전공필수 76~85학점'에 어떻게 들어가는지, 옛 과목이 없어졌을 때 새 과목으로 대신하는 표",
+  "2020학번 전체 교양 학점: 간호대 표 3~5 vs 2020 해설 4~6",
+  "국가시험·인증과 관련해 졸업 전에 따로 채워야 하는 실습 시간·과목이 있는지(공개 자료에 없음)",
+  "(1차와 같음) 2025 신설 전선 과목 번호, 영어 진행 강좌 의무 여부",
+  "2025 교과과정 책자(누리집 게시물은 권한 필요)에 있는 신설 전선 8과목의 과목 번호",
+  "응급간호실무 학점(2024 목록 1 vs 2025 표 2), 지역사회 정신간호와 지역사회정신간호 및 실습이 같은 과목인지",
+  "영어 진행 강좌 의무가 간호학과에 있는지(공개 자료에 언급 없음)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.112 □ 간호대학",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "간호대학, 학부과정 교과과정",
+   "url": "https://nursing.snu.ac.kr/education/undergraduate/curriculum",
+   "locator": "'2025 학부 교과과정(2025학번 이후)' 표와 각주",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "간호대학 811. 간호학과 pp.50–51(교과목·이수표준형태·이수규정·경과조치)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "간호대학, 2025 대학 안내 책자(PDF)",
+   "url": "https://nursing.snu.ac.kr/webdata/pdf/2025-brochure-ko.pdf",
+   "locator": "학사과정·학년별 교과목 쪽(18–19), 연혁(4주기 간호교육인증 2024)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 학사과정 복수·부전공 이수학점 기준(p.10–11)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "간호대학, 학부과정 교과과정",
+   "url": "https://nursing.snu.ac.kr/education/undergraduate/curriculum",
+   "locator": "'2025 학부 교과과정(2025학번 이후)' 표",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.118 □ 간호대학",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.9 □ 간호대학",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "학부대학 게시, 2024학년도 대학별 교양 이수규정(PDF)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2024_2.pdf",
+   "locator": "PDF p.6 □ 간호대학",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.17 □ 간호대학",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "간호대학, 학부과정 교과과정",
+   "url": "https://nursing.snu.ac.kr/education/undergraduate/curriculum",
+   "locator": "'2021 학부 교과과정(2021학번 이후)' 표",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "학부대학 게시, 2024학년도 대학별 교양 이수규정(PDF)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2024_2.pdf",
+   "locator": "PDF p.6 □ 간호대학(표 그림으로 칸 확인)",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "학부대학 게시, 2023학년도 대학별 교양 이수규정(PDF)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2023_2.pdf",
+   "locator": "PDF p.6 □ 간호대학",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 p.8",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1 p.8",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "p.17 □ 간호대학",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "간호대학, 학부과정 교과과정",
+   "url": "https://nursing.snu.ac.kr/education/undergraduate/curriculum",
+   "locator": "'2020 학부 교과과정(2020학번 이후)' 표 각주 1)·2)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.17 □ 간호대학",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "간호대학, 학부과정 교과과정",
+   "url": "https://nursing.snu.ac.kr/education/undergraduate/curriculum",
+   "locator": "'2020 학부 교과과정(2020학번 이후)' 표",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 p.8(간호대학 '2020학년도 입학자부터 적용')",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "간호대학 811. 간호학과 pp.50–51(이수규정 ②, [경과조치] ①②)",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "서울대학교, 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "간호대학 811. 간호학과 pp.47–48(교과목·이수규정·경과조치)",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "간호대학, 학부과정 교과과정",
+   "url": "https://nursing.snu.ac.kr/education/undergraduate/curriculum",
+   "locator": "'2019 학부 교과과정(2019학번 이전)' 표",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "서울대학교, 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 p.8(간호대학 140/96, 2010학년도 입학자부터)",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 아래 [경과조치]",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

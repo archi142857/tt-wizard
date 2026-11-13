@@ -1,0 +1,2695 @@
+{
+ "id": "p-8bc02fbf",
+ "college": "음악대학",
+ "unit": "음악학과",
+ "program": "음악학과",
+ "kind": "major",
+ "depts": [
+  "음악학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "음악대학",
+ "exists_for": [
+  2023,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": {
+  "name": "작곡과 이론전공",
+  "entry_years": [
+   2019,
+   2022
+  ],
+  "note": "2023학번부터 음악학과. 2019~2022학번 이론전공 학생은 지금 음악학과 내규의 \"~22학번까지\" 표를 따른다. 그 학번 요건은 이 프로그램의 [2019, 2022] 버전."
+ },
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 46,
+    "parallel": 46,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s1",
+     "s7",
+     "s4",
+     "s6"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s8",
+    "s9",
+    "s10"
+   ],
+   "requirements": [
+    {
+     "id": "musicology-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 음악학 24학점(25학번부터): 음악학개론, 음악미학, 음악학세미나 1~4, 음악연구방법론, 전공이론 2학기, 음악이론사 1(4학년 전필로 옮김)",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "6522.1319",
+       "name": "음악학개론",
+       "credits": 3
+      },
+      {
+       "code": "6522.1318",
+       "name": "음악미학",
+       "credits": 3
+      },
+      {
+       "code": "M3535.001700",
+       "name": "음악학세미나 1",
+       "credits": 2,
+       "alt_codes": [
+        "652.275(음악이론세미나 1)"
+       ]
+      },
+      {
+       "code": "M3535.001800",
+       "name": "음악학세미나 2",
+       "credits": 2,
+       "alt_codes": [
+        "652.276"
+       ]
+      },
+      {
+       "code": "M3535.001900",
+       "name": "음악학세미나 3",
+       "credits": 2,
+       "alt_codes": [
+        "652.277"
+       ]
+      },
+      {
+       "code": "M3535.002000",
+       "name": "음악학세미나 4",
+       "credits": 2,
+       "alt_codes": [
+        "652.278"
+       ]
+      },
+      {
+       "code": "6522.3378",
+       "name": "음악연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "6522.458A",
+       "name": "전공이론",
+       "credits": 2
+      },
+      {
+       "code": "6522.2356",
+       "name": "음악이론사 1",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "음악학세미나 1~4는 2025-2부터 새 번호(M3535.0017~0020), 그 전 번호는 음악이론세미나 1~4(652.275~278, 같은 교과)."
+    },
+    {
+     "id": "musicology-basic",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 기초공통 22학점: 서양음악사 1~4, 화성법(이론) 3·4, 대위법(이론) 3·4, 시창청음 3·4, 음악분석 1~4",
+     "min_count": null,
+     "min_credits": 22,
+     "courses": [
+      {
+       "code": "650.2241",
+       "name": "서양음악사 1",
+       "credits": 2
+      },
+      {
+       "code": "650.2242",
+       "name": "서양음악사 2",
+       "credits": 2
+      },
+      {
+       "code": "650.3243",
+       "name": "서양음악사 3",
+       "credits": 2
+      },
+      {
+       "code": "650.3244",
+       "name": "서양음악사 4",
+       "credits": 2
+      },
+      {
+       "code": "6522.2283",
+       "name": "화성법(이론) 3",
+       "credits": 1
+      },
+      {
+       "code": "6522.2284",
+       "name": "화성법(이론) 4",
+       "credits": 1
+      },
+      {
+       "code": "6522.2237",
+       "name": "대위법(이론) 3",
+       "credits": 1
+      },
+      {
+       "code": "6522.2238",
+       "name": "대위법(이론) 4",
+       "credits": 1
+      },
+      {
+       "code": "650.2246",
+       "name": "시창청음 3",
+       "credits": 1
+      },
+      {
+       "code": "650.2247",
+       "name": "시창청음 4",
+       "credits": 1
+      },
+      {
+       "code": "650.3303",
+       "name": "음악분석 1",
+       "credits": 2
+      },
+      {
+       "code": "650.3304",
+       "name": "음악분석 2",
+       "credits": 2
+      },
+      {
+       "code": "650.4401",
+       "name": "음악분석 3",
+       "credits": 2
+      },
+      {
+       "code": "650.4402",
+       "name": "음악분석 4",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "화성법·대위법·시창청음은 음악학과 개설 강좌를 들어야 한다(졸업연도에 지도교수 승인 \"타전공 기초이론 교과목 인정서\" 내면 예외, 음대 타전공 소속 다전공생은 본인 주전공 개설분 인정). 강좌(분반) 단위 조건이라 앱에서는 확인 필요로 둔다."
+    },
+    {
+     "id": "musicology-y1-elective",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "대위법(이론) 1·2, 시창청음 1·2, 화성법(이론) 1·2(6학점)는 24학번부터 전공선택(전필 46에 넣지 않음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "6522.1235",
+       "name": "대위법(이론) 1",
+       "credits": 1
+      },
+      {
+       "code": "6522.1236",
+       "name": "대위법(이론) 2",
+       "credits": 1
+      },
+      {
+       "code": "650.1240",
+       "name": "시창청음 1",
+       "credits": 1
+      },
+      {
+       "code": "650.1245",
+       "name": "시창청음 2",
+       "credits": 1
+      },
+      {
+       "code": "6522.1281",
+       "name": "화성법(이론) 1",
+       "credits": 1
+      },
+      {
+       "code": "6522.1282",
+       "name": "화성법(이론) 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s1"
+     ]
+    },
+    {
+     "id": "musicology-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학사학위논문: 전공이론 2개 학기 이수 뒤 논문 제출, 학기말 논문발표회에서 발표·심사 통과(안 하면 졸업자격 없음). 필름 스코어링 전공은 영상 음악 3개(총 10분 이상)+분석 에세이, 뮤직 프로덕션·엔지니어링 전공은 녹음작품 3개+에세이(2024학번부터, 복수전공생 포함)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "music-elective-scope",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정과목: 음악대학 전 과목",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s3"
+     ]
+    },
+    {
+     "id": "musicology-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(2023-1 진입생부터) 필수 이수 교과목 중 최소 39학점 + 학사논문 제출·발표. 타 단과대학 소속: 음악학개론, 음악미학, 서양음악사 1~4, 음악연구방법론, 음악분석 1~4(음악학과 개설), 음악학세미나 1~4, 전공이론 2학기, 음악이론사 1",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "6522.1319",
+       "name": "음악학개론",
+       "credits": 3
+      },
+      {
+       "code": "6522.1318",
+       "name": "음악미학",
+       "credits": 3
+      },
+      {
+       "code": "650.2241",
+       "name": "서양음악사 1",
+       "credits": 2
+      },
+      {
+       "code": "650.2242",
+       "name": "서양음악사 2",
+       "credits": 2
+      },
+      {
+       "code": "650.3243",
+       "name": "서양음악사 3",
+       "credits": 2
+      },
+      {
+       "code": "650.3244",
+       "name": "서양음악사 4",
+       "credits": 2
+      },
+      {
+       "code": "6522.3378",
+       "name": "음악연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "650.3303",
+       "name": "음악분석 1",
+       "credits": 2
+      },
+      {
+       "code": "650.3304",
+       "name": "음악분석 2",
+       "credits": 2
+      },
+      {
+       "code": "650.4401",
+       "name": "음악분석 3",
+       "credits": 2
+      },
+      {
+       "code": "650.4402",
+       "name": "음악분석 4",
+       "credits": 2
+      },
+      {
+       "code": "M3535.001700",
+       "name": "음악학세미나 1",
+       "credits": 2,
+       "alt_codes": [
+        "652.275"
+       ]
+      },
+      {
+       "code": "M3535.001800",
+       "name": "음악학세미나 2",
+       "credits": 2,
+       "alt_codes": [
+        "652.276"
+       ]
+      },
+      {
+       "code": "M3535.001900",
+       "name": "음악학세미나 3",
+       "credits": 2,
+       "alt_codes": [
+        "652.277"
+       ]
+      },
+      {
+       "code": "M3535.002000",
+       "name": "음악학세미나 4",
+       "credits": 2,
+       "alt_codes": [
+        "652.278"
+       ]
+      },
+      {
+       "code": "6522.458A",
+       "name": "전공이론",
+       "credits": 2
+      },
+      {
+       "code": "6522.2356",
+       "name": "음악이론사 1",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "타 단과대학 표의 합은 40학점이라 \"최소 39\"와 1학점 차이. 음대 소속: 음악분석 1~4 수강자(국악과 제외)는 서양음악사 8학점 중복 인정 + 음악학세미나·서양음악사문헌 1~4 필수, 이론(화성·대위·분석) 1~6 수강자는 서양음악사 중복 인정(국악과는 4학점만) + 음악학세미나·음악분석 1~4(음악학과 개설) 필수. 면접 선발."
+    },
+    {
+     "id": "musicology-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공(2023-1 진입생부터): 필수 이수 교과목 목록 중 택하여 최소 21학점. 타 단과대학 목록: 음악학개론, 음악미학, 서양음악사 1~4, 음악분석 1·2(음악학과 개설), 음악연구방법론, 음악이론사 1",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "6522.1319",
+       "name": "음악학개론",
+       "credits": 3
+      },
+      {
+       "code": "6522.1318",
+       "name": "음악미학",
+       "credits": 3
+      },
+      {
+       "code": "650.2241",
+       "name": "서양음악사 1",
+       "credits": 2
+      },
+      {
+       "code": "650.2242",
+       "name": "서양음악사 2",
+       "credits": 2
+      },
+      {
+       "code": "650.3243",
+       "name": "서양음악사 3",
+       "credits": 2
+      },
+      {
+       "code": "650.3244",
+       "name": "서양음악사 4",
+       "credits": 2
+      },
+      {
+       "code": "650.3303",
+       "name": "음악분석 1",
+       "credits": 2
+      },
+      {
+       "code": "650.3304",
+       "name": "음악분석 2",
+       "credits": 2
+      },
+      {
+       "code": "6522.3378",
+       "name": "음악연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "6522.2356",
+       "name": "음악이론사 1",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "음대 소속 진입자는 서양음악사 중복 인정 없이 음악학세미나 1~4와 서양음악사문헌 두 과목(또는 음악분석 1·2)을 필수로."
+    },
+    {
+     "id": "music-double-overlap",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "음악대학 복수·부전공 내규: 주전공·복수전공 간 공통 인정 전공교과목(대학 공통 포함)은 최대 3개까지 중복 인정, 부전공은 중복 인정 없음. 복수전공 전공실기는 학과 내규대로 반복이수하되 4개 학기 이상 이수 뒤 심사로 학기 수 감면 가능. 작곡과·관현악과·국악과 안 세부전공끼리는 복수·부전공 불가",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5"
+     ],
+     "note": "2026.3.1. 시행. 그 전에 복수·부전공을 이수 중인 학생은 원하면 종전 내규 적용. 신청 자격: 2개 정규학기 이상, 33학점 이상, 평점 3.0 이상, 실기능력(이론 분야는 음악이론 지식)."
+    },
+    {
+     "id": "ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학년도 입학생부터 적용)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1 필수 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기) 중 택 1",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000700"
+       ]
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000800"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6"
+     ],
+     "note": "대학 글쓰기 1(F11.101) 필수, 대학 글쓰기 2 세 과목 중 1과목. 권장 이수학기 [1-1](미대) / [1-1,1-2]·[2-1](음대)."
+    },
+    {
+     "id": "ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학·과학·컴퓨팅 3학점(지정 과목 없음)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상, 역사적 탐구와 철학적 사유, 인간의 이해와 사회 분석, 과학적 사고와 응용 4개 영역 중 3개 영역에서 9학점 이상",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ],
+     "extra": {
+      "distribution": {
+       "areas": [
+        "문화 해석과 상상",
+        "역사적 탐구와 철학적 사유",
+        "인간의 이해와 사회 분석",
+        "과학적 사고와 응용"
+       ],
+       "min_areas": 3
+      }
+     }
+    },
+    {
+     "id": "ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1, 베리타스 강좌 2, 베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 중 자유 선택 11학점",
+     "min_count": null,
+     "min_credits": 11,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    }
+   ],
+   "note": "1차 2025학번 요건 그대로. 2026학번도 같다(2026.11.11 개정 내규가 \"25학번부터~\")."
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 46,
+    "parallel": 46,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s11",
+     "s17",
+     "s18"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s11"
+   ],
+   "requirements": [
+    {
+     "id": "musicology-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 음악학 24학점(24학번): 음악학개론, 음악미학, 음악이론사 1(2학년), 음악학세미나 1~4, 음악연구방법론, 전공이론 2학기",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "6522.1319",
+       "name": "음악학개론",
+       "credits": 3
+      },
+      {
+       "code": "6522.1318",
+       "name": "음악미학",
+       "credits": 3
+      },
+      {
+       "code": "M3535.001700",
+       "name": "음악학세미나 1",
+       "credits": 2,
+       "alt_codes": [
+        "652.275(음악이론세미나 1)"
+       ]
+      },
+      {
+       "code": "M3535.001800",
+       "name": "음악학세미나 2",
+       "credits": 2,
+       "alt_codes": [
+        "652.276"
+       ]
+      },
+      {
+       "code": "M3535.001900",
+       "name": "음악학세미나 3",
+       "credits": 2,
+       "alt_codes": [
+        "652.277"
+       ]
+      },
+      {
+       "code": "M3535.002000",
+       "name": "음악학세미나 4",
+       "credits": 2,
+       "alt_codes": [
+        "652.278"
+       ]
+      },
+      {
+       "code": "6522.3378",
+       "name": "음악연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "6522.458A",
+       "name": "전공이론",
+       "credits": 2
+      },
+      {
+       "code": "6522.2356",
+       "name": "음악이론사 1",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "note": "과목은 25학번과 같고 음악이론사 1의 학년(2학년)만 다르다. 음악학세미나 1~4는 2025-2부터 새 번호(M3535.0017~0020), 그 전 번호는 음악이론세미나 1~4(652.275~278, 같은 교과)."
+    },
+    {
+     "id": "musicology-basic",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 기초공통 22학점: 서양음악사 1~4, 화성법(이론) 3·4, 대위법(이론) 3·4, 시창청음 3·4, 음악분석 1~4",
+     "min_count": null,
+     "min_credits": 22,
+     "courses": [
+      {
+       "code": "650.2241",
+       "name": "서양음악사 1",
+       "credits": 2
+      },
+      {
+       "code": "650.2242",
+       "name": "서양음악사 2",
+       "credits": 2
+      },
+      {
+       "code": "650.3243",
+       "name": "서양음악사 3",
+       "credits": 2
+      },
+      {
+       "code": "650.3244",
+       "name": "서양음악사 4",
+       "credits": 2
+      },
+      {
+       "code": "6522.2283",
+       "name": "화성법(이론) 3",
+       "credits": 1
+      },
+      {
+       "code": "6522.2284",
+       "name": "화성법(이론) 4",
+       "credits": 1
+      },
+      {
+       "code": "6522.2237",
+       "name": "대위법(이론) 3",
+       "credits": 1
+      },
+      {
+       "code": "6522.2238",
+       "name": "대위법(이론) 4",
+       "credits": 1
+      },
+      {
+       "code": "650.2246",
+       "name": "시창청음 3",
+       "credits": 1
+      },
+      {
+       "code": "650.2247",
+       "name": "시창청음 4",
+       "credits": 1
+      },
+      {
+       "code": "650.3303",
+       "name": "음악분석 1",
+       "credits": 2
+      },
+      {
+       "code": "650.3304",
+       "name": "음악분석 2",
+       "credits": 2
+      },
+      {
+       "code": "650.4401",
+       "name": "음악분석 3",
+       "credits": 2
+      },
+      {
+       "code": "650.4402",
+       "name": "음악분석 4",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "화성법·대위법·시창청음은 음악학과 개설 강좌를 들어야 한다(졸업연도에 지도교수 승인 \"타전공 기초이론 교과목 인정서\" 내면 예외, 음대 타전공 소속 다전공생은 본인 주전공 개설분 인정). 강좌(분반) 단위 조건이라 앱에서는 확인 필요로 둔다."
+    },
+    {
+     "id": "musicology-y1-elective",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "대위법(이론) 1·2, 시창청음 1·2, 화성법(이론) 1·2(6학점)는 24학번부터 전공선택(전필 46에 넣지 않음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "6522.1235",
+       "name": "대위법(이론) 1",
+       "credits": 1
+      },
+      {
+       "code": "6522.1236",
+       "name": "대위법(이론) 2",
+       "credits": 1
+      },
+      {
+       "code": "650.1240",
+       "name": "시창청음 1",
+       "credits": 1
+      },
+      {
+       "code": "650.1245",
+       "name": "시창청음 2",
+       "credits": 1
+      },
+      {
+       "code": "6522.1281",
+       "name": "화성법(이론) 1",
+       "credits": 1
+      },
+      {
+       "code": "6522.1282",
+       "name": "화성법(이론) 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s1"
+     ]
+    },
+    {
+     "id": "musicology-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학사학위논문: 전공이론 2개 학기 이수 뒤 논문 제출, 학기말 논문발표회에서 발표·심사 통과(안 하면 졸업자격 없음). 필름 스코어링 전공은 영상 음악 3개(총 10분 이상)+분석 에세이, 뮤직 프로덕션·엔지니어링 전공은 녹음작품 3개+에세이(2024학번부터, 복수전공생 포함)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "music-elective-scope",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정과목: 음악대학 전 과목",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s3"
+     ]
+    },
+    {
+     "id": "musicology-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(2023-1 진입생부터) 필수 이수 교과목 중 최소 39학점 + 학사논문 제출·발표. 타 단과대학 소속: 음악학개론, 음악미학, 서양음악사 1~4, 음악연구방법론, 음악분석 1~4(음악학과 개설), 음악학세미나 1~4, 전공이론 2학기, 음악이론사 1",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "6522.1319",
+       "name": "음악학개론",
+       "credits": 3
+      },
+      {
+       "code": "6522.1318",
+       "name": "음악미학",
+       "credits": 3
+      },
+      {
+       "code": "650.2241",
+       "name": "서양음악사 1",
+       "credits": 2
+      },
+      {
+       "code": "650.2242",
+       "name": "서양음악사 2",
+       "credits": 2
+      },
+      {
+       "code": "650.3243",
+       "name": "서양음악사 3",
+       "credits": 2
+      },
+      {
+       "code": "650.3244",
+       "name": "서양음악사 4",
+       "credits": 2
+      },
+      {
+       "code": "6522.3378",
+       "name": "음악연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "650.3303",
+       "name": "음악분석 1",
+       "credits": 2
+      },
+      {
+       "code": "650.3304",
+       "name": "음악분석 2",
+       "credits": 2
+      },
+      {
+       "code": "650.4401",
+       "name": "음악분석 3",
+       "credits": 2
+      },
+      {
+       "code": "650.4402",
+       "name": "음악분석 4",
+       "credits": 2
+      },
+      {
+       "code": "M3535.001700",
+       "name": "음악학세미나 1",
+       "credits": 2,
+       "alt_codes": [
+        "652.275"
+       ]
+      },
+      {
+       "code": "M3535.001800",
+       "name": "음악학세미나 2",
+       "credits": 2,
+       "alt_codes": [
+        "652.276"
+       ]
+      },
+      {
+       "code": "M3535.001900",
+       "name": "음악학세미나 3",
+       "credits": 2,
+       "alt_codes": [
+        "652.277"
+       ]
+      },
+      {
+       "code": "M3535.002000",
+       "name": "음악학세미나 4",
+       "credits": 2,
+       "alt_codes": [
+        "652.278"
+       ]
+      },
+      {
+       "code": "6522.458A",
+       "name": "전공이론",
+       "credits": 2
+      },
+      {
+       "code": "6522.2356",
+       "name": "음악이론사 1",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "타 단과대학 표의 합은 40학점이라 \"최소 39\"와 1학점 차이. 음대 소속: 음악분석 1~4 수강자(국악과 제외)는 서양음악사 8학점 중복 인정 + 음악학세미나·서양음악사문헌 1~4 필수, 이론(화성·대위·분석) 1~6 수강자는 서양음악사 중복 인정(국악과는 4학점만) + 음악학세미나·음악분석 1~4(음악학과 개설) 필수. 면접 선발."
+    },
+    {
+     "id": "musicology-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공(2023-1 진입생부터): 필수 이수 교과목 목록 중 택하여 최소 21학점. 타 단과대학 목록: 음악학개론, 음악미학, 서양음악사 1~4, 음악분석 1·2(음악학과 개설), 음악연구방법론, 음악이론사 1",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "6522.1319",
+       "name": "음악학개론",
+       "credits": 3
+      },
+      {
+       "code": "6522.1318",
+       "name": "음악미학",
+       "credits": 3
+      },
+      {
+       "code": "650.2241",
+       "name": "서양음악사 1",
+       "credits": 2
+      },
+      {
+       "code": "650.2242",
+       "name": "서양음악사 2",
+       "credits": 2
+      },
+      {
+       "code": "650.3243",
+       "name": "서양음악사 3",
+       "credits": 2
+      },
+      {
+       "code": "650.3244",
+       "name": "서양음악사 4",
+       "credits": 2
+      },
+      {
+       "code": "650.3303",
+       "name": "음악분석 1",
+       "credits": 2
+      },
+      {
+       "code": "650.3304",
+       "name": "음악분석 2",
+       "credits": 2
+      },
+      {
+       "code": "6522.3378",
+       "name": "음악연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "6522.2356",
+       "name": "음악이론사 1",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "음대 소속 진입자는 서양음악사 중복 인정 없이 음악학세미나 1~4와 서양음악사문헌 두 과목(또는 음악분석 1·2)을 필수로."
+    },
+    {
+     "id": "music-double-overlap",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "음악대학 복수·부전공 내규: 주전공·복수전공 간 공통 인정 전공교과목(대학 공통 포함)은 최대 3개까지 중복 인정, 부전공은 중복 인정 없음. 복수전공 전공실기는 학과 내규대로 반복이수하되 4개 학기 이상 이수 뒤 심사로 학기 수 감면 가능. 작곡과·관현악과·국악과 안 세부전공끼리는 복수·부전공 불가",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5"
+     ],
+     "note": "2026.3.1. 시행. 그 전에 복수·부전공을 이수 중인 학생은 원하면 종전 내규 적용. 신청 자격: 2개 정규학기 이상, 33학점 이상, 평점 3.0 이상, 실기능력(이론 분야는 음악이론 지식)."
+    },
+    {
+     "id": "ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(학문의 기초·학문의 세계 체계, 2019~2024학번)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1 필수 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기) 중 택 1",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101(2025-1부터 개설 번호)"
+       ]
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.201"
+       ]
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.202"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14",
+      "s15",
+      "s16"
+     ],
+     "note": "2025-1부터 같은 과목이 F11 번호로 열린다(옛 학번이 지금 들으면 F11 번호)."
+    },
+    {
+     "id": "ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목: 2021~2024학번 6학점, 2019·2020학번 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14",
+      "s15"
+     ],
+     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort."
+    },
+    {
+     "id": "ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 중 자유 선택: 2021~2024학번 14학점, 2019·2020학번 14~16학점(외국어 학점에 따라)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회, 자연과 기술, 생명과 환경 중 4개 영역 이상에서 12학점 이상",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14",
+      "s15"
+     ]
+    }
+   ],
+   "changed": "과목 같음(음악이론사 1을 2학년에 듣는 표). 교양 옛 체계.",
+   "note": "25학번 표는 \"24학번 다전공 시 필수\"라 다전공하는 24학번은 25학번 표(음악이론사 1을 4학년)를 따른다. 과목 구성은 같다. 교양은 college_common.ge_by_cohort(학번별)를 따른다."
+  },
+  {
+   "entry_years": [
+    2023,
+    2023
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 52,
+    "parallel": 46,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s19",
+     "s11",
+     "s17",
+     "s18"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s19",
+    "s17"
+   ],
+   "requirements": [
+    {
+     "id": "musicology-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 음악학 24학점(23학번): 음악학개론, 음악미학, 음악이론사 1, 음악연구방법론, 음악학세미나 1~4, 전공이론 2학기(음악심리학·음악이론사 2는 전선 전환)",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "6522.1319",
+       "name": "음악학개론",
+       "credits": 3
+      },
+      {
+       "code": "6522.1318",
+       "name": "음악미학",
+       "credits": 3
+      },
+      {
+       "code": "M3535.001700",
+       "name": "음악학세미나 1",
+       "credits": 2,
+       "alt_codes": [
+        "652.275(음악이론세미나 1)"
+       ]
+      },
+      {
+       "code": "M3535.001800",
+       "name": "음악학세미나 2",
+       "credits": 2,
+       "alt_codes": [
+        "652.276"
+       ]
+      },
+      {
+       "code": "M3535.001900",
+       "name": "음악학세미나 3",
+       "credits": 2,
+       "alt_codes": [
+        "652.277"
+       ]
+      },
+      {
+       "code": "M3535.002000",
+       "name": "음악학세미나 4",
+       "credits": 2,
+       "alt_codes": [
+        "652.278"
+       ]
+      },
+      {
+       "code": "6522.3378",
+       "name": "음악연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "6522.458A",
+       "name": "전공이론",
+       "credits": 2
+      },
+      {
+       "code": "6522.2356",
+       "name": "음악이론사 1",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "과목은 25학번과 같고 음악이론사 1의 학년(2학년)만 다르다. 음악학세미나 1~4는 2025-2부터 새 번호(M3535.0017~0020), 그 전 번호는 음악이론세미나 1~4(652.275~278, 같은 교과)."
+    },
+    {
+     "id": "musicology-basic",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 기초공통 28학점(23학번): 화성법(이론)·대위법(이론)·시창청음 1~4, 서양음악사 1~4, 음악분석 1~4",
+     "min_count": null,
+     "min_credits": 28,
+     "courses": [
+      {
+       "code": "6522.1235",
+       "name": "대위법(이론) 1",
+       "credits": 1
+      },
+      {
+       "code": "6522.1236",
+       "name": "대위법(이론) 2",
+       "credits": 1
+      },
+      {
+       "code": "650.1240",
+       "name": "시창청음 1",
+       "credits": 1
+      },
+      {
+       "code": "650.1245",
+       "name": "시창청음 2",
+       "credits": 1
+      },
+      {
+       "code": "6522.1281",
+       "name": "화성법(이론) 1",
+       "credits": 1
+      },
+      {
+       "code": "6522.1282",
+       "name": "화성법(이론) 2",
+       "credits": 1
+      },
+      {
+       "code": "650.2241",
+       "name": "서양음악사 1",
+       "credits": 2
+      },
+      {
+       "code": "650.2242",
+       "name": "서양음악사 2",
+       "credits": 2
+      },
+      {
+       "code": "650.3243",
+       "name": "서양음악사 3",
+       "credits": 2
+      },
+      {
+       "code": "650.3244",
+       "name": "서양음악사 4",
+       "credits": 2
+      },
+      {
+       "code": "6522.2283",
+       "name": "화성법(이론) 3",
+       "credits": 1
+      },
+      {
+       "code": "6522.2284",
+       "name": "화성법(이론) 4",
+       "credits": 1
+      },
+      {
+       "code": "6522.2237",
+       "name": "대위법(이론) 3",
+       "credits": 1
+      },
+      {
+       "code": "6522.2238",
+       "name": "대위법(이론) 4",
+       "credits": 1
+      },
+      {
+       "code": "650.2246",
+       "name": "시창청음 3",
+       "credits": 1
+      },
+      {
+       "code": "650.2247",
+       "name": "시창청음 4",
+       "credits": 1
+      },
+      {
+       "code": "650.3303",
+       "name": "음악분석 1",
+       "credits": 2
+      },
+      {
+       "code": "650.3304",
+       "name": "음악분석 2",
+       "credits": 2
+      },
+      {
+       "code": "650.4401",
+       "name": "음악분석 3",
+       "credits": 2
+      },
+      {
+       "code": "650.4402",
+       "name": "음악분석 4",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "화성법·대위법·시창청음은 작곡과 이론전공 또는 음악학과 개설 강좌(23학번까지 문구)."
+    },
+    {
+     "id": "musicology-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학사학위논문: 전공이론 2개 학기 이수 뒤 논문 제출, 학기말 논문발표회에서 발표·심사 통과(안 하면 졸업자격 없음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s20"
+     ],
+     "note": "필름 스코어링·뮤직 프로덕션·엔지니어링 결과물 조항은 2024학년도 입학생부터라 이 학번엔 없다."
+    },
+    {
+     "id": "music-elective-scope",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정과목: 음악대학 전 과목",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s3"
+     ]
+    },
+    {
+     "id": "musicology-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(2023-1 진입생부터) 필수 이수 교과목 중 최소 39학점 + 학사논문 제출·발표. 타 단과대학 소속: 음악학개론, 음악미학, 서양음악사 1~4, 음악연구방법론, 음악분석 1~4(음악학과 개설), 음악학세미나 1~4, 전공이론 2학기, 음악이론사 1",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "6522.1319",
+       "name": "음악학개론",
+       "credits": 3
+      },
+      {
+       "code": "6522.1318",
+       "name": "음악미학",
+       "credits": 3
+      },
+      {
+       "code": "650.2241",
+       "name": "서양음악사 1",
+       "credits": 2
+      },
+      {
+       "code": "650.2242",
+       "name": "서양음악사 2",
+       "credits": 2
+      },
+      {
+       "code": "650.3243",
+       "name": "서양음악사 3",
+       "credits": 2
+      },
+      {
+       "code": "650.3244",
+       "name": "서양음악사 4",
+       "credits": 2
+      },
+      {
+       "code": "6522.3378",
+       "name": "음악연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "650.3303",
+       "name": "음악분석 1",
+       "credits": 2
+      },
+      {
+       "code": "650.3304",
+       "name": "음악분석 2",
+       "credits": 2
+      },
+      {
+       "code": "650.4401",
+       "name": "음악분석 3",
+       "credits": 2
+      },
+      {
+       "code": "650.4402",
+       "name": "음악분석 4",
+       "credits": 2
+      },
+      {
+       "code": "M3535.001700",
+       "name": "음악학세미나 1",
+       "credits": 2,
+       "alt_codes": [
+        "652.275"
+       ]
+      },
+      {
+       "code": "M3535.001800",
+       "name": "음악학세미나 2",
+       "credits": 2,
+       "alt_codes": [
+        "652.276"
+       ]
+      },
+      {
+       "code": "M3535.001900",
+       "name": "음악학세미나 3",
+       "credits": 2,
+       "alt_codes": [
+        "652.277"
+       ]
+      },
+      {
+       "code": "M3535.002000",
+       "name": "음악학세미나 4",
+       "credits": 2,
+       "alt_codes": [
+        "652.278"
+       ]
+      },
+      {
+       "code": "6522.458A",
+       "name": "전공이론",
+       "credits": 2
+      },
+      {
+       "code": "6522.2356",
+       "name": "음악이론사 1",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "타 단과대학 표의 합은 40학점이라 \"최소 39\"와 1학점 차이. 음대 소속: 음악분석 1~4 수강자(국악과 제외)는 서양음악사 8학점 중복 인정 + 음악학세미나·서양음악사문헌 1~4 필수, 이론(화성·대위·분석) 1~6 수강자는 서양음악사 중복 인정(국악과는 4학점만) + 음악학세미나·음악분석 1~4(음악학과 개설) 필수. 면접 선발."
+    },
+    {
+     "id": "musicology-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공(2023-1 진입생부터): 필수 이수 교과목 목록 중 택하여 최소 21학점. 타 단과대학 목록: 음악학개론, 음악미학, 서양음악사 1~4, 음악분석 1·2(음악학과 개설), 음악연구방법론, 음악이론사 1",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "6522.1319",
+       "name": "음악학개론",
+       "credits": 3
+      },
+      {
+       "code": "6522.1318",
+       "name": "음악미학",
+       "credits": 3
+      },
+      {
+       "code": "650.2241",
+       "name": "서양음악사 1",
+       "credits": 2
+      },
+      {
+       "code": "650.2242",
+       "name": "서양음악사 2",
+       "credits": 2
+      },
+      {
+       "code": "650.3243",
+       "name": "서양음악사 3",
+       "credits": 2
+      },
+      {
+       "code": "650.3244",
+       "name": "서양음악사 4",
+       "credits": 2
+      },
+      {
+       "code": "650.3303",
+       "name": "음악분석 1",
+       "credits": 2
+      },
+      {
+       "code": "650.3304",
+       "name": "음악분석 2",
+       "credits": 2
+      },
+      {
+       "code": "6522.3378",
+       "name": "음악연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "6522.2356",
+       "name": "음악이론사 1",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "음대 소속 진입자는 서양음악사 중복 인정 없이 음악학세미나 1~4와 서양음악사문헌 두 과목(또는 음악분석 1·2)을 필수로."
+    },
+    {
+     "id": "music-double-overlap",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "음악대학 복수·부전공 내규: 주전공·복수전공 간 공통 인정 전공교과목(대학 공통 포함)은 최대 3개까지 중복 인정, 부전공은 중복 인정 없음. 복수전공 전공실기는 학과 내규대로 반복이수하되 4개 학기 이상 이수 뒤 심사로 학기 수 감면 가능. 작곡과·관현악과·국악과 안 세부전공끼리는 복수·부전공 불가",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5"
+     ],
+     "note": "2026.3.1. 시행. 그 전에 복수·부전공을 이수 중인 학생은 원하면 종전 내규 적용. 신청 자격: 2개 정규학기 이상, 33학점 이상, 평점 3.0 이상, 실기능력(이론 분야는 음악이론 지식)."
+    },
+    {
+     "id": "ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(학문의 기초·학문의 세계 체계, 2019~2024학번)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1 필수 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기) 중 택 1",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101(2025-1부터 개설 번호)"
+       ]
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.201"
+       ]
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.202"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14",
+      "s15",
+      "s16"
+     ],
+     "note": "2025-1부터 같은 과목이 F11 번호로 열린다(옛 학번이 지금 들으면 F11 번호)."
+    },
+    {
+     "id": "ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목: 2021~2024학번 6학점, 2019·2020학번 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14",
+      "s15"
+     ],
+     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort."
+    },
+    {
+     "id": "ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 중 자유 선택: 2021~2024학번 14학점, 2019·2020학번 14~16학점(외국어 학점에 따라)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회, 자연과 기술, 생명과 환경 중 4개 영역 이상에서 12학점 이상",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14",
+      "s15"
+     ]
+    }
+   ],
+   "changed": "기초공통 28(화성법·대위법·시창청음 1·2도 전필). 필름 스코어링 등 졸업 결과물 조항 없음.",
+   "note": "음악학과 첫 학번."
+  },
+  {
+   "entry_years": [
+    2019,
+    2022
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 62,
+    "parallel": 62,
+    "double": 46,
+    "minor": 30,
+    "status": "확인",
+    "src": [
+     "s21",
+     "s22",
+     "s23",
+     "s24",
+     "s26",
+     "s27",
+     "s28"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s21",
+    "s29"
+   ],
+   "requirements": [
+    {
+     "id": "musicology-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 음악학 30학점(~22학번, 작곡과 이론전공): 음악학개론, 음악미학, 음악이론사 1·2, 음악심리학, 음악연구방법론, 음악학(음악이론)세미나 1~4, 전공이론 2학기",
+     "min_count": null,
+     "min_credits": 30,
+     "courses": [
+      {
+       "code": "6522.1319",
+       "name": "음악학개론",
+       "credits": 3
+      },
+      {
+       "code": "6522.1318",
+       "name": "음악미학",
+       "credits": 3
+      },
+      {
+       "code": "M3535.001700",
+       "name": "음악학세미나 1",
+       "credits": 2,
+       "alt_codes": [
+        "652.275~652.278 음악이론세미나 1~4(같은 교과, 2025-2부터 M3535.0017~0020 음악학세미나)"
+       ]
+      },
+      {
+       "code": "M3535.001800",
+       "name": "음악학세미나 2",
+       "credits": 2,
+       "alt_codes": [
+        "652.275~652.278 음악이론세미나 1~4(같은 교과, 2025-2부터 M3535.0017~0020 음악학세미나)"
+       ]
+      },
+      {
+       "code": "M3535.001900",
+       "name": "음악학세미나 3",
+       "credits": 2,
+       "alt_codes": [
+        "652.275~652.278 음악이론세미나 1~4(같은 교과, 2025-2부터 M3535.0017~0020 음악학세미나)"
+       ]
+      },
+      {
+       "code": "M3535.002000",
+       "name": "음악학세미나 4",
+       "credits": 2,
+       "alt_codes": [
+        "652.275~652.278 음악이론세미나 1~4(같은 교과, 2025-2부터 M3535.0017~0020 음악학세미나)"
+       ]
+      },
+      {
+       "code": "6522.3378",
+       "name": "음악연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "6522.458A",
+       "name": "전공이론",
+       "credits": 2
+      },
+      {
+       "code": "6522.2356",
+       "name": "음악이론사 1",
+       "credits": 3
+      },
+      {
+       "code": "6522.2357",
+       "name": "음악이론사 2",
+       "credits": 3
+      },
+      {
+       "code": "6522.3323",
+       "name": "음악심리학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23",
+      "s24"
+     ],
+     "note": "음악심리학은 2022학번까지 3학년 전필(내규 각주)."
+    },
+    {
+     "id": "musicology-basic",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 기초공통 32학점(~22학번): 화성법(이론)·대위법(이론)·시창청음 1~4, 건반화성 4학기, 서양음악사 1~4, 음악분석 1~4",
+     "min_count": null,
+     "min_credits": 32,
+     "courses": [
+      {
+       "code": "6522.1235",
+       "name": "대위법(이론) 1",
+       "credits": 1
+      },
+      {
+       "code": "6522.1236",
+       "name": "대위법(이론) 2",
+       "credits": 1
+      },
+      {
+       "code": "650.1240",
+       "name": "시창청음 1",
+       "credits": 1
+      },
+      {
+       "code": "650.1245",
+       "name": "시창청음 2",
+       "credits": 1
+      },
+      {
+       "code": "6522.1281",
+       "name": "화성법(이론) 1",
+       "credits": 1
+      },
+      {
+       "code": "6522.1282",
+       "name": "화성법(이론) 2",
+       "credits": 1
+      },
+      {
+       "code": "650.2241",
+       "name": "서양음악사 1",
+       "credits": 2
+      },
+      {
+       "code": "650.2242",
+       "name": "서양음악사 2",
+       "credits": 2
+      },
+      {
+       "code": "650.3243",
+       "name": "서양음악사 3",
+       "credits": 2
+      },
+      {
+       "code": "650.3244",
+       "name": "서양음악사 4",
+       "credits": 2
+      },
+      {
+       "code": "6522.2283",
+       "name": "화성법(이론) 3",
+       "credits": 1
+      },
+      {
+       "code": "6522.2284",
+       "name": "화성법(이론) 4",
+       "credits": 1
+      },
+      {
+       "code": "6522.2237",
+       "name": "대위법(이론) 3",
+       "credits": 1
+      },
+      {
+       "code": "6522.2238",
+       "name": "대위법(이론) 4",
+       "credits": 1
+      },
+      {
+       "code": "650.2246",
+       "name": "시창청음 3",
+       "credits": 1
+      },
+      {
+       "code": "650.2247",
+       "name": "시창청음 4",
+       "credits": 1
+      },
+      {
+       "code": "650.3303",
+       "name": "음악분석 1",
+       "credits": 2
+      },
+      {
+       "code": "650.3304",
+       "name": "음악분석 2",
+       "credits": 2
+      },
+      {
+       "code": "650.4401",
+       "name": "음악분석 3",
+       "credits": 2
+      },
+      {
+       "code": "650.4402",
+       "name": "음악분석 4",
+       "credits": 2
+      },
+      {
+       "code": "650.1289",
+       "name": "건반화성",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s21"
+     ],
+     "note": "화성법·대위법·시창청음은 작곡과 이론전공 또는 음악학과 개설 강좌(23학번까지 문구)."
+    },
+    {
+     "id": "musicology-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학사학위논문: 전공이론 2개 학기 이수 뒤 논문 제출, 학기말 논문발표회에서 발표·심사 통과(안 하면 졸업자격 없음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s20"
+     ],
+     "note": "필름 스코어링·뮤직 프로덕션·엔지니어링 결과물 조항은 2024학년도 입학생부터라 이 학번엔 없다."
+    },
+    {
+     "id": "music-elective-scope",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정과목: 음악대학 전 과목",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s3"
+     ]
+    },
+    {
+     "id": "musicology-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(22학번까지 표) 필수 이수 교과목 최소 46학점 + 학사논문 제출·발표. 타 단과대학 소속: 음악학개론, 음악미학, 음악이론사 1·2, 서양음악사 1~4, 음악심리학, 음악연구방법론, 음악분석 1~4(3·4는 이론전공 개설), 음악학세미나 1~4, 전공이론 2학기",
+     "min_count": null,
+     "min_credits": 46,
+     "courses": [
+      {
+       "code": "6522.1319",
+       "name": "음악학개론",
+       "credits": 3
+      },
+      {
+       "code": "6522.1318",
+       "name": "음악미학",
+       "credits": 3
+      },
+      {
+       "code": "650.2241",
+       "name": "서양음악사 1",
+       "credits": 2
+      },
+      {
+       "code": "650.2242",
+       "name": "서양음악사 2",
+       "credits": 2
+      },
+      {
+       "code": "650.3243",
+       "name": "서양음악사 3",
+       "credits": 2
+      },
+      {
+       "code": "650.3244",
+       "name": "서양음악사 4",
+       "credits": 2
+      },
+      {
+       "code": "6522.3378",
+       "name": "음악연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "650.3303",
+       "name": "음악분석 1",
+       "credits": 2
+      },
+      {
+       "code": "650.3304",
+       "name": "음악분석 2",
+       "credits": 2
+      },
+      {
+       "code": "650.4401",
+       "name": "음악분석 3",
+       "credits": 2
+      },
+      {
+       "code": "650.4402",
+       "name": "음악분석 4",
+       "credits": 2
+      },
+      {
+       "code": "M3535.001700",
+       "name": "음악학세미나 1",
+       "credits": 2,
+       "alt_codes": [
+        "652.275"
+       ]
+      },
+      {
+       "code": "M3535.001800",
+       "name": "음악학세미나 2",
+       "credits": 2,
+       "alt_codes": [
+        "652.276"
+       ]
+      },
+      {
+       "code": "M3535.001900",
+       "name": "음악학세미나 3",
+       "credits": 2,
+       "alt_codes": [
+        "652.277"
+       ]
+      },
+      {
+       "code": "M3535.002000",
+       "name": "음악학세미나 4",
+       "credits": 2,
+       "alt_codes": [
+        "652.278"
+       ]
+      },
+      {
+       "code": "6522.458A",
+       "name": "전공이론",
+       "credits": 2
+      },
+      {
+       "code": "6522.2356",
+       "name": "음악이론사 1",
+       "credits": 3
+      },
+      {
+       "code": "6522.2357",
+       "name": "음악이론사 2",
+       "credits": 3
+      },
+      {
+       "code": "6522.3323",
+       "name": "음악심리학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27",
+      "s28"
+     ],
+     "note": "해설 2018·2020·2022 판 작곡과(이론전공) 복수 46과 일치. 음대 소속 진입자 규칙(서양음악사 8학점 중복 인정 등)은 23학번 이후와 같은 틀."
+    },
+    {
+     "id": "musicology-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공(22학번까지 표) 필수 이수 교과목 최소 30학점. 타 단과대학 소속: 음악학개론, 음악미학, 음악이론사 1·2, 서양음악사 1~4, 음악심리학, 음악연구방법론, 음악분석 1·2",
+     "min_count": null,
+     "min_credits": 30,
+     "courses": [
+      {
+       "code": "6522.1319",
+       "name": "음악학개론",
+       "credits": 3
+      },
+      {
+       "code": "6522.1318",
+       "name": "음악미학",
+       "credits": 3
+      },
+      {
+       "code": "650.2241",
+       "name": "서양음악사 1",
+       "credits": 2
+      },
+      {
+       "code": "650.2242",
+       "name": "서양음악사 2",
+       "credits": 2
+      },
+      {
+       "code": "650.3243",
+       "name": "서양음악사 3",
+       "credits": 2
+      },
+      {
+       "code": "650.3244",
+       "name": "서양음악사 4",
+       "credits": 2
+      },
+      {
+       "code": "650.3303",
+       "name": "음악분석 1",
+       "credits": 2
+      },
+      {
+       "code": "650.3304",
+       "name": "음악분석 2",
+       "credits": 2
+      },
+      {
+       "code": "6522.3378",
+       "name": "음악연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "6522.2356",
+       "name": "음악이론사 1",
+       "credits": 3
+      },
+      {
+       "code": "6522.2357",
+       "name": "음악이론사 2",
+       "credits": 3
+      },
+      {
+       "code": "6522.3323",
+       "name": "음악심리학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27",
+      "s28"
+     ],
+     "note": "해설 2018·2020·2022 판 부전공 30(이론전공·기악과 묶음 칸)과 일치."
+    },
+    {
+     "id": "music-double-overlap",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "음악대학 복수·부전공 내규: 주전공·복수전공 간 공통 인정 전공교과목(대학 공통 포함)은 최대 3개까지 중복 인정, 부전공은 중복 인정 없음. 복수전공 전공실기는 학과 내규대로 반복이수하되 4개 학기 이상 이수 뒤 심사로 학기 수 감면 가능. 작곡과·관현악과·국악과 안 세부전공끼리는 복수·부전공 불가",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5"
+     ],
+     "note": "2026.3.1. 시행. 그 전에 복수·부전공을 이수 중인 학생은 원하면 종전 내규 적용. 신청 자격: 2개 정규학기 이상, 33학점 이상, 평점 3.0 이상, 실기능력(이론 분야는 음악이론 지식)."
+    },
+    {
+     "id": "ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(학문의 기초·학문의 세계 체계, 2019~2024학번)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1 필수 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기) 중 택 1",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101(2025-1부터 개설 번호)"
+       ]
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.201"
+       ]
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.202"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14",
+      "s15",
+      "s16"
+     ],
+     "note": "2025-1부터 같은 과목이 F11 번호로 열린다(옛 학번이 지금 들으면 F11 번호)."
+    },
+    {
+     "id": "ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목: 2021~2024학번 6학점, 2019·2020학번 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14",
+      "s15"
+     ],
+     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort."
+    },
+    {
+     "id": "ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 중 자유 선택: 2021~2024학번 14학점, 2019·2020학번 14~16학점(외국어 학점에 따라)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회, 자연과 기술, 생명과 환경 중 4개 영역 이상에서 12학점 이상",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14",
+      "s15"
+     ]
+    }
+   ],
+   "changed": "작곡과 이론전공 시절 표: 음악학 30(음악이론사 2·음악심리학 포함), 기초공통 32(건반화성 4학기 포함). 다른 학과 학생 복수 46·부전공 30.",
+   "note": "이 학번은 작곡과 이론전공으로 입학했고 지금은 음악학과 내규의 \"~22학번까지\" 표를 따른다(2022 목록 작곡과 이론전공 이수표준형태와 같음)."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2023,
+   "basis": "입학 연도",
+   "what": "음악학과 신설(작곡과 이론전공에서 독립). 전필 62→52(음악심리학·음악이론사 2·건반화성 해제)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2023,
+   "basis": "다전공 선발 시기",
+   "what": "다른 학과 학생 복수 46→39, 부전공 30→21(\"2023학년도 1학기 진입생부터\"; 절 제목은 \"22학번까지/23학번 이후\"로 학번 표기가 섞임)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "전필 52→46(화성법·대위법·시창청음 1·2를 전선으로), 졸업 결과물(필름 스코어링 등) 조항 신설",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "음악이론사 1을 4학년 전필로(과목 같음), 교양 체계 개편",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "다른 학과 학생의 음악학 복수·부전공 기준이 학번인지 진입 학기인지(내규에 둘 다 나옴)",
+  "복수전공 타 단과대학 표 합계 40과 \"최소 39\"의 관계"
+ ],
+ "sources": {
+  "s1": {
+   "title": "음악학과 및 동대학원(협동과정 서양음악학 포함) 내규(2026.11.11. 개정)",
+   "url": "https://music.snu.ac.kr/rule/6",
+   "locator": "Ⅰ.1 학사과정 전공필수(25학번부터, 4쪽), Ⅱ.1 학사학위논문(7쪽), Ⅳ 다전공 이수(23학번 이후, 16–19쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본)",
+   "locator": "과목번호별 이름·학점·교과구분·개설 학기",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "124–125쪽 662. 음악학과(124쪽 머리 652. 작곡과, 125쪽 머리 653. 기악과)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 2> 학사과정 복수·부전공 이수학점 기준, 11쪽 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "음악대학 복수전공 및 부전공에 관한 내규(2025.12.10. 개정, 2026.3.1. 시행)",
+   "url": "https://music.snu.ac.kr/rule/16",
+   "locator": "제1조 신청자격·제한, 제3조 교과목 중복인정, 제4조 전공실기 반복이수, 부칙",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "151쪽(PDF 47쪽) □ 음악대학",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "음악학과 및 동대학원(협동과정 서양음악학 포함) 내규(2026.11.11. 개정)",
+   "url": "https://music.snu.ac.kr/rule/6",
+   "locator": "Ⅰ.1 학사과정 전공필수(25학번부터~, PDF 5쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "157쪽(PDF 49쪽) □ 음악대학",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "2026학년도 시행 단과대학별 공통교육과정 이수 규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "90쪽(PDF 43쪽) □ 음악대학, \"상기 이수규정은 2025학년도 입학생부터 적용함\"",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "음악학과 및 동대학원(협동과정 서양음악학 포함) 내규(2026.11.11. 개정)",
+   "url": "https://music.snu.ac.kr/rule/6",
+   "locator": "Ⅰ.1 학사과정 전공필수(24학번부터~, 23학번 다전공 시 필수, PDF 4쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "교양 이수규정 36쪽(PDF 29쪽) □ 음악대학",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "교양 이수규정 37쪽(PDF 30쪽) □ 음악대학",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "교양 이수규정 40쪽(PDF 33쪽) □ 음악대학",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교 음악대학 관현악과(구 기악과) 관악·타악 전공 및 동 대학원 학사내규(수정 2024. 1. 30.)",
+   "url": "https://music.snu.ac.kr/rule/8",
+   "locator": "6.1.1 교양과목의 수학(PDF 12쪽): 19학번부터 대학 글쓰기 2과목, 19~20학번 외국어 4~6학점, 21학번부터 최소 6학점",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본, 학기별 개설 과목·교과구분)",
+   "locator": "대학 글쓰기 번호: L0440.0006~0009는 2024학년도까지, 2025-1부터 F11.101·201~203",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s17": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽(PDF 2쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 2> 복수·부전공 이수학점 기준, 10–11쪽(PDF 3–4쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "음악학과 및 동대학원(협동과정 서양음악학 포함) 내규(2026.11.11. 개정)",
+   "url": "https://music.snu.ac.kr/rule/6",
+   "locator": "Ⅰ.1 학사과정 전공필수(23학번만, PDF 3쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "음악학과 및 동대학원(협동과정 서양음악학 포함) 내규(2026.11.11. 개정)",
+   "url": "https://music.snu.ac.kr/rule/6",
+   "locator": "Ⅱ.1 학사학위논문(PDF 8쪽, 각주: 2024학년도 입학생부터)",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "음악학과 및 동대학원(협동과정 서양음악학 포함) 내규(2026.11.11. 개정)",
+   "url": "https://music.snu.ac.kr/rule/6",
+   "locator": "Ⅰ.1 학사과정 전공필수(~22학번까지, PDF 2쪽), Ⅳ 다전공(22학번까지, PDF 13–16쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽(PDF 2쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽(PDF 2쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽(PDF 2쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "음악학과 및 동대학원(협동과정 서양음악학 포함) 내규(2026.11.11. 개정)",
+   "url": "https://music.snu.ac.kr/rule/6",
+   "locator": "Ⅳ 다전공 이수(22학번까지, PDF 13–16쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 2> 복수·부전공 이수학점 기준, 10–11쪽(PDF 3–4쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 2> 복수·부전공 이수학점 기준, 10–11쪽(PDF 3–4쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 2> 복수·부전공 이수학점 기준, 10–11쪽(PDF 3–4쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "118–125쪽 651. 성악과 ~ 654. 국악과(653. 기악과 피아노·현악·관악전공 121–122쪽)",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

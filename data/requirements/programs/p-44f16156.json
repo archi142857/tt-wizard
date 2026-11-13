@@ -1,0 +1,380 @@
+{
+ "id": "p-44f16156",
+ "college": "인문대학",
+ "unit": "국사학과(2022학번까지; 2023 역사학부로 통합)",
+ "program": "국사학과",
+ "kind": "major",
+ "depts": [
+  "국사학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "인문대학",
+ "exists_for": [
+  2019,
+  2022
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {},
+ "versions": [
+  {
+   "entry_years": [
+    2019,
+    2022
+   ],
+   "basis": "입학 연도(다전공은 다전공 선발 시기)",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s6",
+     "s7",
+     "s8",
+     "s9",
+     "s1",
+     "s2"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s1",
+    "s2",
+    "s3"
+   ],
+   "requirements": [
+    {
+     "id": "kh22-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 3과목 9학점: 한국사를 보는 관점과 자료, 한국사한문강독, 한국사논문쓰기",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "100.133",
+       "name": "한국사를 보는 관점과 자료",
+       "credits": 3
+      },
+      {
+       "code": "109.321",
+       "name": "한국사한문강독",
+       "credits": 3
+      },
+      {
+       "code": "109.319B",
+       "name": "한국사논문쓰기",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "2023학년도부터 역사학부 개설 과목을 들어도 국사학과 과목 이수로 인정(역사학 논문쓰기 1 → 한국사논문쓰기, 한문사료강독 1 → 한국사한문강독)."
+    },
+    {
+     "id": "kh22-era",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "시대사 5과목 중 2과목 6학점",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "109.219",
+       "name": "한국고대사",
+       "credits": 3
+      },
+      {
+       "code": "109.301",
+       "name": "한국중세사",
+       "credits": 3
+      },
+      {
+       "code": "109.220",
+       "name": "한국근세사",
+       "credits": 3
+      },
+      {
+       "code": "109.222",
+       "name": "한국근대사",
+       "credits": 3
+      },
+      {
+       "code": "109.416",
+       "name": "한국현대사",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "alt 는 2023 이후 역사학부 같은 이름 과목(편람). 동일 과목 인정은 '2023학년도부터 역사학부 한국사학전공 개설 전공교과목 인정' 문구로 읽음."
+    },
+    {
+     "id": "kh22-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "삼사과 통합교과목 1과목(2018학번~): 2018-2 한국사특강 2 또는 2019-2 이후 역사학세미나(매년 2학기)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1250.000100",
+       "name": "역사학 세미나",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "kh22-ge-history",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학문의 세계 '역사와 철학' 영역 12학점 이상, 그 안에 국사학과 개설 교양 3학점과 역사계열학과(동양사·서양사·고고미술사) 개설 교양 3학점 포함",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "kh22-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문: 한국사논문쓰기 기말보고서로 대체, F 아닌 성적이면 심사 통과(2023~ 역사학 논문쓰기 1 로 대체 가능)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "kh22-fieldtrip",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "답사 3회 이상(2008학번~). 2023년 이후 역사학부 춘계 답사·한국사학전공 추계 답사 인정(동양사·서양사 개별 답사 불인정). 복수전공은 2020-1 이후 복수전공 시작자 2회, 그 전 시작자 3회",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "kh22-foreign-taught",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "외국어진행 3과목 중 국사학과 전공 1과목 포함. 2021-2 부터 동양사·서양사·고고미술사 외국어진행 전공과목을 국사학과 전공으로 교과구분변경하면 인정(타과 전공 변경은 통틀어 3과목 9학점까지)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "kh22-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 인정: 동양사학과·서양사학과·고고미술사학과 전공 3과목(9학점)과 역사학세미나. 2023~ 역사학부 개설 과목 인정(공통 과목 4과목 12학점까지 등)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "kh22-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 21학점: 전필 2과목(한국사를 보는 관점과 자료·한국사한문강독) 6학점 + 시대사 2과목 6학점 포함",
+     "min_count": 4,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "kh22-transfer",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "22학번까지 국사학과 학생은 희망하면 역사학부 한국사학전공으로 학적 변경 가능(주전공만, 2월 21~28일·8월 24~31일 신청) — 바꾸면 23학번 역사학부 규정을 따름",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통 교양·졸업 의무 — 학번에 맞는 college_common.ge_by_cohort·other 참조(제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학(2024학번까지)/삶과 인문학 세미나(2025학번~))",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "2차: hum-common-ref 는 학번에 맞는 college_common.ge_by_cohort·college_common.other 를 가리킨다(2019–2024학번은 학문의 기초·학문의 세계 + 삶과 인문학, 2025학번~은 새 교양 + 삶과 인문학 세미나). 다전공(타 학과 학생의 국사학과 복수·부전공)은 '2025학년도 이전 국사학과로 선발된 다전공 학생들은 종전 규정'(다전공 선발 시기 기준).",
+     "extra": {
+      "see": [
+       "college_common.ge_by_cohort",
+       "college_common.other"
+      ]
+     }
+    }
+   ],
+   "note": "1차에는 없던 옛 과정. 학과 페이지는 2007 이전/2008 이후로만 나눔."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2023,
+   "basis": "입학 연도",
+   "what": "역사학부 신설로 국사학과 신입생 모집 끝(23학번~ 역사학부 한국사학전공)",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "2025학년도 다전공 선발자가 '2025학년도 이전'에 드는지(종전 규정 적용 범위)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "한국사학전공(국사학과) 졸업(수정 2025-08-28)",
+   "url": "https://koreanhistory.snu.ac.kr/%EC%A1%B8%EC%97%85/",
+   "locator": "[교과목 이수규정] 1. 국사학과 2) 2008학년도 이후 입학생, [외국어진행강좌 이수규정], [학부과정 답사 의무], [학적 변경], [학위논문 제출 및 심사]",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "한국사학전공(국사학과) 부·복수전공(수정 2025-08-28)",
+   "url": "https://koreanhistory.snu.ac.kr/%EB%B6%80%C2%B7%EB%B3%B5%EC%88%98%EC%A0%84%EA%B3%B5/",
+   "locator": "1) 국사학과 (2) 2008학년도 이후 입학생(복수·부전공)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "109 국사학과 이수표준형태 오른쪽 칸(2004학번~ 전필, 2018학번~ 역사학세미나), 인쇄 16–17쪽",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 인문대학 표, PDF 4쪽(인쇄 108쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "인문대학 졸업이수 의무사항 안내(관련: 인문대학-2710, 2025.1.25., 게시 2025-02-03)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림(https://humanities.snu.ac.kr/webdata/upimages/7efzf51z874zf93z1c2za09z28cz23ezd11z697zb8.png), '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

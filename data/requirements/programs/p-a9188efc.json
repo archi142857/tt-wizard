@@ -1,0 +1,429 @@
+{
+ "id": "p-a9188efc",
+ "college": "인문대학",
+ "unit": "서어서문학과",
+ "program": "서어서문학과",
+ "kind": "major",
+ "depts": [
+  "서어서문학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "인문대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2019,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 42,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s9",
+     "s10",
+     "s11",
+     "s12",
+     "s13",
+     "s14"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s15",
+    "s14",
+    "s16"
+   ],
+   "requirements": [
+    {
+     "id": "spa-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공필수 6학점: 스페인소설, 중남미소설",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "107.328A",
+       "name": "스페인소설",
+       "credits": 3
+      },
+      {
+       "code": "107.327A",
+       "name": "중남미소설",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4",
+      "s5"
+     ]
+    },
+    {
+     "id": "spa-select",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택필수 3학점: 스페인문학사·중남미문학사·스페인어학개론 중 1과목(전필과 별개, 2014학번~)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "107.242",
+       "name": "스페인문학사",
+       "credits": 3
+      },
+      {
+       "code": "107.243",
+       "name": "중남미문학사",
+       "credits": 3
+      },
+      {
+       "code": "107.306",
+       "name": "스페인어학개론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s3",
+      "s6"
+     ]
+    },
+    {
+     "id": "spa-portuguese",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "포르투갈어입문 1 필수(2015학번~, 입문 2 권장). 복수·부전공은 권장",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F29.122",
+       "name": "포르투갈어입문 1",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "교양(외국어) 과목. 2024년까지 번호 032.055."
+    },
+    {
+     "id": "spa-thesis-qual",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "논문 제출자격: SNULT-Spanish 65점 이상 또는 DELE B1 이상(2024년 2월 이후 졸업자). 졸업신청 학기 응시분 불인정. 졸업논문 심사 신청",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "2024 목록의 '#: 외국어시험 대체과목'(107.334·107.335·107.425A·107.428A·107.427A·107.328A·107.327A·107.329)은 옛 규정으로 보임."
+    },
+    {
+     "id": "spa-foreign-taught",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "외국어진행 3과목 이상, 그중 스페인어 진행 서문 전공 1과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "spa-2ndlang",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "제2외국어 9학점(전공어 스페인어 제외, 중급 1과목). 진입 전 수강한 초·중급 스페인어 등은 인정, 서문 전공자로서 들은 교양 스페인어는 불인정, 포르투갈어는 인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "spa-explore",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공탐색과목(현대라틴아메리카의 대중문화, 스페인 영화의 이해, 스페인어의 세계, 스페인 사회와 문화)은 진입 전 또는 진입 후 2학기 안 수강분만 전선 인정(전공예약생은 입학 후 첫 두 학기)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "100.125",
+       "name": "현대 라틴아메리카의 대중문화",
+       "credits": 3
+      },
+      {
+       "code": "100.126A",
+       "name": "스페인 영화의 이해",
+       "credits": 3
+      },
+      {
+       "code": "100.127",
+       "name": "스페인어의 세계",
+       "credits": 3
+      },
+      {
+       "code": "100.128",
+       "name": "스페인사회와 문화",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "spa-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공 39: 전필 6(스페인소설·중남미소설), 외국어시험(학번별 전공생 기준), 논문 작성·발표, 소그룹고전원전읽기, 스페인어 외 제2외국어 1과목, 외국어진행 3과목(서문 전공 1)",
+     "min_count": 2,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "107.328A",
+       "name": "스페인소설",
+       "credits": 3
+      },
+      {
+       "code": "107.327A",
+       "name": "중남미소설",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "spa-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 21: 전필 6(스페인소설·중남미소설; 2022학년도까지 이수한 스페인어문법 2 인정 단서), 외국어시험·논문 없음",
+     "min_count": 2,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "107.328A",
+       "name": "스페인소설",
+       "credits": 3
+      },
+      {
+       "code": "107.327A",
+       "name": "중남미소설",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통(2025학번 교양 36과 인문대 졸업 의무: 제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학 세미나) — college_common 참조",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "extra": {
+      "see": [
+       "college_common.requirements"
+      ]
+     }
+    }
+   ],
+   "note": "학과 학번별 표에서 2019~2026학번은 모두 '2017학번~' 한 줄이다."
+  }
+ ],
+ "change_points": [
+  {
+   "basis": "졸업 시기",
+   "what": "학사논문 제출자격 SNULT-Spanish 65 또는 DELE B1(2024년 2월 이후 졸업자) — 현재 재학생 전원",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "스페인어문법 2(107.204)는 2021-2·2022-2 에 전필로 개설(2022 목록 *), 2023-2 부터 전선. '2022학년도까지 이수한 스페인어문법2는 전필 학점으로 인정'(부전공 표). 2025년부터 스페인어 문법과 구조/의미(M1244.000900/001000, 전선)로 바뀜.",
+   "status": "부분"
+  }
+ ],
+ "ask_department": [
+  "2022학년도까지 들은 스페인어문법 2 의 전필 학점 인정이 주전공에도 같은지",
+  "복수전공의 '외국어시험(학번별 전공생 기준)'이 지금은 SNULT/DELE 기준을 뜻하는지"
+ ],
+ "sources": {
+  "s1": {
+   "title": "서어서문학과 주전공 졸업규정(수정 2026-08-13)",
+   "url": "https://spanish.snu.ac.kr/graduation-major/",
+   "locator": "학번별 전공 학점·전필·선택필수·포르투갈어입문 1, 논문 제출자격(SNULT/DELE), 전공탐색과목 인정",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서어서문학과 부/복수전공진입 및 졸업규정(수정 2025-03-17)",
+   "url": "https://spanish.snu.ac.kr/graduation-minor/",
+   "locator": "복수·부전공 표",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서어서문학과 교과목 표준이수표",
+   "url": "https://spanish.snu.ac.kr/standard-course-completion/",
+   "locator": "학년별 과목, 전공선택필수 규정(2014학년도 입학생부터)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "17쪽 107.327A*·107.328A*(머리는 '108. 언어학과')",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "수강편람 자료(백엔드 수집) 2025-1",
+   "locator": "두 과목 전필",
+   "accessed": "2026-11-12",
+   "repo": "data/history/2025-1.json"
+  },
+  "s6": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "17쪽 교과목 이수규정 ②",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 인문대학 표, PDF 4쪽(인쇄 108쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "인문대학 졸업이수 의무사항 안내(관련: 인문대학-2710, 2025.1.25., 게시 2025-02-03)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림(https://humanities.snu.ac.kr/webdata/upimages/7efzf51z874zf93z1c2za09z28cz23ezd11z697zb8.png), '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서어서문학과 주전공생 졸업규정(수정 2026-08-13)",
+   "url": "https://spanish.snu.ac.kr/graduation-major/",
+   "locator": "학번별 표 '2017학번~' 행",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서어서문학과 제2전공(수정 2025-03-17)",
+   "url": "https://spanish.snu.ac.kr/graduation-minor/",
+   "locator": "복수·부전공 표",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서어서문학과 주전공생 졸업규정(수정 2026-08-13)",
+   "url": "https://spanish.snu.ac.kr/graduation-major/",
+   "locator": "학번별 표('2017학번~': 42·전필 6·선택필수 3·포르투갈어입문 1 필수·스페인어 진행 전공 필수)와 주의사항('학과 진입 시기와 상관없이 자신의 학번')",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "서어서문학과 전공과목 이수표준형태(수정 2025-12-18)",
+   "url": "https://spanish.snu.ac.kr/standard-course-completion/",
+   "locator": "이수표준형태",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

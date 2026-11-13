@@ -1,0 +1,3205 @@
+{
+ "id": "p-67f0f7cb",
+ "college": "생활과학대학",
+ "unit": "식품영양학과",
+ "program": "식품영양학과",
+ "kind": "major",
+ "depts": [
+  "식품영양학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "생활과학대학 식품영양학과",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2026,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 40,
+    "single": 60,
+    "parallel": 48,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s12",
+     "s4",
+     "s13"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s4",
+    "s12",
+    "s14",
+    "s2",
+    "s15"
+   ],
+   "requirements": [
+    {
+     "id": "fn-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-2] 대학 글쓰기 1(2) + [4-1] 대학 글쓰기 2: 과학기술글쓰기(2) + [3-1] 말하기와 토론(3) = 7학점",
+     "min_count": null,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F12.102",
+       "name": "말하기와 토론",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "글쓰기와 말하기"
+     }
+    },
+    {
+     "id": "fn-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수(기초영어·대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3",
+      "s4"
+     ],
+     "note": "2025학번은 TEPS 800점(New TEPS 452점) 이하 기준이었다. 2026 길잡이·2026 이수규정은 900점(525점) 이하. 앱은 입학 TEPS 점수를 모르면 '확인 필요'로 둔다.",
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "fn-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "15(16)학점: [1-1] 통계학(또는 생명과학을 위한 통계학)+실험, 화학(또는 고급화학)+화학실험, 생물학+생물학실험, [1-2] 생명과학을 위한 수학 1·물리학+물리학실험·컴퓨터의 개념 및 실습(또는 컴퓨팅 기초·핵심·응용) 중 3 또는 4학점",
+     "min_count": null,
+     "min_credits": 15,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1.0
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1.0
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1.0
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3.0
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1.0
+      },
+      {
+       "code": "F31.111",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3.0
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1.0
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.101",
+       "name": "컴퓨팅 기초: 처음 만나는 컴퓨팅",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.102",
+       "name": "컴퓨팅 기초: 처음 만나는 데이터",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.204",
+       "name": "컴퓨팅 핵심: 컴퓨터로 생각하기",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.205",
+       "name": "컴퓨팅 핵심: 데이터 중심의 인공지능",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.302",
+       "name": "컴퓨팅 응용: 데이터사이언스의 기초",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.303",
+       "name": "컴퓨팅 응용: 자연어처리의 기초",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "이론·실험은 같은 학기. 마지막 묶음은 3(수학·컴퓨팅) 또는 4(물리+실험)학점이라 합이 15 또는 16. 컴퓨팅 기초·핵심·응용은 편람 F37.1xx·F37.2xx(204·205)·F37.3xx(2026-2까지 본 것); 컴퓨팅 탐색 F37.206 은 길잡이에 없음.",
+     "extra": {
+      "area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "fn-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상 3, 역사적 탐구와 철학적 사유 3, 인간의 이해와 사회 분석 3(과학적 사고와 응용은 지정 없음)",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "지정 세 영역에서 3학점씩. 학과 '교양과목 이수기준' 25학번 칸과 같다.",
+     "extra": {
+      "area": "지성의 열쇠",
+      "areas": [
+       "문화 해석과 상상",
+       "역사적 탐구와 철학적 사유",
+       "인간의 이해와 사회 분석",
+       "과학적 사고와 응용"
+      ]
+     }
+    },
+    {
+     "id": "fn-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "베리타스"
+     }
+    },
+    {
+     "id": "fn-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양: 따로 정한 학점 없음(위를 채우면 40(41))",
+     "min_count": null,
+     "min_credits": 0,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "길잡이 표에서 전체 교양 칸이 비어 있다.",
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "fn-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생활과학신입생세미나(구 생활과학의 이해) 1학점 필수",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5"
+     ],
+     "note": "식품영양학과를 다전공하는 타학과 학생은 필수 아님(학점에서도 제외). 2024 목록 식품영양 표의 'M1460.001600 생활과학신입생세미나'는 번호 오기로 보인다(편람에서 M1460.001600 = 고급식품영양통계)."
+    },
+    {
+     "id": "fn-major",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "그 밖에 지정 전공필수 없음 — 식품영양학과 전공 과목으로 단일 60·병행 48 채우기",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s6",
+      "s7",
+      "s8"
+     ],
+     "note": "이수규정 문구: 단일전공 = 주전공 54 + 주전공 추가이수 ≥ 60, 제2전공 병행 = 주전공 48(15학번~). min_credits_by_path 는 신입생세미나 1을 뺀 값. 2024 목록·학과 표의 '*' 는 격년 개설 표시(전필 아님).",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 59,
+       "parallel": 47
+      }
+     }
+    },
+    {
+     "id": "fn-elective-recog",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공선택 인정: 기초유기화학(886.031) 3학점 인정(유기화학 352.209 와 중복 불가), 그 밖 타학과 과목(유전학·물리화학·미생물학 등)은 학과장이 인정한 것만 9학점 이내",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "886.031",
+       "name": "기초유기화학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.209",
+       "name": "유기화학",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "학과장 인정 9학점은 신청·승인 사항이라 앱은 '확인 필요'로 둔다."
+    },
+    {
+     "id": "fn-review",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업 실적심사: 졸업 학기에 실적지도교수 지도로 실적물(실험·조사·리뷰 등)을 포스터로 발표",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s6"
+     ],
+     "note": "편입·전과·복수전공·재입학 포함 모든 식품영양학과 전공자. 졸업 학기 초 지도교수 신청, 6월·12월 발표회, 1~3인 공동 가능, 교과 밖 학술활동 결과물도 제출 가능. 과목 이수로는 판정 안 됨(앱은 안내)."
+    },
+    {
+     "id": "fn-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어(영어) 진행 강좌 3과목 이상(전공 1과목 포함). 학문의 기초(토대)-외국어 영역 영어 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ]
+    },
+    {
+     "id": "fn-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "식품영양학 복수전공: 39학점(생활과학신입생세미나 제외) + 실적심사",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s9",
+      "s10"
+     ],
+     "note": "복수전공 지정 필수 과목은 공개 자료에 없다. 생활대 안의 다른 학과를 복수전공하면 그 학과 39학점(주전공 48 + 39)."
+    },
+    {
+     "id": "fn-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "식품영양학 부전공: 24학점(생활과학신입생세미나 제외)",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s10"
+     ],
+     "note": "부전공 지정 필수 과목은 공개 자료에 없다."
+    },
+    {
+     "id": "fn-dietitian",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "(선택) 영양사 국가시험 응시: 영양 관련 교과목 18과목 52학점을 전공으로 이수(기초 2과목 6학점, 영양 6과목 19, 식품 및 조리 5과목 14, 급식 및 위생 4과목 11, 실습 1과목 2 이상)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "352.216",
+       "name": "인체생리학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.210",
+       "name": "생화학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.327B",
+       "name": "기초영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.302B",
+       "name": "고급영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.326A",
+       "name": "생애주기영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.306",
+       "name": "식이요법및실험",
+       "credits": 4.0
+      },
+      {
+       "code": "M1460.003700",
+       "name": "영양교육 및 상담",
+       "credits": 3.0
+      },
+      {
+       "code": "M1460.001300",
+       "name": "임상영양학 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M1460.001000",
+       "name": "지역사회영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "M0000.016700",
+       "name": "영양평가 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.351A",
+       "name": "식품재료학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.217B",
+       "name": "식품화학",
+       "credits": 4.0
+      },
+      {
+       "code": "352.323A",
+       "name": "식품분석실험",
+       "credits": 3.0
+      },
+      {
+       "code": "352.329A",
+       "name": "식품미생물학 및 실험",
+       "credits": 4.0
+      },
+      {
+       "code": "352.404A",
+       "name": "식품가공 및 저장학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.215",
+       "name": "조리원리및실습",
+       "credits": 3.0
+      },
+      {
+       "code": "M0000.016800",
+       "name": "실험조리 및 관능검사실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.324B",
+       "name": "단체급식관리 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.213B",
+       "name": "급식경영학",
+       "credits": 2.0
+      },
+      {
+       "code": "352.401A",
+       "name": "식생활관리학 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M1460.001200",
+       "name": "식생활문화 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.419B",
+       "name": "식품위생학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.325",
+       "name": "영양사현장실습",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "note": "졸업 요건이 아니라 면허 응시 자격(2010.5.23. 이후 입학자). courses 는 학과가 법정 교과목에 대응시킨 개설 과목(2026-2 교과과정 기준). 영역별 최소 과목·학점을 따로 센다.",
+     "extra": {
+      "graduation_required": false
+     }
+    }
+   ],
+   "note": "학과 교양 페이지 26학번 탭이 25학번과 같고 TEPS 기준만 525(구 900)·고급영어 필수 구간(453~525) 추가. 전공 학점은 '15학번~' 칸 그대로. 교양 합 40(41)."
+  },
+  {
+   "entry_years": [
+    2025,
+    2025
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 40,
+    "single": 60,
+    "parallel": 48,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s12",
+     "s4",
+     "s18"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s4",
+    "s12",
+    "s18"
+   ],
+   "requirements": [
+    {
+     "id": "fn-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-2] 대학 글쓰기 1(2) + [4-1] 대학 글쓰기 2: 과학기술글쓰기(2) + [3-1] 말하기와 토론(3) = 7학점",
+     "min_count": null,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F12.102",
+       "name": "말하기와 토론",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "글쓰기와 말하기"
+     }
+    },
+    {
+     "id": "fn-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 800점(New TEPS 452점) 이하이면 영어 1과목 필수(대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s16",
+      "s17",
+      "s4"
+     ],
+     "note": "2026학년도 이수규정 책자는 생활대 표에 TEPS 525 기준을 적고 '2025학년도 입학생부터 적용'이라 붙였다. 2025 길잡이·2025 이수규정·식품영양학과 25학번 칸은 452 → 2025학번 영어 기준은 452로 두되 '충돌' 메모.",
+     "extra": {
+      "area": "외국어",
+      "conflict": [
+       {
+        "value": "New TEPS 452 이하",
+        "source": "2025 길잡이·2025 이수규정(·식품영양 25학번 탭)"
+       },
+       {
+        "value": "New TEPS 525 이하",
+        "source": "2026학년도 이수규정 책자(‘2025학년도 입학생부터 적용’ 문구)"
+       }
+      ]
+     }
+    },
+    {
+     "id": "fn-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "15(16)학점: [1-1] 통계학(또는 생명과학을 위한 통계학)+실험, 화학(또는 고급화학)+화학실험, 생물학+생물학실험, [1-2] 생명과학을 위한 수학 1·물리학+물리학실험·컴퓨터의 개념 및 실습(또는 컴퓨팅 기초·핵심·응용) 중 3 또는 4학점",
+     "min_count": null,
+     "min_credits": 15,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1.0
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1.0
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1.0
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3.0
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1.0
+      },
+      {
+       "code": "F31.111",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3.0
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1.0
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.101",
+       "name": "컴퓨팅 기초: 처음 만나는 컴퓨팅",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.102",
+       "name": "컴퓨팅 기초: 처음 만나는 데이터",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.204",
+       "name": "컴퓨팅 핵심: 컴퓨터로 생각하기",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.205",
+       "name": "컴퓨팅 핵심: 데이터 중심의 인공지능",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.302",
+       "name": "컴퓨팅 응용: 데이터사이언스의 기초",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.303",
+       "name": "컴퓨팅 응용: 자연어처리의 기초",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "이론·실험은 같은 학기. 마지막 묶음은 3(수학·컴퓨팅) 또는 4(물리+실험)학점이라 합이 15 또는 16. 컴퓨팅 기초·핵심·응용은 편람 F37.1xx·F37.2xx(204·205)·F37.3xx(2026-2까지 본 것); 컴퓨팅 탐색 F37.206 은 길잡이에 없음.",
+     "extra": {
+      "area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "fn-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상 3, 역사적 탐구와 철학적 사유 3, 인간의 이해와 사회 분석 3(과학적 사고와 응용은 지정 없음)",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "지정 세 영역에서 3학점씩. 학과 '교양과목 이수기준' 25학번 칸과 같다.",
+     "extra": {
+      "area": "지성의 열쇠",
+      "areas": [
+       "문화 해석과 상상",
+       "역사적 탐구와 철학적 사유",
+       "인간의 이해와 사회 분석",
+       "과학적 사고와 응용"
+      ]
+     }
+    },
+    {
+     "id": "fn-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "베리타스"
+     }
+    },
+    {
+     "id": "fn-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양: 따로 정한 학점 없음(위를 채우면 40(41))",
+     "min_count": null,
+     "min_credits": 0,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "길잡이 표에서 전체 교양 칸이 비어 있다.",
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "fn-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생활과학신입생세미나(구 생활과학의 이해) 1학점 필수",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5"
+     ],
+     "note": "식품영양학과를 다전공하는 타학과 학생은 필수 아님(학점에서도 제외). 2024 목록 식품영양 표의 'M1460.001600 생활과학신입생세미나'는 번호 오기로 보인다(편람에서 M1460.001600 = 고급식품영양통계)."
+    },
+    {
+     "id": "fn-major",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "그 밖에 지정 전공필수 없음 — 식품영양학과 전공 과목으로 단일 60·병행 48 채우기",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s6",
+      "s7",
+      "s8"
+     ],
+     "note": "이수규정 문구: 단일전공 = 주전공 54 + 주전공 추가이수 ≥ 60, 제2전공 병행 = 주전공 48(15학번~). min_credits_by_path 는 신입생세미나 1을 뺀 값. 2024 목록·학과 표의 '*' 는 격년 개설 표시(전필 아님).",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 59,
+       "parallel": 47
+      }
+     }
+    },
+    {
+     "id": "fn-elective-recog",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공선택 인정: 기초유기화학(886.031) 3학점 인정(유기화학 352.209 와 중복 불가), 그 밖 타학과 과목(유전학·물리화학·미생물학 등)은 학과장이 인정한 것만 9학점 이내",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "886.031",
+       "name": "기초유기화학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.209",
+       "name": "유기화학",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "학과장 인정 9학점은 신청·승인 사항이라 앱은 '확인 필요'로 둔다."
+    },
+    {
+     "id": "fn-review",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업 실적심사: 졸업 학기에 실적지도교수 지도로 실적물(실험·조사·리뷰 등)을 포스터로 발표",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s6"
+     ],
+     "note": "편입·전과·복수전공·재입학 포함 모든 식품영양학과 전공자. 졸업 학기 초 지도교수 신청, 6월·12월 발표회, 1~3인 공동 가능, 교과 밖 학술활동 결과물도 제출 가능. 과목 이수로는 판정 안 됨(앱은 안내)."
+    },
+    {
+     "id": "fn-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어(영어) 진행 강좌 3과목 이상(전공 1과목 포함). 학문의 기초(토대)-외국어 영역 영어 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ]
+    },
+    {
+     "id": "fn-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "식품영양학 복수전공: 39학점(생활과학신입생세미나 제외) + 실적심사",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s9",
+      "s10"
+     ],
+     "note": "복수전공 지정 필수 과목은 공개 자료에 없다. 생활대 안의 다른 학과를 복수전공하면 그 학과 39학점(주전공 48 + 39)."
+    },
+    {
+     "id": "fn-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "식품영양학 부전공: 24학점(생활과학신입생세미나 제외)",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s10"
+     ],
+     "note": "부전공 지정 필수 과목은 공개 자료에 없다."
+    },
+    {
+     "id": "fn-dietitian",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "(선택) 영양사 국가시험 응시: 영양 관련 교과목 18과목 52학점을 전공으로 이수(기초 2과목 6학점, 영양 6과목 19, 식품 및 조리 5과목 14, 급식 및 위생 4과목 11, 실습 1과목 2 이상)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "352.216",
+       "name": "인체생리학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.210",
+       "name": "생화학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.327B",
+       "name": "기초영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.302B",
+       "name": "고급영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.326A",
+       "name": "생애주기영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.306",
+       "name": "식이요법및실험",
+       "credits": 4.0
+      },
+      {
+       "code": "M1460.003700",
+       "name": "영양교육 및 상담",
+       "credits": 3.0
+      },
+      {
+       "code": "M1460.001300",
+       "name": "임상영양학 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M1460.001000",
+       "name": "지역사회영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "M0000.016700",
+       "name": "영양평가 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.351A",
+       "name": "식품재료학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.217B",
+       "name": "식품화학",
+       "credits": 4.0
+      },
+      {
+       "code": "352.323A",
+       "name": "식품분석실험",
+       "credits": 3.0
+      },
+      {
+       "code": "352.329A",
+       "name": "식품미생물학 및 실험",
+       "credits": 4.0
+      },
+      {
+       "code": "352.404A",
+       "name": "식품가공 및 저장학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.215",
+       "name": "조리원리및실습",
+       "credits": 3.0
+      },
+      {
+       "code": "M0000.016800",
+       "name": "실험조리 및 관능검사실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.324B",
+       "name": "단체급식관리 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.213B",
+       "name": "급식경영학",
+       "credits": 2.0
+      },
+      {
+       "code": "352.401A",
+       "name": "식생활관리학 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M1460.001200",
+       "name": "식생활문화 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.419B",
+       "name": "식품위생학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.325",
+       "name": "영양사현장실습",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "note": "졸업 요건이 아니라 면허 응시 자격(2010.5.23. 이후 입학자). courses 는 학과가 법정 교과목에 대응시킨 개설 과목(2026-2 교과과정 기준). 영역별 최소 과목·학점을 따로 센다.",
+     "extra": {
+      "graduation_required": false
+     }
+    }
+   ],
+   "changed": "영어 1과목 필수 기준 TEPS 800(452) 이하 — 그 밖에는 2026과 같고 1차 요건 그대로.",
+   "note": "1차 요건 그대로(1차 '부분' 항목 포함). 학과 25학번 탭은 TEPS 452 기준(2026 이수규정 책자 문구와만 어긋남)."
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 40,
+    "single": 60,
+    "parallel": 48,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s12",
+     "s4",
+     "s23"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s4",
+    "s19",
+    "s24"
+   ],
+   "requirements": [
+    {
+     "id": "fn-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 7학점: [1-2] 대학 글쓰기 1(2) + [4-1] 대학 글쓰기 2: 과학기술글쓰기(2) + [3-1] 말하기와 토론(3)",
+     "min_count": 3,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "031.031",
+       "name": "말하기와 토론",
+       "credits": 3
+      },
+      {
+       "code": "F12.102",
+       "name": "말하기와 토론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s19",
+      "s20"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "fn-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 800점(New TEPS 452점) 이하이면 영어 1과목 필수(대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s16",
+      "s17",
+      "s4"
+     ],
+     "note": "2026학년도 이수규정 책자는 생활대 표에 TEPS 525 기준을 적고 '2025학년도 입학생부터 적용'이라 붙였다. 2025 길잡이·2025 이수규정·식품영양학과 25학번 칸은 452 → 2025학번 영어 기준은 452로 두되 '충돌' 메모.",
+     "extra": {
+      "area": "외국어",
+      "conflict": [
+       {
+        "value": "New TEPS 452 이하",
+        "source": "2025 길잡이·2025 이수규정(·식품영양 25학번 탭)"
+       },
+       {
+        "value": "New TEPS 525 이하",
+        "source": "2026학년도 이수규정 책자(‘2025학년도 입학생부터 적용’ 문구)"
+       }
+      ]
+     }
+    },
+    {
+     "id": "fn-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초(수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용) 15(16)학점: [1-1] 통계학(또는 생명과학을 위한 통계학)+실험, 화학(또는 고급화학)+화학실험, 생물학+생물학실험, [1-2] 생명과학을 위한 수학 1·물리학+물리학실험·컴퓨터의 개념 및 실습(또는 컴퓨팅 기초·핵심·응용) 중 3 또는 4학점",
+     "min_count": null,
+     "min_credits": 15,
+     "courses": [
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "L0442.001300",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3
+      },
+      {
+       "code": "L0442.001400",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.111",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1
+      },
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "L0444.000400",
+       "name": "컴퓨팅 기초: 처음 만나는 컴퓨팅",
+       "credits": 3
+      },
+      {
+       "code": "L0444.000500",
+       "name": "컴퓨팅 핵심: 컴퓨터로 생각하기",
+       "credits": 3
+      },
+      {
+       "code": "L0444.000600",
+       "name": "컴퓨팅 응용: 기계학습 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "L0444.000700",
+       "name": "컴퓨팅 응용: 자연어처리의 기초",
+       "credits": 3
+      },
+      {
+       "code": "L0444.000800",
+       "name": "컴퓨팅 응용: 데이터사이언스의 기초",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s21",
+      "s20"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요). 이론·실험은 같은 학기. 2024 이수규정 경과조치: 2022학년도 이전 입학자가 생명과학을 위한 통계학(+실험)을 들었으면 통계학(+실험)으로 인정.",
+     "extra": {
+      "area": "학문의 기초"
+     }
+    },
+    {
+     "id": "fn-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양: 따로 정한 학점 없음(위를 채우면 40(41))",
+     "min_count": null,
+     "min_credits": 0,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "길잡이 표에서 전체 교양 칸이 비어 있다.",
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "fn-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생활과학신입생세미나(구 생활과학의 이해) 1학점 필수",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5"
+     ],
+     "note": "식품영양학과를 다전공하는 타학과 학생은 필수 아님(학점에서도 제외). 2024 목록 식품영양 표의 'M1460.001600 생활과학신입생세미나'는 번호 오기로 보인다(편람에서 M1460.001600 = 고급식품영양통계)."
+    },
+    {
+     "id": "fn-major",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "그 밖에 지정 전공필수 없음 — 식품영양학과 전공 과목으로 단일 60·병행 48 채우기",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s6",
+      "s7",
+      "s8"
+     ],
+     "note": "이수규정 문구: 단일전공 = 주전공 54 + 주전공 추가이수 ≥ 60, 제2전공 병행 = 주전공 48(15학번~). min_credits_by_path 는 신입생세미나 1을 뺀 값. 2024 목록·학과 표의 '*' 는 격년 개설 표시(전필 아님).",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 59,
+       "parallel": 47
+      }
+     }
+    },
+    {
+     "id": "fn-elective-recog",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공선택 인정: 기초유기화학(886.031) 3학점 인정(유기화학 352.209 와 중복 불가), 그 밖 타학과 과목(유전학·물리화학·미생물학 등)은 학과장이 인정한 것만 9학점 이내",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "886.031",
+       "name": "기초유기화학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.209",
+       "name": "유기화학",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "학과장 인정 9학점은 신청·승인 사항이라 앱은 '확인 필요'로 둔다."
+    },
+    {
+     "id": "fn-review",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업 실적심사: 졸업 학기에 실적지도교수 지도로 실적물(실험·조사·리뷰 등)을 포스터로 발표",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s6"
+     ],
+     "note": "편입·전과·복수전공·재입학 포함 모든 식품영양학과 전공자. 졸업 학기 초 지도교수 신청, 6월·12월 발표회, 1~3인 공동 가능, 교과 밖 학술활동 결과물도 제출 가능. 과목 이수로는 판정 안 됨(앱은 안내)."
+    },
+    {
+     "id": "fn-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어(영어) 진행 강좌 3과목 이상(전공 1과목 포함). 학문의 기초(토대)-외국어 영역 영어 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ]
+    },
+    {
+     "id": "fn-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "식품영양학 복수전공: 39학점(생활과학신입생세미나 제외) + 실적심사",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s9",
+      "s10"
+     ],
+     "note": "복수전공 지정 필수 과목은 공개 자료에 없다. 생활대 안의 다른 학과를 복수전공하면 그 학과 39학점(주전공 48 + 39)."
+    },
+    {
+     "id": "fn-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "식품영양학 부전공: 24학점(생활과학신입생세미나 제외)",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s10"
+     ],
+     "note": "부전공 지정 필수 과목은 공개 자료에 없다."
+    },
+    {
+     "id": "fn-dietitian",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "(선택) 영양사 국가시험 응시: 영양 관련 교과목 18과목 52학점을 전공으로 이수(기초 2과목 6학점, 영양 6과목 19, 식품 및 조리 5과목 14, 급식 및 위생 4과목 11, 실습 1과목 2 이상)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "352.216",
+       "name": "인체생리학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.210",
+       "name": "생화학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.327B",
+       "name": "기초영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.302B",
+       "name": "고급영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.326A",
+       "name": "생애주기영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.306",
+       "name": "식이요법및실험",
+       "credits": 4.0
+      },
+      {
+       "code": "M1460.003700",
+       "name": "영양교육 및 상담",
+       "credits": 3.0
+      },
+      {
+       "code": "M1460.001300",
+       "name": "임상영양학 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M1460.001000",
+       "name": "지역사회영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "M0000.016700",
+       "name": "영양평가 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.351A",
+       "name": "식품재료학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.217B",
+       "name": "식품화학",
+       "credits": 4.0
+      },
+      {
+       "code": "352.323A",
+       "name": "식품분석실험",
+       "credits": 3.0
+      },
+      {
+       "code": "352.329A",
+       "name": "식품미생물학 및 실험",
+       "credits": 4.0
+      },
+      {
+       "code": "352.404A",
+       "name": "식품가공 및 저장학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.215",
+       "name": "조리원리및실습",
+       "credits": 3.0
+      },
+      {
+       "code": "M0000.016800",
+       "name": "실험조리 및 관능검사실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.324B",
+       "name": "단체급식관리 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.213B",
+       "name": "급식경영학",
+       "credits": 2.0
+      },
+      {
+       "code": "352.401A",
+       "name": "식생활관리학 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M1460.001200",
+       "name": "식생활문화 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.419B",
+       "name": "식품위생학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.325",
+       "name": "영양사현장실습",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "note": "졸업 요건이 아니라 면허 응시 자격(2010.5.23. 이후 입학자). courses 는 학과가 법정 교과목에 대응시킨 개설 과목(2026-2 교과과정 기준). 영역별 최소 과목·학점을 따로 센다.",
+     "extra": {
+      "graduation_required": false
+     }
+    },
+    {
+     "id": "fn-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학 또는 문화와 예술 3 + 역사와 철학 3 + 정치와 경제 3 + 인간과 사회 3, '언어와 문학, 문화와 예술, 역사와 철학' 영역 권장과목(*표시) 1과목 필수",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s21",
+      "s22"
+     ],
+     "note": "권장과목(*) 목록은 해설의 교양 교과목 표 표시를 쓴다.",
+     "extra": {
+      "area": "학문의 세계"
+     }
+    }
+   ],
+   "changed": "교양 옛 체계(사고와 표현 7, 외국어 6, 학문의 기초 수학·과학·컴퓨터 15(16), 학문의 세계 12). 전공 요건은 2025와 같음.",
+   "note": "전공은 같다(15학번~ 규정, 생활대 전필 1, 실적심사). 교양만 옛 체계: 학문의 기초 28(29) + 학문의 세계 12 = 40(41). [1-2] 선택지에 컴퓨터의 개념 및 실습·컴퓨팅 기초/핵심/응용이 들어간 첫 학번."
+  },
+  {
+   "entry_years": [
+    2021,
+    2023
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 40,
+    "single": 60,
+    "parallel": 48,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s12",
+     "s4",
+     "s27"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s4",
+    "s28",
+    "s29"
+   ],
+   "requirements": [
+    {
+     "id": "fn-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 7학점: [1-2] 대학 글쓰기 1(2) + [4-1] 대학 글쓰기 2: 과학기술글쓰기(2) + [3-1] 말하기와 토론(3)",
+     "min_count": 3,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "031.031",
+       "name": "말하기와 토론",
+       "credits": 3
+      },
+      {
+       "code": "F12.102",
+       "name": "말하기와 토론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s19",
+      "s20"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "fn-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 800점(New TEPS 452점) 이하이면 영어 1과목 필수(대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s16",
+      "s17",
+      "s4"
+     ],
+     "note": "2026학년도 이수규정 책자는 생활대 표에 TEPS 525 기준을 적고 '2025학년도 입학생부터 적용'이라 붙였다. 2025 길잡이·2025 이수규정·식품영양학과 25학번 칸은 452 → 2025학번 영어 기준은 452로 두되 '충돌' 메모.",
+     "extra": {
+      "area": "외국어",
+      "conflict": [
+       {
+        "value": "New TEPS 452 이하",
+        "source": "2025 길잡이·2025 이수규정(·식품영양 25학번 탭)"
+       },
+       {
+        "value": "New TEPS 525 이하",
+        "source": "2026학년도 이수규정 책자(‘2025학년도 입학생부터 적용’ 문구)"
+       }
+      ]
+     }
+    },
+    {
+     "id": "fn-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초(수량적 분석과 추론·과학적 사고와 실험) 15(16)학점: [1-1] 통계학(또는 생명과학을 위한 통계학)+실험, 화학(또는 고급화학)+화학실험, 생물학+생물학실험, [1-2] 생명과학을 위한 수학 1 또는 물리학+물리학실험 중 3 또는 4학점(컴퓨팅 선택지 없음)",
+     "min_count": null,
+     "min_credits": 15,
+     "courses": [
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "L0442.001300",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3
+      },
+      {
+       "code": "L0442.001400",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.111",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s25",
+      "s26"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요). 2023학번 규정은 '통계학(또는 생명과학을 위한 통계학)'. 2021~2022학번 규정은 통계학+실험이지만 2023 이수규정 경과조치로 생명과학을 위한 통계학(+실험)도 인정 → 앱 판정은 같다.",
+     "extra": {
+      "area": "학문의 기초"
+     }
+    },
+    {
+     "id": "fn-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양: 따로 정한 학점 없음(위를 채우면 40(41))",
+     "min_count": null,
+     "min_credits": 0,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "길잡이 표에서 전체 교양 칸이 비어 있다.",
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "fn-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생활과학신입생세미나(구 생활과학의 이해) 1학점 필수",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5"
+     ],
+     "note": "식품영양학과를 다전공하는 타학과 학생은 필수 아님(학점에서도 제외). 2024 목록 식품영양 표의 'M1460.001600 생활과학신입생세미나'는 번호 오기로 보인다(편람에서 M1460.001600 = 고급식품영양통계)."
+    },
+    {
+     "id": "fn-major",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "그 밖에 지정 전공필수 없음 — 식품영양학과 전공 과목으로 단일 60·병행 48 채우기",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s6",
+      "s7",
+      "s8"
+     ],
+     "note": "이수규정 문구: 단일전공 = 주전공 54 + 주전공 추가이수 ≥ 60, 제2전공 병행 = 주전공 48(15학번~). min_credits_by_path 는 신입생세미나 1을 뺀 값. 2024 목록·학과 표의 '*' 는 격년 개설 표시(전필 아님).",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 59,
+       "parallel": 47
+      }
+     }
+    },
+    {
+     "id": "fn-elective-recog",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공선택 인정: 기초유기화학(886.031) 3학점 인정(유기화학 352.209 와 중복 불가), 그 밖 타학과 과목(유전학·물리화학·미생물학 등)은 학과장이 인정한 것만 9학점 이내",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "886.031",
+       "name": "기초유기화학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.209",
+       "name": "유기화학",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "학과장 인정 9학점은 신청·승인 사항이라 앱은 '확인 필요'로 둔다."
+    },
+    {
+     "id": "fn-review",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업 실적심사: 졸업 학기에 실적지도교수 지도로 실적물(실험·조사·리뷰 등)을 포스터로 발표",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s6"
+     ],
+     "note": "편입·전과·복수전공·재입학 포함 모든 식품영양학과 전공자. 졸업 학기 초 지도교수 신청, 6월·12월 발표회, 1~3인 공동 가능, 교과 밖 학술활동 결과물도 제출 가능. 과목 이수로는 판정 안 됨(앱은 안내)."
+    },
+    {
+     "id": "fn-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어(영어) 진행 강좌 3과목 이상(전공 1과목 포함). 학문의 기초(토대)-외국어 영역 영어 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ]
+    },
+    {
+     "id": "fn-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "식품영양학 복수전공: 39학점(생활과학신입생세미나 제외) + 실적심사",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s9",
+      "s10"
+     ],
+     "note": "복수전공 지정 필수 과목은 공개 자료에 없다. 생활대 안의 다른 학과를 복수전공하면 그 학과 39학점(주전공 48 + 39)."
+    },
+    {
+     "id": "fn-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "식품영양학 부전공: 24학점(생활과학신입생세미나 제외)",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s10"
+     ],
+     "note": "부전공 지정 필수 과목은 공개 자료에 없다."
+    },
+    {
+     "id": "fn-dietitian",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "(선택) 영양사 국가시험 응시: 영양 관련 교과목 18과목 52학점을 전공으로 이수(기초 2과목 6학점, 영양 6과목 19, 식품 및 조리 5과목 14, 급식 및 위생 4과목 11, 실습 1과목 2 이상)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "352.216",
+       "name": "인체생리학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.210",
+       "name": "생화학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.327B",
+       "name": "기초영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.302B",
+       "name": "고급영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.326A",
+       "name": "생애주기영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.306",
+       "name": "식이요법및실험",
+       "credits": 4.0
+      },
+      {
+       "code": "M1460.003700",
+       "name": "영양교육 및 상담",
+       "credits": 3.0
+      },
+      {
+       "code": "M1460.001300",
+       "name": "임상영양학 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M1460.001000",
+       "name": "지역사회영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "M0000.016700",
+       "name": "영양평가 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.351A",
+       "name": "식품재료학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.217B",
+       "name": "식품화학",
+       "credits": 4.0
+      },
+      {
+       "code": "352.323A",
+       "name": "식품분석실험",
+       "credits": 3.0
+      },
+      {
+       "code": "352.329A",
+       "name": "식품미생물학 및 실험",
+       "credits": 4.0
+      },
+      {
+       "code": "352.404A",
+       "name": "식품가공 및 저장학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.215",
+       "name": "조리원리및실습",
+       "credits": 3.0
+      },
+      {
+       "code": "M0000.016800",
+       "name": "실험조리 및 관능검사실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.324B",
+       "name": "단체급식관리 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.213B",
+       "name": "급식경영학",
+       "credits": 2.0
+      },
+      {
+       "code": "352.401A",
+       "name": "식생활관리학 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M1460.001200",
+       "name": "식생활문화 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.419B",
+       "name": "식품위생학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.325",
+       "name": "영양사현장실습",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "note": "졸업 요건이 아니라 면허 응시 자격(2010.5.23. 이후 입학자). courses 는 학과가 법정 교과목에 대응시킨 개설 과목(2026-2 교과과정 기준). 영역별 최소 과목·학점을 따로 센다.",
+     "extra": {
+      "graduation_required": false
+     }
+    },
+    {
+     "id": "fn-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학 또는 문화와 예술 3 + 역사와 철학 3 + 정치와 경제 3 + 인간과 사회 3, '언어와 문학, 문화와 예술, 역사와 철학' 영역 권장과목(*표시) 1과목 필수",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s21",
+      "s22"
+     ],
+     "note": "권장과목(*) 목록은 해설의 교양 교과목 표 표시를 쓴다.",
+     "extra": {
+      "area": "학문의 세계"
+     }
+    }
+   ],
+   "changed": "[1-2] 컴퓨팅 선택지 없음.",
+   "note": "[1-2] 선택지가 생명과학을 위한 수학 1 또는 물리학+실험뿐(컴퓨팅 없음). 2023학번은 이수규정상 '통계학(또는 생명과학을 위한 통계학)', 2021~2022학번은 경과조치로 같은 인정 → 한 버전으로 묶음."
+  },
+  {
+   "entry_years": [
+    2019,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 40,
+    "single": 60,
+    "parallel": 48,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s12",
+     "s4",
+     "s32"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s4",
+    "s33"
+   ],
+   "requirements": [
+    {
+     "id": "fn-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 7학점: [1-2] 대학 글쓰기 1(2) + [4-1] 대학 글쓰기 2: 과학기술글쓰기(2) + [3-1] 말하기와 토론(3)",
+     "min_count": 3,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "031.031",
+       "name": "말하기와 토론",
+       "credits": 3
+      },
+      {
+       "code": "F12.102",
+       "name": "말하기와 토론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s19",
+      "s20"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "fn-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4~6학점. 입학 때 TEPS 800점(New TEPS 452점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s30"
+     ],
+     "note": "2021학번부터 6학점.",
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "fn-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초(수량적 분석과 추론·과학적 사고와 실험) 15(16)학점: [1-1] 통계학(또는 생명과학을 위한 통계학)+실험, 화학(또는 고급화학)+화학실험, 생물학+생물학실험, [1-2] 생명과학을 위한 수학 1 또는 물리학+물리학실험 중 3 또는 4학점(컴퓨팅 선택지 없음)",
+     "min_count": null,
+     "min_credits": 15,
+     "courses": [
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "L0442.001300",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3
+      },
+      {
+       "code": "L0442.001400",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.111",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s25",
+      "s26"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요). 2023학번 규정은 '통계학(또는 생명과학을 위한 통계학)'. 2021~2022학번 규정은 통계학+실험이지만 2023 이수규정 경과조치로 생명과학을 위한 통계학(+실험)도 인정 → 앱 판정은 같다.",
+     "extra": {
+      "area": "학문의 기초"
+     }
+    },
+    {
+     "id": "fn-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 0~2학점(외국어 학점에 따라 40 맞추기)",
+     "min_count": null,
+     "min_credits": 0,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s31"
+     ],
+     "note": "학과 표: 학문의 기초 26(29) + 학문의 세계 12 = 총 40 이상.",
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "fn-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생활과학신입생세미나(구 생활과학의 이해) 1학점 필수",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5"
+     ],
+     "note": "식품영양학과를 다전공하는 타학과 학생은 필수 아님(학점에서도 제외). 2024 목록 식품영양 표의 'M1460.001600 생활과학신입생세미나'는 번호 오기로 보인다(편람에서 M1460.001600 = 고급식품영양통계)."
+    },
+    {
+     "id": "fn-major",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "그 밖에 지정 전공필수 없음 — 식품영양학과 전공 과목으로 단일 60·병행 48 채우기",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s6",
+      "s7",
+      "s8"
+     ],
+     "note": "이수규정 문구: 단일전공 = 주전공 54 + 주전공 추가이수 ≥ 60, 제2전공 병행 = 주전공 48(15학번~). min_credits_by_path 는 신입생세미나 1을 뺀 값. 2024 목록·학과 표의 '*' 는 격년 개설 표시(전필 아님).",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 59,
+       "parallel": 47
+      }
+     }
+    },
+    {
+     "id": "fn-elective-recog",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공선택 인정: 기초유기화학(886.031) 3학점 인정(유기화학 352.209 와 중복 불가), 그 밖 타학과 과목(유전학·물리화학·미생물학 등)은 학과장이 인정한 것만 9학점 이내",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "886.031",
+       "name": "기초유기화학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.209",
+       "name": "유기화학",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "학과장 인정 9학점은 신청·승인 사항이라 앱은 '확인 필요'로 둔다."
+    },
+    {
+     "id": "fn-review",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업 실적심사: 졸업 학기에 실적지도교수 지도로 실적물(실험·조사·리뷰 등)을 포스터로 발표",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s6"
+     ],
+     "note": "편입·전과·복수전공·재입학 포함 모든 식품영양학과 전공자. 졸업 학기 초 지도교수 신청, 6월·12월 발표회, 1~3인 공동 가능, 교과 밖 학술활동 결과물도 제출 가능. 과목 이수로는 판정 안 됨(앱은 안내)."
+    },
+    {
+     "id": "fn-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어(영어) 진행 강좌 3과목 이상(전공 1과목 포함). 학문의 기초(토대)-외국어 영역 영어 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ]
+    },
+    {
+     "id": "fn-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "식품영양학 복수전공: 39학점(생활과학신입생세미나 제외) + 실적심사",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s9",
+      "s10"
+     ],
+     "note": "복수전공 지정 필수 과목은 공개 자료에 없다. 생활대 안의 다른 학과를 복수전공하면 그 학과 39학점(주전공 48 + 39)."
+    },
+    {
+     "id": "fn-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "식품영양학 부전공: 24학점(생활과학신입생세미나 제외)",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s10"
+     ],
+     "note": "부전공 지정 필수 과목은 공개 자료에 없다."
+    },
+    {
+     "id": "fn-dietitian",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "(선택) 영양사 국가시험 응시: 영양 관련 교과목 18과목 52학점을 전공으로 이수(기초 2과목 6학점, 영양 6과목 19, 식품 및 조리 5과목 14, 급식 및 위생 4과목 11, 실습 1과목 2 이상)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "352.216",
+       "name": "인체생리학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.210",
+       "name": "생화학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.327B",
+       "name": "기초영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.302B",
+       "name": "고급영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.326A",
+       "name": "생애주기영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.306",
+       "name": "식이요법및실험",
+       "credits": 4.0
+      },
+      {
+       "code": "M1460.003700",
+       "name": "영양교육 및 상담",
+       "credits": 3.0
+      },
+      {
+       "code": "M1460.001300",
+       "name": "임상영양학 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M1460.001000",
+       "name": "지역사회영양학",
+       "credits": 3.0
+      },
+      {
+       "code": "M0000.016700",
+       "name": "영양평가 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.351A",
+       "name": "식품재료학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.217B",
+       "name": "식품화학",
+       "credits": 4.0
+      },
+      {
+       "code": "352.323A",
+       "name": "식품분석실험",
+       "credits": 3.0
+      },
+      {
+       "code": "352.329A",
+       "name": "식품미생물학 및 실험",
+       "credits": 4.0
+      },
+      {
+       "code": "352.404A",
+       "name": "식품가공 및 저장학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.215",
+       "name": "조리원리및실습",
+       "credits": 3.0
+      },
+      {
+       "code": "M0000.016800",
+       "name": "실험조리 및 관능검사실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.324B",
+       "name": "단체급식관리 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.213B",
+       "name": "급식경영학",
+       "credits": 2.0
+      },
+      {
+       "code": "352.401A",
+       "name": "식생활관리학 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M1460.001200",
+       "name": "식생활문화 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "352.419B",
+       "name": "식품위생학",
+       "credits": 3.0
+      },
+      {
+       "code": "352.325",
+       "name": "영양사현장실습",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "note": "졸업 요건이 아니라 면허 응시 자격(2010.5.23. 이후 입학자). courses 는 학과가 법정 교과목에 대응시킨 개설 과목(2026-2 교과과정 기준). 영역별 최소 과목·학점을 따로 센다.",
+     "extra": {
+      "graduation_required": false
+     }
+    },
+    {
+     "id": "fn-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학 또는 문화와 예술 3 + 역사와 철학 3 + 정치와 경제 3 + 인간과 사회 3, '언어와 문학, 문화와 예술, 역사와 철학' 영역 권장과목(*표시) 1과목 필수",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s21",
+      "s22"
+     ],
+     "note": "권장과목(*) 목록은 해설의 교양 교과목 표 표시를 쓴다.",
+     "extra": {
+      "area": "학문의 세계"
+     }
+    }
+   ],
+   "changed": "외국어 4~6, 전체 교양 0~2.",
+   "note": "학과 '19학번~20학번' 탭: 외국어 4 또는 6, 학문의 기초 26(29). 전체 교양 0~2(2020 해설)."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "외국어 4~6 → 6",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2023,
+   "basis": "입학 연도",
+   "what": "통계학 자리에 생명과학을 위한 통계학(+실험)도 인정(2022학번 이전도 경과조치로 인정 → 앱 판정 차이 없음)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "[1-2] 선택지에 컴퓨터의 개념 및 실습·컴퓨팅 기초/핵심/응용 추가(학문의 기초 '컴퓨터와 정보 활용')",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 체계 개편(학문의 토대 28(29) + 지성의 열쇠 9(문화·역사·인간 3씩) + 베리타스 3)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2026,
+   "basis": "입학 연도",
+   "what": "영어 1과목 필수 기준 TEPS 452 → 525",
+   "status": "확인"
+  },
+  {
+   "basis": "졸업 시기",
+   "what": "학과 규정: 졸업 사정의 '전산기준년도'를 입학년도~졸업 해당 연도 정규 졸업자 학번 사이에서 고를 수 있다(교양·전공 기준년도는 원칙적으로 일치). 즉 더 새 학번 규정으로 졸업할 수 있음",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "생활대 전필 생활과학의 이해 → 생활과학신입생세미나(2024-1~); 학과는 '생활과학신입생세미나(구, 생활과학의이해)'로 같은 과목 취급",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "2019~2020학번이 생명과학을 위한 통계학(+실험)을 들었을 때 통계학으로 인정되는지(경과조치는 '2022학년도 입학자 및 이전 입학자' — 2019~2020 포함으로 읽음)",
+  "'전산기준년도' 선택(더 새 학번 규정 적용)이 지금도 학생 신청으로 되는지",
+  "(1차와 같음) 단일전공 '주전공 54 + 추가 6'의 뜻, 학과장 인정 9학점 대상",
+  "단일전공 '주전공 54 + 추가이수 ≥ 60'에서 54와 추가 6의 뜻(타학과 인정 과목이 추가분에 들어가는지)",
+  "학과장 인정 9학점 대상 타학과 과목 목록",
+  "복수·부전공에 지정 필수 과목이 있는지"
+ ],
+ "sources": {
+  "s1": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.147 □ 생활과학대학 (식품영양학과)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.153 □ 식품영양학과",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.39 □ 식품영양학과",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "식품영양학과, 교양과목 이수기준",
+   "url": "https://foodnutrition.snu.ac.kr/%ea%b5%90%ec%96%91%ea%b3%bc%eb%aa%a9-%ec%9d%b4%ec%88%98%ea%b8%b0%ec%a4%80/",
+   "locator": "26·25·24·23·21~22·19~20학번 탭",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "식품영양학과, 졸업 이수 학점",
+   "url": "https://foodnutrition.snu.ac.kr/%ec%a1%b8%ec%97%85-%ec%9d%b4%ec%88%98-%ed%95%99%ec%a0%90/",
+   "locator": "학번별 표(15학번~)와 주석 *·**·***",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "식품영양학과, 전공 이수 규정",
+   "url": "https://foodnutrition.snu.ac.kr/%ec%a0%84%ea%b3%b5-%ec%9d%b4%ec%88%98-%ea%b7%9c%ec%a0%95/",
+   "locator": "학번별 이수규정, 전공선택 인정과목",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "식품영양학과, 교과과정(전공교과목 이수표준형태)",
+   "url": "https://foodnutrition.snu.ac.kr/%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95-2/",
+   "locator": "표와 ※ 주석",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "생활과학대학 352. 식품영양학과 pp.110–111",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "식품영양학과, 실적심사",
+   "url": "https://foodnutrition.snu.ac.kr/%ec%8b%a4%ec%a0%81%ec%8b%ac%ec%82%ac/",
+   "locator": "1. 학부 실적심사",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 학사과정 복수·부전공 이수학점 기준(p.10–11)",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "식품영양학과, 영양사 이수기준",
+   "url": "https://foodnutrition.snu.ac.kr/%ec%98%81%ec%96%91%ec%82%ac-%ec%9d%b4%ec%88%98%ea%b8%b0%ec%a4%80/",
+   "locator": "1. 응시자격, 2. 개설 교과목(2026년 2학기 기준), 3. FAQ",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "식품영양학과, 졸업 이수 학점",
+   "url": "https://foodnutrition.snu.ac.kr/%ec%a1%b8%ec%97%85-%ec%9d%b4%ec%88%98-%ed%95%99%ec%a0%90/",
+   "locator": "학번별 표(15학번~ 칸)와 주석",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.153",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "식품영양학과, 전공 이수 규정",
+   "url": "https://foodnutrition.snu.ac.kr/%ec%a0%84%ea%b3%b5-%ec%9d%b4%ec%88%98-%ea%b7%9c%ec%a0%95/",
+   "locator": "학번별 이수규정([15학번~]), 졸업 시 전산기준년도",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.39",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "학부대학, 2025학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/01/2025학년도-시행-공통교육과정-대학별-이수규정국문.pdf",
+   "locator": "PDF p.36(TEPS 800/452)",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.39(TEPS 900/525, ‘2025학년도 입학생부터 적용’)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.147",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "학부대학 게시, 2024학년도 대학별 교양 이수규정(PDF)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2024_2.pdf",
+   "locator": "PDF p.31",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.38 □ 식품영양학과",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "학부대학 게시, 2024학년도 대학별 교양 이수규정(PDF)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2024_2.pdf",
+   "locator": "PDF p.31(표 그림 확인)",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.38",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1·2",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.38(‘2024학년도 입학생부터 적용’)",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "학부대학 게시, 2023학년도 대학별 교양 이수규정(PDF)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2023_2.pdf",
+   "locator": "PDF p.31 □ 식품영양학과(경과조치)",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "p.35 □ 식품영양학과",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·2",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "학부대학 게시, 2023학년도 대학별 교양 이수규정(PDF)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2023_2.pdf",
+   "locator": "PDF p.31",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "p.35(‘2021학년도 입학생부터 적용’)",
+   "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.35",
+   "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.35 □ 식품영양학과",
+   "accessed": "2026-11-12"
+  },
+  "s32": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·2",
+   "accessed": "2026-11-12"
+  },
+  "s33": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.35 □ 식품영양학과(‘2019학년도 입학생부터 적용’)",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

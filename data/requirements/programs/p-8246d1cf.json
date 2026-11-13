@@ -1,0 +1,623 @@
+{
+ "id": "p-8246d1cf",
+ "college": "학부대학(자유전공학부·광역)·첨단융합학부·혁신공유학부·연합전공·연계전공·학생설계전공",
+ "unit": "혁신공유학부",
+ "program": "혁신공유학부 교과인증과정(학부)",
+ "kind": "major",
+ "depts": [
+  "혁신공유학부"
+ ],
+ "code_prefixes": [],
+ "ge_key": null,
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "에너지신산업",
+   "차세대반도체",
+   "빅데이터",
+   "그린바이오"
+  ],
+  "when": "해당 없음(소속 학생·전공 선택 없음)",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2019,
+    2026
+   ],
+   "basis": "교과 개편 학기",
+   "credits": {
+    "grad": null,
+    "ge": null,
+    "single": null,
+    "parallel": null,
+    "double": null,
+    "minor": null,
+    "status": "확인",
+    "src": [
+     "s28",
+     "s29",
+     "s30"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s28",
+    "s30"
+   ],
+   "requirements": [
+    {
+     "id": "ics-cert-06",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「신재생에너지 기초」(혁신공유학부 에너지신산업): 지정 교과목 12학점 이상(개설 2022-2)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-07",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「신재생에너지 생산」(혁신공유학부 에너지신산업): 지정 교과목 12학점 이상(개설 2022-2)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-08",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「에너지 저장과 변환」(혁신공유학부 에너지신산업): 지정 교과목 12학점 이상(개설 2022-2)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s3"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-09",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「에너지 수송과 관리」(혁신공유학부 에너지신산업): 지정 교과목 12학점 이상(개설 2022-2)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-10",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「에너지 경영 관리」(혁신공유학부 에너지신산업): 지정 교과목 12학점 이상(개설 2022-2)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-11",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「반도체 입문」(혁신공유학부 차세대반도체): 지정 교과목 9학점 이상(개설 2022-2)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s6"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-12",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「반도체 소자 및 공정 기초」(혁신공유학부 차세대반도체): 지정 교과목 9학점 이상(개설 2022-2)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-13",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「반도체 회로 및 시스템 기초」(혁신공유학부 차세대반도체): 지정 교과목 9학점 이상(개설 2022-2)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-14",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「반도체 시스템 및 소프트웨어 기초」(혁신공유학부 차세대반도체): 지정 교과목 9학점 이상(개설 2022-2)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s9"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-15",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「반도체 실무 기초」(혁신공유학부 차세대반도체): 지정 교과목 9학점 이상(개설 2022-2)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s10"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-18",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「빅데이터 초급」(혁신공유학부 빅데이터): 지정 교과목 12학점 이상(개설 2022-2)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s11"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-19",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「빅데이터 관리」(혁신공유학부 빅데이터): 지정 교과목 12학점 이상(개설 2022-2)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s12"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-20",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「빅데이터 분석」(혁신공유학부 빅데이터): 지정 교과목 12학점 이상(개설 2022-2)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s13"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-21",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「빅데이터 마이닝」(혁신공유학부 빅데이터): 지정 교과목 12학점 이상(개설 2022-2)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s14"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-22",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「빅데이터 고급」(혁신공유학부 빅데이터): 지정 교과목 12학점 이상(개설 2022-2)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s15"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-36",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「AWS 기반 머신러닝 및 클라우드 개발 전문가 과정」(혁신공유학부 빅데이터): 지정 교과목 12학점 이상(개설 2025-1)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s16"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-49",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「AI 머신러닝」(혁신공유학부 빅데이터): 지정 교과목 12학점 이상(개설 2025-2)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s17"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-50",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「빅데이터 인지과학」(혁신공유학부 빅데이터): 지정 교과목 12학점 이상(개설 2025-2)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s18"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-51",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「지능형실감 데이터」(혁신공유학부 빅데이터): 지정 교과목 12학점 이상(개설 2025-2)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s19"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-37",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「스마트팜」(혁신공유학부 그린바이오): 지정 교과목 9학점 이상(개설 2025-1)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s20"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-38",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「탄소중립」(혁신공유학부 그린바이오): 지정 교과목 9학점 이상(개설 2025-1)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s21"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-39",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「바이오소재」(혁신공유학부 그린바이오): 지정 교과목 9학점 이상(개설 2025-1)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s22"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-40",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「친환경 축산」(혁신공유학부 그린바이오): 지정 교과목 9학점 이상(개설 2025-1)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s23"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-52",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「스마트 푸드테크」(혁신공유학부 그린바이오): 지정 교과목 9학점 이상(개설 2025-2)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s24"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-cert-53",
+     "type": "other",
+     "applies_to": [],
+     "text": "교과인증과정 「스마트 정밀농업」(혁신공유학부 그린바이오): 지정 교과목 9학점 이상(개설 2025-2)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s25"
+     ],
+     "note": "졸업 요건이 아닌 선택 인증. 지정 과목·세부 이수기준(평점, 대체 과목, 컨소시엄 타대학 과목 인정)은 승인 내역 표의 같은 행."
+    },
+    {
+     "id": "ics-course-credit",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "(공유) 과목이 소속 학과 졸업 학점에서 전공선택·일반선택 중 무엇으로 인정되는지는 소속 학과 규정에 따른다(공개 자료에서 일반 규칙 못 찾음). 자유전공학부의 '전공탐색 교과목 대체 인정'(2012~2024학번)에는 혁신공유학부 과목이 들어가지 않는다.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s26",
+      "s27"
+     ]
+    }
+   ],
+   "note": "학번 기준이 없다. 2022년 모집단위 아닌 교육 조직으로 신설(2022 해설 4.나(5)), 과정은 2022-2학기부터. 과정 목록·지정 과목은 학기마다 '교과인증 과정 승인 내역'으로 바뀐다(1차는 2025-2 판). 재학 중인 학생이면 학번과 상관없이 이수 가능."
+  }
+ ],
+ "change_points": [
+  {
+   "basis": "교과 개편 학기",
+   "what": "혁신공유학부 교과인증과정 개설 시작",
+   "status": "부분"
+  }
+ ],
+ "ask_department": [
+  "(공유) 과목의 소속 학과 졸업 학점 인정 방식(1차와 같음)",
+  "(공유) 과목의 졸업 학점 인정 방식(전선·일선), 학과별 차이",
+  "교과인증과정 학점이 전공·교양과 중복 인정되는지(첨단융합 트랙은 불가로 명시)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 6",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 7",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 8",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 9",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 10",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 11",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 12",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 13",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 14",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 15",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 18",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 19",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 20",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 21",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 22",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 36",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 49",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 50",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 51",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 37",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 38",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 39",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 40",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 52",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 53",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "자유전공학부 졸업규정 쪽",
+   "url": "https://cls.snu.ac.kr/졸업규정/",
+   "locator": "타전공 개설과목 대체 인정 유의사항",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "TT Wizard 수강편람 자료(2021-1~2026-2)",
+   "locator": "교과구분 '전선' 175/178",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s28": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "PDF p.33 4.나(1)(라)(마)·(2)·(5) 혁신공유학부",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "PDF p.37 4.나(1)(라)(마)·(2)·(5)",
+   "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "□ 학부 과정 중 혁신공유학부 주관",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

@@ -3,6 +3,7 @@
  "college": "공과대학",
  "unit": "화학생물공학부",
  "program": "화학생물공학부",
+ "kind": "major",
  "depts": [
   "화학생물공학부"
  ],
@@ -12,6 +13,7 @@
   2019,
   2026
  ],
+ "version_key": "entry",
  "predecessor": null,
  "structure": {
   "status": "부분"

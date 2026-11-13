@@ -1,0 +1,5558 @@
+{
+ "id": "p-d8bff34e",
+ "college": "공과대학",
+ "unit": "기계공학부",
+ "program": "기계공학부",
+ "kind": "major",
+ "depts": [
+  "기계공학부"
+ ],
+ "code_prefixes": [],
+ "ge_key": "공과대학 기계공학부(2019~2020 기계항공공학부 기계공학전공)",
+ "exists_for": [
+  2021,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": {
+  "unit": "기계항공공학부",
+  "program": "기계공학전공",
+  "entry_years": [
+   2019,
+   2020
+  ],
+  "note": "학번별 규정 머리: 2019 'SNU_MAE … 기계항공공학부 기계공학전공', 2020 'SNU_ME … 기계항공공학부 기계공학전공', 2021부터 '기계공학부'. 본부 2020 해설 표 1·2 도 '기계항공공학부(기계공학전공)', 2022 해설부터 '기계공학부'. 1차의 '2020학번부터 분리'는 파일 이름만 본 판단이라 2021학번부터로 고친다(2020학번 이전 학생이 지금 어느 학부 소속으로 졸업하는지는 미확인).",
+  "status": "확인"
+ },
+ "structure": {
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 49,
+    "single": 62,
+    "parallel": 45,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s11",
+     "s12",
+     "s13"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s14",
+    "s15"
+   ],
+   "requirements": [
+    {
+     "id": "me-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 6과목 18학점",
+     "min_count": 6,
+     "min_credits": 18,
+     "courses": [
+      {
+       "code": "M3228.001300",
+       "name": "기계시스템 설계와 로봇 프로그래밍의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001000",
+       "name": "고체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001100",
+       "name": "열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001200",
+       "name": "동역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001300",
+       "name": "유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013200",
+       "name": "기계공학실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "me-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학사논문과목: 기계시스템설계 1·2 필수(한 학기에 한 과목씩 1년), 3학점",
+     "min_count": 2,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M2794.004200",
+       "name": "기계시스템설계 1",
+       "credits": 1
+      },
+      {
+       "code": "M2794.004300",
+       "name": "기계시스템설계 2",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "편람 교과구분은 전선이지만 학부 규정상 필수. 단일전공 62 안의 '논문 3'."
+    },
+    {
+     "id": "me-eng-intro",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 공통 '공학개론' 영역 3학점(400.013 기계공학개론 제외)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "400.015",
+       "name": "산업공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.019A",
+       "name": "전기·정보공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.020",
+       "name": "재료공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.022",
+       "name": "건설환경공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.024",
+       "name": "에너지자원공학개론",
+       "credits": 3
+      },
+      {
+       "code": "M2177.008600",
+       "name": "인공지능 개론",
+       "credits": 3
+      },
+      {
+       "code": "M2177.008700",
+       "name": "정보 보호 및 블록체인 개론",
+       "credits": 3
+      },
+      {
+       "code": "M2177.007800",
+       "name": "VR/AR의 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "400.023",
+       "name": "화학생물공학개론",
+       "credits": 3
+      },
+      {
+       "code": "M2177.008100",
+       "name": "공학 전공 탐색",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "단일전공 62 안의 '공대공통 3'. 인공지능 개론은 舊 M2177.004900, 정보 보호 및 블록체인 개론은 舊 M2177.006300 과 같은 과목으로 본다."
+    },
+    {
+     "id": "me-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상(전필 18, 공대공통 3, 논문 3 포함) → 그 밖 전공 38학점",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "전공선택 인정: ① 공과대학 공통과목(400.XXX, M2177.XXXXXX) ② 공대·자연대 전공과목과 지정 경영대학 10과목 중 학부장 승인 과목 — ①+② 합쳐 최대 15학점. 1·2학기 중복 개설 과목은 한 학기만."
+    },
+    {
+     "id": "me-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행: 복수·연합이면 45학점 이상, 부·연계·학생설계면 48학점 이상",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s5"
+     ],
+     "note": "parallel_by_type 참고. 병행 때 공대공통·논문을 그 학점 안에 넣는 방식은 문서에 없음(필수 자체는 학부 학생 공통 규정)."
+    },
+    {
+     "id": "me-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 49학점 이상(2025학번)",
+     "min_count": null,
+     "min_credits": 49,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "영역 합이 총합과 같아 '전체 교양 교과목' 자유 선택분은 0학점이다(영역별 최저를 채우면 총합도 찬다)."
+    },
+    {
+     "id": "me-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 택 1)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "대학 글쓰기 1을 먼저 들어야 대학 글쓰기 2를 들을 수 있다(학부대학 공통)."
+    },
+    {
+     "id": "me-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 조건은 '확인 필요'로 둔다."
+    },
+    {
+     "id": "me-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 12학점: 수학 1·수학연습 1(또는 고급수학 1·연습 1), 수학 2·수학연습 2(또는 고급수학 2·연습 2), 공학수학 1, 공학수학 2",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "연습 과목은 이론 과목과 같은 학기에 듣는 것이 원칙."
+    },
+    {
+     "id": "me-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학 12학점: [1-1] 물리학 1·물리학실험 1, [1-2] 물리학 2·물리학실험 2 (8학점), 그리고 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학과 각 실험 중 4학점",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s1"
+     ],
+     "note": "물리학 1·2 는 물리의 기본·고급물리학으로 대체 가능. 이론·실험 같은 학기.",
+     "extra": {
+      "groups": [
+       {
+        "field": "물리 필수(8학점)",
+        "courses": [
+         {
+          "code": "F33.106",
+          "name": "물리학 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)",
+          "note": "고교 물리Ⅱ를 안 들었으면 물리의 기본 1이 원칙(물리학성취도평가로 물리학 1 가능), 고급물리학 1로 대체 가능"
+         },
+         {
+          "code": "F33.106L",
+          "name": "물리학실험 1",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F33.103",
+          "name": "물리의 기본 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)",
+          "note": "물리학 1 대체"
+         },
+         {
+          "code": "F33.108",
+          "name": "고급물리학 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)",
+          "note": "물리학 1 대체"
+         },
+         {
+          "code": "F33.107",
+          "name": "물리학 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)",
+          "note": "물리의 기본 2 또는 고급물리학 2로 대체 가능"
+         },
+         {
+          "code": "F33.107L",
+          "name": "물리학실험 2",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F33.104",
+          "name": "물리의 기본 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)",
+          "note": "물리학 2 대체"
+         },
+         {
+          "code": "F33.109",
+          "name": "고급물리학 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)",
+          "note": "물리학 2 대체"
+         }
+        ]
+       },
+       {
+        "field": "그 밖(4학점)",
+        "courses": [
+         {
+          "code": "F34.104",
+          "name": "화학 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F34.104L",
+          "name": "화학실험 1",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F34.105",
+          "name": "화학 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F34.105L",
+          "name": "화학실험 2",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F34.103",
+          "name": "화학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F34.106",
+          "name": "고급화학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)",
+          "note": "화학 대체"
+         },
+         {
+          "code": "F34.103L",
+          "name": "화학실험",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F35.104",
+          "name": "생물학 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F35.104L",
+          "name": "생물학실험 1",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F35.105",
+          "name": "생물학 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F35.105L",
+          "name": "생물학실험 2",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F35.103",
+          "name": "생물학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F35.103L",
+          "name": "생물학실험",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F32.102",
+          "name": "통계학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F32.102L",
+          "name": "통계학실험",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "me-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨팅 3학점: [2-1] 컴퓨터의 개념 및 실습",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s1"
+     ]
+    },
+    {
+     "id": "me-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상 3, 역사적 탐구와 철학적 사유 3, 인간의 이해와 사회 분석 3 (과학적 사고와 응용은 요건 없음)",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "길잡이 표가 세 영역에 3학점씩 따로 적고 '과학적 사고와 응용' 칸은 비어 있다(쪽 그림으로 확인).",
+     "extra": {
+      "areas": [
+       {
+        "area": "문화 해석과 상상",
+        "min_credits": 3
+       },
+       {
+        "area": "역사적 탐구와 철학적 사유",
+        "min_credits": 3
+       },
+       {
+        "area": "인간의 이해와 사회 분석",
+        "min_credits": 3
+       }
+      ]
+     }
+    },
+    {
+     "id": "me-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점 이상(베리타스 강좌 1·2·베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ]
+    },
+    {
+     "id": "me-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s9"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "me-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1과목 이상 포함, 대학영어 제외): 2024학번부터는 '권장'(필수 아님)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s9"
+     ]
+    },
+    {
+     "id": "me-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "me-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 기계공학부 복수전공(2023~2026학번): 전필 18 + 논문 3(기계시스템설계 1·2) + 전선 18 이상 = 39학점 이상",
+     "min_count": 8,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M3228.001300",
+       "name": "기계시스템 설계와 로봇 프로그래밍의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001000",
+       "name": "고체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001100",
+       "name": "열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001200",
+       "name": "동역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001300",
+       "name": "유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013200",
+       "name": "기계공학실험",
+       "credits": 3
+      },
+      {
+       "code": "M2794.004200",
+       "name": "기계시스템설계 1",
+       "credits": 1
+      },
+      {
+       "code": "M2794.004300",
+       "name": "기계시스템설계 2",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s10"
+     ],
+     "note": "복수전공은 학칙에 따라 두 학과가 같이 인정하는 타 학과 과목을 3학점까지 겹쳐 인정할 수 있다고 함께 적는다."
+    },
+    {
+     "id": "me-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공(2023~2026학번): 2학년 전필 4과목 12학점 + 전선 9학점 이상 = 21학점 이상",
+     "min_count": 4,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "M2794.001000",
+       "name": "고체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001100",
+       "name": "열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001200",
+       "name": "동역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001300",
+       "name": "유체역학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s10"
+     ]
+    },
+    {
+     "id": "me-aero-equiv",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "항공우주공학과 학생이 기계공학부를 다전공하면 유사 교과목 인정(2021-08-31): 항공우주 고체역학 1 ↔ 고체역학, 항공우주열역학 ↔ 열역학, 운동체역학 ↔ 동역학",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3229.001900",
+       "name": "항공우주 고체역학 1",
+       "credits": 3
+      },
+      {
+       "code": "M3229.002600",
+       "name": "항공우주열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2795.002100",
+       "name": "운동체역학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "유사 교과목을 뺀 부족 학점은 기계공학부 전공으로 채운다. 전과생은 같은 표로 대체 인정."
+    }
+   ],
+   "note": "1차(2025학번) 요건 그대로. 2026학번 규정은 2025학번 규정과 '적용 학년도' 문장 하나만 다르다. 2026 길잡이 머리가 '기계공학부'라 2025 길잡이의 '기계공학과'는 표기 차이로 정리된다. 2026 규정 쪽 6(공대 공통과목 리스트, 2026-1 시행)의 전선 인정 경영대 과목은 9과목(251.101 경영학원론 빠짐, 조직행위론·조직구조론 → M1338.004000 조직행동론·M1338.004100 조직이론)인데 쪽 1 은 옛 10과목을 그대로 적는다."
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 49,
+    "single": 62,
+    "parallel": 45,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s19",
+     "s20",
+     "s21"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s22"
+   ],
+   "requirements": [
+    {
+     "id": "me-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 6과목 18학점",
+     "min_count": 6,
+     "min_credits": 18,
+     "courses": [
+      {
+       "code": "M3228.001300",
+       "name": "기계시스템 설계와 로봇 프로그래밍의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001000",
+       "name": "고체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001100",
+       "name": "열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001200",
+       "name": "동역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001300",
+       "name": "유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013200",
+       "name": "기계공학실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "me-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학사논문과목: 기계시스템설계 1·2 필수(한 학기에 한 과목씩 1년), 3학점",
+     "min_count": 2,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M2794.004200",
+       "name": "기계시스템설계 1",
+       "credits": 1
+      },
+      {
+       "code": "M2794.004300",
+       "name": "기계시스템설계 2",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "편람 교과구분은 전선이지만 학부 규정상 필수. 단일전공 62 안의 '논문 3'."
+    },
+    {
+     "id": "me-eng-intro",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 공통 '공학개론' 영역 3학점(400.013 기계공학개론 제외)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "400.015",
+       "name": "산업공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.019A",
+       "name": "전기·정보공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.020",
+       "name": "재료공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.022",
+       "name": "건설환경공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.024",
+       "name": "에너지자원공학개론",
+       "credits": 3
+      },
+      {
+       "code": "M2177.008600",
+       "name": "인공지능 개론",
+       "credits": 3
+      },
+      {
+       "code": "M2177.008700",
+       "name": "정보 보호 및 블록체인 개론",
+       "credits": 3
+      },
+      {
+       "code": "M2177.007800",
+       "name": "VR/AR의 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "400.023",
+       "name": "화학생물공학개론",
+       "credits": 3
+      },
+      {
+       "code": "M2177.008100",
+       "name": "공학 전공 탐색",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "단일전공 62 안의 '공대공통 3'. 인공지능 개론은 舊 M2177.004900, 정보 보호 및 블록체인 개론은 舊 M2177.006300 과 같은 과목으로 본다."
+    },
+    {
+     "id": "me-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상(전필 18, 공대공통 3, 논문 3 포함) → 그 밖 전공 38학점",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "전공선택 인정: ① 공과대학 공통과목(400.XXX, M2177.XXXXXX) ② 공대·자연대 전공과목과 지정 경영대학 10과목 중 학부장 승인 과목 — ①+② 합쳐 최대 15학점. 1·2학기 중복 개설 과목은 한 학기만."
+    },
+    {
+     "id": "me-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행: 복수·연합이면 45학점 이상, 부·연계·학생설계면 48학점 이상",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s5"
+     ],
+     "note": "parallel_by_type 참고. 병행 때 공대공통·논문을 그 학점 안에 넣는 방식은 문서에 없음(필수 자체는 학부 학생 공통 규정)."
+    },
+    {
+     "id": "me-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 49학점 이상(2024학번)",
+     "min_count": null,
+     "min_credits": 49,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16"
+     ],
+     "note": "학문의 기초·학문의 세계(2014~2024 체계). 영역별 최저를 더하면 총합과 같다(자유 선택분 0)."
+    },
+    {
+     "id": "me-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 택 1)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101"
+       ]
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.201"
+       ]
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.202"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s16"
+     ],
+     "note": "alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "me-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16"
+     ]
+    },
+    {
+     "id": "me-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 12학점: [1-1] 수학 1·수학연습 1(또는 고급수학 1·연습 1), [1-2] 수학 2·수학연습 2(또는 고급수학 2·연습 2), [2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.104"
+       ]
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.104L"
+       ]
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.106"
+       ]
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.106L"
+       ]
+      },
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.105"
+       ]
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.105L"
+       ]
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.107"
+       ]
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.107L"
+       ]
+      },
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F31.201"
+       ]
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F31.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s16"
+     ],
+     "note": "연습 과목은 같은 학기에 함께 듣는다. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "me-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 12학점: [1-1] 물리학 1·물리학실험 1, [1-2] 물리학 2·물리학실험 2(8학점), 그리고 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학과 각 실험 중 4학점",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.106"
+       ]
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F33.106L"
+       ]
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.103"
+       ]
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.108"
+       ]
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.107"
+       ]
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F33.107L"
+       ]
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.104"
+       ]
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.109"
+       ]
+      },
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F34.104"
+       ]
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F34.105"
+       ]
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F34.105L"
+       ]
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.103"
+       ]
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.106"
+       ]
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F34.103L"
+       ]
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F35.104"
+       ]
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F35.104L"
+       ]
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F35.105"
+       ]
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F35.105L"
+       ]
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "F35.103"
+       ]
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F35.103L"
+       ]
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "F32.102"
+       ]
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F32.102L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17"
+     ],
+     "note": "물리학 1·2 는 물리의 기본·고급물리학으로 대체 가능. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "me-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보 활용 3학점: [2-1] 컴퓨터의 개념 및 실습",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "F37.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s18"
+     ]
+    },
+    {
+     "id": "me-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s9"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "me-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1과목 이상 포함, 대학영어 제외): 2024학번부터는 '권장'(필수 아님)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s9"
+     ]
+    },
+    {
+     "id": "me-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "me-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 기계공학부 복수전공(2023~2026학번): 전필 18 + 논문 3(기계시스템설계 1·2) + 전선 18 이상 = 39학점 이상",
+     "min_count": 8,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M3228.001300",
+       "name": "기계시스템 설계와 로봇 프로그래밍의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001000",
+       "name": "고체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001100",
+       "name": "열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001200",
+       "name": "동역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001300",
+       "name": "유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013200",
+       "name": "기계공학실험",
+       "credits": 3
+      },
+      {
+       "code": "M2794.004200",
+       "name": "기계시스템설계 1",
+       "credits": 1
+      },
+      {
+       "code": "M2794.004300",
+       "name": "기계시스템설계 2",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s10"
+     ],
+     "note": "복수전공은 학칙에 따라 두 학과가 같이 인정하는 타 학과 과목을 3학점까지 겹쳐 인정할 수 있다고 함께 적는다."
+    },
+    {
+     "id": "me-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공(2023~2026학번): 2학년 전필 4과목 12학점 + 전선 9학점 이상 = 21학점 이상",
+     "min_count": 4,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "M2794.001000",
+       "name": "고체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001100",
+       "name": "열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001200",
+       "name": "동역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001300",
+       "name": "유체역학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s10"
+     ]
+    },
+    {
+     "id": "me-aero-equiv",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "항공우주공학과 학생이 기계공학부를 다전공하면 유사 교과목 인정(2021-08-31): 항공우주 고체역학 1 ↔ 고체역학, 항공우주열역학 ↔ 열역학, 운동체역학 ↔ 동역학",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3229.001900",
+       "name": "항공우주 고체역학 1",
+       "credits": 3
+      },
+      {
+       "code": "M3229.002600",
+       "name": "항공우주열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2795.002100",
+       "name": "운동체역학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "유사 교과목을 뺀 부족 학점은 기계공학부 전공으로 채운다. 전과생은 같은 표로 대체 인정."
+    },
+    {
+     "id": "me-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 4개 영역 이상",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16"
+     ],
+     "note": "자연과 기술·생명과 환경은 이 요건에 들지 않는다. 2025-1 이후 열린 교양 과목은 학부대학 비교표로 옛 '학문의 세계' 영역을 인정받는다(교양 개편 안내)."
+    }
+   ],
+   "changed": "교양만 옛 체계 49(학문의 세계 12·4개 영역), 전공 요건 같음",
+   "note": "전공 요건은 2025학번과 같다(2025 규정에 '전공과목 이수규정은 2024학년도 기계공학부 입학생부터 적용'). 교양만 옛 체계 49(학문의 세계 4개 영역)."
+  },
+  {
+   "entry_years": [
+    2023,
+    2023
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 49,
+    "single": 62,
+    "parallel": 45,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s27",
+     "s28"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s29"
+   ],
+   "requirements": [
+    {
+     "id": "me-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 6과목 18학점",
+     "min_count": 6,
+     "min_credits": 18,
+     "courses": [
+      {
+       "code": "M3228.001300",
+       "name": "기계시스템 설계와 로봇 프로그래밍의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001000",
+       "name": "고체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001100",
+       "name": "열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001200",
+       "name": "동역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001300",
+       "name": "유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013200",
+       "name": "기계공학실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "me-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학사논문과목: 기계시스템설계 1·2 필수(한 학기에 한 과목씩 1년), 3학점",
+     "min_count": 2,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M2794.004200",
+       "name": "기계시스템설계 1",
+       "credits": 1
+      },
+      {
+       "code": "M2794.004300",
+       "name": "기계시스템설계 2",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "편람 교과구분은 전선이지만 학부 규정상 필수. 단일전공 62 안의 '논문 3'."
+    },
+    {
+     "id": "me-eng-intro",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 공통교과목 '공학개론' 영역 3학점(400.013 기계공학개론 제외)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "400.015",
+       "name": "산업공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.019A",
+       "name": "전기.정보공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.020",
+       "name": "재료공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.022",
+       "name": "건설환경공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.023",
+       "name": "화학생물공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.024",
+       "name": "에너지자원공학개론",
+       "credits": 3
+      },
+      {
+       "code": "M2177.004900",
+       "name": "IoT·인공지능·빅데이터 개론 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "M2177.008600"
+       ]
+      },
+      {
+       "code": "M2177.006300",
+       "name": "사이버 보안과 블록체인 개론 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "M2177.008700"
+       ]
+      },
+      {
+       "code": "M2177.007800",
+       "name": "VR/AR의 개론 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25"
+     ],
+     "note": "새 번호는 2024 규정의 '舊' 표기로 같은 과목. 공학 전공 탐색(M2177.008100)은 이 학번 목록에 없다."
+    },
+    {
+     "id": "me-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상(전필 18, 공대공통 3, 논문 3 포함)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s26"
+     ],
+     "note": "전공선택 인정: ① 공과대학 공통과목(400·M2177) 모든 과목 ② 공대·자연대 전공과목·지정 경영대 10과목 중 학부장 승인 과목 최대 15학점(이 학번은 한도가 ②에만 걸린다고 적힘; 2024학번부터 ①+②)."
+    },
+    {
+     "id": "me-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행: 복수·연합이면 45학점 이상, 부·연계·학생설계면 48학점 이상",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s5"
+     ],
+     "note": "parallel_by_type 참고. 병행 때 공대공통·논문을 그 학점 안에 넣는 방식은 문서에 없음(필수 자체는 학부 학생 공통 규정)."
+    },
+    {
+     "id": "me-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 49학점 이상(2024학번)",
+     "min_count": null,
+     "min_credits": 49,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16"
+     ],
+     "note": "학문의 기초·학문의 세계(2014~2024 체계). 영역별 최저를 더하면 총합과 같다(자유 선택분 0)."
+    },
+    {
+     "id": "me-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 택 1)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101"
+       ]
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.201"
+       ]
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.202"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s16"
+     ],
+     "note": "alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "me-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16"
+     ]
+    },
+    {
+     "id": "me-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 12학점: [1-1] 수학 1·수학연습 1(또는 고급수학 1·연습 1), [1-2] 수학 2·수학연습 2(또는 고급수학 2·연습 2), [2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.104"
+       ]
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.104L"
+       ]
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.106"
+       ]
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.106L"
+       ]
+      },
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.105"
+       ]
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.105L"
+       ]
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.107"
+       ]
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.107L"
+       ]
+      },
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F31.201"
+       ]
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F31.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s16"
+     ],
+     "note": "연습 과목은 같은 학기에 함께 듣는다. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "me-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 12학점: [1-1] 물리학 1·물리학실험 1, [1-2] 물리학 2·물리학실험 2(8학점), 그리고 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학과 각 실험 중 4학점",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.106"
+       ]
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F33.106L"
+       ]
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.103"
+       ]
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.108"
+       ]
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.107"
+       ]
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F33.107L"
+       ]
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.104"
+       ]
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.109"
+       ]
+      },
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F34.104"
+       ]
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F34.105"
+       ]
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F34.105L"
+       ]
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.103"
+       ]
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.106"
+       ]
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F34.103L"
+       ]
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F35.104"
+       ]
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F35.104L"
+       ]
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F35.105"
+       ]
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F35.105L"
+       ]
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "F35.103"
+       ]
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F35.103L"
+       ]
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "F32.102"
+       ]
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F32.102L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17"
+     ],
+     "note": "물리학 1·2 는 물리의 기본·고급물리학으로 대체 가능. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "me-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보 활용 3학점: [2-1] 컴퓨터의 개념 및 실습",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "F37.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s18"
+     ]
+    },
+    {
+     "id": "me-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s9"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "me-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1과목 이상 포함, 대학영어 제외) 의무",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s24"
+     ]
+    },
+    {
+     "id": "me-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "me-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 기계공학부 복수전공(2023~2026학번): 전필 18 + 논문 3(기계시스템설계 1·2) + 전선 18 이상 = 39학점 이상",
+     "min_count": 8,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M3228.001300",
+       "name": "기계시스템 설계와 로봇 프로그래밍의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001000",
+       "name": "고체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001100",
+       "name": "열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001200",
+       "name": "동역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001300",
+       "name": "유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013200",
+       "name": "기계공학실험",
+       "credits": 3
+      },
+      {
+       "code": "M2794.004200",
+       "name": "기계시스템설계 1",
+       "credits": 1
+      },
+      {
+       "code": "M2794.004300",
+       "name": "기계시스템설계 2",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s10"
+     ],
+     "note": "복수전공은 학칙에 따라 두 학과가 같이 인정하는 타 학과 과목을 3학점까지 겹쳐 인정할 수 있다고 함께 적는다."
+    },
+    {
+     "id": "me-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공(2023~2026학번): 2학년 전필 4과목 12학점 + 전선 9학점 이상 = 21학점 이상",
+     "min_count": 4,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "M2794.001000",
+       "name": "고체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001100",
+       "name": "열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001200",
+       "name": "동역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001300",
+       "name": "유체역학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s10"
+     ]
+    },
+    {
+     "id": "me-aero-equiv",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "항공우주공학과 학생이 기계공학부를 다전공하면 유사 교과목 인정(2021-08-31): 항공우주 고체역학 1 ↔ 고체역학, 항공우주열역학 ↔ 열역학, 운동체역학 ↔ 동역학",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3229.001900",
+       "name": "항공우주 고체역학 1",
+       "credits": 3
+      },
+      {
+       "code": "M3229.002600",
+       "name": "항공우주열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2795.002100",
+       "name": "운동체역학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "유사 교과목을 뺀 부족 학점은 기계공학부 전공으로 채운다. 전과생은 같은 표로 대체 인정."
+    },
+    {
+     "id": "me-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 3개 영역 이상",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23"
+     ],
+     "note": "자연과 기술·생명과 환경은 이 요건에 들지 않는다. 2025-1 이후 열린 교양 과목은 학부대학 비교표로 옛 '학문의 세계' 영역을 인정받는다(교양 개편 안내)."
+    }
+   ],
+   "changed": "학문의 세계 3개 영역, 외국어 진행 강좌 의무, 공학개론 목록 옛 번호(공학 전공 탐색 없음), 전선 인정 15학점 한도는 학부장 승인 과목(②)에만",
+   "note": "전필 6과목 18 체계는 2023학번부터(규정 '2023학년도 기계공학부 입학생부터 적용'). 2024학번과는 학문의 세계 3개 영역, 외국어 진행 강좌 의무, 공학개론 목록(옛 번호), 전선 인정 한도(15학점이 ②에만)가 다르다."
+  },
+  {
+   "entry_years": [
+    2021,
+    2022
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 49,
+    "single": 62,
+    "parallel": 45,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s37",
+     "s38",
+     "s39",
+     "s40"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s41",
+    "s42",
+    "s43"
+   ],
+   "requirements": [
+    {
+     "id": "me-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 11과목 33학점",
+     "min_count": 11,
+     "min_credits": 33,
+     "courses": [
+      {
+       "code": "400.018",
+       "name": "창의공학설계",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001000",
+       "name": "고체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001100",
+       "name": "열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001200",
+       "name": "동역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001300",
+       "name": "유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001700",
+       "name": "기계제품설계",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001800",
+       "name": "재료와 제조공정",
+       "credits": 3
+      },
+      {
+       "code": "M2794.002600",
+       "name": "열전달",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013200",
+       "name": "기계공학실험",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013400",
+       "name": "메카트로닉스",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013500",
+       "name": "기계시스템 모델링 및 제어",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s30",
+      "s31"
+     ],
+     "note": "기계제품설계·재료와 제조공정·메카트로닉스·기계시스템 모델링 및 제어(2025-1), 열전달(2025-2)은 편람 교과구분이 전선으로 바뀌었지만 이 학번들에겐 전필. 기계공학실험·메카트로닉스는 학번 홀짝으로 개설 학기가 나뉨(학부 메모)."
+    },
+    {
+     "id": "me-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학사논문과목: 기계시스템설계 1·2 필수(한 학기에 한 과목씩 1년), 3학점",
+     "min_count": 2,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M2794.004200",
+       "name": "기계시스템설계 1",
+       "credits": 1
+      },
+      {
+       "code": "M2794.004300",
+       "name": "기계시스템설계 2",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "편람 교과구분은 전선이지만 학부 규정상 필수. 단일전공 62 안의 '논문 3'."
+    },
+    {
+     "id": "me-eng-intro",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 공통교과목 '공학개론' 영역 3학점(400.013 기계공학개론 제외)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "400.015",
+       "name": "산업공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.019A",
+       "name": "전기.정보공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.020",
+       "name": "재료공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.023",
+       "name": "화학생물공학개론",
+       "credits": 3
+      },
+      {
+       "code": "M2177.004900",
+       "name": "IoT·인공지능·빅데이터 개론 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "M2177.008600"
+       ]
+      },
+      {
+       "code": "400.022",
+       "name": "건설환경공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.024",
+       "name": "에너지자원공학개론",
+       "credits": 3
+      },
+      {
+       "code": "M2177.006300",
+       "name": "사이버 보안과 블록체인 개론 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "M2177.008700"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s32",
+      "s31"
+     ],
+     "note": "이 학번들은 창의공학 영역 '400.018 창의공학설계' 3학점도 필수(전필 목록에 들어 있음)."
+    },
+    {
+     "id": "me-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상(전필 33, 공대공통 3, 논문 3 포함)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s33",
+      "s34"
+     ],
+     "note": "전공선택 인정: ① 공과대학 공통과목 모든 과목 ② 공대·자연대 전공과목·지정 경영대 10과목 중 학부장 승인(한도 문구 없음) ③ 공학도의 도전과 리더십 3과목(1·2·3학점)을 모두 들으면 최대 3학점만 전공 인정."
+    },
+    {
+     "id": "me-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행: 복수·연합이면 45학점 이상, 부·연계·학생설계면 48학점 이상",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s5"
+     ],
+     "note": "parallel_by_type 참고. 병행 때 공대공통·논문을 그 학점 안에 넣는 방식은 문서에 없음(필수 자체는 학부 학생 공통 규정)."
+    },
+    {
+     "id": "me-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 49학점 이상(2024학번)",
+     "min_count": null,
+     "min_credits": 49,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16"
+     ],
+     "note": "학문의 기초·학문의 세계(2014~2024 체계). 영역별 최저를 더하면 총합과 같다(자유 선택분 0)."
+    },
+    {
+     "id": "me-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 택 1)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101"
+       ]
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.201"
+       ]
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.202"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s16"
+     ],
+     "note": "alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "me-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16"
+     ]
+    },
+    {
+     "id": "me-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 12학점: [1-1] 수학 1·수학연습 1(또는 고급수학 1·연습 1), [1-2] 수학 2·수학연습 2(또는 고급수학 2·연습 2), [2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.104"
+       ]
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.104L"
+       ]
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.106"
+       ]
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.106L"
+       ]
+      },
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.105"
+       ]
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.105L"
+       ]
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.107"
+       ]
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.107L"
+       ]
+      },
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F31.201"
+       ]
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F31.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s16"
+     ],
+     "note": "연습 과목은 같은 학기에 함께 듣는다. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "me-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 12학점: [1-1] 물리학 1·물리학실험 1, [1-2] 물리학 2·물리학실험 2(8학점), 그리고 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학과 각 실험 중 4학점",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.106"
+       ]
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F33.106L"
+       ]
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.103"
+       ]
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.108"
+       ]
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.107"
+       ]
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F33.107L"
+       ]
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.104"
+       ]
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.109"
+       ]
+      },
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F34.104"
+       ]
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F34.105"
+       ]
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F34.105L"
+       ]
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.103"
+       ]
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.106"
+       ]
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F34.103L"
+       ]
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F35.104"
+       ]
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F35.104L"
+       ]
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F35.105"
+       ]
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F35.105L"
+       ]
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "F35.103"
+       ]
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F35.103L"
+       ]
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "F32.102"
+       ]
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F32.102L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17"
+     ],
+     "note": "물리학 1·2 는 물리의 기본·고급물리학으로 대체 가능. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "me-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보 활용 3학점: [2-1] 컴퓨터의 개념 및 실습",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "F37.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s18"
+     ]
+    },
+    {
+     "id": "me-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s9"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "me-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1과목 이상 포함, 대학영어 제외) 의무",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s24"
+     ]
+    },
+    {
+     "id": "me-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "me-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 기계공학부 복수전공(2020~2022학번): 전필 33 + 논문 3(기계시스템설계 1·2) + 전공 3 이상 = 39학점 이상",
+     "min_count": 13,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "400.018",
+       "name": "창의공학설계",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001000",
+       "name": "고체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001100",
+       "name": "열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001200",
+       "name": "동역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001300",
+       "name": "유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001700",
+       "name": "기계제품설계",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001800",
+       "name": "재료와 제조공정",
+       "credits": 3
+      },
+      {
+       "code": "M2794.002600",
+       "name": "열전달",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013200",
+       "name": "기계공학실험",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013400",
+       "name": "메카트로닉스",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013500",
+       "name": "기계시스템 모델링 및 제어",
+       "credits": 3
+      },
+      {
+       "code": "M2794.004200",
+       "name": "기계시스템설계 1",
+       "credits": 1
+      },
+      {
+       "code": "M2794.004300",
+       "name": "기계시스템설계 2",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s35"
+     ]
+    },
+    {
+     "id": "me-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공(2020~2022학번): 2학년 전필 4과목 12학점 + 3학년 전필 중 9학점 이상 = 21학점 이상",
+     "min_count": 7,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "M2794.001000",
+       "name": "고체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001100",
+       "name": "열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001200",
+       "name": "동역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001300",
+       "name": "유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001700",
+       "name": "기계제품설계",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013200",
+       "name": "기계공학실험",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013400",
+       "name": "메카트로닉스",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013500",
+       "name": "기계시스템 모델링 및 제어",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001800",
+       "name": "재료와 제조공정",
+       "credits": 3
+      },
+      {
+       "code": "M2794.002600",
+       "name": "열전달",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s36"
+     ],
+     "note": "앞 4과목(고체역학·열역학·동역학·유체역학)은 모두 필수, 뒤 6과목(3학년 전필) 중 9학점."
+    },
+    {
+     "id": "me-aero-equiv",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "항공우주공학과 학생이 기계공학부를 다전공하면 유사 교과목 인정(2021-08-31): 항공우주 고체역학 1 ↔ 고체역학, 항공우주열역학 ↔ 열역학, 운동체역학 ↔ 동역학",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3229.001900",
+       "name": "항공우주 고체역학 1",
+       "credits": 3
+      },
+      {
+       "code": "M3229.002600",
+       "name": "항공우주열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2795.002100",
+       "name": "운동체역학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "유사 교과목을 뺀 부족 학점은 기계공학부 전공으로 채운다. 전과생은 같은 표로 대체 인정."
+    },
+    {
+     "id": "me-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 3개 영역 이상",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23"
+     ],
+     "note": "자연과 기술·생명과 환경은 이 요건에 들지 않는다. 2025-1 이후 열린 교양 과목은 학부대학 비교표로 옛 '학문의 세계' 영역을 인정받는다(교양 개편 안내)."
+    }
+   ],
+   "changed": "전필 11과목 33(창의공학설계 포함, 기계시스템 설계와 로봇 프로그래밍의 기초 없음), 공학개론 목록 옛 번호, 전선 인정 한도 없음·공학도의 도전과 리더십 최대 3, 타학과 복수·부 2020~2022학번 규정",
+   "note": "2021·2022학번 규정의 요건이 같다(전선 목록·공대 공통 리스트만 다름). 2021학번부터 '기계공학부'(2020학번까지 기계항공공학부 기계공학전공)."
+  },
+  {
+   "entry_years": [
+    2020,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 44,
+    "single": 62,
+    "parallel": 45,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s47",
+     "s48",
+     "s49"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s50"
+   ],
+   "requirements": [
+    {
+     "id": "me-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 11과목 33학점",
+     "min_count": 11,
+     "min_credits": 33,
+     "courses": [
+      {
+       "code": "400.018",
+       "name": "창의공학설계",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001000",
+       "name": "고체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001100",
+       "name": "열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001200",
+       "name": "동역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001300",
+       "name": "유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001700",
+       "name": "기계제품설계",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001800",
+       "name": "재료와 제조공정",
+       "credits": 3
+      },
+      {
+       "code": "M2794.002600",
+       "name": "열전달",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013200",
+       "name": "기계공학실험",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013400",
+       "name": "메카트로닉스",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013500",
+       "name": "기계시스템 모델링 및 제어",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s30",
+      "s31"
+     ],
+     "note": "기계제품설계·재료와 제조공정·메카트로닉스·기계시스템 모델링 및 제어(2025-1), 열전달(2025-2)은 편람 교과구분이 전선으로 바뀌었지만 이 학번들에겐 전필. 기계공학실험·메카트로닉스는 학번 홀짝으로 개설 학기가 나뉨(학부 메모)."
+    },
+    {
+     "id": "me-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학사논문과목: 기계시스템설계 1·2 필수(한 학기에 한 과목씩 1년), 3학점",
+     "min_count": 2,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M2794.004200",
+       "name": "기계시스템설계 1",
+       "credits": 1
+      },
+      {
+       "code": "M2794.004300",
+       "name": "기계시스템설계 2",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "편람 교과구분은 전선이지만 학부 규정상 필수. 단일전공 62 안의 '논문 3'."
+    },
+    {
+     "id": "me-eng-intro",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 공통교과목 '공학개론' 영역 3학점(400.013 기계공학개론 제외)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "400.015",
+       "name": "산업공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.019A",
+       "name": "전기.정보공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.020",
+       "name": "재료공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.023",
+       "name": "화학생물공학개론",
+       "credits": 3
+      },
+      {
+       "code": "M2177.004900",
+       "name": "IoT·인공지능·빅데이터 개론 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "M2177.008600"
+       ]
+      },
+      {
+       "code": "400.022",
+       "name": "건설환경공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.024",
+       "name": "에너지자원공학개론",
+       "credits": 3
+      },
+      {
+       "code": "M2177.006300",
+       "name": "사이버 보안과 블록체인 개론 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "M2177.008700"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s32",
+      "s31"
+     ],
+     "note": "이 학번들은 창의공학 영역 '400.018 창의공학설계' 3학점도 필수(전필 목록에 들어 있음)."
+    },
+    {
+     "id": "me-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상(전필 33, 공대공통 3, 논문 3 포함)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s33",
+      "s34"
+     ],
+     "note": "전공선택 인정: ① 공과대학 공통과목 모든 과목 ② 공대·자연대 전공과목·지정 경영대 10과목 중 학부장 승인(한도 문구 없음) ③ 공학도의 도전과 리더십 3과목(1·2·3학점)을 모두 들으면 최대 3학점만 전공 인정."
+    },
+    {
+     "id": "me-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행: 복수·연합이면 45학점 이상, 부·연계·학생설계면 48학점 이상",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s5"
+     ],
+     "note": "parallel_by_type 참고. 병행 때 공대공통·논문을 그 학점 안에 넣는 방식은 문서에 없음(필수 자체는 학부 학생 공통 규정)."
+    },
+    {
+     "id": "me-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 44학점 이상(2020학번)",
+     "min_count": null,
+     "min_credits": 44,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s44"
+     ]
+    },
+    {
+     "id": "me-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 택 1)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101"
+       ]
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.201"
+       ]
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.202"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s16"
+     ],
+     "note": "alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "me-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4~6학점. 입학 때 TEPS 900점 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s45"
+     ]
+    },
+    {
+     "id": "me-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 9학점: 수학 1·수학연습 1(또는 고급), 수학 2·수학연습 2(또는 고급), [2-1] 공학수학 1. 공학수학 2 는 교양선택(수강 권장)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.104"
+       ]
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.104L"
+       ]
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.106"
+       ]
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.106L"
+       ]
+      },
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.105"
+       ]
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.105L"
+       ]
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.107"
+       ]
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.107L"
+       ]
+      },
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F31.201"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s46"
+     ],
+     "note": "alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "me-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 12학점: [1-1] 물리학 1·물리학실험 1, [1-2] 물리학 2·물리학실험 2(8학점), 그리고 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학과 각 실험 중 4학점",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.106"
+       ]
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F33.106L"
+       ]
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.103"
+       ]
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.108"
+       ]
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.107"
+       ]
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F33.107L"
+       ]
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.104"
+       ]
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.109"
+       ]
+      },
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F34.104"
+       ]
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F34.105"
+       ]
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F34.105L"
+       ]
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.103"
+       ]
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.106"
+       ]
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F34.103L"
+       ]
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F35.104"
+       ]
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F35.104L"
+       ]
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F35.105"
+       ]
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F35.105L"
+       ]
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "F35.103"
+       ]
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F35.103L"
+       ]
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "F32.102"
+       ]
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F32.102L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17"
+     ],
+     "note": "물리학 1·2 는 물리의 기본·고급물리학으로 대체 가능. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "me-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보 활용 3학점: [2-1] 컴퓨터의 개념 및 실습",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "F37.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s18"
+     ]
+    },
+    {
+     "id": "me-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s9"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "me-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1과목 이상 포함, 대학영어 제외) 의무",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s24"
+     ]
+    },
+    {
+     "id": "me-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "me-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 기계공학부 복수전공(2020~2022학번): 전필 33 + 논문 3(기계시스템설계 1·2) + 전공 3 이상 = 39학점 이상",
+     "min_count": 13,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "400.018",
+       "name": "창의공학설계",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001000",
+       "name": "고체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001100",
+       "name": "열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001200",
+       "name": "동역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001300",
+       "name": "유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001700",
+       "name": "기계제품설계",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001800",
+       "name": "재료와 제조공정",
+       "credits": 3
+      },
+      {
+       "code": "M2794.002600",
+       "name": "열전달",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013200",
+       "name": "기계공학실험",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013400",
+       "name": "메카트로닉스",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013500",
+       "name": "기계시스템 모델링 및 제어",
+       "credits": 3
+      },
+      {
+       "code": "M2794.004200",
+       "name": "기계시스템설계 1",
+       "credits": 1
+      },
+      {
+       "code": "M2794.004300",
+       "name": "기계시스템설계 2",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s35"
+     ]
+    },
+    {
+     "id": "me-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공(2020~2022학번): 2학년 전필 4과목 12학점 + 3학년 전필 중 9학점 이상 = 21학점 이상",
+     "min_count": 7,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "M2794.001000",
+       "name": "고체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001100",
+       "name": "열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001200",
+       "name": "동역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001300",
+       "name": "유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001700",
+       "name": "기계제품설계",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013200",
+       "name": "기계공학실험",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013400",
+       "name": "메카트로닉스",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013500",
+       "name": "기계시스템 모델링 및 제어",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001800",
+       "name": "재료와 제조공정",
+       "credits": 3
+      },
+      {
+       "code": "M2794.002600",
+       "name": "열전달",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s36"
+     ],
+     "note": "앞 4과목(고체역학·열역학·동역학·유체역학)은 모두 필수, 뒤 6과목(3학년 전필) 중 9학점."
+    },
+    {
+     "id": "me-aero-equiv",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "항공우주공학과 학생이 기계공학부를 다전공하면 유사 교과목 인정(2021-08-31): 항공우주 고체역학 1 ↔ 고체역학, 항공우주열역학 ↔ 열역학, 운동체역학 ↔ 동역학",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3229.001900",
+       "name": "항공우주 고체역학 1",
+       "credits": 3
+      },
+      {
+       "code": "M3229.002600",
+       "name": "항공우주열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2795.002100",
+       "name": "운동체역학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "유사 교과목을 뺀 부족 학점은 기계공학부 전공으로 채운다. 전과생은 같은 표로 대체 인정."
+    },
+    {
+     "id": "me-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 3개 영역 이상",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23"
+     ],
+     "note": "자연과 기술·생명과 환경은 이 요건에 들지 않는다. 2025-1 이후 열린 교양 과목은 학부대학 비교표로 옛 '학문의 세계' 영역을 인정받는다(교양 개편 안내)."
+    }
+   ],
+   "changed": "교양 44(외국어 4~6, 공학수학 2 는 교양선택·권장)",
+   "note": "규정 머리가 '기계항공공학부 기계공학전공'(파일 이름은 SNU_ME). 전공 요건은 2021학번과 같고, 외국어 4~6·공학수학 2 교양선택(권장)이라 교양 44."
+  },
+  {
+   "entry_years": [
+    2019,
+    2019
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 38,
+    "single": 62,
+    "parallel": 42,
+    "double": 42,
+    "minor": 24,
+    "status": "부분",
+    "src": [
+     "s60",
+     "s61"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s62"
+   ],
+   "requirements": [
+    {
+     "id": "me-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 36학점 = 11과목 33(창의공학설계 포함) + 공과대학 공통교과목 1과목 3",
+     "min_count": 11,
+     "min_credits": 33,
+     "courses": [
+      {
+       "code": "400.018",
+       "name": "창의공학설계",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001000",
+       "name": "고체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001100",
+       "name": "열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001200",
+       "name": "동역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001300",
+       "name": "유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001700",
+       "name": "기계제품설계",
+       "credits": 3
+      },
+      {
+       "code": "M2794.001800",
+       "name": "재료와 제조공정",
+       "credits": 3
+      },
+      {
+       "code": "M2794.002600",
+       "name": "열전달",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013200",
+       "name": "기계공학실험",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013400",
+       "name": "메카트로닉스",
+       "credits": 3
+      },
+      {
+       "code": "M2794.013500",
+       "name": "기계시스템 모델링 및 제어",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s53"
+     ],
+     "note": "기계제품설계·재료와 제조공정·메카트로닉스·기계시스템 모델링 및 제어(2025-1), 열전달(2025-2)은 편람 교과구분이 전선으로 바뀌었지만 이 학번들에겐 전필. 기계공학실험·메카트로닉스는 학번 홀짝으로 개설 학기가 나뉨(학부 메모)."
+    },
+    {
+     "id": "me-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학사논문과목: 기계시스템설계 1·2 필수(한 학기에 한 과목씩 1년), 3학점",
+     "min_count": 2,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M2794.004200",
+       "name": "기계시스템설계 1",
+       "credits": 1
+      },
+      {
+       "code": "M2794.004300",
+       "name": "기계시스템설계 2",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "편람 교과구분은 전선이지만 학부 규정상 필수. 단일전공 62 안의 '논문 3'."
+    },
+    {
+     "id": "me-eng-intro",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 공통교과목 중 1과목 필수(전필 36 안)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "400.015",
+       "name": "산업공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.019A",
+       "name": "전기.정보공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.020",
+       "name": "재료공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.023",
+       "name": "화학생물공학개론",
+       "credits": 3
+      },
+      {
+       "code": "M2177.003200",
+       "name": "융합공학도를 위한 전기전자회로 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2177.004900",
+       "name": "IoT·인공지능·빅데이터 개론 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "M2177.008600"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s54"
+     ]
+    },
+    {
+     "id": "me-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상(전필 36(공대공통 3 포함), 논문 3 포함)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s55"
+     ],
+     "note": "전공선택 인정: 공대·자연대 전공과목, 지정 경영 10과목 중 학부장 승인. 공학도의 도전과 리더십 3과목 최대 3학점. 2019학년도 입학자부터 기계공학실험 1·2·메카트로닉스개론 및 실습 수강 금지, 기계공학실험·메카트로닉스를 들음."
+    },
+    {
+     "id": "me-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행(모든 유형): 전공 42학점 이상",
+     "min_count": null,
+     "min_credits": 42,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s56"
+     ]
+    },
+    {
+     "id": "me-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 38학점 이상(2019학번)",
+     "min_count": null,
+     "min_credits": 38,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s51"
+     ]
+    },
+    {
+     "id": "me-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 택 1)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101"
+       ]
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.201"
+       ]
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.202"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s16"
+     ],
+     "note": "alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "me-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4~6학점. 입학 때 TEPS 900점 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s45"
+     ]
+    },
+    {
+     "id": "me-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 9학점: 수학 1·수학연습 1(또는 고급), 수학 2·수학연습 2(또는 고급), [2-1] 공학수학 1. 공학수학 2 는 교양선택(수강 권장)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.104"
+       ]
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.104L"
+       ]
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.106"
+       ]
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.106L"
+       ]
+      },
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.105"
+       ]
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.105L"
+       ]
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.107"
+       ]
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.107L"
+       ]
+      },
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F31.201"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s46"
+     ],
+     "note": "alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "me-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 12학점: [1-1] 물리학 1·물리학실험 1, [1-2] 물리학 2·물리학실험 2(8학점), 그리고 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학과 각 실험 중 4학점",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.106"
+       ]
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F33.106L"
+       ]
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.103"
+       ]
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.108"
+       ]
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.107"
+       ]
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F33.107L"
+       ]
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.104"
+       ]
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.109"
+       ]
+      },
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F34.104"
+       ]
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F34.105"
+       ]
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F34.105L"
+       ]
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.103"
+       ]
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.106"
+       ]
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F34.103L"
+       ]
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F35.104"
+       ]
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F35.104L"
+       ]
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F35.105"
+       ]
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F35.105L"
+       ]
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "F35.103"
+       ]
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F35.103L"
+       ]
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "F32.102"
+       ]
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F32.102L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17"
+     ],
+     "note": "물리학 1·2 는 물리의 기본·고급물리학으로 대체 가능. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "me-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보 활용 3학점: [2-1] 컴퓨터의 개념 및 실습",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "F37.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s18"
+     ]
+    },
+    {
+     "id": "me-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s9"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "me-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1과목 이상 포함, 대학영어 제외) 의무",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s24"
+     ]
+    },
+    {
+     "id": "me-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "me-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 기계항공공학부(기계공학전공) 복수전공(2019학번): 42학점 이상",
+     "min_count": null,
+     "min_credits": 42,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s57"
+     ],
+     "note": "필수 과목 미확인."
+    },
+    {
+     "id": "me-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공(2019학번): 24학점 이상",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s58"
+     ],
+     "note": "필수 과목 미확인."
+    },
+    {
+     "id": "me-aero-equiv",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "항공우주공학과 학생이 기계공학부를 다전공하면 유사 교과목 인정(2021-08-31): 항공우주 고체역학 1 ↔ 고체역학, 항공우주열역학 ↔ 열역학, 운동체역학 ↔ 동역학",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3229.001900",
+       "name": "항공우주 고체역학 1",
+       "credits": 3
+      },
+      {
+       "code": "M3229.002600",
+       "name": "항공우주열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2795.002100",
+       "name": "운동체역학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "유사 교과목을 뺀 부족 학점은 기계공학부 전공으로 채운다. 전과생은 같은 표로 대체 인정."
+    },
+    {
+     "id": "me-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 6학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 2개 영역 이상",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s52"
+     ],
+     "note": "자연과 기술·생명과 환경은 이 요건에 들지 않는다. 2025-1 이후 열린 교양 과목은 학부대학 비교표로 옛 '학문의 세계' 영역을 인정받는다(교양 개편 안내)."
+    },
+    {
+     "id": "me-eng-social-creative",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 사회성 교과목군 3학점 + 창의성 교과목군 3학점(2013~2019학번)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s59"
+     ],
+     "note": "사회성은 학문의 세계 '인간과 사회', 창의성은 '문화와 예술'로도 이수 가능. 2019학년도 기계공학전공 입학자부터 창의성 교과목군을 '400.018 창의공학설계'를 뺀 3학점으로 이수(창의공학설계는 전필이라 겹쳐 세지 않음).",
+     "extra": {
+      "groups": [
+       {
+        "field": "사회성 교과목군",
+        "min_credits": 3,
+        "courses": [
+         {
+          "code": "054.027",
+          "name": "창업과 경제",
+          "credits": 3,
+          "credits_from": "학과 자료(2019 규정)"
+         },
+         {
+          "code": "046.017",
+          "name": "기술과 경제",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-1 (data/history)"
+         },
+         {
+          "code": "054.025",
+          "name": "공학윤리와 리더십",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2021-1 (data/history)"
+         },
+         {
+          "code": "054.028",
+          "name": "특허와 기술창업",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-2 (data/history)"
+         },
+         {
+          "code": "400.212",
+          "name": "기술과 창업",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-1 (data/history)"
+         },
+         {
+          "code": "M2177.000100",
+          "name": "공학인을 위한 경영",
+          "credits": 3,
+          "credits_from": "학과 자료(2019 규정)"
+         },
+         {
+          "code": "400.310",
+          "name": "공학기술과사회",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "창의성 교과목군",
+        "min_credits": 3,
+        "courses": [
+         {
+          "code": "054.019",
+          "name": "현대도시건축산책",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-1 (data/history)"
+         },
+         {
+          "code": "054.021",
+          "name": "창조와 디자인",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-2 (data/history)"
+         },
+         {
+          "code": "054.022",
+          "name": "테크놀러지와 예술: 전시예술공학",
+          "credits": 3,
+          "credits_from": "학과 자료(2019 규정)",
+          "alt_codes": [
+           "L0655.001000",
+           "E11.181"
+          ]
+         },
+         {
+          "code": "054.020",
+          "name": "소리의 과학과 악기제작 체험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-2 (data/history)"
+         },
+         {
+          "code": "400.018",
+          "name": "창의공학설계",
+          "credits": 3,
+          "credits_from": "편람 2021-2~2026-2 (data/history)"
+         },
+         {
+          "code": "400.318",
+          "name": "디지털아트공학",
+          "credits": 3,
+          "credits_from": "학과 자료(2019 규정)"
+         },
+         {
+          "code": "406.324A",
+          "name": "공학도를 위한 창의적 사고",
+          "credits": 3,
+          "credits_from": "편람 2023-2~2025-2 (data/history)"
+         },
+         {
+          "code": "M2177.002300",
+          "name": "다학제 창의적 제품개발",
+          "credits": 3,
+          "credits_from": "편람 2025-2~2026-1 (data/history)"
+         },
+         {
+          "code": "M2177.002400",
+          "name": "글로벌 창의적 제품개발",
+          "credits": 3,
+          "credits_from": "편람 2026-1~2026-1 (data/history)"
+         },
+         {
+          "code": "M2177.005900",
+          "name": "제품개발을 위한 디지털 설계 및 제조 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2021-1 (data/history)",
+          "note": "舊 M2177.005000 제품개발을 위한 디지털 설계 및 제조"
+         },
+         {
+          "code": "M2177.006100",
+          "name": "제품개발을 위한 디지털 설계 및 제조 2",
+          "credits": 3,
+          "credits_from": "편람 2021-2~2021-2 (data/history)"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "changed": "교양 38 + 사회성·창의성, 전필 36(공대 공통 1과목 포함), 다른 전공 병행 42, 타학과 복수 42·부 24",
+   "note": "규정 머리가 '기계항공공학부 기계공학전공'(파일 SNU_MAE). 교양 38(학문의 세계 6·2개 영역, 외국어 4~6, 공학수학 2 교양선택) + 사회성·창의성 각 3, 전필 36(공대 공통 1과목 포함), 다른 전공 병행 42(모든 유형)."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2020,
+   "basis": "입학 연도",
+   "what": "교양 38→44(학문의 세계 6→12·3개 영역), 사회성·창의성 없어짐, 다른 전공 병행 42→45/48, 공대 공통 1과목(전필 36 안) → 공학개론 영역 3학점(기계공학개론 제외)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "기계항공공학부 기계공학전공 → 기계공학부. 외국어 6·공학수학 2 다시 필수(교양 44→49)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2023,
+   "basis": "입학 연도",
+   "what": "전공 개편: 전필 11과목 33 → 6과목 18(기계시스템 설계와 로봇 프로그래밍의 기초 신설, 창의공학설계·기계제품설계 등 빠짐), 학부장 승인 전선 인정 최대 15학점, 타학과 복수·부 새 규정",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "학문의 세계 4개 영역, 외국어 진행 강좌 권장, 전선 인정 한도 ①+② 15학점, 공학개론 목록 새 번호(+공학 전공 탐색)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 새 체계 49",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2020,
+   "basis": "다전공 선발 시기",
+   "what": "타학과 복수·부 42/24 → 39/21(2020~2022학번 규정: 전필 33 + 논문 3 + 3 / 2학년 전필 12 + 3학년 전필 9)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "교과 개편 학기",
+   "what": "편람 교과구분: 기계제품설계·재료와 제조공정·메카트로닉스·기계시스템 모델링 및 제어 전필→전선(2025-1), 열전달(2025-2). 2019~2022학번 전필 요건은 그대로",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2026,
+   "basis": "교과 개편 학기",
+   "what": "공대 공통 전선 인정 경영대 과목 9과목으로 바뀜(2026-1 시행 공통과목 리스트). 2026 규정 쪽 1 은 옛 10과목",
+   "status": "부분"
+  }
+ ],
+ "ask_department": [
+  "2019학번(기계항공공학부 기계공학전공) 타학과 복수 42·부전공 24 의 필수 과목",
+  "2023학번 전선 인정 15학점 한도가 학부장 승인 과목(②)에만 걸리는지(2024학번부터 ①+②)",
+  "2026학번 전선 인정 경영대 과목: 쪽 1(10과목)과 쪽 6(9과목) 중 무엇인지",
+  "다른 전공 병행(45/48) 때 공학개론 3·학사논문 3 을 그 학점 안에 세는지",
+  "전공선택 인정 15학점 한도(공대 공통 + 학부장 승인 과목)를 어떻게 세는지",
+  "2025 길잡이의 '기계공학과' 표기는 오기인지"
+ ],
+ "sources": {
+  "s1": {
+   "title": "기계공학부, 2025학번 졸업이수규정 안내(SNU_ME_학부졸업이수규정_2025공지용250402.pdf, 2025-04-02 글 첨부)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=20488",
+   "locator": "Ⅱ 졸업이수규정(쪽 2), Ⅲ 교양(쪽 3), Ⅳ 전공 이수표준형태·교과목 이수규정(쪽 4–5)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "기계공학부, 복수 및 부전공 이수규정(2023학번부터 2026학번까지, 2023-01-03 글 첨부)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16186",
+   "locator": "복수전공 39, 부전공 21, [참고] 항공우주공학과 학부생 학점인정(2021-08-31)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "471. 기계공학부, 쪽 68–69",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준, 인쇄 쪽 8–9",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 비고 '부·연계·학생설계 48학점 이수', 인쇄 쪽 9",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "기계공학부(길잡이 머리 '기계공학과'), 쪽 117",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "학부대학, 2025학년도 시행 공통교육과정 대학별 이수규정(국문, 2024-12 작성)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/01/2025학년도-시행-공통교육과정-대학별-이수규정국문.pdf",
+   "locator": "공과대학 해당 학과 표",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "쪽 117",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "공과대학 수업 편성 운영에 관한 지침 제2조·제3조(기계공학부·항공우주공학과 2025학번 규정 쪽 2에 인용)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=20488",
+   "locator": "Ⅱ 졸업이수규정 ※ 공과대학 지침 ①②",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 학사과정 복수·부전공 이수학점 기준, 인쇄 쪽 10",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "기계공학부 게시판, ‘2026학번 [20260204업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2026공지용260204.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=21580",
+   "locator": "Ⅱ 졸업이수규정(쪽 2)",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "기계공학부 게시판, ‘2023학번부터 2026학번까지 [20230103업데이트]’ 복수 및 부전공 이수규정",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16186",
+   "locator": "2023학번부터 2026학번까지",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 공과대학 (기계공학부) 49",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "기계공학부 게시판, ‘2026학번 [20260204업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2026공지용260204.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=21580",
+   "locator": "전체",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "기계공학부 게시판, ‘2025학번 [20250402업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2025공지용250402.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=20488",
+   "locator": "전체",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "기계공학부 게시판, ‘2024학번 [20240604업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2024공지용240604.pdf(20240104 판과 요건 같음)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=19287",
+   "locator": "Ⅲ 교양교과목 졸업이수규정(쪽 3)",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "기계공학부 게시판, ‘2024학번 [20240604업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2024공지용240604.pdf(20240104 판과 요건 같음)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=19287",
+   "locator": "Ⅲ 교양(쪽 3)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "기계공학부 게시판, ‘2024학번 [20240604업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2024공지용240604.pdf(20240104 판과 요건 같음)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=19287",
+   "locator": "Ⅲ 교양",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "기계공학부 게시판, ‘2024학번 [20240604업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2024공지용240604.pdf(20240104 판과 요건 같음)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=19287",
+   "locator": "Ⅱ 졸업이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "기계공학부 게시판, ‘2023학번부터 2026학번까지 [20230103업데이트]’ 복수 및 부전공 이수규정",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16186",
+   "locator": "2023~2026학번",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 기계공학부 49·62·45(48), 표 2 39·21",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "기계공학부 게시판, ‘2024학번 [20240604업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2024공지용240604.pdf(20240104 판과 요건 같음)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=19287",
+   "locator": "전체",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "기계공학부 게시판, ‘2023학번 [20230613업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2023공지용230613.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16209",
+   "locator": "Ⅲ 학문의 세계 3개 영역",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "기계공학부 게시판, ‘2023학번 [20230613업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2023공지용230613.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16209",
+   "locator": "Ⅱ ※ 공과대학 지침 ①",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "기계공학부 게시판, ‘2023학번 [20230613업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2023공지용230613.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16209",
+   "locator": "Ⅳ 공과대학 공통교과목·[교과목 이수규정] ①",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "기계공학부 게시판, ‘2023학번 [20230613업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2023공지용230613.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16209",
+   "locator": "Ⅰ 전공선택 인정·Ⅳ 계",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "기계공학부 게시판, ‘2023학번 [20230613업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2023공지용230613.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16209",
+   "locator": "Ⅱ 졸업이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "기계공학부 게시판, ‘2023학번부터 2026학번까지 [20230103업데이트]’ 복수 및 부전공 이수규정",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16186",
+   "locator": "2023학번 복수 39·부 21",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "기계공학부 게시판, ‘2023학번 [20230613업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2023공지용230613.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16209",
+   "locator": "전체",
+   "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "기계공학부 게시판, ‘2022학번 [20220706업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2022공지용변경후.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16208",
+   "locator": "Ⅳ 이수표준형태 * 표시·계 '전필 33'",
+   "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "기계공학부 게시판, ‘2021학번’ 첨부 SNU_ME_학부졸업이수규정_2021.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16207",
+   "locator": "같음",
+   "accessed": "2026-11-12"
+  },
+  "s32": {
+   "title": "기계공학부 게시판, ‘2022학번 [20220706업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2022공지용변경후.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16208",
+   "locator": "[교과목 이수규정] ①",
+   "accessed": "2026-11-12"
+  },
+  "s33": {
+   "title": "기계공학부 게시판, ‘2022학번 [20220706업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2022공지용변경후.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16208",
+   "locator": "Ⅳ 계",
+   "accessed": "2026-11-12"
+  },
+  "s34": {
+   "title": "기계공학부 게시판, ‘2022학번 [20220706업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2022공지용변경후.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16208",
+   "locator": "Ⅰ 전공선택 인정 ①②③",
+   "accessed": "2026-11-12"
+  },
+  "s35": {
+   "title": "기계공학부 게시판, ‘2020학번부터 2022학번까지 [20210831업데이트]’ 첨부 기계공학부-복수-및-부전공-이수규정2020_2022학번_20210831.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16185",
+   "locator": "복수전공 이수규정(이수학점 39학점 이상)",
+   "accessed": "2026-11-12"
+  },
+  "s36": {
+   "title": "기계공학부 게시판, ‘2020학번부터 2022학번까지 [20210831업데이트]’ 첨부 기계공학부-복수-및-부전공-이수규정2020_2022학번_20210831.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16185",
+   "locator": "부전공 이수규정(이수학점 21학점 이상)",
+   "accessed": "2026-11-12"
+  },
+  "s37": {
+   "title": "기계공학부 게시판, ‘2022학번 [20220706업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2022공지용변경후.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16208",
+   "locator": "Ⅱ 졸업이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s38": {
+   "title": "기계공학부 게시판, ‘2021학번’ 첨부 SNU_ME_학부졸업이수규정_2021.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16207",
+   "locator": "Ⅱ",
+   "accessed": "2026-11-12"
+  },
+  "s39": {
+   "title": "기계공학부 게시판, ‘2020학번부터 2022학번까지 [20210831업데이트]’ 첨부 기계공학부-복수-및-부전공-이수규정2020_2022학번_20210831.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16185",
+   "locator": "2020~2022학번 39·21",
+   "accessed": "2026-11-12"
+  },
+  "s40": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1 기계공학부 49·62·45(48), 표 2 39·21",
+   "accessed": "2026-11-12"
+  },
+  "s41": {
+   "title": "기계공학부 게시판, ‘2022학번 [20220706업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2022공지용변경후.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16208",
+   "locator": "전체",
+   "accessed": "2026-11-12"
+  },
+  "s42": {
+   "title": "기계공학부 게시판, ‘2021학번’ 첨부 SNU_ME_학부졸업이수규정_2021.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16207",
+   "locator": "전체",
+   "accessed": "2026-11-12"
+  },
+  "s43": {
+   "title": "기계공학부 게시판, ‘2020학번부터 2022학번까지 [20210831업데이트]’ 첨부 기계공학부-복수-및-부전공-이수규정2020_2022학번_20210831.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16185",
+   "locator": "전체",
+   "accessed": "2026-11-12"
+  },
+  "s44": {
+   "title": "기계공학부 게시판, ‘2020학번 [20200710][20201020업데이트]’ 첨부 SNU_ME_학부졸업이수규정_202020201020.pdf(기계항공공학부 기계공학전공)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16206",
+   "locator": "Ⅲ 교양 44",
+   "accessed": "2026-11-12"
+  },
+  "s45": {
+   "title": "기계공학부 게시판, ‘2020학번 [20200710][20201020업데이트]’ 첨부 SNU_ME_학부졸업이수규정_202020201020.pdf(기계항공공학부 기계공학전공)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16206",
+   "locator": "Ⅲ 외국어 4-6",
+   "accessed": "2026-11-12"
+  },
+  "s46": {
+   "title": "기계공학부 게시판, ‘2020학번 [20200710][20201020업데이트]’ 첨부 SNU_ME_학부졸업이수규정_202020201020.pdf(기계항공공학부 기계공학전공)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16206",
+   "locator": "Ⅲ 수량적 분석과 추론·'2019학년도 입학자부터는 공학수학2 교양선택이나 수강 권장'",
+   "accessed": "2026-11-12"
+  },
+  "s47": {
+   "title": "기계공학부 게시판, ‘2020학번 [20200710][20201020업데이트]’ 첨부 SNU_ME_학부졸업이수규정_202020201020.pdf(기계항공공학부 기계공학전공)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16206",
+   "locator": "Ⅱ 졸업이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s48": {
+   "title": "기계공학부 게시판, ‘2020학번부터 2022학번까지 [20210831업데이트]’ 첨부 기계공학부-복수-및-부전공-이수규정2020_2022학번_20210831.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16185",
+   "locator": "2020~2022학번",
+   "accessed": "2026-11-12"
+  },
+  "s49": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 기계항공공학부(기계공학전공) 44·62·45(48), 표 2 39·21(2021-2 다전공 선발자(2020학번)부터)",
+   "accessed": "2026-11-12"
+  },
+  "s50": {
+   "title": "기계공학부 게시판, ‘2020학번 [20200710][20201020업데이트]’ 첨부 SNU_ME_학부졸업이수규정_202020201020.pdf(기계항공공학부 기계공학전공)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16206",
+   "locator": "전체",
+   "accessed": "2026-11-12"
+  },
+  "s51": {
+   "title": "기계공학부 게시판, ‘2019 학번 [20191118업데이트]’ 첨부 1.SNU_MAE_학부졸업이수규정_2019_re20191118.pdf(기계항공공학부 기계공학전공)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16205",
+   "locator": "Ⅲ 교양 38",
+   "accessed": "2026-11-12"
+  },
+  "s52": {
+   "title": "기계공학부 게시판, ‘2019 학번 [20191118업데이트]’ 첨부 1.SNU_MAE_학부졸업이수규정_2019_re20191118.pdf(기계항공공학부 기계공학전공)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16205",
+   "locator": "Ⅲ 학문의 세계 2개 영역 6학점",
+   "accessed": "2026-11-12"
+  },
+  "s53": {
+   "title": "기계공학부 게시판, ‘2019 학번 [20191118업데이트]’ 첨부 1.SNU_MAE_학부졸업이수규정_2019_re20191118.pdf(기계항공공학부 기계공학전공)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16205",
+   "locator": "Ⅳ 이수표준형태 * ·계 '전필 36(공대공통 3)'",
+   "accessed": "2026-11-12"
+  },
+  "s54": {
+   "title": "기계공학부 게시판, ‘2019 학번 [20191118업데이트]’ 첨부 1.SNU_MAE_학부졸업이수규정_2019_re20191118.pdf(기계항공공학부 기계공학전공)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16205",
+   "locator": "[교과목 이수규정] ②",
+   "accessed": "2026-11-12"
+  },
+  "s55": {
+   "title": "기계공학부 게시판, ‘2019 학번 [20191118업데이트]’ 첨부 1.SNU_MAE_학부졸업이수규정_2019_re20191118.pdf(기계항공공학부 기계공학전공)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16205",
+   "locator": "Ⅳ 계",
+   "accessed": "2026-11-12"
+  },
+  "s56": {
+   "title": "기계공학부 게시판, ‘2019 학번 [20191118업데이트]’ 첨부 1.SNU_MAE_학부졸업이수규정_2019_re20191118.pdf(기계항공공학부 기계공학전공)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16205",
+   "locator": "Ⅱ 다른전공병행이수 42학점이상",
+   "accessed": "2026-11-12"
+  },
+  "s57": {
+   "title": "서울대학교, 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 2 기계항공공학부 42",
+   "accessed": "2026-11-12"
+  },
+  "s58": {
+   "title": "서울대학교, 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 2 기계항공공학부 24",
+   "accessed": "2026-11-12"
+  },
+  "s59": {
+   "title": "기계공학부 게시판, ‘2019 학번 [20191118업데이트]’ 첨부 1.SNU_MAE_학부졸업이수규정_2019_re20191118.pdf(기계항공공학부 기계공학전공)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16205",
+   "locator": "Ⅲ 교양 아래 사회성·창의성 교과목군 표",
+   "accessed": "2026-11-12"
+  },
+  "s60": {
+   "title": "기계공학부 게시판, ‘2019 학번 [20191118업데이트]’ 첨부 1.SNU_MAE_학부졸업이수규정_2019_re20191118.pdf(기계항공공학부 기계공학전공)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16205",
+   "locator": "Ⅱ 졸업이수규정(병행 42)",
+   "accessed": "2026-11-12"
+  },
+  "s61": {
+   "title": "서울대학교, 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 2 기계항공공학부 42·24(2019 해설 없음)",
+   "accessed": "2026-11-12"
+  },
+  "s62": {
+   "title": "기계공학부 게시판, ‘2019 학번 [20191118업데이트]’ 첨부 1.SNU_MAE_학부졸업이수규정_2019_re20191118.pdf(기계항공공학부 기계공학전공)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16205",
+   "locator": "전체",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

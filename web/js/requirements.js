@@ -177,13 +177,14 @@ export function evaluateProgram(program, version, courses, { role = "single", sa
     for (const c of r.courses || []) {
       const keys = [c.code, ...(c.alt_codes || [])].map(sameCourse);
       const hit = keys.map((k) => got.get(k)).find(Boolean);
-      (hit ? matched : missing).push(hit ? { code: c.code, name: c.name, credits: Number(hit.earned) || 0 } : { code: c.code, name: c.name });
+      (hit ? matched : missing).push(hit ? { code: c.code, name: c.name, credits: Number(hit.earned) || 0 } : { code: c.code, name: c.name, credits: c.credits ?? null });
     }
     row.have = { count: matched.length, credits: matched.reduce((s, x) => s + x.credits, 0), codes: matched.map((x) => x.code) };
     row.need = { count: r.min_count, credits: r.min_credits };
     if (why) {
       row.state = "check";
       row.reason = why;
+      if (missing.length) row.left = missing; // 확인 필요 줄이지만 목록에서 아직 안 들은 과목(추천의 '아마 필요')
     } else {
       const okCount = r.min_count == null || row.have.count >= r.min_count;
       const okCredits = r.min_credits == null || row.have.credits >= r.min_credits;
@@ -193,6 +194,62 @@ export function evaluateProgram(program, version, courses, { role = "single", sa
     rows.push(row);
   }
   return rows;
+}
+
+// ---------------------------------------------------------------- 다음 학기 추천
+
+const STRENGTH = { need: 0, choose: 1, maybe: 2 };
+
+/** 남은 줄의 과목이 하나하나 다 필요한가(남은 과목을 다 들어야 기준에 닿으면 need, 몇 중 몇이면 choose) */
+function rowStrength(r) {
+  const left = r.missing || [];
+  if (r.need && r.need.count != null) return r.need.count >= (r.have ? r.have.count : 0) + left.length ? "need" : "choose";
+  if (r.need && r.need.credits != null && left.every((m) => m.credits != null)) {
+    const sum = left.reduce((x, m) => x + Number(m.credits), 0);
+    return r.need.credits >= (r.have ? r.have.credits : 0) + sum ? "need" : "choose";
+  }
+  return "choose";
+}
+
+/**
+ * 남은 요건을 채우는 다음 학기 과목. picks = [{ program, rows }](rows 는 evaluateProgram 결과), courses = 다음 학기 편람(engine parseCourses).
+ * 강도: need(남은 과목을 다 들어야 하는 줄), choose(몇 중 몇 줄의 후보), maybe('확인 필요' 줄이지만 과목 목록이 있는 것).
+ * 들은 과목은 줄의 남은 과목에 없으니 저절로 빠진다. 같은 과목이 여러 줄에 걸리면 이유를 모으고 가장 센 강도를 쓴다.
+ */
+export function suggestCourses(picks, courses, { sameCourse = (c) => c } = {}) {
+  const offered = new Map();
+  for (const c of courses || []) offered.set(sameCourse(c.id), c);
+  const out = new Map();
+  for (const { program, rows } of picks || []) {
+    for (const r of rows || []) {
+      let list, strength;
+      if (r.state === "remaining") [list, strength] = [r.missing || [], rowStrength(r)];
+      else if (r.state === "check" && r.left) [list, strength] = [r.left, "maybe"];
+      else continue;
+      for (const m of list) {
+        const c = offered.get(sameCourse(m.code));
+        if (!c) continue;
+        const k = sameCourse(c.id);
+        const s = out.get(k) || { course: c, strength, reasons: [] };
+        if (STRENGTH[strength] < STRENGTH[s.strength]) s.strength = strength;
+        s.reasons.push({ program: program.id, row: r.id, text: r.text, strength });
+        out.set(k, s);
+      }
+    }
+  }
+  return [...out.values()].sort((a, b) => STRENGTH[a.strength] - STRENGTH[b.strength] || String(a.course.id).localeCompare(String(b.course.id)));
+}
+
+/**
+ * 추천 차례(엔진의 추천 점수): 강도 → 내 시간표에 들어가는지 → 들어가면 늘어나는 비용(걷는 분 + 지각, 학교 오는 요일).
+ * fit = engine gapFit(대표 시간표, 추천 과목들) 결과. 없으면 강도만으로.
+ */
+export function rankSuggestions(suggestions, fit = null) {
+  const byId = new Map(((fit && fit.fits) || []).map((f) => [f.course.id, f]));
+  return (suggestions || []).map((s) => ({ ...s, fit: byId.get(s.course.id) || null }))
+    .sort((a, b) => STRENGTH[a.strength] - STRENGTH[b.strength] || (a.fit ? 0 : 1) - (b.fit ? 0 : 1)
+      || (a.fit && b.fit ? a.fit.add.cost - b.fit.add.cost || a.fit.add.days - b.fit.add.days : 0)
+      || String(a.course.id).localeCompare(String(b.course.id)));
 }
 
 // ---------------------------------------------------------------- 성적 계산

@@ -1,0 +1,608 @@
+{
+ "id": "p-ee20a5ca",
+ "college": "농업생명과학대학",
+ "unit": "산림과학부",
+ "program": "환경재료과학전공",
+ "kind": "major",
+ "depts": [
+  "산림과학부"
+ ],
+ "code_prefixes": [
+  "457.",
+  "5242.",
+  "M1693.",
+  "M1699."
+ ],
+ "ge_key": "농업생명과학대학 자연계",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "산림환경학전공",
+   "환경재료과학전공"
+  ],
+  "when": "입학 후 27학점 이상 이수한 뒤 학부 내 전공 배정(2학년부터 전공 표준이수형태)",
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2022,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 48,
+    "parallel": 48,
+    "double": 48,
+    "minor": 24,
+    "status": "부분",
+    "src": [
+     "s9",
+     "s10",
+     "s11",
+     "s12"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s13",
+    "s14",
+    "s15"
+   ],
+   "requirements": [
+    {
+     "id": "ems-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 13과목 38학점('2023년 기준' 표준이수형태의 *)",
+     "min_count": 13,
+     "min_credits": 38,
+     "courses": [
+      {
+       "code": "519.002",
+       "name": "유기화학",
+       "credits": 3
+      },
+      {
+       "code": "5242.201B",
+       "name": "학술림임산실습",
+       "credits": 2
+      },
+      {
+       "code": "5242.203",
+       "name": "목재조직학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.201",
+       "name": "재료역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5242.202",
+       "name": "목재화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5242.204",
+       "name": "목재물리학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5242.303",
+       "name": "바이오복합재료학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5242.305",
+       "name": "제지공정론",
+       "credits": 3
+      },
+      {
+       "code": "5242.313",
+       "name": "환경재료과학실습 및 세미나",
+       "credits": 3
+      },
+      {
+       "code": "5242.306",
+       "name": "제지화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5242.403",
+       "name": "목구조학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1693.000300",
+       "name": "리그닌재료공정",
+       "credits": 3
+      },
+      {
+       "code": "M1699.000400",
+       "name": "환경재료과학 논문연구",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "학과 표에는 재료역학 번호가 '447.201'로 적혀 있으나 2024 목록·편람은 457.201. 학점은 2024 목록·편람."
+    },
+    {
+     "id": "ems-intro",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "500.170 산림과학개론 이수 필수(전선 인정)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "500.170",
+       "name": "산림과학개론",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "ems-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "환경재료과학 논문연구 M1699.000400 수강·S 취득으로 졸업논문 심사 통과(2019-08 졸업자부터). 7학기 시작 30일 안에 지도교수 신청, 졸업학기 공개 구두·포스터 발표, 심사위원 3명",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1699.000400",
+       "name": "환경재료과학 논문연구",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s4",
+      "s2"
+     ]
+    },
+    {
+     "id": "ems-elective-scope",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "농생대(농경제사회학부·농산업교육 제외)·자연대·공대 전공 과목 3학점까지 전공 인정, 응용공학수학 1(5272.201) 전공 인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "ems-double-minor",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "복수전공·부전공은 '전공내규에 의함'",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s2",
+      "s1"
+     ]
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "note": "전필 13과목은 2022 목록·2024 목록·학과 '2023년 기준' 표가 같다. 학과는 '교과목 이수 규정은 입학 시 모집단위 체계에 따른 연도별 규정'(입학 연도 기준)이라고 쓴다. 2023~2026학년도 입학자용 글은 따로 없고 '2023년 기준' 표가 최신이다. 2026학번: 같게 둔다."
+  },
+  {
+   "entry_years": [
+    2019,
+    2021
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 48,
+    "parallel": 48,
+    "double": 48,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s9",
+     "s10",
+     "s11",
+     "s12"
+    ]
+   },
+   "status": "미확인",
+   "src": [
+    "s16",
+    "s13"
+   ],
+   "requirements": [
+    {
+     "id": "ems-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 13과목 38학점('2023년 기준' 표준이수형태의 *)",
+     "min_count": 13,
+     "min_credits": 38,
+     "courses": [
+      {
+       "code": "519.002",
+       "name": "유기화학",
+       "credits": 3
+      },
+      {
+       "code": "5242.201B",
+       "name": "학술림임산실습",
+       "credits": 2
+      },
+      {
+       "code": "5242.203",
+       "name": "목재조직학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.201",
+       "name": "재료역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5242.202",
+       "name": "목재화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5242.204",
+       "name": "목재물리학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5242.303",
+       "name": "바이오복합재료학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5242.305",
+       "name": "제지공정론",
+       "credits": 3
+      },
+      {
+       "code": "5242.313",
+       "name": "환경재료과학실습 및 세미나",
+       "credits": 3
+      },
+      {
+       "code": "5242.306",
+       "name": "제지화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5242.403",
+       "name": "목구조학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1693.000300",
+       "name": "리그닌재료공정",
+       "credits": 3
+      },
+      {
+       "code": "M1699.000400",
+       "name": "환경재료과학 논문연구",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "학과 표에는 재료역학 번호가 '447.201'로 적혀 있으나 2024 목록·편람은 457.201. 학점은 2024 목록·편람."
+    },
+    {
+     "id": "ems-intro",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "500.170 산림과학개론 이수 필수(전선 인정)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "500.170",
+       "name": "산림과학개론",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "ems-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "환경재료과학 논문연구 M1699.000400 수강·S 취득으로 졸업논문 심사 통과(2019-08 졸업자부터). 7학기 시작 30일 안에 지도교수 신청, 졸업학기 공개 구두·포스터 발표, 심사위원 3명",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1699.000400",
+       "name": "환경재료과학 논문연구",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s4",
+      "s2"
+     ]
+    },
+    {
+     "id": "ems-elective-scope",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "농생대(농경제사회학부·농산업교육 제외)·자연대·공대 전공 과목 3학점까지 전공 인정, 응용공학수학 1(5272.201) 전공 인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "ems-double-minor",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "복수전공·부전공은 '전공내규에 의함'",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s2",
+      "s1"
+     ]
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "changed": "입학년도별 이수 기준 글(2019~2021)을 못 읽어 전공 요건 차이 미확인. 학점은 같음.",
+   "note": "학과 규정 게시판에 2019·2020·2021학년도 입학자 이수 기준 글이 따로 있지만 본문이 스크립트(POST 폼)로만 열려 brief 대로 열지 않았다(접근 실패). 2022 목록의 전필 13과목이 이 학번에도 같은지는 미확인이다."
+  }
+ ],
+ "change_points": [
+  {
+   "basis": "졸업 시기",
+   "what": "2019년 8월 졸업자부터 환경재료과학 논문연구 S 취득 의무(범위 안 모든 학번에 해당).",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "2019·2020·2021학년도 입학자 이수 기준(게시판 글 내용)이 2022 목록의 전필 13과목과 같은지",
+  "2025학번 졸업(수료) 이수 기준 글",
+  "복수전공·부전공 내규"
+ ],
+ "sources": {
+  "s1": {
+   "title": "환경재료과학전공 누리집 — 표준이수형태",
+   "url": "https://snuems.snu.ac.kr/%ed%91%9c%ec%a4%80%ec%9d%b4%ec%88%98%ed%98%95%ed%83%9c/",
+   "locator": "'2023년 기준' 표(별표 13과목), 2024-01-04 수정, 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "524 산림과학부 환경재료과학전공 과목·이수표준형태·교과목 이수규정 ①②③ (p.78)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "2025-1·2025-2·2026-1·2026-2 학기, 교과구분·학점",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s4": {
+   "title": "환경재료과학전공 누리집 — 졸업요건",
+   "url": "https://snuems.snu.ac.kr/%ec%a1%b8%ec%97%85%ec%9a%94%ea%b1%b4/",
+   "locator": "2024-03-13 수정, 130·교양 36·전공 48, 논문 발표 절차",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 농업생명과학대학 자연계(스마트시스템과학과 제외한 전체), 인쇄 p.135 (PDF p.31)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "2026학년도 단과대학별 공통교육과정 이수 규정(학부대학, 2026-01 게시)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "농업생명과학대학 세 표, 인쇄 p.71–73 ('2025학년도 입학생부터 적용' 문구 그대로)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "바이오시스템공학전공 누리집 — 학부교과과정(2025)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B5%90%EA%B3%BC%EA%B3%BC%EC%A0%952025/",
+   "locator": "2026-06-10 수정, 트랙 A/B 표준 이수체계(* 전공필수, ▪ 트랙필수)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "동물생명공학전공 — 졸업요건 학부과정(2022년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_08",
+   "locator": "학점 표·복수/부전공 문장·이수표준형태(별표 15과목)·비고",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행 '아래 이외의 학과(부)' 48/48, 복수 48·부 24",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "환경재료과학전공 누리집 — 표준이수형태(2023년 기준)",
+   "url": "https://snuems.snu.ac.kr/%ed%91%9c%ec%a4%80%ec%9d%b4%ec%88%98%ed%98%95%ed%83%9c/",
+   "locator": "이수 규정 '입학 시 모집단위 체계에 따른 연도별 규정에 따른다'",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "524 산림과학부 환경재료과학전공(p.75)",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "같은 칸(p.78)",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "환경재료과학전공 누리집 — 규정 게시판",
+   "url": "https://snuems.snu.ac.kr/category/board-267-GN-yMFeoNWW-20240104150141/",
+   "locator": "글 목록: '학사과정 졸업(수료) 이수 기준_환경재료(2019·2020·2021·2022학년도 입학자)'(본문은 스크립트 POST 로만 열려 못 읽음)",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

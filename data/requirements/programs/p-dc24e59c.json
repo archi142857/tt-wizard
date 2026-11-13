@@ -1,0 +1,4011 @@
+{
+ "id": "p-dc24e59c",
+ "college": "경영대학",
+ "unit": "경영학과",
+ "program": "경영학과",
+ "kind": "major",
+ "depts": [
+  "경영학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "경영대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s7",
+     "s1",
+     "s8",
+     "s9"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s7",
+    "s10",
+    "s8",
+    "s11"
+   ],
+   "requirements": [
+    {
+     "id": "biz-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "대학 글쓰기 1(2) + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 1과목, 2) = 4학점",
+     "min_count": null,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "글쓰기와 말하기"
+     }
+    },
+    {
+     "id": "biz-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수(대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "biz-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "경영학을 위한 수학(3), 통계학(3)·통계학실험(1, 같은 학기), 컴퓨터의 개념 및 실습(3) = 10학점",
+     "min_count": null,
+     "min_credits": 10,
+     "courses": [
+      {
+       "code": "F31.113",
+       "name": "경영학을 위한 수학",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1.0
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "biz-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 4영역 중 3개 영역 이상에서 9학점 이상",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "지성의 열쇠",
+      "areas": [
+       "문화 해석과 상상",
+       "역사적 탐구와 철학적 사유",
+       "인간의 이해와 사회 분석",
+       "과학적 사고와 응용"
+      ]
+     }
+    },
+    {
+     "id": "biz-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "베리타스"
+     }
+    },
+    {
+     "id": "biz-ge-pe",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 확장(예술과 체육): 체육 실기 1개 교과목 1학점",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "체육 실기 과목 번호 목록은 길잡이에 없다(편람 교과구분으로 가려야 함).",
+     "extra": {
+      "area": "지성의 확장"
+     }
+    },
+    {
+     "id": "biz-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목에서 자유롭게 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "biz-basic",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기초필수 2과목 4학점: 경영학과 나의 미래(1), 경영을 위한 경제학(3)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "M2171.002000",
+       "name": "경영학과 나의 미래",
+       "credits": 1.0
+      },
+      {
+       "code": "M2171.001900",
+       "name": "경영을 위한 경제학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "경제원론 1·2를 모두 들으면 경영을 위한 경제학(구 경제원론)을 들은 것으로 본다(교과구분 정정은 안 됨). 어느 학과 경제원론인지는 문서에 없다(경제학부 200.105·200.106, 농경제사회학부 M2649.001100·M2649.001200 모두 같은 이름).",
+     "extra": {
+      "substitutes": [
+       {
+        "for": "M2171.001900",
+        "all_of": [
+         "경제원론 1",
+         "경제원론 2"
+        ],
+        "status": "부분"
+       }
+      ]
+     }
+    },
+    {
+     "id": "biz-area-1",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 1영역(회계): 회계원리·관리회계 중 1과목 이상",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "251.205",
+       "name": "회계원리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.306",
+       "name": "관리회계",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "같은 영역 과목을 둘 다 들으면 하나는 전필, 하나는 전선으로 센다."
+    },
+    {
+     "id": "biz-area-2",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 2영역(생산·경영과학): 생산서비스운영·경영과학 중 1과목 이상",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1338.003000",
+       "name": "생산서비스운영",
+       "credits": 3.0
+      },
+      {
+       "code": "251.207A",
+       "name": "경영과학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "복수·부전공 표는 생산관리(251.320, 현 생산서비스운영)로 적었다. 같은 영역 둘 다 들으면 하나는 전선."
+    },
+    {
+     "id": "biz-area-3",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 3영역(조직·인사): 조직행동론(구 조직행위론)·인사관리 중 1과목 이상",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1338.004000",
+       "name": "조직행동론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.209",
+       "name": "조직행위론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.303",
+       "name": "인사관리",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "조직행위론 251.209 와 조직행동론 M1338.004000 은 같은 과목(동일 대체)으로 본다. 같은 영역 둘 다 들으면 하나는 전선."
+    },
+    {
+     "id": "biz-area-4to7",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 4~7영역: 경영정보론, 재무관리, 마케팅관리, 경영전략(각 3학점)",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "251.326",
+       "name": "경영정보론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.301",
+       "name": "재무관리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.321",
+       "name": "마케팅관리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.424",
+       "name": "경영전략",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "biz-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업 세미나 2학점",
+     "min_count": 1,
+     "min_credits": 2,
+     "courses": [
+      {
+       "code": "M1338.002600",
+       "name": "졸업 세미나",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "주전공 전필 27 = 기초필수 4 + 각론 7영역 21 + 졸업 세미나 2. 복수전공 전필 23 = 각론 21 + 졸업 세미나 2. 부전공은 각론 21만."
+    },
+    {
+     "id": "biz-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택: 단일(심화) 33, 다전공 병행 12, 복수전공 16학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "212.201",
+       "name": "미시경제이론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.202",
+       "name": "거시경제이론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.204",
+       "name": "경제통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "212.214",
+       "name": "경제수학",
+       "credits": 3.0
+      },
+      {
+       "code": "212.301",
+       "name": "계량경제학",
+       "credits": 3.0
+      },
+      {
+       "code": "212.302",
+       "name": "수리경제학",
+       "credits": null
+      },
+      {
+       "code": "212.303",
+       "name": "화폐금융론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.309",
+       "name": "국제금융론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.317",
+       "name": "산업조직론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.337A",
+       "name": "주식,채권, 파생금융상품 2: 제도",
+       "credits": 3.0
+      },
+      {
+       "code": "212.339",
+       "name": "게임이론 및 응용",
+       "credits": 3.0
+      },
+      {
+       "code": "205.203",
+       "name": "사회조사방법",
+       "credits": 3.0
+      },
+      {
+       "code": "205.301",
+       "name": "현대사회학이론",
+       "credits": 3.0
+      },
+      {
+       "code": "205.239A",
+       "name": "사회조직론",
+       "credits": 3.0
+      },
+      {
+       "code": "207.202",
+       "name": "심리통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "207.230",
+       "name": "사회심리학 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "207.304",
+       "name": "인지과정 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "208.205",
+       "name": "경제지리학",
+       "credits": 3.0
+      },
+      {
+       "code": "300.203A",
+       "name": "선형대수학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "300.206A",
+       "name": "선형대수학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "881.001",
+       "name": "응용해석 1",
+       "credits": 3.0
+      },
+      {
+       "code": "881.007",
+       "name": "선형대수학",
+       "credits": 3.0
+      },
+      {
+       "code": "881.008",
+       "name": "해석개론",
+       "credits": 3.0
+      },
+      {
+       "code": "326.311",
+       "name": "수리통계 1",
+       "credits": 3.0
+      },
+      {
+       "code": "326.312",
+       "name": "수리통계 2",
+       "credits": 3.0
+      },
+      {
+       "code": "326.313",
+       "name": "회귀분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.314",
+       "name": "이산자료분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.316",
+       "name": "다변량자료분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.411",
+       "name": "베이즈통계 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.412",
+       "name": "생존자료분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.414",
+       "name": "비모수통계 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.415",
+       "name": "시계열분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "406.315",
+       "name": "경영과학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "406.317",
+       "name": "경영과학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "406.319",
+       "name": "기술경영",
+       "credits": 3.0
+      },
+      {
+       "code": "406.426B",
+       "name": "데이터관리와 분석",
+       "credits": 3.0
+      },
+      {
+       "code": "406.429",
+       "name": "데이터마이닝",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s3",
+      "s4",
+      "s5"
+     ],
+     "note": "전필 최저 학점을 넘긴 전필(같은 영역 두 번째 과목 포함)은 전선으로 센다. courses 는 경영대가 전선으로 인정하는 타학과 과목 37개(학점 표기 없음 → 편람에서 채움, 212.302 는 편람에 없음). 2024 목록: 연합전공 벤처경영학 전필도 경영학 전선으로 인정. 타학과 인정 학점 한도·대학원 과목 인정은 공개 문서에서 못 찾음.",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 33,
+       "parallel": 12,
+       "double": 16,
+       "minor": 0
+      }
+     }
+    },
+    {
+     "id": "biz-english-courses",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "영어 진행 전공강좌: 단일(심화) 5과목, 다전공·편입·전과 3과목, 복수전공 3과목 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "전공 영어강좌만(교양·일반선택 불가). 타학과 전선 인정 과목, 다전공 전공 과목, 국제교류 전선 인정 과목도 됨. 앱은 과목의 영어 강의 여부 자료가 있어야 셀 수 있다.",
+     "extra": {
+      "min_count_by_path": {
+       "single": 5,
+       "parallel": 3,
+       "double": 3
+      }
+     }
+    },
+    {
+     "id": "biz-english-score",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공인영어성적 기준(졸업 신청 학기에 영어·말하기·쓰기 성적 모두 제출, 유효기간 조건)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "영어시험 NEW TEPS 374·TOEIC 900·TOEFL iBT 5 of 6 이상 중 하나, 말하기 TOEFL iBT(S) 4 of 6·TEPS Speaking 67·TOEIC Speaking 160·OPIc IM3 이상 중 하나, 쓰기 TOEFL iBT(W) 4 of 6·TEPS Writing 67·TOEIC Writing 160 이상 중 하나. 앱이 확인할 수 없는 항목(안내만). 복수·부전공 문서에는 이 항목이 없다.",
+     "extra": {
+      "verify": "manual"
+     }
+    },
+    {
+     "id": "biz-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 경영학 복수전공: 전공필수 23(각론 7영역 21 + 졸업 세미나 2) 포함 39학점 이상, 영어 전공강좌 3과목",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s5",
+      "s6"
+     ],
+     "note": "2018학번부터의 기준(파일 2024-02-05 수정판). 2017학번까지는 전필 30·졸업논문(보고서) 필요였다."
+    },
+    {
+     "id": "biz-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "경영학 부전공: 각론 7영역에서 영역마다 1과목 이상, 21학점 이상",
+     "min_count": 7,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s5",
+      "s6"
+     ],
+     "note": "2018학번부터. 부전공은 다른 전공과 겹쳐 인정되지 않는다(해설 4.나.(2)(다))."
+    }
+   ],
+   "note": "1차 2025학번 요건 그대로. 경영대가 '졸업기준(2025~2026학번)' 한 파일로 묶었고, 2026 길잡이·2026 이수규정의 경영대 교양 표도 2025와 같다(TEPS 525 기준 그대로)."
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s12",
+     "s15"
+    ]
+   },
+   "status": "충돌",
+   "src": [
+    "s12",
+    "s13",
+    "s14"
+   ],
+   "requirements": [
+    {
+     "id": "biz-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1(2) + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 1과목, 2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "biz-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수(대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "biz-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목에서 자유롭게 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "biz-basic",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기초필수 2과목 4학점: 경영학과 나의 미래(1), 경영을 위한 경제학(3)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "M2171.002000",
+       "name": "경영학과 나의 미래",
+       "credits": 1.0
+      },
+      {
+       "code": "M2171.001900",
+       "name": "경영을 위한 경제학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "경제원론 1·2를 모두 들으면 경영을 위한 경제학(구 경제원론)을 들은 것으로 본다(교과구분 정정은 안 됨). 어느 학과 경제원론인지는 문서에 없다(경제학부 200.105·200.106, 농경제사회학부 M2649.001100·M2649.001200 모두 같은 이름).",
+     "extra": {
+      "substitutes": [
+       {
+        "for": "M2171.001900",
+        "all_of": [
+         "경제원론 1",
+         "경제원론 2"
+        ],
+        "status": "부분"
+       }
+      ]
+     }
+    },
+    {
+     "id": "biz-area-1",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 1영역(회계): 회계원리·관리회계 중 1과목 이상",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "251.205",
+       "name": "회계원리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.306",
+       "name": "관리회계",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "같은 영역 과목을 둘 다 들으면 하나는 전필, 하나는 전선으로 센다."
+    },
+    {
+     "id": "biz-area-2",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 2영역(생산·경영과학): 생산서비스운영·경영과학 중 1과목 이상",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1338.003000",
+       "name": "생산서비스운영",
+       "credits": 3.0
+      },
+      {
+       "code": "251.207A",
+       "name": "경영과학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "복수·부전공 표는 생산관리(251.320, 현 생산서비스운영)로 적었다. 같은 영역 둘 다 들으면 하나는 전선."
+    },
+    {
+     "id": "biz-area-3",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 3영역(조직·인사): 조직행동론(구 조직행위론)·인사관리 중 1과목 이상",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1338.004000",
+       "name": "조직행동론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.209",
+       "name": "조직행위론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.303",
+       "name": "인사관리",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "조직행위론 251.209 와 조직행동론 M1338.004000 은 같은 과목(동일 대체)으로 본다. 같은 영역 둘 다 들으면 하나는 전선."
+    },
+    {
+     "id": "biz-area-4to7",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 4~7영역: 경영정보론, 재무관리, 마케팅관리, 경영전략(각 3학점)",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "251.326",
+       "name": "경영정보론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.301",
+       "name": "재무관리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.321",
+       "name": "마케팅관리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.424",
+       "name": "경영전략",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "biz-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업 세미나 2학점",
+     "min_count": 1,
+     "min_credits": 2,
+     "courses": [
+      {
+       "code": "M1338.002600",
+       "name": "졸업 세미나",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "주전공 전필 27 = 기초필수 4 + 각론 7영역 21 + 졸업 세미나 2. 복수전공 전필 23 = 각론 21 + 졸업 세미나 2. 부전공은 각론 21만."
+    },
+    {
+     "id": "biz-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택: 단일(심화) 33, 다전공 병행 12, 복수전공 16학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "212.201",
+       "name": "미시경제이론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.202",
+       "name": "거시경제이론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.204",
+       "name": "경제통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "212.214",
+       "name": "경제수학",
+       "credits": 3.0
+      },
+      {
+       "code": "212.301",
+       "name": "계량경제학",
+       "credits": 3.0
+      },
+      {
+       "code": "212.302",
+       "name": "수리경제학",
+       "credits": null
+      },
+      {
+       "code": "212.303",
+       "name": "화폐금융론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.309",
+       "name": "국제금융론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.317",
+       "name": "산업조직론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.337A",
+       "name": "주식,채권, 파생금융상품 2: 제도",
+       "credits": 3.0
+      },
+      {
+       "code": "212.339",
+       "name": "게임이론 및 응용",
+       "credits": 3.0
+      },
+      {
+       "code": "205.203",
+       "name": "사회조사방법",
+       "credits": 3.0
+      },
+      {
+       "code": "205.301",
+       "name": "현대사회학이론",
+       "credits": 3.0
+      },
+      {
+       "code": "205.239A",
+       "name": "사회조직론",
+       "credits": 3.0
+      },
+      {
+       "code": "207.202",
+       "name": "심리통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "207.230",
+       "name": "사회심리학 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "207.304",
+       "name": "인지과정 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "208.205",
+       "name": "경제지리학",
+       "credits": 3.0
+      },
+      {
+       "code": "300.203A",
+       "name": "선형대수학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "300.206A",
+       "name": "선형대수학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "881.001",
+       "name": "응용해석 1",
+       "credits": 3.0
+      },
+      {
+       "code": "881.007",
+       "name": "선형대수학",
+       "credits": 3.0
+      },
+      {
+       "code": "881.008",
+       "name": "해석개론",
+       "credits": 3.0
+      },
+      {
+       "code": "326.311",
+       "name": "수리통계 1",
+       "credits": 3.0
+      },
+      {
+       "code": "326.312",
+       "name": "수리통계 2",
+       "credits": 3.0
+      },
+      {
+       "code": "326.313",
+       "name": "회귀분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.314",
+       "name": "이산자료분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.316",
+       "name": "다변량자료분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.411",
+       "name": "베이즈통계 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.412",
+       "name": "생존자료분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.414",
+       "name": "비모수통계 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.415",
+       "name": "시계열분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "406.315",
+       "name": "경영과학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "406.317",
+       "name": "경영과학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "406.319",
+       "name": "기술경영",
+       "credits": 3.0
+      },
+      {
+       "code": "406.426B",
+       "name": "데이터관리와 분석",
+       "credits": 3.0
+      },
+      {
+       "code": "406.429",
+       "name": "데이터마이닝",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s3",
+      "s4",
+      "s5"
+     ],
+     "note": "전필 최저 학점을 넘긴 전필(같은 영역 두 번째 과목 포함)은 전선으로 센다. courses 는 경영대가 전선으로 인정하는 타학과 과목 37개(학점 표기 없음 → 편람에서 채움, 212.302 는 편람에 없음). 2024 목록: 연합전공 벤처경영학 전필도 경영학 전선으로 인정. 타학과 인정 학점 한도·대학원 과목 인정은 공개 문서에서 못 찾음.",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 33,
+       "parallel": 12,
+       "double": 16,
+       "minor": 0
+      }
+     }
+    },
+    {
+     "id": "biz-english-courses",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "영어 진행 전공강좌: 단일(심화) 5과목, 다전공·편입·전과 3과목, 복수전공 3과목 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "전공 영어강좌만(교양·일반선택 불가). 타학과 전선 인정 과목, 다전공 전공 과목, 국제교류 전선 인정 과목도 됨. 앱은 과목의 영어 강의 여부 자료가 있어야 셀 수 있다.",
+     "extra": {
+      "min_count_by_path": {
+       "single": 5,
+       "parallel": 3,
+       "double": 3
+      }
+     }
+    },
+    {
+     "id": "biz-english-score",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공인영어성적 기준(졸업 신청 학기에 영어·말하기·쓰기 성적 모두 제출, 유효기간 조건)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "영어시험 NEW TEPS 374·TOEIC 900·TOEFL iBT 5 of 6 이상 중 하나, 말하기 TOEFL iBT(S) 4 of 6·TEPS Speaking 67·TOEIC Speaking 160·OPIc IM3 이상 중 하나, 쓰기 TOEFL iBT(W) 4 of 6·TEPS Writing 67·TOEIC Writing 160 이상 중 하나. 앱이 확인할 수 없는 항목(안내만). 복수·부전공 문서에는 이 항목이 없다.",
+     "extra": {
+      "verify": "manual"
+     }
+    },
+    {
+     "id": "biz-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 경영학 복수전공: 전공필수 23(각론 7영역 21 + 졸업 세미나 2) 포함 39학점 이상, 영어 전공강좌 3과목",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s5",
+      "s6"
+     ],
+     "note": "2018학번부터의 기준(파일 2024-02-05 수정판). 2017학번까지는 전필 30·졸업논문(보고서) 필요였다."
+    },
+    {
+     "id": "biz-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "경영학 부전공: 각론 7영역에서 영역마다 1과목 이상, 21학점 이상",
+     "min_count": 7,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s5",
+      "s6"
+     ],
+     "note": "2018학번부터. 부전공은 다른 전공과 겹쳐 인정되지 않는다(해설 4.나.(2)(다))."
+    },
+    {
+     "id": "biz-ge-quant",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 7학점: 경영학을 위한 수학(3), 통계학(3)·통계학실험(1, 같은 학기)",
+     "min_count": 3,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "033.009",
+       "name": "경영학을 위한 수학",
+       "credits": 3
+      },
+      {
+       "code": "F31.113",
+       "name": "경영학을 위한 수학",
+       "credits": 3
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "biz-ge-computer",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보 활용 3학점: 컴퓨터의 개념 및 실습(3)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "컴퓨터와 정보 활용"
+     }
+    },
+    {
+     "id": "biz-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 7개 영역(언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회·자연과 기술·생명과 환경) 중 4개 영역 이상, 자연과 기술 또는 생명과 환경 영역 3학점 이상 포함",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s12",
+      "s13",
+      "s14"
+     ],
+     "note": "경영대 2024학번 PDF와 학부대학 2024학년도 대학별 교양 이수규정은 '4개 영역 이상', 본부 2024 교과과정 해설은 '3개 영역 이상'. 공식 자료 3개 중 2개가 4 → 앱은 4로 보되 3개 영역만 채웠으면 '확인 필요'.",
+     "extra": {
+      "area": "학문의 세계",
+      "conflict": [
+       {
+        "value": 4,
+        "source": "경영대 졸업기준(2024학번) PDF"
+       },
+       {
+        "value": 4,
+        "source": "학부대학 2024학년도 대학별 교양 이수규정 p.7"
+       },
+       {
+        "value": 3,
+        "source": "본부 2024 교과과정 해설 p.17"
+       }
+      ]
+     }
+    },
+    {
+     "id": "biz-ge-pe-old",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택 교양: 체육실기 1개 교과목 1학점",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "note": "체육 실기 과목 목록은 따로 적지 않았다.",
+     "extra": {
+      "area": "선택 교양"
+     }
+    }
+   ],
+   "changed": "교양 옛 체계(학문의 기초·학문의 세계·선택 교양 체육). 전공 요건은 2025와 같음.",
+   "note": "전공은 2025와 같다(전필 27 = 기초필수 4 + 각론 21 + 졸업 세미나 2). 교양만 옛 체계. 영어 1과목 필수 TEPS 구간표는 267/268점 경계(2023학번까지 297/298). 충돌은 학문의 세계 영역 수 하나."
+  },
+  {
+   "entry_years": [
+    2023,
+    2023
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s16"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s16",
+    "s20"
+   ],
+   "requirements": [
+    {
+     "id": "biz-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1(2) + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 1과목, 2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "biz-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수(대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "biz-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목에서 자유롭게 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "biz-basic",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기초필수 3과목 7학점: 경영학과 나의 미래(1), 경영철학과 윤리(3), 경영을 위한 경제학(3)",
+     "min_count": 3,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "M2171.002000",
+       "name": "경영학과 나의 미래",
+       "credits": 1.0
+      },
+      {
+       "code": "M2171.002100",
+       "name": "경영철학과 윤리",
+       "credits": 3.0
+      },
+      {
+       "code": "M2171.001900",
+       "name": "경영을 위한 경제학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s17",
+      "s18"
+     ],
+     "note": "경제원론 1·2를 모두 들으면 경영을 위한 경제학(구 경제원론)을 들은 것으로 본다(교과구분 정정은 안 됨). 어느 학과 경제원론인지는 문서에 없다(경제학부 200.105·200.106, 농경제사회학부 M2649.001100·M2649.001200 모두 같은 이름).",
+     "extra": {
+      "substitutes": [
+       {
+        "for": "M2171.001900",
+        "all_of": [
+         "경제원론 1",
+         "경제원론 2"
+        ],
+        "status": "부분"
+       }
+      ]
+     }
+    },
+    {
+     "id": "biz-area-1",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 1영역(회계): 회계원리·관리회계 중 1과목 이상",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "251.205",
+       "name": "회계원리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.306",
+       "name": "관리회계",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "같은 영역 과목을 둘 다 들으면 하나는 전필, 하나는 전선으로 센다."
+    },
+    {
+     "id": "biz-area-2",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 2영역(생산·경영과학): 생산서비스운영·경영과학 중 1과목 이상",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1338.003000",
+       "name": "생산서비스운영",
+       "credits": 3.0
+      },
+      {
+       "code": "251.207A",
+       "name": "경영과학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "복수·부전공 표는 생산관리(251.320, 현 생산서비스운영)로 적었다. 같은 영역 둘 다 들으면 하나는 전선."
+    },
+    {
+     "id": "biz-area-3",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 3영역(조직·인사): 조직행동론(구 조직행위론)·인사관리 중 1과목 이상",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1338.004000",
+       "name": "조직행동론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.209",
+       "name": "조직행위론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.303",
+       "name": "인사관리",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "조직행위론 251.209 와 조직행동론 M1338.004000 은 같은 과목(동일 대체)으로 본다. 같은 영역 둘 다 들으면 하나는 전선."
+    },
+    {
+     "id": "biz-area-4to7",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 4~7영역: 경영정보론, 재무관리, 마케팅관리, 경영전략(각 3학점)",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "251.326",
+       "name": "경영정보론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.301",
+       "name": "재무관리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.321",
+       "name": "마케팅관리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.424",
+       "name": "경영전략",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "biz-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업 세미나 2학점",
+     "min_count": 1,
+     "min_credits": 2,
+     "courses": [
+      {
+       "code": "M1338.002600",
+       "name": "졸업 세미나",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "주전공 전필 27 = 기초필수 4 + 각론 7영역 21 + 졸업 세미나 2. 복수전공 전필 23 = 각론 21 + 졸업 세미나 2. 부전공은 각론 21만."
+    },
+    {
+     "id": "biz-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택: 단일(심화) 30, 다전공 병행 9, 복수전공 16학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "212.201",
+       "name": "미시경제이론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.202",
+       "name": "거시경제이론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.204",
+       "name": "경제통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "212.214",
+       "name": "경제수학",
+       "credits": 3.0
+      },
+      {
+       "code": "212.301",
+       "name": "계량경제학",
+       "credits": 3.0
+      },
+      {
+       "code": "212.302",
+       "name": "수리경제학",
+       "credits": null
+      },
+      {
+       "code": "212.303",
+       "name": "화폐금융론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.309",
+       "name": "국제금융론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.317",
+       "name": "산업조직론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.337A",
+       "name": "주식,채권, 파생금융상품 2: 제도",
+       "credits": 3.0
+      },
+      {
+       "code": "212.339",
+       "name": "게임이론 및 응용",
+       "credits": 3.0
+      },
+      {
+       "code": "205.203",
+       "name": "사회조사방법",
+       "credits": 3.0
+      },
+      {
+       "code": "205.301",
+       "name": "현대사회학이론",
+       "credits": 3.0
+      },
+      {
+       "code": "205.239A",
+       "name": "사회조직론",
+       "credits": 3.0
+      },
+      {
+       "code": "207.202",
+       "name": "심리통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "207.230",
+       "name": "사회심리학 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "207.304",
+       "name": "인지과정 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "208.205",
+       "name": "경제지리학",
+       "credits": 3.0
+      },
+      {
+       "code": "300.203A",
+       "name": "선형대수학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "300.206A",
+       "name": "선형대수학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "881.001",
+       "name": "응용해석 1",
+       "credits": 3.0
+      },
+      {
+       "code": "881.007",
+       "name": "선형대수학",
+       "credits": 3.0
+      },
+      {
+       "code": "881.008",
+       "name": "해석개론",
+       "credits": 3.0
+      },
+      {
+       "code": "326.311",
+       "name": "수리통계 1",
+       "credits": 3.0
+      },
+      {
+       "code": "326.312",
+       "name": "수리통계 2",
+       "credits": 3.0
+      },
+      {
+       "code": "326.313",
+       "name": "회귀분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.314",
+       "name": "이산자료분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.316",
+       "name": "다변량자료분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.411",
+       "name": "베이즈통계 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.412",
+       "name": "생존자료분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.414",
+       "name": "비모수통계 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.415",
+       "name": "시계열분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "406.315",
+       "name": "경영과학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "406.317",
+       "name": "경영과학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "406.319",
+       "name": "기술경영",
+       "credits": 3.0
+      },
+      {
+       "code": "406.426B",
+       "name": "데이터관리와 분석",
+       "credits": 3.0
+      },
+      {
+       "code": "406.429",
+       "name": "데이터마이닝",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s16",
+      "s17",
+      "s18",
+      "s19",
+      "s4"
+     ],
+     "note": "전필 최저 학점을 넘긴 전필(같은 영역 두 번째 과목 포함)은 전선으로 센다. courses 는 경영대가 전선으로 인정하는 타학과 과목 37개(학점 표기 없음 → 편람에서 채움, 212.302 는 편람에 없음). 2024 목록: 연합전공 벤처경영학 전필도 경영학 전선으로 인정. 타학과 인정 학점 한도·대학원 과목 인정은 공개 문서에서 못 찾음.",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 30,
+       "parallel": 9,
+       "double": 16
+      }
+     }
+    },
+    {
+     "id": "biz-english-courses",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "영어 진행 전공강좌: 단일(심화) 5과목, 다전공·편입·전과 3과목, 복수전공 3과목 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "전공 영어강좌만(교양·일반선택 불가). 타학과 전선 인정 과목, 다전공 전공 과목, 국제교류 전선 인정 과목도 됨. 앱은 과목의 영어 강의 여부 자료가 있어야 셀 수 있다.",
+     "extra": {
+      "min_count_by_path": {
+       "single": 5,
+       "parallel": 3,
+       "double": 3
+      }
+     }
+    },
+    {
+     "id": "biz-english-score",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공인영어성적 기준(졸업 신청 학기에 영어·말하기·쓰기 성적 모두 제출, 유효기간 조건)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "영어시험 NEW TEPS 374·TOEIC 900·TOEFL iBT 5 of 6 이상 중 하나, 말하기 TOEFL iBT(S) 4 of 6·TEPS Speaking 67·TOEIC Speaking 160·OPIc IM3 이상 중 하나, 쓰기 TOEFL iBT(W) 4 of 6·TEPS Writing 67·TOEIC Writing 160 이상 중 하나. 앱이 확인할 수 없는 항목(안내만). 복수·부전공 문서에는 이 항목이 없다.",
+     "extra": {
+      "verify": "manual"
+     }
+    },
+    {
+     "id": "biz-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 경영학 복수전공: 전공필수 23(각론 7영역 21 + 졸업 세미나 2) 포함 39학점 이상, 영어 전공강좌 3과목",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s5",
+      "s6"
+     ],
+     "note": "2018학번부터의 기준(파일 2024-02-05 수정판). 2017학번까지는 전필 30·졸업논문(보고서) 필요였다."
+    },
+    {
+     "id": "biz-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "경영학 부전공: 각론 7영역에서 영역마다 1과목 이상, 21학점 이상",
+     "min_count": 7,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s5",
+      "s6"
+     ],
+     "note": "2018학번부터. 부전공은 다른 전공과 겹쳐 인정되지 않는다(해설 4.나.(2)(다))."
+    },
+    {
+     "id": "biz-ge-quant",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 7학점: 경영학을 위한 수학(3), 통계학(3)·통계학실험(1, 같은 학기)",
+     "min_count": 3,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "033.009",
+       "name": "경영학을 위한 수학",
+       "credits": 3
+      },
+      {
+       "code": "F31.113",
+       "name": "경영학을 위한 수학",
+       "credits": 3
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "biz-ge-computer",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보 활용 3학점: 컴퓨터의 개념 및 실습(3)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "컴퓨터와 정보 활용"
+     }
+    },
+    {
+     "id": "biz-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 7개 영역(언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회·자연과 기술·생명과 환경) 중 4개 영역 이상, 자연과 기술 또는 생명과 환경 영역 3학점 이상 포함",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s20"
+     ],
+     "note": "2023학년도 대학별 교양 이수규정과 경영대 2023학번 PDF가 같다(4개 영역). 2022·2024 해설은 3개 영역이라 적었지만 2023 판 해설은 없다.",
+     "extra": {
+      "area": "학문의 세계"
+     }
+    },
+    {
+     "id": "biz-ge-pe-old",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택 교양: 체육실기 1개 교과목 1학점",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "note": "체육 실기 과목 목록은 따로 적지 않았다.",
+     "extra": {
+      "area": "선택 교양"
+     }
+    }
+   ],
+   "changed": "전필 30(경영철학과 윤리 3학점 추가), 전선 심화 30·다전공 9. 학문의 세계 4개 영역은 2023 공식 이수규정으로 확인.",
+   "note": "전필 30 = 기초필수 7(경영학과 나의 미래·경영철학과 윤리·경영을 위한 경제학) + 각론 21 + 졸업 세미나 2. 심화 60 = 30 + 30, 다전공 39 = 30 + 9. 3영역 표에 조직행동론 M1338.004000(조직행위론 251.209 대체, 편람 2023-2~)이 함께 적힘. 교양은 2024와 같음."
+  },
+  {
+   "entry_years": [
+    2021,
+    2022
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s17",
+     "s22"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s17",
+    "s21"
+   ],
+   "requirements": [
+    {
+     "id": "biz-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1(2) + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 1과목, 2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "biz-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수(대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "biz-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목에서 자유롭게 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "biz-basic",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기초필수 3과목 7학점: 경영학과 나의 미래(1), 경영철학과 윤리(3), 경영을 위한 경제학(3)",
+     "min_count": 3,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "M2171.002000",
+       "name": "경영학과 나의 미래",
+       "credits": 1.0
+      },
+      {
+       "code": "M2171.002100",
+       "name": "경영철학과 윤리",
+       "credits": 3.0
+      },
+      {
+       "code": "M2171.001900",
+       "name": "경영을 위한 경제학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s17",
+      "s18"
+     ],
+     "note": "경제원론 1·2를 모두 들으면 경영을 위한 경제학(구 경제원론)을 들은 것으로 본다(교과구분 정정은 안 됨). 어느 학과 경제원론인지는 문서에 없다(경제학부 200.105·200.106, 농경제사회학부 M2649.001100·M2649.001200 모두 같은 이름).",
+     "extra": {
+      "substitutes": [
+       {
+        "for": "M2171.001900",
+        "all_of": [
+         "경제원론 1",
+         "경제원론 2"
+        ],
+        "status": "부분"
+       }
+      ]
+     }
+    },
+    {
+     "id": "biz-area-1",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 1영역(회계): 회계원리·관리회계 중 1과목 이상",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "251.205",
+       "name": "회계원리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.306",
+       "name": "관리회계",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "같은 영역 과목을 둘 다 들으면 하나는 전필, 하나는 전선으로 센다."
+    },
+    {
+     "id": "biz-area-2",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 2영역(생산·경영과학): 생산서비스운영·경영과학 중 1과목 이상",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1338.003000",
+       "name": "생산서비스운영",
+       "credits": 3.0
+      },
+      {
+       "code": "251.207A",
+       "name": "경영과학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "복수·부전공 표는 생산관리(251.320, 현 생산서비스운영)로 적었다. 같은 영역 둘 다 들으면 하나는 전선."
+    },
+    {
+     "id": "biz-area-3",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 3영역(조직·인사): 조직행동론(구 조직행위론)·인사관리 중 1과목 이상",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1338.004000",
+       "name": "조직행동론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.209",
+       "name": "조직행위론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.303",
+       "name": "인사관리",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "조직행위론 251.209 와 조직행동론 M1338.004000 은 같은 과목(동일 대체)으로 본다. 같은 영역 둘 다 들으면 하나는 전선."
+    },
+    {
+     "id": "biz-area-4to7",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 4~7영역: 경영정보론, 재무관리, 마케팅관리, 경영전략(각 3학점)",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "251.326",
+       "name": "경영정보론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.301",
+       "name": "재무관리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.321",
+       "name": "마케팅관리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.424",
+       "name": "경영전략",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "biz-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업 세미나 2학점",
+     "min_count": 1,
+     "min_credits": 2,
+     "courses": [
+      {
+       "code": "M1338.002600",
+       "name": "졸업 세미나",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "주전공 전필 27 = 기초필수 4 + 각론 7영역 21 + 졸업 세미나 2. 복수전공 전필 23 = 각론 21 + 졸업 세미나 2. 부전공은 각론 21만."
+    },
+    {
+     "id": "biz-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택: 단일(심화) 30, 다전공 병행 9, 복수전공 16학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "212.201",
+       "name": "미시경제이론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.202",
+       "name": "거시경제이론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.204",
+       "name": "경제통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "212.214",
+       "name": "경제수학",
+       "credits": 3.0
+      },
+      {
+       "code": "212.301",
+       "name": "계량경제학",
+       "credits": 3.0
+      },
+      {
+       "code": "212.302",
+       "name": "수리경제학",
+       "credits": null
+      },
+      {
+       "code": "212.303",
+       "name": "화폐금융론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.309",
+       "name": "국제금융론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.317",
+       "name": "산업조직론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.337A",
+       "name": "주식,채권, 파생금융상품 2: 제도",
+       "credits": 3.0
+      },
+      {
+       "code": "212.339",
+       "name": "게임이론 및 응용",
+       "credits": 3.0
+      },
+      {
+       "code": "205.203",
+       "name": "사회조사방법",
+       "credits": 3.0
+      },
+      {
+       "code": "205.301",
+       "name": "현대사회학이론",
+       "credits": 3.0
+      },
+      {
+       "code": "205.239A",
+       "name": "사회조직론",
+       "credits": 3.0
+      },
+      {
+       "code": "207.202",
+       "name": "심리통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "207.230",
+       "name": "사회심리학 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "207.304",
+       "name": "인지과정 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "208.205",
+       "name": "경제지리학",
+       "credits": 3.0
+      },
+      {
+       "code": "300.203A",
+       "name": "선형대수학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "300.206A",
+       "name": "선형대수학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "881.001",
+       "name": "응용해석 1",
+       "credits": 3.0
+      },
+      {
+       "code": "881.007",
+       "name": "선형대수학",
+       "credits": 3.0
+      },
+      {
+       "code": "881.008",
+       "name": "해석개론",
+       "credits": 3.0
+      },
+      {
+       "code": "326.311",
+       "name": "수리통계 1",
+       "credits": 3.0
+      },
+      {
+       "code": "326.312",
+       "name": "수리통계 2",
+       "credits": 3.0
+      },
+      {
+       "code": "326.313",
+       "name": "회귀분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.314",
+       "name": "이산자료분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.316",
+       "name": "다변량자료분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.411",
+       "name": "베이즈통계 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.412",
+       "name": "생존자료분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.414",
+       "name": "비모수통계 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.415",
+       "name": "시계열분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "406.315",
+       "name": "경영과학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "406.317",
+       "name": "경영과학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "406.319",
+       "name": "기술경영",
+       "credits": 3.0
+      },
+      {
+       "code": "406.426B",
+       "name": "데이터관리와 분석",
+       "credits": 3.0
+      },
+      {
+       "code": "406.429",
+       "name": "데이터마이닝",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s16",
+      "s17",
+      "s18",
+      "s19",
+      "s4"
+     ],
+     "note": "전필 최저 학점을 넘긴 전필(같은 영역 두 번째 과목 포함)은 전선으로 센다. courses 는 경영대가 전선으로 인정하는 타학과 과목 37개(학점 표기 없음 → 편람에서 채움, 212.302 는 편람에 없음). 2024 목록: 연합전공 벤처경영학 전필도 경영학 전선으로 인정. 타학과 인정 학점 한도·대학원 과목 인정은 공개 문서에서 못 찾음.",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 30,
+       "parallel": 9,
+       "double": 16
+      }
+     }
+    },
+    {
+     "id": "biz-english-courses",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "영어 진행 전공강좌: 단일(심화) 5과목, 다전공·편입·전과 3과목, 복수전공 3과목 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "전공 영어강좌만(교양·일반선택 불가). 타학과 전선 인정 과목, 다전공 전공 과목, 국제교류 전선 인정 과목도 됨. 앱은 과목의 영어 강의 여부 자료가 있어야 셀 수 있다.",
+     "extra": {
+      "min_count_by_path": {
+       "single": 5,
+       "parallel": 3,
+       "double": 3
+      }
+     }
+    },
+    {
+     "id": "biz-english-score",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공인영어성적 기준(졸업 신청 학기에 영어·말하기·쓰기 성적 모두 제출, 유효기간 조건)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "영어시험 NEW TEPS 374·TOEIC 900·TOEFL iBT 5 of 6 이상 중 하나, 말하기 TOEFL iBT(S) 4 of 6·TEPS Speaking 67·TOEIC Speaking 160·OPIc IM3 이상 중 하나, 쓰기 TOEFL iBT(W) 4 of 6·TEPS Writing 67·TOEIC Writing 160 이상 중 하나. 앱이 확인할 수 없는 항목(안내만). 복수·부전공 문서에는 이 항목이 없다.",
+     "extra": {
+      "verify": "manual"
+     }
+    },
+    {
+     "id": "biz-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 경영학 복수전공: 전공필수 23(각론 7영역 21 + 졸업 세미나 2) 포함 39학점 이상, 영어 전공강좌 3과목",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s5",
+      "s6"
+     ],
+     "note": "2018학번부터의 기준(파일 2024-02-05 수정판). 2017학번까지는 전필 30·졸업논문(보고서) 필요였다."
+    },
+    {
+     "id": "biz-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "경영학 부전공: 각론 7영역에서 영역마다 1과목 이상, 21학점 이상",
+     "min_count": 7,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s5",
+      "s6"
+     ],
+     "note": "2018학번부터. 부전공은 다른 전공과 겹쳐 인정되지 않는다(해설 4.나.(2)(다))."
+    },
+    {
+     "id": "biz-ge-quant",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 7학점: 경영학을 위한 수학(3), 통계학(3)·통계학실험(1, 같은 학기)",
+     "min_count": 3,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "033.009",
+       "name": "경영학을 위한 수학",
+       "credits": 3
+      },
+      {
+       "code": "F31.113",
+       "name": "경영학을 위한 수학",
+       "credits": 3
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "biz-ge-computer",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보 활용 3학점: 컴퓨터의 개념 및 실습(3)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "컴퓨터와 정보 활용"
+     }
+    },
+    {
+     "id": "biz-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 7개 영역(언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회·자연과 기술·생명과 환경) 중 3개 영역 이상, 자연과 기술 또는 생명과 환경 영역 3학점 이상 포함",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s21"
+     ],
+     "note": "경영대 2021~2022학번 PDF와 2022 해설(2022학년도 신입생 기준)이 같다. 2021 판 해설은 없어 2021학번은 경영대 PDF 묶음을 따른다.",
+     "extra": {
+      "area": "학문의 세계"
+     }
+    },
+    {
+     "id": "biz-ge-pe-old",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택 교양: 체육실기 1개 교과목 1학점",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "note": "체육 실기 과목 목록은 따로 적지 않았다.",
+     "extra": {
+      "area": "선택 교양"
+     }
+    }
+   ],
+   "changed": "학문의 세계 3개 영역 이상(2023학번부터 4개).",
+   "note": "전공은 2023과 같다(전필 30). 학문의 세계가 '3개 영역 이상'."
+  },
+  {
+   "entry_years": [
+    2019,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s18",
+     "s25"
+    ]
+   },
+   "status": "충돌",
+   "src": [
+    "s18",
+    "s23"
+   ],
+   "requirements": [
+    {
+     "id": "biz-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1(2) + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 1과목, 2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "biz-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s23"
+     ],
+     "note": "2021학번부터 6학점. 2019~2020학번은 2학점 외국어 과목이 있던 때라 4~6(그만큼 전체 교양이 3~5).",
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "biz-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목에서 자유롭게 3~5학점(외국어 학점과 합쳐 36 맞추기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s23"
+     ],
+     "note": "외국어 4학점이면 5, 6학점이면 3.",
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "biz-basic",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기초필수 3과목 7학점: 경영학과 나의 미래(1), 경영철학과 윤리(3), 경영을 위한 경제학(3)",
+     "min_count": 3,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "M2171.002000",
+       "name": "경영학과 나의 미래",
+       "credits": 1.0
+      },
+      {
+       "code": "M2171.002100",
+       "name": "경영철학과 윤리",
+       "credits": 3.0
+      },
+      {
+       "code": "M2171.001900",
+       "name": "경영을 위한 경제학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s17",
+      "s18"
+     ],
+     "note": "경제원론 1·2를 모두 들으면 경영을 위한 경제학(구 경제원론)을 들은 것으로 본다(교과구분 정정은 안 됨). 어느 학과 경제원론인지는 문서에 없다(경제학부 200.105·200.106, 농경제사회학부 M2649.001100·M2649.001200 모두 같은 이름).",
+     "extra": {
+      "substitutes": [
+       {
+        "for": "M2171.001900",
+        "all_of": [
+         "경제원론 1",
+         "경제원론 2"
+        ],
+        "status": "부분"
+       }
+      ]
+     }
+    },
+    {
+     "id": "biz-area-1",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 1영역(회계): 회계원리·관리회계 중 1과목 이상",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "251.205",
+       "name": "회계원리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.306",
+       "name": "관리회계",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "같은 영역 과목을 둘 다 들으면 하나는 전필, 하나는 전선으로 센다."
+    },
+    {
+     "id": "biz-area-2",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 2영역(생산·경영과학): 생산서비스운영·경영과학 중 1과목 이상",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1338.003000",
+       "name": "생산서비스운영",
+       "credits": 3.0
+      },
+      {
+       "code": "251.207A",
+       "name": "경영과학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "복수·부전공 표는 생산관리(251.320, 현 생산서비스운영)로 적었다. 같은 영역 둘 다 들으면 하나는 전선."
+    },
+    {
+     "id": "biz-area-3",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 3영역(조직·인사): 조직행동론(구 조직행위론)·인사관리 중 1과목 이상",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1338.004000",
+       "name": "조직행동론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.209",
+       "name": "조직행위론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.303",
+       "name": "인사관리",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "조직행위론 251.209 와 조직행동론 M1338.004000 은 같은 과목(동일 대체)으로 본다. 같은 영역 둘 다 들으면 하나는 전선."
+    },
+    {
+     "id": "biz-area-4to7",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공 각론필수 4~7영역: 경영정보론, 재무관리, 마케팅관리, 경영전략(각 3학점)",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "251.326",
+       "name": "경영정보론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.301",
+       "name": "재무관리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.321",
+       "name": "마케팅관리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.424",
+       "name": "경영전략",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "biz-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업 세미나 2학점",
+     "min_count": 1,
+     "min_credits": 2,
+     "courses": [
+      {
+       "code": "M1338.002600",
+       "name": "졸업 세미나",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "주전공 전필 27 = 기초필수 4 + 각론 7영역 21 + 졸업 세미나 2. 복수전공 전필 23 = 각론 21 + 졸업 세미나 2. 부전공은 각론 21만."
+    },
+    {
+     "id": "biz-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택: 단일(심화) 30, 다전공 병행 9, 복수전공 16학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "212.201",
+       "name": "미시경제이론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.202",
+       "name": "거시경제이론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.204",
+       "name": "경제통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "212.214",
+       "name": "경제수학",
+       "credits": 3.0
+      },
+      {
+       "code": "212.301",
+       "name": "계량경제학",
+       "credits": 3.0
+      },
+      {
+       "code": "212.302",
+       "name": "수리경제학",
+       "credits": null
+      },
+      {
+       "code": "212.303",
+       "name": "화폐금융론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.309",
+       "name": "국제금융론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.317",
+       "name": "산업조직론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.337A",
+       "name": "주식,채권, 파생금융상품 2: 제도",
+       "credits": 3.0
+      },
+      {
+       "code": "212.339",
+       "name": "게임이론 및 응용",
+       "credits": 3.0
+      },
+      {
+       "code": "205.203",
+       "name": "사회조사방법",
+       "credits": 3.0
+      },
+      {
+       "code": "205.301",
+       "name": "현대사회학이론",
+       "credits": 3.0
+      },
+      {
+       "code": "205.239A",
+       "name": "사회조직론",
+       "credits": 3.0
+      },
+      {
+       "code": "207.202",
+       "name": "심리통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "207.230",
+       "name": "사회심리학 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "207.304",
+       "name": "인지과정 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "208.205",
+       "name": "경제지리학",
+       "credits": 3.0
+      },
+      {
+       "code": "300.203A",
+       "name": "선형대수학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "300.206A",
+       "name": "선형대수학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "881.001",
+       "name": "응용해석 1",
+       "credits": 3.0
+      },
+      {
+       "code": "881.007",
+       "name": "선형대수학",
+       "credits": 3.0
+      },
+      {
+       "code": "881.008",
+       "name": "해석개론",
+       "credits": 3.0
+      },
+      {
+       "code": "326.311",
+       "name": "수리통계 1",
+       "credits": 3.0
+      },
+      {
+       "code": "326.312",
+       "name": "수리통계 2",
+       "credits": 3.0
+      },
+      {
+       "code": "326.313",
+       "name": "회귀분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.314",
+       "name": "이산자료분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.316",
+       "name": "다변량자료분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.411",
+       "name": "베이즈통계 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.412",
+       "name": "생존자료분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.414",
+       "name": "비모수통계 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "326.415",
+       "name": "시계열분석 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "406.315",
+       "name": "경영과학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "406.317",
+       "name": "경영과학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "406.319",
+       "name": "기술경영",
+       "credits": 3.0
+      },
+      {
+       "code": "406.426B",
+       "name": "데이터관리와 분석",
+       "credits": 3.0
+      },
+      {
+       "code": "406.429",
+       "name": "데이터마이닝",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s16",
+      "s17",
+      "s18",
+      "s19",
+      "s4"
+     ],
+     "note": "전필 최저 학점을 넘긴 전필(같은 영역 두 번째 과목 포함)은 전선으로 센다. courses 는 경영대가 전선으로 인정하는 타학과 과목 37개(학점 표기 없음 → 편람에서 채움, 212.302 는 편람에 없음). 2024 목록: 연합전공 벤처경영학 전필도 경영학 전선으로 인정. 타학과 인정 학점 한도·대학원 과목 인정은 공개 문서에서 못 찾음.",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 30,
+       "parallel": 9,
+       "double": 16
+      }
+     }
+    },
+    {
+     "id": "biz-english-courses",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "영어 진행 전공강좌: 단일(심화) 5과목, 다전공·편입·전과 3과목, 복수전공 3과목 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "전공 영어강좌만(교양·일반선택 불가). 타학과 전선 인정 과목, 다전공 전공 과목, 국제교류 전선 인정 과목도 됨. 앱은 과목의 영어 강의 여부 자료가 있어야 셀 수 있다.",
+     "extra": {
+      "min_count_by_path": {
+       "single": 5,
+       "parallel": 3,
+       "double": 3
+      }
+     }
+    },
+    {
+     "id": "biz-english-score",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공인영어성적 기준(졸업 신청 학기에 영어·말하기·쓰기 성적 모두 제출, 유효기간 조건)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "영어시험 NEW TEPS 374·TOEIC 900·TOEFL iBT 5 of 6 이상 중 하나, 말하기 TOEFL iBT(S) 4 of 6·TEPS Speaking 67·TOEIC Speaking 160·OPIc IM3 이상 중 하나, 쓰기 TOEFL iBT(W) 4 of 6·TEPS Writing 67·TOEIC Writing 160 이상 중 하나. 앱이 확인할 수 없는 항목(안내만). 복수·부전공 문서에는 이 항목이 없다.",
+     "extra": {
+      "verify": "manual"
+     }
+    },
+    {
+     "id": "biz-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 경영학 복수전공: 전공필수 23(각론 7영역 21 + 졸업 세미나 2) 포함 39학점 이상, 영어 전공강좌 3과목",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s5",
+      "s6"
+     ],
+     "note": "2018학번부터의 기준(파일 2024-02-05 수정판). 2017학번까지는 전필 30·졸업논문(보고서) 필요였다."
+    },
+    {
+     "id": "biz-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "경영학 부전공: 각론 7영역에서 영역마다 1과목 이상, 21학점 이상",
+     "min_count": 7,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s5",
+      "s6"
+     ],
+     "note": "2018학번부터. 부전공은 다른 전공과 겹쳐 인정되지 않는다(해설 4.나.(2)(다))."
+    },
+    {
+     "id": "biz-ge-quant",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 7학점: 경영학을 위한 수학(3), 통계학(3)·통계학실험(1, 같은 학기)",
+     "min_count": 3,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "033.009",
+       "name": "경영학을 위한 수학",
+       "credits": 3
+      },
+      {
+       "code": "F31.113",
+       "name": "경영학을 위한 수학",
+       "credits": 3
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "biz-ge-computer",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보 활용 3학점: 컴퓨터의 개념 및 실습(3)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "컴퓨터와 정보 활용"
+     }
+    },
+    {
+     "id": "biz-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 7개 영역 중 N개 영역 이상(N = 3 또는 4, 자료끼리 다름), 자연과 기술 또는 생명과 환경 영역 3학점 이상 포함",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s18",
+      "s23",
+      "s24"
+     ],
+     "note": "경영대 2019~2020학번 PDF는 '3개 영역 이상', 본부 2020 해설(2018 해설도)은 '4개 영역 이상'. 2019·2020학년도 대학별 교양 이수규정 PDF는 학교 보안 장치 때문에 열지 못했다. 앱: 4개 영역 이상이면 충족, 3개 영역이면 '확인 필요'.",
+     "extra": {
+      "area": "학문의 세계",
+      "conflict": [
+       {
+        "value": 3,
+        "source": "경영대 졸업기준(2019~2020학번) PDF"
+       },
+       {
+        "value": 4,
+        "source": "본부 2020 교과과정 해설 p.17"
+       }
+      ]
+     }
+    },
+    {
+     "id": "biz-ge-pe-old",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택 교양: 체육실기 1개 교과목 1학점",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "note": "체육 실기 과목 목록은 따로 적지 않았다.",
+     "extra": {
+      "area": "선택 교양"
+     }
+    }
+   ],
+   "changed": "외국어 4~6, 전체 교양 3~5, 학문의 세계 영역 수 충돌(경영대 PDF 3 / 2020 해설 4).",
+   "note": "전공은 2021~2022와 같다(전필 30). 2영역 표가 '생산관리 251.320(생산서비스운영 M1338.003000)' — 1차 biz-area-2 의 alias 로 이미 인정. 외국어 4~6·전체 교양 3~5. 학문의 세계 영역 수는 자료끼리 다르다."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2018,
+   "basis": "입학 연도",
+   "what": "다른 학과 학생의 복수·부전공: '2018학번부터' 표 하나(복수 39 = 각론 21 + 졸업 세미나 2 + 전선 16, 영어 전공강좌 3과목 / 부전공 21 = 각론 7영역) → 2019~2026학번 모두 같음",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "외국어 4~6 → 6학점, 전체 교양 3~5 → 3학점(본부 교양 학점 정비)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2023,
+   "basis": "입학 연도",
+   "what": "학문의 세계 '3개 영역 이상' → '4개 영역 이상'",
+   "status": "부분"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "기초필수에서 경영철학과 윤리(M2171.002100) 빠짐: 전필 30 → 27, 전선 심화 30 → 33·다전공 9 → 12",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 체계 개편(학문의 토대·지성의 열쇠·베리타스·지성의 확장, 수학·과학·컴퓨팅 10)",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "2영역 생산관리 251.320 → 생산서비스운영 M1338.003000(편람 자료 2021-1부터 새 과목만), 3영역 조직행위론 251.209(편람 ~2023-1) → 조직행동론 M1338.004000(2023-2~). '동일 대체 교과목도 이수로 봄'",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "학문의 세계 영역 수: 2019~2020학번(경영대 PDF 3개 vs 2020 해설 4개)과 2024학번(경영대 PDF·2024 이수규정 4개 vs 2024 해설 3개) 중 무엇이 맞는지",
+  "2023학번 이전(전필 30)이 경영철학과 윤리를 듣지 못했을 때 대체 과목이 있는지(2024-1부터 편람 교과구분이 전선)",
+  "옛 교양 체계 학번(2019~2024)이 2025-1 이후 새 번호(F·E) 교양을 들었을 때 학문의 세계·체육 등 영역 인정 방식",
+  "(1차와 같음) 경제원론 1·2 대체 인정 범위, 타학과 전선 인정 한도",
+  "경영을 위한 경제학 대체 인정(경제원론 1·2 모두 이수)에 농경제사회학부 개설 경제원론(M2649.001100·M2649.001200)도 해당하는지",
+  "타학과 전선 인정 과목의 인정 학점 한도와 대학원 과목 인정 여부",
+  "영어 진행 전공강좌로 인정되는 과목을 확인하는 공식 방법(수강편람 표시 등)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.113 □ 경영대학",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "경영대학, 졸업기준(2025~2026학번) PDF <2026.03.25. 개정>",
+   "url": "https://cba.snu.ac.kr/download/756z6b4zeafz1a9z271zed6z9bez36bz4bdz807z07",
+   "locator": "1~7항(전공 5항: 전공필수 교과목 이수 형태)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "경영대학, 졸업기준(복수전공·부전공) PDF(파일명 추가수정_20240205)",
+   "url": "https://cba.snu.ac.kr/download/8cezc7bz81dz8a4z7a5z864z7cez92dz014z2a0za2",
+   "locator": "1. 복수전공(2018학번부터), 2. 부전공(2018학번부터)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "경영대학, 타학과 과목 중 전공선택 인정",
+   "url": "https://cba.snu.ac.kr/academics/undergraduate/curriculum/02",
+   "locator": "인정 교과목 표(37과목)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "경영대학 251. 경영학과 pp.52–53(이수표준형태·이수규정)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 학사과정 복수·부전공 이수학점 기준(p.10–11)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "경영대학, 졸업기준(2025~2026학번) PDF <2026.03.25. 개정>",
+   "url": "https://cba.snu.ac.kr/download/756z6b4zeafz1a9z271zed6z9bez36bz4bdz807z07",
+   "locator": "4항 교양, 5항 전공필수 이수 형태, 6·7항 영어",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.119 □ 경영대학",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1·2 pp.8–11",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "경영대학, 학부 졸업요건(학번별 졸업기준 파일 목록)",
+   "url": "https://cba.snu.ac.kr/academics/undergraduate/graduation/requirements",
+   "locator": "졸업요건 표: 2025~2026·2024·2023·2021~2022·2019~2020학번 등",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.10 □ 경영대학",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "경영대학, 졸업기준(2024학번) PDF <2026.03.25. 개정>",
+   "url": "https://cba.snu.ac.kr/download/ee8z3f3z3e9zd5dzdefz47fzebazf69zbf5ze0azab",
+   "locator": "4항 교양(학문의 세계 '4개 영역 이상'), 5항 전공(전필 27)",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "학부대학 게시, 2024학년도 대학별 교양 이수규정(PDF)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2024_2.pdf",
+   "locator": "PDF p.7 □ 경영대학",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.17 □ 경영대학",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 p.8, 표 2 p.10",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "경영대학, 졸업기준(2023학번) PDF <2026.03.25. 개정>",
+   "url": "https://cba.snu.ac.kr/download/061za5fzaacz502z395zbd2z126z4cez1fazd11z20",
+   "locator": "4항 교양(학문의 세계 '4개 영역 이상'), 5항 전공(전필 30, 기초필수 3과목)",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "경영대학, 졸업기준(2021~2022학번) PDF <2026.03.25. 개정>",
+   "url": "https://cba.snu.ac.kr/download/b33zba6ze92zdc1zaebz728z860z7a1z710zb64z04",
+   "locator": "4항 교양(외국어 6, 학문의 세계 '3개 영역 이상'), 5항 전공(전필 30)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "경영대학, 졸업기준(2019~2020학번) PDF <2026.03.25. 개정>",
+   "url": "https://cba.snu.ac.kr/download/973zbafz38bzf50z346z34fz1e4zc86z5a0z87czd5",
+   "locator": "4항 교양(외국어 4-6, 전체 교양 3-5, 학문의 세계 '3개 영역 이상'), 5항 전공(전필 30, 2영역 생산관리 251.320)",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "경영대학, 졸업기준(복수전공·부전공) PDF(2024-02-05 수정)",
+   "url": "https://cba.snu.ac.kr/download/8cezc7bz81dz8a4z7a5z864z7cez92dz014z2a0za2",
+   "locator": "1. 복수전공·2. 부전공 — '2018학번부터' 표",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "학부대학 게시, 2023학년도 대학별 교양 이수규정(PDF)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2023_2.pdf",
+   "locator": "PDF p.7 □ 경영대학",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "p.17 □ 경영대학",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1 p.8, 표 2 p.10",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.17 □ 경영대학",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "서울대학교, 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "p.16 □ 경영대학(2018학번용, 참고)",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 p.8, 표 2 p.10",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

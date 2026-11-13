@@ -1,0 +1,1859 @@
+{
+ "id": "p-7c104a63",
+ "college": "미술대학",
+ "unit": "디자인과",
+ "program": "디자인과 산업디자인전공",
+ "kind": "major",
+ "depts": [],
+ "code_prefixes": [],
+ "ge_key": "미술대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": {
+  "name": "디자인학부 디자인전공",
+  "entry_years": null,
+  "note": "2018·2020 판 해설 이름. 바뀐 해 미확인(2022 판부터 디자인과)."
+ },
+ "structure": {
+  "splits_into": [
+   "시각디자인전공",
+   "산업디자인전공"
+  ],
+  "when": "미확인(이수표준형태상 2학년부터 전공 과목)",
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 69,
+    "parallel": 57,
+    "double": 57,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s5",
+     "s6",
+     "s7",
+     "s8",
+     "s9",
+     "s10",
+     "s11",
+     "s12"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s13",
+    "s14",
+    "s15"
+   ],
+   "requirements": [
+    {
+     "id": "art-common-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "미대 공통 전필 2과목(6학점): 한국미술과 문화, 서양미술사",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "600.228A",
+       "name": "한국미술과 문화",
+       "credits": 3
+      },
+      {
+       "code": "M2182.000100",
+       "name": "서양미술사",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "2024 목록의 교과목 이수규정 ①. 2025 학과 내규는 못 봄(미술대학 누리집 접근 실패)."
+    },
+    {
+     "id": "art-common-y1-elective",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "1학년은 미대 공통 전선 10과목 중 학기당 2과목(4학점)씩 이수(2018학번부터)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "M2182.000900",
+       "name": "평면조형1",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001000",
+       "name": "평면조형2",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000700",
+       "name": "평면조형3",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000800",
+       "name": "평면조형4",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001300",
+       "name": "입체조형1",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001400",
+       "name": "입체조형2",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001100",
+       "name": "기초 도예",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001200",
+       "name": "기초 금속공예",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000500",
+       "name": "기초시각디자인",
+       "credits": 2
+      },
+      {
+       "code": "M3412.000100",
+       "name": "기초산업디자인",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "학기당 2과목 조건이라 학기별 확인이 필요하다. 2024 목록 공통과목 칸의 기초시각디자인 번호 M2182.000600 은 편람상 기초공업디자인(2021-1 뒤 폐강)이라 M2182.000500 으로 적었다."
+    },
+    {
+     "id": "design-y1-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "1학년 전필 2과목(4학점): 디자인기초 1·2(2017학번부터)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "M1774.003600",
+       "name": "디자인기초1",
+       "credits": 2
+      },
+      {
+       "code": "M1774.003700",
+       "name": "디자인기초2",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "design-history",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "디자인사(목록의 디자인전공 공통 칸에 * 표)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "600.220A",
+       "name": "디자인사",
+       "credits": 3
+      }
+     ],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "이수규정 문장에는 없고 편람에서는 전선으로 열린다. 필수인지 학과 확인."
+    },
+    {
+     "id": "id-core-a",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "산업디자인전공 핵심이수교과목(ⓐ 8과목) 중 6과목 이상(2024학번 입학생 중 산업디자인 전공자부터)",
+     "min_count": 6,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3389.003500",
+       "name": "디자인요소와원리",
+       "credits": 3
+      },
+      {
+       "code": "M3389.002800",
+       "name": "공간디자인기초",
+       "credits": 3
+      },
+      {
+       "code": "M3389.003400",
+       "name": "제품디자인",
+       "credits": 3
+      },
+      {
+       "code": "M1774.001700",
+       "name": "구조와재료디자인",
+       "credits": 3
+      },
+      {
+       "code": "M3389.003200",
+       "name": "제품서비스디자인",
+       "credits": 3
+      },
+      {
+       "code": "M3389.003300",
+       "name": "리빙디자인",
+       "credits": 3
+      },
+      {
+       "code": "M1774.002000",
+       "name": "인간행태와디자인",
+       "credits": 3
+      },
+      {
+       "code": "M1774.004100",
+       "name": "사회적이슈와디자인",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "id-core-total",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "핵심(ⓐ)과 선택이수교과목(ⓑ 6과목) 합해 8과목 이상",
+     "min_count": 8,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3389.003500",
+       "name": "디자인요소와원리",
+       "credits": 3
+      },
+      {
+       "code": "M3389.002800",
+       "name": "공간디자인기초",
+       "credits": 3
+      },
+      {
+       "code": "M3389.003400",
+       "name": "제품디자인",
+       "credits": 3
+      },
+      {
+       "code": "M1774.001700",
+       "name": "구조와재료디자인",
+       "credits": 3
+      },
+      {
+       "code": "M3389.003200",
+       "name": "제품서비스디자인",
+       "credits": 3
+      },
+      {
+       "code": "M3389.003300",
+       "name": "리빙디자인",
+       "credits": 3
+      },
+      {
+       "code": "M1774.002000",
+       "name": "인간행태와디자인",
+       "credits": 3
+      },
+      {
+       "code": "M1774.004100",
+       "name": "사회적이슈와디자인",
+       "credits": 3
+      },
+      {
+       "code": "M3389.002600",
+       "name": "혼합매체드로잉",
+       "credits": 3
+      },
+      {
+       "code": "M1774.002300",
+       "name": "사물인터랙션디자인",
+       "credits": 3
+      },
+      {
+       "code": "M3389.001700",
+       "name": "바이오디자인",
+       "credits": 3
+      },
+      {
+       "code": "M3389.002700",
+       "name": "혼합재료모델링",
+       "credits": 3
+      },
+      {
+       "code": "M3389.003600",
+       "name": "운송디자인",
+       "credits": 3
+      },
+      {
+       "code": "M3389.002900",
+       "name": "공간디자인",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "id-capstone",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "4학년 졸업전시 수업 4그룹(각 1·2 두 과목) 중 2그룹(12학점) 반드시 이수",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "ⓐ 제품인터랙션디자인프로젝트 1·2",
+        "courses": [
+         {
+          "code": "M3389.000100",
+          "name": "제품인터랙션디자인프로젝트 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1"
+         },
+         {
+          "code": "M3389.000200",
+          "name": "제품인터랙션디자인프로젝트 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2"
+         }
+        ]
+       },
+       {
+        "name": "ⓑ 모빌리티디자인프로젝트 1·2",
+        "courses": [
+         {
+          "code": "M3389.002400",
+          "name": "모빌리티디자인프로젝트 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1"
+         },
+         {
+          "code": "M3389.002500",
+          "name": "모빌리티디자인프로젝트 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2"
+         }
+        ]
+       },
+       {
+        "name": "ⓒ 리빙디자인프로젝트 1·2",
+        "courses": [
+         {
+          "code": "M3389.000300",
+          "name": "리빙디자인프로젝트 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1"
+         },
+         {
+          "code": "M3389.000400",
+          "name": "리빙디자인프로젝트 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2"
+         }
+        ]
+       },
+       {
+        "name": "ⓓ 공간디자인프로젝트 1·2",
+        "courses": [
+         {
+          "code": "M1774.002700",
+          "name": "공간디자인프로젝트1",
+          "credits": 3,
+          "credits_from": "편람 2026-1"
+         },
+         {
+          "code": "M1774.003100",
+          "name": "공간디자인프로젝트2",
+          "credits": 3,
+          "credits_from": "편람 2026-2"
+         }
+        ]
+       }
+      ],
+      "min_groups": 2
+     }
+    },
+    {
+     "id": "design-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공 이수규정: \"학부내규에 의함\"(세부 미공개)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s3"
+     ]
+    },
+    {
+     "id": "design-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 이수규정: \"학부내규에 의함\"(세부 미공개)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s3"
+     ]
+    },
+    {
+     "id": "ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학년도 입학생부터 적용)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1 필수 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기) 중 택 1",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000700"
+       ]
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000800"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "대학 글쓰기 1(F11.101) 필수, 대학 글쓰기 2 세 과목 중 1과목. 권장 이수학기 [1-1](미대) / [1-1,1-2]·[2-1](음대)."
+    },
+    {
+     "id": "ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학·과학·컴퓨팅 3학점(지정 과목 없음)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상, 역사적 탐구와 철학적 사유, 인간의 이해와 사회 분석, 과학적 사고와 응용 중 3개 영역 이상에서 9학점 이상",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "extra": {
+      "distribution": {
+       "areas": [
+        "문화 해석과 상상",
+        "역사적 탐구와 철학적 사유",
+        "인간의 이해와 사회 분석",
+        "과학적 사고와 응용"
+       ],
+       "min_areas": 3
+      }
+     }
+    },
+    {
+     "id": "ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1, 베리타스 강좌 2, 베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 중 자유 선택 11학점",
+     "min_count": null,
+     "min_credits": 11,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    }
+   ],
+   "note": "1차 2025학번 요건 그대로(2024학번부터 적용 조항). 2026학번도 같다고 본다. 미대 누리집(art.snu.ac.kr)은 robots 차단으로 열지 않았다(1차와 같음). 학과 내규·경과조치는 공개본이 없어 본부 목록·해설·편람으로만 정했다."
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 69,
+    "parallel": 57,
+    "double": 57,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s5",
+     "s6",
+     "s7",
+     "s8",
+     "s9",
+     "s10",
+     "s11",
+     "s12"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s13"
+   ],
+   "requirements": [
+    {
+     "id": "art-common-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "미대 공통 전필 2과목(6학점): 한국미술과 문화, 서양미술사",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "600.228A",
+       "name": "한국미술과 문화",
+       "credits": 3
+      },
+      {
+       "code": "M2182.000100",
+       "name": "서양미술사",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "2024 목록의 교과목 이수규정 ①. 2025 학과 내규는 못 봄(미술대학 누리집 접근 실패)."
+    },
+    {
+     "id": "art-common-y1-elective",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "1학년은 미대 공통 전선 10과목 중 학기당 2과목(4학점)씩 이수(2018학번부터)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "M2182.000900",
+       "name": "평면조형1",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001000",
+       "name": "평면조형2",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000700",
+       "name": "평면조형3",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000800",
+       "name": "평면조형4",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001300",
+       "name": "입체조형1",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001400",
+       "name": "입체조형2",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001100",
+       "name": "기초 도예",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001200",
+       "name": "기초 금속공예",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000500",
+       "name": "기초시각디자인",
+       "credits": 2
+      },
+      {
+       "code": "M3412.000100",
+       "name": "기초산업디자인",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "학기당 2과목 조건이라 학기별 확인이 필요하다. 2024 목록 공통과목 칸의 기초시각디자인 번호 M2182.000600 은 편람상 기초공업디자인(2021-1 뒤 폐강)이라 M2182.000500 으로 적었다."
+    },
+    {
+     "id": "design-y1-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "1학년 전필 2과목(4학점): 디자인기초 1·2(2017학번부터)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "M1774.003600",
+       "name": "디자인기초1",
+       "credits": 2
+      },
+      {
+       "code": "M1774.003700",
+       "name": "디자인기초2",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "design-history",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "디자인사(목록의 디자인전공 공통 칸에 * 표)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "600.220A",
+       "name": "디자인사",
+       "credits": 3
+      }
+     ],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "이수규정 문장에는 없고 편람에서는 전선으로 열린다. 필수인지 학과 확인."
+    },
+    {
+     "id": "id-core-a",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "산업디자인전공 핵심이수교과목(ⓐ 8과목) 중 6과목 이상(2024학번 입학생 중 산업디자인 전공자부터)",
+     "min_count": 6,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3389.003500",
+       "name": "디자인요소와원리",
+       "credits": 3
+      },
+      {
+       "code": "M3389.002800",
+       "name": "공간디자인기초",
+       "credits": 3
+      },
+      {
+       "code": "M3389.003400",
+       "name": "제품디자인",
+       "credits": 3
+      },
+      {
+       "code": "M1774.001700",
+       "name": "구조와재료디자인",
+       "credits": 3
+      },
+      {
+       "code": "M3389.003200",
+       "name": "제품서비스디자인",
+       "credits": 3
+      },
+      {
+       "code": "M3389.003300",
+       "name": "리빙디자인",
+       "credits": 3
+      },
+      {
+       "code": "M1774.002000",
+       "name": "인간행태와디자인",
+       "credits": 3
+      },
+      {
+       "code": "M1774.004100",
+       "name": "사회적이슈와디자인",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "id-core-total",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "핵심(ⓐ)과 선택이수교과목(ⓑ 6과목) 합해 8과목 이상",
+     "min_count": 8,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3389.003500",
+       "name": "디자인요소와원리",
+       "credits": 3
+      },
+      {
+       "code": "M3389.002800",
+       "name": "공간디자인기초",
+       "credits": 3
+      },
+      {
+       "code": "M3389.003400",
+       "name": "제품디자인",
+       "credits": 3
+      },
+      {
+       "code": "M1774.001700",
+       "name": "구조와재료디자인",
+       "credits": 3
+      },
+      {
+       "code": "M3389.003200",
+       "name": "제품서비스디자인",
+       "credits": 3
+      },
+      {
+       "code": "M3389.003300",
+       "name": "리빙디자인",
+       "credits": 3
+      },
+      {
+       "code": "M1774.002000",
+       "name": "인간행태와디자인",
+       "credits": 3
+      },
+      {
+       "code": "M1774.004100",
+       "name": "사회적이슈와디자인",
+       "credits": 3
+      },
+      {
+       "code": "M3389.002600",
+       "name": "혼합매체드로잉",
+       "credits": 3
+      },
+      {
+       "code": "M1774.002300",
+       "name": "사물인터랙션디자인",
+       "credits": 3
+      },
+      {
+       "code": "M3389.001700",
+       "name": "바이오디자인",
+       "credits": 3
+      },
+      {
+       "code": "M3389.002700",
+       "name": "혼합재료모델링",
+       "credits": 3
+      },
+      {
+       "code": "M3389.003600",
+       "name": "운송디자인",
+       "credits": 3
+      },
+      {
+       "code": "M3389.002900",
+       "name": "공간디자인",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "id-capstone",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "4학년 졸업전시 수업 4그룹(각 1·2 두 과목) 중 2그룹(12학점) 반드시 이수",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "ⓐ 제품인터랙션디자인프로젝트 1·2",
+        "courses": [
+         {
+          "code": "M3389.000100",
+          "name": "제품인터랙션디자인프로젝트 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1"
+         },
+         {
+          "code": "M3389.000200",
+          "name": "제품인터랙션디자인프로젝트 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2"
+         }
+        ]
+       },
+       {
+        "name": "ⓑ 모빌리티디자인프로젝트 1·2",
+        "courses": [
+         {
+          "code": "M3389.002400",
+          "name": "모빌리티디자인프로젝트 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1"
+         },
+         {
+          "code": "M3389.002500",
+          "name": "모빌리티디자인프로젝트 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2"
+         }
+        ]
+       },
+       {
+        "name": "ⓒ 리빙디자인프로젝트 1·2",
+        "courses": [
+         {
+          "code": "M3389.000300",
+          "name": "리빙디자인프로젝트 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1"
+         },
+         {
+          "code": "M3389.000400",
+          "name": "리빙디자인프로젝트 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2"
+         }
+        ]
+       },
+       {
+        "name": "ⓓ 공간디자인프로젝트 1·2",
+        "courses": [
+         {
+          "code": "M1774.002700",
+          "name": "공간디자인프로젝트1",
+          "credits": 3,
+          "credits_from": "편람 2026-1"
+         },
+         {
+          "code": "M1774.003100",
+          "name": "공간디자인프로젝트2",
+          "credits": 3,
+          "credits_from": "편람 2026-2"
+         }
+        ]
+       }
+      ],
+      "min_groups": 2
+     }
+    },
+    {
+     "id": "design-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공 이수규정: \"학부내규에 의함\"(세부 미공개)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s3"
+     ]
+    },
+    {
+     "id": "design-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 이수규정: \"학부내규에 의함\"(세부 미공개)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s3"
+     ]
+    },
+    {
+     "id": "ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(학문의 기초·학문의 세계 체계, 2019~2024학번)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s17",
+      "s18",
+      "s19"
+     ]
+    },
+    {
+     "id": "ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1 필수 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기) 중 택 1",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101(2025-1부터 개설 번호)"
+       ]
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.201"
+       ]
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.202"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s17",
+      "s18",
+      "s19",
+      "s20"
+     ],
+     "note": "2025-1부터 같은 과목이 F11 번호로 열린다(옛 학번이 지금 들으면 F11 번호)."
+    },
+    {
+     "id": "ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목: 2021~2024학번 6학점, 2019·2020학번 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s17",
+      "s18",
+      "s19"
+     ],
+     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort."
+    },
+    {
+     "id": "ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 중 자유 선택: 2021~2024학번 14학점, 2019·2020학번 14~16학점(외국어 학점에 따라)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s17",
+      "s18",
+      "s19"
+     ]
+    },
+    {
+     "id": "ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회, 자연과 기술, 생명과 환경 중 4개 영역 이상에서 12학점 이상",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s17",
+      "s18",
+      "s19"
+     ]
+    }
+   ],
+   "changed": "교양만 옛 체계. 전공 요건은 2025학번과 같다(\"2024학년도 입학생 중 ○○디자인을 전공하는 학생부터 적용\").",
+   "note": "교양은 college_common.ge_by_cohort(학번별)를 따른다."
+  },
+  {
+   "entry_years": [
+    2019,
+    2023
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 69,
+    "parallel": 57,
+    "double": 57,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s5",
+     "s6",
+     "s7",
+     "s8",
+     "s9",
+     "s10",
+     "s11",
+     "s12"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s21",
+    "s13",
+    "s24"
+   ],
+   "requirements": [
+    {
+     "id": "art-common-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "미대 공통 전필 2과목(6학점): 한국미술과 문화, 서양미술사",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "600.228A",
+       "name": "한국미술과 문화",
+       "credits": 3
+      },
+      {
+       "code": "M2182.000100",
+       "name": "서양미술사",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "2024 목록의 교과목 이수규정 ①. 2025 학과 내규는 못 봄(미술대학 누리집 접근 실패)."
+    },
+    {
+     "id": "art-common-y1-elective",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "1학년은 미대 공통 전선 10과목 중 학기당 2과목(4학점)씩 이수(2018학번부터)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "M2182.000900",
+       "name": "평면조형1",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001000",
+       "name": "평면조형2",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000700",
+       "name": "평면조형3",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000800",
+       "name": "평면조형4",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001300",
+       "name": "입체조형1",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001400",
+       "name": "입체조형2",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001100",
+       "name": "기초 도예",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001200",
+       "name": "기초 금속공예",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000500",
+       "name": "기초시각디자인",
+       "credits": 2
+      },
+      {
+       "code": "M3412.000100",
+       "name": "기초산업디자인",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "학기당 2과목 조건이라 학기별 확인이 필요하다. 2024 목록 공통과목 칸의 기초시각디자인 번호 M2182.000600 은 편람상 기초공업디자인(2021-1 뒤 폐강)이라 M2182.000500 으로 적었다."
+    },
+    {
+     "id": "design-y1-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "1학년 전필 2과목(4학점): 디자인기초 1·2(2017학번부터)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "M1774.003600",
+       "name": "디자인기초1",
+       "credits": 2
+      },
+      {
+       "code": "M1774.003700",
+       "name": "디자인기초2",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "design-history",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "디자인사(목록의 디자인전공 공통 칸에 * 표)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "600.220A",
+       "name": "디자인사",
+       "credits": 3
+      }
+     ],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "이수규정 문장에는 없고 편람에서는 전선으로 열린다. 필수인지 학과 확인."
+    },
+    {
+     "id": "design-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공 이수규정: \"학부내규에 의함\"(세부 미공개)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s3"
+     ]
+    },
+    {
+     "id": "design-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 이수규정: \"학부내규에 의함\"(세부 미공개)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s3"
+     ]
+    },
+    {
+     "id": "ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(학문의 기초·학문의 세계 체계, 2019~2024학번)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s17",
+      "s18",
+      "s19"
+     ]
+    },
+    {
+     "id": "ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1 필수 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기) 중 택 1",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101(2025-1부터 개설 번호)"
+       ]
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.201"
+       ]
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.202"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s17",
+      "s18",
+      "s19",
+      "s20"
+     ],
+     "note": "2025-1부터 같은 과목이 F11 번호로 열린다(옛 학번이 지금 들으면 F11 번호)."
+    },
+    {
+     "id": "ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목: 2021~2024학번 6학점, 2019·2020학번 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s17",
+      "s18",
+      "s19"
+     ],
+     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort."
+    },
+    {
+     "id": "ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 중 자유 선택: 2021~2024학번 14학점, 2019·2020학번 14~16학점(외국어 학점에 따라)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s17",
+      "s18",
+      "s19"
+     ]
+    },
+    {
+     "id": "ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회, 자연과 기술, 생명과 환경 중 4개 영역 이상에서 12학점 이상",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s17",
+      "s18",
+      "s19"
+     ]
+    },
+    {
+     "id": "id-core-2017",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "(2017~2023학번) 공업디자인전공 핵심이수 교과목 8과목 중 18학점 이상 + 그 밖의 공업디자인전공 개설 전선 6학점 이상",
+     "min_count": null,
+     "min_credits": 18,
+     "courses": [
+      {
+       "code": "M1774.001400",
+       "name": "디자인의요소와원리",
+       "credits": 3,
+       "alt_codes": [
+        "M3389.003500 디자인요소와원리(2024-1~)"
+       ]
+      },
+      {
+       "code": "M1774.001500",
+       "name": "공간디자인컨셉스터디",
+       "credits": 3
+      },
+      {
+       "code": "M1774.001600",
+       "name": "제품리버스디자인",
+       "credits": 3
+      },
+      {
+       "code": "M1774.001700",
+       "name": "구조와재료디자인",
+       "credits": 3
+      },
+      {
+       "code": "M1774.001900",
+       "name": "제품디자인",
+       "credits": 3,
+       "alt_codes": [
+        "M3389.003400 제품디자인(2023-2~)"
+       ]
+      },
+      {
+       "code": "M1774.002000",
+       "name": "인간행태와디자인",
+       "credits": 3
+      },
+      {
+       "code": "M1774.004100",
+       "name": "사회적이슈와디자인",
+       "credits": 3
+      },
+      {
+       "code": "M1774.002400",
+       "name": "도시공간디자인",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s21",
+      "s22"
+     ],
+     "note": "8과목 중 4과목은 2022-2·2023-1 뒤 열리지 않는다(디자인요소와원리·제품디자인은 새 번호로 계속). 대체 인정 미확인."
+    },
+    {
+     "id": "id-capstone-2017",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "(2017~2023학번) 4학년 졸업전시 수업 3그룹 중 2그룹(12학점) 반드시 이수: ⓐ 제품시스템디자인프로젝트 1·2, ⓑ 공간디자인프로젝트 1·2, ⓒ 운송기기디자인프로젝트 1·2",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "M1774.002500",
+       "name": "제품시스템디자인프로젝트 1",
+       "credits": 3
+      },
+      {
+       "code": "M1774.002800",
+       "name": "제품시스템디자인프로젝트 2",
+       "credits": 3
+      },
+      {
+       "code": "M1774.002700",
+       "name": "공간디자인프로젝트1",
+       "credits": 3
+      },
+      {
+       "code": "M1774.003100",
+       "name": "공간디자인프로젝트2",
+       "credits": 3
+      },
+      {
+       "code": "M1774.003500",
+       "name": "운송기기디자인프로젝트1",
+       "credits": 3,
+       "alt_codes": [
+        "M3389.002400 모빌리티디자인프로젝트 1(2024-1~)"
+       ]
+      },
+      {
+       "code": "M1774.002900",
+       "name": "운송기기디자인프로젝트2",
+       "credits": 3,
+       "alt_codes": [
+        "M3389.002500 모빌리티디자인프로젝트 2(2023-2~)"
+       ]
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s21",
+      "s23"
+     ],
+     "note": "2022 목록 이수규정의 과목 번호 일부는 그해 이미 다른 이름으로 열렸다(제품시스템→제품인터랙션). 리빙디자인프로젝트 2(M3389.000400)는 2021-2부터 열림."
+    }
+   ],
+   "changed": "2024학번부터의 핵심·선택이수 8과목 조항 대신 2017학번부터의 옛 조항(졸업전시 그룹 구성이 다름, 핵심이수 18학점+전선 6학점).",
+   "note": "2017학번부터의 옛 이수규정(2022 목록). 과목은 2023년(학기 기준)부터 새 번호(M3389·M3411)로 많이 바뀌어 옛 과목 대체 인정이 필요하다. 2019·2020학번 무렵 학과 이름은 디자인학부 디자인전공."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2023,
+   "basis": "교과 개편 학기",
+   "what": "과목 번호·이름 대거 교체(6125·M1774 → M3389·M3411, 그래픽·UI,UX·모빌리티·리빙디자인프로젝트 등)",
+   "status": "부분"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "시각·산업디자인 이수규정 개편(핵심이수 8과목 중 6 이상, 핵심+선택 8 이상, 졸업전시 4그룹 중 2그룹)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 체계 개편",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "2019~2023학번의 옛 졸업전시·핵심이수 과목이 없어진 뒤 인정되는 새 과목",
+  "전공(시각·산업) 선택 시기·방법",
+  "디자인사(600.220A) 필수 여부",
+  "시각·산업디자인 전공 선택 시기와 방법",
+  "디자인사가 필수인지",
+  "복수전공(57)·부전공(21) 필수 과목(학부내규)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "90–92쪽 615. 디자인과 디자인전공 공통·시각디자인전공·산업디자인전공",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본)",
+   "locator": "과목번호별 이름·학점·교과구분·개설 학기",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s3": {
+   "title": "서울대학교 미술대학 누리집",
+   "url": "https://art.snu.ac.kr",
+   "locator": "접근 실패(robots 차단으로 WebFetch 거부, 우회하지 않음)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "136쪽(PDF 32쪽) □ 미술대학",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽(PDF 2쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽(PDF 2쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽(PDF 2쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽(PDF 2쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 2> 복수·부전공 이수학점 기준, 10–11쪽(PDF 3–4쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 2> 복수·부전공 이수학점 기준, 10–11쪽(PDF 3–4쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 2> 복수·부전공 이수학점 기준, 10–11쪽(PDF 3–4쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 2> 복수·부전공 이수학점 기준, 10–11쪽(PDF 3–4쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "84–92쪽 601. 동양화과 ~ 615. 디자인과 교과목 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "141쪽(PDF 33쪽) □ 미술대학",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "2026학년도 시행 단과대학별 공통교육과정 이수 규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "74쪽(PDF 27쪽) □ 미술대학, \"상기 이수규정은 2025학년도 입학생부터 적용함\"",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "교양 이수규정 31쪽(PDF 24쪽) □ 미술대학",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "교양 이수규정 31쪽(PDF 24쪽) □ 미술대학",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "교양 이수규정 32쪽(PDF 25쪽) □ 미술대학",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "서울대학교 음악대학 관현악과(구 기악과) 관악·타악 전공 및 동 대학원 학사내규(수정 2024. 1. 30.)",
+   "url": "https://music.snu.ac.kr/rule/8",
+   "locator": "6.1.1 교양과목의 수학(PDF 12쪽): 19학번부터 대학 글쓰기 2과목, 19~20학번 외국어 4~6학점, 21학번부터 최소 6학점",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본, 학기별 개설 과목·교과구분)",
+   "locator": "대학 글쓰기 번호: L0440.0006~0009는 2024학년도까지, 2025-1부터 F11.101·201~203",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s21": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "81–89쪽 601. 동양화과 ~ 615. 디자인과 교과목 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본, 학기별 개설 과목·교과구분)",
+   "locator": "615 디자인과 산업디자인 옛 과목 마지막 개설 2022-2·2023-1, 새 M3389 과목 2023-2·2024-1~",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s23": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본, 학기별 개설 과목·교과구분)",
+   "locator": "615 디자인과 졸업전시 과목 개설",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s24": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본, 학기별 개설 과목·교과구분)",
+   "locator": "615 디자인과 2021-1~2026-2",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

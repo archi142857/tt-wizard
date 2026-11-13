@@ -1,0 +1,1670 @@
+{
+ "id": "p-db64f2a8",
+ "college": "생활과학대학",
+ "unit": "소비자아동학부",
+ "program": "아동가족학전공",
+ "kind": "major",
+ "depts": [
+  "소비자아동학부"
+ ],
+ "code_prefixes": [
+  "M2808."
+ ],
+ "ge_key": "생활과학대학 아동가족학전공",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "소비자학전공",
+   "아동가족학전공"
+  ],
+  "when": "입학 때(전공별 모집단위)",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2026,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s9",
+     "s10"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s2",
+    "s11",
+    "s10"
+   ],
+   "requirements": [
+    {
+     "id": "cf-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1·1-2] 대학 글쓰기 1(2) + [2-1] 대학 글쓰기 2: 사회과학글쓰기(2) = 4학점",
+     "min_count": null,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "글쓰기와 말하기"
+     }
+    },
+    {
+     "id": "cf-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수(기초영어·대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "2025학번은 TEPS 800점(New TEPS 452점) 이하 기준이었다. 2026 길잡이·2026 이수규정은 900점(525점) 이하. 앱은 입학 TEPS 점수를 모르면 '확인 필요'로 둔다.",
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "cf-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학·과학·컴퓨팅 3학점(과목 지정 없음)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "cf-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 4개 영역에서 영역마다 3학점씩 12학점",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "지성의 열쇠",
+      "areas": [
+       "문화 해석과 상상",
+       "역사적 탐구와 철학적 사유",
+       "인간의 이해와 사회 분석",
+       "과학적 사고와 응용"
+      ]
+     }
+    },
+    {
+     "id": "cf-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "베리타스"
+     }
+    },
+    {
+     "id": "cf-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목에서 자유롭게 8학점",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "cf-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 1학점: 생활과학신입생세미나",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ]
+    },
+    {
+     "id": "cf-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "아동가족학논문작성(1학점) 또는 실적심사 중 택1",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M2808.003100",
+       "name": "아동가족학논문작성",
+       "credits": 1.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "22학번부터 '아동가족학논문작성 또는 실적심사 중 선택 가능'(학과 22·23·24·25학번 칸). 실적심사 방식·시기는 공개 자료에 없다."
+    },
+    {
+     "id": "cf-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 3과목 이상(전공 과목 1과목 포함)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "cf-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 59학점(단일) / 38학점(병행: 39 − 전필 1)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5",
+      "s6"
+     ],
+     "note": "전공 과목은 5개 트랙(발달연구·콘텐츠개발·상담중재·공공정책·조사분석)으로 안내되나 트랙 이수 조건은 없다. 타학과 전선 인정 범위는 '학부내규'(비공개).",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 59,
+       "parallel": 38
+      }
+     }
+    },
+    {
+     "id": "cf-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "아동가족학 복수전공: 아동가족학전공 과목 39학점 이상 + 졸업논문, 아동가족학논문작성 필수",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M2808.003100",
+       "name": "아동가족학논문작성",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "생활과학신입생세미나(구 생활과학의 이해)는 학점 불인정. 논문작성 필수는 '18학번부터 적용' 문구."
+    },
+    {
+     "id": "cf-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "아동가족학 부전공: 아동가족학전공 과목 24학점 이상",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "생활과학신입생세미나 불인정."
+    }
+   ],
+   "note": "교양은 2025와 같고 영어 1과목 필수 기준만 TEPS 525. 학과 졸업요건 페이지에 26학번 칸이 없어 전공은 25학번 칸을 그대로 썼다('부분')."
+  },
+  {
+   "entry_years": [
+    2025,
+    2025
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s10",
+     "s14"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s10",
+    "s15",
+    "s16"
+   ],
+   "requirements": [
+    {
+     "id": "cf-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1·1-2] 대학 글쓰기 1(2) + [2-1] 대학 글쓰기 2: 사회과학글쓰기(2) = 4학점",
+     "min_count": null,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "글쓰기와 말하기"
+     }
+    },
+    {
+     "id": "cf-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 800점(New TEPS 452점) 이하이면 영어 1과목 필수(대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s12",
+      "s13"
+     ],
+     "note": "2026학년도 이수규정 책자는 생활대 표에 TEPS 525 기준을 적고 '2025학년도 입학생부터 적용'이라 붙였다. 2025 길잡이·2025 이수규정·식품영양학과 25학번 칸은 452 → 2025학번 영어 기준은 452로 두되 '충돌' 메모.",
+     "extra": {
+      "area": "외국어",
+      "conflict": [
+       {
+        "value": "New TEPS 452 이하",
+        "source": "2025 길잡이·2025 이수규정(·식품영양 25학번 탭)"
+       },
+       {
+        "value": "New TEPS 525 이하",
+        "source": "2026학년도 이수규정 책자(‘2025학년도 입학생부터 적용’ 문구)"
+       }
+      ]
+     }
+    },
+    {
+     "id": "cf-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학·과학·컴퓨팅 3학점(과목 지정 없음)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "cf-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 4개 영역에서 영역마다 3학점씩 12학점",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "지성의 열쇠",
+      "areas": [
+       "문화 해석과 상상",
+       "역사적 탐구와 철학적 사유",
+       "인간의 이해와 사회 분석",
+       "과학적 사고와 응용"
+      ]
+     }
+    },
+    {
+     "id": "cf-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "베리타스"
+     }
+    },
+    {
+     "id": "cf-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목에서 자유롭게 8학점",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "cf-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 1학점: 생활과학신입생세미나",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ]
+    },
+    {
+     "id": "cf-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "아동가족학논문작성(1학점) 또는 실적심사 중 택1",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M2808.003100",
+       "name": "아동가족학논문작성",
+       "credits": 1.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "22학번부터 '아동가족학논문작성 또는 실적심사 중 선택 가능'(학과 22·23·24·25학번 칸). 실적심사 방식·시기는 공개 자료에 없다."
+    },
+    {
+     "id": "cf-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 3과목 이상(전공 과목 1과목 포함)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "cf-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 59학점(단일) / 38학점(병행: 39 − 전필 1)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5",
+      "s6"
+     ],
+     "note": "전공 과목은 5개 트랙(발달연구·콘텐츠개발·상담중재·공공정책·조사분석)으로 안내되나 트랙 이수 조건은 없다. 타학과 전선 인정 범위는 '학부내규'(비공개).",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 59,
+       "parallel": 38
+      }
+     }
+    },
+    {
+     "id": "cf-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "아동가족학 복수전공: 아동가족학전공 과목 39학점 이상 + 졸업논문, 아동가족학논문작성 필수",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M2808.003100",
+       "name": "아동가족학논문작성",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "생활과학신입생세미나(구 생활과학의 이해)는 학점 불인정. 논문작성 필수는 '18학번부터 적용' 문구."
+    },
+    {
+     "id": "cf-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "아동가족학 부전공: 아동가족학전공 과목 24학점 이상",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "생활과학신입생세미나 불인정."
+    }
+   ],
+   "changed": "영어 1과목 필수 기준 TEPS 800(452) 이하 — 그 밖에는 2026과 같고 1차 요건 그대로.",
+   "note": "1차 요건 그대로. 고칠 것: 1차 cf-thesis 메모의 '24학번부터 택1'은 학과 페이지상 '22학번부터'다(22·23·24·25학번 칸 모두 '논문작성 또는 실적심사'). 2026학년도 이수규정 책자는 생활대 표에 TEPS 525 기준을 적고 '2025학년도 입학생부터 적용'이라 붙였다. 2025 길잡이·2025 이수규정·식품영양학과 25학번 칸은 452 → 2025학번 영어 기준은 452로 두되 '충돌' 메모."
+  },
+  {
+   "entry_years": [
+    2022,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s10",
+     "s20",
+     "s21"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s10",
+    "s22",
+    "s17",
+    "s23",
+    "s19"
+   ],
+   "requirements": [
+    {
+     "id": "cf-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1·1-2] 대학 글쓰기 1(2) + [2-1] 대학 글쓰기 2: 사회과학글쓰기(2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s17",
+      "s18"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "cf-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 800점(New TEPS 452점) 이하이면 영어 1과목 필수(대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s12",
+      "s13"
+     ],
+     "note": "2026학년도 이수규정 책자는 생활대 표에 TEPS 525 기준을 적고 '2025학년도 입학생부터 적용'이라 붙였다. 2025 길잡이·2025 이수규정·식품영양학과 25학번 칸은 452 → 2025학번 영어 기준은 452로 두되 '충돌' 메모.",
+     "extra": {
+      "area": "외국어",
+      "conflict": [
+       {
+        "value": "New TEPS 452 이하",
+        "source": "2025 길잡이·2025 이수규정(·식품영양 25학번 탭)"
+       },
+       {
+        "value": "New TEPS 525 이하",
+        "source": "2026학년도 이수규정 책자(‘2025학년도 입학생부터 적용’ 문구)"
+       }
+      ]
+     }
+    },
+    {
+     "id": "cf-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양(선택) 14학점",
+     "min_count": null,
+     "min_credits": 14,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s17",
+      "s19"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "cf-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 1학점: 생활과학신입생세미나",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ]
+    },
+    {
+     "id": "cf-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "아동가족학논문작성(1학점) 또는 실적심사 중 택1",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M2808.003100",
+       "name": "아동가족학논문작성",
+       "credits": 1.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "22학번부터 '아동가족학논문작성 또는 실적심사 중 선택 가능'(학과 22·23·24·25학번 칸). 실적심사 방식·시기는 공개 자료에 없다."
+    },
+    {
+     "id": "cf-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 3과목 이상(전공 과목 1과목 포함)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "cf-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 59학점(단일) / 38학점(병행: 39 − 전필 1)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5",
+      "s6"
+     ],
+     "note": "전공 과목은 5개 트랙(발달연구·콘텐츠개발·상담중재·공공정책·조사분석)으로 안내되나 트랙 이수 조건은 없다. 타학과 전선 인정 범위는 '학부내규'(비공개).",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 59,
+       "parallel": 38
+      }
+     }
+    },
+    {
+     "id": "cf-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "아동가족학 복수전공: 아동가족학전공 과목 39학점 이상 + 졸업논문, 아동가족학논문작성 필수",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M2808.003100",
+       "name": "아동가족학논문작성",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "생활과학신입생세미나(구 생활과학의 이해)는 학점 불인정. 논문작성 필수는 '18학번부터 적용' 문구."
+    },
+    {
+     "id": "cf-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "아동가족학 부전공: 아동가족학전공 과목 24학점 이상",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "생활과학신입생세미나 불인정."
+    },
+    {
+     "id": "cf-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학 또는 문화와 예술 3 + 역사와 철학 3 + 정치와 경제 또는 인간과 사회 3 + 자연과 기술 또는 생명과 환경 3, '언어와 문학, 문화와 예술, 역사와 철학' 영역 권장과목(*표시) 1과목 필수",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s17",
+      "s19"
+     ],
+     "note": "권장과목(*) 목록은 해설의 교양 교과목 표 표시를 쓴다.",
+     "extra": {
+      "area": "학문의 세계"
+     }
+    }
+   ],
+   "changed": "교양 옛 체계(사고와 표현 4, 외국어 6, 학문의 세계 12, 전체 14). 전공 요건은 2025와 같음.",
+   "note": "전공은 2025와 같다(전필 1 + 전선 59, 논문작성 또는 실적심사 택1). 전필 과목명이 22·23학번은 생활과학의 이해, 24학번은 생활과학신입생세미나(같은 요건). 교양만 옛 체계: 학문의 기초 10 + 학문의 세계 12 + 선택 14 = 36(수학·과학 지정 없음)."
+  },
+  {
+   "entry_years": [
+    2021,
+    2021
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s10"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s10",
+    "s24"
+   ],
+   "requirements": [
+    {
+     "id": "cf-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1·1-2] 대학 글쓰기 1(2) + [2-1] 대학 글쓰기 2: 사회과학글쓰기(2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s17",
+      "s18"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "cf-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 800점(New TEPS 452점) 이하이면 영어 1과목 필수(대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s12",
+      "s13"
+     ],
+     "note": "2026학년도 이수규정 책자는 생활대 표에 TEPS 525 기준을 적고 '2025학년도 입학생부터 적용'이라 붙였다. 2025 길잡이·2025 이수규정·식품영양학과 25학번 칸은 452 → 2025학번 영어 기준은 452로 두되 '충돌' 메모.",
+     "extra": {
+      "area": "외국어",
+      "conflict": [
+       {
+        "value": "New TEPS 452 이하",
+        "source": "2025 길잡이·2025 이수규정(·식품영양 25학번 탭)"
+       },
+       {
+        "value": "New TEPS 525 이하",
+        "source": "2026학년도 이수규정 책자(‘2025학년도 입학생부터 적용’ 문구)"
+       }
+      ]
+     }
+    },
+    {
+     "id": "cf-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양(선택) 14학점",
+     "min_count": null,
+     "min_credits": 14,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s17",
+      "s19"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "cf-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 1학점: 생활과학신입생세미나",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ]
+    },
+    {
+     "id": "cf-thesis",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수: 아동가족학논문작성(구 아동가족학연구, 1학점) 수강 + 졸업논문 — 실적심사 선택 없음",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2808.003100",
+       "name": "아동가족학논문작성",
+       "credits": 1.0
+      },
+      {
+       "code": "M2808.002200",
+       "name": "아동가족학연구",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s24"
+     ],
+     "note": "학과 페이지: 21학번 전필 2(생활과학의 이해·아동가족학논문작성), 19·20학번 전필 2(생활과학의 이해·아동가족학연구). 교과과정 주석: 18~21학번 논문작성 과목 필수."
+    },
+    {
+     "id": "cf-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 3과목 이상(전공 과목 1과목 포함)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "cf-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 58학점(단일) / 37학점(병행: 39 − 전필 2)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s10"
+     ],
+     "note": "병행 37은 39 − 전필 2로 셈한 값(학과 표에는 병행 39만 있음).",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 58,
+       "parallel": 37
+      }
+     }
+    },
+    {
+     "id": "cf-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "아동가족학 복수전공: 아동가족학전공 과목 39학점 이상 + 졸업논문, 아동가족학논문작성 필수",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M2808.003100",
+       "name": "아동가족학논문작성",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "생활과학신입생세미나(구 생활과학의 이해)는 학점 불인정. 논문작성 필수는 '18학번부터 적용' 문구."
+    },
+    {
+     "id": "cf-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "아동가족학 부전공: 아동가족학전공 과목 24학점 이상",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "생활과학신입생세미나 불인정."
+    },
+    {
+     "id": "cf-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학 또는 문화와 예술 3 + 역사와 철학 3 + 정치와 경제 또는 인간과 사회 3 + 자연과 기술 또는 생명과 환경 3, '언어와 문학, 문화와 예술, 역사와 철학' 영역 권장과목(*표시) 1과목 필수",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s17",
+      "s19"
+     ],
+     "note": "권장과목(*) 목록은 해설의 교양 교과목 표 표시를 쓴다.",
+     "extra": {
+      "area": "학문의 세계"
+     }
+    }
+   ],
+   "changed": "전필 2(아동가족학논문작성 포함), 실적심사 선택 없음, 전선 58.",
+   "note": "전필 2학점(생활과학의 이해 + 아동가족학논문작성), 전선 58. 졸업논문은 논문작성 과목으로만(실적심사 없음). 교양은 2022~2024와 같다."
+  },
+  {
+   "entry_years": [
+    2019,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s10",
+     "s27"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s10",
+    "s24",
+    "s28"
+   ],
+   "requirements": [
+    {
+     "id": "cf-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1·1-2] 대학 글쓰기 1(2) + [2-1] 대학 글쓰기 2: 사회과학글쓰기(2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s17",
+      "s18"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "cf-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4~6학점. 입학 때 TEPS 800점(New TEPS 452점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s25"
+     ],
+     "note": "2021학번부터 6학점.",
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "cf-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양(선택) 14~16학점(외국어 학점과 합쳐 36 맞추기)",
+     "min_count": null,
+     "min_credits": 14,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s26"
+     ],
+     "note": "외국어 4학점이면 16, 6학점이면 14.",
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "cf-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 1학점: 생활과학신입생세미나",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ]
+    },
+    {
+     "id": "cf-thesis",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수: 아동가족학논문작성(구 아동가족학연구, 1학점) 수강 + 졸업논문 — 실적심사 선택 없음",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2808.003100",
+       "name": "아동가족학논문작성",
+       "credits": 1.0
+      },
+      {
+       "code": "M2808.002200",
+       "name": "아동가족학연구",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s24"
+     ],
+     "note": "학과 페이지: 21학번 전필 2(생활과학의 이해·아동가족학논문작성), 19·20학번 전필 2(생활과학의 이해·아동가족학연구). 교과과정 주석: 18~21학번 논문작성 과목 필수."
+    },
+    {
+     "id": "cf-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 3과목 이상(전공 과목 1과목 포함)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "cf-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 58학점(단일) / 37학점(병행: 39 − 전필 2)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s10"
+     ],
+     "note": "병행 37은 39 − 전필 2로 셈한 값(학과 표에는 병행 39만 있음).",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 58,
+       "parallel": 37
+      }
+     }
+    },
+    {
+     "id": "cf-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "아동가족학 복수전공: 아동가족학전공 과목 39학점 이상 + 졸업논문, 아동가족학논문작성 필수",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M2808.003100",
+       "name": "아동가족학논문작성",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "생활과학신입생세미나(구 생활과학의 이해)는 학점 불인정. 논문작성 필수는 '18학번부터 적용' 문구."
+    },
+    {
+     "id": "cf-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "아동가족학 부전공: 아동가족학전공 과목 24학점 이상",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "생활과학신입생세미나 불인정."
+    },
+    {
+     "id": "cf-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학 또는 문화와 예술 3 + 역사와 철학 3 + 정치와 경제 또는 인간과 사회 3 + 자연과 기술 또는 생명과 환경 3, '언어와 문학, 문화와 예술, 역사와 철학' 영역 권장과목(*표시) 1과목 필수",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s17",
+      "s19"
+     ],
+     "note": "권장과목(*) 목록은 해설의 교양 교과목 표 표시를 쓴다.",
+     "extra": {
+      "area": "학문의 세계"
+     }
+    }
+   ],
+   "changed": "외국어 4~6, 전체 교양 14~16.",
+   "note": "전공은 2021과 같다(전필 과목명 '아동가족학연구' = 아동가족학논문작성 옛 이름, 위 cf-thesis 가 두 번호를 묶음). 학문의 기초 8~10(외국어 4~6), 선택 14~16."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "외국어 4~6 → 6, 선택 교양 14~16 → 14",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2022,
+   "basis": "입학 연도",
+   "what": "졸업: 아동가족학논문작성 필수(전필) → 논문작성 또는 실적심사 택1, 전필 2 → 1(생활대 전필만), 전선 58 → 59",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 체계 개편(수학·과학·컴퓨팅 3, 지성의 열쇠 네 영역 3씩 12, 베리타스 3, 선택 8)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2026,
+   "basis": "입학 연도",
+   "what": "영어 1과목 필수 기준 TEPS 452 → 525",
+   "status": "부분"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "아동가족학연구 M2808.002200(편람 2021-1·2022-1) → 아동가족학논문작성 M2808.003100(2023-1~), 매년 1학기",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "생활대 전필 생활과학의 이해 → 생활과학신입생세미나(2024-1~)",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "21학번 이전(논문작성 필수)도 지금 실적심사를 고를 수 있는지, 실적심사의 내용·시기",
+  "26학번 칸이 없는데 25학번 칸과 같은지",
+  "복수전공자(논문작성 필수, 18학번부터)도 실적심사를 고를 수 있는지",
+  "'실적심사'로 졸업할 때 내는 것·시기, 복수전공자도 실적심사를 고를 수 있는지",
+  "전공선택 인정 과목(학부내규)과 대학원 과목 인정"
+ ],
+ "sources": {
+  "s1": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.146 □ 생활과학대학 (소비자아동학부 아동가족학전공)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.152 □ 아동가족학전공",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.38 □ 아동가족학전공",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "아동가족학과(아동가족학전공), 학부 졸업요건",
+   "url": "https://childfamily.snu.ac.kr/under_requirements/",
+   "locator": "25학번 칸(과 24·22–23·21·19–20·18·14–17학번 칸)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "아동가족학과(아동가족학전공), 학부 교과과정",
+   "url": "https://childfamily.snu.ac.kr/under_curriculum/",
+   "locator": "2026학년도 1학기 개정 표준형태 아래 주석(전공필수과목)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "생활과학대학 357. 소비자아동학부 pp.108–110(비고 '*격년 개설', '학부내규로 정함')",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "아동가족학과(아동가족학전공), 다전공 및 교직",
+   "url": "https://childfamily.snu.ac.kr/under_info1/",
+   "locator": "아동가족학과 복수전공·부전공",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 학사과정 복수·부전공 이수학점 기준(p.10–11)",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.152",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "아동가족학과(아동가족학전공), 학부 졸업요건",
+   "url": "https://childfamily.snu.ac.kr/under_requirements/",
+   "locator": "25·24·22–23·21·19–20학번 칸",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.38",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "학부대학, 2025학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/01/2025학년도-시행-공통교육과정-대학별-이수규정국문.pdf",
+   "locator": "PDF p.35(TEPS 800/452)",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.38(TEPS 900/525, ‘2025학년도 입학생부터 적용’)",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.146",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.146 □ 아동가족학전공",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.38(‘2025학년도 입학생부터’ 문구)",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "학부대학 게시, 2024학년도 대학별 교양 이수규정(PDF)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2024_2.pdf",
+   "locator": "PDF p.30",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.37 □ 아동가족학전공",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.37",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1·2",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·2",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "학부대학 게시, 2023학년도 대학별 교양 이수규정(PDF)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2023_2.pdf",
+   "locator": "PDF p.30",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "p.34",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "아동가족학과(아동가족학전공), 학부 교과과정",
+   "url": "https://childfamily.snu.ac.kr/under_curriculum/",
+   "locator": "표준형태 아래 주석: 아동가족학논문작성(구 아동가족학연구), 18~21학번 논문작성 필수",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.34",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.34 □ 아동가족학전공",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·2",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.34 □ 아동가족학전공(‘2019학년도 입학생부터 적용’)",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

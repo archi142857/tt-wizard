@@ -1,0 +1,287 @@
+{
+ "id": "p-3ba62abd",
+ "college": "농업생명과학대학",
+ "unit": "농경제사회학부",
+ "program": "농업·자원경제학전공",
+ "kind": "major",
+ "depts": [
+  "농경제사회학부"
+ ],
+ "code_prefixes": [
+  "5201."
+ ],
+ "ge_key": "농업생명과학대학 인문계(농경제사회학부)",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "농업·자원경제학전공",
+   "지역정보학전공"
+  ],
+  "when": "입학 후 27학점 이상 이수한 뒤 학부 내 전공 배정, 2학년부터 고른 전공 과목 수강",
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2019,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s8",
+     "s9",
+     "s10",
+     "s11",
+     "s12",
+     "s13"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s14",
+    "s15",
+    "s16"
+   ],
+   "requirements": [
+    {
+     "id": "are-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 5과목 15학점",
+     "min_count": 5,
+     "min_credits": 15,
+     "courses": [
+      {
+       "code": "M2649.001600",
+       "name": "경제수학",
+       "credits": 3
+      },
+      {
+       "code": "M2649.001300",
+       "name": "미시경제이론",
+       "credits": 3
+      },
+      {
+       "code": "M2649.001400",
+       "name": "거시경제이론",
+       "credits": 3
+      },
+      {
+       "code": "5201.201",
+       "name": "농업경제학",
+       "credits": 3
+      },
+      {
+       "code": "5201.301",
+       "name": "농경제계량분석",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "are-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "학부 농업·자원경제학 전공선택 중 45학점 이상",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "병행(39) 때 전선 학점은 규정에 없다."
+    },
+    {
+     "id": "are-double-minor",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "복수전공 39·부전공 21(해설 표 2). 세부는 '전공내규에 의함'",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s3"
+     ]
+    },
+    {
+     "id": "ge-cals-humanities",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 인문계=농경제사회학부): 글쓰기와 말하기 4, 외국어 2과목 6, 수학·과학·컴퓨팅 3, 지성의 열쇠 9(4영역 중 3영역), 베리타스 3, 전체 교양 11",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "note": "2022·2024 목록의 전필(*)·이수규정(60 = 전필 15 + 전선 45)이 같고 학번 경계 문구가 없다. 학부·전공 누리집은 robots 로 막혀 학번별 글을 못 봤다. 경제원론 1·2·미시경제이론·거시경제이론·경제수학은 2022학년도부터 학부 자체 번호(M2649)로 열렸고, 그 전(2019~2021학번의 1·2학년 때)은 경제학부 과목(212.201·212.202·212.214, 200.105·200.106)을 들은 것으로 보이나 인정 규정은 못 봤다. 2026학번: 같게 둔다."
+  }
+ ],
+ "change_points": [
+  {
+   "basis": "교과 개편 학기",
+   "what": "미시경제이론·거시경제이론·경제수학(전필)과 경제원론 1·2 를 학부가 직접 개설(M2649.001300·001400·001600·001100·001200, 2022-1·2022-2 첫 개설). 그 전에는 같은 이름의 경제학부 과목.",
+   "status": "부분"
+  }
+ ],
+ "ask_department": [
+  "2019~2021학번이 들은 경제학부 미시·거시·경제수학(212.201·212.202·212.214)의 전필 인정",
+  "1차 질문(병행·복수·부전공 필수 과목)",
+  "병행(39) 때 전필·전선 배분",
+  "복수·부전공 필수 과목"
+ ],
+ "sources": {
+  "s1": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "520 농경제사회학부 1학년 전공탐색, 농업·자원경제학전공 과목·이수표준형태·과목 이수규정 ① (p.75–76)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "2025-1·2025-2·2026-1·2026-2 학기, 교과구분·학점",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s3": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 학사과정 복수·부전공 이수학점 기준, 농업생명과학대학 행 (p.10)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 농업생명과학대학 인문계(농경제사회학부), 인쇄 p.132 (PDF p.28)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "2026학년도 단과대학별 공통교육과정 이수 규정(학부대학, 2026-01 게시)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "농업생명과학대학 세 표, 인쇄 p.71–73 ('2025학년도 입학생부터 적용' 문구 그대로)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "바이오시스템공학전공 누리집 — 학부교과과정(2025)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B5%90%EA%B3%BC%EA%B3%BC%EC%A0%952025/",
+   "locator": "2026-06-10 수정, 트랙 A/B 표준 이수체계(* 전공필수, ▪ 트랙필수)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "동물생명공학전공 — 졸업요건 학부과정(2022년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_08",
+   "locator": "학점 표·복수/부전공 문장·이수표준형태(별표 15과목)·비고",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "농업·자원경제학 과목 이수규정 ①(p.73)",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "같은 칸(p.76)",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행 '아래 이외의 학과(부)' 48/48, 복수 48·부 24",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "농경제사회학부 이수표준형태·과목 이수규정(p.72~74)",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "같은 칸(p.75~77)",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "M2649.001100~001600 첫 개설 2022, 경제학부 212.201·212.202·212.214·200.105·200.106",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

@@ -1,0 +1,6940 @@
+{
+ "id": "p-76162784",
+ "college": "자연과학대학",
+ "unit": "물리·천문학부",
+ "program": "물리학전공",
+ "kind": "major",
+ "depts": [
+  "물리·천문학부"
+ ],
+ "code_prefixes": [
+  "3342.",
+  "884.",
+  "M1419.",
+  "M2173."
+ ],
+ "ge_key": "자연과학대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "물리학전공",
+   "천문학전공"
+  ],
+  "when": "입학 때(모집단위가 전공별)",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2026,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 46,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s12"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s13",
+    "s1",
+    "s2",
+    "s3"
+   ],
+   "requirements": [
+    {
+     "id": "phys-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공통교육과정 46학점 이상(2026학년도 입학생부터 적용). 진단평가로 수강의무를 면제받으면 그 학점만큼 줄되 최소 36학점",
+     "min_count": null,
+     "min_credits": 46,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "extra": {
+      "min_credits_if_exempted": 36
+     }
+    },
+    {
+     "id": "phys-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "권장 학기 [1-2] 대학 글쓰기 1, [2-1] 대학 글쓰기 2(권장일 뿐). 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용)."
+    },
+    {
+     "id": "phys-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 '확인 필요'로 보인다."
+    },
+    {
+     "id": "phys-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 짝 (1)·(2)·(3) 중 택 1(연습 과목은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "학부(과)별 추가 규정이 있으면 아래 학과 교양 요건이 우선. 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용).",
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "phys-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "통계학(또는 생명과학을 위한 통계학), 물리학 1·2(또는 고급물리학 1·2 또는 물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학 1·2, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험교과목 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      },
+      {
+       "code": "F33.113",
+       "name": "천문학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.113L",
+       "name": "천문학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.114",
+       "name": "천문학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.114L",
+       "name": "천문학실험 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께(고급물리학 1·2는 물리학실험 1·2, 고급화학은 화학실험). 고교 물리 2 를 안 들은 학생은 물리학 1·2 대신 물리의 기본 1·2 가능(물리학실험 1·2 함께). 생명과학을 위한 통계학(실험)과 통계학(실험)은 겹쳐 이수할 수 없다. 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용). 2026학번부터 천문학이 천문학 1·2(F33.113·F33.114, 실험 F33.113L·F33.114L)로 바뀌었다. 진단평가 면제 학점은 이 16학점 기준에서 뺀다."
+    },
+    {
+     "id": "phys-ge-msc-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 토대 '수학·과학·컴퓨팅' 영역 24학점(진단평가 면제자는 면제 학점을 빼되 최소 8학점)",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s5"
+     ],
+     "note": "표의 영역 학점은 24다. 미적분학 짝(8)+과학 16 = 24 이지만 수학·고급수학 짝(6)이면 22 가 되어, 나머지 2학점을 이 영역에서 더 채워야 하는지는 표만으로는 분명하지 않다(교양 합 46 은 4+6+24+9+3).",
+     "extra": {
+      "min_credits_if_exempted": 8
+     }
+    },
+    {
+     "id": "phys-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상 3, 역사적 탐구와 철학적 사유 3, 인간의 이해와 사회 분석 3 (과학적 사고와 응용은 학점 칸이 비어 있음)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "과목→영역 대응은 우리 편람 자료(fields 에 영역 칸 없음)로는 못 한다. 영역 자료가 따로 필요하다.",
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "min_credits": 3
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "min_credits": 3
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "min_credits": 3
+       }
+      ]
+     }
+    },
+    {
+     "id": "phys-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·실천 중 1과목 필수)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "phys-ge-calc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 지정 교양: 미적분학 1·연습 1, 미적분학 2·연습 2 수강 원칙. 미적분학 2·연습 2 대신 수학 2·수학연습 2 수강 가능(허가 조건 없음)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "F31.109",
+       "name": "미적분학 1",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.000900"
+       ]
+      },
+      {
+       "code": "F31.109L",
+       "name": "미적분학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001000"
+       ]
+      },
+      {
+       "code": "F31.110",
+       "name": "미적분학 2",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001100"
+       ]
+      },
+      {
+       "code": "F31.110L",
+       "name": "미적분학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001200"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "미적분학 1 대신 수학 1 은 허용 문구가 없다. 2026학번: 수학(유형 2) 진단평가로 미적분학 1·2 면제 가능."
+    },
+    {
+     "id": "phys-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 4과목: 역학, 전기와 자기, 양자물리, 열과 통계물리",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "M2173.004300",
+       "name": "역학",
+       "credits": 3
+      },
+      {
+       "code": "300.214",
+       "name": "전기와 자기",
+       "credits": 3
+      },
+      {
+       "code": "M1419.001300",
+       "name": "양자물리",
+       "credits": 3
+      },
+      {
+       "code": "884.302",
+       "name": "열과 통계물리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "phys-lab",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "실험: 중급물리실험 1·중급물리실험 2 중 1과목 필수",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "884.307A",
+       "name": "중급물리실험 1",
+       "credits": 3
+      },
+      {
+       "code": "884.308A",
+       "name": "중급물리실험 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7"
+     ],
+     "note": "둘 다 들으면 하나를 교과구분변경(전필→전선) 신청해야 한다(학과 안내)."
+    },
+    {
+     "id": "phys-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학사학위논문 작성, 졸업논문심사 통과(주전공). 복수전공도 '졸업논문 제출 필수'",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8"
+     ]
+    },
+    {
+     "id": "phys-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전선: 단일 45 이상(전공선택 인정교과목 합 60), 병행 24 이상(합 39), 복수 합 39. 자연대·공대 타 학과(부)·전공 개설 과목 15학점까지 인정. 3학년 이상은 물리학전공 대학원(석사·석박사) 과목을 학사 졸업학점에 넣을 수 있음(석사와 중복 불가). 단학기 전자기학(3342.002A)은 물리 주전공·복수전공생에게 일반선택",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9"
+     ],
+     "note": "2026 절에는 '단학기 전자기학은 물리 주·복수전공생에게 일반선택' 문구가 없다. 전선 목록에 위상수학과 물질 물리학(M1419.002500)이 더해졌다.",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 45,
+       "parallel": 24,
+       "double": 24
+      }
+     }
+    },
+    {
+     "id": "phys-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 역학, 전기와 자기, 양자물리, 열과 통계물리 포함 물리학 전공과목 21학점 이상(필수 12 + 전선 9)",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "M2173.004300",
+       "name": "역학",
+       "credits": 3
+      },
+      {
+       "code": "300.214",
+       "name": "전기와 자기",
+       "credits": 3
+      },
+      {
+       "code": "M1419.001300",
+       "name": "양자물리",
+       "credits": 3
+      },
+      {
+       "code": "884.302",
+       "name": "열과 통계물리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10"
+     ],
+     "note": "2026 절에는 '단학기 전자기학(3342.002A)' 대체 문구가 없다(그 과목은 편람상 2021-2 뒤로 안 열림).",
+     "extra": {
+      "groups": [
+       {
+        "name": "역학",
+        "min_count": 1,
+        "codes": [
+         "M2173.004300"
+        ]
+       },
+       {
+        "name": "전기와 자기",
+        "min_count": 1,
+        "codes": [
+         "300.214"
+        ]
+       },
+       {
+        "name": "양자물리",
+        "min_count": 1,
+        "codes": [
+         "M1419.001300"
+        ]
+       },
+       {
+        "name": "열과 통계물리",
+        "min_count": 1,
+        "codes": [
+         "884.302"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "phys-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공선택 인정교과목 39학점 이상, 필수 이수과목은 단일전공과 같음, 졸업논문 제출 필수",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ]
+    },
+    {
+     "id": "phys-ge-exempt",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "2026학년도 입학생부터: 「자연과학대학 기초수학과학 학습역량 진단 평가」에서 과목별 기준 성적 이상이면 학문의 토대 수학·과학·컴퓨팅 교과목 수강의무 면제 — 수학(유형 1: 화학부·생명과학부·지구환경과학부 신입생) 수학 1/2(고급수학 1/2), 수학(유형 2: 수리과학부·통계학과·물리·천문학부 신입생) 미적분학 1/2, 물리 → 물리학 1·2, 화학 → 화학 1·2, 생물 → 생물학 1(연습·실험 과목도 함께 면제). 면제 학점은 기준학점에서 빼되 수학·과학·컴퓨팅 최소 8, 공통교육과정 전체 최소 36. 면제받은 과목은 수강할 수 없다. 다른 영역 학점은 그대로",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "이 학과는 수학 유형 2 대상. 앱은 진단평가 결과를 모르므로 면제 여부는 '확인 필요'로 보여야 한다(면제된 과목은 성적표에 학점 없이 남지 않는다)."
+    }
+   ],
+   "note": "전필 15(4과목 + 중급물리실험 1·2 중 1)는 2025학번과 같다. 부전공 대체(단학기 전자기학) 문구가 빠지고 교양 진단평가 면제가 붙었다."
+  },
+  {
+   "entry_years": [
+    2025,
+    2025
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 46,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s19"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s20"
+   ],
+   "requirements": [
+    {
+     "id": "phys-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 46학점 이상(2025학년도 입학생부터 적용)",
+     "min_count": null,
+     "min_credits": 46,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s14"
+     ]
+    },
+    {
+     "id": "phys-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "권장 학기 [1-2] 대학 글쓰기 1, [2-1] 대학 글쓰기 2(권장일 뿐). 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용)."
+    },
+    {
+     "id": "phys-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 '확인 필요'로 보인다."
+    },
+    {
+     "id": "phys-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 짝 (1)·(2)·(3) 중 택 1(연습 과목은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "학부(과)별 추가 규정이 있으면 아래 학과 교양 요건이 우선. 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용).",
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "phys-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "통계학(또는 생명과학을 위한 통계학), 물리학 1·2(또는 고급물리학 1·2 또는 물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험교과목 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F33.111",
+       "name": "천문학",
+       "credits": 3,
+       "alt_codes": [
+        "034.014"
+       ]
+      },
+      {
+       "code": "F33.111L",
+       "name": "천문학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.015"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께(고급물리학 1·2는 물리학실험 1·2, 고급화학은 화학실험). 고교 물리 2 를 안 들은 학생은 물리학 1·2 대신 물리의 기본 1·2 가능(물리학실험 1·2 함께). 생명과학을 위한 통계학(실험)과 통계학(실험)은 겹쳐 이수할 수 없다. 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용)."
+    },
+    {
+     "id": "phys-ge-msc-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 토대 '수학·과학·컴퓨팅' 영역 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "표의 영역 학점은 24다. 미적분학 짝(8)+과학 16 = 24 이지만 수학·고급수학 짝(6)이면 22 가 되어, 나머지 2학점을 이 영역에서 더 채워야 하는지는 표만으로는 분명하지 않다(교양 합 46 은 4+6+24+9+3)."
+    },
+    {
+     "id": "phys-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상 3, 역사적 탐구와 철학적 사유 3, 인간의 이해와 사회 분석 3 (과학적 사고와 응용은 학점 칸이 비어 있음)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "과목→영역 대응은 우리 편람 자료(fields 에 영역 칸 없음)로는 못 한다. 영역 자료가 따로 필요하다.",
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "min_credits": 3
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "min_credits": 3
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "min_credits": 3
+       }
+      ]
+     }
+    },
+    {
+     "id": "phys-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·실천 중 1과목 필수)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "phys-ge-calc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 지정 교양: 미적분학 1·연습 1, 미적분학 2·연습 2 수강 원칙. 미적분학 2·연습 2 대신 수학 2·수학연습 2 수강 가능(허가 조건 없음)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "F31.109",
+       "name": "미적분학 1",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.000900"
+       ]
+      },
+      {
+       "code": "F31.109L",
+       "name": "미적분학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001000"
+       ]
+      },
+      {
+       "code": "F31.110",
+       "name": "미적분학 2",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001100"
+       ]
+      },
+      {
+       "code": "F31.110L",
+       "name": "미적분학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001200"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s14"
+     ],
+     "note": "미적분학 1 대신 수학 1 은 허용 문구가 없다."
+    },
+    {
+     "id": "phys-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 4과목: 역학, 전기와 자기, 양자물리, 열과 통계물리",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "M2173.004300",
+       "name": "역학",
+       "credits": 3
+      },
+      {
+       "code": "300.214",
+       "name": "전기와 자기",
+       "credits": 3
+      },
+      {
+       "code": "M1419.001300",
+       "name": "양자물리",
+       "credits": 3
+      },
+      {
+       "code": "884.302",
+       "name": "열과 통계물리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "phys-lab",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "실험: 중급물리실험 1·중급물리실험 2 중 1과목 필수",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "884.307A",
+       "name": "중급물리실험 1",
+       "credits": 3
+      },
+      {
+       "code": "884.308A",
+       "name": "중급물리실험 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7"
+     ],
+     "note": "둘 다 들으면 하나를 교과구분변경(전필→전선) 신청해야 한다(학과 안내)."
+    },
+    {
+     "id": "phys-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학사학위논문 작성, 졸업논문심사 통과(주전공). 복수전공도 '졸업논문 제출 필수'",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8"
+     ]
+    },
+    {
+     "id": "phys-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전선: 단일 45 이상(전공선택 인정교과목 합 60), 병행 24 이상(합 39), 복수 합 39. 자연대·공대 타 학과(부)·전공 개설 과목 15학점까지 인정. 3학년 이상은 물리학전공 대학원(석사·석박사) 과목을 학사 졸업학점에 넣을 수 있음(석사와 중복 불가). 단학기 전자기학(3342.002A)은 물리 주전공·복수전공생에게 일반선택",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s18"
+     ],
+     "note": "2025 전선 목록에 계산·학습·그리고 물리(M1419.002300), 양자정보와 양자컴퓨팅 개론(M1419.002400), 위상수학과 물질 물리학(M1419.002500)이 새로 있다. 연습 과목(역학 연습 등)은 2025학번부터 전선.",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 45,
+       "parallel": 24,
+       "double": 24
+      }
+     }
+    },
+    {
+     "id": "phys-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 역학, 전기와 자기(또는 단학기 전자기학 3342.002A), 양자물리, 열과 통계물리 포함 물리학 전공과목 21학점 이상",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "M2173.004300",
+       "name": "역학",
+       "credits": 3
+      },
+      {
+       "code": "300.214",
+       "name": "전기와 자기",
+       "credits": 3
+      },
+      {
+       "code": "3342.002A",
+       "name": "단학기 전자기학",
+       "credits": 3
+      },
+      {
+       "code": "M1419.001300",
+       "name": "양자물리",
+       "credits": 3
+      },
+      {
+       "code": "884.302",
+       "name": "열과 통계물리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s17"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "역학",
+        "min_count": 1,
+        "codes": [
+         "M2173.004300"
+        ]
+       },
+       {
+        "name": "전자기",
+        "min_count": 1,
+        "codes": [
+         "300.214",
+         "3342.002A"
+        ]
+       },
+       {
+        "name": "양자물리",
+        "min_count": 1,
+        "codes": [
+         "M1419.001300"
+        ]
+       },
+       {
+        "name": "열과 통계물리",
+        "min_count": 1,
+        "codes": [
+         "884.302"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "phys-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공선택 인정교과목 39학점 이상, 필수 이수과목은 단일전공과 같음, 졸업논문 제출 필수",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ]
+    }
+   ],
+   "changed": "2026학번과 견줘 부전공에 단학기 전자기학 대체가 있고, 교양 진단평가 면제가 없다.",
+   "note": "1차 요건 그대로."
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 46,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s36"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s37",
+    "s29",
+    "s30",
+    "s31",
+    "s32"
+   ],
+   "requirements": [
+    {
+     "id": "phys-ge-calc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 지정 교양: 미적분학 1·연습 1, 미적분학 2·연습 2 수강 원칙. 미적분학 2·연습 2 대신 수학 2·수학연습 2 수강 가능",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "F31.109",
+       "name": "미적분학 1",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.000900"
+       ]
+      },
+      {
+       "code": "F31.109L",
+       "name": "미적분학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001000"
+       ]
+      },
+      {
+       "code": "F31.110",
+       "name": "미적분학 2",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001100"
+       ]
+      },
+      {
+       "code": "F31.110L",
+       "name": "미적분학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001200"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30"
+     ],
+     "note": "미적분학 1 대신 수학 1 은 허용 문구가 없다."
+    },
+    {
+     "id": "phys-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 25학점 11과목: 역학, 역학 연습, 전기와 자기, 전기와 자기 연습, 양자물리, 양자물리 연습, 열과 통계물리, 고급 양자물리, 고급 양자물리 연습, 중급물리실험 1, 중급물리실험 2",
+     "min_count": 11,
+     "min_credits": 25,
+     "courses": [
+      {
+       "code": "M2173.004300",
+       "name": "역학",
+       "credits": 3,
+       "alt_codes": [
+        "300.211"
+       ]
+      },
+      {
+       "code": "M1419.001400",
+       "name": "역학 연습",
+       "credits": 1,
+       "alt_codes": [
+        "3348.215"
+       ]
+      },
+      {
+       "code": "300.214",
+       "name": "전기와 자기",
+       "credits": 3
+      },
+      {
+       "code": "3348.217",
+       "name": "전기와 자기 연습",
+       "credits": 1
+      },
+      {
+       "code": "M1419.001300",
+       "name": "양자물리",
+       "credits": 3,
+       "alt_codes": [
+        "884.303"
+       ]
+      },
+      {
+       "code": "M1419.001500",
+       "name": "양자물리 연습",
+       "credits": 1,
+       "alt_codes": [
+        "3348.310"
+       ]
+      },
+      {
+       "code": "884.302",
+       "name": "열과 통계물리",
+       "credits": 3
+      },
+      {
+       "code": "M1419.001800",
+       "name": "고급 양자물리",
+       "credits": 3,
+       "alt_codes": [
+        "884.304"
+       ]
+      },
+      {
+       "code": "M1419.001900",
+       "name": "고급 양자물리 연습",
+       "credits": 1,
+       "alt_codes": [
+        "3348.311"
+       ]
+      },
+      {
+       "code": "884.307A",
+       "name": "중급물리실험 1",
+       "credits": 3
+      },
+      {
+       "code": "884.308A",
+       "name": "중급물리실험 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23",
+      "s24"
+     ],
+     "note": "역학 연습·전기와 자기 연습·양자물리 연습·고급 양자물리·고급 양자물리 연습은 지금 편람에 전선으로 나오므로 이수 뒤 교과구분변경(전선→전필)을 신청해야 한다(학과 안내). 옛 번호(alt_codes)는 2024-1 교과 개편 전 같은 과목."
+    },
+    {
+     "id": "phys-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학사학위논문 작성, 졸업논문심사 통과(주전공). 복수전공도 '졸업논문 제출 필수'",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s27"
+     ]
+    },
+    {
+     "id": "phys-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전선: 단일 35 이상(전필 25 + 전선 35 = 60), 병행 14 이상(25 + 14 = 39). 물리전공 과목은 모두 전선 인정(단학기 전자기학은 물리 주·복수전공생에게 일반선택, 전기와 자기와 중복 인정 안 함). 자연대·공대 타 학과(부)·전공 과목 15학점까지, 3학년 이상 물리학전공 대학원 과목(학사·석사 중 한쪽), 학부장 인정 과목",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s25"
+     ],
+     "note": "2025 전선 목록에 계산·학습·그리고 물리(M1419.002300), 양자정보와 양자컴퓨팅 개론(M1419.002400), 위상수학과 물질 물리학(M1419.002500)이 새로 있다. 연습 과목(역학 연습 등)은 2025학번부터 전선.",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 45,
+       "parallel": 24,
+       "double": 24
+      }
+     }
+    },
+    {
+     "id": "phys-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 역학, 전기와 자기(또는 단학기 전자기학 3342.002A), 양자물리, 열과 통계물리 포함 물리학 전공과목 21학점 이상",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "M2173.004300",
+       "name": "역학",
+       "credits": 3
+      },
+      {
+       "code": "300.214",
+       "name": "전기와 자기",
+       "credits": 3
+      },
+      {
+       "code": "3342.002A",
+       "name": "단학기 전자기학",
+       "credits": 3
+      },
+      {
+       "code": "M1419.001300",
+       "name": "양자물리",
+       "credits": 3
+      },
+      {
+       "code": "884.302",
+       "name": "열과 통계물리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s28"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "역학",
+        "min_count": 1,
+        "codes": [
+         "M2173.004300"
+        ]
+       },
+       {
+        "name": "전자기",
+        "min_count": 1,
+        "codes": [
+         "300.214",
+         "3342.002A"
+        ]
+       },
+       {
+        "name": "양자물리",
+        "min_count": 1,
+        "codes": [
+         "M1419.001300"
+        ]
+       },
+       {
+        "name": "열과 통계물리",
+        "min_count": 1,
+        "codes": [
+         "884.302"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "phys-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공선택 인정교과목 39학점 이상, 필수 이수과목은 단일전공과 같음(전필 11과목 25학점), 졸업논문 제출 필수",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s26"
+     ]
+    },
+    {
+     "id": "phys-ge-old-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 46학점 이상(학문의 기초·학문의 세계 체계)",
+     "min_count": null,
+     "min_credits": 46,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32"
+     ]
+    },
+    {
+     "id": "phys-ge-old-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 사고와 표현 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "note": "2019학번부터 이 두 과목 체계다(2018학번은 글쓰기의 기초 또는 과학과 기술 글쓰기 3학점, 해설 2018 p.15). 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "phys-ge-old-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 확인 필요."
+    },
+    {
+     "id": "phys-ge-old-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론: 수학 1·2+연습(6), 고급수학 1·2+연습(6), 미적분학 1·2+연습(8) 중 택 1(연습은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "phys-ge-old-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험: 통계학, 물리학 1·2(또는 고급물리학 1·2·물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F33.111",
+       "name": "천문학",
+       "credits": 3,
+       "alt_codes": [
+        "034.014"
+       ]
+      },
+      {
+       "code": "F33.111L",
+       "name": "천문학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.015"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께. 통계학·통계학실험은 과학적 사고와 실험으로 인정(2022 표부터 명시). 생명과학을 위한 통계학(실험)은 2022-2 개설, 2023 표부터 통계학 대신 인정(이전 입학생도 인정), 통계학(실험)과 겹쳐 이수 불가. 교양 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "phys-ge-old-qs-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초(수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용) 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "note": "표의 묶음 학점이 24다. 수학·고급수학 짝(6)+과학 16 = 22 라 나머지 2학점을 이 묶음에서 더 채워야 하는지는 표만으로 분명하지 않다(2025 체계의 수학·과학·컴퓨팅 24 와 같은 문제)."
+    },
+    {
+     "id": "phys-ge-old-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 4개 영역 이상에서 12학점 이상, '언어와 문학·문화와 예술·역사와 철학' 영역 권장과목(*) 중 1과목 필수",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34",
+      "s35"
+     ],
+     "note": "자연과 기술·생명과 환경 영역은 5개 영역에 들지 않는다(물리학전공·생명과학부 페이지가 5개 영역 이름을 적음). 과목→영역 자료와 권장과목(*) 표시는 편람 자료에 없어 앱은 '확인 필요'. 2025-1 이후 새 공통교육과정 과목을 옛 학번이 들었을 때의 영역 인정 기준은 공개 자료에서 확인하지 못했다(수리과학부 '공통교육과정 영역 및 교과목 비교표' 글 접근 실패).",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "min_count": null
+       },
+       {
+        "name": "문화와 예술",
+        "min_count": null
+       },
+       {
+        "name": "역사와 철학",
+        "min_count": null
+       },
+       {
+        "name": "정치와 경제",
+        "min_count": null
+       },
+       {
+        "name": "인간과 사회",
+        "min_count": null
+       }
+      ],
+      "min_areas": 4
+     }
+    }
+   ],
+   "changed": "전필이 25학점 11과목(연습 과목·고급 양자물리·중급물리실험 1·2 모두). 교양 옛 체계."
+  },
+  {
+   "entry_years": [
+    2022,
+    2023
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 46,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s43"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s44",
+    "s29",
+    "s30",
+    "s31",
+    "s32"
+   ],
+   "requirements": [
+    {
+     "id": "phys-ge-calc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 지정 교양: 미적분학 1·연습 1, 미적분학 2·연습 2 수강 원칙. 미적분학 2·연습 2 대신 수학 2·수학연습 2 수강 가능",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "F31.109",
+       "name": "미적분학 1",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.000900"
+       ]
+      },
+      {
+       "code": "F31.109L",
+       "name": "미적분학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001000"
+       ]
+      },
+      {
+       "code": "F31.110",
+       "name": "미적분학 2",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001100"
+       ]
+      },
+      {
+       "code": "F31.110L",
+       "name": "미적분학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001200"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30"
+     ],
+     "note": "미적분학 1 대신 수학 1 은 허용 문구가 없다."
+    },
+    {
+     "id": "phys-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 25학점: 역학 1·역학 1 연습, 전기와 자기·연습, 양자물리 1·연습, 양자물리 2·연습, 열과 통계물리(9과목 19학점) + 중급물리실험 1·2(2과목 6학점)",
+     "min_count": 11,
+     "min_credits": 25,
+     "courses": [
+      {
+       "code": "300.211",
+       "name": "역학 1",
+       "credits": 3,
+       "alt_codes": [
+        "M2173.004300"
+       ]
+      },
+      {
+       "code": "3348.215",
+       "name": "역학 1 연습",
+       "credits": 1,
+       "alt_codes": [
+        "M1419.001400"
+       ]
+      },
+      {
+       "code": "300.214",
+       "name": "전기와 자기",
+       "credits": 3
+      },
+      {
+       "code": "3348.217",
+       "name": "전기와 자기 연습",
+       "credits": 1
+      },
+      {
+       "code": "884.303",
+       "name": "양자물리 1",
+       "credits": 3,
+       "alt_codes": [
+        "M1419.001300"
+       ]
+      },
+      {
+       "code": "3348.310",
+       "name": "양자물리 1 연습",
+       "credits": 1,
+       "alt_codes": [
+        "M1419.001500"
+       ]
+      },
+      {
+       "code": "884.304",
+       "name": "양자물리 2",
+       "credits": 3,
+       "alt_codes": [
+        "M1419.001800"
+       ]
+      },
+      {
+       "code": "3348.311",
+       "name": "양자물리 2 연습",
+       "credits": 1,
+       "alt_codes": [
+        "M1419.001900"
+       ]
+      },
+      {
+       "code": "884.302",
+       "name": "열과 통계물리",
+       "credits": 3
+      },
+      {
+       "code": "884.307A",
+       "name": "중급물리실험 1",
+       "credits": 3
+      },
+      {
+       "code": "884.308A",
+       "name": "중급물리실험 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s38",
+      "s39"
+     ],
+     "note": "같은 절의 '교과목 이수규정' 문장은 아직 '전자학 및 계측론 + 중급물리실험 1'로 적혀 있으나(옛 문장), 전필 표와 2020 변경 안내는 중급물리실험 1·2 다. 2024-1 교과 개편 뒤에는 새 번호 과목(alt_codes)으로 듣는다(대체지정)."
+    },
+    {
+     "id": "phys-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학사학위논문 작성, 졸업논문심사 통과(주전공). 복수전공도 '졸업논문 제출 필수'",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s27"
+     ]
+    },
+    {
+     "id": "phys-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전선: 단일 35 이상, 병행 14 이상. 물리전공 과목은 모두 전선 인정(단학기 역학·전자기학·양자물리는 각각 역학 1·전기와 자기·양자물리 1 과 중복 인정 안 함). 자연대 타 전공·공대 과목 15학점까지, 3학년 이상 물리학전공 대학원 과목, 학부장 인정 과목",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s41"
+     ],
+     "note": "2025 전선 목록에 계산·학습·그리고 물리(M1419.002300), 양자정보와 양자컴퓨팅 개론(M1419.002400), 위상수학과 물질 물리학(M1419.002500)이 새로 있다. 연습 과목(역학 연습 등)은 2025학번부터 전선.",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 45,
+       "parallel": 24,
+       "double": 24
+      }
+     }
+    },
+    {
+     "id": "phys-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 역학 1(또는 단학기 역학 300.209C), 전기와 자기(또는 단학기 전자기학 3342.002A), 양자물리 1(또는 단학기 양자물리 3342.305A), 열과 통계물리 포함 물리학 전공과목 21학점 이상(필수 12 + 전선 9)",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "300.211",
+       "name": "역학 1",
+       "credits": 3,
+       "alt_codes": [
+        "M2173.004300"
+       ]
+      },
+      {
+       "code": "300.209C",
+       "name": "단학기 역학",
+       "credits": 3
+      },
+      {
+       "code": "300.214",
+       "name": "전기와 자기",
+       "credits": 3
+      },
+      {
+       "code": "3342.002A",
+       "name": "단학기 전자기학",
+       "credits": 3
+      },
+      {
+       "code": "884.303",
+       "name": "양자물리 1",
+       "credits": 3,
+       "alt_codes": [
+        "M1419.001300"
+       ]
+      },
+      {
+       "code": "3342.305A",
+       "name": "단학기 양자물리",
+       "credits": 3
+      },
+      {
+       "code": "884.302",
+       "name": "열과 통계물리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s40"
+     ],
+     "note": "단학기 역학·단학기 양자물리는 편람상 2023-1, 단학기 전자기학은 2021-2 가 마지막 개설.",
+     "extra": {
+      "groups": [
+       {
+        "name": "역학",
+        "min_count": 1,
+        "codes": [
+         "300.211",
+         "M2173.004300",
+         "300.209C"
+        ]
+       },
+       {
+        "name": "전자기",
+        "min_count": 1,
+        "codes": [
+         "300.214",
+         "3342.002A"
+        ]
+       },
+       {
+        "name": "양자물리",
+        "min_count": 1,
+        "codes": [
+         "884.303",
+         "M1419.001300",
+         "3342.305A"
+        ]
+       },
+       {
+        "name": "열과 통계물리",
+        "min_count": 1,
+        "codes": [
+         "884.302"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "phys-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공선택 인정교과목 39학점 이상, 필수 이수과목은 단일전공과 같음(전필 25학점)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s42"
+     ],
+     "note": "2021·2020·2019 절에는 2024 절 이후의 '졸업논문 제출 필수' 문장이 없다. 복수전공생의 졸업논문 의무가 이 학번에도 있는지는 학과 문의."
+    },
+    {
+     "id": "phys-ge-old-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 46학점 이상(학문의 기초·학문의 세계 체계)",
+     "min_count": null,
+     "min_credits": 46,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32"
+     ]
+    },
+    {
+     "id": "phys-ge-old-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 사고와 표현 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "note": "2019학번부터 이 두 과목 체계다(2018학번은 글쓰기의 기초 또는 과학과 기술 글쓰기 3학점, 해설 2018 p.15). 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "phys-ge-old-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 확인 필요."
+    },
+    {
+     "id": "phys-ge-old-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론: 수학 1·2+연습(6), 고급수학 1·2+연습(6), 미적분학 1·2+연습(8) 중 택 1(연습은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "phys-ge-old-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험: 통계학, 물리학 1·2(또는 고급물리학 1·2·물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F33.111",
+       "name": "천문학",
+       "credits": 3,
+       "alt_codes": [
+        "034.014"
+       ]
+      },
+      {
+       "code": "F33.111L",
+       "name": "천문학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.015"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께. 통계학·통계학실험은 과학적 사고와 실험으로 인정(2022 표부터 명시). 생명과학을 위한 통계학(실험)은 2022-2 개설, 2023 표부터 통계학 대신 인정(이전 입학생도 인정), 통계학(실험)과 겹쳐 이수 불가. 교양 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "phys-ge-old-qs-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초(수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용) 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "note": "표의 묶음 학점이 24다. 수학·고급수학 짝(6)+과학 16 = 22 라 나머지 2학점을 이 묶음에서 더 채워야 하는지는 표만으로 분명하지 않다(2025 체계의 수학·과학·컴퓨팅 24 와 같은 문제)."
+    },
+    {
+     "id": "phys-ge-old-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 4개 영역 이상에서 12학점 이상, '언어와 문학·문화와 예술·역사와 철학' 영역 권장과목(*) 중 1과목 필수",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34",
+      "s35"
+     ],
+     "note": "자연과 기술·생명과 환경 영역은 5개 영역에 들지 않는다(물리학전공·생명과학부 페이지가 5개 영역 이름을 적음). 과목→영역 자료와 권장과목(*) 표시는 편람 자료에 없어 앱은 '확인 필요'. 2025-1 이후 새 공통교육과정 과목을 옛 학번이 들었을 때의 영역 인정 기준은 공개 자료에서 확인하지 못했다(수리과학부 '공통교육과정 영역 및 교과목 비교표' 글 접근 실패).",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "min_count": null
+       },
+       {
+        "name": "문화와 예술",
+        "min_count": null
+       },
+       {
+        "name": "역사와 철학",
+        "min_count": null
+       },
+       {
+        "name": "정치와 경제",
+        "min_count": null
+       },
+       {
+        "name": "인간과 사회",
+        "min_count": null
+       }
+      ],
+      "min_areas": 4
+     }
+    }
+   ],
+   "changed": "과목 번호가 2024-1 교과 개편 전 이름(역학 1·양자물리 1·2 등, 대체지정으로 새 번호와 같은 과목). 부전공은 단학기 역학·전자기학·양자물리 대체 가능. 복수전공 졸업논문 문장 없음."
+  },
+  {
+   "entry_years": [
+    2021,
+    2021
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 46,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s43"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s48",
+    "s33",
+    "s46",
+    "s47"
+   ],
+   "requirements": [
+    {
+     "id": "phys-ge-calc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 지정 교양: 물리·천문학부 신입생은 미적분학 1·2+연습 수강 권장(필수 아님)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F31.109",
+       "name": "미적분학 1",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.000900"
+       ]
+      },
+      {
+       "code": "F31.109L",
+       "name": "미적분학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001000"
+       ]
+      },
+      {
+       "code": "F31.110",
+       "name": "미적분학 2",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001100"
+       ]
+      },
+      {
+       "code": "F31.110L",
+       "name": "미적분학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001200"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s33",
+      "s45"
+     ],
+     "note": "미적분학 1 대신 수학 1 은 허용 문구가 없다."
+    },
+    {
+     "id": "phys-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 25학점: 역학 1·역학 1 연습, 전기와 자기·연습, 양자물리 1·연습, 양자물리 2·연습, 열과 통계물리(9과목 19학점) + 중급물리실험 1·2(2과목 6학점)",
+     "min_count": 11,
+     "min_credits": 25,
+     "courses": [
+      {
+       "code": "300.211",
+       "name": "역학 1",
+       "credits": 3,
+       "alt_codes": [
+        "M2173.004300"
+       ]
+      },
+      {
+       "code": "3348.215",
+       "name": "역학 1 연습",
+       "credits": 1,
+       "alt_codes": [
+        "M1419.001400"
+       ]
+      },
+      {
+       "code": "300.214",
+       "name": "전기와 자기",
+       "credits": 3
+      },
+      {
+       "code": "3348.217",
+       "name": "전기와 자기 연습",
+       "credits": 1
+      },
+      {
+       "code": "884.303",
+       "name": "양자물리 1",
+       "credits": 3,
+       "alt_codes": [
+        "M1419.001300"
+       ]
+      },
+      {
+       "code": "3348.310",
+       "name": "양자물리 1 연습",
+       "credits": 1,
+       "alt_codes": [
+        "M1419.001500"
+       ]
+      },
+      {
+       "code": "884.304",
+       "name": "양자물리 2",
+       "credits": 3,
+       "alt_codes": [
+        "M1419.001800"
+       ]
+      },
+      {
+       "code": "3348.311",
+       "name": "양자물리 2 연습",
+       "credits": 1,
+       "alt_codes": [
+        "M1419.001900"
+       ]
+      },
+      {
+       "code": "884.302",
+       "name": "열과 통계물리",
+       "credits": 3
+      },
+      {
+       "code": "884.307A",
+       "name": "중급물리실험 1",
+       "credits": 3
+      },
+      {
+       "code": "884.308A",
+       "name": "중급물리실험 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s38",
+      "s39"
+     ],
+     "note": "같은 절의 '교과목 이수규정' 문장은 아직 '전자학 및 계측론 + 중급물리실험 1'로 적혀 있으나(옛 문장), 전필 표와 2020 변경 안내는 중급물리실험 1·2 다. 2024-1 교과 개편 뒤에는 새 번호 과목(alt_codes)으로 듣는다(대체지정)."
+    },
+    {
+     "id": "phys-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학사학위논문 작성, 졸업논문심사 통과(주전공). 복수전공도 '졸업논문 제출 필수'",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s27"
+     ]
+    },
+    {
+     "id": "phys-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전선: 단일 35 이상, 병행 14 이상. 물리전공 과목은 모두 전선 인정(단학기 역학·전자기학·양자물리는 각각 역학 1·전기와 자기·양자물리 1 과 중복 인정 안 함). 자연대 타 전공·공대 과목 15학점까지, 3학년 이상 물리학전공 대학원 과목, 학부장 인정 과목",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s41"
+     ],
+     "note": "2025 전선 목록에 계산·학습·그리고 물리(M1419.002300), 양자정보와 양자컴퓨팅 개론(M1419.002400), 위상수학과 물질 물리학(M1419.002500)이 새로 있다. 연습 과목(역학 연습 등)은 2025학번부터 전선.",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 45,
+       "parallel": 24,
+       "double": 24
+      }
+     }
+    },
+    {
+     "id": "phys-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 역학 1(또는 단학기 역학 300.209C), 전기와 자기(또는 단학기 전자기학 3342.002A), 양자물리 1(또는 단학기 양자물리 3342.305A), 열과 통계물리 포함 물리학 전공과목 21학점 이상(필수 12 + 전선 9)",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "300.211",
+       "name": "역학 1",
+       "credits": 3,
+       "alt_codes": [
+        "M2173.004300"
+       ]
+      },
+      {
+       "code": "300.209C",
+       "name": "단학기 역학",
+       "credits": 3
+      },
+      {
+       "code": "300.214",
+       "name": "전기와 자기",
+       "credits": 3
+      },
+      {
+       "code": "3342.002A",
+       "name": "단학기 전자기학",
+       "credits": 3
+      },
+      {
+       "code": "884.303",
+       "name": "양자물리 1",
+       "credits": 3,
+       "alt_codes": [
+        "M1419.001300"
+       ]
+      },
+      {
+       "code": "3342.305A",
+       "name": "단학기 양자물리",
+       "credits": 3
+      },
+      {
+       "code": "884.302",
+       "name": "열과 통계물리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s40"
+     ],
+     "note": "단학기 역학·단학기 양자물리는 편람상 2023-1, 단학기 전자기학은 2021-2 가 마지막 개설.",
+     "extra": {
+      "groups": [
+       {
+        "name": "역학",
+        "min_count": 1,
+        "codes": [
+         "300.211",
+         "M2173.004300",
+         "300.209C"
+        ]
+       },
+       {
+        "name": "전자기",
+        "min_count": 1,
+        "codes": [
+         "300.214",
+         "3342.002A"
+        ]
+       },
+       {
+        "name": "양자물리",
+        "min_count": 1,
+        "codes": [
+         "884.303",
+         "M1419.001300",
+         "3342.305A"
+        ]
+       },
+       {
+        "name": "열과 통계물리",
+        "min_count": 1,
+        "codes": [
+         "884.302"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "phys-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공선택 인정교과목 39학점 이상, 필수 이수과목은 단일전공과 같음(전필 25학점)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s42"
+     ],
+     "note": "2021·2020·2019 절에는 2024 절 이후의 '졸업논문 제출 필수' 문장이 없다. 복수전공생의 졸업논문 의무가 이 학번에도 있는지는 학과 문의."
+    },
+    {
+     "id": "phys-ge-old-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 46학점 이상(학문의 기초·학문의 세계 체계)",
+     "min_count": null,
+     "min_credits": 46,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s33",
+      "s46",
+      "s47"
+     ]
+    },
+    {
+     "id": "phys-ge-old-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 사고와 표현 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "note": "2019학번부터 이 두 과목 체계다(2018학번은 글쓰기의 기초 또는 과학과 기술 글쓰기 3학점, 해설 2018 p.15). 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "phys-ge-old-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s33",
+      "s46",
+      "s47"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 확인 필요."
+    },
+    {
+     "id": "phys-ge-old-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론: 수학 1·2+연습(6), 고급수학 1·2+연습(6), 미적분학 1·2+연습(8) 중 택 1(연습은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "phys-ge-old-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험: 통계학, 물리학 1·2(또는 고급물리학 1·2·물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F33.111",
+       "name": "천문학",
+       "credits": 3,
+       "alt_codes": [
+        "034.014"
+       ]
+      },
+      {
+       "code": "F33.111L",
+       "name": "천문학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.015"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께. 통계학·통계학실험은 과학적 사고와 실험으로 인정(2022 표부터 명시). 생명과학을 위한 통계학(실험)은 2022-2 개설, 2023 표부터 통계학 대신 인정(이전 입학생도 인정), 통계학(실험)과 겹쳐 이수 불가. 교양 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "phys-ge-old-qs-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초(수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용) 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "note": "표의 묶음 학점이 24다. 수학·고급수학 짝(6)+과학 16 = 22 라 나머지 2학점을 이 묶음에서 더 채워야 하는지는 표만으로 분명하지 않다(2025 체계의 수학·과학·컴퓨팅 24 와 같은 문제)."
+    },
+    {
+     "id": "phys-ge-old-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 4개 영역 이상에서 12학점 이상, '언어와 문학·문화와 예술·역사와 철학' 영역 권장과목(*) 중 1과목 필수",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34",
+      "s35"
+     ],
+     "note": "자연과 기술·생명과 환경 영역은 5개 영역에 들지 않는다(물리학전공·생명과학부 페이지가 5개 영역 이름을 적음). 과목→영역 자료와 권장과목(*) 표시는 편람 자료에 없어 앱은 '확인 필요'. 2025-1 이후 새 공통교육과정 과목을 옛 학번이 들었을 때의 영역 인정 기준은 공개 자료에서 확인하지 못했다(수리과학부 '공통교육과정 영역 및 교과목 비교표' 글 접근 실패).",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "min_count": null
+       },
+       {
+        "name": "문화와 예술",
+        "min_count": null
+       },
+       {
+        "name": "역사와 철학",
+        "min_count": null
+       },
+       {
+        "name": "정치와 경제",
+        "min_count": null
+       },
+       {
+        "name": "인간과 사회",
+        "min_count": null
+       }
+      ],
+      "min_areas": 4
+     }
+    }
+   ],
+   "changed": "미적분학이 '권장'(자연대 2021 표). 전공은 2022~2023학번과 같다."
+  },
+  {
+   "entry_years": [
+    2020,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 44,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s57"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s58",
+    "s34",
+    "s54",
+    "s55",
+    "s56"
+   ],
+   "requirements": [
+    {
+     "id": "phys-ge-calc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 지정 교양: 물리·천문학부 신입생은 미적분학 1·2+연습 수강 권장(필수 아님)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F31.109",
+       "name": "미적분학 1",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.000900"
+       ]
+      },
+      {
+       "code": "F31.109L",
+       "name": "미적분학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001000"
+       ]
+      },
+      {
+       "code": "F31.110",
+       "name": "미적분학 2",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001100"
+       ]
+      },
+      {
+       "code": "F31.110L",
+       "name": "미적분학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001200"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s34",
+      "s53"
+     ],
+     "note": "미적분학 1 대신 수학 1 은 허용 문구가 없다."
+    },
+    {
+     "id": "phys-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 25학점: 역학 1·역학 1 연습, 전기와 자기·연습, 양자물리 1·연습, 양자물리 2·연습, 열과 통계물리(9과목 19학점) + 중급물리실험 1·2(2과목 6학점)",
+     "min_count": 11,
+     "min_credits": 25,
+     "courses": [
+      {
+       "code": "300.211",
+       "name": "역학 1",
+       "credits": 3,
+       "alt_codes": [
+        "M2173.004300"
+       ]
+      },
+      {
+       "code": "3348.215",
+       "name": "역학 1 연습",
+       "credits": 1,
+       "alt_codes": [
+        "M1419.001400"
+       ]
+      },
+      {
+       "code": "300.214",
+       "name": "전기와 자기",
+       "credits": 3
+      },
+      {
+       "code": "3348.217",
+       "name": "전기와 자기 연습",
+       "credits": 1
+      },
+      {
+       "code": "884.303",
+       "name": "양자물리 1",
+       "credits": 3,
+       "alt_codes": [
+        "M1419.001300"
+       ]
+      },
+      {
+       "code": "3348.310",
+       "name": "양자물리 1 연습",
+       "credits": 1,
+       "alt_codes": [
+        "M1419.001500"
+       ]
+      },
+      {
+       "code": "884.304",
+       "name": "양자물리 2",
+       "credits": 3,
+       "alt_codes": [
+        "M1419.001800"
+       ]
+      },
+      {
+       "code": "3348.311",
+       "name": "양자물리 2 연습",
+       "credits": 1,
+       "alt_codes": [
+        "M1419.001900"
+       ]
+      },
+      {
+       "code": "884.302",
+       "name": "열과 통계물리",
+       "credits": 3
+      },
+      {
+       "code": "884.307A",
+       "name": "중급물리실험 1",
+       "credits": 3
+      },
+      {
+       "code": "884.308A",
+       "name": "중급물리실험 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s49",
+      "s50"
+     ],
+     "note": "같은 절의 '교과목 이수규정' 문장은 아직 '전자학 및 계측론 + 중급물리실험 1'로 적혀 있으나(옛 문장), 전필 표와 2020 변경 안내는 중급물리실험 1·2 다. 2024-1 교과 개편 뒤에는 새 번호 과목(alt_codes)으로 듣는다(대체지정)."
+    },
+    {
+     "id": "phys-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학사학위논문 작성, 졸업논문심사 통과(주전공). 복수전공도 '졸업논문 제출 필수'",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s27"
+     ]
+    },
+    {
+     "id": "phys-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전선: 단일 35 이상, 병행 14 이상. 물리전공 과목은 모두 전선 인정(단학기 역학·전자기학·양자물리는 각각 역학 1·전기와 자기·양자물리 1 과 중복 인정 안 함). 자연대 타 전공·공대 과목 15학점까지, 3학년 이상 물리학전공 대학원 과목, 학부장 인정 과목",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s52"
+     ],
+     "note": "2025 전선 목록에 계산·학습·그리고 물리(M1419.002300), 양자정보와 양자컴퓨팅 개론(M1419.002400), 위상수학과 물질 물리학(M1419.002500)이 새로 있다. 연습 과목(역학 연습 등)은 2025학번부터 전선.",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 45,
+       "parallel": 24,
+       "double": 24
+      }
+     }
+    },
+    {
+     "id": "phys-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 역학 1(또는 단학기 역학 300.209C), 전기와 자기(또는 단학기 전자기학 3342.002A), 양자물리 1(또는 단학기 양자물리 3342.305A), 열과 통계물리 포함 물리학 전공과목 21학점 이상(필수 12 + 전선 9)",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "300.211",
+       "name": "역학 1",
+       "credits": 3,
+       "alt_codes": [
+        "M2173.004300"
+       ]
+      },
+      {
+       "code": "300.209C",
+       "name": "단학기 역학",
+       "credits": 3
+      },
+      {
+       "code": "300.214",
+       "name": "전기와 자기",
+       "credits": 3
+      },
+      {
+       "code": "3342.002A",
+       "name": "단학기 전자기학",
+       "credits": 3
+      },
+      {
+       "code": "884.303",
+       "name": "양자물리 1",
+       "credits": 3,
+       "alt_codes": [
+        "M1419.001300"
+       ]
+      },
+      {
+       "code": "3342.305A",
+       "name": "단학기 양자물리",
+       "credits": 3
+      },
+      {
+       "code": "884.302",
+       "name": "열과 통계물리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s51"
+     ],
+     "note": "단학기 역학·단학기 양자물리는 편람상 2023-1, 단학기 전자기학은 2021-2 가 마지막 개설.",
+     "extra": {
+      "groups": [
+       {
+        "name": "역학",
+        "min_count": 1,
+        "codes": [
+         "300.211",
+         "M2173.004300",
+         "300.209C"
+        ]
+       },
+       {
+        "name": "전자기",
+        "min_count": 1,
+        "codes": [
+         "300.214",
+         "3342.002A"
+        ]
+       },
+       {
+        "name": "양자물리",
+        "min_count": 1,
+        "codes": [
+         "884.303",
+         "M1419.001300",
+         "3342.305A"
+        ]
+       },
+       {
+        "name": "열과 통계물리",
+        "min_count": 1,
+        "codes": [
+         "884.302"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "phys-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공선택 인정교과목 39학점 이상, 필수 이수과목은 단일전공과 같음(전필 25학점)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s42"
+     ],
+     "note": "2021·2020·2019 절에는 2024 절 이후의 '졸업논문 제출 필수' 문장이 없다. 복수전공생의 졸업논문 의무가 이 학번에도 있는지는 학과 문의."
+    },
+    {
+     "id": "phys-ge-old-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 44학점 이상(학문의 기초·학문의 세계 체계)",
+     "min_count": null,
+     "min_credits": 44,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s34",
+      "s54",
+      "s55",
+      "s56"
+     ]
+    },
+    {
+     "id": "phys-ge-old-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 사고와 표현 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "note": "2019학번부터 이 두 과목 체계다(2018학번은 글쓰기의 기초 또는 과학과 기술 글쓰기 3학점, 해설 2018 p.15). 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "phys-ge-old-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4–6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s34",
+      "s54",
+      "s55",
+      "s56"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 확인 필요."
+    },
+    {
+     "id": "phys-ge-old-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론: 수학 1·2+연습(6), 고급수학 1·2+연습(6), 미적분학 1·2+연습(8) 중 택 1(연습은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "phys-ge-old-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험: 통계학, 물리학 1·2(또는 고급물리학 1·2·물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F33.111",
+       "name": "천문학",
+       "credits": 3,
+       "alt_codes": [
+        "034.014"
+       ]
+      },
+      {
+       "code": "F33.111L",
+       "name": "천문학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.015"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께. 통계학·통계학실험은 과학적 사고와 실험으로 인정(2022 표부터 명시). 생명과학을 위한 통계학(실험)은 2022-2 개설, 2023 표부터 통계학 대신 인정(이전 입학생도 인정), 통계학(실험)과 겹쳐 이수 불가. 교양 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "phys-ge-old-qs-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초(수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용) 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "note": "표의 묶음 학점이 24다. 수학·고급수학 짝(6)+과학 16 = 22 라 나머지 2학점을 이 묶음에서 더 채워야 하는지는 표만으로 분명하지 않다(2025 체계의 수학·과학·컴퓨팅 24 와 같은 문제)."
+    },
+    {
+     "id": "phys-ge-old-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 4개 영역 이상에서 12학점 이상, '언어와 문학·문화와 예술·역사와 철학' 영역 권장과목(*) 중 1과목 필수",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34",
+      "s35"
+     ],
+     "note": "자연과 기술·생명과 환경 영역은 5개 영역에 들지 않는다(물리학전공·생명과학부 페이지가 5개 영역 이름을 적음). 과목→영역 자료와 권장과목(*) 표시는 편람 자료에 없어 앱은 '확인 필요'. 2025-1 이후 새 공통교육과정 과목을 옛 학번이 들었을 때의 영역 인정 기준은 공개 자료에서 확인하지 못했다(수리과학부 '공통교육과정 영역 및 교과목 비교표' 글 접근 실패).",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "min_count": null
+       },
+       {
+        "name": "문화와 예술",
+        "min_count": null
+       },
+       {
+        "name": "역사와 철학",
+        "min_count": null
+       },
+       {
+        "name": "정치와 경제",
+        "min_count": null
+       },
+       {
+        "name": "인간과 사회",
+        "min_count": null
+       }
+      ],
+      "min_areas": 4
+     }
+    }
+   ],
+   "changed": "교양 44(외국어 4–6). 전필은 2021학번과 같다(중급물리실험 1·2).",
+   "note": "2020 절의 '교과목 이수규정' 문장도 옛 '전자학 및 계측론 + 중급물리실험 1' 그대로지만, 전필 표와 '2020학년도 입학생부터 적용' 변경 안내가 중급물리실험 1·2 다."
+  },
+  {
+   "entry_years": [
+    2019,
+    2019
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 44,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s61"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s62",
+    "s34",
+    "s54",
+    "s55",
+    "s56"
+   ],
+   "requirements": [
+    {
+     "id": "phys-ge-calc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 지정 교양: 물리·천문학부 신입생은 미적분학 1·2+연습 수강 권장(필수 아님)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F31.109",
+       "name": "미적분학 1",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.000900"
+       ]
+      },
+      {
+       "code": "F31.109L",
+       "name": "미적분학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001000"
+       ]
+      },
+      {
+       "code": "F31.110",
+       "name": "미적분학 2",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001100"
+       ]
+      },
+      {
+       "code": "F31.110L",
+       "name": "미적분학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001200"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s34",
+      "s53"
+     ],
+     "note": "미적분학 1 대신 수학 1 은 허용 문구가 없다."
+    },
+    {
+     "id": "phys-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 25학점: 역학 1·연습, 전기와 자기·연습, 양자물리 1·연습, 양자물리 2·연습, 열과 통계물리(9과목 19학점) + 전자학 및 계측론(= 기초현대물리실험 M1419.000500)·중급물리실험 1(2과목 6학점)",
+     "min_count": 11,
+     "min_credits": 25,
+     "courses": [
+      {
+       "code": "300.211",
+       "name": "역학 1",
+       "credits": 3,
+       "alt_codes": [
+        "M2173.004300"
+       ]
+      },
+      {
+       "code": "3348.215",
+       "name": "역학 1 연습",
+       "credits": 1,
+       "alt_codes": [
+        "M1419.001400"
+       ]
+      },
+      {
+       "code": "300.214",
+       "name": "전기와 자기",
+       "credits": 3
+      },
+      {
+       "code": "3348.217",
+       "name": "전기와 자기 연습",
+       "credits": 1
+      },
+      {
+       "code": "884.303",
+       "name": "양자물리 1",
+       "credits": 3,
+       "alt_codes": [
+        "M1419.001300"
+       ]
+      },
+      {
+       "code": "3348.310",
+       "name": "양자물리 1 연습",
+       "credits": 1,
+       "alt_codes": [
+        "M1419.001500"
+       ]
+      },
+      {
+       "code": "884.304",
+       "name": "양자물리 2",
+       "credits": 3,
+       "alt_codes": [
+        "M1419.001800"
+       ]
+      },
+      {
+       "code": "3348.311",
+       "name": "양자물리 2 연습",
+       "credits": 1,
+       "alt_codes": [
+        "M1419.001900"
+       ]
+      },
+      {
+       "code": "884.302",
+       "name": "열과 통계물리",
+       "credits": 3
+      },
+      {
+       "code": "884.307A",
+       "name": "중급물리실험 1",
+       "credits": 3
+      },
+      {
+       "code": "M1419.000500",
+       "name": "기초현대물리실험",
+       "credits": 3,
+       "alt_codes": [
+        "3342.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s59",
+      "s60"
+     ],
+     "note": "2019학번은 중급물리실험 2 가 전선이다."
+    },
+    {
+     "id": "phys-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "학사학위논문 작성, 졸업논문심사 통과(주전공). 복수전공도 '졸업논문 제출 필수'",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s27"
+     ]
+    },
+    {
+     "id": "phys-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전선: 단일 35 이상, 병행 14 이상. 물리전공 과목은 모두 전선 인정(단학기 역학·전자기학·양자물리는 각각 역학 1·전기와 자기·양자물리 1 과 중복 인정 안 함). 자연대 타 전공·공대 과목 15학점까지, 3학년 이상 물리학전공 대학원 과목, 학부장 인정 과목",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s52"
+     ],
+     "note": "2025 전선 목록에 계산·학습·그리고 물리(M1419.002300), 양자정보와 양자컴퓨팅 개론(M1419.002400), 위상수학과 물질 물리학(M1419.002500)이 새로 있다. 연습 과목(역학 연습 등)은 2025학번부터 전선.",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 45,
+       "parallel": 24,
+       "double": 24
+      }
+     }
+    },
+    {
+     "id": "phys-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 역학 1(또는 단학기 역학 300.209C), 전기와 자기(또는 단학기 전자기학 3342.002A), 양자물리 1(또는 단학기 양자물리 3342.305A), 열과 통계물리 포함 물리학 전공과목 21학점 이상(필수 12 + 전선 9)",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "300.211",
+       "name": "역학 1",
+       "credits": 3,
+       "alt_codes": [
+        "M2173.004300"
+       ]
+      },
+      {
+       "code": "300.209C",
+       "name": "단학기 역학",
+       "credits": 3
+      },
+      {
+       "code": "300.214",
+       "name": "전기와 자기",
+       "credits": 3
+      },
+      {
+       "code": "3342.002A",
+       "name": "단학기 전자기학",
+       "credits": 3
+      },
+      {
+       "code": "884.303",
+       "name": "양자물리 1",
+       "credits": 3,
+       "alt_codes": [
+        "M1419.001300"
+       ]
+      },
+      {
+       "code": "3342.305A",
+       "name": "단학기 양자물리",
+       "credits": 3
+      },
+      {
+       "code": "884.302",
+       "name": "열과 통계물리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s51"
+     ],
+     "note": "단학기 역학·단학기 양자물리는 편람상 2023-1, 단학기 전자기학은 2021-2 가 마지막 개설.",
+     "extra": {
+      "groups": [
+       {
+        "name": "역학",
+        "min_count": 1,
+        "codes": [
+         "300.211",
+         "M2173.004300",
+         "300.209C"
+        ]
+       },
+       {
+        "name": "전자기",
+        "min_count": 1,
+        "codes": [
+         "300.214",
+         "3342.002A"
+        ]
+       },
+       {
+        "name": "양자물리",
+        "min_count": 1,
+        "codes": [
+         "884.303",
+         "M1419.001300",
+         "3342.305A"
+        ]
+       },
+       {
+        "name": "열과 통계물리",
+        "min_count": 1,
+        "codes": [
+         "884.302"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "phys-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공선택 인정교과목 39학점 이상, 필수 이수과목은 단일전공과 같음(전필 25학점)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s42"
+     ],
+     "note": "2021·2020·2019 절에는 2024 절 이후의 '졸업논문 제출 필수' 문장이 없다. 복수전공생의 졸업논문 의무가 이 학번에도 있는지는 학과 문의."
+    },
+    {
+     "id": "phys-ge-old-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 44학점 이상(학문의 기초·학문의 세계 체계)",
+     "min_count": null,
+     "min_credits": 44,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s34",
+      "s54",
+      "s55",
+      "s56"
+     ]
+    },
+    {
+     "id": "phys-ge-old-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 사고와 표현 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "note": "2019학번부터 이 두 과목 체계다(2018학번은 글쓰기의 기초 또는 과학과 기술 글쓰기 3학점, 해설 2018 p.15). 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "phys-ge-old-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4–6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s34",
+      "s54",
+      "s55",
+      "s56"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 확인 필요."
+    },
+    {
+     "id": "phys-ge-old-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론: 수학 1·2+연습(6), 고급수학 1·2+연습(6), 미적분학 1·2+연습(8) 중 택 1(연습은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "phys-ge-old-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험: 통계학, 물리학 1·2(또는 고급물리학 1·2·물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F33.111",
+       "name": "천문학",
+       "credits": 3,
+       "alt_codes": [
+        "034.014"
+       ]
+      },
+      {
+       "code": "F33.111L",
+       "name": "천문학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.015"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께. 통계학·통계학실험은 과학적 사고와 실험으로 인정(2022 표부터 명시). 생명과학을 위한 통계학(실험)은 2022-2 개설, 2023 표부터 통계학 대신 인정(이전 입학생도 인정), 통계학(실험)과 겹쳐 이수 불가. 교양 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "phys-ge-old-qs-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초(수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용) 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34"
+     ],
+     "note": "표의 묶음 학점이 24다. 수학·고급수학 짝(6)+과학 16 = 22 라 나머지 2학점을 이 묶음에서 더 채워야 하는지는 표만으로 분명하지 않다(2025 체계의 수학·과학·컴퓨팅 24 와 같은 문제)."
+    },
+    {
+     "id": "phys-ge-old-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 4개 영역 이상에서 12학점 이상, '언어와 문학·문화와 예술·역사와 철학' 영역 권장과목(*) 중 1과목 필수",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31",
+      "s32",
+      "s33",
+      "s34",
+      "s35"
+     ],
+     "note": "자연과 기술·생명과 환경 영역은 5개 영역에 들지 않는다(물리학전공·생명과학부 페이지가 5개 영역 이름을 적음). 과목→영역 자료와 권장과목(*) 표시는 편람 자료에 없어 앱은 '확인 필요'. 2025-1 이후 새 공통교육과정 과목을 옛 학번이 들었을 때의 영역 인정 기준은 공개 자료에서 확인하지 못했다(수리과학부 '공통교육과정 영역 및 교과목 비교표' 글 접근 실패).",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "min_count": null
+       },
+       {
+        "name": "문화와 예술",
+        "min_count": null
+       },
+       {
+        "name": "역사와 철학",
+        "min_count": null
+       },
+       {
+        "name": "정치와 경제",
+        "min_count": null
+       },
+       {
+        "name": "인간과 사회",
+        "min_count": null
+       }
+      ],
+      "min_areas": 4
+     }
+    }
+   ],
+   "changed": "실험 필수가 중급물리실험 1 + 전자학 및 계측론(= 기초현대물리실험 M1419.000500)이다(중급물리실험 2 는 전선)."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2020,
+   "basis": "입학 연도",
+   "what": "실험 필수: 전자학 및 계측론 → 중급물리실험 2(중급물리실험 1·2)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "교양 44→46",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2022,
+   "basis": "입학 연도",
+   "what": "미적분학 권장→원칙(미적분학 2 대신 수학 2 가능)",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "역학 1→역학, 양자물리 1→양자물리, 양자물리 2→고급 양자물리 등 번호·이름 변경(대체지정)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "학번별 절 분리(새 번호), 부전공 대체는 단학기 전자기학만, 복수전공 졸업논문 제출 필수 문장",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "전필 25→15(4과목 + 중급물리실험 1·2 중 1), 연습·고급 양자물리는 전선. 교양 체계 개편",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2026,
+   "basis": "입학 연도",
+   "what": "교양 진단평가 면제(46(36)), 부전공 단학기 전자기학 대체 문구 삭제",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "물리학전공↔천문학전공 이동(전과·전공 변경) 방법과 조건(공개 자료에서 못 찾음)",
+  "복수전공 '졸업논문 제출 필수'가 주전공과 같은 심사 절차인지",
+  "2019~2023학번 복수전공생도 졸업논문을 내야 하는지(2024학번 절부터 '졸업논문 제출 필수' 문장이 보임)",
+  "2020·2021학번 절 '교과목 이수규정' 문장의 '전자학 및 계측론 + 중급물리실험 1'은 고치지 않은 옛 문장인지(전필 표·2020 변경 안내는 중급물리실험 1·2)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "학부대학, 2026학년도 시행 단과대학별 공통교육과정 이수 규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "pp.53–55 '□ 자연과학대학 (공통)·기초수학과학 교과목 수강의무 면제·(학부(과)별)'(PDF 6–8쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "pp.115–117 자연과학대학 표(PDF 7–9쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "2026학년도 자연과학대학 공통교육과정 이수규정(통계학과 누리집 게시)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2026/03/2026학년도-자연과학대학-공통교육과정-이수규정.pdf",
+   "locator": "pp.1–3 공통교육과정 이수규정·수강의무 면제·학부(과)별 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.110 '□ 자연과학대학 (공통)' 표(PDF 6쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "수리과학부, 이수규정 '2025학년도 졸업이수규정'",
+   "url": "https://www.math.snu.ac.kr/bbs/page.php?hid=criteria&wr_id=42",
+   "locator": "교양 표 '수학 6-8, 과학·컴퓨팅 16'",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "2025학번 이후 절 '교과목 이수 규정' 문장·전공필수 표",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "2025학번 이후 절 각주 '*중급물리실험1, 중급물리실험2 중 한 과목을 필수과목으로'",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "2025학번 이후 절 졸업논문·복수전공 이수 규정",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'전공이수규정 (2026학번 이후)' 절 전공선택인정 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'전공이수규정 (2026학번 이후)' 절 부전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "2025학번 이후 절 복수전공 이수 규정",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2026학번 이후' 절 학점표 '46(36*)'",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'[물리·천문학부 물리학전공] 전공이수규정 (2026학번 이후)' 절",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "2025학년도 자연과학대학 공통교육과정 교양 이수규정(통계학과 누리집 게시 PDF)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2025/02/2025학년도-자연과학대학-공통교육과정구-교양-이수규정.pdf",
+   "locator": "pp.5–7 '○ 자연과학대학 (공통)·(학부(과)별)'",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.111 '□ 자연과학대학 (학부(과)별)' 표(PDF 7쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "2025학번 이후 절 부전공 이수 규정",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.48 부전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "2025학번 이후 절 전공선택 인정·교과목 이수 규정",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2025학번 이후' 절 학점표",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2025학번 이후' 절",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'전공이수규정 (2024학번 이후)' 절 전공필수(25학점)·교과목 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "맨 위 '교과구분변경 신청 안내'(2024학번을 포함한 이전 입학생)",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "2025 절 '전공 교과목명 변경 안내'(폐지→대체지정)",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "수강편람 자료(학기별, TT Wizard 레포 data/history)",
+   "locator": "2024-1 부터 새 번호(역학 M2173.004300 등), 옛 번호는 2023-2까지",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s25": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'전공이수규정 (2024학번 이후)' 절 학점표·전공선택인정 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2024학번 이후' 절 복수전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2024학번 이후' 절 졸업논문 제출규정",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2024학번 이후' 절 부전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "p.16 '□ 자연과학대학' 교양 표(PDF 9쪽), 경과규정",
+   "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.16 '□ 자연과학대학' 교양 표(PDF 9쪽), 경과규정",
+   "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "2023학년도 자연과학대학 교양 이수규정(통계학과 누리집 게시)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2024/02/2023학년도-자연과학대학-교양-이수규정.pdf",
+   "locator": "1쪽 표·경과규정",
+   "accessed": "2026-11-12"
+  },
+  "s32": {
+   "title": "2024학년도 자연과학대학 교양 이수규정(통계학과 누리집 게시)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2024/02/2024학년도-자연과학대학-교양-이수규정.pdf",
+   "locator": "1쪽 표",
+   "accessed": "2026-11-12"
+  },
+  "s33": {
+   "title": "자연과학대학 2021 교양 이수기준(통계학과 누리집 게시, 스캔본)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2021/04/2021-교양-이수기준.pdf",
+   "locator": "p.108 '□ 자연과학대학' 표(스캔 1쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s34": {
+   "title": "자연과학대학 2019 교양 이수기준(통계학과 누리집 게시, 스캔본)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2021/02/2019-교양-이수기준.pdf",
+   "locator": "p.114 '□ 자연과학대학' 표(스캔 1쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s35": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "2019·2020학번 절 '학문의세계 : 언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회 5개 영역'",
+   "accessed": "2026-11-12"
+  },
+  "s36": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2024학번 이후' 절 학점표 '전필25학점, 전선 35학점 / 병행 전필25, 전선 14'",
+   "accessed": "2026-11-12"
+  },
+  "s37": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2024학번 이후' 절·교과구분변경 신청 안내",
+   "accessed": "2026-11-12"
+  },
+  "s38": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'전공이수규정 (2021학번 이후)' 절 전공필수(25학점) 표",
+   "accessed": "2026-11-12"
+  },
+  "s39": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'전공 교과목 이수규정 변경 안내 (2020학년도 입학생부터 적용)' 현행→변경",
+   "accessed": "2026-11-12"
+  },
+  "s40": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2021학번 이후' 절 부전공 필수·부전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s41": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2021학번 이후' 절 학점표·전공선택인정 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s42": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2021학번 이후' 절 복수전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s43": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2021학번 이후' 절 학점표",
+   "accessed": "2026-11-12"
+  },
+  "s44": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'[물리·천문학부 물리학전공] 전공이수규정 (2021학번 이후)' 절",
+   "accessed": "2026-11-12"
+  },
+  "s45": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "2019·2020 절 '미적분학 및 연습 1,2(8)권장'",
+   "accessed": "2026-11-12"
+  },
+  "s46": {
+   "title": "지구환경과학부, 입학년도별 교양이수규정 2021년도(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum?mode=download&seqidx=18",
+   "locator": "1쪽 '□ 자연과학대학' 표",
+   "accessed": "2026-11-12"
+  },
+  "s47": {
+   "title": "지구환경과학부, 졸업요건(교양)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "교양학점 표 '2021 ~ 46학점'",
+   "accessed": "2026-11-12"
+  },
+  "s48": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2021학번 이후' 절",
+   "accessed": "2026-11-12"
+  },
+  "s49": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'전공이수규정 (2020학번)' 절 전공필수(25학점) 표",
+   "accessed": "2026-11-12"
+  },
+  "s50": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'전공 교과목 이수규정 변경 안내 (2020학년도 입학생부터 적용)'",
+   "accessed": "2026-11-12"
+  },
+  "s51": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "2019·2020 절 부전공 필수",
+   "accessed": "2026-11-12"
+  },
+  "s52": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "2020 절 학점표·전공선택인정 교과목",
+   "accessed": "2026-11-12"
+  },
+  "s53": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "2019·2020 절 교양 안내 '미적분학 및 연습 1,2(8)권장'",
+   "accessed": "2026-11-12"
+  },
+  "s54": {
+   "title": "지구환경과학부, 입학년도별 교양이수규정 2019년도(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum?mode=download&seqidx=16",
+   "locator": "1쪽 '자연과학대학' 표",
+   "accessed": "2026-11-12"
+  },
+  "s55": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.16 '□ 자연과학대학' 교양 표(PDF 9쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s56": {
+   "title": "지구환경과학부, 졸업요건(교양)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "교양학점 표 '2014~2020 44학점'",
+   "accessed": "2026-11-12"
+  },
+  "s57": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2020학번' 절 학점표 130·44·60·39·39·21",
+   "accessed": "2026-11-12"
+  },
+  "s58": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2020학번' 절",
+   "accessed": "2026-11-12"
+  },
+  "s59": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'전공이수규정 (2019학번)' 절 전공필수(25학점) 표",
+   "accessed": "2026-11-12"
+  },
+  "s60": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "2020 변경 안내 경과규정·'2019학년도를 포함한 이전 학년도 입학생은 … 기초현대물리실험(M1419.000500) 수강 필수'",
+   "accessed": "2026-11-12"
+  },
+  "s61": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2019학번' 절 학점표",
+   "accessed": "2026-11-12"
+  },
+  "s62": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "'2019학번' 절·2020 변경 안내 경과규정",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

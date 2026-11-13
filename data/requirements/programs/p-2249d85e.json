@@ -1,0 +1,297 @@
+{
+ "id": "p-2249d85e",
+ "college": "사범대학",
+ "unit": "사범대학",
+ "program": "융합학습과학전공",
+ "kind": "major",
+ "depts": [
+  "융합학습과학전공"
+ ],
+ "code_prefixes": [],
+ "ge_key": null,
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {},
+ "versions": [
+  {
+   "entry_years": [
+    2019,
+    2026
+   ],
+   "basis": "전공 진입 연도",
+   "credits": {
+    "grad": null,
+    "ge": 36,
+    "single": null,
+    "parallel": null,
+    "double": null,
+    "minor": null,
+    "status": "미확인",
+    "src": [
+     "s2",
+     "s1",
+     "s5",
+     "s3",
+     "s4"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s2",
+    "s1",
+    "s5",
+    "s3",
+    "s4"
+   ],
+   "requirements": [
+    {
+     "id": "edu-lsci-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2026학년도 시행 이수규정 '□ 사범대학 (융합학습과학 전공)')",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "edu-lsci-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 택1)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "edu-lsci-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점(TEPS 900점(New 525점) 이하이면 영어 1과목 필수)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "edu-lsci-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학·과학·컴퓨팅 6학점(과목 지정 없음)",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "edu-lsci-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 4개 영역 중 3개 영역에서 9학점",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "edu-lsci-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "edu-lsci-ge-pe",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 확장 > 예술과 체육: 표의 학점 칸 2, 비고 '체육 영역 1학점'",
+     "min_count": null,
+     "min_credits": 1,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "학점 칸(2)과 비고(1학점)가 다름. 학점 칸 2로 더해야 총 36이 맞음."
+    },
+    {
+     "id": "edu-lsci-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 중 자유 선택 6학점",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "edu-lsci-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수(교과과정 표 *): 학습과학기초, 인간 발달과 전인적 성장",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "M3762.000200",
+       "name": "학습과학기초",
+       "credits": 3
+      },
+      {
+       "code": "M3762.000300",
+       "name": "인간 발달과 전인적 성장",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s3",
+      "s4"
+     ],
+     "note": "전공 이수 학점·졸업 요건 문서는 공개 페이지에서 못 봄(게시판 회원 전용)."
+    },
+    {
+     "id": "edu-lsci-credits-unknown",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업·전공(단일·복수·부전공) 학점: 공개 자료에서 못 찾음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s5"
+     ]
+    }
+   ],
+   "note": "2026학년도 신설. 교양 규정 비고: '2026학년도 전입생부터 적용', '입학년도와 관계없이 2026학년도 기준 2, 3, 4학년 학생에 적용' → 학번이 아니라 전공 진입(전입) 시점 기준."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2026,
+   "basis": "전공 진입 연도",
+   "what": "전공 신설(2학년 이상 전입, 학번 무관)",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "졸업·전공 학점, 전공필수·선택 구성, 교직 과정 여부",
+  "교양 체육 1학점인지 2학점인지(이수규정 표 안에서 엇갈림)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "학부대학, 2026학년도 시행 단과대학별 공통교육과정 이수 규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026%ED%95%99%EB%85%84%EB%8F%84-%EC%8B%9C%ED%96%89-%EA%B3%B5%ED%86%B5%EA%B5%90%EC%9C%A1%EA%B3%BC%EC%A0%95-%EB%8C%80%ED%95%99%EB%B3%84-%EC%9D%B4%EC%88%98%EA%B7%9C%EC%A0%95.pdf",
+   "locator": "□ 사범대학 8개 표 '2025학년도 입학생부터 적용' + □ 융합학습과학 전공 '2026학년도 입학생부터'",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "학부대학, 2026 새내기 기초교양교육과정 길잡이",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-%EC%84%9C%EC%9A%B8%EB%8C%80-%EC%83%88%EB%82%B4%EA%B8%B0-%EA%B8%B0%EC%B4%88%EA%B5%90%EC%96%91%EA%B5%90%EC%9C%A1%EA%B3%BC%EC%A0%95-%EA%B8%B8%EC%9E%A1%EC%9D%B4_%EA%B3%B5%ED%86%B5%EA%B5%90%EC%9C%A1%EA%B3%BC%EC%A0%95-%EC%95%88%EB%82%B4-%EC%9D%B4%EC%88%98%EA%B7%9C%EC%A0%95.pdf",
+   "locator": "사범대학 학과별 표 p.141–149 (2025판과 숫자·과목 같음)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "융합학습과학전공, 교과과정",
+   "url": "https://tls.snu.ac.kr/new2/sub_department/curriculum.php",
+   "locator": "2학년부터 표(* 학습과학기초·인간 발달과 전인적 성장)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "수강편람 자료(백엔드 수집본, 학기별 교과구분)",
+   "locator": "2021-1~2026-2",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s5": {
+   "title": "사범대학, 학과소개 > 융합학습과학전공('2026년에 신설')",
+   "url": "https://edu.snu.ac.kr/%ED%95%99%EB%B6%80-%EB%8C%80%ED%95%99%EC%9B%90/%ED%95%99%EA%B3%BC%EC%86%8C%EA%B0%9C/%EC%9C%B5%ED%95%A9%ED%95%99%EC%8A%B5%EA%B3%BC%ED%95%99%EC%A0%84%EA%B3%B5/",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

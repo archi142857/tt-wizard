@@ -1,0 +1,1832 @@
+{
+ "id": "p-2c21b927",
+ "college": "생활과학대학",
+ "unit": "의류학과",
+ "program": "의류학과",
+ "kind": "major",
+ "depts": [
+  "의류학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "생활과학대학 의류학과",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2026,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 40,
+    "single": 60,
+    "parallel": 48,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s8",
+     "s9"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s2",
+    "s10",
+    "s8"
+   ],
+   "requirements": [
+    {
+     "id": "cl-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1] 대학 글쓰기 1(2) + [1-2] 대학 글쓰기 2: 사회과학글쓰기 또는 과학기술글쓰기(2) + [3-1] 말하기와 토론(3) = 7학점",
+     "min_count": null,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F12.102",
+       "name": "말하기와 토론",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "글쓰기와 말하기"
+     }
+    },
+    {
+     "id": "cl-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수(기초영어·대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "2025학번은 TEPS 800점(New TEPS 452점) 이하 기준이었다. 2026 길잡이·2026 이수규정은 900점(525점) 이하. 앱은 입학 TEPS 점수를 모르면 '확인 필요'로 둔다.",
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "cl-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "6~8학점: [1-1] 통계학+통계학실험 또는 컴퓨팅 기초: 처음 만나는 컴퓨팅 중 3 또는 4학점, [1-2] 생명과학을 위한 수학 1 또는 생물학+생물학실험 또는 화학+화학실험 중 3 또는 4학점",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1.0
+      },
+      {
+       "code": "F37.101",
+       "name": "컴퓨팅 기초: 처음 만나는 컴퓨팅",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.111",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.114",
+       "name": "인문사회계를 위한 수학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3.0
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1.0
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "고교에서 이과 수학을 안 들은 학생은 생명과학을 위한 수학 1 대신 인문사회계를 위한 수학 1 가능. 두 묶음에서 하나씩.",
+     "extra": {
+      "area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "cl-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 4개 영역 중 3개 영역에서 9학점 이상",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "지성의 열쇠",
+      "areas": [
+       "문화 해석과 상상",
+       "역사적 탐구와 철학적 사유",
+       "인간의 이해와 사회 분석",
+       "과학적 사고와 응용"
+      ]
+     }
+    },
+    {
+     "id": "cl-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "베리타스"
+     }
+    },
+    {
+     "id": "cl-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목에서 자유롭게 7~9학점(총 40 맞추기)",
+     "min_count": null,
+     "min_credits": 7,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "cl-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수: 생활과학신입생세미나(구 생활과학의 이해) 1학점 — 전과·편입 포함 주전공생",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "복수·부전공자는 예외(들으면 일반선택). 학과 이수표준형태는 번호를 350.101A 로 적었다(구 번호)."
+    },
+    {
+     "id": "cl-major",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "그 밖에 지정 전공필수 없음 — 의류학과 전공 과목으로 단일 60·병행 48 채우기",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5",
+      "s6"
+     ],
+     "note": "신입생세미나 1을 뺀 값. 타학과 전선 인정 범위는 학과내규(공개 자료에 없음).",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 59,
+       "parallel": 47
+      }
+     }
+    },
+    {
+     "id": "cl-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문(가) 또는 졸업논문 대체 과제(나: 지정 교과목 수강 뒤 성과물) 중 택1",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1461.002700",
+       "name": "패션디자인발상",
+       "credits": 3.0
+      },
+      {
+       "code": "M1461.000900",
+       "name": "패션컬렉션",
+       "credits": 3.0
+      },
+      {
+       "code": "353.337",
+       "name": "패션소비자분석",
+       "credits": 3.0
+      },
+      {
+       "code": "353.429A",
+       "name": "패션리테일링",
+       "credits": 3.0
+      },
+      {
+       "code": "353.332A",
+       "name": "의류소재염색가공 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M2174.000700",
+       "name": "패션 테크놀로지",
+       "credits": 3.0
+      },
+      {
+       "code": "M1461.003900",
+       "name": "액티브웨어 개발",
+       "credits": 3.0
+      },
+      {
+       "code": "M1461.003800",
+       "name": "우주복의 이해 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M1461.004500",
+       "name": "테일러링",
+       "credits": 3.0
+      },
+      {
+       "code": "353.328",
+       "name": "의류소재관리 및 실험",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s4"
+     ],
+     "note": "2023-1부터. 신청은 전공 24학점 이상 이수 뒤, 신청 학기 말고도 한 학기 이상 남아 있을 때(3/10, 9/10). 논문은 1~4인. 대체 교과목 9개 묶음(① 패션디자인발상 + 패션컬렉션 … ⑨ 의류소재관리 및 실험)은 학기마다 공지(2026-1 신청 가능: 패션디자인발상, 의류소재염색가공 및 실험, 패션리테일링, 테일러링). 편입·전과·복수전공·재입학자도 의류학과 졸업논문 필요."
+    },
+    {
+     "id": "cl-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 3과목 이상(주전공 과목 1과목 포함). 타전공 수업 인정, 국외수학·교환학생 수업과 외국어 영역 영어 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "cl-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "의류학 복수전공 39학점 + 졸업논문(또는 대체 과제)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s7"
+     ],
+     "note": "복수전공 지정 필수 과목은 공개 자료에 없다."
+    },
+    {
+     "id": "cl-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "의류학 부전공 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s7"
+     ],
+     "note": "부전공 지정 필수 과목은 공개 자료에 없다."
+    }
+   ],
+   "note": "교양은 2025와 같고 TEPS 기준만 525. 학과 졸업요건은 학번 구분 없이 현행만 싣는다(→ '부분')."
+  },
+  {
+   "entry_years": [
+    2025,
+    2025
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 40,
+    "single": 60,
+    "parallel": 48,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s8",
+     "s13"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s8",
+    "s13",
+    "s14"
+   ],
+   "requirements": [
+    {
+     "id": "cl-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1] 대학 글쓰기 1(2) + [1-2] 대학 글쓰기 2: 사회과학글쓰기 또는 과학기술글쓰기(2) + [3-1] 말하기와 토론(3) = 7학점",
+     "min_count": null,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F12.102",
+       "name": "말하기와 토론",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "글쓰기와 말하기"
+     }
+    },
+    {
+     "id": "cl-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 800점(New TEPS 452점) 이하이면 영어 1과목 필수(대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s11",
+      "s12"
+     ],
+     "note": "2026학년도 이수규정 책자는 생활대 표에 TEPS 525 기준을 적고 '2025학년도 입학생부터 적용'이라 붙였다. 2025 길잡이·2025 이수규정·식품영양학과 25학번 칸은 452 → 2025학번 영어 기준은 452로 두되 '충돌' 메모.",
+     "extra": {
+      "area": "외국어",
+      "conflict": [
+       {
+        "value": "New TEPS 452 이하",
+        "source": "2025 길잡이·2025 이수규정(·식품영양 25학번 탭)"
+       },
+       {
+        "value": "New TEPS 525 이하",
+        "source": "2026학년도 이수규정 책자(‘2025학년도 입학생부터 적용’ 문구)"
+       }
+      ]
+     }
+    },
+    {
+     "id": "cl-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "6~8학점: [1-1] 통계학+통계학실험 또는 컴퓨팅 기초: 처음 만나는 컴퓨팅 중 3 또는 4학점, [1-2] 생명과학을 위한 수학 1 또는 생물학+생물학실험 또는 화학+화학실험 중 3 또는 4학점",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1.0
+      },
+      {
+       "code": "F37.101",
+       "name": "컴퓨팅 기초: 처음 만나는 컴퓨팅",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.111",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.114",
+       "name": "인문사회계를 위한 수학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3.0
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1.0
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "고교에서 이과 수학을 안 들은 학생은 생명과학을 위한 수학 1 대신 인문사회계를 위한 수학 1 가능. 두 묶음에서 하나씩.",
+     "extra": {
+      "area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "cl-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 4개 영역 중 3개 영역에서 9학점 이상",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "지성의 열쇠",
+      "areas": [
+       "문화 해석과 상상",
+       "역사적 탐구와 철학적 사유",
+       "인간의 이해와 사회 분석",
+       "과학적 사고와 응용"
+      ]
+     }
+    },
+    {
+     "id": "cl-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "베리타스"
+     }
+    },
+    {
+     "id": "cl-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목에서 자유롭게 7~9학점(총 40 맞추기)",
+     "min_count": null,
+     "min_credits": 7,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "cl-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수: 생활과학신입생세미나(구 생활과학의 이해) 1학점 — 전과·편입 포함 주전공생",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "복수·부전공자는 예외(들으면 일반선택). 학과 이수표준형태는 번호를 350.101A 로 적었다(구 번호)."
+    },
+    {
+     "id": "cl-major",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "그 밖에 지정 전공필수 없음 — 의류학과 전공 과목으로 단일 60·병행 48 채우기",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5",
+      "s6"
+     ],
+     "note": "신입생세미나 1을 뺀 값. 타학과 전선 인정 범위는 학과내규(공개 자료에 없음).",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 59,
+       "parallel": 47
+      }
+     }
+    },
+    {
+     "id": "cl-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문(가) 또는 졸업논문 대체 과제(나: 지정 교과목 수강 뒤 성과물) 중 택1",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1461.002700",
+       "name": "패션디자인발상",
+       "credits": 3.0
+      },
+      {
+       "code": "M1461.000900",
+       "name": "패션컬렉션",
+       "credits": 3.0
+      },
+      {
+       "code": "353.337",
+       "name": "패션소비자분석",
+       "credits": 3.0
+      },
+      {
+       "code": "353.429A",
+       "name": "패션리테일링",
+       "credits": 3.0
+      },
+      {
+       "code": "353.332A",
+       "name": "의류소재염색가공 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M2174.000700",
+       "name": "패션 테크놀로지",
+       "credits": 3.0
+      },
+      {
+       "code": "M1461.003900",
+       "name": "액티브웨어 개발",
+       "credits": 3.0
+      },
+      {
+       "code": "M1461.003800",
+       "name": "우주복의 이해 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M1461.004500",
+       "name": "테일러링",
+       "credits": 3.0
+      },
+      {
+       "code": "353.328",
+       "name": "의류소재관리 및 실험",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s4"
+     ],
+     "note": "2023-1부터. 신청은 전공 24학점 이상 이수 뒤, 신청 학기 말고도 한 학기 이상 남아 있을 때(3/10, 9/10). 논문은 1~4인. 대체 교과목 9개 묶음(① 패션디자인발상 + 패션컬렉션 … ⑨ 의류소재관리 및 실험)은 학기마다 공지(2026-1 신청 가능: 패션디자인발상, 의류소재염색가공 및 실험, 패션리테일링, 테일러링). 편입·전과·복수전공·재입학자도 의류학과 졸업논문 필요."
+    },
+    {
+     "id": "cl-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 3과목 이상(주전공 과목 1과목 포함). 타전공 수업 인정, 국외수학·교환학생 수업과 외국어 영역 영어 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "cl-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "의류학 복수전공 39학점 + 졸업논문(또는 대체 과제)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s7"
+     ],
+     "note": "복수전공 지정 필수 과목은 공개 자료에 없다."
+    },
+    {
+     "id": "cl-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "의류학 부전공 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s7"
+     ],
+     "note": "부전공 지정 필수 과목은 공개 자료에 없다."
+    }
+   ],
+   "changed": "영어 1과목 필수 기준 TEPS 800(452) 이하 — 그 밖에는 2026과 같고 1차 요건 그대로.",
+   "note": "1차 요건 그대로. 2026학년도 이수규정 책자는 생활대 표에 TEPS 525 기준을 적고 '2025학년도 입학생부터 적용'이라 붙였다. 2025 길잡이·2025 이수규정·식품영양학과 25학번 칸은 452 → 2025학번 영어 기준은 452로 두되 '충돌' 메모."
+  },
+  {
+   "entry_years": [
+    2021,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 40,
+    "single": 60,
+    "parallel": 48,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s8",
+     "s19",
+     "s20"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s21",
+    "s15",
+    "s22",
+    "s17",
+    "s8"
+   ],
+   "requirements": [
+    {
+     "id": "cl-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 7학점: [1-1] 대학 글쓰기 1(2) + [1-2] 대학 글쓰기 2: 사회과학글쓰기 또는 과학기술글쓰기(2) + [3-1] 말하기와 토론(3)",
+     "min_count": 3,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "031.031",
+       "name": "말하기와 토론",
+       "credits": 3
+      },
+      {
+       "code": "F12.102",
+       "name": "말하기와 토론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "cl-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 800점(New TEPS 452점) 이하이면 영어 1과목 필수(대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s11",
+      "s12"
+     ],
+     "note": "2026학년도 이수규정 책자는 생활대 표에 TEPS 525 기준을 적고 '2025학년도 입학생부터 적용'이라 붙였다. 2025 길잡이·2025 이수규정·식품영양학과 25학번 칸은 452 → 2025학번 영어 기준은 452로 두되 '충돌' 메모.",
+     "extra": {
+      "area": "외국어",
+      "conflict": [
+       {
+        "value": "New TEPS 452 이하",
+        "source": "2025 길잡이·2025 이수규정(·식품영양 25학번 탭)"
+       },
+       {
+        "value": "New TEPS 525 이하",
+        "source": "2026학년도 이수규정 책자(‘2025학년도 입학생부터 적용’ 문구)"
+       }
+      ]
+     }
+    },
+    {
+     "id": "cl-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 7(8)학점: [1-1] 통계학+통계학실험(4) + [1-2] 생명과학을 위한 수학 1(이과 수학 미이수 시 인문사회계를 위한 수학 1) 또는 생물학+생물학실험 중 3 또는 4학점",
+     "min_count": null,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.111",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.010",
+       "name": "인문사회계를 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.114",
+       "name": "인문사회계를 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s17",
+      "s18"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "cl-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 7~8학점(총 40 맞추기)",
+     "min_count": null,
+     "min_credits": 7,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s17"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "cl-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수: 생활과학신입생세미나(구 생활과학의 이해) 1학점 — 전과·편입 포함 주전공생",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "복수·부전공자는 예외(들으면 일반선택). 학과 이수표준형태는 번호를 350.101A 로 적었다(구 번호)."
+    },
+    {
+     "id": "cl-major",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "그 밖에 지정 전공필수 없음 — 의류학과 전공 과목으로 단일 60·병행 48 채우기",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5",
+      "s6"
+     ],
+     "note": "신입생세미나 1을 뺀 값. 타학과 전선 인정 범위는 학과내규(공개 자료에 없음).",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 59,
+       "parallel": 47
+      }
+     }
+    },
+    {
+     "id": "cl-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문(가) 또는 졸업논문 대체 과제(나: 지정 교과목 수강 뒤 성과물) 중 택1",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1461.002700",
+       "name": "패션디자인발상",
+       "credits": 3.0
+      },
+      {
+       "code": "M1461.000900",
+       "name": "패션컬렉션",
+       "credits": 3.0
+      },
+      {
+       "code": "353.337",
+       "name": "패션소비자분석",
+       "credits": 3.0
+      },
+      {
+       "code": "353.429A",
+       "name": "패션리테일링",
+       "credits": 3.0
+      },
+      {
+       "code": "353.332A",
+       "name": "의류소재염색가공 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M2174.000700",
+       "name": "패션 테크놀로지",
+       "credits": 3.0
+      },
+      {
+       "code": "M1461.003900",
+       "name": "액티브웨어 개발",
+       "credits": 3.0
+      },
+      {
+       "code": "M1461.003800",
+       "name": "우주복의 이해 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M1461.004500",
+       "name": "테일러링",
+       "credits": 3.0
+      },
+      {
+       "code": "353.328",
+       "name": "의류소재관리 및 실험",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s4"
+     ],
+     "note": "2023-1부터. 신청은 전공 24학점 이상 이수 뒤, 신청 학기 말고도 한 학기 이상 남아 있을 때(3/10, 9/10). 논문은 1~4인. 대체 교과목 9개 묶음(① 패션디자인발상 + 패션컬렉션 … ⑨ 의류소재관리 및 실험)은 학기마다 공지(2026-1 신청 가능: 패션디자인발상, 의류소재염색가공 및 실험, 패션리테일링, 테일러링). 편입·전과·복수전공·재입학자도 의류학과 졸업논문 필요."
+    },
+    {
+     "id": "cl-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 3과목 이상(주전공 과목 1과목 포함). 타전공 수업 인정, 국외수학·교환학생 수업과 외국어 영역 영어 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "cl-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "의류학 복수전공 39학점 + 졸업논문(또는 대체 과제)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s7"
+     ],
+     "note": "복수전공 지정 필수 과목은 공개 자료에 없다."
+    },
+    {
+     "id": "cl-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "의류학 부전공 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s7"
+     ],
+     "note": "부전공 지정 필수 과목은 공개 자료에 없다."
+    },
+    {
+     "id": "cl-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학 또는 문화와 예술 3 + 역사와 철학 3 + 정치와 경제 또는 인간과 사회 3 + 자연과 기술 또는 생명과 환경 3, '언어와 문학, 문화와 예술, 역사와 철학' 영역 권장과목(*표시) 1과목 필수",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s17"
+     ],
+     "note": "권장과목(*) 목록은 해설의 교양 교과목 표 표시를 쓴다.",
+     "extra": {
+      "area": "학문의 세계"
+     }
+    }
+   ],
+   "changed": "교양 옛 체계(사고와 표현 7, 외국어 6, 수량적 분석과 추론 7(8), 학문의 세계 12, 전체 7~8). 전공 요건은 2025와 같음.",
+   "note": "교양은 공식 자료로 확인. 전공(생활대 전필 1, 졸업논문 또는 대체 과제, 60/48)은 학과가 학번 구분 없이 현행만 싣고 해설 학점도 같아 같다고 본다('부분')."
+  },
+  {
+   "entry_years": [
+    2019,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 40,
+    "single": 60,
+    "parallel": 48,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s8",
+     "s25"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s26",
+    "s8"
+   ],
+   "requirements": [
+    {
+     "id": "cl-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 7학점: [1-1] 대학 글쓰기 1(2) + [1-2] 대학 글쓰기 2: 사회과학글쓰기 또는 과학기술글쓰기(2) + [3-1] 말하기와 토론(3)",
+     "min_count": 3,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "031.031",
+       "name": "말하기와 토론",
+       "credits": 3
+      },
+      {
+       "code": "F12.102",
+       "name": "말하기와 토론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "cl-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4~6학점. 입학 때 TEPS 800점(New TEPS 452점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23"
+     ],
+     "note": "2021학번부터 6학점.",
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "cl-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 7(8)학점: [1-1] 통계학+통계학실험(4) + [1-2] 생명과학을 위한 수학 1(이과 수학 미이수 시 인문사회계를 위한 수학 1) 또는 생물학+생물학실험 중 3 또는 4학점",
+     "min_count": null,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.111",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.010",
+       "name": "인문사회계를 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.114",
+       "name": "인문사회계를 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s17",
+      "s18"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "cl-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 7~10학점(외국어·수량 학점에 따라 총 40 맞추기)",
+     "min_count": null,
+     "min_credits": 7,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s24"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "cl-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수: 생활과학신입생세미나(구 생활과학의 이해) 1학점 — 전과·편입 포함 주전공생",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "복수·부전공자는 예외(들으면 일반선택). 학과 이수표준형태는 번호를 350.101A 로 적었다(구 번호)."
+    },
+    {
+     "id": "cl-major",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "그 밖에 지정 전공필수 없음 — 의류학과 전공 과목으로 단일 60·병행 48 채우기",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5",
+      "s6"
+     ],
+     "note": "신입생세미나 1을 뺀 값. 타학과 전선 인정 범위는 학과내규(공개 자료에 없음).",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 59,
+       "parallel": 47
+      }
+     }
+    },
+    {
+     "id": "cl-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문(가) 또는 졸업논문 대체 과제(나: 지정 교과목 수강 뒤 성과물) 중 택1",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1461.002700",
+       "name": "패션디자인발상",
+       "credits": 3.0
+      },
+      {
+       "code": "M1461.000900",
+       "name": "패션컬렉션",
+       "credits": 3.0
+      },
+      {
+       "code": "353.337",
+       "name": "패션소비자분석",
+       "credits": 3.0
+      },
+      {
+       "code": "353.429A",
+       "name": "패션리테일링",
+       "credits": 3.0
+      },
+      {
+       "code": "353.332A",
+       "name": "의류소재염색가공 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M2174.000700",
+       "name": "패션 테크놀로지",
+       "credits": 3.0
+      },
+      {
+       "code": "M1461.003900",
+       "name": "액티브웨어 개발",
+       "credits": 3.0
+      },
+      {
+       "code": "M1461.003800",
+       "name": "우주복의 이해 및 실험",
+       "credits": 3.0
+      },
+      {
+       "code": "M1461.004500",
+       "name": "테일러링",
+       "credits": 3.0
+      },
+      {
+       "code": "353.328",
+       "name": "의류소재관리 및 실험",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s4"
+     ],
+     "note": "2023-1부터. 신청은 전공 24학점 이상 이수 뒤, 신청 학기 말고도 한 학기 이상 남아 있을 때(3/10, 9/10). 논문은 1~4인. 대체 교과목 9개 묶음(① 패션디자인발상 + 패션컬렉션 … ⑨ 의류소재관리 및 실험)은 학기마다 공지(2026-1 신청 가능: 패션디자인발상, 의류소재염색가공 및 실험, 패션리테일링, 테일러링). 편입·전과·복수전공·재입학자도 의류학과 졸업논문 필요."
+    },
+    {
+     "id": "cl-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 3과목 이상(주전공 과목 1과목 포함). 타전공 수업 인정, 국외수학·교환학생 수업과 외국어 영역 영어 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "cl-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "의류학 복수전공 39학점 + 졸업논문(또는 대체 과제)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s7"
+     ],
+     "note": "복수전공 지정 필수 과목은 공개 자료에 없다."
+    },
+    {
+     "id": "cl-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "의류학 부전공 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s7"
+     ],
+     "note": "부전공 지정 필수 과목은 공개 자료에 없다."
+    },
+    {
+     "id": "cl-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학 또는 문화와 예술 3 + 역사와 철학 3 + 정치와 경제 또는 인간과 사회 3 + 자연과 기술 또는 생명과 환경 3, '언어와 문학, 문화와 예술, 역사와 철학' 영역 권장과목(*표시) 1과목 필수",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s17"
+     ],
+     "note": "권장과목(*) 목록은 해설의 교양 교과목 표 표시를 쓴다.",
+     "extra": {
+      "area": "학문의 세계"
+     }
+    }
+   ],
+   "changed": "외국어 4~6, 전체 교양 7~10.",
+   "note": "외국어 4~6, 전체 교양 7~10."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "외국어 4~6 → 6, 전체 교양 7~10 → 7~8",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 체계 개편(수학·과학·컴퓨팅 6~8에 컴퓨팅 기초·화학 선택지 추가, 지성의 열쇠 4영역 중 3영역 9, 베리타스 3)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2026,
+   "basis": "입학 연도",
+   "what": "영어 1과목 필수 기준 TEPS 452 → 525",
+   "status": "부분"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "2023학년도 1학기부터 졸업논문(가) 또는 졸업논문 대체 과제(나: 지정 교과목 수강 뒤 성과물) 택1 — 학번 무관, 신청 학기 기준. 2026-1부터 강사 진행 교과목도 대체 과목으로 인정",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "생활대 전필 생활과학의 이해 → 생활과학신입생세미나(2024-1~)",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "학번별 전공 요건 표가 없다: 2019~2024학번 전공 요건이 현행과 같은지",
+  "(1차와 같음) 전선 인정 범위, 복수·부전공 지정 과목, 대체 교과목 공지 기준",
+  "전공선택 인정 범위(타학과·대학원 과목) — 교과구분 변경 게시물 본문을 공개 페이지에서 못 읽음",
+  "복수·부전공 지정 필수 과목이 있는지",
+  "졸업논문 대체 교과목이 학기마다 바뀌는 기준"
+ ],
+ "sources": {
+  "s1": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.148 □ 생활과학대학 (의류학과)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.154 □ 의류학과",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.40 □ 의류학과",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "의류학과, 졸업요건",
+   "url": "https://clothing.snu.ac.kr/%ec%a1%b8%ec%97%85%ec%9a%94%ea%b1%b4/",
+   "locator": "졸업이수학점 표, 외국어진행강좌, 전공필수 과목, 졸업논문 및 대체 과제",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "의류학과, 교과과정(학사과정 전공과목 이수표준형태)",
+   "url": "https://clothing.snu.ac.kr/%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/",
+   "locator": "이수표준형태 표",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "생활과학대학 353. 의류학과 pp.111–112",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 학사과정 복수·부전공 이수학점 기준(p.10–11)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "의류학과, 졸업요건",
+   "url": "https://clothing.snu.ac.kr/%ec%a1%b8%ec%97%85%ec%9a%94%ea%b1%b4/",
+   "locator": "졸업이수학점 표, 전공필수, 졸업논문 및 대체 과제(2023학년도 1학기부터)",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.154",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.40",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "학부대학, 2025학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/01/2025학년도-시행-공통교육과정-대학별-이수규정국문.pdf",
+   "locator": "PDF p.37(TEPS 800/452)",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.40(TEPS 900/525, ‘2025학년도 입학생부터 적용’)",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.148",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.40(‘2025학년도 입학생부터’ 문구)",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "학부대학 게시, 2024학년도 대학별 교양 이수규정(PDF)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2024_2.pdf",
+   "locator": "PDF p.32",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.38 □ 의류학과",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.38",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "p.35",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1·2",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·2",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "학부대학 게시, 2023학년도 대학별 교양 이수규정(PDF)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2023_2.pdf",
+   "locator": "PDF p.32",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "p.35(‘2021학년도 입학생부터 적용’)",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.35",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.35 □ 의류학과",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·2",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.35 □ 의류학과(‘2019학년도 입학생부터 적용’)",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

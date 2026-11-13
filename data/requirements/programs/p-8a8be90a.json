@@ -1,0 +1,3304 @@
+{
+ "id": "p-8a8be90a",
+ "college": "학부대학(자유전공학부·광역)·첨단융합학부·혁신공유학부·연합전공·연계전공·학생설계전공",
+ "unit": "첨단융합학부",
+ "program": "융합데이터과학전공",
+ "kind": "major",
+ "depts": [
+  "첨단융합학부"
+ ],
+ "code_prefixes": [
+  "M3635."
+ ],
+ "ge_key": "첨단융합학부",
+ "exists_for": [
+  2024,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "디지털헬스케어전공",
+   "융합데이터과학전공",
+   "지속가능기술전공",
+   "차세대지능형반도체전공",
+   "혁신신약전공"
+  ],
+  "when": "학부로 입학해 3개 학기 이상 등록한 뒤(보통 2학년 2학기) 학부가 정한 기간에 전공선택 신청 → 학사운영위원회 심의·확정",
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2026,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 48,
+    "single": 60,
+    "parallel": 48,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s7",
+     "s28",
+     "s37"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s7",
+    "s28",
+    "s6",
+    "s30"
+   ],
+   "requirements": [
+    {
+     "id": "ids-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "융합데이터과학전공 전공필수 모두",
+     "min_count": 5,
+     "min_credits": 15,
+     "courses": [
+      {
+       "code": "M3635.000100",
+       "name": "확률론 개론",
+       "credits": 3
+      },
+      {
+       "code": "M3639.001700",
+       "name": "자료구조와 알고리즘",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000300",
+       "name": "수리통계",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000600",
+       "name": "데이터엔지니어링",
+       "credits": 3
+      },
+      {
+       "code": "M3635.001000",
+       "name": "캡스톤 프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "타 학과(부)의 유사 과목은 전공주임의 수강 전 승인으로 전필 이수 인정."
+    },
+    {
+     "id": "ids-applied",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "데이터과학의 응용 영역 1·2·3: 학부 내 다른 전공·다른 교육기구의 데이터과학 응용 과목을 전공주임 사전 승인으로 9학점 이내 인정(타 학과 9학점 제한에 넣지 않음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "응용 영역 과목 목록은 전공주임 승인 사항."
+    },
+    {
+     "id": "sti-future1",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학부 공통 전필 「첨단융합전공과 나의 미래 1: 탐색 및 개척」(3학점)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3639.002800",
+       "name": "첨단융합전공과 나의 미래 1: 탐색 및 개척",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "주전공만(편입생 포함). 다전공으로 온 타 학과 학생은 면제. 2026-1부터 개설('나의 미래 1: 탐색'은 2025-1이 마지막 개설). 학부 공통 전필 합 5학점 이상(이 과목 3 + 체험 2과목)."
+    },
+    {
+     "id": "sti-future2",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학부 공통 전필 「첨단융합전공과 나의 미래 2: 체험」 5과목 중 2과목 이상",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3639.000200",
+       "name": "첨단융합전공과 나의 미래 2: 디지털헬스케어전공 체험",
+       "credits": 1
+      },
+      {
+       "code": "M3639.000300",
+       "name": "첨단융합전공과 나의 미래 2: 융합데이터과학전공 체험",
+       "credits": 1
+      },
+      {
+       "code": "M3639.000400",
+       "name": "첨단융합전공과 나의 미래 2: 지속가능기술전공 체험",
+       "credits": 1
+      },
+      {
+       "code": "M3639.000500",
+       "name": "첨단융합전공과 나의 미래 2: 차세대지능형반도체전공 체험",
+       "credits": 1
+      },
+      {
+       "code": "M3639.000600",
+       "name": "첨단융합전공과 나의 미래 2: 혁신신약전공 체험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ],
+     "note": "편입생 면제. 학부 공통 전필 합 5학점 이상."
+    },
+    {
+     "id": "sti-track-startup",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교과인증과정 「첨단융합 기술창업트랙」(셋 중 하나): 10학점 이상, 「나의 미래 1: 탐색 및 개척」(종전 '3: 개척') 필수, 창업 인턴십·창업 시뮬레이션 중 1 필수, 나머지는 선택 과목",
+     "min_count": null,
+     "min_credits": 10,
+     "courses": [
+      {
+       "code": "M3639.002800",
+       "name": "첨단융합전공과 나의 미래 1: 탐색 및 개척",
+       "credits": 3
+      },
+      {
+       "code": "M3639.000700",
+       "name": "첨단융합전공과 나의 미래 3: 개척",
+       "credits": 2
+      },
+      {
+       "code": "M3639.001100",
+       "name": "첨단융합 창업 인턴십",
+       "credits": 2
+      },
+      {
+       "code": "M3639.000900",
+       "name": "첨단융합 창업 시뮬레이션",
+       "credits": 3
+      },
+      {
+       "code": "M3639.000800",
+       "name": "첨단융합창업",
+       "credits": 3
+      },
+      {
+       "code": "251.424",
+       "name": "경영전략",
+       "credits": 3.0
+      },
+      {
+       "code": "M1540.000100",
+       "name": "기술창업론",
+       "credits": 3.0
+      },
+      {
+       "code": "M1338.000900",
+       "name": "벤처사업 기회연구",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11",
+      "s12"
+     ],
+     "extra": {
+      "one_of_group": "sti-track"
+     }
+    },
+    {
+     "id": "sti-track-research",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교과인증과정 「첨단융합 창의연구트랙」(셋 중 하나): 10학점 이상(본부 2025-2 승인 내역은 11학점), 「나의 미래 1: 탐색 및 개척」(종전 '3: 개척') 필수, 연구 인턴십·캡스톤 첨단융합연구 중 1 필수",
+     "min_count": null,
+     "min_credits": 10,
+     "courses": [
+      {
+       "code": "M3639.002800",
+       "name": "첨단융합전공과 나의 미래 1: 탐색 및 개척",
+       "credits": 3
+      },
+      {
+       "code": "M3639.000700",
+       "name": "첨단융합전공과 나의 미래 3: 개척",
+       "credits": 2
+      },
+      {
+       "code": "M3639.001200",
+       "name": "첨단융합 연구 인턴십",
+       "credits": 3
+      },
+      {
+       "code": "M3639.001000",
+       "name": "캡스톤 첨단융합연구",
+       "credits": 3
+      },
+      {
+       "code": "E31.103",
+       "name": "학생자율연구: 탐구",
+       "credits": 2.0
+      },
+      {
+       "code": "M3634.000400",
+       "name": "디지털헬스케어 심화연구",
+       "credits": 3.0
+      },
+      {
+       "code": "M3635.000800",
+       "name": "데이터과학 창의연구",
+       "credits": 3.0
+      },
+      {
+       "code": "M3636.001700",
+       "name": "지속가능 기술 창의연구",
+       "credits": 3.0
+      },
+      {
+       "code": "M3637.001900",
+       "name": "반도체종합프로젝트",
+       "credits": 3.0
+      },
+      {
+       "code": "M3638.003900",
+       "name": "혁신신약 창의 연구",
+       "credits": 3
+      },
+      {
+       "code": "054.001",
+       "name": "학생자율연구 1",
+       "credits": 2.0
+      },
+      {
+       "code": "M3638.001200",
+       "name": "신약연구실험 1",
+       "credits": 2.0
+      }
+     ],
+     "status": "충돌",
+     "src": [
+      "s13",
+      "s14"
+     ],
+     "note": "학부 쪽(현재)은 10, 본부 2025-2 승인 내역은 11. 연구 인턴십은 2025.7 목록 2학점, 2026.6 판 3학점. 054.001 학생자율연구 1·M3638.001200 신약연구실험 1은 2025-2 승인 내역에만, E31.103 학생자율연구: 탐구·M3638.003900 혁신신약 창의 연구는 학부 쪽에만 있다.",
+     "extra": {
+      "one_of_group": "sti-track"
+     }
+    },
+    {
+     "id": "sti-track-policy",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교과인증과정 「첨단융합 정책리더십트랙」(셋 중 하나): 10학점 이상, 「나의 미래 1: 탐색 및 개척」(종전 '3: 개척') 필수, 정책 인턴십·디지털 리더십 개발과 코칭 중 1 필수",
+     "min_count": null,
+     "min_credits": 10,
+     "courses": [
+      {
+       "code": "M3639.002800",
+       "name": "첨단융합전공과 나의 미래 1: 탐색 및 개척",
+       "credits": 3
+      },
+      {
+       "code": "M3639.000700",
+       "name": "첨단융합전공과 나의 미래 3: 개척",
+       "credits": 2
+      },
+      {
+       "code": "M3639.001300",
+       "name": "첨단융합 정책 인턴십",
+       "credits": 2
+      },
+      {
+       "code": "M3639.001400",
+       "name": "디지털 리더십 개발과 코칭",
+       "credits": 3.0
+      },
+      {
+       "code": "M2888.000100",
+       "name": "과학기술정책",
+       "credits": 3.0
+      },
+      {
+       "code": "300.307",
+       "name": "과학기술과 법",
+       "credits": 3.0
+      },
+      {
+       "code": "216A.210",
+       "name": "행정학서론",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16"
+     ],
+     "extra": {
+      "one_of_group": "sti-track"
+     }
+    },
+    {
+     "id": "sti-track-ilseon",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "트랙 과목은 교과구분변경신청으로 '일선'으로 바꿔야 한다. 주전공·복수·부·연합·연계·융합전공 학점과 중복 인정 불가, 교양 학점과도 불가, 트랙끼리도 불가. '나의 미래 1: 탐색 및 개척'(종전 '3: 개척') 같은 주전공 과목도 일선으로 바꾸고 그 학점만큼 전공 과목을 더 들어야 한다.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17"
+     ],
+     "note": "계산: 트랙 학점(10+)은 전공 60/48에 넣지 않는다. 공통 전필 '나의 미래 1'은 전필 요건은 채우되 학점은 전공에서 빠진다."
+    },
+    {
+     "id": "sti-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문(또는 보고서) 제출. 지도교수 사전 승인으로 대체 가능: 트랙 지정 과목 결과 보고서(기술창업: 창업 인턴십·창업 시뮬레이션, 창의연구: 연구 인턴십·캡스톤, 정책리더십: 정책 인턴십·디지털 리더십), 창업 기여, 인턴·근무 기여(회사 동의), 특허·공개 SW 등록, 그 밖 심의 인정. 학·석사 연계과정은 면제 가능.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ]
+    },
+    {
+     "id": "sti-elective-cap",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정: 학부 내 다른 전공 과목 9학점 이내, 타 학과(부) 전공 과목은 전공주임 승인으로 9학점 이내. 9학점 제한에 넣지 않는 것: 디지털헬스케어 심화영역, 데이터과학 응용 영역, 반도체 전공 심화영역, 수리과학부 선형대수학.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "881.007",
+       "name": "선형대수학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s20",
+      "s21",
+      "s22"
+     ]
+    },
+    {
+     "id": "sti-regist",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "등록 8회 이상 16회 이하(수업연한 단축 6회), 총 130학점 이상. 신입생은 입학 후 2개 학기까지 학기당 20학점까지 취득 가능.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23"
+     ]
+    },
+    {
+     "id": "sti-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "평점평균 2.0 이상: 전 교과목, 그리고 전공 교과목(복수·연합·연계·학생설계·부전공 포함) 각각",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s24"
+     ]
+    },
+    {
+     "id": "sti-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4: 대학 글쓰기 1([1-1,1-2], 2) + 대학 글쓰기 2: 과학기술 글쓰기([3·4학년], 2, 교과인증과정 이수요건 표기). 과학기술 글쓰기는 '대학 글쓰기 2: 과학기술 커뮤니케이션'으로 대체 인정.",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.204",
+       "name": "대학 글쓰기 2: 과학기술 커뮤니케이션",
+       "credits": null
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27",
+      "s28",
+      "s29"
+     ],
+     "note": "과학기술 커뮤니케이션 번호는 F11.204(첨단융합학부 2024~2026 비교표, 수강편람 2026-2 부록 2). 편람 자료(2026-2까지)에는 개설 기록이 없다."
+    },
+    {
+     "id": "sti-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점(TEPS 900/New 525 이하는 영어 1과목)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27",
+      "s28"
+     ]
+    },
+    {
+     "id": "sti-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학·과학·컴퓨팅([1-1]부터): 수학 영역 인정 과목 1과목 이상(신입생 특별시험에 따른 수준별 이수 필수)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2.0
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.109",
+       "name": "미적분학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.110",
+       "name": "미적분학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2.0
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27",
+      "s28"
+     ],
+     "note": "수학 1/미적분학 1/고급수학 1, 수학 2/미적분학 2/고급수학 2, 통계학/생명과학을 위한 통계학은 서로 중복 인정 안 함. 연습·실험 과목은 같은 학기 동시 수강 원칙."
+    },
+    {
+     "id": "sti-ge-sci",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[과학] 물리학 영역(물리학·물리학 1·물리학 2·고급물리학 1·고급물리학 2), 화학 영역(화학·화학 1·화학 2·고급화학), 생물학 영역(생물학·생물학 1·생물학 2) 중 두 영역 이상에서 각 1과목 이상(신입생 특별시험에 따른 수준별 이수 권장, 이론·실험 동시 수강 원칙)",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3.0
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3.0
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3.0
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s28",
+      "s7",
+      "s30"
+     ],
+     "note": "같은 두 분야 요건이 전공선택 신청 요건(지침 제3조 제1항 제3호, 2026학번부터)에도 있다. 2025학번 판과 달리 통계학·생명과학을 위한 통계학은 과학 목록에 없다. 물리학 1/고급물리학 1, 물리학 2/고급물리학 2, 물리학/(물리학 1·2·고급물리학 1·2), 화학/(화학 1·2·고급화학), 고급화학/(화학 1·2), 생물학/(생물학 1·2)은 중복 인정 안 함."
+    },
+    {
+     "id": "sti-ge-comp",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨팅 영역 인정 과목 1과목 이상: 컴퓨팅 기초·핵심·응용, 컴퓨터의 개념 및 실습",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F37.101",
+       "name": "컴퓨팅 기초: 처음 만나는 컴퓨팅",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.102",
+       "name": "컴퓨팅 기초: 처음 만나는 데이터",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.204",
+       "name": "컴퓨팅 핵심: 컴퓨터로 생각하기",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.205",
+       "name": "컴퓨팅 핵심: 데이터 중심의 인공지능",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.302",
+       "name": "컴퓨팅 응용: 데이터사이언스의 기초",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.303",
+       "name": "컴퓨팅 응용: 자연어처리의 기초",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27",
+      "s28"
+     ],
+     "note": "컴퓨터의 개념 및 실습은 컴퓨팅 기초·핵심과 중복 인정 안 함. 목록의 F37 번호는 편람에서 이름이 '컴퓨팅 기초/핵심/응용:'으로 시작하는 과목."
+    },
+    {
+     "id": "sti-ge-msc-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 토대 수학·과학·컴퓨팅 20학점 이상(영역 필수: 수학 1과목 이상, 과학 두 분야 각 1과목 이상, 컴퓨팅 1과목 이상)",
+     "min_count": 4,
+     "min_credits": 20,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s28",
+      "s7"
+     ],
+     "note": "2025학번 판의 '세 영역 각 1과목 + 3과목 이상 더' 문구는 2026 판에 없고 학점 20만 남았다. 중복 인정 안 되는 과목은 한 과목만 필수 학점으로 셈하고 나머지는 전체 교양 학점으로(2026 판 주석)."
+    },
+    {
+     "id": "sti-ge-major-credit",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영역 인정 전공 과목: 선형대수학(수학), 유기화학의 기초(과학), 인공지능과 생명공학·데이터과학개론(컴퓨팅). 영역 필수는 채우지만 교양 합에는 넣지 않는다.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "881.007",
+       "name": "선형대수학",
+       "credits": 3.0
+      },
+      {
+       "code": "M3639.002200",
+       "name": "유기화학의 기초",
+       "credits": 3.0
+      },
+      {
+       "code": "M3639.002300",
+       "name": "인공지능과 생명공학",
+       "credits": 3.0
+      },
+      {
+       "code": "M3639.001500",
+       "name": "데이터과학개론",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s31",
+      "s32",
+      "s28"
+     ]
+    },
+    {
+     "id": "sti-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 4개 영역 각 3학점(문화 해석과 상상, 역사적 탐구와 철학적 사유, 인간의 이해와 사회 분석, 과학적 사고와 응용) = 12",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27",
+      "s28"
+     ]
+    },
+    {
+     "id": "sti-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스(강좌 1·강좌 2·실천) 영역에서 6학점 이상",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s28",
+      "s7"
+     ]
+    },
+    {
+     "id": "ids-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 전공 24학점 이상 + 융합데이터과학 전필 2개 이상",
+     "min_count": 2,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "M3635.000100",
+       "name": "확률론 개론",
+       "credits": 3
+      },
+      {
+       "code": "M3639.001700",
+       "name": "자료구조와 알고리즘",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000300",
+       "name": "수리통계",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000600",
+       "name": "데이터엔지니어링",
+       "credits": 3
+      },
+      {
+       "code": "M3635.001000",
+       "name": "캡스톤 프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s33",
+      "s34"
+     ],
+     "note": "부전공 24학점 이상. 타 학과(부) 학생(첨단융합학부 학생 포함)."
+    },
+    {
+     "id": "ids-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공 39학점 이상, 융합데이터과학전공 전필 모두, 졸업논문 제출",
+     "min_count": 5,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M3635.000100",
+       "name": "확률론 개론",
+       "credits": 3
+      },
+      {
+       "code": "M3639.001700",
+       "name": "자료구조와 알고리즘",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000300",
+       "name": "수리통계",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000600",
+       "name": "데이터엔지니어링",
+       "credits": 3
+      },
+      {
+       "code": "M3635.001000",
+       "name": "캡스톤 프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s35",
+      "s36"
+     ],
+     "note": "선발제(학부 공지 '복수전공 선발 결과'). [표3] 공통 전필은 필요 없음."
+    }
+   ],
+   "note": "1차(2025학번) 요건에서 바뀐 것: sti-future1(탐색 및 개척 한 과목), sti-future3 없음, sti-ge-sci(과학 두 분야), sti-ge-msc-total(20학점·영역 필수만), sti-ge-veritas(6, 확인), sti-ge-writing(과학기술 커뮤니케이션 F11.204 번호 보탬). 전공필수 [표4]·트랙·졸업논문·복수/부전공은 같다."
+  },
+  {
+   "entry_years": [
+    2025,
+    2025
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 51,
+    "single": 60,
+    "parallel": 48,
+    "double": 39,
+    "minor": 24,
+    "status": "부분",
+    "src": [
+     "s43",
+     "s44"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s43",
+    "s44",
+    "s6",
+    "s45",
+    "s30"
+   ],
+   "requirements": [
+    {
+     "id": "ids-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "융합데이터과학전공 전공필수 모두",
+     "min_count": 5,
+     "min_credits": 15,
+     "courses": [
+      {
+       "code": "M3635.000100",
+       "name": "확률론 개론",
+       "credits": 3
+      },
+      {
+       "code": "M3639.001700",
+       "name": "자료구조와 알고리즘",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000300",
+       "name": "수리통계",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000600",
+       "name": "데이터엔지니어링",
+       "credits": 3
+      },
+      {
+       "code": "M3635.001000",
+       "name": "캡스톤 프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "타 학과(부)의 유사 과목은 전공주임의 수강 전 승인으로 전필 이수 인정."
+    },
+    {
+     "id": "ids-applied",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "데이터과학의 응용 영역 1·2·3: 학부 내 다른 전공·다른 교육기구의 데이터과학 응용 과목을 전공주임 사전 승인으로 9학점 이내 인정(타 학과 9학점 제한에 넣지 않음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "응용 영역 과목 목록은 전공주임 승인 사항."
+    },
+    {
+     "id": "sti-future1",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학부 공통 전필 「첨단융합전공과 나의 미래 1」: 탐색 또는 탐색 및 개척 중 1",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3639.000100",
+       "name": "첨단융합전공과 나의 미래 1: 탐색",
+       "credits": 3
+      },
+      {
+       "code": "M3639.002800",
+       "name": "첨단융합전공과 나의 미래 1: 탐색 및 개척",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s38",
+      "s39",
+      "s40"
+     ],
+     "note": "주전공만(편입생 포함). 다전공으로 온 타 학과 학생은 면제. 2024~2025학번은 원칙적으로 '1: 탐색'과 '3: 개척'을 모두 듣고, '1: 탐색 및 개척' 한 과목으로 둘을 대신할 수 있다."
+    },
+    {
+     "id": "sti-future2",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학부 공통 전필 「첨단융합전공과 나의 미래 2: 체험」 5과목 중 2과목 이상",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3639.000200",
+       "name": "첨단융합전공과 나의 미래 2: 디지털헬스케어전공 체험",
+       "credits": 1
+      },
+      {
+       "code": "M3639.000300",
+       "name": "첨단융합전공과 나의 미래 2: 융합데이터과학전공 체험",
+       "credits": 1
+      },
+      {
+       "code": "M3639.000400",
+       "name": "첨단융합전공과 나의 미래 2: 지속가능기술전공 체험",
+       "credits": 1
+      },
+      {
+       "code": "M3639.000500",
+       "name": "첨단융합전공과 나의 미래 2: 차세대지능형반도체전공 체험",
+       "credits": 1
+      },
+      {
+       "code": "M3639.000600",
+       "name": "첨단융합전공과 나의 미래 2: 혁신신약전공 체험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ],
+     "note": "편입생 면제. 학부 공통 전필 합 5학점 이상."
+    },
+    {
+     "id": "sti-track-startup",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교과인증과정 「첨단융합 기술창업트랙」(셋 중 하나): 10학점 이상, 「나의 미래 1: 탐색 및 개척」(종전 '3: 개척') 필수, 창업 인턴십·창업 시뮬레이션 중 1 필수, 나머지는 선택 과목",
+     "min_count": null,
+     "min_credits": 10,
+     "courses": [
+      {
+       "code": "M3639.002800",
+       "name": "첨단융합전공과 나의 미래 1: 탐색 및 개척",
+       "credits": 3
+      },
+      {
+       "code": "M3639.000700",
+       "name": "첨단융합전공과 나의 미래 3: 개척",
+       "credits": 2
+      },
+      {
+       "code": "M3639.001100",
+       "name": "첨단융합 창업 인턴십",
+       "credits": 2
+      },
+      {
+       "code": "M3639.000900",
+       "name": "첨단융합 창업 시뮬레이션",
+       "credits": 3
+      },
+      {
+       "code": "M3639.000800",
+       "name": "첨단융합창업",
+       "credits": 3
+      },
+      {
+       "code": "251.424",
+       "name": "경영전략",
+       "credits": 3.0
+      },
+      {
+       "code": "M1540.000100",
+       "name": "기술창업론",
+       "credits": 3.0
+      },
+      {
+       "code": "M1338.000900",
+       "name": "벤처사업 기회연구",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11",
+      "s12"
+     ],
+     "extra": {
+      "one_of_group": "sti-track"
+     }
+    },
+    {
+     "id": "sti-track-research",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교과인증과정 「첨단융합 창의연구트랙」(셋 중 하나): 10학점 이상(본부 2025-2 승인 내역은 11학점), 「나의 미래 1: 탐색 및 개척」(종전 '3: 개척') 필수, 연구 인턴십·캡스톤 첨단융합연구 중 1 필수",
+     "min_count": null,
+     "min_credits": 10,
+     "courses": [
+      {
+       "code": "M3639.002800",
+       "name": "첨단융합전공과 나의 미래 1: 탐색 및 개척",
+       "credits": 3
+      },
+      {
+       "code": "M3639.000700",
+       "name": "첨단융합전공과 나의 미래 3: 개척",
+       "credits": 2
+      },
+      {
+       "code": "M3639.001200",
+       "name": "첨단융합 연구 인턴십",
+       "credits": 3
+      },
+      {
+       "code": "M3639.001000",
+       "name": "캡스톤 첨단융합연구",
+       "credits": 3
+      },
+      {
+       "code": "E31.103",
+       "name": "학생자율연구: 탐구",
+       "credits": 2.0
+      },
+      {
+       "code": "M3634.000400",
+       "name": "디지털헬스케어 심화연구",
+       "credits": 3.0
+      },
+      {
+       "code": "M3635.000800",
+       "name": "데이터과학 창의연구",
+       "credits": 3.0
+      },
+      {
+       "code": "M3636.001700",
+       "name": "지속가능 기술 창의연구",
+       "credits": 3.0
+      },
+      {
+       "code": "M3637.001900",
+       "name": "반도체종합프로젝트",
+       "credits": 3.0
+      },
+      {
+       "code": "M3638.003900",
+       "name": "혁신신약 창의 연구",
+       "credits": 3
+      },
+      {
+       "code": "054.001",
+       "name": "학생자율연구 1",
+       "credits": 2.0
+      },
+      {
+       "code": "M3638.001200",
+       "name": "신약연구실험 1",
+       "credits": 2.0
+      }
+     ],
+     "status": "충돌",
+     "src": [
+      "s13",
+      "s14"
+     ],
+     "note": "학부 쪽(현재)은 10, 본부 2025-2 승인 내역은 11. 연구 인턴십은 2025.7 목록 2학점, 2026.6 판 3학점. 054.001 학생자율연구 1·M3638.001200 신약연구실험 1은 2025-2 승인 내역에만, E31.103 학생자율연구: 탐구·M3638.003900 혁신신약 창의 연구는 학부 쪽에만 있다.",
+     "extra": {
+      "one_of_group": "sti-track"
+     }
+    },
+    {
+     "id": "sti-track-policy",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교과인증과정 「첨단융합 정책리더십트랙」(셋 중 하나): 10학점 이상, 「나의 미래 1: 탐색 및 개척」(종전 '3: 개척') 필수, 정책 인턴십·디지털 리더십 개발과 코칭 중 1 필수",
+     "min_count": null,
+     "min_credits": 10,
+     "courses": [
+      {
+       "code": "M3639.002800",
+       "name": "첨단융합전공과 나의 미래 1: 탐색 및 개척",
+       "credits": 3
+      },
+      {
+       "code": "M3639.000700",
+       "name": "첨단융합전공과 나의 미래 3: 개척",
+       "credits": 2
+      },
+      {
+       "code": "M3639.001300",
+       "name": "첨단융합 정책 인턴십",
+       "credits": 2
+      },
+      {
+       "code": "M3639.001400",
+       "name": "디지털 리더십 개발과 코칭",
+       "credits": 3.0
+      },
+      {
+       "code": "M2888.000100",
+       "name": "과학기술정책",
+       "credits": 3.0
+      },
+      {
+       "code": "300.307",
+       "name": "과학기술과 법",
+       "credits": 3.0
+      },
+      {
+       "code": "216A.210",
+       "name": "행정학서론",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16"
+     ],
+     "extra": {
+      "one_of_group": "sti-track"
+     }
+    },
+    {
+     "id": "sti-track-ilseon",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "트랙 과목은 교과구분변경신청으로 '일선'으로 바꿔야 한다. 주전공·복수·부·연합·연계·융합전공 학점과 중복 인정 불가, 교양 학점과도 불가, 트랙끼리도 불가. '나의 미래 1: 탐색 및 개척'(종전 '3: 개척') 같은 주전공 과목도 일선으로 바꾸고 그 학점만큼 전공 과목을 더 들어야 한다.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17"
+     ],
+     "note": "계산: 트랙 학점(10+)은 전공 60/48에 넣지 않는다. 공통 전필 '나의 미래 1'은 전필 요건은 채우되 학점은 전공에서 빠진다."
+    },
+    {
+     "id": "sti-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문(또는 보고서) 제출. 지도교수 사전 승인으로 대체 가능: 트랙 지정 과목 결과 보고서(기술창업: 창업 인턴십·창업 시뮬레이션, 창의연구: 연구 인턴십·캡스톤, 정책리더십: 정책 인턴십·디지털 리더십), 창업 기여, 인턴·근무 기여(회사 동의), 특허·공개 SW 등록, 그 밖 심의 인정. 학·석사 연계과정은 면제 가능.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ]
+    },
+    {
+     "id": "sti-elective-cap",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정: 학부 내 다른 전공 과목 9학점 이내, 타 학과(부) 전공 과목은 전공주임 승인으로 9학점 이내. 9학점 제한에 넣지 않는 것: 디지털헬스케어 심화영역, 데이터과학 응용 영역, 반도체 전공 심화영역, 수리과학부 선형대수학.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "881.007",
+       "name": "선형대수학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s20",
+      "s21",
+      "s22"
+     ]
+    },
+    {
+     "id": "sti-regist",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "등록 8회 이상 16회 이하(수업연한 단축 6회), 총 130학점 이상. 신입생은 입학 후 2개 학기까지 학기당 20학점까지 취득 가능.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23"
+     ]
+    },
+    {
+     "id": "sti-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "평점평균 2.0 이상: 전 교과목, 그리고 전공 교과목(복수·연합·연계·학생설계·부전공 포함) 각각",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s24"
+     ]
+    },
+    {
+     "id": "sti-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4: 대학 글쓰기 1([1-1,1-2], 2) + 대학 글쓰기 2: 과학기술 글쓰기([3·4학년], 2, 교과인증과정 이수요건 표기). 과학기술 글쓰기는 '대학 글쓰기 2: 과학기술 커뮤니케이션'으로 대체 인정.",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.204",
+       "name": "대학 글쓰기 2: 과학기술 커뮤니케이션",
+       "credits": null
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27",
+      "s28",
+      "s29"
+     ],
+     "note": "과학기술 커뮤니케이션 번호는 F11.204(첨단융합학부 2024~2026 비교표, 수강편람 2026-2 부록 2). 편람 자료(2026-2까지)에는 개설 기록이 없다."
+    },
+    {
+     "id": "sti-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점(TEPS 900/New 525 이하는 영어 1과목)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27",
+      "s28"
+     ]
+    },
+    {
+     "id": "sti-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학·과학·컴퓨팅([1-1]부터): 수학 영역 인정 과목 1과목 이상(신입생 특별시험에 따른 수준별 이수 필수)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2.0
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.109",
+       "name": "미적분학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.110",
+       "name": "미적분학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2.0
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27",
+      "s28"
+     ],
+     "note": "수학 1/미적분학 1/고급수학 1, 수학 2/미적분학 2/고급수학 2, 통계학/생명과학을 위한 통계학은 서로 중복 인정 안 함. 연습·실험 과목은 같은 학기 동시 수강 원칙."
+    },
+    {
+     "id": "sti-ge-sci",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학 영역 인정 과목 1과목 이상(수준별 이수 권장)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3.0
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3.0
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3.0
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27"
+     ],
+     "note": "물리학 1/고급물리학 1, 물리학 2/고급물리학 2, 물리학/(물리학 1·2·고급물리학 1·2), 화학/(화학 1·2·고급화학), 고급화학/(화학 1·2), 생물학/(생물학 1·2) 중복 인정 안 함. 통계학은 수학·과학 둘 다 목록에 있으나 한 번만 센다."
+    },
+    {
+     "id": "sti-ge-comp",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨팅 영역 인정 과목 1과목 이상: 컴퓨팅 기초·핵심·응용, 컴퓨터의 개념 및 실습",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F37.101",
+       "name": "컴퓨팅 기초: 처음 만나는 컴퓨팅",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.102",
+       "name": "컴퓨팅 기초: 처음 만나는 데이터",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.204",
+       "name": "컴퓨팅 핵심: 컴퓨터로 생각하기",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.205",
+       "name": "컴퓨팅 핵심: 데이터 중심의 인공지능",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.302",
+       "name": "컴퓨팅 응용: 데이터사이언스의 기초",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.303",
+       "name": "컴퓨팅 응용: 자연어처리의 기초",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27",
+      "s28"
+     ],
+     "note": "컴퓨터의 개념 및 실습은 컴퓨팅 기초·핵심과 중복 인정 안 함. 목록의 F37 번호는 편람에서 이름이 '컴퓨팅 기초/핵심/응용:'으로 시작하는 과목."
+    },
+    {
+     "id": "sti-ge-msc-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학·과학·컴퓨팅 합 20학점: 세 영역 각 1과목(10학점 이상) + 세 영역에서 3과목 이상 더(10학점)",
+     "min_count": 6,
+     "min_credits": 20,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27"
+     ]
+    },
+    {
+     "id": "sti-ge-major-credit",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영역 인정 전공 과목: 선형대수학(수학), 유기화학의 기초(과학), 인공지능과 생명공학·데이터과학개론(컴퓨팅). 영역 필수는 채우지만 교양 합에는 넣지 않는다.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "881.007",
+       "name": "선형대수학",
+       "credits": 3.0
+      },
+      {
+       "code": "M3639.002200",
+       "name": "유기화학의 기초",
+       "credits": 3.0
+      },
+      {
+       "code": "M3639.002300",
+       "name": "인공지능과 생명공학",
+       "credits": 3.0
+      },
+      {
+       "code": "M3639.001500",
+       "name": "데이터과학개론",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s31",
+      "s32",
+      "s28"
+     ]
+    },
+    {
+     "id": "sti-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 4개 영역 각 3학점(문화 해석과 상상, 역사적 탐구와 철학적 사유, 인간의 이해와 사회 분석, 과학적 사고와 응용) = 12",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27",
+      "s28"
+     ]
+    },
+    {
+     "id": "sti-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스: 2025 규정은 강좌 1([1-1]), 실천([1-2]), 강좌 2([3·4학년]) 각 3 = 9. 다만 학부가 '베리타스 영역은 2026학년도부터 변경된 규정을 소급 적용'한다고 적었고, 2026 규정은 베리타스 영역 6학점 이상이다.",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s25",
+      "s26",
+      "s27",
+      "s41"
+     ],
+     "note": "소급 뒤 교양 합 51이 그대로인지(남는 3학점은 전체 교양?) 48로 주는지 미확인 → 학부 문의."
+    },
+    {
+     "id": "ids-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 전공 24학점 이상 + 융합데이터과학 전필 2개 이상",
+     "min_count": 2,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "M3635.000100",
+       "name": "확률론 개론",
+       "credits": 3
+      },
+      {
+       "code": "M3639.001700",
+       "name": "자료구조와 알고리즘",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000300",
+       "name": "수리통계",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000600",
+       "name": "데이터엔지니어링",
+       "credits": 3
+      },
+      {
+       "code": "M3635.001000",
+       "name": "캡스톤 프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s33",
+      "s34"
+     ],
+     "note": "부전공 24학점 이상. 타 학과(부) 학생(첨단융합학부 학생 포함)."
+    },
+    {
+     "id": "ids-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공 39학점 이상, 융합데이터과학전공 전필 모두, 졸업논문 제출",
+     "min_count": 5,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M3635.000100",
+       "name": "확률론 개론",
+       "credits": 3
+      },
+      {
+       "code": "M3639.001700",
+       "name": "자료구조와 알고리즘",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000300",
+       "name": "수리통계",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000600",
+       "name": "데이터엔지니어링",
+       "credits": 3
+      },
+      {
+       "code": "M3635.001000",
+       "name": "캡스톤 프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s35",
+      "s36"
+     ],
+     "note": "선발제(학부 공지 '복수전공 선발 결과'). [표3] 공통 전필은 필요 없음."
+    },
+    {
+     "id": "sti-future3",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학부 공통 전필 「첨단융합전공과 나의 미래 3: 개척」, 또는 「나의 미래 1: 탐색 및 개척」으로 대신",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3639.000700",
+       "name": "첨단융합전공과 나의 미래 3: 개척",
+       "credits": 2
+      },
+      {
+       "code": "M3639.002800",
+       "name": "첨단융합전공과 나의 미래 1: 탐색 및 개척",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s42",
+      "s40"
+     ],
+     "note": "'나의 미래 3'은 2027학년도부터 폐지 예정이라 못 들은 2024~2025학번은 '탐색 및 개척'을 듣는다. 같은 M3639.002800 하나가 sti-future1·sti-future3을 함께 채운다."
+    }
+   ],
+   "changed": "공통 전필 '나의 미래 1: 탐색' + '3: 개척'(또는 '1: 탐색 및 개척' 하나로 둘 다), 교양 51: 과학은 1과목(통계학 포함 목록), 수학·과학·컴퓨팅 20 = 세 영역 각 1 + 3과목 더, 베리타스 9(소급 6?)",
+   "note": "1차 요건 그대로(sti-ge-writing 에는 F11.204 번호만 보탠 2026 판 객체를 같이 쓴다). 2026 개정 공통 전필은 희망하면 적용 가능(부칙 2026.3.6.)."
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 51,
+    "single": 60,
+    "parallel": 48,
+    "double": 39,
+    "minor": 24,
+    "status": "부분",
+    "src": [
+     "s48",
+     "s46",
+     "s52",
+     "s47"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s48",
+    "s46",
+    "s47",
+    "s52",
+    "s37"
+   ],
+   "requirements": [
+    {
+     "id": "ids-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "융합데이터과학전공 전공필수 모두",
+     "min_count": 5,
+     "min_credits": 15,
+     "courses": [
+      {
+       "code": "M3635.000100",
+       "name": "확률론 개론",
+       "credits": 3
+      },
+      {
+       "code": "M3639.001700",
+       "name": "자료구조와 알고리즘",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000300",
+       "name": "수리통계",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000600",
+       "name": "데이터엔지니어링",
+       "credits": 3
+      },
+      {
+       "code": "M3635.001000",
+       "name": "캡스톤 프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "타 학과(부)의 유사 과목은 전공주임의 수강 전 승인으로 전필 이수 인정."
+    },
+    {
+     "id": "ids-applied",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "데이터과학의 응용 영역 1·2·3: 학부 내 다른 전공·다른 교육기구의 데이터과학 응용 과목을 전공주임 사전 승인으로 9학점 이내 인정(타 학과 9학점 제한에 넣지 않음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "응용 영역 과목 목록은 전공주임 승인 사항."
+    },
+    {
+     "id": "sti-future1",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학부 공통 전필 「첨단융합전공과 나의 미래 1」: 탐색 또는 탐색 및 개척 중 1",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3639.000100",
+       "name": "첨단융합전공과 나의 미래 1: 탐색",
+       "credits": 3
+      },
+      {
+       "code": "M3639.002800",
+       "name": "첨단융합전공과 나의 미래 1: 탐색 및 개척",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s38",
+      "s39",
+      "s40"
+     ],
+     "note": "주전공만(편입생 포함). 다전공으로 온 타 학과 학생은 면제. 2024~2025학번은 원칙적으로 '1: 탐색'과 '3: 개척'을 모두 듣고, '1: 탐색 및 개척' 한 과목으로 둘을 대신할 수 있다."
+    },
+    {
+     "id": "sti-future2",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학부 공통 전필 「첨단융합전공과 나의 미래 2: 체험」 5과목 중 2과목 이상",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3639.000200",
+       "name": "첨단융합전공과 나의 미래 2: 디지털헬스케어전공 체험",
+       "credits": 1
+      },
+      {
+       "code": "M3639.000300",
+       "name": "첨단융합전공과 나의 미래 2: 융합데이터과학전공 체험",
+       "credits": 1
+      },
+      {
+       "code": "M3639.000400",
+       "name": "첨단융합전공과 나의 미래 2: 지속가능기술전공 체험",
+       "credits": 1
+      },
+      {
+       "code": "M3639.000500",
+       "name": "첨단융합전공과 나의 미래 2: 차세대지능형반도체전공 체험",
+       "credits": 1
+      },
+      {
+       "code": "M3639.000600",
+       "name": "첨단융합전공과 나의 미래 2: 혁신신약전공 체험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ],
+     "note": "편입생 면제. 학부 공통 전필 합 5학점 이상."
+    },
+    {
+     "id": "sti-track-startup",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교과인증과정 「첨단융합 기술창업트랙」(셋 중 하나): 10학점 이상, 「나의 미래 1: 탐색 및 개척」(종전 '3: 개척') 필수, 창업 인턴십·창업 시뮬레이션 중 1 필수, 나머지는 선택 과목",
+     "min_count": null,
+     "min_credits": 10,
+     "courses": [
+      {
+       "code": "M3639.002800",
+       "name": "첨단융합전공과 나의 미래 1: 탐색 및 개척",
+       "credits": 3
+      },
+      {
+       "code": "M3639.000700",
+       "name": "첨단융합전공과 나의 미래 3: 개척",
+       "credits": 2
+      },
+      {
+       "code": "M3639.001100",
+       "name": "첨단융합 창업 인턴십",
+       "credits": 2
+      },
+      {
+       "code": "M3639.000900",
+       "name": "첨단융합 창업 시뮬레이션",
+       "credits": 3
+      },
+      {
+       "code": "M3639.000800",
+       "name": "첨단융합창업",
+       "credits": 3
+      },
+      {
+       "code": "251.424",
+       "name": "경영전략",
+       "credits": 3.0
+      },
+      {
+       "code": "M1540.000100",
+       "name": "기술창업론",
+       "credits": 3.0
+      },
+      {
+       "code": "M1338.000900",
+       "name": "벤처사업 기회연구",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11",
+      "s12"
+     ],
+     "extra": {
+      "one_of_group": "sti-track"
+     }
+    },
+    {
+     "id": "sti-track-research",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교과인증과정 「첨단융합 창의연구트랙」(셋 중 하나): 10학점 이상(본부 2025-2 승인 내역은 11학점), 「나의 미래 1: 탐색 및 개척」(종전 '3: 개척') 필수, 연구 인턴십·캡스톤 첨단융합연구 중 1 필수",
+     "min_count": null,
+     "min_credits": 10,
+     "courses": [
+      {
+       "code": "M3639.002800",
+       "name": "첨단융합전공과 나의 미래 1: 탐색 및 개척",
+       "credits": 3
+      },
+      {
+       "code": "M3639.000700",
+       "name": "첨단융합전공과 나의 미래 3: 개척",
+       "credits": 2
+      },
+      {
+       "code": "M3639.001200",
+       "name": "첨단융합 연구 인턴십",
+       "credits": 3
+      },
+      {
+       "code": "M3639.001000",
+       "name": "캡스톤 첨단융합연구",
+       "credits": 3
+      },
+      {
+       "code": "E31.103",
+       "name": "학생자율연구: 탐구",
+       "credits": 2.0
+      },
+      {
+       "code": "M3634.000400",
+       "name": "디지털헬스케어 심화연구",
+       "credits": 3.0
+      },
+      {
+       "code": "M3635.000800",
+       "name": "데이터과학 창의연구",
+       "credits": 3.0
+      },
+      {
+       "code": "M3636.001700",
+       "name": "지속가능 기술 창의연구",
+       "credits": 3.0
+      },
+      {
+       "code": "M3637.001900",
+       "name": "반도체종합프로젝트",
+       "credits": 3.0
+      },
+      {
+       "code": "M3638.003900",
+       "name": "혁신신약 창의 연구",
+       "credits": 3
+      },
+      {
+       "code": "054.001",
+       "name": "학생자율연구 1",
+       "credits": 2.0
+      },
+      {
+       "code": "M3638.001200",
+       "name": "신약연구실험 1",
+       "credits": 2.0
+      }
+     ],
+     "status": "충돌",
+     "src": [
+      "s13",
+      "s14"
+     ],
+     "note": "학부 쪽(현재)은 10, 본부 2025-2 승인 내역은 11. 연구 인턴십은 2025.7 목록 2학점, 2026.6 판 3학점. 054.001 학생자율연구 1·M3638.001200 신약연구실험 1은 2025-2 승인 내역에만, E31.103 학생자율연구: 탐구·M3638.003900 혁신신약 창의 연구는 학부 쪽에만 있다.",
+     "extra": {
+      "one_of_group": "sti-track"
+     }
+    },
+    {
+     "id": "sti-track-policy",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교과인증과정 「첨단융합 정책리더십트랙」(셋 중 하나): 10학점 이상, 「나의 미래 1: 탐색 및 개척」(종전 '3: 개척') 필수, 정책 인턴십·디지털 리더십 개발과 코칭 중 1 필수",
+     "min_count": null,
+     "min_credits": 10,
+     "courses": [
+      {
+       "code": "M3639.002800",
+       "name": "첨단융합전공과 나의 미래 1: 탐색 및 개척",
+       "credits": 3
+      },
+      {
+       "code": "M3639.000700",
+       "name": "첨단융합전공과 나의 미래 3: 개척",
+       "credits": 2
+      },
+      {
+       "code": "M3639.001300",
+       "name": "첨단융합 정책 인턴십",
+       "credits": 2
+      },
+      {
+       "code": "M3639.001400",
+       "name": "디지털 리더십 개발과 코칭",
+       "credits": 3.0
+      },
+      {
+       "code": "M2888.000100",
+       "name": "과학기술정책",
+       "credits": 3.0
+      },
+      {
+       "code": "300.307",
+       "name": "과학기술과 법",
+       "credits": 3.0
+      },
+      {
+       "code": "216A.210",
+       "name": "행정학서론",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16"
+     ],
+     "extra": {
+      "one_of_group": "sti-track"
+     }
+    },
+    {
+     "id": "sti-track-ilseon",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "트랙 과목은 교과구분변경신청으로 '일선'으로 바꿔야 한다. 주전공·복수·부·연합·연계·융합전공 학점과 중복 인정 불가, 교양 학점과도 불가, 트랙끼리도 불가. '나의 미래 1: 탐색 및 개척'(종전 '3: 개척') 같은 주전공 과목도 일선으로 바꾸고 그 학점만큼 전공 과목을 더 들어야 한다.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17"
+     ],
+     "note": "계산: 트랙 학점(10+)은 전공 60/48에 넣지 않는다. 공통 전필 '나의 미래 1'은 전필 요건은 채우되 학점은 전공에서 빠진다."
+    },
+    {
+     "id": "sti-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문(또는 보고서) 제출. 지도교수 사전 승인으로 대체 가능: 트랙 지정 과목 결과 보고서(기술창업: 창업 인턴십·창업 시뮬레이션, 창의연구: 연구 인턴십·캡스톤, 정책리더십: 정책 인턴십·디지털 리더십), 창업 기여, 인턴·근무 기여(회사 동의), 특허·공개 SW 등록, 그 밖 심의 인정. 학·석사 연계과정은 면제 가능.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ]
+    },
+    {
+     "id": "sti-elective-cap",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정: 학부 내 다른 전공 과목 9학점 이내, 타 학과(부) 전공 과목은 전공주임 승인으로 9학점 이내. 9학점 제한에 넣지 않는 것: 디지털헬스케어 심화영역, 데이터과학 응용 영역, 반도체 전공 심화영역, 수리과학부 선형대수학.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "881.007",
+       "name": "선형대수학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s20",
+      "s21",
+      "s22"
+     ]
+    },
+    {
+     "id": "sti-regist",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "등록 8회 이상 16회 이하(수업연한 단축 6회), 총 130학점 이상. 신입생은 입학 후 2개 학기까지 학기당 20학점까지 취득 가능.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23"
+     ]
+    },
+    {
+     "id": "sti-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "평점평균 2.0 이상: 전 교과목, 그리고 전공 교과목(복수·연합·연계·학생설계·부전공 포함) 각각",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s24"
+     ]
+    },
+    {
+     "id": "sti-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 <사고와 표현> 4: 대학 글쓰기 1([1-2], 2) + 대학 글쓰기 2: 과학기술 글쓰기([3~4학년] 중 수강 필수, 2, 교과인증과정 이수요건). 과학기술 글쓰기는 '대학 글쓰기 2: 과학기술 커뮤니케이션'으로 대체 인정",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.204",
+       "name": "대학 글쓰기 2: 과학기술 커뮤니케이션",
+       "credits": null
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s46",
+      "s47",
+      "s48",
+      "s49"
+     ]
+    },
+    {
+     "id": "sti-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점(TEPS 900/New 525 이하는 영어 1과목)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27",
+      "s28"
+     ]
+    },
+    {
+     "id": "sti-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 <수량적 분석과 추론> 인정 과목 1과목 이상([1-1]부터, 수준에 따라 수학·고급수학·미적분학)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2.0
+      },
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "L0442.000900",
+       "name": "미적분학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "L0442.001100",
+       "name": "미적분학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2.0
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "L0442.001300",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2.0
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.109",
+       "name": "미적분학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.110",
+       "name": "미적분학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2.0
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s46",
+      "s47",
+      "s49"
+     ],
+     "note": "수학 1/미적분학 1/고급수학 1, 수학 2/미적분학 2/고급수학 2, 통계학/생명과학을 위한 통계학은 중복 인정 안 함. 연습 과목 동시 수강 원칙."
+    },
+    {
+     "id": "sti-ge-sci",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 <과학적 사고와 실험> 인정 과목 1과목 이상(물리학·물리학 1·2·화학·화학 1·2·생물학·생물학 1·2·통계학·생명과학을 위한 통계학)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3.0
+      },
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3.0
+      },
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3.0
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3.0
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3.0
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "L0442.001300",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s46",
+      "s47",
+      "s49"
+     ],
+     "note": "2024 판 목록에는 고급물리학 1·2·고급화학이 없다(2025 판에는 있음) → 2024학번 인정 여부 미확인. 실험 과목 동시 수강 원칙."
+    },
+    {
+     "id": "sti-ge-comp",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 <컴퓨터와 정보 활용> 인정 과목 1과목 이상: 컴퓨팅 기초·핵심·응용, 컴퓨터의 개념과 실습",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "L0444.000400",
+       "name": "컴퓨팅 기초: 처음 만나는 컴퓨팅",
+       "credits": 3.0
+      },
+      {
+       "code": "L0444.000500",
+       "name": "컴퓨팅 핵심: 컴퓨터로 생각하기",
+       "credits": 3.0
+      },
+      {
+       "code": "L0444.000600",
+       "name": "컴퓨팅 응용: 기계학습 개념 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "L0444.000700",
+       "name": "컴퓨팅 응용: 자연어처리의 기초",
+       "credits": 3.0
+      },
+      {
+       "code": "L0444.000800",
+       "name": "컴퓨팅 응용: 데이터사이언스의 기초",
+       "credits": 3.0
+      },
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.101",
+       "name": "컴퓨팅 기초: 처음 만나는 컴퓨팅",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.204",
+       "name": "컴퓨팅 핵심: 컴퓨터로 생각하기",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.301",
+       "name": "",
+       "credits": null
+      },
+      {
+       "code": "F37.302",
+       "name": "컴퓨팅 응용: 데이터사이언스의 기초",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.303",
+       "name": "컴퓨팅 응용: 자연어처리의 기초",
+       "credits": 3.0
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s46",
+      "s47",
+      "s49",
+      "s50"
+     ],
+     "note": "2025년에 새로 생긴 F37.102 '컴퓨팅 기초: 처음 만나는 데이터'·F37.205 등은 수강편람 영역 인정 기준의 예처럼 2024학번에겐 전체 교양으로만 인정될 수 있다(학부 목록은 '컴퓨팅 기초, 핵심, 응용'으로만 적어 미확인). 컴퓨터의 개념과 실습은 컴퓨팅 기초·핵심과 중복 인정 안 함."
+    },
+    {
+     "id": "sti-ge-msc-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용 합 20학점: 영역별 각 1과목(10학점 이상) + 세 영역에서 3과목 10학점 이상 더",
+     "min_count": 6,
+     "min_credits": 20,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s46",
+      "s47"
+     ]
+    },
+    {
+     "id": "sti-ge-major-credit",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영역 인정 전공 과목(2024학번 영역 이름): 선형대수학(수량적 분석과 추론), 유기화학의 기초(과학적 사고와 실험), 인공지능과 생명공학·데이터과학개론(컴퓨터와 정보 활용). 영역 필수는 채우지만 교양 합에는 넣지 않는다.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "881.007",
+       "name": "선형대수학",
+       "credits": 3.0
+      },
+      {
+       "code": "M3639.002200",
+       "name": "유기화학의 기초",
+       "credits": 3.0
+      },
+      {
+       "code": "M3639.002300",
+       "name": "인공지능과 생명공학",
+       "credits": 3.0
+      },
+      {
+       "code": "M3639.001500",
+       "name": "데이터과학개론",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s51",
+      "s48"
+     ],
+     "note": "규정 [표2]가 입학년도 2024와 2025 이후의 영역 이름을 나눠 적는다(과목은 같음)."
+    },
+    {
+     "id": "sti-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 7개 영역(언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회·자연과 기술·생명과 환경) 중 4개 영역에서 12학점 이상",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s46",
+      "s47",
+      "s50"
+     ],
+     "note": "2025-1 뒤 개설 과목은 비교표에 옛 영역이 적힌 것(같은 과목·대체 지정)만 그 영역으로 셈(첨단융합학부 2024~2026 비교표·수강편람 부록 2)."
+    },
+    {
+     "id": "sti-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택교양 베리타스: 2024 규정은 베리타스 강좌 1([1-1])·베리타스 실천([1-2])·베리타스 강좌 2([3~4]) 각 3 = 9(첨단융합학부 필수). 학부가 '베리타스 영역은 2026학년도부터 변경된 규정(6학점)을 소급 적용'한다고 적었다",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s46",
+      "s47",
+      "s48",
+      "s28"
+     ],
+     "note": "소급 뒤 교양 합이 51 그대로인지(남는 3학점은 전체 교양?) 48로 주는지 미확인 → 학부 문의. 2024학번 졸업요건 쪽 학점표는 아직 교양 51."
+    },
+    {
+     "id": "ids-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 전공 24학점 이상 + 융합데이터과학 전필 2개 이상",
+     "min_count": 2,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "M3635.000100",
+       "name": "확률론 개론",
+       "credits": 3
+      },
+      {
+       "code": "M3639.001700",
+       "name": "자료구조와 알고리즘",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000300",
+       "name": "수리통계",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000600",
+       "name": "데이터엔지니어링",
+       "credits": 3
+      },
+      {
+       "code": "M3635.001000",
+       "name": "캡스톤 프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s33",
+      "s34"
+     ],
+     "note": "부전공 24학점 이상. 타 학과(부) 학생(첨단융합학부 학생 포함)."
+    },
+    {
+     "id": "ids-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공 39학점 이상, 융합데이터과학전공 전필 모두, 졸업논문 제출",
+     "min_count": 5,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M3635.000100",
+       "name": "확률론 개론",
+       "credits": 3
+      },
+      {
+       "code": "M3639.001700",
+       "name": "자료구조와 알고리즘",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000300",
+       "name": "수리통계",
+       "credits": 3
+      },
+      {
+       "code": "M3635.000600",
+       "name": "데이터엔지니어링",
+       "credits": 3
+      },
+      {
+       "code": "M3635.001000",
+       "name": "캡스톤 프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s35",
+      "s36"
+     ],
+     "note": "선발제(학부 공지 '복수전공 선발 결과'). [표3] 공통 전필은 필요 없음."
+    },
+    {
+     "id": "sti-future3",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학부 공통 전필 「첨단융합전공과 나의 미래 3: 개척」, 또는 「나의 미래 1: 탐색 및 개척」으로 대신",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3639.000700",
+       "name": "첨단융합전공과 나의 미래 3: 개척",
+       "credits": 2
+      },
+      {
+       "code": "M3639.002800",
+       "name": "첨단융합전공과 나의 미래 1: 탐색 및 개척",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s42",
+      "s40"
+     ],
+     "note": "'나의 미래 3'은 2027학년도부터 폐지 예정이라 못 들은 2024~2025학번은 '탐색 및 개척'을 듣는다. 같은 M3639.002800 하나가 sti-future1·sti-future3을 함께 채운다."
+    }
+   ],
+   "changed": "교양만 2024 체계(학문의 기초·학문의 세계·선택교양) 51. 전공필수·공통 전필·트랙·졸업논문·복수/부전공은 2025학번과 같다.",
+   "note": "첫 학번. 2024학번 졸업요건 쪽이 따로 있고 학점표·교과목 이수 표는 2025학번 쪽과 같다(교양 기준 파일만 2024 판)."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "첨단융합학부 신설, 첫 학번(규정·지침 제정 2024.3.1., '2024학년도 신입생부터 적용')",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양이 새 체계(학문의 토대·지성의 열쇠 4영역 각 3·베리타스)로 바뀜, 합 51 유지. 전공 요건·공통 전필은 2024학번과 같음",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2026,
+   "basis": "입학 연도",
+   "what": "교양 51→48(베리타스 9→6, 과학 두 분야 각 1과목), 공통 전필 '나의 미래 1: 탐색 및 개척' + 체험 2(2025 이전 입학생도 희망하면 적용), 전공선택 신청 요건에 물리·화학·생물 중 두 분야(지침 제3조①3호)와 '탐색 및 개척'(제3조①2호)",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "'나의 미래 1: 탐색'(M3639.000100, 마지막 개설 2025-1) 대신 '탐색 및 개척'(M3639.002800) 개설. '나의 미래 3: 개척'(M3639.000700)은 2025-1·2026-1 개설, 2027학년도 폐지 예정",
+   "status": "확인"
+  },
+  {
+   "basis": "규정 개정(2024학번부터 소급)",
+   "what": "전공 이수 및 졸업 규정 부칙(2025.3.7., 2026.3.6.)이 '2024학년도 입학생부터 적용'이라 전필 [표4]는 모든 학번 같은 표. 전공선택 지침 2025.4.16.·2026.4.10. 개정도 2024학번부터: 신청 학점 '직전 2개 학기 16 + 신청 학기 8' → '총 24학점(신청 학기 예정 포함)', 전공 변경 '확정 뒤 12학점 추가' → '소속 전공 과목 12학점'. 베리타스 2026 규정은 2024·2025학번에 소급",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "2024·2025학번 전공선택 신청 요건 종전 제3조 제1항 제3호의 내용",
+  "베리타스 2026 규정 소급 뒤 2024·2025학번 교양 합(51/48)",
+  "2024학번 과학 인정 과목에 고급물리학 1·2·고급화학, 컴퓨팅에 2025년 신설 '컴퓨팅 기초·핵심' 과목이 드는지",
+  "창의연구 트랙 10/11학점(1차와 같음)",
+  "베리타스 2026 규정 소급 뒤 2025학번 교양 합이 51인지 48인지",
+  "창의연구 트랙 이수 학점(학부 쪽 10, 본부 2025-2 승인 내역 11)",
+  "2025학번에 적용되는 종전 전공선택 지침 제3조 제1항 제3호의 내용",
+  "트랙 과목을 '일선'으로 바꾼 뒤 '나의 미래 1' 학점만큼 더 들을 전공 과목의 범위",
+  "이름·번호가 바뀐 전필(예: 반도체소자→반도체 전자 소자, 기초전자회로 및 실험→및 실습)의 옛 과목 이수 인정"
+ ],
+ "sources": {
+  "s1": {
+   "title": "서울대학교 첨단융합학부 전공 이수 및 졸업 규정(2026.3.6. 개정)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/03/서울대학교-첨단융합학부-전공-이수-및-졸업-규정2026.3.6.pdf",
+   "locator": "제6조 [표4]",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "첨단융합학부 교과목",
+   "url": "https://snuti.snu.ac.kr/교과목/",
+   "locator": "전공별 전공필수",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "첨단융합학부 전공 교과과정(2026.6. 기준)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/07/첨단융합학부-전공-교과과정2026.6.기준.pdf",
+   "locator": "융합데이터과학전공 쪽 * 표시",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "첨단융합학부 전공 교과과정(2026.6. 기준)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/07/첨단융합학부-전공-교과과정2026.6.기준.pdf",
+   "locator": "융합데이터과학 전공선택 인정과목 ②",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교 첨단융합학부 전공 이수 및 졸업 규정(2026.3.6. 개정)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/03/서울대학교-첨단융합학부-전공-이수-및-졸업-규정2026.3.6.pdf",
+   "locator": "제7조 제2항 단서",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교 첨단융합학부 전공 이수 및 졸업 규정(2026.3.6. 개정)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/03/서울대학교-첨단융합학부-전공-이수-및-졸업-규정2026.3.6.pdf",
+   "locator": "제5조 제2호 [표3], 부칙(2026.3.6.)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "첨단융합학부 2026학번 졸업요건",
+   "url": "https://snuti.snu.ac.kr/2026학번-졸업요건/",
+   "locator": "학점표(교양 48)·학부 공통 전필(탐색 및 개척)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "첨단융합학부 2025학번 졸업요건",
+   "url": "https://snuti.snu.ac.kr/2025학번-졸업요건/",
+   "locator": "학부 공통 전필",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 첨단융합학부 전공 이수 및 졸업 규정(2026.3.6. 개정)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/03/서울대학교-첨단융합학부-전공-이수-및-졸업-규정2026.3.6.pdf",
+   "locator": "제5조 [표3]",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "첨단융합학부 교과인증과정",
+   "url": "https://snuti.snu.ac.kr/교과인증과정/",
+   "locator": "트랙 표·유의사항",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 30",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "첨단융합학부 2025학번 졸업요건",
+   "url": "https://snuti.snu.ac.kr/2025학번-졸업요건/",
+   "locator": "교과인증과정(10학점 이상)",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "첨단융합학부 교과인증과정",
+   "url": "https://snuti.snu.ac.kr/교과인증과정/",
+   "locator": "트랙 표: 10학점 이상",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 31: 11학점 이상",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "첨단융합학부 교과인증과정",
+   "url": "https://snuti.snu.ac.kr/교과인증과정/",
+   "locator": "트랙 표",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "2025-2학기 시행 교과인증 과정 승인 내역([별표 1] 서울대학교 교과인증과정)",
+   "url": "https://advising.snu.ac.kr/wp-content/uploads/sites/212/2025/10/2025-2학기-시행-교과인증-과정-승인-내역.pdf",
+   "locator": "번호 32",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "첨단융합학부 교과인증과정",
+   "url": "https://snuti.snu.ac.kr/교과인증과정/",
+   "locator": "유의사항 1~6",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "서울대학교 첨단융합학부 전공 이수 및 졸업 규정(2026.3.6. 개정)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/03/서울대학교-첨단융합학부-전공-이수-및-졸업-규정2026.3.6.pdf",
+   "locator": "제3조, 제8조",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "첨단융합학부 2025학번 졸업요건",
+   "url": "https://snuti.snu.ac.kr/2025학번-졸업요건/",
+   "locator": "졸업논문 제출(주전공, 복수전공)",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "서울대학교 첨단융합학부 전공 이수 및 졸업 규정(2026.3.6. 개정)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/03/서울대학교-첨단융합학부-전공-이수-및-졸업-규정2026.3.6.pdf",
+   "locator": "제7조",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "첨단융합학부 2025학번 졸업요건",
+   "url": "https://snuti.snu.ac.kr/2025학번-졸업요건/",
+   "locator": "전공선택",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "첨단융합학부 교과목",
+   "url": "https://snuti.snu.ac.kr/교과목/",
+   "locator": "심화/응용 영역 규칙",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "서울대학교 첨단융합학부 전공 이수 및 졸업 규정(2026.3.6. 개정)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/03/서울대학교-첨단융합학부-전공-이수-및-졸업-규정2026.3.6.pdf",
+   "locator": "제3조 제1항 제1호, 제4조 제2항",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "첨단융합학부 2025학번 졸업요건",
+   "url": "https://snuti.snu.ac.kr/2025학번-졸업요건/",
+   "locator": "성적 기준",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "첨단융합학부 2025학번 공통교육과정 이수 규정",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/08/2025학번-공통교육과정-이수-규정.pdf",
+   "locator": "p.153~154",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.153~154 □ 첨단융합학부",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "첨단융합학부 2025학번 졸업요건",
+   "url": "https://snuti.snu.ac.kr/2025학번-졸업요건/",
+   "locator": "공통교육과정 주석",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "첨단융합학부 2026학번 공통교육과정 이수 규정",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/08/2026학번-공통교육과정-이수-규정.pdf",
+   "locator": "p.159~160 □ 첨단융합학부 48학점(과학 두 영역, 베리타스 6)",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "첨단융합학부 2024~2026 공통교육과정 영역 및 교과목 비교표(안내용, 260804)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/08/2024-2026-공통교육과정-영역-및-교과목-비교표_-260804.안내용.xlsx",
+   "locator": "시트 '2024~2026 비교표'",
+   "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "서울대학교 첨단융합학부 전공선택 지침(2026.4.10. 개정)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/04/서울대학교-첨단융합학부-전공선택-지침2026.4.10.pdf",
+   "locator": "p.1 제3조 제1항, p.3 부칙(2025.4.16., 2026.1.16., 2026.4.10.)",
+   "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "서울대학교 첨단융합학부 전공 이수 및 졸업 규정(2026.3.6. 개정)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/03/서울대학교-첨단융합학부-전공-이수-및-졸업-규정2026.3.6.pdf",
+   "locator": "제5조 제1호 [표2]",
+   "accessed": "2026-11-12"
+  },
+  "s32": {
+   "title": "첨단융합학부 2025학번 졸업요건",
+   "url": "https://snuti.snu.ac.kr/2025학번-졸업요건/",
+   "locator": "교양 영역 인정 전공 과목",
+   "accessed": "2026-11-12"
+  },
+  "s33": {
+   "title": "서울대학교 첨단융합학부 전공 이수 및 졸업 규정(2026.3.6. 개정)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/03/서울대학교-첨단융합학부-전공-이수-및-졸업-규정2026.3.6.pdf",
+   "locator": "제3조 제2항 제2호",
+   "accessed": "2026-11-12"
+  },
+  "s34": {
+   "title": "첨단융합학부 2025학번 졸업요건",
+   "url": "https://snuti.snu.ac.kr/2025학번-졸업요건/",
+   "locator": "전공필수(부전공)",
+   "accessed": "2026-11-12"
+  },
+  "s35": {
+   "title": "서울대학교 첨단융합학부 전공 이수 및 졸업 규정(2026.3.6. 개정)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/03/서울대학교-첨단융합학부-전공-이수-및-졸업-규정2026.3.6.pdf",
+   "locator": "제3조 제2항 제1호",
+   "accessed": "2026-11-12"
+  },
+  "s36": {
+   "title": "첨단융합학부 2025학번 졸업요건",
+   "url": "https://snuti.snu.ac.kr/2025학번-졸업요건/",
+   "locator": "학점표 주석",
+   "accessed": "2026-11-12"
+  },
+  "s37": {
+   "title": "서울대학교 첨단융합학부 전공 이수 및 졸업 규정(2026.3.6. 개정)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/03/서울대학교-첨단융합학부-전공-이수-및-졸업-규정2026.3.6.pdf",
+   "locator": "제3조·제4조 [표1]·제6조 [표4]·부칙(2024.3.1., 2025.3.7., 2026.3.6.)",
+   "accessed": "2026-11-12"
+  },
+  "s38": {
+   "title": "첨단융합학부 2025학번 졸업요건",
+   "url": "https://snuti.snu.ac.kr/2025학번-졸업요건/",
+   "locator": "학부 공통 전필(5학점 이상)",
+   "accessed": "2026-11-12"
+  },
+  "s39": {
+   "title": "서울대학교 첨단융합학부 전공 이수 및 졸업 규정(2026.3.6. 개정)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/03/서울대학교-첨단융합학부-전공-이수-및-졸업-규정2026.3.6.pdf",
+   "locator": "제5조 [표3]·부칙",
+   "accessed": "2026-11-12"
+  },
+  "s40": {
+   "title": "첨단융합학부 교과목",
+   "url": "https://snuti.snu.ac.kr/교과목/",
+   "locator": "학번별 적용",
+   "accessed": "2026-11-12"
+  },
+  "s41": {
+   "title": "첨단융합학부 2026학번 공통교육과정 이수 규정",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/08/2026학번-공통교육과정-이수-규정.pdf",
+   "locator": "p.159~160 베리타스 6학점 이상",
+   "accessed": "2026-11-12"
+  },
+  "s42": {
+   "title": "첨단융합학부 2025학번 졸업요건",
+   "url": "https://snuti.snu.ac.kr/2025학번-졸업요건/",
+   "locator": "학부 공통 전필 ※",
+   "accessed": "2026-11-12"
+  },
+  "s43": {
+   "title": "첨단융합학부 2025학번 졸업요건",
+   "url": "https://snuti.snu.ac.kr/2025학번-졸업요건/",
+   "locator": "학점표·교과목 이수·공통교육과정 주석",
+   "accessed": "2026-11-12"
+  },
+  "s44": {
+   "title": "첨단융합학부 2025학번 공통교육과정 이수 규정",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/08/2025학번-공통교육과정-이수-규정.pdf",
+   "locator": "p.153~154 □ 첨단융합학부 51학점",
+   "accessed": "2026-11-12"
+  },
+  "s45": {
+   "title": "서울대학교 첨단융합학부 전공선택 지침(2025.3.7. 개정)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2025/03/서울대학교-첨단융합학부-전공선택-지침2025.3.7.pdf",
+   "locator": "제3조 제1항, 부칙(2025.3.7.)",
+   "accessed": "2026-11-12"
+  },
+  "s46": {
+   "title": "첨단융합학부 2024학번 공통교육과정 이수 규정",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/08/2024학번-공통교육과정-이수-규정.pdf",
+   "locator": "1쪽 □ 첨단융합학부 51학점",
+   "accessed": "2026-11-12"
+  },
+  "s47": {
+   "title": "2024학년도 대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2024_2.pdf",
+   "locator": "PDF p.37 □ 자유전공학부, p.38 □ 첨단융합학부",
+   "accessed": "2026-11-12"
+  },
+  "s48": {
+   "title": "첨단융합학부 2024학번 졸업요건",
+   "url": "https://snuti.snu.ac.kr/2024학번-졸업요건/",
+   "locator": "학점표·교과목 이수·공통교육과정 주석(베리타스 2026 규정 소급)",
+   "accessed": "2026-11-12"
+  },
+  "s49": {
+   "title": "2026학년도 2학기 기초교양 수강편람",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/08/★2026학년도-2학기-기초교양-수강편람배포_20260724.pdf",
+   "locator": "부록 2 '2024학년도 이전 및 2026학년도 이후 공통교육과정 영역 및 교과목 비교표'(PDF p.157~)",
+   "accessed": "2026-11-12"
+  },
+  "s50": {
+   "title": "2026학년도 2학기 기초교양 수강편람",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/08/★2026학년도-2학기-기초교양-수강편람배포_20260724.pdf",
+   "locator": "PDF p.42 '공통교육과정 교과목 영역 인정 기준'",
+   "accessed": "2026-11-12"
+  },
+  "s51": {
+   "title": "서울대학교 첨단융합학부 전공 이수 및 졸업 규정(2026.3.6. 개정)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/03/서울대학교-첨단융합학부-전공-이수-및-졸업-규정2026.3.6.pdf",
+   "locator": "제5조 제1호 [표2](입학년도별 영역 인정 전공과목)",
+   "accessed": "2026-11-12"
+  },
+  "s52": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "PDF p.3 <표 1> 자유전공학부 135·36, 첨단융합학부 130·51·60·48",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

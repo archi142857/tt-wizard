@@ -1,0 +1,1833 @@
+{
+ "id": "p-509f9c7c",
+ "college": "생활과학대학",
+ "unit": "소비자아동학부",
+ "program": "소비자학전공",
+ "kind": "major",
+ "depts": [
+  "소비자아동학부"
+ ],
+ "code_prefixes": [
+  "357.",
+  "M1471."
+ ],
+ "ge_key": "생활과학대학 소비자학전공",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "소비자학전공",
+   "아동가족학전공"
+  ],
+  "when": "입학 때(전공별 모집단위)",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2026,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 40,
+    "single": 60,
+    "parallel": 48,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s9",
+     "s10",
+     "s11"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s2",
+    "s12",
+    "s10"
+   ],
+   "requirements": [
+    {
+     "id": "cs-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1·1-2] 대학 글쓰기 1(2) + [2-1] 대학 글쓰기 2: 사회과학글쓰기(2) = 4학점",
+     "min_count": null,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "글쓰기와 말하기"
+     }
+    },
+    {
+     "id": "cs-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수(기초영어·대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "2025학번은 TEPS 800점(New TEPS 452점) 이하 기준이었다. 2026 길잡이·2026 이수규정은 900점(525점) 이하. 앱은 입학 TEPS 점수를 모르면 '확인 필요'로 둔다.",
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "cs-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-2] 통계학(3)·통계학실험(1) = 4학점(같은 학기)",
+     "min_count": null,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "cs-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 4개 영역에서 영역마다 3학점씩 12학점",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "영역마다 3학점 이상(문화·역사·인간·과학적 사고 각 3).",
+     "extra": {
+      "area": "지성의 열쇠",
+      "areas": [
+       "문화 해석과 상상",
+       "역사적 탐구와 철학적 사유",
+       "인간의 이해와 사회 분석",
+       "과학적 사고와 응용"
+      ]
+     }
+    },
+    {
+     "id": "cs-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "베리타스"
+     }
+    },
+    {
+     "id": "cs-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목에서 자유롭게 11학점",
+     "min_count": null,
+     "min_credits": 11,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "cs-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생활과학신입생세미나(구 생활과학의 이해) 1학점 — 생활대 전필",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "복수·부전공 학점으로는 인정 안 됨. 2024 목록·학과 페이지에 구 이름이 섞여 있다."
+    },
+    {
+     "id": "cs-intro",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "소비자학의 이해(구 소비자학개론) 3학점 필수",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1471.001300",
+       "name": "소비자학의 이해",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "편람 교과구분은 '전선'이지만 학과 졸업요건상 필수."
+    },
+    {
+     "id": "cs-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "소비자학연구(357.416A, 3학점)를 듣고 졸업논문 작성",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "357.416A",
+       "name": "소비자학연구",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s6"
+     ],
+     "note": "2023-1학기부터 소비자학연구 전에 소비자학과 또는 타과의 연구방법론 관련 수업을 먼저 들어야 함 — 어떤 과목이 인정되는지는 공개 자료에 없음(예: 소비자분석의 기초·소비자정량분석론·소비자정성분석론 등으로 추정만 가능)."
+    },
+    {
+     "id": "cs-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 3과목 이상(주전공 과목 1과목 포함). 대학영어·고급영어 등 외국어 영역 영어 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "cs-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "나머지 전공선택: 단일 60·병행 48 을 채운다(소비자학전공 과목)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5",
+      "s7"
+     ],
+     "note": "min_credits_by_path 는 전공 합에서 소비자학의 이해(3)·신입생세미나(1)를 뺀 값(소비자학연구 3 포함). 생활대 교직 과목(가정교육론, 가정과교재연구 및 지도법, 가정과논술지도법, 주거생활교육론)은 교직 미이수자 전공 불인정. 타학과 전선 인정 범위는 '학부내규' — 공개 자료에 없다.",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 56,
+       "parallel": 44
+      }
+     }
+    },
+    {
+     "id": "cs-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "소비자학 복수전공 39학점: 기초 6과목 중 4과목 이상 + 소비자학연구로 졸업논문",
+     "min_count": 4,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M1471.001300",
+       "name": "소비자학의 이해",
+       "credits": 3.0
+      },
+      {
+       "code": "357.201B",
+       "name": "가계경제론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.204",
+       "name": "소비자행태론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.216A",
+       "name": "소비자주의론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.217",
+       "name": "소비자정책론",
+       "credits": 3.0
+      },
+      {
+       "code": "M1471.001700",
+       "name": "소비자와 정보",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s8"
+     ],
+     "note": "2019학년도 복수전공 선발자부터. 신입생세미나는 학점 불인정. 평점 2.0 이상일 때만 복수전공 학점 인정. 연구방법론 선이수(2023-1~) 같음."
+    },
+    {
+     "id": "cs-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "소비자학 부전공 24학점: 기초 6과목 중 4과목 이상",
+     "min_count": 4,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "M1471.001300",
+       "name": "소비자학의 이해",
+       "credits": 3.0
+      },
+      {
+       "code": "357.201B",
+       "name": "가계경제론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.204",
+       "name": "소비자행태론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.216A",
+       "name": "소비자주의론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.217",
+       "name": "소비자정책론",
+       "credits": 3.0
+      },
+      {
+       "code": "M1471.001700",
+       "name": "소비자와 정보",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s8"
+     ],
+     "note": "2019학년도 부전공 선발자부터. 신입생세미나 불인정, 평점 2.0 조건."
+    }
+   ],
+   "note": "교양은 2025와 같고 영어 1과목 필수 기준만 TEPS 800(452) → 900(525). 전공은 학과 현행 규정(학번 구분 없음)을 그대로 쓴다 — 학과에 2026학번 칸이 따로 없어 '부분'."
+  },
+  {
+   "entry_years": [
+    2025,
+    2025
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 40,
+    "single": 60,
+    "parallel": 48,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s10",
+     "s15"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s16",
+    "s17",
+    "s10",
+    "s18"
+   ],
+   "requirements": [
+    {
+     "id": "cs-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1·1-2] 대학 글쓰기 1(2) + [2-1] 대학 글쓰기 2: 사회과학글쓰기(2) = 4학점",
+     "min_count": null,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "글쓰기와 말하기"
+     }
+    },
+    {
+     "id": "cs-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 800점(New TEPS 452점) 이하이면 영어 1과목 필수(대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s13",
+      "s14"
+     ],
+     "note": "2026학년도 이수규정 책자는 생활대 표에 TEPS 525 기준을 적고 '2025학년도 입학생부터 적용'이라 붙였다. 2025 길잡이·2025 이수규정·식품영양학과 25학번 칸은 452 → 2025학번 영어 기준은 452로 두되 '충돌' 메모.",
+     "extra": {
+      "area": "외국어",
+      "conflict": [
+       {
+        "value": "New TEPS 452 이하",
+        "source": "2025 길잡이·2025 이수규정(·식품영양 25학번 탭)"
+       },
+       {
+        "value": "New TEPS 525 이하",
+        "source": "2026학년도 이수규정 책자(‘2025학년도 입학생부터 적용’ 문구)"
+       }
+      ]
+     }
+    },
+    {
+     "id": "cs-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-2] 통계학(3)·통계학실험(1) = 4학점(같은 학기)",
+     "min_count": null,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3.0
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "cs-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 4개 영역에서 영역마다 3학점씩 12학점",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "영역마다 3학점 이상(문화·역사·인간·과학적 사고 각 3).",
+     "extra": {
+      "area": "지성의 열쇠",
+      "areas": [
+       "문화 해석과 상상",
+       "역사적 탐구와 철학적 사유",
+       "인간의 이해와 사회 분석",
+       "과학적 사고와 응용"
+      ]
+     }
+    },
+    {
+     "id": "cs-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "베리타스"
+     }
+    },
+    {
+     "id": "cs-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목에서 자유롭게 11학점",
+     "min_count": null,
+     "min_credits": 11,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "cs-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생활과학신입생세미나(구 생활과학의 이해) 1학점 — 생활대 전필",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "복수·부전공 학점으로는 인정 안 됨. 2024 목록·학과 페이지에 구 이름이 섞여 있다."
+    },
+    {
+     "id": "cs-intro",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "소비자학의 이해(구 소비자학개론) 3학점 필수",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1471.001300",
+       "name": "소비자학의 이해",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "편람 교과구분은 '전선'이지만 학과 졸업요건상 필수."
+    },
+    {
+     "id": "cs-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "소비자학연구(357.416A, 3학점)를 듣고 졸업논문 작성",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "357.416A",
+       "name": "소비자학연구",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s6"
+     ],
+     "note": "2023-1학기부터 소비자학연구 전에 소비자학과 또는 타과의 연구방법론 관련 수업을 먼저 들어야 함 — 어떤 과목이 인정되는지는 공개 자료에 없음(예: 소비자분석의 기초·소비자정량분석론·소비자정성분석론 등으로 추정만 가능)."
+    },
+    {
+     "id": "cs-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 3과목 이상(주전공 과목 1과목 포함). 대학영어·고급영어 등 외국어 영역 영어 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "cs-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "나머지 전공선택: 단일 60·병행 48 을 채운다(소비자학전공 과목)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5",
+      "s7"
+     ],
+     "note": "min_credits_by_path 는 전공 합에서 소비자학의 이해(3)·신입생세미나(1)를 뺀 값(소비자학연구 3 포함). 생활대 교직 과목(가정교육론, 가정과교재연구 및 지도법, 가정과논술지도법, 주거생활교육론)은 교직 미이수자 전공 불인정. 타학과 전선 인정 범위는 '학부내규' — 공개 자료에 없다.",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 56,
+       "parallel": 44
+      }
+     }
+    },
+    {
+     "id": "cs-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "소비자학 복수전공 39학점: 기초 6과목 중 4과목 이상 + 소비자학연구로 졸업논문",
+     "min_count": 4,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M1471.001300",
+       "name": "소비자학의 이해",
+       "credits": 3.0
+      },
+      {
+       "code": "357.201B",
+       "name": "가계경제론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.204",
+       "name": "소비자행태론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.216A",
+       "name": "소비자주의론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.217",
+       "name": "소비자정책론",
+       "credits": 3.0
+      },
+      {
+       "code": "M1471.001700",
+       "name": "소비자와 정보",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s8"
+     ],
+     "note": "2019학년도 복수전공 선발자부터. 신입생세미나는 학점 불인정. 평점 2.0 이상일 때만 복수전공 학점 인정. 연구방법론 선이수(2023-1~) 같음."
+    },
+    {
+     "id": "cs-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "소비자학 부전공 24학점: 기초 6과목 중 4과목 이상",
+     "min_count": 4,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "M1471.001300",
+       "name": "소비자학의 이해",
+       "credits": 3.0
+      },
+      {
+       "code": "357.201B",
+       "name": "가계경제론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.204",
+       "name": "소비자행태론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.216A",
+       "name": "소비자주의론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.217",
+       "name": "소비자정책론",
+       "credits": 3.0
+      },
+      {
+       "code": "M1471.001700",
+       "name": "소비자와 정보",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s8"
+     ],
+     "note": "2019학년도 부전공 선발자부터. 신입생세미나 불인정, 평점 2.0 조건."
+    }
+   ],
+   "changed": "영어 1과목 필수 기준 TEPS 800(452) 이하 — 그 밖에는 2026과 같고 1차 요건 그대로.",
+   "note": "1차 요건 그대로(1차 '부분' 항목 포함). 2026학년도 이수규정 책자는 생활대 표에 TEPS 525 기준을 적고 '2025학년도 입학생부터 적용'이라 붙였다. 2025 길잡이·2025 이수규정·식품영양학과 25학번 칸은 452 → 2025학번 영어 기준은 452로 두되 '충돌' 메모."
+  },
+  {
+   "entry_years": [
+    2021,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 40,
+    "single": 60,
+    "parallel": 48,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s10",
+     "s19",
+     "s11",
+     "s23"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s19",
+    "s10",
+    "s24",
+    "s20",
+    "s25",
+    "s22"
+   ],
+   "requirements": [
+    {
+     "id": "cs-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1·1-2] 대학 글쓰기 1(2) + [2-1] 대학 글쓰기 2: 사회과학글쓰기(2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s20",
+      "s21"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "cs-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 800점(New TEPS 452점) 이하이면 영어 1과목 필수(대학영어 1·2·고급영어 등 TEPS 구간별)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s13",
+      "s14"
+     ],
+     "note": "2026학년도 이수규정 책자는 생활대 표에 TEPS 525 기준을 적고 '2025학년도 입학생부터 적용'이라 붙였다. 2025 길잡이·2025 이수규정·식품영양학과 25학번 칸은 452 → 2025학번 영어 기준은 452로 두되 '충돌' 메모.",
+     "extra": {
+      "area": "외국어",
+      "conflict": [
+       {
+        "value": "New TEPS 452 이하",
+        "source": "2025 길잡이·2025 이수규정(·식품영양 25학번 탭)"
+       },
+       {
+        "value": "New TEPS 525 이하",
+        "source": "2026학년도 이수규정 책자(‘2025학년도 입학생부터 적용’ 문구)"
+       }
+      ]
+     }
+    },
+    {
+     "id": "cs-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 4학점: [1-2] 통계학(3)+통계학실험(1, 같은 학기)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s20"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "cs-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양(기타 선택 교양) 14학점",
+     "min_count": null,
+     "min_credits": 14,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s20",
+      "s22"
+     ],
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "cs-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생활과학신입생세미나(구 생활과학의 이해) 1학점 — 생활대 전필",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "복수·부전공 학점으로는 인정 안 됨. 2024 목록·학과 페이지에 구 이름이 섞여 있다."
+    },
+    {
+     "id": "cs-intro",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "소비자학의 이해(구 소비자학개론) 3학점 필수",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1471.001300",
+       "name": "소비자학의 이해",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "편람 교과구분은 '전선'이지만 학과 졸업요건상 필수."
+    },
+    {
+     "id": "cs-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "소비자학연구(357.416A, 3학점)를 듣고 졸업논문 작성",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "357.416A",
+       "name": "소비자학연구",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s6"
+     ],
+     "note": "2023-1학기부터 소비자학연구 전에 소비자학과 또는 타과의 연구방법론 관련 수업을 먼저 들어야 함 — 어떤 과목이 인정되는지는 공개 자료에 없음(예: 소비자분석의 기초·소비자정량분석론·소비자정성분석론 등으로 추정만 가능)."
+    },
+    {
+     "id": "cs-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 3과목 이상(주전공 과목 1과목 포함). 대학영어·고급영어 등 외국어 영역 영어 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "cs-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "나머지 전공선택: 단일 60·병행 48 을 채운다(소비자학전공 과목)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5",
+      "s7"
+     ],
+     "note": "min_credits_by_path 는 전공 합에서 소비자학의 이해(3)·신입생세미나(1)를 뺀 값(소비자학연구 3 포함). 생활대 교직 과목(가정교육론, 가정과교재연구 및 지도법, 가정과논술지도법, 주거생활교육론)은 교직 미이수자 전공 불인정. 타학과 전선 인정 범위는 '학부내규' — 공개 자료에 없다.",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 56,
+       "parallel": 44
+      }
+     }
+    },
+    {
+     "id": "cs-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "소비자학 복수전공 39학점: 기초 6과목 중 4과목 이상 + 소비자학연구로 졸업논문",
+     "min_count": 4,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M1471.001300",
+       "name": "소비자학의 이해",
+       "credits": 3.0
+      },
+      {
+       "code": "357.201B",
+       "name": "가계경제론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.204",
+       "name": "소비자행태론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.216A",
+       "name": "소비자주의론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.217",
+       "name": "소비자정책론",
+       "credits": 3.0
+      },
+      {
+       "code": "M1471.001700",
+       "name": "소비자와 정보",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s8"
+     ],
+     "note": "2019학년도 복수전공 선발자부터. 신입생세미나는 학점 불인정. 평점 2.0 이상일 때만 복수전공 학점 인정. 연구방법론 선이수(2023-1~) 같음."
+    },
+    {
+     "id": "cs-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "소비자학 부전공 24학점: 기초 6과목 중 4과목 이상",
+     "min_count": 4,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "M1471.001300",
+       "name": "소비자학의 이해",
+       "credits": 3.0
+      },
+      {
+       "code": "357.201B",
+       "name": "가계경제론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.204",
+       "name": "소비자행태론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.216A",
+       "name": "소비자주의론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.217",
+       "name": "소비자정책론",
+       "credits": 3.0
+      },
+      {
+       "code": "M1471.001700",
+       "name": "소비자와 정보",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s8"
+     ],
+     "note": "2019학년도 부전공 선발자부터. 신입생세미나 불인정, 평점 2.0 조건."
+    },
+    {
+     "id": "cs-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학 또는 문화와 예술 3 + 역사와 철학 3 + 정치와 경제 또는 인간과 사회 3 + 자연과 기술 또는 생명과 환경 3, '언어와 문학, 문화와 예술, 역사와 철학' 영역 권장과목(*표시) 1과목 필수",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s20",
+      "s22"
+     ],
+     "note": "권장과목(*) 목록은 해설의 교양 교과목 표 표시를 쓴다.",
+     "extra": {
+      "area": "학문의 세계"
+     }
+    }
+   ],
+   "changed": "교양 옛 체계(사고와 표현 4, 외국어 6, 수량적 분석과 추론 4, 학문의 세계 12, 전체 14). 전공 요건은 2025와 같음.",
+   "note": "전공은 2025와 같다(생활대 전필 1 + 소비자학의 이해 + 소비자학연구 졸업논문, 60/48). 2021~2023학번 전필 과목명은 생활과학의 이해(350.101A), 2024학번은 생활과학신입생세미나 — 1차 cs-seminar 가 두 번호를 같은 과목으로 묶는다. 교양만 옛 체계(학과 '21학번' 표: 학문의 기초 14 + 학문의 세계 12 + 기타 14)."
+  },
+  {
+   "entry_years": [
+    2019,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 40,
+    "single": 60,
+    "parallel": 48,
+    "double": 39,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s10",
+     "s19",
+     "s28"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s19",
+    "s29"
+   ],
+   "requirements": [
+    {
+     "id": "cs-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1·1-2] 대학 글쓰기 1(2) + [2-1] 대학 글쓰기 2: 사회과학글쓰기(2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s20",
+      "s21"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "사고와 표현"
+     }
+    },
+    {
+     "id": "cs-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4~6학점. 입학 때 TEPS 800점(New TEPS 452점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s26"
+     ],
+     "note": "2021학번부터 6학점.",
+     "extra": {
+      "area": "외국어"
+     }
+    },
+    {
+     "id": "cs-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 4학점: [1-2] 통계학(3)+통계학실험(1, 같은 학기)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s20"
+     ],
+     "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
+     "extra": {
+      "area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "cs-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양(기타 선택 교양) 14~16학점(외국어 학점과 합쳐 40 맞추기)",
+     "min_count": null,
+     "min_credits": 14,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s27"
+     ],
+     "note": "외국어 4학점이면 16, 6학점이면 14.",
+     "extra": {
+      "area": "전체 교양"
+     }
+    },
+    {
+     "id": "cs-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생활과학신입생세미나(구 생활과학의 이해) 1학점 — 생활대 전필",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2174.001600",
+       "name": "생활과학신입생세미나",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "복수·부전공 학점으로는 인정 안 됨. 2024 목록·학과 페이지에 구 이름이 섞여 있다."
+    },
+    {
+     "id": "cs-intro",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "소비자학의 이해(구 소비자학개론) 3학점 필수",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1471.001300",
+       "name": "소비자학의 이해",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "편람 교과구분은 '전선'이지만 학과 졸업요건상 필수."
+    },
+    {
+     "id": "cs-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "소비자학연구(357.416A, 3학점)를 듣고 졸업논문 작성",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "357.416A",
+       "name": "소비자학연구",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s6"
+     ],
+     "note": "2023-1학기부터 소비자학연구 전에 소비자학과 또는 타과의 연구방법론 관련 수업을 먼저 들어야 함 — 어떤 과목이 인정되는지는 공개 자료에 없음(예: 소비자분석의 기초·소비자정량분석론·소비자정성분석론 등으로 추정만 가능)."
+    },
+    {
+     "id": "cs-english",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 진행 강좌 3과목 이상(주전공 과목 1과목 포함). 대학영어·고급영어 등 외국어 영역 영어 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "cs-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "나머지 전공선택: 단일 60·병행 48 을 채운다(소비자학전공 과목)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5",
+      "s7"
+     ],
+     "note": "min_credits_by_path 는 전공 합에서 소비자학의 이해(3)·신입생세미나(1)를 뺀 값(소비자학연구 3 포함). 생활대 교직 과목(가정교육론, 가정과교재연구 및 지도법, 가정과논술지도법, 주거생활교육론)은 교직 미이수자 전공 불인정. 타학과 전선 인정 범위는 '학부내규' — 공개 자료에 없다.",
+     "extra": {
+      "min_credits_by_path": {
+       "single": 56,
+       "parallel": 44
+      }
+     }
+    },
+    {
+     "id": "cs-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "소비자학 복수전공 39학점: 기초 6과목 중 4과목 이상 + 소비자학연구로 졸업논문",
+     "min_count": 4,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M1471.001300",
+       "name": "소비자학의 이해",
+       "credits": 3.0
+      },
+      {
+       "code": "357.201B",
+       "name": "가계경제론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.204",
+       "name": "소비자행태론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.216A",
+       "name": "소비자주의론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.217",
+       "name": "소비자정책론",
+       "credits": 3.0
+      },
+      {
+       "code": "M1471.001700",
+       "name": "소비자와 정보",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s8"
+     ],
+     "note": "2019학년도 복수전공 선발자부터. 신입생세미나는 학점 불인정. 평점 2.0 이상일 때만 복수전공 학점 인정. 연구방법론 선이수(2023-1~) 같음."
+    },
+    {
+     "id": "cs-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "소비자학 부전공 24학점: 기초 6과목 중 4과목 이상",
+     "min_count": 4,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "M1471.001300",
+       "name": "소비자학의 이해",
+       "credits": 3.0
+      },
+      {
+       "code": "357.201B",
+       "name": "가계경제론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.204",
+       "name": "소비자행태론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.216A",
+       "name": "소비자주의론",
+       "credits": 3.0
+      },
+      {
+       "code": "357.217",
+       "name": "소비자정책론",
+       "credits": 3.0
+      },
+      {
+       "code": "M1471.001700",
+       "name": "소비자와 정보",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s8"
+     ],
+     "note": "2019학년도 부전공 선발자부터. 신입생세미나 불인정, 평점 2.0 조건."
+    },
+    {
+     "id": "cs-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학 또는 문화와 예술 3 + 역사와 철학 3 + 정치와 경제 또는 인간과 사회 3 + 자연과 기술 또는 생명과 환경 3, '언어와 문학, 문화와 예술, 역사와 철학' 영역 권장과목(*표시) 1과목 필수",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s20",
+      "s22"
+     ],
+     "note": "권장과목(*) 목록은 해설의 교양 교과목 표 표시를 쓴다.",
+     "extra": {
+      "area": "학문의 세계"
+     }
+    }
+   ],
+   "changed": "외국어 4~6, 전체 교양 14~16.",
+   "note": "학과 '19학번 이상' 표: 학문의 기초 12~14(외국어 4~6) + 학문의 세계 12 + 기타 14~16 = 40. 전공은 같다."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "외국어 4~6 → 6, 기타 선택 교양 14~16 → 14",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 체계 개편(수학·과학·컴퓨팅 4, 지성의 열쇠 네 영역 3씩 12, 베리타스 3, 전체 11)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2026,
+   "basis": "입학 연도",
+   "what": "영어 1과목 필수 기준 TEPS 800(452) 이하 → 900(525) 이하",
+   "status": "부분"
+  },
+  {
+   "basis": "다전공 선발 시기",
+   "what": "다른 학과 학생의 복수·부전공 기초과목: 2018-2학기 선발자까지 5과목 중 4 → 2019학년도 선발자부터 6과목 중 4(소비자와 정보 추가). 2019학번 이후는 모두 새 규정",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "2023-1학기부터 소비자학연구(357.416A)를 듣는 전공생·복수전공생은 연구방법론 관련 수업을 먼저 들어야 함(학번 무관, 수강 학기 기준)",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "생활대 전필 생활과학의 이해 350.101A(편람 ~2023-1) → 생활과학신입생세미나 M2174.001600(2024-1~)",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "학번별 졸업규정 페이지에 '21학번' 뒤 칸이 없다: 2022~2026학번 전공 요건이 현행과 같은지",
+  "2025학번 영어 1과목 필수 기준이 452인지 525인지(2026 이수규정 책자 문구)",
+  "(1차와 같음) 연구방법론 선이수 인정 과목, 전선 인정 범위",
+  "소비자학연구 전에 먼저 들어야 하는 '연구방법론 관련 수업'으로 인정되는 과목 목록",
+  "전공선택 인정 과목(학부내규) — 타학과 과목·대학원 과목",
+  "아동가족학전공 ↔ 소비자학전공 이동이 일반 전과 규정(65학점 등)을 따르는지"
+ ],
+ "sources": {
+  "s1": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.145 □ 생활과학대학 (소비자아동학부 소비자학전공)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.151 □ 소비자학전공",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.37 □ 소비자학전공",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "소비자학과(소비자학전공), 졸업요건",
+   "url": "https://consumer.snu.ac.kr/%ec%a1%b8%ec%97%85%ec%9a%94%ea%b1%b4/",
+   "locator": "학사과정 이수 규정 표와 아래 문장",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "소비자학과(소비자학전공), 교과과정",
+   "url": "https://consumer.snu.ac.kr/%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/",
+   "locator": "소비자학전공 교과표준 이수형태와 ※ 주석",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "소비자학과(소비자학전공), 복수전공·부전공",
+   "url": "https://consumer.snu.ac.kr/%eb%b3%b5%ec%88%98%ec%a0%84%ea%b3%b5-%e3%83%bb-%eb%b6%80%ec%a0%84%ea%b3%b5/",
+   "locator": "복수전공·부전공 [2019학년도 선발자부터]",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "생활과학대학 357. 소비자아동학부 pp.108–110(비고 '*격년 개설', '학부내규로 정함')",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 학사과정 복수·부전공 이수학점 기준(p.10–11)",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.151",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "소비자학과(소비자학전공), 졸업요건(학사과정 이수규정)",
+   "url": "https://consumer.snu.ac.kr/%ec%a1%b8%ec%97%85%ec%9a%94%ea%b1%b4/",
+   "locator": "이수 규정 표(교양 42(~2018)/40(2019~))와 아래 문장",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1·2",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.37",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "학부대학, 2025학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/01/2025학년도-시행-공통교육과정-대학별-이수규정국문.pdf",
+   "locator": "PDF p.34(TEPS 800/452)",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.37(TEPS 900/525, ‘2025학년도 입학생부터 적용’)",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.145",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.145 □ 소비자학전공",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "학부대학, 2025학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/01/2025학년도-시행-공통교육과정-대학별-이수규정국문.pdf",
+   "locator": "PDF p.34",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "학부대학, 2026학년도 시행 (단과)대학별 공통교육과정 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "PDF p.37(‘2025학년도 입학생부터’ 문구)",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "소비자학과(소비자학전공), 학번별 졸업규정",
+   "url": "https://consumer.snu.ac.kr/%ed%95%99%eb%b2%88%eb%b3%84-%ec%a1%b8%ec%97%85%ea%b7%9c%ec%a0%95/",
+   "locator": "'21학번'·'19학번 이상'·'14~18학번' 표",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "학부대학 게시, 2024학년도 대학별 교양 이수규정(PDF)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2024_2.pdf",
+   "locator": "PDF p.29",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.37 □ 소비자학전공",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.37",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·2",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "학부대학 게시, 2023학년도 대학별 교양 이수규정(PDF)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2023_2.pdf",
+   "locator": "PDF p.29",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "p.34",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.34",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.34 □ 소비자학전공",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·2",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.34 □ 소비자학전공(‘2019학년도 입학생부터 적용’)",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

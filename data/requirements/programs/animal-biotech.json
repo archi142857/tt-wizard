@@ -3,6 +3,7 @@
  "college": "농업생명과학대학",
  "unit": "식품·동물생명공학부",
  "program": "동물생명공학전공",
+ "kind": "major",
  "depts": [
   "식품·동물생명공학부"
  ],
@@ -15,6 +16,7 @@
   2019,
   2026
  ],
+ "version_key": "entry",
  "predecessor": null,
  "structure": {
   "splits_into": [

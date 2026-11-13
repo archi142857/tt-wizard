@@ -1,0 +1,4409 @@
+{
+ "id": "p-38d77850",
+ "college": "자연과학대학",
+ "unit": "화학부",
+ "program": "화학부",
+ "kind": "major",
+ "depts": [
+  "화학부"
+ ],
+ "code_prefixes": [],
+ "ge_key": "자연과학대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2026,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 46,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s23",
+     "s24"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s25",
+    "s1",
+    "s2",
+    "s3"
+   ],
+   "requirements": [
+    {
+     "id": "chem-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공통교육과정 46학점 이상(2026학년도 입학생부터 적용). 진단평가로 수강의무를 면제받으면 그 학점만큼 줄되 최소 36학점",
+     "min_count": null,
+     "min_credits": 46,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "extra": {
+      "min_credits_if_exempted": 36
+     }
+    },
+    {
+     "id": "chem-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "권장 학기 [1-2] 대학 글쓰기 1, [2-1] 대학 글쓰기 2(권장일 뿐). 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용)."
+    },
+    {
+     "id": "chem-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 '확인 필요'로 보인다."
+    },
+    {
+     "id": "chem-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 짝 (1)·(2)·(3) 중 택 1(연습 과목은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "학부(과)별 추가 규정이 있으면 아래 학과 교양 요건이 우선. 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용).",
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "chem-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "통계학(또는 생명과학을 위한 통계학), 물리학 1·2(또는 고급물리학 1·2 또는 물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학 1·2, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험교과목 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      },
+      {
+       "code": "F33.113",
+       "name": "천문학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.113L",
+       "name": "천문학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.114",
+       "name": "천문학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.114L",
+       "name": "천문학실험 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께(고급물리학 1·2는 물리학실험 1·2, 고급화학은 화학실험). 고교 물리 2 를 안 들은 학생은 물리학 1·2 대신 물리의 기본 1·2 가능(물리학실험 1·2 함께). 생명과학을 위한 통계학(실험)과 통계학(실험)은 겹쳐 이수할 수 없다. 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용). 2026학번부터 천문학이 천문학 1·2(F33.113·F33.114, 실험 F33.113L·F33.114L)로 바뀌었다. 진단평가 면제 학점은 이 16학점 기준에서 뺀다."
+    },
+    {
+     "id": "chem-ge-msc-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 토대 '수학·과학·컴퓨팅' 영역 24학점(진단평가 면제자는 면제 학점을 빼되 최소 8학점)",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s5"
+     ],
+     "note": "표의 영역 학점은 24다. 미적분학 짝(8)+과학 16 = 24 이지만 수학·고급수학 짝(6)이면 22 가 되어, 나머지 2학점을 이 영역에서 더 채워야 하는지는 표만으로는 분명하지 않다(교양 합 46 은 4+6+24+9+3).",
+     "extra": {
+      "min_credits_if_exempted": 8
+     }
+    },
+    {
+     "id": "chem-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상 3, 역사적 탐구와 철학적 사유 3, 인간의 이해와 사회 분석 3 (과학적 사고와 응용은 학점 칸이 비어 있음)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s4",
+      "s6",
+      "s7",
+      "s1"
+     ],
+     "note": "자연대 공통 규정은 문화 해석과 상상·역사적 탐구와 철학적 사유·인간의 이해와 사회 분석 각 3학점인데, 화학부 xlsx(2025·2026 시트)는 '4개 영역 중 3개 영역 9학점, 문화·역사 영역 각 1과목'(과학적 사고와 응용도 가능하게 읽힘)으로 적었다.",
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "min_credits": 3
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "min_credits": 3
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "min_credits": 3
+       }
+      ]
+     }
+    },
+    {
+     "id": "chem-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·실천 중 1과목 필수)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "chem-ge-chem",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 지정 교양: 화학 1·화학 2·화학실험 1·화학실험 2 필수. 고급화학을 들은 학생은 화학 1·2 없이 화학실험 1 필수",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9",
+      "s10",
+      "s11"
+     ],
+     "note": "고급화학 길의 실험은 화학실험 1(F34.104L)이다(학과 xlsx). 화학 1·2 길은 과학 2세트, 고급화학 길은 3세트를 더 들어야 한다(세트 = 과학 강의 + 실험). 2026학번: '①·② 규정이 필수임에도' 진단평가(화학)로 화학 1·2(실험 포함) 수강의무 면제 가능(xlsx 2026 시트).",
+     "extra": {
+      "paths": [
+       {
+        "name": "A. 화학 1·2 + 화학실험 1·2",
+        "codes": [
+         "F34.104",
+         "F34.105",
+         "F34.104L",
+         "F34.105L"
+        ]
+       },
+       {
+        "name": "B. 고급화학 + 화학실험 1",
+        "codes": [
+         "F34.106",
+         "F34.104L"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "chem-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 지정 교양: 물리학 1, 물리학 2, 물리학 중 1과목 필수",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ],
+     "note": "고급물리학·물리의 기본이 이 자리를 대신하는지는 문구에 없음(공통 표에선 물리학 1·2 대체로 인정)."
+    },
+    {
+     "id": "chem-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 4과목: 물리화학 1, 유기화학 1, 물리분석실험, 유기무기실험",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "3343.207",
+       "name": "물리화학 1",
+       "credits": 3
+      },
+      {
+       "code": "3343.205",
+       "name": "유기화학 1",
+       "credits": 3
+      },
+      {
+       "code": "3343.312",
+       "name": "물리분석실험",
+       "credits": 3
+      },
+      {
+       "code": "3343.313",
+       "name": "유기무기실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14"
+     ],
+     "note": "2021학번 이후 규정. 2025학번용 별도 공지는 못 찾음."
+    },
+    {
+     "id": "chem-choose",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 6과목 중 2과목 이상(전필 4과목과 합해 18학점 이상)",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "3343.301A",
+       "name": "물리화학 2",
+       "credits": 3
+      },
+      {
+       "code": "3343.307",
+       "name": "물리화학 3",
+       "credits": 3
+      },
+      {
+       "code": "3343.206",
+       "name": "유기화학 2",
+       "credits": 3
+      },
+      {
+       "code": "M2173.004400",
+       "name": "분석화학",
+       "credits": 3,
+       "alt_codes": [
+        "M2173.004000",
+        "300.219A"
+       ]
+      },
+      {
+       "code": "M1409.001600",
+       "name": "무기화학 1: 구조와 결합",
+       "credits": 3,
+       "alt_codes": [
+        "3343.306"
+       ]
+      },
+      {
+       "code": "3343.310",
+       "name": "기초생화학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16"
+     ],
+     "note": "분석화학(M2173.004400) = 분석화학 1(M2173.004000, 2022-1~2023-1) = 분석화학 Ⅰ(300.219A), 무기화학 1: 구조와 결합(M1409.001600, 2023-2~) = 무기화학 1(3343.306). 옛 번호도 같은 과목."
+    },
+    {
+     "id": "chem-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문: 3학년 2학기부터 제출 가능, 2주차 계획서·6주차 중간 보고서·15주차 최종 논문, 학사위원회 심사(2013년 2월 졸업예정자부터)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "note": "복수전공(타과 학생)도 '해당학번 주전공 이수규정과 동일하며 전공학점 39학점 취득 및 졸업논문 제출'(xlsx 모든 학번 시트)."
+    },
+    {
+     "id": "chem-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 인정: 본교 자연대·약대·공대 타전공 과목 — 심화(단일) 15학점, 병행(타학부 복수전공생 포함) 6학점까지. 화학부 석·박사 이론 과목 — 심화 6, 병행 3학점까지. A~F 이론 강의만, 세미나·연구 과목은 1학점까지",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s20"
+     ]
+    },
+    {
+     "id": "chem-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 해당 학번 주전공 이수규정과 같음(전필 4 + 6중 2), 전공 39학점, 졸업논문 제출. 전공 교과목 S/U 변경 학점 불인정",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21"
+     ]
+    },
+    {
+     "id": "chem-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 물리화학 1, 유기화학 1, 전공실험 1과목(물리분석실험·유기무기실험 중)을 포함하여 전공 21학점. 중복인정 안 됨, 전공 교과목 S/U 변경 학점 불인정",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s22"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "물리화학 1",
+        "min_count": 1,
+        "codes": [
+         "3343.207"
+        ]
+       },
+       {
+        "name": "유기화학 1",
+        "min_count": 1,
+        "codes": [
+         "3343.205"
+        ]
+       },
+       {
+        "name": "전공실험",
+        "min_count": 1,
+        "codes": [
+         "3343.312",
+         "3343.313"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "chem-ge-exempt",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "2026학년도 입학생부터: 「자연과학대학 기초수학과학 학습역량 진단 평가」에서 과목별 기준 성적 이상이면 학문의 토대 수학·과학·컴퓨팅 교과목 수강의무 면제 — 수학(유형 1: 화학부·생명과학부·지구환경과학부 신입생) 수학 1/2(고급수학 1/2), 수학(유형 2: 수리과학부·통계학과·물리·천문학부 신입생) 미적분학 1/2, 물리 → 물리학 1·2, 화학 → 화학 1·2, 생물 → 생물학 1(연습·실험 과목도 함께 면제). 면제 학점은 기준학점에서 빼되 수학·과학·컴퓨팅 최소 8, 공통교육과정 전체 최소 36. 면제받은 과목은 수강할 수 없다. 다른 영역 학점은 그대로",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "이 학과는 수학 유형 1 대상. 앱은 진단평가 결과를 모르므로 면제 여부는 '확인 필요'로 보여야 한다(면제된 과목은 성적표에 학점 없이 남지 않는다)."
+    }
+   ],
+   "note": "전공 요건은 2021~2025학번과 같다. 1차에서 '부분'이던 전공·복수·부전공·고급화학 실험이 xlsx 로 확인됐다. 지성의 열쇠 문구는 학과 xlsx 와 자연대 규정이 달라 충돌."
+  },
+  {
+   "entry_years": [
+    2025,
+    2025
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 46,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s26"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s27"
+   ],
+   "requirements": [
+    {
+     "id": "chem-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 46학점 이상(2025학년도 입학생부터 적용)",
+     "min_count": null,
+     "min_credits": 46,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s9"
+     ]
+    },
+    {
+     "id": "chem-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "권장 학기 [1-2] 대학 글쓰기 1, [2-1] 대학 글쓰기 2(권장일 뿐). 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용)."
+    },
+    {
+     "id": "chem-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 '확인 필요'로 보인다."
+    },
+    {
+     "id": "chem-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 짝 (1)·(2)·(3) 중 택 1(연습 과목은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "학부(과)별 추가 규정이 있으면 아래 학과 교양 요건이 우선. 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용).",
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "chem-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "통계학(또는 생명과학을 위한 통계학), 물리학 1·2(또는 고급물리학 1·2 또는 물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험교과목 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F33.111",
+       "name": "천문학",
+       "credits": 3,
+       "alt_codes": [
+        "034.014"
+       ]
+      },
+      {
+       "code": "F33.111L",
+       "name": "천문학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.015"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께(고급물리학 1·2는 물리학실험 1·2, 고급화학은 화학실험). 고교 물리 2 를 안 들은 학생은 물리학 1·2 대신 물리의 기본 1·2 가능(물리학실험 1·2 함께). 생명과학을 위한 통계학(실험)과 통계학(실험)은 겹쳐 이수할 수 없다. 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용)."
+    },
+    {
+     "id": "chem-ge-msc-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 토대 '수학·과학·컴퓨팅' 영역 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "표의 영역 학점은 24다. 미적분학 짝(8)+과학 16 = 24 이지만 수학·고급수학 짝(6)이면 22 가 되어, 나머지 2학점을 이 영역에서 더 채워야 하는지는 표만으로는 분명하지 않다(교양 합 46 은 4+6+24+9+3)."
+    },
+    {
+     "id": "chem-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상 3, 역사적 탐구와 철학적 사유 3, 인간의 이해와 사회 분석 3 (과학적 사고와 응용은 학점 칸이 비어 있음)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s4",
+      "s6"
+     ],
+     "note": "자연대 공통 규정은 문화 해석과 상상·역사적 탐구와 철학적 사유·인간의 이해와 사회 분석 각 3학점인데, 화학부 xlsx(2025·2026 시트)는 '4개 영역 중 3개 영역 9학점, 문화·역사 영역 각 1과목'(과학적 사고와 응용도 가능하게 읽힘)으로 적었다.",
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "min_credits": 3
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "min_credits": 3
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "min_credits": 3
+       }
+      ]
+     }
+    },
+    {
+     "id": "chem-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·실천 중 1과목 필수)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "chem-ge-chem",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 지정 교양: 화학 1·화학 2·화학실험 1·화학실험 2 필수. 고급화학을 들은 학생은 화학 1·2 없이 화학실험 1 필수",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9",
+      "s10"
+     ],
+     "note": "고급화학 길의 실험은 화학실험 1(F34.104L)이다(학과 xlsx). 화학 1·2 길은 과학 2세트, 고급화학 길은 3세트를 더 들어야 한다(세트 = 과학 강의 + 실험).",
+     "extra": {
+      "paths": [
+       {
+        "name": "A. 화학 1·2 + 화학실험 1·2",
+        "codes": [
+         "F34.104",
+         "F34.105",
+         "F34.104L",
+         "F34.105L"
+        ]
+       },
+       {
+        "name": "B. 고급화학 + 화학실험 1",
+        "codes": [
+         "F34.106",
+         "F34.104L"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "chem-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 지정 교양: 물리학 1, 물리학 2, 물리학 중 1과목 필수",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ],
+     "note": "고급물리학·물리의 기본이 이 자리를 대신하는지는 문구에 없음(공통 표에선 물리학 1·2 대체로 인정)."
+    },
+    {
+     "id": "chem-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 4과목: 물리화학 1, 유기화학 1, 물리분석실험, 유기무기실험",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "3343.207",
+       "name": "물리화학 1",
+       "credits": 3
+      },
+      {
+       "code": "3343.205",
+       "name": "유기화학 1",
+       "credits": 3
+      },
+      {
+       "code": "3343.312",
+       "name": "물리분석실험",
+       "credits": 3
+      },
+      {
+       "code": "3343.313",
+       "name": "유기무기실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14"
+     ],
+     "note": "2021학번 이후 규정. 2025학번용 별도 공지는 못 찾음."
+    },
+    {
+     "id": "chem-choose",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 6과목 중 2과목 이상(전필 4과목과 합해 18학점 이상)",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "3343.301A",
+       "name": "물리화학 2",
+       "credits": 3
+      },
+      {
+       "code": "3343.307",
+       "name": "물리화학 3",
+       "credits": 3
+      },
+      {
+       "code": "3343.206",
+       "name": "유기화학 2",
+       "credits": 3
+      },
+      {
+       "code": "M2173.004400",
+       "name": "분석화학",
+       "credits": 3,
+       "alt_codes": [
+        "M2173.004000",
+        "300.219A"
+       ]
+      },
+      {
+       "code": "M1409.001600",
+       "name": "무기화학 1: 구조와 결합",
+       "credits": 3,
+       "alt_codes": [
+        "3343.306"
+       ]
+      },
+      {
+       "code": "3343.310",
+       "name": "기초생화학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16"
+     ],
+     "note": "분석화학(M2173.004400) = 분석화학 1(M2173.004000, 2022-1~2023-1) = 분석화학 Ⅰ(300.219A), 무기화학 1: 구조와 결합(M1409.001600, 2023-2~) = 무기화학 1(3343.306). 옛 번호도 같은 과목."
+    },
+    {
+     "id": "chem-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문: 3학년 2학기부터 제출 가능, 2주차 계획서·6주차 중간 보고서·15주차 최종 논문, 학사위원회 심사(2013년 2월 졸업예정자부터)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "note": "복수전공(타과 학생)도 '해당학번 주전공 이수규정과 동일하며 전공학점 39학점 취득 및 졸업논문 제출'(xlsx 모든 학번 시트)."
+    },
+    {
+     "id": "chem-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 인정: 본교 자연대·약대·공대 타전공 과목 — 심화(단일) 15학점, 병행(타학부 복수전공생 포함) 6학점까지. 화학부 석·박사 이론 과목 — 심화 6, 병행 3학점까지. A~F 이론 강의만, 세미나·연구 과목은 1학점까지",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s20"
+     ]
+    },
+    {
+     "id": "chem-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 해당 학번 주전공 이수규정과 같음(전필 4 + 6중 2), 전공 39학점, 졸업논문 제출. 전공 교과목 S/U 변경 학점 불인정",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21"
+     ]
+    },
+    {
+     "id": "chem-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 물리화학 1, 유기화학 1, 전공실험 1과목(물리분석실험·유기무기실험 중)을 포함하여 전공 21학점. 중복인정 안 됨, 전공 교과목 S/U 변경 학점 불인정",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s22"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "물리화학 1",
+        "min_count": 1,
+        "codes": [
+         "3343.207"
+        ]
+       },
+       {
+        "name": "유기화학 1",
+        "min_count": 1,
+        "codes": [
+         "3343.205"
+        ]
+       },
+       {
+        "name": "전공실험",
+        "min_count": 1,
+        "codes": [
+         "3343.312",
+         "3343.313"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "changed": "2026학번과 견줘 교양 진단평가 면제·천문학 1·2 만 없다."
+  },
+  {
+   "entry_years": [
+    2021,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 46,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s39",
+     "s40",
+     "s41"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s42",
+    "s43",
+    "s32",
+    "s33",
+    "s34",
+    "s35"
+   ],
+   "requirements": [
+    {
+     "id": "chem-ge-chem",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 내규 교양(과학적 사고와 실험): ① 화학 1·2 + 화학실험 1·2 또는 ② 고급화학 + 화학실험 필수. ① 은 과학 2세트, ② 는 3세트를 더(세트 = 물리학·통계학·생물학·지구환경과학·대기과학·천문학·지구시스템과학·해양학 강의 + 실험)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F34.104"
+       ]
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F34.105"
+       ]
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F34.105L"
+       ]
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.106"
+       ]
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s28",
+      "s29"
+     ],
+     "note": "옛 번호(2024-2까지) 기준. 고급화학 길 실험: 2021~2023 시트는 화학실험(034.024), 2024 시트는 화학실험 1(F34.104L, 2025-1 새 번호) — 2025-1 이후에는 화학실험 1 로 듣는다.",
+     "extra": {
+      "paths": [
+       {
+        "name": "① 화학 1·2 + 화학실험 1·2 (+ 과학 2세트)",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "034.016",
+          "name": "화학 1",
+          "credits": 3,
+          "alt_codes": [
+           "F34.104"
+          ]
+         },
+         {
+          "code": "034.017",
+          "name": "화학 2",
+          "credits": 3,
+          "alt_codes": [
+           "F34.105"
+          ]
+         },
+         {
+          "code": "034.022",
+          "name": "화학실험 1",
+          "credits": 1,
+          "alt_codes": [
+           "F34.104L"
+          ]
+         },
+         {
+          "code": "034.023",
+          "name": "화학실험 2",
+          "credits": 1,
+          "alt_codes": [
+           "F34.105L"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "② 고급화학 + 화학실험(2025-1 이후 화학실험 1) (+ 과학 3세트)",
+        "credits": 4,
+        "courses": [
+         {
+          "code": "L0443.000100",
+          "name": "고급화학",
+          "credits": 3,
+          "alt_codes": [
+           "F34.106"
+          ]
+         },
+         {
+          "code": "034.024",
+          "name": "화학실험",
+          "credits": 1,
+          "alt_codes": [
+           "F34.104L"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "chem-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 내규 교양: 물리학 1, 물리학 2, 물리학 중 한 과목 필수(2013학번부터)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s30",
+      "s31"
+     ],
+     "note": "고급물리학·물리의 기본이 이 자리를 대신하는지는 문구에 없음(공통 표에선 물리학 1·2 대체로 인정)."
+    },
+    {
+     "id": "chem-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 4과목: 물리화학 1, 유기화학 1, 물리분석실험, 유기무기실험",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "3343.207",
+       "name": "물리화학 1",
+       "credits": 3
+      },
+      {
+       "code": "3343.205",
+       "name": "유기화학 1",
+       "credits": 3
+      },
+      {
+       "code": "3343.312",
+       "name": "물리분석실험",
+       "credits": 3
+      },
+      {
+       "code": "3343.313",
+       "name": "유기무기실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14"
+     ],
+     "note": "2021학번 이후 규정. 2025학번용 별도 공지는 못 찾음."
+    },
+    {
+     "id": "chem-choose",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 6과목 중 2과목 이상(전필 4과목과 합해 18학점 이상)",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "3343.301A",
+       "name": "물리화학 2",
+       "credits": 3
+      },
+      {
+       "code": "3343.307",
+       "name": "물리화학 3",
+       "credits": 3
+      },
+      {
+       "code": "3343.206",
+       "name": "유기화학 2",
+       "credits": 3
+      },
+      {
+       "code": "M2173.004400",
+       "name": "분석화학",
+       "credits": 3,
+       "alt_codes": [
+        "M2173.004000",
+        "300.219A"
+       ]
+      },
+      {
+       "code": "M1409.001600",
+       "name": "무기화학 1: 구조와 결합",
+       "credits": 3,
+       "alt_codes": [
+        "3343.306"
+       ]
+      },
+      {
+       "code": "3343.310",
+       "name": "기초생화학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16"
+     ],
+     "note": "분석화학(M2173.004400) = 분석화학 1(M2173.004000, 2022-1~2023-1) = 분석화학 Ⅰ(300.219A), 무기화학 1: 구조와 결합(M1409.001600, 2023-2~) = 무기화학 1(3343.306). 옛 번호도 같은 과목."
+    },
+    {
+     "id": "chem-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문: 3학년 2학기부터 제출 가능, 2주차 계획서·6주차 중간 보고서·15주차 최종 논문, 학사위원회 심사(2013년 2월 졸업예정자부터)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "note": "복수전공(타과 학생)도 '해당학번 주전공 이수규정과 동일하며 전공학점 39학점 취득 및 졸업논문 제출'(xlsx 모든 학번 시트)."
+    },
+    {
+     "id": "chem-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 인정: 본교 자연대·약대·공대 타전공 과목 — 심화(단일) 15학점, 병행(타학부 복수전공생 포함) 6학점까지. 화학부 석·박사 이론 과목 — 심화 6, 병행 3학점까지. A~F 이론 강의만, 세미나·연구 과목은 1학점까지",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s20"
+     ]
+    },
+    {
+     "id": "chem-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 해당 학번 주전공 이수규정과 같음(전필 4 + 6중 2), 전공 39학점, 졸업논문 제출. 전공 교과목 S/U 변경 학점 불인정",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21"
+     ]
+    },
+    {
+     "id": "chem-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 물리화학 1, 유기화학 1, 전공실험 1과목(물리분석실험·유기무기실험 중)을 포함하여 전공 21학점. 중복인정 안 됨, 전공 교과목 S/U 변경 학점 불인정",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s22"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "물리화학 1",
+        "min_count": 1,
+        "codes": [
+         "3343.207"
+        ]
+       },
+       {
+        "name": "유기화학 1",
+        "min_count": 1,
+        "codes": [
+         "3343.205"
+        ]
+       },
+       {
+        "name": "전공실험",
+        "min_count": 1,
+        "codes": [
+         "3343.312",
+         "3343.313"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "chem-ge-old-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 46학점 이상(학문의 기초·학문의 세계 체계)",
+     "min_count": null,
+     "min_credits": 46,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s32",
+      "s33",
+      "s34",
+      "s35"
+     ]
+    },
+    {
+     "id": "chem-ge-old-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 사고와 표현 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s32",
+      "s33",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "2019학번부터 이 두 과목 체계다(2018학번은 글쓰기의 기초 또는 과학과 기술 글쓰기 3학점, 해설 2018 p.15). 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "chem-ge-old-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s32",
+      "s33",
+      "s34",
+      "s35"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 확인 필요."
+    },
+    {
+     "id": "chem-ge-old-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론: 수학 1·2+연습(6), 고급수학 1·2+연습(6), 미적분학 1·2+연습(8) 중 택 1(연습은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s32",
+      "s33",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "chem-ge-old-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험: 통계학, 물리학 1·2(또는 고급물리학 1·2·물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F33.111",
+       "name": "천문학",
+       "credits": 3,
+       "alt_codes": [
+        "034.014"
+       ]
+      },
+      {
+       "code": "F33.111L",
+       "name": "천문학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.015"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s32",
+      "s33",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께. 통계학·통계학실험은 과학적 사고와 실험으로 인정(2022 표부터 명시). 생명과학을 위한 통계학(실험)은 2022-2 개설, 2023 표부터 통계학 대신 인정(이전 입학생도 인정), 통계학(실험)과 겹쳐 이수 불가. 교양 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "chem-ge-old-qs-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초(수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용) 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s32",
+      "s33",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "표의 묶음 학점이 24다. 수학·고급수학 짝(6)+과학 16 = 22 라 나머지 2학점을 이 묶음에서 더 채워야 하는지는 표만으로 분명하지 않다(2025 체계의 수학·과학·컴퓨팅 24 와 같은 문제)."
+    },
+    {
+     "id": "chem-ge-old-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 4개 영역 이상에서 12학점 이상, '언어와 문학·문화와 예술·역사와 철학' 영역 권장과목(*) 중 1과목 필수",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s32",
+      "s33",
+      "s34",
+      "s35",
+      "s36",
+      "s37",
+      "s38"
+     ],
+     "note": "자연과 기술·생명과 환경 영역은 5개 영역에 들지 않는다(물리학전공·생명과학부 페이지가 5개 영역 이름을 적음). 과목→영역 자료와 권장과목(*) 표시는 편람 자료에 없어 앱은 '확인 필요'. 2025-1 이후 새 공통교육과정 과목을 옛 학번이 들었을 때의 영역 인정 기준은 공개 자료에서 확인하지 못했다(수리과학부 '공통교육과정 영역 및 교과목 비교표' 글 접근 실패).",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "min_count": null
+       },
+       {
+        "name": "문화와 예술",
+        "min_count": null
+       },
+       {
+        "name": "역사와 철학",
+        "min_count": null
+       },
+       {
+        "name": "정치와 경제",
+        "min_count": null
+       },
+       {
+        "name": "인간과 사회",
+        "min_count": null
+       }
+      ],
+      "min_areas": 4
+     }
+    }
+   ],
+   "changed": "전공 요건은 2025학번과 같다(2021. 5. 14. 개정 '전필 4 + 전선 6중 2'). 교양 옛 체계, 고급화학 길 실험은 화학실험(034.024).",
+   "note": "자연대 2021 표(미적분학 권장)와 2022 표(원칙)의 차이는 화학부와 무관(수리·통계·물천 칸). 그래서 2021~2024 를 한 버전으로 묶었다(교양 공통 항목의 출처만 해마다 다름)."
+  },
+  {
+   "entry_years": [
+    2019,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 44,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s56",
+     "s57",
+     "s58"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s59",
+    "s60",
+    "s37",
+    "s52",
+    "s53",
+    "s54"
+   ],
+   "requirements": [
+    {
+     "id": "chem-ge-chem",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 내규 교양(과학적 사고와 실험): ① 화학 1·2 + 화학실험 1·2 또는 ② 고급화학 + 화학실험 필수. ① 은 과학 2세트, ② 는 3세트를 더(세트 = 물리학·통계학·생물학·지구환경과학·대기과학·천문학·지구시스템과학·해양학 강의 + 실험)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F34.104"
+       ]
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F34.105"
+       ]
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F34.105L"
+       ]
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.106"
+       ]
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s48",
+      "s49"
+     ],
+     "note": "옛 번호 기준. 고급화학 길 실험은 화학실험(034.024, 2025-1 뒤로는 화학실험 1 F34.104L).",
+     "extra": {
+      "paths": [
+       {
+        "name": "① 화학 1·2 + 화학실험 1·2 (+ 과학 2세트)",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "034.016",
+          "name": "화학 1",
+          "credits": 3,
+          "alt_codes": [
+           "F34.104"
+          ]
+         },
+         {
+          "code": "034.017",
+          "name": "화학 2",
+          "credits": 3,
+          "alt_codes": [
+           "F34.105"
+          ]
+         },
+         {
+          "code": "034.022",
+          "name": "화학실험 1",
+          "credits": 1,
+          "alt_codes": [
+           "F34.104L"
+          ]
+         },
+         {
+          "code": "034.023",
+          "name": "화학실험 2",
+          "credits": 1,
+          "alt_codes": [
+           "F34.105L"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "② 고급화학 + 화학실험(2025-1 이후 화학실험 1) (+ 과학 3세트)",
+        "credits": 4,
+        "courses": [
+         {
+          "code": "L0443.000100",
+          "name": "고급화학",
+          "credits": 3,
+          "alt_codes": [
+           "F34.106"
+          ]
+         },
+         {
+          "code": "034.024",
+          "name": "화학실험",
+          "credits": 1,
+          "alt_codes": [
+           "F34.104L"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "chem-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 내규 교양: 물리학 1, 물리학 2, 물리학 중 한 과목 필수(2013학번부터)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s50",
+      "s51"
+     ],
+     "note": "고급물리학·물리의 기본이 이 자리를 대신하는지는 문구에 없음(공통 표에선 물리학 1·2 대체로 인정)."
+    },
+    {
+     "id": "chem-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "핵심 전공필수 6과목 18학점 반드시: 물리화학 2, 물리화학 3, 유기화학 1, 유기화학 2, 물리분석실험, 유기무기실험",
+     "min_count": 6,
+     "min_credits": 18,
+     "courses": [
+      {
+       "code": "3343.301A",
+       "name": "물리화학 2",
+       "credits": 3
+      },
+      {
+       "code": "3343.307",
+       "name": "물리화학 3",
+       "credits": 3
+      },
+      {
+       "code": "3343.205",
+       "name": "유기화학 1",
+       "credits": 3
+      },
+      {
+       "code": "3343.206",
+       "name": "유기화학 2",
+       "credits": 3
+      },
+      {
+       "code": "3343.312",
+       "name": "물리분석실험",
+       "credits": 3
+      },
+      {
+       "code": "3343.313",
+       "name": "유기무기실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s44",
+      "s45"
+     ],
+     "note": "전공필수 합 26학점 이상(핵심 18 + 아래 chem-core2 8 이상). 이 과목들은 지금 편람에서 전선으로 나올 수 있다(2021학번부터 전선으로 바뀜)."
+    },
+    {
+     "id": "chem-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문: 3학년 2학기부터 제출 가능, 2주차 계획서·6주차 중간 보고서·15주차 최종 논문, 학사위원회 심사(2013년 2월 졸업예정자부터)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "note": "복수전공(타과 학생)도 '해당학번 주전공 이수규정과 동일하며 전공학점 39학점 취득 및 졸업논문 제출'(xlsx 모든 학번 시트)."
+    },
+    {
+     "id": "chem-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 인정: 본교 자연대·약대·공대 타전공 과목 — 심화(단일) 15학점, 병행(타학부 복수전공생 포함) 6학점까지. 화학부 석·박사 이론 과목 — 심화 6, 병행 3학점까지. A~F 이론 강의만, 세미나·연구 과목은 1학점까지",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s20"
+     ]
+    },
+    {
+     "id": "chem-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 해당 학번 주전공 이수규정과 같음(전필 26 이상: 핵심 6과목 + 5중 3), 전공 39학점, 졸업논문 제출. S/U 변경 학점 불인정",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s47"
+     ]
+    },
+    {
+     "id": "chem-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 해당 학번 전공필수(핵심 전필·전필 모두) 중 전공실험 1과목을 포함하여 15학점 포함, 전공 21학점. 중복인정 안 됨, S/U 변경 학점 불인정",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "3343.301A",
+       "name": "물리화학 2",
+       "credits": 3
+      },
+      {
+       "code": "3343.307",
+       "name": "물리화학 3",
+       "credits": 3
+      },
+      {
+       "code": "3343.205",
+       "name": "유기화학 1",
+       "credits": 3
+      },
+      {
+       "code": "3343.206",
+       "name": "유기화학 2",
+       "credits": 3
+      },
+      {
+       "code": "3343.312",
+       "name": "물리분석실험",
+       "credits": 3
+      },
+      {
+       "code": "3343.313",
+       "name": "유기무기실험",
+       "credits": 3
+      },
+      {
+       "code": "3343.207",
+       "name": "물리화학 1",
+       "credits": 3
+      },
+      {
+       "code": "300.219A",
+       "name": "분석화학Ⅰ",
+       "credits": 3,
+       "alt_codes": [
+        "M2173.004000",
+        "M2173.004400"
+       ]
+      },
+      {
+       "code": "3343.306",
+       "name": "무기화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "M1409.001600"
+       ]
+      },
+      {
+       "code": "3343.310",
+       "name": "기초생화학",
+       "credits": 3
+      },
+      {
+       "code": "300.314",
+       "name": "생화학실험",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s46",
+      "s45"
+     ]
+    },
+    {
+     "id": "chem-ge-old-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 44학점 이상(학문의 기초·학문의 세계 체계)",
+     "min_count": null,
+     "min_credits": 44,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s37",
+      "s52",
+      "s53",
+      "s54"
+     ]
+    },
+    {
+     "id": "chem-ge-old-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 사고와 표현 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s32",
+      "s33",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "2019학번부터 이 두 과목 체계다(2018학번은 글쓰기의 기초 또는 과학과 기술 글쓰기 3학점, 해설 2018 p.15). 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "chem-ge-old-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4–6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s37",
+      "s52",
+      "s53",
+      "s54"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 확인 필요."
+    },
+    {
+     "id": "chem-ge-old-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론: 수학 1·2+연습(6), 고급수학 1·2+연습(6), 미적분학 1·2+연습(8) 중 택 1(연습은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s32",
+      "s33",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "chem-ge-old-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험: 통계학, 물리학 1·2(또는 고급물리학 1·2·물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F33.111",
+       "name": "천문학",
+       "credits": 3,
+       "alt_codes": [
+        "034.014"
+       ]
+      },
+      {
+       "code": "F33.111L",
+       "name": "천문학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.015"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s32",
+      "s33",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께. 통계학·통계학실험은 과학적 사고와 실험으로 인정(2022 표부터 명시). 생명과학을 위한 통계학(실험)은 2022-2 개설, 2023 표부터 통계학 대신 인정(이전 입학생도 인정), 통계학(실험)과 겹쳐 이수 불가. 교양 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "chem-ge-old-qs-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초(수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용) 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s32",
+      "s33",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "표의 묶음 학점이 24다. 수학·고급수학 짝(6)+과학 16 = 22 라 나머지 2학점을 이 묶음에서 더 채워야 하는지는 표만으로 분명하지 않다(2025 체계의 수학·과학·컴퓨팅 24 와 같은 문제)."
+    },
+    {
+     "id": "chem-ge-old-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 4개 영역 이상에서 12학점 이상, '언어와 문학·문화와 예술·역사와 철학' 영역 권장과목(*) 중 1과목 필수",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s32",
+      "s33",
+      "s34",
+      "s35",
+      "s36",
+      "s37",
+      "s38"
+     ],
+     "note": "자연과 기술·생명과 환경 영역은 5개 영역에 들지 않는다(물리학전공·생명과학부 페이지가 5개 영역 이름을 적음). 과목→영역 자료와 권장과목(*) 표시는 편람 자료에 없어 앱은 '확인 필요'. 2025-1 이후 새 공통교육과정 과목을 옛 학번이 들었을 때의 영역 인정 기준은 공개 자료에서 확인하지 못했다(수리과학부 '공통교육과정 영역 및 교과목 비교표' 글 접근 실패).",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "min_count": null
+       },
+       {
+        "name": "문화와 예술",
+        "min_count": null
+       },
+       {
+        "name": "역사와 철학",
+        "min_count": null
+       },
+       {
+        "name": "정치와 경제",
+        "min_count": null
+       },
+       {
+        "name": "인간과 사회",
+        "min_count": null
+       }
+      ],
+      "min_areas": 4
+     }
+    },
+    {
+     "id": "chem-core2",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 5과목 중 3과목 8학점 이상: 물리화학 1, 분석화학 Ⅰ, 무기화학 1, 기초생화학, 생화학실험",
+     "min_count": 3,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "3343.207",
+       "name": "물리화학 1",
+       "credits": 3
+      },
+      {
+       "code": "300.219A",
+       "name": "분석화학Ⅰ",
+       "credits": 3,
+       "alt_codes": [
+        "M2173.004000",
+        "M2173.004400"
+       ]
+      },
+      {
+       "code": "3343.306",
+       "name": "무기화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "M1409.001600"
+       ]
+      },
+      {
+       "code": "3343.310",
+       "name": "기초생화학",
+       "credits": 3
+      },
+      {
+       "code": "300.314",
+       "name": "생화학실험",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s55",
+      "s45"
+     ],
+     "note": "분석화학·무기화학 1 은 새 번호(alt_codes)로 들어도 같은 과목(학과 '화학부전공교과목' 시트)."
+    }
+   ],
+   "changed": "전공필수 26학점 이상(핵심 6과목 18 + 5과목 중 3과목 8 이상) — 물리화학 2·3·유기화학 2 가 필수. '전선 6중 2' 없음. 부전공은 전필 중 전공실험 1과목 포함 15학점 포함. 교양 44."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "전공필수 26(핵심 6 + 5중 3) → 전필 4 + 전선 6중 2(2021. 5. 14.), 교양 44→46, 부전공 필수 변경",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "분석화학 Ⅰ(300.219A)→분석화학 1(M2173.004000, 2022-1)→분석화학(M2173.004400, 2024-1), 무기화학 1(3343.306)→무기화학 1: 구조와 결합(M1409.001600, 2023-2) — 같은 과목",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 체계 개편(학과 내규 화학·물리 지정은 같음)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2026,
+   "basis": "입학 연도",
+   "what": "진단평가로 화학 1·2·물리학 등 면제 가능(교양 46(36))",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "지성의 열쇠: 학과 xlsx 의 '4개 영역 중 3개, 문화 해석과 상상·역사적 탐구와 철학적 사유 각 1과목'과 자연대 규정 '세 영역 각 3학점' 중 어느 쪽인지",
+  "xlsx 비고의 '최우수 학생 학문의 기초 6~14학점 면제(교양 최저 36)' 제도가 2019~2025학번에 실제로 운영됐는지",
+  "2025학번 전공 이수규정이 2021학번 이후 규정(전필 4 + 6중 2)과 같은지",
+  "복수전공생도 졸업논문을 내야 하는지",
+  "고급화학 길의 실험 과목(화학실험 1 vs 화학실험)",
+  "학부 학위취득과정 페이지의 '졸업요건 [국문]' 파일 링크가 열리지 않음(404)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "학부대학, 2026학년도 시행 단과대학별 공통교육과정 이수 규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "pp.53–55 '□ 자연과학대학 (공통)·기초수학과학 교과목 수강의무 면제·(학부(과)별)'(PDF 6–8쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "pp.115–117 자연과학대학 표(PDF 7–9쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "2026학년도 자연과학대학 공통교육과정 이수규정(통계학과 누리집 게시)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2026/03/2026학년도-자연과학대학-공통교육과정-이수규정.pdf",
+   "locator": "pp.1–3 공통교육과정 이수규정·수강의무 면제·학부(과)별 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.110 '□ 자연과학대학 (공통)' 표(PDF 6쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "수리과학부, 이수규정 '2025학년도 졸업이수규정'",
+   "url": "https://www.math.snu.ac.kr/bbs/page.php?hid=criteria&wr_id=42",
+   "locator": "교양 표 '수학 6-8, 과학·컴퓨팅 16'",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2025' 지성의 열쇠 '4개 영역 중 3개 영역 이상에서 9학점, 문학 해석과 상상·역사적 탐구와 철학적 사유 영역에서 각 1과목씩 필수'",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2026' 지성의 열쇠",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.111 '□ 자연과학대학 (학부(과)별)' 표(PDF 7쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "2025학년도 자연과학대학 공통교육과정 교양 이수규정(통계학과 누리집 게시 PDF)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2025/02/2025학년도-자연과학대학-공통교육과정구-교양-이수규정.pdf",
+   "locator": "pp.5–7 '○ 자연과학대학 (공통)·(학부(과)별)'",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2025' 공통교육과정 배분표 '② 고급화학(F34.106)(3), 화학실험 1(F34.104L)(1) 필수 이수'",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2026' [수강의무면제-2026년 입학생부터 적용]",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2025' 전공이수요건(2021. 5. 14.)",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2026' 같은 문장",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '화학부전공교과목' '2021학번 이후 전필, 전선 구분'",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2025' 전공이수요건",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '화학부전공교과목' 전필→전선(2021학번부터 적용), 이전 동일 교과목",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "화학부, 학부 학위취득과정",
+   "url": "https://chem.snu.ac.kr/academics/undergraduate/degree",
+   "locator": "졸업논문 ①~⑤(2013년 2월 졸업예정자부터)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2025' (타과학생)복수(병행)전공 이수규정 '… 졸업논문 제출'",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "화학부, 전공선택 인정교과목",
+   "url": "https://chem.snu.ac.kr/academics/undergraduate/major-elective",
+   "locator": "인정 한도·조건",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.45 화학부 전공선택 인정과목",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2025' (타과학생)복수(병행)전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2025' (타과학생)부전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2026' 졸업수료학점 130·교양학점계 '46(36)'·심화 60·복수 39",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1·2(병행 39, 부전공 21)",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2026' 전체",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2025' 졸업수료학점·교양학점·심화",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2025' 전체",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2021-2023' 교양과목 최저이수학점 배분표 과학적사고와실험",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2024' 같은 표('② 고급화학(F34.106), 화학실험 1(F34.104L)')",
+   "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2021-2023' 배분표 비고",
+   "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2024' 배분표 비고",
+   "accessed": "2026-11-12"
+  },
+  "s32": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "p.16 '□ 자연과학대학' 교양 표(PDF 9쪽), 경과규정",
+   "accessed": "2026-11-12"
+  },
+  "s33": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.16 '□ 자연과학대학' 교양 표(PDF 9쪽), 경과규정",
+   "accessed": "2026-11-12"
+  },
+  "s34": {
+   "title": "2023학년도 자연과학대학 교양 이수규정(통계학과 누리집 게시)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2024/02/2023학년도-자연과학대학-교양-이수규정.pdf",
+   "locator": "1쪽 표·경과규정",
+   "accessed": "2026-11-12"
+  },
+  "s35": {
+   "title": "2024학년도 자연과학대학 교양 이수규정(통계학과 누리집 게시)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2024/02/2024학년도-자연과학대학-교양-이수규정.pdf",
+   "locator": "1쪽 표",
+   "accessed": "2026-11-12"
+  },
+  "s36": {
+   "title": "자연과학대학 2021 교양 이수기준(통계학과 누리집 게시, 스캔본)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2021/04/2021-교양-이수기준.pdf",
+   "locator": "p.108 '□ 자연과학대학' 표(스캔 1쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s37": {
+   "title": "자연과학대학 2019 교양 이수기준(통계학과 누리집 게시, 스캔본)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2021/02/2019-교양-이수기준.pdf",
+   "locator": "p.114 '□ 자연과학대학' 표(스캔 1쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s38": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "2019·2020학번 절 '학문의세계 : 언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회 5개 영역'",
+   "accessed": "2026-11-12"
+  },
+  "s39": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2021-2023' 졸업수료학점·교양학점 46·심화 60",
+   "accessed": "2026-11-12"
+  },
+  "s40": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2024' 같은 값",
+   "accessed": "2026-11-12"
+  },
+  "s41": {
+   "title": "화학부, 학부 학위취득과정",
+   "url": "https://chem.snu.ac.kr/academics/undergraduate/degree",
+   "locator": "'이수규정(2021학번 기준)' 표 46·60·39",
+   "accessed": "2026-11-12"
+  },
+  "s42": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2021-2023' 전체",
+   "accessed": "2026-11-12"
+  },
+  "s43": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2024' 전체",
+   "accessed": "2026-11-12"
+  },
+  "s44": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2019' * 전공이수 ¤ 핵심 전공필수교과목(6과목, 18학점)",
+   "accessed": "2026-11-12"
+  },
+  "s45": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2020' 같은 문장",
+   "accessed": "2026-11-12"
+  },
+  "s46": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2019' (타과학생)부전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s47": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2019' (타과학생)복수(병행)전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s48": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2019' 교양과목 최저이수학점 배분표 과학적사고와실험",
+   "accessed": "2026-11-12"
+  },
+  "s49": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2020' 같은 표",
+   "accessed": "2026-11-12"
+  },
+  "s50": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2019' 배분표 비고(2013학번부터 적용)",
+   "accessed": "2026-11-12"
+  },
+  "s51": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2020' 같은 비고",
+   "accessed": "2026-11-12"
+  },
+  "s52": {
+   "title": "지구환경과학부, 입학년도별 교양이수규정 2019년도(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum?mode=download&seqidx=16",
+   "locator": "1쪽 '자연과학대학' 표",
+   "accessed": "2026-11-12"
+  },
+  "s53": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.16 '□ 자연과학대학' 교양 표(PDF 9쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s54": {
+   "title": "지구환경과학부, 졸업요건(교양)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "교양학점 표 '2014~2020 44학점'",
+   "accessed": "2026-11-12"
+  },
+  "s55": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2019' ¤ 전공필수교과목(3과목, 8학점 이상)",
+   "accessed": "2026-11-12"
+  },
+  "s56": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2019' 졸업수료학점 130·교양 44·심화 60",
+   "accessed": "2026-11-12"
+  },
+  "s57": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2020' 같은 값",
+   "accessed": "2026-11-12"
+  },
+  "s58": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·2",
+   "accessed": "2026-11-12"
+  },
+  "s59": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2019' 전체",
+   "accessed": "2026-11-12"
+  },
+  "s60": {
+   "title": "화학부, '졸업요건 파일[국문]'([국]졸업요건_2026_0513.xlsx, 학위취득과정 페이지 링크)",
+   "url": "https://chem.snu.ac.kr/download/096z156z4a5z31ez302z0fezabazff4zf58z301zb0",
+   "locator": "시트 '2020' 전체",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

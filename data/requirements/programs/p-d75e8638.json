@@ -1,0 +1,724 @@
+{
+ "id": "p-d75e8638",
+ "college": "공과대학",
+ "unit": "공과대학 광역",
+ "program": "공과대학 광역(1학년 1학기)",
+ "kind": "major",
+ "depts": [],
+ "code_prefixes": [],
+ "ge_key": null,
+ "exists_for": [
+  2023,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": {
+  "entry_years": [
+   2019,
+   2022
+  ],
+  "text": "없음 — 2019~2022학번 공대생은 학과(부)로 입학(2022 정시모집 안내에 '광역'·'지역균형' 없음, 2022 해설에도 광역 표 없음)",
+  "status": "확인",
+  "sources": [
+   {
+    "title": "서울대학교 입학본부, 2022학년도 정시모집 안내",
+    "url": "https://admission.snu.ac.kr/webdata/admission/files/2022jungsi.pdf",
+    "locator": "전문 검색",
+    "accessed": "2026-11-12"
+   },
+   {
+    "title": "서울대학교, 2022 교과과정 해설",
+    "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+    "locator": "교양 표 목록(광역 표 없음)",
+    "accessed": "2026-11-12"
+   }
+  ]
+ },
+ "structure": {
+  "splits_into": [
+   "기계공학부",
+   "전기·정보공학부",
+   "컴퓨터공학부",
+   "화학생물공학부",
+   "산업공학과",
+   "항공우주공학과"
+  ],
+  "when": "입학 후 1개 학기를 마친 뒤(1학년 1학기 뒤)",
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": null,
+    "ge": 19,
+    "single": null,
+    "parallel": null,
+    "double": null,
+    "minor": null,
+    "status": "확인",
+    "src": [
+     "s1",
+     "s6",
+     "s7"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s8",
+    "s9",
+    "s10"
+   ],
+   "requirements": [
+    {
+     "id": "eng-gw-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single"
+     ],
+     "text": "[1-1] 대학 글쓰기 1",
+     "min_count": 1,
+     "min_credits": 2,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "eng-gw-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single"
+     ],
+     "text": "[1-1] 외국어 1개 교과목(3학점). TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "eng-gw-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single"
+     ],
+     "text": "[1-1] 수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "options": [
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "eng-gw-ge-sci",
+     "type": "ge",
+     "applies_to": [
+      "single"
+     ],
+     "text": "[1-1] 과학 8학점: 물리학 1(물리의 기본 1·고급물리학 1로 대체 가능)+물리학실험 1, 화학 1+화학실험 1(이론·실험 같은 학기)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "전기·정보공학부로 갈 학생은 '물리학 1'(또는 고급물리학 1)만 인정, '물리의 기본 1' 불인정. 고교 물리 2를 이수했으면 '물리학 1·2', 아니면 '물리의 기본 1·2'가 원칙. 물리의 기본 대상자가 물리학을 들으려면 물리학성취도평가 점수 필요",
+     "extra": {
+      "options": [
+       [
+        "F33.106",
+        "F33.106L",
+        "F34.104",
+        "F34.104L"
+       ],
+       [
+        "F33.103",
+        "F33.106L",
+        "F34.104",
+        "F34.104L"
+       ],
+       [
+        "F33.108",
+        "F33.106L",
+        "F34.104",
+        "F34.104L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "eng-gw-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single"
+     ],
+     "text": "[1-1] 컴퓨터의 개념 및 실습",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "eng-gw-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single"
+     ],
+     "text": "1학년 1학기 교양 19학점 이상(위 다섯 칸의 합). 학과 선택 뒤에는 그 학과(부)의 2025학번 교양 이수규정을 따름",
+     "min_count": null,
+     "min_credits": 19,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "길잡이 표는 [1-1]만 다룬다. 학과 배정 뒤 그 학과 표로 넘어간다는 문장은 공대 광역 표에 없음(학부대학 광역 표의 '졸업 시 소속 학과 이수규정' 문장과 같은 취지로 추정) → 확인 필요"
+    },
+    {
+     "id": "eng-gw-explore",
+     "type": "other",
+     "applies_to": [
+      "single"
+     ],
+     "text": "공학 전공 탐색(M2177.008100, 3학점, 공대 공통 '공학개론' 영역, '광역모집 입학생을 위한 전공탐색과목')",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M2177.008100",
+       "name": "공학 전공 탐색",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s3",
+      "s4"
+     ],
+     "note": "필수라는 문장은 못 찾음(권장 과목으로 봄). 편람상 2023-1부터 매년 1학기 개설"
+    },
+    {
+     "id": "eng-gw-choice-scope",
+     "type": "other",
+     "applies_to": [
+      "single"
+     ],
+     "text": "6개 학과(부) 밖 공대 학과 선택 가능 여부, 선택 신청 시기·절차·정원 제한",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s5"
+     ],
+     "note": "모집요강엔 6개 학과(부) 선택권 보장 문장만 있음"
+    }
+   ],
+   "note": "2026학번도 1-1 교양 19학점 표·선택권(6개 학과(부), 1개 학기 뒤)·모집 36명이 2025와 같음. 구조의 미확인 점(6곳 밖 학과 선택, 신청 절차)은 1차와 같음"
+  },
+  {
+   "entry_years": [
+    2023,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": null,
+    "ge": 19,
+    "single": null,
+    "parallel": null,
+    "double": null,
+    "minor": null,
+    "status": "부분",
+    "src": [
+     "s11"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s11",
+    "s12",
+    "s13",
+    "s14"
+   ],
+   "requirements": [
+    {
+     "id": "eng-gw-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single"
+     ],
+     "text": "[1-1] 대학 글쓰기 1(사고와 표현)",
+     "min_count": 1,
+     "min_credits": 2,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ]
+    },
+    {
+     "id": "eng-gw-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single"
+     ],
+     "text": "[1-1] 외국어 1개 교과목(3학점). TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "eng-gw-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single"
+     ],
+     "text": "[1-1] 수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000100",
+        "L0442.000200"
+       ],
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "L0442.000500",
+        "L0442.000600"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "eng-gw-ge-sci",
+     "type": "ge",
+     "applies_to": [
+      "single"
+     ],
+     "text": "[1-1] 과학적 사고와 실험 8학점: 물리학 1(물리의 기본 1·고급물리학 1 대체 가능)+물리학실험 1, 화학 1+화학실험 1. 전기·정보공학부로 갈 학생은 물리학 1(또는 고급물리학 1)만 인정",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ]
+    },
+    {
+     "id": "eng-gw-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single"
+     ],
+     "text": "[1-1] 컴퓨터의 개념 및 실습(컴퓨터와 정보 활용 3학점)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ]
+    },
+    {
+     "id": "eng-gw-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single"
+     ],
+     "text": "1학년 1학기 교양 19학점(위 칸 합, 외국어 1과목 3 포함). 학과(부) 선택 뒤에는 그 학과(부)의 같은 학번 교양·전공 규정을 따름",
+     "min_count": null,
+     "min_credits": 19,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s11"
+     ],
+     "note": "2023학번은 해설(2023 판)이 없어 2024 판 표와 같다고 봄"
+    },
+    {
+     "id": "eng-gw-explore",
+     "type": "other",
+     "applies_to": [
+      "single"
+     ],
+     "text": "공학 전공 탐색(M2177.008100, 3학점, 공대 공통 '공학개론' 영역, '광역모집 입학생을 위한 전공탐색과목')",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M2177.008100",
+       "name": "공학 전공 탐색",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s3",
+      "s4"
+     ],
+     "note": "필수라는 문장은 못 찾음(권장 과목으로 봄). 편람상 2023-1부터 매년 1학기 개설"
+    },
+    {
+     "id": "eng-gw-choice-scope",
+     "type": "other",
+     "applies_to": [
+      "single"
+     ],
+     "text": "6개 학과(부) 밖 공대 학과 선택 가능 여부, 선택 신청 시기·절차·정원 제한",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s5"
+     ],
+     "note": "모집요강엔 6개 학과(부) 선택권 보장 문장만 있음"
+    }
+   ],
+   "changed": "1-1 학기 19학점 묶음 구성은 같고, 교양 체계·과목 번호만 옛 것(학문의 기초). 모집 46명",
+   "note": "선택권 문구는 2023·2024 모집요강이 2025·2026과 같음. 옛 교양 번호는 TT Wizard 편람 자료(2021-1~2024) 기준. 2019·2020년에 들은 과목은 번호가 다를 수 있음. 같은 과목을 2025-1 이후 새 번호(F…)로 들어도 인정되는 것으로 보고 둘 다 적음"
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2023,
+   "basis": "입학 연도",
+   "what": "공과대학 광역 모집 신설(정시 지역균형전형 46명, 1개 학기 뒤 6개 학과(부) 선택권). 공학 전공 탐색 2023-1 첫 개설",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "1-1 교양 묶음이 새 교양 체계(학문의 토대) 번호로, 구성 같음. 모집 46→36명",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "공대 광역 입학생이 6개 학과(부) 밖(건축·원자핵·조선해양·재료·건설환경·에너지자원)도 고를 수 있는지, 그때 기준",
+  "학과 선택 신청 시기·절차, 배정 뒤 1-1 교양이 새 학과 교양에 그대로 인정되는지",
+  "'공학 전공 탐색'이 광역 입학생에게 필수인지",
+  "2023학번 1-1 교양 묶음이 2024 해설 표(19학점)와 같은지(2023 판 해설 없음)",
+  "공대 광역 입학생이 6개 학과(부) 밖(건축·원자핵·조선해양·재료·건설환경·에너지자원)도 고를 수 있는지, 그때 기준(정원·성적)",
+  "학과 선택 신청 시기·절차(1학년 1학기 말인지), 배정 뒤 1-1 교양이 새 학과 교양에 그대로 인정되는지"
+ ],
+ "sources": {
+  "s1": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.114(PDF 10쪽) '□ 공과대학 광역모집 [1-1]'",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "학부대학, 학부대학 광역 모집단위 학과(부)·전공별 권장 이수 교과목 목록('25.11.05) 및 공통교육이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/학부대학-광역-모집단위-학과부·전공별-권장-이수-교과목-목록-및-공통교육이수규정.pdf",
+   "locator": "4–5쪽 공과대학",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.54 400. 공과대학 공통과목",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "산업공학과, 산업공학과 학생을 위한 전공교과목이수규정(2008~2026학번 통합본, 최종 편집 2026-04-14)",
+   "url": "https://ie.snu.ac.kr/wp-content/uploads/sites/307/2026/08/★-학부전공이수규정08-26학번_수정-1.pdf",
+   "locator": "'전공과목 이수 규정 (2025학번)' 쪽, '공과대학 공통과목 리스트(학사: 47개 교과목) 2026학년도 1학기 시행' 쪽(PDF 2쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교 입학본부, 2025학년도 정시모집 안내",
+   "url": "https://admission.snu.ac.kr/webdata/admission/files/2025jungsi.pdf",
+   "locator": "p.9 모집단위와 모집인원(공과대학 광역 지역균형전형 36), p.12 '정시모집만 실시하는 모집단위', p.18 전형방법, p.88–89 <붙임 14> 입학 후 전공 배정 및 신청",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.120(PDF 12쪽) 같은 표",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "학부대학, 2026학년도 시행 단과대학별 공통교육과정 이수 규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "'□ 공과대학 광역모집 [1-1]' 표",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.120(PDF 12쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 입학본부, 2026학년도 정시모집 안내",
+   "url": "https://admission.snu.ac.kr/webdata/admission/files/2026jungsi.pdf",
+   "locator": "모집인원 '광역 36', <붙임> 공과대학 광역 칸(선택권 6개 학과(부))",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 입학본부, 2025학년도 정시모집 안내",
+   "url": "https://admission.snu.ac.kr/webdata/admission/files/2025jungsi.pdf",
+   "locator": "p.9·p.88–89",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.11(PDF) '□ 공과대학 광역모집[1-1]' 교양 19학점 표",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 입학본부, 2023학년도 정시모집 안내",
+   "url": "https://admission.snu.ac.kr/webdata/admission/files/2023jungsi.pdf",
+   "locator": "모집인원 표 '광역** 46'·각주, <붙임> '입학 후 전공 배정 및 신청' 공과대학 광역 칸",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 입학본부, 2024학년도 정시모집 안내",
+   "url": "https://admission.snu.ac.kr/webdata/admission/files/2024jungsi.pdf",
+   "locator": "모집인원 표 '광역** 46'·각주, <붙임> 같은 칸",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "TT Wizard 수강편람 자료(2021-1~2026-2 학기별 개설 과목)",
+   "locator": "M2177.008100 공학 전공 탐색 2023-1부터 매년 1학기 개설",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

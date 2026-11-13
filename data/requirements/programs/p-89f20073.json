@@ -1,0 +1,251 @@
+{
+ "id": "p-89f20073",
+ "college": "인문대학",
+ "unit": "동양사학과(2022학번까지; 2023 역사학부로 통합)",
+ "program": "동양사학과",
+ "kind": "major",
+ "depts": [
+  "동양사학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "인문대학",
+ "exists_for": [
+  2019,
+  2022
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {},
+ "versions": [
+  {
+   "entry_years": [
+    2019,
+    2022
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 24,
+    "status": "충돌",
+    "src": [
+     "s5",
+     "s6",
+     "s7",
+     "s8",
+     "s1",
+     "s2"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s1",
+    "s2"
+   ],
+   "requirements": [
+    {
+     "id": "ah22-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공필수 3과목: 동양사학입문(또는 아시아사입문), 동양사한문사료강독(또는 한문사료강독 2), 동양사학연구지도(또는 역사학 논문쓰기 2)",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "100.137",
+       "name": "동양사학입문",
+       "credits": 3
+      },
+      {
+       "code": "111.154A",
+       "name": "동양사한문사료강독",
+       "credits": 3
+      },
+      {
+       "code": "111.404",
+       "name": "동양사학연구지도",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "2022 목록 전필은 111.154A·111.404·M2169.004700. 기존 동양사학과 학생은 한문사료강독 1·역사학 논문쓰기 1 로는 전필 인정 안 됨(FAQ 6). 역사학부 과목은 시스템상 일선으로 떠서 교과구분변경 필요."
+    },
+    {
+     "id": "ah22-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "삼사과통합과목 1과목(18–22학번): 2018-2 한국사특강2 또는 2019-2 이후 역사학세미나. 주전공·광역 진입 희망자는 1학년 2학기, 복수전공은 진입한 해 2학기",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M3533.000700",
+       "name": "역사학 세미나",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "ah22-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공 학점 산입: 역사학부 동양사과목군 전부, 공통과목군 중 동양사 기존 과목 개편 과목(역사학 논문쓰기 2·한문사료강독 2·역사학의 역사), 역사학세미나. 9학점까지: 공통과목군 중 국사·서양사 기존 과목 개편 과목·역사학부 신설 과목, 한국사·서양사 과목군, 중문 시경·초사, 철학 중국근현대철학(대체 과목 포함)·한국불교철학·신유학특강, 고고미술사 동양고고학, 정치학 중국정치론; 19–22학번은 아시아언어문명학부 지정 과목(일본문명의 이해, 일본문헌강독1·2, 전후 일본사회와 영화, 일본의 사상과 문명, 인도사1·2, 고대 서아시아문명, 이슬람 문명의 기원과 전개, 중동현대사의 쟁점들, 세계사 속의 동남아시아)도",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "ah22-double-minor",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "복수전공 39학점(전필 3과목 포함). 부전공: 2022 목록은 '전공필수 3과목을 포함한 전공 24학점'",
+     "min_count": 3,
+     "min_credits": 39,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "부전공 24(2022 목록) ↔ 해설 표 2 인문대 21. 다전공 적용 시기(선발 시기 기준인지)는 공개 자료에 없음."
+    },
+    {
+     "id": "ah22-transfer",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "22학번 이전 동양사학과 학생도 역사학부로 학적 변경 가능(매 방학 마지막 주) — 바꾸면 역사학부 내규(교과·답사 2회) 적용; 18–22학번 동양사학과 전선 인정 내규는 동양사학과 학적에만 적용",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통 교양·졸업 의무 — 학번에 맞는 college_common.ge_by_cohort·other 참조(제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학(2024학번까지)/삶과 인문학 세미나(2025학번~))",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4"
+     ],
+     "note": "2차: hum-common-ref 는 학번에 맞는 college_common.ge_by_cohort·college_common.other 를 가리킨다(2019–2024학번은 학문의 기초·학문의 세계 + 삶과 인문학, 2025학번~은 새 교양 + 삶과 인문학 세미나).",
+     "extra": {
+      "see": [
+       "college_common.ge_by_cohort",
+       "college_common.other"
+      ]
+     }
+    }
+   ],
+   "note": "옛 동양사학과의 답사 의무는 공개 자료에서 못 찾음."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2023,
+   "basis": "입학 연도",
+   "what": "역사학부 신설로 동양사학과 신입생 모집 끝",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "옛 동양사학과 부전공 학점 24 ↔ 21",
+  "옛 동양사학과 학생의 답사 의무"
+ ],
+ "sources": {
+  "s1": {
+   "title": "동양사학전공 「학부전공 이수표준」(업데이트 2026-08-14)",
+   "url": "https://asianhistory.snu.ac.kr/%ED%95%99%EB%B6%80%EC%A0%84%EA%B3%B5-%EC%9D%B4%EC%88%98%ED%91%9C%EC%A4%80/",
+   "locator": "동양사학과 전공교과목 이수 규정([17학번까지]/[18-22학번], 전공선택 인정교과목, 18–22학번 내규, 자주 묻는 질문, 졸업요건 표)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "111. 동양사학과 이수표준형태 오른쪽 칸(전필 3과목, 복수 39, 부전공 24), 인쇄 17쪽",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 인문대학 표, PDF 4쪽(인쇄 108쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "인문대학 졸업이수 의무사항 안내(관련: 인문대학-2710, 2025.1.25., 게시 2025-02-03)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림(https://humanities.snu.ac.kr/webdata/upimages/7efzf51z874zf93z1c2za09z28cz23ezd11z697zb8.png), '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

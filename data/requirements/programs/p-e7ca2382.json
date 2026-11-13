@@ -1,0 +1,4187 @@
+{
+ "id": "p-e7ca2382",
+ "college": "약학대학",
+ "unit": "약학계열(6년제)",
+ "program": "제약학과(6년제)",
+ "kind": "major",
+ "depts": [
+  "제약학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "약학대학(6년제)",
+ "exists_for": [
+  2022,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": {
+  "entry_years": [
+   2019,
+   2021
+  ],
+  "program": "약학대학 2+4년제 약학과·제약학과(편입생)",
+  "credits": {
+   "grad": 150,
+   "ge": null,
+   "single": 150,
+   "parallel": 150,
+   "double": null,
+   "minor": null,
+   "major_required": 120,
+   "major_elective": 30,
+   "status": "확인",
+   "sources": [
+    {
+     "title": "약학대학, 졸업규정(2+4년제 2013~2016·2017 이후 편입생, 6년제 2022 이후 입학)",
+     "url": "https://snupharm.snu.ac.kr/%ec%a1%b8%ec%97%85%ea%b7%9c%ec%a0%95/",
+     "locator": "2+4년제 편입학생(2017학년도 이후 입학) 졸업 요건",
+     "accessed": "2026-11-12"
+    },
+    {
+     "title": "서울대학교 2020 교과과정 해설(본부, 2020학년도 신입생 기준)",
+     "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+     "locator": "<표 1> p.9 2+4학년제 150/－/150/150 '2017학년도부터 시행'",
+     "accessed": "2026-11-12"
+    },
+    {
+     "title": "서울대학교 2024 전공별 교과목(학사과정)",
+     "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+     "locator": "p.118~119 370W 약학기본과정(2+4년제)·376 약학과·372 제약학과 이수규정(전필 120·전선 30, 2017학년도 입학생부터)",
+     "accessed": "2026-11-12"
+    }
+   ]
+  },
+  "requirements": [
+   {
+    "id": "pharm24-major-required",
+    "type": "major_required",
+    "applies_to": [
+     "single",
+     "parallel"
+    ],
+    "text": "전공필수 120학점(370W 약학기본과정 + 학과 과목, 2024 목록 p.118~119 * 과목)",
+    "min_count": null,
+    "min_credits": 120,
+    "courses": [],
+    "status": "확인",
+    "sources": [
+     {
+      "title": "서울대학교 2024 전공별 교과목(학사과정)",
+      "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+      "locator": "p.118~119",
+      "accessed": "2026-11-12"
+     },
+     {
+      "title": "약학대학, 2+4년제 편입학생 교과과정(2017학년도 이후 입학)(2019-09-03 게시)",
+      "url": "https://snupharm.snu.ac.kr/%ed%95%99%eb%b6%80-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/?mod=document&uid=48",
+      "locator": "교과과정 그림",
+      "accessed": "2026-11-12"
+     }
+    ]
+   },
+   {
+    "id": "pharm24-major-elective",
+    "type": "major_elective",
+    "applies_to": [
+     "single",
+     "parallel"
+    ],
+    "text": "전공선택 30학점 이상",
+    "min_count": null,
+    "min_credits": 30,
+    "courses": [],
+    "status": "확인",
+    "sources": [
+     {
+      "title": "약학대학, 졸업규정(2+4년제 2013~2016·2017 이후 편입생, 6년제 2022 이후 입학)",
+      "url": "https://snupharm.snu.ac.kr/%ec%a1%b8%ec%97%85%ea%b7%9c%ec%a0%95/",
+      "locator": "2017 이후 편입생 2)",
+      "accessed": "2026-11-12"
+     }
+    ]
+   },
+   {
+    "id": "pharm24-other",
+    "type": "other",
+    "applies_to": [
+     "single",
+     "parallel"
+    ],
+    "text": "등록 8회 이상 16회까지, 전 교과목·전공교과목 평점평균 2.0 이상, 졸업논문심사 합격",
+    "min_count": null,
+    "min_credits": null,
+    "courses": [],
+    "status": "확인",
+    "sources": [
+     {
+      "title": "약학대학, 졸업규정(2+4년제 2013~2016·2017 이후 편입생, 6년제 2022 이후 입학)",
+      "url": "https://snupharm.snu.ac.kr/%ec%a1%b8%ec%97%85%ea%b7%9c%ec%a0%95/",
+      "locator": "2017 이후 편입생 1)·3)·4)",
+      "accessed": "2026-11-12"
+     }
+    ]
+   }
+  ],
+  "status": "부분",
+  "note": "2019~2021학번에는 약학 학부 신입생 선발이 없었다(6년제 첫 신입생은 2022학번; 2020 판 표 1 에는 6년제 줄이 없고 2022 판 경과조치에 '2022학년도 6년제 약학대학 입학자부터 211'). 그 학번의 약학대학 학생은 다른 대학(학과)에서 2년 이상 다닌 뒤 약학대학 3학년으로 편입한 2+4년제 학생이고, 학번은 편입 학년도다. 마지막 2+4 편입 학년도(2021 또는 2022)는 공개 자료로 못 정했다(편람상 2+4 1학년 과목이 2023-1 까지 열림). 정상 진행이면 2021학번 편입생은 2025-02 졸업이라 남은 학생은 유급·휴학자뿐이다."
+ },
+ "structure": {
+  "splits_into": [
+   "약학과(6년제)",
+   "제약학과(6년제)"
+  ],
+  "when": "4학년 진입 시(약학 기본과정 3년 이수 후)",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 211,
+    "ge": 36,
+    "single": 174,
+    "parallel": 174,
+    "double": null,
+    "minor": null,
+    "status": "확인",
+    "src": [
+     "s13",
+     "s14",
+     "s15",
+     "s16",
+     "s17",
+     "s18"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s17",
+    "s18"
+   ],
+   "requirements": [
+    {
+     "id": "pharm-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 45과목 110학점(1~6학년 고정, 2025-2 기준표)",
+     "min_count": 45,
+     "min_credits": 110,
+     "courses": [
+      {
+       "code": "M2175.003200",
+       "name": "약대 신입생을 위한 세미나",
+       "credits": 1
+      },
+      {
+       "code": "M2175.003300",
+       "name": "약학개론",
+       "credits": 1
+      },
+      {
+       "code": "M2175.003400",
+       "name": "물리약학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.003500",
+       "name": "생화학 1",
+       "credits": 3
+      },
+      {
+       "code": "M2175.012900",
+       "name": "약화학 1",
+       "credits": 3
+      },
+      {
+       "code": "M2175.003700",
+       "name": "약학윤리",
+       "credits": 1
+      },
+      {
+       "code": "M2175.003800",
+       "name": "해부학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004300",
+       "name": "약학미생물학(핵심)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004400",
+       "name": "생리학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004500",
+       "name": "생화학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.013000",
+       "name": "약화학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004700",
+       "name": "약학자와 약사를 위한 의사소통",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005200",
+       "name": "면역학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005300",
+       "name": "병리학(핵심)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.005400",
+       "name": "생약학(핵심)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.005500",
+       "name": "약품분석학(핵심)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.005600",
+       "name": "약학실습 1",
+       "credits": 1
+      },
+      {
+       "code": "M2175.006200",
+       "name": "약학실습 2",
+       "credits": 1
+      },
+      {
+       "code": "M2175.005700",
+       "name": "의약품합성화학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.006000",
+       "name": "약물학 1",
+       "credits": 3
+      },
+      {
+       "code": "M2175.006100",
+       "name": "제제학과 약물동태학의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007100",
+       "name": "약학실습 3",
+       "credits": 1
+      },
+      {
+       "code": "M2175.008400",
+       "name": "약학실습 4",
+       "credits": 1
+      },
+      {
+       "code": "M2175.006300",
+       "name": "예방약학 1",
+       "credits": 3
+      },
+      {
+       "code": "M2175.006900",
+       "name": "실무실습 1(제약·의약품행정, 3학년 겨울방학 실시)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008200",
+       "name": "약료학 및 실습",
+       "credits": 2
+      },
+      {
+       "code": "M2175.013700",
+       "name": "약학실습 5",
+       "credits": 1
+      },
+      {
+       "code": "M2175.013800",
+       "name": "약학실습 6",
+       "credits": 1
+      },
+      {
+       "code": "M2175.007200",
+       "name": "의약화학 1 (핵심)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007300",
+       "name": "천연물의약학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.008100",
+       "name": "사회약학원론",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007000",
+       "name": "약물치료학 및 실습: 심혈관과 호흡기 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.013900",
+       "name": "약학실습 7",
+       "credits": 1
+      },
+      {
+       "code": "M2175.014000",
+       "name": "약학실습 8",
+       "credits": 1
+      },
+      {
+       "code": "M2175.009200",
+       "name": "바이오의약품학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.009300",
+       "name": "약물치료학 및 실습: 소화기와 근골격계 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009400",
+       "name": "약전 및 의약품 품질제조관리",
+       "credits": 3
+      },
+      {
+       "code": "M2175.015300",
+       "name": "약물치료학 및 실습: 내분비와 신장 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010200",
+       "name": "실무실습 2(지역약국, 5학년 여름방학 실시)",
+       "credits": 4
+      },
+      {
+       "code": "M2175.015400",
+       "name": "약물치료학 및 실습: 감염과 종양 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010400",
+       "name": "약사법규",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011300",
+       "name": "실무실습 3(의료기관, 5학년 겨울방학·6학년 1학기)",
+       "credits": 4
+      },
+      {
+       "code": "M2175.011400",
+       "name": "실무실습 4(의료기관)",
+       "credits": 4
+      },
+      {
+       "code": "M2175.012000",
+       "name": "심화약학실습 1",
+       "credits": 6
+      },
+      {
+       "code": "M2175.012100",
+       "name": "심화약학실습 2",
+       "credits": 6
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "2024 목록의 * 합도 110 이지만 과목 일부의 이름·번호·학기가 2025-2 기준으로 바뀌었다(cohort_differences). 약물치료학 및 실습 계열·약료학 및 실습·실무실습 3·4·심화약학실습은 우리 편람 자료에 없어 번호를 약대 PDF 로 적었다."
+    },
+    {
+     "id": "pharm-major-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 64학점 이상: 약학대학 개설 전선 + 서울대학교 타 학과(부) 개설 전공과목 12학점 이내 인정",
+     "min_count": null,
+     "min_credits": 64,
+     "courses": [
+      {
+       "code": "M2175.003900",
+       "name": "명저와 약학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004000",
+       "name": "세포와 유전",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004100",
+       "name": "약용식물학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.004200",
+       "name": "예술속의 약학",
+       "credits": 1
+      },
+      {
+       "code": "M2175.004800",
+       "name": "심화 물리약학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004900",
+       "name": "비판적 심화탐구",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005000",
+       "name": "약학리더십",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005100",
+       "name": "의약품개발사",
+       "credits": 3
+      },
+      {
+       "code": "M2175.005800",
+       "name": "약학미생물학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005900",
+       "name": "응용약학통계학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.013600",
+       "name": "약학 인재를 위한 기업가 정신과 창업",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006400",
+       "name": "병리학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006500",
+       "name": "생약학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006600",
+       "name": "약품분석학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006700",
+       "name": "의약분자생물학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.015600",
+       "name": "의약품합성화학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.012600",
+       "name": "면역질환과 면역치료",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007400",
+       "name": "기능성식품 및 화장품",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007500",
+       "name": "약물학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007600",
+       "name": "응용약물동태학과 생물약제학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007700",
+       "name": "약학데이터사이언스개론",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007800",
+       "name": "예방약학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007900",
+       "name": "임상약동력학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008000",
+       "name": "임상약학개론",
+       "credits": 2
+      },
+      {
+       "code": "M2175.008500",
+       "name": "독성학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008600",
+       "name": "생물의약분석",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008700",
+       "name": "약물 송달학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008800",
+       "name": "약학연구 1",
+       "credits": 1
+      },
+      {
+       "code": "M2175.008900",
+       "name": "유용천연물소재학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009000",
+       "name": "의약화학 2 (심화)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009100",
+       "name": "임상약물학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.014800",
+       "name": "약물치료학: 면역과 피부 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009500",
+       "name": "기기분석",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009700",
+       "name": "약학연구 2",
+       "credits": 1
+      },
+      {
+       "code": "M2175.009800",
+       "name": "실전의약품합성",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009900",
+       "name": "융합글로벌콜로키움",
+       "credits": 1
+      },
+      {
+       "code": "M2175.010000",
+       "name": "융합형 미래 신약",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010100",
+       "name": "천연물화학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010500",
+       "name": "맞춤약제학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010600",
+       "name": "분자종양생물학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010700",
+       "name": "약물경제학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.010800",
+       "name": "약물유전체학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.014900",
+       "name": "약물치료학: 정신신경과 비뇨기 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.011000",
+       "name": "약학연구 3",
+       "credits": 1
+      },
+      {
+       "code": "M2175.011100",
+       "name": "첨단 바이오의약품학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011200",
+       "name": "특수환자군 약료학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011500",
+       "name": "건강증진과 약사",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011600",
+       "name": "동물의약품학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011700",
+       "name": "신약개발의 원리",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011800",
+       "name": "약학경영학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011900",
+       "name": "한약제제학",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4",
+      "s5"
+     ],
+     "note": "타 학과 전공과목은 12학점까지만 64에 넣는다. 학과별 권장 전공선택 22학점은 이 64 안에 들어간다.",
+     "extra": {
+      "other_dept_cap": 12
+     }
+    },
+    {
+     "id": "pharm-rec-je",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과별 권장 전공선택: 제약학과(6년제) 목록에서 22학점 이상(소속(예정) 학과 기준)",
+     "min_count": null,
+     "min_credits": 22,
+     "courses": [
+      {
+       "code": "M2175.004800",
+       "name": "심화 물리약학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005800",
+       "name": "약학미생물학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005900",
+       "name": "응용약학통계학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006400",
+       "name": "병리학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006600",
+       "name": "약품분석학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.015600",
+       "name": "의약품합성화학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007400",
+       "name": "기능성식품 및 화장품",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007500",
+       "name": "약물학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007600",
+       "name": "응용약물동태학과 생물약제학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007700",
+       "name": "약학데이터사이언스개론",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008600",
+       "name": "생물의약분석",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008700",
+       "name": "약물 송달학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009000",
+       "name": "의약화학 2 (심화)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009500",
+       "name": "기기분석",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009800",
+       "name": "실전의약품합성",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010000",
+       "name": "융합형 미래 신약",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010500",
+       "name": "맞춤약제학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.011100",
+       "name": "첨단 바이오의약품학",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "약학과 목록과 겹치는 과목이 많다. 학과 배정 전(1~3학년)에 들은 과목도 '소속(예정) 학과' 기준으로 센다고 적혀 있다."
+    },
+    {
+     "id": "pharm-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문심사 합격",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8"
+     ],
+     "note": "심사 방식·시기와 연결 과목(심화약학실습 등)은 공개 자료에 없다 → 앱은 '안내만'."
+    },
+    {
+     "id": "pharm-other-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "등록 12회 이상 16회까지, 전 교과목 및 전공교과목 평점평균 2.0 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9"
+     ],
+     "note": "성적·등록 횟수는 앱이 받지 않으므로 안내만."
+    },
+    {
+     "id": "pharm-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1(1-1) + 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 택 1, 1-2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "extra": {
+      "ge_area": "글쓰기와 말하기",
+      "rule": "F11.101 필수 + F11.201/202/203 중 1"
+     }
+    },
+    {
+     "id": "pharm-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "note": "입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수.",
+     "extra": {
+      "ge_area": "외국어"
+     }
+    },
+    {
+     "id": "pharm-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 3학점: 생명과학을 위한 수학 1 또는 2",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F31.111",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.112",
+       "name": "생명과학을 위한 수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "extra": {
+      "ge_area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "pharm-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학 8학점: (화학+화학실험) 또는 (고급화학+화학실험) 중 택 1, 그리고 생물학+생물학실험 필수(같은 학기 원칙)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "extra": {
+      "ge_area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "pharm-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨팅 3(4)학점: 컴퓨팅 기초, 컴퓨팅 핵심, 컴퓨팅 응용, (생명과학을 위한 통계학+실험) 중 택 1",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F37.101",
+       "name": "컴퓨팅 기초: 처음 만나는 컴퓨팅",
+       "credits": 3
+      },
+      {
+       "code": "F37.102",
+       "name": "컴퓨팅 기초: 처음 만나는 데이터",
+       "credits": 3
+      },
+      {
+       "code": "F37.204",
+       "name": "컴퓨팅 핵심: 컴퓨터로 생각하기",
+       "credits": 3
+      },
+      {
+       "code": "F37.205",
+       "name": "컴퓨팅 핵심: 데이터 중심의 인공지능",
+       "credits": 3
+      },
+      {
+       "code": "F37.302",
+       "name": "컴퓨팅 응용: 데이터사이언스의 기초",
+       "credits": 3
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "note": "'컴퓨팅 탐색'(F37.206)은 목록에 이름이 없다 → 인정 여부 확인 필요. 생명과학을 위한 통계학은 실험을 같은 학기에(합 4학점).",
+     "extra": {
+      "ge_area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "pharm-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠: 4개 영역 중 3개 영역에서 9학점 이상",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "extra": {
+      "ge_area": "지성의 열쇠",
+      "areas": [
+       "문화 해석과 상상",
+       "역사적 탐구와 철학적 사유",
+       "인간의 이해와 사회 분석",
+       "과학적 사고와 응용"
+      ],
+      "min_areas": 3
+     }
+    },
+    {
+     "id": "pharm-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 영역에서 3학점(강좌 1·강좌 2·실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "extra": {
+      "ge_area": "베리타스"
+     }
+    },
+    {
+     "id": "pharm-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합계 36학점 이상(나머지는 전체 교양 교과목에서 자유 선택)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11",
+      "s12"
+     ]
+    }
+   ],
+   "note": "2026학번 교양은 2026 길잡이 p.156·2026 이수규정 p.89('2025학년도 입학생부터')로 2025학번과 같다. 전공(211·전필 110·전선 64·권장 22)은 2022학번부터 같은 규정이고, 과목표는 학기마다 갱신된다(기준: 교과 개편 학기, 지금은 2025-2 기준표)."
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 211,
+    "ge": 36,
+    "single": 174,
+    "parallel": 174,
+    "double": null,
+    "minor": null,
+    "status": "확인",
+    "src": [
+     "s13",
+     "s14",
+     "s15",
+     "s16",
+     "s21",
+     "s22"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s23",
+    "s24",
+    "s20"
+   ],
+   "requirements": [
+    {
+     "id": "pharm-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 45과목 110학점(1~6학년 고정, 2025-2 기준표)",
+     "min_count": 45,
+     "min_credits": 110,
+     "courses": [
+      {
+       "code": "M2175.003200",
+       "name": "약대 신입생을 위한 세미나",
+       "credits": 1
+      },
+      {
+       "code": "M2175.003300",
+       "name": "약학개론",
+       "credits": 1
+      },
+      {
+       "code": "M2175.003400",
+       "name": "물리약학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.003500",
+       "name": "생화학 1",
+       "credits": 3
+      },
+      {
+       "code": "M2175.012900",
+       "name": "약화학 1",
+       "credits": 3
+      },
+      {
+       "code": "M2175.003700",
+       "name": "약학윤리",
+       "credits": 1
+      },
+      {
+       "code": "M2175.003800",
+       "name": "해부학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004300",
+       "name": "약학미생물학(핵심)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004400",
+       "name": "생리학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004500",
+       "name": "생화학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.013000",
+       "name": "약화학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004700",
+       "name": "약학자와 약사를 위한 의사소통",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005200",
+       "name": "면역학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005300",
+       "name": "병리학(핵심)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.005400",
+       "name": "생약학(핵심)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.005500",
+       "name": "약품분석학(핵심)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.005600",
+       "name": "약학실습 1",
+       "credits": 1
+      },
+      {
+       "code": "M2175.006200",
+       "name": "약학실습 2",
+       "credits": 1
+      },
+      {
+       "code": "M2175.005700",
+       "name": "의약품합성화학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.006000",
+       "name": "약물학 1",
+       "credits": 3
+      },
+      {
+       "code": "M2175.006100",
+       "name": "제제학과 약물동태학의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007100",
+       "name": "약학실습 3",
+       "credits": 1
+      },
+      {
+       "code": "M2175.008400",
+       "name": "약학실습 4",
+       "credits": 1
+      },
+      {
+       "code": "M2175.006300",
+       "name": "예방약학 1",
+       "credits": 3
+      },
+      {
+       "code": "M2175.006900",
+       "name": "실무실습 1(제약·의약품행정, 3학년 겨울방학 실시)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008200",
+       "name": "약료학 및 실습",
+       "credits": 2
+      },
+      {
+       "code": "M2175.013700",
+       "name": "약학실습 5",
+       "credits": 1
+      },
+      {
+       "code": "M2175.013800",
+       "name": "약학실습 6",
+       "credits": 1
+      },
+      {
+       "code": "M2175.007200",
+       "name": "의약화학 1 (핵심)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007300",
+       "name": "천연물의약학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.008100",
+       "name": "사회약학원론",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007000",
+       "name": "약물치료학 및 실습: 심혈관과 호흡기 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.013900",
+       "name": "약학실습 7",
+       "credits": 1
+      },
+      {
+       "code": "M2175.014000",
+       "name": "약학실습 8",
+       "credits": 1
+      },
+      {
+       "code": "M2175.009200",
+       "name": "바이오의약품학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.009300",
+       "name": "약물치료학 및 실습: 소화기와 근골격계 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009400",
+       "name": "약전 및 의약품 품질제조관리",
+       "credits": 3
+      },
+      {
+       "code": "M2175.015300",
+       "name": "약물치료학 및 실습: 내분비와 신장 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010200",
+       "name": "실무실습 2(지역약국, 5학년 여름방학 실시)",
+       "credits": 4
+      },
+      {
+       "code": "M2175.015400",
+       "name": "약물치료학 및 실습: 감염과 종양 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010400",
+       "name": "약사법규",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011300",
+       "name": "실무실습 3(의료기관, 5학년 겨울방학·6학년 1학기)",
+       "credits": 4
+      },
+      {
+       "code": "M2175.011400",
+       "name": "실무실습 4(의료기관)",
+       "credits": 4
+      },
+      {
+       "code": "M2175.012000",
+       "name": "심화약학실습 1",
+       "credits": 6
+      },
+      {
+       "code": "M2175.012100",
+       "name": "심화약학실습 2",
+       "credits": 6
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "2024 목록의 * 합도 110 이지만 과목 일부의 이름·번호·학기가 2025-2 기준으로 바뀌었다(cohort_differences). 약물치료학 및 실습 계열·약료학 및 실습·실무실습 3·4·심화약학실습은 우리 편람 자료에 없어 번호를 약대 PDF 로 적었다."
+    },
+    {
+     "id": "pharm-major-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 64학점 이상: 약학대학 개설 전선 + 서울대학교 타 학과(부) 개설 전공과목 12학점 이내 인정",
+     "min_count": null,
+     "min_credits": 64,
+     "courses": [
+      {
+       "code": "M2175.003900",
+       "name": "명저와 약학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004000",
+       "name": "세포와 유전",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004100",
+       "name": "약용식물학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.004200",
+       "name": "예술속의 약학",
+       "credits": 1
+      },
+      {
+       "code": "M2175.004800",
+       "name": "심화 물리약학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004900",
+       "name": "비판적 심화탐구",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005000",
+       "name": "약학리더십",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005100",
+       "name": "의약품개발사",
+       "credits": 3
+      },
+      {
+       "code": "M2175.005800",
+       "name": "약학미생물학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005900",
+       "name": "응용약학통계학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.013600",
+       "name": "약학 인재를 위한 기업가 정신과 창업",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006400",
+       "name": "병리학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006500",
+       "name": "생약학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006600",
+       "name": "약품분석학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006700",
+       "name": "의약분자생물학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.015600",
+       "name": "의약품합성화학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.012600",
+       "name": "면역질환과 면역치료",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007400",
+       "name": "기능성식품 및 화장품",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007500",
+       "name": "약물학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007600",
+       "name": "응용약물동태학과 생물약제학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007700",
+       "name": "약학데이터사이언스개론",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007800",
+       "name": "예방약학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007900",
+       "name": "임상약동력학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008000",
+       "name": "임상약학개론",
+       "credits": 2
+      },
+      {
+       "code": "M2175.008500",
+       "name": "독성학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008600",
+       "name": "생물의약분석",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008700",
+       "name": "약물 송달학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008800",
+       "name": "약학연구 1",
+       "credits": 1
+      },
+      {
+       "code": "M2175.008900",
+       "name": "유용천연물소재학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009000",
+       "name": "의약화학 2 (심화)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009100",
+       "name": "임상약물학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.014800",
+       "name": "약물치료학: 면역과 피부 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009500",
+       "name": "기기분석",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009700",
+       "name": "약학연구 2",
+       "credits": 1
+      },
+      {
+       "code": "M2175.009800",
+       "name": "실전의약품합성",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009900",
+       "name": "융합글로벌콜로키움",
+       "credits": 1
+      },
+      {
+       "code": "M2175.010000",
+       "name": "융합형 미래 신약",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010100",
+       "name": "천연물화학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010500",
+       "name": "맞춤약제학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010600",
+       "name": "분자종양생물학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010700",
+       "name": "약물경제학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.010800",
+       "name": "약물유전체학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.014900",
+       "name": "약물치료학: 정신신경과 비뇨기 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.011000",
+       "name": "약학연구 3",
+       "credits": 1
+      },
+      {
+       "code": "M2175.011100",
+       "name": "첨단 바이오의약품학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011200",
+       "name": "특수환자군 약료학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011500",
+       "name": "건강증진과 약사",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011600",
+       "name": "동물의약품학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011700",
+       "name": "신약개발의 원리",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011800",
+       "name": "약학경영학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011900",
+       "name": "한약제제학",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4",
+      "s5"
+     ],
+     "note": "타 학과 전공과목은 12학점까지만 64에 넣는다. 학과별 권장 전공선택 22학점은 이 64 안에 들어간다.",
+     "extra": {
+      "other_dept_cap": 12
+     }
+    },
+    {
+     "id": "pharm-rec-je",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과별 권장 전공선택: 제약학과(6년제) 목록에서 22학점 이상(소속(예정) 학과 기준)",
+     "min_count": null,
+     "min_credits": 22,
+     "courses": [
+      {
+       "code": "M2175.004800",
+       "name": "심화 물리약학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005800",
+       "name": "약학미생물학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005900",
+       "name": "응용약학통계학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006400",
+       "name": "병리학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006600",
+       "name": "약품분석학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.015600",
+       "name": "의약품합성화학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007400",
+       "name": "기능성식품 및 화장품",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007500",
+       "name": "약물학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007600",
+       "name": "응용약물동태학과 생물약제학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007700",
+       "name": "약학데이터사이언스개론",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008600",
+       "name": "생물의약분석",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008700",
+       "name": "약물 송달학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009000",
+       "name": "의약화학 2 (심화)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009500",
+       "name": "기기분석",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009800",
+       "name": "실전의약품합성",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010000",
+       "name": "융합형 미래 신약",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010500",
+       "name": "맞춤약제학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.011100",
+       "name": "첨단 바이오의약품학",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "약학과 목록과 겹치는 과목이 많다. 학과 배정 전(1~3학년)에 들은 과목도 '소속(예정) 학과' 기준으로 센다고 적혀 있다."
+    },
+    {
+     "id": "pharm-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문심사 합격",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8"
+     ],
+     "note": "심사 방식·시기와 연결 과목(심화약학실습 등)은 공개 자료에 없다 → 앱은 '안내만'."
+    },
+    {
+     "id": "pharm-other-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "등록 12회 이상 16회까지, 전 교과목 및 전공교과목 평점평균 2.0 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9"
+     ],
+     "note": "성적·등록 횟수는 앱이 받지 않으므로 안내만."
+    },
+    {
+     "id": "pharm-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1(1-1) + 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 택 1, 1-2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
+     "extra": {
+      "ge_area": "사고와 표현"
+     }
+    },
+    {
+     "id": "pharm-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점(TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "extra": {
+      "ge_area": "외국어"
+     }
+    },
+    {
+     "id": "pharm-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 3학점: 생명과학을 위한 수학 1 또는 2",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.008",
+       "name": "생명과학을 위한 수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "extra": {
+      "ge_area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "pharm-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 8학점: (화학+화학실험) 또는 (고급화학+화학실험) 중 택 1, 생물학+생물학실험 필수(같은 학기 원칙)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s20"
+     ],
+     "extra": {
+      "ge_area": "과학적 사고와 실험"
+     }
+    },
+    {
+     "id": "pharm-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보 활용 3(4)학점: 컴퓨팅 기초, 컴퓨팅 핵심, 컴퓨팅 응용, (생명과학을 위한 통계학+실험) 중 택 1(생명과학을 위한 통계학은 수량 영역 과목이나 이 영역으로 인정)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0444.000400",
+       "name": "컴퓨팅 기초: 처음 만나는 컴퓨팅",
+       "credits": 3
+      },
+      {
+       "code": "L0444.000500",
+       "name": "컴퓨팅 핵심: 컴퓨터로 생각하기",
+       "credits": 3
+      },
+      {
+       "code": "L0444.000800",
+       "name": "컴퓨팅 응용: 데이터사이언스의 기초",
+       "credits": 3
+      },
+      {
+       "code": "L0442.001300",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3
+      },
+      {
+       "code": "L0442.001400",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "'컴퓨팅 기초·핵심·응용'은 과목군 이름이라 같은 군의 다른 강좌도 들어갈 수 있다(편람 2021-1~2024-2 에서 찾은 번호만 적음).",
+     "extra": {
+      "ge_area": "컴퓨터와 정보 활용"
+     }
+    },
+    {
+     "id": "pharm-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합계 36학점 이상(나머지는 전체 교양 교과목에서 자유 선택)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ]
+    },
+    {
+     "id": "pharm-ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 7개 영역 중 4개 영역 이상(단, '언어와 문학·문화와 예술·역사와 철학' 영역 권장과목 * 중 1과목 필수)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "언어와 문학",
+       "문화와 예술",
+       "역사와 철학",
+       "정치와 경제",
+       "인간과 사회",
+       "자연과 기술",
+       "생명과 환경"
+      ],
+      "min_areas": 4
+     }
+    }
+   ],
+   "changed": "교양만 옛 체계(36, 학문의 세계 12). 전공 요건은 같다."
+  },
+  {
+   "entry_years": [
+    2023,
+    2023
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 211,
+    "ge": 36,
+    "single": 174,
+    "parallel": 174,
+    "double": null,
+    "minor": null,
+    "status": "확인",
+    "src": [
+     "s13",
+     "s14",
+     "s15",
+     "s16",
+     "s26"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s27",
+    "s28"
+   ],
+   "requirements": [
+    {
+     "id": "pharm-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 45과목 110학점(1~6학년 고정, 2025-2 기준표)",
+     "min_count": 45,
+     "min_credits": 110,
+     "courses": [
+      {
+       "code": "M2175.003200",
+       "name": "약대 신입생을 위한 세미나",
+       "credits": 1
+      },
+      {
+       "code": "M2175.003300",
+       "name": "약학개론",
+       "credits": 1
+      },
+      {
+       "code": "M2175.003400",
+       "name": "물리약학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.003500",
+       "name": "생화학 1",
+       "credits": 3
+      },
+      {
+       "code": "M2175.012900",
+       "name": "약화학 1",
+       "credits": 3
+      },
+      {
+       "code": "M2175.003700",
+       "name": "약학윤리",
+       "credits": 1
+      },
+      {
+       "code": "M2175.003800",
+       "name": "해부학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004300",
+       "name": "약학미생물학(핵심)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004400",
+       "name": "생리학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004500",
+       "name": "생화학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.013000",
+       "name": "약화학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004700",
+       "name": "약학자와 약사를 위한 의사소통",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005200",
+       "name": "면역학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005300",
+       "name": "병리학(핵심)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.005400",
+       "name": "생약학(핵심)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.005500",
+       "name": "약품분석학(핵심)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.005600",
+       "name": "약학실습 1",
+       "credits": 1
+      },
+      {
+       "code": "M2175.006200",
+       "name": "약학실습 2",
+       "credits": 1
+      },
+      {
+       "code": "M2175.005700",
+       "name": "의약품합성화학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.006000",
+       "name": "약물학 1",
+       "credits": 3
+      },
+      {
+       "code": "M2175.006100",
+       "name": "제제학과 약물동태학의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007100",
+       "name": "약학실습 3",
+       "credits": 1
+      },
+      {
+       "code": "M2175.008400",
+       "name": "약학실습 4",
+       "credits": 1
+      },
+      {
+       "code": "M2175.006300",
+       "name": "예방약학 1",
+       "credits": 3
+      },
+      {
+       "code": "M2175.006900",
+       "name": "실무실습 1(제약·의약품행정, 3학년 겨울방학 실시)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008200",
+       "name": "약료학 및 실습",
+       "credits": 2
+      },
+      {
+       "code": "M2175.013700",
+       "name": "약학실습 5",
+       "credits": 1
+      },
+      {
+       "code": "M2175.013800",
+       "name": "약학실습 6",
+       "credits": 1
+      },
+      {
+       "code": "M2175.007200",
+       "name": "의약화학 1 (핵심)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007300",
+       "name": "천연물의약학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.008100",
+       "name": "사회약학원론",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007000",
+       "name": "약물치료학 및 실습: 심혈관과 호흡기 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.013900",
+       "name": "약학실습 7",
+       "credits": 1
+      },
+      {
+       "code": "M2175.014000",
+       "name": "약학실습 8",
+       "credits": 1
+      },
+      {
+       "code": "M2175.009200",
+       "name": "바이오의약품학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.009300",
+       "name": "약물치료학 및 실습: 소화기와 근골격계 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009400",
+       "name": "약전 및 의약품 품질제조관리",
+       "credits": 3
+      },
+      {
+       "code": "M2175.015300",
+       "name": "약물치료학 및 실습: 내분비와 신장 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010200",
+       "name": "실무실습 2(지역약국, 5학년 여름방학 실시)",
+       "credits": 4
+      },
+      {
+       "code": "M2175.015400",
+       "name": "약물치료학 및 실습: 감염과 종양 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010400",
+       "name": "약사법규",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011300",
+       "name": "실무실습 3(의료기관, 5학년 겨울방학·6학년 1학기)",
+       "credits": 4
+      },
+      {
+       "code": "M2175.011400",
+       "name": "실무실습 4(의료기관)",
+       "credits": 4
+      },
+      {
+       "code": "M2175.012000",
+       "name": "심화약학실습 1",
+       "credits": 6
+      },
+      {
+       "code": "M2175.012100",
+       "name": "심화약학실습 2",
+       "credits": 6
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "2024 목록의 * 합도 110 이지만 과목 일부의 이름·번호·학기가 2025-2 기준으로 바뀌었다(cohort_differences). 약물치료학 및 실습 계열·약료학 및 실습·실무실습 3·4·심화약학실습은 우리 편람 자료에 없어 번호를 약대 PDF 로 적었다."
+    },
+    {
+     "id": "pharm-major-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 64학점 이상: 약학대학 개설 전선 + 서울대학교 타 학과(부) 개설 전공과목 12학점 이내 인정",
+     "min_count": null,
+     "min_credits": 64,
+     "courses": [
+      {
+       "code": "M2175.003900",
+       "name": "명저와 약학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004000",
+       "name": "세포와 유전",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004100",
+       "name": "약용식물학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.004200",
+       "name": "예술속의 약학",
+       "credits": 1
+      },
+      {
+       "code": "M2175.004800",
+       "name": "심화 물리약학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004900",
+       "name": "비판적 심화탐구",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005000",
+       "name": "약학리더십",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005100",
+       "name": "의약품개발사",
+       "credits": 3
+      },
+      {
+       "code": "M2175.005800",
+       "name": "약학미생물학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005900",
+       "name": "응용약학통계학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.013600",
+       "name": "약학 인재를 위한 기업가 정신과 창업",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006400",
+       "name": "병리학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006500",
+       "name": "생약학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006600",
+       "name": "약품분석학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006700",
+       "name": "의약분자생물학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.015600",
+       "name": "의약품합성화학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.012600",
+       "name": "면역질환과 면역치료",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007400",
+       "name": "기능성식품 및 화장품",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007500",
+       "name": "약물학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007600",
+       "name": "응용약물동태학과 생물약제학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007700",
+       "name": "약학데이터사이언스개론",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007800",
+       "name": "예방약학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007900",
+       "name": "임상약동력학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008000",
+       "name": "임상약학개론",
+       "credits": 2
+      },
+      {
+       "code": "M2175.008500",
+       "name": "독성학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008600",
+       "name": "생물의약분석",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008700",
+       "name": "약물 송달학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008800",
+       "name": "약학연구 1",
+       "credits": 1
+      },
+      {
+       "code": "M2175.008900",
+       "name": "유용천연물소재학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009000",
+       "name": "의약화학 2 (심화)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009100",
+       "name": "임상약물학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.014800",
+       "name": "약물치료학: 면역과 피부 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009500",
+       "name": "기기분석",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009700",
+       "name": "약학연구 2",
+       "credits": 1
+      },
+      {
+       "code": "M2175.009800",
+       "name": "실전의약품합성",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009900",
+       "name": "융합글로벌콜로키움",
+       "credits": 1
+      },
+      {
+       "code": "M2175.010000",
+       "name": "융합형 미래 신약",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010100",
+       "name": "천연물화학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010500",
+       "name": "맞춤약제학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010600",
+       "name": "분자종양생물학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010700",
+       "name": "약물경제학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.010800",
+       "name": "약물유전체학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.014900",
+       "name": "약물치료학: 정신신경과 비뇨기 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.011000",
+       "name": "약학연구 3",
+       "credits": 1
+      },
+      {
+       "code": "M2175.011100",
+       "name": "첨단 바이오의약품학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011200",
+       "name": "특수환자군 약료학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011500",
+       "name": "건강증진과 약사",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011600",
+       "name": "동물의약품학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011700",
+       "name": "신약개발의 원리",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011800",
+       "name": "약학경영학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011900",
+       "name": "한약제제학",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4",
+      "s5"
+     ],
+     "note": "타 학과 전공과목은 12학점까지만 64에 넣는다. 학과별 권장 전공선택 22학점은 이 64 안에 들어간다.",
+     "extra": {
+      "other_dept_cap": 12
+     }
+    },
+    {
+     "id": "pharm-rec-je",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과별 권장 전공선택: 제약학과(6년제) 목록에서 22학점 이상(소속(예정) 학과 기준)",
+     "min_count": null,
+     "min_credits": 22,
+     "courses": [
+      {
+       "code": "M2175.004800",
+       "name": "심화 물리약학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005800",
+       "name": "약학미생물학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005900",
+       "name": "응용약학통계학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006400",
+       "name": "병리학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006600",
+       "name": "약품분석학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.015600",
+       "name": "의약품합성화학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007400",
+       "name": "기능성식품 및 화장품",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007500",
+       "name": "약물학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007600",
+       "name": "응용약물동태학과 생물약제학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007700",
+       "name": "약학데이터사이언스개론",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008600",
+       "name": "생물의약분석",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008700",
+       "name": "약물 송달학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009000",
+       "name": "의약화학 2 (심화)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009500",
+       "name": "기기분석",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009800",
+       "name": "실전의약품합성",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010000",
+       "name": "융합형 미래 신약",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010500",
+       "name": "맞춤약제학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.011100",
+       "name": "첨단 바이오의약품학",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "약학과 목록과 겹치는 과목이 많다. 학과 배정 전(1~3학년)에 들은 과목도 '소속(예정) 학과' 기준으로 센다고 적혀 있다."
+    },
+    {
+     "id": "pharm-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문심사 합격",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8"
+     ],
+     "note": "심사 방식·시기와 연결 과목(심화약학실습 등)은 공개 자료에 없다 → 앱은 '안내만'."
+    },
+    {
+     "id": "pharm-other-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "등록 12회 이상 16회까지, 전 교과목 및 전공교과목 평점평균 2.0 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9"
+     ],
+     "note": "성적·등록 횟수는 앱이 받지 않으므로 안내만."
+    },
+    {
+     "id": "pharm-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1(1-1) + 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 택 1, 1-2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
+     "extra": {
+      "ge_area": "사고와 표현"
+     }
+    },
+    {
+     "id": "pharm-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점(TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "extra": {
+      "ge_area": "외국어"
+     }
+    },
+    {
+     "id": "pharm-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 3학점: 생명과학을 위한 수학 1 또는 2",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.008",
+       "name": "생명과학을 위한 수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "extra": {
+      "ge_area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "pharm-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 8학점: 물리학+물리학실험, 고급물리학 1+물리학실험 1, 고급물리학 2+물리학실험 2, 화학+화학실험, 고급화학+화학실험, 생물학+생물학실험 중 택 2(같은 학기 원칙)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25"
+     ],
+     "extra": {
+      "ge_area": "과학적 사고와 실험",
+      "rule": "이론+실험 2쌍"
+     }
+    },
+    {
+     "id": "pharm-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보 활용 3(4)학점: 컴퓨팅 기초, 컴퓨팅 핵심, 컴퓨팅 응용, (생명과학을 위한 통계학+실험) 중 택 1(생명과학을 위한 통계학은 수량 영역 과목이나 이 영역으로 인정)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0444.000400",
+       "name": "컴퓨팅 기초: 처음 만나는 컴퓨팅",
+       "credits": 3
+      },
+      {
+       "code": "L0444.000500",
+       "name": "컴퓨팅 핵심: 컴퓨터로 생각하기",
+       "credits": 3
+      },
+      {
+       "code": "L0444.000800",
+       "name": "컴퓨팅 응용: 데이터사이언스의 기초",
+       "credits": 3
+      },
+      {
+       "code": "L0442.001300",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3
+      },
+      {
+       "code": "L0442.001400",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "'컴퓨팅 기초·핵심·응용'은 과목군 이름이라 같은 군의 다른 강좌도 들어갈 수 있다(편람 2021-1~2024-2 에서 찾은 번호만 적음).",
+     "extra": {
+      "ge_area": "컴퓨터와 정보 활용"
+     }
+    },
+    {
+     "id": "pharm-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합계 36학점 이상(나머지는 전체 교양 교과목에서 자유 선택)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ]
+    },
+    {
+     "id": "pharm-ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 7개 영역 중 4개 영역 이상(단, '언어와 문학·문화와 예술·역사와 철학' 영역 권장과목 * 중 1과목 필수)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "언어와 문학",
+       "문화와 예술",
+       "역사와 철학",
+       "정치와 경제",
+       "인간과 사회",
+       "자연과 기술",
+       "생명과 환경"
+      ],
+      "min_areas": 4
+     }
+    }
+   ],
+   "changed": "교양 과학 영역만 다르다: 6과목(물리학·고급물리학 1·고급물리학 2·화학·고급화학·생물학, 각 실험) 중 택 2."
+  },
+  {
+   "entry_years": [
+    2022,
+    2022
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 211,
+    "ge": 36,
+    "single": 174,
+    "parallel": 174,
+    "double": null,
+    "minor": null,
+    "status": "확인",
+    "src": [
+     "s13",
+     "s14",
+     "s15",
+     "s16",
+     "s31"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s32",
+    "s33",
+    "s30",
+    "s34"
+   ],
+   "requirements": [
+    {
+     "id": "pharm-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 45과목 110학점(1~6학년 고정, 2025-2 기준표)",
+     "min_count": 45,
+     "min_credits": 110,
+     "courses": [
+      {
+       "code": "M2175.003200",
+       "name": "약대 신입생을 위한 세미나",
+       "credits": 1
+      },
+      {
+       "code": "M2175.003300",
+       "name": "약학개론",
+       "credits": 1
+      },
+      {
+       "code": "M2175.003400",
+       "name": "물리약학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.003500",
+       "name": "생화학 1",
+       "credits": 3
+      },
+      {
+       "code": "M2175.012900",
+       "name": "약화학 1",
+       "credits": 3
+      },
+      {
+       "code": "M2175.003700",
+       "name": "약학윤리",
+       "credits": 1
+      },
+      {
+       "code": "M2175.003800",
+       "name": "해부학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004300",
+       "name": "약학미생물학(핵심)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004400",
+       "name": "생리학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004500",
+       "name": "생화학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.013000",
+       "name": "약화학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004700",
+       "name": "약학자와 약사를 위한 의사소통",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005200",
+       "name": "면역학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005300",
+       "name": "병리학(핵심)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.005400",
+       "name": "생약학(핵심)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.005500",
+       "name": "약품분석학(핵심)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.005600",
+       "name": "약학실습 1",
+       "credits": 1
+      },
+      {
+       "code": "M2175.006200",
+       "name": "약학실습 2",
+       "credits": 1
+      },
+      {
+       "code": "M2175.005700",
+       "name": "의약품합성화학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.006000",
+       "name": "약물학 1",
+       "credits": 3
+      },
+      {
+       "code": "M2175.006100",
+       "name": "제제학과 약물동태학의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007100",
+       "name": "약학실습 3",
+       "credits": 1
+      },
+      {
+       "code": "M2175.008400",
+       "name": "약학실습 4",
+       "credits": 1
+      },
+      {
+       "code": "M2175.006300",
+       "name": "예방약학 1",
+       "credits": 3
+      },
+      {
+       "code": "M2175.006900",
+       "name": "실무실습 1(제약·의약품행정, 3학년 겨울방학 실시)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008200",
+       "name": "약료학 및 실습",
+       "credits": 2
+      },
+      {
+       "code": "M2175.013700",
+       "name": "약학실습 5",
+       "credits": 1
+      },
+      {
+       "code": "M2175.013800",
+       "name": "약학실습 6",
+       "credits": 1
+      },
+      {
+       "code": "M2175.007200",
+       "name": "의약화학 1 (핵심)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007300",
+       "name": "천연물의약학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.008100",
+       "name": "사회약학원론",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007000",
+       "name": "약물치료학 및 실습: 심혈관과 호흡기 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.013900",
+       "name": "약학실습 7",
+       "credits": 1
+      },
+      {
+       "code": "M2175.014000",
+       "name": "약학실습 8",
+       "credits": 1
+      },
+      {
+       "code": "M2175.009200",
+       "name": "바이오의약품학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.009300",
+       "name": "약물치료학 및 실습: 소화기와 근골격계 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009400",
+       "name": "약전 및 의약품 품질제조관리",
+       "credits": 3
+      },
+      {
+       "code": "M2175.015300",
+       "name": "약물치료학 및 실습: 내분비와 신장 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010200",
+       "name": "실무실습 2(지역약국, 5학년 여름방학 실시)",
+       "credits": 4
+      },
+      {
+       "code": "M2175.015400",
+       "name": "약물치료학 및 실습: 감염과 종양 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010400",
+       "name": "약사법규",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011300",
+       "name": "실무실습 3(의료기관, 5학년 겨울방학·6학년 1학기)",
+       "credits": 4
+      },
+      {
+       "code": "M2175.011400",
+       "name": "실무실습 4(의료기관)",
+       "credits": 4
+      },
+      {
+       "code": "M2175.012000",
+       "name": "심화약학실습 1",
+       "credits": 6
+      },
+      {
+       "code": "M2175.012100",
+       "name": "심화약학실습 2",
+       "credits": 6
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "2024 목록의 * 합도 110 이지만 과목 일부의 이름·번호·학기가 2025-2 기준으로 바뀌었다(cohort_differences). 약물치료학 및 실습 계열·약료학 및 실습·실무실습 3·4·심화약학실습은 우리 편람 자료에 없어 번호를 약대 PDF 로 적었다."
+    },
+    {
+     "id": "pharm-major-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 64학점 이상: 약학대학 개설 전선 + 서울대학교 타 학과(부) 개설 전공과목 12학점 이내 인정",
+     "min_count": null,
+     "min_credits": 64,
+     "courses": [
+      {
+       "code": "M2175.003900",
+       "name": "명저와 약학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004000",
+       "name": "세포와 유전",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004100",
+       "name": "약용식물학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.004200",
+       "name": "예술속의 약학",
+       "credits": 1
+      },
+      {
+       "code": "M2175.004800",
+       "name": "심화 물리약학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.004900",
+       "name": "비판적 심화탐구",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005000",
+       "name": "약학리더십",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005100",
+       "name": "의약품개발사",
+       "credits": 3
+      },
+      {
+       "code": "M2175.005800",
+       "name": "약학미생물학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005900",
+       "name": "응용약학통계학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.013600",
+       "name": "약학 인재를 위한 기업가 정신과 창업",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006400",
+       "name": "병리학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006500",
+       "name": "생약학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006600",
+       "name": "약품분석학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006700",
+       "name": "의약분자생물학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.015600",
+       "name": "의약품합성화학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.012600",
+       "name": "면역질환과 면역치료",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007400",
+       "name": "기능성식품 및 화장품",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007500",
+       "name": "약물학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007600",
+       "name": "응용약물동태학과 생물약제학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007700",
+       "name": "약학데이터사이언스개론",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007800",
+       "name": "예방약학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007900",
+       "name": "임상약동력학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008000",
+       "name": "임상약학개론",
+       "credits": 2
+      },
+      {
+       "code": "M2175.008500",
+       "name": "독성학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008600",
+       "name": "생물의약분석",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008700",
+       "name": "약물 송달학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008800",
+       "name": "약학연구 1",
+       "credits": 1
+      },
+      {
+       "code": "M2175.008900",
+       "name": "유용천연물소재학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009000",
+       "name": "의약화학 2 (심화)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009100",
+       "name": "임상약물학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.014800",
+       "name": "약물치료학: 면역과 피부 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009500",
+       "name": "기기분석",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009700",
+       "name": "약학연구 2",
+       "credits": 1
+      },
+      {
+       "code": "M2175.009800",
+       "name": "실전의약품합성",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009900",
+       "name": "융합글로벌콜로키움",
+       "credits": 1
+      },
+      {
+       "code": "M2175.010000",
+       "name": "융합형 미래 신약",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010100",
+       "name": "천연물화학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010500",
+       "name": "맞춤약제학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010600",
+       "name": "분자종양생물학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010700",
+       "name": "약물경제학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.010800",
+       "name": "약물유전체학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.014900",
+       "name": "약물치료학: 정신신경과 비뇨기 질환",
+       "credits": 3
+      },
+      {
+       "code": "M2175.011000",
+       "name": "약학연구 3",
+       "credits": 1
+      },
+      {
+       "code": "M2175.011100",
+       "name": "첨단 바이오의약품학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011200",
+       "name": "특수환자군 약료학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011500",
+       "name": "건강증진과 약사",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011600",
+       "name": "동물의약품학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011700",
+       "name": "신약개발의 원리",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011800",
+       "name": "약학경영학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.011900",
+       "name": "한약제제학",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4",
+      "s5"
+     ],
+     "note": "타 학과 전공과목은 12학점까지만 64에 넣는다. 학과별 권장 전공선택 22학점은 이 64 안에 들어간다.",
+     "extra": {
+      "other_dept_cap": 12
+     }
+    },
+    {
+     "id": "pharm-rec-je",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과별 권장 전공선택: 제약학과(6년제) 목록에서 22학점 이상(소속(예정) 학과 기준)",
+     "min_count": null,
+     "min_credits": 22,
+     "courses": [
+      {
+       "code": "M2175.004800",
+       "name": "심화 물리약학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005800",
+       "name": "약학미생물학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.005900",
+       "name": "응용약학통계학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006400",
+       "name": "병리학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.006600",
+       "name": "약품분석학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.015600",
+       "name": "의약품합성화학(심화)",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007400",
+       "name": "기능성식품 및 화장품",
+       "credits": 3
+      },
+      {
+       "code": "M2175.007500",
+       "name": "약물학 2",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007600",
+       "name": "응용약물동태학과 생물약제학",
+       "credits": 2
+      },
+      {
+       "code": "M2175.007700",
+       "name": "약학데이터사이언스개론",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008600",
+       "name": "생물의약분석",
+       "credits": 3
+      },
+      {
+       "code": "M2175.008700",
+       "name": "약물 송달학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009000",
+       "name": "의약화학 2 (심화)",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009500",
+       "name": "기기분석",
+       "credits": 3
+      },
+      {
+       "code": "M2175.009800",
+       "name": "실전의약품합성",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010000",
+       "name": "융합형 미래 신약",
+       "credits": 3
+      },
+      {
+       "code": "M2175.010500",
+       "name": "맞춤약제학",
+       "credits": 3
+      },
+      {
+       "code": "M2175.011100",
+       "name": "첨단 바이오의약품학",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "약학과 목록과 겹치는 과목이 많다. 학과 배정 전(1~3학년)에 들은 과목도 '소속(예정) 학과' 기준으로 센다고 적혀 있다."
+    },
+    {
+     "id": "pharm-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문심사 합격",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8"
+     ],
+     "note": "심사 방식·시기와 연결 과목(심화약학실습 등)은 공개 자료에 없다 → 앱은 '안내만'."
+    },
+    {
+     "id": "pharm-other-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "등록 12회 이상 16회까지, 전 교과목 및 전공교과목 평점평균 2.0 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9"
+     ],
+     "note": "성적·등록 횟수는 앱이 받지 않으므로 안내만."
+    },
+    {
+     "id": "pharm-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1(1-1) + 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 택 1, 1-2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
+     "extra": {
+      "ge_area": "사고와 표현"
+     }
+    },
+    {
+     "id": "pharm-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점(TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "extra": {
+      "ge_area": "외국어"
+     }
+    },
+    {
+     "id": "pharm-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 3학점: 생명과학을 위한 수학 1 또는 2",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.008",
+       "name": "생명과학을 위한 수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "extra": {
+      "ge_area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "pharm-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 8학점: 물리학+물리학실험, 고급물리학 1+물리학실험 1, 고급물리학 2+물리학실험 2, 화학+화학실험, 고급화학+화학실험, 생물학+생물학실험 중 택 2(같은 학기 원칙)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25"
+     ],
+     "extra": {
+      "ge_area": "과학적 사고와 실험",
+      "rule": "이론+실험 2쌍"
+     }
+    },
+    {
+     "id": "pharm-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보 활용 3(4)학점: 컴퓨팅 기초: 처음 만나는 컴퓨팅, 컴퓨팅 핵심: 컴퓨터로 생각하기, (통계학+통계학실험) 중 택 1(통계학은 수량 영역 과목이나 이 영역으로 인정)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0444.000400",
+       "name": "컴퓨팅 기초: 처음 만나는 컴퓨팅",
+       "credits": 3
+      },
+      {
+       "code": "L0444.000500",
+       "name": "컴퓨팅 핵심: 컴퓨터로 생각하기",
+       "credits": 3
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30"
+     ],
+     "extra": {
+      "ge_area": "컴퓨터와 정보 활용"
+     }
+    },
+    {
+     "id": "pharm-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합계 36학점 이상(나머지는 전체 교양 교과목에서 자유 선택)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ]
+    },
+    {
+     "id": "pharm-ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 7개 영역 중 4개 영역 이상(단, '언어와 문학·문화와 예술·역사와 철학' 영역 권장과목 * 중 1과목 필수)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "언어와 문학",
+       "문화와 예술",
+       "역사와 철학",
+       "정치와 경제",
+       "인간과 사회",
+       "자연과 기술",
+       "생명과 환경"
+      ],
+      "min_areas": 4
+     }
+    }
+   ],
+   "changed": "교양 컴퓨터와 정보 활용 범위만 다르다: 컴퓨팅 기초: 처음 만나는 컴퓨팅, 컴퓨팅 핵심: 컴퓨터로 생각하기, 통계학+통계학실험 중 택 1. 과학은 2023학번과 같이 6과목 중 택 2.",
+   "note": "2022학번이 6년제 첫 학번이다."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2022,
+   "basis": "입학 연도",
+   "what": "6년제 학부 신입생 선발 시작(모집 단위 약학계열). 211 = 교양 36 + 전필 110 + 전선 64",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2023,
+   "basis": "입학 연도",
+   "what": "교양 컴퓨터와 정보 활용: 컴퓨팅 기초·핵심·응용·생명과학을 위한 통계학 중 택 1 로 넓힘",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "교양 과학: 화학(고급화학) 택 1 + 생물학 필수",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 새 체계(36: 지성의 열쇠·베리타스)",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "전공교과과정 2024 업데이트(그림 게시) — 세부는 그림만 있어 대조 안 함",
+   "status": "부분"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "'약물치료학 및 실습: 면역과 피부 질환'·'…정신신경과 비뇨기 질환' → '약물치료학: …'(학점 구조 3-3-0, 전선), 약료학 및 실습·약물치료학 및 실습(심혈관과 호흡기, 내분비와 종양, 감염과 신장, 소화기와 근골격계) 개설 시기 변경, 권장 전공선택 목록 갱신",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "의약품합성화학 응용 M2175.013200 → 의약품합성화학(심화) M2175.015600, 약물치료학 '내분비와 종양'→'내분비와 신장'(M2175.015300)·'감염과 신장'→'감염과 종양'(M2175.015400) 등, 권장 목록 갱신",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "2+4년제 마지막 편입 학년도(2021 또는 2022)와 남은 2+4 학생의 적용 규정",
+  "2025학년도부터 뽑는 6년제 학사편입생(편입학전형 모집안내)의 학번·학년과 적용 규정",
+  "약물치료학 계열 옛 번호와 새 번호의 대응·대체 인정(2025-1·2025-2 개편)",
+  "학과별 권장 전공선택 22학점: 개편 전 목록 과목(예: 약물치료학 및 실습: 면역과 피부 질환 M2175.009600)을 들은 경우 인정",
+  "2022~2024학번 옛 교양 과목을 2025-1 이후 새 번호(F 계열)로 들었을 때 영역 인정",
+  "약물치료학 계열 옛 번호(M2175.008300·010300·009600·010900)와 새 번호(M2175.015300·015400·014800·014900)의 대응·대체 인정",
+  "졸업논문심사의 방식·시기(어느 과목·학기와 연결되는지)",
+  "학과별 권장 전공선택 22학점: 학과 배정 전에 들은 과목 인정, 배정 학과가 희망과 다를 때 처리",
+  "타 학과 개설 전공과목 12학점 전공선택 인정의 신청 절차",
+  "'컴퓨팅 탐색'(F37.206)이 교양 컴퓨팅 3학점으로 인정되는지",
+  "약학계열 학생이 다른 전공을 복수·부전공할 수 있는지(표 1 '다른 전공 병행 이수' 174 는 있으나 내규 미확인)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "약학대학, 6년제 학부생 전공 교과과정 업데이트(2022학년도 신입생부터 적용)_2025-2 기준(2025-07-16, 첨부 '6년제-전공과목-이수표준형태2025-2학기-기준.pdf')",
+   "url": "https://snupharm.snu.ac.kr/%ed%95%99%eb%b6%80-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/?mod=document&uid=8322",
+   "locator": "첨부 PDF □ 6년제 전공과목 이수표준형태·학년별 전공과목",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.119–121 370X 약학계열(6년제)·378/379 공통과정(* 표 합 110)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "약학대학, 졸업규정",
+   "url": "https://snupharm.snu.ac.kr/%ec%a1%b8%ec%97%85%ea%b7%9c%ec%a0%95/",
+   "locator": "졸업 요건 2) 전공선택 64학점 이상",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.121 전공선택 인정과목 ①·②",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "약학대학, 6년제 학부생 전공 교과과정 업데이트(2022학년도 신입생부터 적용)_2025-2 기준(2025-07-16, 첨부 '6년제-전공과목-이수표준형태2025-2학기-기준.pdf')",
+   "url": "https://snupharm.snu.ac.kr/%ed%95%99%eb%b6%80-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/?mod=document&uid=8322",
+   "locator": "첨부 PDF 전선 과목",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "약학대학, 6년제 학부생「학과별 권장 전공선택과목」규정 업데이트_2025-2 기준(2025-07-16)",
+   "url": "https://snupharm.snu.ac.kr/%ed%95%99%eb%b6%80-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/?mod=document&uid=8323",
+   "locator": "□ 6년제 학사과정「학과별 권장 전공선택과목」규정 표",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.121 '※ 전선의 경우 대학에서 지정하는 학과별 권장 전선과목에서 22학점 이상'",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "약학대학, 졸업규정",
+   "url": "https://snupharm.snu.ac.kr/%ec%a1%b8%ec%97%85%ea%b7%9c%ec%a0%95/",
+   "locator": "졸업 요건 4) 졸업논문심사 합격자",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "약학대학, 졸업규정",
+   "url": "https://snupharm.snu.ac.kr/%ec%a1%b8%ec%97%85%ea%b7%9c%ec%a0%95/",
+   "locator": "졸업 요건 1)·3)",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.150 □ 약학대학 (6년제)",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "약학대학, 6년제 학부생 공통교과과정(교양) 이수규정(2025학년도 입학생부터)(2025-02-14, 첨부 PDF)",
+   "url": "https://snupharm.snu.ac.kr/%ed%95%99%eb%b6%80-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/?mod=document&uid=8036",
+   "locator": "첨부 PDF(국문 표) — 길잡이와 같음",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "약학대학, 졸업규정",
+   "url": "https://snupharm.snu.ac.kr/%ec%a1%b8%ec%97%85%ea%b7%9c%ec%a0%95/",
+   "locator": "6년제 졸업 요건 2) 교양 36학점 이상",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "약학대학, 졸업규정(2+4년제 2013~2016·2017 이후 편입생, 6년제 2022 이후 입학)",
+   "url": "https://snupharm.snu.ac.kr/%ec%a1%b8%ec%97%85%ea%b7%9c%ec%a0%95/",
+   "locator": "6년제 학부생(2022학년도 이후 입학) 졸업 요건 1)~4)",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2022 교과과정 해설(본부, 2022학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 1> p.9 6년제 211/36/174/174 '2022학년도부터 시행', [경과조치] p.9 '2022학년도 6년제 약학대학 입학자부터는 이수학점기준을 211학점'",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "p.117 이수규정(211·전필 110·전선 64·교양 36·권장 22·타 학과 12 이내, [경과조치] 2022학년도 신입학 학생부터)",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.121 같은 규정",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.156 (2025 길잡이와 같은 표)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "학부대학, 2026학년도 시행 단과대학별 공통교육과정 이수 규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "p.89 '상기 이수규정은 2025학년도 입학생부터 적용함'",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "약학대학, 6년제 학부생 교양 이수규정(2024학번)(2024-01-26, 첨부 '…국영문_2024.pdf')",
+   "url": "https://snupharm.snu.ac.kr/%ed%95%99%eb%b6%80-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/?mod=document&uid=7488",
+   "locator": "첨부 p.1",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "서울대학교 2024 교과과정 해설(본부, 2024학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 6> 대학별 교양 필수과목 표 — p.40",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "약학대학, 6년제 학부생 교양 이수규정(2024학번)(2024-01-26, 첨부 '…국영문_2024.pdf')",
+   "url": "https://snupharm.snu.ac.kr/%ed%95%99%eb%b6%80-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/?mod=document&uid=7488",
+   "locator": "첨부 p.1 교양 36",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "서울대학교 2024 교과과정 해설(본부, 2024학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1> p.9",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "약학대학, 6년제 학부생 교양 이수규정(2024학번)(2024-01-26, 첨부 '…국영문_2024.pdf')",
+   "url": "https://snupharm.snu.ac.kr/%ed%95%99%eb%b6%80-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/?mod=document&uid=7488",
+   "locator": "첨부 PDF p.1(국문)",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "학부대학(옛 기초교육원), 2024학년도 대학별 교양 이수규정(2025-12 게시 '_2' 판)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2024_2.pdf",
+   "locator": "PDF p.34 □ 약학대학(6년제) 표",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "약학대학, 6년제 학부생 교양 이수규정(2023학년도 이후 입학)(2023-01-06, 첨부 '…(국영문)_2023.pdf')",
+   "url": "https://snupharm.snu.ac.kr/%ed%95%99%eb%b6%80-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/?mod=document&uid=51",
+   "locator": "첨부 p.1",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "약학대학, 6년제 학부생 교양 이수규정(2023학년도 이후 입학)(2023-01-06, 첨부 '…(국영문)_2023.pdf')",
+   "url": "https://snupharm.snu.ac.kr/%ed%95%99%eb%b6%80-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/?mod=document&uid=51",
+   "locator": "첨부 p.1 교양 36",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "약학대학, 6년제 학부생 교양 이수규정(2023학년도 이후 입학)(2023-01-06, 첨부 '…(국영문)_2023.pdf')",
+   "url": "https://snupharm.snu.ac.kr/%ed%95%99%eb%b6%80-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/?mod=document&uid=51",
+   "locator": "첨부 PDF p.1(국문) '2023학년도부터 시행'",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "학부대학(옛 기초교육원), 2023학년도 대학별 교양 이수규정(2025-12 게시 '_2' 판)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2023_2.pdf",
+   "locator": "PDF p.34 □ 약학대학(6년제) 표",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "약학대학, 6년제 학부생 교양 이수규정(2022학년도 이후 입학)(2022-01-04, 첨부 '약학대학 6년제 교양 이수규정(국영문).pdf')",
+   "url": "https://snupharm.snu.ac.kr/%ed%95%99%eb%b6%80-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/?mod=document&uid=49",
+   "locator": "첨부 p.1",
+   "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "서울대학교 2022 교과과정 해설(본부, 2022학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 6> 대학별 교양 필수과목 표 — p.37",
+   "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "약학대학, 6년제 학부생 교양 이수규정(2022학년도 이후 입학)(2022-01-04, 첨부 '약학대학 6년제 교양 이수규정(국영문).pdf')",
+   "url": "https://snupharm.snu.ac.kr/%ed%95%99%eb%b6%80-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/?mod=document&uid=49",
+   "locator": "첨부 p.1 교양 36",
+   "accessed": "2026-11-12"
+  },
+  "s32": {
+   "title": "약학대학, 6년제 학부생 교양 이수규정(2022학년도 이후 입학)(2022-01-04, 첨부 '약학대학 6년제 교양 이수규정(국영문).pdf')",
+   "url": "https://snupharm.snu.ac.kr/%ed%95%99%eb%b6%80-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/?mod=document&uid=49",
+   "locator": "첨부 PDF p.1",
+   "accessed": "2026-11-12"
+  },
+  "s33": {
+   "title": "학부대학(옛 기초교육원), 2022학년도 대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/04/liberaledu_2022.pdf",
+   "locator": "PDF p.30(인쇄 133) □ 약학대학(6년제) 표",
+   "accessed": "2026-11-12"
+  },
+  "s34": {
+   "title": "약학대학, 6년제 학부생 전공 교과과정(2022학년도 이후 입학)(2022-01-24)",
+   "url": "https://snupharm.snu.ac.kr/%ed%95%99%eb%b6%80-%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/?mod=document&uid=50",
+   "locator": "6년제 전공 교과과정(2022학년도 이후 입학)",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

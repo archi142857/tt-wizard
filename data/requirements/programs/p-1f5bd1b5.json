@@ -1,0 +1,290 @@
+{
+ "id": "p-1f5bd1b5",
+ "college": "인문대학",
+ "unit": "언어학과",
+ "program": "언어학과",
+ "kind": "major",
+ "depts": [
+  "언어학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "인문대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2019,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s9",
+     "s10",
+     "s11",
+     "s12",
+     "s13",
+     "s14"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s15",
+    "s16",
+    "s17",
+    "s18"
+   ],
+   "requirements": [
+    {
+     "id": "ling-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 4과목 12학점: 말소리의 세계, 역사비교언어학, 통사론, 컴퓨터언어학",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "100.131",
+       "name": "말소리의 세계",
+       "credits": 3
+      },
+      {
+       "code": "108.312",
+       "name": "역사비교언어학",
+       "credits": 3
+      },
+      {
+       "code": "108.315",
+       "name": "통사론",
+       "credits": 3
+      },
+      {
+       "code": "108.413A",
+       "name": "컴퓨터언어학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4"
+     ],
+     "note": "편람의 언어학과 '전필'에는 연계전공 인문데이터과학 과목(M2911.*)도 섞여 나오니 쓰지 말 것."
+    },
+    {
+     "id": "ling-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 제출·승인(논문 관련 과목 수강 권장)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "ling-other-dept",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "타 학과 개설 과목의 전공 인정: 주전공 6학점 이내(학과 지정, 교육과정위원회 심의). 타 학과 학생의 복수전공 6학점, 부전공 3학점까지",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s5"
+     ]
+    },
+    {
+     "id": "ling-double-minor",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "복수전공 39, 부전공 21(필수 과목 규정은 공개 페이지에 없음, 2024 목록 '학과내규에 따름')",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s6"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통(2025학번 교양 36과 인문대 졸업 의무: 제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학 세미나) — college_common 참조",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "extra": {
+      "see": [
+       "college_common.requirements"
+      ]
+     }
+    }
+   ],
+   "note": "학번 구분 문구가 없고 2022·2024 목록·편람의 전필 4과목이 같다."
+  }
+ ],
+ "change_points": [],
+ "ask_department": [
+  "복수·부전공 전공필수(4과목 모두인지)",
+  "외국어진행 3과목에 전공 포함 여부",
+  "2025학번 적용 이수규정 최신판"
+ ],
+ "sources": {
+  "s1": {
+   "title": "언어학과 학부 이수규정(영문판, 수정 2021-06-25)",
+   "url": "https://linguist.snu.ac.kr/en/education/undergraduate-program/requirements/",
+   "locator": "권장 이수표(*전공필수), 학점, 타학과 인정, 다전공, 졸업요건",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "17쪽 108.312*·108.315*·108.413A*",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "18쪽 100.131* 과 이수표준형태",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "수강편람 자료(백엔드 수집) 2025-1",
+   "locator": "네 과목 전필",
+   "accessed": "2026-11-12",
+   "repo": "data/history/2025-1.json"
+  },
+  "s5": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "18쪽 전공선택 인정과목 '6학점 이내'",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "18쪽 복수·부전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 인문대학 표, PDF 4쪽(인쇄 108쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "인문대학 졸업이수 의무사항 안내(관련: 인문대학-2710, 2025.1.25., 게시 2025-02-03)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림(https://humanities.snu.ac.kr/webdata/upimages/7efzf51z874zf93z1c2za09z28cz23ezd11z697zb8.png), '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "인문대학 졸업이수 의무사항 안내(인문대학-2710, 2025.1.25.)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림 '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "언어학과 이수규정(국문, 수정 2025-12-04)",
+   "url": "https://linguist.snu.ac.kr/%ea%b5%90%ec%9c%a1/%ed%95%99%eb%b6%80/%ec%9d%b4%ec%88%98%ea%b7%9c%ec%a0%95/",
+   "locator": "전공필수·다전공",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "언어학과 이수규정(국문, 수정 2025-12-04)",
+   "url": "https://linguist.snu.ac.kr/%ea%b5%90%ec%9c%a1/%ed%95%99%eb%b6%80/%ec%9d%b4%ec%88%98%ea%b7%9c%ec%a0%95/",
+   "locator": "전체",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "108. 언어학과(* 4과목)",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "108. 언어학과(* 4과목)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "수강편람 자료(백엔드 수집)",
+   "locator": "전필 4과목 2021~2026",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

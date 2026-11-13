@@ -3,14 +3,18 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   pickVersion, buildSameCourse, tidyRecords, evaluateProgram, creditSummary, gpa, gradeNeeded,
-  termCreditLimit, withinLimit, isMajorCourse,
+  termCreditLimit, withinLimit, isMajorCourse, suggestCourses, rankSuggestions,
 } from "../web/js/requirements.js";
+import { gapFit, parseCourses, TravelMatrix } from "../web/js/engine.js";
 
 const [, , dataDir, casesPath] = process.argv;
 const read = (p) => JSON.parse(readFileSync(p, "utf8"));
 const common = read(join(dataDir, "common.json"));
 const courseMap = read(join(dataDir, "course_map.json"));
 const program = (p) => (typeof p === "string" ? read(join(dataDir, "programs", `${p}.json`)) : p);
+
+const matrix = (c) => new TravelMatrix({ table: new Map(Object.entries(c.table || {})), buildings: {}, defaultMinutes: c.defaultMinutes ?? 10 });
+const sections = (json) => parseCourses({ courses: json || [] }).flatMap((x) => x.sections);
 
 const out = read(casesPath).map((c) => {
   switch (c.kind) {
@@ -63,6 +67,22 @@ const out = read(casesPath).map((c) => {
       const res = { limit: lim.limit, base: lim.base };
       if (c.courses) res.within = withinLimit(c.courses, lim);
       return res;
+    }
+    case "gapfit": {
+      const g = gapFit(sections(c.base), parseCourses({ courses: c.courses }), matrix(c), c.home || "H", { rules: c.rules || null });
+      return { base: g.base, blocked: g.blocked, fits: g.fits.map((f) => [f.course.id, f.section.no, f.add, f.unknownRoom, f.atRisk]) };
+    }
+    case "suggest": {
+      const p = program(c.program);
+      const { version } = pickVersion(p, c.entryYear);
+      const same = buildSameCourse(courseMap, [p]);
+      const t = tidyRecords(c.records, same);
+      const rows = evaluateProgram(p, version, t.courses, { role: c.role, sameCourse: same });
+      const next = parseCourses({ courses: c.courses });
+      const sug = suggestCourses([{ program: p, rows }], next, { sameCourse: same });
+      const fit = c.fit ? gapFit(sections(c.base), sug.map((x) => x.course), matrix(c), "H") : null;
+      return { suggestions: sug.map((x) => [x.course.id, x.strength, x.reasons.map((r) => r.row)]),
+        ranked: rankSuggestions(sug, fit).map((x) => [x.course.id, x.strength, x.fit ? x.fit.add.cost : null]) };
     }
     default:
       return { error: `모르는 사례 ${c.kind}` };

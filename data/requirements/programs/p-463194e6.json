@@ -1,0 +1,4757 @@
+{
+ "id": "p-463194e6",
+ "college": "공과대학",
+ "unit": "재료공학부",
+ "program": "재료공학부",
+ "kind": "major",
+ "depts": [
+  "재료공학부"
+ ],
+ "code_prefixes": [],
+ "ge_key": "공과대학 재료공학부",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 49,
+    "single": 62,
+    "parallel": 48,
+    "double": 48,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s14",
+     "s15",
+     "s16"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s14",
+    "s17"
+   ],
+   "requirements": [
+    {
+     "id": "mse-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 13과목 39학점",
+     "min_count": 13,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "445.102A",
+       "name": "재료공학원리",
+       "credits": 3
+      },
+      {
+       "code": "445.211",
+       "name": "유기재료화학",
+       "credits": 3
+      },
+      {
+       "code": "445.301",
+       "name": "재료열역학",
+       "credits": 3
+      },
+      {
+       "code": "445.202",
+       "name": "재료현대물리",
+       "credits": 3
+      },
+      {
+       "code": "445.206",
+       "name": "결정학개론",
+       "credits": 3
+      },
+      {
+       "code": "M1569.003300",
+       "name": "현대재료물리화학",
+       "credits": 3
+      },
+      {
+       "code": "445.302",
+       "name": "재료상변태",
+       "credits": 3
+      },
+      {
+       "code": "445.303",
+       "name": "재료실험 1",
+       "credits": 3
+      },
+      {
+       "code": "445.304",
+       "name": "재료실험 2",
+       "credits": 3
+      },
+      {
+       "code": "445.310",
+       "name": "재료의 기계적 거동",
+       "credits": 3
+      },
+      {
+       "code": "445.312",
+       "name": "재료의 전자기적 성질",
+       "credits": 3
+      },
+      {
+       "code": "445.408A",
+       "name": "재료종합실험",
+       "credits": 3
+      },
+      {
+       "code": "445.442",
+       "name": "재료종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4"
+     ],
+     "note": "학번별 필수이수교과목 [2025학번]: '전필39 + 전선23 = 전공62'. 이수표준형태(2025) * 13과목과 같고, 과목별 학점(3)×13 = 39 로 맞는다. 다전공 세칙도 2024년 입학생부터 '전공필수(39학점)'."
+    },
+    {
+     "id": "mse-intro-2of3",
+     "type": "major_choose",
+     "applies_to": [
+      "single"
+     ],
+     "text": "금속재료개론·고분자재료개론·세라믹재료개론 3과목 중 2과목(2024학번부터)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "M1569.002800",
+       "name": "금속재료개론",
+       "credits": 3
+      },
+      {
+       "code": "M1569.002900",
+       "name": "고분자재료개론",
+       "credits": 3
+      },
+      {
+       "code": "M1569.003000",
+       "name": "세라믹재료개론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s1"
+     ],
+     "note": "전선 과목이다(전필 39에 들지 않고 전선 23 안에서 센다). 다른 전공 병행(48/54)·복수전공(48)에도 이 조건이 붙는지는 문서에 없다."
+    },
+    {
+     "id": "mse-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상 = 전필 39 + 전선 23",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s5"
+     ],
+     "note": "전공선택 인정: 공과대학 공통과목(400.XXX, M2177.XXXXXX) 모든 과목 최대 6학점까지, 공과대학 타 학과(부)·타 대학 자연계열 교과목 중 학부장이 인정하는 과목. 공과대학 공통과목 필수 이수 규정은 없다(공학개론 요건 없음)."
+    },
+    {
+     "id": "mse-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행: 복수·연합전공이면 재료공학부 전공교과목 중 전필 39 포함 48학점 이상, 부·연계·학생설계전공이면 전필 39 포함 54학점 이상",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s6"
+     ],
+     "note": "parallel_by_type 참고. '재료공학부 전공교과목 중에서'라서 공대 공통·타 학과 인정 과목이 들어가는지는 확인 필요."
+    },
+    {
+     "id": "mse-design-12",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "설계 12학점 이상(설계가 포함된 교과목 누계 12학점 이상). 전공필수를 모두 들으면 충족된다고 학부 자료가 적음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s7"
+     ],
+     "note": "학번별 필수이수교과목은 '전필 모두 이수 시 12.5점으로 인증 기준 만족', 공학인증 이수기준(2025)은 '설계학점 9, 전필 모두 이수 시 10.5'로 수치가 다르다. 과목별 설계학점 자료가 없어 앱은 '전필 13과목 완료 = 충족'으로만 판단하고 나머지는 확인 필요."
+    },
+    {
+     "id": "mse-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "졸업 논문 작성(다른 전공을 하는 재료공학부 학생, 다전공 세칙 제2조 2)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s3"
+     ],
+     "note": "단일전공 학생에게도 졸업논문이 필요한지, 어떤 과목·절차로 하는지는 공개 자료에 없다."
+    },
+    {
+     "id": "mse-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 49학점 이상(2025학번)",
+     "min_count": null,
+     "min_credits": 49,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ],
+     "note": "영역 합이 총합과 같아 '전체 교양 교과목' 자유 선택분은 0학점이다(영역별 최저를 채우면 총합도 찬다)."
+    },
+    {
+     "id": "mse-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ],
+     "note": "대학 글쓰기 1을 먼저 들어야 대학 글쓰기 2를 들을 수 있다(학부대학 공통)."
+    },
+    {
+     "id": "mse-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 조건은 '확인 필요'로 둔다."
+    },
+    {
+     "id": "mse-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 12학점: 수학 1·수학연습 1(또는 고급수학 1·연습 1), 수학 2·수학연습 2(또는 고급수학 2·연습 2), 공학수학 1, 공학수학 2",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ],
+     "note": "연습 과목은 이론 과목과 같은 학기에 듣는 것이 원칙."
+    },
+    {
+     "id": "mse-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학 12학점: 물리학 1·2, 화학 1·2, 물리학, 화학(또는 고급화학)과 각 실험 중 [1-1] 8학점 + [1-2] 4학점. 물리학 1·2 또는 화학 1·2 중 한 분야는 두 학기에 걸쳐 8학점",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s2",
+      "s1"
+     ],
+     "note": "권장: 물리학 1·2 + 화학, 또는 화학 1·2 + 물리학. 이론과 실험은 같은 학기. 한 분야에서 '1'과 1·2로 나뉘지 않은 과목을 둘 다 들으면 과학 영역에는 하나만 인정(나머지는 전체 교양)."
+    },
+    {
+     "id": "mse-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨팅 3학점: [1-2] 컴퓨터의 개념 및 실습",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s2"
+     ]
+    },
+    {
+     "id": "mse-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상 3, 역사적 탐구와 철학적 사유 3, 인간의 이해와 사회 분석 3 (과학적 사고와 응용은 요건 없음)",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ],
+     "note": "길잡이 표가 세 영역에 3학점씩 따로 적고 '과학적 사고와 응용' 칸은 비어 있다(쪽 그림으로 확인).",
+     "extra": {
+      "areas": [
+       {
+        "area": "문화 해석과 상상",
+        "min_credits": 3
+       },
+       {
+        "area": "역사적 탐구와 철학적 사유",
+        "min_credits": 3
+       },
+       {
+        "area": "인간의 이해와 사회 분석",
+        "min_credits": 3
+       }
+      ]
+     }
+    },
+    {
+     "id": "mse-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점 이상(베리타스 강좌 1·2·베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ]
+    },
+    {
+     "id": "mse-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s11"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "mse-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌: 2024학번부터 주전공 1강좌 이상 포함 3과목 이상 '권장'(필수 아님)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s11"
+     ],
+     "note": "2023학번까지는 의무였다."
+    },
+    {
+     "id": "mse-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "mse-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 재료공학부 복수전공(2024년 입학생부터): 재료공학부 전공교과목 중 전공필수 39학점 포함 48학점 이상",
+     "min_count": 13,
+     "min_credits": 48,
+     "courses": [
+      {
+       "code": "445.102A",
+       "name": "재료공학원리",
+       "credits": 3
+      },
+      {
+       "code": "445.211",
+       "name": "유기재료화학",
+       "credits": 3
+      },
+      {
+       "code": "445.301",
+       "name": "재료열역학",
+       "credits": 3
+      },
+      {
+       "code": "445.202",
+       "name": "재료현대물리",
+       "credits": 3
+      },
+      {
+       "code": "445.206",
+       "name": "결정학개론",
+       "credits": 3
+      },
+      {
+       "code": "M1569.003300",
+       "name": "현대재료물리화학",
+       "credits": 3
+      },
+      {
+       "code": "445.302",
+       "name": "재료상변태",
+       "credits": 3
+      },
+      {
+       "code": "445.303",
+       "name": "재료실험 1",
+       "credits": 3
+      },
+      {
+       "code": "445.304",
+       "name": "재료실험 2",
+       "credits": 3
+      },
+      {
+       "code": "445.310",
+       "name": "재료의 기계적 거동",
+       "credits": 3
+      },
+      {
+       "code": "445.312",
+       "name": "재료의 전자기적 성질",
+       "credits": 3
+      },
+      {
+       "code": "445.408A",
+       "name": "재료종합실험",
+       "credits": 3
+      },
+      {
+       "code": "445.442",
+       "name": "재료종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s12"
+     ],
+     "note": "2020~2023년 입학생은 전필 36 포함 48. 표 2 의 48 과 같다."
+    },
+    {
+     "id": "mse-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 재료공학부 개설 전공교과목 21학점 이상, 그중 4과목 이상은 전공필수",
+     "min_count": 4,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "445.102A",
+       "name": "재료공학원리",
+       "credits": 3
+      },
+      {
+       "code": "445.211",
+       "name": "유기재료화학",
+       "credits": 3
+      },
+      {
+       "code": "445.301",
+       "name": "재료열역학",
+       "credits": 3
+      },
+      {
+       "code": "445.202",
+       "name": "재료현대물리",
+       "credits": 3
+      },
+      {
+       "code": "445.206",
+       "name": "결정학개론",
+       "credits": 3
+      },
+      {
+       "code": "M1569.003300",
+       "name": "현대재료물리화학",
+       "credits": 3
+      },
+      {
+       "code": "445.302",
+       "name": "재료상변태",
+       "credits": 3
+      },
+      {
+       "code": "445.303",
+       "name": "재료실험 1",
+       "credits": 3
+      },
+      {
+       "code": "445.304",
+       "name": "재료실험 2",
+       "credits": 3
+      },
+      {
+       "code": "445.310",
+       "name": "재료의 기계적 거동",
+       "credits": 3
+      },
+      {
+       "code": "445.312",
+       "name": "재료의 전자기적 성질",
+       "credits": 3
+      },
+      {
+       "code": "445.408A",
+       "name": "재료종합실험",
+       "credits": 3
+      },
+      {
+       "code": "445.442",
+       "name": "재료종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s12"
+     ],
+     "note": "courses 는 전필 후보 목록이고 min_count 4 는 그중 과목 수다. 부전공은 주전공과 겹쳐 인정하지 않는다(본부 규정)."
+    },
+    {
+     "id": "mse-overlap",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "다전공 겹쳐 인정(본부): 복수전공은 두 학과가 같이 인정하는 과목 9학점까지, 같이 인정하는 타 학과 과목 3학점까지. 부·연계·학생설계는 겹쳐 인정 없음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s13"
+     ],
+     "note": "학부 자료에는 따로 없음(본부 2024 해설 기준)."
+    }
+   ],
+   "note": "1차(2025학번) 요건 그대로. 2026학번도 같다: 학부 학번별 필수이수교과목(2026-09-03 판)의 [2026학번] 칸이 [2025학번] 칸과 글자까지 같고, 2026 길잡이 교양 49·영역도 같다."
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 52,
+    "single": 62,
+    "parallel": 48,
+    "double": 48,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s23",
+     "s24",
+     "s25"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s23",
+    "s26"
+   ],
+   "requirements": [
+    {
+     "id": "mse-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 13과목 39학점",
+     "min_count": 13,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "445.102A",
+       "name": "재료공학원리",
+       "credits": 3
+      },
+      {
+       "code": "445.211",
+       "name": "유기재료화학",
+       "credits": 3
+      },
+      {
+       "code": "445.301",
+       "name": "재료열역학",
+       "credits": 3
+      },
+      {
+       "code": "445.202",
+       "name": "재료현대물리",
+       "credits": 3
+      },
+      {
+       "code": "445.206",
+       "name": "결정학개론",
+       "credits": 3
+      },
+      {
+       "code": "M1569.003300",
+       "name": "현대재료물리화학",
+       "credits": 3
+      },
+      {
+       "code": "445.302",
+       "name": "재료상변태",
+       "credits": 3
+      },
+      {
+       "code": "445.303",
+       "name": "재료실험 1",
+       "credits": 3
+      },
+      {
+       "code": "445.304",
+       "name": "재료실험 2",
+       "credits": 3
+      },
+      {
+       "code": "445.310",
+       "name": "재료의 기계적 거동",
+       "credits": 3
+      },
+      {
+       "code": "445.312",
+       "name": "재료의 전자기적 성질",
+       "credits": 3
+      },
+      {
+       "code": "445.408A",
+       "name": "재료종합실험",
+       "credits": 3
+      },
+      {
+       "code": "445.442",
+       "name": "재료종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4"
+     ],
+     "note": "학번별 필수이수교과목 [2025학번]: '전필39 + 전선23 = 전공62'. 이수표준형태(2025) * 13과목과 같고, 과목별 학점(3)×13 = 39 로 맞는다. 다전공 세칙도 2024년 입학생부터 '전공필수(39학점)'."
+    },
+    {
+     "id": "mse-intro-2of3",
+     "type": "major_choose",
+     "applies_to": [
+      "single"
+     ],
+     "text": "금속재료개론·고분자재료개론·세라믹재료개론 3과목 중 2과목(2024학번부터)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "M1569.002800",
+       "name": "금속재료개론",
+       "credits": 3
+      },
+      {
+       "code": "M1569.002900",
+       "name": "고분자재료개론",
+       "credits": 3
+      },
+      {
+       "code": "M1569.003000",
+       "name": "세라믹재료개론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s1"
+     ],
+     "note": "전선 과목이다(전필 39에 들지 않고 전선 23 안에서 센다). 다른 전공 병행(48/54)·복수전공(48)에도 이 조건이 붙는지는 문서에 없다."
+    },
+    {
+     "id": "mse-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상 = 전필 39 + 전선 23",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s5"
+     ],
+     "note": "전공선택 인정: 공과대학 공통과목(400.XXX, M2177.XXXXXX) 모든 과목 최대 6학점까지, 공과대학 타 학과(부)·타 대학 자연계열 교과목 중 학부장이 인정하는 과목. 공과대학 공통과목 필수 이수 규정은 없다(공학개론 요건 없음)."
+    },
+    {
+     "id": "mse-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행: 복수·연합전공이면 재료공학부 전공교과목 중 전필 39 포함 48학점 이상, 부·연계·학생설계전공이면 전필 39 포함 54학점 이상",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s6"
+     ],
+     "note": "parallel_by_type 참고. '재료공학부 전공교과목 중에서'라서 공대 공통·타 학과 인정 과목이 들어가는지는 확인 필요."
+    },
+    {
+     "id": "mse-design-12",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "설계 12학점 이상(설계가 포함된 교과목 누계 12학점 이상). 전공필수를 모두 들으면 충족된다고 학부 자료가 적음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s7"
+     ],
+     "note": "학번별 필수이수교과목은 '전필 모두 이수 시 12.5점으로 인증 기준 만족', 공학인증 이수기준(2025)은 '설계학점 9, 전필 모두 이수 시 10.5'로 수치가 다르다. 과목별 설계학점 자료가 없어 앱은 '전필 13과목 완료 = 충족'으로만 판단하고 나머지는 확인 필요."
+    },
+    {
+     "id": "mse-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "졸업 논문 작성(다른 전공을 하는 재료공학부 학생, 다전공 세칙 제2조 2)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s3"
+     ],
+     "note": "단일전공 학생에게도 졸업논문이 필요한지, 어떤 과목·절차로 하는지는 공개 자료에 없다."
+    },
+    {
+     "id": "mse-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 52학점 이상(2024학번)",
+     "min_count": null,
+     "min_credits": 52,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ],
+     "note": "학문의 기초·학문의 세계(2014~2024 체계). 영역별 최저를 더하면 총합과 같다(자유 선택분 0)."
+    },
+    {
+     "id": "mse-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ],
+     "note": "alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "mse-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ]
+    },
+    {
+     "id": "mse-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 12학점: [1-1] 수학 1·수학연습 1(또는 고급수학 1·연습 1), [1-2] 수학 2·수학연습 2(또는 고급수학 2·연습 2), [2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.104"
+       ]
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.104L"
+       ]
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.106"
+       ]
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.106L"
+       ]
+      },
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.105"
+       ]
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.105L"
+       ]
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.107"
+       ]
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.107L"
+       ]
+      },
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F31.201"
+       ]
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F31.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ],
+     "note": "연습 과목은 같은 학기에 함께 듣는다. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "mse-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 16학점(학기별 8학점): 물리학·화학 중 최소 1분야는 1·2 모두, 물리학 1·2, 화학 1·2, 생물학 1·2, 물리학, 화학, 생물학, 통계학과 각 실험 중",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.106"
+       ]
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F33.106L"
+       ]
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.103"
+       ]
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.108"
+       ]
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.107"
+       ]
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F33.107L"
+       ]
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.104"
+       ]
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.109"
+       ]
+      },
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "F33.105"
+       ]
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F33.105L"
+       ]
+      },
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F34.104"
+       ]
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F34.105"
+       ]
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F34.105L"
+       ]
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.103"
+       ]
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.106"
+       ]
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F34.103L"
+       ]
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F35.104"
+       ]
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F35.104L"
+       ]
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F35.105"
+       ]
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F35.105L"
+       ]
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "F35.103"
+       ]
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F35.103L"
+       ]
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "F32.102"
+       ]
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F32.102L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s20"
+     ],
+     "note": "이론·실험은 같은 학기. 한 분야 '1'과 1·2로 안 나뉜 과목을 둘 다 들으면 이 영역엔 하나만 인정. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "mse-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보활용 2학점: [1-1] 컴퓨터의 기초",
+     "min_count": 1,
+     "min_credits": 2,
+     "courses": [
+      {
+       "code": "035.002",
+       "name": "컴퓨터의 기초",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s21",
+      "s22"
+     ],
+     "note": "편람에서 035.002 컴퓨터의 기초는 2024-1 이 마지막이다. 그 뒤 이 영역을 무엇으로 채우는지(새 번호 과목·면제)는 학부 자료에 없다 → 학부 확인. 해설은 '별도 절차로 면제받으면 이 영역 최저학점을 이수한 것으로 본다(교양 총합은 채워야 함)'고 적는다."
+    },
+    {
+     "id": "mse-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s11"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "mse-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌: 2024학번부터 주전공 1강좌 이상 포함 3과목 이상 '권장'(필수 아님)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s11"
+     ],
+     "note": "2023학번까지는 의무였다."
+    },
+    {
+     "id": "mse-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "mse-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 재료공학부 복수전공(2024년 입학생부터): 재료공학부 전공교과목 중 전공필수 39학점 포함 48학점 이상",
+     "min_count": 13,
+     "min_credits": 48,
+     "courses": [
+      {
+       "code": "445.102A",
+       "name": "재료공학원리",
+       "credits": 3
+      },
+      {
+       "code": "445.211",
+       "name": "유기재료화학",
+       "credits": 3
+      },
+      {
+       "code": "445.301",
+       "name": "재료열역학",
+       "credits": 3
+      },
+      {
+       "code": "445.202",
+       "name": "재료현대물리",
+       "credits": 3
+      },
+      {
+       "code": "445.206",
+       "name": "결정학개론",
+       "credits": 3
+      },
+      {
+       "code": "M1569.003300",
+       "name": "현대재료물리화학",
+       "credits": 3
+      },
+      {
+       "code": "445.302",
+       "name": "재료상변태",
+       "credits": 3
+      },
+      {
+       "code": "445.303",
+       "name": "재료실험 1",
+       "credits": 3
+      },
+      {
+       "code": "445.304",
+       "name": "재료실험 2",
+       "credits": 3
+      },
+      {
+       "code": "445.310",
+       "name": "재료의 기계적 거동",
+       "credits": 3
+      },
+      {
+       "code": "445.312",
+       "name": "재료의 전자기적 성질",
+       "credits": 3
+      },
+      {
+       "code": "445.408A",
+       "name": "재료종합실험",
+       "credits": 3
+      },
+      {
+       "code": "445.442",
+       "name": "재료종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s12"
+     ],
+     "note": "2020~2023년 입학생은 전필 36 포함 48. 표 2 의 48 과 같다."
+    },
+    {
+     "id": "mse-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 재료공학부 개설 전공교과목 21학점 이상, 그중 4과목 이상은 전공필수",
+     "min_count": 4,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "445.102A",
+       "name": "재료공학원리",
+       "credits": 3
+      },
+      {
+       "code": "445.211",
+       "name": "유기재료화학",
+       "credits": 3
+      },
+      {
+       "code": "445.301",
+       "name": "재료열역학",
+       "credits": 3
+      },
+      {
+       "code": "445.202",
+       "name": "재료현대물리",
+       "credits": 3
+      },
+      {
+       "code": "445.206",
+       "name": "결정학개론",
+       "credits": 3
+      },
+      {
+       "code": "M1569.003300",
+       "name": "현대재료물리화학",
+       "credits": 3
+      },
+      {
+       "code": "445.302",
+       "name": "재료상변태",
+       "credits": 3
+      },
+      {
+       "code": "445.303",
+       "name": "재료실험 1",
+       "credits": 3
+      },
+      {
+       "code": "445.304",
+       "name": "재료실험 2",
+       "credits": 3
+      },
+      {
+       "code": "445.310",
+       "name": "재료의 기계적 거동",
+       "credits": 3
+      },
+      {
+       "code": "445.312",
+       "name": "재료의 전자기적 성질",
+       "credits": 3
+      },
+      {
+       "code": "445.408A",
+       "name": "재료종합실험",
+       "credits": 3
+      },
+      {
+       "code": "445.442",
+       "name": "재료종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s12"
+     ],
+     "note": "courses 는 전필 후보 목록이고 min_count 4 는 그중 과목 수다. 부전공은 주전공과 겹쳐 인정하지 않는다(본부 규정)."
+    },
+    {
+     "id": "mse-overlap",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "다전공 겹쳐 인정(본부): 복수전공은 두 학과가 같이 인정하는 과목 9학점까지, 같이 인정하는 타 학과 과목 3학점까지. 부·연계·학생설계는 겹쳐 인정 없음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s13"
+     ],
+     "note": "학부 자료에는 따로 없음(본부 2024 해설 기준)."
+    },
+    {
+     "id": "mse-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 4개 영역 이상",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ],
+     "note": "자연과 기술·생명과 환경은 이 요건에 들지 않는다. 2025-1 이후 열린 교양 과목은 학부대학 비교표로 옛 '학문의 세계' 영역을 인정받는다(교양 개편 안내)."
+    }
+   ],
+   "changed": "교양만 옛 체계(학문의 기초 40 + 학문의 세계 12·4개 영역) 52학점, 전공 요건은 같음",
+   "note": "전공 요건은 2025학번과 같다(전필 13과목 39, 개론 3중 2, 외국어 진행 강좌 권장). 교양만 옛 체계 52(학문의 기초 40 + 학문의 세계 12, 2024학번부터 5개 중 4개 영역 이상)."
+  },
+  {
+   "entry_years": [
+    2021,
+    2023
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 52,
+    "single": 62,
+    "parallel": 48,
+    "double": 48,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s30",
+     "s36",
+     "s37"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s30",
+    "s38",
+    "s29"
+   ],
+   "requirements": [
+    {
+     "id": "mse-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 12과목 36학점 + 재료종합실험(전선이지만 필수) 3 = 39학점",
+     "min_count": 13,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "445.102A",
+       "name": "재료공학원리",
+       "credits": 3
+      },
+      {
+       "code": "445.213A",
+       "name": "재료물리화학1",
+       "credits": 3,
+       "alt_codes": [
+        "M1569.003100",
+        "M1569.003000",
+        "M1569.002800"
+       ]
+      },
+      {
+       "code": "445.211",
+       "name": "유기재료화학",
+       "credits": 3
+      },
+      {
+       "code": "445.206",
+       "name": "결정학개론",
+       "credits": 3
+      },
+      {
+       "code": "445.215",
+       "name": "재료물리화학2",
+       "credits": 3,
+       "alt_codes": [
+        "M1569.003300"
+       ]
+      },
+      {
+       "code": "445.301",
+       "name": "재료열역학",
+       "credits": 3
+      },
+      {
+       "code": "445.303",
+       "name": "재료실험 1",
+       "credits": 3
+      },
+      {
+       "code": "445.304",
+       "name": "재료실험 2",
+       "credits": 3
+      },
+      {
+       "code": "445.310",
+       "name": "재료의 기계적 거동",
+       "credits": 3
+      },
+      {
+       "code": "445.302",
+       "name": "재료상변태",
+       "credits": 3
+      },
+      {
+       "code": "445.312",
+       "name": "재료의 전자기적 성질",
+       "credits": 3
+      },
+      {
+       "code": "445.442",
+       "name": "재료종합설계",
+       "credits": 3
+      },
+      {
+       "code": "445.408A",
+       "name": "재료종합실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s27",
+      "s28",
+      "s29"
+     ],
+     "note": "2024 개편은 2023학번 이전에 적용되지 않는다(학부 안내). 재료물리화학 1·2 의 새 과목 대응은 alt_codes."
+    },
+    {
+     "id": "mse-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상 = 전필 36 + 전선 26(재료종합실험 3 포함)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s30"
+     ],
+     "note": "전공선택 인정: 공과대학 공통과목(400.XXX·M2177.XXXXXX) 최대 6학점, 공대 타 학과·타 대학 자연계열 과목 중 학부장 인정 과목."
+    },
+    {
+     "id": "mse-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행: 복수·연합이면 재료공학부 전공교과목 중 전필 36 포함 48학점 이상, 부·연계·학생설계면 전필 36 포함 54학점 이상",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s31"
+     ]
+    },
+    {
+     "id": "mse-design-12",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "설계 12학점 이상(설계가 포함된 교과목 누계 12학점 이상)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s34"
+     ],
+     "note": "이 학번 칸에는 '전공필수 모두 이수하면 충족'이라는 문구가 없다(2024학번부터 있음). 과목별 설계학점 자료가 없어 확인 필요."
+    },
+    {
+     "id": "mse-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "졸업 논문 작성(다른 전공을 하는 재료공학부 학생, 다전공 세칙 제2조 2)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s3"
+     ],
+     "note": "단일전공 학생에게도 졸업논문이 필요한지, 어떤 과목·절차로 하는지는 공개 자료에 없다."
+    },
+    {
+     "id": "mse-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 52학점 이상(2024학번)",
+     "min_count": null,
+     "min_credits": 52,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ],
+     "note": "학문의 기초·학문의 세계(2014~2024 체계). 영역별 최저를 더하면 총합과 같다(자유 선택분 0)."
+    },
+    {
+     "id": "mse-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ],
+     "note": "alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "mse-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ]
+    },
+    {
+     "id": "mse-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 12학점: [1-1] 수학 1·수학연습 1(또는 고급수학 1·연습 1), [1-2] 수학 2·수학연습 2(또는 고급수학 2·연습 2), [2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.104"
+       ]
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.104L"
+       ]
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.106"
+       ]
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.106L"
+       ]
+      },
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.105"
+       ]
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.105L"
+       ]
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.107"
+       ]
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.107L"
+       ]
+      },
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F31.201"
+       ]
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F31.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ],
+     "note": "연습 과목은 같은 학기에 함께 듣는다. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "mse-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 16학점(학기별 8학점): 물리학·화학 중 최소 1분야는 1·2 모두, 물리학 1·2, 화학 1·2, 생물학 1·2, 물리학, 화학, 생물학, 통계학과 각 실험 중",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.106"
+       ]
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F33.106L"
+       ]
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.103"
+       ]
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.108"
+       ]
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.107"
+       ]
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F33.107L"
+       ]
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.104"
+       ]
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.109"
+       ]
+      },
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "F33.105"
+       ]
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F33.105L"
+       ]
+      },
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F34.104"
+       ]
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F34.105"
+       ]
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F34.105L"
+       ]
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.103"
+       ]
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.106"
+       ]
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F34.103L"
+       ]
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F35.104"
+       ]
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F35.104L"
+       ]
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F35.105"
+       ]
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F35.105L"
+       ]
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "F35.103"
+       ]
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F35.103L"
+       ]
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "F32.102"
+       ]
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F32.102L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s20"
+     ],
+     "note": "이론·실험은 같은 학기. 한 분야 '1'과 1·2로 안 나뉜 과목을 둘 다 들으면 이 영역엔 하나만 인정. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "mse-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보활용 2학점: [1-1] 컴퓨터의 기초",
+     "min_count": 1,
+     "min_credits": 2,
+     "courses": [
+      {
+       "code": "035.002",
+       "name": "컴퓨터의 기초",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s21",
+      "s22"
+     ],
+     "note": "편람에서 035.002 컴퓨터의 기초는 2024-1 이 마지막이다. 그 뒤 이 영역을 무엇으로 채우는지(새 번호 과목·면제)는 학부 자료에 없다 → 학부 확인. 해설은 '별도 절차로 면제받으면 이 영역 최저학점을 이수한 것으로 본다(교양 총합은 채워야 함)'고 적는다."
+    },
+    {
+     "id": "mse-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s11"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "mse-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1과목 이상 포함, 대학영어 제외) 의무",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s32"
+     ],
+     "note": "2008학번부터 의무, 2024학번부터 권장으로 바뀜."
+    },
+    {
+     "id": "mse-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "mse-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 재료공학부 복수전공(2020~2023년 입학생): 재료공학부 전공교과목 중 전공필수 36학점 포함 48학점 이상",
+     "min_count": 12,
+     "min_credits": 48,
+     "courses": [
+      {
+       "code": "445.102A",
+       "name": "재료공학원리",
+       "credits": 3
+      },
+      {
+       "code": "445.213A",
+       "name": "재료물리화학1",
+       "credits": 3,
+       "alt_codes": [
+        "M1569.003100",
+        "M1569.003000",
+        "M1569.002800"
+       ]
+      },
+      {
+       "code": "445.211",
+       "name": "유기재료화학",
+       "credits": 3
+      },
+      {
+       "code": "445.206",
+       "name": "결정학개론",
+       "credits": 3
+      },
+      {
+       "code": "445.215",
+       "name": "재료물리화학2",
+       "credits": 3,
+       "alt_codes": [
+        "M1569.003300"
+       ]
+      },
+      {
+       "code": "445.301",
+       "name": "재료열역학",
+       "credits": 3
+      },
+      {
+       "code": "445.303",
+       "name": "재료실험 1",
+       "credits": 3
+      },
+      {
+       "code": "445.304",
+       "name": "재료실험 2",
+       "credits": 3
+      },
+      {
+       "code": "445.310",
+       "name": "재료의 기계적 거동",
+       "credits": 3
+      },
+      {
+       "code": "445.302",
+       "name": "재료상변태",
+       "credits": 3
+      },
+      {
+       "code": "445.312",
+       "name": "재료의 전자기적 성질",
+       "credits": 3
+      },
+      {
+       "code": "445.442",
+       "name": "재료종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s33"
+     ],
+     "note": "재료종합실험은 이 목록(전필 36)에 들지 않는다."
+    },
+    {
+     "id": "mse-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 재료공학부 개설 전공교과목 21학점 이상, 그중 4과목 이상은 전공필수",
+     "min_count": 4,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "445.102A",
+       "name": "재료공학원리",
+       "credits": 3
+      },
+      {
+       "code": "445.211",
+       "name": "유기재료화학",
+       "credits": 3
+      },
+      {
+       "code": "445.301",
+       "name": "재료열역학",
+       "credits": 3
+      },
+      {
+       "code": "445.202",
+       "name": "재료현대물리",
+       "credits": 3
+      },
+      {
+       "code": "445.206",
+       "name": "결정학개론",
+       "credits": 3
+      },
+      {
+       "code": "M1569.003300",
+       "name": "현대재료물리화학",
+       "credits": 3
+      },
+      {
+       "code": "445.302",
+       "name": "재료상변태",
+       "credits": 3
+      },
+      {
+       "code": "445.303",
+       "name": "재료실험 1",
+       "credits": 3
+      },
+      {
+       "code": "445.304",
+       "name": "재료실험 2",
+       "credits": 3
+      },
+      {
+       "code": "445.310",
+       "name": "재료의 기계적 거동",
+       "credits": 3
+      },
+      {
+       "code": "445.312",
+       "name": "재료의 전자기적 성질",
+       "credits": 3
+      },
+      {
+       "code": "445.408A",
+       "name": "재료종합실험",
+       "credits": 3
+      },
+      {
+       "code": "445.442",
+       "name": "재료종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s12"
+     ],
+     "note": "courses 는 전필 후보 목록이고 min_count 4 는 그중 과목 수다. 부전공은 주전공과 겹쳐 인정하지 않는다(본부 규정)."
+    },
+    {
+     "id": "mse-overlap",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "다전공 겹쳐 인정(본부): 복수전공은 두 학과가 같이 인정하는 과목 9학점까지, 같이 인정하는 타 학과 과목 3학점까지. 부·연계·학생설계는 겹쳐 인정 없음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s13"
+     ],
+     "note": "학부 자료에는 따로 없음(본부 2024 해설 기준)."
+    },
+    {
+     "id": "mse-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 3개 영역 이상",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s35"
+     ],
+     "note": "자연과 기술·생명과 환경은 이 요건에 들지 않는다. 2025-1 이후 열린 교양 과목은 학부대학 비교표로 옛 '학문의 세계' 영역을 인정받는다(교양 개편 안내)."
+    }
+   ],
+   "changed": "전필 옛 목록 12과목 36 + 재료종합실험, 전선 26, 개론 3중 2 없음, 외국어 진행 강좌 의무, 병행·복수 '전필 36 포함', 학문의 세계 3개 영역",
+   "note": "학부 학번별 자료가 2021·2022·2023학번을 같은 내용으로 적는다. 전필은 옛 목록(재료물리화학 1·2 포함), 전선 26, 개론 3중 2 없음, 외국어 진행 강좌 의무, 학문의 세계 3개 영역."
+  },
+  {
+   "entry_years": [
+    2020,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 50,
+    "single": 62,
+    "parallel": 48,
+    "double": 48,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s41",
+     "s42",
+     "s43"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s39",
+    "s44"
+   ],
+   "requirements": [
+    {
+     "id": "mse-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 12과목 36학점 + 재료종합실험(전선이지만 필수) 3 = 39학점",
+     "min_count": 13,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "445.102A",
+       "name": "재료공학원리",
+       "credits": 3
+      },
+      {
+       "code": "445.213A",
+       "name": "재료물리화학1",
+       "credits": 3,
+       "alt_codes": [
+        "M1569.003100",
+        "M1569.003000",
+        "M1569.002800"
+       ]
+      },
+      {
+       "code": "445.211",
+       "name": "유기재료화학",
+       "credits": 3
+      },
+      {
+       "code": "445.206",
+       "name": "결정학개론",
+       "credits": 3
+      },
+      {
+       "code": "445.215",
+       "name": "재료물리화학2",
+       "credits": 3,
+       "alt_codes": [
+        "M1569.003300"
+       ]
+      },
+      {
+       "code": "445.301",
+       "name": "재료열역학",
+       "credits": 3
+      },
+      {
+       "code": "445.303",
+       "name": "재료실험 1",
+       "credits": 3
+      },
+      {
+       "code": "445.304",
+       "name": "재료실험 2",
+       "credits": 3
+      },
+      {
+       "code": "445.310",
+       "name": "재료의 기계적 거동",
+       "credits": 3
+      },
+      {
+       "code": "445.302",
+       "name": "재료상변태",
+       "credits": 3
+      },
+      {
+       "code": "445.312",
+       "name": "재료의 전자기적 성질",
+       "credits": 3
+      },
+      {
+       "code": "445.442",
+       "name": "재료종합설계",
+       "credits": 3
+      },
+      {
+       "code": "445.408A",
+       "name": "재료종합실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s27",
+      "s28",
+      "s29"
+     ],
+     "note": "2024 개편은 2023학번 이전에 적용되지 않는다(학부 안내). 재료물리화학 1·2 의 새 과목 대응은 alt_codes."
+    },
+    {
+     "id": "mse-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상 = 전필 36 + 전선 26(재료종합실험 3 포함)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s40"
+     ],
+     "note": "전공선택 인정: 공과대학 공통과목 최대 3학점(2021학번부터 6학점), 학부장 인정 타 학과·타 대학 자연계열 과목."
+    },
+    {
+     "id": "mse-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행: 복수·연합이면 재료공학부 전공교과목 중 전필 36 포함 48학점 이상, 부·연계·학생설계면 전필 36 포함 54학점 이상",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s31"
+     ]
+    },
+    {
+     "id": "mse-design-12",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "설계 12학점 이상(설계가 포함된 교과목 누계 12학점 이상)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s34"
+     ],
+     "note": "이 학번 칸에는 '전공필수 모두 이수하면 충족'이라는 문구가 없다(2024학번부터 있음). 과목별 설계학점 자료가 없어 확인 필요."
+    },
+    {
+     "id": "mse-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "졸업 논문 작성(다른 전공을 하는 재료공학부 학생, 다전공 세칙 제2조 2)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s3"
+     ],
+     "note": "단일전공 학생에게도 졸업논문이 필요한지, 어떤 과목·절차로 하는지는 공개 자료에 없다."
+    },
+    {
+     "id": "mse-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 50학점 이상(2020학번)",
+     "min_count": null,
+     "min_credits": 50,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s39"
+     ],
+     "note": "학문의 기초 38(사고와 표현 4, 외국어 4~6, 수량 12, 컴퓨터 2, 과학 16) + 학문의 세계 12."
+    },
+    {
+     "id": "mse-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ],
+     "note": "alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "mse-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s39"
+     ]
+    },
+    {
+     "id": "mse-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 12학점: [1-1] 수학 1·수학연습 1(또는 고급수학 1·연습 1), [1-2] 수학 2·수학연습 2(또는 고급수학 2·연습 2), [2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.104"
+       ]
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.104L"
+       ]
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.106"
+       ]
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.106L"
+       ]
+      },
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.105"
+       ]
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.105L"
+       ]
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.107"
+       ]
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.107L"
+       ]
+      },
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F31.201"
+       ]
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F31.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ],
+     "note": "연습 과목은 같은 학기에 함께 듣는다. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "mse-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 16학점(학기별 8학점): 물리학·화학 중 최소 1분야는 1·2 모두, 물리학 1·2, 화학 1·2, 생물학 1·2, 물리학, 화학, 생물학, 통계학과 각 실험 중",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.106"
+       ]
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F33.106L"
+       ]
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.103"
+       ]
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.108"
+       ]
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.107"
+       ]
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F33.107L"
+       ]
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.104"
+       ]
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.109"
+       ]
+      },
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "F33.105"
+       ]
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F33.105L"
+       ]
+      },
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F34.104"
+       ]
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F34.105"
+       ]
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F34.105L"
+       ]
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.103"
+       ]
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.106"
+       ]
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F34.103L"
+       ]
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F35.104"
+       ]
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F35.104L"
+       ]
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F35.105"
+       ]
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F35.105L"
+       ]
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "F35.103"
+       ]
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F35.103L"
+       ]
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "F32.102"
+       ]
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F32.102L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s20"
+     ],
+     "note": "이론·실험은 같은 학기. 한 분야 '1'과 1·2로 안 나뉜 과목을 둘 다 들으면 이 영역엔 하나만 인정. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "mse-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보활용 2학점: [1-1] 컴퓨터의 기초",
+     "min_count": 1,
+     "min_credits": 2,
+     "courses": [
+      {
+       "code": "035.002",
+       "name": "컴퓨터의 기초",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s21",
+      "s22"
+     ],
+     "note": "편람에서 035.002 컴퓨터의 기초는 2024-1 이 마지막이다. 그 뒤 이 영역을 무엇으로 채우는지(새 번호 과목·면제)는 학부 자료에 없다 → 학부 확인. 해설은 '별도 절차로 면제받으면 이 영역 최저학점을 이수한 것으로 본다(교양 총합은 채워야 함)'고 적는다."
+    },
+    {
+     "id": "mse-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s11"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "mse-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1과목 이상 포함, 대학영어 제외) 의무",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s32"
+     ],
+     "note": "2008학번부터 의무, 2024학번부터 권장으로 바뀜."
+    },
+    {
+     "id": "mse-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "mse-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 재료공학부 복수전공(2020~2023년 입학생): 재료공학부 전공교과목 중 전공필수 36학점 포함 48학점 이상",
+     "min_count": 12,
+     "min_credits": 48,
+     "courses": [
+      {
+       "code": "445.102A",
+       "name": "재료공학원리",
+       "credits": 3
+      },
+      {
+       "code": "445.213A",
+       "name": "재료물리화학1",
+       "credits": 3,
+       "alt_codes": [
+        "M1569.003100",
+        "M1569.003000",
+        "M1569.002800"
+       ]
+      },
+      {
+       "code": "445.211",
+       "name": "유기재료화학",
+       "credits": 3
+      },
+      {
+       "code": "445.206",
+       "name": "결정학개론",
+       "credits": 3
+      },
+      {
+       "code": "445.215",
+       "name": "재료물리화학2",
+       "credits": 3,
+       "alt_codes": [
+        "M1569.003300"
+       ]
+      },
+      {
+       "code": "445.301",
+       "name": "재료열역학",
+       "credits": 3
+      },
+      {
+       "code": "445.303",
+       "name": "재료실험 1",
+       "credits": 3
+      },
+      {
+       "code": "445.304",
+       "name": "재료실험 2",
+       "credits": 3
+      },
+      {
+       "code": "445.310",
+       "name": "재료의 기계적 거동",
+       "credits": 3
+      },
+      {
+       "code": "445.302",
+       "name": "재료상변태",
+       "credits": 3
+      },
+      {
+       "code": "445.312",
+       "name": "재료의 전자기적 성질",
+       "credits": 3
+      },
+      {
+       "code": "445.442",
+       "name": "재료종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s33"
+     ],
+     "note": "재료종합실험은 이 목록(전필 36)에 들지 않는다."
+    },
+    {
+     "id": "mse-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 재료공학부 개설 전공교과목 21학점 이상, 그중 4과목 이상은 전공필수",
+     "min_count": 4,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "445.102A",
+       "name": "재료공학원리",
+       "credits": 3
+      },
+      {
+       "code": "445.211",
+       "name": "유기재료화학",
+       "credits": 3
+      },
+      {
+       "code": "445.301",
+       "name": "재료열역학",
+       "credits": 3
+      },
+      {
+       "code": "445.202",
+       "name": "재료현대물리",
+       "credits": 3
+      },
+      {
+       "code": "445.206",
+       "name": "결정학개론",
+       "credits": 3
+      },
+      {
+       "code": "M1569.003300",
+       "name": "현대재료물리화학",
+       "credits": 3
+      },
+      {
+       "code": "445.302",
+       "name": "재료상변태",
+       "credits": 3
+      },
+      {
+       "code": "445.303",
+       "name": "재료실험 1",
+       "credits": 3
+      },
+      {
+       "code": "445.304",
+       "name": "재료실험 2",
+       "credits": 3
+      },
+      {
+       "code": "445.310",
+       "name": "재료의 기계적 거동",
+       "credits": 3
+      },
+      {
+       "code": "445.312",
+       "name": "재료의 전자기적 성질",
+       "credits": 3
+      },
+      {
+       "code": "445.408A",
+       "name": "재료종합실험",
+       "credits": 3
+      },
+      {
+       "code": "445.442",
+       "name": "재료종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s12"
+     ],
+     "note": "courses 는 전필 후보 목록이고 min_count 4 는 그중 과목 수다. 부전공은 주전공과 겹쳐 인정하지 않는다(본부 규정)."
+    },
+    {
+     "id": "mse-overlap",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "다전공 겹쳐 인정(본부): 복수전공은 두 학과가 같이 인정하는 과목 9학점까지, 같이 인정하는 타 학과 과목 3학점까지. 부·연계·학생설계는 겹쳐 인정 없음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s13"
+     ],
+     "note": "학부 자료에는 따로 없음(본부 2024 해설 기준)."
+    },
+    {
+     "id": "mse-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 3개 영역 이상",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s35"
+     ],
+     "note": "자연과 기술·생명과 환경은 이 요건에 들지 않는다. 2025-1 이후 열린 교양 과목은 학부대학 비교표로 옛 '학문의 세계' 영역을 인정받는다(교양 개편 안내)."
+    }
+   ],
+   "changed": "외국어 4~6학점(교양 50), 공과대학 공통과목 전선 인정 최대 3학점",
+   "note": "2021~2023학번과 전공은 같고, 외국어가 4~6학점이라 교양 50, 공대 공통과목 전선 인정이 최대 3학점."
+  },
+  {
+   "entry_years": [
+    2019,
+    2019
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 44,
+    "single": 62,
+    "parallel": 54,
+    "double": 54,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s50",
+     "s51",
+     "s52"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s45",
+    "s53"
+   ],
+   "requirements": [
+    {
+     "id": "mse-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 12과목 36학점 + 재료종합실험(전선이지만 필수) 3 = 39학점",
+     "min_count": 13,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "445.102A",
+       "name": "재료공학원리",
+       "credits": 3
+      },
+      {
+       "code": "445.213A",
+       "name": "재료물리화학1",
+       "credits": 3,
+       "alt_codes": [
+        "M1569.003100",
+        "M1569.003000",
+        "M1569.002800"
+       ]
+      },
+      {
+       "code": "445.211",
+       "name": "유기재료화학",
+       "credits": 3
+      },
+      {
+       "code": "445.206",
+       "name": "결정학개론",
+       "credits": 3
+      },
+      {
+       "code": "445.215",
+       "name": "재료물리화학2",
+       "credits": 3,
+       "alt_codes": [
+        "M1569.003300"
+       ]
+      },
+      {
+       "code": "445.301",
+       "name": "재료열역학",
+       "credits": 3
+      },
+      {
+       "code": "445.303",
+       "name": "재료실험 1",
+       "credits": 3
+      },
+      {
+       "code": "445.304",
+       "name": "재료실험 2",
+       "credits": 3
+      },
+      {
+       "code": "445.310",
+       "name": "재료의 기계적 거동",
+       "credits": 3
+      },
+      {
+       "code": "445.302",
+       "name": "재료상변태",
+       "credits": 3
+      },
+      {
+       "code": "445.312",
+       "name": "재료의 전자기적 성질",
+       "credits": 3
+      },
+      {
+       "code": "445.442",
+       "name": "재료종합설계",
+       "credits": 3
+      },
+      {
+       "code": "445.408A",
+       "name": "재료종합실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s27",
+      "s28",
+      "s29"
+     ],
+     "note": "2024 개편은 2023학번 이전에 적용되지 않는다(학부 안내). 재료물리화학 1·2 의 새 과목 대응은 alt_codes."
+    },
+    {
+     "id": "mse-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상 = 전필 36 + 전선 26(재료종합실험 3 포함)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s45"
+     ],
+     "note": "2019 칸에는 전공선택 인정 과목(공대 공통 한도) 문구가 없다."
+    },
+    {
+     "id": "mse-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행(모든 유형): 재료공학부 개설 전공교과목 중 전공필수 포함 54학점 이상(또는 단일전공 62 를 택함)",
+     "min_count": null,
+     "min_credits": 54,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s47"
+     ]
+    },
+    {
+     "id": "mse-design-12",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "설계 12학점 이상(설계가 포함된 교과목 누계 12학점 이상)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s34"
+     ],
+     "note": "이 학번 칸에는 '전공필수 모두 이수하면 충족'이라는 문구가 없다(2024학번부터 있음). 과목별 설계학점 자료가 없어 확인 필요."
+    },
+    {
+     "id": "mse-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "졸업 논문 작성(다른 전공을 하는 재료공학부 학생, 다전공 세칙 제2조 2)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s3"
+     ],
+     "note": "단일전공 학생에게도 졸업논문이 필요한지, 어떤 과목·절차로 하는지는 공개 자료에 없다."
+    },
+    {
+     "id": "mse-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 44학점 이상(2019학번)",
+     "min_count": null,
+     "min_credits": 44,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s45"
+     ],
+     "note": "학문의 기초 38 + 학문의 세계 6. 공학소양 6(사회성·창의성)은 따로(학문의 세계로도 인정)."
+    },
+    {
+     "id": "mse-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ],
+     "note": "alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "mse-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s39"
+     ]
+    },
+    {
+     "id": "mse-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 12학점: [1-1] 수학 1·수학연습 1(또는 고급수학 1·연습 1), [1-2] 수학 2·수학연습 2(또는 고급수학 2·연습 2), [2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.104"
+       ]
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.104L"
+       ]
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.106"
+       ]
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.106L"
+       ]
+      },
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.105"
+       ]
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.105L"
+       ]
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.107"
+       ]
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.107L"
+       ]
+      },
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F31.201"
+       ]
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F31.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ],
+     "note": "연습 과목은 같은 학기에 함께 듣는다. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "mse-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 16학점(학기별 8학점): 물리학·화학 중 최소 1분야는 1·2 모두, 물리학 1·2, 화학 1·2, 생물학 1·2, 물리학, 화학, 생물학, 통계학과 각 실험 중",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.106"
+       ]
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F33.106L"
+       ]
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.103"
+       ]
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.108"
+       ]
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.107"
+       ]
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F33.107L"
+       ]
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.104"
+       ]
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.109"
+       ]
+      },
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "F33.105"
+       ]
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F33.105L"
+       ]
+      },
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F34.104"
+       ]
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F34.105"
+       ]
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F34.105L"
+       ]
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.103"
+       ]
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.106"
+       ]
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F34.103L"
+       ]
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F35.104"
+       ]
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F35.104L"
+       ]
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F35.105"
+       ]
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F35.105L"
+       ]
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "F35.103"
+       ]
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F35.103L"
+       ]
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "F32.102"
+       ]
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F32.102L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s20"
+     ],
+     "note": "이론·실험은 같은 학기. 한 분야 '1'과 1·2로 안 나뉜 과목을 둘 다 들으면 이 영역엔 하나만 인정. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "mse-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보활용 2학점: [1-1] 컴퓨터의 기초",
+     "min_count": 1,
+     "min_credits": 2,
+     "courses": [
+      {
+       "code": "035.002",
+       "name": "컴퓨터의 기초",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s21",
+      "s22"
+     ],
+     "note": "편람에서 035.002 컴퓨터의 기초는 2024-1 이 마지막이다. 그 뒤 이 영역을 무엇으로 채우는지(새 번호 과목·면제)는 학부 자료에 없다 → 학부 확인. 해설은 '별도 절차로 면제받으면 이 영역 최저학점을 이수한 것으로 본다(교양 총합은 채워야 함)'고 적는다."
+    },
+    {
+     "id": "mse-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s11"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "mse-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1과목 이상 포함, 대학영어 제외) 의무",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s32"
+     ],
+     "note": "2008학번부터 의무, 2024학번부터 권장으로 바뀜."
+    },
+    {
+     "id": "mse-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "mse-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 재료공학부 복수전공(2008~2019년 입학생): 전공필수 포함 54학점 이상, 또는 단일전공 규정과 같게",
+     "min_count": null,
+     "min_credits": 54,
+     "courses": [
+      {
+       "code": "445.102A",
+       "name": "재료공학원리",
+       "credits": 3
+      },
+      {
+       "code": "445.213A",
+       "name": "재료물리화학1",
+       "credits": 3,
+       "alt_codes": [
+        "M1569.003100",
+        "M1569.003000",
+        "M1569.002800"
+       ]
+      },
+      {
+       "code": "445.211",
+       "name": "유기재료화학",
+       "credits": 3
+      },
+      {
+       "code": "445.206",
+       "name": "결정학개론",
+       "credits": 3
+      },
+      {
+       "code": "445.215",
+       "name": "재료물리화학2",
+       "credits": 3,
+       "alt_codes": [
+        "M1569.003300"
+       ]
+      },
+      {
+       "code": "445.301",
+       "name": "재료열역학",
+       "credits": 3
+      },
+      {
+       "code": "445.303",
+       "name": "재료실험 1",
+       "credits": 3
+      },
+      {
+       "code": "445.304",
+       "name": "재료실험 2",
+       "credits": 3
+      },
+      {
+       "code": "445.310",
+       "name": "재료의 기계적 거동",
+       "credits": 3
+      },
+      {
+       "code": "445.302",
+       "name": "재료상변태",
+       "credits": 3
+      },
+      {
+       "code": "445.312",
+       "name": "재료의 전자기적 성질",
+       "credits": 3
+      },
+      {
+       "code": "445.442",
+       "name": "재료종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s48"
+     ]
+    },
+    {
+     "id": "mse-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 재료공학부 개설 전공교과목 21학점 이상, 그중 4과목 이상은 전공필수",
+     "min_count": 4,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "445.102A",
+       "name": "재료공학원리",
+       "credits": 3
+      },
+      {
+       "code": "445.211",
+       "name": "유기재료화학",
+       "credits": 3
+      },
+      {
+       "code": "445.301",
+       "name": "재료열역학",
+       "credits": 3
+      },
+      {
+       "code": "445.202",
+       "name": "재료현대물리",
+       "credits": 3
+      },
+      {
+       "code": "445.206",
+       "name": "결정학개론",
+       "credits": 3
+      },
+      {
+       "code": "M1569.003300",
+       "name": "현대재료물리화학",
+       "credits": 3
+      },
+      {
+       "code": "445.302",
+       "name": "재료상변태",
+       "credits": 3
+      },
+      {
+       "code": "445.303",
+       "name": "재료실험 1",
+       "credits": 3
+      },
+      {
+       "code": "445.304",
+       "name": "재료실험 2",
+       "credits": 3
+      },
+      {
+       "code": "445.310",
+       "name": "재료의 기계적 거동",
+       "credits": 3
+      },
+      {
+       "code": "445.312",
+       "name": "재료의 전자기적 성질",
+       "credits": 3
+      },
+      {
+       "code": "445.408A",
+       "name": "재료종합실험",
+       "credits": 3
+      },
+      {
+       "code": "445.442",
+       "name": "재료종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s12"
+     ],
+     "note": "courses 는 전필 후보 목록이고 min_count 4 는 그중 과목 수다. 부전공은 주전공과 겹쳐 인정하지 않는다(본부 규정)."
+    },
+    {
+     "id": "mse-overlap",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "다전공 겹쳐 인정(본부): 복수전공은 두 학과가 같이 인정하는 과목 9학점까지, 같이 인정하는 타 학과 과목 3학점까지. 부·연계·학생설계는 겹쳐 인정 없음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s13"
+     ],
+     "note": "학부 자료에는 따로 없음(본부 2024 해설 기준)."
+    },
+    {
+     "id": "mse-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 6학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 2개 영역 이상",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s46"
+     ],
+     "note": "자연과 기술·생명과 환경은 이 요건에 들지 않는다. 2025-1 이후 열린 교양 과목은 학부대학 비교표로 옛 '학문의 세계' 영역을 인정받는다(교양 개편 안내)."
+    },
+    {
+     "id": "mse-eng-social-creative",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 사회성 교과목군 3학점 + 창의성 교과목군 3학점(2013~2019학번)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s49"
+     ],
+     "note": "학문의 세계 '인간과 사회'(사회성)·'문화와 예술'(창의성)에서 들어도 인정(공과대학-586, 2016-01-08). 2019 칸 목록 기준.",
+     "extra": {
+      "groups": [
+       {
+        "field": "사회성 교과목군",
+        "min_credits": 3,
+        "courses": [
+         {
+          "code": "054.027",
+          "name": "창업과 경제",
+          "credits": 3,
+          "credits_from": "학과 자료(2019 규정)"
+         },
+         {
+          "code": "046.017",
+          "name": "기술과 경제",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-1 (data/history)"
+         },
+         {
+          "code": "054.025",
+          "name": "공학윤리와 리더십",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2021-1 (data/history)"
+         },
+         {
+          "code": "054.028",
+          "name": "특허와 기술창업",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-2 (data/history)"
+         },
+         {
+          "code": "400.212",
+          "name": "기술과 창업",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-1 (data/history)"
+         },
+         {
+          "code": "M2177.000100",
+          "name": "공학인을 위한 경영",
+          "credits": 3,
+          "credits_from": "학과 자료(2019 규정)"
+         },
+         {
+          "code": "400.310",
+          "name": "공학기술과사회",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "창의성 교과목군",
+        "min_credits": 3,
+        "courses": [
+         {
+          "code": "054.019",
+          "name": "현대도시건축산책",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-1 (data/history)"
+         },
+         {
+          "code": "054.021",
+          "name": "창조와 디자인",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-2 (data/history)"
+         },
+         {
+          "code": "054.022",
+          "name": "테크놀러지와 예술: 전시예술공학",
+          "credits": 3,
+          "credits_from": "학과 자료(2019 규정)",
+          "alt_codes": [
+           "L0655.001000",
+           "E11.181"
+          ]
+         },
+         {
+          "code": "054.020",
+          "name": "소리의 과학과 악기제작 체험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-2 (data/history)"
+         },
+         {
+          "code": "400.018",
+          "name": "창의공학설계",
+          "credits": 3,
+          "credits_from": "편람 2021-2~2026-2 (data/history)"
+         },
+         {
+          "code": "400.318",
+          "name": "디지털아트공학",
+          "credits": 3,
+          "credits_from": "학과 자료(2019 규정)"
+         },
+         {
+          "code": "406.324A",
+          "name": "공학도를 위한 창의적 사고",
+          "credits": 3,
+          "credits_from": "편람 2023-2~2025-2 (data/history)"
+         },
+         {
+          "code": "M2177.002300",
+          "name": "다학제 창의적 제품개발",
+          "credits": 3,
+          "credits_from": "편람 2025-2~2026-1 (data/history)"
+         },
+         {
+          "code": "M2177.002400",
+          "name": "글로벌 창의적 제품개발",
+          "credits": 3,
+          "credits_from": "편람 2026-1~2026-1 (data/history)"
+         },
+         {
+          "code": "M2177.005900",
+          "name": "제품개발을 위한 디지털 설계 및 제조 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2021-1 (data/history)",
+          "note": "舊 M2177.005000 제품개발을 위한 디지털 설계 및 제조"
+         },
+         {
+          "code": "M2177.006100",
+          "name": "제품개발을 위한 디지털 설계 및 제조 2",
+          "credits": 3,
+          "credits_from": "편람 2021-2~2021-2 (data/history)"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "changed": "교양 44(학문의 세계 6·2개 영역) + 사회성·창의성 각 3, 다른 전공 병행 54(모든 유형), 타학과 복수 54, 공대 공통 전선 인정 문구 없음",
+   "note": "교양이 옛 2019 구조(학문의 기초 38 + 학문의 세계 6, 2개 영역)이고 공과대학 공학소양(사회성·창의성 각 3)이 붙는다. 다전공은 54학점 체계."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2020,
+   "basis": "입학 연도",
+   "what": "교양 44→50(학문의 세계 6→12, 3개 영역), 공학소양(사회성·창의성) 없어짐, 다른 전공 병행 54→48/54(전필 36 포함), 타학과 복수 54→48",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "외국어 4~6→6(교양 50→52), 공대 공통과목 전선 인정 3→6학점",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "전공 개편: 전필 13과목 39(재료현대물리·현대재료물리화학·재료종합실험 전필), 개론 3중 2, 외국어 진행 강좌 권장, 학문의 세계 4개 영역 이상, 다전공 '전필 39 포함'",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 새 체계(학문의 토대·지성의 열쇠·베리타스) 49",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "교과 개편 학기",
+   "what": "교과 개편: 재료물리화학 1(445.213A, 마지막 2023-1) → 재료물리화학(M1569.003100, 2024-1~2025-1), 재료물리화학 2(445.215, 마지막 2023-2) → 현대재료물리화학(M1569.003300). 2023학번 이전은 옛 규정 그대로 따르고 과목만 대응",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2026,
+   "basis": "교과 개편 학기",
+   "what": "학부 자료(2026-09-03 판) 2018~2023학번 칸에 '재료물리화학(구 재료물리화학 1)을 세라믹재료개론 또는 금속재료개론으로 대체 수강 가능' 추가",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2026,
+   "basis": "다전공 선발 시기",
+   "what": "복수·부전공: 재료공학원리·재료공학개론 중 한 과목만 인정(2026-1 이후 진입생)",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "2019~2024학번의 '컴퓨터와 정보활용 2학점: 컴퓨터의 기초'(035.002, 2024-1 이후 미개설)를 지금 무엇으로 채우는가",
+  "재료물리화학(M1569.003100)이 편람에 전선으로 남아 있는데 2019~2023학번 전필(재료물리화학 1)로 인정되는가(학부 글 '추후 전필로 교과구분정정 필요')",
+  "2019학번이 단일 62 와 다전공 54 중 무엇을 택했는지 어떻게 정하는가(신고 절차)",
+  "단일전공 학생도 졸업논문이 필요한가, 필요하면 무엇(과목·발표 등)으로 하는가",
+  "금속·고분자·세라믹재료개론 3과목 중 2과목 조건이 다른 전공 병행(48/54)·복수전공(48)에도 붙는가",
+  "설계 12학점(설계 포함 교과목 누계)을 어떻게 세는가, 전필 13과목만 들으면 충족으로 보아도 되는가",
+  "다른 전공 병행 48/54 학점에 공대 공통과목(최대 6)·학부장 인정 타 학과 과목이 들어가는가"
+ ],
+ "sources": {
+  "s1": {
+   "title": "재료공학부, 필수이수교과목(학번별)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/08/졸업필수이수교과목학번별.pdf",
+   "locator": "[2025학번] 쪽(마지막 쪽), [2024학번], [2020~2023학번]",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "재료공학부, 학사과정 졸업이수학점 및 전공과목 이수표준형태(2025)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/재료공학부-학사과정-졸업이수학점-및-전공과목-이수표준형태2025.pdf",
+   "locator": "쪽 1 교양 표, 쪽 2 이수표준형태·교과목 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "재료공학부, 다전공 이수에 관한 세칙(2024-02-21 개정)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/재료공학부-다전공-이수에-관한-세칙-2.pdf",
+   "locator": "제2조(2024년 입학생부터), 제3조 4, 제4조 2",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "445. 재료공학부, 인쇄 쪽 63–64(* 표시)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준, 인쇄 쪽 8–9",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 비고 '부·연계·학생설계 54학점 이수', 인쇄 쪽 9",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "재료공학부, 공학인증 이수기준(2025학번)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/08/재료공학부-공학인증-이수기준2025.pdf",
+   "locator": "쪽 1",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "재료공학부, 쪽 123–124",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "학부대학, 2025학년도 시행 공통교육과정 대학별 이수규정(국문, 2024-12 작성)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/01/2025학년도-시행-공통교육과정-대학별-이수규정국문.pdf",
+   "locator": "공과대학 해당 학과 표",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "재료공학부, 쪽 123",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "공과대학 수업 편성 운영에 관한 지침 제2조·제3조(기계공학부·항공우주공학과 2025학번 규정 쪽 2에 인용)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=20488",
+   "locator": "Ⅱ 졸업이수규정 ※ 공과대학 지침 ①②",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 학사과정 복수·부전공 이수학점 기준, 인쇄 쪽 10",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "학사과정 4.나.(2) 전공과목의 중복인정, 인쇄 쪽 44",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2025학번]·[2026학번] 칸",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "재료공학부, 다전공 이수에 관한 세칙(2026-09-03 개정)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/재료공학부-다전공-이수에-관한-세칙-3.pdf",
+   "locator": "제2조 1(2024년 입학생부터)·제3조 4·제4조 2",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 공과대학 (재료공학부) 표",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 공과대학 (재료공학부)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2024학번] 칸 교양필수 교과목(52)",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "재료공학부, 학사과정 졸업이수학점 및 전공과목 이수표준형태(2024)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/재료공학부-학사과정-졸업이수학점-및-전공과목-이수표준형태2024.pdf",
+   "locator": "교양 표",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2024학번] 칸 과학적 사고와 실험",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2019학번]~[2024학번] 칸 '컴퓨터와 정보활용(2): 컴퓨터의 기초'",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "수강편람 자료(TT Wizard 백엔드, 과목 번호·학점·교과구분)",
+   "locator": "035.002 마지막 개설 2024-1",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s23": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2024학번] 칸",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "재료공학부, 다전공 이수에 관한 세칙(2026-09-03 개정)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/재료공학부-다전공-이수에-관한-세칙-3.pdf",
+   "locator": "제2조 1·제3조 4(2024년 입학생부터)",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 재료공학부 52·62·48(부·연계·학생설계 54), 표 2 48·21",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "재료공학부, 학사과정 졸업이수학점 및 전공과목 이수표준형태(2024)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/재료공학부-학사과정-졸업이수학점-및-전공과목-이수표준형태2024.pdf",
+   "locator": "전체",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2020학번]~[2023학번] 칸 전공필수 교과목(39) 전필36 + 전선26",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "재료공학부, 학사과정 졸업이수학점 및 전공과목 이수표준형태(2023)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/재료공학부-학사과정-졸업이수학점-및-전공과목-이수표준형태2023.pdf",
+   "locator": "이수표준형태(2023) * 표시·'재료종합실험은 전선이지만 필수'",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "재료공학부, 2024학년도 재료공학부 교과목 개정 관련 재학생(2023학번 이상) 수강신청 안내(재료물리화학1, 2)",
+   "url": "https://mse.snu.ac.kr/2024학년도-재료공학부-교과목-개정-관련-재학생-2023학번/",
+   "locator": "본문",
+   "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2021학번]~[2023학번] 칸",
+   "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "재료공학부, 다전공 이수에 관한 세칙(2026-09-03 개정)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/재료공학부-다전공-이수에-관한-세칙-3.pdf",
+   "locator": "제2조 1(2020년~2023년 입학생)",
+   "accessed": "2026-11-12"
+  },
+  "s32": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2019학번]~[2023학번] 칸 '외국어진행강좌 수강의무'",
+   "accessed": "2026-11-12"
+  },
+  "s33": {
+   "title": "재료공학부, 다전공 이수에 관한 세칙(2026-09-03 개정)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/재료공학부-다전공-이수에-관한-세칙-3.pdf",
+   "locator": "제3조 3",
+   "accessed": "2026-11-12"
+  },
+  "s34": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2019학번]~[2023학번] 칸 '설계 12학점 이상 이수'",
+   "accessed": "2026-11-12"
+  },
+  "s35": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2021학번]~[2023학번] 칸 학문의 세계(12) 3개 영역 이상",
+   "accessed": "2026-11-12"
+  },
+  "s36": {
+   "title": "재료공학부, 다전공 이수에 관한 세칙(2026-09-03 개정)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/재료공학부-다전공-이수에-관한-세칙-3.pdf",
+   "locator": "제2조 1·제3조 3(2020년~2023년 입학생)",
+   "accessed": "2026-11-12"
+  },
+  "s37": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1 재료공학부 52·62·48(54), 표 2 48·21",
+   "accessed": "2026-11-12"
+  },
+  "s38": {
+   "title": "재료공학부, 학사과정 졸업이수학점 및 전공과목 이수표준형태(2023)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/재료공학부-학사과정-졸업이수학점-및-전공과목-이수표준형태2023.pdf",
+   "locator": "전체",
+   "accessed": "2026-11-12"
+  },
+  "s39": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2020학번] 칸",
+   "accessed": "2026-11-12"
+  },
+  "s40": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2020학번] 칸 전공선택 인정교과목",
+   "accessed": "2026-11-12"
+  },
+  "s41": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2020학번] 칸 교양필수 교과목(50)",
+   "accessed": "2026-11-12"
+  },
+  "s42": {
+   "title": "재료공학부, 다전공 이수에 관한 세칙(2026-09-03 개정)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/재료공학부-다전공-이수에-관한-세칙-3.pdf",
+   "locator": "제2조 1·제3조 3",
+   "accessed": "2026-11-12"
+  },
+  "s43": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 재료공학부 50·62·48(54), 표 2 48·21(2021-2 다전공 선발자(2020학번)부터)",
+   "accessed": "2026-11-12"
+  },
+  "s44": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s45": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2019학번] 칸",
+   "accessed": "2026-11-12"
+  },
+  "s46": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2019학번] 칸 학문의 세계(6) 2개 영역 이상",
+   "accessed": "2026-11-12"
+  },
+  "s47": {
+   "title": "재료공학부, 다전공 이수에 관한 세칙(2026-09-03 개정)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/재료공학부-다전공-이수에-관한-세칙-3.pdf",
+   "locator": "제2조 1(2008년~2019년 입학생)",
+   "accessed": "2026-11-12"
+  },
+  "s48": {
+   "title": "재료공학부, 다전공 이수에 관한 세칙(2026-09-03 개정)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/재료공학부-다전공-이수에-관한-세칙-3.pdf",
+   "locator": "제3조 2",
+   "accessed": "2026-11-12"
+  },
+  "s49": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2019학번] 칸 공학소양(6)",
+   "accessed": "2026-11-12"
+  },
+  "s50": {
+   "title": "재료공학부, 필수이수교과목(학번별) 2026-09-03 판(‘재료공학부 학번별 필수이수교과목 안내’ 글 첨부)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/졸업필수이수교과목학번별-2.pdf",
+   "locator": "[2019학번] 칸 교양필수 교과목(44)",
+   "accessed": "2026-11-12"
+  },
+  "s51": {
+   "title": "재료공학부, 다전공 이수에 관한 세칙(2026-09-03 개정)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/재료공학부-다전공-이수에-관한-세칙-3.pdf",
+   "locator": "제2조 1·제3조 2(2008년~2019년 입학생)·제4조 2",
+   "accessed": "2026-11-12"
+  },
+  "s52": {
+   "title": "서울대학교, 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 2 재료공학부 54·21(2019 해설은 못 찾음)",
+   "accessed": "2026-11-12"
+  },
+  "s53": {
+   "title": "재료공학부, 다전공 이수에 관한 세칙(2026-09-03 개정)",
+   "url": "https://mse.snu.ac.kr/wp-content/uploads/2025/07/재료공학부-다전공-이수에-관한-세칙-3.pdf",
+   "locator": "제2조 1·제3조 2",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

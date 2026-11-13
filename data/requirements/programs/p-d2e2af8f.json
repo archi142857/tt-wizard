@@ -1,0 +1,674 @@
+{
+ "id": "p-d2e2af8f",
+ "college": "농업생명과학대학",
+ "unit": "조경·지역시스템공학부",
+ "program": "지역시스템공학전공",
+ "kind": "major",
+ "depts": [
+  "조경·지역시스템공학부"
+ ],
+ "code_prefixes": [
+  "457.",
+  "5272.",
+  "M1708."
+ ],
+ "ge_key": "농업생명과학대학 자연계",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "조경학전공",
+   "지역시스템공학전공"
+  ],
+  "when": "입학 후 27학점 이상 이수한 뒤 학부 내 전공 배정(2학년부터 전공 표준이수형태)",
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2024,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 48,
+    "double": 48,
+    "minor": 24,
+    "status": "부분",
+    "src": [
+     "s9",
+     "s10",
+     "s11",
+     "s12",
+     "s13"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s14",
+    "s15",
+    "s16"
+   ],
+   "requirements": [
+    {
+     "id": "rse-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 22과목(학부 누리집 2025-08-05 표의 *), 학점 합 64",
+     "min_count": 22,
+     "min_credits": 64,
+     "courses": [
+      {
+       "code": "457.002",
+       "name": "측량학 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "5272.201",
+       "name": "응용공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "5272.211",
+       "name": "정역학",
+       "credits": 3
+      },
+      {
+       "code": "5272.212",
+       "name": "지역컴퓨터설계",
+       "credits": 3
+      },
+      {
+       "code": "457.201",
+       "name": "재료역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5272.202",
+       "name": "응용공학수학 2",
+       "credits": 3
+      },
+      {
+       "code": "5272.221",
+       "name": "환경유체역학",
+       "credits": 3
+      },
+      {
+       "code": "5272.222",
+       "name": "응용소프트웨어공학",
+       "credits": 3
+      },
+      {
+       "code": "457.003",
+       "name": "수문학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1708.000100",
+       "name": "수처리공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5272.312",
+       "name": "응용시설구조공학",
+       "credits": 3
+      },
+      {
+       "code": "5272.321A",
+       "name": "토질역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.001",
+       "name": "수리학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.004",
+       "name": "철근콘크리트공학",
+       "credits": 3
+      },
+      {
+       "code": "5272.325",
+       "name": "지역수자원시스템공학",
+       "credits": 2
+      },
+      {
+       "code": "5272.414",
+       "name": "생물환경조절공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1708.000300",
+       "name": "관개배수공학 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "5272.413",
+       "name": "지역자원보전공학 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "5272.416",
+       "name": "지역시스템공학",
+       "credits": 2
+      },
+      {
+       "code": "5272.415",
+       "name": "지역기반조성공학 및 설계",
+       "credits": 3
+      },
+      {
+       "code": "5272.423",
+       "name": "그린지역계획론",
+       "credits": 3
+      },
+      {
+       "code": "5272.424",
+       "name": "농촌지리정보시스템 및 원격탐사",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "학점은 2024 목록·편람. 2024 목록 과목 칸엔 5272.411A 지역수자원관리공학 및 실습도 *(이수표준형태엔 없음). 편람 2026-1 에 M1708.000400 지역기후시스템공학(3, 전필)이 새로 열렸다. 457 번대 과목은 편람에서 '전선'으로 나오지만(공동 개설) 학과 표는 전필. 전필 합 64 가 단일 60·병행 48 보다 커서 병행 때 전필을 다 들어야 하는지 확인 필요."
+    },
+    {
+     "id": "rse-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지역시스템공학전공 학사논문연구 M1708.000200(3학점, 전선) — 필수 여부 미확인",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1708.000200",
+       "name": "지역시스템공학전공 학사논문연구",
+       "credits": 3
+      }
+     ],
+     "status": "미확인",
+     "src": [
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "rse-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 지역시스템공학 전공과목 48학점 이상(세부는 학부 학사운영내규)",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s4"
+     ]
+    },
+    {
+     "id": "rse-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 지역시스템공학 전공과목 24학점 이상(세부는 학부 학사운영내규)",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s4"
+     ]
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "note": "1차 요건(22과목, 수처리공학 및 실험 포함) 그대로. 경계 학번은 2024 목록(2024 신입생 기준)으로 잡았고 2023학번은 미확인. 2026-1 에 지역기후시스템공학(M1708.000400, 전필)이 새로 열리고 수처리공학 및 실험은 2025-1 이 마지막 개설이라 대체 관계일 수 있다(미확인)."
+  },
+  {
+   "entry_years": [
+    2019,
+    2023
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 48,
+    "double": 48,
+    "minor": 24,
+    "status": "부분",
+    "src": [
+     "s18",
+     "s10",
+     "s11",
+     "s12",
+     "s13"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s17",
+    "s19"
+   ],
+   "requirements": [
+    {
+     "id": "rse-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 21과목 61학점(2022 목록 *, 수처리공학 및 실험 제외)",
+     "min_count": 21,
+     "min_credits": 61,
+     "courses": [
+      {
+       "code": "457.002",
+       "name": "측량학 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "5272.201",
+       "name": "응용공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "5272.211",
+       "name": "정역학",
+       "credits": 3
+      },
+      {
+       "code": "5272.212",
+       "name": "지역컴퓨터설계",
+       "credits": 3
+      },
+      {
+       "code": "457.201",
+       "name": "재료역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5272.202",
+       "name": "응용공학수학 2",
+       "credits": 3
+      },
+      {
+       "code": "5272.221",
+       "name": "환경유체역학",
+       "credits": 3
+      },
+      {
+       "code": "5272.222",
+       "name": "응용소프트웨어공학",
+       "credits": 3
+      },
+      {
+       "code": "457.003",
+       "name": "수문학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "5272.312",
+       "name": "응용시설구조공학",
+       "credits": 3
+      },
+      {
+       "code": "5272.321A",
+       "name": "토질역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.001",
+       "name": "수리학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.004",
+       "name": "철근콘크리트공학",
+       "credits": 3
+      },
+      {
+       "code": "5272.325",
+       "name": "지역수자원시스템공학",
+       "credits": 2
+      },
+      {
+       "code": "5272.414",
+       "name": "생물환경조절공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1708.000300",
+       "name": "관개배수공학 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "5272.413",
+       "name": "지역자원보전공학 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "5272.416",
+       "name": "지역시스템공학",
+       "credits": 2
+      },
+      {
+       "code": "5272.415",
+       "name": "지역기반조성공학 및 설계",
+       "credits": 3
+      },
+      {
+       "code": "5272.423",
+       "name": "그린지역계획론",
+       "credits": 3
+      },
+      {
+       "code": "5272.424",
+       "name": "농촌지리정보시스템 및 원격탐사",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s17"
+     ],
+     "note": "경계 학번(2023/2024) 미확인."
+    },
+    {
+     "id": "rse-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지역시스템공학전공 학사논문연구 M1708.000200(3학점, 전선) — 필수 여부 미확인",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1708.000200",
+       "name": "지역시스템공학전공 학사논문연구",
+       "credits": 3
+      }
+     ],
+     "status": "미확인",
+     "src": [
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "rse-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 지역시스템공학 전공과목 48학점 이상(세부는 학부 학사운영내규)",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s4"
+     ]
+    },
+    {
+     "id": "rse-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 지역시스템공학 전공과목 24학점 이상(세부는 학부 학사운영내규)",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s4"
+     ]
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "changed": "수처리공학 및 실험(M1708.000100)이 전선 — 전필 21과목 61학점",
+   "note": "2022 목록의 * 21과목: 수처리공학 및 실험(M1708.000100)이 전선. 관개배수공학 및 실습(M1708.000300)은 2022-1 첫 개설로, 그 전 4학년 전필 5272.411A 지역수자원관리공학 및 실습(마지막 2021-1)의 자리(교과 개편). 2019학번은 4학년(2022)에 새 과목을 들었다."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "수처리공학 및 실험 전필 지정(2024 목록, 편람 2024-1 부터 '전필'). 2023학번 적용 여부 미확인.",
+   "status": "부분"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "5272.411A 지역수자원관리공학 및 실습(마지막 2021-1) → M1708.000300 관개배수공학 및 실습(2022-1~, 전필).",
+   "status": "부분"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "M1708.000400 지역기후시스템공학(3, 전필) 첫 개설. 수처리공학 및 실험(마지막 2025-1)과의 대체 관계 미확인.",
+   "status": "미확인"
+  }
+ ],
+ "ask_department": [
+  "수처리공학 및 실험 전필 적용 첫 학번(2023 또는 2024)",
+  "지역기후시스템공학 신설 뒤 전필 범위(수처리공학 대체인지)",
+  "1차 질문(병행 때 전필 범위, 학사논문연구 필수 여부)",
+  "2025학번 전필 범위(22과목인지, 5272.411A·지역기후시스템공학 포함 여부)",
+  "다른 전공 병행(48) 때 전필 이수 범위",
+  "학사논문연구 필수 여부"
+ ],
+ "sources": {
+  "s1": {
+   "title": "조경·지역시스템공학부 누리집 — 교과과정",
+   "url": "https://larse.snu.ac.kr/%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/",
+   "locator": "2025-08-05 수정, 두 전공 학년별 표, '*** 는 전공필수 교과목' 안내",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "527 지역시스템공학전공 과목·이수표준형태·교과목 이수규정 ①·복수/부전공 (p.83)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "2025-1·2025-2·2026-1·2026-2 학기, 교과구분·학점",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s4": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 학사과정 복수·부전공 이수학점 기준, 농업생명과학대학 행 (p.10)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 농업생명과학대학 자연계(스마트시스템과학과 제외한 전체), 인쇄 p.135 (PDF p.31)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "2026학년도 단과대학별 공통교육과정 이수 규정(학부대학, 2026-01 게시)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "농업생명과학대학 세 표, 인쇄 p.71–73 ('2025학년도 입학생부터 적용' 문구 그대로)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "바이오시스템공학전공 누리집 — 학부교과과정(2025)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B5%90%EA%B3%BC%EA%B3%BC%EC%A0%952025/",
+   "locator": "2026-06-10 수정, 트랙 A/B 표준 이수체계(* 전공필수, ▪ 트랙필수)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "동물생명공학전공 — 졸업요건 학부과정(2022년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_08",
+   "locator": "학점 표·복수/부전공 문장·이수표준형태(별표 15과목)·비고",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "지역시스템공학 교과목·복수·부전공 이수규정(p.83)",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행 '아래 이외의 학과(부)' 48/48, 복수 48·부 24",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "지역시스템공학 이수표준형태 *(p.83)",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "조경·지역시스템공학부 누리집 — 교과과정",
+   "url": "https://larse.snu.ac.kr/%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/",
+   "locator": "조경학·지역시스템공학 이수표준형태 표(* 전필)",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "M1708.000100 2021-1 전선, 2024-1·2025-1 전필 / M1708.000400 2026-1 전필",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s17": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "지역시스템공학 이수표준형태 *(p.80)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "지역시스템공학 교과목·복수·부전공 이수규정(p.80)",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "5272.411A 2021-1 전필, M1708.000300 2022-1~ 전필",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

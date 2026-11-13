@@ -1,0 +1,7627 @@
+{
+ "id": "p-1ff44350",
+ "college": "공과대학",
+ "unit": "건설환경공학부",
+ "program": "건설환경공학부",
+ "kind": "major",
+ "depts": [
+  "건설환경공학부"
+ ],
+ "code_prefixes": [],
+ "ge_key": "공과대학 건설환경공학부",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 50,
+    "single": 62,
+    "parallel": 48,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s13",
+     "s14",
+     "s15"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s16",
+    "s17",
+    "s18"
+   ],
+   "requirements": [
+    {
+     "id": "cee-soyang",
+     "type": "major_required",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공소양(필수) 13학점",
+     "min_count": 5,
+     "min_credits": 13,
+     "courses": [
+      {
+       "code": "M1586.003400",
+       "name": "건설환경 디지털 공학설계",
+       "credits": 3
+      },
+      {
+       "code": "M1586.003300",
+       "name": "건설환경공학 입문",
+       "credits": 1
+      },
+      {
+       "code": "457.201",
+       "name": "재료역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.204",
+       "name": "기초유체역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.212",
+       "name": "건설환경통계학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "다른 전공 병행(48) 때 어떤 과목이 필수인지는 학부 표에 없다."
+    },
+    {
+     "id": "cee-core-choose",
+     "type": "major_choose",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공핵심(선택적 필수) 21학점: 아래 8과목(각 3학점) 중 21학점 = 7과목",
+     "min_count": 7,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "457.203",
+       "name": "도시계획",
+       "credits": 3
+      },
+      {
+       "code": "457.205",
+       "name": "공간정보공학",
+       "credits": 3
+      },
+      {
+       "code": "457.206",
+       "name": "토질역학",
+       "credits": 3
+      },
+      {
+       "code": "457.208",
+       "name": "교통공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.207A",
+       "name": "수문학",
+       "credits": 3
+      },
+      {
+       "code": "457.210A",
+       "name": "환경공학",
+       "credits": 3
+      },
+      {
+       "code": "M1586.002000",
+       "name": "구조해석 1",
+       "credits": 3
+      },
+      {
+       "code": "457.307",
+       "name": "건설계획 및 관리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "'7과목'은 21 ÷ 3 으로 계산한 값. 2024 본부 목록은 이 8과목에도 * 를 달고 '* 필수 또는 선택적필수 교과목'이라 적는다."
+    },
+    {
+     "id": "cee-capstone",
+     "type": "major_required",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공심화 필수: 건설시스템종합설계 3학점",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "457.408",
+       "name": "건설시스템종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "cee-advanced-distribution",
+     "type": "distribution",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공심화(선택) 15학점: 5과목 이상, 8개 분야 중 4개 분야 이상, 그중 1개 분야는 2과목 이상",
+     "min_count": 5,
+     "min_credits": 15,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "분야표는 학부 '교과목' 쪽 2025학번 표(전공핵심 8과목은 빼고 적음). 전공핵심을 7과목보다 더 들었을 때 그 과목을 전공심화·분야로 셀 수 있는지는 문서에 없다.",
+     "extra": {
+      "groups": [
+       {
+        "field": "구조공학",
+        "courses": [
+         {
+          "code": "M1586.001800",
+          "name": "건설환경재료학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002100",
+          "name": "구조해석 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004700",
+          "name": "철근콘크리트공학 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004800",
+          "name": "철근콘크리트공학 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002500",
+          "name": "건설환경정보공학",
+          "credits": 3,
+          "credits_from": "학부 교과목 표",
+          "note": "편람(2021-1~2026-2)에 없음, 학점은 학부 표"
+         },
+         {
+          "code": "M1586.002400",
+          "name": "구조시스템계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001900",
+          "name": "건설시스템동역학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "수공학",
+        "courses": [
+         {
+          "code": "457.320A",
+          "name": "수자원 공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.309",
+          "name": "수리학 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.409",
+          "name": "해안 및 항만공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001100",
+          "name": "기후변화 적응과 건설환경계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002900",
+          "name": "하천 및 댐공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "지반공학",
+        "courses": [
+         {
+          "code": "457.318",
+          "name": "토질공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.315",
+          "name": "지반조사 및 토질시험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.322",
+          "name": "토목지질암반공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.411",
+          "name": "지반환경복원공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.407",
+          "name": "포장공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "건설관리",
+        "courses": [
+         {
+          "code": "457.308",
+          "name": "건설시공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004900",
+          "name": "건설 공정관리",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "교통공학",
+        "courses": [
+         {
+          "code": "457.301",
+          "name": "교통계획 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.316A",
+          "name": "지속가능교통체계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.403",
+          "name": "도로공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.005100",
+          "name": "인공지능 응용 교통시스템",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.412",
+          "name": "교통시스템설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "환경공학",
+        "courses": [
+         {
+          "code": "457.311",
+          "name": "상수도공학 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.000100",
+          "name": "토양환경생태공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001600",
+          "name": "도시의 물질과 에너지 순환",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004400",
+          "name": "건설환경시스템 지속가능공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.003100",
+          "name": "수질오염의 공학적 해결",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.410",
+          "name": "환경공학실험 및 설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "공간정보공학",
+        "courses": [
+         {
+          "code": "457.313",
+          "name": "공간정보시스템",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.402",
+          "name": "원격탐사",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "도시계획 및 설계(도시공학)",
+        "courses": [
+         {
+          "code": "457.319",
+          "name": "도시 및 지역경제론",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.302",
+          "name": "도시설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.401",
+          "name": "단지계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.404",
+          "name": "국토 및 지역계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       }
+      ],
+      "min_groups": 4,
+      "min_in_one_group": 2
+     }
+    },
+    {
+     "id": "cee-major-54",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "학부 전공 54학점: 전공소양 13 + 전공핵심 21 + 전공심화 15 + 전공심화 필수 3 = 52, 그리고 전공핵심 또는 전공심화 2학점 더",
+     "min_count": null,
+     "min_credits": 54,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "학부 표의 '62학점(54학점)' 중 54."
+    },
+    {
+     "id": "cee-eng-common",
+     "type": "major_choose",
+     "applies_to": [
+      "single"
+     ],
+     "text": "공과대학 공통과목 3학점(건설환경공학개론 제외, 공학기타 영역 제외)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s5"
+     ],
+     "note": "공학개론(400.022 건설환경공학개론 제외)·공학경영·공학기초·창의공학·공학실습 영역에서 3학점(공학기타 영역 제외). 영역별 과목은 2024 전공별 교과목 '400. 공과대학 공통과목'(쪽 54) 참고. 학부 2025 표의 공학경영·공학실습 예시 과목 목록은 2024 표와 조금 다르다."
+    },
+    {
+     "id": "cee-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상(학부 전공 54 포함)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s6"
+     ],
+     "note": "나머지 8학점에 공대 공통과목 3학점과 학부장 승인 공대·자연대 전공과목(전선 인정)이 들어간다고 학부 표가 적는다. 정확한 셈은 학부 확인."
+    },
+    {
+     "id": "cee-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행(복수·부·연합·연계·학생설계): 전공 48학점 이상",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s6"
+     ],
+     "note": "48학점 안의 필수 구성은 학부 표에 없다."
+    },
+    {
+     "id": "cee-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업예정자는 마지막 학기 졸업논문 발표회에서 학사논문 발표",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "과목이 아니라 앱은 '확인 필요'로 보여 준다."
+    },
+    {
+     "id": "cee-advising",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "매 학기 지도교수 정기면담 1회 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "안내만."
+    },
+    {
+     "id": "cee-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 50학점 이상(2025학번)",
+     "min_count": null,
+     "min_credits": 50,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "영역 합이 총합과 같아 '전체 교양 교과목' 자유 선택분은 0학점이다(영역별 최저를 채우면 총합도 찬다)."
+    },
+    {
+     "id": "cee-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "대학 글쓰기 1을 먼저 들어야 대학 글쓰기 2를 들을 수 있다(학부대학 공통)."
+    },
+    {
+     "id": "cee-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 조건은 '확인 필요'로 둔다."
+    },
+    {
+     "id": "cee-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 12학점: 수학 1·수학연습 1(또는 고급수학 1·연습 1), 수학 2·수학연습 2(또는 고급수학 2·연습 2), 공학수학 1, 공학수학 2",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "연습 과목은 이론 과목과 같은 학기에 듣는 것이 원칙."
+    },
+    {
+     "id": "cee-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학 12학점: 물리·화학 분야 각각 1과목 이상(실험 포함 4학점씩), 그리고 생물학 1·2, 생물학, 지구과학과 각 실험 중 4학점",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s1"
+     ],
+     "note": "통년 이수 가능, 이론·실험은 같은 학기. 학부 표는 MSC 30(수학 12, 기초과학 12, 컴퓨터 3, 건설환경통계학 3: 전공소양과 겹쳐 인정)으로도 적는다.",
+     "extra": {
+      "groups": [
+       {
+        "field": "물리(4학점)",
+        "courses": [
+         {
+          "code": "F33.106",
+          "name": "물리학 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)",
+          "note": "고교 물리Ⅱ를 안 들었으면 물리의 기본 1이 원칙(물리학성취도평가로 물리학 1 가능), 고급물리학 1로 대체 가능"
+         },
+         {
+          "code": "F33.106L",
+          "name": "물리학실험 1",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F33.103",
+          "name": "물리의 기본 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)",
+          "note": "물리학 1 대체"
+         },
+         {
+          "code": "F33.108",
+          "name": "고급물리학 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)",
+          "note": "물리학 1 대체"
+         },
+         {
+          "code": "F33.107",
+          "name": "물리학 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)",
+          "note": "물리의 기본 2 또는 고급물리학 2로 대체 가능"
+         },
+         {
+          "code": "F33.107L",
+          "name": "물리학실험 2",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F33.104",
+          "name": "물리의 기본 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)",
+          "note": "물리학 2 대체"
+         },
+         {
+          "code": "F33.109",
+          "name": "고급물리학 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)",
+          "note": "물리학 2 대체"
+         },
+         {
+          "code": "F33.105",
+          "name": "물리학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F33.105L",
+          "name": "물리학실험",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "화학(4학점)",
+        "courses": [
+         {
+          "code": "F34.104",
+          "name": "화학 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F34.104L",
+          "name": "화학실험 1",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F34.105",
+          "name": "화학 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F34.105L",
+          "name": "화학실험 2",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F34.103",
+          "name": "화학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F34.106",
+          "name": "고급화학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)",
+          "note": "화학 대체"
+         },
+         {
+          "code": "F34.103L",
+          "name": "화학실험",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "생물·지구(4학점)",
+        "courses": [
+         {
+          "code": "F35.104",
+          "name": "생물학 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F35.104L",
+          "name": "생물학실험 1",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F35.105",
+          "name": "생물학 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F35.105L",
+          "name": "생물학실험 2",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F35.103",
+          "name": "생물학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F35.103L",
+          "name": "생물학실험",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F36.102",
+          "name": "지구과학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "F36.102L",
+          "name": "지구과학실험",
+          "credits": 1,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "cee-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨팅 3학점: [2-1] 컴퓨터의 개념 및 실습",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s1"
+     ]
+    },
+    {
+     "id": "cee-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상 3, 역사적 탐구와 철학적 사유 3, 인간의 이해와 사회 분석 3 (과학적 사고와 응용은 요건 없음)",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "길잡이 표가 세 영역에 3학점씩 따로 적고 '과학적 사고와 응용' 칸은 비어 있다(쪽 그림으로 확인).",
+     "extra": {
+      "areas": [
+       {
+        "area": "문화 해석과 상상",
+        "min_credits": 3
+       },
+       {
+        "area": "역사적 탐구와 철학적 사유",
+        "min_credits": 3
+       },
+       {
+        "area": "인간의 이해와 사회 분석",
+        "min_credits": 3
+       }
+      ]
+     }
+    },
+    {
+     "id": "cee-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점 이상(베리타스 강좌 1·2·베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ]
+    },
+    {
+     "id": "cee-ge-service",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 확장(공감과 공존): 사회봉사 1, 1학점(학부 필수)",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "E20.103",
+       "name": "사회봉사 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s1",
+      "s9"
+     ]
+    },
+    {
+     "id": "cee-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s10"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "cee-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1과목 이상 포함, 대학영어·고급영어 제외)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s10"
+     ],
+     "note": "학부 2025학번 표는 '추가 규칙'으로 적지만, 공과대학 수업 편성 지침(기계·항공 2025 규정 인용)은 2024학번부터 '권장'이다. 학부 확인 전까지 '확인 필요'."
+    },
+    {
+     "id": "cee-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "cee-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 건설환경공학부 복수전공 39학점 이상(2021-2 다전공 선발자(2020학번)부터)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s11"
+     ],
+     "note": "필수 과목은 학부 공개 자료에서 못 찾았다(2024 목록: '학부 내규에 의함')."
+    },
+    {
+     "id": "cee-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 21학점 이상",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s11"
+     ],
+     "note": "필수 과목 미확인."
+    },
+    {
+     "id": "cee-overlap",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "다전공 겹쳐 인정(본부): 복수 9학점/타 학과 3학점, 부전공은 없음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s12"
+     ]
+    }
+   ],
+   "note": "1차(2025학번) 요건 그대로. 2026학번 '최소 학점 이수 규정'·'표준(필수)이수형태' 표가 2025학번과 같다(권장 학기표만 바뀜: 1-1 '건설환경도시공학 개론(1)', 건설환경통계학 2-1). 2026학번 교과목 현황 표는 전공소양에 M1586.005500 건설환경도시공학 개론(1), 지반 분야에 M1586.005700 지반시험 및 모델링(편람에 아직 없음)을 적는다. 2026 길잡이 교양 50 도 같다."
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 50,
+    "single": 62,
+    "parallel": 48,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s24",
+     "s25"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s26",
+    "s27"
+   ],
+   "requirements": [
+    {
+     "id": "cee-soyang",
+     "type": "major_required",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공소양(필수) 13학점",
+     "min_count": 5,
+     "min_credits": 13,
+     "courses": [
+      {
+       "code": "M1586.003400",
+       "name": "건설환경 디지털 공학설계",
+       "credits": 3
+      },
+      {
+       "code": "M1586.003300",
+       "name": "건설환경공학 입문",
+       "credits": 1
+      },
+      {
+       "code": "457.201",
+       "name": "재료역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.204",
+       "name": "기초유체역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.212",
+       "name": "건설환경통계학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "다른 전공 병행(48) 때 어떤 과목이 필수인지는 학부 표에 없다."
+    },
+    {
+     "id": "cee-core-choose",
+     "type": "major_choose",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공핵심(선택적 필수) 21학점: 아래 8과목(각 3학점) 중 21학점 = 7과목",
+     "min_count": 7,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "457.203",
+       "name": "도시계획",
+       "credits": 3
+      },
+      {
+       "code": "457.205",
+       "name": "공간정보공학",
+       "credits": 3
+      },
+      {
+       "code": "457.206",
+       "name": "토질역학",
+       "credits": 3
+      },
+      {
+       "code": "457.208",
+       "name": "교통공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.207A",
+       "name": "수문학",
+       "credits": 3
+      },
+      {
+       "code": "457.210A",
+       "name": "환경공학",
+       "credits": 3
+      },
+      {
+       "code": "M1586.002000",
+       "name": "구조해석 1",
+       "credits": 3
+      },
+      {
+       "code": "457.307",
+       "name": "건설계획 및 관리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "'7과목'은 21 ÷ 3 으로 계산한 값. 2024 본부 목록은 이 8과목에도 * 를 달고 '* 필수 또는 선택적필수 교과목'이라 적는다."
+    },
+    {
+     "id": "cee-capstone",
+     "type": "major_required",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공심화 필수: 건설시스템종합설계 3학점",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "457.408",
+       "name": "건설시스템종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "cee-advanced-distribution",
+     "type": "distribution",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공심화(선택) 15학점: 5과목 이상, 8개 분야 중 4개 분야 이상, 그중 1개 분야는 2과목 이상",
+     "min_count": 5,
+     "min_credits": 15,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s23"
+     ],
+     "note": "분야표는 2025학번 표에 2024학번 표에만 있는 과목을 더한 것(교통공학: 457.405 교통운영기초). 옛 과목·새 과목을 같은 분야로 세는지는 학부 확인.",
+     "extra": {
+      "groups": [
+       {
+        "field": "구조공학",
+        "courses": [
+         {
+          "code": "M1586.001800",
+          "name": "건설환경재료학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002100",
+          "name": "구조해석 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004700",
+          "name": "철근콘크리트공학 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004800",
+          "name": "철근콘크리트공학 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002500",
+          "name": "건설환경정보공학",
+          "credits": 3,
+          "credits_from": "학부 교과목 표",
+          "note": "편람(2021-1~2026-2)에 없음, 학점은 학부 표"
+         },
+         {
+          "code": "M1586.002400",
+          "name": "구조시스템계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001900",
+          "name": "건설시스템동역학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "수공학",
+        "courses": [
+         {
+          "code": "457.320A",
+          "name": "수자원 공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.309",
+          "name": "수리학 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.409",
+          "name": "해안 및 항만공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001100",
+          "name": "기후변화 적응과 건설환경계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002900",
+          "name": "하천 및 댐공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "지반공학",
+        "courses": [
+         {
+          "code": "457.318",
+          "name": "토질공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.315",
+          "name": "지반조사 및 토질시험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.322",
+          "name": "토목지질암반공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.411",
+          "name": "지반환경복원공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.407",
+          "name": "포장공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "건설관리",
+        "courses": [
+         {
+          "code": "457.308",
+          "name": "건설시공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004900",
+          "name": "건설 공정관리",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "교통공학",
+        "courses": [
+         {
+          "code": "457.301",
+          "name": "교통계획 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.316A",
+          "name": "지속가능교통체계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.403",
+          "name": "도로공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.005100",
+          "name": "인공지능 응용 교통시스템",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.412",
+          "name": "교통시스템설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.405",
+          "name": "교통운영기초",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-1 (data/history)",
+          "note": "학부 교과목 현황(2024학번) 분야표에 있는 과목"
+         }
+        ]
+       },
+       {
+        "field": "환경공학",
+        "courses": [
+         {
+          "code": "457.311",
+          "name": "상수도공학 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.000100",
+          "name": "토양환경생태공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001600",
+          "name": "도시의 물질과 에너지 순환",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004400",
+          "name": "건설환경시스템 지속가능공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.003100",
+          "name": "수질오염의 공학적 해결",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.410",
+          "name": "환경공학실험 및 설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "공간정보공학",
+        "courses": [
+         {
+          "code": "457.313",
+          "name": "공간정보시스템",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.402",
+          "name": "원격탐사",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "도시계획 및 설계(도시공학)",
+        "courses": [
+         {
+          "code": "457.319",
+          "name": "도시 및 지역경제론",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.302",
+          "name": "도시설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.401",
+          "name": "단지계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.404",
+          "name": "국토 및 지역계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       }
+      ],
+      "min_groups": 4,
+      "min_in_one_group": 2
+     }
+    },
+    {
+     "id": "cee-major-54",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "학부 전공 54학점: 전공소양 13 + 전공핵심 21 + 전공심화 15 + 전공심화 필수 3 = 52, 그리고 전공핵심 또는 전공심화 2학점 더",
+     "min_count": null,
+     "min_credits": 54,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "학부 표의 '62학점(54학점)' 중 54."
+    },
+    {
+     "id": "cee-eng-common",
+     "type": "major_choose",
+     "applies_to": [
+      "single"
+     ],
+     "text": "공과대학 공통과목 3학점(건설환경공학개론 제외, 공학기타 영역 제외)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s5"
+     ],
+     "note": "공학개론(400.022 건설환경공학개론 제외)·공학경영·공학기초·창의공학·공학실습 영역에서 3학점(공학기타 영역 제외). 영역별 과목은 2024 전공별 교과목 '400. 공과대학 공통과목'(쪽 54) 참고. 학부 2025 표의 공학경영·공학실습 예시 과목 목록은 2024 표와 조금 다르다."
+    },
+    {
+     "id": "cee-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상(학부 전공 54 포함)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s6"
+     ],
+     "note": "나머지 8학점에 공대 공통과목 3학점과 학부장 승인 공대·자연대 전공과목(전선 인정)이 들어간다고 학부 표가 적는다. 정확한 셈은 학부 확인."
+    },
+    {
+     "id": "cee-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행(복수·부·연합·연계·학생설계): 전공 48학점 이상",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s6"
+     ],
+     "note": "48학점 안의 필수 구성은 학부 표에 없다."
+    },
+    {
+     "id": "cee-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업예정자는 마지막 학기 졸업논문 발표회에서 학사논문 발표",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "과목이 아니라 앱은 '확인 필요'로 보여 준다."
+    },
+    {
+     "id": "cee-advising",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "매 학기 지도교수 정기면담 1회 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "안내만."
+    },
+    {
+     "id": "cee-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 50학점 이상(2024학번)",
+     "min_count": null,
+     "min_credits": 50,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "학과 표는 '기본 소양 및 교양 23 + 수학·과학·전산(MSC) 30'으로도 적는다(MSC 30 에 전공 과목 건설환경통계학 3 포함). 교양만 세면 50."
+    },
+    {
+     "id": "cee-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "cee-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ]
+    },
+    {
+     "id": "cee-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 12학점: [1-1] 수학 1·수학연습 1(또는 고급수학 1·연습 1), [1-2] 수학 2·수학연습 2(또는 고급수학 2·연습 2), [2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.104"
+       ]
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.104L"
+       ]
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.106"
+       ]
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.106L"
+       ]
+      },
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.105"
+       ]
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.105L"
+       ]
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.107"
+       ]
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.107L"
+       ]
+      },
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F31.201"
+       ]
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F31.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "연습 과목은 같은 학기에 함께 듣는다. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "cee-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 12학점(기초과학 선택적 필수): 물리·화학 분야 각각 1과목 이상(실험 포함 4학점씩), 그리고 생물학·지구과학과 실험 포함 중",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.106"
+       ]
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F33.106L"
+       ]
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.103"
+       ]
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.108"
+       ]
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.107"
+       ]
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F33.107L"
+       ]
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.104"
+       ]
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.109"
+       ]
+      },
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "F33.105"
+       ]
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F33.105L"
+       ]
+      },
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F34.104"
+       ]
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F34.105"
+       ]
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F34.105L"
+       ]
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.103"
+       ]
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.106"
+       ]
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F34.103L"
+       ]
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F35.104"
+       ]
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F35.104L"
+       ]
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F35.105"
+       ]
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F35.105L"
+       ]
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "F35.103"
+       ]
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F35.103L"
+       ]
+      },
+      {
+       "code": "034.044",
+       "name": "지구과학",
+       "credits": 3,
+       "alt_codes": [
+        "F36.102"
+       ]
+      },
+      {
+       "code": "034.045",
+       "name": "지구과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F36.102L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s20"
+     ],
+     "note": "이론·실험 같은 학기. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "cee-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보활용 3학점: [2-1] 컴퓨터의 개념 및 실습",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "F37.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s21"
+     ]
+    },
+    {
+     "id": "cee-ge-service",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택교양(대학과 리더십) 사회봉사 1, 1학점(학부 필수)",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "053.003",
+       "name": "사회봉사 1",
+       "credits": 1,
+       "alt_codes": [
+        "E20.103"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s22"
+     ]
+    },
+    {
+     "id": "cee-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s10"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "cee-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1과목 이상 포함, 대학영어·고급영어 제외)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s10"
+     ],
+     "note": "학부 2025학번 표는 '추가 규칙'으로 적지만, 공과대학 수업 편성 지침(기계·항공 2025 규정 인용)은 2024학번부터 '권장'이다. 학부 확인 전까지 '확인 필요'."
+    },
+    {
+     "id": "cee-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "cee-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 건설환경공학부 복수전공 39학점 이상(2021-2 다전공 선발자(2020학번)부터)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s11"
+     ],
+     "note": "필수 과목은 학부 공개 자료에서 못 찾았다(2024 목록: '학부 내규에 의함')."
+    },
+    {
+     "id": "cee-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 21학점 이상",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s11"
+     ],
+     "note": "필수 과목 미확인."
+    },
+    {
+     "id": "cee-overlap",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "다전공 겹쳐 인정(본부): 복수 9학점/타 학과 3학점, 부전공은 없음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s12"
+     ]
+    },
+    {
+     "id": "cee-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 4개 영역 이상",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "자연과 기술·생명과 환경은 이 요건에 들지 않는다. 2025-1 이후 열린 교양 과목은 학부대학 비교표로 옛 '학문의 세계' 영역을 인정받는다(교양 개편 안내)."
+    }
+   ],
+   "changed": "교양만 옛 체계 50(학문의 세계 12·4개 영역, 사회봉사 1 은 053.003), 전공 요건 같음. 분야표에 교통운영기초가 있음",
+   "note": "전공 요건(전공소양 13·핵심 21·심화 15·종합설계 3·추가 2 = 54, 단일 62·병행 48)은 2025학번과 같다. 교양만 옛 체계(사고와 표현 4, 외국어 6, MSC 30, 학문의 세계 12·4개 영역, 사회봉사 1 = 교양 50)."
+  },
+  {
+   "entry_years": [
+    2022,
+    2023
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 50,
+    "single": 62,
+    "parallel": 48,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s32",
+     "s33"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s34",
+    "s31"
+   ],
+   "requirements": [
+    {
+     "id": "cee-soyang",
+     "type": "major_required",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공소양(필수) 13학점",
+     "min_count": 5,
+     "min_credits": 13,
+     "courses": [
+      {
+       "code": "M1586.003400",
+       "name": "건설환경 디지털 공학설계",
+       "credits": 3
+      },
+      {
+       "code": "M1586.003300",
+       "name": "건설환경공학 입문",
+       "credits": 1
+      },
+      {
+       "code": "457.201",
+       "name": "재료역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.204",
+       "name": "기초유체역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.212",
+       "name": "건설환경통계학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "다른 전공 병행(48) 때 어떤 과목이 필수인지는 학부 표에 없다."
+    },
+    {
+     "id": "cee-core-choose",
+     "type": "major_choose",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공핵심(선택적 필수) 21학점: 아래 8과목(각 3학점) 중 21학점 = 7과목",
+     "min_count": 7,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "457.203",
+       "name": "도시계획",
+       "credits": 3
+      },
+      {
+       "code": "457.205",
+       "name": "공간정보공학",
+       "credits": 3
+      },
+      {
+       "code": "457.206",
+       "name": "토질역학",
+       "credits": 3
+      },
+      {
+       "code": "457.208",
+       "name": "교통공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.207A",
+       "name": "수문학",
+       "credits": 3
+      },
+      {
+       "code": "457.210A",
+       "name": "환경공학",
+       "credits": 3
+      },
+      {
+       "code": "M1586.002000",
+       "name": "구조해석 1",
+       "credits": 3
+      },
+      {
+       "code": "457.307",
+       "name": "건설계획 및 관리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "'7과목'은 21 ÷ 3 으로 계산한 값. 2024 본부 목록은 이 8과목에도 * 를 달고 '* 필수 또는 선택적필수 교과목'이라 적는다."
+    },
+    {
+     "id": "cee-capstone",
+     "type": "major_required",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공심화 필수: 건설시스템종합설계 3학점",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "457.408",
+       "name": "건설시스템종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "cee-advanced-distribution",
+     "type": "distribution",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공심화(선택) 15학점: 5과목 이상, 8개 분야 중 4개 분야 이상, 그중 1개 분야는 2과목 이상",
+     "min_count": 5,
+     "min_credits": 15,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s31"
+     ],
+     "note": "분야표 = 더 새 학번 표 + 2022-2023학번 표에만 있는 과목(구조공학: M1586.002300 철근콘크리트공학; 구조공학: M1586.002200 구조설계공학; 환경공학: M1586.001400 수질학 및 실험).",
+     "extra": {
+      "groups": [
+       {
+        "field": "구조공학",
+        "courses": [
+         {
+          "code": "M1586.001800",
+          "name": "건설환경재료학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002100",
+          "name": "구조해석 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004700",
+          "name": "철근콘크리트공학 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004800",
+          "name": "철근콘크리트공학 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002500",
+          "name": "건설환경정보공학",
+          "credits": 3,
+          "credits_from": "학부 교과목 표",
+          "note": "편람(2021-1~2026-2)에 없음, 학점은 학부 표"
+         },
+         {
+          "code": "M1586.002400",
+          "name": "구조시스템계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001900",
+          "name": "건설시스템동역학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002300",
+          "name": "철근콘크리트공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2023-1 (data/history)",
+          "note": "학부 교과목 현황(2022-2023학번) 분야표에 있는 과목"
+         },
+         {
+          "code": "M1586.002200",
+          "name": "구조설계공학",
+          "credits": 3,
+          "credits_from": "편람 2021-2~2023-2 (data/history)",
+          "note": "학부 교과목 현황(2022-2023학번) 분야표에 있는 과목"
+         }
+        ]
+       },
+       {
+        "field": "수공학",
+        "courses": [
+         {
+          "code": "457.320A",
+          "name": "수자원 공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.309",
+          "name": "수리학 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.409",
+          "name": "해안 및 항만공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001100",
+          "name": "기후변화 적응과 건설환경계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002900",
+          "name": "하천 및 댐공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "지반공학",
+        "courses": [
+         {
+          "code": "457.318",
+          "name": "토질공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.315",
+          "name": "지반조사 및 토질시험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.322",
+          "name": "토목지질암반공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.411",
+          "name": "지반환경복원공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.407",
+          "name": "포장공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "건설관리",
+        "courses": [
+         {
+          "code": "457.308",
+          "name": "건설시공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004900",
+          "name": "건설 공정관리",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "교통공학",
+        "courses": [
+         {
+          "code": "457.301",
+          "name": "교통계획 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.316A",
+          "name": "지속가능교통체계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.403",
+          "name": "도로공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.005100",
+          "name": "인공지능 응용 교통시스템",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.412",
+          "name": "교통시스템설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.405",
+          "name": "교통운영기초",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-1 (data/history)",
+          "note": "학부 교과목 현황(2024학번) 분야표에 있는 과목"
+         }
+        ]
+       },
+       {
+        "field": "환경공학",
+        "courses": [
+         {
+          "code": "457.311",
+          "name": "상수도공학 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.000100",
+          "name": "토양환경생태공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001600",
+          "name": "도시의 물질과 에너지 순환",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004400",
+          "name": "건설환경시스템 지속가능공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.003100",
+          "name": "수질오염의 공학적 해결",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.410",
+          "name": "환경공학실험 및 설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001400",
+          "name": "수질학 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2021-1 (data/history)",
+          "note": "학부 교과목 현황(2022-2023학번) 분야표에 있는 과목"
+         }
+        ]
+       },
+       {
+        "field": "공간정보공학",
+        "courses": [
+         {
+          "code": "457.313",
+          "name": "공간정보시스템",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.402",
+          "name": "원격탐사",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "도시계획 및 설계(도시공학)",
+        "courses": [
+         {
+          "code": "457.319",
+          "name": "도시 및 지역경제론",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.302",
+          "name": "도시설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.401",
+          "name": "단지계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.404",
+          "name": "국토 및 지역계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       }
+      ],
+      "min_groups": 4,
+      "min_in_one_group": 2
+     }
+    },
+    {
+     "id": "cee-major-54",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "학부 전공 54학점: 전공소양 13 + 전공핵심 21 + 전공심화 15 + 전공심화 필수 3 = 52, 그리고 전공핵심 또는 전공심화 2학점 더",
+     "min_count": null,
+     "min_credits": 54,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "학부 표의 '62학점(54학점)' 중 54."
+    },
+    {
+     "id": "cee-eng-common",
+     "type": "major_choose",
+     "applies_to": [
+      "single"
+     ],
+     "text": "공과대학 공통과목 3학점(건설환경공학개론 제외, 공학기타 영역 제외)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s5"
+     ],
+     "note": "공학개론(400.022 건설환경공학개론 제외)·공학경영·공학기초·창의공학·공학실습 영역에서 3학점(공학기타 영역 제외). 영역별 과목은 2024 전공별 교과목 '400. 공과대학 공통과목'(쪽 54) 참고. 학부 2025 표의 공학경영·공학실습 예시 과목 목록은 2024 표와 조금 다르다."
+    },
+    {
+     "id": "cee-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상(학부 전공 54 포함)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s6"
+     ],
+     "note": "나머지 8학점에 공대 공통과목 3학점과 학부장 승인 공대·자연대 전공과목(전선 인정)이 들어간다고 학부 표가 적는다. 정확한 셈은 학부 확인."
+    },
+    {
+     "id": "cee-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행(복수·부·연합·연계·학생설계): 전공 48학점 이상",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s6"
+     ],
+     "note": "48학점 안의 필수 구성은 학부 표에 없다."
+    },
+    {
+     "id": "cee-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업예정자는 마지막 학기 졸업논문 발표회에서 학사논문 발표",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "과목이 아니라 앱은 '확인 필요'로 보여 준다."
+    },
+    {
+     "id": "cee-advising",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "매 학기 지도교수 정기면담 1회 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "안내만."
+    },
+    {
+     "id": "cee-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 50학점 이상(2024학번)",
+     "min_count": null,
+     "min_credits": 50,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "학과 표는 '기본 소양 및 교양 23 + 수학·과학·전산(MSC) 30'으로도 적는다(MSC 30 에 전공 과목 건설환경통계학 3 포함). 교양만 세면 50."
+    },
+    {
+     "id": "cee-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "cee-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ]
+    },
+    {
+     "id": "cee-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 12학점: [1-1] 수학 1·수학연습 1(또는 고급수학 1·연습 1), [1-2] 수학 2·수학연습 2(또는 고급수학 2·연습 2), [2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.104"
+       ]
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.104L"
+       ]
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.106"
+       ]
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.106L"
+       ]
+      },
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.105"
+       ]
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.105L"
+       ]
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.107"
+       ]
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.107L"
+       ]
+      },
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F31.201"
+       ]
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F31.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "연습 과목은 같은 학기에 함께 듣는다. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "cee-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 12학점(기초과학 선택적 필수): 물리·화학 분야 각각 1과목 이상(실험 포함 4학점씩), 그리고 생물학·지구과학과 실험 포함 중",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.106"
+       ]
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F33.106L"
+       ]
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.103"
+       ]
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.108"
+       ]
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.107"
+       ]
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F33.107L"
+       ]
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.104"
+       ]
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.109"
+       ]
+      },
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "F33.105"
+       ]
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F33.105L"
+       ]
+      },
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F34.104"
+       ]
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F34.105"
+       ]
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F34.105L"
+       ]
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.103"
+       ]
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.106"
+       ]
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F34.103L"
+       ]
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F35.104"
+       ]
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F35.104L"
+       ]
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F35.105"
+       ]
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F35.105L"
+       ]
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "F35.103"
+       ]
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F35.103L"
+       ]
+      },
+      {
+       "code": "034.044",
+       "name": "지구과학",
+       "credits": 3,
+       "alt_codes": [
+        "F36.102"
+       ]
+      },
+      {
+       "code": "034.045",
+       "name": "지구과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F36.102L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s20"
+     ],
+     "note": "이론·실험 같은 학기. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "cee-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보활용 3학점: [2-1] 컴퓨터의 개념 및 실습",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "F37.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s21"
+     ]
+    },
+    {
+     "id": "cee-ge-service",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택교양(대학과 리더십) 사회봉사 1, 1학점(학부 필수)",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "053.003",
+       "name": "사회봉사 1",
+       "credits": 1,
+       "alt_codes": [
+        "E20.103"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s22"
+     ]
+    },
+    {
+     "id": "cee-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s10"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "cee-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1과목 이상 포함, 대학영어·고급영어 제외) 의무",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30"
+     ],
+     "note": "2008~2023학번 의무(공대 지침). 이 학번들은 학부 표와 지침이 같다."
+    },
+    {
+     "id": "cee-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "cee-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 건설환경공학부 복수전공 39학점 이상(2021-2 다전공 선발자(2020학번)부터)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s11"
+     ],
+     "note": "필수 과목은 학부 공개 자료에서 못 찾았다(2024 목록: '학부 내규에 의함')."
+    },
+    {
+     "id": "cee-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 21학점 이상",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s11"
+     ],
+     "note": "필수 과목 미확인."
+    },
+    {
+     "id": "cee-overlap",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "다전공 겹쳐 인정(본부): 복수 9학점/타 학과 3학점, 부전공은 없음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s12"
+     ]
+    },
+    {
+     "id": "cee-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 3개 영역 이상",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s28"
+     ],
+     "note": "자연과 기술·생명과 환경은 이 요건에 들지 않는다. 2025-1 이후 열린 교양 과목은 학부대학 비교표로 옛 '학문의 세계' 영역을 인정받는다(교양 개편 안내)."
+    }
+   ],
+   "changed": "학문의 세계 3개 영역 이상, 외국어 진행 강좌 의무(학부·공대 지침 일치), 분야표 옛 과목(철근콘크리트공학·구조설계공학·수질학 및 실험)",
+   "note": "2022·2023학번 표는 같다. 2024학번과는 학문의 세계 3개 영역, 외국어 진행 강좌 의무(공대 지침과 일치)만 다르다."
+  },
+  {
+   "entry_years": [
+    2021,
+    2021
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 50,
+    "single": 62,
+    "parallel": 48,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s40"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s41",
+    "s36"
+   ],
+   "requirements": [
+    {
+     "id": "cee-soyang",
+     "type": "major_required",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공소양(필수) 12학점",
+     "min_count": 5,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "457.102A",
+       "name": "건설환경 디지털 공학설계",
+       "credits": 2,
+       "alt_codes": [
+        "M1586.003400"
+       ]
+      },
+      {
+       "code": "457.104",
+       "name": "건설환경공학 입문",
+       "credits": 1,
+       "alt_codes": [
+        "M1586.003300",
+        "M1586.005500"
+       ]
+      },
+      {
+       "code": "457.201",
+       "name": "재료역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.204",
+       "name": "기초유체역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.212",
+       "name": "건설환경통계학",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "옛 번호와 새 번호를 같은 과목으로 본 것은 이름·학점 대응(학번별 표와 편람)에 따른 판단이다."
+    },
+    {
+     "id": "cee-core-choose",
+     "type": "major_choose",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공핵심(선택적 필수) 21학점: 아래 8과목(각 3학점) 중 21학점 = 7과목",
+     "min_count": 7,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "457.203",
+       "name": "도시계획",
+       "credits": 3
+      },
+      {
+       "code": "457.205",
+       "name": "공간정보공학",
+       "credits": 3
+      },
+      {
+       "code": "457.206",
+       "name": "토질역학",
+       "credits": 3
+      },
+      {
+       "code": "457.208",
+       "name": "교통공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.207A",
+       "name": "수문학",
+       "credits": 3
+      },
+      {
+       "code": "457.210A",
+       "name": "환경공학",
+       "credits": 3
+      },
+      {
+       "code": "M1586.002000",
+       "name": "구조해석 1",
+       "credits": 3,
+       "alt_codes": [
+        "457.303"
+       ]
+      },
+      {
+       "code": "457.307",
+       "name": "건설계획 및 관리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s38"
+     ],
+     "note": "'7과목'은 21 ÷ 3 으로 계산한 값. 2024 본부 목록은 이 8과목에도 * 를 달고 '* 필수 또는 선택적필수 교과목'이라 적는다."
+    },
+    {
+     "id": "cee-capstone",
+     "type": "major_required",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공심화 필수: 건설시스템종합설계 3학점",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "457.408",
+       "name": "건설시스템종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "cee-advanced-distribution",
+     "type": "distribution",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공심화(선택) 15학점: 5과목 이상, 8개 분야 중 4개 분야 이상, 그중 1개 분야는 2과목 이상",
+     "min_count": 5,
+     "min_credits": 15,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s36"
+     ],
+     "note": "분야표 = 더 새 학번 표 + 2021학번 표에만 있는 과목(환경공학: M1586.001500 수질오염제어).",
+     "extra": {
+      "groups": [
+       {
+        "field": "구조공학",
+        "courses": [
+         {
+          "code": "M1586.001800",
+          "name": "건설환경재료학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002100",
+          "name": "구조해석 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004700",
+          "name": "철근콘크리트공학 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004800",
+          "name": "철근콘크리트공학 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002500",
+          "name": "건설환경정보공학",
+          "credits": 3,
+          "credits_from": "학부 교과목 표",
+          "note": "편람(2021-1~2026-2)에 없음, 학점은 학부 표"
+         },
+         {
+          "code": "M1586.002400",
+          "name": "구조시스템계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001900",
+          "name": "건설시스템동역학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002300",
+          "name": "철근콘크리트공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2023-1 (data/history)",
+          "note": "학부 교과목 현황(2022-2023학번) 분야표에 있는 과목"
+         },
+         {
+          "code": "M1586.002200",
+          "name": "구조설계공학",
+          "credits": 3,
+          "credits_from": "편람 2021-2~2023-2 (data/history)",
+          "note": "학부 교과목 현황(2022-2023학번) 분야표에 있는 과목"
+         }
+        ]
+       },
+       {
+        "field": "수공학",
+        "courses": [
+         {
+          "code": "457.320A",
+          "name": "수자원 공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.309",
+          "name": "수리학 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.409",
+          "name": "해안 및 항만공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001100",
+          "name": "기후변화 적응과 건설환경계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002900",
+          "name": "하천 및 댐공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "지반공학",
+        "courses": [
+         {
+          "code": "457.318",
+          "name": "토질공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.315",
+          "name": "지반조사 및 토질시험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.322",
+          "name": "토목지질암반공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.411",
+          "name": "지반환경복원공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.407",
+          "name": "포장공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "건설관리",
+        "courses": [
+         {
+          "code": "457.308",
+          "name": "건설시공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004900",
+          "name": "건설 공정관리",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "교통공학",
+        "courses": [
+         {
+          "code": "457.301",
+          "name": "교통계획 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.316A",
+          "name": "지속가능교통체계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.403",
+          "name": "도로공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.005100",
+          "name": "인공지능 응용 교통시스템",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.412",
+          "name": "교통시스템설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.405",
+          "name": "교통운영기초",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-1 (data/history)",
+          "note": "학부 교과목 현황(2024학번) 분야표에 있는 과목"
+         }
+        ]
+       },
+       {
+        "field": "환경공학",
+        "courses": [
+         {
+          "code": "457.311",
+          "name": "상수도공학 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.000100",
+          "name": "토양환경생태공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001600",
+          "name": "도시의 물질과 에너지 순환",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004400",
+          "name": "건설환경시스템 지속가능공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.003100",
+          "name": "수질오염의 공학적 해결",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.410",
+          "name": "환경공학실험 및 설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001400",
+          "name": "수질학 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2021-1 (data/history)",
+          "note": "학부 교과목 현황(2022-2023학번) 분야표에 있는 과목"
+         },
+         {
+          "code": "M1586.001500",
+          "name": "수질오염제어",
+          "credits": 3,
+          "credits_from": "학부 교과목 현황(2021학번) 표",
+          "note": "학부 교과목 현황(2021학번) 분야표에 있는 과목"
+         }
+        ]
+       },
+       {
+        "field": "공간정보공학",
+        "courses": [
+         {
+          "code": "457.313",
+          "name": "공간정보시스템",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.402",
+          "name": "원격탐사",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "도시계획 및 설계(도시공학)",
+        "courses": [
+         {
+          "code": "457.319",
+          "name": "도시 및 지역경제론",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.302",
+          "name": "도시설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.401",
+          "name": "단지계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.404",
+          "name": "국토 및 지역계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       }
+      ],
+      "min_groups": 4,
+      "min_in_one_group": 2
+     }
+    },
+    {
+     "id": "cee-major-54",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "학부 전공 54학점: 전공소양 12 + 전공핵심 21 + 전공심화 15 + 종합설계 3 = 51, 그리고 학부 전공 3학점 더",
+     "min_count": null,
+     "min_credits": 54,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s39"
+     ]
+    },
+    {
+     "id": "cee-eng-common",
+     "type": "major_choose",
+     "applies_to": [
+      "single"
+     ],
+     "text": "공과대학 공통과목 3학점(건설환경공학개론 제외, 공학기타 영역 제외)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s5"
+     ],
+     "note": "공학개론(400.022 건설환경공학개론 제외)·공학경영·공학기초·창의공학·공학실습 영역에서 3학점(공학기타 영역 제외). 영역별 과목은 2024 전공별 교과목 '400. 공과대학 공통과목'(쪽 54) 참고. 학부 2025 표의 공학경영·공학실습 예시 과목 목록은 2024 표와 조금 다르다."
+    },
+    {
+     "id": "cee-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상(학부 전공 54 포함)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s6"
+     ],
+     "note": "나머지 8학점에 공대 공통과목 3학점과 학부장 승인 공대·자연대 전공과목(전선 인정)이 들어간다고 학부 표가 적는다. 정확한 셈은 학부 확인."
+    },
+    {
+     "id": "cee-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행(복수·부·연합·연계·학생설계): 전공 48학점 이상",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s6"
+     ],
+     "note": "48학점 안의 필수 구성은 학부 표에 없다."
+    },
+    {
+     "id": "cee-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업예정자는 마지막 학기 졸업논문 발표회에서 학사논문 발표",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "과목이 아니라 앱은 '확인 필요'로 보여 준다."
+    },
+    {
+     "id": "cee-advising",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "매 학기 지도교수 정기면담 1회 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "안내만."
+    },
+    {
+     "id": "cee-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 50학점 이상(2024학번)",
+     "min_count": null,
+     "min_credits": 50,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "학과 표는 '기본 소양 및 교양 23 + 수학·과학·전산(MSC) 30'으로도 적는다(MSC 30 에 전공 과목 건설환경통계학 3 포함). 교양만 세면 50."
+    },
+    {
+     "id": "cee-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "cee-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19"
+     ]
+    },
+    {
+     "id": "cee-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 12학점: [1-1] 수학 1·수학연습 1(또는 고급수학 1·연습 1), [1-2] 수학 2·수학연습 2(또는 고급수학 2·연습 2), [2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.104"
+       ]
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.104L"
+       ]
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.106"
+       ]
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.106L"
+       ]
+      },
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.105"
+       ]
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.105L"
+       ]
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.107"
+       ]
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.107L"
+       ]
+      },
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F31.201"
+       ]
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F31.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "연습 과목은 같은 학기에 함께 듣는다. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "cee-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 12학점(기초과학 선택적 필수): 물리·화학 분야 각각 1과목 이상(실험 포함 4학점씩), 그리고 생물학·지구과학과 실험 포함 중",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.106"
+       ]
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F33.106L"
+       ]
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.103"
+       ]
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.108"
+       ]
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.107"
+       ]
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F33.107L"
+       ]
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.104"
+       ]
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.109"
+       ]
+      },
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "F33.105"
+       ]
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F33.105L"
+       ]
+      },
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F34.104"
+       ]
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F34.105"
+       ]
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F34.105L"
+       ]
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.103"
+       ]
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.106"
+       ]
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F34.103L"
+       ]
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F35.104"
+       ]
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F35.104L"
+       ]
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F35.105"
+       ]
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F35.105L"
+       ]
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "F35.103"
+       ]
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F35.103L"
+       ]
+      },
+      {
+       "code": "034.044",
+       "name": "지구과학",
+       "credits": 3,
+       "alt_codes": [
+        "F36.102"
+       ]
+      },
+      {
+       "code": "034.045",
+       "name": "지구과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F36.102L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s20"
+     ],
+     "note": "이론·실험 같은 학기. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "cee-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보활용 3학점: [2-1] 컴퓨터의 개념 및 실습",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "F37.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s21"
+     ]
+    },
+    {
+     "id": "cee-ge-service",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택교양(대학과 리더십) 사회봉사 1, 1학점(학부 필수)",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "053.003",
+       "name": "사회봉사 1",
+       "credits": 1,
+       "alt_codes": [
+        "E20.103"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s22"
+     ]
+    },
+    {
+     "id": "cee-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s10"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "cee-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1과목 이상 포함, 대학영어·고급영어 제외) 의무",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30"
+     ],
+     "note": "2008~2023학번 의무(공대 지침). 이 학번들은 학부 표와 지침이 같다."
+    },
+    {
+     "id": "cee-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "cee-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 건설환경공학부 복수전공 39학점 이상(2021-2 다전공 선발자(2020학번)부터)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s11"
+     ],
+     "note": "필수 과목은 학부 공개 자료에서 못 찾았다(2024 목록: '학부 내규에 의함')."
+    },
+    {
+     "id": "cee-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 21학점 이상",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s11"
+     ],
+     "note": "필수 과목 미확인."
+    },
+    {
+     "id": "cee-overlap",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "다전공 겹쳐 인정(본부): 복수 9학점/타 학과 3학점, 부전공은 없음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s12"
+     ]
+    },
+    {
+     "id": "cee-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 3개 영역 이상",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s28"
+     ],
+     "note": "자연과 기술·생명과 환경은 이 요건에 들지 않는다. 2025-1 이후 열린 교양 과목은 학부대학 비교표로 옛 '학문의 세계' 영역을 인정받는다(교양 개편 안내)."
+    }
+   ],
+   "changed": "전공소양 12(디지털 공학설계 2학점, 옛 번호 457.102A·457.104), 구조해석1 옛 번호 457.303, 추가 학점 3",
+   "note": "교양 50 과 학점 틀은 2022학번과 같고, 전공소양이 12학점(건설환경 디지털 공학설계 2학점)이라 학부 전공 51 + 추가 3 = 54."
+  },
+  {
+   "entry_years": [
+    2020,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 48,
+    "single": 62,
+    "parallel": 48,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s47",
+     "s48"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s49",
+    "s50"
+   ],
+   "requirements": [
+    {
+     "id": "cee-soyang",
+     "type": "major_required",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공소양(필수) 12학점",
+     "min_count": 5,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "457.102A",
+       "name": "건설환경 디지털 공학설계",
+       "credits": 2,
+       "alt_codes": [
+        "M1586.003400"
+       ]
+      },
+      {
+       "code": "457.104",
+       "name": "건설환경공학 입문",
+       "credits": 1,
+       "alt_codes": [
+        "M1586.003300",
+        "M1586.005500"
+       ]
+      },
+      {
+       "code": "457.201",
+       "name": "재료역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.204",
+       "name": "기초유체역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.212",
+       "name": "건설환경통계학",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "옛 번호와 새 번호를 같은 과목으로 본 것은 이름·학점 대응(학번별 표와 편람)에 따른 판단이다."
+    },
+    {
+     "id": "cee-core-choose",
+     "type": "major_choose",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공핵심(선택적 필수) 21학점: 아래 8과목(각 3학점) 중 21학점 = 7과목",
+     "min_count": 7,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "457.203",
+       "name": "도시계획",
+       "credits": 3
+      },
+      {
+       "code": "457.205",
+       "name": "공간정보공학",
+       "credits": 3
+      },
+      {
+       "code": "457.206",
+       "name": "토질역학",
+       "credits": 3
+      },
+      {
+       "code": "457.208",
+       "name": "교통공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.207A",
+       "name": "수문학",
+       "credits": 3
+      },
+      {
+       "code": "457.210A",
+       "name": "환경공학",
+       "credits": 3
+      },
+      {
+       "code": "M1586.002000",
+       "name": "구조해석 1",
+       "credits": 3,
+       "alt_codes": [
+        "457.303"
+       ]
+      },
+      {
+       "code": "457.307",
+       "name": "건설계획 및 관리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s38"
+     ],
+     "note": "'7과목'은 21 ÷ 3 으로 계산한 값. 2024 본부 목록은 이 8과목에도 * 를 달고 '* 필수 또는 선택적필수 교과목'이라 적는다."
+    },
+    {
+     "id": "cee-capstone",
+     "type": "major_required",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공심화 필수: 건설시스템종합설계 3학점",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "457.408",
+       "name": "건설시스템종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "cee-advanced-distribution",
+     "type": "distribution",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공심화(선택) 15학점: 5과목 이상, 8개 분야 중 4개 분야 이상, 그중 1개 분야는 2과목 이상",
+     "min_count": 5,
+     "min_credits": 15,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s36"
+     ],
+     "note": "분야표 = 더 새 학번 표 + 2021학번 표에만 있는 과목(환경공학: M1586.001500 수질오염제어).",
+     "extra": {
+      "groups": [
+       {
+        "field": "구조공학",
+        "courses": [
+         {
+          "code": "M1586.001800",
+          "name": "건설환경재료학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002100",
+          "name": "구조해석 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004700",
+          "name": "철근콘크리트공학 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004800",
+          "name": "철근콘크리트공학 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002500",
+          "name": "건설환경정보공학",
+          "credits": 3,
+          "credits_from": "학부 교과목 표",
+          "note": "편람(2021-1~2026-2)에 없음, 학점은 학부 표"
+         },
+         {
+          "code": "M1586.002400",
+          "name": "구조시스템계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001900",
+          "name": "건설시스템동역학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002300",
+          "name": "철근콘크리트공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2023-1 (data/history)",
+          "note": "학부 교과목 현황(2022-2023학번) 분야표에 있는 과목"
+         },
+         {
+          "code": "M1586.002200",
+          "name": "구조설계공학",
+          "credits": 3,
+          "credits_from": "편람 2021-2~2023-2 (data/history)",
+          "note": "학부 교과목 현황(2022-2023학번) 분야표에 있는 과목"
+         }
+        ]
+       },
+       {
+        "field": "수공학",
+        "courses": [
+         {
+          "code": "457.320A",
+          "name": "수자원 공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.309",
+          "name": "수리학 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.409",
+          "name": "해안 및 항만공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001100",
+          "name": "기후변화 적응과 건설환경계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002900",
+          "name": "하천 및 댐공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "지반공학",
+        "courses": [
+         {
+          "code": "457.318",
+          "name": "토질공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.315",
+          "name": "지반조사 및 토질시험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.322",
+          "name": "토목지질암반공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.411",
+          "name": "지반환경복원공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.407",
+          "name": "포장공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "건설관리",
+        "courses": [
+         {
+          "code": "457.308",
+          "name": "건설시공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004900",
+          "name": "건설 공정관리",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "교통공학",
+        "courses": [
+         {
+          "code": "457.301",
+          "name": "교통계획 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.316A",
+          "name": "지속가능교통체계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.403",
+          "name": "도로공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.005100",
+          "name": "인공지능 응용 교통시스템",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.412",
+          "name": "교통시스템설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.405",
+          "name": "교통운영기초",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-1 (data/history)",
+          "note": "학부 교과목 현황(2024학번) 분야표에 있는 과목"
+         }
+        ]
+       },
+       {
+        "field": "환경공학",
+        "courses": [
+         {
+          "code": "457.311",
+          "name": "상수도공학 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.000100",
+          "name": "토양환경생태공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001600",
+          "name": "도시의 물질과 에너지 순환",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004400",
+          "name": "건설환경시스템 지속가능공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.003100",
+          "name": "수질오염의 공학적 해결",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.410",
+          "name": "환경공학실험 및 설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001400",
+          "name": "수질학 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2021-1 (data/history)",
+          "note": "학부 교과목 현황(2022-2023학번) 분야표에 있는 과목"
+         },
+         {
+          "code": "M1586.001500",
+          "name": "수질오염제어",
+          "credits": 3,
+          "credits_from": "학부 교과목 현황(2021학번) 표",
+          "note": "학부 교과목 현황(2021학번) 분야표에 있는 과목"
+         }
+        ]
+       },
+       {
+        "field": "공간정보공학",
+        "courses": [
+         {
+          "code": "457.313",
+          "name": "공간정보시스템",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.402",
+          "name": "원격탐사",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "도시계획 및 설계(도시공학)",
+        "courses": [
+         {
+          "code": "457.319",
+          "name": "도시 및 지역경제론",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.302",
+          "name": "도시설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.401",
+          "name": "단지계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.404",
+          "name": "국토 및 지역계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       }
+      ],
+      "min_groups": 4,
+      "min_in_one_group": 2
+     }
+    },
+    {
+     "id": "cee-major-54",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "학부 전공 54학점: 전공소양 12 + 전공핵심 21 + 전공심화 15 + 종합설계 3 = 51, 그리고 학부 전공 3학점 더",
+     "min_count": null,
+     "min_credits": 54,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s39"
+     ]
+    },
+    {
+     "id": "cee-eng-common",
+     "type": "major_choose",
+     "applies_to": [
+      "single"
+     ],
+     "text": "공과대학 공통과목 3학점(건설환경공학개론 제외, 공학기타 영역 제외)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s5"
+     ],
+     "note": "공학개론(400.022 건설환경공학개론 제외)·공학경영·공학기초·창의공학·공학실습 영역에서 3학점(공학기타 영역 제외). 영역별 과목은 2024 전공별 교과목 '400. 공과대학 공통과목'(쪽 54) 참고. 학부 2025 표의 공학경영·공학실습 예시 과목 목록은 2024 표와 조금 다르다."
+    },
+    {
+     "id": "cee-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상(학부 전공 54 포함)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s6"
+     ],
+     "note": "나머지 8학점에 공대 공통과목 3학점과 학부장 승인 공대·자연대 전공과목(전선 인정)이 들어간다고 학부 표가 적는다. 정확한 셈은 학부 확인."
+    },
+    {
+     "id": "cee-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행(복수·부·연합·연계·학생설계): 전공 48학점 이상",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s6"
+     ],
+     "note": "48학점 안의 필수 구성은 학부 표에 없다."
+    },
+    {
+     "id": "cee-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업예정자는 마지막 학기 졸업논문 발표회에서 학사논문 발표",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "과목이 아니라 앱은 '확인 필요'로 보여 준다."
+    },
+    {
+     "id": "cee-advising",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "매 학기 지도교수 정기면담 1회 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "안내만."
+    },
+    {
+     "id": "cee-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 48학점 이상(2020학번)",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s42",
+      "s43"
+     ],
+     "note": "사고와 표현 4 + 외국어 4 + 수량 12 + 과학 12 + 컴퓨터 3 + 학문의 세계 12 + 사회봉사 1 = 48."
+    },
+    {
+     "id": "cee-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "cee-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4학점. 입학 때 TEPS 900점 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s44"
+     ]
+    },
+    {
+     "id": "cee-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 12학점: [1-1] 수학 1·수학연습 1(또는 고급수학 1·연습 1), [1-2] 수학 2·수학연습 2(또는 고급수학 2·연습 2), [2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.104"
+       ]
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.104L"
+       ]
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.106"
+       ]
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.106L"
+       ]
+      },
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.105"
+       ]
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.105L"
+       ]
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.107"
+       ]
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.107L"
+       ]
+      },
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F31.201"
+       ]
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F31.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "연습 과목은 같은 학기에 함께 듣는다. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "cee-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 12학점(기초과학 선택적 필수): 물리·화학 분야 각각 1과목 이상(실험 포함 4학점씩), 그리고 생물학·지구과학과 실험 포함 중",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.106"
+       ]
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F33.106L"
+       ]
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.103"
+       ]
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.108"
+       ]
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.107"
+       ]
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F33.107L"
+       ]
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.104"
+       ]
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.109"
+       ]
+      },
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "F33.105"
+       ]
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F33.105L"
+       ]
+      },
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F34.104"
+       ]
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F34.105"
+       ]
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F34.105L"
+       ]
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.103"
+       ]
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.106"
+       ]
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F34.103L"
+       ]
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F35.104"
+       ]
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F35.104L"
+       ]
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F35.105"
+       ]
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F35.105L"
+       ]
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "F35.103"
+       ]
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F35.103L"
+       ]
+      },
+      {
+       "code": "034.044",
+       "name": "지구과학",
+       "credits": 3,
+       "alt_codes": [
+        "F36.102"
+       ]
+      },
+      {
+       "code": "034.045",
+       "name": "지구과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F36.102L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s20"
+     ],
+     "note": "이론·실험 같은 학기. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "cee-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보활용 3학점: [2-1] 컴퓨터의 개념 및 실습",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "F37.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s21"
+     ]
+    },
+    {
+     "id": "cee-ge-service",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택교양(대학과 리더십) 사회봉사 1, 1학점(학부 필수)",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "053.003",
+       "name": "사회봉사 1",
+       "credits": 1,
+       "alt_codes": [
+        "E20.103"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s22"
+     ]
+    },
+    {
+     "id": "cee-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s10"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "cee-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1과목 이상 포함, 대학영어·고급영어 제외) 의무",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30"
+     ],
+     "note": "2008~2023학번 의무(공대 지침). 이 학번들은 학부 표와 지침이 같다."
+    },
+    {
+     "id": "cee-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "cee-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 건설환경공학부 복수전공 39학점 이상(2021-2 다전공 선발자(2020학번)부터)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s11"
+     ],
+     "note": "필수 과목은 학부 공개 자료에서 못 찾았다(2024 목록: '학부 내규에 의함')."
+    },
+    {
+     "id": "cee-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 21학점 이상",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s11"
+     ],
+     "note": "필수 과목 미확인."
+    },
+    {
+     "id": "cee-overlap",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "다전공 겹쳐 인정(본부): 복수 9학점/타 학과 3학점, 부전공은 없음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s12"
+     ]
+    },
+    {
+     "id": "cee-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 3개 영역 이상",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s28"
+     ],
+     "note": "자연과 기술·생명과 환경은 이 요건에 들지 않는다. 2025-1 이후 열린 교양 과목은 학부대학 비교표로 옛 '학문의 세계' 영역을 인정받는다(교양 개편 안내)."
+    },
+    {
+     "id": "cee-design-12",
+     "type": "other",
+     "applies_to": [
+      "single"
+     ],
+     "text": "설계학점 12 이상(학부 전공 54 안에서). 표준이수형태 표의 필수 부분 설계학점 합 7(전공소양 2 + 전공핵심 2 + 건설시스템종합설계 3)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "457.102A",
+       "name": "공학설계 및 CAD(기초설계)",
+       "credits": 2
+      },
+      {
+       "code": "M1586.002300",
+       "name": "철근콘크리트공학",
+       "credits": 3
+      },
+      {
+       "code": "M1586.002200",
+       "name": "구조설계공학",
+       "credits": 3
+      },
+      {
+       "code": "M1586.002500",
+       "name": "건설환경정보공학",
+       "credits": 3
+      },
+      {
+       "code": "M1586.002400",
+       "name": "구조시스템계획",
+       "credits": 3
+      },
+      {
+       "code": "M1586.001900",
+       "name": "건설시스템동역학",
+       "credits": 3
+      },
+      {
+       "code": "457.309",
+       "name": "수리학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.409",
+       "name": "해안 및 항만공학",
+       "credits": 3
+      },
+      {
+       "code": "M1586.002900",
+       "name": "하천 및 댐공학",
+       "credits": 3
+      },
+      {
+       "code": "457.318",
+       "name": "토질공학",
+       "credits": 3
+      },
+      {
+       "code": "457.407",
+       "name": "포장공학",
+       "credits": 3
+      },
+      {
+       "code": "457.307",
+       "name": "건설계획 및 관리",
+       "credits": 3
+      },
+      {
+       "code": "457.208",
+       "name": "교통공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.301",
+       "name": "교통계획 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.316A",
+       "name": "지속가능교통체계",
+       "credits": 3
+      },
+      {
+       "code": "457.403",
+       "name": "도로공학",
+       "credits": 3
+      },
+      {
+       "code": "457.405",
+       "name": "교통운영기초",
+       "credits": 3
+      },
+      {
+       "code": "457.412",
+       "name": "교통시스템설계",
+       "credits": 3
+      },
+      {
+       "code": "457.311",
+       "name": "상수도공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1586.000100",
+       "name": "토양환경생태공학",
+       "credits": 3
+      },
+      {
+       "code": "M1586.001600",
+       "name": "도시의 물질과 에너지 순환",
+       "credits": 3
+      },
+      {
+       "code": "457.410",
+       "name": "환경공학실험 및 설계",
+       "credits": 3
+      },
+      {
+       "code": "457.313",
+       "name": "공간정보시스템",
+       "credits": 3
+      },
+      {
+       "code": "457.402",
+       "name": "원격탐사",
+       "credits": 3
+      },
+      {
+       "code": "457.302",
+       "name": "도시설계",
+       "credits": 3
+      },
+      {
+       "code": "457.401",
+       "name": "단지계획",
+       "credits": 3
+      },
+      {
+       "code": "457.408",
+       "name": "건설시스템종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s45",
+      "s46"
+     ],
+     "note": "과목별 설계학점(design_credits)은 학부 교과목 현황 표 괄호 값. 두 학부 표가 조금 다르다: 표준이수형태 표는 토질역학·교통공학 및 실험에 설계 1씩, 교과목 현황 표는 토질역학 0·교통공학 및 실험 1·건설계획 및 관리 1. 앱은 들은 과목의 설계학점 합으로 셀 수 있으나 학부 확인 필요."
+    }
+   ],
+   "changed": "외국어 4(교양 48), 설계 12학점 요건, 과목 이름 옛것(공학설계 및 CAD·건설공학리더십), 분야표 옛 과목",
+   "note": "외국어 4학점(교양 48), 설계 12학점 요건이 있다. 전공소양은 공학설계 및 CAD(기초설계)·건설공학리더십·재료역학 및 실험·기초유체역학 및 실험 9 + 건설환경통계학 3(MSC 칸 '전공소양(통계)') = 2021학번 12 와 같은 다섯 과목. 학과 표 교양 칸 합계 51 은 건설환경통계학 3 을 넣은 값."
+  },
+  {
+   "entry_years": [
+    2019,
+    2019
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 42,
+    "single": 62,
+    "parallel": null,
+    "double": 54,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s60",
+     "s61"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s62",
+    "s55",
+    "s63"
+   ],
+   "requirements": [
+    {
+     "id": "cee-soyang",
+     "type": "major_required",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공소양(필수) 12학점",
+     "min_count": 5,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "457.102A",
+       "name": "건설환경 디지털 공학설계",
+       "credits": 2,
+       "alt_codes": [
+        "M1586.003400"
+       ]
+      },
+      {
+       "code": "457.104",
+       "name": "건설환경공학 입문",
+       "credits": 1,
+       "alt_codes": [
+        "M1586.003300",
+        "M1586.005500"
+       ]
+      },
+      {
+       "code": "457.201",
+       "name": "재료역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.204",
+       "name": "기초유체역학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.212",
+       "name": "건설환경통계학",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "옛 번호와 새 번호를 같은 과목으로 본 것은 이름·학점 대응(학번별 표와 편람)에 따른 판단이다."
+    },
+    {
+     "id": "cee-core-choose",
+     "type": "major_choose",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공핵심(선택적 필수) 21학점: 아래 8과목(각 3학점) 중 21학점 = 7과목",
+     "min_count": 7,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "457.203",
+       "name": "도시계획",
+       "credits": 3
+      },
+      {
+       "code": "457.205",
+       "name": "공간정보공학",
+       "credits": 3
+      },
+      {
+       "code": "457.206",
+       "name": "토질역학",
+       "credits": 3
+      },
+      {
+       "code": "457.208",
+       "name": "교통공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.207A",
+       "name": "수문학",
+       "credits": 3
+      },
+      {
+       "code": "457.210A",
+       "name": "환경공학",
+       "credits": 3
+      },
+      {
+       "code": "M1586.002000",
+       "name": "구조해석 1",
+       "credits": 3,
+       "alt_codes": [
+        "457.303"
+       ]
+      },
+      {
+       "code": "457.307",
+       "name": "건설계획 및 관리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s38"
+     ],
+     "note": "'7과목'은 21 ÷ 3 으로 계산한 값. 2024 본부 목록은 이 8과목에도 * 를 달고 '* 필수 또는 선택적필수 교과목'이라 적는다."
+    },
+    {
+     "id": "cee-capstone",
+     "type": "major_required",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공심화 필수: 건설시스템종합설계 3학점",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "457.408",
+       "name": "건설시스템종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "cee-advanced-distribution",
+     "type": "distribution",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공심화(선택) 15학점: 6과목 이상, 8개 분야 중 4개 분야 이상, 그중 1개 분야는 2과목 이상",
+     "min_count": 6,
+     "min_credits": 15,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s54",
+      "s55"
+     ],
+     "note": "2019학번 표는 '6과목 이상'(15학점과 맞지 않아 학부 확인 필요). 분야표 = 더 새 학번 표 + 2018-2019학번 표에만 있는 과목(수공학: 457.417A 하천설계 및 관리).",
+     "extra": {
+      "groups": [
+       {
+        "field": "구조공학",
+        "courses": [
+         {
+          "code": "M1586.001800",
+          "name": "건설환경재료학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002100",
+          "name": "구조해석 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004700",
+          "name": "철근콘크리트공학 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004800",
+          "name": "철근콘크리트공학 2",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002500",
+          "name": "건설환경정보공학",
+          "credits": 3,
+          "credits_from": "학부 교과목 표",
+          "note": "편람(2021-1~2026-2)에 없음, 학점은 학부 표"
+         },
+         {
+          "code": "M1586.002400",
+          "name": "구조시스템계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001900",
+          "name": "건설시스템동역학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002300",
+          "name": "철근콘크리트공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2023-1 (data/history)",
+          "note": "학부 교과목 현황(2022-2023학번) 분야표에 있는 과목"
+         },
+         {
+          "code": "M1586.002200",
+          "name": "구조설계공학",
+          "credits": 3,
+          "credits_from": "편람 2021-2~2023-2 (data/history)",
+          "note": "학부 교과목 현황(2022-2023학번) 분야표에 있는 과목"
+         }
+        ]
+       },
+       {
+        "field": "수공학",
+        "courses": [
+         {
+          "code": "457.320A",
+          "name": "수자원 공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.309",
+          "name": "수리학 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.409",
+          "name": "해안 및 항만공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001100",
+          "name": "기후변화 적응과 건설환경계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.002900",
+          "name": "하천 및 댐공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.417A",
+          "name": "하천설계 및 관리",
+          "credits": 3,
+          "credits_from": "학부 교과목 현황(2018-2019학번) 표",
+          "note": "학부 교과목 현황(2018-2019학번) 분야표에 있는 과목"
+         }
+        ]
+       },
+       {
+        "field": "지반공학",
+        "courses": [
+         {
+          "code": "457.318",
+          "name": "토질공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.315",
+          "name": "지반조사 및 토질시험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.322",
+          "name": "토목지질암반공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.411",
+          "name": "지반환경복원공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.407",
+          "name": "포장공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "건설관리",
+        "courses": [
+         {
+          "code": "457.308",
+          "name": "건설시공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004900",
+          "name": "건설 공정관리",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "교통공학",
+        "courses": [
+         {
+          "code": "457.301",
+          "name": "교통계획 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.316A",
+          "name": "지속가능교통체계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.403",
+          "name": "도로공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.005100",
+          "name": "인공지능 응용 교통시스템",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.412",
+          "name": "교통시스템설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.405",
+          "name": "교통운영기초",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-1 (data/history)",
+          "note": "학부 교과목 현황(2024학번) 분야표에 있는 과목"
+         }
+        ]
+       },
+       {
+        "field": "환경공학",
+        "courses": [
+         {
+          "code": "457.311",
+          "name": "상수도공학 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.000100",
+          "name": "토양환경생태공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001600",
+          "name": "도시의 물질과 에너지 순환",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.004400",
+          "name": "건설환경시스템 지속가능공학",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.003100",
+          "name": "수질오염의 공학적 해결",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.410",
+          "name": "환경공학실험 및 설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "M1586.001400",
+          "name": "수질학 및 실험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2021-1 (data/history)",
+          "note": "학부 교과목 현황(2022-2023학번) 분야표에 있는 과목"
+         },
+         {
+          "code": "M1586.001500",
+          "name": "수질오염제어",
+          "credits": 3,
+          "credits_from": "학부 교과목 현황(2021학번) 표",
+          "note": "학부 교과목 현황(2021학번) 분야표에 있는 과목"
+         }
+        ]
+       },
+       {
+        "field": "공간정보공학",
+        "courses": [
+         {
+          "code": "457.313",
+          "name": "공간정보시스템",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.402",
+          "name": "원격탐사",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "도시계획 및 설계(도시공학)",
+        "courses": [
+         {
+          "code": "457.319",
+          "name": "도시 및 지역경제론",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.302",
+          "name": "도시설계",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.401",
+          "name": "단지계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         },
+         {
+          "code": "457.404",
+          "name": "국토 및 지역계획",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       }
+      ],
+      "min_groups": 4,
+      "min_in_one_group": 2
+     }
+    },
+    {
+     "id": "cee-major-54",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "학부 전공 54학점: 전공소양 12 + 전공핵심 21 + 전공심화 15 + 종합설계 3 = 51, 그리고 학부 전공 3학점 더",
+     "min_count": null,
+     "min_credits": 54,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s39"
+     ]
+    },
+    {
+     "id": "cee-eng-common",
+     "type": "major_choose",
+     "applies_to": [
+      "single"
+     ],
+     "text": "공학개론 교과목군 1과목(3학점) 필수(건설환경공학개론 제외)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "400.013",
+       "name": "기계공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.015",
+       "name": "산업공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.019A",
+       "name": "전기.정보공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.020",
+       "name": "재료공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.023",
+       "name": "화학생물공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.024",
+       "name": "에너지자원공학개론",
+       "credits": 3
+      },
+      {
+       "code": "M2177.003200",
+       "name": "융합공학도를 위한 전기전자회로 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2177.004900",
+       "name": "IoT·인공지능·빅데이터 개론 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "M2177.008600"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s53"
+     ]
+    },
+    {
+     "id": "cee-major-total-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공 전공 62학점 이상(학부 전공 54 포함)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s6"
+     ],
+     "note": "나머지 8학점에 공대 공통과목 3학점과 학부장 승인 공대·자연대 전공과목(전선 인정)이 들어간다고 학부 표가 적는다. 정확한 셈은 학부 확인."
+    },
+    {
+     "id": "cee-major-total-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행 학점(2019학번)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s57",
+      "s58"
+     ],
+     "note": "학부 2019학번 표에 병행 칸이 없고 2019 해설을 못 찾았다. 2018학번 54, 2020학번 48."
+    },
+    {
+     "id": "cee-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업예정자는 마지막 학기 졸업논문 발표회에서 학사논문 발표",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "과목이 아니라 앱은 '확인 필요'로 보여 준다."
+    },
+    {
+     "id": "cee-advising",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "매 학기 지도교수 정기면담 1회 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "안내만."
+    },
+    {
+     "id": "cee-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 42학점 이상(2019학번, 계산)",
+     "min_count": null,
+     "min_credits": 42,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s51"
+     ],
+     "note": "사고와 표현 4 + 외국어 4 + 수량 12 + 과학 12 + 컴퓨터 3 + 학문의 세계 6 + 사회봉사 1 = 42."
+    },
+    {
+     "id": "cee-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "cee-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4학점. 입학 때 TEPS 900점 이하면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s44"
+     ]
+    },
+    {
+     "id": "cee-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 12학점: [1-1] 수학 1·수학연습 1(또는 고급수학 1·연습 1), [1-2] 수학 2·수학연습 2(또는 고급수학 2·연습 2), [2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.104"
+       ]
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.104L"
+       ]
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2,
+       "alt_codes": [
+        "F31.106"
+       ]
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1,
+       "alt_codes": [
+        "F31.106L"
+       ]
+      },
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.105"
+       ]
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.105L"
+       ]
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2,
+       "alt_codes": [
+        "F31.107"
+       ]
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1,
+       "alt_codes": [
+        "F31.107L"
+       ]
+      },
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F31.201"
+       ]
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F31.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s19"
+     ],
+     "note": "연습 과목은 같은 학기에 함께 듣는다. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "cee-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 12학점(기초과학 선택적 필수): 물리·화학 분야 각각 1과목 이상(실험 포함 4학점씩), 그리고 생물학·지구과학과 실험 포함 중",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.106"
+       ]
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F33.106L"
+       ]
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.103"
+       ]
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F33.108"
+       ]
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.107"
+       ]
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F33.107L"
+       ]
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.104"
+       ]
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F33.109"
+       ]
+      },
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "F33.105"
+       ]
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F33.105L"
+       ]
+      },
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F34.104"
+       ]
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F34.104L"
+       ]
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F34.105"
+       ]
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F34.105L"
+       ]
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.103"
+       ]
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "F34.106"
+       ]
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F34.103L"
+       ]
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "F35.104"
+       ]
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "F35.104L"
+       ]
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "F35.105"
+       ]
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "F35.105L"
+       ]
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "F35.103"
+       ]
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F35.103L"
+       ]
+      },
+      {
+       "code": "034.044",
+       "name": "지구과학",
+       "credits": 3,
+       "alt_codes": [
+        "F36.102"
+       ]
+      },
+      {
+       "code": "034.045",
+       "name": "지구과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F36.102L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s20"
+     ],
+     "note": "이론·실험 같은 학기. alt_codes 는 2025-1부터 같은 이름으로 열리는 새 번호(학부대학 비교표로 옛 영역 인정, 대응은 이름 기준)"
+    },
+    {
+     "id": "cee-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터와 정보활용 3학점: [2-1] 컴퓨터의 개념 및 실습",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3,
+       "alt_codes": [
+        "F37.202"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s21"
+     ]
+    },
+    {
+     "id": "cee-ge-service",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택교양(대학과 리더십) 사회봉사 1, 1학점(학부 필수)",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "053.003",
+       "name": "사회봉사 1",
+       "credits": 1,
+       "alt_codes": [
+        "E20.103"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s22"
+     ]
+    },
+    {
+     "id": "cee-life-respect",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수(2016학번부터, 공과대학 제공), 졸업 신청 때 이수증 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s10"
+     ],
+     "note": "과목이 아니라서 앱은 '확인 필요'로만 보여 준다."
+    },
+    {
+     "id": "cee-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1과목 이상 포함, 대학영어·고급영어 제외) 의무",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30"
+     ],
+     "note": "2008~2023학번 의무(공대 지침). 이 학번들은 학부 표와 지침이 같다."
+    },
+    {
+     "id": "cee-gpa",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전체 평점 2.0 이상, 전공(복수·부·연합 등 포함) 평점 2.0 이상(학칙 제83조)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "앱은 성적을 받지 않으므로 안내만 한다."
+    },
+    {
+     "id": "cee-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 건설환경공학부 복수전공 39학점 이상(2021-2 다전공 선발자(2020학번)부터)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s11"
+     ],
+     "note": "필수 과목은 학부 공개 자료에서 못 찾았다(2024 목록: '학부 내규에 의함')."
+    },
+    {
+     "id": "cee-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 21학점 이상",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s11"
+     ],
+     "note": "필수 과목 미확인."
+    },
+    {
+     "id": "cee-overlap",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "다전공 겹쳐 인정(본부): 복수 9학점/타 학과 3학점, 부전공은 없음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s12"
+     ]
+    },
+    {
+     "id": "cee-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 6학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 2개 영역 이상",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s52"
+     ],
+     "note": "자연과 기술·생명과 환경은 이 요건에 들지 않는다. 2025-1 이후 열린 교양 과목은 학부대학 비교표로 옛 '학문의 세계' 영역을 인정받는다(교양 개편 안내)."
+    },
+    {
+     "id": "cee-design-12",
+     "type": "other",
+     "applies_to": [
+      "single"
+     ],
+     "text": "설계학점 12 이상(학부 전공 54 안에서). 표준이수형태 표의 필수 부분 설계학점 합 7(전공소양 2 + 전공핵심 2 + 건설시스템종합설계 3)",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "457.102A",
+       "name": "공학설계 및 CAD(기초설계)",
+       "credits": 2
+      },
+      {
+       "code": "M1586.002300",
+       "name": "철근콘크리트공학",
+       "credits": 3
+      },
+      {
+       "code": "M1586.002200",
+       "name": "구조설계공학",
+       "credits": 3
+      },
+      {
+       "code": "M1586.002500",
+       "name": "건설환경정보공학",
+       "credits": 3
+      },
+      {
+       "code": "M1586.002400",
+       "name": "구조시스템계획",
+       "credits": 3
+      },
+      {
+       "code": "M1586.001900",
+       "name": "건설시스템동역학",
+       "credits": 3
+      },
+      {
+       "code": "457.309",
+       "name": "수리학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.409",
+       "name": "해안 및 항만공학",
+       "credits": 3
+      },
+      {
+       "code": "457.417A",
+       "name": "하천설계 및 관리",
+       "credits": 3
+      },
+      {
+       "code": "457.318",
+       "name": "토질공학",
+       "credits": 3
+      },
+      {
+       "code": "457.407",
+       "name": "포장공학",
+       "credits": 3
+      },
+      {
+       "code": "457.307",
+       "name": "건설계획 및 관리",
+       "credits": 3
+      },
+      {
+       "code": "457.208",
+       "name": "교통공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.301",
+       "name": "교통계획 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "457.316A",
+       "name": "지속가능교통체계",
+       "credits": 3
+      },
+      {
+       "code": "457.403",
+       "name": "도로공학",
+       "credits": 3
+      },
+      {
+       "code": "457.405",
+       "name": "교통운영기초",
+       "credits": 3
+      },
+      {
+       "code": "457.412",
+       "name": "교통시스템설계",
+       "credits": 3
+      },
+      {
+       "code": "457.311",
+       "name": "상수도공학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1586.000100",
+       "name": "토양환경생태공학",
+       "credits": 3
+      },
+      {
+       "code": "M1586.001600",
+       "name": "도시의 물질과 에너지 순환",
+       "credits": 3
+      },
+      {
+       "code": "457.410",
+       "name": "환경공학실험 및 설계",
+       "credits": 3
+      },
+      {
+       "code": "457.313",
+       "name": "공간정보시스템",
+       "credits": 3
+      },
+      {
+       "code": "457.402",
+       "name": "원격탐사",
+       "credits": 3
+      },
+      {
+       "code": "457.302",
+       "name": "도시설계",
+       "credits": 3
+      },
+      {
+       "code": "457.401",
+       "name": "단지계획",
+       "credits": 3
+      },
+      {
+       "code": "457.408",
+       "name": "건설시스템종합설계",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s56",
+      "s55"
+     ],
+     "note": "과목별 설계학점(design_credits)은 학부 교과목 현황 표 괄호 값. 두 학부 표가 조금 다르다: 표준이수형태 표는 토질역학·교통공학 및 실험에 설계 1씩, 교과목 현황 표는 토질역학 0·교통공학 및 실험 1·건설계획 및 관리 1. 앱은 들은 과목의 설계학점 합으로 셀 수 있으나 학부 확인 필요."
+    },
+    {
+     "id": "cee-eng-social-creative",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 사회성 교과목군 3학점 + 창의성 교과목군 3학점(2013~2019학번)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s59"
+     ],
+     "note": "학문의 세계 '인간과 사회'(사회성)·'문화와 예술'(창의성)로도 이수할 수 있으나 '학문의 세계로 이수한 학점과 중복 이수 불가'(학부 2019 표). 사회성·창의성 교과목군에는 교양과 전공 과목이 섞여 있다.",
+     "extra": {
+      "groups": [
+       {
+        "field": "사회성 교과목군",
+        "min_credits": 3,
+        "courses": [
+         {
+          "code": "054.027",
+          "name": "창업과 경제",
+          "credits": 3,
+          "credits_from": "학과 자료(2019 규정)"
+         },
+         {
+          "code": "046.017",
+          "name": "기술과 경제",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-1 (data/history)"
+         },
+         {
+          "code": "054.025",
+          "name": "공학윤리와 리더십",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2021-1 (data/history)"
+         },
+         {
+          "code": "054.028",
+          "name": "특허와 기술창업",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-2 (data/history)"
+         },
+         {
+          "code": "400.212",
+          "name": "기술과 창업",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-1 (data/history)"
+         },
+         {
+          "code": "M2177.000100",
+          "name": "공학인을 위한 경영",
+          "credits": 3,
+          "credits_from": "학과 자료(2019 규정)"
+         },
+         {
+          "code": "400.310",
+          "name": "공학기술과사회",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2026-2 (data/history)"
+         }
+        ]
+       },
+       {
+        "field": "창의성 교과목군",
+        "min_credits": 3,
+        "courses": [
+         {
+          "code": "054.019",
+          "name": "현대도시건축산책",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-1 (data/history)"
+         },
+         {
+          "code": "054.021",
+          "name": "창조와 디자인",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-2 (data/history)"
+         },
+         {
+          "code": "054.022",
+          "name": "테크놀러지와 예술: 전시예술공학",
+          "credits": 3,
+          "credits_from": "학과 자료(2019 규정)",
+          "alt_codes": [
+           "L0655.001000",
+           "E11.181"
+          ]
+         },
+         {
+          "code": "054.020",
+          "name": "소리의 과학과 악기제작 체험",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2024-2 (data/history)"
+         },
+         {
+          "code": "400.018",
+          "name": "창의공학설계",
+          "credits": 3,
+          "credits_from": "편람 2021-2~2026-2 (data/history)"
+         },
+         {
+          "code": "400.318",
+          "name": "디지털아트공학",
+          "credits": 3,
+          "credits_from": "학과 자료(2019 규정)"
+         },
+         {
+          "code": "406.324A",
+          "name": "공학도를 위한 창의적 사고",
+          "credits": 3,
+          "credits_from": "편람 2023-2~2025-2 (data/history)"
+         },
+         {
+          "code": "M2177.002300",
+          "name": "다학제 창의적 제품개발",
+          "credits": 3,
+          "credits_from": "편람 2025-2~2026-1 (data/history)"
+         },
+         {
+          "code": "M2177.002400",
+          "name": "글로벌 창의적 제품개발",
+          "credits": 3,
+          "credits_from": "편람 2026-1~2026-1 (data/history)"
+         },
+         {
+          "code": "M2177.005900",
+          "name": "제품개발을 위한 디지털 설계 및 제조 1",
+          "credits": 3,
+          "credits_from": "편람 2021-1~2021-1 (data/history)",
+          "note": "舊 M2177.005000 제품개발을 위한 디지털 설계 및 제조"
+         },
+         {
+          "code": "M2177.006100",
+          "name": "제품개발을 위한 디지털 설계 및 제조 2",
+          "credits": 3,
+          "credits_from": "편람 2021-2~2021-2 (data/history)"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "changed": "교양 42(학문의 세계 6·2개 영역), 공학개론 교과목군 1과목(공대 공통 3 대신), 사회성·창의성 각 3(학문의 세계와 중복 불가), 전공심화 6과목 이상, 다른 전공 병행 미확인",
+   "note": "학문의 세계 6(2개 영역)·외국어 4, 공학개론 교과목군 1과목, 사회성·창의성 각 3, 전공심화 6과목 이상, 설계 12학점."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2020,
+   "basis": "입학 연도",
+   "what": "학문의 세계 6→12(3개 영역), 공학개론 교과목군 1과목 → 공대 공통과목 3학점(공학기타 제외 5개 영역), 사회성·창의성 없어짐, 전공심화 6→5과목",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "외국어 4→6(교양 48→50), 설계 12학점 요건 없어짐, 전공소양 12(건설환경통계학을 전공소양에 넣음), 과목명 변경(공학설계 및 CAD → 건설환경 디지털 공학설계, 건설공학리더십 → 건설환경공학 입문)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2022,
+   "basis": "입학 연도",
+   "what": "전공소양 13(건설환경 디지털 공학설계 3학점, 새 번호 M1586.003400·M1586.003300), 구조해석1 새 번호 M1586.002000, 추가 학점 3→2",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "학문의 세계 3→4개 영역. 외국어 진행 강좌는 학부 표가 계속 필수로 적고 공대 지침은 권장(충돌)",
+   "status": "충돌"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 새 체계 50(사회봉사 1 → 지성의 확장 E20.103)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2020,
+   "basis": "다전공 선발 시기",
+   "what": "타학과 복수전공 54→39(부전공 21 그대로)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2026,
+   "basis": "교과 개편 학기",
+   "what": "건설환경공학 입문 M1586.003300(마지막 2025-1) → 건설환경도시공학 개론 M1586.005500(2026-1~), 지반조사 및 토질시험 457.315(마지막 2025-1) → 지반시험 및 모델링 M1586.005700(2026학번 교과목 현황, 편람 미개설)",
+   "status": "부분"
+  },
+  {
+   "entry_year": 2026,
+   "basis": "교과 개편 학기",
+   "what": "학부 이름 건설환경공학부 → 건설환경도시공학부: 2026 길잡이(2026-02) 머리·편람 개설학과(2026-2~)는 새 이름, 2026학년도 대학별 이수규정(2026-01)·학부 학번별 표는 옛 이름. 요건은 그대로",
+   "status": "부분"
+  }
+ ],
+ "ask_department": [
+  "2019학번 다른 전공 병행 학점(2018 해설 54, 2020 해설 48 중 무엇인지)",
+  "2019·2020학번 설계 12학점을 과목별 설계학점(교과목 현황 표 괄호) 합으로 세는지",
+  "2019학번 '전공심화 6과목 이상'이 15학점과 어떻게 맞는지(오기 여부)",
+  "옛 분야표 과목(철근콘크리트공학·구조설계공학·수질학 및 실험·수질오염제어·교통운영기초·하천설계 및 관리)과 새 과목을 같은 분야로 세는지",
+  "2026학번 전공소양 1학점 과목: 표준이수형태 표는 건설환경공학 입문 M1586.003300, 교과목 현황은 건설환경도시공학 개론 M1586.005500 — 같은 과목으로 보는지",
+  "다른 전공 병행(48학점) 때 필수 과목 구성(전공소양·전공핵심·심화 중 무엇을 꼭 들어야 하는지)",
+  "다른 학과 학생의 복수전공(39)·부전공(21) 필수 과목",
+  "전공핵심을 7과목보다 많이 들으면 남는 과목을 전공심화(분야)로 셀 수 있는가",
+  "외국어 진행 강좌 3과목이 2024학번 이후에도 필수인가(공대 지침은 권장)",
+  "학부 이름 변경(건설환경도시공학부) 시점과 2025학번 졸업 때 전공명"
+ ],
+ "sources": {
+  "s1": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2025학번 표: 최소 학점 이수 규정·표준(필수)이수형태·[주1–3], '재학 중 필수요구사항' 표",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "건설환경도시공학부, 학부 교과목(학번별 교과목 현황)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_b.php",
+   "locator": "건설환경공학부 학사과정 교과목 현황(2025학번), 분야별 표",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "457. 건설환경공학부, 쪽 64–66(* 표시)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "이수표준형태 * 표시, 쪽 65",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "457. 건설환경공학부 교과목 이수규정 ①, 쪽 65; 400. 공과대학 공통과목, 쪽 54",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준, 인쇄 쪽 8–9",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "건설환경공학부, 쪽 115",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "학부대학, 2025학년도 시행 공통교육과정 대학별 이수규정(국문, 2024-12 작성)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/01/2025학년도-시행-공통교육과정-대학별-이수규정국문.pdf",
+   "locator": "공과대학 해당 학과 표",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "교과목 이수규정 ③(2010학번부터), 쪽 65",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "공과대학 수업 편성 운영에 관한 지침 제2조·제3조(기계공학부·항공우주공학과 2025학번 규정 쪽 2에 인용)",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=20488",
+   "locator": "Ⅱ 졸업이수규정 ※ 공과대학 지침 ①②",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 학사과정 복수·부전공 이수학점 기준, 인쇄 쪽 10",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "학사과정 4.나.(2) 전공과목의 중복인정, 인쇄 쪽 44",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2025학번·2026학번 최소 학점 이수 규정 표",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 건설환경공학부 39·21(2021-2 다전공 선발자(2020학번)부터)",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 공과대학 (건설환경도시공학부) 표 50학점",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2025학번·2026학번 표",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "건설환경도시공학부, 학부 교과목(학번별 ‘학사과정 교과목 현황’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_b.php",
+   "locator": "교과목 현황(2025학번)·(2026학번)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 공과대학 (건설환경도시공학부)",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2024학번 표준(필수)이수형태 교양 칸 50",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2024학번 표 [주2]",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2024학번 표 035.001",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2024학번 표 053.003 사회봉사1",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "건설환경도시공학부, 학부 교과목(학번별 ‘학사과정 교과목 현황’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_b.php",
+   "locator": "교과목 현황(2025학번)·(2024학번)",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2024학번 최소 학점 이수 규정",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 건설환경공학부 50·62·48, 표 2 39·21",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2024학번 표",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "건설환경도시공학부, 학부 교과목(학번별 ‘학사과정 교과목 현황’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_b.php",
+   "locator": "교과목 현황(2024학번)",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2022·2023학번 표 학문의 세계 3개 영역",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2022·2023학번 표 <추가 이수규정>",
+   "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "기계공학부 게시판, ‘2023학번 [20230613업데이트]’ 첨부 SNU_ME_학부졸업이수규정_2023공지용230613.pdf",
+   "url": "https://me.snu.ac.kr/%ED%95%99%EB%B6%80-%EC%A1%B8%EC%97%85%EA%B7%9C%EC%A0%95/?mod=document&uid=16209",
+   "locator": "Ⅱ ※ 공과대학 지침 ①",
+   "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "건설환경도시공학부, 학부 교과목(학번별 ‘학사과정 교과목 현황’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_b.php",
+   "locator": "교과목 현황(2022-2023학번)",
+   "accessed": "2026-11-12"
+  },
+  "s32": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2022학번·2023학번 최소 학점 이수 규정",
+   "accessed": "2026-11-12"
+  },
+  "s33": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1 건설환경공학부 50·62·48, 표 2 39·21",
+   "accessed": "2026-11-12"
+  },
+  "s34": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2022학번·2023학번 표(같은 내용)",
+   "accessed": "2026-11-12"
+  },
+  "s35": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2021학번 표준(필수)이수형태",
+   "accessed": "2026-11-12"
+  },
+  "s36": {
+   "title": "건설환경도시공학부, 학부 교과목(학번별 ‘학사과정 교과목 현황’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_b.php",
+   "locator": "교과목 현황(2021학번)",
+   "accessed": "2026-11-12"
+  },
+  "s37": {
+   "title": "수강편람 자료(TT Wizard 백엔드, 과목 번호·학점·교과구분)",
+   "locator": "M1586.003400·M1586.003300",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s38": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2021학번 표 전공핵심 457.303",
+   "accessed": "2026-11-12"
+  },
+  "s39": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2021학번 표 <추가 이수규정>",
+   "accessed": "2026-11-12"
+  },
+  "s40": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2021학번 최소 학점 이수 규정",
+   "accessed": "2026-11-12"
+  },
+  "s41": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2021학번 표",
+   "accessed": "2026-11-12"
+  },
+  "s42": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2020학번 표준(필수)이수형태 교양 칸(51, 건설환경통계학 3 포함)",
+   "accessed": "2026-11-12"
+  },
+  "s43": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 건설환경공학부 48",
+   "accessed": "2026-11-12"
+  },
+  "s44": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2020학번 표 외국어 4",
+   "accessed": "2026-11-12"
+  },
+  "s45": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2020학번 최소 학점 이수 규정 '전공(설계) 54(12)'·표준(필수)이수형태 '(설계학점)' 칸",
+   "accessed": "2026-11-12"
+  },
+  "s46": {
+   "title": "건설환경도시공학부, 학부 교과목(학번별 ‘학사과정 교과목 현황’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_b.php",
+   "locator": "교과목 현황(2020학번) 학점(설계학점)",
+   "accessed": "2026-11-12"
+  },
+  "s47": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2020학번 최소 학점 이수 규정(병행 칸 없음)",
+   "accessed": "2026-11-12"
+  },
+  "s48": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 건설환경공학부 48·62·48, 표 2 39·21(2021-2 다전공 선발자(2020학번)부터)",
+   "accessed": "2026-11-12"
+  },
+  "s49": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2020학번 표",
+   "accessed": "2026-11-12"
+  },
+  "s50": {
+   "title": "건설환경도시공학부, 학부 교과목(학번별 ‘학사과정 교과목 현황’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_b.php",
+   "locator": "교과목 현황(2020학번)",
+   "accessed": "2026-11-12"
+  },
+  "s51": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2019학번 표 교양 칸 45(건설환경통계학 3 포함)",
+   "accessed": "2026-11-12"
+  },
+  "s52": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2019학번 표 학문의 세계 2개 영역 6학점",
+   "accessed": "2026-11-12"
+  },
+  "s53": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2019학번 표 [주4] 공학개론교과목군",
+   "accessed": "2026-11-12"
+  },
+  "s54": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2019학번 표 '전공심화 6과목 이상'",
+   "accessed": "2026-11-12"
+  },
+  "s55": {
+   "title": "건설환경도시공학부, 학부 교과목(학번별 ‘학사과정 교과목 현황’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_b.php",
+   "locator": "교과목 현황(2018-2019학번)",
+   "accessed": "2026-11-12"
+  },
+  "s56": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2019학번 최소 학점 이수 규정 '전공(설계) 54(12)'",
+   "accessed": "2026-11-12"
+  },
+  "s57": {
+   "title": "서울대학교, 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 건설환경공학부 병행 54(2018학번)",
+   "accessed": "2026-11-12"
+  },
+  "s58": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 병행 48(2020학번)",
+   "accessed": "2026-11-12"
+  },
+  "s59": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2019학번 표 [주5]",
+   "accessed": "2026-11-12"
+  },
+  "s60": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2019학번 표준(필수)이수형태 교양 칸(45, 건설환경통계학 3 포함)",
+   "accessed": "2026-11-12"
+  },
+  "s61": {
+   "title": "서울대학교, 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 건설환경공학부(병행 54)·표 2 54·21",
+   "accessed": "2026-11-12"
+  },
+  "s62": {
+   "title": "건설환경도시공학부, 학부 교과과정(학번별 ‘최소 학점 이수 규정’·‘표준(필수)이수형태’ 표)",
+   "url": "https://cuee.snu.ac.kr/sub4_1_a.php",
+   "locator": "2019학번 표",
+   "accessed": "2026-11-12"
+  },
+  "s63": {
+   "title": "서울대학교, 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

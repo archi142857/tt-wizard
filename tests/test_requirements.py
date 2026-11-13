@@ -34,10 +34,11 @@ def test_index_lists_every_program_once():
     assert len(ids) == len(set(ids)) and len(ids) >= 150
     assert idx["cohorts"] == [2019, 2026]
     have = {p["id"] for p in idx["programs"] if p["data"]}
-    assert have == set(programs()) == set(PILOTS)
+    assert have == set(programs()) == set(ids) and set(PILOTS) <= have  # update101: 모든 과정
     for p in idx["programs"]:
-        assert p["college"] and p["unit"] and p["program"]
-        assert p["exists_for"][0] <= p["exists_for"][1]
+        assert p["college"] and p["unit"] and p["program"] and p["kind"] in ("major", "multi")
+        assert p["exists_for"] is None or p["exists_for"][0] <= p["exists_for"][1]  # 1차에만 있는 다전공은 모름
+        assert p["version_key"] in ("entry", "selection")
     # 학부 안에서 나뉘는 구조가 목록에 있다(예: 식품·동물생명공학부 → 두 전공)
     split = next(p for p in idx["programs"] if p["program"] == "동물생명공학전공")
     assert "동물생명공학" in "·".join(split["splits_into"]) and split["data"]
@@ -45,7 +46,8 @@ def test_index_lists_every_program_once():
 
 def test_programs_cover_cohorts_and_reference_sources():
     for pid, p in programs().items():
-        lo, hi = max(2019, p["exists_for"][0]), min(2026, p["exists_for"][1])
+        span = p["exists_for"] or [min(v["entry_years"][0] for v in p["versions"]), max(v["entry_years"][1] for v in p["versions"])]
+        lo, hi = max(2019, span[0]), min(2026, span[1])
         seen = {}
         for v in p["versions"]:
             a, b = v["entry_years"]
@@ -66,13 +68,21 @@ def test_programs_cover_cohorts_and_reference_sources():
 
 
 def test_ge_credits_match_official_table():
-    """판마다 교양 학점 = 학부대학 해마다 교양 이수규정의 '교양 N학점 이상'(2019~2026)."""
+    """판마다 교양 학점 = 학부대학 해마다 교양 이수규정의 '교양 N학점 이상'(2019~2026). 표에 없는 학번·과정(다전공, 본과)은 건너뛴다."""
     table = load("ge_credits.json")["table"]
+    checked = 0
     for pid, p in programs().items():
+        if p["ge_key"] is None:
+            assert p["kind"] == "multi" or p["program"].startswith(("수의학과", "의학과", "공과대학 광역", "학부대학 광역", "융합학습", "혁신공유")) \
+                or "편입" in p["program"], pid
+            continue
         row = table[p["ge_key"]]
         for v in p["versions"]:
             for y in range(v["entry_years"][0], v["entry_years"][1] + 1):
-                assert v["credits"]["ge"] == row[str(y)], (pid, y)
+                if str(y) in row and v["credits"]["ge"] is not None:
+                    assert v["credits"]["ge"] == row[str(y)], (pid, p["program"], y)
+                    checked += 1
+    assert checked >= 700
 
 
 def test_common_rules():
@@ -104,6 +114,31 @@ def test_animal_biotech_cohorts():
     assert p["depts"] == ["식품·동물생명공학부"] and p["code_prefixes"] == ["5252.", "M1702."]
 
 
+def test_derived_depts_match_pilots():
+    """시범 셋은 손으로 적은 학과·번호 앞자리, 나머지는 지난 편람에서 유도한다. 유도한 값이 손으로 적은 것과 같아야 한다."""
+    ps = programs()
+    got = ri.derive_depts(list(ps.values()), ri.course_depts(ri.HISTORY))
+    for pid in PILOTS:
+        assert got[pid] == (ps[pid]["depts"], ps[pid]["code_prefixes"]), pid
+    food = next(p for p in ps.values() if p["program"] == "식품생명공학전공")
+    assert food["depts"] == ["식품·동물생명공학부"] and {"5251.", "M1701."} <= set(food["code_prefixes"])
+    assert not {"5252.", "M1702."} & set(food["code_prefixes"])
+    assert all(not p["depts"] for p in ps.values() if p["kind"] == "multi")
+    assert sum(bool(p["depts"]) for p in ps.values() if p["kind"] == "major") >= 100
+
+
+def test_selection_and_single_round_programs():
+    """선발 시기로 판이 갈리는 다전공, 1차에만 있는 연합·연계전공, 2차에만 있는 옛 학과."""
+    ps = {p["program"]: p for p in programs().values()}
+    sd = ps["학생설계전공(복수전공)"]
+    assert sd["version_key"] == "selection" and sorted(v["entry_years"] for v in sd["versions"]) == [[2019, 2021], [2022, 2026]]
+    ai = next(p for p in programs().values() if p["unit"] == "연합전공" and p["program"] == "인공지능")
+    assert ai["kind"] == "multi" and ai["version_key"] == "selection" and ai["exists_for"] is None
+    assert [v["entry_years"] for v in ai["versions"]] == [[2025, 2026]] and ai["versions"][0]["requirements"]
+    old = ps["국사학과"]
+    assert old["exists_for"] == [2019, 2022] and old["versions"][0]["requirements"] and old["version_key"] == "entry"
+
+
 # ---------------------------------------------------------------- 가져오기(차이 적용)
 
 def test_apply_diff_and_cover():
@@ -120,7 +155,7 @@ def test_apply_diff_and_cover():
 
 def test_export_requirements(tmp_path):
     n = ew.export_requirements(REQ, tmp_path / "requirements")
-    assert n == (len(load("index.json")["programs"]), len(PILOTS))
+    assert n == (len(load("index.json")["programs"]), len(programs()))
     for name in ("index.json", "common.json", "course_map.json", "ge_credits.json", "programs/life-sciences.json"):
         text = (tmp_path / "requirements" / name).read_text(encoding="utf-8")
         assert "\n" not in text.strip() and json.loads(text)
@@ -288,3 +323,75 @@ def test_grade_needed_and_term_limits(tmp_path):
     limits = [g["limit"] for g in got[2:-1]]
     assert limits == [20, 18, 19, 18, 22, 19, 19, 18, 18, 21, 15, 23, 25, 21, 20]
     assert got[-1]["within"] == {"credits": 18, "ok": True}  # 신입생세미나(E51.101)는 상한 밖
+
+
+# ---------------------------------------------------------------- 다음 학기 추천·빈 자리 (update101)
+
+def _course(cid, sections, program="학사", cls="전필"):
+    """편람 꼴(parseCourses): [번호, 이름, 학과, 학점, 교과구분, 이수과정, [[분반, 교수, 상태, [[요일, 시작, 끝, 건물, 강의실]]]]]"""
+    return [cid, cid, "가", 3, cls, program, [[no, "", status, meets] for no, status, meets in sections]]
+
+
+@node
+def test_gap_fit(tmp_path):
+    """대표 시간표(월 9:00~10:15, 301동)에 겹치지 않고 들어가는 과목과 늘어나는 걷는 분·지각·학교 오는 요일."""
+    table = {"H|301": 5, "301|302": 7, "301|83": 15, "H|302": 6, "H|83": 12}
+    base = [_course("BASE", [("001", "", [[0, 540, 615, "301", ""]])])]
+    cands = [
+        _course("A", [("001", "", [[0, 540, 615, "302", ""]]), ("002", "", [[2, 600, 675, "83", ""]])]),  # 001 은 겹침 → 수요일 분반
+        _course("B", [("001", "", [[0, 630, 705, "302", ""]])]),   # 바로 뒤, 7분 걸어 8분 남음
+        _course("C", [("001", "", [[0, 620, 700, "83", ""]])]),    # 15분 걸리는데 쉬는 시간 5분 → 지각 10분
+        _course("D", [("001", "", [])]),                           # 시간 없음
+        _course("E", [("001", "", [[1, 540, 615, "", ""]])]),      # 강의실 미정
+        _course("F", [("001", "폐강대상", [[3, 540, 615, "301", ""]])]),
+        _course("G", [("001", "", [[4, 540, 615, "301", ""]])], program="석사"),
+        _course("BASE", [("002", "", [[4, 540, 615, "301", ""]])]),  # 이미 시간표에 있는 과목
+    ]
+    got = _run(tmp_path, [{"kind": "gapfit", "base": base, "courses": cands, "table": table, "home": "H"},
+                          {"kind": "gapfit", "base": base, "courses": cands, "table": table, "home": "H", "rules": {"freeDays": [2]}}])
+    g, free_wed = got
+    assert g["base"] == {"cost": 10, "travel": 10, "late": 0, "days": 1} and g["blocked"] == 0
+    assert [f[0] for f in g["fits"]] == ["E", "B", "F", "A", "C"]
+    fits = {f[0]: f for f in g["fits"]}
+    assert fits["B"][2] == {"cost": 8, "travel": 8, "late": 0, "days": 0}
+    assert fits["C"][2] == {"cost": 42, "travel": 22, "late": 10, "days": 0}
+    assert fits["A"][1] == "002" and fits["A"][2]["days"] == 1
+    assert fits["E"][3] is True and fits["F"][4] is True
+    assert "A" not in [f[0] for f in free_wed["fits"]] and free_wed["blocked"] == 1  # 수요일 공강이면 A 는 못 넣는다
+
+
+@node
+def test_suggest_next_courses(tmp_path):
+    """남은 과목을 다 들어야 하는 줄은 need, 몇 중 몇은 choose, 확인 필요 줄의 목록 과목은 maybe. 들은 과목·요건에 없는 과목은 빠지고,
+    새 번호로 열린 과목은 같은 과목으로 찾는다. 차례는 강도 → 시간표에 들어가는지 → 늘어나는 비용."""
+    c = lambda code, cr=3, **kw: {"code": code, "name": code, "credits": cr, **kw}
+    req = lambda rid, typ, courses, n=None, cr=None, status="확인": {
+        "id": rid, "type": typ, "applies_to": [], "text": rid, "min_count": n, "min_credits": cr, "courses": courses, "status": status, "src": []}
+    prog = {"id": "t", "depts": ["가"], "code_prefixes": [], "exists_for": [2019, 2026], "versions": [{
+        "entry_years": [2019, 2026], "basis": "입학 연도", "status": "확인", "src": [],
+        "credits": {"grad": 130, "ge": 36, "single": 60, "parallel": 40, "double": 39, "minor": 21, "status": "확인", "src": []},
+        "requirements": [req("need", "major_required", [c("N1"), c("N2")], n=2),
+                         req("pick", "major_choose", [c("P1"), c("P2", alt_codes=["P2NEW"]), c("P3")], n=1),
+                         req("unsure", "other", [c("M1"), c("M2")], cr=6, status="부분"),
+                         req("cred", "major_choose", [c("C1"), c("C2")], cr=6)]}]}
+    mon = lambda h, b="301": [[0, h * 60, h * 60 + 75, b, ""]]
+    nxt = [_course("N1", [("001", "", mon(9))]), _course("N2", [("001", "", mon(13, "83"))]), _course("P2NEW", [("001", "", mon(11))]),
+           _course("M1", [("001", "", mon(15))]), _course("C1", [("001", "", mon(10, "301"))]), _course("X", [("001", "", mon(16))])]
+    rec = {"code": "N1", "name": "N1", "credits": 3, "cls": "전필", "dept": "가", "term": "2025-1", "status": "taken"}
+    base = [_course("BASE", [("001", "", mon(8, "301"))])]
+    core = _req("chem-bio-eng", "cbe-core12")["courses"]
+    sel1 = _req("chem-bio-eng", "cbe-sel1")["courses"]
+    real = [_rec(x) for x in core[1:]]
+    got = _run(tmp_path, [
+        {"kind": "suggest", "program": prog, "entryYear": 2025, "role": "single", "records": [rec], "courses": nxt,
+         "fit": True, "base": base, "table": {"H|301": 5, "301|83": 15, "H|83": 12}},
+        {"kind": "suggest", "program": "chem-bio-eng", "entryYear": 2025, "role": "single", "records": real,
+         "courses": [_course(core[0]["code"], [("001", "", mon(9))]), _course(sel1[0]["code"], [("001", "", mon(11))]),
+                     _course(core[1]["code"], [("001", "", mon(13))])]},
+    ])
+    syn, cbe = got
+    assert {x[0]: x[1] for x in syn["suggestions"]} == {"N2": "need", "C1": "need", "P2NEW": "choose", "M1": "maybe"}
+    assert [x[0] for x in syn["ranked"]] == ["C1", "N2", "P2NEW", "M1"]  # C1 은 301동 바로 다음이라 N2(83동)보다 덜 걷는다
+    assert all(x[2] is not None for x in syn["ranked"])
+    s = {x[0]: x[1] for x in cbe["suggestions"]}
+    assert s == {core[0]["code"]: "need", sel1[0]["code"]: "choose"}  # 들은 전필(core[1])은 없다

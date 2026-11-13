@@ -1,0 +1,318 @@
+{
+ "id": "p-3f49cad7",
+ "college": "인문대학",
+ "unit": "서양사학과(2022학번까지; 2023 역사학부로 통합)",
+ "program": "서양사학과",
+ "kind": "major",
+ "depts": [
+  "서양사학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "인문대학",
+ "exists_for": [
+  2019,
+  2022
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {},
+ "versions": [
+  {
+   "entry_years": [
+    2019,
+    2022
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s6",
+     "s7",
+     "s8",
+     "s9"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s1",
+    "s2",
+    "s10"
+   ],
+   "requirements": [
+    {
+     "id": "wh22-core",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "서양사를 보는 시각·사료로 보는 서양사: 2022 목록은 두 과목 모두 전공필수, 역사학부 공지(서양사학전공 개편 계획)는 '22학번까지는 두 과목 중 하나 필수'",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "100.141",
+       "name": "서양사를 보는 시각",
+       "credits": 3
+      },
+      {
+       "code": "100.142",
+       "name": "사료로 보는 서양사",
+       "credits": 3
+      }
+     ],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "최신 공지(둘 중 하나)를 따르는 쪽이 맞아 보이나 학번별 졸업이수확인서를 못 봐 충돌로 둠."
+    },
+    {
+     "id": "wh22-reading",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "영문사적강독 + 독문사적강독·불문사적강독·노문사적강독(연계전공 러시아학) 중 1과목",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1250.000200",
+       "name": "영문사적강독",
+       "credits": 2
+      },
+      {
+       "code": "112.326",
+       "name": "독문사적강독",
+       "credits": 2
+      },
+      {
+       "code": "112.328",
+       "name": "불문사적강독",
+       "credits": 2
+      },
+      {
+       "code": "1061.301",
+       "name": "노문사적강독",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "2023 이후 역사학부 '원어로 읽는 유럽사'·'영어로 역사 읽기'와의 대체 관계 미확인."
+    },
+    {
+     "id": "wh22-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 과목: 서양사연습(112.432)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "112.432",
+       "name": "서양사연습",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "2023 이후 역사학 논문쓰기와의 대체 관계 미확인."
+    },
+    {
+     "id": "wh22-cross",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "동양사학과·국사학과 전공과목 중 1과목 이상",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "wh22-seminar",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "삼사과 통합과목 1과목(18학번 이후): 2018-2 한국사특강2, 2019-2 부터 역사학 세미나",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M3533.000700",
+       "name": "역사학 세미나",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "wh22-double-minor",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "복수전공: ①②③④(위 core·reading·thesis·cross) 모두, 부전공: ①(core)만",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "wh22-transfer",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "역사학부로 학적 변경 가능(변경하면 역사학부 서양사학전공 규정·답사 2회)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s3"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통 교양·졸업 의무 — 학번에 맞는 college_common.ge_by_cohort·other 참조(제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학(2024학번까지)/삶과 인문학 세미나(2025학번~))",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "2차: hum-common-ref 는 학번에 맞는 college_common.ge_by_cohort·college_common.other 를 가리킨다(2019–2024학번은 학문의 기초·학문의 세계 + 삶과 인문학, 2025학번~은 새 교양 + 삶과 인문학 세미나).",
+     "extra": {
+      "see": [
+       "college_common.ge_by_cohort",
+       "college_common.other"
+      ]
+     }
+    }
+   ],
+   "note": "학번별 '서양사학과 졸업이수확인서'(게시물 16402)는 본문이 스크립트로 그려져 첨부를 못 봄 — 2022 목록과 2024-12 공지로 핵심만 적음."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2023,
+   "basis": "입학 연도",
+   "what": "역사학부 신설로 서양사학과 신입생 모집 끝",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "22학번까지 '서양사를 보는 시각·사료로 보는 서양사' 둘 다인지 둘 중 하나인지",
+  "사적강독·서양사연습의 2023 이후 대체 과목",
+  "학번별 졸업이수확인서 내용"
+ ],
+ "sources": {
+  "s1": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "112. 서양사학과 교과목 이수규정 ①–⑤·[경과조치](2014학년도 입학생부터)·복수 ①②③④·부전공 ①, 인쇄 18–19쪽",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "역사학부 공지 「서양사학전공 교과목 개편 계획」",
+   "url": "https://history.snu.ac.kr/notice/?mod=document&uid=137",
+   "locator": "2항 '22학번까지는 여전히 두 과목 중 하나를 졸업 전까지 필히 이수'",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서양사학과 졸업(수정 2025-03-20)",
+   "url": "https://whistory.snu.ac.kr/%EC%A1%B8%EC%97%85/",
+   "locator": "역사학부 서양사학전공 답사 규정(학적 변경자 포함)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 인문대학 표, PDF 4쪽(인쇄 108쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "인문대학 졸업이수 의무사항 안내(관련: 인문대학-2710, 2025.1.25., 게시 2025-02-03)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림(https://humanities.snu.ac.kr/webdata/upimages/7efzf51z874zf93z1c2za09z28cz23ezd11z697zb8.png), '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서양사학과 졸업(수정 2025-03-20)",
+   "url": "https://whistory.snu.ac.kr/%EC%A1%B8%EC%97%85/",
+   "locator": "'서양사학과 이수 규정은 학번별로 상이 … 학번별 서양사학과 졸업이수확인서'",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

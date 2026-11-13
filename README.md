@@ -291,7 +291,7 @@ data/
   sample/                    데모용 가짜 자료
   raw/                       편람 엑셀 원본 (latest와 바뀐 날짜별, history/는 지난 학기)
   history/                   지난 학기 편람 (학기 선택용)
-  requirements/              졸업 요건: 과정 목록, 과정별 학번 판(이 판은 시범 셋), 학교 공통 규칙, 교양 학점 표, 교양 과목 대응표 (docs/requirements.md)
+  requirements/              졸업 요건: 과정 목록과 과정별 학번 판(157과정), 학교 공통 규칙, 교양 학점 표, 교양 과목 대응표 (docs/requirements.md)
   topo/                      수치지형도 원본 자리. 저장소에는 없습니다 (docs/topo.md)
   local/                     높이 자료(고도·높이차·경사, 3D·2D 모형) 자리. PC 에만 있고 저장소에는 없습니다 (docs/elevation_method.md)
   magicmap/                  캠퍼스 마법 지도에서 받은 그래프·거리표와 패치를 더한 그래프(높이 칸을 뺀 공개 판)
@@ -300,8 +300,8 @@ data/
   README.md                  걷는 시간·경로 파일(travel*.csv, route_stats.csv, route_paths.json)의 자료 조건(ODbL)
   lectures.json, buildings.csv, travel.csv, travel_slope.csv, route_stats.csv, route_paths.json, basemap.json, stats.csv, changes/
 web/                         웹 앱 (GitHub Pages)
-  js/                        app.js(화면), engine.js(탐색·동선), search.js(과목 검색), search-worker.js(탐색 워커),
-                             timetables.js(저장한 시간표), requirements.js(졸업 요건·성적·학기 학점 계산, 화면은 아직), dev.js(개발자 메뉴)
+  js/                        app.js(화면), engine.js(탐색·동선·빈 자리 과목), search.js(과목 검색), search-worker.js(탐색 워커),
+                             timetables.js(저장한 시간표), requirements.js(졸업 요건·성적·학기 학점·다음 학기 추천 계산, 화면은 아직), dev.js(개발자 메뉴)
   licenses/                  고지문 (SNUTT, Pretendard, Fredoka, OpenStreetMap, 공공누리)
   field/                     실측 기록 페이지 (앱 화면에서는 연결하지 않는 페이지)
 app/                         스토어 앱 (Capacitor 8): android/, ios/, src/native.js, assets/icons/

@@ -1,0 +1,756 @@
+{
+ "id": "p-73756aa5",
+ "college": "인문대학",
+ "unit": "아시아언어문명학부",
+ "program": "동남아시아언어문명전공",
+ "kind": "major",
+ "depts": [],
+ "code_prefixes": [],
+ "ge_key": "인문대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "일본언어문명전공",
+   "동남아시아언어문명전공",
+   "인도언어문명전공",
+   "서아시아언어문명전공"
+  ],
+  "when": "학부 진입 때(인문계열 광역생은 학과배정 때, 전공예약생은 입학 뒤 학부 심사; 보통 6·12월에 다음 학기 적용 진입 심사)",
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2024,
+    2026
+   ],
+   "basis": "입학 연도(복수전공은 전공 진입 연도: 2024년 이후 진입)",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": null,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s12",
+     "s13",
+     "s14",
+     "s15",
+     "s16",
+     "s17"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s18",
+    "s19"
+   ],
+   "requirements": [
+    {
+     "id": "asia-core",
+     "type": "major_required",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 2과목: 아시아문명론입문, 아시아연구지도(아시아연구지도는 18학번부터 전필)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "1003.221",
+       "name": "아시아문명론입문",
+       "credits": 3
+      },
+      {
+       "code": "M2641.000300",
+       "name": "아시아연구지도",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4",
+      "s5"
+     ]
+    },
+    {
+     "id": "asia-must-pair",
+     "type": "other",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "단일전공 불가: 주전공 39학점과 함께 복수전공 또는 부전공 하나를 반드시 이수(학부 안 다른 세부전공도 가능)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s2",
+      "s7"
+     ]
+    },
+    {
+     "id": "asia-cross-track",
+     "type": "distribution",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "2024학번 이후 주전공(2024년 이후 진입 복수전공): 자기 세부전공을 뺀 3개 세부전공 개설 과목 1과목 필수, 최대 2과목까지 전선 인정(학부 개설 과목만)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "asia-main-lang",
+     "type": "other",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "주이수 언어 3과목(교양·전공 합산, 필수이수 교과목 1개 이상) — 타이어·베트남어·말레이-인도네시아어 중 하나(제2외국어 인정 언어로 읽음)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s2"
+     ],
+     "note": "필수이수·인정 교과목 목록은 첨부 xlsx(못 엶). 2015학번~."
+    },
+    {
+     "id": "asia-2ndlang",
+     "type": "other",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "제2외국어 9학점(중급 1과목 포함, 주이수 언어 외). 동남아·인도·서아시아 전공은 자기 지역 언어 교양도 제2외국어로 인정. 복수전공생은 인문대 소속에만 적용, 자유전공학부 출신은 영어 외 1과목 C- 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s2"
+     ]
+    },
+    {
+     "id": "asia-elective-credit",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 인정교과목: 지정 6과목 중 3과목 이내",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3545.001500",
+       "name": "동남아시아의 역사와 해상무역",
+       "credits": 3
+      },
+      {
+       "code": "M3545.001600",
+       "name": "개관 베트남사",
+       "credits": 3
+      },
+      {
+       "code": "M3545.001700",
+       "name": "동남아시아 및 주변의 역사와 기억",
+       "credits": 3
+      },
+      {
+       "code": "206.229A",
+       "name": "동남아문화의 이해",
+       "credits": null
+      },
+      {
+       "code": "216B.427",
+       "name": "동남아의 정치와 외교",
+       "credits": 3
+      },
+      {
+       "code": "111.329",
+       "name": "동남아시아 근대와 제국주의",
+       "credits": null
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "asia-external-cap",
+     "type": "other",
+     "applies_to": [
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "타 대학·타 과(부) 개설 과목 합산 인정 한도: 주전공·복수전공 13학점, 부전공 10학점(2020-1부터)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "이수규정은 부전공 10, 졸업요건 상세본 요약은 11."
+    },
+    {
+     "id": "asia-foreign-taught",
+     "type": "other",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "외국어진행 3과목(교양·전공·일선 무관). SWP 는 인정, 국외수학 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "asia-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 심사 합격(학사학위 졸업논문 집필요령 별도)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s9"
+     ]
+    },
+    {
+     "id": "asia-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전필 2과목 포함 39학점(진입 연도 기준)",
+     "min_count": 2,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "1003.221",
+       "name": "아시아문명론입문",
+       "credits": 3
+      },
+      {
+       "code": "M2641.000300",
+       "name": "아시아연구지도",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "asia-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 21학점, 2019-1 진입부터 전공필수 없음(2018-2 이전 진입자는 아시아문명론입문)",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통(2025학번 교양 36과 인문대 졸업 의무: 제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학 세미나) — college_common 참조",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "extra": {
+      "see": [
+       "college_common.requirements"
+      ]
+     }
+    }
+   ],
+   "note": "2026학번도 같음(학부 규정에 2025·2026 변경 없음, 상세본은 25학번 교양 변화만 적음)."
+  },
+  {
+   "entry_years": [
+    2019,
+    2023
+   ],
+   "basis": "입학 연도(복수전공은 전공 진입 연도: 2023년까지 진입)",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": null,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s20"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s21",
+    "s22"
+   ],
+   "requirements": [
+    {
+     "id": "asia-core",
+     "type": "major_required",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 2과목: 아시아문명론입문, 아시아연구지도(아시아연구지도는 18학번부터 전필)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "1003.221",
+       "name": "아시아문명론입문",
+       "credits": 3
+      },
+      {
+       "code": "M2641.000300",
+       "name": "아시아연구지도",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4",
+      "s5"
+     ]
+    },
+    {
+     "id": "asia-must-pair",
+     "type": "other",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "단일전공 불가: 주전공 39학점과 함께 복수전공 또는 부전공 하나를 반드시 이수(학부 안 다른 세부전공도 가능)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s2",
+      "s7"
+     ]
+    },
+    {
+     "id": "asia-main-lang",
+     "type": "other",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "주이수 언어 3과목(교양·전공 합산, 필수이수 교과목 1개 이상) — 타이어·베트남어·말레이-인도네시아어 중 하나(제2외국어 인정 언어로 읽음)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s2"
+     ],
+     "note": "필수이수·인정 교과목 목록은 첨부 xlsx(못 엶). 2015학번~."
+    },
+    {
+     "id": "asia-2ndlang",
+     "type": "other",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "제2외국어 9학점(중급 1과목 포함, 주이수 언어 외). 동남아·인도·서아시아 전공은 자기 지역 언어 교양도 제2외국어로 인정. 복수전공생은 인문대 소속에만 적용, 자유전공학부 출신은 영어 외 1과목 C- 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s2"
+     ]
+    },
+    {
+     "id": "asia-elective-credit",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 인정교과목: 지정 6과목 중 3과목 이내",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3545.001500",
+       "name": "동남아시아의 역사와 해상무역",
+       "credits": 3
+      },
+      {
+       "code": "M3545.001600",
+       "name": "개관 베트남사",
+       "credits": 3
+      },
+      {
+       "code": "M3545.001700",
+       "name": "동남아시아 및 주변의 역사와 기억",
+       "credits": 3
+      },
+      {
+       "code": "206.229A",
+       "name": "동남아문화의 이해",
+       "credits": null
+      },
+      {
+       "code": "216B.427",
+       "name": "동남아의 정치와 외교",
+       "credits": 3
+      },
+      {
+       "code": "111.329",
+       "name": "동남아시아 근대와 제국주의",
+       "credits": null
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "asia-external-cap",
+     "type": "other",
+     "applies_to": [
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "타 대학·타 과(부) 개설 과목 합산 인정 한도: 주전공·복수전공 13학점, 부전공 10학점(2020-1부터)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "이수규정은 부전공 10, 졸업요건 상세본 요약은 11."
+    },
+    {
+     "id": "asia-foreign-taught",
+     "type": "other",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "외국어진행 3과목(교양·전공·일선 무관). SWP 는 인정, 국외수학 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "asia-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 심사 합격(학사학위 졸업논문 집필요령 별도)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s9"
+     ]
+    },
+    {
+     "id": "asia-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전필 2과목 포함 39학점(진입 연도 기준)",
+     "min_count": 2,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "1003.221",
+       "name": "아시아문명론입문",
+       "credits": 3
+      },
+      {
+       "code": "M2641.000300",
+       "name": "아시아연구지도",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "asia-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 21학점, 2019-1 진입부터 전공필수 없음(2018-2 이전 진입자는 아시아문명론입문)",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통(2025학번 교양 36과 인문대 졸업 의무: 제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학 세미나) — college_common 참조",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "extra": {
+      "see": [
+       "college_common.requirements"
+      ]
+     }
+    }
+   ],
+   "changed": "타 세부전공 과목 1과목 필수 규정 없음(2024학번·2024년 진입부터).",
+   "note": "학번별 기준표(2020-12 작성)는 2019~ 를 한 줄로 묶는다(2018~ 와 다른 것은 부전공 전필 해제)."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도(복수전공은 진입 연도)",
+   "what": "자기 세부전공을 뺀 3개 세부전공 개설 과목 1과목 필수, 최대 2과목까지 전선 인정(학부 개설 과목만)",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "외부 학점(국내외 타 대학·타 과(부) 개설) 인정 한도 주·복수 13, 부전공 10(상세본은 11 — 1차 '충돌' 그대로) — 2020-1 이후 모든 학번",
+   "status": "충돌"
+  },
+  {
+   "basis": "전공 진입 연도",
+   "what": "부전공 전공필수 해제(2018-2 진입까지는 아시아문명론입문 필수) — 범위 안 학생은 모두 해제 쪽",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "부전공 외부 학점 한도 10(이수규정) ↔ 11(상세본)",
+  "주이수 언어 필수이수 교과목 목록(xlsx)",
+  "부전공 외부 학점 한도 10 ↔ 11",
+  "세부전공 결정·변경 시기(진입 심사 6·12월)와 정원"
+ ],
+ "sources": {
+  "s1": {
+   "title": "아시아언어문명학부 동남아시아언어문명전공 이수규정",
+   "url": "https://asia.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B7%9C%EC%A0%95/?mod=document&uid=73",
+   "locator": "본문",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "아시아언어문명학부 졸업요건 상세본(작성 2025-09-01)",
+   "url": "https://asia.snu.ac.kr/%ed%95%99%eb%b6%80%ea%b7%9c%ec%a0%95/?mod=document&uid=319",
+   "locator": "학번별 요건(24·25학번), 복전/부전공 중 하나 필수, 외부 학점",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "25쪽 1003 공통 1003.221*·M2641.000300*",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "26쪽 이수표준형태 '*는 전공필수과목임'",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "수강편람 자료(백엔드 수집) 2025-1",
+   "locator": "두 과목 전필",
+   "accessed": "2026-11-12",
+   "repo": "data/history/2025-1.json"
+  },
+  "s6": {
+   "title": "아시아언어문명학부 졸업요건 안내(작성 2024-12-31)",
+   "url": "https://asia.snu.ac.kr/%ed%95%99%eb%b6%80%ea%b7%9c%ec%a0%95/?mod=document&uid=67",
+   "locator": "취득학점, '단일전공(심화)은 인정되지 않음'",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준, 8쪽",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "아시아언어문명학부 외국어 및 주이수 언어 이수에 대한 내규(2020.09.23 개정)",
+   "url": "https://asia.snu.ac.kr/%ed%95%99%eb%b6%80%ea%b7%9c%ec%a0%95/document/59/?mod=document&uid=70",
+   "locator": "제1조(주이수 언어)·제2조(제2외국어)·제3조",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "아시아언어문명학부 학부규정 및 각종서식(수정 2025-12-06)",
+   "url": "https://asia.snu.ac.kr/%ed%95%99%eb%b6%80%ea%b7%9c%ec%a0%95/",
+   "locator": "규정 목록(첨부 다수)",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 인문대학 표, PDF 4쪽(인쇄 108쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "인문대학 졸업이수 의무사항 안내(관련: 인문대학-2710, 2025.1.25., 게시 2025-02-03)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림(https://humanities.snu.ac.kr/webdata/upimages/7efzf51z874zf93z1c2za09z28cz23ezd11z697zb8.png), '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "아시아언어문명학부 학번별 졸업이수학점표(첨부 「학번별-졸업이수기준표-2024.pdf」, 2020-12-30 작성)",
+   "url": "https://asia.snu.ac.kr/%ed%95%99%eb%b6%80%ea%b7%9c%ec%a0%95/?mod=document&uid=74",
+   "locator": "'2019~' 행",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "아시아언어문명학부 졸업요건 안내",
+   "url": "https://asia.snu.ac.kr/%ed%95%99%eb%b6%80%ea%b7%9c%ec%a0%95/?mod=document&uid=67",
+   "locator": "취득학점·비고(단일전공 불가)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "아시아언어문명학부 일본언어문명전공 이수규정",
+   "url": "https://asia.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B7%9C%EC%A0%95/document/74/?mod=document&uid=74",
+   "locator": "★ '[2024.1학기부터] 2024학번과 그 이후 주전공생, 2024년 혹은 그 이후 진입 복수전공생'",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "아시아언어문명학부 졸업 요건 상세본",
+   "url": "https://asia.snu.ac.kr/%ed%95%99%eb%b6%80%ea%b7%9c%ec%a0%95/?mod=document&uid=319",
+   "locator": "4. 기타 '24학번부터 !! 타 세부전공 전선 필수'",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "아시아언어문명학부 학번별 졸업이수학점표(첨부 「학번별-졸업이수기준표-2024.pdf」, 2020-12-30 작성)",
+   "url": "https://asia.snu.ac.kr/%ed%95%99%eb%b6%80%ea%b7%9c%ec%a0%95/?mod=document&uid=74",
+   "locator": "'2019~' 행: 주·복수 39(필수 6·선택 33, 전필 E1), 부전공 21(필수 0), 졸업논문 O, 주이수언어 O",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "아시아언어문명학부 학번별 졸업이수학점표(첨부 「학번별-졸업이수기준표-2024.pdf」, 2020-12-30 작성)",
+   "url": "https://asia.snu.ac.kr/%ed%95%99%eb%b6%80%ea%b7%9c%ec%a0%95/?mod=document&uid=74",
+   "locator": "'2019~' 행과 주 1) '복수전공, 부전공은 진입년도를 기준으로 함'",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "아시아언어문명학부 일본언어문명전공 이수규정",
+   "url": "https://asia.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B7%9C%EC%A0%95/document/74/?mod=document&uid=74",
+   "locator": "★ 2019학번부터 적용 기준",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

@@ -1,0 +1,783 @@
+{
+ "id": "p-9618364c",
+ "college": "인문대학",
+ "unit": "영어영문학과",
+ "program": "영어영문학과",
+ "kind": "major",
+ "depts": [
+  "영어영문학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "인문대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2026,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s14",
+     "s15",
+     "s16",
+     "s17",
+     "s18",
+     "s1"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s1",
+    "s19",
+    "s20"
+   ],
+   "requirements": [
+    {
+     "id": "eng-formation-26",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "(2026학번~) 문학 전필: 영문학의 형성 3학점(전필 6 = 영문학의 형성 + 어학 1과목)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1236.005200",
+       "name": "영문학의 형성",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "eng-ling",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "어학 1과목 3학점(2026 교과과정의 어학 과목 중 1과목으로 읽음)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1236.004200",
+       "name": "영어 말소리의 이해",
+       "credits": 3
+      },
+      {
+       "code": "103.223",
+       "name": "영어와 사회",
+       "credits": 3
+      },
+      {
+       "code": "103.225",
+       "name": "영어담화분석",
+       "credits": 3
+      },
+      {
+       "code": "103.340",
+       "name": "코퍼스 영어학",
+       "credits": 3
+      },
+      {
+       "code": "103.201A",
+       "name": "고급영문법",
+       "credits": 3
+      },
+      {
+       "code": "M1236.003400",
+       "name": "영어의미의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M1236.003500",
+       "name": "영어문장구조의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M1236.003600",
+       "name": "영어습득의 이해",
+       "credits": 3
+      },
+      {
+       "code": "103.320",
+       "name": "영어발달사",
+       "credits": 3
+      },
+      {
+       "code": "103.420",
+       "name": "영어학특강",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "학과는 2026학번용 어학 인정 목록을 따로 적지 않았다. 2026 교과과정 표에 영어음성학 대신 '영어 말소리의 이해'가 있다(편람 2026-1 에는 M1236.004100 영어음성학도 개설)."
+    },
+    {
+     "id": "eng-tepsw",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "TEPS-Writing 특별시험 응시(진입·복수전공 승인 직후, 6·12월). 71점 미만이면 대학영어 2: 글쓰기 또는 고급영어: 학술작문을 B0 이상으로 이수해야 졸업",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F21.201",
+       "name": "대학영어 2: 글쓰기",
+       "credits": 3
+      },
+      {
+       "code": "F21.307",
+       "name": "고급영어: 학술작문",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "2026-05 공지 제목이 '졸업 필수 요건'. 기준 점수 71은 2021 페이지."
+    },
+    {
+     "id": "eng-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 합격(학기 초 워크숍·중간발표회 참석, 제출은 보통 종강일)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s5"
+     ]
+    },
+    {
+     "id": "eng-foreign-taught",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "외국어진행 3과목 이상, 그중 영문 전공 1과목(3학점) 포함",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s8"
+     ]
+    },
+    {
+     "id": "eng-explore",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공예약생은 입학 후 두 학기 안에 전공탐색과목 2과목 이상(영어학입문 100.109, 영문학입문 M1236.000600, 영문학으로 보는 세상 M1236.006200)",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "100.109",
+       "name": "영어학입문",
+       "credits": 3
+      },
+      {
+       "code": "M1236.000600",
+       "name": "영문학입문",
+       "credits": 3
+      },
+      {
+       "code": "M1236.006200",
+       "name": "영문학으로 보는 세상",
+       "credits": null
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s9"
+     ]
+    },
+    {
+     "id": "eng-elective-credit",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정: 112.206, 112.207, 사범대 영어교육과 전 과목(700.111 영미어문교육의 기초 제외)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s10"
+     ]
+    },
+    {
+     "id": "eng-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 21학점 이상, 평점 2.0 이상 — 그 밖의 이수 요건 없음",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통 교양·졸업 의무 — 학번에 맞는 college_common.ge_by_cohort·other 참조(제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학(2024학번까지)/삶과 인문학 세미나(2025학번~))",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "note": "2차: hum-common-ref 는 학번에 맞는 college_common.ge_by_cohort·college_common.other 를 가리킨다(2019–2024학번은 학문의 기초·학문의 세계 + 삶과 인문학, 2025학번~은 새 교양 + 삶과 인문학 세미나).",
+     "extra": {
+      "see": [
+       "college_common.ge_by_cohort",
+       "college_common.other"
+      ]
+     }
+    }
+   ],
+   "note": "학과 주전공 페이지(2026-09): '2026학번~: 6학점(영문학의 형성, 어학 1과목)'. 복수전공은 주전공과 같은 요건(학과 국문 '복수전공/부전공')."
+  },
+  {
+   "entry_years": [
+    2019,
+    2025
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s14",
+     "s15",
+     "s16",
+     "s17",
+     "s18",
+     "s1"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s1",
+    "s24",
+    "s25",
+    "s26"
+   ],
+   "requirements": [
+    {
+     "id": "eng-ling",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "어학 3학점: 아래 10과목 중 1과목(영어학개론 103.205 대신 인정하는 선택 필수)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "103.201A",
+       "name": "고급영문법",
+       "credits": 3
+      },
+      {
+       "code": "M1236.003500",
+       "name": "영어문장구조의 이해",
+       "credits": 3
+      },
+      {
+       "code": "103.222",
+       "name": "영어음성학",
+       "credits": 3
+      },
+      {
+       "code": "103.223",
+       "name": "영어와 사회",
+       "credits": 3
+      },
+      {
+       "code": "103.225",
+       "name": "영어담화분석",
+       "credits": 3
+      },
+      {
+       "code": "103.320",
+       "name": "영어발달사",
+       "credits": 3
+      },
+      {
+       "code": "M1236.003400",
+       "name": "영어의미의 이해",
+       "credits": 3
+      },
+      {
+       "code": "103.340",
+       "name": "코퍼스 영어학",
+       "credits": 3
+      },
+      {
+       "code": "M1236.003600",
+       "name": "영어습득의 이해",
+       "credits": 3
+      },
+      {
+       "code": "103.420",
+       "name": "영어학특강",
+       "credits": 3
+      },
+      {
+       "code": "M1236.004200",
+       "name": "영어 말소리의 이해",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s21"
+     ],
+     "note": "2019~2025학번 어학 1과목. 2021 학과 페이지 목록에는 옛 이름(영어통사론·영어의미론·응용영어학특강)이 있고 2024 목록은 영어문장구조의 이해·영어의미의 이해·영어습득의 이해로 바뀜(과목 개편). 영어음성학(103.222)은 2024-2 까지, 2026 은 M1236.004100/영어 말소리의 이해."
+    },
+    {
+     "id": "eng-tepsw",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "TEPS-Writing 특별시험 응시(진입·복수전공 승인 직후, 6·12월). 71점 미만이면 대학영어 2: 글쓰기 또는 고급영어: 학술작문을 B0 이상으로 이수해야 졸업",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F21.201",
+       "name": "대학영어 2: 글쓰기",
+       "credits": 3
+      },
+      {
+       "code": "F21.307",
+       "name": "고급영어: 학술작문",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "2026-05 공지 제목이 '졸업 필수 요건'. 기준 점수 71은 2021 페이지."
+    },
+    {
+     "id": "eng-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 합격(학기 초 워크숍·중간발표회 참석, 제출은 보통 종강일)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s5"
+     ]
+    },
+    {
+     "id": "eng-foreign-taught",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "외국어진행 3과목 이상, 그중 영문 전공 1과목(3학점) 포함",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s8"
+     ]
+    },
+    {
+     "id": "eng-explore",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공예약생은 입학 후 두 학기 안에 전공탐색과목 2과목 이상(영어학입문 100.109, 영문학입문 M1236.000600, 영문학으로 보는 세상 M1236.006200)",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "100.109",
+       "name": "영어학입문",
+       "credits": 3
+      },
+      {
+       "code": "M1236.000600",
+       "name": "영문학입문",
+       "credits": 3
+      },
+      {
+       "code": "M1236.006200",
+       "name": "영문학으로 보는 세상",
+       "credits": null
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s9"
+     ]
+    },
+    {
+     "id": "eng-elective-credit",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정: 112.206, 112.207, 사범대 영어교육과 전 과목(700.111 영미어문교육의 기초 제외)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s10"
+     ]
+    },
+    {
+     "id": "eng-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 21학점 이상, 평점 2.0 이상 — 그 밖의 이수 요건 없음",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통 교양·졸업 의무 — 학번에 맞는 college_common.ge_by_cohort·other 참조(제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학(2024학번까지)/삶과 인문학 세미나(2025학번~))",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "note": "2차: hum-common-ref 는 학번에 맞는 college_common.ge_by_cohort·college_common.other 를 가리킨다(2019–2024학번은 학문의 기초·학문의 세계 + 삶과 인문학, 2025학번~은 새 교양 + 삶과 인문학 세미나).",
+     "extra": {
+      "see": [
+       "college_common.ge_by_cohort",
+       "college_common.other"
+      ]
+     }
+    },
+    {
+     "id": "eng-survey-19",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "(2019~2025학번) 문학 전필 개관 2과목 6학점: 영국문학개관 1·영국문학개관 2·미국문학개관 중 2과목(전필 9 = 개관 2 + 어학 1). 2026 개편으로 영국문학개관 1→영문학의 형성, 영국문학개관 2→영국 문학과 현대적 쟁점, 미국문학개관→미국문학 주제탐구",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "M1236.000700",
+       "name": "영국문학개관 1",
+       "credits": 3
+      },
+      {
+       "code": "M1236.000800",
+       "name": "영국문학개관 2",
+       "credits": 3
+      },
+      {
+       "code": "M1236.000900",
+       "name": "미국문학개관",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s22",
+      "s23"
+     ],
+     "note": "옛 과목이 없어진 뒤 새 과목으로 개관 2과목을 채우는 방식은 학과가 '개편(→)'으로만 적었다(대체 인정 세부는 부분)."
+    }
+   ],
+   "changed": "전필 9학점 = 개관 2과목 + 어학 1과목(2026학번은 6학점 = 영문학의 형성 + 어학 1과목). 1차의 '충돌'(2025학번 전필)은 학과 페이지로 풀림: 2025학번은 개관 2과목.",
+   "note": "2019 이전(~2018학번)은 12학점(개관 3 + 어학 1)으로 범위 밖."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2026,
+   "basis": "입학 연도",
+   "what": "전필 9 → 6학점(개관 2과목 → 영문학의 형성)",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "개관 3과목 폐지·대체 과목 신설(영문학의 형성·영국 문학과 현대적 쟁점 2026-1, 미국문학 주제탐구 2026-2). 2026-2 시행 변경: 신설 5·변경 4·폐지 4·개설학기 변경 3.",
+   "status": "부분"
+  }
+ ],
+ "ask_department": [
+  "2019~2025학번이 2026년 이후 새 과목(영문학의 형성 등)으로 개관 2과목을 채울 때의 대응",
+  "2026학번 어학 1과목 인정 목록(영어 말소리의 이해·영어음성학 포함 여부)",
+  "2025학번 전공필수: 개관 2과목+어학 1과목인지, '영문학의 형성'+어학 1과목인지, 이미 들은 개관 과목 처리",
+  "2026 신설 '영어 말소리의 이해'가 어학 선택필수 10과목에 드는지",
+  "부전공 필수과목",
+  "TEPS-Writing 기준 점수(71)가 지금도 같은지"
+ ],
+ "sources": {
+  "s1": {
+   "title": "영어영문학과 주전공(국문, 수정 2026-09-11)",
+   "url": "https://english.snu.ac.kr/undergraduate/english-major/",
+   "locator": "영문과 '전필 학점' ~2018 / 2019~2025 / 2026학번~ 와 2026 개편 문구",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "영어영문학과 전공교과과정(수정 2026-07-07)",
+   "url": "https://english.snu.ac.kr/en/undergraduate/courses/curriculum/",
+   "locator": "'** 문학전공필수과목' 영문학의 형성",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "수강편람 자료(백엔드 수집)",
+   "locator": "M1236.005200 2026-1",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s4": {
+   "title": "영어영문학과 전공교과과정(수정 2026-07-07)",
+   "url": "https://english.snu.ac.kr/en/undergraduate/courses/curriculum/",
+   "locator": "2–4학년 어학 과목(영어 말소리의 이해/영어와 사회 …)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "영어영문학과 English Second Major and Minor(수정 2021-02-27)",
+   "url": "https://english.snu.ac.kr/en/undergraduate/english-second-major-and-minor/",
+   "locator": "복수전공 전필·TEPS-Writing 기준",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "영어영문학과 TEPS-Writing 특별시험 접수 *졸업 필수 요건임(게시 2026-05-28)",
+   "url": "https://english.snu.ac.kr/en/40200/",
+   "locator": "대상: 주전공·복수전공생",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "영어영문학과 English Major(수정 2021-02-27)",
+   "url": "https://english.snu.ac.kr/en/undergraduate/english-major/",
+   "locator": "전공필수(18학번 이전/19학번 이후), 졸업논문, TEPS-Writing, 외국어진행",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "영어영문학과 English Second Major and Minor(수정 2021-02-27)",
+   "url": "https://english.snu.ac.kr/en/undergraduate/english-second-major-and-minor/",
+   "locator": "외국어 진행강의",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "영어영문학과 전공 교과목 목록(수정 2026-07-07)",
+   "url": "https://english.snu.ac.kr/en/undergraduate/courses/course-lists/english-major/",
+   "locator": "과목 번호 목록, 전공예약생 전공탐색 2과목",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "14쪽 전공선택 인정과목",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "영어영문학과 복수전공/부전공(국문, 수정 2021-02-26)",
+   "url": "https://english.snu.ac.kr/undergraduate/english-second-major-and-minor/",
+   "locator": "부전공",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 인문대학 표, PDF 4쪽(인쇄 108쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "인문대학 졸업이수 의무사항 안내(관련: 인문대학-2710, 2025.1.25., 게시 2025-02-03)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림(https://humanities.snu.ac.kr/webdata/upimages/7efzf51z874zf93z1c2za09z28cz23ezd11z697zb8.png), '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "인문대학 졸업이수 의무사항 안내(인문대학-2710, 2025.1.25.)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림 '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "영어영문학과 전공교과과정(수정 2026-07-07)",
+   "url": "https://english.snu.ac.kr/en/undergraduate/courses/curriculum/",
+   "locator": "전체",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "영어영문학과 「(중요!) 2026학년도 2학기 시행 학부전공 교과과정 변경 알림」",
+   "url": "https://english.snu.ac.kr/en/40366/",
+   "locator": "og:description(첨부 못 엶)",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "14쪽 교과목 이수규정 '103.205 영어학개론 대신 다음 10개 과목 중 한 과목을 선택 필수'",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "영어영문학과 English Second Major and Minor(수정 2021-02-27)",
+   "url": "https://english.snu.ac.kr/en/undergraduate/english-second-major-and-minor/",
+   "locator": "'19학번~ : 전공필수 9학점(개관 6학점, 어학 3학점)'",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "수강편람 자료(백엔드 수집)",
+   "locator": "개관 3과목 마지막 개설 2025-1·2025-2, 대체 과목 2026-1·2026-2",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s24": {
+   "title": "영어영문학과 English Second Major and Minor(수정 2021-02-27)",
+   "url": "https://english.snu.ac.kr/en/undergraduate/english-second-major-and-minor/",
+   "locator": "전공필수교과목 및 이수학점",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "103. 영어영문학과 이수표준형태",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "영문 이수표준형태",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

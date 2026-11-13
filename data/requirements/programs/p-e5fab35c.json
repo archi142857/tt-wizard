@@ -1,0 +1,8560 @@
+{
+ "id": "p-e5fab35c",
+ "college": "자연과학대학",
+ "unit": "지구환경과학부",
+ "program": "지구환경과학부",
+ "kind": "major",
+ "depts": [
+  "지구환경과학부"
+ ],
+ "code_prefixes": [],
+ "ge_key": "자연과학대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2026,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 46,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s15",
+     "s16",
+     "s17"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s18",
+    "s19",
+    "s1",
+    "s2",
+    "s3"
+   ],
+   "requirements": [
+    {
+     "id": "sees-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공통교육과정 46학점 이상(2026학년도 입학생부터 적용). 진단평가로 수강의무를 면제받으면 그 학점만큼 줄되 최소 36학점",
+     "min_count": null,
+     "min_credits": 46,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "extra": {
+      "min_credits_if_exempted": 36
+     }
+    },
+    {
+     "id": "sees-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "권장 학기 [1-2] 대학 글쓰기 1, [2-1] 대학 글쓰기 2(권장일 뿐). 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용)."
+    },
+    {
+     "id": "sees-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 '확인 필요'로 보인다."
+    },
+    {
+     "id": "sees-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 짝 (1)·(2)·(3) 중 택 1(연습 과목은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "학부(과)별 추가 규정이 있으면 아래 학과 교양 요건이 우선. 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용).",
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "sees-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "통계학(또는 생명과학을 위한 통계학), 물리학 1·2(또는 고급물리학 1·2 또는 물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학 1·2, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험교과목 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      },
+      {
+       "code": "F33.113",
+       "name": "천문학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.113L",
+       "name": "천문학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.114",
+       "name": "천문학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.114L",
+       "name": "천문학실험 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께(고급물리학 1·2는 물리학실험 1·2, 고급화학은 화학실험). 고교 물리 2 를 안 들은 학생은 물리학 1·2 대신 물리의 기본 1·2 가능(물리학실험 1·2 함께). 생명과학을 위한 통계학(실험)과 통계학(실험)은 겹쳐 이수할 수 없다. 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용). 2026학번부터 천문학이 천문학 1·2(F33.113·F33.114, 실험 F33.113L·F33.114L)로 바뀌었다. 진단평가 면제 학점은 이 16학점 기준에서 뺀다."
+    },
+    {
+     "id": "sees-ge-msc-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 토대 '수학·과학·컴퓨팅' 영역 24학점(진단평가 면제자는 면제 학점을 빼되 최소 8학점)",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s5"
+     ],
+     "note": "표의 영역 학점은 24다. 미적분학 짝(8)+과학 16 = 24 이지만 수학·고급수학 짝(6)이면 22 가 되어, 나머지 2학점을 이 영역에서 더 채워야 하는지는 표만으로는 분명하지 않다(교양 합 46 은 4+6+24+9+3).",
+     "extra": {
+      "min_credits_if_exempted": 8
+     }
+    },
+    {
+     "id": "sees-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상 3, 역사적 탐구와 철학적 사유 3, 인간의 이해와 사회 분석 3 (과학적 사고와 응용은 학점 칸이 비어 있음)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "과목→영역 대응은 우리 편람 자료(fields 에 영역 칸 없음)로는 못 한다. 영역 자료가 따로 필요하다.",
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "min_credits": 3
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "min_credits": 3
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "min_credits": 3
+       }
+      ]
+     }
+    },
+    {
+     "id": "sees-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·실천 중 1과목 필수)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "sees-ge-earth",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 지정 교양: 대기과학, 지구시스템과학, 해양학 중 2과목 이상(해당 학기에 실험 함께)",
+     "min_count": 2,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "대기과학",
+        "codes": [
+         "F36.101",
+         "F36.101L"
+        ]
+       },
+       {
+        "name": "지구시스템과학",
+        "codes": [
+         "F36.103",
+         "F36.103L"
+        ]
+       },
+       {
+        "name": "해양학",
+        "codes": [
+         "F36.105",
+         "F36.105L"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "sees-thesis",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지구환경과학논문연구 반드시 이수(2024학년도 신입생부터)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1411.002600",
+       "name": "지구환경과학논문연구",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s8"
+     ],
+     "note": "복수전공생에게도 필요한지는 자료에 없음."
+    },
+    {
+     "id": "sees-five",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공과목 이수표준형태에 열거된 교과목 중 5과목 반드시 이수",
+     "min_count": 5,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      },
+      {
+       "code": "3345.301",
+       "name": "대기역학 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.302",
+       "name": "대기역학 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.306",
+       "name": "대기분석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.308",
+       "name": "화석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.309",
+       "name": "구조지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.310",
+       "name": "지구물리",
+       "credits": 3
+      },
+      {
+       "code": "3345.311",
+       "name": "환경지구학",
+       "credits": 3
+      },
+      {
+       "code": "3345.312",
+       "name": "지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.313",
+       "name": "물리해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.314",
+       "name": "조석과 파랑",
+       "credits": 3
+      },
+      {
+       "code": "3345.315",
+       "name": "생물해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.316",
+       "name": "화학해양학개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.317",
+       "name": "퇴적학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.401",
+       "name": "예보학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.406",
+       "name": "암석학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.408",
+       "name": "지진·지구동력학",
+       "credits": 3
+      },
+      {
+       "code": "3345.409A",
+       "name": "자원지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.410",
+       "name": "수리지구환경 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.413A",
+       "name": "연안해양역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.414A",
+       "name": "미생물 해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.416A",
+       "name": "해양유기화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.417A",
+       "name": "지질해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.423",
+       "name": "해양선상실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.424",
+       "name": "야외지질실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.426A",
+       "name": "위성기상기후학",
+       "credits": 3
+      },
+      {
+       "code": "3345.427",
+       "name": "인공위성지구물리 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.428",
+       "name": "지질도학 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000100",
+       "name": "표영환경생태학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000400",
+       "name": "해양오염 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001000",
+       "name": "대기화학개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001200",
+       "name": "지구생물학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001800",
+       "name": "퇴적지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002100",
+       "name": "미기상학 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002200",
+       "name": "행성지질학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002500",
+       "name": "대기관측 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002600",
+       "name": "지구환경과학논문연구",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002700",
+       "name": "지구환경과학연구실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.003200",
+       "name": "지구환경과학현장답사",
+       "credits": 3
+      },
+      {
+       "code": "M1411.003300",
+       "name": "지구환경 데이터과학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.003400",
+       "name": "기후역학 개론",
+       "credits": 3
+      },
+      {
+       "code": "M1411.003500",
+       "name": "대기환경 개론",
+       "credits": 3
+      },
+      {
+       "code": "M1411.003600",
+       "name": "기상기후모델링 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.003700",
+       "name": "해양암석지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.004800",
+       "name": "광물학: 지구행성물질과학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.004900",
+       "name": "지구환경과학 기초수학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.005400",
+       "name": "대기복사에너지",
+       "credits": 3
+      },
+      {
+       "code": "M1411.006000",
+       "name": "대기물리",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002300",
+       "name": "해양천연물 신약 개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2173.005600",
+       "name": "지구 행성 시스템 진화",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s9",
+      "s10"
+     ],
+     "note": "'표준형태 과목 중 5과목' 문장은 2022·2024 전공별 교과목 목록에만 있고 학부 페이지·2026 표준형태에는 없다. 목록은 2026 표준형태(1학년 현장답사·2학년 지구환경과학 기초수학 등 새 과목 포함)."
+    },
+    {
+     "id": "sees-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 인정: 자연대 전공탐색과목 8과목(바다의 탐구·기초유체역학·환경해양학 및 실험·지구시스템진화·판구조론 및 실험·기후학개론·대기열역학·지구과학계산과프로그래밍)은 전선 인정, 자연계 교과목 15학점 범위 안에서 인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.235",
+       "name": "지구시스템진화",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s11"
+     ],
+     "note": "2025 학부 페이지에는 인정 규정 문장이 없다(2024 목록 기준)."
+    },
+    {
+     "id": "sees-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공선택과목 중 39학점 이상",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "sees-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 전공과목 이수표준형태에 제시된 전공과목 중 21학점",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      },
+      {
+       "code": "3345.301",
+       "name": "대기역학 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.302",
+       "name": "대기역학 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.306",
+       "name": "대기분석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.308",
+       "name": "화석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.309",
+       "name": "구조지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.310",
+       "name": "지구물리",
+       "credits": 3
+      },
+      {
+       "code": "3345.311",
+       "name": "환경지구학",
+       "credits": 3
+      },
+      {
+       "code": "3345.312",
+       "name": "지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.313",
+       "name": "물리해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.314",
+       "name": "조석과 파랑",
+       "credits": 3
+      },
+      {
+       "code": "3345.315",
+       "name": "생물해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.316",
+       "name": "화학해양학개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.317",
+       "name": "퇴적학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.401",
+       "name": "예보학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.406",
+       "name": "암석학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.408",
+       "name": "지진·지구동력학",
+       "credits": 3
+      },
+      {
+       "code": "3345.409A",
+       "name": "자원지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.410",
+       "name": "수리지구환경 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.413A",
+       "name": "연안해양역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.414A",
+       "name": "미생물 해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.416A",
+       "name": "해양유기화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.417A",
+       "name": "지질해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.423",
+       "name": "해양선상실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.424",
+       "name": "야외지질실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.426A",
+       "name": "위성기상기후학",
+       "credits": 3
+      },
+      {
+       "code": "3345.427",
+       "name": "인공위성지구물리 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.428",
+       "name": "지질도학 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000100",
+       "name": "표영환경생태학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000400",
+       "name": "해양오염 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001000",
+       "name": "대기화학개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001200",
+       "name": "지구생물학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001800",
+       "name": "퇴적지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002100",
+       "name": "미기상학 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002200",
+       "name": "행성지질학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002500",
+       "name": "대기관측 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002600",
+       "name": "지구환경과학논문연구",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002700",
+       "name": "지구환경과학연구실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.003200",
+       "name": "지구환경과학현장답사",
+       "credits": 3
+      },
+      {
+       "code": "M1411.003300",
+       "name": "지구환경 데이터과학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.003400",
+       "name": "기후역학 개론",
+       "credits": 3
+      },
+      {
+       "code": "M1411.003500",
+       "name": "대기환경 개론",
+       "credits": 3
+      },
+      {
+       "code": "M1411.003600",
+       "name": "기상기후모델링 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.003700",
+       "name": "해양암석지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.004800",
+       "name": "광물학: 지구행성물질과학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.004900",
+       "name": "지구환경과학 기초수학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.005400",
+       "name": "대기복사에너지",
+       "credits": 3
+      },
+      {
+       "code": "M1411.006000",
+       "name": "대기물리",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002300",
+       "name": "해양천연물 신약 개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2173.005600",
+       "name": "지구 행성 시스템 진화",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s9",
+      "s14"
+     ]
+    },
+    {
+     "id": "sees-ge-exempt",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "2026학년도 입학생부터: 「자연과학대학 기초수학과학 학습역량 진단 평가」에서 과목별 기준 성적 이상이면 학문의 토대 수학·과학·컴퓨팅 교과목 수강의무 면제 — 수학(유형 1: 화학부·생명과학부·지구환경과학부 신입생) 수학 1/2(고급수학 1/2), 수학(유형 2: 수리과학부·통계학과·물리·천문학부 신입생) 미적분학 1/2, 물리 → 물리학 1·2, 화학 → 화학 1·2, 생물 → 생물학 1(연습·실험 과목도 함께 면제). 면제 학점은 기준학점에서 빼되 수학·과학·컴퓨팅 최소 8, 공통교육과정 전체 최소 36. 면제받은 과목은 수강할 수 없다. 다른 영역 학점은 그대로",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "이 학과는 수학 유형 1 대상. 앱은 진단평가 결과를 모르므로 면제 여부는 '확인 필요'로 보여야 한다(면제된 과목은 성적표에 학점 없이 남지 않는다)."
+    }
+   ],
+   "note": "표준형태가 개편됐다(지구환경과학 기초수학·지구환경 데이터과학·대기환경 개론·대기복사에너지·광물학·대기물리·기후역학 개론 등). 논문연구 필수 유지."
+  },
+  {
+   "entry_years": [
+    2025,
+    2025
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 46,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s26",
+     "s27"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s28"
+   ],
+   "requirements": [
+    {
+     "id": "sees-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 46학점 이상(2025학년도 입학생부터 적용)",
+     "min_count": null,
+     "min_credits": 46,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s7"
+     ]
+    },
+    {
+     "id": "sees-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "권장 학기 [1-2] 대학 글쓰기 1, [2-1] 대학 글쓰기 2(권장일 뿐). 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용)."
+    },
+    {
+     "id": "sees-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 '확인 필요'로 보인다."
+    },
+    {
+     "id": "sees-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 짝 (1)·(2)·(3) 중 택 1(연습 과목은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "학부(과)별 추가 규정이 있으면 아래 학과 교양 요건이 우선. 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용).",
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "sees-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "통계학(또는 생명과학을 위한 통계학), 물리학 1·2(또는 고급물리학 1·2 또는 물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험교과목 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F33.111",
+       "name": "천문학",
+       "credits": 3,
+       "alt_codes": [
+        "034.014"
+       ]
+      },
+      {
+       "code": "F33.111L",
+       "name": "천문학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.015"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께(고급물리학 1·2는 물리학실험 1·2, 고급화학은 화학실험). 고교 물리 2 를 안 들은 학생은 물리학 1·2 대신 물리의 기본 1·2 가능(물리학실험 1·2 함께). 생명과학을 위한 통계학(실험)과 통계학(실험)은 겹쳐 이수할 수 없다. 교양 과목 번호는 편람 2025-1부터 새 번호(F3x.xxx, 실험·연습은 끝에 L)로 바뀌었다. alt_codes 는 2024-2까지 쓰던 옛 번호다(재수강·이전 학기 이수 대조용)."
+    },
+    {
+     "id": "sees-ge-msc-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 토대 '수학·과학·컴퓨팅' 영역 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "표의 영역 학점은 24다. 미적분학 짝(8)+과학 16 = 24 이지만 수학·고급수학 짝(6)이면 22 가 되어, 나머지 2학점을 이 영역에서 더 채워야 하는지는 표만으로는 분명하지 않다(교양 합 46 은 4+6+24+9+3)."
+    },
+    {
+     "id": "sees-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상 3, 역사적 탐구와 철학적 사유 3, 인간의 이해와 사회 분석 3 (과학적 사고와 응용은 학점 칸이 비어 있음)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ],
+     "note": "과목→영역 대응은 우리 편람 자료(fields 에 영역 칸 없음)로는 못 한다. 영역 자료가 따로 필요하다.",
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "min_credits": 3
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "min_credits": 3
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "min_credits": 3
+       }
+      ]
+     }
+    },
+    {
+     "id": "sees-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·실천 중 1과목 필수)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "sees-ge-earth",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 지정 교양: 대기과학, 지구시스템과학, 해양학 중 2과목 이상(해당 학기에 실험 함께)",
+     "min_count": 2,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "대기과학",
+        "codes": [
+         "F36.101",
+         "F36.101L"
+        ]
+       },
+       {
+        "name": "지구시스템과학",
+        "codes": [
+         "F36.103",
+         "F36.103L"
+        ]
+       },
+       {
+        "name": "해양학",
+        "codes": [
+         "F36.105",
+         "F36.105L"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "sees-thesis",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지구환경과학논문연구 반드시 이수(2024학년도 신입생부터)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1411.002600",
+       "name": "지구환경과학논문연구",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s24",
+      "s25"
+     ],
+     "note": "복수전공생에게도 필요한지는 자료에 없음."
+    },
+    {
+     "id": "sees-five",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공과목 이수표준형태에 열거된 교과목 중 5과목 반드시 이수",
+     "min_count": 5,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1411.003200",
+       "name": "지구환경과학현장답사",
+       "credits": 3
+      },
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.235",
+       "name": "지구시스템진화",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.301",
+       "name": "대기역학 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.303",
+       "name": "대기물리 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.307",
+       "name": "광물과 암석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.309",
+       "name": "구조지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.310",
+       "name": "지구물리",
+       "credits": 3
+      },
+      {
+       "code": "3345.311",
+       "name": "환경지구학",
+       "credits": 3
+      },
+      {
+       "code": "3345.313",
+       "name": "물리해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.315",
+       "name": "생물해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.316",
+       "name": "화학해양학개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.317",
+       "name": "퇴적학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.428",
+       "name": "지질도학 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002500",
+       "name": "대기관측 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.302",
+       "name": "대기역학 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.304",
+       "name": "대기물리 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.306",
+       "name": "대기분석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.308",
+       "name": "화석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.312",
+       "name": "지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.314",
+       "name": "조석과 파랑",
+       "credits": 3
+      },
+      {
+       "code": "3345.416A",
+       "name": "해양유기화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.417A",
+       "name": "지질해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000100",
+       "name": "표영환경생태학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002100",
+       "name": "미기상학 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.003100",
+       "name": "지구환경과학연구실습",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      },
+      {
+       "code": "3345.401",
+       "name": "예보학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.403",
+       "name": "기후역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.406",
+       "name": "암석학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.408",
+       "name": "지진·지구동력학",
+       "credits": 3
+      },
+      {
+       "code": "3345.410",
+       "name": "수리지구환경 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.423",
+       "name": "해양선상실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.424",
+       "name": "야외지질실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.427",
+       "name": "인공위성지구물리 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001000",
+       "name": "대기화학개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001800",
+       "name": "퇴적지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002300",
+       "name": "해양천연물 신약 개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002600",
+       "name": "지구환경과학논문연구",
+       "credits": 3
+      },
+      {
+       "code": "3345.405",
+       "name": "중층대기",
+       "credits": 3
+      },
+      {
+       "code": "3345.409A",
+       "name": "자원지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.413A",
+       "name": "연안해양역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.414A",
+       "name": "미생물 해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.426A",
+       "name": "위성기상기후학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000400",
+       "name": "해양오염 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000600",
+       "name": "심해저 지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001200",
+       "name": "지구생물학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001400",
+       "name": "대기수치모델링 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002200",
+       "name": "행성지질학",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s20",
+      "s21"
+     ],
+     "note": "문장은 2024 전공별 교과목 목록에만 있다. 2025 학부 자료엔 표만 있어 2025학번 적용·뜻(어느 5과목) 미확정. 목록은 2025 표준형태 54과목(모두 3학점, 편람 확인)."
+    },
+    {
+     "id": "sees-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 인정: 자연대 전공탐색과목 8과목(바다의 탐구·기초유체역학·환경해양학 및 실험·지구시스템진화·판구조론 및 실험·기후학개론·대기열역학·지구과학계산과프로그래밍)은 전선 인정, 자연계 교과목 15학점 범위 안에서 인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.235",
+       "name": "지구시스템진화",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s11"
+     ],
+     "note": "2025 학부 페이지에는 인정 규정 문장이 없다(2024 목록 기준)."
+    },
+    {
+     "id": "sees-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공선택과목 중 39학점 이상",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "sees-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 전공과목 이수표준형태에 제시된 전공과목 중 21학점",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "M1411.003200",
+       "name": "지구환경과학현장답사",
+       "credits": 3
+      },
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.235",
+       "name": "지구시스템진화",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.301",
+       "name": "대기역학 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.303",
+       "name": "대기물리 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.307",
+       "name": "광물과 암석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.309",
+       "name": "구조지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.310",
+       "name": "지구물리",
+       "credits": 3
+      },
+      {
+       "code": "3345.311",
+       "name": "환경지구학",
+       "credits": 3
+      },
+      {
+       "code": "3345.313",
+       "name": "물리해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.315",
+       "name": "생물해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.316",
+       "name": "화학해양학개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.317",
+       "name": "퇴적학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.428",
+       "name": "지질도학 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002500",
+       "name": "대기관측 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.302",
+       "name": "대기역학 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.304",
+       "name": "대기물리 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.306",
+       "name": "대기분석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.308",
+       "name": "화석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.312",
+       "name": "지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.314",
+       "name": "조석과 파랑",
+       "credits": 3
+      },
+      {
+       "code": "3345.416A",
+       "name": "해양유기화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.417A",
+       "name": "지질해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000100",
+       "name": "표영환경생태학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002100",
+       "name": "미기상학 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.003100",
+       "name": "지구환경과학연구실습",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      },
+      {
+       "code": "3345.401",
+       "name": "예보학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.403",
+       "name": "기후역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.406",
+       "name": "암석학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.408",
+       "name": "지진·지구동력학",
+       "credits": 3
+      },
+      {
+       "code": "3345.410",
+       "name": "수리지구환경 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.423",
+       "name": "해양선상실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.424",
+       "name": "야외지질실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.427",
+       "name": "인공위성지구물리 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001000",
+       "name": "대기화학개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001800",
+       "name": "퇴적지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002300",
+       "name": "해양천연물 신약 개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002600",
+       "name": "지구환경과학논문연구",
+       "credits": 3
+      },
+      {
+       "code": "3345.405",
+       "name": "중층대기",
+       "credits": 3
+      },
+      {
+       "code": "3345.409A",
+       "name": "자원지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.413A",
+       "name": "연안해양역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.414A",
+       "name": "미생물 해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.426A",
+       "name": "위성기상기후학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000400",
+       "name": "해양오염 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000600",
+       "name": "심해저 지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001200",
+       "name": "지구생물학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001400",
+       "name": "대기수치모델링 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002200",
+       "name": "행성지질학",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s22",
+      "s23"
+     ]
+    }
+   ],
+   "changed": "2025 표준형태(= 2024 표준형태와 같음) 목록, 교양 진단평가 없음.",
+   "note": "1차 요건 그대로."
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 46,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s26",
+     "s39"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s40",
+    "s29",
+    "s30",
+    "s34",
+    "s35"
+   ],
+   "requirements": [
+    {
+     "id": "sees-ge-earth",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 지정 교양: 대기과학, 지구시스템과학, 해양학 중 2과목 이상(해당 학기에 실험 함께)",
+     "min_count": 2,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.038",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "F36.101"
+       ]
+      },
+      {
+       "code": "034.039",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F36.101L"
+       ]
+      },
+      {
+       "code": "034.040",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "F36.103"
+       ]
+      },
+      {
+       "code": "034.041",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F36.103L"
+       ]
+      },
+      {
+       "code": "034.042",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "F36.105"
+       ]
+      },
+      {
+       "code": "034.043",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F36.105L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "대기과학",
+        "codes": [
+         "F36.101",
+         "F36.101L"
+        ]
+       },
+       {
+        "name": "지구시스템과학",
+        "codes": [
+         "F36.103",
+         "F36.103L"
+        ]
+       },
+       {
+        "name": "해양학",
+        "codes": [
+         "F36.105",
+         "F36.105L"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "sees-thesis",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지구환경과학논문연구 반드시 이수(2024학년도 신입생부터)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1411.002600",
+       "name": "지구환경과학논문연구",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s24",
+      "s25"
+     ],
+     "note": "복수전공생에게도 필요한지는 자료에 없음."
+    },
+    {
+     "id": "sees-five",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공과목 이수표준형태에 열거된 교과목 중 5과목 반드시 이수",
+     "min_count": 5,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1411.003200",
+       "name": "지구환경과학현장답사",
+       "credits": 3
+      },
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.235",
+       "name": "지구시스템진화",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.301",
+       "name": "대기역학 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.303",
+       "name": "대기물리 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.307",
+       "name": "광물과 암석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.309",
+       "name": "구조지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.310",
+       "name": "지구물리",
+       "credits": 3
+      },
+      {
+       "code": "3345.311",
+       "name": "환경지구학",
+       "credits": 3
+      },
+      {
+       "code": "3345.313",
+       "name": "물리해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.315",
+       "name": "생물해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.316",
+       "name": "화학해양학개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.317",
+       "name": "퇴적학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.428",
+       "name": "지질도학 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002500",
+       "name": "대기관측 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.302",
+       "name": "대기역학 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.304",
+       "name": "대기물리 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.306",
+       "name": "대기분석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.308",
+       "name": "화석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.312",
+       "name": "지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.314",
+       "name": "조석과 파랑",
+       "credits": 3
+      },
+      {
+       "code": "3345.416A",
+       "name": "해양유기화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.417A",
+       "name": "지질해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000100",
+       "name": "표영환경생태학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002100",
+       "name": "미기상학 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.003100",
+       "name": "지구환경과학연구실습",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      },
+      {
+       "code": "3345.401",
+       "name": "예보학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.403",
+       "name": "기후역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.406",
+       "name": "암석학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.408",
+       "name": "지진·지구동력학",
+       "credits": 3
+      },
+      {
+       "code": "3345.410",
+       "name": "수리지구환경 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.423",
+       "name": "해양선상실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.424",
+       "name": "야외지질실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.427",
+       "name": "인공위성지구물리 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001000",
+       "name": "대기화학개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001800",
+       "name": "퇴적지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002300",
+       "name": "해양천연물 신약 개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002600",
+       "name": "지구환경과학논문연구",
+       "credits": 3
+      },
+      {
+       "code": "3345.405",
+       "name": "중층대기",
+       "credits": 3
+      },
+      {
+       "code": "3345.409A",
+       "name": "자원지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.413A",
+       "name": "연안해양역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.414A",
+       "name": "미생물 해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.426A",
+       "name": "위성기상기후학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000400",
+       "name": "해양오염 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000600",
+       "name": "심해저 지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001200",
+       "name": "지구생물학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001400",
+       "name": "대기수치모델링 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002200",
+       "name": "행성지질학",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s20",
+      "s21"
+     ],
+     "note": "문장은 2024 전공별 교과목 목록에만 있다. 2025 학부 자료엔 표만 있어 2025학번 적용·뜻(어느 5과목) 미확정. 목록은 2025 표준형태 54과목(모두 3학점, 편람 확인)."
+    },
+    {
+     "id": "sees-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 인정: 자연대 전공탐색과목 8과목(바다의 탐구·기초유체역학·환경해양학 및 실험·지구시스템진화·판구조론 및 실험·기후학개론·대기열역학·지구과학계산과프로그래밍)은 전선 인정, 자연계 교과목 15학점 범위 안에서 인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.235",
+       "name": "지구시스템진화",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s32",
+      "s33"
+     ],
+     "note": "2025 학부 페이지에는 인정 규정 문장이 없다(2024 목록 기준)."
+    },
+    {
+     "id": "sees-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공선택과목 중 39학점 이상",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "sees-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 전공과목 이수표준형태에 제시된 전공과목 중 21학점",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "M1411.003200",
+       "name": "지구환경과학현장답사",
+       "credits": 3
+      },
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.235",
+       "name": "지구시스템진화",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.301",
+       "name": "대기역학 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.303",
+       "name": "대기물리 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.307",
+       "name": "광물과 암석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.309",
+       "name": "구조지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.310",
+       "name": "지구물리",
+       "credits": 3
+      },
+      {
+       "code": "3345.311",
+       "name": "환경지구학",
+       "credits": 3
+      },
+      {
+       "code": "3345.313",
+       "name": "물리해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.315",
+       "name": "생물해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.316",
+       "name": "화학해양학개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.317",
+       "name": "퇴적학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.428",
+       "name": "지질도학 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002500",
+       "name": "대기관측 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.302",
+       "name": "대기역학 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.304",
+       "name": "대기물리 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.306",
+       "name": "대기분석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.308",
+       "name": "화석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.312",
+       "name": "지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.314",
+       "name": "조석과 파랑",
+       "credits": 3
+      },
+      {
+       "code": "3345.416A",
+       "name": "해양유기화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.417A",
+       "name": "지질해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000100",
+       "name": "표영환경생태학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002100",
+       "name": "미기상학 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.003100",
+       "name": "지구환경과학연구실습",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      },
+      {
+       "code": "3345.401",
+       "name": "예보학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.403",
+       "name": "기후역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.406",
+       "name": "암석학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.408",
+       "name": "지진·지구동력학",
+       "credits": 3
+      },
+      {
+       "code": "3345.410",
+       "name": "수리지구환경 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.423",
+       "name": "해양선상실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.424",
+       "name": "야외지질실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.427",
+       "name": "인공위성지구물리 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001000",
+       "name": "대기화학개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001800",
+       "name": "퇴적지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002300",
+       "name": "해양천연물 신약 개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002600",
+       "name": "지구환경과학논문연구",
+       "credits": 3
+      },
+      {
+       "code": "3345.405",
+       "name": "중층대기",
+       "credits": 3
+      },
+      {
+       "code": "3345.409A",
+       "name": "자원지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.413A",
+       "name": "연안해양역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.414A",
+       "name": "미생물 해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.426A",
+       "name": "위성기상기후학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000400",
+       "name": "해양오염 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000600",
+       "name": "심해저 지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001200",
+       "name": "지구생물학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001400",
+       "name": "대기수치모델링 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002200",
+       "name": "행성지질학",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s22",
+      "s23"
+     ]
+    },
+    {
+     "id": "sees-ge-old-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 46학점 이상(학문의 기초·학문의 세계 체계)",
+     "min_count": null,
+     "min_credits": 46,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35"
+     ]
+    },
+    {
+     "id": "sees-ge-old-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 사고와 표현 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "2019학번부터 이 두 과목 체계다(2018학번은 글쓰기의 기초 또는 과학과 기술 글쓰기 3학점, 해설 2018 p.15). 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "sees-ge-old-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 확인 필요."
+    },
+    {
+     "id": "sees-ge-old-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론: 수학 1·2+연습(6), 고급수학 1·2+연습(6), 미적분학 1·2+연습(8) 중 택 1(연습은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "sees-ge-old-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험: 통계학, 물리학 1·2(또는 고급물리학 1·2·물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F33.111",
+       "name": "천문학",
+       "credits": 3,
+       "alt_codes": [
+        "034.014"
+       ]
+      },
+      {
+       "code": "F33.111L",
+       "name": "천문학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.015"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께. 통계학·통계학실험은 과학적 사고와 실험으로 인정(2022 표부터 명시). 생명과학을 위한 통계학(실험)은 2022-2 개설, 2023 표부터 통계학 대신 인정(이전 입학생도 인정), 통계학(실험)과 겹쳐 이수 불가. 교양 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "sees-ge-old-qs-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초(수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용) 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "표의 묶음 학점이 24다. 수학·고급수학 짝(6)+과학 16 = 22 라 나머지 2학점을 이 묶음에서 더 채워야 하는지는 표만으로 분명하지 않다(2025 체계의 수학·과학·컴퓨팅 24 와 같은 문제)."
+    },
+    {
+     "id": "sees-ge-old-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 4개 영역 이상에서 12학점 이상, '언어와 문학·문화와 예술·역사와 철학' 영역 권장과목(*) 중 1과목 필수",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37",
+      "s38"
+     ],
+     "note": "자연과 기술·생명과 환경 영역은 5개 영역에 들지 않는다(물리학전공·생명과학부 페이지가 5개 영역 이름을 적음). 과목→영역 자료와 권장과목(*) 표시는 편람 자료에 없어 앱은 '확인 필요'. 2025-1 이후 새 공통교육과정 과목을 옛 학번이 들었을 때의 영역 인정 기준은 공개 자료에서 확인하지 못했다(수리과학부 '공통교육과정 영역 및 교과목 비교표' 글 접근 실패).",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "min_count": null
+       },
+       {
+        "name": "문화와 예술",
+        "min_count": null
+       },
+       {
+        "name": "역사와 철학",
+        "min_count": null
+       },
+       {
+        "name": "정치와 경제",
+        "min_count": null
+       },
+       {
+        "name": "인간과 사회",
+        "min_count": null
+       }
+      ],
+      "min_areas": 4
+     }
+    }
+   ],
+   "changed": "전공은 2025학번과 같다(논문연구 필수, 표준형태 같음). 교양 옛 체계(지구환경 지정 2과목 포함)."
+  },
+  {
+   "entry_years": [
+    2022,
+    2023
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 46,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s26",
+     "s45"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s41",
+    "s42",
+    "s46",
+    "s29",
+    "s30",
+    "s34",
+    "s35"
+   ],
+   "requirements": [
+    {
+     "id": "sees-ge-earth",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학과 지정 교양: 대기과학, 지구시스템과학, 해양학 중 2과목 이상(해당 학기에 실험 함께)",
+     "min_count": 2,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.038",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "F36.101"
+       ]
+      },
+      {
+       "code": "034.039",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F36.101L"
+       ]
+      },
+      {
+       "code": "034.040",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "F36.103"
+       ]
+      },
+      {
+       "code": "034.041",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F36.103L"
+       ]
+      },
+      {
+       "code": "034.042",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "F36.105"
+       ]
+      },
+      {
+       "code": "034.043",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "F36.105L"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s31"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "대기과학",
+        "codes": [
+         "F36.101",
+         "F36.101L"
+        ]
+       },
+       {
+        "name": "지구시스템과학",
+        "codes": [
+         "F36.103",
+         "F36.103L"
+        ]
+       },
+       {
+        "name": "해양학",
+        "codes": [
+         "F36.105",
+         "F36.105L"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "sees-five",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공과목 이수표준형태에 열거된 교과목 중 5과목 반드시 이수",
+     "min_count": 5,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "300.235",
+       "name": "지구시스템진화",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      },
+      {
+       "code": "3345.301",
+       "name": "대기역학 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.302",
+       "name": "대기역학 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.303",
+       "name": "대기물리 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.304",
+       "name": "대기물리 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.306",
+       "name": "대기분석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.307",
+       "name": "광물과 암석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.308",
+       "name": "화석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.309",
+       "name": "구조지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.310",
+       "name": "지구물리",
+       "credits": 3
+      },
+      {
+       "code": "3345.311",
+       "name": "환경지구학",
+       "credits": 3
+      },
+      {
+       "code": "3345.312",
+       "name": "지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.313",
+       "name": "물리해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.314",
+       "name": "조석과 파랑",
+       "credits": 3
+      },
+      {
+       "code": "3345.315",
+       "name": "생물해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.316",
+       "name": "화학해양학개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.317",
+       "name": "퇴적학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.324",
+       "name": "대기탐사 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.401",
+       "name": "예보학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.403",
+       "name": "기후역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.405",
+       "name": "중층대기",
+       "credits": 3
+      },
+      {
+       "code": "3345.406",
+       "name": "암석학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.408",
+       "name": "지진·지구동력학",
+       "credits": 3
+      },
+      {
+       "code": "3345.409A",
+       "name": "자원지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.410",
+       "name": "수리지구환경 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.413A",
+       "name": "연안해양역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.414A",
+       "name": "미생물 해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.416A",
+       "name": "해양유기화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.417A",
+       "name": "지질해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.423",
+       "name": "해양선상실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.424",
+       "name": "야외지질실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.426A",
+       "name": "위성기상기후학",
+       "credits": 3
+      },
+      {
+       "code": "3345.427",
+       "name": "인공위성지구물리 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.428",
+       "name": "지질도학 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000100",
+       "name": "표영환경생태학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000400",
+       "name": "해양오염 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000600",
+       "name": "심해저 지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001000",
+       "name": "대기화학개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001200",
+       "name": "지구생물학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001400",
+       "name": "대기수치모델링 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001800",
+       "name": "퇴적지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002100",
+       "name": "미기상학 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002200",
+       "name": "행성지질학",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002300",
+       "name": "해양천연물 신약 개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s41",
+      "s42",
+      "s43"
+     ],
+     "note": "2022 전공별 교과목 목록에 '전공과목 이수표준형태에 열거된 교과목 중 5과목을 반드시 이수' 문장이 있다. 목록은 2022·2023 표준형태 합집합(지구환경과학논문연구·현장답사 없음)."
+    },
+    {
+     "id": "sees-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 인정: 자연대 전공탐색과목 8과목(바다의 탐구·기초유체역학·환경해양학 및 실험·지구시스템진화·판구조론 및 실험·기후학개론·대기열역학·지구과학계산과프로그래밍)은 전선 인정, 자연계 교과목 15학점 범위 안에서 인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.235",
+       "name": "지구시스템진화",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s32",
+      "s33"
+     ],
+     "note": "2025 학부 페이지에는 인정 규정 문장이 없다(2024 목록 기준)."
+    },
+    {
+     "id": "sees-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공선택과목 중 39학점 이상",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "sees-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 전공과목 이수표준형태에 제시된 전공과목 중 21학점",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "300.235",
+       "name": "지구시스템진화",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      },
+      {
+       "code": "3345.301",
+       "name": "대기역학 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.302",
+       "name": "대기역학 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.303",
+       "name": "대기물리 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.304",
+       "name": "대기물리 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.306",
+       "name": "대기분석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.307",
+       "name": "광물과 암석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.308",
+       "name": "화석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.309",
+       "name": "구조지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.310",
+       "name": "지구물리",
+       "credits": 3
+      },
+      {
+       "code": "3345.311",
+       "name": "환경지구학",
+       "credits": 3
+      },
+      {
+       "code": "3345.312",
+       "name": "지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.313",
+       "name": "물리해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.314",
+       "name": "조석과 파랑",
+       "credits": 3
+      },
+      {
+       "code": "3345.315",
+       "name": "생물해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.316",
+       "name": "화학해양학개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.317",
+       "name": "퇴적학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.324",
+       "name": "대기탐사 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.401",
+       "name": "예보학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.403",
+       "name": "기후역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.405",
+       "name": "중층대기",
+       "credits": 3
+      },
+      {
+       "code": "3345.406",
+       "name": "암석학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.408",
+       "name": "지진·지구동력학",
+       "credits": 3
+      },
+      {
+       "code": "3345.409A",
+       "name": "자원지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.410",
+       "name": "수리지구환경 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.413A",
+       "name": "연안해양역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.414A",
+       "name": "미생물 해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.416A",
+       "name": "해양유기화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.417A",
+       "name": "지질해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.423",
+       "name": "해양선상실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.424",
+       "name": "야외지질실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.426A",
+       "name": "위성기상기후학",
+       "credits": 3
+      },
+      {
+       "code": "3345.427",
+       "name": "인공위성지구물리 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.428",
+       "name": "지질도학 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000100",
+       "name": "표영환경생태학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000400",
+       "name": "해양오염 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000600",
+       "name": "심해저 지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001000",
+       "name": "대기화학개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001200",
+       "name": "지구생물학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001400",
+       "name": "대기수치모델링 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001800",
+       "name": "퇴적지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002100",
+       "name": "미기상학 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002200",
+       "name": "행성지질학",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002300",
+       "name": "해양천연물 신약 개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s41",
+      "s42",
+      "s44"
+     ]
+    },
+    {
+     "id": "sees-ge-old-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 46학점 이상(학문의 기초·학문의 세계 체계)",
+     "min_count": null,
+     "min_credits": 46,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35"
+     ]
+    },
+    {
+     "id": "sees-ge-old-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 사고와 표현 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "2019학번부터 이 두 과목 체계다(2018학번은 글쓰기의 기초 또는 과학과 기술 글쓰기 3학점, 해설 2018 p.15). 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "sees-ge-old-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 확인 필요."
+    },
+    {
+     "id": "sees-ge-old-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론: 수학 1·2+연습(6), 고급수학 1·2+연습(6), 미적분학 1·2+연습(8) 중 택 1(연습은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "sees-ge-old-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험: 통계학, 물리학 1·2(또는 고급물리학 1·2·물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F33.111",
+       "name": "천문학",
+       "credits": 3,
+       "alt_codes": [
+        "034.014"
+       ]
+      },
+      {
+       "code": "F33.111L",
+       "name": "천문학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.015"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께. 통계학·통계학실험은 과학적 사고와 실험으로 인정(2022 표부터 명시). 생명과학을 위한 통계학(실험)은 2022-2 개설, 2023 표부터 통계학 대신 인정(이전 입학생도 인정), 통계학(실험)과 겹쳐 이수 불가. 교양 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "sees-ge-old-qs-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초(수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용) 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "표의 묶음 학점이 24다. 수학·고급수학 짝(6)+과학 16 = 22 라 나머지 2학점을 이 묶음에서 더 채워야 하는지는 표만으로 분명하지 않다(2025 체계의 수학·과학·컴퓨팅 24 와 같은 문제)."
+    },
+    {
+     "id": "sees-ge-old-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 4개 영역 이상에서 12학점 이상, '언어와 문학·문화와 예술·역사와 철학' 영역 권장과목(*) 중 1과목 필수",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37",
+      "s38"
+     ],
+     "note": "자연과 기술·생명과 환경 영역은 5개 영역에 들지 않는다(물리학전공·생명과학부 페이지가 5개 영역 이름을 적음). 과목→영역 자료와 권장과목(*) 표시는 편람 자료에 없어 앱은 '확인 필요'. 2025-1 이후 새 공통교육과정 과목을 옛 학번이 들었을 때의 영역 인정 기준은 공개 자료에서 확인하지 못했다(수리과학부 '공통교육과정 영역 및 교과목 비교표' 글 접근 실패).",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "min_count": null
+       },
+       {
+        "name": "문화와 예술",
+        "min_count": null
+       },
+       {
+        "name": "역사와 철학",
+        "min_count": null
+       },
+       {
+        "name": "정치와 경제",
+        "min_count": null
+       },
+       {
+        "name": "인간과 사회",
+        "min_count": null
+       }
+      ],
+      "min_areas": 4
+     }
+    }
+   ],
+   "changed": "지구환경과학논문연구 필수 아님(2024학년도 신입생부터). 표준형태 목록이 다르다(현장답사·논문연구 없음)."
+  },
+  {
+   "entry_years": [
+    2021,
+    2021
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 46,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s50"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s47",
+    "s51",
+    "s36",
+    "s48",
+    "s49"
+   ],
+   "requirements": [
+    {
+     "id": "sees-five",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공과목 이수표준형태에 열거된 교과목 중 5과목 반드시 이수",
+     "min_count": 5,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "300.235",
+       "name": "지구시스템진화",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      },
+      {
+       "code": "3345.301",
+       "name": "대기역학 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.302",
+       "name": "대기역학 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.303",
+       "name": "대기물리 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.304",
+       "name": "대기물리 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.306",
+       "name": "대기분석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.307",
+       "name": "광물과 암석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.308",
+       "name": "화석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.309",
+       "name": "구조지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.310",
+       "name": "지구물리",
+       "credits": 3
+      },
+      {
+       "code": "3345.311",
+       "name": "환경지구학",
+       "credits": 3
+      },
+      {
+       "code": "3345.312",
+       "name": "지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.313",
+       "name": "물리해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.314",
+       "name": "조석과 파랑",
+       "credits": 3
+      },
+      {
+       "code": "3345.315",
+       "name": "생물해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.316",
+       "name": "화학해양학개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.317",
+       "name": "퇴적학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.324",
+       "name": "대기탐사 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.401",
+       "name": "예보학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.403",
+       "name": "기후역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.405",
+       "name": "중층대기",
+       "credits": 3
+      },
+      {
+       "code": "3345.406",
+       "name": "암석학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.408",
+       "name": "지진·지구동력학",
+       "credits": 3
+      },
+      {
+       "code": "3345.409A",
+       "name": "자원지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.410",
+       "name": "수리지구환경 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.413A",
+       "name": "연안해양역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.414A",
+       "name": "미생물 해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.416A",
+       "name": "해양유기화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.417A",
+       "name": "지질해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.423",
+       "name": "해양선상실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.424",
+       "name": "야외지질실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.426A",
+       "name": "위성기상기후학",
+       "credits": 3
+      },
+      {
+       "code": "3345.427",
+       "name": "인공위성지구물리 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.428",
+       "name": "지질도학 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000100",
+       "name": "표영환경생태학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000400",
+       "name": "해양오염 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000600",
+       "name": "심해저 지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001000",
+       "name": "대기화학개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001200",
+       "name": "지구생물학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001400",
+       "name": "대기수치모델링 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001800",
+       "name": "퇴적지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002100",
+       "name": "미기상학 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002200",
+       "name": "행성지질학",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002300",
+       "name": "해양천연물 신약 개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s47"
+     ],
+     "note": "5과목 문장은 2022·2024 목록에서만 봤다(2021학번 적용은 미확인). 목록은 2021 표준형태."
+    },
+    {
+     "id": "sees-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 인정: 자연대 전공탐색과목 8과목(바다의 탐구·기초유체역학·환경해양학 및 실험·지구시스템진화·판구조론 및 실험·기후학개론·대기열역학·지구과학계산과프로그래밍)은 전선 인정, 자연계 교과목 15학점 범위 안에서 인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.235",
+       "name": "지구시스템진화",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s32",
+      "s33"
+     ],
+     "note": "2025 학부 페이지에는 인정 규정 문장이 없다(2024 목록 기준)."
+    },
+    {
+     "id": "sees-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공선택과목 중 39학점 이상",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "sees-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 전공과목 이수표준형태에 제시된 전공과목 중 21학점",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "300.235",
+       "name": "지구시스템진화",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      },
+      {
+       "code": "3345.301",
+       "name": "대기역학 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.302",
+       "name": "대기역학 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.303",
+       "name": "대기물리 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.304",
+       "name": "대기물리 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.306",
+       "name": "대기분석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.307",
+       "name": "광물과 암석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.308",
+       "name": "화석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.309",
+       "name": "구조지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.310",
+       "name": "지구물리",
+       "credits": 3
+      },
+      {
+       "code": "3345.311",
+       "name": "환경지구학",
+       "credits": 3
+      },
+      {
+       "code": "3345.312",
+       "name": "지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.313",
+       "name": "물리해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.314",
+       "name": "조석과 파랑",
+       "credits": 3
+      },
+      {
+       "code": "3345.315",
+       "name": "생물해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.316",
+       "name": "화학해양학개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.317",
+       "name": "퇴적학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.324",
+       "name": "대기탐사 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.401",
+       "name": "예보학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.403",
+       "name": "기후역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.405",
+       "name": "중층대기",
+       "credits": 3
+      },
+      {
+       "code": "3345.406",
+       "name": "암석학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.408",
+       "name": "지진·지구동력학",
+       "credits": 3
+      },
+      {
+       "code": "3345.409A",
+       "name": "자원지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.410",
+       "name": "수리지구환경 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.413A",
+       "name": "연안해양역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.414A",
+       "name": "미생물 해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.416A",
+       "name": "해양유기화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.417A",
+       "name": "지질해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.423",
+       "name": "해양선상실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.424",
+       "name": "야외지질실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.426A",
+       "name": "위성기상기후학",
+       "credits": 3
+      },
+      {
+       "code": "3345.427",
+       "name": "인공위성지구물리 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.428",
+       "name": "지질도학 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000100",
+       "name": "표영환경생태학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000400",
+       "name": "해양오염 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000600",
+       "name": "심해저 지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001000",
+       "name": "대기화학개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001200",
+       "name": "지구생물학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001400",
+       "name": "대기수치모델링 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001800",
+       "name": "퇴적지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002100",
+       "name": "미기상학 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.002200",
+       "name": "행성지질학",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002300",
+       "name": "해양천연물 신약 개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s47"
+     ]
+    },
+    {
+     "id": "sees-ge-old-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 46학점 이상(학문의 기초·학문의 세계 체계)",
+     "min_count": null,
+     "min_credits": 46,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s36",
+      "s48",
+      "s49"
+     ]
+    },
+    {
+     "id": "sees-ge-old-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 사고와 표현 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "2019학번부터 이 두 과목 체계다(2018학번은 글쓰기의 기초 또는 과학과 기술 글쓰기 3학점, 해설 2018 p.15). 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "sees-ge-old-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s36",
+      "s48",
+      "s49"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 확인 필요."
+    },
+    {
+     "id": "sees-ge-old-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론: 수학 1·2+연습(6), 고급수학 1·2+연습(6), 미적분학 1·2+연습(8) 중 택 1(연습은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "sees-ge-old-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험: 통계학, 물리학 1·2(또는 고급물리학 1·2·물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F33.111",
+       "name": "천문학",
+       "credits": 3,
+       "alt_codes": [
+        "034.014"
+       ]
+      },
+      {
+       "code": "F33.111L",
+       "name": "천문학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.015"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께. 통계학·통계학실험은 과학적 사고와 실험으로 인정(2022 표부터 명시). 생명과학을 위한 통계학(실험)은 2022-2 개설, 2023 표부터 통계학 대신 인정(이전 입학생도 인정), 통계학(실험)과 겹쳐 이수 불가. 교양 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "sees-ge-old-qs-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초(수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용) 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "표의 묶음 학점이 24다. 수학·고급수학 짝(6)+과학 16 = 22 라 나머지 2학점을 이 묶음에서 더 채워야 하는지는 표만으로 분명하지 않다(2025 체계의 수학·과학·컴퓨팅 24 와 같은 문제)."
+    },
+    {
+     "id": "sees-ge-old-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 4개 영역 이상에서 12학점 이상, '언어와 문학·문화와 예술·역사와 철학' 영역 권장과목(*) 중 1과목 필수",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37",
+      "s38"
+     ],
+     "note": "자연과 기술·생명과 환경 영역은 5개 영역에 들지 않는다(물리학전공·생명과학부 페이지가 5개 영역 이름을 적음). 과목→영역 자료와 권장과목(*) 표시는 편람 자료에 없어 앱은 '확인 필요'. 2025-1 이후 새 공통교육과정 과목을 옛 학번이 들었을 때의 영역 인정 기준은 공개 자료에서 확인하지 못했다(수리과학부 '공통교육과정 영역 및 교과목 비교표' 글 접근 실패).",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "min_count": null
+       },
+       {
+        "name": "문화와 예술",
+        "min_count": null
+       },
+       {
+        "name": "역사와 철학",
+        "min_count": null
+       },
+       {
+        "name": "정치와 경제",
+        "min_count": null
+       },
+       {
+        "name": "인간과 사회",
+        "min_count": null
+       }
+      ],
+      "min_areas": 4
+     }
+    }
+   ],
+   "changed": "학과 지정 교양(대기과학·지구시스템과학·해양학 중 2과목)이 없다(2022학년도 신입생부터)."
+  },
+  {
+   "entry_years": [
+    2019,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 44,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s55",
+     "s56"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s57",
+    "s58",
+    "s37",
+    "s53",
+    "s54",
+    "s55"
+   ],
+   "requirements": [
+    {
+     "id": "sees-five",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공과목 이수표준형태에 열거된 교과목 중 5과목 반드시 이수",
+     "min_count": 5,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "300.235",
+       "name": "지구시스템진화",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      },
+      {
+       "code": "3345.301",
+       "name": "대기역학 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.302",
+       "name": "대기역학 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.303",
+       "name": "대기물리 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.304",
+       "name": "대기물리 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.306",
+       "name": "대기분석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.307",
+       "name": "광물과 암석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.308",
+       "name": "화석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.309",
+       "name": "구조지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.310",
+       "name": "지구물리",
+       "credits": 3
+      },
+      {
+       "code": "3345.311",
+       "name": "환경지구학",
+       "credits": 3
+      },
+      {
+       "code": "3345.312",
+       "name": "지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.313",
+       "name": "물리해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.314",
+       "name": "조석과 파랑",
+       "credits": 3
+      },
+      {
+       "code": "3345.315",
+       "name": "생물해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.316",
+       "name": "화학해양학개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.317",
+       "name": "퇴적학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.324",
+       "name": "대기탐사 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.401",
+       "name": "예보학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.403",
+       "name": "기후역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.405",
+       "name": "중층대기",
+       "credits": 3
+      },
+      {
+       "code": "3345.406",
+       "name": "암석학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.408",
+       "name": "지진·지구동력학",
+       "credits": 3
+      },
+      {
+       "code": "3345.409A",
+       "name": "자원지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.410",
+       "name": "수리지구환경 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.413A",
+       "name": "연안해양역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.414A",
+       "name": "미생물 해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.416A",
+       "name": "해양유기화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.417A",
+       "name": "지질해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.423",
+       "name": "해양선상실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.424",
+       "name": "야외지질실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.426A",
+       "name": "위성기상기후학",
+       "credits": 3
+      },
+      {
+       "code": "3345.427",
+       "name": "인공위성지구물리 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000100",
+       "name": "표영환경생태학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000400",
+       "name": "해양오염 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000600",
+       "name": "심해저 지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000700",
+       "name": "지구환경과학실험연구",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001000",
+       "name": "대기화학개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001200",
+       "name": "지구생물학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001400",
+       "name": "대기수치모델링 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001700",
+       "name": "미기상학 개론",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001800",
+       "name": "퇴적지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002300",
+       "name": "해양천연물 신약 개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s52"
+     ],
+     "note": "2019학년도 표준형태는 학부 페이지에 없다(2020~2026 만). 목록은 2020 표준형태."
+    },
+    {
+     "id": "sees-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 인정: 자연대 전공탐색과목 8과목(바다의 탐구·기초유체역학·환경해양학 및 실험·지구시스템진화·판구조론 및 실험·기후학개론·대기열역학·지구과학계산과프로그래밍)은 전선 인정, 자연계 교과목 15학점 범위 안에서 인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.235",
+       "name": "지구시스템진화",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s32",
+      "s33"
+     ],
+     "note": "2025 학부 페이지에는 인정 규정 문장이 없다(2024 목록 기준)."
+    },
+    {
+     "id": "sees-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공선택과목 중 39학점 이상",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "sees-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 전공과목 이수표준형태에 제시된 전공과목 중 21학점",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "300.229",
+       "name": "바다의 탐구",
+       "credits": 3
+      },
+      {
+       "code": "300.230",
+       "name": "기초유체역학",
+       "credits": 3
+      },
+      {
+       "code": "300.235",
+       "name": "지구시스템진화",
+       "credits": 3
+      },
+      {
+       "code": "300.236A",
+       "name": "판구조론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "300.253",
+       "name": "기후학개론",
+       "credits": 3
+      },
+      {
+       "code": "300.254",
+       "name": "대기열역학",
+       "credits": 3
+      },
+      {
+       "code": "300.402",
+       "name": "지구과학계산과 프로그래밍",
+       "credits": 3
+      },
+      {
+       "code": "3345.301",
+       "name": "대기역학 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.302",
+       "name": "대기역학 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.303",
+       "name": "대기물리 1",
+       "credits": 3
+      },
+      {
+       "code": "3345.304",
+       "name": "대기물리 2",
+       "credits": 3
+      },
+      {
+       "code": "3345.306",
+       "name": "대기분석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.307",
+       "name": "광물과 암석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.308",
+       "name": "화석 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.309",
+       "name": "구조지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.310",
+       "name": "지구물리",
+       "credits": 3
+      },
+      {
+       "code": "3345.311",
+       "name": "환경지구학",
+       "credits": 3
+      },
+      {
+       "code": "3345.312",
+       "name": "지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.313",
+       "name": "물리해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.314",
+       "name": "조석과 파랑",
+       "credits": 3
+      },
+      {
+       "code": "3345.315",
+       "name": "생물해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.316",
+       "name": "화학해양학개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.317",
+       "name": "퇴적학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.324",
+       "name": "대기탐사 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.401",
+       "name": "예보학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.403",
+       "name": "기후역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.405",
+       "name": "중층대기",
+       "credits": 3
+      },
+      {
+       "code": "3345.406",
+       "name": "암석학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.408",
+       "name": "지진·지구동력학",
+       "credits": 3
+      },
+      {
+       "code": "3345.409A",
+       "name": "자원지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.410",
+       "name": "수리지구환경 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.413A",
+       "name": "연안해양역학",
+       "credits": 3
+      },
+      {
+       "code": "3345.414A",
+       "name": "미생물 해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.416A",
+       "name": "해양유기화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.417A",
+       "name": "지질해양학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3345.423",
+       "name": "해양선상실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.424",
+       "name": "야외지질실습",
+       "credits": 3
+      },
+      {
+       "code": "3345.426A",
+       "name": "위성기상기후학",
+       "credits": 3
+      },
+      {
+       "code": "3345.427",
+       "name": "인공위성지구물리 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000100",
+       "name": "표영환경생태학",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000400",
+       "name": "해양오염 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000600",
+       "name": "심해저 지구화학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.000700",
+       "name": "지구환경과학실험연구",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001000",
+       "name": "대기화학개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001200",
+       "name": "지구생물학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001400",
+       "name": "대기수치모델링 개론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001700",
+       "name": "미기상학 개론",
+       "credits": 3
+      },
+      {
+       "code": "M1411.001800",
+       "name": "퇴적지질학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002300",
+       "name": "해양천연물 신약 개론 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2173.002400",
+       "name": "환경해양학 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s52"
+     ]
+    },
+    {
+     "id": "sees-ge-old-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 44학점 이상(학문의 기초·학문의 세계 체계)",
+     "min_count": null,
+     "min_credits": 44,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s37",
+      "s53",
+      "s54",
+      "s55"
+     ]
+    },
+    {
+     "id": "sees-ge-old-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 사고와 표현 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "2019학번부터 이 두 과목 체계다(2018학번은 글쓰기의 기초 또는 과학과 기술 글쓰기 3학점, 해설 2018 p.15). 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "sees-ge-old-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4–6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하는 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s37",
+      "s53",
+      "s54",
+      "s55"
+     ],
+     "note": "TEPS 점수는 앱이 모르므로 영어 1과목 조건은 확인 필요."
+    },
+    {
+     "id": "sees-ge-old-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론: 수학 1·2+연습(6), 고급수학 1·2+연습(6), 미적분학 1·2+연습(8) 중 택 1(연습은 같은 학기에 함께)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "extra": {
+      "paths": [
+       {
+        "name": "(1) 수학 1·2와 수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(2) 고급수학 1·2와 고급수학연습 1·2",
+        "credits": 6,
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "(3) 미적분학 1·2와 미적분학연습 1·2",
+        "credits": 8,
+        "courses": [
+         {
+          "code": "F31.109",
+          "name": "미적분학 1",
+          "credits": 3,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.000900"
+          ]
+         },
+         {
+          "code": "F31.109L",
+          "name": "미적분학연습 1",
+          "credits": 1,
+          "credits_from": "편람 2026-1",
+          "alt_codes": [
+           "L0442.001000"
+          ]
+         },
+         {
+          "code": "F31.110",
+          "name": "미적분학 2",
+          "credits": 3,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001100"
+          ]
+         },
+         {
+          "code": "F31.110L",
+          "name": "미적분학연습 2",
+          "credits": 1,
+          "credits_from": "편람 2026-2",
+          "alt_codes": [
+           "L0442.001200"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "sees-ge-old-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험: 통계학, 물리학 1·2(또는 고급물리학 1·2·물리의 기본 1·2), 물리학, 화학 1·2, 화학(또는 고급화학), 생물학 1·2, 생물학, 지구환경과학, 천문학, 대기과학, 지구시스템과학, 해양학 중 12학점(해당 실험 포함 16학점) 이상",
+     "min_count": null,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3,
+       "alt_codes": [
+        "033.019"
+       ]
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "033.020"
+       ]
+      },
+      {
+       "code": "F32.103",
+       "name": "생명과학을 위한 통계학",
+       "credits": 3,
+       "alt_codes": [
+        "L0442.001300"
+       ]
+      },
+      {
+       "code": "F32.103L",
+       "name": "생명과학을 위한 통계학실험",
+       "credits": 1,
+       "alt_codes": [
+        "L0442.001400"
+       ]
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.001"
+       ]
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.009"
+       ]
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.002"
+       ]
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.010"
+       ]
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.003"
+       ]
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.004"
+       ]
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.005"
+       ]
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.006"
+       ]
+      },
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3,
+       "alt_codes": [
+        "034.007"
+       ]
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.011"
+       ]
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.016"
+       ]
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.022"
+       ]
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.017"
+       ]
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.023"
+       ]
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3,
+       "alt_codes": [
+        "034.020"
+       ]
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.024"
+       ]
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3,
+       "alt_codes": [
+        "L0443.000100"
+       ]
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3,
+       "alt_codes": [
+        "034.027"
+       ]
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1,
+       "alt_codes": [
+        "034.031"
+       ]
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3,
+       "alt_codes": [
+        "034.028"
+       ]
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1,
+       "alt_codes": [
+        "034.032"
+       ]
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3,
+       "alt_codes": [
+        "034.029"
+       ]
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.033"
+       ]
+      },
+      {
+       "code": "F36.104",
+       "name": "지구환경과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.036"
+       ]
+      },
+      {
+       "code": "F36.104L",
+       "name": "지구환경과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.037"
+       ]
+      },
+      {
+       "code": "F33.111",
+       "name": "천문학",
+       "credits": 3,
+       "alt_codes": [
+        "034.014"
+       ]
+      },
+      {
+       "code": "F33.111L",
+       "name": "천문학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.015"
+       ]
+      },
+      {
+       "code": "F36.101",
+       "name": "대기과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.038"
+       ]
+      },
+      {
+       "code": "F36.101L",
+       "name": "대기과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.039"
+       ]
+      },
+      {
+       "code": "F36.103",
+       "name": "지구시스템과학",
+       "credits": 3,
+       "alt_codes": [
+        "034.040"
+       ]
+      },
+      {
+       "code": "F36.103L",
+       "name": "지구시스템과학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.041"
+       ]
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3,
+       "alt_codes": [
+        "034.042"
+       ]
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1,
+       "alt_codes": [
+        "034.043"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "실험이 있는 과목은 같은 학기에 실험을 함께. 통계학·통계학실험은 과학적 사고와 실험으로 인정(2022 표부터 명시). 생명과학을 위한 통계학(실험)은 2022-2 개설, 2023 표부터 통계학 대신 인정(이전 입학생도 인정), 통계학(실험)과 겹쳐 이수 불가. 교양 과목 번호는 2025-1부터 새 번호(code), 그 전은 alt_codes."
+    },
+    {
+     "id": "sees-ge-old-qs-area",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초(수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용) 24학점",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37"
+     ],
+     "note": "표의 묶음 학점이 24다. 수학·고급수학 짝(6)+과학 16 = 22 라 나머지 2학점을 이 묶음에서 더 채워야 하는지는 표만으로 분명하지 않다(2025 체계의 수학·과학·컴퓨팅 24 와 같은 문제)."
+    },
+    {
+     "id": "sees-ge-old-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회 5개 영역 중 4개 영역 이상에서 12학점 이상, '언어와 문학·문화와 예술·역사와 철학' 영역 권장과목(*) 중 1과목 필수",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30",
+      "s34",
+      "s35",
+      "s36",
+      "s37",
+      "s38"
+     ],
+     "note": "자연과 기술·생명과 환경 영역은 5개 영역에 들지 않는다(물리학전공·생명과학부 페이지가 5개 영역 이름을 적음). 과목→영역 자료와 권장과목(*) 표시는 편람 자료에 없어 앱은 '확인 필요'. 2025-1 이후 새 공통교육과정 과목을 옛 학번이 들었을 때의 영역 인정 기준은 공개 자료에서 확인하지 못했다(수리과학부 '공통교육과정 영역 및 교과목 비교표' 글 접근 실패).",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "min_count": null
+       },
+       {
+        "name": "문화와 예술",
+        "min_count": null
+       },
+       {
+        "name": "역사와 철학",
+        "min_count": null
+       },
+       {
+        "name": "정치와 경제",
+        "min_count": null
+       },
+       {
+        "name": "인간과 사회",
+        "min_count": null
+       }
+      ],
+      "min_areas": 4
+     }
+    }
+   ],
+   "changed": "교양 44(외국어 4–6). 표준형태 목록은 2020 판."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "교양 44→46",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2022,
+   "basis": "입학 연도",
+   "what": "학과 지정 교양: 대기과학·지구시스템과학·해양학 중 2과목 이상(실험 함께)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "지구환경과학논문연구(M1411.002600) 필수, 1학년 지구환경과학현장답사 표준형태 편입",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 체계 개편(전공 표준형태는 2024 와 같음)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2026,
+   "basis": "입학 연도",
+   "what": "표준형태 개편, 교양 진단평가 면제",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "'표준이수형태 과목 중 5과목 반드시 이수' 규정이 2025학번에도 있는지, 있다면 어느 과목들 중 5과목인지",
+  "복수전공생도 지구환경과학논문연구가 필수인지",
+  "전공탐색과목·자연계 15학점 전선 인정 규정이 2025학번에도 같은지",
+  "2019학년도 전공 이수 표준형태(학부 페이지는 2020~2026 만 게시)",
+  "2026 표준형태의 '지구환경과학연구실습 M1411.002700'이 편람의 M1411.003100 과 같은 과목인지(번호 오기 여부)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "학부대학, 2026학년도 시행 단과대학별 공통교육과정 이수 규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "pp.53–55 '□ 자연과학대학 (공통)·기초수학과학 교과목 수강의무 면제·(학부(과)별)'(PDF 6–8쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "pp.115–117 자연과학대학 표(PDF 7–9쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "2026학년도 자연과학대학 공통교육과정 이수규정(통계학과 누리집 게시)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2026/03/2026학년도-자연과학대학-공통교육과정-이수규정.pdf",
+   "locator": "pp.1–3 공통교육과정 이수규정·수강의무 면제·학부(과)별 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.110 '□ 자연과학대학 (공통)' 표(PDF 6쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "수리과학부, 이수규정 '2025학년도 졸업이수규정'",
+   "url": "https://www.math.snu.ac.kr/bbs/page.php?hid=criteria&wr_id=42",
+   "locator": "교양 표 '수학 6-8, 과학·컴퓨팅 16'",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.111 '□ 자연과학대학 (학부(과)별)' 표(PDF 7쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "2025학년도 자연과학대학 공통교육과정 교양 이수규정(통계학과 누리집 게시 PDF)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2025/02/2025학년도-자연과학대학-공통교육과정구-교양-이수규정.pdf",
+   "locator": "pp.5–7 '○ 자연과학대학 (공통)·(학부(과)별)'",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "지구환경과학부, 2026학년도 학사과정 기초·전공교과목 이수 표준형태(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major?mode=download&seqidx=39",
+   "locator": "각주 '＊ 2024학년도 신입생부터 지구환경과학 논문연구 교과목을 반드시 이수'",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "지구환경과학부, 2026학년도 학사과정 기초·전공교과목 이수 표준형태(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major?mode=download&seqidx=39",
+   "locator": "표준형태 전체",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.46 '교과목 이수규정 … 5과목' (2024 목록 문장)",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.47 지구환경과학부 전공선택 인정과목 ①②",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.47 복수전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "지구환경과학부, 졸업요건(전공)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major",
+   "locator": "복수·연합전공 39",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "지구환경과학부, 졸업요건(전공)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major",
+   "locator": "부전공·연계전공 21학점",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "지구환경과학부, 졸업요건(전공)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major",
+   "locator": "졸업요건 표(심화 60·복수 39·부전공 21, 교양 2021~ 46)",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "지구환경과학부, 입학년도별 교양이수규정 2026년도(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum?mode=download&seqidx=38",
+   "locator": "1쪽 '46 학점 이상 (36 학점 이상)*'",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1(병행 39)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "지구환경과학부, 2026학년도 학사과정 기초·전공교과목 이수 표준형태(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major?mode=download&seqidx=39",
+   "locator": "표준형태",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "지구환경과학부, 입학년도별 교양이수규정 2026년도(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum?mode=download&seqidx=38",
+   "locator": "교양",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.47 지구환경과학부 '교과목 이수규정'",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "지구환경과학부, 2025학년도 학사과정 전공교과목 이수 표준형태(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major?mode=download&seqidx=37",
+   "locator": "2025 표준형태 과목(이 규정 문장은 없음)",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.47 부전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "지구환경과학부, 졸업요건(전공)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major",
+   "locator": "부전공·연계전공 21",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "지구환경과학부, 2025학년도 학사과정 전공교과목 이수 표준형태(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major?mode=download&seqidx=37",
+   "locator": "표 아래 '* 2024학년도 신입생부터 지구환경과학 논문연구 교과목을 반드시 이수해야 함'",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "지구환경과학부, 2024학년도 학사과정 전공교과목 이수 표준형태(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major?mode=download&seqidx=36",
+   "locator": "같은 각주",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "지구환경과학부, 졸업요건(전공)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major",
+   "locator": "졸업요건 표",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "지구환경과학부, 2025학년도 학사과정 전공교과목 이수 표준형태(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major?mode=download&seqidx=37",
+   "locator": "표준형태",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "p.16 '□ 자연과학대학' 교양 표(PDF 9쪽), 경과규정",
+   "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.16 '□ 자연과학대학' 교양 표(PDF 9쪽), 경과규정",
+   "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "지구환경과학부, 입학년도별 교양이수규정 2022년도(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum?mode=download&seqidx=27",
+   "locator": "1쪽 '지구환경과학부 학생은 대기과학(3), 지구시스템과학(3), 해양학(3) 중 두 과목 이상 필수 이수'",
+   "accessed": "2026-11-12"
+  },
+  "s32": {
+   "title": "서울대학교, 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "p.45 지구환경과학부 전공선택 인정과목 ①②",
+   "accessed": "2026-11-12"
+  },
+  "s33": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.46 같은 칸",
+   "accessed": "2026-11-12"
+  },
+  "s34": {
+   "title": "2023학년도 자연과학대학 교양 이수규정(통계학과 누리집 게시)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2024/02/2023학년도-자연과학대학-교양-이수규정.pdf",
+   "locator": "1쪽 표·경과규정",
+   "accessed": "2026-11-12"
+  },
+  "s35": {
+   "title": "2024학년도 자연과학대학 교양 이수규정(통계학과 누리집 게시)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2024/02/2024학년도-자연과학대학-교양-이수규정.pdf",
+   "locator": "1쪽 표",
+   "accessed": "2026-11-12"
+  },
+  "s36": {
+   "title": "자연과학대학 2021 교양 이수기준(통계학과 누리집 게시, 스캔본)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2021/04/2021-교양-이수기준.pdf",
+   "locator": "p.108 '□ 자연과학대학' 표(스캔 1쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s37": {
+   "title": "자연과학대학 2019 교양 이수기준(통계학과 누리집 게시, 스캔본)",
+   "url": "https://stat.snu.ac.kr/wp-content/uploads/sites/36/2021/02/2019-교양-이수기준.pdf",
+   "locator": "p.114 '□ 자연과학대학' 표(스캔 1쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s38": {
+   "title": "물리·천문학부 물리학전공, 학부 교과과정",
+   "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "2019·2020학번 절 '학문의세계 : 언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회 5개 영역'",
+   "accessed": "2026-11-12"
+  },
+  "s39": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1·2",
+   "accessed": "2026-11-12"
+  },
+  "s40": {
+   "title": "지구환경과학부, 2024학년도 학사과정 전공교과목 이수 표준형태(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major?mode=download&seqidx=36",
+   "locator": "표준형태·각주",
+   "accessed": "2026-11-12"
+  },
+  "s41": {
+   "title": "지구환경과학부, 2022학년도 학사과정 전공교과목 이수 표준형태(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major?mode=download&seqidx=34",
+   "locator": "표준형태",
+   "accessed": "2026-11-12"
+  },
+  "s42": {
+   "title": "지구환경과학부, 2023학년도 학사과정 전공교과목 이수 표준형태(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major?mode=download&seqidx=35",
+   "locator": "표준형태",
+   "accessed": "2026-11-12"
+  },
+  "s43": {
+   "title": "서울대학교, 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "p.45 지구환경과학부 '교과목 이수규정 … 5과목을 반드시 이수'",
+   "accessed": "2026-11-12"
+  },
+  "s44": {
+   "title": "서울대학교, 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "부전공 이수규정 21학점",
+   "accessed": "2026-11-12"
+  },
+  "s45": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·2",
+   "accessed": "2026-11-12"
+  },
+  "s46": {
+   "title": "서울대학교, 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "pp.44–45 지구환경과학부",
+   "accessed": "2026-11-12"
+  },
+  "s47": {
+   "title": "지구환경과학부, 2021학년도 학사과정 전공교과목 이수 표준형태(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major?mode=download&seqidx=33",
+   "locator": "표준형태",
+   "accessed": "2026-11-12"
+  },
+  "s48": {
+   "title": "지구환경과학부, 입학년도별 교양이수규정 2021년도(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum?mode=download&seqidx=18",
+   "locator": "1쪽 '□ 자연과학대학' 표",
+   "accessed": "2026-11-12"
+  },
+  "s49": {
+   "title": "지구환경과학부, 졸업요건(교양)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "교양학점 표 '2021 ~ 46학점'",
+   "accessed": "2026-11-12"
+  },
+  "s50": {
+   "title": "지구환경과학부, 졸업요건(전공)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major",
+   "locator": "졸업요건 표 '2021 ~ 46학점'",
+   "accessed": "2026-11-12"
+  },
+  "s51": {
+   "title": "지구환경과학부, 입학년도별 교양이수규정 2021년도(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum?mode=download&seqidx=18",
+   "locator": "교양",
+   "accessed": "2026-11-12"
+  },
+  "s52": {
+   "title": "지구환경과학부, 2020학년도 학사과정 전공교과목 이수 표준형태(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major?mode=download&seqidx=31",
+   "locator": "표준형태(2020)",
+   "accessed": "2026-11-12"
+  },
+  "s53": {
+   "title": "지구환경과학부, 입학년도별 교양이수규정 2019년도(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum?mode=download&seqidx=16",
+   "locator": "1쪽 '자연과학대학' 표",
+   "accessed": "2026-11-12"
+  },
+  "s54": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.16 '□ 자연과학대학' 교양 표(PDF 9쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s55": {
+   "title": "지구환경과학부, 졸업요건(교양)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum",
+   "locator": "교양학점 표 '2014~2020 44학점'",
+   "accessed": "2026-11-12"
+  },
+  "s56": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·2",
+   "accessed": "2026-11-12"
+  },
+  "s57": {
+   "title": "지구환경과학부, 2020학년도 학사과정 전공교과목 이수 표준형태(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum-major?mode=download&seqidx=31",
+   "locator": "표준형태",
+   "accessed": "2026-11-12"
+  },
+  "s58": {
+   "title": "지구환경과학부, 입학년도별 교양이수규정 2019년도(PDF)",
+   "url": "https://sees.snu.ac.kr/academics/undergraduate/curriculum?mode=download&seqidx=16",
+   "locator": "교양",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

@@ -1,0 +1,609 @@
+{
+ "id": "p-fccadae3",
+ "college": "의과대학",
+ "unit": "의학과",
+ "program": "의학과(본과 4년)",
+ "kind": "major",
+ "depts": [
+  "의학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": null,
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "when": "예과 수료 뒤(3학년부터)",
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2019,
+    2026
+   ],
+   "basis": "교과 개편 학기",
+   "credits": {
+    "grad": 148,
+    "ge": null,
+    "single": 148,
+    "parallel": null,
+    "double": null,
+    "minor": null,
+    "status": "확인",
+    "src": [
+     "s3",
+     "s4"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s5",
+    "s6",
+    "s7"
+   ],
+   "requirements": [
+    {
+     "id": "med-main-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "본과 1~3학년과 4학년 1학기 전공필수(학년별 고정, 57과목 143학점)",
+     "min_count": 56,
+     "min_credits": 143,
+     "courses": [
+      {
+       "code": "M1923.004500",
+       "name": "인체해부학",
+       "credits": 5
+      },
+      {
+       "code": "M1923.004600",
+       "name": "조직학총론",
+       "credits": 1
+      },
+      {
+       "code": "M1923.004700",
+       "name": "인체조직과 생리학",
+       "credits": 5
+      },
+      {
+       "code": "M1923.004800",
+       "name": "인체생화학",
+       "credits": 4
+      },
+      {
+       "code": "M1923.004900",
+       "name": "인간ㆍ사회ㆍ의료 1",
+       "credits": 1
+      },
+      {
+       "code": "M1923.005200",
+       "name": "기초신경과학",
+       "credits": 3
+      },
+      {
+       "code": "M1923.005300",
+       "name": "선택교과 1",
+       "credits": 1
+      },
+      {
+       "code": "M1923.005500",
+       "name": "질병의 병리학적 이해",
+       "credits": 3
+      },
+      {
+       "code": "M1923.005600",
+       "name": "감염의 기초",
+       "credits": 5
+      },
+      {
+       "code": "M1923.005700",
+       "name": "면역의 기초",
+       "credits": 2
+      },
+      {
+       "code": "M1923.005800",
+       "name": "약물의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M1923.005900",
+       "name": "선택교과 2",
+       "credits": 1
+      },
+      {
+       "code": "M1923.006000",
+       "name": "인간ㆍ사회ㆍ의료 2",
+       "credits": 1
+      },
+      {
+       "code": "M1923.006200",
+       "name": "감염과 면역",
+       "credits": 4
+      },
+      {
+       "code": "M1923.006300",
+       "name": "임상의학입문 1",
+       "credits": 1
+      },
+      {
+       "code": "M1923.006400",
+       "name": "의학연구 1",
+       "credits": 2
+      },
+      {
+       "code": "M1923.006500",
+       "name": "종합시험 1",
+       "credits": 1
+      },
+      {
+       "code": "M1923.008400",
+       "name": "생식ㆍ성장ㆍ발달 1",
+       "credits": 1
+      },
+      {
+       "code": "M1923.006700",
+       "name": "혈액과 종양",
+       "credits": 3
+      },
+      {
+       "code": "M1923.006800",
+       "name": "대사와 내분비",
+       "credits": 3
+      },
+      {
+       "code": "M1923.007000",
+       "name": "임상의학입문 2-1",
+       "credits": 2
+      },
+      {
+       "code": "M1923.007100",
+       "name": "선택교과 3",
+       "credits": 1
+      },
+      {
+       "code": "M1923.007200",
+       "name": "인간ㆍ사회ㆍ의료 3",
+       "credits": 1
+      },
+      {
+       "code": "M1923.007300",
+       "name": "호흡기",
+       "credits": 3
+      },
+      {
+       "code": "M1923.007400",
+       "name": "순환기",
+       "credits": 3
+      },
+      {
+       "code": "M1923.007500",
+       "name": "소화기",
+       "credits": 3
+      },
+      {
+       "code": "M1923.009900",
+       "name": "뇌신경과 정신행동",
+       "credits": 3
+      },
+      {
+       "code": "M1923.007600",
+       "name": "신장요로",
+       "credits": 2
+      },
+      {
+       "code": "M1923.007700",
+       "name": "근골격, 피부 및 감각기",
+       "credits": 3
+      },
+      {
+       "code": "M1923.007800",
+       "name": "생식ㆍ성장ㆍ발달 2",
+       "credits": 3
+      },
+      {
+       "code": "M1923.007900",
+       "name": "임상의학입문 2-2",
+       "credits": 1
+      },
+      {
+       "code": "M1923.008000",
+       "name": "선택교과 4",
+       "credits": 1
+      },
+      {
+       "code": "M1923.008100",
+       "name": "인간ㆍ사회ㆍ의료 4",
+       "credits": 1
+      },
+      {
+       "code": "M1923.008200",
+       "name": "의학연구 2",
+       "credits": 5
+      },
+      {
+       "code": "M1923.008300",
+       "name": "종합시험 2",
+       "credits": 1
+      },
+      {
+       "code": "801.301B",
+       "name": "내과학 및 실습",
+       "credits": 10
+      },
+      {
+       "code": "801.302C",
+       "name": "외과학 및 실습",
+       "credits": 5
+      },
+      {
+       "code": "801.303B",
+       "name": "산부인과학 및 실습",
+       "credits": 5
+      },
+      {
+       "code": "801.304B",
+       "name": "소아과학 및 실습",
+       "credits": 5
+      },
+      {
+       "code": "801.305B",
+       "name": "정신과학 및 실습",
+       "credits": 5
+      },
+      {
+       "code": "801.306A",
+       "name": "정형외과학 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "801.309B",
+       "name": "영상의학 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "801.314",
+       "name": "신경과학 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "801.316",
+       "name": "응급의학 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1923.008500",
+       "name": "인간ㆍ사회ㆍ의료 5",
+       "credits": 1
+      },
+      {
+       "code": "M1923.008600",
+       "name": "인간ㆍ사회ㆍ의료 6",
+       "credits": 1
+      },
+      {
+       "code": "M1923.008700",
+       "name": "임상추론 1",
+       "credits": 2
+      },
+      {
+       "code": "M1923.008800",
+       "name": "임상의학입문 3",
+       "credits": 2
+      },
+      {
+       "code": "M1923.008900",
+       "name": "통합임상실습",
+       "credits": 2
+      },
+      {
+       "code": "801.460",
+       "name": "임상특과",
+       "credits": 2
+      },
+      {
+       "code": "M1923.011900",
+       "name": "임상수행능력종합훈련 및 평가 1",
+       "credits": 2
+      },
+      {
+       "code": "M1923.009000",
+       "name": "인간ㆍ사회ㆍ의료 7",
+       "credits": 2
+      },
+      {
+       "code": "M1923.009100",
+       "name": "인간ㆍ사회ㆍ의료 8",
+       "credits": 1
+      },
+      {
+       "code": "801.310A",
+       "name": "핵의학 및 실습",
+       "credits": 1
+      },
+      {
+       "code": "801.315A",
+       "name": "진단검사의학 및 실습",
+       "credits": 1
+      },
+      {
+       "code": "801.317",
+       "name": "가정의학 및 실습",
+       "credits": 1
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "3학년은 학년제(이수규정 ①). 2025학번은 2027학년도 진입이라 교육과정 변동 가능 → 부분. 2학년 재수생용 폐지 유보 과목: 약리학 및 실험 801.202A(4), 기생충학 및 실험 801.205A(2), 임상면역학 801.207A(2)."
+    },
+    {
+     "id": "med-y4-1-choose",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "4학년 1학기 전공선택 12과목 중 8과목",
+     "min_count": 8,
+     "min_credits": 16,
+     "courses": [
+      {
+       "code": "M1923.010300",
+       "name": "마취통증의학 및 실습",
+       "credits": 2
+      },
+      {
+       "code": "M1923.010400",
+       "name": "피부과학 및 실습",
+       "credits": 2
+      },
+      {
+       "code": "M1923.010500",
+       "name": "흉부심장혈관외과학 및 실습",
+       "credits": 2
+      },
+      {
+       "code": "M1923.010600",
+       "name": "신경외과학 및 실습",
+       "credits": 2
+      },
+      {
+       "code": "M1923.010700",
+       "name": "비뇨의학 및 실습",
+       "credits": 2
+      },
+      {
+       "code": "M1923.010800",
+       "name": "이비인후과학 및 실습",
+       "credits": 2
+      },
+      {
+       "code": "M1923.010900",
+       "name": "안과학 및 실습",
+       "credits": 2
+      },
+      {
+       "code": "M1923.011000",
+       "name": "성형외과학 및 실습",
+       "credits": 2
+      },
+      {
+       "code": "M1923.011100",
+       "name": "재활의학 및 실습",
+       "credits": 2
+      },
+      {
+       "code": "M1923.011200",
+       "name": "방사선종양학 및 실습",
+       "credits": 2
+      },
+      {
+       "code": "M1923.011300",
+       "name": "지역사회의학 및 실습",
+       "credits": 2
+      },
+      {
+       "code": "801.469",
+       "name": "임상약리학 및 실습",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "이수규정 ③ '4학년 전공선택 이수규정은 학과내규에 의함 — 1학기: 전필교과목 7개 및 전선교과목 12개 중 8개 이수'."
+    },
+    {
+     "id": "med-y4-2-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "4학년 2학기: 심화선택, 임상추론 2, 종합시험 4, 임상수행능력종합훈련 및 평가 2",
+     "min_count": 4,
+     "min_credits": 11,
+     "courses": [
+      {
+       "code": "M1923.010000",
+       "name": "심화선택",
+       "credits": 3
+      },
+      {
+       "code": "M1923.010100",
+       "name": "임상추론 2",
+       "credits": 3
+      },
+      {
+       "code": "M1923.010200",
+       "name": "종합시험 4",
+       "credits": 3
+      },
+      {
+       "code": "M1923.012000",
+       "name": "임상수행능력종합훈련 및 평가 2",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "과목 목록에는 * 가 없지만 학과 내규로 이수해야 하는 과목(이수규정 ③)."
+    },
+    {
+     "id": "med-y4-2-intern",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "4학년 2학기 학생인턴 1~7 중 1개 이상",
+     "min_count": 1,
+     "min_credits": 2,
+     "courses": [
+      {
+       "code": "M1923.009200",
+       "name": "학생인턴 1",
+       "credits": 2
+      },
+      {
+       "code": "M1923.009300",
+       "name": "학생인턴 2",
+       "credits": 2
+      },
+      {
+       "code": "M1923.009400",
+       "name": "학생인턴 3",
+       "credits": 2
+      },
+      {
+       "code": "M1923.009500",
+       "name": "학생인턴 4",
+       "credits": 2
+      },
+      {
+       "code": "M1923.009600",
+       "name": "학생인턴 5",
+       "credits": 2
+      },
+      {
+       "code": "M1923.009700",
+       "name": "학생인턴 6",
+       "credits": 2
+      },
+      {
+       "code": "M1923.009800",
+       "name": "학생인턴 7",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "med-elective-scope",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정: 타학과 과목 불인정. 학기당 최고 26학점",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    }
+   ],
+   "note": "2022·2024 목록 규정이 같다(3학년 학년제, 학기당 26학점, 4학년 1학기 전필 7개 + 전선 12개 중 8개, 2학기 심화선택·임상추론 2·종합시험 4·(2024 판) 임상수행능력종합훈련 및 평가 2·학생인턴 1~7 중 1개 이상, 타학과 과목 불인정). 블록 과목(M1923.*)은 편람 첫 학기인 2021-1 에 이미 있어 2019학번(2021 본과 진입)부터 같은 틀이다. 과목 세부는 학기 기준으로 바뀐다(아래 change_points). 2025·2026학번은 2027·2028 본과 진입이라 그때 과목표는 미공개."
+  }
+ ],
+ "change_points": [
+  {
+   "basis": "교과 개편 학기",
+   "what": "임상수행능력종합훈련 및 평가 801.462A(2021 3학점·2022-1 2학점, 4학년 1학기) → M1923.011900 …평가 1(4-1, 2) + M1923.012000 …평가 2(4-2, 2)",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "4학년 2학기 심화선택·임상추론 2·종합시험 4 의 편람 교과구분이 전필→전선(규정상 계속 이수 필수)",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "4학년 1학기 임상 선택: 병원병리학 및 실습(M1923.012200) 신설, 흉부심장혈관외과학 및 실습(M1923.010500) → 심장혈관흉부외과학 및 실습(M1923.012300). 2-학점 임상 선택이 13개가 됨 — '12개 중 8개' 규정이 바뀌었는지 미확인",
+   "status": "부분"
+  }
+ ],
+ "ask_department": [
+  "2025-1 이후 4학년 1학기 선택 규정(13개 중 8개인지)과 병원병리학 및 실습의 위치",
+  "2027·2028 본과 진입생(2025·2026학번) 교육과정",
+  "2024 목록 '복수전공 이수규정: 학과내규에 의함'의 뜻(표 2 는 미제공)",
+  "2027학년도 본과 진입생(2025학번)에게 적용될 의학과 교육과정과 4학년 선택 규정(12개 중 8개, 학생인턴 1개 이상)이 그대로인지",
+  "2024 목록의 '복수전공 이수규정: 학과내규에 의함'이 무엇을 뜻하는지(표 2 는 복수·부전공 미제공)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.131–132 801. 의학과 과목 목록·이수표준형태·교과목 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "의과대학, 교과과정(2026 의학과 블록 일정 그림)",
+   "url": "https://medicine.snu.ac.kr/fnt/bbm/bbs/selectBoardArticleView.do?nttId=24355",
+   "locator": "2026 학년별 블록 일정(과목 묶음 이름 대조)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교 2018 교과과정 해설(본부, 2018학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 1> p.9 의학과 148",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서울대학교 2024 교과과정 해설(본부, 2024학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1> p.9 의학과 148/－/148/－",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "p.127~128 이수표준형태·규정 ①~③·경과조치",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.131~132 같은 규정",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "TT Wizard 수강편람 자료(학기별 과목 번호·이름·학점·개설학과·교과구분)",
+   "locator": "M1923.* 블록 과목 2021-1 부터 개설",
+   "accessed": "2026-11-12",
+   "repo": "data/history/<학기>.json"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

@@ -1,0 +1,5261 @@
+{
+ "id": "p-121aa7bb",
+ "college": "공과대학",
+ "unit": "전기·정보공학부",
+ "program": "전기·정보공학부",
+ "kind": "major",
+ "depts": [
+  "전기·정보공학부"
+ ],
+ "code_prefixes": [],
+ "ge_key": "공과대학 전기·정보공학부",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 53,
+    "single": 63,
+    "parallel": 45,
+    "double": 42,
+    "minor": 24,
+    "status": "충돌",
+    "src": [
+     "s7",
+     "s8",
+     "s9",
+     "s10"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s11"
+   ],
+   "requirements": [
+    {
+     "id": "ece-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "ece-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목(6학점). 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "외국어 영역 과목 목록은 학부대학 길잡이 영역표를 따른다(여기선 영역으로만 셈)"
+    },
+    {
+     "id": "ece-ge-math1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1] 수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "options": [
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "ece-ge-math2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-2] 수학 2+수학연습 2 또는 고급수학 2+고급수학연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "options": [
+       [
+        "F31.105",
+        "F31.105L"
+       ],
+       [
+        "F31.107",
+        "F31.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "ece-ge-engmath",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-2] 공학수학 1, [2-1] 공학수학 2",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "ece-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학(1): 물리학 1(고급물리학 1 대체)+실험 1, 물리학 2(고급물리학 2 대체)+실험 2 — 학기별 4, 총 8학점. 물리의 기본 1·2 불인정",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "학부 카드: '물리학'(통년)·물리의 기본 1·2는 졸업학점으로도 인정 안 됨. 물리학 2는 기초회로이론·기초전자기학 선이수",
+     "extra": {
+      "options": [
+       [
+        "F33.106",
+        "F33.106L",
+        "F33.107",
+        "F33.107L"
+       ],
+       [
+        "F33.108",
+        "F33.106L",
+        "F33.109",
+        "F33.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "ece-ge-sci2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학(2): 화학 1·2+실험, 생물학 1·2+실험, 화학(또는 고급화학)+실험, 생물학+실험, 통계학+통계학실험 중 학기별 4, 총 8학점(과학 합 16)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "같은 이름의 실험을 같은 학기에(예: 화학 2면 화학실험 2). 한 분야에서 통년 과목과 '1'을 같이 들으면 한 과목만 인정"
+    },
+    {
+     "id": "ece-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1] 컴퓨터의 개념 및 실습(컴퓨팅 3학점)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "전공 프로그래밍방법론의 선이수 과목"
+    },
+    {
+     "id": "ece-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: '문화 해석과 상상'·'역사적 탐구와 철학적 사유'·'인간의 이해와 사회 분석' 각 3학점('과학적 사고와 응용'은 칸 비어 있음)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "ece-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 영역(베리타스 강좌 1·2, 베리타스 실천)에서 3학점 이상",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "ece-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 53학점 이상(나머지는 전체 교양 교과목에서 자유 선택)",
+     "min_count": null,
+     "min_credits": 53,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "ece-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 32학점 = 아래 10과목 29학점 + 공학개론 1과목 3학점(ece-intro)",
+     "min_count": 10,
+     "min_credits": 29,
+     "courses": [
+      {
+       "code": "430.201A",
+       "name": "논리설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.202B",
+       "name": "기초전자기학 및 연습",
+       "credits": 4
+      },
+      {
+       "code": "430.207B",
+       "name": "기초전자회로 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.213A",
+       "name": "기초회로이론 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "M2608.001400",
+       "name": "전기·정보세미나 1",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001500",
+       "name": "전기·정보세미나 2",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001600",
+       "name": "전기·정보세미나 3",
+       "credits": 1
+      },
+      {
+       "code": "430.405",
+       "name": "전기공학설계프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "430.306",
+       "name": "신호 및 시스템",
+       "credits": 3
+      },
+      {
+       "code": "430.211",
+       "name": "프로그래밍방법론",
+       "credits": 4
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "공학개론 칸(400.***)은 카드에서 전필로 셈"
+    },
+    {
+     "id": "ece-intro",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "공학개론 1과목(3학점, 전필로 셈) — 전기·정보공학개론(400.019A) 제외",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "400.013",
+       "name": "기계공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.015",
+       "name": "산업공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.020",
+       "name": "재료공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.022",
+       "name": "건설환경공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.023",
+       "name": "화학생물공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.024",
+       "name": "에너지자원공학개론",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s4",
+      "s3"
+     ],
+     "note": "복수·부전공 표는 '(기계,산업,재료,건설,화생,에너지)공학개론'. 카드는 '기계·산업·재료·건설환경·화학생물·에너지자원 등 모든 개론' 허용하고 '컴퓨터공학개론'(=전기·정보공학개론으로 읽음) 제외. M2177 계열 개론(인공지능 개론 등) 인정 여부 미확인"
+    },
+    {
+     "id": "ece-sel",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택전선 13학점 이상: 아래 15과목 중, 창의공학설계(전기·정보공학부 개설 강좌) 반드시 포함",
+     "min_count": null,
+     "min_credits": 13,
+     "courses": [
+      {
+       "code": "400.018",
+       "name": "창의공학설계(전기·정보공학부 개설 강좌)",
+       "credits": 3
+      },
+      {
+       "code": "430.203A",
+       "name": "전자기학",
+       "credits": 3
+      },
+      {
+       "code": "430.301C",
+       "name": "아날로그전자회로",
+       "credits": 3
+      },
+      {
+       "code": "430.328",
+       "name": "전력 및 에너지시스템의 기초",
+       "credits": 3
+      },
+      {
+       "code": "430.322",
+       "name": "컴퓨터조직론",
+       "credits": 3
+      },
+      {
+       "code": "430.326",
+       "name": "양자역학의 응용",
+       "credits": 3
+      },
+      {
+       "code": "430.309A",
+       "name": "전기에너지변환",
+       "credits": 3
+      },
+      {
+       "code": "430.310",
+       "name": "제어공학개론",
+       "credits": 3
+      },
+      {
+       "code": "430.312",
+       "name": "반도체소자",
+       "credits": 3
+      },
+      {
+       "code": "430.314",
+       "name": "확률변수 및 확률과정의 기초",
+       "credits": 3
+      },
+      {
+       "code": "430.315A",
+       "name": "디지털 시스템 설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.317",
+       "name": "통신의 기초",
+       "credits": 3
+      },
+      {
+       "code": "430.217",
+       "name": "자료구조의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2608.000200",
+       "name": "생체전기정보공학",
+       "credits": 3
+      },
+      {
+       "code": "M2608.003200",
+       "name": "회로 이론 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "= 창의공학설계 3 + 나머지 14과목에서 10학점 이상(2024 해설 문장과 같음)"
+    },
+    {
+     "id": "ece-major-total",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 63학점 이상(전필 32·선택전선 13 포함)",
+     "min_count": null,
+     "min_credits": 63,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "타과 전선 9학점 이내(공대 타학과·부(컴퓨터공학부 포함)·자연대·경영대; 경영대는 지정 9과목 중 3학점 이내). 공대 공통교과목은 학점 제한 없이 전선 인정 가능(일부 불인정 가능). M2177.005800 머신러닝을 위한 기초 수학 및 프로그래밍 실습은 졸업학점 불인정. 3학년 이상 석사과정 과목은 교과구분 변경으로 전선"
+    },
+    {
+     "id": "ece-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "병행: 복수·연합·학생설계 전공 병행 45학점, 부·연계전공 병행 48학점(둘 다 전필 32·선택전선 13 이상 포함)",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s2",
+      "s5"
+     ],
+     "note": "학생설계 병행을 해설 표는 48로 적음"
+    },
+    {
+     "id": "ece-overlap",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터공학부 중복 지정 과목(예: 430.201A↔M1522.000700, 430.211↔M1522.000600, 430.217·430.329↔M1522.000900, 430.318↔4190.307, 430.322↔4190.308, M2608.001200↔M1522.002100·4190.411, 430.414↔4190.409, 430.554↔M2794.006700)을 둘 다 들으면 전기·정보 과목만 전공 인정, 컴공 과목은 1과목만 일반선택, 나머지 학점 불인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "ece-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전필 선이수(2020학번~): 프로그래밍방법론←컴퓨터의 개념 및 실습, 기초회로이론 및 실험←공학수학 1·물리학 2(또는 고급물리학 2·일반물리학및실험 2), 기초전자기학 및 연습←공학수학 2·물리학 2(…), 기초전자회로 및 실험←기초회로이론 및 실험·기초전자기학 및 연습, 신호 및 시스템←공학수학 1",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s2"
+     ],
+     "note": "물리의 기본 2로 대체 안 됨"
+    },
+    {
+     "id": "ece-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 제출(미제출 시 수료 처리). 복수전공도 졸업논문 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s4"
+     ]
+    },
+    {
+     "id": "ece-edu",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 1학년 중 이수(2016학번~). 외국어 진행 강좌 3과목(전공 1 포함)은 권장",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "ece-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(2020~2025학번): 전공필수 28(공학개론 3, 논리설계 및 실험, 기초전자기학 및 연습, 기초전자회로 및 실험, 기초회로이론 및 실험, 전기·정보세미나 1·2, 신호 및 시스템, 프로그래밍방법론) + 전공선택필수 15과목 중 10학점 이상(창의공학설계 포함 목록) + 전선 내규필수 4(전기·정보세미나 3, 전기공학설계프로젝트) = 42학점 이상. 졸업논문 제출",
+     "min_count": null,
+     "min_credits": 42,
+     "courses": [
+      {
+       "code": "430.201A",
+       "name": "논리설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.202B",
+       "name": "기초전자기학 및 연습",
+       "credits": 4
+      },
+      {
+       "code": "430.207B",
+       "name": "기초전자회로 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.213A",
+       "name": "기초회로이론 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "M2608.001400",
+       "name": "전기·정보세미나 1",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001500",
+       "name": "전기·정보세미나 2",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001600",
+       "name": "전기·정보세미나 3",
+       "credits": 1
+      },
+      {
+       "code": "430.405",
+       "name": "전기공학설계프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "430.306",
+       "name": "신호 및 시스템",
+       "credits": 3
+      },
+      {
+       "code": "430.211",
+       "name": "프로그래밍방법론",
+       "credits": 4
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s6"
+     ],
+     "note": "courses = 전필 8과목(25)+내규필수 2과목(4). 공학개론 3은 ece-intro, 전공선택필수 10학점은 ece-sel 목록(15과목, 복수전공에선 창의공학설계 필수 아님). 선이수 규정 적용"
+    },
+    {
+     "id": "ece-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공(2024학번~): 필수 23학점(공학개론 3, 논리설계 및 실험 4, 기초전자기학 및 연습 4, 기초전자회로 및 실험 4, 기초회로이론 및 실험 4, 신호 및 시스템 3, 전기·정보세미나 1 1) + 나머지 전기·정보공학부 전공선택으로 24학점 이상",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "430.201A",
+       "name": "논리설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.202B",
+       "name": "기초전자기학 및 연습",
+       "credits": 4
+      },
+      {
+       "code": "430.207B",
+       "name": "기초전자회로 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.213A",
+       "name": "기초회로이론 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.306",
+       "name": "신호 및 시스템",
+       "credits": 3
+      },
+      {
+       "code": "M2608.001400",
+       "name": "전기·정보세미나 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s6"
+     ],
+     "note": "courses 6과목 20학점 + 공학개론 3(ece-intro) = 필수 23"
+    }
+   ],
+   "note": "2026학번 = 2025학번. 2026 카드 4.④는 공학개론을 '400으로 시작하는 개론'으로 적음(2025 카드는 '모든 개론') — 1차 ece-intro 목록(400 계열 6개)과 맞음. 타과생 복수전공 규정 파일은 '2020~2025학번' 열까지만 있어 2026학번 열 미확인"
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 53,
+    "single": 63,
+    "parallel": 45,
+    "double": 42,
+    "minor": 24,
+    "status": "충돌",
+    "src": [
+     "s14",
+     "s15"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s14"
+   ],
+   "requirements": [
+    {
+     "id": "ece-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목(6학점). 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-math1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000100",
+        "L0442.000200"
+       ],
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "L0442.000500",
+        "L0442.000600"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "ece-ge-math2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 2+수학연습 2 또는 고급수학 2+고급수학연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000300",
+        "L0442.000400"
+       ],
+       [
+        "F31.105",
+        "F31.105L"
+       ],
+       [
+        "L0442.000700",
+        "L0442.000800"
+       ],
+       [
+        "F31.107",
+        "F31.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "ece-ge-engmath",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-2] 공학수학 1, [2-1] 공학수학 2(전필 선이수)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학(1): 물리학 1·2(고급물리학 1·2 대체)+물리학실험 1·2, 학기별 4 총 8학점. 물리의 기본 1·2 불인정, '물리학'(통년)·물리의 기본은 졸업학점으로도 불인정",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-sci2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학(2): 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학(+각 실험) 중 학기별 4, 총 8학점(과학 합 16)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1] 컴퓨터의 개념 및 실습(3학점, 프로그래밍방법론 선이수)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 53학점 이상(학문의 기초 41 + 학문의 세계 12)",
+     "min_count": null,
+     "min_credits": 53,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 32학점 = 아래 10과목 29학점 + 공학개론 1과목 3학점(ece-intro)",
+     "min_count": 10,
+     "min_credits": 29,
+     "courses": [
+      {
+       "code": "430.201A",
+       "name": "논리설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.202B",
+       "name": "기초전자기학 및 연습",
+       "credits": 4
+      },
+      {
+       "code": "430.207B",
+       "name": "기초전자회로 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.213A",
+       "name": "기초회로이론 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "M2608.001400",
+       "name": "전기·정보세미나 1",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001500",
+       "name": "전기·정보세미나 2",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001600",
+       "name": "전기·정보세미나 3",
+       "credits": 1
+      },
+      {
+       "code": "430.405",
+       "name": "전기공학설계프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "430.306",
+       "name": "신호 및 시스템",
+       "credits": 3
+      },
+      {
+       "code": "430.211",
+       "name": "프로그래밍방법론",
+       "credits": 4
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "공학개론 칸(400.***)은 카드에서 전필로 셈"
+    },
+    {
+     "id": "ece-intro",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "공학개론 1과목(3학점, 전필로 셈) — 전기·정보공학개론(400.019A) 제외",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "400.013",
+       "name": "기계공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.015",
+       "name": "산업공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.020",
+       "name": "재료공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.022",
+       "name": "건설환경공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.023",
+       "name": "화학생물공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.024",
+       "name": "에너지자원공학개론",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s4",
+      "s3"
+     ],
+     "note": "복수·부전공 표는 '(기계,산업,재료,건설,화생,에너지)공학개론'. 카드는 '기계·산업·재료·건설환경·화학생물·에너지자원 등 모든 개론' 허용하고 '컴퓨터공학개론'(=전기·정보공학개론으로 읽음) 제외. M2177 계열 개론(인공지능 개론 등) 인정 여부 미확인"
+    },
+    {
+     "id": "ece-sel",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택전선 13학점 이상: 아래 15과목 중, 창의공학설계(전기·정보공학부 개설 강좌) 반드시 포함",
+     "min_count": null,
+     "min_credits": 13,
+     "courses": [
+      {
+       "code": "400.018",
+       "name": "창의공학설계(전기·정보공학부 개설 강좌)",
+       "credits": 3
+      },
+      {
+       "code": "430.203A",
+       "name": "전자기학",
+       "credits": 3
+      },
+      {
+       "code": "430.301C",
+       "name": "아날로그전자회로",
+       "credits": 3
+      },
+      {
+       "code": "430.328",
+       "name": "전력 및 에너지시스템의 기초",
+       "credits": 3
+      },
+      {
+       "code": "430.322",
+       "name": "컴퓨터조직론",
+       "credits": 3
+      },
+      {
+       "code": "430.326",
+       "name": "양자역학의 응용",
+       "credits": 3
+      },
+      {
+       "code": "430.309A",
+       "name": "전기에너지변환",
+       "credits": 3
+      },
+      {
+       "code": "430.310",
+       "name": "제어공학개론",
+       "credits": 3
+      },
+      {
+       "code": "430.312",
+       "name": "반도체소자",
+       "credits": 3
+      },
+      {
+       "code": "430.314",
+       "name": "확률변수 및 확률과정의 기초",
+       "credits": 3
+      },
+      {
+       "code": "430.315A",
+       "name": "디지털 시스템 설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.317",
+       "name": "통신의 기초",
+       "credits": 3
+      },
+      {
+       "code": "430.217",
+       "name": "자료구조의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2608.000200",
+       "name": "생체전기정보공학",
+       "credits": 3
+      },
+      {
+       "code": "M2608.003200",
+       "name": "회로 이론 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "= 창의공학설계 3 + 나머지 14과목에서 10학점 이상(2024 해설 문장과 같음)"
+    },
+    {
+     "id": "ece-major-total",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 63학점 이상(전필 32·선택전선 13 포함)",
+     "min_count": null,
+     "min_credits": 63,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "타과 전선 9학점 이내(공대 타학과·부(컴퓨터공학부 포함)·자연대·경영대; 경영대는 지정 9과목 중 3학점 이내). 공대 공통교과목은 학점 제한 없이 전선 인정 가능(일부 불인정 가능). M2177.005800 머신러닝을 위한 기초 수학 및 프로그래밍 실습은 졸업학점 불인정. 3학년 이상 석사과정 과목은 교과구분 변경으로 전선"
+    },
+    {
+     "id": "ece-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "병행: 복수·연합·학생설계 전공 병행 45학점, 부·연계전공 병행 48학점(둘 다 전필 32·선택전선 13 이상 포함)",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s2",
+      "s5"
+     ],
+     "note": "학생설계 병행을 해설 표는 48로 적음"
+    },
+    {
+     "id": "ece-overlap",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터공학부 중복 지정 과목(예: 430.201A↔M1522.000700, 430.211↔M1522.000600, 430.217·430.329↔M1522.000900, 430.318↔4190.307, 430.322↔4190.308, M2608.001200↔M1522.002100·4190.411, 430.414↔4190.409, 430.554↔M2794.006700)을 둘 다 들으면 전기·정보 과목만 전공 인정, 컴공 과목은 1과목만 일반선택, 나머지 학점 불인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "ece-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전필 선이수(2020학번~): 프로그래밍방법론←컴퓨터의 개념 및 실습, 기초회로이론 및 실험←공학수학 1·물리학 2(또는 고급물리학 2·일반물리학및실험 2), 기초전자기학 및 연습←공학수학 2·물리학 2(…), 기초전자회로 및 실험←기초회로이론 및 실험·기초전자기학 및 연습, 신호 및 시스템←공학수학 1",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s2"
+     ],
+     "note": "물리의 기본 2로 대체 안 됨"
+    },
+    {
+     "id": "ece-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 제출(미제출 시 수료 처리). 복수전공도 졸업논문 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s4"
+     ]
+    },
+    {
+     "id": "ece-edu",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 1학년 중 이수(2016학번~). 외국어 진행 강좌 3과목(전공 1 포함)은 권장",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "ece-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(2020~2025학번): 전공필수 28(공학개론 3, 논리설계 및 실험, 기초전자기학 및 연습, 기초전자회로 및 실험, 기초회로이론 및 실험, 전기·정보세미나 1·2, 신호 및 시스템, 프로그래밍방법론) + 전공선택필수 15과목 중 10학점 이상(창의공학설계 포함 목록) + 전선 내규필수 4(전기·정보세미나 3, 전기공학설계프로젝트) = 42학점 이상. 졸업논문 제출",
+     "min_count": null,
+     "min_credits": 42,
+     "courses": [
+      {
+       "code": "430.201A",
+       "name": "논리설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.202B",
+       "name": "기초전자기학 및 연습",
+       "credits": 4
+      },
+      {
+       "code": "430.207B",
+       "name": "기초전자회로 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.213A",
+       "name": "기초회로이론 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "M2608.001400",
+       "name": "전기·정보세미나 1",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001500",
+       "name": "전기·정보세미나 2",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001600",
+       "name": "전기·정보세미나 3",
+       "credits": 1
+      },
+      {
+       "code": "430.405",
+       "name": "전기공학설계프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "430.306",
+       "name": "신호 및 시스템",
+       "credits": 3
+      },
+      {
+       "code": "430.211",
+       "name": "프로그래밍방법론",
+       "credits": 4
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s6"
+     ],
+     "note": "courses = 전필 8과목(25)+내규필수 2과목(4). 공학개론 3은 ece-intro, 전공선택필수 10학점은 ece-sel 목록(15과목, 복수전공에선 창의공학설계 필수 아님). 선이수 규정 적용"
+    },
+    {
+     "id": "ece-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공(2024학번~): 필수 23학점(공학개론 3, 논리설계 및 실험 4, 기초전자기학 및 연습 4, 기초전자회로 및 실험 4, 기초회로이론 및 실험 4, 신호 및 시스템 3, 전기·정보세미나 1 1) + 나머지 전기·정보공학부 전공선택으로 24학점 이상",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "430.201A",
+       "name": "논리설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.202B",
+       "name": "기초전자기학 및 연습",
+       "credits": 4
+      },
+      {
+       "code": "430.207B",
+       "name": "기초전자회로 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.213A",
+       "name": "기초회로이론 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.306",
+       "name": "신호 및 시스템",
+       "credits": 3
+      },
+      {
+       "code": "M2608.001400",
+       "name": "전기·정보세미나 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s6"
+     ],
+     "note": "courses 6과목 20학점 + 공학개론 3(ece-intro) = 필수 23"
+    },
+    {
+     "id": "ece-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 5개 영역(언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회) 중 4개 영역 이상",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    }
+   ],
+   "changed": "교양만 옛 체계(학문의 기초 41 + 학문의 세계 12, 4개 영역 이상). 전공·외국어 진행강좌 권장·타과 부전공(2024학번~)은 같음",
+   "note": "옛 교양 번호는 TT Wizard 편람 자료(2021-1~2024) 기준. 2019·2020년에 들은 과목은 번호가 다를 수 있음. 같은 과목을 2025-1 이후 새 번호(F…)로 들어도 인정되는 것으로 보고 둘 다 적음"
+  },
+  {
+   "entry_years": [
+    2021,
+    2023
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 53,
+    "single": 63,
+    "parallel": 45,
+    "double": 42,
+    "minor": 24,
+    "status": "충돌",
+    "src": [
+     "s23",
+     "s24",
+     "s25",
+     "s26"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s23",
+    "s24",
+    "s25"
+   ],
+   "requirements": [
+    {
+     "id": "ece-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목(6학점). 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-math1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000100",
+        "L0442.000200"
+       ],
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "L0442.000500",
+        "L0442.000600"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "ece-ge-math2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 2+수학연습 2 또는 고급수학 2+고급수학연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000300",
+        "L0442.000400"
+       ],
+       [
+        "F31.105",
+        "F31.105L"
+       ],
+       [
+        "L0442.000700",
+        "L0442.000800"
+       ],
+       [
+        "F31.107",
+        "F31.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "ece-ge-engmath",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-2] 공학수학 1, [2-1] 공학수학 2(전필 선이수)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학(1): 물리학 1·2(고급물리학 1·2 대체)+물리학실험 1·2, 학기별 4 총 8학점. 물리의 기본 1·2 불인정, '물리학'(통년)·물리의 기본은 졸업학점으로도 불인정",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-sci2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학(2): 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학(+각 실험) 중 학기별 4, 총 8학점(과학 합 16)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1] 컴퓨터의 개념 및 실습(3학점, 프로그래밍방법론 선이수)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 53학점 이상(학문의 기초 41 + 학문의 세계 12)",
+     "min_count": null,
+     "min_credits": 53,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 32학점 = 아래 10과목 29학점 + 공학개론 1과목 3학점(ece-intro)",
+     "min_count": 10,
+     "min_credits": 29,
+     "courses": [
+      {
+       "code": "430.201A",
+       "name": "논리설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.202B",
+       "name": "기초전자기학 및 연습",
+       "credits": 4
+      },
+      {
+       "code": "430.207B",
+       "name": "기초전자회로 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.213A",
+       "name": "기초회로이론 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "M2608.001400",
+       "name": "전기·정보세미나 1",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001500",
+       "name": "전기·정보세미나 2",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001600",
+       "name": "전기·정보세미나 3",
+       "credits": 1
+      },
+      {
+       "code": "430.405",
+       "name": "전기공학설계프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "430.306",
+       "name": "신호 및 시스템",
+       "credits": 3
+      },
+      {
+       "code": "430.211",
+       "name": "프로그래밍방법론",
+       "credits": 4
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "공학개론 칸(400.***)은 카드에서 전필로 셈"
+    },
+    {
+     "id": "ece-intro",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "공학개론 1과목(3학점, 전필로 셈) — 전기·정보공학개론(400.019A) 제외",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "400.013",
+       "name": "기계공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.015",
+       "name": "산업공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.020",
+       "name": "재료공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.022",
+       "name": "건설환경공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.023",
+       "name": "화학생물공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.024",
+       "name": "에너지자원공학개론",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s4",
+      "s3"
+     ],
+     "note": "복수·부전공 표는 '(기계,산업,재료,건설,화생,에너지)공학개론'. 카드는 '기계·산업·재료·건설환경·화학생물·에너지자원 등 모든 개론' 허용하고 '컴퓨터공학개론'(=전기·정보공학개론으로 읽음) 제외. M2177 계열 개론(인공지능 개론 등) 인정 여부 미확인"
+    },
+    {
+     "id": "ece-sel",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택전선 13학점 이상: 아래 15과목 중, 창의공학설계(전기·정보공학부 개설 강좌) 반드시 포함",
+     "min_count": null,
+     "min_credits": 13,
+     "courses": [
+      {
+       "code": "400.018",
+       "name": "창의공학설계(전기·정보공학부 개설 강좌)",
+       "credits": 3
+      },
+      {
+       "code": "430.203A",
+       "name": "전자기학",
+       "credits": 3
+      },
+      {
+       "code": "430.301C",
+       "name": "아날로그전자회로",
+       "credits": 3
+      },
+      {
+       "code": "430.328",
+       "name": "전력 및 에너지시스템의 기초",
+       "credits": 3
+      },
+      {
+       "code": "430.322",
+       "name": "컴퓨터조직론",
+       "credits": 3
+      },
+      {
+       "code": "430.326",
+       "name": "양자역학의 응용",
+       "credits": 3
+      },
+      {
+       "code": "430.309A",
+       "name": "전기에너지변환",
+       "credits": 3
+      },
+      {
+       "code": "430.310",
+       "name": "제어공학개론",
+       "credits": 3
+      },
+      {
+       "code": "430.312",
+       "name": "반도체소자",
+       "credits": 3
+      },
+      {
+       "code": "430.314",
+       "name": "확률변수 및 확률과정의 기초",
+       "credits": 3
+      },
+      {
+       "code": "430.315A",
+       "name": "디지털 시스템 설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.317",
+       "name": "통신의 기초",
+       "credits": 3
+      },
+      {
+       "code": "430.217",
+       "name": "자료구조의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2608.000200",
+       "name": "생체전기정보공학",
+       "credits": 3
+      },
+      {
+       "code": "M2608.003200",
+       "name": "회로 이론 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "= 창의공학설계 3 + 나머지 14과목에서 10학점 이상(2024 해설 문장과 같음)"
+    },
+    {
+     "id": "ece-major-total",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 63학점 이상(전필 32·선택전선 13 포함)",
+     "min_count": null,
+     "min_credits": 63,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "타과 전선 9학점 이내(공대 타학과·부(컴퓨터공학부 포함)·자연대·경영대; 경영대는 지정 9과목 중 3학점 이내). 공대 공통교과목은 학점 제한 없이 전선 인정 가능(일부 불인정 가능). M2177.005800 머신러닝을 위한 기초 수학 및 프로그래밍 실습은 졸업학점 불인정. 3학년 이상 석사과정 과목은 교과구분 변경으로 전선"
+    },
+    {
+     "id": "ece-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "병행: 복수·연합·학생설계 전공 병행 45학점, 부·연계전공 병행 48학점(둘 다 전필 32·선택전선 13 이상 포함)",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s2",
+      "s5"
+     ],
+     "note": "학생설계 병행을 해설 표는 48로 적음"
+    },
+    {
+     "id": "ece-overlap",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터공학부 중복 지정 과목(예: 430.201A↔M1522.000700, 430.211↔M1522.000600, 430.217·430.329↔M1522.000900, 430.318↔4190.307, 430.322↔4190.308, M2608.001200↔M1522.002100·4190.411, 430.414↔4190.409, 430.554↔M2794.006700)을 둘 다 들으면 전기·정보 과목만 전공 인정, 컴공 과목은 1과목만 일반선택, 나머지 학점 불인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "ece-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전필 선이수(2020학번~): 프로그래밍방법론←컴퓨터의 개념 및 실습, 기초회로이론 및 실험←공학수학 1·물리학 2(또는 고급물리학 2·일반물리학및실험 2), 기초전자기학 및 연습←공학수학 2·물리학 2(…), 기초전자회로 및 실험←기초회로이론 및 실험·기초전자기학 및 연습, 신호 및 시스템←공학수학 1",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s2"
+     ],
+     "note": "물리의 기본 2로 대체 안 됨"
+    },
+    {
+     "id": "ece-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 제출(미제출 시 수료 처리). 복수전공도 졸업논문 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s4"
+     ]
+    },
+    {
+     "id": "ece-edu",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 1학년 중 이수(2016학번~). 외국어 진행강좌 3과목(전공 1 포함, 2012학번부터 대학영어·고급영어 제외) 수강 — 카드에 '권장' 표시 없음(의무)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s20",
+      "s21"
+     ]
+    },
+    {
+     "id": "ece-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(2020~2025학번): 전공필수 28(공학개론 3, 논리설계 및 실험, 기초전자기학 및 연습, 기초전자회로 및 실험, 기초회로이론 및 실험, 전기·정보세미나 1·2, 신호 및 시스템, 프로그래밍방법론) + 전공선택필수 15과목 중 10학점 이상(창의공학설계 포함 목록) + 전선 내규필수 4(전기·정보세미나 3, 전기공학설계프로젝트) = 42학점 이상. 졸업논문 제출",
+     "min_count": null,
+     "min_credits": 42,
+     "courses": [
+      {
+       "code": "430.201A",
+       "name": "논리설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.202B",
+       "name": "기초전자기학 및 연습",
+       "credits": 4
+      },
+      {
+       "code": "430.207B",
+       "name": "기초전자회로 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.213A",
+       "name": "기초회로이론 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "M2608.001400",
+       "name": "전기·정보세미나 1",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001500",
+       "name": "전기·정보세미나 2",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001600",
+       "name": "전기·정보세미나 3",
+       "credits": 1
+      },
+      {
+       "code": "430.405",
+       "name": "전기공학설계프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "430.306",
+       "name": "신호 및 시스템",
+       "credits": 3
+      },
+      {
+       "code": "430.211",
+       "name": "프로그래밍방법론",
+       "credits": 4
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s6"
+     ],
+     "note": "courses = 전필 8과목(25)+내규필수 2과목(4). 공학개론 3은 ece-intro, 전공선택필수 10학점은 ece-sel 목록(15과목, 복수전공에선 창의공학설계 필수 아님). 선이수 규정 적용"
+    },
+    {
+     "id": "ece-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공(2020~2023학번): 필수 23(공학개론 3, 논리설계 및 실험, 기초전자기학 및 연습, 기초전자회로 및 실험, 기초회로이론 및 실험, 전력 및 에너지시스템의 기초, 전기·정보세미나 1) + 전공선택으로 24학점 이상. 선이수 규정 적용",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "430.201A",
+       "name": "논리설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.202B",
+       "name": "기초전자기학 및 연습",
+       "credits": 4
+      },
+      {
+       "code": "430.207B",
+       "name": "기초전자회로 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.213A",
+       "name": "기초회로이론 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.328",
+       "name": "전력 및 에너지시스템의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2608.001400",
+       "name": "전기·정보세미나 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s22"
+     ]
+    },
+    {
+     "id": "ece-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 5개 영역(언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회) 중 3개 영역 이상",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s17",
+      "s18",
+      "s19"
+     ]
+    }
+   ],
+   "changed": "학문의 세계 3개 영역, 외국어 진행강좌 수강(의무). 타과생 부전공(2020~2023학번 열)은 신호 및 시스템 대신 전력 및 에너지시스템의 기초"
+  },
+  {
+   "entry_years": [
+    2020,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 51,
+    "single": 63,
+    "parallel": 45,
+    "double": 42,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s31",
+     "s32"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s31"
+   ],
+   "requirements": [
+    {
+     "id": "ece-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목(4–6학점). 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s27",
+      "s28"
+     ]
+    },
+    {
+     "id": "ece-ge-math1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000100",
+        "L0442.000200"
+       ],
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "L0442.000500",
+        "L0442.000600"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "ece-ge-math2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 2+수학연습 2 또는 고급수학 2+고급수학연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000300",
+        "L0442.000400"
+       ],
+       [
+        "F31.105",
+        "F31.105L"
+       ],
+       [
+        "L0442.000700",
+        "L0442.000800"
+       ],
+       [
+        "F31.107",
+        "F31.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "ece-ge-engmath",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-2] 공학수학 1, [2-1] 공학수학 2(전필 선이수)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학(1): 물리학 1·2(고급물리학 1·2 대체)+물리학실험 1·2, 학기별 4 총 8학점. 물리의 기본 1·2 불인정, '물리학'(통년)·물리의 기본은 졸업학점으로도 불인정",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-sci2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학(2): 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학(+각 실험) 중 학기별 4, 총 8학점(과학 합 16)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1] 컴퓨터의 개념 및 실습(3학점, 프로그래밍방법론 선이수)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 51학점 이상(학문의 기초 39 + 학문의 세계 12)",
+     "min_count": null,
+     "min_credits": 51,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s27",
+      "s28"
+     ]
+    },
+    {
+     "id": "ece-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 32학점 = 아래 10과목 29학점 + 공학개론 1과목 3학점(ece-intro)",
+     "min_count": 10,
+     "min_credits": 29,
+     "courses": [
+      {
+       "code": "430.201A",
+       "name": "논리설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.202B",
+       "name": "기초전자기학 및 연습",
+       "credits": 4
+      },
+      {
+       "code": "430.207B",
+       "name": "기초전자회로 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.213A",
+       "name": "기초회로이론 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "M2608.001400",
+       "name": "전기·정보세미나 1",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001500",
+       "name": "전기·정보세미나 2",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001600",
+       "name": "전기·정보세미나 3",
+       "credits": 1
+      },
+      {
+       "code": "430.405",
+       "name": "전기공학설계프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "430.306",
+       "name": "신호 및 시스템",
+       "credits": 3
+      },
+      {
+       "code": "430.211",
+       "name": "프로그래밍방법론",
+       "credits": 4
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "공학개론 칸(400.***)은 카드에서 전필로 셈"
+    },
+    {
+     "id": "ece-intro",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "공학개론 1과목(3학점, 전필로 셈) — 전기·정보공학개론(400.019A) 제외",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "400.013",
+       "name": "기계공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.015",
+       "name": "산업공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.020",
+       "name": "재료공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.022",
+       "name": "건설환경공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.023",
+       "name": "화학생물공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.024",
+       "name": "에너지자원공학개론",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s4",
+      "s3"
+     ],
+     "note": "복수·부전공 표는 '(기계,산업,재료,건설,화생,에너지)공학개론'. 카드는 '기계·산업·재료·건설환경·화학생물·에너지자원 등 모든 개론' 허용하고 '컴퓨터공학개론'(=전기·정보공학개론으로 읽음) 제외. M2177 계열 개론(인공지능 개론 등) 인정 여부 미확인"
+    },
+    {
+     "id": "ece-sel",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택전선 13학점 이상: 아래 15과목 중, 창의공학설계(전기·정보공학부 개설 강좌) 반드시 포함",
+     "min_count": null,
+     "min_credits": 13,
+     "courses": [
+      {
+       "code": "400.018",
+       "name": "창의공학설계(전기·정보공학부 개설 강좌)",
+       "credits": 3
+      },
+      {
+       "code": "430.203A",
+       "name": "전자기학",
+       "credits": 3
+      },
+      {
+       "code": "430.301C",
+       "name": "아날로그전자회로",
+       "credits": 3
+      },
+      {
+       "code": "430.328",
+       "name": "전력 및 에너지시스템의 기초",
+       "credits": 3
+      },
+      {
+       "code": "430.322",
+       "name": "컴퓨터조직론",
+       "credits": 3
+      },
+      {
+       "code": "430.326",
+       "name": "양자역학의 응용",
+       "credits": 3
+      },
+      {
+       "code": "430.309A",
+       "name": "전기에너지변환",
+       "credits": 3
+      },
+      {
+       "code": "430.310",
+       "name": "제어공학개론",
+       "credits": 3
+      },
+      {
+       "code": "430.312",
+       "name": "반도체소자",
+       "credits": 3
+      },
+      {
+       "code": "430.314",
+       "name": "확률변수 및 확률과정의 기초",
+       "credits": 3
+      },
+      {
+       "code": "430.315A",
+       "name": "디지털 시스템 설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.317",
+       "name": "통신의 기초",
+       "credits": 3
+      },
+      {
+       "code": "430.217",
+       "name": "자료구조의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2608.000200",
+       "name": "생체전기정보공학",
+       "credits": 3
+      },
+      {
+       "code": "M2608.003200",
+       "name": "회로 이론 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "= 창의공학설계 3 + 나머지 14과목에서 10학점 이상(2024 해설 문장과 같음)"
+    },
+    {
+     "id": "ece-major-total",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 63학점 이상(전필 32·선택전선 13 포함)",
+     "min_count": null,
+     "min_credits": 63,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "타과 전선 9학점 이내(공대 타학과·부(컴퓨터공학부 포함)·자연대·경영대; 경영대는 지정 9과목 중 3학점 이내). 공대 공통교과목은 학점 제한 없이 전선 인정 가능(일부 불인정 가능). M2177.005800 머신러닝을 위한 기초 수학 및 프로그래밍 실습은 졸업학점 불인정. 3학년 이상 석사과정 과목은 교과구분 변경으로 전선"
+    },
+    {
+     "id": "ece-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "병행: 복수·연합 45학점, 부·연계·학생설계 48학점(둘 다 전필 32·선택전선 13(창의공학설계 3 포함) 이상)",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s29",
+      "s30"
+     ]
+    },
+    {
+     "id": "ece-overlap",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터공학부 중복 지정 과목(예: 430.201A↔M1522.000700, 430.211↔M1522.000600, 430.217·430.329↔M1522.000900, 430.318↔4190.307, 430.322↔4190.308, M2608.001200↔M1522.002100·4190.411, 430.414↔4190.409, 430.554↔M2794.006700)을 둘 다 들으면 전기·정보 과목만 전공 인정, 컴공 과목은 1과목만 일반선택, 나머지 학점 불인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "ece-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전필 선이수(2020학번~): 프로그래밍방법론←컴퓨터의 개념 및 실습, 기초회로이론 및 실험←공학수학 1·물리학 2(또는 고급물리학 2·일반물리학및실험 2), 기초전자기학 및 연습←공학수학 2·물리학 2(…), 기초전자회로 및 실험←기초회로이론 및 실험·기초전자기학 및 연습, 신호 및 시스템←공학수학 1",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s2"
+     ],
+     "note": "물리의 기본 2로 대체 안 됨"
+    },
+    {
+     "id": "ece-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 제출(미제출 시 수료 처리). 복수전공도 졸업논문 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s4"
+     ]
+    },
+    {
+     "id": "ece-edu",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 1학년 중 이수(2016학번~). 외국어 진행강좌 3과목(전공 1 포함, 2012학번부터 대학영어·고급영어 제외) 수강 — 카드에 '권장' 표시 없음(의무)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s20",
+      "s21"
+     ]
+    },
+    {
+     "id": "ece-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(2020~2025학번): 전공필수 28(공학개론 3, 논리설계 및 실험, 기초전자기학 및 연습, 기초전자회로 및 실험, 기초회로이론 및 실험, 전기·정보세미나 1·2, 신호 및 시스템, 프로그래밍방법론) + 전공선택필수 15과목 중 10학점 이상(창의공학설계 포함 목록) + 전선 내규필수 4(전기·정보세미나 3, 전기공학설계프로젝트) = 42학점 이상. 졸업논문 제출",
+     "min_count": null,
+     "min_credits": 42,
+     "courses": [
+      {
+       "code": "430.201A",
+       "name": "논리설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.202B",
+       "name": "기초전자기학 및 연습",
+       "credits": 4
+      },
+      {
+       "code": "430.207B",
+       "name": "기초전자회로 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.213A",
+       "name": "기초회로이론 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "M2608.001400",
+       "name": "전기·정보세미나 1",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001500",
+       "name": "전기·정보세미나 2",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001600",
+       "name": "전기·정보세미나 3",
+       "credits": 1
+      },
+      {
+       "code": "430.405",
+       "name": "전기공학설계프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "430.306",
+       "name": "신호 및 시스템",
+       "credits": 3
+      },
+      {
+       "code": "430.211",
+       "name": "프로그래밍방법론",
+       "credits": 4
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s6"
+     ],
+     "note": "courses = 전필 8과목(25)+내규필수 2과목(4). 공학개론 3은 ece-intro, 전공선택필수 10학점은 ece-sel 목록(15과목, 복수전공에선 창의공학설계 필수 아님). 선이수 규정 적용"
+    },
+    {
+     "id": "ece-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공(2020~2023학번): 필수 23(공학개론 3, 논리설계 및 실험, 기초전자기학 및 연습, 기초전자회로 및 실험, 기초회로이론 및 실험, 전력 및 에너지시스템의 기초, 전기·정보세미나 1) + 전공선택으로 24학점 이상. 선이수 규정 적용",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "430.201A",
+       "name": "논리설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.202B",
+       "name": "기초전자기학 및 연습",
+       "credits": 4
+      },
+      {
+       "code": "430.207B",
+       "name": "기초전자회로 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.213A",
+       "name": "기초회로이론 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.328",
+       "name": "전력 및 에너지시스템의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2608.001400",
+       "name": "전기·정보세미나 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s22"
+     ]
+    },
+    {
+     "id": "ece-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 5개 영역(언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회) 중 3개 영역 이상",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16",
+      "s17",
+      "s18",
+      "s19"
+     ]
+    }
+   ],
+   "changed": "외국어 2학점×2(학문의 기초 39, 교양 51), 학생설계 병행 48"
+  },
+  {
+   "entry_years": [
+    2019,
+    2019
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 45,
+    "single": 63,
+    "parallel": 42,
+    "double": 42,
+    "minor": 24,
+    "status": "확인",
+    "src": [
+     "s39",
+     "s40"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s39",
+    "s37"
+   ],
+   "requirements": [
+    {
+     "id": "ece-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목(4–6학점). 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s27",
+      "s28"
+     ]
+    },
+    {
+     "id": "ece-ge-math1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000100",
+        "L0442.000200"
+       ],
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "L0442.000500",
+        "L0442.000600"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "ece-ge-math2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 2+수학연습 2 또는 고급수학 2+고급수학연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000300",
+        "L0442.000400"
+       ],
+       [
+        "F31.105",
+        "F31.105L"
+       ],
+       [
+        "L0442.000700",
+        "L0442.000800"
+       ],
+       [
+        "F31.107",
+        "F31.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "ece-ge-engmath",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-2] 공학수학 1, [2-1] 공학수학 2(전필 선이수)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학(1): 물리학 1·2+물리학실험 1·2(물리의 기본 1·2 또는 고급물리학 1·2 가능), 학기별 4 총 8학점",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s33"
+     ]
+    },
+    {
+     "id": "ece-ge-sci2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학(2): 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학(+각 실험) 중 학기별 4, 총 8학점(과학 합 16)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1] 컴퓨터의 개념 및 실습(3학점, 프로그래밍방법론 선이수)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13"
+     ]
+    },
+    {
+     "id": "ece-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 45학점 이상(학문의 기초 39 + 학문의 세계 6)",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s33"
+     ]
+    },
+    {
+     "id": "ece-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 32학점 = 아래 10과목 29학점 + 공학개론 1과목 3학점(ece-intro)",
+     "min_count": 10,
+     "min_credits": 29,
+     "courses": [
+      {
+       "code": "430.201A",
+       "name": "논리설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.202B",
+       "name": "기초전자기학 및 연습",
+       "credits": 4
+      },
+      {
+       "code": "430.207B",
+       "name": "기초전자회로 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.213A",
+       "name": "기초회로이론 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "M2608.001400",
+       "name": "전기·정보세미나 1",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001500",
+       "name": "전기·정보세미나 2",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001600",
+       "name": "전기·정보세미나 3",
+       "credits": 1
+      },
+      {
+       "code": "430.405",
+       "name": "전기공학설계프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "430.306",
+       "name": "신호 및 시스템",
+       "credits": 3
+      },
+      {
+       "code": "430.211",
+       "name": "프로그래밍방법론",
+       "credits": 4
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "공학개론 칸(400.***)은 카드에서 전필로 셈"
+    },
+    {
+     "id": "ece-intro",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "공학개론 1과목(3학점, 전필로 셈) — 전기·정보공학개론(400.019A) 제외",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "400.013",
+       "name": "기계공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.015",
+       "name": "산업공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.020",
+       "name": "재료공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.022",
+       "name": "건설환경공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.023",
+       "name": "화학생물공학개론",
+       "credits": 3
+      },
+      {
+       "code": "400.024",
+       "name": "에너지자원공학개론",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s4",
+      "s3"
+     ],
+     "note": "복수·부전공 표는 '(기계,산업,재료,건설,화생,에너지)공학개론'. 카드는 '기계·산업·재료·건설환경·화학생물·에너지자원 등 모든 개론' 허용하고 '컴퓨터공학개론'(=전기·정보공학개론으로 읽음) 제외. M2177 계열 개론(인공지능 개론 등) 인정 여부 미확인"
+    },
+    {
+     "id": "ece-sel",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택전선 10학점 이상: 아래 14과목 중(창의공학설계는 이 목록에 없음)",
+     "min_count": null,
+     "min_credits": 10,
+     "courses": [
+      {
+       "code": "430.203A",
+       "name": "전자기학",
+       "credits": 3
+      },
+      {
+       "code": "430.301C",
+       "name": "아날로그전자회로",
+       "credits": 3
+      },
+      {
+       "code": "430.328",
+       "name": "전력 및 에너지시스템의 기초",
+       "credits": 3
+      },
+      {
+       "code": "430.322",
+       "name": "컴퓨터조직론",
+       "credits": 3
+      },
+      {
+       "code": "430.326",
+       "name": "양자역학의 응용",
+       "credits": 3
+      },
+      {
+       "code": "430.309A",
+       "name": "전기에너지변환",
+       "credits": 3
+      },
+      {
+       "code": "430.310",
+       "name": "제어공학개론",
+       "credits": 3
+      },
+      {
+       "code": "430.312",
+       "name": "반도체소자",
+       "credits": 3
+      },
+      {
+       "code": "430.314",
+       "name": "확률변수 및 확률과정의 기초",
+       "credits": 3
+      },
+      {
+       "code": "430.315A",
+       "name": "디지털 시스템 설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.317",
+       "name": "통신의 기초",
+       "credits": 3
+      },
+      {
+       "code": "430.217",
+       "name": "자료구조의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2608.000200",
+       "name": "생체전기정보공학",
+       "credits": 3
+      },
+      {
+       "code": "M2608.003200",
+       "name": "회로 이론 및 실험",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s34"
+     ]
+    },
+    {
+     "id": "ece-major-total",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 63학점 이상(전필 32·선택전선 10 이상 포함). 타과 전선 9학점 이내(경영대 지정 9과목 중 3학점 이내), 공대 공통교과목은 학점 제한 없이 전선 인정 가능",
+     "min_count": null,
+     "min_credits": 63,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s35"
+     ]
+    },
+    {
+     "id": "ece-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공(복수·부·연합·연계·학생설계) 병행 시 전공 42학점 이상(전필 32 + 선택전선 10 이상)",
+     "min_count": null,
+     "min_credits": 42,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s36"
+     ]
+    },
+    {
+     "id": "ece-overlap",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터공학부 중복 지정 과목(예: 430.201A↔M1522.000700, 430.211↔M1522.000600, 430.217·430.329↔M1522.000900, 430.318↔4190.307, 430.322↔4190.308, M2608.001200↔M1522.002100·4190.411, 430.414↔4190.409, 430.554↔M2794.006700)을 둘 다 들으면 전기·정보 과목만 전공 인정, 컴공 과목은 1과목만 일반선택, 나머지 학점 불인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "ece-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 제출(미제출 시 수료 처리). 복수전공도 졸업논문 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s4"
+     ]
+    },
+    {
+     "id": "ece-edu",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 1학년 중 이수(2016학번~). 외국어 진행강좌 3과목(전공 1 포함, 2012학번부터 대학영어·고급영어 제외) 수강 — 카드에 '권장' 표시 없음(의무)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s20",
+      "s21"
+     ]
+    },
+    {
+     "id": "ece-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(2019학번): 전필 28(공학개론 3 + 8과목 25) + 전공선택필수 14과목 중 10학점 이상(창의공학설계 없음) + 전선 내규필수 4(전기·정보세미나 3, 전기공학설계프로젝트) = 42. 선이수 규정 없음",
+     "min_count": null,
+     "min_credits": 42,
+     "courses": [
+      {
+       "code": "430.201A",
+       "name": "논리설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.202B",
+       "name": "기초전자기학 및 연습",
+       "credits": 4
+      },
+      {
+       "code": "430.207B",
+       "name": "기초전자회로 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.213A",
+       "name": "기초회로이론 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "M2608.001400",
+       "name": "전기·정보세미나 1",
+       "credits": 1
+      },
+      {
+       "code": "M2608.001500",
+       "name": "전기·정보세미나 2",
+       "credits": 1
+      },
+      {
+       "code": "430.306",
+       "name": "신호 및 시스템",
+       "credits": 3
+      },
+      {
+       "code": "430.211",
+       "name": "프로그래밍방법론",
+       "credits": 4
+      },
+      {
+       "code": "M2608.001600",
+       "name": "전기·정보세미나 3",
+       "credits": 1
+      },
+      {
+       "code": "430.405",
+       "name": "전기공학설계프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s37"
+     ]
+    },
+    {
+     "id": "ece-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공(2019학번): 필수 23(공학개론 3, 논리설계 및 실험, 기초전자기학 및 연습, 기초전자회로 및 실험, 기초회로이론 및 실험, 전력 및 에너지시스템의 기초, 전기·정보세미나 1) + 전공선택으로 24학점 이상(선이수 규정 없음)",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [
+      {
+       "code": "430.201A",
+       "name": "논리설계 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.202B",
+       "name": "기초전자기학 및 연습",
+       "credits": 4
+      },
+      {
+       "code": "430.207B",
+       "name": "기초전자회로 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.213A",
+       "name": "기초회로이론 및 실험",
+       "credits": 4
+      },
+      {
+       "code": "430.328",
+       "name": "전력 및 에너지시스템의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M2608.001400",
+       "name": "전기·정보세미나 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s37"
+     ]
+    },
+    {
+     "id": "ece-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 6학점: 5개 영역(언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회) 중 2개 영역 이상. 공대 사회성·창의성 교과목군은 별도(college_common.other eng-social-creative)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s33"
+     ]
+    },
+    {
+     "id": "ece-social-creative",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사회성 교과목(창업과 경제, 기술과 경제, 공학윤리와 리더십, 특허와 기술창업, 기술과 창업, 공학인을 위한 경영, 공학기술과사회) 또는 학문의 세계 '인간과 사회' 3학점 + 창의성: 전기·정보공학부 개설 창의공학설계(400.018) 필수(2017학번~, 공대 공통으로 전공학점 포함)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "400.018",
+       "name": "창의공학설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s38"
+     ],
+     "extra": {
+      "ref": "college_common.other.eng-social-creative"
+     }
+    }
+   ],
+   "changed": "물리의 기본 허용, 학문의 세계 6(2개 영역), 선택전선 10(14과목, 창의공학설계는 목록 밖 '창의성 교과목'으로 필수), 병행 42, 선이수 규정 없음(2020학번부터)"
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2020,
+   "basis": "입학 연도",
+   "what": "전필 5과목 선이수 규정, 물리의 기본 불인정, 창의공학설계가 선택전선(13학점, 15과목) 필수로, 병행 42→45/48, 사회성·창의성 폐지, 학문의 세계 12(교양 51)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "외국어 3학점×2(교양 53), 학생설계 병행 48→45(카드; 해설 표는 48 그대로)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "학문의 세계 4개 영역, 외국어 진행강좌 '(권장)', 타과생 부전공 필수 과목 전력 및 에너지시스템의 기초→신호 및 시스템",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 체계 개편(53 유지)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2026,
+   "basis": "교과 개편 학기",
+   "what": "회로 이론 및 실험(M2608.003200) 2026-2 첫 개설 — 카드는 모든 학번 선택전선 목록에 넣음(카드 3학점, 편람 4학점)",
+   "status": "부분"
+  }
+ ],
+ "ask_department": [
+  "학생설계전공 병행 학점(카드 45 vs 해설 48)",
+  "회로 이론 및 실험(M2608.003200) 학점(카드 3 vs 편람 4)",
+  "M2177 계열 공대 공통 개론이 전필 공학개론으로 인정되는지(2026 카드는 '400으로 시작하는 개론')",
+  "2026학번 타과생 복수전공 기준(규정 파일은 2020~2025학번 열까지)",
+  "학생설계전공 병행 시 45인지 48인지",
+  "M2177 계열 공대 공통 개론(인공지능 개론 등)이 전필 공학개론으로 인정되는지"
+ ],
+ "sources": {
+  "s1": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.125–126(PDF 21–22쪽) '□ 공과대학 (전기･정보공학부)'",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "전기·정보공학부, <2025학번> 졸업사정 이수과목 확인 카드(2025학년도 이수규정, 2026-08-13 작성 PDF)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=28",
+   "locator": "2. 교양, 3. 전공(전필 32·선택전선 13), 4. 전공선택 인정교과목, 7. 기초과학/실험, 8. 기타 ⑥ 병행 학점",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.61–63 430. 전기⋅정보공학부(교과목 이수규정·중복과목 표는 p.63 머리 445 쪽에 있음)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "전기·정보공학부, 복수전공·부전공 졸업이수규정(2025학년 추가)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=22",
+   "locator": "3쪽 복수전공(2020~2025학번), 5쪽 부전공(2024학번~), 6쪽 전공필수 교과목 선이수",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, p.9 공과대학 행(PDF 2쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 2> 학사과정 복수·부전공 이수학점 기준, p.10 공과대학 행(PDF 3쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "전기·정보공학부, <2025학번> 졸업사정 이수과목 확인 카드(2025학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=28",
+   "locator": "<2025학번> 카드",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "전기·정보공학부, <2026학번> 졸업사정 이수과목 확인 카드(2026학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=30",
+   "locator": "<2026학번> 카드",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.131–132(PDF 23–24쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1> '부·연계·학생설계 48'",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "전기·정보공학부, <2026학번> 졸업사정 이수과목 확인 카드(2026학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=30",
+   "locator": "<2026학번> 카드 — 2025 카드와 같은 틀",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "전기·정보공학부, <2024학번> 졸업사정 이수과목 확인 카드(2024학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=26",
+   "locator": "<2024학번> 카드 2. 교양",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.17(PDF) '□ 공과대학 (전기ㆍ정보공학부)'",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "전기·정보공학부, <2024학번> 졸업사정 이수과목 확인 카드(2024학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=26",
+   "locator": "<2024학번> 카드",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1>·<표 2>",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "전기·정보공학부, <2021학번> 졸업사정 이수과목 확인 카드(2021학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=19",
+   "locator": "<2021학번> 카드 2. 교양",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "전기·정보공학부, <2022학번> 졸업사정 이수과목 확인 카드(2022학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=20",
+   "locator": "<2022학번> 카드 2. 교양",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "전기·정보공학부, <2023학번> 졸업사정 이수과목 확인 카드(2023학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=21",
+   "locator": "<2023학번> 카드 2. 교양",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "p.16(PDF)",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "전기·정보공학부, <2021학번> 졸업사정 이수과목 확인 카드(2021학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=19",
+   "locator": "<2021학번> 카드 8. 기타 ①③",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "전기·정보공학부, <2023학번> 졸업사정 이수과목 확인 카드(2023학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=21",
+   "locator": "<2023학번> 카드 8. 기타 ①③",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "전기·정보공학부, 복수(부)전공 교과목이수규정(학번 구간별 표, 2025학년 추가)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=22",
+   "locator": "'2020 ~ 2023 학번' 열",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "전기·정보공학부, <2021학번> 졸업사정 이수과목 확인 카드(2021학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=19",
+   "locator": "<2021학번> 카드",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "전기·정보공학부, <2022학번> 졸업사정 이수과목 확인 카드(2022학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=20",
+   "locator": "<2022학번> 카드",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "전기·정보공학부, <2023학번> 졸업사정 이수과목 확인 카드(2023학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=21",
+   "locator": "<2023학번> 카드",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 1>·<표 2>",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "전기·정보공학부, <2020학번> 졸업사정 이수과목 확인 카드(2020학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=18",
+   "locator": "<2020학번> 카드 2. 교양",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.15(PDF)",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "전기·정보공학부, <2020학번> 졸업사정 이수과목 확인 카드(2020학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=18",
+   "locator": "<2020학번> 카드 8. 기타 ⑥",
+   "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 1> 비고",
+   "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "전기·정보공학부, <2020학번> 졸업사정 이수과목 확인 카드(2020학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=18",
+   "locator": "<2020학번> 카드",
+   "accessed": "2026-11-12"
+  },
+  "s32": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 1> 51/63/45(부·연계·학생설계 48)",
+   "accessed": "2026-11-12"
+  },
+  "s33": {
+   "title": "전기·정보공학부, <2019학번> 졸업사정 이수과목 확인 카드(2019학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=17",
+   "locator": "<2019학번> 카드 2. 교양",
+   "accessed": "2026-11-12"
+  },
+  "s34": {
+   "title": "전기·정보공학부, <2019학번> 졸업사정 이수과목 확인 카드(2019학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=17",
+   "locator": "<2019학번> 카드 3. 전공",
+   "accessed": "2026-11-12"
+  },
+  "s35": {
+   "title": "전기·정보공학부, <2019학번> 졸업사정 이수과목 확인 카드(2019학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=17",
+   "locator": "<2019학번> 카드 3. 전공 '계', 4. 전공선택 인정교과목",
+   "accessed": "2026-11-12"
+  },
+  "s36": {
+   "title": "전기·정보공학부, <2019학번> 졸업사정 이수과목 확인 카드(2019학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=17",
+   "locator": "<2019학번> 카드 9. 기타 ⑥",
+   "accessed": "2026-11-12"
+  },
+  "s37": {
+   "title": "전기·정보공학부, 복수(부)전공 교과목이수규정(학번 구간별 표, 2025학년 추가)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=22",
+   "locator": "'2019 학번' 열",
+   "accessed": "2026-11-12"
+  },
+  "s38": {
+   "title": "전기·정보공학부, <2019학번> 졸업사정 이수과목 확인 카드(2019학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=17",
+   "locator": "<2019학번> 카드 2. 교양 아래 칸, 7. 사회성 및 창의성 교과목",
+   "accessed": "2026-11-12"
+  },
+  "s39": {
+   "title": "전기·정보공학부, <2019학번> 졸업사정 이수과목 확인 카드(2019학년도 이수규정)",
+   "url": "https://ece.snu.ac.kr/academics/undergraduate/requirements?md=download&seqidx=17",
+   "locator": "<2019학번> 카드",
+   "accessed": "2026-11-12"
+  },
+  "s40": {
+   "title": "서울대학교, 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 1> 전기·정보공학부 44/63/42(2018학번 판)",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

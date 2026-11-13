@@ -1,0 +1,4720 @@
+{
+ "id": "p-825e63cf",
+ "college": "공과대학",
+ "unit": "원자핵공학과",
+ "program": "원자핵공학과",
+ "kind": "major",
+ "depts": [
+  "원자핵공학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "공과대학 원자핵공학과",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 53,
+    "single": 62,
+    "parallel": 48,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s9",
+     "s10",
+     "s11",
+     "s12"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s13"
+   ],
+   "requirements": [
+    {
+     "id": "nuc-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: [1-2] 대학 글쓰기 1, [2-2] 대학 글쓰기 2: 과학기술글쓰기(길잡이 학기 표기. 학과 안내는 [1-1]·[1-2])",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "nuc-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목(6학점). 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "외국어 영역 과목 목록은 학부대학 길잡이 영역표를 따른다(여기선 영역으로만 셈)"
+    },
+    {
+     "id": "nuc-ge-math1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1] 수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "options": [
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "nuc-ge-math2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-2] 수학 2+수학연습 2 또는 고급수학 2+고급수학연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "options": [
+       [
+        "F31.105",
+        "F31.105L"
+       ],
+       [
+        "F31.107",
+        "F31.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "nuc-ge-engmath",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "nuc-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학(1): 물리학 1(물리의 기본 1·고급물리학 1 대체)+실험 1, 물리학 2(물리의 기본 2·고급물리학 2 대체)+실험 2 — 학기별 4, 총 8학점",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "고교 물리 2를 이수했으면 '물리학 1·2', 아니면 '물리의 기본 1·2'가 원칙. 물리의 기본 대상자가 물리학을 들으려면 물리학성취도평가 점수 필요",
+     "extra": {
+      "options": [
+       [
+        "F33.106",
+        "F33.106L",
+        "F33.107",
+        "F33.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "nuc-ge-sci2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학(2): 화학 1·2+실험, 생물학 1·2+실험, 화학(또는 고급화학)+실험, 생물학+실험, 통계학+통계학실험 중 학기별 4, 총 8학점(과학 합 16)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "통계학·통계학실험은 [수학] 영역 과목이지만 [과학] 이수로 인정"
+    },
+    {
+     "id": "nuc-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1] 컴퓨터의 개념 및 실습(컴퓨팅 3학점)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "별도 절차로 '컴퓨터의 기초, 컴퓨터의 개념 및 실습'을 면제받으면 컴퓨팅 최저학점은 충족으로 보되 교양 전체 최저학점은 채워야 함"
+    },
+    {
+     "id": "nuc-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: '문화 해석과 상상'·'역사적 탐구와 철학적 사유'·'인간의 이해와 사회 분석' 각 3학점('과학적 사고와 응용'은 칸 비어 있음)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "nuc-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 영역(베리타스 강좌 1·2, 베리타스 실천)에서 3학점 이상",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "nuc-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 53학점 이상(나머지는 전체 교양 교과목에서 자유 선택)",
+     "min_count": null,
+     "min_credits": 53,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "nuc-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 12과목 31학점 모두 이수(학사논문연구 1·2 포함)",
+     "min_count": 12,
+     "min_credits": 31,
+     "courses": [
+      {
+       "code": "409.201",
+       "name": "핵공학개론 1",
+       "credits": 3
+      },
+      {
+       "code": "M1509.001800",
+       "name": "핵공학 물리 기초",
+       "credits": 3
+      },
+      {
+       "code": "409.223",
+       "name": "핵공학기초실험",
+       "credits": 3
+      },
+      {
+       "code": "409.202",
+       "name": "핵공학개론 2",
+       "credits": 3
+      },
+      {
+       "code": "409.209A",
+       "name": "플라즈마전자역학 1",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000900",
+       "name": "원자력열유체공학",
+       "credits": 3
+      },
+      {
+       "code": "409.301A",
+       "name": "원자로이론",
+       "credits": 3
+      },
+      {
+       "code": "409.307A",
+       "name": "플라즈마기초",
+       "credits": 3
+      },
+      {
+       "code": "M1509.001000",
+       "name": "방사선 물리와 방호",
+       "credits": 3
+      },
+      {
+       "code": "409.328",
+       "name": "원자핵공학세미나 1",
+       "credits": 1
+      },
+      {
+       "code": "M1509.000500",
+       "name": "원자핵공학 학사논문연구 1",
+       "credits": 2
+      },
+      {
+       "code": "M1509.000600",
+       "name": "원자핵공학 학사논문연구 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "2025-1 시행: 공학물리 기초(409.214)→핵공학 물리 기초(M1509.001800), 핵공학 현대물리(M1509.000200) 2025-2 폐지(전필에서 빠짐). 학과 안내는 전필 합을 적지 않음(31은 * 과목 합)"
+    },
+    {
+     "id": "nuc-lab",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "실험교과목 8과목 중 3과목(9학점) 이상(핵공학기초실험 포함)",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "409.223",
+       "name": "핵공학기초실험",
+       "credits": 3
+      },
+      {
+       "code": "409.313A",
+       "name": "핵융합 플라즈마 실험",
+       "credits": 3
+      },
+      {
+       "code": "409.402F",
+       "name": "원자력시스템실습",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000100",
+       "name": "원자로 열유체 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000400",
+       "name": "원자로물리 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1509.001100",
+       "name": "핵공학 시뮬레이션 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1509.001700",
+       "name": "원자력 재료 실험",
+       "credits": 3
+      },
+      {
+       "code": "400.018",
+       "name": "창의공학설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s4",
+      "s5"
+     ]
+    },
+    {
+     "id": "nuc-dept-48",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 62학점 중 학과 개설 교과목 48학점 이상. 나머지는 공과대학·자연과학대학 과목으로도 가능",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "48에 전필이 포함되는지 명시 없음(포함으로 읽음). 병행(48) 때도 이 조건이 적용되는지 미확인"
+    },
+    {
+     "id": "nuc-major-total",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 62학점(전필+전선)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "전선 인정: 공대 공통 전체(400·M2177), 공대·자연대 학과 과목 중 학과장 승인, 경영대 지정 과목(교과구분 변경 신청)"
+    },
+    {
+     "id": "nuc-eng-common",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 공통교과목 전 영역에서 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5"
+     ],
+     "note": "2024 교과과정(해설) 교과목이수규정 ①에만 있고 학과 2025학번 안내엔 없음 → 2025 적용 여부 학과 확인",
+     "extra": {
+      "ref": "college_common.eng_common_2026_1"
+     }
+    },
+    {
+     "id": "nuc-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행 시 주전공 48학점",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "nuc-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문: 학사논문연구 1(졸업 직전 학기)·2(졸업 학기) 수강, 최종 논문 제출과 발표회로 통과 판정(2018학번부터)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7"
+     ]
+    },
+    {
+     "id": "nuc-edu",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수증 제출(2016 공대 신입생부터 의무). 외국어 진행강좌 3과목(전공 1 포함)은 권장",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "nuc-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 복수전공 39학점(세부 필수과목은 학과내규 — 못 찾음)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s5"
+     ]
+    },
+    {
+     "id": "nuc-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "다른 학과 학생의 부전공 21학점(세부는 학과내규 — 못 찾음)",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s5"
+     ]
+    },
+    {
+     "id": "nuc-dm-courses",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "복수전공(39)·부전공(21)의 필수 과목·조건",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s5"
+     ],
+     "note": "교과과정엔 '학과내규에 따름'만 있고, 학과 누리집 졸업규정·공지(1쪽)에서 못 찾음"
+    }
+   ],
+   "note": "2026학번 = 2025학번. 2026 길잡이 머리말도 '원자핵공학과'로 고침"
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 53,
+    "single": 62,
+    "parallel": 48,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s14",
+     "s15",
+     "s12"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s14",
+    "s15",
+    "s16",
+    "s18"
+   ],
+   "requirements": [
+    {
+     "id": "nuc-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목(6학점). 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-math1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000100",
+        "L0442.000200"
+       ],
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "L0442.000500",
+        "L0442.000600"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "nuc-ge-math2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 2+수학연습 2 또는 고급수학 2+고급수학연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000300",
+        "L0442.000400"
+       ],
+       [
+        "F31.105",
+        "F31.105L"
+       ],
+       [
+        "L0442.000700",
+        "L0442.000800"
+       ],
+       [
+        "F31.107",
+        "F31.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "nuc-ge-engmath",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(1): 물리학 1·2(물리의 기본·고급물리학 대체 가능)+물리학실험 1·2, 학기별 4, 총 8학점",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-sci2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(2): 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학(+각 실험) 중 학기별 4, 총 8학점(과학 합 16)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1] 컴퓨터의 개념 및 실습(3학점)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 53학점 이상(학문의 기초 41 + 학문의 세계 12)",
+     "min_count": null,
+     "min_credits": 53,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 13과목 34학점(학과 시트: 전필 34 + 전선 28 = 62, 학사논문연구 1·2 포함). 2025-1 개정이 모든 졸업 예정자에게 소급: 공학물리 기초를 2024학년도까지 안 들었으면 핵공학 물리 기초, 핵공학 현대물리를 2024학년도까지 안 들었으면 핵공학 물리 기초·응용핵물리 중 1과목",
+     "min_count": 13,
+     "min_credits": 34,
+     "courses": [
+      {
+       "code": "409.201",
+       "name": "핵공학개론 1",
+       "credits": 3
+      },
+      {
+       "code": "409.214",
+       "name": "공학물리 기초",
+       "credits": 3
+      },
+      {
+       "code": "409.223",
+       "name": "핵공학기초실험",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000200",
+       "name": "핵공학 현대물리",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000900",
+       "name": "원자력열유체공학",
+       "credits": 3
+      },
+      {
+       "code": "409.202",
+       "name": "핵공학개론 2",
+       "credits": 3
+      },
+      {
+       "code": "409.209A",
+       "name": "플라즈마전자역학 1",
+       "credits": 3
+      },
+      {
+       "code": "409.301A",
+       "name": "원자로이론",
+       "credits": 3
+      },
+      {
+       "code": "409.307A",
+       "name": "플라즈마기초",
+       "credits": 3
+      },
+      {
+       "code": "M1509.001000",
+       "name": "방사선 물리와 방호",
+       "credits": 3
+      },
+      {
+       "code": "409.328",
+       "name": "원자핵공학세미나 1",
+       "credits": 1
+      },
+      {
+       "code": "M1509.000500",
+       "name": "원자핵공학 학사논문연구 1",
+       "credits": 2
+      },
+      {
+       "code": "M1509.000600",
+       "name": "원자핵공학 학사논문연구 2",
+       "credits": 1
+      },
+      {
+       "code": "M1509.001800",
+       "name": "핵공학 물리 기초",
+       "credits": 3
+      },
+      {
+       "code": "409.225",
+       "name": "응용핵물리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s16"
+     ],
+     "note": "두 대체가 같은 과목(핵공학 물리 기초)을 가리키므로 둘 다 안 들었으면 핵공학 물리 기초+응용핵물리로 읽음(학과 확인 권장)"
+    },
+    {
+     "id": "nuc-lab",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "실험교과목 8과목 중 3과목(9학점) 이상(핵공학기초실험 포함)",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "409.223",
+       "name": "핵공학기초실험",
+       "credits": 3
+      },
+      {
+       "code": "409.313A",
+       "name": "핵융합 플라즈마 실험",
+       "credits": 3
+      },
+      {
+       "code": "409.402F",
+       "name": "원자력시스템실습",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000100",
+       "name": "원자로 열유체 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000400",
+       "name": "원자로물리 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1509.001100",
+       "name": "핵공학 시뮬레이션 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1509.001700",
+       "name": "원자력 재료 실험",
+       "credits": 3
+      },
+      {
+       "code": "400.018",
+       "name": "창의공학설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s4",
+      "s5"
+     ]
+    },
+    {
+     "id": "nuc-dept-48",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 62학점 중 학과 개설 교과목 48학점 이상. 나머지는 공과대학·자연과학대학 과목으로도 가능",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "48에 전필이 포함되는지 명시 없음(포함으로 읽음). 병행(48) 때도 이 조건이 적용되는지 미확인"
+    },
+    {
+     "id": "nuc-major-total",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 62학점(전필+전선)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "전선 인정: 공대 공통 전체(400·M2177), 공대·자연대 학과 과목 중 학과장 승인, 경영대 지정 과목(교과구분 변경 신청)"
+    },
+    {
+     "id": "nuc-eng-common",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 공통교과목 전 영역에서 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17"
+     ],
+     "note": "학과 시트엔 이 조항이 없음",
+     "extra": {
+      "ref": "college_common.other.eng-common-3cr"
+     }
+    },
+    {
+     "id": "nuc-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행 시 주전공 48학점",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "nuc-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문: 학사논문연구 1(졸업 직전 학기)·2(졸업 학기) 수강, 최종 논문 제출과 발표회로 통과 판정(2018학번부터)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7"
+     ]
+    },
+    {
+     "id": "nuc-edu",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수증 제출(2016 공대 신입생부터 의무). 외국어 진행강좌 3과목(전공 1 포함)은 권장",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "nuc-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 복수전공 39학점(세부 필수과목은 학과내규 — 못 찾음)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s5"
+     ]
+    },
+    {
+     "id": "nuc-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "다른 학과 학생의 부전공 21학점(세부는 학과내규 — 못 찾음)",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s5"
+     ]
+    },
+    {
+     "id": "nuc-dm-courses",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "복수전공(39)·부전공(21)의 필수 과목·조건",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s5"
+     ],
+     "note": "교과과정엔 '학과내규에 따름'만 있고, 학과 누리집 졸업규정·공지(1쪽)에서 못 찾음"
+    },
+    {
+     "id": "nuc-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 5개 영역(언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회) 중 4개 영역 이상",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    }
+   ],
+   "changed": "교양 옛 체계(학문의 세계 4개 영역 이상). 전필은 시트상 13과목 34(공학물리 기초·핵공학 현대물리 포함)이나 2025-1 개정 소급으로 새 전필에 맞춤",
+   "note": "외국어 진행강좌는 '2024학번부터 권장'(2025와 같음). 실험교과목 목록은 2024-2 교과 개편 기준으로 모든 학번에 같게 둠. 옛 교양 번호는 TT Wizard 편람 자료(2021-1~2024) 기준. 2019·2020년에 들은 과목은 번호가 다를 수 있음. 같은 과목을 2025-1 이후 새 번호(F…)로 들어도 인정되는 것으로 보고 둘 다 적음"
+  },
+  {
+   "entry_years": [
+    2021,
+    2023
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 53,
+    "single": 62,
+    "parallel": 48,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s19",
+     "s20",
+     "s21",
+     "s22",
+     "s25"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s19",
+    "s20",
+    "s21",
+    "s22"
+   ],
+   "requirements": [
+    {
+     "id": "nuc-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목(6학점). 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-math1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000100",
+        "L0442.000200"
+       ],
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "L0442.000500",
+        "L0442.000600"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "nuc-ge-math2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 2+수학연습 2 또는 고급수학 2+고급수학연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000300",
+        "L0442.000400"
+       ],
+       [
+        "F31.105",
+        "F31.105L"
+       ],
+       [
+        "L0442.000700",
+        "L0442.000800"
+       ],
+       [
+        "F31.107",
+        "F31.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "nuc-ge-engmath",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(1): 물리학 1·2(물리의 기본·고급물리학 대체 가능)+물리학실험 1·2, 학기별 4, 총 8학점",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-sci2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(2): 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학(+각 실험) 중 학기별 4, 총 8학점(과학 합 16)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1] 컴퓨터의 개념 및 실습(3학점)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 53학점 이상(학문의 기초 41 + 학문의 세계 12)",
+     "min_count": null,
+     "min_credits": 53,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 13과목 34학점(학과 시트: 전필 34 + 전선 28 = 62, 학사논문연구 1·2 포함). 2025-1 개정이 모든 졸업 예정자에게 소급: 공학물리 기초를 2024학년도까지 안 들었으면 핵공학 물리 기초, 핵공학 현대물리를 2024학년도까지 안 들었으면 핵공학 물리 기초·응용핵물리 중 1과목",
+     "min_count": 13,
+     "min_credits": 34,
+     "courses": [
+      {
+       "code": "409.201",
+       "name": "핵공학개론 1",
+       "credits": 3
+      },
+      {
+       "code": "409.214",
+       "name": "공학물리 기초",
+       "credits": 3
+      },
+      {
+       "code": "409.223",
+       "name": "핵공학기초실험",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000200",
+       "name": "핵공학 현대물리",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000900",
+       "name": "원자력열유체공학",
+       "credits": 3
+      },
+      {
+       "code": "409.202",
+       "name": "핵공학개론 2",
+       "credits": 3
+      },
+      {
+       "code": "409.209A",
+       "name": "플라즈마전자역학 1",
+       "credits": 3
+      },
+      {
+       "code": "409.301A",
+       "name": "원자로이론",
+       "credits": 3
+      },
+      {
+       "code": "409.307A",
+       "name": "플라즈마기초",
+       "credits": 3
+      },
+      {
+       "code": "M1509.001000",
+       "name": "방사선 물리와 방호",
+       "credits": 3
+      },
+      {
+       "code": "409.328",
+       "name": "원자핵공학세미나 1",
+       "credits": 1
+      },
+      {
+       "code": "M1509.000500",
+       "name": "원자핵공학 학사논문연구 1",
+       "credits": 2
+      },
+      {
+       "code": "M1509.000600",
+       "name": "원자핵공학 학사논문연구 2",
+       "credits": 1
+      },
+      {
+       "code": "M1509.001800",
+       "name": "핵공학 물리 기초",
+       "credits": 3
+      },
+      {
+       "code": "409.225",
+       "name": "응용핵물리",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s16"
+     ],
+     "note": "두 대체가 같은 과목(핵공학 물리 기초)을 가리키므로 둘 다 안 들었으면 핵공학 물리 기초+응용핵물리로 읽음(학과 확인 권장)"
+    },
+    {
+     "id": "nuc-lab",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "실험교과목 8과목 중 3과목(9학점) 이상(핵공학기초실험 포함)",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "409.223",
+       "name": "핵공학기초실험",
+       "credits": 3
+      },
+      {
+       "code": "409.313A",
+       "name": "핵융합 플라즈마 실험",
+       "credits": 3
+      },
+      {
+       "code": "409.402F",
+       "name": "원자력시스템실습",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000100",
+       "name": "원자로 열유체 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000400",
+       "name": "원자로물리 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1509.001100",
+       "name": "핵공학 시뮬레이션 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1509.001700",
+       "name": "원자력 재료 실험",
+       "credits": 3
+      },
+      {
+       "code": "400.018",
+       "name": "창의공학설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s4",
+      "s5"
+     ]
+    },
+    {
+     "id": "nuc-dept-48",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 62학점 중 학과 개설 교과목 48학점 이상. 나머지는 공과대학·자연과학대학 과목으로도 가능",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "48에 전필이 포함되는지 명시 없음(포함으로 읽음). 병행(48) 때도 이 조건이 적용되는지 미확인"
+    },
+    {
+     "id": "nuc-major-total",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 62학점(전필+전선)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "전선 인정: 공대 공통 전체(400·M2177), 공대·자연대 학과 과목 중 학과장 승인, 경영대 지정 과목(교과구분 변경 신청)"
+    },
+    {
+     "id": "nuc-eng-common",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 공통교과목 전 영역에서 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s24"
+     ],
+     "note": "2022 목록으로 확인, 2021·2023은 목록 없음",
+     "extra": {
+      "ref": "college_common.other.eng-common-3cr"
+     }
+    },
+    {
+     "id": "nuc-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행 시 주전공 48학점",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "nuc-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문: 학사논문연구 1(졸업 직전 학기)·2(졸업 학기) 수강, 최종 논문 제출과 발표회로 통과 판정(2018학번부터)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7"
+     ]
+    },
+    {
+     "id": "nuc-edu",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수증 제출(2016 공대 신입생부터). 외국어 진행강좌 3과목(전공 1 포함, 2012학번부터 대학영어 제외) 수강 의무",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23"
+     ]
+    },
+    {
+     "id": "nuc-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 복수전공 39학점(세부 필수과목은 학과내규 — 못 찾음)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s5"
+     ]
+    },
+    {
+     "id": "nuc-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "다른 학과 학생의 부전공 21학점(세부는 학과내규 — 못 찾음)",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s5"
+     ]
+    },
+    {
+     "id": "nuc-dm-courses",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "복수전공(39)·부전공(21)의 필수 과목·조건",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s5"
+     ],
+     "note": "교과과정엔 '학과내규에 따름'만 있고, 학과 누리집 졸업규정·공지(1쪽)에서 못 찾음"
+    },
+    {
+     "id": "nuc-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 5개 영역(언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회) 중 3개 영역 이상",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s20",
+      "s21",
+      "s22"
+     ]
+    }
+   ],
+   "changed": "학문의 세계 3개 영역 이상, 외국어 진행강좌 수강 의무",
+   "note": "2021~2023학번 시트의 실험교과목 목록(시스템에너지전달공학 포함, 창의공학설계 없음)은 2024-06 공지 전 목록 — 2024-2부터 공지 목록이 모든 학번에 걸리는 것으로 봄(학과 확인 권장)"
+  },
+  {
+   "entry_years": [
+    2020,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 51,
+    "single": 62,
+    "parallel": 48,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s26",
+     "s27",
+     "s31"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s26",
+    "s27"
+   ],
+   "requirements": [
+    {
+     "id": "nuc-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목(4–6학점). 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s26",
+      "s27"
+     ]
+    },
+    {
+     "id": "nuc-ge-math1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000100",
+        "L0442.000200"
+       ],
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "L0442.000500",
+        "L0442.000600"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "nuc-ge-math2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 2+수학연습 2 또는 고급수학 2+고급수학연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000300",
+        "L0442.000400"
+       ],
+       [
+        "F31.105",
+        "F31.105L"
+       ],
+       [
+        "L0442.000700",
+        "L0442.000800"
+       ],
+       [
+        "F31.107",
+        "F31.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "nuc-ge-engmath",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(1): 물리학 1·2(물리의 기본·고급물리학 대체 가능)+물리학실험 1·2, 학기별 4, 총 8학점",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-sci2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(2): 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학(+각 실험) 중 학기별 4, 총 8학점(과학 합 16)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1] 컴퓨터의 개념 및 실습(3학점)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 51학점 이상(학문의 기초 39 + 학문의 세계 12)",
+     "min_count": null,
+     "min_credits": 51,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s26",
+      "s27"
+     ]
+    },
+    {
+     "id": "nuc-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 13과목 34학점(학과 시트: 전필 34 + 전선 28 = 62, 학사논문연구 1·2 포함). 2025-1 개정이 모든 졸업 예정자에게 소급: 공학물리 기초를 2024학년도까지 안 들었으면 핵공학 물리 기초, 핵공학 현대물리를 2024학년도까지 안 들었으면 핵공학 물리 기초·응용핵물리 중 1과목. 2020학번 이전 시트의 전필 '시스템공학수력학(409.319A)'·'방사선공학(409.329)'은 2021 이후 개설이 없고, 2021학번 시트부터 원자력열유체공학·방사선 물리와 방호로 바뀜",
+     "min_count": 13,
+     "min_credits": 34,
+     "courses": [
+      {
+       "code": "409.201",
+       "name": "핵공학개론 1",
+       "credits": 3
+      },
+      {
+       "code": "409.214",
+       "name": "공학물리 기초",
+       "credits": 3
+      },
+      {
+       "code": "409.223",
+       "name": "핵공학기초실험",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000200",
+       "name": "핵공학 현대물리",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000900",
+       "name": "원자력열유체공학",
+       "credits": 3
+      },
+      {
+       "code": "409.202",
+       "name": "핵공학개론 2",
+       "credits": 3
+      },
+      {
+       "code": "409.209A",
+       "name": "플라즈마전자역학 1",
+       "credits": 3
+      },
+      {
+       "code": "409.301A",
+       "name": "원자로이론",
+       "credits": 3
+      },
+      {
+       "code": "409.307A",
+       "name": "플라즈마기초",
+       "credits": 3
+      },
+      {
+       "code": "M1509.001000",
+       "name": "방사선 물리와 방호",
+       "credits": 3
+      },
+      {
+       "code": "409.328",
+       "name": "원자핵공학세미나 1",
+       "credits": 1
+      },
+      {
+       "code": "M1509.000500",
+       "name": "원자핵공학 학사논문연구 1",
+       "credits": 2
+      },
+      {
+       "code": "M1509.000600",
+       "name": "원자핵공학 학사논문연구 2",
+       "credits": 1
+      },
+      {
+       "code": "M1509.001800",
+       "name": "핵공학 물리 기초",
+       "credits": 3
+      },
+      {
+       "code": "409.225",
+       "name": "응용핵물리",
+       "credits": 3
+      },
+      {
+       "code": "409.319A",
+       "name": "시스템공학수력학",
+       "credits": 3
+      },
+      {
+       "code": "409.329",
+       "name": "방사선공학",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s28",
+      "s26",
+      "s19",
+      "s16",
+      "s29"
+     ],
+     "note": "옛 과목을 못 들었으면 새 과목으로 채우는 것으로 보이나 대체 문장은 못 봄"
+    },
+    {
+     "id": "nuc-lab",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "실험교과목 8과목 중 3과목(9학점) 이상(핵공학기초실험 포함)",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "409.223",
+       "name": "핵공학기초실험",
+       "credits": 3
+      },
+      {
+       "code": "409.313A",
+       "name": "핵융합 플라즈마 실험",
+       "credits": 3
+      },
+      {
+       "code": "409.402F",
+       "name": "원자력시스템실습",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000100",
+       "name": "원자로 열유체 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000400",
+       "name": "원자로물리 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1509.001100",
+       "name": "핵공학 시뮬레이션 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1509.001700",
+       "name": "원자력 재료 실험",
+       "credits": 3
+      },
+      {
+       "code": "400.018",
+       "name": "창의공학설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s4",
+      "s5"
+     ]
+    },
+    {
+     "id": "nuc-dept-48",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 62학점 중 학과 개설 교과목 48학점 이상. 나머지는 공과대학·자연과학대학 과목으로도 가능",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "48에 전필이 포함되는지 명시 없음(포함으로 읽음). 병행(48) 때도 이 조건이 적용되는지 미확인"
+    },
+    {
+     "id": "nuc-major-total",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 62학점(전필+전선)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "전선 인정: 공대 공통 전체(400·M2177), 공대·자연대 학과 과목 중 학과장 승인, 경영대 지정 과목(교과구분 변경 신청)"
+    },
+    {
+     "id": "nuc-eng-common",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 공통교과목 전 영역에서 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s30"
+     ],
+     "note": "2020 판 목록 못 봄",
+     "extra": {
+      "ref": "college_common.other.eng-common-3cr"
+     }
+    },
+    {
+     "id": "nuc-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행 시 주전공 48학점",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "nuc-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문: 학사논문연구 1(졸업 직전 학기)·2(졸업 학기) 수강, 최종 논문 제출과 발표회로 통과 판정(2018학번부터)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7"
+     ]
+    },
+    {
+     "id": "nuc-edu",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수증 제출(2016 공대 신입생부터). 외국어 진행강좌 3과목(전공 1 포함, 2012학번부터 대학영어 제외) 수강 의무",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23"
+     ]
+    },
+    {
+     "id": "nuc-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 복수전공 39학점(세부 필수과목은 학과내규 — 못 찾음)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s5"
+     ]
+    },
+    {
+     "id": "nuc-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "다른 학과 학생의 부전공 21학점(세부는 학과내규 — 못 찾음)",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s5"
+     ]
+    },
+    {
+     "id": "nuc-dm-courses",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "복수전공(39)·부전공(21)의 필수 과목·조건",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s5"
+     ],
+     "note": "교과과정엔 '학과내규에 따름'만 있고, 학과 누리집 졸업규정·공지(1쪽)에서 못 찾음"
+    },
+    {
+     "id": "nuc-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 5개 영역(언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회) 중 3개 영역 이상",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s20",
+      "s21",
+      "s22"
+     ]
+    }
+   ],
+   "changed": "외국어 4–6(교양 51), 전필 두 과목 옛 이름(시스템공학수력학·방사선공학)"
+  },
+  {
+   "entry_years": [
+    2019,
+    2019
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 45,
+    "single": 62,
+    "parallel": null,
+    "double": 39,
+    "minor": 21,
+    "status": "충돌",
+    "src": [
+     "s28",
+     "s36",
+     "s37",
+     "s38"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s28"
+   ],
+   "requirements": [
+    {
+     "id": "nuc-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목(4–6학점). 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s26",
+      "s27"
+     ]
+    },
+    {
+     "id": "nuc-ge-math1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000100",
+        "L0442.000200"
+       ],
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "L0442.000500",
+        "L0442.000600"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "nuc-ge-math2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 2+수학연습 2 또는 고급수학 2+고급수학연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000300",
+        "L0442.000400"
+       ],
+       [
+        "F31.105",
+        "F31.105L"
+       ],
+       [
+        "L0442.000700",
+        "L0442.000800"
+       ],
+       [
+        "F31.107",
+        "F31.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "nuc-ge-engmath",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(1): 물리학 1·2(물리의 기본·고급물리학 대체 가능)+물리학실험 1·2, 학기별 4, 총 8학점",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-sci2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(2): 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학(+각 실험) 중 학기별 4, 총 8학점(과학 합 16)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1] 컴퓨터의 개념 및 실습(3학점)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "nuc-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합: 학과 시트 50, 같은 구조 학과 기준 45(+사회성·창의성 6)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s28"
+     ]
+    },
+    {
+     "id": "nuc-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 13과목 34학점(학과 시트: 전필 34 + 전선 28 = 62, 학사논문연구 1·2 포함). 2025-1 개정이 모든 졸업 예정자에게 소급: 공학물리 기초를 2024학년도까지 안 들었으면 핵공학 물리 기초, 핵공학 현대물리를 2024학년도까지 안 들었으면 핵공학 물리 기초·응용핵물리 중 1과목. 2020학번 이전 시트의 전필 '시스템공학수력학(409.319A)'·'방사선공학(409.329)'은 2021 이후 개설이 없고, 2021학번 시트부터 원자력열유체공학·방사선 물리와 방호로 바뀜",
+     "min_count": 13,
+     "min_credits": 34,
+     "courses": [
+      {
+       "code": "409.201",
+       "name": "핵공학개론 1",
+       "credits": 3
+      },
+      {
+       "code": "409.214",
+       "name": "공학물리 기초",
+       "credits": 3
+      },
+      {
+       "code": "409.223",
+       "name": "핵공학기초실험",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000200",
+       "name": "핵공학 현대물리",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000900",
+       "name": "원자력열유체공학",
+       "credits": 3
+      },
+      {
+       "code": "409.202",
+       "name": "핵공학개론 2",
+       "credits": 3
+      },
+      {
+       "code": "409.209A",
+       "name": "플라즈마전자역학 1",
+       "credits": 3
+      },
+      {
+       "code": "409.301A",
+       "name": "원자로이론",
+       "credits": 3
+      },
+      {
+       "code": "409.307A",
+       "name": "플라즈마기초",
+       "credits": 3
+      },
+      {
+       "code": "M1509.001000",
+       "name": "방사선 물리와 방호",
+       "credits": 3
+      },
+      {
+       "code": "409.328",
+       "name": "원자핵공학세미나 1",
+       "credits": 1
+      },
+      {
+       "code": "M1509.000500",
+       "name": "원자핵공학 학사논문연구 1",
+       "credits": 2
+      },
+      {
+       "code": "M1509.000600",
+       "name": "원자핵공학 학사논문연구 2",
+       "credits": 1
+      },
+      {
+       "code": "M1509.001800",
+       "name": "핵공학 물리 기초",
+       "credits": 3
+      },
+      {
+       "code": "409.225",
+       "name": "응용핵물리",
+       "credits": 3
+      },
+      {
+       "code": "409.319A",
+       "name": "시스템공학수력학",
+       "credits": 3
+      },
+      {
+       "code": "409.329",
+       "name": "방사선공학",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s28",
+      "s26",
+      "s19",
+      "s16",
+      "s29"
+     ],
+     "note": "옛 과목을 못 들었으면 새 과목으로 채우는 것으로 보이나 대체 문장은 못 봄"
+    },
+    {
+     "id": "nuc-lab",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "실험교과목 8과목 중 3과목(9학점) 이상(핵공학기초실험 포함)",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "409.223",
+       "name": "핵공학기초실험",
+       "credits": 3
+      },
+      {
+       "code": "409.313A",
+       "name": "핵융합 플라즈마 실험",
+       "credits": 3
+      },
+      {
+       "code": "409.402F",
+       "name": "원자력시스템실습",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000100",
+       "name": "원자로 열유체 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1509.000400",
+       "name": "원자로물리 실험",
+       "credits": 3
+      },
+      {
+       "code": "M1509.001100",
+       "name": "핵공학 시뮬레이션 실습",
+       "credits": 3
+      },
+      {
+       "code": "M1509.001700",
+       "name": "원자력 재료 실험",
+       "credits": 3
+      },
+      {
+       "code": "400.018",
+       "name": "창의공학설계",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s4",
+      "s5"
+     ]
+    },
+    {
+     "id": "nuc-dept-48",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 62학점 중 학과 개설 교과목 48학점 이상. 나머지는 공과대학·자연과학대학 과목으로도 가능",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ],
+     "note": "48에 전필이 포함되는지 명시 없음(포함으로 읽음). 병행(48) 때도 이 조건이 적용되는지 미확인"
+    },
+    {
+     "id": "nuc-major-total",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 62학점(전필+전선)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "전선 인정: 공대 공통 전체(400·M2177), 공대·자연대 학과 과목 중 학과장 승인, 경영대 지정 과목(교과구분 변경 신청)"
+    },
+    {
+     "id": "nuc-eng-common",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 공통교과목 전 영역에서 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s28"
+     ],
+     "note": "2019학번 시트·목록에 없음",
+     "extra": {
+      "ref": "college_common.other.eng-common-3cr"
+     }
+    },
+    {
+     "id": "nuc-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행 시 주전공 학점(2018 판 42, 2020 판 48 중 미확인)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s33",
+      "s34"
+     ]
+    },
+    {
+     "id": "nuc-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문: 학사논문연구 1(졸업 직전 학기)·2(졸업 학기) 수강, 최종 논문 제출과 발표회로 통과 판정(2018학번부터)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7"
+     ]
+    },
+    {
+     "id": "nuc-edu",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "생명존중(자살예방) 교육 이수증 제출(2016 공대 신입생부터). 외국어 진행강좌 3과목(전공 1 포함, 2012학번부터 대학영어 제외) 수강 의무",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23"
+     ]
+    },
+    {
+     "id": "nuc-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "다른 학과 학생의 복수전공 39학점(세부 필수과목은 학과내규 — 못 찾음)",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s5"
+     ]
+    },
+    {
+     "id": "nuc-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "다른 학과 학생의 부전공 21학점(세부는 학과내규 — 못 찾음)",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s5"
+     ]
+    },
+    {
+     "id": "nuc-dm-courses",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "복수전공(39)·부전공(21)의 필수 과목·조건",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s5"
+     ],
+     "note": "교과과정엔 '학과내규에 따름'만 있고, 학과 누리집 졸업규정·공지(1쪽)에서 못 찾음"
+    },
+    {
+     "id": "nuc-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계: 학과 시트는 문화와 예술(창의성 교과목) 3, 역사와 철학 3, 언어와 문학 또는 정치와 경제 3, 인간과 사회(사회성 교과목) 3 = 12로 안내. 공대 공통 규정으로는 학문의 세계 6(2개 영역) + 사회성·창의성 6",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s28",
+      "s32"
+     ]
+    },
+    {
+     "id": "nuc-social-creative",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공대 지정 사회성 교과목군 3학점 + 창의성 교과목군 3학점(교양 최저학점과 별도, 2013~2019학번)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s35"
+     ],
+     "extra": {
+      "ref": "college_common.other.eng-social-creative"
+     }
+    }
+   ],
+   "changed": "교양 합 충돌, 학문의 세계 6(+사회성·창의성 6) 구성, 공대 공통 3학점 미확인, 병행 학점 미확인",
+   "note": "학과 '전공및교과과정 이수안내' 학번별 목록에 2019학번 PDF는 없음(2018·2020은 있음) — 엑셀 시트로만 봄"
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2020,
+   "basis": "입학 연도",
+   "what": "사회성·창의성 폐지, 학문의 세계 12(3개 영역), 교양 51",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "외국어 6(교양 53). 전필 시스템공학수력학·방사선공학 → 원자력열유체공학·방사선 물리와 방호(2021 교과 개편, 옛 과목 2021~ 개설 없음)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "학문의 세계 4개 영역 이상, 외국어 진행강좌 '의무' → '권장'",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "교과 개편 학기",
+   "what": "2024-2부터 실험교과목 8과목 목록(창의공학설계는 2024-2 이후 수강분만, 원자력 재료 실험 신설)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 체계 개편(53 유지)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "교과 개편 학기",
+   "what": "2025-1 전필 개정(공학물리 기초→핵공학 물리 기초, 핵공학 현대물리 폐지) — 모든 졸업 예정자 소급",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2020,
+   "basis": "다전공 선발 시기",
+   "what": "타과생 부전공 24→21(2021-2 다전공 선발자부터)",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "복수·부전공 필수 과목(학과 자료 없음)",
+  "공과대학 공통교과목 3학점이 몇 학번부터 몇 학번까지 필수인지(본부 목록 2022·2024엔 있고 학과 시트·2025 안내엔 없음)",
+  "학과 개설 48학점에 전필이 들어가는지, 병행 48의 구성",
+  "2019학번 교양 합(시트 50 vs 45+사회성·창의성 6)과 병행 학점(42/48)",
+  "2019~2020학번 옛 전필(시스템공학수력학·방사선공학) 대체 과목",
+  "2023학번 이전 학생에게 2024-2 실험교과목 목록(창의공학설계 포함)이 적용되는지",
+  "복수전공·부전공 필수 과목과 학점(학과 자료 없음)",
+  "공과대학 공통교과목 3학점이 2025학번에도 필수인지",
+  "학과 개설 48학점에 전필이 들어가는지, 병행(48) 때 적용 방식",
+  "병행 48의 구성(전필 31 전부 + 실험 3과목 유지 여부)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.121–122(PDF 17–18쪽) '□ 공과대학 (원자핵공학부)' — 길잡이 표기는 '원자핵공학부'",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "원자핵공학과, 전공및교과과정 이수안내(2025학번)",
+   "url": "https://nucleng.snu.ac.kr/undergraduate/rule?mode=download&seqidx=18",
+   "locator": "1쪽 표(* 전공필수)와 아래 교양·전공 요약",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "원자핵공학과 공지, 학사과정 전공필수 교과목 변경에 따른 이수규정 변경 안내(2025학년도 1학기 시행, 2024-10-24)",
+   "url": "https://nucleng.snu.ac.kr/community/notice?md=v&bbsidx=23123",
+   "locator": "본문",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "원자핵공학과 공지, 학사과정 교과목이수규정(실험교과목) 변경 안내(2024-06-03)",
+   "url": "https://nucleng.snu.ac.kr/community/notice?md=v&bbsidx=22946",
+   "locator": "본문",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.58–59 409. 원자핵공학과(이수표준형태·교과목이수규정)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, p.9 공과대학 행(PDF 2쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "원자핵공학과 공지, 학사과정 졸업논문 요건(2023-08-08)",
+   "url": "https://nucleng.snu.ac.kr/community/notice?md=v&bbsidx=22576",
+   "locator": "본문",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 2> 학사과정 복수·부전공 이수학점 기준, p.10 공과대학 행(PDF 3쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "원자핵공학과 공지, 학사과정 전공교과목 이수표준형태(졸업요건) 안내 (2007~2026학번) — 첨부 '졸업이수규정 2007~2026.xlsx'(학번별 시트, 파일 수정 2026-01-08)",
+   "url": "https://nucleng.snu.ac.kr/community/notice?md=v&bbsidx=20368",
+   "locator": "'2025학번' 시트",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "원자핵공학과 공지, 학사과정 전공교과목 이수표준형태(졸업요건) 안내 (2007~2026학번) — 첨부 '졸업이수규정 2007~2026.xlsx'(학번별 시트, 파일 수정 2026-01-08)",
+   "url": "https://nucleng.snu.ac.kr/community/notice?md=v&bbsidx=20368",
+   "locator": "'2026학번' 시트",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.128(PDF 20–21쪽) '□ 공과대학 (원자핵공학과)'",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1>·<표 2>",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "원자핵공학과 공지, 학사과정 전공교과목 이수표준형태(졸업요건) 안내 (2007~2026학번) — 첨부 '졸업이수규정 2007~2026.xlsx'(학번별 시트, 파일 수정 2026-01-08)",
+   "url": "https://nucleng.snu.ac.kr/community/notice?md=v&bbsidx=20368",
+   "locator": "'2026학번' 시트 — '2025학번' 시트와 내용 같음(머리만 다름)",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "원자핵공학과 공지, 학사과정 전공교과목 이수표준형태(졸업요건) 안내 (2007~2026학번) — 첨부 '졸업이수규정 2007~2026.xlsx'(학번별 시트, 파일 수정 2026-01-08)",
+   "url": "https://nucleng.snu.ac.kr/community/notice?md=v&bbsidx=20368",
+   "locator": "'2024학번' 시트",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.14(PDF) '□ 공과대학 (원자핵공학과)'",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "원자핵공학과 공지, 학사과정 전공필수 교과목 변경에 따른 이수규정 변경 안내(2025학년도 1학기 시행, 2024-10-24)",
+   "url": "https://nucleng.snu.ac.kr/community/notice?md=v&bbsidx=23123",
+   "locator": "본문(2025-1 시행, 모든 졸업 예정자 소급, 2025학번 이전 학번 경과 규정)",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.58 409. 원자핵공학과 교과목이수규정 ①",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "원자핵공학과 공지, 학사과정 교과목이수규정(실험교과목) 변경 안내(2024-06-03)",
+   "url": "https://nucleng.snu.ac.kr/community/notice?md=v&bbsidx=22946",
+   "locator": "실험교과목 8과목 중 3(학번 구분 없이 2024-2부터)",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "원자핵공학과 공지, 학사과정 전공교과목 이수표준형태(졸업요건) 안내 (2007~2026학번) — 첨부 '졸업이수규정 2007~2026.xlsx'(학번별 시트, 파일 수정 2026-01-08)",
+   "url": "https://nucleng.snu.ac.kr/community/notice?md=v&bbsidx=20368",
+   "locator": "'2021학번' 시트",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "원자핵공학과 공지, 학사과정 전공교과목 이수표준형태(졸업요건) 안내 (2007~2026학번) — 첨부 '졸업이수규정 2007~2026.xlsx'(학번별 시트, 파일 수정 2026-01-08)",
+   "url": "https://nucleng.snu.ac.kr/community/notice?md=v&bbsidx=20368",
+   "locator": "'2022학번' 시트",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "원자핵공학과 공지, 학사과정 전공교과목 이수표준형태(졸업요건) 안내 (2007~2026학번) — 첨부 '졸업이수규정 2007~2026.xlsx'(학번별 시트, 파일 수정 2026-01-08)",
+   "url": "https://nucleng.snu.ac.kr/community/notice?md=v&bbsidx=20368",
+   "locator": "'2023학번' 시트",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "p.13(PDF)",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "원자핵공학과 공지, 학사과정 전공교과목 이수표준형태(졸업요건) 안내 (2007~2026학번) — 첨부 '졸업이수규정 2007~2026.xlsx'(학번별 시트, 파일 수정 2026-01-08)",
+   "url": "https://nucleng.snu.ac.kr/community/notice?md=v&bbsidx=20368",
+   "locator": "'2023학번' 시트 '※ 외국어진행강좌 수강의무 : 2008학번부터…'",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "서울대학교, 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "p.55 409. 원자핵공학과 교과목이수규정 ① '공과대학 공통교과목 전 영역에서 3학점'",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "서울대학교, 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 1>·<표 2>",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "원자핵공학과 공지, 학사과정 전공교과목 이수표준형태(졸업요건) 안내 (2007~2026학번) — 첨부 '졸업이수규정 2007~2026.xlsx'(학번별 시트, 파일 수정 2026-01-08)",
+   "url": "https://nucleng.snu.ac.kr/community/notice?md=v&bbsidx=20368",
+   "locator": "'2020학번' 시트",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.22(PDF)",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "원자핵공학과 공지, 학사과정 전공교과목 이수표준형태(졸업요건) 안내 (2007~2026학번) — 첨부 '졸업이수규정 2007~2026.xlsx'(학번별 시트, 파일 수정 2026-01-08)",
+   "url": "https://nucleng.snu.ac.kr/community/notice?md=v&bbsidx=20368",
+   "locator": "'2019학번' 시트",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "TT Wizard 수강편람 자료(2021-1~2026-2 학기별 개설 과목)",
+   "locator": "M1509.000900 2021-2~, M1509.001000 2021-1~, 409.319A·409.329 없음",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s30": {
+   "title": "서울대학교, 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "p.55(2022 판)",
+   "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 1> p.9 원자핵공학과 51/62/48",
+   "accessed": "2026-11-12"
+  },
+  "s32": {
+   "title": "서울대학교, 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "p.20(PDF) 원자핵공학과 교양 표(2018 판)",
+   "accessed": "2026-11-12"
+  },
+  "s33": {
+   "title": "서울대학교, 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 1>",
+   "accessed": "2026-11-12"
+  },
+  "s34": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 1>",
+   "accessed": "2026-11-12"
+  },
+  "s35": {
+   "title": "원자핵공학과 공지, 학사과정 전공교과목 이수표준형태(졸업요건) 안내 (2007~2026학번) — 첨부 '졸업이수규정 2007~2026.xlsx'(학번별 시트, 파일 수정 2026-01-08)",
+   "url": "https://nucleng.snu.ac.kr/community/notice?md=v&bbsidx=20368",
+   "locator": "'2019학번' 시트 아래 사회성·창의성 교과목군",
+   "accessed": "2026-11-12"
+  },
+  "s36": {
+   "title": "서울대학교, 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 1> 원자핵공학과 44/62/42(2018학번 판)",
+   "accessed": "2026-11-12"
+  },
+  "s37": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 1> 51/62/48(2020학번 판)",
+   "accessed": "2026-11-12"
+  },
+  "s38": {
+   "title": "학부대학, 2019학년도 단과대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/04/liberaledu_2019.pdf",
+   "locator": "공과대학 학과별 '교양 N 학점 이상'",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

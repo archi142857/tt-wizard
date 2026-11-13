@@ -1,0 +1,381 @@
+{
+ "id": "p-3e203121",
+ "college": "인문대학",
+ "unit": "국어국문학과",
+ "program": "국어국문학과",
+ "kind": "major",
+ "depts": [
+  "국어국문학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "인문대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2019,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s10",
+     "s11",
+     "s12",
+     "s13",
+     "s14",
+     "s15"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s16",
+    "s17",
+    "s18",
+    "s19"
+   ],
+   "requirements": [
+    {
+     "id": "kor-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 4과목 12학점(한국어연구입문, 한국고전문학사, 한국현대문학사, 한국어의 역사)",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "100.100",
+       "name": "한국어연구입문",
+       "credits": 3
+      },
+      {
+       "code": "101.221",
+       "name": "한국고전문학사",
+       "credits": 3
+      },
+      {
+       "code": "101.222",
+       "name": "한국현대문학사",
+       "credits": 3
+      },
+      {
+       "code": "101.301A",
+       "name": "한국어의 역사",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4",
+      "s5"
+     ],
+     "note": "학과 페이지는 'Introduction to Korean Linguistics(한국어연구입문)·고전문학사·국어사·현대문학사'. 학부대학 목록('25.11.05)은 100.100 을 국문 전필로 적음. 편람에서는 100.100 이 전공탐색 과목이라 '전선'으로 나옴."
+    },
+    {
+     "id": "kor-minor-core",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 21학점 — 학과 페이지는 필수 4과목 포함, 2024 목록은 '부전공 이수규정 해당사항 없음'",
+     "min_count": 4,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "100.100",
+       "name": "한국어연구입문",
+       "credits": 3
+      },
+      {
+       "code": "101.221",
+       "name": "한국고전문학사",
+       "credits": 3
+      },
+      {
+       "code": "101.222",
+       "name": "한국현대문학사",
+       "credits": 3
+      },
+      {
+       "code": "101.301A",
+       "name": "한국어의 역사",
+       "credits": 3
+      }
+     ],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s6"
+     ]
+    },
+    {
+     "id": "kor-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 제출·승인(지도교수 상담 3·9월, 계획서 4·10월 말, 초고·발표 6·12월 중순, 최종본 6·12월 말). '고전번역 세미나 1' 학술 번역 프로젝트로 대신할 수 있음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "고전번역 세미나 1 의 과목 번호는 못 찾음(연계전공 고전문헌학 과목으로 보임)."
+    },
+    {
+     "id": "kor-fieldtrip",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "학술답사 참여 필수(봄학기, 4월 말~5월 초)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "필요 횟수는 페이지에 없음. 2026 답사 공지에는 졸업요건 언급 없음."
+    },
+    {
+     "id": "kor-double-extra",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(타 단과대 포함): 39학점(필수 4과목 포함), 외국어진행 서울대 과목 3개, 비영어권 외국어 1과목 C- 이상, 고전 읽기 1 또는 2, 졸업논문·학술답사는 단일전공과 같음",
+     "min_count": 4,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "100.100",
+       "name": "한국어연구입문",
+       "credits": 3
+      },
+      {
+       "code": "101.221",
+       "name": "한국고전문학사",
+       "credits": 3
+      },
+      {
+       "code": "101.222",
+       "name": "한국현대문학사",
+       "credits": 3
+      },
+      {
+       "code": "101.301A",
+       "name": "한국어의 역사",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "kor-elective-credit",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정과목: M2910.000400 고전문헌번역연습 1",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M2910.000400",
+       "name": "고전문헌번역연습 1",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s7"
+     ],
+     "note": "인정 한도 미확인."
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통(2025학번 교양 36과 인문대 졸업 의무: 제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학 세미나) — college_common 참조",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ],
+     "note": "학과 페이지는 외국어진행 3과목에 전공·교양 구분 없음(대학영어 포함 가능).",
+     "extra": {
+      "see": [
+       "college_common.requirements"
+      ]
+     }
+    }
+   ],
+   "note": "학과 전공 규정에 학번 구분이 없다(국문판 2026-02). 2022·2024 목록의 전필 4과목도 같다. 교양·인문대 의무의 학번 차이(14~18 글쓰기의 기초/19~ 대학 글쓰기, 14~24 학문의 세계/25~ 새 체계, 10~24 삶과 인문학/25~ 세미나, 2024~ 기초영어 기준)는 학과 페이지도 같은 경계로 적으며 college_common 에 있다."
+  }
+ ],
+ "change_points": [],
+ "ask_department": [
+  "부전공 필수 4과목(학과 국문판) ↔ 2022·2024 목록 '해당사항 없음' 중 어느 쪽인지",
+  "2025학번 부전공에도 필수 4과목이 걸리는지(학과 페이지 ↔ 2024 목록)",
+  "학술답사 필요 횟수(주전공·복수·부전공)",
+  "졸업논문 대체 '고전번역 세미나 1'의 정확한 과목",
+  "학과 졸업요건 한국어판이 2025학번에 그대로 적용되는지(영문판은 2023-12 수정)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "국어국문학과 Requirements for Graduation(영문판, 수정 2023-12-08)",
+   "url": "https://korean.snu.ac.kr/en/%EC%A1%B8%EC%97%85%EC%9A%94%EA%B1%B4/",
+   "locator": "단일·복수·부전공 학점, 필수 4과목, 졸업논문, 학술답사, 인문대 추가 요건",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "11쪽 101. 국어국문학과 100.100*",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "12쪽 101.221*·101.222*·101.301A* 과 이수표준형태(머리는 '102. 중어중문학과')",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "학부대학 광역 모집단위 학과(부)·전공별 권장 이수 교과목 목록('25.11.05) 및 공통교육이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/학부대학-광역-모집단위-학과부·전공별-권장-이수-교과목-목록-및-공통교육이수규정.pdf",
+   "locator": "2쪽 인문대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "수강편람 자료(백엔드 수집) 2025-1",
+   "locator": "101.221·101.301A 전필, 100.100 은 전선 표기",
+   "accessed": "2026-11-12",
+   "repo": "data/history/2025-1.json"
+  },
+  "s6": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "12쪽 부전공 이수규정 '해당사항 없음'",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "12쪽 이수표준형태 오른쪽 '전공선택 인정과목'(영문 표기는 Chinese 로 잘못 붙음)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 인문대학 표, PDF 4쪽(인쇄 108쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "인문대학 졸업이수 의무사항 안내(관련: 인문대학-2710, 2025.1.25., 게시 2025-02-03)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림(https://humanities.snu.ac.kr/webdata/upimages/7efzf51z874zf93z1c2za09z28cz23ezd11z697zb8.png), '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "인문대학 졸업이수 의무사항 안내(인문대학-2710, 2025.1.25.)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림 '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "국어국문학과 졸업요건(국문판, 수정 2026-02-19)",
+   "url": "https://korean.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9A%94%EA%B1%B4/",
+   "locator": "전공과목 이수 규정 (1)(2), 복수·부전공",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "국어국문학과 졸업요건(국문판, 수정 2026-02-19)",
+   "url": "https://korean.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9A%94%EA%B1%B4/",
+   "locator": "전체",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "101. 국어국문학과, 인쇄 10–11쪽(* 4과목)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "11–12쪽(* 4과목)",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "수강편람 자료(백엔드 수집)",
+   "locator": "101.221·101.222·101.301A 2021~2026 전필",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

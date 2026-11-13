@@ -1,0 +1,233 @@
+{
+ "id": "p-74c7d4dc",
+ "college": "학부대학(자유전공학부·광역)·첨단융합학부·혁신공유학부·연합전공·연계전공·학생설계전공",
+ "unit": "연합전공",
+ "program": "글로벌환경경영학",
+ "kind": "multi",
+ "depts": [],
+ "code_prefixes": [],
+ "ge_key": null,
+ "exists_for": null,
+ "version_key": "selection",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "동아시아비교인문학",
+   "정치-경제-철학",
+   "정보문화학",
+   "기술경영",
+   "글로벌환경경영학",
+   "계산과학",
+   "벤처경영학",
+   "영상매체예술",
+   "인공지능",
+   "인공지능반도체공학",
+   "지능형통신",
+   "과학기술의학"
+  ],
+  "when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "다전공 선발 시기",
+   "credits": {
+    "grad": null,
+    "ge": null,
+    "single": null,
+    "parallel": null,
+    "double": 39,
+    "minor": null,
+    "text": {
+     "parallel": "소속 학과(부)의 다른 전공 병행 학점(최소 39)"
+    },
+    "status": "부분",
+    "src": [
+     "s5",
+     "s6",
+     "s7",
+     "s8"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s9",
+    "s10",
+    "s11"
+   ],
+   "requirements": [
+    {
+     "id": "gem-core",
+     "type": "major_required",
+     "applies_to": [
+      "double"
+     ],
+     "text": "전공필수: 환경경영학, 환경경영 실습(인턴과정), 환경경영세미나, 생태학(일반생태학으로 대체 가능)",
+     "min_count": 4,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "538.301",
+       "name": "환경경영학",
+       "credits": 3.0
+      },
+      {
+       "code": "538.404",
+       "name": "환경경영 실습(인턴과정)",
+       "credits": 3.0
+      },
+      {
+       "code": "538.407",
+       "name": "환경경영세미나",
+       "credits": 1
+      },
+      {
+       "code": "3346.415",
+       "name": "생태학",
+       "credits": 3.0
+      },
+      {
+       "code": "519.251",
+       "name": "일반생태학",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "3346.415 또는 519.251 중 1."
+    },
+    {
+     "id": "gem-dist",
+     "type": "distribution",
+     "applies_to": [
+      "double"
+     ],
+     "text": "분야 배분: 소속 전공이 자연계면 인문사회·정책·경영 분야 과목이 이수 학점의 1/2 이상, 인문사회계면 과학기술 분야 과목이 1/2 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "gem-intern",
+     "type": "other",
+     "applies_to": [
+      "double"
+     ],
+     "text": "졸업 전 인턴과정 160시간 이상(환경경영실습 538.404 이수로 충족)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "538.404",
+       "name": "환경경영 실습(인턴과정)",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s3"
+     ]
+    },
+    {
+     "id": "gem-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "double"
+     ],
+     "text": "학사학위논문: 직전 학기 초 지도교수 선정, 최종 학기 논문심사",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4"
+     ]
+    }
+   ],
+   "note": "선발 연도 2025~2026 기준(1차 조사). 그 전에 선발된 학생의 이 과정 규정은 조사하지 않았다. 유형 규칙(2019~2026 같음): 2개 정규학기·33학점 뒤 신청, 연합전공 39 + 소속 학과 39, 평점 2.0, 소속 학과가 연합전공에 제공한 과목 9학점·공통 인정 타 학과 과목 3학점까지 중복 인정, 연합전공만 단일 전공 불가 — 2018·2020·2022·2024 해설 4.나와 지금 학부대학 안내가 같다. 전공별 세부 규정은 '선발 시기' 기준으로 바뀐다(multi_major_roster 참고). 2026학번은 빨라야 2027년에 선발되므로 그때 규정."
+  }
+ ],
+ "change_points": [],
+ "ask_department": [
+  "2026년 이후 선발자에게 적용되는 현행 이수규정"
+ ],
+ "sources": {
+  "s1": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.154 교과목·전공필수 과목",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.155 과목 이수규정 ①",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.155 ②",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.155 ③",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.154~155",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "학부대학 연합전공 안내",
+   "url": "https://snuc.snu.ac.kr/연합전공/",
+   "locator": "학부대학 주관 연합전공",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "학부대학 연합전공 안내",
+   "url": "https://snuc.snu.ac.kr/연합전공/",
+   "locator": "일반 규정",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.11 <표 3>, p.44 4.나(1)(라)·(2)(나)",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "PDF p.29 4.나(1)(라)(마)·(2) 중복인정",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "PDF p.37 4.나(1)(라)(마)·(2)·(5)",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "학부대학 연합전공 안내",
+   "url": "https://snuc.snu.ac.kr/연합전공/",
+   "locator": "신청자격·과정이수 학점·교과목 중복인정",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

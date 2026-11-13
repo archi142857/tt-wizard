@@ -1,0 +1,497 @@
+{
+ "id": "p-5f19ca61",
+ "college": "학부대학(자유전공학부·광역)·첨단융합학부·혁신공유학부·연합전공·연계전공·학생설계전공",
+ "unit": "연합전공",
+ "program": "기술경영",
+ "kind": "multi",
+ "depts": [],
+ "code_prefixes": [],
+ "ge_key": null,
+ "exists_for": null,
+ "version_key": "selection",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "동아시아비교인문학",
+   "정치-경제-철학",
+   "정보문화학",
+   "기술경영",
+   "글로벌환경경영학",
+   "계산과학",
+   "벤처경영학",
+   "영상매체예술",
+   "인공지능",
+   "인공지능반도체공학",
+   "지능형통신",
+   "과학기술의학"
+  ],
+  "when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "다전공 선발 시기",
+   "credits": {
+    "grad": null,
+    "ge": null,
+    "single": null,
+    "parallel": null,
+    "double": 39,
+    "minor": null,
+    "text": {
+     "parallel": "소속 학과(부)의 다른 전공 병행 학점(최소 39)"
+    },
+    "status": "부분",
+    "src": [
+     "s8",
+     "s9",
+     "s10"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s11",
+    "s12",
+    "s13"
+   ],
+   "requirements": [
+    {
+     "id": "tm-g1",
+     "type": "major_choose",
+     "applies_to": [
+      "double"
+     ],
+     "text": "선택적 필수 (1) 경제경영원론: 7과목 중 1",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "200.105",
+       "name": "경제원론 1",
+       "credits": 3.0
+      },
+      {
+       "code": "200.106",
+       "name": "경제원론 2",
+       "credits": 3.0
+      },
+      {
+       "code": "212.201",
+       "name": "미시경제이론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.202",
+       "name": "거시경제이론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.101",
+       "name": "경영학원론",
+       "credits": 3.0
+      },
+      {
+       "code": "M2171.001900",
+       "name": "경영을 위한 경제학",
+       "credits": 3.0
+      },
+      {
+       "code": "400.015",
+       "name": "산업공학개론",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "tm-g2",
+     "type": "major_choose",
+     "applies_to": [
+      "double"
+     ],
+     "text": "선택적 필수 (2) 재무/회계: 6과목 중 1",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "251.204A",
+       "name": "중급회계1",
+       "credits": 3.0
+      },
+      {
+       "code": "251.205",
+       "name": "회계원리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.301",
+       "name": "재무관리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.323",
+       "name": "기업재무론",
+       "credits": 3.0
+      },
+      {
+       "code": "406.314",
+       "name": "경제성공학",
+       "credits": 3.0
+      },
+      {
+       "code": "406.433",
+       "name": "금융공학개론",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "tm-g3",
+     "type": "major_choose",
+     "applies_to": [
+      "double"
+     ],
+     "text": "선택적 필수 (3) 제품-서비스전략: 6과목 중 1",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "251.321",
+       "name": "마케팅관리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.327",
+       "name": "소비자행동",
+       "credits": 3.0
+      },
+      {
+       "code": "251.411A",
+       "name": "마케팅조사론",
+       "credits": 3.0
+      },
+      {
+       "code": "406.304",
+       "name": "인간공학",
+       "credits": 3.0
+      },
+      {
+       "code": "406.326",
+       "name": "인간공학 설계",
+       "credits": 3.0
+      },
+      {
+       "code": "M1505.001500",
+       "name": "제품개발 및 품질설계",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s3"
+     ]
+    },
+    {
+     "id": "tm-g4",
+     "type": "major_choose",
+     "applies_to": [
+      "double"
+     ],
+     "text": "선택적 필수 (4) 조직과 리더십: 7과목 중 1",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "212.317",
+       "name": "산업조직론",
+       "credits": 3.0
+      },
+      {
+       "code": "212.472",
+       "name": "이행기경제와 경제체제론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.209",
+       "name": "조직행위론",
+       "credits": 3.0
+      },
+      {
+       "code": "M1338.004100",
+       "name": "조직이론",
+       "credits": 3.0
+      },
+      {
+       "code": "251.303",
+       "name": "인사관리",
+       "credits": 3.0
+      },
+      {
+       "code": "251.424",
+       "name": "경영전략",
+       "credits": 3.0
+      },
+      {
+       "code": "406.211",
+       "name": "과학적관리",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "tm-g5",
+     "type": "major_choose",
+     "applies_to": [
+      "double"
+     ],
+     "text": "선택적 필수 (5) 의사결정방법론: 9과목 중 1",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "212.301",
+       "name": "계량경제학",
+       "credits": 3.0
+      },
+      {
+       "code": "251.207A",
+       "name": "경영과학",
+       "credits": 3.0
+      },
+      {
+       "code": "326.311",
+       "name": "수리통계 1",
+       "credits": 3.0
+      },
+      {
+       "code": "406.311",
+       "name": "시뮬레이션",
+       "credits": 3.0
+      },
+      {
+       "code": "406.315",
+       "name": "경영과학 1",
+       "credits": 3.0
+      },
+      {
+       "code": "406.317",
+       "name": "경영과학 2",
+       "credits": 3.0
+      },
+      {
+       "code": "406.426B",
+       "name": "데이터관리와 분석",
+       "credits": 3.0
+      },
+      {
+       "code": "406.429",
+       "name": "데이터마이닝",
+       "credits": 3.0
+      },
+      {
+       "code": "406.432",
+       "name": "산업공학통계",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s5"
+     ]
+    },
+    {
+     "id": "tm-g6",
+     "type": "major_choose",
+     "applies_to": [
+      "double"
+     ],
+     "text": "선택적 필수 (6) 기술경영: 12과목 중 2",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "4251.002A",
+       "name": "지식경영전략",
+       "credits": 3.0
+      },
+      {
+       "code": "M1338.003000",
+       "name": "생산서비스운영",
+       "credits": 3.0
+      },
+      {
+       "code": "251.744",
+       "name": "기술경영론",
+       "credits": null
+      },
+      {
+       "code": "400.310",
+       "name": "공학기술과사회",
+       "credits": 3.0
+      },
+      {
+       "code": "406.310",
+       "name": "생산관리",
+       "credits": 3.0
+      },
+      {
+       "code": "406.319",
+       "name": "기술경영",
+       "credits": 3.0
+      },
+      {
+       "code": "406.322",
+       "name": "서비스공학",
+       "credits": 3.0
+      },
+      {
+       "code": "406.324A",
+       "name": "공학도를 위한 창의적 사고",
+       "credits": 3.0
+      },
+      {
+       "code": "M1522.002700",
+       "name": "IT창업개론",
+       "credits": 3.0
+      },
+      {
+       "code": "463.509",
+       "name": "기술전략분석론",
+       "credits": 3.0
+      },
+      {
+       "code": "M1338.000400",
+       "name": "기술 트렌드와 사업기회 분석",
+       "credits": 3.0
+      },
+      {
+       "code": "M1540.000100",
+       "name": "기술창업론",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "tm-dup",
+     "type": "other",
+     "applies_to": [
+      "double"
+     ],
+     "text": "경제원론 1·2·경영을 위한 경제학은 셋 다 들으면 둘만, 생산서비스운영·생산관리는 하나만, 경영과학·경영과학 1은 하나만 전공학점 인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7"
+     ]
+    }
+   ],
+   "note": "선발 연도 2025~2026 기준(1차 조사). 그 전에 선발된 학생의 이 과정 규정은 조사하지 않았다. 유형 규칙(2019~2026 같음): 2개 정규학기·33학점 뒤 신청, 연합전공 39 + 소속 학과 39, 평점 2.0, 소속 학과가 연합전공에 제공한 과목 9학점·공통 인정 타 학과 과목 3학점까지 중복 인정, 연합전공만 단일 전공 불가 — 2018·2020·2022·2024 해설 4.나와 지금 학부대학 안내가 같다. 전공별 세부 규정은 '선발 시기' 기준으로 바뀐다(multi_major_roster 참고). 2026학번은 빨라야 2027년에 선발되므로 그때 규정."
+  }
+ ],
+ "change_points": [],
+ "ask_department": [
+  "2026년 이후 선발자에게 적용되는 현행 이수규정"
+ ],
+ "sources": {
+  "s1": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.151 교과목 이수규정 ①",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.151 ②",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.151 ③",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.151 ④",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.151 ⑤",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.151 ⑥",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.151 전공선택 인정과목 단서",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.151",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "학부대학 연합전공 안내",
+   "url": "https://snuc.snu.ac.kr/연합전공/",
+   "locator": "일반 규정",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.11 <표 3>, p.44 4.나(1)(라)·(2)(나)",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "PDF p.29 4.나(1)(라)(마)·(2) 중복인정",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "PDF p.37 4.나(1)(라)(마)·(2)·(5)",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "학부대학 연합전공 안내",
+   "url": "https://snuc.snu.ac.kr/연합전공/",
+   "locator": "신청자격·과정이수 학점·교과목 중복인정",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

@@ -1,0 +1,2257 @@
+{
+ "id": "p-79fbff13",
+ "college": "수의과대학",
+ "unit": "수의예과",
+ "program": "수의예과(예과 2년)",
+ "kind": "major",
+ "depts": [
+  "수의예과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "수의과대학 수의예과",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 72,
+    "ge": 42,
+    "single": 23,
+    "parallel": 23,
+    "double": null,
+    "minor": null,
+    "status": "충돌",
+    "src": [
+     "s10",
+     "s11",
+     "s12",
+     "s13",
+     "s14",
+     "s15"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s14",
+    "s15",
+    "s16"
+   ],
+   "requirements": [
+    {
+     "id": "vetpre-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "예과 전공 필수과목 11과목 26학점(학과 그림 2025: 예과1 12학점, 예과2 14학점)",
+     "min_count": 11,
+     "min_credits": 26,
+     "courses": [
+      {
+       "code": "M2180.002300",
+       "name": "수의생명의학 1 (생물학개론)",
+       "credits": 3
+      },
+      {
+       "code": "M2180.002800",
+       "name": "수의전문직업성 1 (수의역사와 직업정체성)",
+       "credits": 2
+      },
+      {
+       "code": "M2180.002400",
+       "name": "수의생명의학 2 (생명현상의 이해)",
+       "credits": 3
+      },
+      {
+       "code": "M2180.002900",
+       "name": "수의전문직업성 2 (동물 돌봄과 동물복지)",
+       "credits": 1
+      },
+      {
+       "code": "886.031",
+       "name": "기초유기화학",
+       "credits": 3
+      },
+      {
+       "code": "M2180.002500",
+       "name": "수의생명의학 3 (수의분자세포생물학)",
+       "credits": 3
+      },
+      {
+       "code": "M2180.003000",
+       "name": "수의전문직업성 3 (인간동물관계와 원헬스)",
+       "credits": 1
+      },
+      {
+       "code": "M2606.000300",
+       "name": "수의통계학",
+       "credits": 3
+      },
+      {
+       "code": "M2180.002600",
+       "name": "수의생명의학 4 (수의유전(체)학)",
+       "credits": 3
+      },
+      {
+       "code": "M2180.002700",
+       "name": "수의생명의학실습",
+       "credits": 2
+      },
+      {
+       "code": "M2180.003100",
+       "name": "수의전문직업성 4 (진로탐구와 동물병원 실습)",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4"
+     ],
+     "note": "M2180 9과목(편람 교과구분 전필) + 기초유기화학(화학부 개설, 편람은 화학부 기준 전선) = 23학점은 학과 그림과 2024 이수표준형태가 같다. 수의통계학만 분류가 엇갈린다. 2024 목록의 * 표(552P.*, M1744.000500 등)는 옛 과목(편람상 주로 2022~2023 개설)이라 2025학번에는 쓰지 않는다."
+    },
+    {
+     "id": "vetpre-other-elective",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기타 선택(전공선택/교양) 4학점 — 전공선택은 수의예과 개설 과목 중 학과장 또는 수의예과장이 인정하는 과목",
+     "min_count": null,
+     "min_credits": 4,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "앱에서는 72 에서 전공·교양을 뺀 나머지로 계산하고, 인정 여부는 '확인 필요'."
+    },
+    {
+     "id": "vetpre-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1(1학년) + 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7"
+     ],
+     "extra": {
+      "ge_area": "글쓰기와 말하기"
+     }
+    },
+    {
+     "id": "vetpre-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 6학점: 영어 1개 교과목 및 외국어 1개 교과목",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "F21.303",
+       "name": "고급영어: 발표",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7"
+     ],
+     "note": "입학 때 TEPS 801(New TEPS 453) 이상이면 '고급영어: 발표'를 반드시 들어야 한다(조건부 과목). 영어 과목 판정은 편람 영역으로.",
+     "extra": {
+      "ge_area": "외국어"
+     }
+    },
+    {
+     "id": "vetpre-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 3학점: 생명과학을 위한 수학 1 또는 2 중 1과목",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F31.111",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.112",
+       "name": "생명과학을 위한 수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7"
+     ],
+     "extra": {
+      "ge_area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "vetpre-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학 4학점: 물리학, 화학(또는 고급화학) 중 1개 이상 + 해당 실험(같은 학기)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7"
+     ],
+     "extra": {
+      "ge_area": "수학·과학·컴퓨팅",
+      "rule": "이론 1과목 + 그 실험을 같은 학기에"
+     }
+    },
+    {
+     "id": "vetpre-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠: 4개 영역 중 3개 영역에서 9학점 이상",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7"
+     ],
+     "extra": {
+      "ge_area": "지성의 열쇠",
+      "areas": [
+       "문화 해석과 상상",
+       "역사적 탐구와 철학적 사유",
+       "인간의 이해와 사회 분석",
+       "과학적 사고와 응용"
+      ],
+      "min_areas": 3
+     }
+    },
+    {
+     "id": "vetpre-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점: 베리타스 강좌 1(V10.*) 또는 베리타스 실천(V30.*). 강좌 2는 3~4학년 대상이라 이수 대상에서 제외",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7"
+     ],
+     "extra": {
+      "ge_area": "베리타스"
+     }
+    },
+    {
+     "id": "vetpre-ge-expansion",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 확장 7학점(공감과 공존, 자율과 창의, 예술과 체육, 학부생 세미나). 체육 1·2, 사회봉사 1 권장",
+     "min_count": null,
+     "min_credits": 7,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7"
+     ],
+     "extra": {
+      "ge_area": "지성의 확장"
+     }
+    },
+    {
+     "id": "vetpre-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 6학점(자유 선택)",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7"
+     ],
+     "extra": {
+      "ge_area": "전체 교양"
+     }
+    },
+    {
+     "id": "vetpre-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합계 42학점 이상",
+     "min_count": null,
+     "min_credits": 42,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8",
+      "s9"
+     ],
+     "note": "학과 그림의 교양: 예과1 26 + 예과2 16(그림 '교양 20' 칸에 '기타 선택(전공선택/교양) 4'가 같이 들어 있음) = 42."
+    }
+   ],
+   "note": "2026학번 교양은 2026 길잡이 p.155·2026 이수규정 p.88 모두 '2025학년도 입학생부터 적용'이라 2025학번과 같다. 전공 과목표는 학과 그림(2025-05)이 지금도 게시돼 있다. 다만 수의대가 2026-08-18 '수의예과 공통교육과정 이수기준 정정 안내(2025, 2026학번)'를 올렸는데 글이 스크립트로만 열려 내용을 보지 못했다(교양 세부가 정정됐을 수 있음)."
+  },
+  {
+   "entry_years": [
+    2023,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 72,
+    "ge": 42,
+    "single": 23,
+    "parallel": 23,
+    "double": null,
+    "minor": null,
+    "status": "충돌",
+    "src": [
+     "s17",
+     "s18",
+     "s21",
+     "s22"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s17",
+    "s18",
+    "s23",
+    "s24",
+    "s25"
+   ],
+   "requirements": [
+    {
+     "id": "vetpre-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "예과 전공 필수과목 11과목 26학점(학과 그림 2025: 예과1 12학점, 예과2 14학점)",
+     "min_count": 11,
+     "min_credits": 26,
+     "courses": [
+      {
+       "code": "M2180.002300",
+       "name": "수의생명의학 1 (생물학개론)",
+       "credits": 3
+      },
+      {
+       "code": "M2180.002800",
+       "name": "수의전문직업성 1 (수의역사와 직업정체성)",
+       "credits": 2
+      },
+      {
+       "code": "M2180.002400",
+       "name": "수의생명의학 2 (생명현상의 이해)",
+       "credits": 3
+      },
+      {
+       "code": "M2180.002900",
+       "name": "수의전문직업성 2 (동물 돌봄과 동물복지)",
+       "credits": 1
+      },
+      {
+       "code": "886.031",
+       "name": "기초유기화학",
+       "credits": 3
+      },
+      {
+       "code": "M2180.002500",
+       "name": "수의생명의학 3 (수의분자세포생물학)",
+       "credits": 3
+      },
+      {
+       "code": "M2180.003000",
+       "name": "수의전문직업성 3 (인간동물관계와 원헬스)",
+       "credits": 1
+      },
+      {
+       "code": "M2606.000300",
+       "name": "수의통계학",
+       "credits": 3
+      },
+      {
+       "code": "M2180.002600",
+       "name": "수의생명의학 4 (수의유전(체)학)",
+       "credits": 3
+      },
+      {
+       "code": "M2180.002700",
+       "name": "수의생명의학실습",
+       "credits": 2
+      },
+      {
+       "code": "M2180.003100",
+       "name": "수의전문직업성 4 (진로탐구와 동물병원 실습)",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4"
+     ],
+     "note": "M2180 9과목(편람 교과구분 전필) + 기초유기화학(화학부 개설, 편람은 화학부 기준 전선) = 23학점은 학과 그림과 2024 이수표준형태가 같다. 수의통계학만 분류가 엇갈린다. 2024 목록의 * 표(552P.*, M1744.000500 등)는 옛 과목(편람상 주로 2022~2023 개설)이라 2025학번에는 쓰지 않는다."
+    },
+    {
+     "id": "vetpre-other-elective",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기타 선택(전공선택/교양) 4학점 — 전공선택은 수의예과 개설 과목 중 학과장 또는 수의예과장이 인정하는 과목",
+     "min_count": null,
+     "min_credits": 4,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "앱에서는 72 에서 전공·교양을 뺀 나머지로 계산하고, 인정 여부는 '확인 필요'."
+    },
+    {
+     "id": "vetpre-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1(1-1) + 대학 글쓰기 2: 과학기술글쓰기(1-2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
+     "extra": {
+      "ge_area": "사고와 표현"
+     }
+    },
+    {
+     "id": "vetpre-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 6학점: 영어 1개 교과목 및 외국어 1개 교과목(입학 시 TEPS 801(New TEPS 453) 이상이면 '고급영어: 발표' 필수)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "L0441.001400",
+       "name": "고급영어: 발표",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "외국어"
+     }
+    },
+    {
+     "id": "vetpre-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 3학점: 생명과학을 위한 수학 1 또는 2 중 1과목",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.008",
+       "name": "생명과학을 위한 수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "vetpre-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 4학점: 물리학, 화학(또는 고급화학) 중 1개 이상 + 해당 실험(같은 학기)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "과학적 사고와 실험"
+     }
+    },
+    {
+     "id": "vetpre-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 6학점(자유 선택)",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "전체 교양"
+     }
+    },
+    {
+     "id": "vetpre-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합계 42학점 이상",
+     "min_count": null,
+     "min_credits": 42,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18",
+      "s19"
+     ],
+     "note": "2024 본부 해설(표 1 p.9·교양 표 p.39)과 2024 목록 학과 규정 ①은 43 으로 남아 있다(옛 값)."
+    },
+    {
+     "id": "vetpre-ge-world-hum",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계: 언어와 문학·문화와 예술·역사와 철학 영역에서 6학점(권장과목 * 표시 중 1과목 필수)",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18",
+      "s20"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "언어와 문학",
+       "문화와 예술",
+       "역사와 철학"
+      ]
+     }
+    },
+    {
+     "id": "vetpre-ge-world-pe",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계: 정치와 경제 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "정치와 경제"
+      ]
+     }
+    },
+    {
+     "id": "vetpre-ge-world-hs",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계: 인간과 사회 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "인간과 사회"
+      ]
+     }
+    },
+    {
+     "id": "vetpre-ge-choice",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택교양 7학점(체육(실기)·사회봉사 1 수강 권장)",
+     "min_count": null,
+     "min_credits": 7,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "선택교양"
+     }
+    }
+   ],
+   "changed": "교양이 옛 체계 42학점(사고와 표현 4·외국어 6·수량 3·과학 4·학문의 세계 12·선택교양 7·전체 6). 전공 과목(M2180 새 교육과정 11과목)과 기타 4(이수표준형태)는 2025학번과 같다.",
+   "note": "학부대학 2023 판으로 2023학번 교양도 확인했다. 예과 1학년 새 과목(M2180)이 2023-1 에 처음 열려(편람) 2023학번부터 새 과목으로 배웠다. 2023학번용 학과 이수표준형태는 공개 판이 없어 2024 판을 함께 썼다. 2023학번은 수의통계학을 2023-2(1학년 2학기)에 들은 것으로 보인다(편람 2023-2 개설, 2024-1 미개설)."
+  },
+  {
+   "entry_years": [
+    2021,
+    2022
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 72,
+    "ge": 43,
+    "single": 23,
+    "parallel": 23,
+    "double": null,
+    "minor": null,
+    "status": "부분",
+    "src": [
+     "s26",
+     "s27",
+     "s30",
+     "s31"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s26",
+    "s27",
+    "s30",
+    "s31",
+    "s32"
+   ],
+   "requirements": [
+    {
+     "id": "vetpre-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 8과목 18학점(옛 552P 교육과정)",
+     "min_count": 8,
+     "min_credits": 18,
+     "courses": [
+      {
+       "code": "552P.001",
+       "name": "수의학 이해",
+       "credits": 2
+      },
+      {
+       "code": "552P.002",
+       "name": "예비수의사를 위한 자기계발",
+       "credits": 2
+      },
+      {
+       "code": "552P.003",
+       "name": "수의학개론",
+       "credits": 1
+      },
+      {
+       "code": "552P.004",
+       "name": "수의용어학",
+       "credits": 2
+      },
+      {
+       "code": "552P.005",
+       "name": "동물아카데미",
+       "credits": 2
+      },
+      {
+       "code": "552P.006",
+       "name": "수의분자세포생물학",
+       "credits": 3
+      },
+      {
+       "code": "552P.007",
+       "name": "수의유전학개론",
+       "credits": 3
+      },
+      {
+       "code": "M1744.000500",
+       "name": "수의생물학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s30",
+      "s31"
+     ],
+     "note": "이수표준형태 <전공필수> 칸. 552P.005 동물아카데미는 목록에 * 가 없지만 전공필수 칸에 있고 편람 교과구분도 전필. 2021학번도 같은 과목이 2021-1·2 에 전필로 열렸다(편람)."
+    },
+    {
+     "id": "vetpre-other-elective",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기타 선택 6학점(규정 ①, 72 − 43 − 23)",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s30",
+      "s31"
+     ]
+    },
+    {
+     "id": "vetpre-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1(1-1) + 대학 글쓰기 2: 과학기술글쓰기(1-2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
+     "extra": {
+      "ge_area": "사고와 표현"
+     }
+    },
+    {
+     "id": "vetpre-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 6학점: 영어 1개 교과목 및 외국어 1개 교과목(입학 시 TEPS 801(New TEPS 453) 이상이면 '고급영어: 발표' 필수)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "L0441.001400",
+       "name": "고급영어: 발표",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "외국어"
+     }
+    },
+    {
+     "id": "vetpre-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 3학점: 생명과학을 위한 수학 1 또는 2 중 1과목",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.008",
+       "name": "생명과학을 위한 수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "vetpre-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 4학점: 물리학, 화학(또는 고급화학) 중 1개 이상 + 해당 실험(같은 학기)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "과학적 사고와 실험"
+     }
+    },
+    {
+     "id": "vetpre-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 6~8학점(자유 선택)",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s26",
+      "s27"
+     ],
+     "extra": {
+      "ge_area": "전체 교양"
+     }
+    },
+    {
+     "id": "vetpre-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합계 43학점 이상",
+     "min_count": null,
+     "min_credits": 43,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s26",
+      "s27",
+      "s28",
+      "s29"
+     ]
+    },
+    {
+     "id": "vetpre-ge-world-hum",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계: 언어와 문학·문화와 예술·역사와 철학 영역에서 6학점(권장과목 * 표시 중 1과목 필수)",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18",
+      "s20"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "언어와 문학",
+       "문화와 예술",
+       "역사와 철학"
+      ]
+     }
+    },
+    {
+     "id": "vetpre-ge-world-pe",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계: 정치와 경제 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "정치와 경제"
+      ]
+     }
+    },
+    {
+     "id": "vetpre-ge-world-hs",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계: 인간과 사회 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "인간과 사회"
+      ]
+     }
+    },
+    {
+     "id": "vetpre-ge-choice",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택교양 6~8학점(체육(실기)·사회봉사 1 수강 권장)",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s26",
+      "s27"
+     ],
+     "note": "선택교양과 전체 교양의 합은 14(교양 43 − 나머지 영역 29).",
+     "extra": {
+      "ge_area": "선택교양"
+     }
+    },
+    {
+     "id": "vetpre-major-elective-old",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 5학점 이상(전공 23 − 전필 18). 이수표준형태 <전공선택>: 수의통계학·기초유기화학·의생명연구방법의 이해·수의생명의학실습. 그 밖에 수의예과 개설 과목 중 학과장 또는 수의예과장이 인정하는 과목",
+     "min_count": null,
+     "min_credits": 5,
+     "courses": [
+      {
+       "code": "M2606.000300",
+       "name": "수의통계학",
+       "credits": 3
+      },
+      {
+       "code": "886.031",
+       "name": "기초유기화학",
+       "credits": 3
+      },
+      {
+       "code": "M2606.000100",
+       "name": "의생명연구방법의 이해",
+       "credits": 1
+      },
+      {
+       "code": "M2606.000200",
+       "name": "수의생명의학실습",
+       "credits": 2
+      },
+      {
+       "code": "886.032",
+       "name": "기초유기화학실험",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s30",
+      "s31"
+     ],
+     "note": "2021학번 예과 기간(2021~2022)에는 M2606.000100(2023-1 첫 개설)·M2606.000200(2023-2)이 열리지 않았다."
+    }
+   ],
+   "changed": "교양 43: 선택교양 6~8 + 전체 6~8(두 칸 합 14), 나머지 영역은 2023~2024 와 같다. 전공이 옛 552P 교육과정: 전공필수 8과목 18학점 + 전공선택 5학점 이상(전공 23), 기타 6.",
+   "note": "학부대학 2021 판이 43 이라 2021학번을 2022학번 쪽으로 옮겼다. 2022 학과 규정 ⑦은 '2022학년도 입학생부터, 이전 입학생은 종전 규정'이라 2021학번 전공 세부는 종전 규정이지만 학점(전공 23)과 전필 과목은 같다. 1차의 '2022학번은 옛 과목' 추정은 2022 판 이수표준형태로 확인했다."
+  },
+  {
+   "entry_years": [
+    2020,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 72,
+    "ge": 42,
+    "single": 23,
+    "parallel": 23,
+    "double": null,
+    "minor": null,
+    "status": "확인",
+    "src": [
+     "s33",
+     "s38",
+     "s34"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s33",
+    "s39",
+    "s40"
+   ],
+   "requirements": [
+    {
+     "id": "vetpre-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수(옛 552P 교육과정)로 보임: 2021~2022학번 8과목 18학점과 같은 과목",
+     "min_count": 8,
+     "min_credits": 18,
+     "courses": [
+      {
+       "code": "552P.001",
+       "name": "수의학 이해",
+       "credits": 2
+      },
+      {
+       "code": "552P.002",
+       "name": "예비수의사를 위한 자기계발",
+       "credits": 2
+      },
+      {
+       "code": "552P.003",
+       "name": "수의학개론",
+       "credits": 1
+      },
+      {
+       "code": "552P.004",
+       "name": "수의용어학",
+       "credits": 2
+      },
+      {
+       "code": "552P.005",
+       "name": "동물아카데미",
+       "credits": 2
+      },
+      {
+       "code": "552P.006",
+       "name": "수의분자세포생물학",
+       "credits": 3
+      },
+      {
+       "code": "552P.007",
+       "name": "수의유전학개론",
+       "credits": 3
+      },
+      {
+       "code": "M1744.000500",
+       "name": "수의생물학",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s36"
+     ],
+     "note": "2020 판 학과 규정 원문을 못 봐서 2022 판 과목표로 대신함."
+    },
+    {
+     "id": "vetpre-other-elective",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기타 선택 7학점(72 − 교양 42 − 전공 23)",
+     "min_count": null,
+     "min_credits": 7,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s35"
+     ],
+     "note": "표 1 숫자에서 뺀 값. 학과 규정 원문(2020 판)은 못 봄."
+    },
+    {
+     "id": "vetpre-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1(1-1) + 대학 글쓰기 2: 과학기술글쓰기(1-2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
+     "extra": {
+      "ge_area": "사고와 표현"
+     }
+    },
+    {
+     "id": "vetpre-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 5학점: 영어 1개 교과목 및 외국어 1개 교과목(TEPS 801 이상이면 '고급영어: 발표' 필수)",
+     "min_count": 2,
+     "min_credits": 5,
+     "courses": [
+      {
+       "code": "L0441.001400",
+       "name": "고급영어: 발표",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s33",
+      "s34"
+     ],
+     "extra": {
+      "ge_area": "외국어"
+     }
+    },
+    {
+     "id": "vetpre-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 3학점: 생명과학을 위한 수학 1 또는 2 중 1과목",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.008",
+       "name": "생명과학을 위한 수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "vetpre-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 4학점: 물리학, 화학(또는 고급화학) 중 1개 이상 + 해당 실험(같은 학기)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "과학적 사고와 실험"
+     }
+    },
+    {
+     "id": "vetpre-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 6~8학점(자유 선택)",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s26",
+      "s27"
+     ],
+     "extra": {
+      "ge_area": "전체 교양"
+     }
+    },
+    {
+     "id": "vetpre-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합계 42학점 이상",
+     "min_count": null,
+     "min_credits": 42,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s33",
+      "s34"
+     ]
+    },
+    {
+     "id": "vetpre-ge-world-hum",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계: 언어와 문학·문화와 예술·역사와 철학 영역에서 6학점(권장과목 * 표시 중 1과목 필수)",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18",
+      "s20"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "언어와 문학",
+       "문화와 예술",
+       "역사와 철학"
+      ]
+     }
+    },
+    {
+     "id": "vetpre-ge-world-pe",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계: 정치와 경제 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "정치와 경제"
+      ]
+     }
+    },
+    {
+     "id": "vetpre-ge-world-hs",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계: 인간과 사회 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "인간과 사회"
+      ]
+     }
+    },
+    {
+     "id": "vetpre-ge-choice",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택교양 6~8학점(체육(실기)·사회봉사 1 수강 권장)",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s26",
+      "s27"
+     ],
+     "note": "선택교양과 전체 교양의 합은 14(교양 43 − 나머지 영역 29).",
+     "extra": {
+      "ge_area": "선택교양"
+     }
+    },
+    {
+     "id": "vetpre-major-elective-old",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 5학점 이상(전공 23 − 전필 18). 인정 과목 목록 미확인(수의예과 개설 과목 중 학과장 인정으로 보임)",
+     "min_count": null,
+     "min_credits": 5,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s37"
+     ]
+    }
+   ],
+   "changed": "교양 42(외국어 5학점), 기타 7. 전공필수는 2021~2022 와 같은 옛 552P 과목으로 보이나 2020 판 학과 규정 원문은 못 봤고, 이수표준형태의 전공선택 과목(M2606.*)은 2022-2 부터 열려 이 학번의 전공선택 목록은 미확인.",
+   "note": "2020학번은 정상 진행이면 이미 본과(2022 진입)에 있다. 예과 요건은 유급·휴학 학생에게만 쓰인다."
+  },
+  {
+   "entry_years": [
+    2019,
+    2019
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 72,
+    "ge": 45,
+    "single": null,
+    "parallel": null,
+    "double": null,
+    "minor": null,
+    "status": "부분",
+    "src": [
+     "s41",
+     "s43"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s41",
+    "s44",
+    "s42"
+   ],
+   "requirements": [
+    {
+     "id": "vetpre-major-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 — 미확인(2019 학과 규정 없음. 2018 판이면 전공 20, 2020 판에서 생긴 '수의생물학'은 없었을 것)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s42",
+      "s35"
+     ]
+    },
+    {
+     "id": "vetpre-other-elective",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기타 선택 — 미확인(전공 20 이면 7)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s42"
+     ]
+    },
+    {
+     "id": "vetpre-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1(1-1) + 대학 글쓰기 2: 과학기술글쓰기(1-2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
+     "extra": {
+      "ge_area": "사고와 표현"
+     }
+    },
+    {
+     "id": "vetpre-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 5학점: 영어 1개 교과목 및 외국어 1개 교과목(TEPS 801 이상이면 '고급영어: 발표' 필수)",
+     "min_count": 2,
+     "min_credits": 5,
+     "courses": [
+      {
+       "code": "L0441.001400",
+       "name": "고급영어: 발표",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s33",
+      "s34"
+     ],
+     "extra": {
+      "ge_area": "외국어"
+     }
+    },
+    {
+     "id": "vetpre-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 3학점: 생명과학을 위한 수학 1 또는 2 중 1과목",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.008",
+       "name": "생명과학을 위한 수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "vetpre-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 8학점: 물리학, 화학(또는 고급화학), 생물학 중 2개 이상 + 해당 실험(같은 학기)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s41"
+     ],
+     "extra": {
+      "ge_area": "과학적 사고와 실험"
+     }
+    },
+    {
+     "id": "vetpre-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 6학점(자유 선택)",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s41"
+     ],
+     "extra": {
+      "ge_area": "전체 교양"
+     }
+    },
+    {
+     "id": "vetpre-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합계 45학점 이상",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s41"
+     ]
+    },
+    {
+     "id": "vetpre-ge-world-hum",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계: 언어와 문학·문화와 예술·역사와 철학 영역에서 6학점(권장과목 * 표시 중 1과목 필수)",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18",
+      "s20"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "언어와 문학",
+       "문화와 예술",
+       "역사와 철학"
+      ]
+     }
+    },
+    {
+     "id": "vetpre-ge-world-pe",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계: 정치와 경제 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "정치와 경제"
+      ]
+     }
+    },
+    {
+     "id": "vetpre-ge-world-hs",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계: 인간과 사회 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "areas": [
+       "인간과 사회"
+      ]
+     }
+    },
+    {
+     "id": "vetpre-ge-choice",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택교양 7학점(필수)",
+     "min_count": null,
+     "min_credits": 7,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s41"
+     ],
+     "extra": {
+      "ge_area": "선택교양"
+     }
+    },
+    {
+     "id": "vetpre-major-elective-old",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 — 미확인",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s42"
+     ]
+    }
+   ],
+   "changed": "교양 45: 과학 8(물리학·화학/고급화학·생물학 중 2개 이상 + 실험), 선택교양 7(필수), 전체 6. 전공·기타 학점과 전공 과목은 미확인(2018 판이면 전공 20·기타 7, 수의생물학 없이).",
+   "note": "2019학번은 정상 진행이면 2021년에 본과에 올라가 예과 요건이 앱에서 쓰일 일은 거의 없다."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2020,
+   "basis": "입학 연도",
+   "what": "교양 45→42(과학 8→4: 생물학 빠짐, 선택교양 7→6~8, 전체 6→6~8), 전공 20→23(2018 판 표 1 → 2020 판 표 1; 2019학번 전공은 미확인)",
+   "status": "부분"
+  },
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "교양 42→43(외국어 5→6), 기타 7→6",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2022,
+   "basis": "입학 연도",
+   "what": "학과 규정 개정(①~⑦, 2022학년도 입학생부터): 교양 43·전공 23·기타 6 명문화, 전공선택 과목(M2606.* 수의통계학 등) 신설. 학점은 2021학번과 같음",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2023,
+   "basis": "입학 연도",
+   "what": "교양 43→42(선택교양 6~8→7, 전체 6~8→6)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2023,
+   "basis": "교과 개편 학기(2023-1, 학번과 맞물림)",
+   "what": "예과 전공 과목 개편: 552P·수의생물학 → M2180 수의생명의학 1~4·수의생명의학실습·수의전문직업성 1~4. 이수표준형태 '전공필수' 칸에 기초유기화학·수의통계학이 들어가 필수 26학점(규정 문장은 전공 23 그대로)",
+   "status": "부분"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 새 체계(42)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "수의대 공지 '수의예과 공통교육과정 이수기준 정정(2025, 2026학번)'(2026-08-18) — 내용 미확인",
+   "status": "미확인"
+  }
+ ],
+ "ask_department": [
+  "2019학번 수의예과 전공·기타 학점(교양 45 는 확인; 2018 판처럼 전공 20·기타 7 인지)",
+  "2020학번 전공선택 인정 과목(2022 판의 M2606.* 과목은 2022-2 부터 개설)",
+  "2023학번에 적용된 학과 이수표준형태(2023 판 공개 자료 없음)",
+  "수의통계학(M2606.000300)이 2023~2026학번 전공필수인지(규정 전공 23 vs 이수표준형태·학과 그림 필수 26), 학과 규정 ①의 '교양 43·기타 6'을 교양 42 에 맞춰 고쳤는지",
+  "'수의예과 공통교육과정 이수기준 정정 안내(2025, 2026학번)'(2026-08-18) 내용",
+  "수의통계학(M2606.000300)이 2025학번 전공필수인지(학과 그림은 필수, 편람 교과구분은 전선), 예과 전공 이수 학점이 23인지 26인지",
+  "'기타 선택(전공선택/교양) 4학점'에 인정되는 전공선택 과목 범위",
+  "예과 수료 72학점 외에 본과(수의학과) 진입 조건(평점, 서울대학교 유급규정 적용 방식)이 있는지",
+  "수의예과 학생이 다른 전공을 복수·부전공으로 신청할 수 있는지(표 1 '다른 전공 병행 이수' 칸은 23 으로 있음), 본과 진입 뒤 어떻게 되는지"
+ ],
+ "sources": {
+  "s1": {
+   "title": "수의과대학, 학사과정 예과 1년 교과과정(그림, 2025-05 게시)",
+   "url": "https://vet.snu.ac.kr/prevet1/",
+   "locator": "전공 12학점 표",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "수의과대학, 학사과정 예과 2년 교과과정(그림, 2025-05 게시)",
+   "url": "https://vet.snu.ac.kr/prevet2/",
+   "locator": "전공 14학점 표",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.113–114 수의예과 이수표준형태 <전공필수>",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "TT Wizard 수강편람 자료(과목 번호·이름·학점·교과구분)",
+   "locator": "편람 2023-1~2026-2",
+   "accessed": "2026-11-12",
+   "repo": "data/history/<학기>.json"
+  },
+  "s5": {
+   "title": "수의과대학, 학사과정 예과 2년 교과과정(그림, 2025-05 게시)",
+   "url": "https://vet.snu.ac.kr/prevet2/",
+   "locator": "기타 선택(전공선택/교양) 4",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.114 전공선택 인정과목",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.149 □ 수의과대학 (수의예과)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "수의과대학, 학사과정 예과 1년 교과과정(그림, 2025-05 게시)",
+   "url": "https://vet.snu.ac.kr/prevet1/",
+   "locator": "교양 26학점 표",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "수의과대학, 학사과정 예과 2년 교과과정(그림, 2025-05 게시)",
+   "url": "https://vet.snu.ac.kr/prevet2/",
+   "locator": "교양 20학점 표(기타 선택 4 포함)",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2024 교과과정 해설(본부, 2024학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1> p.9 수의예과 단일전공 23",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "수의과대학, 학사과정 예과 1년·2년 교과과정(그림, 2025-05 게시)",
+   "url": "https://vet.snu.ac.kr/prevet1/ , https://vet.snu.ac.kr/prevet2/",
+   "locator": "예과1 전공 12·예과2 전공 14 = 필수 26, 교양 42, 기타 4",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.149",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "학부대학, 2025학년도 시행 공통교육과정 대학별 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/01/2025학년도-시행-공통교육과정-대학별-이수규정국문.pdf",
+   "locator": "p.38 '2025학년도 입학생부터 적용'",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.155 (2025 길잡이와 같은 표)",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "학부대학, 2026학년도 시행 단과대학별 공통교육과정 이수 규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "p.88 '상기 이수규정은 2025학년도 입학생부터 적용함'",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "수의과대학 공지사항 목록 — '수의예과 공통교육과정 이수기준 정정 안내(2025, 2026학번)'(2026-08-18, 첨부 있음). 글은 자바스크립트 POST 로만 열려 내용은 보지 않음",
+   "url": "https://vet.snu.ac.kr/category/board-3-BL-8Piv9u51-20211029154329/",
+   "locator": "공지 목록(번호 33385, 2026-08-18)",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "학부대학(옛 기초교육원), 2023학년도 대학별 교양 이수규정(2025-12 게시 '_2' 판)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2023_2.pdf",
+   "locator": "PDF p.33 □ 수의과대학(수의예과) 표",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "학부대학(옛 기초교육원), 2024학년도 대학별 교양 이수규정(2025-12 게시 '_2' 판)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2024_2.pdf",
+   "locator": "PDF p.33 □ 수의과대학(수의예과) 표",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.113~114 이수표준형태 교양 칸 합 42",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.114 수의예과 규정 ⑥",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.113~114 이수표준형태(전공필수 칸 26: M2180 9과목 20 + 기초유기화학 3 + 수의통계학 3, 기타선택 4, 교양 칸 합 42)·규정 ①(교양 43·전공 23·기타 6, ⑦ 2022학년도 입학생부터)",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "서울대학교 2024 교과과정 해설(본부, 2024학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1> p.9 72/43/23/23",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.113~114",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "서울대학교 2024 교과과정 해설(본부, 2024학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 6> 대학별 교양 필수과목 표 — p.39",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "TT Wizard 수강편람 자료(학기별 과목 번호·이름·학점·개설학과·교과구분)",
+   "locator": "M2180.002300·002800 2023-1 첫 개설, M2180.002400·002900 2023-2, M2180.002500~003100 2024-1·2; 552P.001 은 2022-1 이 마지막",
+   "accessed": "2026-11-12",
+   "repo": "data/history/<학기>.json"
+  },
+  "s26": {
+   "title": "학부대학(옛 기초교육원), 2021학년도 대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/04/liberaledu_2021.pdf",
+   "locator": "PDF p.28(인쇄 133) □ 수의과대학(수의예과) 표",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "학부대학(옛 기초교육원), 2022학년도 대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/04/liberaledu_2022.pdf",
+   "locator": "PDF p.29(인쇄 132) □ 수의과대학(수의예과) 표",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "서울대학교 2022 교과과정 해설(본부, 2022학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 6> 대학별 교양 필수과목 표 — p.36",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "p.109 규정 ①",
+   "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "p.109 수의예과 과목 목록·이수표준형태(그림으로 확인), p.109~110 규정 ①~⑦",
+   "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "서울대학교 2022 교과과정 해설(본부, 2022학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 1> p.9 수의예과 72/43/23/23",
+   "accessed": "2026-11-12"
+  },
+  "s32": {
+   "title": "TT Wizard 수강편람 자료(학기별 과목 번호·이름·학점·개설학과·교과구분)",
+   "locator": "552P.001·M1744.000500 2021-1·2022-1, 552P.003·006 ~2023-1, 552P.005·007 ~2023-2",
+   "accessed": "2026-11-12",
+   "repo": "data/history/<학기>.json"
+  },
+  "s33": {
+   "title": "학부대학(옛 기초교육원), 2020학년도 단과대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/04/liberaledu_2020.pdf",
+   "locator": "PDF p.28 □ 수의과대학(수의예과) 표",
+   "accessed": "2026-11-12"
+  },
+  "s34": {
+   "title": "서울대학교 2020 교과과정 해설(본부, 2020학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 6> 대학별 교양 필수과목 표 — p.36",
+   "accessed": "2026-11-12"
+  },
+  "s35": {
+   "title": "서울대학교 2020 교과과정 해설(본부, 2020학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 1> p.9",
+   "accessed": "2026-11-12"
+  },
+  "s36": {
+   "title": "TT Wizard 수강편람 자료(학기별 과목 번호·이름·학점·개설학과·교과구분)",
+   "locator": "552P.001·003·006·M1744.000500 2021-1, 552P.002·004·005·007 2021-2 개설(전필)",
+   "accessed": "2026-11-12",
+   "repo": "data/history/<학기>.json"
+  },
+  "s37": {
+   "title": "TT Wizard 수강편람 자료(학기별 과목 번호·이름·학점·개설학과·교과구분)",
+   "locator": "M2606.000300 은 2022-2, M2606.000100 은 2023-1, M2606.000200 은 2023-2 에 처음 보임",
+   "accessed": "2026-11-12",
+   "repo": "data/history/<학기>.json"
+  },
+  "s38": {
+   "title": "서울대학교 2020 교과과정 해설(본부, 2020학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 1> p.9 수의예과 72/42/23/23",
+   "accessed": "2026-11-12"
+  },
+  "s39": {
+   "title": "서울대학교 2020 교과과정 해설(본부, 2020학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 1> p.9, 교양 표 p.36",
+   "accessed": "2026-11-12"
+  },
+  "s40": {
+   "title": "TT Wizard 수강편람 자료(학기별 과목 번호·이름·학점·개설학과·교과구분)",
+   "locator": "2021-1·2021-2 수의예과 개설 과목",
+   "accessed": "2026-11-12",
+   "repo": "data/history/<학기>.json"
+  },
+  "s41": {
+   "title": "학부대학(옛 기초교육원), 2019학년도 단과대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/04/liberaledu_2019.pdf",
+   "locator": "PDF p.28 □ 수의과대학(수의예과) 표",
+   "accessed": "2026-11-12"
+  },
+  "s42": {
+   "title": "서울대학교 2018 교과과정 해설(본부, 2018학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 1> p.9",
+   "accessed": "2026-11-12"
+  },
+  "s43": {
+   "title": "서울대학교 2018 교과과정 해설(본부, 2018학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 1> p.9 수의예과 72/45/20/20(2018학번)",
+   "accessed": "2026-11-12"
+  },
+  "s44": {
+   "title": "서울대학교 2018 교과과정 해설(본부, 2018학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 6> 대학별 교양 필수과목 표 — p.33",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

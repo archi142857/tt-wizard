@@ -1,0 +1,494 @@
+{
+ "id": "p-b9aaeb80",
+ "college": "인문대학",
+ "unit": "독어독문학과",
+ "program": "독어독문학과",
+ "kind": "major",
+ "depts": [
+  "독어독문학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "인문대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2026,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s11",
+     "s12",
+     "s13",
+     "s14",
+     "s15"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s16"
+   ],
+   "requirements": [
+    {
+     "id": "ger-core-2026",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "(26학번) 전공필수 3과목: 독문학이란 무엇인가, 독어학이란 무엇인가, 고급독일어 1",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "M1241.000400",
+       "name": "독문학이란 무엇인가",
+       "credits": 3
+      },
+      {
+       "code": "M1241.000700",
+       "name": "독어학이란 무엇인가",
+       "credits": 3
+      },
+      {
+       "code": "105.300B",
+       "name": "고급독일어 1",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "ger-exam",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대 외국어시험 대체과목(#): 105.228 독문법 및 작문",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s3",
+      "s4"
+     ],
+     "note": "지금도 시험 요건이 있는지 공개 자료에 없음."
+    },
+    {
+     "id": "ger-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문(학과 누리집에 '졸업논문' 게시판)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5"
+     ]
+    },
+    {
+     "id": "ger-entry",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "광역생 배정 기준: 독어독문학과 개설 교과목 1개 이상 이수(중). 2026 전기 정원 34(기배정 9 제외 25)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "ger-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 21학점(2024 목록 '학과내규에 의함')",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s7",
+      "s8"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통 교양·졸업 의무 — 학번에 맞는 college_common.ge_by_cohort·other 참조(제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학(2024학번까지)/삶과 인문학 세미나(2025학번~))",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10"
+     ],
+     "note": "2차: hum-common-ref 는 학번에 맞는 college_common.ge_by_cohort·college_common.other 를 가리킨다(2019–2024학번은 학문의 기초·학문의 세계 + 삶과 인문학, 2025학번~은 새 교양 + 삶과 인문학 세미나).",
+     "extra": {
+      "see": [
+       "college_common.ge_by_cohort",
+       "college_common.other"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "entry_years": [
+    2019,
+    2025
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s11",
+     "s12",
+     "s13",
+     "s14",
+     "s15"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s21",
+    "s22",
+    "s23"
+   ],
+   "requirements": [
+    {
+     "id": "ger-exam",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대 외국어시험 대체과목(#): 105.228 독문법 및 작문",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s3",
+      "s4"
+     ],
+     "note": "지금도 시험 요건이 있는지 공개 자료에 없음."
+    },
+    {
+     "id": "ger-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문(학과 누리집에 '졸업논문' 게시판)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5"
+     ]
+    },
+    {
+     "id": "ger-entry",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "광역생 배정 기준: 독어독문학과 개설 교과목 1개 이상 이수(중). 2026 전기 정원 34(기배정 9 제외 25)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "ger-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 21학점(2024 목록 '학과내규에 의함')",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s7",
+      "s8"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통 교양·졸업 의무 — 학번에 맞는 college_common.ge_by_cohort·other 참조(제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학(2024학번까지)/삶과 인문학 세미나(2025학번~))",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10"
+     ],
+     "note": "2차: hum-common-ref 는 학번에 맞는 college_common.ge_by_cohort·college_common.other 를 가리킨다(2019–2024학번은 학문의 기초·학문의 세계 + 삶과 인문학, 2025학번~은 새 교양 + 삶과 인문학 세미나).",
+     "extra": {
+      "see": [
+       "college_common.ge_by_cohort",
+       "college_common.other"
+      ]
+     }
+    },
+    {
+     "id": "ger-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "(25학번까지) 전공필수 3과목: 독문번역연습 1, 독문법 및 작문, 고급독일어 1",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "105.223A",
+       "name": "독문번역연습 1",
+       "credits": 3
+      },
+      {
+       "code": "105.228",
+       "name": "독문법 및 작문",
+       "credits": 3
+      },
+      {
+       "code": "105.300B",
+       "name": "고급독일어 1",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18",
+      "s19",
+      "s20"
+     ],
+     "note": "옛 과목은 2026년에도 계속 열린다(105.223A 2026-1, 105.228 2026-2, 105.300B 2026-1)."
+    }
+   ],
+   "changed": "전필이 독문번역연습 1·독문법 및 작문·고급독일어 1(26학번은 독문학이란 무엇인가·독어학이란 무엇인가·고급독일어 1). 1차의 '새 전필이 2025학번에 더해지는지' 미확인은 '아니다'로 풀림."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2026,
+   "basis": "입학 연도",
+   "what": "전필 3과목 중 2과목 교체(독문번역연습 1·독문법 및 작문 → 독문학이란 무엇인가·독어학이란 무엇인가)",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "외국어시험(#) 요건 유무",
+  "복수·부전공 필수 과목(학번별 전필이 다전공에도 같은지)",
+  "2025학번 전공필수(옛 3과목만인지, 새 2과목이 더해지는지)",
+  "외국어시험·졸업논문 요건",
+  "복수·부전공 필수과목",
+  "외국어진행 3과목에 전공 포함 여부"
+ ],
+ "sources": {
+  "s1": {
+   "title": "독어독문학과 전공 강좌(수정 2026-11-12)",
+   "url": "https://german.snu.ac.kr/%EC%A0%84%EA%B3%B5-%EA%B0%95%EC%A2%8C/",
+   "locator": "'(*는 전공필수과목임) 25학번 까지 … / 26학번 : 독문학이란 무엇인가, 독어학이란 무엇인가, 고급독일어 1'",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "수강편람 자료(백엔드 수집)",
+   "locator": "M1241.000400 2026-1, M1241.000700 2026-2",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "15쪽 독문 이수표준형태 '105.228* 독문법 및 작문#'",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "16쪽 '# : 인문대 외국어시험 대체과목임'",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "독어독문학과 학과정보(수정 2026-01-09)",
+   "url": "https://german.snu.ac.kr/%EB%8F%85%EC%96%B4%EB%8F%85%EB%AC%B8%ED%95%99%EA%B3%BC/",
+   "locator": "학과 개요(원어연극·독일 연수 권장), 메뉴의 '졸업논문' 게시판",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "독어독문학과 2026학년도 전기 인문대학 학과배정 전형 안내",
+   "url": "https://german.snu.ac.kr/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD/?mod=document&uid=2468",
+   "locator": "배정 기준(독문 개설 교과목 1개 이상), 정원",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 2 학사과정 복수·부전공 이수학점 기준, 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "16쪽 부전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 인문대학 표, PDF 4쪽(인쇄 108쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "인문대학 졸업이수 의무사항 안내(관련: 인문대학-2710, 2025.1.25., 게시 2025-02-03)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림(https://humanities.snu.ac.kr/webdata/upimages/7efzf51z874zf93z1c2za09z28cz23ezd11z697zb8.png), '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "인문대학 졸업이수 의무사항 안내(인문대학-2710, 2025.1.25.)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림 '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "독어독문학과 전공 강좌(수정 2026-11-12)",
+   "url": "https://german.snu.ac.kr/%EC%A0%84%EA%B3%B5-%EA%B0%95%EC%A2%8C/",
+   "locator": "전공 강좌 표 아래 전필 문구",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "독어독문학과 전공 강좌(수정 2026-11-12)",
+   "url": "https://german.snu.ac.kr/%EC%A0%84%EA%B3%B5-%EA%B0%95%EC%A2%8C/",
+   "locator": "'25학번 까지 : 독문번역연습 1, 독문법 및 작문, 고급독일어 1'",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "105. 독어독문학과(105.223A*·105.228*·105.300B*)",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "같은 칸",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "수강편람 자료(백엔드 수집)",
+   "locator": "세 과목 2026년에도 전필로 개설",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s21": {
+   "title": "독어독문학과 전공 강좌(수정 2026-11-12)",
+   "url": "https://german.snu.ac.kr/%EC%A0%84%EA%B3%B5-%EA%B0%95%EC%A2%8C/",
+   "locator": "전필 문구",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "105. 독어독문학과",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "105. 독어독문학과",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

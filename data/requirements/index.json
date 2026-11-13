@@ -11,10 +11,12 @@
    "unit": "국어국문학과",
    "program": "국어국문학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -24,7 +26,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-e171f470",
@@ -32,10 +34,12 @@
    "unit": "중어중문학과",
    "program": "중어중문학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -45,7 +49,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-9618364c",
@@ -53,10 +57,12 @@
    "unit": "영어영문학과",
    "program": "영어영문학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -70,7 +76,7 @@
      2025
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-1d91d72d",
@@ -78,10 +84,12 @@
    "unit": "불어불문학과",
    "program": "불어불문학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -95,7 +103,7 @@
      2025
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-b9aaeb80",
@@ -103,10 +111,12 @@
    "unit": "독어독문학과",
    "program": "독어독문학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -120,7 +130,7 @@
      2025
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-2408e57e",
@@ -128,10 +138,12 @@
    "unit": "노어노문학과",
    "program": "노어노문학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -149,7 +161,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-a9188efc",
@@ -157,10 +169,12 @@
    "unit": "서어서문학과",
    "program": "서어서문학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -170,7 +184,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-1f5bd1b5",
@@ -178,10 +192,12 @@
    "unit": "언어학과",
    "program": "언어학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -191,7 +207,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-ef30f28f",
@@ -199,10 +215,12 @@
    "unit": "아시아언어문명학부",
    "program": "일본언어문명전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "일본언어문명전공",
@@ -221,7 +239,7 @@
      2023
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-73756aa5",
@@ -229,10 +247,12 @@
    "unit": "아시아언어문명학부",
    "program": "동남아시아언어문명전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "일본언어문명전공",
@@ -251,7 +271,7 @@
      2023
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-8af8eacd",
@@ -259,10 +279,12 @@
    "unit": "아시아언어문명학부",
    "program": "인도언어문명전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "일본언어문명전공",
@@ -281,7 +303,7 @@
      2023
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-1bcbd6fe",
@@ -289,10 +311,12 @@
    "unit": "아시아언어문명학부",
    "program": "서아시아언어문명전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "일본언어문명전공",
@@ -311,7 +335,7 @@
      2023
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-b1cc35e9",
@@ -319,10 +343,12 @@
    "unit": "역사학부",
    "program": "한국사학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2023,
     2026
    ],
+   "version_key": "entry",
    "predecessor": {
     "program": "국사학과",
     "entry_years": [
@@ -343,7 +369,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-c43beb02",
@@ -351,10 +377,12 @@
    "unit": "역사학부",
    "program": "동양사학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2023,
     2026
    ],
+   "version_key": "entry",
    "predecessor": {
     "program": "동양사학과",
     "entry_years": [
@@ -375,7 +403,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-5e5648a7",
@@ -383,10 +411,12 @@
    "unit": "역사학부",
    "program": "서양사학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2023,
     2026
    ],
+   "version_key": "entry",
    "predecessor": {
     "program": "서양사학과",
     "entry_years": [
@@ -407,7 +437,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-4ad4be97",
@@ -415,10 +445,12 @@
    "unit": "철학과",
    "program": "철학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -428,7 +460,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-26490b22",
@@ -436,10 +468,12 @@
    "unit": "종교학과",
    "program": "종교학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -449,7 +483,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-60140ad3",
@@ -457,10 +491,12 @@
    "unit": "미학과",
    "program": "미학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -474,7 +510,7 @@
      2021
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-db3fc74e",
@@ -482,10 +518,12 @@
    "unit": "고고미술사학과",
    "program": "고고학전공",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "고고학전공",
@@ -498,7 +536,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-0ec7f3f7",
@@ -506,10 +544,12 @@
    "unit": "고고미술사학과",
    "program": "미술사학전공",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "고고학전공",
@@ -522,7 +562,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-5235bf07",
@@ -530,10 +570,12 @@
    "unit": "정치외교학부",
    "program": "정치학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "정치학전공",
@@ -550,7 +592,7 @@
      2024
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-bbf86688",
@@ -558,10 +600,12 @@
    "unit": "정치외교학부",
    "program": "외교학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "정치학전공",
@@ -578,7 +622,7 @@
      2024
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-26c40934",
@@ -586,10 +630,12 @@
    "unit": "경제학부",
    "program": "경제학부",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -603,7 +649,7 @@
      2024
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-b13fbed6",
@@ -611,10 +657,12 @@
    "unit": "사회학과",
    "program": "사회학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -632,7 +680,7 @@
      2022
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-58032f4f",
@@ -640,10 +688,12 @@
    "unit": "인류학과",
    "program": "인류학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -657,7 +707,7 @@
      2024
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-03aa5ef6",
@@ -665,10 +715,12 @@
    "unit": "심리학과",
    "program": "심리학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -682,7 +734,7 @@
      2024
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-259c8d96",
@@ -690,10 +742,12 @@
    "unit": "지리학과",
    "program": "지리학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -711,7 +765,7 @@
      2023
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-b148f5f4",
@@ -719,10 +773,12 @@
    "unit": "사회복지학과",
    "program": "사회복지학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -740,7 +796,7 @@
      2023
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-d3470527",
@@ -748,10 +804,12 @@
    "unit": "언론정보학과",
    "program": "언론정보학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -781,7 +839,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-58922b29",
@@ -789,10 +847,12 @@
    "unit": "수리과학부",
    "program": "수리과학부",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -818,7 +878,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-638ed6b5",
@@ -826,10 +886,12 @@
    "unit": "통계학과",
    "program": "통계학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -859,7 +921,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-76162784",
@@ -867,10 +929,12 @@
    "unit": "물리·천문학부",
    "program": "물리학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "물리학전공",
@@ -907,7 +971,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-3b4ed39d",
@@ -915,10 +979,12 @@
    "unit": "물리·천문학부",
    "program": "천문학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "물리학전공",
@@ -947,7 +1013,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-38d77850",
@@ -955,10 +1021,12 @@
    "unit": "화학부",
    "program": "화학부",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -980,7 +1048,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "life-sciences",
@@ -988,10 +1056,12 @@
    "unit": "생명과학부",
    "program": "생명과학부",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -1029,10 +1099,12 @@
    "unit": "지구환경과학부",
    "program": "지구환경과학부",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -1062,7 +1134,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-dc24e59c",
@@ -1070,10 +1142,12 @@
    "unit": "경영학과",
    "program": "경영학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -1099,7 +1173,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-234741e0",
@@ -1107,10 +1181,12 @@
    "unit": "간호학과",
    "program": "간호학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -1132,7 +1208,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-509f9c7c",
@@ -1140,10 +1216,12 @@
    "unit": "소비자아동학부",
    "program": "소비자학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "소비자학전공",
@@ -1168,7 +1246,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-db64f2a8",
@@ -1176,10 +1254,12 @@
    "unit": "소비자아동학부",
    "program": "아동가족학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "소비자학전공",
@@ -1208,7 +1288,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-67f0f7cb",
@@ -1216,10 +1296,12 @@
    "unit": "식품영양학과",
    "program": "식품영양학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -1245,7 +1327,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-2c21b927",
@@ -1253,10 +1335,12 @@
    "unit": "의류학과",
    "program": "의류학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -1278,7 +1362,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-d75e8638",
@@ -1286,10 +1370,12 @@
    "unit": "공과대학 광역",
    "program": "공과대학 광역(1학년 1학기)",
    "unit_kind": "모집단위",
+   "kind": "major",
    "exists_for": [
     2023,
     2026
    ],
+   "version_key": "entry",
    "predecessor": {
     "entry_years": [
      2019,
@@ -1331,7 +1417,7 @@
      2024
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-a4068275",
@@ -1339,10 +1425,12 @@
    "unit": "건축학과",
    "program": "건축학전공(5년제)",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "건축학전공(5년제)",
@@ -1371,7 +1459,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-90504114",
@@ -1379,10 +1467,12 @@
    "unit": "건축학과",
    "program": "건축공학전공",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "건축학전공(5년제)",
@@ -1411,7 +1501,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-49fa7eeb",
@@ -1419,10 +1509,12 @@
    "unit": "산업공학과",
    "program": "산업공학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -1448,7 +1540,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-825e63cf",
@@ -1456,10 +1548,12 @@
    "unit": "원자핵공학과",
    "program": "원자핵공학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -1485,7 +1579,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-c91f696e",
@@ -1493,10 +1587,12 @@
    "unit": "조선해양공학과",
    "program": "조선해양공학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -1526,7 +1622,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-18cd75ef",
@@ -1534,10 +1630,12 @@
    "unit": "컴퓨터공학부",
    "program": "컴퓨터공학부",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -1563,7 +1661,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-121aa7bb",
@@ -1571,10 +1669,12 @@
    "unit": "전기·정보공학부",
    "program": "전기·정보공학부",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -1600,7 +1700,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-463194e6",
@@ -1608,10 +1708,12 @@
    "unit": "재료공학부",
    "program": "재료공학부",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -1637,7 +1739,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-1ff44350",
@@ -1645,10 +1747,12 @@
    "unit": "건설환경공학부",
    "program": "건설환경공학부",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -1678,7 +1782,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "chem-bio-eng",
@@ -1686,10 +1790,12 @@
    "unit": "화학생물공학부",
    "program": "화학생물공학부",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -1723,10 +1829,12 @@
    "unit": "에너지자원공학과",
    "program": "에너지자원공학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -1756,7 +1864,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-d8bff34e",
@@ -1764,10 +1872,12 @@
    "unit": "기계공학부",
    "program": "기계공학부",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2021,
     2026
    ],
+   "version_key": "entry",
    "predecessor": {
     "unit": "기계항공공학부",
     "program": "기계공학전공",
@@ -1806,7 +1916,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-84fb4524",
@@ -1814,10 +1924,12 @@
    "unit": "항공우주공학과",
    "program": "항공우주공학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2021,
     2026
    ],
+   "version_key": "entry",
    "predecessor": {
     "unit": "기계항공공학부",
     "program": "우주항공공학전공",
@@ -1852,7 +1964,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-1b7f1668",
@@ -1860,10 +1972,12 @@
    "unit": "식물생산과학부",
    "program": "작물생명과학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "작물생명과학전공",
@@ -1877,7 +1991,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-1b7a392b",
@@ -1885,10 +1999,12 @@
    "unit": "식물생산과학부",
    "program": "원예생명공학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "작물생명과학전공",
@@ -1906,7 +2022,7 @@
      2022
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-ff402de1",
@@ -1914,10 +2030,12 @@
    "unit": "식물생산과학부",
    "program": "산업인력개발학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "작물생명과학전공",
@@ -1931,7 +2049,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-55a75f4e",
@@ -1939,10 +2057,12 @@
    "unit": "산림과학부",
    "program": "산림환경학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "산림환경학전공",
@@ -1955,7 +2075,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-ee20a5ca",
@@ -1963,10 +2083,12 @@
    "unit": "산림과학부",
    "program": "환경재료과학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "산림환경학전공",
@@ -1983,7 +2105,7 @@
      2021
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-ff570a3c",
@@ -1991,10 +2113,12 @@
    "unit": "응용생물화학부",
    "program": "응용생명화학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "응용생명화학전공",
@@ -2011,7 +2135,7 @@
      2022
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-d65d42a1",
@@ -2019,10 +2143,12 @@
    "unit": "응용생물화학부",
    "program": "응용생물학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "응용생명화학전공",
@@ -2047,7 +2173,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-e202bbef",
@@ -2055,10 +2181,12 @@
    "unit": "식품·동물생명공학부",
    "program": "식품생명공학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "식품생명공학전공",
@@ -2075,7 +2203,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "animal-biotech",
@@ -2083,10 +2211,12 @@
    "unit": "식품·동물생명공학부",
    "program": "동물생명공학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "식품생명공학전공",
@@ -2111,10 +2241,12 @@
    "unit": "바이오시스템·소재학부",
    "program": "바이오시스템공학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "바이오시스템공학전공",
@@ -2139,7 +2271,7 @@
      2021
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-a7785a82",
@@ -2147,10 +2279,12 @@
    "unit": "바이오시스템·소재학부",
    "program": "바이오소재공학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "바이오시스템공학전공",
@@ -2171,7 +2305,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-3d1bae16",
@@ -2179,10 +2313,12 @@
    "unit": "조경·지역시스템공학부",
    "program": "조경학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "조경학전공",
@@ -2195,7 +2331,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-d2e2af8f",
@@ -2203,10 +2339,12 @@
    "unit": "조경·지역시스템공학부",
    "program": "지역시스템공학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "조경학전공",
@@ -2223,7 +2361,7 @@
      2023
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-3ba62abd",
@@ -2231,10 +2369,12 @@
    "unit": "농경제사회학부",
    "program": "농업·자원경제학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "농업·자원경제학전공",
@@ -2247,7 +2387,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-fb9a2ae0",
@@ -2255,10 +2395,12 @@
    "unit": "농경제사회학부",
    "program": "지역정보학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "농업·자원경제학전공",
@@ -2271,7 +2413,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-a0fa364e",
@@ -2279,10 +2421,12 @@
    "unit": "스마트시스템과학과",
    "program": "스마트시스템과학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2025,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": "입학부터 학과 소속(전공 배정 없음)",
@@ -2292,7 +2436,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-5c8ee76e",
@@ -2300,10 +2444,12 @@
    "unit": "동양화과",
    "program": "동양화과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -2333,7 +2479,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-6a67f329",
@@ -2341,10 +2487,12 @@
    "unit": "서양화과",
    "program": "서양화과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -2362,7 +2510,7 @@
      2022
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-1f9e8c1b",
@@ -2370,10 +2518,12 @@
    "unit": "조소과",
    "program": "조소과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -2395,7 +2545,7 @@
      2022
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-278a95e3",
@@ -2403,10 +2553,12 @@
    "unit": "공예과",
    "program": "공예과 도자공예전공",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": {
     "name": "디자인학부 공예전공",
     "entry_years": null,
@@ -2427,7 +2579,7 @@
      2024
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-b4a82d66",
@@ -2435,10 +2587,12 @@
    "unit": "공예과",
    "program": "공예과 금속공예전공",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": {
     "name": "디자인학부 공예전공",
     "entry_years": null,
@@ -2459,7 +2613,7 @@
      2024
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-421f1331",
@@ -2467,10 +2621,12 @@
    "unit": "디자인과",
    "program": "디자인과 시각디자인전공",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": {
     "name": "디자인학부 디자인전공",
     "entry_years": null,
@@ -2495,7 +2651,7 @@
      2023
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-7c104a63",
@@ -2503,10 +2659,12 @@
    "unit": "디자인과",
    "program": "디자인과 산업디자인전공",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": {
     "name": "디자인학부 디자인전공",
     "entry_years": null,
@@ -2531,7 +2689,7 @@
      2023
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-2bae4102",
@@ -2539,10 +2697,12 @@
    "unit": "성악과",
    "program": "성악과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -2560,7 +2720,7 @@
      2022
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-a0bdc6e6",
@@ -2568,10 +2728,12 @@
    "unit": "작곡과",
    "program": "작곡과 작곡전공(전자음악 포함)",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "작곡전공(전자음악 포함)",
@@ -2592,7 +2754,7 @@
      2022
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-101b786d",
@@ -2600,10 +2762,12 @@
    "unit": "작곡과",
    "program": "작곡과 지휘전공",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "작곡전공(전자음악 포함)",
@@ -2636,7 +2800,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-8bc02fbf",
@@ -2644,10 +2808,12 @@
    "unit": "음악학과",
    "program": "음악학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2023,
     2026
    ],
+   "version_key": "entry",
    "predecessor": {
     "name": "작곡과 이론전공",
     "entry_years": [
@@ -2676,7 +2842,7 @@
      2022
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-085d9249",
@@ -2684,10 +2850,12 @@
    "unit": "피아노과",
    "program": "피아노과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2023,
     2026
    ],
+   "version_key": "entry",
    "predecessor": {
     "name": "기악과 피아노전공",
     "entry_years": [
@@ -2716,7 +2884,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-3948b64e",
@@ -2724,10 +2892,12 @@
    "unit": "관현악과",
    "program": "관현악과 관악전공",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2023,
     2026
    ],
+   "version_key": "entry",
    "predecessor": {
     "name": "기악과 관악전공",
     "entry_years": [
@@ -2759,7 +2929,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-63dea661",
@@ -2767,10 +2937,12 @@
    "unit": "관현악과",
    "program": "관현악과 현악전공",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2023,
     2026
    ],
+   "version_key": "entry",
    "predecessor": {
     "name": "기악과 현악전공",
     "entry_years": [
@@ -2802,7 +2974,7 @@
      2021
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-923b6f9e",
@@ -2810,10 +2982,12 @@
    "unit": "국악과",
    "program": "국악과 기악전공(가야금·거문고·해금·대금·피리·아쟁·타악)",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "기악(가야금·거문고·해금·대금·피리·아쟁·타악)",
@@ -2853,7 +3027,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-13df6045",
@@ -2861,10 +3035,12 @@
    "unit": "국악과",
    "program": "국악과 성악전공(판소리·정가)",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "기악(가야금·거문고·해금·대금·피리·아쟁·타악)",
@@ -2904,7 +3080,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-f76a4a1c",
@@ -2912,10 +3088,12 @@
    "unit": "국악과",
    "program": "국악과 이론전공",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "기악(가야금·거문고·해금·대금·피리·아쟁·타악)",
@@ -2955,7 +3133,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-f3e53a1e",
@@ -2963,10 +3141,12 @@
    "unit": "국악과",
    "program": "국악과 작곡전공",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "기악(가야금·거문고·해금·대금·피리·아쟁·타악)",
@@ -3002,7 +3182,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-4ccd7012",
@@ -3010,10 +3190,12 @@
    "unit": "국악과",
    "program": "국악과 지휘전공",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "기악(가야금·거문고·해금·대금·피리·아쟁·타악)",
@@ -3049,7 +3231,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-bf59d12c",
@@ -3057,10 +3239,12 @@
    "unit": "교육학과",
    "program": "교육학과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3082,7 +3266,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-41637bd4",
@@ -3090,10 +3274,12 @@
    "unit": "국어교육과",
    "program": "국어교육과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3123,7 +3309,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-0975d7e3",
@@ -3131,10 +3317,12 @@
    "unit": "영어교육과",
    "program": "영어교육과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3160,7 +3348,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-2d920bdb",
@@ -3168,10 +3356,12 @@
    "unit": "불어교육과",
    "program": "불어교육과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3205,7 +3395,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-dcff7393",
@@ -3213,10 +3403,12 @@
    "unit": "독어교육과",
    "program": "독어교육과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3242,7 +3434,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-cae89602",
@@ -3250,10 +3442,12 @@
    "unit": "사회교육과",
    "program": "사회교육과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3279,7 +3473,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-d569f217",
@@ -3287,10 +3481,12 @@
    "unit": "역사교육과",
    "program": "역사교육과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3316,7 +3512,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-f17d6c49",
@@ -3324,10 +3520,12 @@
    "unit": "지리교육과",
    "program": "지리교육과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3353,7 +3551,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-56afea81",
@@ -3361,10 +3559,12 @@
    "unit": "윤리교육과",
    "program": "윤리교육과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3390,7 +3590,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-ddda9e11",
@@ -3398,10 +3598,12 @@
    "unit": "수학교육과",
    "program": "수학교육과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3427,7 +3629,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-9baede1b",
@@ -3435,10 +3637,12 @@
    "unit": "물리교육과",
    "program": "물리교육과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3464,7 +3668,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-7e32b985",
@@ -3472,10 +3676,12 @@
    "unit": "화학교육과",
    "program": "화학교육과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3501,7 +3707,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-3b9c97b2",
@@ -3509,10 +3715,12 @@
    "unit": "생물교육과",
    "program": "생물교육과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3538,7 +3746,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-f61bbb8f",
@@ -3546,10 +3754,12 @@
    "unit": "지구과학교육과",
    "program": "지구과학교육과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3575,7 +3785,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-35c6807d",
@@ -3583,10 +3793,12 @@
    "unit": "체육교육과",
    "program": "체육교육과",
    "unit_kind": "학과",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3612,7 +3824,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-79fbff13",
@@ -3620,10 +3832,12 @@
    "unit": "수의예과",
    "program": "수의예과(예과 2년)",
    "unit_kind": "학과(예과 2년)",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3649,7 +3863,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-ad49affe",
@@ -3657,10 +3871,12 @@
    "unit": "수의학과",
    "program": "수의학과(본과 4년)",
    "unit_kind": "학과(본과 4년)",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": "예과 수료 뒤(3학년부터)",
@@ -3674,7 +3890,7 @@
      2019
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-11daf6a5",
@@ -3682,10 +3898,12 @@
    "unit": "약학계열(6년제)",
    "program": "약학과(6년제)",
    "unit_kind": "모집단위(계열) → 학과 2개",
+   "kind": "major",
    "exists_for": [
     2022,
     2026
    ],
+   "version_key": "entry",
    "predecessor": {
     "entry_years": [
      2019,
@@ -3820,7 +4038,7 @@
      2022
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-e7ca2382",
@@ -3828,10 +4046,12 @@
    "unit": "약학계열(6년제)",
    "program": "제약학과(6년제)",
    "unit_kind": "모집단위(계열) → 학과 2개",
+   "kind": "major",
    "exists_for": [
     2022,
     2026
    ],
+   "version_key": "entry",
    "predecessor": {
     "entry_years": [
      2019,
@@ -3966,7 +4186,7 @@
      2022
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-5881562d",
@@ -3974,10 +4194,12 @@
    "unit": "의예과",
    "program": "의예과(예과 2년)",
    "unit_kind": "학과(예과 2년)",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -3999,7 +4221,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-fccadae3",
@@ -4007,10 +4229,12 @@
    "unit": "의학과",
    "program": "의학과(본과 4년)",
    "unit_kind": "학과(본과 4년)",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": "예과 수료 뒤(3학년부터)",
@@ -4020,7 +4244,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-a346f2bb",
@@ -4028,10 +4252,12 @@
    "unit": "치의학과(학사·전문석사 통합과정의 학사과정)",
    "program": "치의학과 학사과정(통합과정 3년)",
    "unit_kind": "통합과정 학사과정(3년)",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": "학사과정 3년 뒤 치의학대학원(전문석사 4년) 진입",
@@ -4049,7 +4275,7 @@
      2020
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-97f3ee92",
@@ -4057,10 +4283,12 @@
    "unit": "학부대학 광역",
    "program": "학부대학 광역(전공 선택 전 공통)",
    "unit_kind": "모집단위(광역, 2025 신설)",
+   "kind": "major",
    "exists_for": [
     2025,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "인문대학 학과(부)·전공",
@@ -4078,7 +4306,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-41df1808",
@@ -4086,10 +4314,12 @@
    "unit": "자유전공학부(학부대학)",
    "program": "자유전공학부(기존 전공을 주전공으로)",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "기존 전공: 인문대학·사회과학대학·자연과학대학·경영대학·공과대학·농업생명과학대학·미술대학·생활과학대학·음악대학·첨단융합학부의 학과(부)·전공",
@@ -4110,7 +4340,7 @@
      2022
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-a758e356",
@@ -4118,10 +4348,12 @@
    "unit": "자유전공학부(학부대학)",
    "program": "학생설계전공(자유전공학부 주전공)",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "기존 전공: 인문대학·사회과학대학·자연과학대학·경영대학·공과대학·농업생명과학대학·미술대학·생활과학대학·음악대학·첨단융합학부의 학과(부)·전공",
@@ -4142,7 +4374,7 @@
      2022
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-7fccc8d9",
@@ -4150,10 +4382,12 @@
    "unit": "첨단융합학부",
    "program": "디지털헬스케어전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2024,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "디지털헬스케어전공",
@@ -4177,7 +4411,7 @@
      2024
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-8a8be90a",
@@ -4185,10 +4419,12 @@
    "unit": "첨단융합학부",
    "program": "융합데이터과학전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2024,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "디지털헬스케어전공",
@@ -4212,7 +4448,7 @@
      2024
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-1643f5b3",
@@ -4220,10 +4456,12 @@
    "unit": "첨단융합학부",
    "program": "지속가능기술전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2024,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "디지털헬스케어전공",
@@ -4247,7 +4485,7 @@
      2024
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-76b45405",
@@ -4255,10 +4493,12 @@
    "unit": "첨단융합학부",
    "program": "차세대지능형반도체전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2024,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "디지털헬스케어전공",
@@ -4282,7 +4522,7 @@
      2024
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-c1c26b61",
@@ -4290,10 +4530,12 @@
    "unit": "첨단융합학부",
    "program": "혁신신약전공",
    "unit_kind": "학부",
+   "kind": "major",
    "exists_for": [
     2024,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "디지털헬스케어전공",
@@ -4317,7 +4559,7 @@
      2024
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-8246d1cf",
@@ -4325,10 +4567,12 @@
    "unit": "혁신공유학부",
    "program": "혁신공유학부 교과인증과정(학부)",
    "unit_kind": "교육 조직(모집단위 아님)",
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [
     "에너지신산업",
@@ -4343,7 +4587,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-f0f8e8fb",
@@ -4351,10 +4595,9 @@
    "unit": "연합전공",
    "program": "동아시아비교인문학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "동아시아비교인문학",
@@ -4371,8 +4614,13 @@
     "과학기술의학"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-17c61991",
@@ -4380,10 +4628,9 @@
    "unit": "연합전공",
    "program": "정치-경제-철학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "동아시아비교인문학",
@@ -4400,8 +4647,13 @@
     "과학기술의학"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-85768b17",
@@ -4409,10 +4661,9 @@
    "unit": "연합전공",
    "program": "정보문화학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "동아시아비교인문학",
@@ -4429,8 +4680,13 @@
     "과학기술의학"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-5f19ca61",
@@ -4438,10 +4694,9 @@
    "unit": "연합전공",
    "program": "기술경영",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "동아시아비교인문학",
@@ -4458,8 +4713,13 @@
     "과학기술의학"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-74c7d4dc",
@@ -4467,10 +4727,9 @@
    "unit": "연합전공",
    "program": "글로벌환경경영학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "동아시아비교인문학",
@@ -4487,8 +4746,13 @@
     "과학기술의학"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-558e07aa",
@@ -4496,10 +4760,9 @@
    "unit": "연합전공",
    "program": "계산과학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "동아시아비교인문학",
@@ -4516,8 +4779,13 @@
     "과학기술의학"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-71f38ec1",
@@ -4525,10 +4793,9 @@
    "unit": "연합전공",
    "program": "벤처경영학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "동아시아비교인문학",
@@ -4545,8 +4812,13 @@
     "과학기술의학"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-499f3ab6",
@@ -4554,10 +4826,9 @@
    "unit": "연합전공",
    "program": "영상매체예술",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "동아시아비교인문학",
@@ -4574,8 +4845,13 @@
     "과학기술의학"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-21e29be7",
@@ -4583,10 +4859,9 @@
    "unit": "연합전공",
    "program": "인공지능",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "동아시아비교인문학",
@@ -4603,8 +4878,13 @@
     "과학기술의학"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-4d92ea73",
@@ -4612,10 +4892,9 @@
    "unit": "연합전공",
    "program": "인공지능반도체공학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "동아시아비교인문학",
@@ -4632,8 +4911,13 @@
     "과학기술의학"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-282c121e",
@@ -4641,10 +4925,9 @@
    "unit": "연합전공",
    "program": "지능형통신",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "동아시아비교인문학",
@@ -4661,8 +4944,13 @@
     "과학기술의학"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-526889bd",
@@ -4670,10 +4958,9 @@
    "unit": "연합전공",
    "program": "과학기술의학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "동아시아비교인문학",
@@ -4690,8 +4977,13 @@
     "과학기술의학"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-993fb716",
@@ -4699,10 +4991,9 @@
    "unit": "연계전공",
    "program": "고전문헌학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -4725,8 +5016,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-31f9ba48",
@@ -4734,10 +5030,9 @@
    "unit": "연계전공",
    "program": "러시아학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -4760,8 +5055,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-1d53fe3a",
@@ -4769,10 +5069,9 @@
    "unit": "연계전공",
    "program": "라틴아메리카학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -4795,8 +5094,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-7c0ad312",
@@ -4804,10 +5108,9 @@
    "unit": "연계전공",
    "program": "인문데이터과학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -4830,8 +5133,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-d1ae6cef",
@@ -4839,10 +5147,9 @@
    "unit": "연계전공",
    "program": "유럽지역학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -4865,8 +5172,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-45680310",
@@ -4874,10 +5186,9 @@
    "unit": "연계전공",
    "program": "일본학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -4900,8 +5211,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-46b9fb4b",
@@ -4909,10 +5225,9 @@
    "unit": "연계전공",
    "program": "금융경제",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -4935,8 +5250,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-97dd3e8a",
@@ -4944,10 +5264,9 @@
    "unit": "연계전공",
    "program": "뇌-마음-행동",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -4970,8 +5289,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-fe1827e6",
@@ -4979,10 +5303,9 @@
    "unit": "연계전공",
    "program": "금융수학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -5005,8 +5328,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-431861ea",
@@ -5014,10 +5342,9 @@
    "unit": "연계전공",
    "program": "과학기술학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -5040,8 +5367,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-b68e4d7a",
@@ -5049,10 +5381,9 @@
    "unit": "연계전공",
    "program": "영화영상학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -5075,8 +5406,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-4778b7c7",
@@ -5084,10 +5420,9 @@
    "unit": "연계전공",
    "program": "공연예술학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -5110,8 +5445,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-b3d6648f",
@@ -5119,10 +5459,9 @@
    "unit": "연계전공",
    "program": "한국학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -5145,8 +5484,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-17341675",
@@ -5154,10 +5498,9 @@
    "unit": "연계전공",
    "program": "리테일",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -5180,8 +5523,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-08f081c9",
@@ -5189,10 +5537,9 @@
    "unit": "연계전공",
    "program": "중국학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -5215,8 +5562,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-3b07cd3d",
@@ -5224,10 +5576,9 @@
    "unit": "연계전공",
    "program": "미국학",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -5250,8 +5601,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-a1667980",
@@ -5259,10 +5615,9 @@
    "unit": "연계전공",
    "program": "통합창의디자인",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -5285,8 +5640,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-6861092c",
@@ -5294,10 +5654,9 @@
    "unit": "연계전공",
    "program": "정치-경제-철학(연계)",
    "unit_kind": "다전공 유형(학사)",
-   "exists_for": [
-    2019,
-    2026
-   ],
+   "kind": "multi",
+   "exists_for": null,
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [
     "고전문헌학",
@@ -5320,8 +5679,13 @@
     "정치-경제-철학(연계)"
    ],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
-   "versions": [],
-   "data": false
+   "versions": [
+    [
+     2025,
+     2026
+    ]
+   ],
+   "data": true
   },
   {
    "id": "p-2cfbd5f9",
@@ -5329,16 +5693,18 @@
    "unit": "학생설계전공(복수전공)",
    "program": "학생설계전공(복수전공)",
    "unit_kind": "다전공 유형(학사)",
+   "kind": "multi",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "selection",
    "predecessor": null,
    "splits_into": [],
    "splits_when": "2개 정규학기 이상 이수·33학점 이상 취득 뒤 신청 기간",
    "versions": [
     [
-     2019,
+     2022,
      2026
     ],
     [
@@ -5346,7 +5712,7 @@
      2021
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-44f16156",
@@ -5354,10 +5720,12 @@
    "unit": "국사학과(2022학번까지; 2023 역사학부로 통합)",
    "program": "국사학과",
    "unit_kind": null,
+   "kind": "major",
    "exists_for": [
     2019,
     2022
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -5367,7 +5735,7 @@
      2022
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-89f20073",
@@ -5375,10 +5743,12 @@
    "unit": "동양사학과(2022학번까지; 2023 역사학부로 통합)",
    "program": "동양사학과",
    "unit_kind": null,
+   "kind": "major",
    "exists_for": [
     2019,
     2022
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -5388,7 +5758,7 @@
      2022
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-3f49cad7",
@@ -5396,10 +5766,12 @@
    "unit": "서양사학과(2022학번까지; 2023 역사학부로 통합)",
    "program": "서양사학과",
    "unit_kind": null,
+   "kind": "major",
    "exists_for": [
     2019,
     2022
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -5409,7 +5781,7 @@
      2022
     ]
    ],
-   "data": false
+   "data": true
   },
   {
    "id": "p-2249d85e",
@@ -5417,10 +5789,12 @@
    "unit": "사범대학",
    "program": "융합학습과학전공",
    "unit_kind": null,
+   "kind": "major",
    "exists_for": [
     2019,
     2026
    ],
+   "version_key": "entry",
    "predecessor": null,
    "splits_into": [],
    "splits_when": null,
@@ -5430,7 +5804,7 @@
      2026
     ]
    ],
-   "data": false
+   "data": true
   }
  ]
 }

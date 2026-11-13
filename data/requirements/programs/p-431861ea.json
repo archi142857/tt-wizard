@@ -1,0 +1,281 @@
+{
+ "id": "p-431861ea",
+ "college": "학부대학(자유전공학부·광역)·첨단융합학부·혁신공유학부·연합전공·연계전공·학생설계전공",
+ "unit": "연계전공",
+ "program": "과학기술학",
+ "kind": "multi",
+ "depts": [],
+ "code_prefixes": [],
+ "ge_key": null,
+ "exists_for": null,
+ "version_key": "selection",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "고전문헌학",
+   "러시아학",
+   "라틴아메리카학",
+   "인문데이터과학",
+   "유럽지역학",
+   "일본학",
+   "금융경제",
+   "뇌-마음-행동",
+   "금융수학",
+   "과학기술학",
+   "영화영상학",
+   "공연예술학",
+   "한국학",
+   "리테일",
+   "중국학",
+   "미국학",
+   "통합창의디자인",
+   "정치-경제-철학(연계)"
+  ],
+  "when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "다전공 선발 시기",
+   "credits": {
+    "grad": null,
+    "ge": null,
+    "single": null,
+    "parallel": null,
+    "double": null,
+    "minor": 21,
+    "text": {
+     "parallel": "소속 학과(부)의 다른 전공 병행 학점(최소 39)"
+    },
+    "status": "부분",
+    "src": [
+     "s4",
+     "s5",
+     "s6"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s7",
+    "s8",
+    "s9"
+   ],
+   "requirements": [
+    {
+     "id": "sts-explore",
+     "type": "major_choose",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "탐색 교과목 9학점 이상",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "300.307",
+       "name": "과학기술과 법",
+       "credits": 3.0
+      },
+      {
+       "code": "300.301A",
+       "name": "과학혁명과 근대과학의 탄생",
+       "credits": 3.0
+      },
+      {
+       "code": "300.302",
+       "name": "과학과 근대사회",
+       "credits": 3.0
+      },
+      {
+       "code": "113.463",
+       "name": "과학철학",
+       "credits": 3.0
+      },
+      {
+       "code": "300.306",
+       "name": "테크노사이언스의 역사와 철학",
+       "credits": 3.0
+      },
+      {
+       "code": "M2888.000100",
+       "name": "과학기술정책",
+       "credits": 3.0
+      },
+      {
+       "code": "M2888.000700",
+       "name": "과학기술학의 이해",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "sts-deep",
+     "type": "major_choose",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "심화 선택 교과목 9학점 이상",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "300.308",
+       "name": "동아시아의 과학, 전통과 현대",
+       "credits": 3.0
+      },
+      {
+       "code": "M2173.000200",
+       "name": "과학과 예술의 상호작용의 역사",
+       "credits": 3.0
+      },
+      {
+       "code": "M2888.000200",
+       "name": "과학기술과 젠더",
+       "credits": 3.0
+      },
+      {
+       "code": "M2888.000300",
+       "name": "과학기술과 환경",
+       "credits": 3.0
+      },
+      {
+       "code": "M2888.000400",
+       "name": "과학커뮤니케이션",
+       "credits": 3.0
+      },
+      {
+       "code": "M2888.001000",
+       "name": "과학기술과 사회정의",
+       "credits": 3.0
+      },
+      {
+       "code": "M2888.000600",
+       "name": "한국현대과학기술발전사",
+       "credits": 3.0
+      },
+      {
+       "code": "M2888.000800",
+       "name": "미래 에너지 시스템과 과학정책",
+       "credits": 3.0
+      },
+      {
+       "code": "M2888.000900",
+       "name": "생명과학과 사회",
+       "credits": 3.0
+      },
+      {
+       "code": "M2173.004200",
+       "name": "인공지능과 데이터 윤리",
+       "credits": 3.0
+      },
+      {
+       "code": "M3563.000600",
+       "name": "과학기술과 동아시아 근대사",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "sts-other",
+     "type": "major_elective",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "기타(탐색·심화·관련 교과목) 3학점 이상, 합 21학점 이상. 관련 교과목: 정보사회와 사이버사회, 한국과학기술사",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "205.334",
+       "name": "정보사회와 사이버사회",
+       "credits": 3.0
+      },
+      {
+       "code": "M3544.000800",
+       "name": "한국과학기술사",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s3"
+     ]
+    }
+   ],
+   "note": "선발 연도 2025~2026 기준(1차 조사). 그 전에 선발된 학생의 이 과정 규정은 조사하지 않았다. 유형 규칙(2019~2026 같음): 2개 정규학기·33학점 뒤 신청, 연계전공 21 + 소속 학과 39, 평점 2.0, 같은 과목 중복 인정 없음 — 2018~2024 해설과 지금 안내가 같다. 전공별 세부 규정은 선발 시기 기준(multi_major_roster)."
+  }
+ ],
+ "change_points": [],
+ "ask_department": [
+  "현행 이수규정"
+ ],
+ "sources": {
+  "s1": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.167 과목 이수규정 ②",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.167 ③",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.167 ①·④",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.167",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "학부대학 연계전공 안내",
+   "url": "https://snuc.snu.ac.kr/연계전공/",
+   "locator": "일반 규정",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.11 <표 3>, p.44 4.나(2)(다)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "PDF p.29 4.나(1)(라)(마)·(2) 중복인정",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "PDF p.37 4.나(1)(라)(마)·(2)·(5)",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "학부대학 연계전공 안내",
+   "url": "https://snuc.snu.ac.kr/연계전공/",
+   "locator": "신청자격·과정이수 학점·교과목 중복인정",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

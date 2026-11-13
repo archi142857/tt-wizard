@@ -1,0 +1,728 @@
+{
+ "id": "p-a7785a82",
+ "college": "농업생명과학대학",
+ "unit": "바이오시스템·소재학부",
+ "program": "바이오소재공학전공",
+ "kind": "major",
+ "depts": [
+  "바이오시스템·소재학부"
+ ],
+ "code_prefixes": [
+  "5262."
+ ],
+ "ge_key": "농업생명과학대학 자연계",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "바이오시스템공학전공",
+   "바이오소재공학전공"
+  ],
+  "when": "입학 후 27학점 이상 이수한 뒤 학부 내 전공 배정. 바이오시스템공학은 2학년 첫 학기 말에 트랙(A 물리학·B 생물학·화학) 선택",
+  "status": "부분"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 48,
+    "parallel": 48,
+    "double": 48,
+    "minor": 24,
+    "status": "부분",
+    "src": [
+     "s8",
+     "s9",
+     "s10",
+     "s11"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s12"
+   ],
+   "requirements": [
+    {
+     "id": "bm-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 15과목 44학점('2025학번 이후 적용' 표의 *)",
+     "min_count": 15,
+     "min_credits": 44,
+     "courses": [
+      {
+       "code": "881.001",
+       "name": "응용해석 1",
+       "credits": 3
+      },
+      {
+       "code": "519.002",
+       "name": "유기화학",
+       "credits": 3
+      },
+      {
+       "code": "5262.261A",
+       "name": "바이오소재공학개론",
+       "credits": 3
+      },
+      {
+       "code": "519.003",
+       "name": "생화학",
+       "credits": 3
+      },
+      {
+       "code": "5262.280A",
+       "name": "바이오소재역학",
+       "credits": 3
+      },
+      {
+       "code": "5262.470",
+       "name": "기능성바이오소재",
+       "credits": 3
+      },
+      {
+       "code": "5262.365",
+       "name": "고분자화학 1",
+       "credits": 3
+      },
+      {
+       "code": "5262.379",
+       "name": "천연고분자 1",
+       "credits": 3
+      },
+      {
+       "code": "5262.381",
+       "name": "고분자재료물성",
+       "credits": 3
+      },
+      {
+       "code": "5262.366",
+       "name": "고분자화학 2",
+       "credits": 3
+      },
+      {
+       "code": "5262.380",
+       "name": "천연고분자 2",
+       "credits": 3
+      },
+      {
+       "code": "5262.382",
+       "name": "생체재료설계기초 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "5262.278",
+       "name": "생명분자공학개론",
+       "credits": 3
+      },
+      {
+       "code": "5262.478",
+       "name": "바이오소재세미나",
+       "credits": 2
+      },
+      {
+       "code": "5262.364A",
+       "name": "고분자재료 및 공정",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "학과 표엔 학점이 없어 편람으로 채움."
+    },
+    {
+     "id": "bm-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "고분자화학 2 를 들으려면 고분자화학 1 을 먼저 이수",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "bm-double-minor",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "복수전공·부전공·전선 인정은 '학부 학사운영 내규에 의함'(공개본 못 찾음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s3"
+     ]
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "note": "학과 '2025학년도 개정되는 이수표준형태(2025학번 이후 적용됨)'. 1차 요건 그대로. 2026학번도 이 표가 최신이라 같게 둔다."
+  },
+  {
+   "entry_years": [
+    2021,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 48,
+    "parallel": 48,
+    "double": 48,
+    "minor": 24,
+    "status": "부분",
+    "src": [
+     "s8",
+     "s9",
+     "s10",
+     "s11"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s12",
+    "s13"
+   ],
+   "requirements": [
+    {
+     "id": "bm-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 16과목 47학점(2021~2024학번 표의 *)",
+     "min_count": 16,
+     "min_credits": 47,
+     "courses": [
+      {
+       "code": "881.001",
+       "name": "응용해석 1",
+       "credits": 3
+      },
+      {
+       "code": "519.002",
+       "name": "유기화학",
+       "credits": 3
+      },
+      {
+       "code": "5262.261A",
+       "name": "바이오소재공학개론",
+       "credits": 3
+      },
+      {
+       "code": "519.003",
+       "name": "생화학",
+       "credits": 3
+      },
+      {
+       "code": "5262.280A",
+       "name": "바이오소재역학",
+       "credits": 3
+      },
+      {
+       "code": "5262.470",
+       "name": "기능성바이오소재",
+       "credits": 3
+      },
+      {
+       "code": "5262.365",
+       "name": "고분자화학 1",
+       "credits": 3
+      },
+      {
+       "code": "5262.379",
+       "name": "천연고분자 1",
+       "credits": 3
+      },
+      {
+       "code": "5262.381",
+       "name": "고분자재료물성",
+       "credits": 3
+      },
+      {
+       "code": "5262.366",
+       "name": "고분자화학 2",
+       "credits": 3
+      },
+      {
+       "code": "5262.380",
+       "name": "천연고분자 2",
+       "credits": 3
+      },
+      {
+       "code": "5262.382",
+       "name": "생체재료설계기초 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "5262.278",
+       "name": "생명분자공학개론",
+       "credits": 3
+      },
+      {
+       "code": "5262.478",
+       "name": "바이오소재세미나",
+       "credits": 2
+      },
+      {
+       "code": "5262.364A",
+       "name": "고분자재료 및 공정",
+       "credits": 3
+      },
+      {
+       "code": "519.301",
+       "name": "물리화학 1",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12"
+     ],
+     "note": "학과 표엔 학점이 없어 편람으로 채움."
+    },
+    {
+     "id": "bm-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "고분자화학 2 를 들으려면 고분자화학 1 을 먼저 이수",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "bm-double-minor",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "복수전공·부전공·전선 인정은 '학부 학사운영 내규에 의함'(공개본 못 찾음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s3"
+     ]
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "changed": "전필에 물리화학 1(519.301) 추가 — 16과목 47학점",
+   "note": "학과 2021·2022·2023·2024학번 표의 전필(*)이 모두 같다(16과목): 2025 표에 물리화학 1(519.301*)을 더한 것. 2021학번 표에만 1학년 500.168 바이오시스템·소재학개론(전선)이 있고, 분석화학은 2021~2023 M1678.000600 분석화학 1 → 2024 M1678.001100 분석화학(전선)으로 바뀜."
+  },
+  {
+   "entry_years": [
+    2019,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 48,
+    "parallel": 48,
+    "double": 48,
+    "minor": 24,
+    "status": "부분",
+    "src": [
+     "s8",
+     "s9",
+     "s10",
+     "s11"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s12",
+    "s14"
+   ],
+   "requirements": [
+    {
+     "id": "bm-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 16과목 47학점(2019·2020학번 표의 *)",
+     "min_count": 16,
+     "min_credits": 47,
+     "courses": [
+      {
+       "code": "881.001",
+       "name": "응용해석 1",
+       "credits": 3
+      },
+      {
+       "code": "519.002",
+       "name": "유기화학",
+       "credits": 3
+      },
+      {
+       "code": "5262.261A",
+       "name": "바이오소재공학개론",
+       "credits": 3
+      },
+      {
+       "code": "519.003",
+       "name": "생화학",
+       "credits": 3
+      },
+      {
+       "code": "5262.280A",
+       "name": "바이오소재역학",
+       "credits": 3
+      },
+      {
+       "code": "5262.470",
+       "name": "기능성바이오소재",
+       "credits": 3
+      },
+      {
+       "code": "5262.365",
+       "name": "고분자화학 1",
+       "credits": 3
+      },
+      {
+       "code": "5262.379",
+       "name": "천연고분자 1",
+       "credits": 3
+      },
+      {
+       "code": "5262.381",
+       "name": "고분자재료물성",
+       "credits": 3
+      },
+      {
+       "code": "5262.366",
+       "name": "고분자화학 2",
+       "credits": 3
+      },
+      {
+       "code": "5262.380",
+       "name": "천연고분자 2",
+       "credits": 3
+      },
+      {
+       "code": "5262.382",
+       "name": "생체재료설계기초 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "5262.278",
+       "name": "생명분자공학개론",
+       "credits": 3
+      },
+      {
+       "code": "5262.478",
+       "name": "바이오소재세미나",
+       "credits": 2
+      },
+      {
+       "code": "5262.364A",
+       "name": "고분자재료 및 공정",
+       "credits": 3
+      },
+      {
+       "code": "519.001",
+       "name": "물리화학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s12"
+     ],
+     "note": "학과 표엔 학점이 없어 편람으로 채움."
+    },
+    {
+     "id": "bm-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "고분자화학 2 를 들으려면 고분자화학 1 을 먼저 이수",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "bm-double-minor",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "복수전공·부전공·전선 인정은 '학부 학사운영 내규에 의함'(공개본 못 찾음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s3"
+     ]
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "changed": "물리화학 1(519.301) 대신 물리화학(519.001)이 전필 — 16과목 47학점",
+   "note": "학과 2019·2020학번 표: 물리화학(519.001)이 전필이고 분석화학 및 실험(519.006)은 전선, 1학년 500.168 바이오시스템·소재학개론(전선)."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "물리화학 계열 전필 폐지(2025학번 표 — 519.001 물리화학은 전선).",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "전필 물리화학(519.001) → 물리화학 1(519.301).",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "단일·병행·복수·부전공 학점과 학부 학사운영 내규(1차 질문 그대로)",
+  "단일·병행·복수·부전공 학점",
+  "학부 학사운영 내규 공개본",
+  "졸업논문 여부"
+ ],
+ "sources": {
+  "s1": {
+   "title": "바이오소재공학전공 누리집 — 학부교과과정",
+   "url": "https://bm.snu.ac.kr/%ed%95%99%eb%b6%80%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/",
+   "locator": "2025-04-16 수정, '2025학번 이후 적용' 표와 '2024학번 이후 적용' 표(* 전공필수)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "2025-1·2025-2·2026-1·2026-2 학기, 교과구분·학점",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "526 바이오소재공학전공 과목(p.81)·이수표준형태 (p.82)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 농업생명과학대학 자연계(스마트시스템과학과 제외한 전체), 인쇄 p.135 (PDF p.31)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "2026학년도 단과대학별 공통교육과정 이수 규정(학부대학, 2026-01 게시)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "농업생명과학대학 세 표, 인쇄 p.71–73 ('2025학년도 입학생부터 적용' 문구 그대로)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "바이오시스템공학전공 누리집 — 학부교과과정(2025)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B5%90%EA%B3%BC%EA%B3%BC%EC%A0%952025/",
+   "locator": "2026-06-10 수정, 트랙 A/B 표준 이수체계(* 전공필수, ▪ 트랙필수)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "동물생명공학전공 — 졸업요건 학부과정(2022년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_08",
+   "locator": "학점 표·복수/부전공 문장·이수표준형태(별표 15과목)·비고",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행 '아래 이외의 학과(부)' 48/48, 복수 48·부 24",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10), 농업생명과학대학 행",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "바이오소재공학전공 누리집 — 학부교과과정",
+   "url": "https://bm.snu.ac.kr/%ed%95%99%eb%b6%80%ea%b5%90%ea%b3%bc%ea%b3%bc%ec%a0%95/",
+   "locator": "학번별 이수표준형태 표(2025학년도 / 2021~2024학년도 / 2020~2016학년도), 동일·대체교과목 표",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "바이오소재공학 이수표준형태 *(p.81~82)",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "바이오소재공학 이수표준형태 *(p.78)",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

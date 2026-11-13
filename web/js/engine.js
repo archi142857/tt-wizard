@@ -284,6 +284,48 @@ export function meetsRules(sections, rules) {
   return obeys(sections, normRules(rules));
 }
 
+// ---------------------------------------------------------------- 빈 자리 과목 (앱_확장_계획 4절 10/5, 사용자 11/13)
+
+const tenth = (x) => Math.round(x * 10) / 10;
+
+/**
+ * 정한 시간표(base: 분반 목록)에 겹치지 않고 들어가는 과목과, 넣으면 늘어나는 비용.
+ * 과목마다 비용이 가장 덜 느는 분반 하나: add = { cost, travel(걷는 분), late(지각 분), days(학교 오는 요일 수) }.
+ * 시간이 없는 분반은 넣어 볼 자리가 없어 세지 않는다. rules(공강 요일·점심)를 주면 지키는 것만.
+ * levels: 이 이수과정(편람 program 칸)만, 기본은 학사. skip: 뺄 과목 id 들. 강의실 미정(unknownRoom)·폐강 대상(atRisk)은 표시만 한다.
+ */
+export function gapFit(base, courses, travel, home, { weights = WEIGHTS, rules = null, levels = ["학사"], skip = null } = {}) {
+  const R = normRules(rules);
+  const ev0 = evaluate(base, travel, home, weights);
+  const inBase = new Set(base.map((s) => s.courseId));
+  const fits = [];
+  let blocked = 0;
+  for (const c of courses) {
+    if (inBase.has(c.id) || (skip && skip.has(c.id))) continue;
+    if (levels && c.program && !levels.includes(c.program)) continue;
+    let best = null;
+    for (const s of c.sections) {
+      if (!s.meetings.length || base.some((b) => conflicts(b, s))) continue;
+      const all = [...base, s];
+      if (R && !obeys(all, R)) continue;
+      const ev = evaluate(all, travel, home, weights);
+      const add = { cost: ev.cost - ev0.cost, travel: ev.travel - ev0.travel, late: ev.late - ev0.late, days: ev.campusDays - ev0.campusDays };
+      if (!best || add.cost < best.add.cost - 1e-9 || (Math.abs(add.cost - best.add.cost) <= 1e-9 && add.days < best.add.days)) best = { section: s, add };
+    }
+    if (best) {
+      const { section: s, add } = best;
+      // 이동시간 표가 오르막·내리막으로 방향마다 달라 넣은 수업을 거치는 쪽이 조금 짧아질 수 있다: 줄어든 것은 0 으로 보인다
+      const up = (x) => tenth(Math.max(0, x));
+      fits.push({ course: c, section: s, add: { cost: up(add.cost), travel: up(add.travel), late: up(add.late), days: add.days },
+        unknownRoom: s.meetings.some((m) => !m.building), atRisk: s.status === "폐강대상" });
+    } else if (c.sections.some((s) => s.meetings.length)) {
+      blocked++;
+    }
+  }
+  fits.sort((a, b) => a.add.cost - b.add.cost || a.add.days - b.add.days || String(a.course.id).localeCompare(String(b.course.id)));
+  return { base: { cost: tenth(ev0.cost), travel: tenth(ev0.travel), late: tenth(ev0.late), days: ev0.campusDays }, fits, blocked };
+}
+
 /** 과목마다 조건 아래에서 쓸 수 있는 분반만 남긴다. 하나도 안 남는 과목이 있으면 null(조합이 없다) */
 function admit(courses, R) {
   if (!R) return courses;

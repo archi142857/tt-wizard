@@ -1,0 +1,204 @@
+{
+ "id": "p-85768b17",
+ "college": "학부대학(자유전공학부·광역)·첨단융합학부·혁신공유학부·연합전공·연계전공·학생설계전공",
+ "unit": "연합전공",
+ "program": "정보문화학",
+ "kind": "multi",
+ "depts": [],
+ "code_prefixes": [],
+ "ge_key": null,
+ "exists_for": null,
+ "version_key": "selection",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "동아시아비교인문학",
+   "정치-경제-철학",
+   "정보문화학",
+   "기술경영",
+   "글로벌환경경영학",
+   "계산과학",
+   "벤처경영학",
+   "영상매체예술",
+   "인공지능",
+   "인공지능반도체공학",
+   "지능형통신",
+   "과학기술의학"
+  ],
+  "when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "다전공 선발 시기",
+   "credits": {
+    "grad": null,
+    "ge": null,
+    "single": null,
+    "parallel": null,
+    "double": 40,
+    "minor": null,
+    "text": {
+     "parallel": "소속 학과(부)의 다른 전공 병행 학점(최소 39)"
+    },
+    "status": "부분",
+    "src": [
+     "s3",
+     "s4",
+     "s5"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s6",
+    "s7",
+    "s8"
+   ],
+   "requirements": [
+    {
+     "id": "isc-core",
+     "type": "major_required",
+     "applies_to": [
+      "double"
+     ],
+     "text": "전공필수 13학점",
+     "min_count": 5,
+     "min_credits": 13,
+     "courses": [
+      {
+       "code": "211.230",
+       "name": "언론정보문화특강",
+       "credits": 1.0
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3.0
+      },
+      {
+       "code": "211.320B",
+       "name": "디지털 미디어의 이해",
+       "credits": 3.0
+      },
+      {
+       "code": "M1312.001000",
+       "name": "영상 문화 입문",
+       "credits": 3.0
+      },
+      {
+       "code": "2114.408A",
+       "name": "HCI이론 및 실습",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "2024 목록 이수표준형태의 * 과목으로 13학점을 맞췄다(211.230 1 + 3×4). 211.320B·M1312.001000은 편람 교과구분 '전선'."
+    },
+    {
+     "id": "isc-capstone",
+     "type": "thesis",
+     "applies_to": [
+      "double"
+     ],
+     "text": "산학연구실습·창의연구실습 중 1과목 반드시(졸업논문 대체, 교과구분 전공선택)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "2114.410",
+       "name": "산학연구실습",
+       "credits": 3.0
+      },
+      {
+       "code": "2114.409",
+       "name": "창의연구실습",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "isc-total",
+     "type": "major_elective",
+     "applies_to": [
+      "double"
+     ],
+     "text": "합 40학점(전선 27). 타전공 인정 과목은 주전공 개설 6학점, 그 밖 학과 개설 3학점까지 전선 인정(이중 인정은 주전공 개설 6학점까지)",
+     "min_count": null,
+     "min_credits": 40,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2"
+     ]
+    }
+   ],
+   "note": "선발 연도 2025~2026 기준(1차 조사). 그 전에 선발된 학생의 이 과정 규정은 조사하지 않았다. 유형 규칙(2019~2026 같음): 2개 정규학기·33학점 뒤 신청, 연합전공 39 + 소속 학과 39, 평점 2.0, 소속 학과가 연합전공에 제공한 과목 9학점·공통 인정 타 학과 과목 3학점까지 중복 인정, 연합전공만 단일 전공 불가 — 2018·2020·2022·2024 해설 4.나와 지금 학부대학 안내가 같다. 전공별 세부 규정은 '선발 시기' 기준으로 바뀐다(multi_major_roster 참고). 2026학번은 빨라야 2027년에 선발되므로 그때 규정."
+  }
+ ],
+ "change_points": [],
+ "ask_department": [
+  "2026년 이후 선발자에게 적용되는 현행 이수규정"
+ ],
+ "sources": {
+  "s1": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.146 이수표준형태 * 표시, p.147 교과목 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.147",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.146~147",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "학부대학 연합전공 안내",
+   "url": "https://snuc.snu.ac.kr/연합전공/",
+   "locator": "일반 규정",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.11 <표 3>, p.44 4.나(1)(라)·(2)(나)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "PDF p.29 4.나(1)(라)(마)·(2) 중복인정",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "PDF p.37 4.나(1)(라)(마)·(2)·(5)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "학부대학 연합전공 안내",
+   "url": "https://snuc.snu.ac.kr/연합전공/",
+   "locator": "신청자격·과정이수 학점·교과목 중복인정",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

@@ -1,0 +1,487 @@
+{
+ "id": "p-60140ad3",
+ "college": "인문대학",
+ "unit": "미학과",
+ "program": "미학과",
+ "kind": "major",
+ "depts": [
+  "미학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "인문대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2022,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s8",
+     "s9",
+     "s10",
+     "s11",
+     "s12",
+     "s13"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s14"
+   ],
+   "requirements": [
+    {
+     "id": "aes-core",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 9학점: 미학원론·고중세미학·근대미학·동양미학개론 중 3과목(19학번~)",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "100.153",
+       "name": "미학원론",
+       "credits": 3
+      },
+      {
+       "code": "M1262.000100",
+       "name": "고중세미학",
+       "credits": 3
+      },
+      {
+       "code": "M1262.000200",
+       "name": "근대미학",
+       "credits": 3
+      },
+      {
+       "code": "M1262.000400",
+       "name": "동양미학개론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "aes-elective-39",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 30학점 이상, 그중 미학과 개설 과목 18학점 이상, 전선 인정과목은 12학점까지(18학번~)",
+     "min_count": null,
+     "min_credits": 30,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "aes-elective-60",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "심화(60): 전선 인정과목 산입 한도 30학점(22학번~)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "aes-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문지도 수업 수강과 졸업논문 제출",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "115.444",
+       "name": "미학졸업논문지도",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "학과 페이지는 과목 이름을 '졸업논문지도 수업'으로만 적음(편람상 115.444 는 전선)."
+    },
+    {
+     "id": "aes-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 21학점 이상, 미학과 개설 12학점 이상, 전선 인정과목 9학점까지(18학번~)",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s5"
+     ]
+    },
+    {
+     "id": "aes-overlap",
+     "type": "other",
+     "applies_to": [
+      "double"
+     ],
+     "text": "중복 인정: 주전공이 인정하는 복수전공 학과 과목 9학점, 양쪽이 인정하는 타과 과목 3학점까지(주·복수·연합만, 부전공 제외)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통(2025학번 교양 36과 인문대 졸업 의무: 제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학 세미나) — college_common 참조",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "학과 페이지: 외국어진행 3과목은 학점·전공/교양 구분 없음.",
+     "extra": {
+      "see": [
+       "college_common.requirements"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "entry_years": [
+    2019,
+    2021
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s13"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s16"
+   ],
+   "requirements": [
+    {
+     "id": "aes-core",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 9학점: 미학원론·고중세미학·근대미학·동양미학개론 중 3과목(19학번~)",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "100.153",
+       "name": "미학원론",
+       "credits": 3
+      },
+      {
+       "code": "M1262.000100",
+       "name": "고중세미학",
+       "credits": 3
+      },
+      {
+       "code": "M1262.000200",
+       "name": "근대미학",
+       "credits": 3
+      },
+      {
+       "code": "M1262.000400",
+       "name": "동양미학개론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "aes-elective-39",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 30학점 이상, 그중 미학과 개설 과목 18학점 이상, 전선 인정과목은 12학점까지(18학번~)",
+     "min_count": null,
+     "min_credits": 30,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "aes-elective-60",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "심화(60): 전공선택 인정과목 학점 수 제한 없음(21학번까지)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s15"
+     ]
+    },
+    {
+     "id": "aes-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문지도 수업 수강과 졸업논문 제출",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "115.444",
+       "name": "미학졸업논문지도",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s4"
+     ],
+     "note": "학과 페이지는 과목 이름을 '졸업논문지도 수업'으로만 적음(편람상 115.444 는 전선)."
+    },
+    {
+     "id": "aes-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 21학점 이상, 미학과 개설 12학점 이상, 전선 인정과목 9학점까지(18학번~)",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s5"
+     ]
+    },
+    {
+     "id": "aes-overlap",
+     "type": "other",
+     "applies_to": [
+      "double"
+     ],
+     "text": "중복 인정: 주전공이 인정하는 복수전공 학과 과목 9학점, 양쪽이 인정하는 타과 과목 3학점까지(주·복수·연합만, 부전공 제외)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통(2025학번 교양 36과 인문대 졸업 의무: 제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학 세미나) — college_common 참조",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "학과 페이지: 외국어진행 3과목은 학점·전공/교양 구분 없음.",
+     "extra": {
+      "see": [
+       "college_common.requirements"
+      ]
+     }
+    }
+   ],
+   "changed": "심화(단일) 전공의 전선 인정과목 산입 한도 없음(22학번부터 30학점까지). 전필(19학번~ 4중 3)·전선(18학번~ 30 = 미학과 18 이상·인정 12까지)·부전공(18학번~)은 같음."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2022,
+   "basis": "입학 연도",
+   "what": "심화전공 전선 인정 타과 과목 30학점 한도 신설",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [],
+ "sources": {
+  "s1": {
+   "title": "미학과 졸업이수요건(수정 2026-07-16)",
+   "url": "https://meehak.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9D%B4%EC%88%98%EC%9A%94%EA%B1%B4/",
+   "locator": "전공 이수 규정, 전필 9학점, 전선 표, 부전공 표, 중복 인정, 공통 규정",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "23쪽 * 4과목, 이수규정 ①②",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "수강편람 자료(백엔드 수집) 2025-1",
+   "locator": "네 과목 전필",
+   "accessed": "2026-11-12",
+   "repo": "data/history/2025-1.json"
+  },
+  "s4": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "24쪽 115.444 미학졸업논문지도",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "24쪽 부전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 인문대학 표, PDF 4쪽(인쇄 108쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "인문대학 졸업이수 의무사항 안내(관련: 인문대학-2710, 2025.1.25., 게시 2025-02-03)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림(https://humanities.snu.ac.kr/webdata/upimages/7efzf51z874zf93z1c2za09z28cz23ezd11z697zb8.png), '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "인문대학 졸업이수 의무사항 안내(인문대학-2710, 2025.1.25.)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림 '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "미학과 졸업이수요건(수정 2026-09-08)",
+   "url": "https://meehak.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9D%B4%EC%88%98%EC%9A%94%EA%B1%B4/",
+   "locator": "전공 이수 규정",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "미학과 졸업이수요건(수정 2026-09-08)",
+   "url": "https://meehak.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9D%B4%EC%88%98%EC%9A%94%EA%B1%B4/",
+   "locator": "전체",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "미학과 졸업이수요건(수정 2026-09-08)",
+   "url": "https://meehak.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9D%B4%EC%88%98%EC%9A%94%EA%B1%B4/",
+   "locator": "심화전공 '(21학번까지: 전공선택 인정과목 학점 수 제한없음, 22학번부터: 30학점까지 …)'",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "미학과 졸업이수요건(수정 2026-09-08)",
+   "url": "https://meehak.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9D%B4%EC%88%98%EC%9A%94%EA%B1%B4/",
+   "locator": "심화전공 문구",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

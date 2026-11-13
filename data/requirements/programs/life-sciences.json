@@ -3,6 +3,7 @@
  "college": "자연과학대학",
  "unit": "생명과학부",
  "program": "생명과학부",
+ "kind": "major",
  "depts": [
   "생명과학부"
  ],
@@ -12,6 +13,7 @@
   2019,
   2026
  ],
+ "version_key": "entry",
  "predecessor": null,
  "structure": {
   "status": "확인"

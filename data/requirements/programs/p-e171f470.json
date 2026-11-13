@@ -1,0 +1,378 @@
+{
+ "id": "p-e171f470",
+ "college": "인문대학",
+ "unit": "중어중문학과",
+ "program": "중어중문학과",
+ "kind": "major",
+ "depts": [
+  "중어중문학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "인문대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2019,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s9",
+     "s10",
+     "s11",
+     "s12",
+     "s13",
+     "s14"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s15",
+    "s16",
+    "s17",
+    "s18",
+    "s19"
+   ],
+   "requirements": [
+    {
+     "id": "chn-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공필수 3과목: 한문 강독(2026년부터; 2025-1까지는 한문강독 1, 2학점), 중국문학사, 고급중국어",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1234.001700",
+       "name": "한문 강독",
+       "credits": 3
+      },
+      {
+       "code": "102.203",
+       "name": "한문강독 1",
+       "credits": 2
+      },
+      {
+       "code": "M1234.000700",
+       "name": "중국문학사",
+       "credits": 3
+      },
+      {
+       "code": "102.321",
+       "name": "고급중국어",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4",
+      "s5"
+     ],
+     "note": "2026-08 학과 교과과정 페이지의 전필은 M1234.001700·M1234.000700·102.321. 다전공·부전공도 '전공필수 포함'."
+    },
+    {
+     "id": "chn-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 심사 합격(지도교수 면담 필수, 구술고사·공개발표회 불참 시 졸업 불가, 200자 원고지 80매 안팎). 같은 논문을 복수·부전공에 함께 내면 미제출로 봄",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "chn-exam",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "중국어시험·한문시험(2024 목록 비고: # 중국어시험 대체과목, ## 한문시험 대체과목)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1234.000600",
+       "name": "현대중국의 영화와 사회",
+       "credits": 3
+      },
+      {
+       "code": "102.318A",
+       "name": "중국현대문학강독",
+       "credits": 3
+      },
+      {
+       "code": "102.321",
+       "name": "고급중국어",
+       "credits": 3
+      },
+      {
+       "code": "102.203",
+       "name": "한문강독 1",
+       "credits": 2
+      },
+      {
+       "code": "102.204A",
+       "name": "한문강독 2",
+       "credits": 3
+      },
+      {
+       "code": "102.215",
+       "name": "중국역대시가강독 1",
+       "credits": 3
+      },
+      {
+       "code": "102.216",
+       "name": "중국역대시가강독 2",
+       "credits": 3
+      },
+      {
+       "code": "102.325",
+       "name": "중국역대산문강독 1",
+       "credits": 3
+      },
+      {
+       "code": "102.326",
+       "name": "중국역대산문강독 2",
+       "credits": 3
+      }
+     ],
+     "status": "미확인",
+     "src": [
+      "s6"
+     ],
+     "note": "2026 학과 이수안내에는 시험 언급이 없다. ## 과목 다수가 2026년에 폐지(편람). 2025학번에 시험 요건이 남는지 학과 확인 필요."
+    },
+    {
+     "id": "chn-multi-extra",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "다전공(타 대학 소속): 학문의 기초 외국어 1과목 C- 이상, 소그룹고전원전읽기 1 또는 2, 외국어진행 3과목, 졸업논문 심사 합격",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2"
+     ],
+     "note": "첫 항목만 '타 대학 소속인 경우'로 명시, 나머지 적용 범위는 원문이 밝히지 않음."
+    },
+    {
+     "id": "chn-entry",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "광역생 전공진입 조건: 초급중국어 2 또는 초급한문 2(이상) 이수 + 중문 전공탐색과목 1과목 이상, 두 조건 과목 평점 2.7 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통(2025학번 교양 36과 인문대 졸업 의무: 제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학 세미나) — college_common 참조",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "extra": {
+      "see": [
+       "college_common.requirements"
+      ]
+     }
+    }
+   ],
+   "note": "학번별 규정 문구가 없다. 전필은 '한문 강독·중국문학사·고급중국어' 세 자리로 같고, 자리마다 과목이 교과 개편 학기에 바뀌었다(change_points). 학번 구분은 공개 자료에 없음."
+  }
+ ],
+ "change_points": [
+  {
+   "basis": "교과 개편 학기",
+   "what": "전필 중국문학사 자리: 중국문학사 2(102.324, 2023-2 마지막 개설) → 중국문학사(M1234.000700, 2024-2~). 2022 목록 102.324*, 2024 목록 M1234.000700*.",
+   "status": "부분"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "전필 한문 자리: 한문강독 1(102.203, 2학점, 2025-1 마지막) → 한문 강독(M1234.001700, 3학점, 2026-1~). 학과 2026-08 교과목 페이지 전필은 M1234.001700·M1234.000700·102.321(학번 구분 없음).",
+   "status": "부분"
+  },
+  {
+   "basis": "미확인",
+   "what": "중국어시험·한문시험(대체과목 # 중국어, ## 한문): 2022·2024 목록 비고에 있고 2026 학과 이수안내·교과목 페이지에는 없음. 언제 없어졌는지 또는 남았는지 미확인.",
+   "status": "미확인"
+  }
+ ],
+ "ask_department": [
+  "한문강독 1(102.203, 2학점) 이수자의 전필 인정과 한문 강독(M1234.001700)과의 대체 관계",
+  "중국어시험·한문시험이 몇 학번까지 졸업 요건인지",
+  "2025학번 전공필수가 M1234.001700 한문 강독·중국문학사·고급중국어 세 과목인지, 102.203 한문강독 1 이수자를 인정하는지",
+  "중국어시험·한문시험이 2025학번 졸업요건에 남는지와 대체과목",
+  "외국어진행 3과목에 전공 1과목이 들어가야 하는지"
+ ],
+ "sources": {
+  "s1": {
+   "title": "중어중문학과 교과과정(학부)(수정 2026-08-04)",
+   "url": "https://snucll.snu.ac.kr/%EA%B0%9C%EC%84%A4%EA%B5%90%EA%B3%BC%EB%AA%A9/",
+   "locator": "전공필수 3과목",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "중어중문학과 이수안내(학부)(수정 2026-02-10)",
+   "url": "https://snucll.snu.ac.kr/%EC%9E%85%ED%95%99%C2%B7%EC%A0%84%EA%B3%B5%EC%A7%84%EC%9E%85/",
+   "locator": "졸업요건·다전공·전공진입·졸업논문",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "12쪽 102.203*·102.321*",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "13쪽 M1234.000700*, 이수표준형태",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "수강편람 자료(백엔드 수집) 2026-1",
+   "locator": "M1234.001700 한문 강독 전필(신설)",
+   "accessed": "2026-11-12",
+   "repo": "data/history/2026-1.json"
+  },
+  "s6": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "13쪽 중문 이수표준형태 비고 '#: 중국어시험 대체과목, ##: 한문시험 대체과목'",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 인문대학 표, PDF 4쪽(인쇄 108쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "인문대학 졸업이수 의무사항 안내(관련: 인문대학-2710, 2025.1.25., 게시 2025-02-03)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림(https://humanities.snu.ac.kr/webdata/upimages/7efzf51z874zf93z1c2za09z28cz23ezd11z697zb8.png), '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "인문대학 졸업이수 의무사항 안내(인문대학-2710, 2025.1.25.)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림 '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "중어중문학과 이수안내(수정 2026-02-10)",
+   "url": "https://snucll.snu.ac.kr/%EC%9E%85%ED%95%99%C2%B7%EC%A0%84%EA%B3%B5%EC%A7%84%EC%9E%85/",
+   "locator": "주전공·다전공",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "중어중문학과 이수안내(수정 2026-02-10)",
+   "url": "https://snucll.snu.ac.kr/%EC%9E%85%ED%95%99%C2%B7%EC%A0%84%EA%B3%B5%EC%A7%84%EC%9E%85/",
+   "locator": "주전공·다전공·졸업논문",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "중어중문학과 개설교과목(수정 2026-08-04)",
+   "url": "https://snucll.snu.ac.kr/%EA%B0%9C%EC%84%A4%EA%B5%90%EA%B3%BC%EB%AA%A9/",
+   "locator": "전공필수 표, 이수표준형태(* 표시)",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "102. 중어중문학과 인쇄 11쪽(102.203*·102.321*·102.324*)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "중문 이수표준형태(102.203*·102.321*·M1234.000700*)",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "수강편람 자료(백엔드 수집)",
+   "locator": "102.324 전필 2021-2~2023-2, M1234.000700 전필 2024-2~, 102.203 전필 ~2025-1, M1234.001700 전필 2026-1~",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

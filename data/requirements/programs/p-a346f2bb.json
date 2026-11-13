@@ -1,0 +1,2055 @@
+{
+ "id": "p-a346f2bb",
+ "college": "치의학대학원",
+ "unit": "치의학과(학사·전문석사 통합과정의 학사과정)",
+ "program": "치의학과 학사과정(통합과정 3년)",
+ "kind": "major",
+ "depts": [
+  "치의학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "치의학대학원 학사과정",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "when": "학사과정 3년 뒤 치의학대학원(전문석사 4년) 진입",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 110,
+    "ge": 44,
+    "single": 49,
+    "parallel": null,
+    "double": null,
+    "minor": null,
+    "status": "부분",
+    "src": [
+     "s4",
+     "s5",
+     "s6",
+     "s7",
+     "s8",
+     "s9",
+     "s10"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s9",
+    "s10"
+   ],
+   "requirements": [
+    {
+     "id": "dent-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수: 치의학신입생세미나(3학점)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M2189.000100",
+       "name": "치의학신입생세미나",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "이수규정 ③ '전공필수(*) 교과목 3학점을 포함하여'."
+    },
+    {
+     "id": "dent-selfdesign",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "자기설계성과보고(M2189.001000, 1학점, 전필 *): 5개 학기 이상 등록한 학생만 수강, S/U 평가, 수료 학점에 넣지 않음",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M2189.001000",
+       "name": "자기설계성과보고",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "dent-major-49",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 49학점 이상: 치의학대학원 학사과정 개설 과목 + 기타 전공선택 인정 과목(타학과 개설 과목 중 학사과정 목표 역량과 관련해 대학원장이 인정)",
+     "min_count": null,
+     "min_credits": 49,
+     "courses": [
+      {
+       "code": "M2189.000100",
+       "name": "치의학신입생세미나",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000400",
+       "name": "인간에 대한 다층적 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2839.001900",
+       "name": "몸, 마음, 데이터",
+       "credits": 3
+      },
+      {
+       "code": "M2043.002300",
+       "name": "국제보건증진을 위한 세계시민교육",
+       "credits": 3
+      },
+      {
+       "code": "M2189.004300",
+       "name": "국제구강보건동향의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000900",
+       "name": "치의학 인간이해 프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "883.016",
+       "name": "기초의학통계학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2189.000300",
+       "name": "과학적 사고의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2043.000500",
+       "name": "인문학과 치의학리더십",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000100",
+       "name": "세계관의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2839.001000",
+       "name": "치의학 비판적사고 프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "3346.001",
+       "name": "세포분자생물학",
+       "credits": 3
+      },
+      {
+       "code": "M2189.000400",
+       "name": "과학과 윤리",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000300",
+       "name": "예비 의료인의 평화적 문제 해결",
+       "credits": 3
+      },
+      {
+       "code": "M2839.002300",
+       "name": "치의학 역사와 문화",
+       "credits": 3
+      },
+      {
+       "code": "M2043.002500",
+       "name": "국제구강보건 리더십",
+       "credits": 3
+      },
+      {
+       "code": "M2839.001100",
+       "name": "치의학 사회공헌 프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "300.310",
+       "name": "유전학",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000800",
+       "name": "생명다양성과 지구환경",
+       "credits": 3
+      },
+      {
+       "code": "M2043.000400",
+       "name": "웹기반 비판적 사고의 실제",
+       "credits": 3
+      },
+      {
+       "code": "M2839.001200",
+       "name": "치의과학 자율연구 1",
+       "credits": 3
+      },
+      {
+       "code": "M2839.002000",
+       "name": "치의과학 실험연구 1",
+       "credits": 2
+      },
+      {
+       "code": "3346.403",
+       "name": "면역학",
+       "credits": 3
+      },
+      {
+       "code": "M2189.001300",
+       "name": "현장체험학습 1",
+       "credits": 2
+      },
+      {
+       "code": "M2189.000500",
+       "name": "치의학입문",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000700",
+       "name": "치의학과 공학 신기술의 만남",
+       "credits": 2
+      },
+      {
+       "code": "M2839.001400",
+       "name": "치의과학 자율연구 2",
+       "credits": 3
+      },
+      {
+       "code": "M2839.002100",
+       "name": "치의과학 실험연구 2",
+       "credits": 2
+      },
+      {
+       "code": "M2189.001400",
+       "name": "현장체험학습 2",
+       "credits": 2
+      },
+      {
+       "code": "M2839.002500",
+       "name": "디지털 치의학 개론",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "전필 3학점 포함. 자기설계성과보고 1학점은 넣지 않는다. 타학과 인정 과목은 앱에서 '확인 필요'."
+    },
+    {
+     "id": "dent-choose-basic",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기초의학통계학 및 실험, 세포분자생물학, 유전학, 면역학 중 2개 이상",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "883.016",
+       "name": "기초의학통계학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3346.001",
+       "name": "세포분자생물학",
+       "credits": 3
+      },
+      {
+       "code": "300.310",
+       "name": "유전학",
+       "credits": 3
+      },
+      {
+       "code": "3346.403",
+       "name": "면역학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "dent-choose-project",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "치의학 인간이해·비판적사고·사회공헌 프로젝트 중 2개 이상",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M2839.000900",
+       "name": "치의학 인간이해 프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "M2839.001000",
+       "name": "치의학 비판적사고 프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "M2839.001100",
+       "name": "치의학 사회공헌 프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "dent-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "세포분자생물학(3346.001)·유전학(300.310)은 생물학+생물학실험, 화학+화학실험을 먼저 이수해야 함",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "2024 목록의 옛 번호(034.029·034.033·034.020·034.024)를 2025 번호로 바꿔 적었다(고급화학 인정 여부는 미확인)."
+    },
+    {
+     "id": "dent-year3-only",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "치의학입문(M2189.000500)·치의학과 공학 신기술의 만남(M2839.000700)은 3학년만 수강",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "dent-load",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학기당 21학점까지 수강신청",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "dent-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1(1-1) + 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 택 1, 1-2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3"
+     ],
+     "extra": {
+      "ge_area": "글쓰기와 말하기"
+     }
+    },
+    {
+     "id": "dent-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3"
+     ],
+     "note": "입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수.",
+     "extra": {
+      "ge_area": "외국어"
+     }
+    },
+    {
+     "id": "dent-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[수학] 중 1개 교과목 3학점(권장: 생명과학을 위한 수학 1 또는 2). 연습이 있는 과목은 연습을 같은 학기에",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F31.111",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.112",
+       "name": "생명과학을 위한 수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3"
+     ],
+     "note": "과목 목록은 권장 과목만. [수학] 영역 판정은 편람 영역으로.",
+     "extra": {
+      "ge_area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "dent-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[과학] 12학점: 물리학(실험 포함), 화학 또는 고급화학(화학실험 포함), 생물학(생물학실험 포함) 세 가지 모두",
+     "min_count": 6,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "F33.105",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "F33.105L",
+       "name": "물리학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3"
+     ],
+     "note": "2015학년도 1학기 이전에 들은 물리학 1·2, 화학 1·2, 생물학 1·2(실험 포함)는 각각 물리학·화학·생물학으로 인정.",
+     "extra": {
+      "ge_area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "dent-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[컴퓨팅] 중 1개 교과목 3학점",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F37.101",
+       "name": "컴퓨팅 기초: 처음 만나는 컴퓨팅",
+       "credits": 3
+      },
+      {
+       "code": "F37.102",
+       "name": "컴퓨팅 기초: 처음 만나는 데이터",
+       "credits": 3
+      },
+      {
+       "code": "F37.204",
+       "name": "컴퓨팅 핵심: 컴퓨터로 생각하기",
+       "credits": 3
+      },
+      {
+       "code": "F37.205",
+       "name": "컴퓨팅 핵심: 데이터 중심의 인공지능",
+       "credits": 3
+      },
+      {
+       "code": "F37.302",
+       "name": "컴퓨팅 응용: 데이터사이언스의 기초",
+       "credits": 3
+      },
+      {
+       "code": "F37.206",
+       "name": "컴퓨팅 탐색: 실생활에서 활용하기",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3"
+     ],
+     "extra": {
+      "ge_area": "수학·과학·컴퓨팅"
+     }
+    },
+    {
+     "id": "dent-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠: 4개 영역 중 3개 영역에서 9학점 이상",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3"
+     ],
+     "extra": {
+      "ge_area": "지성의 열쇠",
+      "areas": [
+       "문화 해석과 상상",
+       "역사적 탐구와 철학적 사유",
+       "인간의 이해와 사회 분석",
+       "과학적 사고와 응용"
+      ],
+      "min_areas": 3
+     }
+    },
+    {
+     "id": "dent-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 영역에서 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3"
+     ],
+     "extra": {
+      "ge_area": "베리타스"
+     }
+    },
+    {
+     "id": "dent-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 4학점: 체육 2개 교과목 이상(실기만 인정)과 사회봉사 1 포함",
+     "min_count": null,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "E20.103",
+       "name": "사회봉사 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3"
+     ],
+     "extra": {
+      "ge_area": "전체 교양",
+      "pe_min_count": 2
+     }
+    },
+    {
+     "id": "dent-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합계 44학점 이상(담당 수강 지도교수 상담을 거쳐 신청)",
+     "min_count": null,
+     "min_credits": 44,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3"
+     ]
+    }
+   ],
+   "note": "2026학번 교양은 2026 길잡이 p.161·2026 이수규정 p.93('2025학년도 입학생부터')으로 2025학번과 같다. 전공(진입 요건)은 2021 규정이 2022·2024 대학원 목록에 그대로이고, 2025·2026 판은 공개되지 않아 같다고 봤다."
+  },
+  {
+   "entry_years": [
+    2021,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 110,
+    "ge": 44,
+    "single": 49,
+    "parallel": null,
+    "double": null,
+    "minor": null,
+    "status": "확인",
+    "src": [
+     "s4",
+     "s5",
+     "s6",
+     "s12"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s4",
+    "s5",
+    "s6",
+    "s13",
+    "s14",
+    "s15",
+    "s16",
+    "s17",
+    "s11"
+   ],
+   "requirements": [
+    {
+     "id": "dent-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수: 치의학신입생세미나(3학점)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M2189.000100",
+       "name": "치의학신입생세미나",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "이수규정 ③ '전공필수(*) 교과목 3학점을 포함하여'."
+    },
+    {
+     "id": "dent-selfdesign",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "자기설계성과보고(M2189.001000, 1학점, 전필 *): 5개 학기 이상 등록한 학생만 수강, S/U 평가, 수료 학점에 넣지 않음",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M2189.001000",
+       "name": "자기설계성과보고",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "dent-major-49",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 49학점 이상: 치의학대학원 학사과정 개설 과목 + 기타 전공선택 인정 과목(타학과 개설 과목 중 학사과정 목표 역량과 관련해 대학원장이 인정)",
+     "min_count": null,
+     "min_credits": 49,
+     "courses": [
+      {
+       "code": "M2189.000100",
+       "name": "치의학신입생세미나",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000400",
+       "name": "인간에 대한 다층적 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2839.001900",
+       "name": "몸, 마음, 데이터",
+       "credits": 3
+      },
+      {
+       "code": "M2043.002300",
+       "name": "국제보건증진을 위한 세계시민교육",
+       "credits": 3
+      },
+      {
+       "code": "M2189.004300",
+       "name": "국제구강보건동향의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000900",
+       "name": "치의학 인간이해 프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "883.016",
+       "name": "기초의학통계학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2189.000300",
+       "name": "과학적 사고의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2043.000500",
+       "name": "인문학과 치의학리더십",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000100",
+       "name": "세계관의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2839.001000",
+       "name": "치의학 비판적사고 프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "3346.001",
+       "name": "세포분자생물학",
+       "credits": 3
+      },
+      {
+       "code": "M2189.000400",
+       "name": "과학과 윤리",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000300",
+       "name": "예비 의료인의 평화적 문제 해결",
+       "credits": 3
+      },
+      {
+       "code": "M2839.002300",
+       "name": "치의학 역사와 문화",
+       "credits": 3
+      },
+      {
+       "code": "M2043.002500",
+       "name": "국제구강보건 리더십",
+       "credits": 3
+      },
+      {
+       "code": "M2839.001100",
+       "name": "치의학 사회공헌 프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "300.310",
+       "name": "유전학",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000800",
+       "name": "생명다양성과 지구환경",
+       "credits": 3
+      },
+      {
+       "code": "M2043.000400",
+       "name": "웹기반 비판적 사고의 실제",
+       "credits": 3
+      },
+      {
+       "code": "M2839.001200",
+       "name": "치의과학 자율연구 1",
+       "credits": 3
+      },
+      {
+       "code": "M2839.002000",
+       "name": "치의과학 실험연구 1",
+       "credits": 2
+      },
+      {
+       "code": "3346.403",
+       "name": "면역학",
+       "credits": 3
+      },
+      {
+       "code": "M2189.001300",
+       "name": "현장체험학습 1",
+       "credits": 2
+      },
+      {
+       "code": "M2189.000500",
+       "name": "치의학입문",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000700",
+       "name": "치의학과 공학 신기술의 만남",
+       "credits": 2
+      },
+      {
+       "code": "M2839.001400",
+       "name": "치의과학 자율연구 2",
+       "credits": 3
+      },
+      {
+       "code": "M2839.002100",
+       "name": "치의과학 실험연구 2",
+       "credits": 2
+      },
+      {
+       "code": "M2189.001400",
+       "name": "현장체험학습 2",
+       "credits": 2
+      },
+      {
+       "code": "M2839.002500",
+       "name": "디지털 치의학 개론",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "전필 3학점 포함. 자기설계성과보고 1학점은 넣지 않는다. 타학과 인정 과목은 앱에서 '확인 필요'."
+    },
+    {
+     "id": "dent-choose-basic",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기초의학통계학 및 실험, 세포분자생물학, 유전학, 면역학 중 2개 이상",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "883.016",
+       "name": "기초의학통계학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "3346.001",
+       "name": "세포분자생물학",
+       "credits": 3
+      },
+      {
+       "code": "300.310",
+       "name": "유전학",
+       "credits": 3
+      },
+      {
+       "code": "3346.403",
+       "name": "면역학",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "dent-choose-project",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "치의학 인간이해·비판적사고·사회공헌 프로젝트 중 2개 이상",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M2839.000900",
+       "name": "치의학 인간이해 프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "M2839.001000",
+       "name": "치의학 비판적사고 프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "M2839.001100",
+       "name": "치의학 사회공헌 프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "dent-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "세포분자생물학(3346.001)·유전학(300.310)은 생물학+생물학실험, 화학+화학실험을 먼저 이수해야 함",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "2024 목록의 옛 번호(034.029·034.033·034.020·034.024)를 2025 번호로 바꿔 적었다(고급화학 인정 여부는 미확인)."
+    },
+    {
+     "id": "dent-year3-only",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "치의학입문(M2189.000500)·치의학과 공학 신기술의 만남(M2839.000700)은 3학년만 수강",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "dent-load",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학기당 21학점까지 수강신청",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "dent-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1(1-1) + 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 택 1, 1-2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
+     "extra": {
+      "ge_area": "사고와 표현"
+     }
+    },
+    {
+     "id": "dent-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점(TEPS 900 이하이면 영어 1과목 필수)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "extra": {
+      "ge_area": "외국어"
+     }
+    },
+    {
+     "id": "dent-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 1개 교과목 3학점(권장: 생명과학을 위한 수학 1 또는 2). 연습이 있는 과목은 연습을 같은 학기에",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.008",
+       "name": "생명과학을 위한 수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "extra": {
+      "ge_area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "dent-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 12학점: 물리학(실험 포함), 화학 또는 고급화학(화학실험 포함), 생물학(생물학실험 포함) 세 가지 모두",
+     "min_count": 6,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "extra": {
+      "ge_area": "과학적 사고와 실험"
+     }
+    },
+    {
+     "id": "dent-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 4학점(자유 선택)",
+     "min_count": null,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "extra": {
+      "ge_area": "전체 교양"
+     }
+    },
+    {
+     "id": "dent-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합계 44학점 이상(담당 수강 지도교수 상담을 거쳐 신청)",
+     "min_count": null,
+     "min_credits": 44,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ]
+    },
+    {
+     "id": "dent-ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·정치와 경제 중 2개 분야 이상 6학점 + 역사와 철학 3 + 인간과 사회 3",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "per_area": {
+       "언어와 문학·문화와 예술·정치와 경제(2개 분야 이상)": 6,
+       "역사와 철학": 3,
+       "인간과 사회": 3
+      }
+     }
+    },
+    {
+     "id": "dent-ge-elective",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택 교양 3학점: 체육 2개 교과목 이상(실기만 인정) + 사회봉사 1",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "053.003",
+       "name": "사회봉사 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "extra": {
+      "ge_area": "선택교양",
+      "pe_min_count": 2
+     }
+    }
+   ],
+   "changed": "교양만 옛 체계(44: 사고와 표현 4·외국어 6·수량 3·과학 12·학문의 세계 12·선택 교양 3·전체 4, 컴퓨팅 없음). 전공·진입 요건은 같다(2021 규정).",
+   "note": "학사과정 규정(2021학년도 입학자부터)과 교양 표(학부대학 2021~2024 판) 모두 확인. 2021~2023학번은 정상 진행이면 이미 치의학대학원(전문석사)에 들어갔다."
+  },
+  {
+   "entry_years": [
+    2019,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 110,
+    "ge": 44,
+    "single": 49,
+    "parallel": null,
+    "double": null,
+    "minor": null,
+    "status": "확인",
+    "src": [
+     "s25",
+     "s26"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s21",
+    "s22",
+    "s23",
+    "s27"
+   ],
+   "requirements": [
+    {
+     "id": "dent-required",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "종전 규정의 전공필수 — 미확인(2021 이전 판 공개 자료 없음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s18"
+     ]
+    },
+    {
+     "id": "dent-selfdesign",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "종전 규정에 같은 조항이 있었는지 미확인(2021 규정: 자기설계성과보고 S/U, 수료 학점 미포함)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s24"
+     ]
+    },
+    {
+     "id": "dent-major-49",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 49학점 이상: 치의학대학원 학사과정 개설 과목 + 기타 전공선택 인정 과목(타학과 개설 과목 중 학사과정 목표 역량과 관련해 대학원장이 인정)",
+     "min_count": null,
+     "min_credits": 49,
+     "courses": [
+      {
+       "code": "M2189.000100",
+       "name": "치의학신입생세미나",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000400",
+       "name": "인간에 대한 다층적 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2839.001900",
+       "name": "몸, 마음, 데이터",
+       "credits": 3
+      },
+      {
+       "code": "M2043.002300",
+       "name": "국제보건증진을 위한 세계시민교육",
+       "credits": 3
+      },
+      {
+       "code": "M2189.004300",
+       "name": "국제구강보건동향의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000900",
+       "name": "치의학 인간이해 프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "883.016",
+       "name": "기초의학통계학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "M2189.000300",
+       "name": "과학적 사고의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2043.000500",
+       "name": "인문학과 치의학리더십",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000100",
+       "name": "세계관의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M2839.001000",
+       "name": "치의학 비판적사고 프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "3346.001",
+       "name": "세포분자생물학",
+       "credits": 3
+      },
+      {
+       "code": "M2189.000400",
+       "name": "과학과 윤리",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000300",
+       "name": "예비 의료인의 평화적 문제 해결",
+       "credits": 3
+      },
+      {
+       "code": "M2839.002300",
+       "name": "치의학 역사와 문화",
+       "credits": 3
+      },
+      {
+       "code": "M2043.002500",
+       "name": "국제구강보건 리더십",
+       "credits": 3
+      },
+      {
+       "code": "M2839.001100",
+       "name": "치의학 사회공헌 프로젝트",
+       "credits": 3
+      },
+      {
+       "code": "300.310",
+       "name": "유전학",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000800",
+       "name": "생명다양성과 지구환경",
+       "credits": 3
+      },
+      {
+       "code": "M2043.000400",
+       "name": "웹기반 비판적 사고의 실제",
+       "credits": 3
+      },
+      {
+       "code": "M2839.001200",
+       "name": "치의과학 자율연구 1",
+       "credits": 3
+      },
+      {
+       "code": "M2839.002000",
+       "name": "치의과학 실험연구 1",
+       "credits": 2
+      },
+      {
+       "code": "3346.403",
+       "name": "면역학",
+       "credits": 3
+      },
+      {
+       "code": "M2189.001300",
+       "name": "현장체험학습 1",
+       "credits": 2
+      },
+      {
+       "code": "M2189.000500",
+       "name": "치의학입문",
+       "credits": 3
+      },
+      {
+       "code": "M2839.000700",
+       "name": "치의학과 공학 신기술의 만남",
+       "credits": 2
+      },
+      {
+       "code": "M2839.001400",
+       "name": "치의과학 자율연구 2",
+       "credits": 3
+      },
+      {
+       "code": "M2839.002100",
+       "name": "치의과학 실험연구 2",
+       "credits": 2
+      },
+      {
+       "code": "M2189.001400",
+       "name": "현장체험학습 2",
+       "credits": 2
+      },
+      {
+       "code": "M2839.002500",
+       "name": "디지털 치의학 개론",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "전필 3학점 포함. 자기설계성과보고 1학점은 넣지 않는다. 타학과 인정 과목은 앱에서 '확인 필요'."
+    },
+    {
+     "id": "dent-choose-basic",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기초의학통계학 및 실험·세포분자생물학·유전학·면역학 중 2개 규정이 종전에도 있었는지 미확인",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s19"
+     ]
+    },
+    {
+     "id": "dent-choose-project",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "프로젝트 3중 2 규정이 종전에도 있었는지 미확인",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s20"
+     ]
+    },
+    {
+     "id": "dent-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "종전 규정에 같은 조항이 있었는지 미확인(2021 규정: 세포분자생물학·유전학 선이수)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s24"
+     ]
+    },
+    {
+     "id": "dent-year3-only",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "종전 규정에 같은 조항이 있었는지 미확인(2021 규정: 치의학입문·치의학과 공학 신기술의 만남 3학년만)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s24"
+     ]
+    },
+    {
+     "id": "dent-load",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "종전 규정에 같은 조항이 있었는지 미확인(2021 규정: 학기당 21학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s24"
+     ]
+    },
+    {
+     "id": "dent-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1(1-1) + 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 택 1, 1-2)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
+     "extra": {
+      "ge_area": "사고와 표현"
+     }
+    },
+    {
+     "id": "dent-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 4~6학점",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23"
+     ],
+     "extra": {
+      "ge_area": "외국어"
+     }
+    },
+    {
+     "id": "dent-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수량적 분석과 추론 1개 교과목 3학점(권장: 생명과학을 위한 수학 1 또는 2). 연습이 있는 과목은 연습을 같은 학기에",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "033.007",
+       "name": "생명과학을 위한 수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.008",
+       "name": "생명과학을 위한 수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "extra": {
+      "ge_area": "수량적 분석과 추론"
+     }
+    },
+    {
+     "id": "dent-ge-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험 12학점: 물리학(실험 포함), 화학 또는 고급화학(화학실험 포함), 생물학(생물학실험 포함) 세 가지 모두",
+     "min_count": 6,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "034.007",
+       "name": "물리학",
+       "credits": 3
+      },
+      {
+       "code": "034.011",
+       "name": "물리학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "extra": {
+      "ge_area": "과학적 사고와 실험"
+     }
+    },
+    {
+     "id": "dent-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 4~6학점(외국어와 합쳐 10)",
+     "min_count": null,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23"
+     ],
+     "extra": {
+      "ge_area": "전체 교양"
+     }
+    },
+    {
+     "id": "dent-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 합계 44학점 이상(담당 수강 지도교수 상담을 거쳐 신청)",
+     "min_count": null,
+     "min_credits": 44,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ]
+    },
+    {
+     "id": "dent-ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학·문화와 예술·정치와 경제 중 2개 분야 이상 6학점 + 역사와 철학 3 + 인간과 사회 3",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "extra": {
+      "ge_area": "학문의 세계",
+      "per_area": {
+       "언어와 문학·문화와 예술·정치와 경제(2개 분야 이상)": 6,
+       "역사와 철학": 3,
+       "인간과 사회": 3
+      }
+     }
+    },
+    {
+     "id": "dent-ge-elective",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택 교양 3학점: 체육 2개 교과목 이상(실기만 인정) + 사회봉사 1",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "053.003",
+       "name": "사회봉사 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "extra": {
+      "ge_area": "선택교양",
+      "pe_min_count": 2
+     }
+    }
+   ],
+   "changed": "학사과정 이수규정이 2021 개정 전 '종전 규정'(세부 미확인: 전필·선택필수·선이수 등). 교양은 학부대학 2019·2020 판(외국어 4~6, 전체 4~6; 나머지는 2021~2024 와 같음).",
+   "note": "2019·2020학번은 정상 진행이면 2022·2023년에 치의학대학원에 진입해 학사과정 요건은 끝났다."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2014,
+   "basis": "입학 연도",
+   "what": "학사·전문석사 통합과정 학사과정 신설(학사 3년 + 전문석사 4년) — 범위 밖",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "학사과정 이수규정 개정: 진입 110 = 교양 44·전공 49(전필 치의학신입생세미나 포함)·기타 17, 4중 2·프로젝트 3중 2·선이수·3학년 전용·자기설계성과보고(S/U, 학점 미포함)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 새 체계(44, 컴퓨팅 3 신설, 체육·사회봉사는 전체 교양 4 안으로)",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "2019·2020학번(2014~2020 입학자)에게 적용된 종전 학사과정 이수규정",
+  "2025·2026학번 학사과정 규정이 2021 규정과 같은지",
+  "학사과정 수료 때 학사 학위가 따로 수여되는지, 진입 평가(자기설계 성과보고) 기준",
+  "2025학번에도 2021 이수규정(진입 110 = 교양 44·전공 49·기타 17)이 그대로인지, 2025 이후 개정이 있는지",
+  "학사과정 수료 때 학사 학위가 따로 수여되는지, '진입' 평가(졸업 역량·자기설계 성과보고)의 기준",
+  "전공선택으로 인정되는 타학과 과목 목록",
+  "선이수 조건에서 고급화학+화학실험도 '화학'으로 인정되는지",
+  "치의학과 학생의 복수·부전공 신청 가능 여부(표 1-1 '다른 전공 병행' 칸 '－')"
+ ],
+ "sources": {
+  "s1": {
+   "title": "서울대학교 2024 전공별 교과목(대학원과정) — 861. 치의학과 '치의학대학원 학사과정' 절",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Graduate_Course_List_2024.pdf",
+   "locator": "p.295–296 861. 치의학과 > 치의학대학원 학사과정: 과목 목록·이수표준형태·교과목 이수규정 ①~⑨",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "치의학대학원, 학석사통합과정 교육과정",
+   "url": "https://dentistry.snu.ac.kr/fnt/bbm/bbs/selectBoardArticleView.do?nttId=14",
+   "locator": "3학년 2학기 자기설계 성과보고로 성취·성장 평가, 치의학교육과정 진입 타당성 점검",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.155 □ 치의학대학원 학사·전문석사 통합과정 (학사과정)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서울대학교 2022 전공별 교과목(대학원과정) — 861. 치의학과 '치의학대학원 학사과정' 절",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Graduate_Course_List_2022.pdf",
+   "locator": "p.281 이수규정 ①~⑨·[경과 조치] '2021학년도 입학자부터'",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교 2024 전공별 교과목(대학원과정) — 861. 치의학과 '치의학대학원 학사과정' 절",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Graduate_Course_List_2024.pdf",
+   "locator": "p.295~296 같은 규정",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교 2022 교과과정 해설(본부, 2022학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 1-1> p.10 치의학과 110/44/49 '2014학년도 신설'",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.155",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "학부대학, 2025학년도 시행 공통교육과정 대학별 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/01/2025학년도-시행-공통교육과정-대학별-이수규정국문.pdf",
+   "locator": "p.44 '2025학년도 입학생부터 적용'",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.161 (2025 길잡이와 같은 표)",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "학부대학, 2026학년도 시행 단과대학별 공통교육과정 이수 규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "p.93 '상기 이수규정은 2025학년도 입학생부터 적용함'",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2024 교과과정 해설(본부, 2024학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 6> 대학별 교양 필수과목 표 — p.43",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2024 교과과정 해설(본부, 2024학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1-1> p.10",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "학부대학(옛 기초교육원), 2021학년도 대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/04/liberaledu_2021.pdf",
+   "locator": "PDF p.32(인쇄 137) □ 치의학대학원 학사·전문석사 통합과정(학사과정) 표",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "학부대학(옛 기초교육원), 2022학년도 대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/04/liberaledu_2022.pdf",
+   "locator": "PDF p.34(인쇄 137) □ 치의학대학원 학사·전문석사 통합과정(학사과정) 표",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "학부대학(옛 기초교육원), 2023학년도 대학별 교양 이수규정(2025-12 게시 '_2' 판)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2023_2.pdf",
+   "locator": "PDF p.38 □ 치의학대학원 학사·전문석사 통합과정(학사과정) 표",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "학부대학(옛 기초교육원), 2024학년도 대학별 교양 이수규정(2025-12 게시 '_2' 판)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2024_2.pdf",
+   "locator": "PDF p.39 □ 치의학대학원 학사·전문석사 통합과정(학사과정) 표",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "서울대학교 2022 교과과정 해설(본부, 2022학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 6> 대학별 교양 필수과목 표 — p.39",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "서울대학교 2022 전공별 교과목(대학원과정) — 861. 치의학과 '치의학대학원 학사과정' 절",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Graduate_Course_List_2022.pdf",
+   "locator": "p.281 [경과 조치] '2021학년도 이전 입학자는 종전의 규정대로 이수하되, 교과과정 개편으로 인해 이수할 수 없는 경우 새로운 이수규정으로 이수할 수 있다'",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "서울대학교 2022 전공별 교과목(대학원과정) — 861. 치의학과 '치의학대학원 학사과정' 절",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Graduate_Course_List_2022.pdf",
+   "locator": "p.281 ⑤(2021 규정)",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "서울대학교 2022 전공별 교과목(대학원과정) — 861. 치의학과 '치의학대학원 학사과정' 절",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Graduate_Course_List_2022.pdf",
+   "locator": "p.281 ⑥(2021 규정)",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "학부대학(옛 기초교육원), 2019학년도 단과대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/04/liberaledu_2019.pdf",
+   "locator": "PDF p.32 □ 치의학대학원 학사·전문석사 통합과정(학사과정) 표",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "학부대학(옛 기초교육원), 2020학년도 단과대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/04/liberaledu_2020.pdf",
+   "locator": "PDF p.32 □ 치의학대학원 학사·전문석사 통합과정(학사과정) 표",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "서울대학교 2020 교과과정 해설(본부, 2020학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 6> 대학별 교양 필수과목 표 — p.38",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "서울대학교 2022 전공별 교과목(대학원과정) — 861. 치의학과 '치의학대학원 학사과정' 절",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Graduate_Course_List_2022.pdf",
+   "locator": "p.281 (2021 규정)",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "서울대학교 2018 교과과정 해설(본부, 2018학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 1-1> p.10 110/44/49 '2014학년도 신설'",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "서울대학교 2020 교과과정 해설(본부, 2020학년도 신입생 기준)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 1-1> p.10 같은 값",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "서울대학교 2022 전공별 교과목(대학원과정) — 861. 치의학과 '치의학대학원 학사과정' 절",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Graduate_Course_List_2022.pdf",
+   "locator": "p.281 경과 조치",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

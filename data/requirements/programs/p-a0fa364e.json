@@ -1,0 +1,255 @@
+{
+ "id": "p-a0fa364e",
+ "college": "농업생명과학대학",
+ "unit": "스마트시스템과학과",
+ "program": "스마트시스템과학과",
+ "kind": "major",
+ "depts": [
+  "스마트시스템과학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "농업생명과학대학 스마트시스템과학과",
+ "exists_for": [
+  2025,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "when": "입학부터 학과 소속(전공 배정 없음)",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 42,
+    "single": null,
+    "parallel": null,
+    "double": null,
+    "minor": null,
+    "status": "부분",
+    "src": [
+     "s9",
+     "s10",
+     "s11"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s12",
+    "s13",
+    "s14"
+   ],
+   "requirements": [
+    {
+     "id": "smart-ge",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 42학점 이상: 글쓰기와 말하기 4, 외국어 2과목 6, 수학·과학·컴퓨팅 20(수학 6 = 한 짝, 과학 8 = 2과목+실험, 컴퓨팅 6 = 컴퓨터의 개념 및 실습·과학 계산을 위한 컴퓨터 활용·인공지능 입문·컴퓨팅 기초·컴퓨팅 핵심·컴퓨팅 응용 3종 중 2과목), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 42,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "전체 교양 칸 학점 없음(4+6+20+9+3=42)."
+    },
+    {
+     "id": "smart-core-seen",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수(지금까지 편람에 '전필'로 열린 과목) — 전체 목록 미확인",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M3704.001800",
+       "name": "스마트시스템과학개론",
+       "credits": 2
+      },
+      {
+       "code": "M3705.000800",
+       "name": "실험통계학",
+       "credits": 3
+      },
+      {
+       "code": "M3705.001000",
+       "name": "스마트시스템 알고리즘 기초",
+       "credits": 3
+      },
+      {
+       "code": "M3704.001100",
+       "name": "스마트시스템 기계학습 및 딥러닝",
+       "credits": 3
+      },
+      {
+       "code": "M3704.002400",
+       "name": "기후스마트농업 시스템 개론",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s3",
+      "s4"
+     ],
+     "note": "아로리: 전공필수는 통계·알고리즘·모델링·클라우드 컴퓨팅 등 데이터 사이언스 기초. 같은 기간 '전선': M3705.000100 스마트 작물생산 기초(3), M3704.002100 시스템식물생산공학(3)."
+    },
+    {
+     "id": "smart-credits",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "주전공(단일·병행) 학점, 복수전공·부전공 제공 여부와 학점, 졸업논문 — 공개 자료 없음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s5",
+      "s6"
+     ]
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "note": "2025학년도 신설, 첫 학번 2025. 2019~2024학번에는 해당 과정이 없고 이어받은 옛 과정도 없다(predecessor 없음). 2026학번: 2026 수시 요강에서 모집 15명·배정 없음이 같고 교양 42 도 같다. 전공 요건 문서는 아직 공개되지 않았다(학과 누리집 robots 막힘)."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "학과 신설(첫 신입생 2025학번).",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "주전공 학점·전필 전체 목록·복수·부전공 제공 여부·졸업논문(1차 질문 그대로)",
+  "주전공 학점(단일·다른 전공 병행)",
+  "전공필수 전체 목록과 학점",
+  "복수전공·부전공 제공 여부와 학점",
+  "졸업논문 여부"
+ ],
+ "sources": {
+  "s1": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 농업생명과학대학 자연계(스마트시스템과학과), 인쇄 p.133–134 (PDF p.29–30)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "2026학년도 단과대학별 공통교육과정 이수 규정(학부대학, 2026-01 게시)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "농업생명과학대학 세 표, 인쇄 p.71–73 ('2025학년도 입학생부터 적용' 문구 그대로)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "2025-1·2025-2·2026-1·2026-2 학기, 교과구분·학점",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s4": {
+   "title": "서울대학교 입학정보 웹진 아로리 — 농업생명과학대학 스마트시스템과학과 전공소개",
+   "url": "https://snuarori.snu.ac.kr/campus-life/majors?md=view&dataidx=64",
+   "locator": "본문 '2025학년도에 신설', 전공필수 설명",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "스마트시스템과학과 누리집 — 교육체계",
+   "url": "http://smsys.snu.ac.kr/s3/s3_2.php",
+   "locator": "본문이 그림(temp_s302.jpg) 한 장뿐, 그림은 robots 로 막혀 못 읽음",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "농업생명과학대학 누리집 — 학부 소개: 스마트시스템과학과",
+   "url": "https://cals.snu.ac.kr/academics/undergraduate?deptidx=55",
+   "locator": "학과 소개 문단(요건 없음)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "바이오시스템공학전공 누리집 — 학부교과과정(2025)",
+   "url": "https://bse.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B5%90%EA%B3%BC%EA%B3%BC%EC%A0%952025/",
+   "locator": "2026-06-10 수정, 트랙 A/B 표준 이수체계(* 전공필수, ▪ 트랙필수)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "동물생명공학전공 — 졸업요건 학부과정(2022년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_08",
+   "locator": "학점 표·복수/부전공 문장·이수표준형태(별표 15과목)·비고",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "학부대학, 2025 새내기 기초교양교육과정 길잡이",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "농생대 자연계(스마트시스템과학과) 교양 42 (p.133)",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "학부대학, 2026학년도 단과대학별 공통교육과정 이수 규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "같은 표, '2025학년도 입학생부터 적용' (p.72)",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "학부대학, 2026 새내기 기초교양교육과정 길잡이",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "같은 표 (p.139)",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "2026학년도 대학 신입학생 수시모집 안내(서울대학교 입학본부)",
+   "url": "https://admission.snu.ac.kr/webdata/admission/files/2026susi.pdf",
+   "locator": "모집인원 p.6(15명), 모집단위별 전공분야 p.68 '단일학과로 별도의 전공 배정 없음'",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)",
+   "locator": "M3704.001800 2025-2, M3705.000800·M3705.001000 2026-1, M3704.001100·M3704.002400 2026-2 전필",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s14": {
+   "title": "서울대학교 입학정보 웹진 아로리 — 스마트시스템과학과 전공소개",
+   "url": "https://snuarori.snu.ac.kr/campus-life/majors?md=view&dataidx=64",
+   "locator": "전공 소개",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

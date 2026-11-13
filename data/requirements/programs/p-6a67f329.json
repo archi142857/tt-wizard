@@ -1,0 +1,1423 @@
+{
+ "id": "p-6a67f329",
+ "college": "미술대학",
+ "unit": "서양화과",
+ "program": "서양화과",
+ "kind": "major",
+ "depts": [
+  "서양화과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "미술대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "교과 개편 학기",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 71,
+    "parallel": 61,
+    "double": 48,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s7",
+     "s8",
+     "s9",
+     "s10",
+     "s11"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s12",
+    "s4",
+    "s13",
+    "s14"
+   ],
+   "requirements": [
+    {
+     "id": "art-common-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "미대 공통 전필 2과목(6학점): 한국미술과 문화, 서양미술사",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "600.228A",
+       "name": "한국미술과 문화",
+       "credits": 3
+      },
+      {
+       "code": "M2182.000100",
+       "name": "서양미술사",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "2024 목록의 교과목 이수규정 ①. 2025 학과 내규는 못 봄(미술대학 누리집 접근 실패)."
+    },
+    {
+     "id": "art-common-y1-elective",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "1학년은 미대 공통 전선 10과목 중 학기당 2과목(4학점)씩 이수(2018학번부터)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "M2182.000900",
+       "name": "평면조형1",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001000",
+       "name": "평면조형2",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000700",
+       "name": "평면조형3",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000800",
+       "name": "평면조형4",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001300",
+       "name": "입체조형1",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001400",
+       "name": "입체조형2",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001100",
+       "name": "기초 도예",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001200",
+       "name": "기초 금속공예",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000500",
+       "name": "기초시각디자인",
+       "credits": 2
+      },
+      {
+       "code": "M3412.000100",
+       "name": "기초산업디자인",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "학기당 2과목 조건이라 학기별 확인이 필요하다. 2024 목록 공통과목 칸의 기초시각디자인 번호 M2182.000600 은 편람상 기초공업디자인(2021-1 뒤 폐강)이라 M2182.000500 으로 적었다."
+    },
+    {
+     "id": "seo-y1-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "1학년 전필 2과목(4학점): 서양화 기초 1·2",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "M1766.000700",
+       "name": "서양화 기초 1",
+       "credits": 2
+      },
+      {
+       "code": "M1766.000800",
+       "name": "서양화 기초 2",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "seo-new-core-candidates",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "(2025-2·2026-1 교과 개편 뒤 새 체계) 편람에서 전필로 열린 과목: 서양근현대미술사·한국근현대미술사(계속 전필), 동시대 미술의 역사(2026-1~), 서양화 졸업작품 연구·서양화 졸업작품 발표(2026-1·2). 새 2학년 실기(회화: 확장된 매체성, 드로잉: 언어와 이미지 등)는 편람상 전선",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1766.000100",
+       "name": "서양근현대미술사",
+       "credits": 3
+      },
+      {
+       "code": "M1766.000400",
+       "name": "한국근현대미술사",
+       "credits": 3
+      },
+      {
+       "code": "M1766.003500",
+       "name": "동시대 미술의 역사",
+       "credits": 3
+      },
+      {
+       "code": "M1766.004900",
+       "name": "서양화 졸업작품 연구",
+       "credits": 2
+      },
+      {
+       "code": "M1766.004800",
+       "name": "서양화 졸업작품 발표",
+       "credits": 1
+      }
+     ],
+     "status": "미확인",
+     "src": [
+      "s3",
+      "s4"
+     ],
+     "note": "새 이수규정(전필 목록·학점·학년 배치)은 공개본이 없다. 편람의 \"전필\" 표시는 과목 단위라 학번별 필수 여부는 학과 확인이 필요하다."
+    },
+    {
+     "id": "seo-elective-scope",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정: 미술대학 각 학과 개설 전 과목 + 지정 타학과 과목(115.209(편람에 없음), 115.215(편람에 없음), 115.303 예술심리학, 115.309 예술사회학, 115.412 미술비평론, 116.218 서양고대 및 중세미술, 116.219(편람에 없음), 116.405(편람에 없음), 116.406(편람에 없음), 116.419(편람에 없음), 116.420(편람에 없음))",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "번호만 적힌 과목 가운데 편람 2021~2026에 없는 번호가 많다."
+    },
+    {
+     "id": "seo-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공 이수규정: \"학과내규에 의함\"(세부 미공개)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s5"
+     ]
+    },
+    {
+     "id": "seo-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 이수규정: \"학과내규에 의함\"(세부 미공개)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s5"
+     ]
+    },
+    {
+     "id": "ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학년도 입학생부터 적용)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1 필수 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기) 중 택 1",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000600"
+       ]
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000700"
+       ]
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000800"
+       ]
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "L0440.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6"
+     ],
+     "note": "대학 글쓰기 1(F11.101) 필수, 대학 글쓰기 2 세 과목 중 1과목. 권장 이수학기 [1-1](미대) / [1-1,1-2]·[2-1](음대)."
+    },
+    {
+     "id": "ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학·과학·컴퓨팅 3학점(지정 과목 없음)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상, 역사적 탐구와 철학적 사유, 인간의 이해와 사회 분석, 과학적 사고와 응용 중 3개 영역 이상에서 9학점 이상",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ],
+     "extra": {
+      "distribution": {
+       "areas": [
+        "문화 해석과 상상",
+        "역사적 탐구와 철학적 사유",
+        "인간의 이해와 사회 분석",
+        "과학적 사고와 응용"
+       ],
+       "min_areas": 3
+      }
+     }
+    },
+    {
+     "id": "ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1, 베리타스 강좌 2, 베리타스 실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 중 자유 선택 11학점",
+     "min_count": null,
+     "min_credits": 11,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    }
+   ],
+   "note": "2025학번은 2학년(2026년)부터 새 과목만 열려 새 체계를 따른다. 1차는 2024 목록의 2학년 전필(회화 1·2, 드로잉 1·2 등, id seo-y2-core-2024)을 \"충돌\"로 같이 적었으나 이 학번에는 해당하지 않아 뺐다(그래서 1차와 다름). 2026학번도 같다고 본다. 미대 누리집(art.snu.ac.kr)은 robots 차단으로 열지 않았다(1차와 같음). 학과 내규·경과조치는 공개본이 없어 본부 목록·해설·편람으로만 정했다."
+  },
+  {
+   "entry_years": [
+    2023,
+    2024
+   ],
+   "basis": "교과 개편 학기",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 71,
+    "parallel": 61,
+    "double": 48,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s7",
+     "s8",
+     "s9",
+     "s10",
+     "s11"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s20",
+    "s4",
+    "s23"
+   ],
+   "requirements": [
+    {
+     "id": "art-common-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "미대 공통 전필 2과목(6학점): 한국미술과 문화, 서양미술사",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "600.228A",
+       "name": "한국미술과 문화",
+       "credits": 3
+      },
+      {
+       "code": "M2182.000100",
+       "name": "서양미술사",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "2024 목록의 교과목 이수규정 ①. 2025 학과 내규는 못 봄(미술대학 누리집 접근 실패)."
+    },
+    {
+     "id": "art-common-y1-elective",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "1학년은 미대 공통 전선 10과목 중 학기당 2과목(4학점)씩 이수(2018학번부터)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "M2182.000900",
+       "name": "평면조형1",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001000",
+       "name": "평면조형2",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000700",
+       "name": "평면조형3",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000800",
+       "name": "평면조형4",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001300",
+       "name": "입체조형1",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001400",
+       "name": "입체조형2",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001100",
+       "name": "기초 도예",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001200",
+       "name": "기초 금속공예",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000500",
+       "name": "기초시각디자인",
+       "credits": 2
+      },
+      {
+       "code": "M3412.000100",
+       "name": "기초산업디자인",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "학기당 2과목 조건이라 학기별 확인이 필요하다. 2024 목록 공통과목 칸의 기초시각디자인 번호 M2182.000600 은 편람상 기초공업디자인(2021-1 뒤 폐강)이라 M2182.000500 으로 적었다."
+    },
+    {
+     "id": "seo-y1-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "1학년 전필 2과목(4학점): 서양화 기초 1·2",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "M1766.000700",
+       "name": "서양화 기초 1",
+       "credits": 2
+      },
+      {
+       "code": "M1766.000800",
+       "name": "서양화 기초 2",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "seo-elective-scope",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정: 미술대학 각 학과 개설 전 과목 + 지정 타학과 과목(115.209(편람에 없음), 115.215(편람에 없음), 115.303 예술심리학, 115.309 예술사회학, 115.412 미술비평론, 116.218 서양고대 및 중세미술, 116.219(편람에 없음), 116.405(편람에 없음), 116.406(편람에 없음), 116.419(편람에 없음), 116.420(편람에 없음))",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "번호만 적힌 과목 가운데 편람 2021~2026에 없는 번호가 많다."
+    },
+    {
+     "id": "seo-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공 이수규정: \"학과내규에 의함\"(세부 미공개)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s5"
+     ]
+    },
+    {
+     "id": "seo-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 이수규정: \"학과내규에 의함\"(세부 미공개)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s5"
+     ]
+    },
+    {
+     "id": "ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(학문의 기초·학문의 세계 체계, 2019~2024학번)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16",
+      "s17",
+      "s18"
+     ]
+    },
+    {
+     "id": "ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1 필수 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기) 중 택 1",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101(2025-1부터 개설 번호)"
+       ]
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.201"
+       ]
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.202"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16",
+      "s17",
+      "s18",
+      "s19"
+     ],
+     "note": "2025-1부터 같은 과목이 F11 번호로 열린다(옛 학번이 지금 들으면 F11 번호)."
+    },
+    {
+     "id": "ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목: 2021~2024학번 6학점, 2019·2020학번 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16",
+      "s17",
+      "s18"
+     ],
+     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort."
+    },
+    {
+     "id": "ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 중 자유 선택: 2021~2024학번 14학점, 2019·2020학번 14~16학점(외국어 학점에 따라)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16",
+      "s17",
+      "s18"
+     ]
+    },
+    {
+     "id": "seo-y2-core-2024",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "(2024 목록) 2학년 전필: 회화 1·2, 드로잉 1·2, 서양근현대미술사, 한국근현대미술사",
+     "min_count": 6,
+     "min_credits": 14,
+     "courses": [
+      {
+       "code": "602.201A",
+       "name": "회화 1",
+       "credits": 2
+      },
+      {
+       "code": "602.202A",
+       "name": "회화 2",
+       "credits": 2
+      },
+      {
+       "code": "602.215",
+       "name": "드로잉 1",
+       "credits": 2
+      },
+      {
+       "code": "602.216",
+       "name": "드로잉 2",
+       "credits": 2
+      },
+      {
+       "code": "M1766.000100",
+       "name": "서양근현대미술사",
+       "credits": 3
+      },
+      {
+       "code": "M1766.000400",
+       "name": "한국근현대미술사",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s20",
+      "s4",
+      "s21"
+     ],
+     "note": "2023학번은 2학년(2024년)에 마쳤다. 2024학번은 2025-1에 회화 1·드로잉 1을 들을 수 있었으나 회화 2·드로잉 2가 2025-2에 열리지 않아 새 과목으로 대체해야 한다(대체 방법 미확인)."
+    },
+    {
+     "id": "seo-transition-34",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "2026-1부터 3·4학년 과목이 새 체계(심화 연구: 회화·이미지 실험·개념과 리서치 1·2, 연구와 해석 1~3, 동시대 미술의 쟁점 1·2, 서양화 졸업작품 연구·발표 전필)로 바뀌어 2026년에 3·4학년인 이 학번은 새 과목을 듣는다. 옛 작품연구(602.336A~602.341A)는 2025-2가 마지막. 졸업작품 연구·발표와 동시대 미술의 역사가 이 학번에도 필수인지 미확인",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1766.004900",
+       "name": "서양화 졸업작품 연구",
+       "credits": 2
+      },
+      {
+       "code": "M1766.004800",
+       "name": "서양화 졸업작품 발표",
+       "credits": 1
+      },
+      {
+       "code": "M1766.003500",
+       "name": "동시대 미술의 역사",
+       "credits": 3
+      }
+     ],
+     "status": "미확인",
+     "src": [
+      "s22"
+     ]
+    },
+    {
+     "id": "ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회, 자연과 기술, 생명과 환경 중 4개 영역 이상에서 12학점 이상",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16",
+      "s17",
+      "s18"
+     ]
+    }
+   ],
+   "changed": "2학년은 옛 전필(회화 1·2, 드로잉 1·2, 서양근현대미술사, 한국근현대미술사), 3·4학년은 2026-1부터 새 과목. 교양 옛 체계.",
+   "note": "옛 2학년 전필 + 새 3·4학년 과목이 섞이는 학번. 경과조치 공개본 없음. 교양은 college_common.ge_by_cohort(학번별)를 따른다."
+  },
+  {
+   "entry_years": [
+    2019,
+    2022
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 71,
+    "parallel": 61,
+    "double": 48,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s7",
+     "s8",
+     "s9",
+     "s24",
+     "s25",
+     "s26"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s20",
+    "s4",
+    "s27"
+   ],
+   "requirements": [
+    {
+     "id": "art-common-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "미대 공통 전필 2과목(6학점): 한국미술과 문화, 서양미술사",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "600.228A",
+       "name": "한국미술과 문화",
+       "credits": 3
+      },
+      {
+       "code": "M2182.000100",
+       "name": "서양미술사",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "2024 목록의 교과목 이수규정 ①. 2025 학과 내규는 못 봄(미술대학 누리집 접근 실패)."
+    },
+    {
+     "id": "art-common-y1-elective",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "1학년은 미대 공통 전선 10과목 중 학기당 2과목(4학점)씩 이수(2018학번부터)",
+     "min_count": 4,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "M2182.000900",
+       "name": "평면조형1",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001000",
+       "name": "평면조형2",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000700",
+       "name": "평면조형3",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000800",
+       "name": "평면조형4",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001300",
+       "name": "입체조형1",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001400",
+       "name": "입체조형2",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001100",
+       "name": "기초 도예",
+       "credits": 2
+      },
+      {
+       "code": "M2182.001200",
+       "name": "기초 금속공예",
+       "credits": 2
+      },
+      {
+       "code": "M2182.000500",
+       "name": "기초시각디자인",
+       "credits": 2
+      },
+      {
+       "code": "M3412.000100",
+       "name": "기초산업디자인",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "학기당 2과목 조건이라 학기별 확인이 필요하다. 2024 목록 공통과목 칸의 기초시각디자인 번호 M2182.000600 은 편람상 기초공업디자인(2021-1 뒤 폐강)이라 M2182.000500 으로 적었다."
+    },
+    {
+     "id": "seo-y1-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "1학년 전필 2과목(4학점): 서양화 기초 1·2",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "M1766.000700",
+       "name": "서양화 기초 1",
+       "credits": 2
+      },
+      {
+       "code": "M1766.000800",
+       "name": "서양화 기초 2",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "seo-elective-scope",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정: 미술대학 각 학과 개설 전 과목 + 지정 타학과 과목(115.209(편람에 없음), 115.215(편람에 없음), 115.303 예술심리학, 115.309 예술사회학, 115.412 미술비평론, 116.218 서양고대 및 중세미술, 116.219(편람에 없음), 116.405(편람에 없음), 116.406(편람에 없음), 116.419(편람에 없음), 116.420(편람에 없음))",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "번호만 적힌 과목 가운데 편람 2021~2026에 없는 번호가 많다."
+    },
+    {
+     "id": "seo-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공 이수규정: \"학과내규에 의함\"(세부 미공개)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s5"
+     ]
+    },
+    {
+     "id": "seo-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공 이수규정: \"학과내규에 의함\"(세부 미공개)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s5"
+     ]
+    },
+    {
+     "id": "ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(학문의 기초·학문의 세계 체계, 2019~2024학번)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16",
+      "s17",
+      "s18"
+     ]
+    },
+    {
+     "id": "ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1 필수 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기) 중 택 1",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2,
+       "alt_codes": [
+        "F11.101(2025-1부터 개설 번호)"
+       ]
+      },
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.201"
+       ]
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.202"
+       ]
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2,
+       "alt_codes": [
+        "F11.203"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16",
+      "s17",
+      "s18",
+      "s19"
+     ],
+     "note": "2025-1부터 같은 과목이 F11 번호로 열린다(옛 학번이 지금 들으면 F11 번호)."
+    },
+    {
+     "id": "ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목: 2021~2024학번 6학점, 2019·2020학번 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16",
+      "s17",
+      "s18"
+     ],
+     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort."
+    },
+    {
+     "id": "ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 중 자유 선택: 2021~2024학번 14학점, 2019·2020학번 14~16학점(외국어 학점에 따라)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16",
+      "s17",
+      "s18"
+     ]
+    },
+    {
+     "id": "seo-y2-core-2024",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "(2024 목록) 2학년 전필: 회화 1·2, 드로잉 1·2, 서양근현대미술사, 한국근현대미술사",
+     "min_count": 6,
+     "min_credits": 14,
+     "courses": [
+      {
+       "code": "602.201A",
+       "name": "회화 1",
+       "credits": 2
+      },
+      {
+       "code": "602.202A",
+       "name": "회화 2",
+       "credits": 2
+      },
+      {
+       "code": "602.215",
+       "name": "드로잉 1",
+       "credits": 2
+      },
+      {
+       "code": "602.216",
+       "name": "드로잉 2",
+       "credits": 2
+      },
+      {
+       "code": "M1766.000100",
+       "name": "서양근현대미술사",
+       "credits": 3
+      },
+      {
+       "code": "M1766.000400",
+       "name": "한국근현대미술사",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s20",
+      "s4"
+     ],
+     "note": "2022·2024 목록이 같다. 옛 과목은 2025-1(회화 1·드로잉 1)·2024-2(회화 2·드로잉 2)까지 열렸다."
+    },
+    {
+     "id": "ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회, 자연과 기술, 생명과 환경 중 4개 영역 이상에서 12학점 이상",
+     "min_count": null,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s15",
+      "s16",
+      "s17",
+      "s18"
+     ]
+    }
+   ],
+   "changed": "옛 체계 그대로(2학년 전필 확인). 새 3·4학년 과목 조항 없음.",
+   "note": "정상 진행이면 옛 과목(작품연구 602.33x 등, 2025-2까지 개설)으로 마친다. 휴학 등으로 2026년 뒤에 3·4학년 과목을 듣는 학생은 새 과목으로 대체해야 해 학과 확인이 필요하다."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2025,
+   "basis": "교과 개편 학기",
+   "what": "2025-2부터 2학년 과목 교체(회화 1·2, 드로잉 1·2 전필 폐지 → 회화·드로잉·영상·사진·설치 등 새 전선), 2026-1부터 3·4학년 교체(심화 연구, 서양화 졸업작품 연구·발표 전필, 동시대 미술의 역사 전필). 학번 기준이 아니라 개편 학기 기준이라 2023·2024학번은 옛·새 과목이 섞인다",
+   "status": "부분"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 체계 개편",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "2025-2·2026-1 교과 개편 뒤의 새 이수규정(전필 목록·학점)과 적용 학번",
+  "2024학번의 회화 2·드로잉 2 대체 과목, 2023·2024학번의 3·4학년(졸업작품 연구·발표 필수 여부) 경과조치",
+  "2025학번 교과과정(새 과목 체계)의 전공필수 목록과 학점",
+  "전공 학점 71/61이 그대로인지",
+  "졸업작품 연구·발표 조건",
+  "복수전공(48)·부전공(21) 필수 과목"
+ ],
+ "sources": {
+  "s1": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "85–86쪽 602. 서양화과 교과목·이수표준형태·교과목 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본)",
+   "locator": "과목번호별 이름·학점·교과구분·개설 학기",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s3": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본, 학기별 개설 과목·교과구분)",
+   "locator": "602 서양화과 2025-2·2026-1·2026-2 새 과목(M1766.0009~0049)·교과구분",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s4": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "84–92쪽 601. 동양화과 ~ 615. 디자인과 교과목 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "서울대학교 미술대학 누리집",
+   "url": "https://art.snu.ac.kr",
+   "locator": "접근 실패(robots 차단으로 WebFetch 거부, 우회하지 않음)",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "136쪽(PDF 32쪽) □ 미술대학",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽(PDF 2쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽(PDF 2쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽(PDF 2쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 1> 학사과정 졸업(수료) 이수학점 기준, 9쪽(PDF 2쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 2> 복수·부전공 이수학점 기준, 10–11쪽(PDF 3–4쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본, 학기별 개설 과목·교과구분)",
+   "locator": "602 서양화과 2021-1~2026-2",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s13": {
+   "title": "2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "141쪽(PDF 33쪽) □ 미술대학",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "2026학년도 시행 단과대학별 공통교육과정 이수 규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "74쪽(PDF 27쪽) □ 미술대학, \"상기 이수규정은 2025학년도 입학생부터 적용함\"",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "교양 이수규정 31쪽(PDF 24쪽) □ 미술대학",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "교양 이수규정 31쪽(PDF 24쪽) □ 미술대학",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "교양 이수규정 32쪽(PDF 25쪽) □ 미술대학",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "서울대학교 음악대학 관현악과(구 기악과) 관악·타악 전공 및 동 대학원 학사내규(수정 2024. 1. 30.)",
+   "url": "https://music.snu.ac.kr/rule/8",
+   "locator": "6.1.1 교양과목의 수학(PDF 12쪽): 19학번부터 대학 글쓰기 2과목, 19~20학번 외국어 4~6학점, 21학번부터 최소 6학점",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본, 학기별 개설 과목·교과구분)",
+   "locator": "대학 글쓰기 번호: L0440.0006~0009는 2024학년도까지, 2025-1부터 F11.101·201~203",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s20": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "81–89쪽 601. 동양화과 ~ 615. 디자인과 교과목 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본, 학기별 개설 과목·교과구분)",
+   "locator": "602.201A 회화 1·602.215 드로잉 1은 2025-1, 602.202A 회화 2·602.216 드로잉 2는 2024-2가 마지막 개설",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s22": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본, 학기별 개설 과목·교과구분)",
+   "locator": "602 서양화과 옛 작품연구 602.33x 마지막 개설 2025-2, 새 과목 2026-1~",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s23": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본, 학기별 개설 과목·교과구분)",
+   "locator": "602 서양화과 옛·새 과목 개설 학기",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s24": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "<표 2> 복수·부전공 이수학점 기준, 10–11쪽(PDF 3–4쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "<표 2> 복수·부전공 이수학점 기준, 10–11쪽(PDF 3–4쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "<표 2> 복수·부전공 이수학점 기준, 10–11쪽(PDF 3–4쪽) 미술대학·음악대학 줄",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "수강편람 자료(TT Wizard 백엔드 수집본, 학기별 개설 과목·교과구분)",
+   "locator": "602 서양화과 2021-1~2025-2",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

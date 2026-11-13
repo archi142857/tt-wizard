@@ -1,0 +1,5348 @@
+{
+ "id": "p-c91f696e",
+ "college": "공과대학",
+ "unit": "조선해양공학과",
+ "program": "조선해양공학과",
+ "kind": "major",
+ "depts": [
+  "조선해양공학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "공과대학 조선해양공학과",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 49,
+    "single": 63,
+    "parallel": 48,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s7",
+     "s8",
+     "s9",
+     "s10"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s11"
+   ],
+   "requirements": [
+    {
+     "id": "naoe-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "naoe-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목(6학점). 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "외국어 영역 과목 목록은 학부대학 길잡이 영역표를 따른다(여기선 영역으로만 셈)"
+    },
+    {
+     "id": "naoe-ge-math1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1] 수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "options": [
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "naoe-ge-math2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-2] 수학 2+수학연습 2 또는 고급수학 2+고급수학연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "extra": {
+      "options": [
+       [
+        "F31.105",
+        "F31.105L"
+       ],
+       [
+        "F31.107",
+        "F31.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "naoe-ge-engmath",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "naoe-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학(1): 물리학 1(물리의 기본 1·고급물리학 1 대체)+실험 1, 물리학 2(물리의 기본 2·고급물리학 2 대체)+실험 2 — 학기별 4, 총 8학점",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "고교 물리 2를 이수했으면 '물리학 1·2', 아니면 '물리의 기본 1·2'가 원칙. 물리의 기본 대상자가 물리학을 들으려면 물리학성취도평가 점수 필요",
+     "extra": {
+      "options": [
+       [
+        "F33.106",
+        "F33.106L",
+        "F33.107",
+        "F33.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "naoe-ge-sci2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학(2): 화학 1·2+실험, 화학(또는 고급화학)+실험, 통계학+통계학실험, 지구과학+실험, 해양학+실험 중 4학점(과학 합 12)",
+     "min_count": null,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F36.102",
+       "name": "지구과학",
+       "credits": 3
+      },
+      {
+       "code": "F36.102L",
+       "name": "지구과학실험",
+       "credits": 1
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "naoe-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[1-1] 컴퓨터의 개념 및 실습(컴퓨팅 3학점)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "naoe-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: '문화 해석과 상상'·'역사적 탐구와 철학적 사유'·'인간의 이해와 사회 분석' 각 3학점('과학적 사고와 응용'은 칸 비어 있음)",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "naoe-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 영역(베리타스 강좌 1·2, 베리타스 실천)에서 3학점 이상",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "naoe-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 49학점 이상(나머지는 전체 교양 교과목에서 자유 선택)",
+     "min_count": null,
+     "min_credits": 49,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "naoe-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 10과목 30학점",
+     "min_count": 10,
+     "min_credits": 30,
+     "courses": [
+      {
+       "code": "414.110",
+       "name": "조선해양공학의 이해",
+       "credits": 3
+      },
+      {
+       "code": "414.251",
+       "name": "구조정역학",
+       "credits": 3
+      },
+      {
+       "code": "414.241",
+       "name": "유체역학기초",
+       "credits": 3
+      },
+      {
+       "code": "414.261",
+       "name": "선박계산",
+       "credits": 3
+      },
+      {
+       "code": "414.252",
+       "name": "구조동역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.002400",
+       "name": "선박 해양 탄소중립 에너지 개론",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000700",
+       "name": "해양열역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000800",
+       "name": "컴퓨터이용선박설계",
+       "credits": 3
+      },
+      {
+       "code": "414.341",
+       "name": "선박해양유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.001500",
+       "name": "조선해양프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "naoe-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "단일전공: 전필 30 + 전공선택 21학점 이상 포함 전공 63학점",
+     "min_count": null,
+     "min_credits": 63,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "전선 인정: 공과대학 공통 학사 교과목 전체(400·M2177)와 공과대학 타학과(부) 학사 전공 교과목을 합쳐 최대 12학점. 공학도의 도전과 리더십 1·2·3은 합쳐 최대 3학점"
+    },
+    {
+     "id": "naoe-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "타전공 병행(부·복수·연계 등): 전필 30 + 전공선택 12학점 이상 포함 전공 48학점",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ],
+     "note": "이때 공대 공통·타학과 인정은 최대 6학점"
+    },
+    {
+     "id": "naoe-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학부 졸업 논문 신청은 졸업 잔여 학기가 최소 2개 학기 남았을 때까지(늦으면 졸업 늦어질 수 있음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1513.002200",
+       "name": "조선해양 학사논문연구 1",
+       "credits": 1
+      },
+      {
+       "code": "M1513.002300",
+       "name": "조선해양 학사논문연구 2",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s4"
+     ],
+     "note": "학사논문연구 1·2는 이수표준형태에 전선으로 있음(필수 표시 없음). 논문 심사·제출 세부는 공개 자료에 없음"
+    },
+    {
+     "id": "naoe-edu",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1 포함, 대학영어 제외) 수강 의무, 생명존중(자살예방) 교육 이수증 제출(미이수 시 졸업 불가)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "naoe-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(2020학번~): 학과 이수규정의 전필 30학점 포함 39학점 이상",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "414.110",
+       "name": "조선해양공학의 이해",
+       "credits": 3
+      },
+      {
+       "code": "414.251",
+       "name": "구조정역학",
+       "credits": 3
+      },
+      {
+       "code": "414.241",
+       "name": "유체역학기초",
+       "credits": 3
+      },
+      {
+       "code": "414.261",
+       "name": "선박계산",
+       "credits": 3
+      },
+      {
+       "code": "414.252",
+       "name": "구조동역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.002400",
+       "name": "선박 해양 탄소중립 에너지 개론",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000700",
+       "name": "해양열역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000800",
+       "name": "컴퓨터이용선박설계",
+       "credits": 3
+      },
+      {
+       "code": "414.341",
+       "name": "선박해양유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.001500",
+       "name": "조선해양프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "선발: 평점 2.7 이상, 성적 50%+면접 50%, 연 30명 이내. '2020학번~'이 이수자 학번 기준인지 미확인"
+    },
+    {
+     "id": "naoe-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 학과 전공 교과목 중 21학점 이상",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "선발: 평점 2.7 이상, 성적 50%+면접 50%, 연 46명 이내"
+    }
+   ],
+   "note": "2026학번 = 2025학번"
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 53,
+    "single": 66,
+    "parallel": 45,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s7",
+     "s14"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s14",
+    "s15"
+   ],
+   "requirements": [
+    {
+     "id": "naoe-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목(6학점). 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-math1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000100",
+        "L0442.000200"
+       ],
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "L0442.000500",
+        "L0442.000600"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "naoe-ge-math2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 2+수학연습 2 또는 고급수학 2+고급수학연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000300",
+        "L0442.000400"
+       ],
+       [
+        "F31.105",
+        "F31.105L"
+       ],
+       [
+        "L0442.000700",
+        "L0442.000800"
+       ],
+       [
+        "F31.107",
+        "F31.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "naoe-ge-engmath",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(1): 물리학 1·2(물리의 기본·고급물리학 대체)+물리학실험 1·2, 학기별 4, 총 8학점",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-sci2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(2) 8학점: 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학, 지구과학, 해양학(+각 실험) 중 학기별 4(과학 합 16)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.044",
+       "name": "지구과학",
+       "credits": 3
+      },
+      {
+       "code": "F36.102",
+       "name": "지구과학",
+       "credits": 3
+      },
+      {
+       "code": "034.045",
+       "name": "지구과학실험",
+       "credits": 1
+      },
+      {
+       "code": "F36.102L",
+       "name": "지구과학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.042",
+       "name": "해양학",
+       "credits": 3
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3
+      },
+      {
+       "code": "034.043",
+       "name": "해양학실험",
+       "credits": 1
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "note": "2025학번부터는 과학(2)가 4학점이고 생물학 묶음이 빠짐"
+    },
+    {
+     "id": "naoe-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터의 개념 및 실습(3학점)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 53학점 이상",
+     "min_count": null,
+     "min_credits": 53,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 10과목 30학점",
+     "min_count": 10,
+     "min_credits": 30,
+     "courses": [
+      {
+       "code": "414.110",
+       "name": "조선해양공학의 이해",
+       "credits": 3
+      },
+      {
+       "code": "414.251",
+       "name": "구조정역학",
+       "credits": 3
+      },
+      {
+       "code": "414.241",
+       "name": "유체역학기초",
+       "credits": 3
+      },
+      {
+       "code": "414.261",
+       "name": "선박계산",
+       "credits": 3
+      },
+      {
+       "code": "414.252",
+       "name": "구조동역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.002400",
+       "name": "선박 해양 탄소중립 에너지 개론",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000700",
+       "name": "해양열역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000800",
+       "name": "컴퓨터이용선박설계",
+       "credits": 3
+      },
+      {
+       "code": "414.341",
+       "name": "선박해양유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.001500",
+       "name": "조선해양프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "naoe-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전필 30학점과 전공선택 21학점 이상을 포함해 전공 66학점 이상",
+     "min_count": null,
+     "min_credits": 66,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12"
+     ],
+     "note": "전선 인정: 공과대학 공통교과목 전체(400·M2177) 최대 6학점. 공학도의 도전과 리더십 1·2·3은 합쳐 3학점까지"
+    },
+    {
+     "id": "naoe-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행 시 주전공 45학점(구성 문장은 2024학번 규정에 없음)",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s13"
+     ]
+    },
+    {
+     "id": "naoe-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학부 졸업 논문 신청은 졸업 잔여 학기가 최소 2개 학기 남았을 때까지(늦으면 졸업 늦어질 수 있음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1513.002200",
+       "name": "조선해양 학사논문연구 1",
+       "credits": 1
+      },
+      {
+       "code": "M1513.002300",
+       "name": "조선해양 학사논문연구 2",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s4"
+     ],
+     "note": "학사논문연구 1·2는 이수표준형태에 전선으로 있음(필수 표시 없음). 논문 심사·제출 세부는 공개 자료에 없음"
+    },
+    {
+     "id": "naoe-edu",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1 포함, 대학영어 제외) 수강 의무, 생명존중(자살예방) 교육 이수증 제출(미이수 시 졸업 불가)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "naoe-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(2020학번~): 학과 이수규정의 전필 30학점 포함 39학점 이상",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "414.110",
+       "name": "조선해양공학의 이해",
+       "credits": 3
+      },
+      {
+       "code": "414.251",
+       "name": "구조정역학",
+       "credits": 3
+      },
+      {
+       "code": "414.241",
+       "name": "유체역학기초",
+       "credits": 3
+      },
+      {
+       "code": "414.261",
+       "name": "선박계산",
+       "credits": 3
+      },
+      {
+       "code": "414.252",
+       "name": "구조동역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.002400",
+       "name": "선박 해양 탄소중립 에너지 개론",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000700",
+       "name": "해양열역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000800",
+       "name": "컴퓨터이용선박설계",
+       "credits": 3
+      },
+      {
+       "code": "414.341",
+       "name": "선박해양유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.001500",
+       "name": "조선해양프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "선발: 평점 2.7 이상, 성적 50%+면접 50%, 연 30명 이내. '2020학번~'이 이수자 학번 기준인지 미확인"
+    },
+    {
+     "id": "naoe-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 학과 전공 교과목 중 21학점 이상",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "선발: 평점 2.7 이상, 성적 50%+면접 50%, 연 46명 이내"
+    },
+    {
+     "id": "naoe-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 5개 영역(언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회) 중 4개 영역 이상",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-eng-common",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 공통교과목 중 '공학기타' 영역을 뺀 영역에서 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16"
+     ],
+     "extra": {
+      "ref": "college_common.other.eng-common-3cr"
+     }
+    }
+   ],
+   "changed": "단일 66·병행 45, 교양 53(옛 체계, 학문의 세계 4개 영역), 공대 공통 '공학기타' 제외 3학점 필수, 전선 인정은 공대 공통 최대 6학점(공대 타학과 인정 문장 없음)",
+   "note": "외국어 진행 강좌 '수강 의무' 문장은 2019~2026학번 규정 모두 같음. 옛 교양 번호는 TT Wizard 편람 자료(2021-1~2024) 기준. 2019·2020년에 들은 과목은 번호가 다를 수 있음. 같은 과목을 2025-1 이후 새 번호(F…)로 들어도 인정되는 것으로 보고 둘 다 적음"
+  },
+  {
+   "entry_years": [
+    2023,
+    2023
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 53,
+    "single": 66,
+    "parallel": 45,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s7",
+     "s17"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s17"
+   ],
+   "requirements": [
+    {
+     "id": "naoe-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목(6학점). 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-math1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000100",
+        "L0442.000200"
+       ],
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "L0442.000500",
+        "L0442.000600"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "naoe-ge-math2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 2+수학연습 2 또는 고급수학 2+고급수학연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000300",
+        "L0442.000400"
+       ],
+       [
+        "F31.105",
+        "F31.105L"
+       ],
+       [
+        "L0442.000700",
+        "L0442.000800"
+       ],
+       [
+        "F31.107",
+        "F31.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "naoe-ge-engmath",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(1): 물리학 1·2(물리의 기본·고급물리학 대체)+물리학실험 1·2, 학기별 4, 총 8학점",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-sci2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(2) 8학점: 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학, 지구과학, 해양학(+각 실험) 중 학기별 4(과학 합 16)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.044",
+       "name": "지구과학",
+       "credits": 3
+      },
+      {
+       "code": "F36.102",
+       "name": "지구과학",
+       "credits": 3
+      },
+      {
+       "code": "034.045",
+       "name": "지구과학실험",
+       "credits": 1
+      },
+      {
+       "code": "F36.102L",
+       "name": "지구과학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.042",
+       "name": "해양학",
+       "credits": 3
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3
+      },
+      {
+       "code": "034.043",
+       "name": "해양학실험",
+       "credits": 1
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "note": "2025학번부터는 과학(2)가 4학점이고 생물학 묶음이 빠짐"
+    },
+    {
+     "id": "naoe-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터의 개념 및 실습(3학점)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 53학점 이상",
+     "min_count": null,
+     "min_credits": 53,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 10과목 30학점",
+     "min_count": 10,
+     "min_credits": 30,
+     "courses": [
+      {
+       "code": "414.110",
+       "name": "조선해양공학의 이해",
+       "credits": 3
+      },
+      {
+       "code": "414.251",
+       "name": "구조정역학",
+       "credits": 3
+      },
+      {
+       "code": "414.241",
+       "name": "유체역학기초",
+       "credits": 3
+      },
+      {
+       "code": "414.261",
+       "name": "선박계산",
+       "credits": 3
+      },
+      {
+       "code": "414.252",
+       "name": "구조동역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.002400",
+       "name": "선박 해양 탄소중립 에너지 개론",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000700",
+       "name": "해양열역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000800",
+       "name": "컴퓨터이용선박설계",
+       "credits": 3
+      },
+      {
+       "code": "414.341",
+       "name": "선박해양유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.001500",
+       "name": "조선해양프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "naoe-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전필 30학점과 전공선택 21학점 이상을 포함해 전공 66학점 이상",
+     "min_count": null,
+     "min_credits": 66,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12"
+     ],
+     "note": "전선 인정: 공과대학 공통교과목 전체(400·M2177) 최대 6학점. 공학도의 도전과 리더십 1·2·3은 합쳐 3학점까지"
+    },
+    {
+     "id": "naoe-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행 시 주전공 45학점(구성 문장은 2024학번 규정에 없음)",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s13"
+     ]
+    },
+    {
+     "id": "naoe-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학부 졸업 논문 신청은 졸업 잔여 학기가 최소 2개 학기 남았을 때까지(늦으면 졸업 늦어질 수 있음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1513.002200",
+       "name": "조선해양 학사논문연구 1",
+       "credits": 1
+      },
+      {
+       "code": "M1513.002300",
+       "name": "조선해양 학사논문연구 2",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s4"
+     ],
+     "note": "학사논문연구 1·2는 이수표준형태에 전선으로 있음(필수 표시 없음). 논문 심사·제출 세부는 공개 자료에 없음"
+    },
+    {
+     "id": "naoe-edu",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1 포함, 대학영어 제외) 수강 의무, 생명존중(자살예방) 교육 이수증 제출(미이수 시 졸업 불가)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "naoe-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(2020학번~): 학과 이수규정의 전필 30학점 포함 39학점 이상",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "414.110",
+       "name": "조선해양공학의 이해",
+       "credits": 3
+      },
+      {
+       "code": "414.251",
+       "name": "구조정역학",
+       "credits": 3
+      },
+      {
+       "code": "414.241",
+       "name": "유체역학기초",
+       "credits": 3
+      },
+      {
+       "code": "414.261",
+       "name": "선박계산",
+       "credits": 3
+      },
+      {
+       "code": "414.252",
+       "name": "구조동역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.002400",
+       "name": "선박 해양 탄소중립 에너지 개론",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000700",
+       "name": "해양열역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000800",
+       "name": "컴퓨터이용선박설계",
+       "credits": 3
+      },
+      {
+       "code": "414.341",
+       "name": "선박해양유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.001500",
+       "name": "조선해양프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "선발: 평점 2.7 이상, 성적 50%+면접 50%, 연 30명 이내. '2020학번~'이 이수자 학번 기준인지 미확인"
+    },
+    {
+     "id": "naoe-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 학과 전공 교과목 중 21학점 이상",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "선발: 평점 2.7 이상, 성적 50%+면접 50%, 연 46명 이내"
+    },
+    {
+     "id": "naoe-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 5개 영역(언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회) 중 3개 영역 이상",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17"
+     ]
+    },
+    {
+     "id": "naoe-eng-common",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 공통교과목 중 '공학기타' 영역을 뺀 영역에서 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16"
+     ],
+     "extra": {
+      "ref": "college_common.other.eng-common-3cr"
+     }
+    }
+   ],
+   "changed": "학문의 세계 3개 영역 이상(나머지는 2024학번과 같음)"
+  },
+  {
+   "entry_years": [
+    2021,
+    2022
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 53,
+    "single": 66,
+    "parallel": 45,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s7",
+     "s18"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s18"
+   ],
+   "requirements": [
+    {
+     "id": "naoe-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목(6학점). 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-math1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000100",
+        "L0442.000200"
+       ],
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "L0442.000500",
+        "L0442.000600"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "naoe-ge-math2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 2+수학연습 2 또는 고급수학 2+고급수학연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000300",
+        "L0442.000400"
+       ],
+       [
+        "F31.105",
+        "F31.105L"
+       ],
+       [
+        "L0442.000700",
+        "L0442.000800"
+       ],
+       [
+        "F31.107",
+        "F31.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "naoe-ge-engmath",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(1): 물리학 1·2(물리의 기본·고급물리학 대체)+물리학실험 1·2, 학기별 4, 총 8학점",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-sci2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(2) 8학점: 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학, 지구과학, 해양학(+각 실험) 중 학기별 4(과학 합 16)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.044",
+       "name": "지구과학",
+       "credits": 3
+      },
+      {
+       "code": "F36.102",
+       "name": "지구과학",
+       "credits": 3
+      },
+      {
+       "code": "034.045",
+       "name": "지구과학실험",
+       "credits": 1
+      },
+      {
+       "code": "F36.102L",
+       "name": "지구과학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.042",
+       "name": "해양학",
+       "credits": 3
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3
+      },
+      {
+       "code": "034.043",
+       "name": "해양학실험",
+       "credits": 1
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "note": "2025학번부터는 과학(2)가 4학점이고 생물학 묶음이 빠짐"
+    },
+    {
+     "id": "naoe-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터의 개념 및 실습(3학점)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 53학점 이상",
+     "min_count": null,
+     "min_credits": 53,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 10과목 30학점(2021-2022학번 표준형태)",
+     "min_count": 10,
+     "min_credits": 30,
+     "courses": [
+      {
+       "code": "414.110",
+       "name": "조선해양공학의 이해",
+       "credits": 3
+      },
+      {
+       "code": "414.251",
+       "name": "구조정역학",
+       "credits": 3
+      },
+      {
+       "code": "414.241",
+       "name": "유체역학기초",
+       "credits": 3
+      },
+      {
+       "code": "414.261",
+       "name": "선박계산",
+       "credits": 3
+      },
+      {
+       "code": "414.252",
+       "name": "구조동역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000600",
+       "name": "해양플랫폼공학개론",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000700",
+       "name": "해양열역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000800",
+       "name": "컴퓨터이용선박설계",
+       "credits": 3
+      },
+      {
+       "code": "414.341",
+       "name": "선박해양유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.001500",
+       "name": "조선해양프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s18",
+      "s19"
+     ],
+     "note": "해양플랫폼공학개론은 2023-1 뒤 개설이 없음 — 못 들은 학생의 대체 과목(탄소중립 에너지 개론인지)은 공개 자료에 없음"
+    },
+    {
+     "id": "naoe-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전필 30학점과 전공선택 21학점 이상을 포함해 전공 66학점 이상",
+     "min_count": null,
+     "min_credits": 66,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12"
+     ],
+     "note": "전선 인정: 공과대학 공통교과목 전체(400·M2177) 최대 6학점. 공학도의 도전과 리더십 1·2·3은 합쳐 3학점까지"
+    },
+    {
+     "id": "naoe-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행 시 주전공 45학점(구성 문장은 2024학번 규정에 없음)",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s13"
+     ]
+    },
+    {
+     "id": "naoe-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학부 졸업 논문 신청은 졸업까지 최소 2개 학기 남았을 때까지(조선해양 학사논문연구 1·2는 2023-1 첫 개설, 2021-2022학번 표준형태엔 없음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s20",
+      "s18",
+      "s21"
+     ]
+    },
+    {
+     "id": "naoe-edu",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1 포함, 대학영어 제외) 수강 의무, 생명존중(자살예방) 교육 이수증 제출(미이수 시 졸업 불가)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "naoe-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(2020학번~): 학과 이수규정의 전필 30학점 포함 39학점 이상 — 2021-2022학번 규정 전필 목록",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "414.110",
+       "name": "조선해양공학의 이해",
+       "credits": 3
+      },
+      {
+       "code": "414.251",
+       "name": "구조정역학",
+       "credits": 3
+      },
+      {
+       "code": "414.241",
+       "name": "유체역학기초",
+       "credits": 3
+      },
+      {
+       "code": "414.261",
+       "name": "선박계산",
+       "credits": 3
+      },
+      {
+       "code": "414.252",
+       "name": "구조동역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000600",
+       "name": "해양플랫폼공학개론",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000700",
+       "name": "해양열역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000800",
+       "name": "컴퓨터이용선박설계",
+       "credits": 3
+      },
+      {
+       "code": "414.341",
+       "name": "선박해양유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.001500",
+       "name": "조선해양프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s22",
+      "s18"
+     ]
+    },
+    {
+     "id": "naoe-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 학과 전공 교과목 중 21학점 이상",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "선발: 평점 2.7 이상, 성적 50%+면접 50%, 연 46명 이내"
+    },
+    {
+     "id": "naoe-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 5개 영역(언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회) 중 3개 영역 이상",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17"
+     ]
+    },
+    {
+     "id": "naoe-eng-common",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 공통교과목 중 '공학기타' 영역을 뺀 영역에서 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16"
+     ],
+     "extra": {
+      "ref": "college_common.other.eng-common-3cr"
+     }
+    }
+   ],
+   "changed": "전필 하나가 '해양플랫폼공학개론'(2023학번부터 '선박 해양 탄소중립 에너지 개론'), 표준형태에 학사논문연구 없음"
+  },
+  {
+   "entry_years": [
+    2020,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 51,
+    "single": 66,
+    "parallel": 45,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s7",
+     "s23"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s23",
+    "s24"
+   ],
+   "requirements": [
+    {
+     "id": "naoe-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목(4–6학점). 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23"
+     ]
+    },
+    {
+     "id": "naoe-ge-math1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000100",
+        "L0442.000200"
+       ],
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "L0442.000500",
+        "L0442.000600"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "naoe-ge-math2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 2+수학연습 2 또는 고급수학 2+고급수학연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000300",
+        "L0442.000400"
+       ],
+       [
+        "F31.105",
+        "F31.105L"
+       ],
+       [
+        "L0442.000700",
+        "L0442.000800"
+       ],
+       [
+        "F31.107",
+        "F31.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "naoe-ge-engmath",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(1): 물리학 1·2(물리의 기본·고급물리학 대체)+물리학실험 1·2, 학기별 4, 총 8학점",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-sci2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(2) 8학점: 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학, 지구과학, 해양학(+각 실험) 중 학기별 4(과학 합 16)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.044",
+       "name": "지구과학",
+       "credits": 3
+      },
+      {
+       "code": "F36.102",
+       "name": "지구과학",
+       "credits": 3
+      },
+      {
+       "code": "034.045",
+       "name": "지구과학실험",
+       "credits": 1
+      },
+      {
+       "code": "F36.102L",
+       "name": "지구과학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.042",
+       "name": "해양학",
+       "credits": 3
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3
+      },
+      {
+       "code": "034.043",
+       "name": "해양학실험",
+       "credits": 1
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "note": "2025학번부터는 과학(2)가 4학점이고 생물학 묶음이 빠짐"
+    },
+    {
+     "id": "naoe-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터의 개념 및 실습(3학점)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 51학점 이상",
+     "min_count": null,
+     "min_credits": 51,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23"
+     ]
+    },
+    {
+     "id": "naoe-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 10과목 30학점(2021-2022학번 표준형태)",
+     "min_count": 10,
+     "min_credits": 30,
+     "courses": [
+      {
+       "code": "414.110",
+       "name": "조선해양공학의 이해",
+       "credits": 3
+      },
+      {
+       "code": "414.251",
+       "name": "구조정역학",
+       "credits": 3
+      },
+      {
+       "code": "414.241",
+       "name": "유체역학기초",
+       "credits": 3
+      },
+      {
+       "code": "414.261",
+       "name": "선박계산",
+       "credits": 3
+      },
+      {
+       "code": "414.252",
+       "name": "구조동역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000600",
+       "name": "해양플랫폼공학개론",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000700",
+       "name": "해양열역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000800",
+       "name": "컴퓨터이용선박설계",
+       "credits": 3
+      },
+      {
+       "code": "414.341",
+       "name": "선박해양유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.001500",
+       "name": "조선해양프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s18",
+      "s19"
+     ],
+     "note": "해양플랫폼공학개론은 2023-1 뒤 개설이 없음 — 못 들은 학생의 대체 과목(탄소중립 에너지 개론인지)은 공개 자료에 없음"
+    },
+    {
+     "id": "naoe-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전필 30학점과 전공선택 21학점 이상을 포함해 전공 66학점 이상",
+     "min_count": null,
+     "min_credits": 66,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12"
+     ],
+     "note": "전선 인정: 공과대학 공통교과목 전체(400·M2177) 최대 6학점. 공학도의 도전과 리더십 1·2·3은 합쳐 3학점까지"
+    },
+    {
+     "id": "naoe-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행 시 주전공 45학점(구성 문장은 2024학번 규정에 없음)",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s13"
+     ]
+    },
+    {
+     "id": "naoe-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학부 졸업 논문 신청은 졸업까지 최소 2개 학기 남았을 때까지(조선해양 학사논문연구 1·2는 2023-1 첫 개설, 2021-2022학번 표준형태엔 없음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s20",
+      "s18",
+      "s21"
+     ]
+    },
+    {
+     "id": "naoe-edu",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1 포함, 대학영어 제외) 수강 의무, 생명존중(자살예방) 교육 이수증 제출(미이수 시 졸업 불가)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "naoe-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(2020학번~): 학과 이수규정의 전필 30학점 포함 39학점 이상 — 2021-2022학번 규정 전필 목록",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "414.110",
+       "name": "조선해양공학의 이해",
+       "credits": 3
+      },
+      {
+       "code": "414.251",
+       "name": "구조정역학",
+       "credits": 3
+      },
+      {
+       "code": "414.241",
+       "name": "유체역학기초",
+       "credits": 3
+      },
+      {
+       "code": "414.261",
+       "name": "선박계산",
+       "credits": 3
+      },
+      {
+       "code": "414.252",
+       "name": "구조동역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000600",
+       "name": "해양플랫폼공학개론",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000700",
+       "name": "해양열역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000800",
+       "name": "컴퓨터이용선박설계",
+       "credits": 3
+      },
+      {
+       "code": "414.341",
+       "name": "선박해양유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.001500",
+       "name": "조선해양프로젝트",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s22",
+      "s18"
+     ]
+    },
+    {
+     "id": "naoe-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 학과 전공 교과목 중 21학점 이상",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "선발: 평점 2.7 이상, 성적 50%+면접 50%, 연 46명 이내"
+    },
+    {
+     "id": "naoe-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 12학점: 5개 영역(언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회) 중 3개 영역 이상",
+     "min_count": 3,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17"
+     ]
+    },
+    {
+     "id": "naoe-eng-common",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공과대학 공통교과목 중 '공학기타' 영역을 뺀 영역에서 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s16"
+     ],
+     "extra": {
+      "ref": "college_common.other.eng-common-3cr"
+     }
+    }
+   ],
+   "changed": "외국어 4–6(교양 51)"
+  },
+  {
+   "entry_years": [
+    2019,
+    2019
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 45,
+    "single": 62,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s7",
+     "s26",
+     "s31"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s26"
+   ],
+   "requirements": [
+    {
+     "id": "naoe-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: [1-1] 대학 글쓰기 1, [1-2] 대학 글쓰기 2: 과학기술글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목(4–6학점). 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23"
+     ]
+    },
+    {
+     "id": "naoe-ge-math1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000100",
+        "L0442.000200"
+       ],
+       [
+        "F31.104",
+        "F31.104L"
+       ],
+       [
+        "L0442.000500",
+        "L0442.000600"
+       ],
+       [
+        "F31.106",
+        "F31.106L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "naoe-ge-math2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 2+수학연습 2 또는 고급수학 2+고급수학연습 2",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000300",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.105",
+       "name": "수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000400",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.105L",
+       "name": "수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "L0442.000700",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "F31.107",
+       "name": "고급수학 2",
+       "credits": 2
+      },
+      {
+       "code": "L0442.000800",
+       "name": "고급수학연습 2",
+       "credits": 1
+      },
+      {
+       "code": "F31.107L",
+       "name": "고급수학연습 2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "extra": {
+      "options": [
+       [
+        "L0442.000300",
+        "L0442.000400"
+       ],
+       [
+        "F31.105",
+        "F31.105L"
+       ],
+       [
+        "L0442.000700",
+        "L0442.000800"
+       ],
+       [
+        "F31.107",
+        "F31.107L"
+       ]
+      ]
+     }
+    },
+    {
+     "id": "naoe-ge-engmath",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[2-1] 공학수학 1, [2-2] 공학수학 2",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "033.014",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "F31.201",
+       "name": "공학수학 1",
+       "credits": 3
+      },
+      {
+       "code": "033.015",
+       "name": "공학수학 2",
+       "credits": 3
+      },
+      {
+       "code": "F31.202",
+       "name": "공학수학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-phys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(1): 물리학 1·2(물리의 기본·고급물리학 대체)+물리학실험 1·2, 학기별 4, 총 8학점",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.001",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.106",
+       "name": "물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.009",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F33.106L",
+       "name": "물리학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.005",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.103",
+       "name": "물리의 기본 1",
+       "credits": 3
+      },
+      {
+       "code": "034.003",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "F33.108",
+       "name": "고급물리학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.002",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.107",
+       "name": "물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.010",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F33.107L",
+       "name": "물리학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.006",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.104",
+       "name": "물리의 기본 2",
+       "credits": 3
+      },
+      {
+       "code": "034.004",
+       "name": "고급물리학 2",
+       "credits": 3
+      },
+      {
+       "code": "F33.109",
+       "name": "고급물리학 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-sci2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학적 사고와 실험(2) 8학점: 화학 1·2, 생물학 1·2, 화학(또는 고급화학), 생물학, 통계학, 지구과학, 해양학(+각 실험) 중 학기별 4(과학 합 16)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "034.016",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "F34.104",
+       "name": "화학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.022",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F34.104L",
+       "name": "화학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.017",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "F34.105",
+       "name": "화학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.023",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F34.105L",
+       "name": "화학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.027",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "F35.104",
+       "name": "생물학 1",
+       "credits": 3
+      },
+      {
+       "code": "034.031",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "F35.104L",
+       "name": "생물학실험 1",
+       "credits": 1
+      },
+      {
+       "code": "034.028",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "F35.105",
+       "name": "생물학 2",
+       "credits": 3
+      },
+      {
+       "code": "034.032",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "F35.105L",
+       "name": "생물학실험 2",
+       "credits": 1
+      },
+      {
+       "code": "034.020",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.103",
+       "name": "화학",
+       "credits": 3
+      },
+      {
+       "code": "034.024",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "F34.103L",
+       "name": "화학실험",
+       "credits": 1
+      },
+      {
+       "code": "L0443.000100",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "F34.106",
+       "name": "고급화학",
+       "credits": 3
+      },
+      {
+       "code": "034.029",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "F35.103",
+       "name": "생물학",
+       "credits": 3
+      },
+      {
+       "code": "034.033",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "F35.103L",
+       "name": "생물학실험",
+       "credits": 1
+      },
+      {
+       "code": "033.019",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "F32.102",
+       "name": "통계학",
+       "credits": 3
+      },
+      {
+       "code": "033.020",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "F32.102L",
+       "name": "통계학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.044",
+       "name": "지구과학",
+       "credits": 3
+      },
+      {
+       "code": "F36.102",
+       "name": "지구과학",
+       "credits": 3
+      },
+      {
+       "code": "034.045",
+       "name": "지구과학실험",
+       "credits": 1
+      },
+      {
+       "code": "F36.102L",
+       "name": "지구과학실험",
+       "credits": 1
+      },
+      {
+       "code": "034.042",
+       "name": "해양학",
+       "credits": 3
+      },
+      {
+       "code": "F36.105",
+       "name": "해양학",
+       "credits": 3
+      },
+      {
+       "code": "034.043",
+       "name": "해양학실험",
+       "credits": 1
+      },
+      {
+       "code": "F36.105L",
+       "name": "해양학실험",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ],
+     "note": "2025학번부터는 과학(2)가 4학점이고 생물학 묶음이 빠짐"
+    },
+    {
+     "id": "naoe-ge-computing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "컴퓨터의 개념 및 실습(3학점)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "035.001",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "F37.202",
+       "name": "컴퓨터의 개념 및 실습",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15"
+     ]
+    },
+    {
+     "id": "naoe-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 45학점 이상(사회성·창의성 6 별도)",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s26"
+     ]
+    },
+    {
+     "id": "naoe-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 9과목 25학점(2013~2019학번 표준형태) — 폐지·변경 과목은 2020 개편 대응표의 새 과목으로 이수",
+     "min_count": 9,
+     "min_credits": 25,
+     "courses": [
+      {
+       "code": "414.110",
+       "name": "조선해양공학의 이해",
+       "credits": 1
+      },
+      {
+       "code": "414.241",
+       "name": "유체역학기초",
+       "credits": 3
+      },
+      {
+       "code": "414.251",
+       "name": "구조정역학",
+       "credits": 3
+      },
+      {
+       "code": "414.252",
+       "name": "구조동역학",
+       "credits": 3
+      },
+      {
+       "code": "414.261",
+       "name": "선박계산",
+       "credits": 3
+      },
+      {
+       "code": "414.262",
+       "name": "컴퓨터이용선형설계",
+       "credits": 3
+      },
+      {
+       "code": "414.271",
+       "name": "해양열전기기초",
+       "credits": 3
+      },
+      {
+       "code": "414.272",
+       "name": "해양플랜트공학입문",
+       "credits": 3
+      },
+      {
+       "code": "414.341",
+       "name": "선박해양유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000800",
+       "name": "컴퓨터이용선박설계",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000700",
+       "name": "해양열역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000600",
+       "name": "해양플랫폼공학개론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25"
+     ]
+    },
+    {
+     "id": "naoe-single",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 62학점(전필 25 포함)",
+     "min_count": null,
+     "min_credits": 62,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s26"
+     ],
+     "note": "전선 인정: 공과대학·자연과학대학 과목 중 학과장 인정 과목, 공대 공통교과목은 최대 6학점(2018학번부터). 공학도의 도전과 리더십 최대 3학점"
+    },
+    {
+     "id": "naoe-parallel",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "다른 전공 병행 시 주전공 39학점",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s27"
+     ]
+    },
+    {
+     "id": "naoe-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학부 졸업 논문 신청은 졸업까지 최소 2개 학기 남았을 때까지(조선해양 학사논문연구 1·2는 2023-1 첫 개설, 2021-2022학번 표준형태엔 없음)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s20",
+      "s18",
+      "s21"
+     ]
+    },
+    {
+     "id": "naoe-edu",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 3과목 이상(전공 1 포함, 대학영어 제외) 수강 의무, 생명존중(자살예방) 교육 이수증 제출(미이수 시 졸업 불가)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "naoe-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(~2019학번): 학과 이수규정의 전필 25학점 포함 39학점 이상",
+     "min_count": null,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "414.110",
+       "name": "조선해양공학의 이해",
+       "credits": 1
+      },
+      {
+       "code": "414.241",
+       "name": "유체역학기초",
+       "credits": 3
+      },
+      {
+       "code": "414.251",
+       "name": "구조정역학",
+       "credits": 3
+      },
+      {
+       "code": "414.252",
+       "name": "구조동역학",
+       "credits": 3
+      },
+      {
+       "code": "414.261",
+       "name": "선박계산",
+       "credits": 3
+      },
+      {
+       "code": "414.262",
+       "name": "컴퓨터이용선형설계",
+       "credits": 3
+      },
+      {
+       "code": "414.271",
+       "name": "해양열전기기초",
+       "credits": 3
+      },
+      {
+       "code": "414.272",
+       "name": "해양플랜트공학입문",
+       "credits": 3
+      },
+      {
+       "code": "414.341",
+       "name": "선박해양유체역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000800",
+       "name": "컴퓨터이용선박설계",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000700",
+       "name": "해양열역학",
+       "credits": 3
+      },
+      {
+       "code": "M1513.000600",
+       "name": "해양플랫폼공학개론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29"
+     ]
+    },
+    {
+     "id": "naoe-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 학과 전공 교과목 중 21학점 이상",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "선발: 평점 2.7 이상, 성적 50%+면접 50%, 연 46명 이내"
+    },
+    {
+     "id": "naoe-ge-world",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 6학점: 5개 영역(언어와 문학, 문화와 예술, 역사와 철학, 정치와 경제, 인간과 사회) 중 2개 영역 이상. 공대 사회성·창의성 교과목군은 별도(college_common.other eng-social-creative)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s28"
+     ]
+    },
+    {
+     "id": "naoe-social-creative",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "공대 지정 사회성 교과목군 3학점 + 창의성 교과목군 3학점(교양 최저학점과 별도, 2013~2019학번)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s30"
+     ],
+     "extra": {
+      "ref": "college_common.other.eng-social-creative"
+     }
+    }
+   ],
+   "changed": "2013~2019학번 표준형태: 전필 9과목 25(2020 교과 개편 대응표로 새 과목 이수), 단일 62·병행 39, 교양 45 + 사회성·창의성 6, 공대 공통 3학점 조항 없음"
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2020,
+   "basis": "입학 연도",
+   "what": "2020 교과과정 개편: 전필 25→30, 단일 62→66·병행 39→45, 공대 공통 '공학기타' 제외 3학점 신설, 사회성·창의성 폐지, 학문의 세계 12(교양 51)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "외국어 6(교양 53)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2023,
+   "basis": "입학 연도",
+   "what": "전필 해양플랫폼공학개론 → 선박 해양 탄소중립 에너지 개론, 표준형태에 학사논문연구 1·2(전선)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "학문의 세계 4개 영역 이상",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "단일 63·병행 48(전필 30 + 전선 21/12), 교양 49(과학 12), 공대 공통 3학점 조항 삭제, 공대 공통+공대 타학과 12학점(병행 6) 인정",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "학사논문연구 1·2 수강이 졸업논문 요건인지",
+  "2021·2022학번이 해양플랫폼공학개론(2023-1 뒤 미개설) 대신 무엇을 듣는지",
+  "2025학번 복수·부전공 기준(2023 내규의 39/21 그대로인지)"
+ ],
+ "sources": {
+  "s1": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.127(PDF 23쪽) '□ 공과대학 (조선해양공학과)'",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "조선해양공학과, 교과목 이수규정(2026학년도, 2026-02-23 공지)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13323&fileidx=29968",
+   "locator": "1. 학번별 졸업이수학점 기준표(1쪽), 3. 2025학번 이수 규정(4–5쪽), 4. 2024학번(6쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "p.59–60 414. 조선해양공학과(이수표준형태는 p.60 머리 4190 쪽에 있음)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "조선해양공학과, 학부 졸업",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13320&fileidx=16729",
+   "locator": "2쪽 1. 학부 졸업 논문 신청 관련",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "조선해양공학과, 전과 및 다전공 신청(학과 내규 개정 2023-03-01)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13321&fileidx=28205",
+   "locator": "3쪽 2. 복수전공 및 부전공, 주전공 학생 이수학점 기준",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "<표 2> 학사과정 복수·부전공 이수학점 기준, p.10 공과대학 행(PDF 3쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "조선해양공학과, 교과목 이수규정(2026학년도 — 학번별 졸업이수학점 기준표와 2013~2026학번 학번별 이수 규정)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13323&fileidx=29968",
+   "locator": "1. 학번별 졸업이수학점 기준표(1쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "조선해양공학과, 교과목 이수규정(2026학년도 — 학번별 졸업이수학점 기준표와 2013~2026학번 학번별 이수 규정)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13323&fileidx=29968",
+   "locator": "2026학번 이수 규정(2–3쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "조선해양공학과, 교과목 이수규정(2026학년도 — 학번별 졸업이수학점 기준표와 2013~2026학번 학번별 이수 규정)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13323&fileidx=29968",
+   "locator": "2025학번 이수 규정(4–5쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.133(PDF 25쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "조선해양공학과, 교과목 이수규정(2026학년도 — 학번별 졸업이수학점 기준표와 2013~2026학번 학번별 이수 규정)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13323&fileidx=29968",
+   "locator": "2026학번 이수 규정(2–3쪽) — 2025학번 규정과 글자까지 같음(머리만 다름)",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "조선해양공학과, 교과목 이수규정(2026학년도 — 학번별 졸업이수학점 기준표와 2013~2026학번 학번별 이수 규정)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13323&fileidx=29968",
+   "locator": "2024학번 이수 규정(6–7쪽) 과목 이수규정 ③",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "조선해양공학과, 전과 및 다전공 신청(학과 내규 개정 2023-03-01)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13321&fileidx=28205",
+   "locator": "3쪽 주전공 학생 이수학점 기준 '2020학번~ 66/45'",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "조선해양공학과, 교과목 이수규정(2026학년도 — 학번별 졸업이수학점 기준표와 2013~2026학번 학번별 이수 규정)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13323&fileidx=29968",
+   "locator": "2024학번 이수 규정(6–7쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "p.15(PDF) '□ 공과대학 (조선해양공학과)'",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "조선해양공학과, 교과목 이수규정(2026학년도 — 학번별 졸업이수학점 기준표와 2013~2026학번 학번별 이수 규정)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13323&fileidx=29968",
+   "locator": "2024학번 이수 규정(6–7쪽) 과목 이수규정 ①",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "조선해양공학과, 교과목 이수규정(2026학년도 — 학번별 졸업이수학점 기준표와 2013~2026학번 학번별 이수 규정)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13323&fileidx=29968",
+   "locator": "2023학번 이수 규정(8–9쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "조선해양공학과, 교과목 이수규정(2026학년도 — 학번별 졸업이수학점 기준표와 2013~2026학번 학번별 이수 규정)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13323&fileidx=29968",
+   "locator": "2021-2022학번 이수 규정(10–11쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "TT Wizard 수강편람 자료(2021-1~2026-2 학기별 개설 과목)",
+   "locator": "M1513.000600 2021-1~2023-1, M1513.002400 2024-1~",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s20": {
+   "title": "조선해양공학과, 학부 졸업",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13320&fileidx=16729",
+   "locator": "2쪽 1. 학부 졸업 논문 신청 관련(1차에서 읽음)",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "TT Wizard 수강편람 자료(2021-1~2026-2 학기별 개설 과목)",
+   "locator": "M1513.002200·M1513.002300 2023-1 첫 개설",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s22": {
+   "title": "조선해양공학과, 전과 및 다전공 신청(학과 내규 개정 2023-03-01)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13321&fileidx=28205",
+   "locator": "3쪽 복수전공 이수방법 '(2020학번~) 전필 30학점을 포함한 39학점'",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "조선해양공학과, 교과목 이수규정(2026학년도 — 학번별 졸업이수학점 기준표와 2013~2026학번 학번별 이수 규정)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13323&fileidx=29968",
+   "locator": "2020학번 이수 규정(12–13쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "서울대학교, 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "p.20(PDF)",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "조선해양공학과, 교과목 이수규정(2026학년도 — 학번별 졸업이수학점 기준표와 2013~2026학번 학번별 이수 규정)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13323&fileidx=29968",
+   "locator": "2019학번 이수 규정(14–18쪽) 표준형태(14쪽)·2020 교과과정 개편 대응표(15쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "조선해양공학과, 교과목 이수규정(2026학년도 — 학번별 졸업이수학점 기준표와 2013~2026학번 학번별 이수 규정)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13323&fileidx=29968",
+   "locator": "2019학번 이수 규정(14–18쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "조선해양공학과, 전과 및 다전공 신청(학과 내규 개정 2023-03-01)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13321&fileidx=28205",
+   "locator": "3쪽",
+   "accessed": "2026-11-12"
+  },
+  "s28": {
+   "title": "조선해양공학과, 교과목 이수규정(2026학년도 — 학번별 졸업이수학점 기준표와 2013~2026학번 학번별 이수 규정)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13323&fileidx=29968",
+   "locator": "2019학번 이수 규정(14–18쪽) 교양(17쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "조선해양공학과, 전과 및 다전공 신청(학과 내규 개정 2023-03-01)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13321&fileidx=28205",
+   "locator": "3쪽 복수전공 이수방법 '(~2019학번)'",
+   "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "조선해양공학과, 교과목 이수규정(2026학년도 — 학번별 졸업이수학점 기준표와 2013~2026학번 학번별 이수 규정)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13323&fileidx=29968",
+   "locator": "2019학번 이수 규정(14–18쪽) 교양 사회성·창의성 표(17쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "조선해양공학과, 전과 및 다전공 신청(학과 내규 개정 2023-03-01)",
+   "url": "https://naoe.snu.ac.kr/department/rule?md=down&bbsidx=13321&fileidx=28205",
+   "locator": "3쪽 '~2019학번 130/62/39'",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

@@ -1,0 +1,1044 @@
+{
+ "id": "p-2408e57e",
+ "college": "인문대학",
+ "unit": "노어노문학과",
+ "program": "노어노문학과",
+ "kind": "major",
+ "depts": [
+  "노어노문학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "인문대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2026,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 42,
+    "double": 42,
+    "minor": 21,
+    "status": "충돌",
+    "src": [
+     "s11",
+     "s12",
+     "s13",
+     "s14",
+     "s15",
+     "s16"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s17",
+    "s18"
+   ],
+   "requirements": [
+    {
+     "id": "rus-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공필수 3과목 9학점: 러시아문학사 1, 러시아문학사 2, 러시아어학개론",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "106.345",
+       "name": "러시아문학사 1",
+       "credits": 3
+      },
+      {
+       "code": "106.328",
+       "name": "러시아문학사 2",
+       "credits": 3
+      },
+      {
+       "code": "106.338",
+       "name": "러시아어학개론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4"
+     ],
+     "note": "2024 목록은 106.326A 러시아어의 과거와 현재에도 * 를 달았으나 학과 규정은 3과목, 106.326A 는 러시아어학개론 선수과목(편람도 전선)."
+    },
+    {
+     "id": "rus-polish",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "(26학번~) 제2외국어 9학점 안에 초급폴란드어 반드시 포함",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F29.128",
+       "name": "초급폴란드어",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5"
+     ],
+     "note": "복수전공생에게도 걸리는지 미확인(제2전공 페이지는 '인문대학 졸업규정 … 동일하게 적용')."
+    },
+    {
+     "id": "rus-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "(26학번~) 선수: 러시아문학사 1·2 ← 중급러시아어 1(선수강), 중급러시아어 2(선수 또는 동시), 미디어로 배우는 러시아어(선수 또는 동시). 러시아어학개론 ← 러시아어의 과거와 현재. 러시아문학사 1 → 2",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F23.201",
+       "name": "중급러시아어 1",
+       "credits": 3
+      },
+      {
+       "code": "F23.202",
+       "name": "중급러시아어 2",
+       "credits": 3
+      },
+      {
+       "code": "F23.305",
+       "name": "미디어로 배우는 러시아어",
+       "credits": 3
+      },
+      {
+       "code": "106.326A",
+       "name": "러시아어의 과거와 현재",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "rus-snult",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "러시아어 어학성적: SNULT 55점 이상 또는 토르플 2단계 이상(2020학번~). 2026-2 졸업신청자부터 재학 중 취득 성적만 인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s7",
+      "s2",
+      "s8"
+     ],
+     "note": "성적 기준·재학 중 취득분 규정은 졸업 시기(2026-2 졸업신청자부터) 기준이라 학번과 무관."
+    },
+    {
+     "id": "rus-program",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "러시아어 언어프로그램 2회 이상 수료(2019학번~): 국내 동계 러시아어캠프, 스누인모스크바. 출석 미달 미수료는 불인정",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "복수·부전공도 '주전공과 동일하게' 요구(제2전공 페이지)."
+    },
+    {
+     "id": "rus-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "졸업논문 심사 합격 + 러시아어문학논문쓰기 필수(2025-2 졸업논문 작성자부터)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1242.000700",
+       "name": "러시아어문학논문쓰기",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "러시아어문학논문쓰기 필수는 '2025학년도 2학기 졸업논문 작성자부터'(졸업 시기 기준) — 학번과 무관."
+    },
+    {
+     "id": "rus-foreign-taught",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "외국어진행 3과목 이상, 그중 1과목은 기초러시아어회화·중급러시아어회화·고급러시아어 중 하나",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "106.240",
+       "name": "기초러시아어회화",
+       "credits": 3
+      },
+      {
+       "code": "M1242.001600",
+       "name": "중급러시아어회화",
+       "credits": 3
+      },
+      {
+       "code": "M1242.000600",
+       "name": "고급 러시아어",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "rus-native",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "러시아 원어민·러시아어권 재외국민 입학자는 중급러시아어 1·2, 기초러시아어회화, 중급러시아어회화 수강 불가",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "rus-double-other",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "타 단과대 복수전공: 소그룹 고전원전읽기 1과목, 제2외국어 1과목 C- 이상, 외국어진행 3과목(회화 1과목 포함). 진입: 2개 정규학기·33학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통 교양·졸업 의무 — 학번에 맞는 college_common.ge_by_cohort·other 참조(제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학(2024학번까지)/삶과 인문학 세미나(2025학번~))",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10"
+     ],
+     "note": "2차: hum-common-ref 는 학번에 맞는 college_common.ge_by_cohort·college_common.other 를 가리킨다(2019–2024학번은 학문의 기초·학문의 세계 + 삶과 인문학, 2025학번~은 새 교양 + 삶과 인문학 세미나).",
+     "extra": {
+      "see": [
+       "college_common.ge_by_cohort",
+       "college_common.other"
+      ]
+     }
+    }
+   ],
+   "note": "1차(2025학번) 요건에 26학번 초급폴란드어(rus-polish)를 더하고 선수과목을 미디어로 배우는 러시아어로 바꿈."
+  },
+  {
+   "entry_years": [
+    2020,
+    2025
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 42,
+    "double": 42,
+    "minor": 21,
+    "status": "충돌",
+    "src": [
+     "s11",
+     "s12",
+     "s13",
+     "s14",
+     "s21",
+     "s22"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s23"
+   ],
+   "requirements": [
+    {
+     "id": "rus-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공필수 3과목 9학점: 러시아문학사 1, 러시아문학사 2, 러시아어학개론",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "106.345",
+       "name": "러시아문학사 1",
+       "credits": 3
+      },
+      {
+       "code": "106.328",
+       "name": "러시아문학사 2",
+       "credits": 3
+      },
+      {
+       "code": "106.338",
+       "name": "러시아어학개론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4"
+     ],
+     "note": "2024 목록은 106.326A 러시아어의 과거와 현재에도 * 를 달았으나 학과 규정은 3과목, 106.326A 는 러시아어학개론 선수과목(편람도 전선)."
+    },
+    {
+     "id": "rus-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "(25학번까지) 선수: 러시아문학사 1·2 ← 중급러시아어 1·2 + 러시아어 듣기와 쓰기(학과 페이지; 2025-2 까지 개설된 러시아어로 읽는 문화와 예술 032.046/F23.302 가 같은 자리, 2022·2024 목록 '선수강 혹은 동시수강', 2019년 입학생부터). 러시아어학개론 ← 러시아어의 과거와 현재",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F23.201",
+       "name": "중급러시아어 1",
+       "credits": 3
+      },
+      {
+       "code": "F23.202",
+       "name": "중급러시아어 2",
+       "credits": 3
+      },
+      {
+       "code": "F23.304",
+       "name": "러시아어 듣기와 쓰기",
+       "credits": 3
+      },
+      {
+       "code": "032.046",
+       "name": "러시아어로 읽는 문화와 예술",
+       "credits": 3
+      },
+      {
+       "code": "106.326A",
+       "name": "러시아어의 과거와 현재",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s19",
+      "s20"
+     ],
+     "note": "2024 목록에는 '032.046 러시아어로 읽는 문화와 예술 선수강 혹은 동시수강'(2019년 입학생부터)으로 적혀 있음."
+    },
+    {
+     "id": "rus-snult",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "러시아어 어학성적: SNULT 55점 이상 또는 토르플 2단계 이상(2020학번~). 2026-2 졸업신청자부터 재학 중 취득 성적만 인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s7",
+      "s2",
+      "s8"
+     ],
+     "note": "성적 기준·재학 중 취득분 규정은 졸업 시기(2026-2 졸업신청자부터) 기준이라 학번과 무관."
+    },
+    {
+     "id": "rus-program",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "러시아어 언어프로그램 2회 이상 수료(2019학번~): 국내 동계 러시아어캠프, 스누인모스크바. 출석 미달 미수료는 불인정",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "복수·부전공도 '주전공과 동일하게' 요구(제2전공 페이지)."
+    },
+    {
+     "id": "rus-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "졸업논문 심사 합격 + 러시아어문학논문쓰기 필수(2025-2 졸업논문 작성자부터)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1242.000700",
+       "name": "러시아어문학논문쓰기",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "러시아어문학논문쓰기 필수는 '2025학년도 2학기 졸업논문 작성자부터'(졸업 시기 기준) — 학번과 무관."
+    },
+    {
+     "id": "rus-foreign-taught",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "외국어진행 3과목 이상, 그중 1과목은 기초러시아어회화·중급러시아어회화·고급러시아어 중 하나",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "106.240",
+       "name": "기초러시아어회화",
+       "credits": 3
+      },
+      {
+       "code": "M1242.001600",
+       "name": "중급러시아어회화",
+       "credits": 3
+      },
+      {
+       "code": "M1242.000600",
+       "name": "고급 러시아어",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "rus-native",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "러시아 원어민·러시아어권 재외국민 입학자는 중급러시아어 1·2, 기초러시아어회화, 중급러시아어회화 수강 불가",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "rus-double-other",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "타 단과대 복수전공: 소그룹 고전원전읽기 1과목, 제2외국어 1과목 C- 이상, 외국어진행 3과목(회화 1과목 포함). 진입: 2개 정규학기·33학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통 교양·졸업 의무 — 학번에 맞는 college_common.ge_by_cohort·other 참조(제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학(2024학번까지)/삶과 인문학 세미나(2025학번~))",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10"
+     ],
+     "note": "2차: hum-common-ref 는 학번에 맞는 college_common.ge_by_cohort·college_common.other 를 가리킨다(2019–2024학번은 학문의 기초·학문의 세계 + 삶과 인문학, 2025학번~은 새 교양 + 삶과 인문학 세미나).",
+     "extra": {
+      "see": [
+       "college_common.ge_by_cohort",
+       "college_common.other"
+      ]
+     }
+    }
+   ],
+   "changed": "초급폴란드어 의무 없음. 문학사 선수과목이 러시아어 듣기와 쓰기(옛 러시아어로 읽는 문화와 예술)."
+  },
+  {
+   "entry_years": [
+    2019,
+    2019
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 42,
+    "double": 42,
+    "minor": 21,
+    "status": "충돌",
+    "src": [
+     "s11",
+     "s12",
+     "s13",
+     "s14",
+     "s21"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s26"
+   ],
+   "requirements": [
+    {
+     "id": "rus-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "전공필수 3과목 9학점: 러시아문학사 1, 러시아문학사 2, 러시아어학개론",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "106.345",
+       "name": "러시아문학사 1",
+       "credits": 3
+      },
+      {
+       "code": "106.328",
+       "name": "러시아문학사 2",
+       "credits": 3
+      },
+      {
+       "code": "106.338",
+       "name": "러시아어학개론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4"
+     ],
+     "note": "2024 목록은 106.326A 러시아어의 과거와 현재에도 * 를 달았으나 학과 규정은 3과목, 106.326A 는 러시아어학개론 선수과목(편람도 전선)."
+    },
+    {
+     "id": "rus-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "(25학번까지) 선수: 러시아문학사 1·2 ← 중급러시아어 1·2 + 러시아어 듣기와 쓰기(학과 페이지; 2025-2 까지 개설된 러시아어로 읽는 문화와 예술 032.046/F23.302 가 같은 자리, 2022·2024 목록 '선수강 혹은 동시수강', 2019년 입학생부터). 러시아어학개론 ← 러시아어의 과거와 현재",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F23.201",
+       "name": "중급러시아어 1",
+       "credits": 3
+      },
+      {
+       "code": "F23.202",
+       "name": "중급러시아어 2",
+       "credits": 3
+      },
+      {
+       "code": "F23.304",
+       "name": "러시아어 듣기와 쓰기",
+       "credits": 3
+      },
+      {
+       "code": "032.046",
+       "name": "러시아어로 읽는 문화와 예술",
+       "credits": 3
+      },
+      {
+       "code": "106.326A",
+       "name": "러시아어의 과거와 현재",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s19",
+      "s20"
+     ],
+     "note": "2024 목록에는 '032.046 러시아어로 읽는 문화와 예술 선수강 혹은 동시수강'(2019년 입학생부터)으로 적혀 있음."
+    },
+    {
+     "id": "rus-snult",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "(2019학번) 러시아어 어학성적: SNULT 55점 이상(2012~2019학번; 토르플 대안 없음). 2026-2 졸업신청자부터 재학 중 취득 성적만 인정",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s24",
+      "s25"
+     ]
+    },
+    {
+     "id": "rus-program",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "러시아어 언어프로그램 2회 이상 수료(2019학번~): 국내 동계 러시아어캠프, 스누인모스크바. 출석 미달 미수료는 불인정",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "복수·부전공도 '주전공과 동일하게' 요구(제2전공 페이지)."
+    },
+    {
+     "id": "rus-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "졸업논문 심사 합격 + 러시아어문학논문쓰기 필수(2025-2 졸업논문 작성자부터)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M1242.000700",
+       "name": "러시아어문학논문쓰기",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "러시아어문학논문쓰기 필수는 '2025학년도 2학기 졸업논문 작성자부터'(졸업 시기 기준) — 학번과 무관."
+    },
+    {
+     "id": "rus-foreign-taught",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "외국어진행 3과목 이상, 그중 1과목은 기초러시아어회화·중급러시아어회화·고급러시아어 중 하나",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "106.240",
+       "name": "기초러시아어회화",
+       "credits": 3
+      },
+      {
+       "code": "M1242.001600",
+       "name": "중급러시아어회화",
+       "credits": 3
+      },
+      {
+       "code": "M1242.000600",
+       "name": "고급 러시아어",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "rus-native",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "러시아 원어민·러시아어권 재외국민 입학자는 중급러시아어 1·2, 기초러시아어회화, 중급러시아어회화 수강 불가",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "rus-double-other",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "타 단과대 복수전공: 소그룹 고전원전읽기 1과목, 제2외국어 1과목 C- 이상, 외국어진행 3과목(회화 1과목 포함). 진입: 2개 정규학기·33학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s2"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통 교양·졸업 의무 — 학번에 맞는 college_common.ge_by_cohort·other 참조(제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학(2024학번까지)/삶과 인문학 세미나(2025학번~))",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10"
+     ],
+     "note": "2차: hum-common-ref 는 학번에 맞는 college_common.ge_by_cohort·college_common.other 를 가리킨다(2019–2024학번은 학문의 기초·학문의 세계 + 삶과 인문학, 2025학번~은 새 교양 + 삶과 인문학 세미나).",
+     "extra": {
+      "see": [
+       "college_common.ge_by_cohort",
+       "college_common.other"
+      ]
+     }
+    }
+   ],
+   "changed": "어학성적은 SNULT 55점만(토르플 2단계 대안은 2020학번~). 언어프로그램 2회 의무는 2019학번~ 이라 같음."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2020,
+   "basis": "입학 연도",
+   "what": "어학성적에 토르플 2단계 이상 대안 추가",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2026,
+   "basis": "입학 연도",
+   "what": "제2외국어에 초급폴란드어 필수, 문학사 선수과목 → 미디어로 배우는 러시아어",
+   "status": "확인"
+  },
+  {
+   "basis": "졸업 시기",
+   "what": "러시아어문학논문쓰기(M1242.000700) 수강 필수 — 2025-2 졸업논문 작성자부터(모든 학번)",
+   "status": "확인"
+  },
+  {
+   "basis": "졸업 시기",
+   "what": "SNULT 55점 이상·재학 중 취득분만 인정 — 2026-2 졸업신청자부터 재학생 전원",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "복수전공 학점 42(학과) ↔ 39(해설 표 2)",
+  "26학번 초급폴란드어 의무가 복수전공생에게도 걸리는지",
+  "복수전공 학점 42(학과) ↔ 39(해설 표 2) 중 2025학번 적용",
+  "부전공 필수과목 세부(제2전공 페이지는 '주전공과 같은 기준')"
+ ],
+ "sources": {
+  "s1": {
+   "title": "노어노문학과 졸업이수규정(수정 2026-09-18, 본문 '2026.1월 기준 수정중')",
+   "url": "https://russian.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9D%B4%EC%88%98%EA%B7%9C%EC%A0%95/",
+   "locator": "학점·전필·선수·SNULT·러시아어 프로그램·논문·인문대 요건",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "노어노문학과 제2전공 및 교직(수정 2026-09-18)",
+   "url": "https://russian.snu.ac.kr/%EC%A0%9C2%EC%A0%84%EA%B3%B5-%EB%B0%8F-%EA%B5%90%EC%A7%81/",
+   "locator": "복수전공 42(18학번~)·부전공 21, 타 단과대 요건",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "16쪽 106.345*·106.328*·106.338*",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "수강편람 자료(백엔드 수집) 2025-1",
+   "locator": "세 과목 전필",
+   "accessed": "2026-11-12",
+   "repo": "data/history/2025-1.json"
+  },
+  "s5": {
+   "title": "노어노문학과 졸업이수규정(수정 2026-09-18)",
+   "url": "https://russian.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9D%B4%EC%88%98%EA%B7%9C%EC%A0%95/",
+   "locator": "인문대학 졸업규정 ④ '노어노문학과 학생은 초급폴란드어 반드시 포함_26학년도 입학생부터'",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "노어노문학과 졸업이수규정(수정 2026-09-18)",
+   "url": "https://russian.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9D%B4%EC%88%98%EA%B7%9C%EC%A0%95/",
+   "locator": "노어노문학과 졸업 이수 규정 ② 선수과목",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "SNULT(러시아어) 어학성적 졸업규정 변경 안내(게시 2026-07-24)",
+   "url": "https://russian.snu.ac.kr/19225/",
+   "locator": "본문",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "노어노문학과 「SNULT(러시아어) 어학성적 졸업규정 변경 안내」(게시 2026-07-24)",
+   "url": "https://russian.snu.ac.kr/19225/",
+   "locator": "og:description '현재 재학 중인 모든 학생을 대상으로 2026학년도 2학기 졸업신청자부터 … 55점 이상 … 재학기간 중 취득한 성적에 한하여'",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 인문대학 표, PDF 4쪽(인쇄 108쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "인문대학 졸업이수 의무사항 안내(관련: 인문대학-2710, 2025.1.25., 게시 2025-02-03)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림(https://humanities.snu.ac.kr/webdata/upimages/7efzf51z874zf93z1c2za09z28cz23ezd11z697zb8.png), '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "노어노문학과 졸업이수규정(수정 2026-09-18)",
+   "url": "https://russian.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9D%B4%EC%88%98%EA%B7%9C%EC%A0%95/",
+   "locator": "타전공병행 42(18학번~)",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "노어노문학과 제2전공 및 교직(수정 2026-09-18)",
+   "url": "https://russian.snu.ac.kr/%EC%A0%9C2%EC%A0%84%EA%B3%B5-%EB%B0%8F-%EA%B5%90%EC%A7%81/",
+   "locator": "복수전공 42(18학번부터)",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "노어노문학과 졸업이수규정(수정 2026-09-18)",
+   "url": "https://russian.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9D%B4%EC%88%98%EA%B7%9C%EC%A0%95/",
+   "locator": "전체(본문 '2026.1월 기준 수정중')",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "노어노문학과 제2전공 및 교직(수정 2026-09-18)",
+   "url": "https://russian.snu.ac.kr/%EC%A0%9C2%EC%A0%84%EA%B3%B5-%EB%B0%8F-%EA%B5%90%EC%A7%81/",
+   "locator": "복수·부전공",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "노어노문학과 졸업이수규정(수정 2026-09-18)",
+   "url": "https://russian.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9D%B4%EC%88%98%EA%B7%9C%EC%A0%95/",
+   "locator": "② 선수과목",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "106. 노어노문학과 교과목 이수규정 ②③(2019년 입학생부터 적용)",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "노어노문학과 졸업이수규정(수정 2026-09-18)",
+   "url": "https://russian.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9D%B4%EC%88%98%EA%B7%9C%EC%A0%95/",
+   "locator": "타전공병행 42",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "노어노문학과 제2전공 및 교직(수정 2026-09-18)",
+   "url": "https://russian.snu.ac.kr/%EC%A0%9C2%EC%A0%84%EA%B3%B5-%EB%B0%8F-%EA%B5%90%EC%A7%81/",
+   "locator": "복수전공 42",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "노어노문학과 졸업이수규정(수정 2026-09-18)",
+   "url": "https://russian.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9D%B4%EC%88%98%EA%B7%9C%EC%A0%95/",
+   "locator": "② ④",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "노어노문학과 졸업이수규정(수정 2026-09-18)",
+   "url": "https://russian.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9D%B4%EC%88%98%EA%B7%9C%EC%A0%95/",
+   "locator": "④ 1) 'SNULT 55점 이상 점수 취득 (2012년 입학생 ~ 2019년 입학생까지 적용)'",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "노어노문학과 「SNULT(러시아어) 어학성적 졸업규정 변경 안내」(게시 2026-07-24)",
+   "url": "https://russian.snu.ac.kr/19225/",
+   "locator": "og:description",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "노어노문학과 졸업이수규정(수정 2026-09-18)",
+   "url": "https://russian.snu.ac.kr/%EC%A1%B8%EC%97%85%EC%9D%B4%EC%88%98%EA%B7%9C%EC%A0%95/",
+   "locator": "④ 1)·2)",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

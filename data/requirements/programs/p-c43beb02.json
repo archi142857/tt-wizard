@@ -1,0 +1,407 @@
+{
+ "id": "p-c43beb02",
+ "college": "인문대학",
+ "unit": "역사학부",
+ "program": "동양사학전공",
+ "kind": "major",
+ "depts": [
+  "역사학부"
+ ],
+ "code_prefixes": [
+  "M3545."
+ ],
+ "ge_key": "인문대학",
+ "exists_for": [
+  2023,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": {
+  "program": "동양사학과",
+  "entry_years": [
+   2019,
+   2022
+  ],
+  "see": "programs[program=동양사학과]"
+ },
+ "structure": {
+  "splits_into": [
+   "한국사학전공",
+   "동양사학전공",
+   "서양사학전공"
+  ],
+  "when": "입학 1년 뒤. 전기: 매년 2학기 말, 2개 학기 이수·24학점 이상이면 신청 가능. 후기: 매년 1학기 중, 3개 학기 이수·36학점 이상이면 신청 필수.",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2023,
+    2026
+   ],
+   "basis": "입학 연도(세부전공은 입학 1년 뒤 선발; 다전공은 다전공 선발 시기)",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s11",
+     "s12"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s13",
+    "s12",
+    "s14"
+   ],
+   "requirements": [
+    {
+     "id": "hist-base",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "① 공통과목군: 역사 공부의 기초 또는 역사학 세미나 중 1과목",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M3533.000400",
+       "name": "역사 공부의 기초",
+       "credits": 3
+      },
+      {
+       "code": "M3533.000700",
+       "name": "역사학 세미나",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "hist-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "② 공통과목군: 역사학 논문쓰기 1·2·3 중 1과목(기말보고서가 졸업논문 역할)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M3533.001500",
+       "name": "역사학 논문쓰기 1",
+       "credits": 3
+      },
+      {
+       "code": "M3533.000600",
+       "name": "역사학 논문쓰기 2",
+       "credits": 3
+      },
+      {
+       "code": "M3533.000800",
+       "name": "역사학 논문쓰기 3",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "'기말보고서가 졸업논문 대체'는 한국사학 졸업 페이지 근거(다른 두 전공도 같은 과목 체계로 읽음). 역사학 논문쓰기 3 은 2025년부터 1학기에만, 5개 학기 이상 이수자 수강(서양사 개편 공지)."
+    },
+    {
+     "id": "hist-fieldtrip",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "답사: 졸업까지 역사학부(세부전공 주관 포함) 답사 2회. 세부전공 복수전공 시 2~4회(타학과 주전공자 1개 복수 2회, 역사학부 주전공자 1개 또는 타학과 2개 3회, 역사학부 주전공자 2개 또는 타학과 3개 4회)",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s3",
+      "s5"
+     ],
+     "note": "부전공에도 걸리는지 미확인. 동양사학 쪽 문서는 못 봄."
+    },
+    {
+     "id": "hist-no-overlap",
+     "type": "other",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "역사학부 학생이 학부 안 다른 세부전공을 복수·부전공하면 각 전공 요건을 중복 교과목 없이 각각 충족(세 전공 모두 할 때 역사 공부의 기초·역사학 세미나는 나눠 인정)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "hist-classification",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "역사학부 개설 과목은 주전공 전선. 다른 세부전공 개설 과목은 '주전공 전선'으로 교과구분 정정 신청 필요(개설 전공 정보는 남아 졸업사정 때 계산)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통(2025학번 교양 36과 인문대 졸업 의무: 제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학 세미나) — college_common 참조",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "extra": {
+      "see": [
+       "college_common.requirements"
+      ]
+     }
+    },
+    {
+     "id": "ah-hanmun",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "③ 공통과목군: 한문사료강독 1·2 중 1과목",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M3533.001400",
+       "name": "한문사료강독 1",
+       "credits": 3
+      },
+      {
+       "code": "M3533.000500",
+       "name": "한문사료강독 2",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "ah-intro",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "④ 전공과목군: 아시아사입문",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "M3545.002300",
+       "name": "아시아사입문",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s9"
+     ]
+    },
+    {
+     "id": "ah-deep",
+     "type": "major_choose",
+     "applies_to": [
+      "single"
+     ],
+     "text": "심화전공 추가: 아시아사 세미나 또는 아시아사특강 1과목 + 중국사·일본사 이외 지역 교과목(과목명에 '중국'·'일본'이 없는 과목) 1과목",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "M3545.000300",
+       "name": "아시아사세미나",
+       "credits": 3
+      },
+      {
+       "code": "M3545.000400",
+       "name": "아시아사특강",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s10"
+     ]
+    },
+    {
+     "id": "ah-type-map",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "유형별: 주전공(병행)·복수전공 ①~④, 심화 ①~④ + 추가, 부전공 ①·③·④",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    }
+   ],
+   "note": "역사학부는 2023학년도 신설. 2019~2022학번은 옛 국사학과·동양사학과·서양사학과(별도 프로그램 항목). 22학번 이전 학생이 역사학부로 학적을 바꾸면 이 규정(답사 2회 포함)을 따른다. 2023~2026학번 사이 학번 구분 문구 없음."
+  }
+ ],
+ "change_points": [],
+ "ask_department": [
+  "부전공 답사 의무",
+  "심화 '중국·일본 외 지역' 과목 판정 목록",
+  "동양사학전공의 답사 횟수(서양사·한국사 쪽 규정과 같은지)",
+  "심화 '중국·일본 외 지역' 과목 판정 기준 목록"
+ ],
+ "sources": {
+  "s1": {
+   "title": "역사학부 세부전공(수정 2023-07-27)",
+   "url": "https://history.snu.ac.kr/major_tracks/",
+   "locator": "선발 시기·자격·방식, 유형별 학점(2023학번 기준)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "역사학부 전공이수표준",
+   "url": "https://history.snu.ac.kr/curriculum/",
+   "locator": "공통과목군·세부전공별 필수 요소",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "한국사학전공 졸업(수정 2025-08-28)",
+   "url": "https://koreanhistory.snu.ac.kr/%EC%A1%B8%EC%97%85/",
+   "locator": "2023학년도 이후 역사학부 한국사학전공 학점 구성, 답사, 졸업논문",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서양사학전공 졸업(수정 2025-03-20)",
+   "url": "https://whistory.snu.ac.kr/%EC%A1%B8%EC%97%85/",
+   "locator": "2023학번 이후 학점 구성, 필수 요소 ①–③, 답사 규정",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "한국사학전공 부·복수전공(수정 2025-08-28)",
+   "url": "https://koreanhistory.snu.ac.kr/%EB%B6%80%C2%B7%EB%B3%B5%EC%88%98%EC%A0%84%EA%B3%B5/",
+   "locator": "역사학부 한국사학전공 복수·부전공, 답사 횟수",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "교과구분정정 관련 안내(역사학부 학생 대상, 게시 2024-09-30)",
+   "url": "https://history.snu.ac.kr/notice/?mod=document&uid=124",
+   "locator": "본문",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 인문대학 표, PDF 4쪽(인쇄 108쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "인문대학 졸업이수 의무사항 안내(관련: 인문대학-2710, 2025.1.25., 게시 2025-02-03)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림(https://humanities.snu.ac.kr/webdata/upimages/7efzf51z874zf93z1c2za09z28cz23ezd11z697zb8.png), '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "20쪽 동양사학 교과목 이수규정 ④",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "20쪽 동양사학 이수규정 ⑤",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "역사학부 세부전공(수정 2023-07-27)",
+   "url": "https://history.snu.ac.kr/major_tracks/",
+   "locator": "이수학점표(2023학번 기준)",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "동양사학전공 「학부전공 이수표준」(업데이트 2026-08-14)",
+   "url": "https://asianhistory.snu.ac.kr/%ED%95%99%EB%B6%80%EC%A0%84%EA%B3%B5-%EC%9D%B4%EC%88%98%ED%91%9C%EC%A4%80/",
+   "locator": "역사학부 동양사학전공 내규(2026-08-06 업데이트)",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "역사학부 세부전공(수정 2023-07-27)",
+   "url": "https://history.snu.ac.kr/major_tracks/",
+   "locator": "전공선발 규정 '23학번부터 적용'",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "한국사학전공 공지 「전공배정 절차 안내」(26학번 역사학부, 수정 2026-09-23)",
+   "url": "https://koreanhistory.snu.ac.kr/24983/",
+   "locator": "og:description(26학번 역사학부 전공진입 절차)",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

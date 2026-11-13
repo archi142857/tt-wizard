@@ -1,0 +1,2640 @@
+{
+ "id": "p-d3470527",
+ "college": "사회과학대학",
+ "unit": "언론정보학과",
+ "program": "언론정보학과",
+ "kind": "major",
+ "depts": [
+  "언론정보학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "사회과학대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2026,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s3",
+     "s9"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s3",
+    "s4",
+    "s10",
+    "s11"
+   ],
+   "requirements": [
+    {
+     "id": "comm-ge-soc-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학년도 입학생부터, 사회과학대학)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "영역 학점 합: 글쓰기와 말하기 4 + 외국어 6 + 수학·과학·컴퓨팅 3 + 지성의 열쇠 9 + 베리타스 3 + 전체 교양 11 = 36."
+    },
+    {
+     "id": "comm-ge-soc-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 토대 > 글쓰기와 말하기 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 사회과학글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "길잡이는 글쓰기 1 을 1학년 안에 먼저 듣고 사회과학글쓰기를 2학년 안에 듣기를 '권장'한다(이수학기 [1-1,1-2]/[1-2,2-1,2-2] 는 권장). 2024 이전 번호: L0440.000600, L0440.000800. 과목 번호는 편람에서 채움."
+    },
+    {
+     "id": "comm-ge-soc-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 토대 > 외국어 6학점: 외국어 2개 교과목([1-2] 권장)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "입학 시 TEPS 900점(New TEPS 525점) 이하인 학생은 영어 1과목 필수. TEPS 점수는 앱이 모르므로 '확인 필요'로 둔다."
+    },
+    {
+     "id": "comm-ge-soc-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 토대 > 수학·과학·컴퓨팅 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "사회과학대학 표에는 지정 과목이 없다."
+    },
+    {
+     "id": "comm-ge-soc-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상 / 역사적 탐구와 철학적 사유 / 인간의 이해와 사회 분석 / 과학적 사고와 응용 중 3개 영역 이상에서 9학점 이상",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "min_count 는 영역 수(3개 영역 이상)."
+    },
+    {
+     "id": "comm-ge-soc-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점: 베리타스 강좌 1 / 베리타스 강좌 2 / 베리타스 실천",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "편람의 베리타스 과목 번호 머리: 강좌 1 = V10., 강좌 2 = V20., 실천 = V30.(2025-1~)."
+    },
+    {
+     "id": "comm-ge-soc-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 11학점(학생이 자유롭게 선택)",
+     "min_count": null,
+     "min_credits": 11,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "comm-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수(2026학번): 커뮤니케이션학 입문, 커뮤니케이션이론 1, 커뮤니케이션 양적연구방법론, 커뮤니케이션 데이터 분석 — 12학점",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "M1312.002900",
+       "name": "커뮤니케이션학 입문",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3,
+       "alt_codes": [
+        "211.301"
+       ]
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3,
+       "alt_codes": [
+        "M1312.000900"
+       ]
+      },
+      {
+       "code": "M1312.003100",
+       "name": "커뮤니케이션 데이터 분석",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4"
+     ],
+     "note": "2026학번 판 '[경과조치] 위 규정은 2026학년도 입학생부터 적용한다.' 정보문화기술입문(2114.304)은 2026학년도 입학생부터 전필 해제(정보문화학 과목은 12학점 안에서 전공 인정). 언론정보문화특강은 2026-1 폐지."
+    },
+    {
+     "id": "comm-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "타학과 개설 전공선택 인정: 주전공(병행)·복수전공 최대 9학점, 심화(단일, 60학점) 최대 18학점(그중 정보문화학 외 학과는 최대 12학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "108.317",
+       "name": "사회언어학",
+       "credits": null
+      },
+      {
+       "code": "115.402",
+       "name": "영상미학",
+       "credits": null
+      },
+      {
+       "code": "205.334",
+       "name": "정보사회와 사이버사회",
+       "credits": 3
+      },
+      {
+       "code": "205.301",
+       "name": "현대사회학이론",
+       "credits": 3
+      },
+      {
+       "code": "206.338",
+       "name": "문화와 의사소통",
+       "credits": null
+      },
+      {
+       "code": "206.340",
+       "name": "스포츠, 여가, 문화",
+       "credits": null
+      },
+      {
+       "code": "207.230",
+       "name": "사회심리학 및 실험",
+       "credits": null
+      },
+      {
+       "code": "207.320A",
+       "name": "조직심리학",
+       "credits": null
+      },
+      {
+       "code": "216A.414",
+       "name": "현대정치사상",
+       "credits": 3
+      },
+      {
+       "code": "216B.328A",
+       "name": "정보세계정치론",
+       "credits": 3
+      },
+      {
+       "code": "216B.415",
+       "name": "국제문화론",
+       "credits": 3
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3
+      },
+      {
+       "code": "2114.305",
+       "name": "문화컨텐츠의 이해",
+       "credits": null
+      },
+      {
+       "code": "2114.403A",
+       "name": "인터랙티브 스토리텔링",
+       "credits": null
+      },
+      {
+       "code": "2114.407",
+       "name": "가상현실입문",
+       "credits": null
+      },
+      {
+       "code": "2114.408A",
+       "name": "HCI이론 및 실습",
+       "credits": null
+      },
+      {
+       "code": "2114.411",
+       "name": "비주얼라이제이션",
+       "credits": null
+      },
+      {
+       "code": "2114.412",
+       "name": "인터넷과 지식기술",
+       "credits": null
+      },
+      {
+       "code": "2114.420",
+       "name": "정보문화세미나",
+       "credits": null
+      },
+      {
+       "code": "M1313.000600",
+       "name": "디지털 에쓰노그래피",
+       "credits": null
+      },
+      {
+       "code": "M1317.000600",
+       "name": "디자인 사고와 커뮤니케이션",
+       "credits": null
+      },
+      {
+       "code": "251.425",
+       "name": "광고관리론",
+       "credits": null
+      },
+      {
+       "code": "M1766.000200",
+       "name": "미술과 문화이론",
+       "credits": null
+      },
+      {
+       "code": "M1886.003200",
+       "name": "스포츠 미디어와 디지털 기술",
+       "credits": null
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "주전공생이 연합전공 정보문화학 개설 교과목을 들으면 12학점 범위 안에서 전공 인정('정보문화학 개설 교과목 모두를 전공으로 인정' — 인정과목 페이지). max_credits 는 병행·복수 값, 단일은 18. 목록은 누리집 '2024학년도부터'.",
+     "extra": {
+      "max_credits": 9
+     }
+    },
+    {
+     "id": "comm-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "선수과목: 커뮤니케이션이론 1 ← 교양 사회과학글쓰기·말하기와 토론, 데이터 저널리즘 ← 정보문화기술입문",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F12.102",
+       "name": "말하기와 토론",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s8",
+      "s2"
+     ],
+     "note": "졸업 요건이 아니라 수강 조건이지만 커뮤니케이션이론 1 이 전필이라 사실상 필요. 두 과목 모두인지 하나인지 문장만으로는 불분명. 말하기와 토론 옛 번호 031.031."
+    },
+    {
+     "id": "comm-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(2026학번 판): 39학점 이상, 전필 12학점(커뮤니케이션학 입문·커뮤니케이션이론 1·커뮤니케이션 양적연구방법론·커뮤니케이션 데이터 분석), 타학과 인정 최대 9학점",
+     "min_count": 4,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M1312.002900",
+       "name": "커뮤니케이션학 입문",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3,
+       "alt_codes": [
+        "211.301"
+       ]
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3,
+       "alt_codes": [
+        "M1312.000900"
+       ]
+      },
+      {
+       "code": "M1312.003100",
+       "name": "커뮤니케이션 데이터 분석",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3"
+     ],
+     "note": "다른 학과 2026학번 학생 기준."
+    },
+    {
+     "id": "comm-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 21학점 이상, 전필 9학점(커뮤니케이션학 입문, 커뮤니케이션이론 1, 커뮤니케이션 양적연구방법론), 타학과 인정과목 불포함",
+     "min_count": 3,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "M1312.002900",
+       "name": "커뮤니케이션학 입문",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s8"
+     ],
+     "note": "2024학번 판은 커뮤니케이션학 입문 자리에 커뮤니케이션의 이해(200.113A). 기수강자는 그대로 인정."
+    },
+    {
+     "id": "comm-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문·졸업시험 요건",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s5"
+     ],
+     "note": "학부 '졸업요건' 게시판(communication.snu.ac.kr/category/board-7-GN-g3E7LF1t-20201222165030/)은 글 0건."
+    }
+   ],
+   "note": "2026학번 판. 1차(2025학번)와 달라서 요건 전체를 다시 적었다: comm-core·comm-double 만 바뀌고(전필 12학점, 정보문화기술입문 빠짐) 나머지(교양·인정과목·선수과목·부전공·졸업논문 미확인)는 2025학번과 같다."
+  },
+  {
+   "entry_years": [
+    2025,
+    2025
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s3",
+     "s9"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s3",
+    "s4",
+    "s12"
+   ],
+   "requirements": [
+    {
+     "id": "comm-ge-soc-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학년도 입학생부터, 사회과학대학)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "영역 학점 합: 글쓰기와 말하기 4 + 외국어 6 + 수학·과학·컴퓨팅 3 + 지성의 열쇠 9 + 베리타스 3 + 전체 교양 11 = 36."
+    },
+    {
+     "id": "comm-ge-soc-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 토대 > 글쓰기와 말하기 4학점: 대학 글쓰기 1, 대학 글쓰기 2: 사회과학글쓰기",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "길잡이는 글쓰기 1 을 1학년 안에 먼저 듣고 사회과학글쓰기를 2학년 안에 듣기를 '권장'한다(이수학기 [1-1,1-2]/[1-2,2-1,2-2] 는 권장). 2024 이전 번호: L0440.000600, L0440.000800. 과목 번호는 편람에서 채움."
+    },
+    {
+     "id": "comm-ge-soc-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 토대 > 외국어 6학점: 외국어 2개 교과목([1-2] 권장)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "입학 시 TEPS 900점(New TEPS 525점) 이하인 학생은 영어 1과목 필수. TEPS 점수는 앱이 모르므로 '확인 필요'로 둔다."
+    },
+    {
+     "id": "comm-ge-soc-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 토대 > 수학·과학·컴퓨팅 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "사회과학대학 표에는 지정 과목이 없다."
+    },
+    {
+     "id": "comm-ge-soc-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상 / 역사적 탐구와 철학적 사유 / 인간의 이해와 사회 분석 / 과학적 사고와 응용 중 3개 영역 이상에서 9학점 이상",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "min_count 는 영역 수(3개 영역 이상)."
+    },
+    {
+     "id": "comm-ge-soc-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점: 베리타스 강좌 1 / 베리타스 강좌 2 / 베리타스 실천",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "편람의 베리타스 과목 번호 머리: 강좌 1 = V10., 강좌 2 = V20., 실천 = V30.(2025-1~)."
+    },
+    {
+     "id": "comm-ge-soc-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 11학점(학생이 자유롭게 선택)",
+     "min_count": null,
+     "min_credits": 11,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "comm-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수(2025학번): 커뮤니케이션학 입문(또는 기수강 커뮤니케이션의 이해), 커뮤니케이션이론 1, 커뮤니케이션 양적연구방법론, 커뮤니케이션 데이터 분석, 정보문화기술입문 — 15학점",
+     "min_count": 5,
+     "min_credits": 15,
+     "courses": [
+      {
+       "code": "M1312.002900",
+       "name": "커뮤니케이션학 입문",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003100",
+       "name": "커뮤니케이션 데이터 분석",
+       "credits": 3
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s8",
+      "s7",
+      "s2"
+     ],
+     "note": "2025-2 시행 판은 여기에 언론정보문화특강(211.230, 1학점)을 더해 16학점이나, 2026-1 부터 특강 폐지·전필 해제·미이수자 이수의무 없음 → 15. 2024학번 판 문장은 첫 과목을 커뮤니케이션의 이해(200.113A)로 적음(본부 2024 목록은 주전공 커뮤니케이션학 입문, 복·부전 커뮤니케이션의 이해). 2025-2 판 적용 범위(재학생 전체인지)는 페이지에 없다.",
+     "extra": {
+      "optional_legacy": [
+       {
+        "code": "211.230",
+        "name": "언론정보문화특강",
+        "credits": 1,
+        "credits_from": "2024 교과목 목록",
+        "note": "2026-1 부터 교과목 폐지·전필 해제, 기 이수하지 못한 경우 이수의무 없음"
+       },
+       {
+        "code": "200.113A",
+        "name": "커뮤니케이션의 이해",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록",
+        "note": "2025-2 폐지, 기수강자는 커뮤니케이션학 입문 대신 전필 인정"
+       }
+      ]
+     }
+    },
+    {
+     "id": "comm-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "타학과 개설 전공선택 인정: 주전공(병행)·복수전공 최대 9학점, 심화(단일, 60학점) 최대 18학점(그중 정보문화학 외 학과는 최대 12학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "108.317",
+       "name": "사회언어학",
+       "credits": null
+      },
+      {
+       "code": "115.402",
+       "name": "영상미학",
+       "credits": null
+      },
+      {
+       "code": "205.334",
+       "name": "정보사회와 사이버사회",
+       "credits": 3
+      },
+      {
+       "code": "205.301",
+       "name": "현대사회학이론",
+       "credits": 3
+      },
+      {
+       "code": "206.338",
+       "name": "문화와 의사소통",
+       "credits": null
+      },
+      {
+       "code": "206.340",
+       "name": "스포츠, 여가, 문화",
+       "credits": null
+      },
+      {
+       "code": "207.230",
+       "name": "사회심리학 및 실험",
+       "credits": null
+      },
+      {
+       "code": "207.320A",
+       "name": "조직심리학",
+       "credits": null
+      },
+      {
+       "code": "216A.414",
+       "name": "현대정치사상",
+       "credits": 3
+      },
+      {
+       "code": "216B.328A",
+       "name": "정보세계정치론",
+       "credits": 3
+      },
+      {
+       "code": "216B.415",
+       "name": "국제문화론",
+       "credits": 3
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3
+      },
+      {
+       "code": "2114.305",
+       "name": "문화컨텐츠의 이해",
+       "credits": null
+      },
+      {
+       "code": "2114.403A",
+       "name": "인터랙티브 스토리텔링",
+       "credits": null
+      },
+      {
+       "code": "2114.407",
+       "name": "가상현실입문",
+       "credits": null
+      },
+      {
+       "code": "2114.408A",
+       "name": "HCI이론 및 실습",
+       "credits": null
+      },
+      {
+       "code": "2114.411",
+       "name": "비주얼라이제이션",
+       "credits": null
+      },
+      {
+       "code": "2114.412",
+       "name": "인터넷과 지식기술",
+       "credits": null
+      },
+      {
+       "code": "2114.420",
+       "name": "정보문화세미나",
+       "credits": null
+      },
+      {
+       "code": "M1313.000600",
+       "name": "디지털 에쓰노그래피",
+       "credits": null
+      },
+      {
+       "code": "M1317.000600",
+       "name": "디자인 사고와 커뮤니케이션",
+       "credits": null
+      },
+      {
+       "code": "251.425",
+       "name": "광고관리론",
+       "credits": null
+      },
+      {
+       "code": "M1766.000200",
+       "name": "미술과 문화이론",
+       "credits": null
+      },
+      {
+       "code": "M1886.003200",
+       "name": "스포츠 미디어와 디지털 기술",
+       "credits": null
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "주전공생이 연합전공 정보문화학 개설 교과목을 들으면 12학점 범위 안에서 전공 인정('정보문화학 개설 교과목 모두를 전공으로 인정' — 인정과목 페이지). max_credits 는 병행·복수 값, 단일은 18. 목록은 누리집 '2024학년도부터'.",
+     "extra": {
+      "max_credits": 9
+     }
+    },
+    {
+     "id": "comm-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "선수과목: 커뮤니케이션이론 1 ← 교양 사회과학글쓰기·말하기와 토론, 데이터 저널리즘 ← 정보문화기술입문",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F12.102",
+       "name": "말하기와 토론",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s8",
+      "s2"
+     ],
+     "note": "졸업 요건이 아니라 수강 조건이지만 커뮤니케이션이론 1 이 전필이라 사실상 필요. 두 과목 모두인지 하나인지 문장만으로는 불분명. 말하기와 토론 옛 번호 031.031."
+    },
+    {
+     "id": "comm-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 39학점 이상, 전필은 주전공과 같음(2025-2 판 16학점 → 특강 폐지로 15), 타학과 인정 최대 9학점",
+     "min_count": 5,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M1312.002900",
+       "name": "커뮤니케이션학 입문",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003100",
+       "name": "커뮤니케이션 데이터 분석",
+       "credits": 3
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s8"
+     ],
+     "note": "다른 학과 2025학번 학생 기준. 2026학번부터는 전필 12학점(정보문화기술입문·특강 빠짐)."
+    },
+    {
+     "id": "comm-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 21학점 이상, 전필 9학점(커뮤니케이션학 입문, 커뮤니케이션이론 1, 커뮤니케이션 양적연구방법론), 타학과 인정과목 불포함",
+     "min_count": 3,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "M1312.002900",
+       "name": "커뮤니케이션학 입문",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s8"
+     ],
+     "note": "2024학번 판은 커뮤니케이션학 입문 자리에 커뮤니케이션의 이해(200.113A). 기수강자는 그대로 인정."
+    },
+    {
+     "id": "comm-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문·졸업시험 요건",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s5"
+     ],
+     "note": "학부 '졸업요건' 게시판(communication.snu.ac.kr/category/board-7-GN-g3E7LF1t-20201222165030/)은 글 0건."
+    }
+   ],
+   "changed": "전필에 정보문화기술입문 포함 15학점(2024 판 + 2025-2 판 + 2026-1 특강 폐지) — 1차 comm-core·comm-double 그대로.",
+   "note": "2025학번은 2024학년도 입학생 판이 걸리고, 2025-2 판(복수·부전공 첫 과목 커뮤니케이션의 이해 → 커뮤니케이션학 입문)과 2026-1 특강 폐지가 학기 기준으로 덧붙는다 = 1차 요건."
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s3",
+     "s9"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s3",
+    "s13"
+   ],
+   "requirements": [
+    {
+     "id": "comm-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수(2025학번): 커뮤니케이션학 입문(또는 기수강 커뮤니케이션의 이해), 커뮤니케이션이론 1, 커뮤니케이션 양적연구방법론, 커뮤니케이션 데이터 분석, 정보문화기술입문 — 15학점",
+     "min_count": 5,
+     "min_credits": 15,
+     "courses": [
+      {
+       "code": "M1312.002900",
+       "name": "커뮤니케이션학 입문",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003100",
+       "name": "커뮤니케이션 데이터 분석",
+       "credits": 3
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s8",
+      "s7",
+      "s2"
+     ],
+     "note": "2025-2 시행 판은 여기에 언론정보문화특강(211.230, 1학점)을 더해 16학점이나, 2026-1 부터 특강 폐지·전필 해제·미이수자 이수의무 없음 → 15. 2024학번 판 문장은 첫 과목을 커뮤니케이션의 이해(200.113A)로 적음(본부 2024 목록은 주전공 커뮤니케이션학 입문, 복·부전 커뮤니케이션의 이해). 2025-2 판 적용 범위(재학생 전체인지)는 페이지에 없다.",
+     "extra": {
+      "optional_legacy": [
+       {
+        "code": "211.230",
+        "name": "언론정보문화특강",
+        "credits": 1,
+        "credits_from": "2024 교과목 목록",
+        "note": "2026-1 부터 교과목 폐지·전필 해제, 기 이수하지 못한 경우 이수의무 없음"
+       },
+       {
+        "code": "200.113A",
+        "name": "커뮤니케이션의 이해",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록",
+        "note": "2025-2 폐지, 기수강자는 커뮤니케이션학 입문 대신 전필 인정"
+       }
+      ]
+     }
+    },
+    {
+     "id": "comm-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "타학과 개설 전공선택 인정: 주전공(병행)·복수전공 최대 9학점, 심화(단일, 60학점) 최대 18학점(그중 정보문화학 외 학과는 최대 12학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "108.317",
+       "name": "사회언어학",
+       "credits": null
+      },
+      {
+       "code": "115.402",
+       "name": "영상미학",
+       "credits": null
+      },
+      {
+       "code": "205.334",
+       "name": "정보사회와 사이버사회",
+       "credits": 3
+      },
+      {
+       "code": "205.301",
+       "name": "현대사회학이론",
+       "credits": 3
+      },
+      {
+       "code": "206.338",
+       "name": "문화와 의사소통",
+       "credits": null
+      },
+      {
+       "code": "206.340",
+       "name": "스포츠, 여가, 문화",
+       "credits": null
+      },
+      {
+       "code": "207.230",
+       "name": "사회심리학 및 실험",
+       "credits": null
+      },
+      {
+       "code": "207.320A",
+       "name": "조직심리학",
+       "credits": null
+      },
+      {
+       "code": "216A.414",
+       "name": "현대정치사상",
+       "credits": 3
+      },
+      {
+       "code": "216B.328A",
+       "name": "정보세계정치론",
+       "credits": 3
+      },
+      {
+       "code": "216B.415",
+       "name": "국제문화론",
+       "credits": 3
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3
+      },
+      {
+       "code": "2114.305",
+       "name": "문화컨텐츠의 이해",
+       "credits": null
+      },
+      {
+       "code": "2114.403A",
+       "name": "인터랙티브 스토리텔링",
+       "credits": null
+      },
+      {
+       "code": "2114.407",
+       "name": "가상현실입문",
+       "credits": null
+      },
+      {
+       "code": "2114.408A",
+       "name": "HCI이론 및 실습",
+       "credits": null
+      },
+      {
+       "code": "2114.411",
+       "name": "비주얼라이제이션",
+       "credits": null
+      },
+      {
+       "code": "2114.412",
+       "name": "인터넷과 지식기술",
+       "credits": null
+      },
+      {
+       "code": "2114.420",
+       "name": "정보문화세미나",
+       "credits": null
+      },
+      {
+       "code": "M1313.000600",
+       "name": "디지털 에쓰노그래피",
+       "credits": null
+      },
+      {
+       "code": "M1317.000600",
+       "name": "디자인 사고와 커뮤니케이션",
+       "credits": null
+      },
+      {
+       "code": "251.425",
+       "name": "광고관리론",
+       "credits": null
+      },
+      {
+       "code": "M1766.000200",
+       "name": "미술과 문화이론",
+       "credits": null
+      },
+      {
+       "code": "M1886.003200",
+       "name": "스포츠 미디어와 디지털 기술",
+       "credits": null
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "주전공생이 연합전공 정보문화학 개설 교과목을 들으면 12학점 범위 안에서 전공 인정('정보문화학 개설 교과목 모두를 전공으로 인정' — 인정과목 페이지). max_credits 는 병행·복수 값, 단일은 18. 목록은 누리집 '2024학년도부터'.",
+     "extra": {
+      "max_credits": 9
+     }
+    },
+    {
+     "id": "comm-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "선수과목: 커뮤니케이션이론 1 ← 교양 사회과학글쓰기·말하기와 토론, 데이터 저널리즘 ← 정보문화기술입문",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F12.102",
+       "name": "말하기와 토론",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s8",
+      "s2"
+     ],
+     "note": "졸업 요건이 아니라 수강 조건이지만 커뮤니케이션이론 1 이 전필이라 사실상 필요. 두 과목 모두인지 하나인지 문장만으로는 불분명. 말하기와 토론 옛 번호 031.031."
+    },
+    {
+     "id": "comm-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 39학점 이상, 전필은 주전공과 같음(2025-2 판 16학점 → 특강 폐지로 15), 타학과 인정 최대 9학점",
+     "min_count": 5,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M1312.002900",
+       "name": "커뮤니케이션학 입문",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003100",
+       "name": "커뮤니케이션 데이터 분석",
+       "credits": 3
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s8"
+     ],
+     "note": "다른 학과 2025학번 학생 기준. 2026학번부터는 전필 12학점(정보문화기술입문·특강 빠짐)."
+    },
+    {
+     "id": "comm-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 21학점 이상, 전필 9학점(커뮤니케이션학 입문, 커뮤니케이션이론 1, 커뮤니케이션 양적연구방법론), 타학과 인정과목 불포함",
+     "min_count": 3,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "M1312.002900",
+       "name": "커뮤니케이션학 입문",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s8"
+     ],
+     "note": "2024학번 판은 커뮤니케이션학 입문 자리에 커뮤니케이션의 이해(200.113A). 기수강자는 그대로 인정."
+    },
+    {
+     "id": "comm-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문·졸업시험 요건",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s5"
+     ],
+     "note": "학부 '졸업요건' 게시판(communication.snu.ac.kr/category/board-7-GN-g3E7LF1t-20201222165030/)은 글 0건."
+    }
+   ],
+   "changed": "교양만 옛 체계(college_common.ge_by_cohort 2023–2024).",
+   "note": "전공 요건은 2025학번과 같은 2024학번 판."
+  },
+  {
+   "entry_years": [
+    2021,
+    2023
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s3",
+     "s9"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s3",
+    "s13",
+    "s12"
+   ],
+   "requirements": [
+    {
+     "id": "comm-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수(2025학번): 커뮤니케이션학 입문(또는 기수강 커뮤니케이션의 이해), 커뮤니케이션이론 1, 커뮤니케이션 양적연구방법론, 커뮤니케이션 데이터 분석, 정보문화기술입문 — 15학점",
+     "min_count": 5,
+     "min_credits": 15,
+     "courses": [
+      {
+       "code": "M1312.002900",
+       "name": "커뮤니케이션학 입문",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003100",
+       "name": "커뮤니케이션 데이터 분석",
+       "credits": 3
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s8",
+      "s7",
+      "s2"
+     ],
+     "note": "2025-2 시행 판은 여기에 언론정보문화특강(211.230, 1학점)을 더해 16학점이나, 2026-1 부터 특강 폐지·전필 해제·미이수자 이수의무 없음 → 15. 2024학번 판 문장은 첫 과목을 커뮤니케이션의 이해(200.113A)로 적음(본부 2024 목록은 주전공 커뮤니케이션학 입문, 복·부전 커뮤니케이션의 이해). 2025-2 판 적용 범위(재학생 전체인지)는 페이지에 없다.",
+     "extra": {
+      "optional_legacy": [
+       {
+        "code": "211.230",
+        "name": "언론정보문화특강",
+        "credits": 1,
+        "credits_from": "2024 교과목 목록",
+        "note": "2026-1 부터 교과목 폐지·전필 해제, 기 이수하지 못한 경우 이수의무 없음"
+       },
+       {
+        "code": "200.113A",
+        "name": "커뮤니케이션의 이해",
+        "credits": 3,
+        "credits_from": "2024 교과목 목록",
+        "note": "2025-2 폐지, 기수강자는 커뮤니케이션학 입문 대신 전필 인정"
+       }
+      ]
+     }
+    },
+    {
+     "id": "comm-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "타학과 개설 전공선택 인정('2020학년도부터' 목록 26과목): 주전공(병행)·복수전공 최대 9학점, 심화(단일, 60학점) 최대 18학점(그중 정보문화학 외 학과는 최대 12학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "108.317",
+       "name": "사회언어학",
+       "credits": 3
+      },
+      {
+       "code": "115.402",
+       "name": "영상미학",
+       "credits": 3
+      },
+      {
+       "code": "205.218B",
+       "name": "영상사회학",
+       "credits": 3
+      },
+      {
+       "code": "205.301",
+       "name": "현대사회학이론",
+       "credits": 3
+      },
+      {
+       "code": "206.338",
+       "name": "문화와 의사소통",
+       "credits": 3
+      },
+      {
+       "code": "206.340",
+       "name": "스포츠, 여가, 문화",
+       "credits": 3
+      },
+      {
+       "code": "207.230",
+       "name": "사회심리학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "207.320A",
+       "name": "조직심리학",
+       "credits": 3
+      },
+      {
+       "code": "216A.414",
+       "name": "현대정치사상",
+       "credits": 3
+      },
+      {
+       "code": "216B.328A",
+       "name": "정보세계정치론",
+       "credits": 3
+      },
+      {
+       "code": "216B.415",
+       "name": "국제문화론",
+       "credits": 3
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3
+      },
+      {
+       "code": "2114.305",
+       "name": "문화컨텐츠의 이해",
+       "credits": 3
+      },
+      {
+       "code": "2114.403A",
+       "name": "인터랙티브 스토리텔링",
+       "credits": 3
+      },
+      {
+       "code": "2114.407",
+       "name": "가상현실입문",
+       "credits": 3
+      },
+      {
+       "code": "2114.408A",
+       "name": "HCI이론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "2114.411",
+       "name": "비주얼라이제이션",
+       "credits": 3
+      },
+      {
+       "code": "2114.412",
+       "name": "인터넷과 지식기술",
+       "credits": 3
+      },
+      {
+       "code": "2114.420",
+       "name": "정보문화세미나",
+       "credits": 3
+      },
+      {
+       "code": "M1313.000600",
+       "name": "디지털 에쓰노그래피",
+       "credits": 3
+      },
+      {
+       "code": "M1317.000600",
+       "name": "디자인 사고와 커뮤니케이션",
+       "credits": 3
+      },
+      {
+       "code": "251.327",
+       "name": "소비자행동",
+       "credits": 3
+      },
+      {
+       "code": "251.425",
+       "name": "광고관리론",
+       "credits": 3
+      },
+      {
+       "code": "M1774.007700",
+       "name": "기초사진",
+       "credits": 2
+      },
+      {
+       "code": "M1766.000200",
+       "name": "미술과 문화이론",
+       "credits": 3
+      },
+      {
+       "code": "722.210C",
+       "name": "스포츠미디어",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s13",
+      "s3"
+     ],
+     "note": "2024 목록과 다른 점: 205.218B 영상사회학·251.327 소비자행동·M1774.007700 기초사진(2)·722.210C 스포츠미디어(2) 있음, 205.334 정보사회와 사이버사회·M1886.003200 스포츠 미디어와 디지털 기술 없음. 표 제목 '2020학년도부터/2024학년도부터'가 입학 연도인지 수강 연도인지 페이지에 없다 — 같은 페이지 맨 아래 판이 '2012, 2013학년도 입학생'이라 입학 연도로 읽었다(→ status 부분).",
+     "extra": {
+      "max_credits": 9
+     }
+    },
+    {
+     "id": "comm-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "선수과목: 커뮤니케이션이론 1 ← 교양 사회과학글쓰기·말하기와 토론, 데이터 저널리즘 ← 정보문화기술입문",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F12.102",
+       "name": "말하기와 토론",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s8",
+      "s2"
+     ],
+     "note": "졸업 요건이 아니라 수강 조건이지만 커뮤니케이션이론 1 이 전필이라 사실상 필요. 두 과목 모두인지 하나인지 문장만으로는 불분명. 말하기와 토론 옛 번호 031.031."
+    },
+    {
+     "id": "comm-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 39학점 이상, 전필은 주전공과 같음(2025-2 판 16학점 → 특강 폐지로 15), 타학과 인정 최대 9학점",
+     "min_count": 5,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "M1312.002900",
+       "name": "커뮤니케이션학 입문",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003100",
+       "name": "커뮤니케이션 데이터 분석",
+       "credits": 3
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s8"
+     ],
+     "note": "다른 학과 2025학번 학생 기준. 2026학번부터는 전필 12학점(정보문화기술입문·특강 빠짐)."
+    },
+    {
+     "id": "comm-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 21학점 이상, 전필 9학점(커뮤니케이션학 입문, 커뮤니케이션이론 1, 커뮤니케이션 양적연구방법론), 타학과 인정과목 불포함",
+     "min_count": 3,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "M1312.002900",
+       "name": "커뮤니케이션학 입문",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s8"
+     ],
+     "note": "2024학번 판은 커뮤니케이션학 입문 자리에 커뮤니케이션의 이해(200.113A). 기수강자는 그대로 인정."
+    },
+    {
+     "id": "comm-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문·졸업시험 요건",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s5"
+     ],
+     "note": "학부 '졸업요건' 게시판(communication.snu.ac.kr/category/board-7-GN-g3E7LF1t-20201222165030/)은 글 0건."
+    }
+   ],
+   "changed": "전공선택 인정과목 목록이 '2020학년도부터' 판(26과목).",
+   "note": "2021학번 판(경과조치 '2021학년도 입학생부터, 2020학번까지 선택'). 전필은 2024 판과 같은 여섯 과목(양적방법론 옛 번호 M1312.000900 — 2024 판이 '구 …'로 같은 요건 표시). 복수·부전공 첫 과목 커뮤니케이션의 이해는 2025-2 부터 입문으로 대체 = 1차와 같음. 2023학번은 2024학번 판(현행)도 고를 수 있다."
+  },
+  {
+   "entry_years": [
+    2020,
+    2020
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s3",
+     "s9"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s3",
+    "s4",
+    "s13",
+    "s12"
+   ],
+   "requirements": [
+    {
+     "id": "comm-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수(2020학번 판): 커뮤니케이션의 이해(또는 커뮤니케이션학 입문), 커뮤니케이션이론 1, 커뮤니케이션 양적방법론, 정보문화기술입문 + 언론정보문화특강(1학점, 2026-1 폐지로 안 들었으면 의무 없음) — 원래 13학점",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "200.113A",
+       "name": "커뮤니케이션의 이해",
+       "credits": 3,
+       "alt_codes": [
+        "M1312.002900"
+       ]
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3,
+       "alt_codes": [
+        "211.301"
+       ]
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3,
+       "alt_codes": [
+        "M1312.000900"
+       ]
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4",
+      "s12"
+     ],
+     "note": "2020학번 판 '[경과조치] 2020학년도 입학생부터 적용, 2019학년도 입학생까지는 종전 또는 현행 선택'. 커뮤니케이션 데이터 분석은 이 판엔 전필 아님(편람에서 2022-1 부터 전필 표기). 2020학번은 2021학번 판(현행)도 고를 수 있다(2021 판 경과조치 '2020학년도 입학생까지는 종전의 규정 또는 현행 규정').",
+     "extra": {
+      "optional_legacy": [
+       {
+        "code": "211.230",
+        "name": "언론정보문화특강",
+        "credits": 1,
+        "credits_from": "2022 교과목 목록",
+        "note": "2026-1 폐지·전필 해제(편람 마지막 2025-2) — 안 들었으면 이수 의무 없음"
+       }
+      ]
+     }
+    },
+    {
+     "id": "comm-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "타학과 개설 전공선택 인정('2020학년도부터' 목록 26과목): 주전공(병행)·복수전공 최대 9학점, 심화(단일, 60학점) 최대 18학점(그중 정보문화학 외 학과는 최대 12학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "108.317",
+       "name": "사회언어학",
+       "credits": 3
+      },
+      {
+       "code": "115.402",
+       "name": "영상미학",
+       "credits": 3
+      },
+      {
+       "code": "205.218B",
+       "name": "영상사회학",
+       "credits": 3
+      },
+      {
+       "code": "205.301",
+       "name": "현대사회학이론",
+       "credits": 3
+      },
+      {
+       "code": "206.338",
+       "name": "문화와 의사소통",
+       "credits": 3
+      },
+      {
+       "code": "206.340",
+       "name": "스포츠, 여가, 문화",
+       "credits": 3
+      },
+      {
+       "code": "207.230",
+       "name": "사회심리학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "207.320A",
+       "name": "조직심리학",
+       "credits": 3
+      },
+      {
+       "code": "216A.414",
+       "name": "현대정치사상",
+       "credits": 3
+      },
+      {
+       "code": "216B.328A",
+       "name": "정보세계정치론",
+       "credits": 3
+      },
+      {
+       "code": "216B.415",
+       "name": "국제문화론",
+       "credits": 3
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3
+      },
+      {
+       "code": "2114.305",
+       "name": "문화컨텐츠의 이해",
+       "credits": 3
+      },
+      {
+       "code": "2114.403A",
+       "name": "인터랙티브 스토리텔링",
+       "credits": 3
+      },
+      {
+       "code": "2114.407",
+       "name": "가상현실입문",
+       "credits": 3
+      },
+      {
+       "code": "2114.408A",
+       "name": "HCI이론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "2114.411",
+       "name": "비주얼라이제이션",
+       "credits": 3
+      },
+      {
+       "code": "2114.412",
+       "name": "인터넷과 지식기술",
+       "credits": 3
+      },
+      {
+       "code": "2114.420",
+       "name": "정보문화세미나",
+       "credits": 3
+      },
+      {
+       "code": "M1313.000600",
+       "name": "디지털 에쓰노그래피",
+       "credits": 3
+      },
+      {
+       "code": "M1317.000600",
+       "name": "디자인 사고와 커뮤니케이션",
+       "credits": 3
+      },
+      {
+       "code": "251.327",
+       "name": "소비자행동",
+       "credits": 3
+      },
+      {
+       "code": "251.425",
+       "name": "광고관리론",
+       "credits": 3
+      },
+      {
+       "code": "M1774.007700",
+       "name": "기초사진",
+       "credits": 2
+      },
+      {
+       "code": "M1766.000200",
+       "name": "미술과 문화이론",
+       "credits": 3
+      },
+      {
+       "code": "722.210C",
+       "name": "스포츠미디어",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s13",
+      "s3"
+     ],
+     "note": "2024 목록과 다른 점: 205.218B 영상사회학·251.327 소비자행동·M1774.007700 기초사진(2)·722.210C 스포츠미디어(2) 있음, 205.334 정보사회와 사이버사회·M1886.003200 스포츠 미디어와 디지털 기술 없음. 표 제목 '2020학년도부터/2024학년도부터'가 입학 연도인지 수강 연도인지 페이지에 없다 — 같은 페이지 맨 아래 판이 '2012, 2013학년도 입학생'이라 입학 연도로 읽었다(→ status 부분).",
+     "extra": {
+      "max_credits": 9
+     }
+    },
+    {
+     "id": "comm-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "선수과목: 커뮤니케이션이론 1 ← 교양 사회과학글쓰기·말하기와 토론, 데이터 저널리즘 ← 정보문화기술입문",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F12.102",
+       "name": "말하기와 토론",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s8",
+      "s2"
+     ],
+     "note": "졸업 요건이 아니라 수강 조건이지만 커뮤니케이션이론 1 이 전필이라 사실상 필요. 두 과목 모두인지 하나인지 문장만으로는 불분명. 말하기와 토론 옛 번호 031.031."
+    },
+    {
+     "id": "comm-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(2020학번 판): 39학점 이상, 전필은 주전공과 같은 13학점(커뮤니케이션의 이해·커뮤니케이션이론 1·커뮤니케이션 양적방법론·언론정보문화특강·정보문화기술입문), 타학과 인정 최대 9학점",
+     "min_count": 4,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "200.113A",
+       "name": "커뮤니케이션의 이해",
+       "credits": 3,
+       "alt_codes": [
+        "M1312.002900"
+       ]
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3,
+       "alt_codes": [
+        "211.301"
+       ]
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3,
+       "alt_codes": [
+        "M1312.000900"
+       ]
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3"
+     ],
+     "note": "원문은 '등 네 과목으로, 총 13학점'이라 적고 다섯 과목을 나열(원문 그대로는 다섯). 이해·특강 폐지 처리는 주전공과 같음.",
+     "extra": {
+      "optional_legacy": [
+       {
+        "code": "211.230",
+        "name": "언론정보문화특강",
+        "credits": 1,
+        "credits_from": "2022 교과목 목록",
+        "note": "2026-1 폐지·전필 해제(편람 마지막 2025-2) — 안 들었으면 이수 의무 없음"
+       }
+      ]
+     }
+    },
+    {
+     "id": "comm-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 21학점 이상, 전필 9학점(커뮤니케이션학 입문, 커뮤니케이션이론 1, 커뮤니케이션 양적연구방법론), 타학과 인정과목 불포함",
+     "min_count": 3,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "M1312.002900",
+       "name": "커뮤니케이션학 입문",
+       "credits": 3
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s8"
+     ],
+     "note": "2024학번 판은 커뮤니케이션학 입문 자리에 커뮤니케이션의 이해(200.113A). 기수강자는 그대로 인정."
+    },
+    {
+     "id": "comm-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문·졸업시험 요건",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s5"
+     ],
+     "note": "학부 '졸업요건' 게시판(communication.snu.ac.kr/category/board-7-GN-g3E7LF1t-20201222165030/)은 글 0건."
+    }
+   ],
+   "changed": "전필 13학점(커뮤니케이션의 이해·커뮤니케이션이론 1·커뮤니케이션 양적방법론·언론정보문화특강·정보문화기술입문), 데이터 분석 없음; 복수전공도 같음.",
+   "note": "2020학번 판. 커뮤니케이션 데이터 분석이 전필이 아니고 첫 과목이 커뮤니케이션의 이해다. 인정과목은 2021~2023과 같은 '2020학년도부터' 판."
+  },
+  {
+   "entry_years": [
+    2019,
+    2019
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s3",
+     "s9"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s3",
+    "s4",
+    "s13"
+   ],
+   "requirements": [
+    {
+     "id": "comm-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수(2016학번 판): 커뮤니케이션의 이해(또는 커뮤니케이션학 입문), 커뮤니케이션이론(211.301 → 커뮤니케이션이론 1), 커뮤니케이션 양적방법론, 정보문화기술입문 + 언론정보문화특강(1학점, 2026-1 폐지) — 원래 13학점",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "200.113A",
+       "name": "커뮤니케이션의 이해",
+       "credits": 3,
+       "alt_codes": [
+        "M1312.002900"
+       ]
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3,
+       "alt_codes": [
+        "211.301"
+       ]
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3,
+       "alt_codes": [
+        "M1312.000900"
+       ]
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4",
+      "s12"
+     ],
+     "note": "2016학번 판 '[경과조치] 2016학년도 입학생부터 적용'. 2019학번은 2020학번 판(현행)도 고를 수 있다(2020 판 경과조치 '2019학년도 입학생까지는 종전 또는 현행'). 2021·2024 판의 같은 문구까지 따지면 더 뒤 판도 고를 수 있는 것으로 읽힌다 → ask.",
+     "extra": {
+      "optional_legacy": [
+       {
+        "code": "211.230",
+        "name": "언론정보문화특강",
+        "credits": 1,
+        "credits_from": "2022 교과목 목록",
+        "note": "2026-1 폐지·전필 해제(편람 마지막 2025-2) — 안 들었으면 이수 의무 없음"
+       }
+      ]
+     }
+    },
+    {
+     "id": "comm-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "타학과 개설 전공선택 인정('2014학년 ~ 2019학년' 목록 22과목): 병행·복수는 '학과 개설 30학점' 규정으로 사실상 9학점까지, 심화(단일 60)는 학과 인정 타학과 전공과목 18학점(그중 정보문화학 외 12)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "108.307",
+       "name": "사회언어학",
+       "credits": 3,
+       "alt_codes": [
+        "108.317"
+       ]
+      },
+      {
+       "code": "115.402",
+       "name": "영상미학",
+       "credits": 3
+      },
+      {
+       "code": "205.218B",
+       "name": "영상사회학",
+       "credits": 3
+      },
+      {
+       "code": "205.301",
+       "name": "현대사회학이론",
+       "credits": 3
+      },
+      {
+       "code": "206.338",
+       "name": "문화와 의사소통",
+       "credits": 3
+      },
+      {
+       "code": "206.340",
+       "name": "스포츠, 여가, 문화",
+       "credits": 3
+      },
+      {
+       "code": "207.230",
+       "name": "사회심리학 및 실험",
+       "credits": 3
+      },
+      {
+       "code": "207.320A",
+       "name": "조직심리학",
+       "credits": 3
+      },
+      {
+       "code": "216A.414",
+       "name": "현대정치사상",
+       "credits": 3
+      },
+      {
+       "code": "216B.328A",
+       "name": "정보세계정치론",
+       "credits": 3
+      },
+      {
+       "code": "216B.415",
+       "name": "국제문화론",
+       "credits": 3
+      },
+      {
+       "code": "2114.303B",
+       "name": "디지털영상실습1",
+       "credits": 3
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3
+      },
+      {
+       "code": "2114.309",
+       "name": "게임의 이해",
+       "credits": 3
+      },
+      {
+       "code": "2114.403A",
+       "name": "인터랙티브 스토리텔링",
+       "credits": 3
+      },
+      {
+       "code": "2114.408A",
+       "name": "HCI이론 및 실습",
+       "credits": 3
+      },
+      {
+       "code": "2114.412",
+       "name": "인터넷과 지식기술",
+       "credits": 3
+      },
+      {
+       "code": "251.327",
+       "name": "소비자행동",
+       "credits": 3
+      },
+      {
+       "code": "251.425",
+       "name": "광고관리론",
+       "credits": 3
+      },
+      {
+       "code": "M1774.007700",
+       "name": "사진",
+       "credits": 2
+      },
+      {
+       "code": "600.309",
+       "name": "사진의 역사와 이론",
+       "credits": 3
+      },
+      {
+       "code": "722.210C",
+       "name": "스포츠미디어",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s13",
+      "s3"
+     ],
+     "note": "2020 목록과 다른 점: 108.307(오기로 보임)·2114.303B 디지털영상실습1·2114.309 게임의 이해·600.309 사진의 역사와 이론 있음, 2114.305·2114.407·2114.411·2114.420·M1313.000600·M1317.000600·M1766.000200 없음. 기준(입학/수강 연도) 미확인.",
+     "extra": {
+      "max_credits": null
+     }
+    },
+    {
+     "id": "comm-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "선수과목: 커뮤니케이션이론 1 ← 교양 사회과학글쓰기·말하기와 토론, 데이터 저널리즘 ← 정보문화기술입문",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F12.102",
+       "name": "말하기와 토론",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s8",
+      "s2"
+     ],
+     "note": "졸업 요건이 아니라 수강 조건이지만 커뮤니케이션이론 1 이 전필이라 사실상 필요. 두 과목 모두인지 하나인지 문장만으로는 불분명. 말하기와 토론 옛 번호 031.031."
+    },
+    {
+     "id": "comm-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공(2016학번 판): 39학점 중 전필 13학점(커뮤니케이션의 이해·커뮤니케이션이론·커뮤니케이션 양적방법론·언론정보문화특강·정보문화기술입문) 포함 언론정보학과 개설 교과목 30학점 이상",
+     "min_count": 4,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "200.113A",
+       "name": "커뮤니케이션의 이해",
+       "credits": 3,
+       "alt_codes": [
+        "M1312.002900"
+       ]
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3,
+       "alt_codes": [
+        "211.301"
+       ]
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3,
+       "alt_codes": [
+        "M1312.000900"
+       ]
+      },
+      {
+       "code": "2114.304",
+       "name": "정보문화기술입문",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3"
+     ],
+     "note": "다른 학과 2019학번 학생 기준. 이해·특강 폐지 처리는 주전공과 같음.",
+     "extra": {
+      "optional_legacy": [
+       {
+        "code": "211.230",
+        "name": "언론정보문화특강",
+        "credits": 1,
+        "credits_from": "2022 교과목 목록",
+        "note": "2026-1 폐지·전필 해제(편람 마지막 2025-2) — 안 들었으면 이수 의무 없음"
+       }
+      ]
+     }
+    },
+    {
+     "id": "comm-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공(2016학번 판): 전필 9학점(커뮤니케이션의 이해, 커뮤니케이션이론, 커뮤니케이션 양적방법론) 포함 언론정보학과 개설 교과목 21학점 이상, 타학과 인정과목 불포함",
+     "min_count": 3,
+     "min_credits": 21,
+     "courses": [
+      {
+       "code": "200.113A",
+       "name": "커뮤니케이션의 이해",
+       "credits": 3,
+       "alt_codes": [
+        "M1312.002900"
+       ]
+      },
+      {
+       "code": "M1312.003000",
+       "name": "커뮤니케이션이론 1",
+       "credits": 3,
+       "alt_codes": [
+        "211.301"
+       ]
+      },
+      {
+       "code": "M1312.004100",
+       "name": "커뮤니케이션 양적연구방법론",
+       "credits": 3,
+       "alt_codes": [
+        "M1312.000900"
+       ]
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3"
+     ],
+     "note": "원문은 커뮤니케이션의 이해 번호를 '200.133A'로 적음(200.113A 오기로 보임)."
+    },
+    {
+     "id": "comm-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문·졸업시험 요건",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s5"
+     ],
+     "note": "학부 '졸업요건' 게시판(communication.snu.ac.kr/category/board-7-GN-g3E7LF1t-20201222165030/)은 글 0건."
+    },
+    {
+     "id": "comm-own-dept-2016",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "전공 39학점 중 전필 13학점을 포함해 언론정보학과 개설 교과목 30학점 이상(정보문화학 개설 과목은 12학점 안에서 전공 인정)",
+     "min_count": null,
+     "min_credits": 30,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3"
+     ],
+     "note": "2016학번 판 주전공·복수전공 ①. 심화(단일 60) 땐 학과가 인정하는 타학과 전공과목 18학점(정보문화학 외 12)까지."
+    }
+   ],
+   "changed": "2016학번 판: '언론정보학과 개설 교과목 30학점 이상' 방식(타학과 9학점 문구 대신), 부전공도 학과 개설 21학점, 인정과목 목록 '2014~2019학년' 판.",
+   "note": "2016학번 판(2016~2019학번). 인정과목은 '2014학년 ~ 2019학년' 판."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2020,
+   "basis": "입학 연도",
+   "what": "2016 판 → 2020 판: '학과 개설 30학점' 방식 → '타학과 인정 최대 9학점' 방식, 커뮤니케이션이론 → 커뮤니케이션이론 1(번호)",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2021,
+   "basis": "입학 연도",
+   "what": "전필 13 → 16학점: 주전공 첫 과목 커뮤니케이션학 입문(복수·부전공은 계속 커뮤니케이션의 이해), 커뮤니케이션 데이터 분석 추가",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2024,
+   "basis": "입학 연도",
+   "what": "2024 판: 양적방법론 → 양적연구방법론(번호만), 인정과목 목록 '2024학년도부터' 판(기준 추정)",
+   "status": "부분"
+  },
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "교양 체계 개편(사회대 공통, college_common.ge_by_cohort) — 2019~2024학번 안에서도 2021(외국어 6)·2023(TEPS 900) 경계가 있음",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "커뮤니케이션의 이해 폐지, 커뮤니케이션학 입문이 주전공+다전공 전필(이해 기수강자는 그대로 인정) — 전 학번",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "언론정보문화특강 폐지·전필 해제, 안 들었으면 이수 의무 없음 — 전 학번",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2026,
+   "basis": "입학 연도",
+   "what": "정보문화기술입문 전필 해제 → 전필 12학점(주전공·복수)",
+   "status": "확인"
+  },
+  {
+   "basis": "다전공 선발 시기",
+   "what": "다른 학과 학생이 언론정보학을(를) 복수·연합전공할 때 겹쳐 인정 9+3학점 → 최대 3과목(2026-03-01 시행, 그 전에 이수 중이면 종전 선택) — 학번 무관",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "인정과목 표 '2020학년도부터/2024학년도부터'가 입학 연도 기준인지 수강 연도 기준인지.",
+  "'종전 또는 현행 선택' 문구가 판마다 겹칠 때 2019·2020학번이 고를 수 있는 판의 범위(2024 판까지인지).",
+  "2019·2020학번이 커뮤니케이션의 이해·언론정보문화특강을 못 들었을 때: 입문 대체·특강 면제 뒤 전필 학점(13 → 12)을 그대로 인정하는지.",
+  "졸업논문 요건 유무.",
+  "2025학년도 2학기 시행 판이 2025학번(2025-1 입학) 전체에 적용되는지",
+  "2026-1 이전에 언론정보문화특강을 들은 학생의 학점 처리(전선으로 남는지)",
+  "졸업논문 요건 유무"
+ ],
+ "sources": {
+  "s1": {
+   "title": "학부대학, 2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "5. 2025학년도 단과대학별 공통교육과정 이수규정 □ 사회과학대학, PDF 5쪽(인쇄 109쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "TT Wizard 수강편람 자료 data/history(2021-1~2026-2) — 학교 수강편람에서 모은 것",
+   "locator": "학기별 과목 이름·학점·교과구분",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s3": {
+   "title": "언론정보학과, 학부 > 교과과정 > 이수규정",
+   "url": "https://communication.snu.ac.kr/학부/교과과정/이수규정/",
+   "locator": "판별 [경과조치]: 2026학년도 입학생부터 / 2025학년도 2학기부터 / 2024학년도 입학생부터(2023학번까지 선택) / 2021학년도 입학생부터(2020학번까지 선택) / 2020학년도 입학생부터(2019학번까지 선택) / 2016학년도 입학생부터",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "언론정보학과, 학부 > 교과과정 > 전공이수 표준형태",
+   "url": "https://communication.snu.ac.kr/학부/교과과정/전공이수-표준형태/",
+   "locator": "표 아래 ※ 주석(2025-2 커뮤니케이션학 입문 전필·커뮤니케이션의 이해 폐지, 2026-1 언론정보문화특강 폐지, 2026학년도 입학생부터 정보문화기술입문 전필 해제)",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "언론정보학과, 학부 > 교과과정 > 이수규정",
+   "url": "https://communication.snu.ac.kr/학부/교과과정/이수규정/",
+   "locator": "2026학년도 입학생부터 / 2025학년도 2학기부터 / 2024학년도 입학생부터 판",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "언론정보학과, 학부 > 교과과정 > 인정과목",
+   "url": "https://communication.snu.ac.kr/학부/교과과정/인정과목/",
+   "locator": "2024학년도부터 목록",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "서울대학교, 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "211. 언론정보학과, PDF 39–40쪽(교과목 39쪽, 이수표준형태·이수규정 40쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "언론정보학과, 학부 > 교과과정 > 전공이수 표준형태(2026-02-23 수정)",
+   "url": "https://communication.snu.ac.kr/학부/교과과정/전공이수-표준형태/",
+   "locator": "표 아래 주석(커뮤니케이션의 이해 폐지, 특강 폐지, 정보문화기술입문 전필 해제)",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교, 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 사회과학대학 줄 PDF 1쪽(인쇄 8쪽), 표 2 PDF 3쪽(인쇄 10쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "학부대학, 2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 사회과학대학, PDF 6쪽(인쇄 113쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "학부대학, 2026학년도 시행 단과대학별 공통교육과정 이수 규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "□ 사회과학대학, PDF 5쪽(인쇄 51쪽) — '※ 상기 이수규정은 2025학년도 입학생부터 적용함'",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "TT Wizard 수강편람 자료 data/history(2021-1~2026-2) — 학교 수강편람에서 모은 것",
+   "locator": "학기별 과목 이름·학점·교과구분(전필/전선 표기 바뀐 학기)",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s13": {
+   "title": "언론정보학과, 학부 > 교과과정 > 인정과목",
+   "url": "https://communication.snu.ac.kr/학부/교과과정/인정과목/",
+   "locator": "전공선택 인정과목 표: '2024학년도부터'(24과목) / '2020학년도부터'(26과목) / '2014학년 ~ 2019학년'(22과목) / '2012, 2013학년도 입학생'",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

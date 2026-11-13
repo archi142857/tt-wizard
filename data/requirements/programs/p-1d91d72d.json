@@ -1,0 +1,426 @@
+{
+ "id": "p-1d91d72d",
+ "college": "인문대학",
+ "unit": "불어불문학과",
+ "program": "불어불문학과",
+ "kind": "major",
+ "depts": [
+  "불어불문학과"
+ ],
+ "code_prefixes": [],
+ "ge_key": "인문대학",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2026,
+    2026
+   ],
+   "basis": "미확인(입학 연도 또는 교과 개편 학기)",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 42,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s8",
+     "s9",
+     "s10",
+     "s11"
+    ]
+   },
+   "status": "미확인",
+   "src": [
+    "s12"
+   ],
+   "requirements": [
+    {
+     "id": "fre-core-2026",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "(2026 편람의 새 전필) 프랑스어의 구조와 의미, 프랑스텍스트분석 입문, 프랑스텍스트분석 심화 (+ 104.305 프랑스어학개론 2 는 계속 전필)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1239.000900",
+       "name": "프랑스어의 구조와 의미",
+       "credits": 3
+      },
+      {
+       "code": "M1239.001000",
+       "name": "프랑스텍스트분석 입문",
+       "credits": 3
+      },
+      {
+       "code": "M1239.001300",
+       "name": "프랑스텍스트분석 심화",
+       "credits": 3
+      },
+      {
+       "code": "104.305",
+       "name": "프랑스어학개론 2",
+       "credits": 3
+      }
+     ],
+     "status": "미확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "근거는 편람 교과구분(2026-1 M1239.000900·M1239.001000 전필, 2026-2 M1239.001300·104.305 전필)뿐. 학번 기준인지 교과 개편 학기 기준인지, 104.305 가 2026학번 전필에 남는지 미확인."
+    },
+    {
+     "id": "fre-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 전공 21학점 이상, 불어불문학과 전공필수 과목 필수 이수",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s3"
+     ]
+    },
+    {
+     "id": "fre-elective-credit",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정: 불어교육과 전공교과목 전체, 통산 6학점까지",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "fre-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "4학년 졸업논문(학과 소개: '그간의 학습 결과를 논문으로 완성')",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통 교양·졸업 의무 — 학번에 맞는 college_common.ge_by_cohort·other 참조(제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학(2024학번까지)/삶과 인문학 세미나(2025학번~))",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "2차: hum-common-ref 는 학번에 맞는 college_common.ge_by_cohort·college_common.other 를 가리킨다(2019–2024학번은 학문의 기초·학문의 세계 + 삶과 인문학, 2025학번~은 새 교양 + 삶과 인문학 세미나).",
+     "extra": {
+      "see": [
+       "college_common.ge_by_cohort",
+       "college_common.other"
+      ]
+     }
+    }
+   ],
+   "note": "학과 누리집(snufrance.com)은 스크립트로만 그려져 못 읽음. 같은 해 독문·영문은 '26학번부터' 학번 기준으로 바꿨지만 불문은 근거가 없어 버전 경계를 2026 에 두되 basis 를 미확인으로 둔다."
+  },
+  {
+   "entry_years": [
+    2019,
+    2025
+   ],
+   "basis": "미확인(입학 연도 또는 교과 개편 학기)",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 42,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s8",
+     "s9",
+     "s10",
+     "s11"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s16",
+    "s17"
+   ],
+   "requirements": [
+    {
+     "id": "fre-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 전공 21학점 이상, 불어불문학과 전공필수 과목 필수 이수",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s3"
+     ]
+    },
+    {
+     "id": "fre-elective-credit",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 인정: 불어교육과 전공교과목 전체, 통산 6학점까지",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4"
+     ]
+    },
+    {
+     "id": "fre-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double"
+     ],
+     "text": "4학년 졸업논문(학과 소개: '그간의 학습 결과를 논문으로 완성')",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5"
+     ]
+    },
+    {
+     "id": "hum-common-ref",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "인문대학 공통 교양·졸업 의무 — 학번에 맞는 college_common.ge_by_cohort·other 참조(제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학(2024학번까지)/삶과 인문학 세미나(2025학번~))",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "2차: hum-common-ref 는 학번에 맞는 college_common.ge_by_cohort·college_common.other 를 가리킨다(2019–2024학번은 학문의 기초·학문의 세계 + 삶과 인문학, 2025학번~은 새 교양 + 삶과 인문학 세미나).",
+     "extra": {
+      "see": [
+       "college_common.ge_by_cohort",
+       "college_common.other"
+      ]
+     }
+    },
+    {
+     "id": "fre-core-2024",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "(2019~2025학번으로 둠) 전공필수 3과목: 프랑스어문법과 작문, 프랑스문학개론 1, 프랑스어학개론 2 — 2022·2024 목록 같음",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [
+      {
+       "code": "104.228A",
+       "name": "프랑스어문법과 작문",
+       "credits": 3
+      },
+      {
+       "code": "104.316A",
+       "name": "프랑스문학개론 1",
+       "credits": 3
+      },
+      {
+       "code": "104.305",
+       "name": "프랑스어학개론 2",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s13",
+      "s14",
+      "s15"
+     ],
+     "note": "104.228A·104.316A 가 2025년에 마지막 개설돼 2026년 이후 이 학번들이 무엇으로 채우는지(대체 과목) 미확인."
+    }
+   ],
+   "changed": "2022·2024 목록 전필 3과목(프랑스어문법과 작문·프랑스문학개론 1·프랑스어학개론 2)."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2026,
+   "basis": "미확인",
+   "what": "전필 개편(새 전필 M1239.000900 프랑스어의 구조와 의미·M1239.001000 프랑스텍스트분석 입문·M1239.001300 프랑스텍스트분석 심화; 104.228A·104.316A 2025년 마지막 개설; 104.305 계속 전필 표기)",
+   "status": "미확인"
+  }
+ ],
+ "ask_department": [
+  "2026 전필 개편이 26학번부터인지 개편 학기부터인지",
+  "2025학번 이전 학생이 104.228A·104.316A 대신 들을 과목",
+  "병행 42·복수전공 학점",
+  "2025학번 전공필수 목록(옛 104.228A·104.316A 와 새 M1239.000900·M1239.001000·M1239.001300 의 관계)",
+  "병행 42학점·복수전공 학점(39?)·부전공 필수",
+  "졸업논문 외 어학 요건(시험 등) 유무",
+  "외국어진행 3과목에 전공 과목 포함 여부"
+ ],
+ "sources": {
+  "s1": {
+   "title": "수강편람 자료(백엔드 수집) 2026-1",
+   "locator": "M1239.000900·M1239.001000 전필",
+   "accessed": "2026-11-12",
+   "repo": "data/history/2026-1.json"
+  },
+  "s2": {
+   "title": "수강편람 자료(백엔드 수집) 2026-2",
+   "locator": "M1239.001300·104.305 전필",
+   "accessed": "2026-11-12",
+   "repo": "data/history/2026-2.json"
+  },
+  "s3": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "15쪽 부전공 이수규정",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "15쪽 전공선택 인정과목",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "인문대학 학과 소개(불어불문학과)",
+   "url": "https://humanities.snu.ac.kr/academics/department?deptidx=4",
+   "locator": "교육과정 소개(4학년 논문), 누리집 주소",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "□ 인문대학 표, PDF 4쪽(인쇄 108쪽)",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "인문대학 졸업이수 의무사항 안내(관련: 인문대학-2710, 2025.1.25., 게시 2025-02-03)",
+   "url": "https://humanities.snu.ac.kr/community/notice?md=v&bbsidx=3252",
+   "locator": "본문 표 그림(https://humanities.snu.ac.kr/webdata/upimages/7efzf51z874zf93z1c2za09z28cz23ezd11z697zb8.png), '2011~' 열과 참고사항 1–4",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "표 1·표 2",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "표 1 8쪽·표 2 10쪽",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "수강편람 자료(백엔드 수집)",
+   "locator": "2026-1·2026-2 불어불문 전필 교과구분",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s13": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "104. 불어불문학과 이수표준형태(104.228A*·104.305*·104.316A*)",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "같은 칸",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "수강편람 자료(백엔드 수집)",
+   "locator": "104.228A ~2025-1, 104.316A ~2025-2, 104.305 ~2026-2 전필",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s16": {
+   "title": "서울대학교 2022 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
+   "locator": "104. 불어불문학과",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "서울대학교 2024 전공별 교과목(학사과정)",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+   "locator": "104. 불어불문학과",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}

@@ -1,0 +1,2096 @@
+{
+ "id": "p-41df1808",
+ "college": "학부대학(자유전공학부·광역)·첨단융합학부·혁신공유학부·연합전공·연계전공·학생설계전공",
+ "unit": "자유전공학부(학부대학)",
+ "program": "자유전공학부(기존 전공을 주전공으로)",
+ "kind": "major",
+ "depts": [],
+ "code_prefixes": [],
+ "ge_key": "자유전공학부",
+ "exists_for": [
+  2019,
+  2026
+ ],
+ "version_key": "entry",
+ "predecessor": null,
+ "structure": {
+  "splits_into": [
+   "기존 전공: 인문대학·사회과학대학·자연과학대학·경영대학·공과대학·농업생명과학대학·미술대학·생활과학대학·음악대학·첨단융합학부의 학과(부)·전공",
+   "학생설계전공"
+  ],
+  "when": "입학 후 정규 2개 학기 이상 이수·총 24학점 이상 취득 뒤 신청(계절 학점은 학점에만 셈). 첫 전공 선택은 졸업예정 4학기(계절 제외) 이전까지. 신청 4월 말/10월 말, 최종 승인 7월 초/1월 초. 졸업 전 '첫 번째 전공 선택 후 4개 학기 경과'가 필요하다.",
+  "status": "확인"
+ },
+ "versions": [
+  {
+   "entry_years": [
+    2025,
+    2026
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": null,
+    "parallel": null,
+    "double": null,
+    "minor": null,
+    "text": {
+     "single": "선택 전공의 단일전공 학점(심화전공 승인 때)",
+     "parallel": "선택 전공의 다른 전공 병행 학점"
+    },
+    "status": "확인",
+    "src": [
+     "s16",
+     "s17",
+     "s18"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s18",
+    "s17",
+    "s16",
+    "s19",
+    "s20"
+   ],
+   "requirements": [
+    {
+     "id": "cls-ge-writing1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기: 대학 글쓰기 1([1-1, 1-2])",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "cls-ge-writing2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기: 대학 글쓰기 2 인문학·사회과학·과학기술글쓰기 중 1(대학 글쓰기 1 뒤)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "글쓰기와 말하기 합 4학점."
+    },
+    {
+     "id": "cls-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 이상 6학점. 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수.",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "cls-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[수학] 3학점 이상: 수학 1+수학연습 1, 고급수학 1+고급수학연습 1, 수학의 기초와 응용 1 중 1(연습은 동시 수강). 수학의 기초와 응용 1은 고교에서 미적분 2·기하와 벡터·고급수학 1,2 등을 들은 학생은 수강 불가.",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1.0
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1.0
+      },
+      {
+       "code": "F31.103",
+       "name": "수학의 기초와 응용 1",
+       "credits": 4.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "짝: (F31.104+F31.104L) 또는 (F31.106+F31.106L) 또는 F31.103 하나."
+    },
+    {
+     "id": "cls-ge-scicomp",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "[과학]·[컴퓨팅] 영역에서 3학점 이상(이론·실험 연계 과목은 동시 수강)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "cls-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 4개 영역 중 3개 영역 이상에서 9학점 이상",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "cls-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스(강좌 1·강좌 2·실천) 영역 3학점 이상",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "cls-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 8학점(자유 선택, '사회봉사 1' 필수 포함)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "E20.103",
+       "name": "사회봉사 1",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4"
+     ],
+     "note": "2023학번부터 졸업학기(계절학기 포함)에는 사회봉사 1 수강 불가."
+    },
+    {
+     "id": "cls-dept-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "자유전공학부 전공필수: 주제탐구세미나 1, 전공설계 1(합 5학점)",
+     "min_count": 2,
+     "min_credits": 5,
+     "courses": [
+      {
+       "code": "991.101",
+       "name": "주제탐구세미나 1",
+       "credits": 3.0
+      },
+      {
+       "code": "991.103",
+       "name": "전공설계 1",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ]
+    },
+    {
+     "id": "cls-dept-reqelec",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "자유전공학부 필수전선: 주제탐구세미나 2(3학점)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "991.102",
+       "name": "주제탐구세미나 2",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "편람 교과구분은 '전선'이지만 졸업 규정 표가 '필수전선'으로 적는다."
+    },
+    {
+     "id": "cls-dept-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "자유전공학부 전공선택 7학점 이상(학부 전공 합 15 = 전필 5 + 필수전선 3 + 전선 7)",
+     "min_count": null,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "991.301A",
+       "name": "자율연구 1",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001800",
+       "name": "자율연구 2",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001000",
+       "name": "현장학습 1",
+       "credits": 2.0
+      },
+      {
+       "code": "M2199.001100",
+       "name": "현장학습 2",
+       "credits": 2.0
+      },
+      {
+       "code": "991.307",
+       "name": "고전탐구세미나 1",
+       "credits": 3.0
+      },
+      {
+       "code": "991.308",
+       "name": "고전탐구세미나 2",
+       "credits": 3.0
+      },
+      {
+       "code": "991.305A",
+       "name": "창의융합세미나",
+       "credits": 3.0
+      },
+      {
+       "code": "991.306A",
+       "name": "창의융합프로젝트",
+       "credits": 3.0
+      },
+      {
+       "code": "991.202A",
+       "name": "전공설계 2",
+       "credits": 1.0
+      },
+      {
+       "code": "991.401",
+       "name": "종합설계",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001900",
+       "name": "주제심화세미나",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.002000",
+       "name": "주제심화프로젝트",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001300",
+       "name": "인문예술융합세미나",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001400",
+       "name": "사회과학융합세미나",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001500",
+       "name": "자연과학융합세미나",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001600",
+       "name": "글로벌융합세미나",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "원문 표는 기준학점을 '5(8)·3(3)·4(7), 계 15'로만 적는다. 과목 학점(주제탐구세미나 1 3, 전공설계 1 2, 종합설계 3)으로 맞추면 괄호 없는 쪽에 3학점을 더 둔 값이 괄호다: 기존 전공 주전공자는 전선 7, 학생설계전공 주전공자는 종합설계 포함 전필 8 + 전선 4. 해석은 학부 확인 필요. '사회공헌프로젝트'는 편람에서 번호를 못 찾음."
+    },
+    {
+     "id": "cls-choice-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 선택 신청 요건: 정규 2개 학기·24학점, 학문의 토대(글쓰기와 말하기·외국어·수학·과학·컴퓨팅) 8학점 이상, 주제탐구세미나 1과 전공설계 1 이수, 학과 필수조건, 전공상담교수 면담 1회",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "991.101",
+       "name": "주제탐구세미나 1",
+       "credits": 3.0
+      },
+      {
+       "code": "991.103",
+       "name": "전공설계 1",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7"
+     ]
+    },
+    {
+     "id": "cls-chosen-major",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택 전공의 이수규정을 따른다: 전공 학점·전필, 영어강의 의무·TEPS, 졸업논문·작품, 대학별 요건(예: 인문대학 소그룹원전읽기·제2외국어 3학점·외국어진행강의 3과목). 학과가 자유전공학부 교양 외에 요구하는 교양(2개 교과목 또는 8학점 이내, 예: 생명과학전공은 생물학 1·2와 실험)도 이수한다.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ],
+     "note": "선택 전공 쪽 값은 해당 단과대 조사 결과를 쓴다."
+    },
+    {
+     "id": "cls-pre-cap",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 선택 이전에 이수한 전공 교과목은 전공별 21학점까지만 전공학점으로 인정(학생설계전공 제외)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s9"
+     ],
+     "note": "상한 21학점(계산용)."
+    },
+    {
+     "id": "cls-overlap",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기존 전공 2개 이상 사이 중복 인정은 최대 9학점: 주전공 학과 개설 과목 9학점까지, 타과 개설 인정 전선 3학점까지(합 9 넘지 않음). 주전공과 부전공·연계전공 사이 중복 불가.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ]
+    },
+    {
+     "id": "cls-other",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "그 밖 졸업요건: 8학기 이상 등록(조기졸업 6학기), 첫 번째 전공 선택 뒤 4개 학기 경과, 평점평균 2.0 이상(전 교과목·전공 교과목), 입학 때 TEPS 900 이하는 영어 1과목, 졸업논문 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12"
+     ]
+    },
+    {
+     "id": "cls-second",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "제2전공(부전공·연계전공·학생설계부전공)은 해당 학과 규정(학점·전필·졸업요건). 주전공과 부전공 이중 학적 불가.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13",
+      "s14"
+     ]
+    },
+    {
+     "id": "cls-sti",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "첨단융합학부 전공을 주전공으로 고르면: 전공 48학점 이상, 그 전공 전필 모두, 교과인증과정 트랙 1개, 졸업논문 제출(첨단융합학부 공통전필 [표3]·교양 규정은 적용 안 됨)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s15"
+     ]
+    }
+   ],
+   "note": "1차(2025학번) 요건 그대로. 2026학번도 같다: 학부 졸업 규정 제목이 '2025학번~'이고, 2026학년도 대학별 이수규정·2026 길잡이의 □ 학부대학(자유전공학부) 표가 '2025학년도 입학생부터 적용' 그대로다."
+  },
+  {
+   "entry_years": [
+    2023,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 135,
+    "ge": 36,
+    "single": null,
+    "parallel": null,
+    "double": null,
+    "minor": null,
+    "text": {
+     "single": "선택 전공의 단일전공 학점(심화전공 승인 때)",
+     "parallel": "선택 전공의 다른 전공 병행 학점"
+    },
+    "status": "확인",
+    "src": [
+     "s30",
+     "s25",
+     "s32",
+     "s33",
+     "s34",
+     "s35"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s21",
+    "s25",
+    "s30",
+    "s28",
+    "s29",
+    "s36",
+    "s23"
+   ],
+   "requirements": [
+    {
+     "id": "cls-ge-writing1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 <사고와 표현>: 대학 글쓰기 1([1-1, 1-2], 2학점)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23",
+      "s24"
+     ],
+     "note": "2025-1부터 과목번호만 F11.101로 바뀐 같은 과목(수강편람 부록 2 비교표). 2018학번까지 쓰던 '글쓰기의 기초' 등 3학점 과목은 이 학번 규정에 없다."
+    },
+    {
+     "id": "cls-ge-writing2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 <사고와 표현>: 대학 글쓰기 2 인문학·사회과학·과학기술글쓰기 중 1(대학 글쓰기 1 뒤, 2학점)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23",
+      "s24"
+     ],
+     "note": "2026 비교표에 새로 생긴 F11.204 '대학 글쓰기 2: 과학기술 커뮤니케이션'(편람 자료 2026-2까지 개설 기록 없음)이 이 학번의 <사고와 표현> 필수로 인정되는지는 미확인(영역 인정 기준상 동일·대체 지정이 있어야 옛 영역으로 셈)."
+    },
+    {
+     "id": "cls-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 이상 6학점. 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수.",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "cls-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 <수량적 분석과 추론> 3학점: 수학 1+수학연습 1, 고급수학 1+고급수학연습 1, 수학의 기초와 응용 1 중 1(연습은 동시 수강)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1.0
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1.0
+      },
+      {
+       "code": "033.012",
+       "name": "수학의 기초와 응용 1",
+       "credits": 4.0
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1.0
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1.0
+      },
+      {
+       "code": "F31.103",
+       "name": "수학의 기초와 응용 1",
+       "credits": 4.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23",
+      "s24"
+     ],
+     "note": "수학의 기초와 응용 1은 고교에서 미적분 2·기하와 벡터·고급수학 1,2 등을 들은 학생은 수강 불가(규정 주석)."
+    },
+    {
+     "id": "cls-ge-scicomp",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 <과학적 사고와 실험>·<컴퓨터와 정보 활용> 영역에서 3학점 이상(이론·실험 연계 과목은 동시 수강)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23"
+     ],
+     "note": "옛 번호 034·L0443(과학적 사고와 실험), 035·L0444(컴퓨터와 정보 활용). 2025-1 뒤 F33~F36(과학)·F37(컴퓨팅) 번호 과목은 비교표에서 옛 과목과 같은 과목이면 옛 영역으로 인정하고, 2025년 이후 새로 생긴 과목(예: 컴퓨팅 기초: 처음 만나는 데이터)은 영역 필수에 안 들고 전체 교양으로만 인정(수강편람 영역 인정 기준)."
+    },
+    {
+     "id": "cls-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 7개 영역(언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회·자연과 기술·생명과 환경) 중 4개 영역 이상을 포함해 12학점 이상",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23"
+     ],
+     "note": "2025-1 뒤 옛 학문의 세계 과목은 주로 지성의 열쇠(C10~C40)·지성의 확장 지식의 세계(E11) 번호로 열린다. 비교표에 옛 영역이 적힌(같은 과목·대체 지정) 과목만 그 옛 영역으로 셈하고, 2025년 이후 신설 과목은 전체 교양으로만 셈."
+    },
+    {
+     "id": "cls-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "일반교양(전체 교양 교과목) 8학점, 자유 선택",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23"
+     ],
+     "note": "사회봉사 1은 이 학번 교양 표가 아니라 '그 외 졸업요건'에 있다(cls-social-service)."
+    },
+    {
+     "id": "cls-dept-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "자유전공학부 전공필수(기준 4학점): 주제탐구세미나 1(3) + 전공설계 1(2022년까지 1학점, 2023-1부터 2학점). 표의 '4(7)'에서 7은 종합설계(학생설계전공에 한함)를 넣은 값",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "991.101",
+       "name": "주제탐구세미나 1",
+       "credits": 3.0
+      },
+      {
+       "code": "991.103",
+       "name": "전공설계 1",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27"
+     ],
+     "note": "2023-1 교과 개편 뒤 전공설계 1을 들은 19~24학번은 전필이 5학점이 된다(괄호 안 최대치 7 안)."
+    },
+    {
+     "id": "cls-dept-reqelec",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택필수: 주제탐구세미나 2·3·4 중 1과목 이상(기준 3학점, 표 '3(6)')",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "991.102",
+       "name": "주제탐구세미나 2",
+       "credits": 3.0
+      },
+      {
+       "code": "991.201",
+       "name": "주제탐구세미나 3",
+       "credits": 3.0
+      },
+      {
+       "code": "991.203",
+       "name": "주제탐구세미나 4",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27"
+     ],
+     "note": "주제탐구세미나 4 재수강은 인문예술·사회과학·자연과학융합세미나 또는 주제심화세미나로 대신(교과과정 개편 안내). 2025학번~ 표는 '필수전선: 주제탐구세미나 2'만 둔다."
+    },
+    {
+     "id": "cls-dept-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 기준 8학점(표 '8(11)'). 학부 전공 합 18 = 전필 4 + 선택필수 3 + 전선 8 = 15에 3학점을 더 채운다(괄호 숫자는 구분별 최대 산입 학점으로 읽음)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "991.301A",
+       "name": "자율연구 1",
+       "credits": 3.0
+      },
+      {
+       "code": "991.304",
+       "name": "자율연구2",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001800",
+       "name": "자율연구 2",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001000",
+       "name": "현장학습 1",
+       "credits": 2.0
+      },
+      {
+       "code": "M2199.001100",
+       "name": "현장학습 2",
+       "credits": 2.0
+      },
+      {
+       "code": "991.302",
+       "name": "국내현장학습",
+       "credits": 2.0
+      },
+      {
+       "code": "991.303",
+       "name": "해외현장학습",
+       "credits": 2.0
+      },
+      {
+       "code": "991.307",
+       "name": "고전탐구세미나 1",
+       "credits": 3.0
+      },
+      {
+       "code": "991.308",
+       "name": "고전탐구세미나 2",
+       "credits": 3.0
+      },
+      {
+       "code": "991.305A",
+       "name": "창의융합세미나",
+       "credits": 3.0
+      },
+      {
+       "code": "991.306A",
+       "name": "창의융합프로젝트",
+       "credits": 3.0
+      },
+      {
+       "code": "991.202A",
+       "name": "전공설계 2",
+       "credits": 1.0
+      },
+      {
+       "code": "991.401",
+       "name": "종합설계",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.000200",
+       "name": "주제심화세미나 1",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.000400",
+       "name": "주제심화세미나 3",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001900",
+       "name": "주제심화세미나",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.000500",
+       "name": "주제심화프로젝트 1",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.000600",
+       "name": "주제심화프로젝트 2",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.002000",
+       "name": "주제심화프로젝트",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001300",
+       "name": "인문예술융합세미나",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001400",
+       "name": "사회과학융합세미나",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001500",
+       "name": "자연과학융합세미나",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001600",
+       "name": "글로벌융합세미나",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s25",
+      "s28",
+      "s26",
+      "s27"
+     ],
+     "note": "괄호 해석: 전필 4(7)·선택필수 3(6)·전선 8(11)에서 기준 합 15, 괄호는 각 기준+3이라 '남는 3학점은 어느 구분에서든, 구분별 상한 안에서'로 읽었다(25학번~ 5(8)·3(3)·4(7), 계 15에도 같은 규칙이 맞는다). 자율연구 3·주제심화세미나 2는 편람 자료(2021-1~)에 없어 번호 미확인. 타전공 개설과목 대체 인정 6학점(cls-substitute)도 이 전선에 들어간다."
+    },
+    {
+     "id": "cls-choice-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 선택 신청 요건(2019~2024학번): 정규 2개 학기·24학점, 학문의 기초(사고와 표현·외국어·수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용) 8학점 이상, 주제탐구세미나 1 이수, 학과 필수조건, 전공상담교수 면담 1회",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "991.101",
+       "name": "주제탐구세미나 1",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29"
+     ],
+     "note": "2025학번부터는 전공설계 1도 이수해야 한다."
+    },
+    {
+     "id": "cls-chosen-major",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택 전공의 이수규정을 따른다: 전공 학점·전필, 영어강의 의무·TEPS, 졸업논문·작품, 대학별 요건(예: 인문대학 소그룹원전읽기·제2외국어 3학점·외국어진행강의 3과목). 학과가 자유전공학부 교양 외에 요구하는 교양(2개 교과목 또는 8학점 이내, 예: 생명과학전공은 생물학 1·2와 실험)도 이수한다.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ],
+     "note": "선택 전공 쪽 값은 해당 단과대 조사 결과를 쓴다."
+    },
+    {
+     "id": "cls-pre-cap",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 선택 이전에 이수한 전공 교과목은 전공별 21학점까지만 전공학점으로 인정(학생설계전공 제외)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s9"
+     ],
+     "note": "상한 21학점(계산용)."
+    },
+    {
+     "id": "cls-overlap",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기존 전공 2개 이상 사이 중복 인정은 최대 9학점: 주전공 학과 개설 과목 9학점까지, 타과 개설 인정 전선 3학점까지(합 9 넘지 않음). 주전공과 부전공·연계전공 사이 중복 불가.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ]
+    },
+    {
+     "id": "cls-other",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "그 밖 졸업요건: 8학기 이상 등록(조기졸업 6학기), 첫 번째 전공 선택 뒤 4개 학기 경과(심화전공은 졸업예정 2개 학기 전 신청·승인), 135학점 이상, 평점평균 2.0 이상(전 교과목·전공 교과목), 입학 때 TEPS 900 이하는 영어 1과목, 졸업논문 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s30"
+     ]
+    },
+    {
+     "id": "cls-second",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "제2전공(부전공·연계전공·학생설계부전공)은 해당 학과 규정(학점·전필·졸업요건). 주전공과 부전공 이중 학적 불가.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13",
+      "s14"
+     ]
+    },
+    {
+     "id": "cls-sti",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "첨단융합학부 전공을 주전공으로 고르면: 전공 48학점 이상, 그 전공 전필 모두, 교과인증과정 트랙 1개, 졸업논문 제출(첨단융합학부 공통전필 [표3]·교양 규정은 적용 안 됨)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s15"
+     ]
+    },
+    {
+     "id": "cls-social-service",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사회봉사 1(1학점) 이수 — 2023학번부터 졸업학기(계절학기 포함)에는 사회봉사 1을 들을 수 없다",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "053.003",
+       "name": "사회봉사 1",
+       "credits": 1.0
+      },
+      {
+       "code": "E20.103",
+       "name": "사회봉사 1",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s30",
+      "s28"
+     ]
+    },
+    {
+     "id": "cls-substitute",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "타전공 개설과목 대체 인정: 전공탐색 중 들은 타전공 개설 전공과목을 자유전공학부 전공선택으로 최대 6학점까지 대체 인정(2012~2024학번만, 2023년 2월 졸업자부터). 마지막으로 진입한 전공의 직전 정규학기까지이면서 6학기(3학년 2학기)까지 들은 A~F 평가 과목만, 일반선택으로 개설된 과목·국제하계강좌·대학원 과목·승인 전공 졸업기준을 넘는 과목·자유전공학부에서 진입할 수 없는 학과(사범대·간호대·혁신공유학부 등) 과목은 제외. 졸업 예비사정(2월 초·8월 초) 때 신청",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s31",
+      "s28"
+     ],
+     "note": "2025학번~ 규정에는 없다(시행세칙 부칙 2025.2.5. 제2조: 2024학년도 이전 입학생에게 적용)."
+    }
+   ],
+   "changed": "졸업 135(130 아님), 학부 전공 18(전필 4·선택필수 3·전선 8 + 3), 교양은 옛 체계(사고와 표현·수량적 분석과 추론·학문의 세계 12, 베리타스 없음), 전공선택 신청 요건에 전공설계 1 없음, 타전공 개설과목 6학점 대체 인정, 사회봉사 1은 별도 졸업요건.",
+   "note": "자유전공학부가 학부대학 소속이 되기 전(2025.3 학부대학 출범 전) 입학한 학번이다. 규정 파일은 '2019학번~2024학번' 하나이고, 사회봉사 1 졸업학기 제한만 2023학번부터라 2023~2024와 2019~2022를 나눴다. 교양 표는 2019~2024 해마다 이수규정 PDF에서 같다."
+  },
+  {
+   "entry_years": [
+    2019,
+    2022
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 135,
+    "ge": 36,
+    "single": null,
+    "parallel": null,
+    "double": null,
+    "minor": null,
+    "text": {
+     "single": "선택 전공의 단일전공 학점(심화전공 승인 때)",
+     "parallel": "선택 전공의 다른 전공 병행 학점"
+    },
+    "status": "확인",
+    "src": [
+     "s30",
+     "s25",
+     "s32",
+     "s33",
+     "s34",
+     "s35"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s30",
+    "s28",
+    "s22",
+    "s37",
+    "s38",
+    "s39"
+   ],
+   "requirements": [
+    {
+     "id": "cls-ge-writing1",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 <사고와 표현>: 대학 글쓰기 1([1-1, 1-2], 2학점)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "L0440.000600",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23",
+      "s24"
+     ],
+     "note": "2025-1부터 과목번호만 F11.101로 바뀐 같은 과목(수강편람 부록 2 비교표). 2018학번까지 쓰던 '글쓰기의 기초' 등 3학점 과목은 이 학번 규정에 없다."
+    },
+    {
+     "id": "cls-ge-writing2",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 <사고와 표현>: 대학 글쓰기 2 인문학·사회과학·과학기술글쓰기 중 1(대학 글쓰기 1 뒤, 2학점)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "L0440.000700",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "L0440.000800",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "L0440.000900",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2.0
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23",
+      "s24"
+     ],
+     "note": "2026 비교표에 새로 생긴 F11.204 '대학 글쓰기 2: 과학기술 커뮤니케이션'(편람 자료 2026-2까지 개설 기록 없음)이 이 학번의 <사고와 표현> 필수로 인정되는지는 미확인(영역 인정 기준상 동일·대체 지정이 있어야 옛 영역으로 셈)."
+    },
+    {
+     "id": "cls-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 이상 6학점. 입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수.",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ]
+    },
+    {
+     "id": "cls-ge-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 <수량적 분석과 추론> 3학점: 수학 1+수학연습 1, 고급수학 1+고급수학연습 1, 수학의 기초와 응용 1 중 1(연습은 동시 수강)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "L0442.000100",
+       "name": "수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "L0442.000200",
+       "name": "수학연습 1",
+       "credits": 1.0
+      },
+      {
+       "code": "L0442.000500",
+       "name": "고급수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "L0442.000600",
+       "name": "고급수학연습 1",
+       "credits": 1.0
+      },
+      {
+       "code": "033.012",
+       "name": "수학의 기초와 응용 1",
+       "credits": 4.0
+      },
+      {
+       "code": "F31.104",
+       "name": "수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F31.104L",
+       "name": "수학연습 1",
+       "credits": 1.0
+      },
+      {
+       "code": "F31.106",
+       "name": "고급수학 1",
+       "credits": 2.0
+      },
+      {
+       "code": "F31.106L",
+       "name": "고급수학연습 1",
+       "credits": 1.0
+      },
+      {
+       "code": "F31.103",
+       "name": "수학의 기초와 응용 1",
+       "credits": 4.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23",
+      "s24"
+     ],
+     "note": "수학의 기초와 응용 1은 고교에서 미적분 2·기하와 벡터·고급수학 1,2 등을 들은 학생은 수강 불가(규정 주석)."
+    },
+    {
+     "id": "cls-ge-scicomp",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 기초 <과학적 사고와 실험>·<컴퓨터와 정보 활용> 영역에서 3학점 이상(이론·실험 연계 과목은 동시 수강)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23"
+     ],
+     "note": "옛 번호 034·L0443(과학적 사고와 실험), 035·L0444(컴퓨터와 정보 활용). 2025-1 뒤 F33~F36(과학)·F37(컴퓨팅) 번호 과목은 비교표에서 옛 과목과 같은 과목이면 옛 영역으로 인정하고, 2025년 이후 새로 생긴 과목(예: 컴퓨팅 기초: 처음 만나는 데이터)은 영역 필수에 안 들고 전체 교양으로만 인정(수강편람 영역 인정 기준)."
+    },
+    {
+     "id": "cls-ge-keys",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 7개 영역(언어와 문학·문화와 예술·역사와 철학·정치와 경제·인간과 사회·자연과 기술·생명과 환경) 중 4개 영역 이상을 포함해 12학점 이상",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23"
+     ],
+     "note": "2025-1 뒤 옛 학문의 세계 과목은 주로 지성의 열쇠(C10~C40)·지성의 확장 지식의 세계(E11) 번호로 열린다. 비교표에 옛 영역이 적힌(같은 과목·대체 지정) 과목만 그 옛 영역으로 셈하고, 2025년 이후 신설 과목은 전체 교양으로만 셈."
+    },
+    {
+     "id": "cls-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "일반교양(전체 교양 교과목) 8학점, 자유 선택",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23"
+     ],
+     "note": "사회봉사 1은 이 학번 교양 표가 아니라 '그 외 졸업요건'에 있다(cls-social-service)."
+    },
+    {
+     "id": "cls-dept-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "자유전공학부 전공필수(기준 4학점): 주제탐구세미나 1(3) + 전공설계 1(2022년까지 1학점, 2023-1부터 2학점). 표의 '4(7)'에서 7은 종합설계(학생설계전공에 한함)를 넣은 값",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "991.101",
+       "name": "주제탐구세미나 1",
+       "credits": 3.0
+      },
+      {
+       "code": "991.103",
+       "name": "전공설계 1",
+       "credits": 2.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27"
+     ],
+     "note": "2023-1 교과 개편 뒤 전공설계 1을 들은 19~24학번은 전필이 5학점이 된다(괄호 안 최대치 7 안)."
+    },
+    {
+     "id": "cls-dept-reqelec",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택필수: 주제탐구세미나 2·3·4 중 1과목 이상(기준 3학점, 표 '3(6)')",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [
+      {
+       "code": "991.102",
+       "name": "주제탐구세미나 2",
+       "credits": 3.0
+      },
+      {
+       "code": "991.201",
+       "name": "주제탐구세미나 3",
+       "credits": 3.0
+      },
+      {
+       "code": "991.203",
+       "name": "주제탐구세미나 4",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26",
+      "s27"
+     ],
+     "note": "주제탐구세미나 4 재수강은 인문예술·사회과학·자연과학융합세미나 또는 주제심화세미나로 대신(교과과정 개편 안내). 2025학번~ 표는 '필수전선: 주제탐구세미나 2'만 둔다."
+    },
+    {
+     "id": "cls-dept-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공선택 기준 8학점(표 '8(11)'). 학부 전공 합 18 = 전필 4 + 선택필수 3 + 전선 8 = 15에 3학점을 더 채운다(괄호 숫자는 구분별 최대 산입 학점으로 읽음)",
+     "min_count": null,
+     "min_credits": 8,
+     "courses": [
+      {
+       "code": "991.301A",
+       "name": "자율연구 1",
+       "credits": 3.0
+      },
+      {
+       "code": "991.304",
+       "name": "자율연구2",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001800",
+       "name": "자율연구 2",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001000",
+       "name": "현장학습 1",
+       "credits": 2.0
+      },
+      {
+       "code": "M2199.001100",
+       "name": "현장학습 2",
+       "credits": 2.0
+      },
+      {
+       "code": "991.302",
+       "name": "국내현장학습",
+       "credits": 2.0
+      },
+      {
+       "code": "991.303",
+       "name": "해외현장학습",
+       "credits": 2.0
+      },
+      {
+       "code": "991.307",
+       "name": "고전탐구세미나 1",
+       "credits": 3.0
+      },
+      {
+       "code": "991.308",
+       "name": "고전탐구세미나 2",
+       "credits": 3.0
+      },
+      {
+       "code": "991.305A",
+       "name": "창의융합세미나",
+       "credits": 3.0
+      },
+      {
+       "code": "991.306A",
+       "name": "창의융합프로젝트",
+       "credits": 3.0
+      },
+      {
+       "code": "991.202A",
+       "name": "전공설계 2",
+       "credits": 1.0
+      },
+      {
+       "code": "991.401",
+       "name": "종합설계",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.000200",
+       "name": "주제심화세미나 1",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.000400",
+       "name": "주제심화세미나 3",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001900",
+       "name": "주제심화세미나",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.000500",
+       "name": "주제심화프로젝트 1",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.000600",
+       "name": "주제심화프로젝트 2",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.002000",
+       "name": "주제심화프로젝트",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001300",
+       "name": "인문예술융합세미나",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001400",
+       "name": "사회과학융합세미나",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001500",
+       "name": "자연과학융합세미나",
+       "credits": 3.0
+      },
+      {
+       "code": "M2199.001600",
+       "name": "글로벌융합세미나",
+       "credits": 3.0
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s25",
+      "s28",
+      "s26",
+      "s27"
+     ],
+     "note": "괄호 해석: 전필 4(7)·선택필수 3(6)·전선 8(11)에서 기준 합 15, 괄호는 각 기준+3이라 '남는 3학점은 어느 구분에서든, 구분별 상한 안에서'로 읽었다(25학번~ 5(8)·3(3)·4(7), 계 15에도 같은 규칙이 맞는다). 자율연구 3·주제심화세미나 2는 편람 자료(2021-1~)에 없어 번호 미확인. 타전공 개설과목 대체 인정 6학점(cls-substitute)도 이 전선에 들어간다."
+    },
+    {
+     "id": "cls-choice-prereq",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 선택 신청 요건(2019~2024학번): 정규 2개 학기·24학점, 학문의 기초(사고와 표현·외국어·수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용) 8학점 이상, 주제탐구세미나 1 이수, 학과 필수조건, 전공상담교수 면담 1회",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "991.101",
+       "name": "주제탐구세미나 1",
+       "credits": 3.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s29"
+     ],
+     "note": "2025학번부터는 전공설계 1도 이수해야 한다."
+    },
+    {
+     "id": "cls-chosen-major",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택 전공의 이수규정을 따른다: 전공 학점·전필, 영어강의 의무·TEPS, 졸업논문·작품, 대학별 요건(예: 인문대학 소그룹원전읽기·제2외국어 3학점·외국어진행강의 3과목). 학과가 자유전공학부 교양 외에 요구하는 교양(2개 교과목 또는 8학점 이내, 예: 생명과학전공은 생물학 1·2와 실험)도 이수한다.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9"
+     ],
+     "note": "선택 전공 쪽 값은 해당 단과대 조사 결과를 쓴다."
+    },
+    {
+     "id": "cls-pre-cap",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 선택 이전에 이수한 전공 교과목은 전공별 21학점까지만 전공학점으로 인정(학생설계전공 제외)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s9"
+     ],
+     "note": "상한 21학점(계산용)."
+    },
+    {
+     "id": "cls-overlap",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기존 전공 2개 이상 사이 중복 인정은 최대 9학점: 주전공 학과 개설 과목 9학점까지, 타과 개설 인정 전선 3학점까지(합 9 넘지 않음). 주전공과 부전공·연계전공 사이 중복 불가.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ]
+    },
+    {
+     "id": "cls-other",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "그 밖 졸업요건: 8학기 이상 등록(조기졸업 6학기), 첫 번째 전공 선택 뒤 4개 학기 경과(심화전공은 졸업예정 2개 학기 전 신청·승인), 135학점 이상, 평점평균 2.0 이상(전 교과목·전공 교과목), 입학 때 TEPS 900 이하는 영어 1과목, 졸업논문 제출",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s30"
+     ]
+    },
+    {
+     "id": "cls-second",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "제2전공(부전공·연계전공·학생설계부전공)은 해당 학과 규정(학점·전필·졸업요건). 주전공과 부전공 이중 학적 불가.",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13",
+      "s14"
+     ]
+    },
+    {
+     "id": "cls-sti",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "첨단융합학부 전공을 주전공으로 고르면: 전공 48학점 이상, 그 전공 전필 모두, 교과인증과정 트랙 1개, 졸업논문 제출(첨단융합학부 공통전필 [표3]·교양 규정은 적용 안 됨)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s15"
+     ]
+    },
+    {
+     "id": "cls-social-service",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사회봉사 1(1학점) 이수(졸업학기 수강 제한 없음 — 제한은 2023학번부터)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "053.003",
+       "name": "사회봉사 1",
+       "credits": 1.0
+      },
+      {
+       "code": "E20.103",
+       "name": "사회봉사 1",
+       "credits": 1.0
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s30",
+      "s28"
+     ]
+    },
+    {
+     "id": "cls-substitute",
+     "type": "major_elective",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "타전공 개설과목 대체 인정: 전공탐색 중 들은 타전공 개설 전공과목을 자유전공학부 전공선택으로 최대 6학점까지 대체 인정(2012~2024학번만, 2023년 2월 졸업자부터). 마지막으로 진입한 전공의 직전 정규학기까지이면서 6학기(3학년 2학기)까지 들은 A~F 평가 과목만, 일반선택으로 개설된 과목·국제하계강좌·대학원 과목·승인 전공 졸업기준을 넘는 과목·자유전공학부에서 진입할 수 없는 학과(사범대·간호대·혁신공유학부 등) 과목은 제외. 졸업 예비사정(2월 초·8월 초) 때 신청",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s31",
+      "s28"
+     ],
+     "note": "2025학번~ 규정에는 없다(시행세칙 부칙 2025.2.5. 제2조: 2024학년도 이전 입학생에게 적용)."
+    }
+   ],
+   "changed": "2023~2024학번과 같고, 사회봉사 1을 졸업학기에 들어도 된다.",
+   "note": "이 학번들은 2023-1 교과 개편 전 과목(전공설계 1 1학점, 주제탐구세미나 3·4, 주제심화세미나 1·3, 주제심화프로젝트 1·2, 국내·해외현장학습, 자율연구2 옛 번호)을 들었을 수 있다 → 옛 번호도 요건 과목으로 받는다(basis '교과 개편 학기' change_point 참고)."
+  }
+ ],
+ "change_points": [
+  {
+   "entry_year": 2025,
+   "basis": "입학 연도",
+   "what": "졸업 135→130, 학부 전공 18→15(전필 '주제탐구세미나 1·전공설계 1' 기준 4→5, 선택필수 '주제탐구세미나 2·3·4 중'→필수전선 '주제탐구세미나 2', 전선 기준 8→4), 교양 새 체계(학문의 토대·지성의 열쇠 9·베리타스 3, 전체 교양 8에 사회봉사 1), 전공선택 신청 요건에 전공설계 1 추가, 타전공 개설과목 6학점 대체 인정 없어짐",
+   "status": "확인"
+  },
+  {
+   "entry_year": 2023,
+   "basis": "입학 연도",
+   "what": "사회봉사 1을 졸업학기(계절 포함)에 들을 수 없음",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "전공설계 1 1→2학점, 주제탐구세미나 4·주제심화세미나 2·3·주제심화프로젝트 2·국내/해외현장학습 폐지, 주제심화세미나 1→'주제심화세미나'·주제심화프로젝트 1→'주제심화프로젝트' 통합, 자율연구 2 번호 변경, 인문예술·사회과학·자연과학융합세미나·현장학습 1·2 신설(학번 제한 없이 전선), 글로벌융합세미나·사회공헌프로젝트 2023-2 개설 예정(편람 자료상 글로벌융합세미나 2024-1~2025-2, 사회공헌프로젝트 기록 없음)",
+   "status": "확인"
+  },
+  {
+   "basis": "교과 개편 학기",
+   "what": "교양 과목번호가 새 체계(F·C·V·E)로 바뀜. 옛 학번에게는 비교표상 같은 과목이면 옛 과목으로 인정",
+   "status": "확인"
+  }
+ ],
+ "ask_department": [
+  "학부 전공 18/15학점 표 괄호 숫자의 뜻(구분별 최대 산입으로 읽음)",
+  "2019~2024학번이 글로벌융합세미나·사회공헌프로젝트를 전공선택으로 인정받는지, 자율연구 3·주제심화세미나 2의 과목번호",
+  "2026년 새로 생긴 '대학 글쓰기 2: 과학기술 커뮤니케이션'이 19~24학번 <사고와 표현> 필수로 인정되는지",
+  "「전공 이수 규정 및 시행세칙(2025.7.30.)」 원문(자료실 글이 스크립트로만 열림)",
+  "2025학번 졸업 학점이 130인지(2024 해설 표 1과 19~24학번 규정은 135)",
+  "학부 전공 15학점 표의 괄호 숫자 5(8)·3(3)·4(7)의 뜻(학생설계전공 주전공자 기준인지)",
+  "한 전공만 이수(심화전공)하려면 꼭 승인이 필요한지, 즉 2개 이상 전공이 사실상 의무인지",
+  "연합전공을 주전공으로 고를 수 있는지(2024 해설 표 1은 '기존 전공(연합전공 포함)')",
+  "학과가 추가로 요구하는 교양(8학점 이내) 학과별 목록"
+ ],
+ "sources": {
+  "s1": {
+   "title": "자유전공학부 졸업 규정(2025학번~)",
+   "url": "https://cls.snu.ac.kr/wp-content/uploads/sites/151/2025/09/자유전공학부-졸업-규정25학번.pdf",
+   "locator": "p.1 '1. 교양이수: 36학점' 표",
+   "accessed": "2026-11-12"
+  },
+  "s2": {
+   "title": "2025 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2025-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "p.106 □ 학부대학 (자유전공학부)",
+   "accessed": "2026-11-12"
+  },
+  "s3": {
+   "title": "2025학년도 시행 공통교육과정 대학별 이수규정(국문)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/01/2025학년도-시행-공통교육과정-대학별-이수규정국문.pdf",
+   "locator": "○ 학부대학 (자유전공학부)",
+   "accessed": "2026-11-12"
+  },
+  "s4": {
+   "title": "자유전공학부 졸업 규정(2025학번~)",
+   "url": "https://cls.snu.ac.kr/wp-content/uploads/sites/151/2025/09/자유전공학부-졸업-규정25학번.pdf",
+   "locator": "p.3 '5. 그 외 졸업요건' 사회봉사 1",
+   "accessed": "2026-11-12"
+  },
+  "s5": {
+   "title": "자유전공학부 졸업 규정(2025학번~)",
+   "url": "https://cls.snu.ac.kr/wp-content/uploads/sites/151/2025/09/자유전공학부-졸업-규정25학번.pdf",
+   "locator": "p.2 '2. 자유전공학부 전공 이수 : 15학점' 표",
+   "accessed": "2026-11-12"
+  },
+  "s6": {
+   "title": "자유전공학부 전공 교과과정 안내",
+   "url": "https://cls.snu.ac.kr/교과과정/",
+   "locator": "전공필수·전공선택·학생설계전공 전공필수 목록",
+   "accessed": "2026-11-12"
+  },
+  "s7": {
+   "title": "자유전공학부 전공선택 안내(근거: 자유전공학부 전공 이수 규정 및 시행세칙 2025.7.30.)",
+   "url": "https://cls.snu.ac.kr/전공선택/",
+   "locator": "2. 신청 요건, 6. 학번별 차이",
+   "accessed": "2026-11-12"
+  },
+  "s8": {
+   "title": "자유전공학부 졸업 규정(2025학번~)",
+   "url": "https://cls.snu.ac.kr/wp-content/uploads/sites/151/2025/09/자유전공학부-졸업-규정25학번.pdf",
+   "locator": "p.2 '3. 전공선택에 따른 전공 이수'",
+   "accessed": "2026-11-12"
+  },
+  "s9": {
+   "title": "자유전공학부 전공선택 안내(근거: 자유전공학부 전공 이수 규정 및 시행세칙 2025.7.30.)",
+   "url": "https://cls.snu.ac.kr/전공선택/",
+   "locator": "9. 유의사항",
+   "accessed": "2026-11-12"
+  },
+  "s10": {
+   "title": "자유전공학부 졸업 규정(2025학번~)",
+   "url": "https://cls.snu.ac.kr/wp-content/uploads/sites/151/2025/09/자유전공학부-졸업-규정25학번.pdf",
+   "locator": "p.2 ※ 첫째 줄",
+   "accessed": "2026-11-12"
+  },
+  "s11": {
+   "title": "자유전공학부 졸업 규정(2025학번~)",
+   "url": "https://cls.snu.ac.kr/wp-content/uploads/sites/151/2025/09/자유전공학부-졸업-규정25학번.pdf",
+   "locator": "p.2 ※ 둘째 줄",
+   "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "자유전공학부 졸업 규정(2025학번~)",
+   "url": "https://cls.snu.ac.kr/wp-content/uploads/sites/151/2025/09/자유전공학부-졸업-규정25학번.pdf",
+   "locator": "p.3 '5. 그 외 졸업요건'",
+   "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "자유전공학부 졸업 규정(2025학번~)",
+   "url": "https://cls.snu.ac.kr/wp-content/uploads/sites/151/2025/09/자유전공학부-졸업-규정25학번.pdf",
+   "locator": "p.3 '4. 제2전공'",
+   "accessed": "2026-11-12"
+  },
+  "s14": {
+   "title": "자유전공학부 전공선택 안내(근거: 자유전공학부 전공 이수 규정 및 시행세칙 2025.7.30.)",
+   "url": "https://cls.snu.ac.kr/전공선택/",
+   "locator": "11. 제2전공",
+   "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교 첨단융합학부 전공 이수 및 졸업 규정(2026.3.6. 개정)",
+   "url": "https://snuti.snu.ac.kr/wp-content/uploads/sites/215/2026/03/서울대학교-첨단융합학부-전공-이수-및-졸업-규정2026.3.6.pdf",
+   "locator": "제3조 제1항 제2호, 제5조 단서",
+   "accessed": "2026-11-12"
+  },
+  "s16": {
+   "title": "자유전공학부 졸업 규정(2025학번~)",
+   "url": "https://cls.snu.ac.kr/wp-content/uploads/sites/151/2025/09/자유전공학부-졸업-규정25학번.pdf",
+   "locator": "p.3 '5. 그 외 졸업요건'(130학점, 사회봉사 1)",
+   "accessed": "2026-11-12"
+  },
+  "s17": {
+   "title": "자유전공학부 졸업 규정(2025학번~)",
+   "url": "https://cls.snu.ac.kr/wp-content/uploads/sites/151/2025/09/자유전공학부-졸업-규정25학번.pdf",
+   "locator": "p.2 '2. 자유전공학부 전공 이수: 15학점'",
+   "accessed": "2026-11-12"
+  },
+  "s18": {
+   "title": "자유전공학부 졸업 규정(2025학번~)",
+   "url": "https://cls.snu.ac.kr/wp-content/uploads/sites/151/2025/09/자유전공학부-졸업-규정25학번.pdf",
+   "locator": "p.1 '1. 교양이수: 36학점'",
+   "accessed": "2026-11-12"
+  },
+  "s19": {
+   "title": "2026학년도 시행 단과대학별 공통교육과정 이수 규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/01/2026학년도-시행-공통교육과정-대학별-이수규정.pdf",
+   "locator": "p.48~50 □ 학부대학(자유전공학부)·(광역), '2025학년도 입학생부터 적용'",
+   "accessed": "2026-11-12"
+  },
+  "s20": {
+   "title": "2026 서울대 새내기 기초교양교육과정 길잡이(공통교육과정 안내·이수규정)",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/02/2026-서울대-새내기-기초교양교육과정-길잡이_공통교육과정-안내-이수규정.pdf",
+   "locator": "5. 2026학년도 단과대학별 공통교육과정 이수규정 □ 학부대학(자유전공학부)·(광역)",
+   "accessed": "2026-11-12"
+  },
+  "s21": {
+   "title": "자유전공학부 졸업 규정(2019학번~2024학번)",
+   "url": "https://cls.snu.ac.kr/wp-content/uploads/sites/151/2025/09/자유전공학부-졸업-규정1924학번.pdf",
+   "locator": "p.1 '1. 교양이수: 36학점'",
+   "accessed": "2026-11-12"
+  },
+  "s22": {
+   "title": "2019학년도 단과대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/04/liberaledu_2019.pdf",
+   "locator": "PDF p.31 자유전공학부",
+   "accessed": "2026-11-12"
+  },
+  "s23": {
+   "title": "2024학년도 대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2024_2.pdf",
+   "locator": "PDF p.37 □ 자유전공학부, p.38 □ 첨단융합학부",
+   "accessed": "2026-11-12"
+  },
+  "s24": {
+   "title": "2026학년도 2학기 기초교양 수강편람",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2026/08/★2026학년도-2학기-기초교양-수강편람배포_20260724.pdf",
+   "locator": "부록 2 '2024학년도 이전 및 2026학년도 이후 공통교육과정 영역 및 교과목 비교표'(PDF p.157~)",
+   "accessed": "2026-11-12"
+  },
+  "s25": {
+   "title": "자유전공학부 졸업 규정(2019학번~2024학번)",
+   "url": "https://cls.snu.ac.kr/wp-content/uploads/sites/151/2025/09/자유전공학부-졸업-규정1924학번.pdf",
+   "locator": "p.1 '2. 자유전공학부 전공 이수: 18학점'",
+   "accessed": "2026-11-12"
+  },
+  "s26": {
+   "title": "자유전공학부 교과과정 개편 안내",
+   "url": "https://cls.snu.ac.kr/자유전공학부-교과과정-개편-안내/",
+   "locator": "2023학년도 1학기부터 적용(신설·변경·폐지 교과목)",
+   "accessed": "2026-11-12"
+  },
+  "s27": {
+   "title": "수강편람 자료(학기별 과목 번호·이름·학점)",
+   "locator": "2021-1~2026-2 학기 파일, 과목 개설 학기 대조",
+   "accessed": "2026-11-12",
+   "repo": "data/history/"
+  },
+  "s28": {
+   "title": "자유전공학부 졸업규정 쪽(학번별 규정 목록)",
+   "url": "https://cls.snu.ac.kr/졸업규정/",
+   "locator": "2009~2011·2012~2013·2014~2018·2019~2024·2025학번~ 판, 타전공 대체 인정·사회봉사 1 주석",
+   "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "자유전공학부 전공선택 쪽",
+   "url": "https://cls.snu.ac.kr/전공선택/",
+   "locator": "1. 전공선택 자격 요건(학번별 학문의 토대/기초 8학점 표, 2025학번부터 전공설계 1)",
+   "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "자유전공학부 졸업 규정(2019학번~2024학번)",
+   "url": "https://cls.snu.ac.kr/wp-content/uploads/sites/151/2025/09/자유전공학부-졸업-규정1924학번.pdf",
+   "locator": "p.2 '5. 그 외 졸업요건'(135학점, 사회봉사 1)",
+   "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "타전공 개설과목 대체 인정에 관한 시행세칙(2025.7.30. 개정)",
+   "url": "https://cls.snu.ac.kr/wp-content/uploads/sites/151/2025/12/타전공-개설과목-대체-인정에-관한-시행세칙_2025.7.30.pdf",
+   "locator": "제2조~제4조, 부칙(2025.2.5.) 제2조",
+   "accessed": "2026-11-12"
+  },
+  "s32": {
+   "title": "서울대학교 2018 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
+   "locator": "PDF p.3 <표 1> 자유전공학부 135·36, 학생설계전공 60/39",
+   "accessed": "2026-11-12"
+  },
+  "s33": {
+   "title": "서울대학교 2020 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
+   "locator": "PDF p.3 <표 1> 자유전공학부",
+   "accessed": "2026-11-12"
+  },
+  "s34": {
+   "title": "서울대학교 2022 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
+   "locator": "PDF p.3 <표 1> 자유전공학부 135·36",
+   "accessed": "2026-11-12"
+  },
+  "s35": {
+   "title": "서울대학교 2024 교과과정 해설",
+   "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Explanation_kor_2024.pdf",
+   "locator": "PDF p.3 <표 1> 자유전공학부 135·36, 첨단융합학부 130·51·60·48",
+   "accessed": "2026-11-12"
+  },
+  "s36": {
+   "title": "2023학년도 대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/12/liberaledu_2023_2.pdf",
+   "locator": "PDF p.37 □ 자유전공학부",
+   "accessed": "2026-11-12"
+  },
+  "s37": {
+   "title": "2020학년도 대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/04/liberaledu_2020.pdf",
+   "locator": "PDF p.31 □ 자유전공학부",
+   "accessed": "2026-11-12"
+  },
+  "s38": {
+   "title": "2021학년도 대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/04/liberaledu_2021.pdf",
+   "locator": "PDF p.31 □ 자유전공학부",
+   "accessed": "2026-11-12"
+  },
+  "s39": {
+   "title": "2022학년도 대학별 교양 이수규정",
+   "url": "https://snuc.snu.ac.kr/wp-content/uploads/sites/305/2025/04/liberaledu_2022.pdf",
+   "locator": "PDF p.33 □ 자유전공학부",
+   "accessed": "2026-11-12"
+  }
+ },
+ "checked_on": "2026-11-12"
+}
