@@ -40,6 +40,7 @@ def fake_web(tmp_path: Path) -> Path:
     for name in ("index.json", "common.json", "programs/animal-biotech.json"):
         (web / "data" / "requirements" / name).write_text("{}", encoding="utf-8")
     (web / "data" / "calendar.json").write_text("{}", encoding="utf-8")
+    (web / "data" / "limits.json").write_text("{}", encoding="utf-8")  # 수강 제한 알림(update105)
     return web
 
 

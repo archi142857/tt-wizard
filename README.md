@@ -280,7 +280,8 @@ scripts/
   export_magicmap.py         마법 지도 개발자께 보낼 건물 목록
   campus_model.py            관악캠퍼스 3D·2D 모형 → data/local/model/ (템플릿 campus_model_3d.html, campus_model_2d.html)
   experiments.py             비교 실험 (웹 엔진 시간은 engine_bench.mjs)
-  restrictions.py            수강편람 비고의 수강 제한(®) 읽기
+  restrictions.py            수강편람 비고의 수강 제한(®) 읽기(실험용 첫 단계)
+  course_limits.py           수강편람 비고 → 수강 제한 알림의 분반 규칙 data/limits/, 수강신청 일정표 모으기 (docs/limits.md)
   requirements_import.py     졸업 요건 조사 자료 → data/requirements/ (docs/requirements.md)
   dept_catalog.py            학과 목록(처음 화면의 대학 → 학과 → 전공, 편람 학과 → 과정) → data/requirements/catalog.json
   field_validation.py        실측 구간 고르기, 실측과 모형 견주기, GPS 기록 분석
@@ -294,6 +295,8 @@ data/
   history/                   지난 학기 편람 (학기 선택용)
   requirements/              졸업 요건: 과정 목록과 과정별 학번 판(157과정), 학교 공통 규칙, 교양 학점 표, 교양 과목 대응표 (docs/requirements.md)
   calendar/                  학기 기간(개강·종강·보강)과 학기 안 공휴일: 캘린더 파일 내보내기용 (docs/calendar.md)
+  limits/                    수강 제한 알림: 학기마다 분반 규칙(편람 비고에서, 개인 메일 가림) (docs/limits.md)
+  registration.json          수강신청 일정표: 학기마다 첫 화면에서 모은 줄과 모은 날 (docs/limits.md)
   topo/                      수치지형도 원본 자리. 저장소에는 없습니다 (docs/topo.md)
   local/                     높이 자료(고도·높이차·경사, 3D·2D 모형) 자리. PC 에만 있고 저장소에는 없습니다 (docs/elevation_method.md)
   magicmap/                  캠퍼스 마법 지도에서 받은 그래프·거리표와 패치를 더한 그래프(높이 칸을 뺀 공개 판)
@@ -308,7 +311,7 @@ web/                         웹 앱 (GitHub Pages)
   field/                     실측 기록 페이지 (앱 화면에서는 연결하지 않는 페이지)
 app/                         스토어 앱 (Capacitor 8): android/, ios/, src/native.js, assets/icons/
 results/experiments/         비교 실험 결과
-docs/                        방법과 결정 (travel_time_method, experiments, elevation_method, basemap, search, timetables, app, topo, requirements, calendar 등)
+docs/                        방법과 결정 (travel_time_method, experiments, elevation_method, basemap, search, timetables, app, topo, requirements, calendar, limits 등)
   screenshots/               이 README 의 앱 화면 캡처
 licenses/                    앱에만 들어가는 다른 사람 코드의 고지문 (Capacitor, AndroidX, Cordova)
 tests/                       pytest
@@ -338,7 +341,9 @@ tests/                       pytest
 | 수강편람: `data/raw/`, `lectures.json`, `data/history/`, `data/changes/`, `stats.csv`, `buildings_history.csv` | 서울대학교 수강신청 시스템 강좌검색 | 서울대학교 자료. MIT 대상이 아닙니다 |
 | 건물 번호·이름·좌표: `buildings.csv`, `campus_buildings.csv` | [서울대학교 캠퍼스맵](https://map.snu.ac.kr) | 서울대학교 자료. MIT 대상이 아닙니다 |
 | 졸업 요건: `data/requirements/`(과정별 요건과 학번 판, 교양 학점 표, 교양 과목 대응표, 학사 공통 규칙)와 웹이 받는 `web/data/requirements/` | 서울대학교 공개 문서(교과과정 해설, 학부대학 교양 이수규정·기초교양 수강편람, 단과대·학과 누리집)를 이 저장소가 조사해 요약. 요건마다 출처를 적었습니다 | 서울대학교 자료에서 온 사실과 요약. MIT 대상이 아닙니다. 학교의 공식 졸업 사정이 아니며 학번·개별 인정에 따라 다를 수 있습니다 |
-| 학기 기간·공휴일: `data/calendar/`(웹 `web/data/calendar.json`) | 서울대학교 학사일정(공개 누리집), 관공서의 공휴일에 관한 규정과 그해 공휴일 발표 | 날짜만 옮긴 사실입니다. MIT 대상이 아닙니다 |
+| 학기 기간과 공휴일: `data/calendar/`(웹 `web/data/calendar.json`) | 서울대학교 학사일정(기준일: `data/calendar/terms.json` 의 `checked_on`), 공휴일은 「관공서의 공휴일에 관한 규정」과 정부 발표 | 날짜만 옮긴 사실입니다. MIT 대상이 아닙니다 |
+| 수강 제한 알림: `data/limits/`(웹 `web/data/limits.json`) | 수강편람 비고(서울대학교 수강신청 시스템 강좌검색)를 이 저장소가 읽어 분반마다 단계 규칙과 대상 글로 바꾼 것. 개인 메일 주소는 가렸습니다 | 서울대학교 자료에서 온 것이라 MIT 대상이 아닙니다. 사람이 쓴 글을 읽어 낸 규칙이라 틀릴 수 있고, 학교의 수강 제한을 대신하지 않습니다(`docs/limits.md`) |
+| 수강신청 일정표: `data/registration.json`(웹 `web/data/limits.json` 의 `schedule`) | [서울대학교 수강신청 사이트](https://sugang.snu.ac.kr) 첫 화면의 일정표(모은 날을 같이 적습니다) | 날짜만 옮긴 사실입니다. 일정은 바뀔 수 있습니다. MIT 대상이 아닙니다 |
 | 이름 `TT Wizard`, 로고·아이콘(`web/icons/`, `app/assets/icons/` 와 거기서 만든 앱 아이콘) | 이 저장소 | 라이선스를 주지 않습니다(MIT 대상이 아닙니다) |
 | 앱 화면 캡처: `docs/screenshots/` | 이 저장소 | 라이선스를 주지 않습니다(MIT 대상이 아닙니다). 화면에 보이는 편람·지도·로고는 이 표의 조건을 따릅니다 |
 | 가져다 쓴 코드: Leaflet·three.js(`web/vendor/`), SNUTT 의 값·규칙, 앱에 넣는 Pretendard·Capacitor·AndroidX·Cordova | 각 프로젝트 | 각자의 라이선스를 따릅니다. 고지문은 `web/vendor/` 는 그 폴더의 `LICENSE`, SNUTT·Pretendard·Fredoka(로고 글꼴)는 `web/licenses/`, 앱에만 들어가는 것은 `licenses/` 에 있습니다 |

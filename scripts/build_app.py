@@ -43,8 +43,10 @@ SKIP_DIRS = {"model", "field", "three", "privacy", "support"}  # 3D·2D 모델�
 SKIP_FILES = {"sw.js", "README.md", "package.json", "dev.js"}  # 서비스 워커, 설명, node 테스트용 모듈 표시,
 # 웹에만 둔 개발자 메뉴(js/dev.js: 스토어 앱은 열지 않는다. 숨긴 기능을 앱에 넣지 않는다, 법무 10/24)
 UNTIL_USED = {"js/requirements.js": "requirements.js", "data/requirements": "data/requirements",  # 화면이 아직 부르지 않는 모듈·자료:
-              "js/ics.js": "ics.js", "data/calendar.json": "data/calendar.json"}
-# 묶음의 다른 HTML·JS 가 이름을 부를 때만 넣는다(졸업 요건·성적 계산 docs/requirements.md, 캘린더 파일 docs/calendar.md.
+              "js/ics.js": "ics.js", "data/calendar.json": "data/calendar.json",
+              "js/limits.js": "limits.js", "data/limits.json": "data/limits.json"}
+# 묶음의 다른 HTML·JS 가 이름을 부를 때만 넣는다(졸업 요건·성적 계산 docs/requirements.md, 캘린더 파일 docs/calendar.md,
+# 수강 제한 알림 docs/limits.md.
 # 숨긴 기능을 앱에 넣지 않는다, 법무 10/24)
 NEEDED = ("index.html", "style.css", "js/app.js", "js/engine.js", "js/search-worker.js", "js/search.js", "js/timetables.js",
           "data/campus.json", "data/courses.json")

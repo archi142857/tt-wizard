@@ -14,6 +14,9 @@
   web/data/calendar.json 학기 기간·수업 없는 날(data/calendar/terms.json, 캘린더 파일 내보내기 web/js/ics.js, docs/calendar.md)
   web/data/requirements/ 졸업 요건 미리 보기·성적 계산(data/requirements/ 를 줄 바꿈 없이 그대로. 형식은 docs/requirements.md,
                          계산은 web/js/requirements.js). 과정 파일은 고른 과정만 화면이 받는다
+  web/data/limits.json   수강 제한 알림: 지금 학기의 분반 규칙(data/limits/<학기>.json, sync.py 가 편람 비고에서 만든다) +
+                         그 학기 수강신청 일정표(data/registration.json 의 줄 → 일차별 날짜·변경기간). 계산은 web/js/limits.js,
+                         형식은 docs/limits.md. 지금 학기 규칙이 없으면 만들지 않는다
 
 배포(GitHub Actions)에서는 --stamp 를 더 붙여 web/index.html·js/app.js·js/search-worker.js 가 부르는 스타일·스크립트 주소에
 ?v=<내용 해시> 를 붙인다. GitHub Pages 는 파일을 10분 동안 다시 묻지 않고 쓰게 해서, 주소가 그대로면 배포 직후 새로고침한
@@ -221,6 +224,33 @@ def export_requirements(src: Path, out: Path) -> tuple[int, int] | None:
     return len(index["programs"]), len(files)
 
 
+def export_limits(data: Path, out: Path, term: str, calendar: Path | None = None) -> dict | None:
+    """지금 학기 수강 제한 규칙 + 일정표 → web/data/limits.json(줄 바꿈 없이). 규칙이 없으면 옛 파일을 지우고 None"""
+    import course_limits as cl  # 표준 라이브러리만 쓰는 쪽(엑셀을 읽는 함수는 부르지 않는다)
+
+    src = data / "limits" / f"{term}.json"
+    if not term or not src.exists():
+        if out.exists():
+            out.unlink()
+        return None
+    limits = json.loads(src.read_text(encoding="utf-8"))
+    holidays: set[str] = set()
+    if calendar and calendar.exists():
+        for t in (json.loads(calendar.read_text(encoding="utf-8")).get("terms") or {}).values():
+            holidays.update(d["date"] for d in t.get("no_class", []))
+    reg_path = data / "registration.json"
+    reg = json.loads(reg_path.read_text(encoding="utf-8")) if reg_path.exists() else {}
+    t = (reg.get("terms") or {}).get(term)
+    schedule = cl.schedule_of(t["rows"], holidays) if t else None
+    if schedule is not None:
+        schedule["collected"] = t.get("collected")
+    limits["schedule"] = schedule
+    limits["schedule_source"] = reg.get("source", "서울대학교 수강신청 사이트")
+    limits["schedule_url"] = reg.get("url", cl.SITE)
+    out.write_text(json.dumps(limits, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    return limits
+
+
 def export_calendar(src: Path, out: Path) -> int | None:
     """학기 기간·수업 없는 날(data/calendar/terms.json) → web/data/calendar.json(줄 바꿈 없이). 학기 수를 돌려준다"""
     if not src.exists():
@@ -280,6 +310,7 @@ def main(argv: list[str] | None = None) -> int:
     semesters = export_semesters(data, out, campus["meta"]["semester"])
     reqs = export_requirements(Path(args.requirements), out / "requirements")
     terms = export_calendar(Path(args.calendar), out / "calendar.json")
+    limits = export_limits(data, out / "limits.json", campus["meta"]["semester"], Path(args.calendar))
 
     n_sec = sum(len(c[6]) for c in courses["courses"])
     print(f"저장: {out}")
@@ -293,6 +324,14 @@ def main(argv: list[str] | None = None) -> int:
           f"{' ~ ' + semesters[-1][0] if len(semesters) > 1 else ''})")
     print(f"  requirements/  {f'과정 목록 {reqs[0]}개 · 과정 파일 {reqs[1]}개' if reqs else '없음'}")
     print(f"  calendar.json  {f'학기 {terms}개' if terms else '없음'}")
+    if limits:
+        c = limits.get("counts", {})
+        sched = limits.get("schedule") or {}
+        print(f"  limits.json    {limits['term']} 규칙 {c.get('rule', 0)} · 기호만 {c.get('mark', 0)} · 원문 {c.get('note', 0)}"
+              f" · 일정표 {'일차 ' + str(len(sched.get('days', {}))) + '일' if sched.get('days') else '없음'}"
+              f"{' · 변경기간 ' + '~'.join(sched['change']) if sched.get('change') else ''}")
+    else:
+        print("  limits.json    없음(지금 학기 규칙이 없다)")
     if args.stamp:
         print(f"  화면 파일 주소에 판 ?v={stamp_assets()} 를 붙임 (index.html, js/app.js, js/search-worker.js)")
     return 0

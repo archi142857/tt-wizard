@@ -14,6 +14,8 @@
 4. 바뀐 게 있으면 lectures.json 갱신 + changes/ 에 diff 기록 + raw/ 에 날짜별 원본 보관.
    학기가 바뀌었으면 먼저 끝난 학기의 lectures.json 을 history/<학기>.json(웹 형식)에 보관한다(웹 화면 학기 선택)
 5. stats.csv 에 (시각, 분반 수, 강의실 확정 수) 한 줄 추가 — 보고서 그래프용
+6. 수강 제한 알림(update105): 일정표 줄을 학기마다 data/registration.json 에 모으고(첫 화면에서 지난 줄이 빠져도 남긴다),
+   편람이 바뀌었으면 그 학기 비고를 다시 읽어 data/limits/<학기>.json 을 만든다(scripts/course_limits.py, docs/limits.md)
 
 사용법
   python scripts/sync.py            # 정책대로
@@ -36,6 +38,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from ttwizard.parse_sugang import location_stats, parse_sugang_excel, sections_from_json, sections_to_json  # noqa: E402
 import build_history  # noqa: E402
+import course_limits  # noqa: E402
 import sugang_client as sc  # noqa: E402
 
 DATA = ROOT / "data"
@@ -168,6 +171,8 @@ def main() -> int:
     state["registration_windows"] = [
         {"type": w["type"], "start": w["start"].isoformat(), "end": w["end"].isoformat()} for w in windows
     ]
+    if not args.dry_run and course_limits.update_registration(cb.label, state["registration_windows"], now.date().isoformat()):
+        print(f"수강신청 일정표: {cb.label} 줄 {len(windows)}개 확인 → data/registration.json")
 
     interval, reason = decide_interval(now, state, windows)
     last = parse_iso(state.get("last_fetch"))
@@ -203,6 +208,11 @@ def main() -> int:
         state["lectures_semester"] = cb.label
         (CHANGES / f"{stamp}.json").write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
         (RAW / f"{cb.label}_{stamp}{ext}").write_bytes(data)  # 바뀐 때만 원본 보관 (용량 관리)
+        try:  # 수강 제한 알림 자료. 읽기가 틀어져도 편람 갱신은 그대로 간다
+            lim = course_limits.build_file(RAW / f"{cb.label}_{stamp}{ext}", cb.label)
+            print(f"수강 제한 규칙: 규칙 {lim['counts']['rule']} · 기호만 {lim['counts']['mark']} · 원문 {lim['counts']['note']}")
+        except Exception as e:  # noqa: BLE001
+            print(f"수강 제한 규칙을 만들지 못함(지난 파일 그대로): {e}")
     append_stats(now, cb.label, stats)
     state["last_fetch"] = now.isoformat(timespec="minutes")
     state["last_change"] = stamp if changed else state.get("last_change")
