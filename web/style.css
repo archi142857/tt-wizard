@@ -1405,6 +1405,11 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 .share-field .v { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
 .share-field .v[dir="ltr"] { text-align: left; }
 .share-thumb { flex: none; display: block; width: 23px; height: 40px; border-radius: var(--radius-2xs); box-shadow: 0 0 0 1px var(--line); object-fit: cover; }
+/* 캘린더(디자인 122판): 학기 기간은 확인할 내용이라 text 색이고 줄이지 않는다(좁은 폰에서는 두 줄. 20 두 줄 = 40 이 알약 52 안에 든다).
+   그 학기 기간이 아직 없으면 그 한 줄만 text3 이고 칸 안 단추가 없어 오른쪽도 20 */
+.share-field.is-cal .v { overflow: visible; white-space: normal; text-overflow: clip; word-break: keep-all; color: var(--text); }
+.share-field.is-cal .v.is-none { color: var(--text3); }
+.share-field.is-cal:not(:has(.share-act:not([hidden]))) { padding-right: var(--space-5); }
 /* 칸 안의 단추(링크 복사, 이미지로 저장): 보이는 높이 40, 누르는 영역 48(::before. 칸 위아래 여백 6 안에 든다), raised 바탕에 accent-text t-body-sm-strong, 아이콘 20 */
 .share-act { position: relative; flex: none; display: inline-flex; align-items: center; gap: 6px; height: 2.5rem; padding: 0 var(--space-4) 0 var(--space-3);
   border: 0; border-radius: var(--radius-full); background: var(--raised); color: var(--accent-text); box-shadow: var(--shadow-sm);

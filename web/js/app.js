@@ -5,6 +5,7 @@
 import { DAY_KO, parseCourses, TravelMatrix, search, countFeasible, routeLine, whyNone, meetsRules } from "./engine.js";
 import { indexCourses as indexSearch, searchCourses, splitMarks, normKey } from "./search.js";
 import * as T from "./timetables.js";
+import { termInfo, buildIcs, MIME as ICS_MIME } from "./ics.js"; // 캘린더 파일(.ics, 백엔드 update102. docs/calendar.md)
 
 const $ = (id) => document.getElementById(id);
 
@@ -104,6 +105,7 @@ const I = {
   more: '<path d="M5.5 12h.01M12 12h.01M18.5 12h.01" stroke-width="3.2"/>',
   msg: '<path d="M20.5 11.5c0 4.1-3.8 7.4-8.5 7.4-1.2 0-2.3-.2-3.3-.6L4 19.5l1.2-3.6c-1.1-1.2-1.7-2.8-1.7-4.4 0-4.1 3.8-7.4 8.5-7.4s8.5 3.3 8.5 7.4z"/>', // 말풍선(공유 카드의 메시지: 웹·iOS)
   edit: '<path d="M4.5 19.5l.9-4.1L15.7 5.1a2 2 0 0 1 2.8 0l.4.4a2 2 0 0 1 0 2.8L8.6 18.6z"/><path d="M13.6 7.2l3.2 3.2"/>', // 연필(시간표 목록 시트의 이름 입력칸. 누르는 것이 아니라 고칠 수 있다는 표시)
+  calOut: '<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M10 13.5l3 2.25-3 2.25"/>', // 달력에 오른쪽 화살표(공유 카드 캘린더의 Tachyon, 디자인 122판)
 };
 const icon = (paths, size = 24) => svg(`<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`);
 const HOME_PIN = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"></path></svg>';
@@ -4642,11 +4644,43 @@ async function linkToPayload(link) {
 // 앱 단추: 안드로이드 앱은 앱 연결 update80 의 TTW_APP.shareTargets() 가운데 고른 것을 받는 앱(카카오톡 · 인스타그램 스토리 · 인스타그램 DM · 메시지 차례)을
 // TTW_APP.shareTo 로 그 앱의 받는 화면에 바로 보낸다. 아이콘·이름은 기기가 준 그대로다(11/3 법무: 모양·색을 바꾸지 않고 로고를 그리지 않는다).
 // 웹·iOS 앱은 카카오톡·인스타그램 단추가 없고(SDK·앱 등록이 있어야 한다) 메시지(폰의 링크만, sms:)와 더 보기(기기 공유 창)
+// 셋째 종류 캘린더(디자인 122판, 11/13 사용자가 자리 그림을 보고 "그림대로"): 공유 시트를 연 그 시간표(대표가 아니어도)의 수업과 시간이 있는 일정을 학기 첫날~끝날 매주
+// 되풀이한 .ics(백엔드 update102 ics.js, 공휴일 뺌). 칸에 학기 기간 '9월 1일~12월 15일 매주'와 파일로 저장(웹은 내려받기. 앱은 다운로드에 넣을 수 있다고 앱 연결이 알릴 때만),
+// 칸 아래 고지 '휴강·보강·임시공휴일은 빠질 수 있어요'(법무 11/13. 출처는 자료 출처의 '학기 일정'), 단추 줄은 Tachyon(같은 사용자의 다른 앱. Tachyon 처리방침이 생기기
+// 전에는 없다, 법무 11/13) · 캘린더 앱(안드로이드 앱: 폰에서 .ics 를 여는 앱 셋까지, 백엔드 update104) · 더 보기(기기 공유 창에 파일). 학기 기간 자료가 없으면
+// '이 학기 기간이 아직 없어요'만
 let shareTt = null, shareUrl = null; // 공유 시트를 연 시간표, 그 링크(Promise. 열 때 만들어 둔다: 웹의 공유는 누른 바로 그때만 된다)
 let shareThumb = ""; // 이미지 칸 썸네일의 blob 주소(다시 열 때 놓는다)
 let shareTargets = null; // 안드로이드 앱: 바로 보낼 수 있는 앱(shareTargets() 의 지난 답. 시트를 열 때마다 다시 묻는다)
+let calApps = null; // 안드로이드 앱: 캘린더 파일을 여는 앱 셋까지(calendarApps() 의 지난 답, 백엔드 update104. 시트를 열 때마다 다시 묻는다)
 const SHARE_KIND = "shareKind"; // 고른 공유 방식(이 기기에 둔다)
-const shareKind = () => (document.querySelector('input[name="share-kind"]:checked')?.value === "image" ? "image" : "link");
+const SHARE_KINDS = ["link", "image", "cal"];
+const shareKind = () => { const v = document.querySelector('input[name="share-kind"]:checked')?.value; return SHARE_KINDS.includes(v) ? v : "link"; };
+// Tachyon(디자인 122판): 시간표 링크의 #t= 뒤 글을 #ttw= 로 넘겨 연다(앱은 바깥 브라우저, 웹은 새 탭). Tachyon 이 로그인 뒤 그 학기 수업을 달력에 넣는다.
+// 켜기 전에(법무 11/13, 법무_검토 7절·13절 26): Tachyon 쪽 처리방침 페이지가 먼저 있고, Tachyon 이 # 뒤를 서버·분석 도구로 보내지 않고 읽은 뒤 주소에서 지우며,
+// 단추나 처음 누를 때 'Tachyon(같은 개발자의 다른 앱)으로 시간표를 보내요' 한 줄(디자인). 성적·학과·학번은 넘기지 않는다. 그때까지 단추를 두지 않는다.
+// 링크 꼴(LINK_VERSION)이 바뀌면 Tachyon 세션에 알린다(요청_프론트엔드.md 의 Tachyon 줄)
+const TACHYON_ON = false;
+const TACHYON_URL = "https://tachyon.tachyon-project.workers.dev/";
+let shareIcs = null; // 캘린더 파일 { info, text, name } 의 Promise(시트를 열 때 만들어 둔다. info 가 null 이면 그 학기 기간 자료가 없다)
+let shareIcsNow = null; // 그 답(다 만들기 전에는 null)
+let calP = null, calChecked = ""; // 학기 기간·수업 없는 날(data/calendar.json, 백엔드 update102)과 그 자료를 확인한 날(자료 출처의 기준일)
+const calendarData = () => (calP ||= getJson("data/calendar.json").catch((e) => { calP = null; throw e; }));
+const icsFile = (t) => imageFile(t).replace(/\.png$/, ".ics"); // '2026년 2학기 시간표 1.ics'(이미지 파일 이름과 같은 꼴. 디자인 122판)
+const monthDay = (iso) => { const [, m, d] = String(iso).split("-").map(Number); return `${m}월 ${d}일`; };
+/** 캘린더 파일에 넣을 것: 화면과 같은 이름·장소(과목은 '28동 301호', 일정은 건물만)로, 시간이 있는 수업과 일정 */
+function icsItems(t) {
+  return ttEntries(t).filter((e) => e.meetings.length).map((e) => ({
+    key: e.key, title: courseName(e),
+    detail: e.item.custom ? "" : [`교과목번호 ${e.item.course}`, e.item.no ? `강좌번호 ${e.item.no}` : ""].filter(Boolean).join(" · "), // 편람의 말(분반 표기는 화면의 061(교수)만)
+    meetings: e.meetings.map((m) => ({ day: m.day, start: m.start, end: m.end, place: !m.building ? "" : e.item.custom ? buildingLabel(m.building) : roomLabel(m) })), // 강의실 미정이면 장소 없이
+  }));
+}
+async function makeIcs(t) {
+  const info = termInfo(await calendarData(), t.sem);
+  if (!info) return { info: null };
+  return { info, text: buildIcs(icsItems(t), info, { name: imageTitle(t) }).text, name: icsFile(t) };
+}
 const SHARE_SUB = { "instagram-story": "스토리", "instagram-dm": "DM" }; // 인스타그램 둘은 아이콘·이름이 같아 둘째 줄(사용자의 말)
 const SHARE_NAME = { kakao: "카카오톡", "instagram-story": "Instagram", "instagram-dm": "Instagram", sms: "메시지" }; // 기기가 이름을 주지 않았을 때만
 function openShare(opener) {
@@ -4658,8 +4692,12 @@ function openShare(opener) {
   const png = preparedImage(t); // 이미지도 미리 그려 둔다
   png.catch(() => null);
   $("sh-meta").textContent = `${semesterLabel(t.sem)} · ${t.title}`;
-  const kind = store.get(SHARE_KIND, "link") === "image" ? "image" : "link";
+  const want = store.get(SHARE_KIND, "link"), kind = SHARE_KINDS.includes(want) ? want : "link";
   for (const r of document.querySelectorAll('input[name="share-kind"]')) r.checked = r.value === kind;
+  shareIcsNow = null;
+  shareIcs = makeIcs(t).catch(() => ({ info: null, failed: true }));
+  shareIcs.then((r) => { if (shareTt !== t) return; shareIcsNow = r; renderShareCal(); if ($("share-sheet").open && shareKind() === "cal") renderShareApps(); });
+  renderShareCal();
   $("sh-url").textContent = ""; // 링크를 만들지 못하면 비어 있다
   shareUrl.then((url) => { if (shareTt === t) $("sh-url").textContent = url.replace(/^https:\/\//, ""); }, () => null);
   $("sh-file").textContent = imageFile(t);
@@ -4669,18 +4707,40 @@ function openShare(opener) {
   renderShareKind();
   openSheet($("share-sheet"), opener);
   refreshShareTargets();
+  refreshCalApps();
 }
 function setShareThumb(bytes) {
   if (shareThumb) URL.revokeObjectURL(shareThumb);
   shareThumb = bytes ? URL.createObjectURL(new Blob([bytes], { type: "image/png" })) : "";
   if (shareThumb) $("sh-thumb").src = shareThumb; else $("sh-thumb").removeAttribute("src");
 }
-/** 링크 | 이미지: 보내는 것의 칸(늘 78 높이라 바꿔도 단추 줄이 움직이지 않는다)과 앱 단추 */
+/** 링크 | 이미지 | 캘린더: 보내는 것의 칸(늘 78 높이라 바꿔도 단추 줄이 움직이지 않는다)과 앱 단추 */
 function renderShareKind() {
-  const link = shareKind() === "link";
-  $("sh-link-field").hidden = $("sh-link-note").hidden = !link;
-  $("sh-image-field").hidden = link;
+  const k = shareKind();
+  $("sh-link-field").hidden = $("sh-link-note").hidden = k !== "link";
+  $("sh-image-field").hidden = k !== "image";
+  $("sh-cal-field").hidden = k !== "cal";
+  $("sh-cal-note").hidden = k !== "cal" || !(shareIcsNow && shareIcsNow.info);
   renderShareApps();
+}
+/** 캘린더 칸: 학기 기간 '9월 1일~12월 15일 매주'(만드는 동안은 비어 있다), 그 학기 기간이 없으면 '이 학기 기간이 아직 없어요'만(칸 안 단추 없음) */
+function renderShareCal() {
+  const r = shareIcsNow, v = $("sh-cal");
+  v.textContent = !r || r.failed ? "" : r.info ? `${monthDay(r.info.start)}~${monthDay(r.info.end)} 매주` : "이 학기 기간이 아직 없어요";
+  v.classList.toggle("is-none", !!r && !r.info && !r.failed);
+  $("sh-cal-field").querySelector('[data-share="cal-save"]').hidden = !(r && r.info) || !calSaveOk();
+  $("sh-cal-note").hidden = shareKind() !== "cal" || !(r && r.info);
+}
+/** 파일로 저장: 웹은 내려받기. 앱은 앱 연결이 권한 없이 다운로드에 넣을 수 있다고 알릴 때만(canSaveFile·saveFile. 백엔드에 부탁한 이름, 디자인 122판) */
+function calSaveOk() {
+  const app = IN_APP && window.TTW_APP;
+  return app ? app.canSaveFile === true && typeof app.saveFile === "function" : true;
+}
+/** 더 보기(캘린더): 기기 공유 창에 파일. 앱은 앱 연결 shareFile, 웹은 파일을 받는 navigator.share 일 때만 */
+function calMoreOk() {
+  const app = IN_APP && window.TTW_APP;
+  if (app) return typeof app.shareFile === "function";
+  try { return !!navigator.share && !!navigator.canShare && navigator.canShare({ files: [new File(["x"], "a.ics", { type: ICS_MIME })] }); } catch { return false; }
 }
 $("sh-kind").addEventListener("change", () => { store.set(SHARE_KIND, shareKind()); renderShareKind(); });
 /** 문자 앱에 링크를 넣어 여는 '메시지'(sms:): 폰 브라우저(디자인 115판. 태블릿·컴퓨터는 더 보기만)와 iOS 앱. 안드로이드 앱은 shareTargets 의 sms 가 맡는다 */
@@ -4696,11 +4756,22 @@ function moreOk(link) {
 /** 앱 단추 줄(다섯 칸 격자에 왼쪽부터, 맨 끝은 더 보기). 안드로이드 앱은 깔린 앱 가운데 고른 것을 받는 것(스토리는 링크일 때도 둔다: 이미지를 보낸다),
  *  웹·iOS 는 메시지(링크일 때)·더 보기. 단추가 없으면 줄을 두지 않는다(링크 복사·이미지로 저장만) */
 function renderShareApps() {
-  const list = $("sh-apps"), link = shareKind() === "link", app = IN_APP && window.TTW_APP;
+  const list = $("sh-apps"), kind = shareKind(), link = kind === "link", app = IN_APP && window.TTW_APP;
   const had = list.contains(document.activeElement) ? document.activeElement : null; // 다시 그려도 초점은 같은 단추에
-  const ours = (k, path, name) => h("button", { type: "button", class: "share-app", "data-share": k }, h("span", { class: "ic" }, icon(path, 24)), h("span", { class: "nm" }, name));
+  const ours = (k, path, name, label = null) => h("button", { type: "button", class: "share-app", "data-share": k, "aria-label": label },
+    h("span", { class: "ic" }, icon(path, 24)), h("span", { class: "nm" }, name));
   const rows = [];
-  for (const g of app && typeof app.shareTo === "function" ? shareTargets || [] : []) {
+  if (kind === "cal") { // Tachyon · 캘린더 앱(안드로이드 앱) · 더 보기. 학기 기간이 없으면 Tachyon 만
+    if (TACHYON_ON) rows.push(ours("tachyon", I.calOut, "Tachyon", "Tachyon으로 보내기"));
+    if (shareIcsNow && shareIcsNow.info) {
+      for (const g of app && typeof app.openCalendar === "function" ? (calApps || []).slice(0, 3) : []) { // 아이콘·이름은 기기가 준 그대로(법무 11/3)
+        rows.push(h("button", { type: "button", class: "share-app", "data-cal": g.id },
+          h("span", { class: "ic" }, g.icon ? h("img", { src: g.icon, alt: "", width: "36", height: "36" }) : null), h("span", { class: "nm" }, g.app || "캘린더")));
+      }
+      if (calMoreOk()) rows.push(ours("more", I.more, "더 보기"));
+    }
+  }
+  for (const g of kind !== "cal" && app && typeof app.shareTo === "function" ? shareTargets || [] : []) {
     if (!(link ? g.text || g.id === "instagram-story" : g.image)) continue;
     const name = g.app || SHARE_NAME[g.id] || g.id, sub = SHARE_SUB[g.id] || "";
     rows.push(h("button", { type: "button", class: "share-app", "data-target": g.id, "aria-label": sub ? `${name} ${sub}` : null },
@@ -4708,10 +4779,11 @@ function renderShareApps() {
       h("span", { class: "nm" }, name), sub ? h("span", { class: "sub" }, sub) : null));
   }
   if (link && smsOk()) rows.push(ours("sms", I.msg, "메시지"));
-  if (moreOk(link)) rows.push(ours("more", I.more, "더 보기"));
+  if (kind !== "cal" && moreOk(link)) rows.push(ours("more", I.more, "더 보기"));
   list.replaceChildren(...rows.map((b) => h("li", {}, b)));
   list.hidden = !rows.length;
-  if (had) (list.querySelector(had.dataset.target ? `[data-target="${CSS.escape(had.dataset.target)}"]` : `[data-share="${CSS.escape(had.dataset.share || "")}"]`) || $("share-sheet").querySelector("[data-close]")).focus({ preventScroll: true });
+  const same = had && (had.dataset.target ? `[data-target="${CSS.escape(had.dataset.target)}"]` : had.dataset.cal ? `[data-cal="${CSS.escape(had.dataset.cal)}"]` : `[data-share="${CSS.escape(had.dataset.share || "")}"]`);
+  if (had) (list.querySelector(same) || $("share-sheet").querySelector("[data-close]")).focus({ preventScroll: true });
 }
 /** 안드로이드 앱: 바로 보낼 수 있는 앱을 다시 묻는다(켤 때 조금 뒤와 시트를 열 때. 지난 답으로 먼저 그리고 달라졌으면 다시 그린다). 기기 안에서만 본다(법무 11/3) */
 function refreshShareTargets() {
@@ -4724,13 +4796,27 @@ function refreshShareTargets() {
     if (!same && $("share-sheet").open) renderShareApps();
   }, () => null);
 }
-if (IN_APP) setTimeout(refreshShareTargets, 3000); // 처음 여는 시트도 단추가 한 번에 그려지게
+/** 안드로이드 앱: 캘린더 파일을 여는 앱을 다시 묻는다(시트를 열 때. 지난 답으로 먼저 그리고 달라졌으면 다시 그린다). 기기 안에서만 본다 */
+function refreshCalApps() {
+  const app = IN_APP && window.TTW_APP;
+  if (!app || typeof app.calendarApps !== "function") return;
+  Promise.resolve().then(() => app.calendarApps()).then((got) => {
+    const next = Array.isArray(got) ? got.slice(0, 3) : [];
+    const same = JSON.stringify(next) === JSON.stringify(calApps);
+    calApps = next;
+    if (!same && $("share-sheet").open && shareKind() === "cal") renderShareApps();
+  }, () => null);
+}
+if (IN_APP) setTimeout(() => { refreshShareTargets(); refreshCalApps(); }, 3000); // 처음 여는 시트도 단추가 한 번에 그려지게
 $("share-sheet").addEventListener("click", (e) => {
-  const b = e.target.closest("[data-share], [data-target]");
+  const b = e.target.closest("[data-share], [data-target], [data-cal]");
   if (!b || !shareTt) return;
   if (b.dataset.target) shareToApp(b.dataset.target);
+  else if (b.dataset.cal) calOpen(b.dataset.cal);
   else if (b.dataset.share === "copy") copyShareLink();
   else if (b.dataset.share === "save") imageAct("save-image", shareTt, $("share-sheet")); // 목록 ⋯ 의 이미지로 저장과 같다
+  else if (b.dataset.share === "cal-save") calSave();
+  else if (b.dataset.share === "tachyon") tachyonSend();
   else if (b.dataset.share === "sms") smsShare();
   else if (b.dataset.share === "more") moreShare();
 });
@@ -4756,10 +4842,81 @@ async function smsShare() {
   closeSheet($("share-sheet"));
   location.href = `sms:?&body=${encodeURIComponent(url)}`;
 }
+/** 만들어 둔 캘린더 파일. 학기 기간이 없거나 못 만들었으면 null */
+async function icsNow() {
+  const r = await shareIcs;
+  return r && r.info ? r : null;
+}
+function downloadText(text, name, type) {
+  const url = URL.createObjectURL(new Blob([text], { type }));
+  const a = h("a", { href: url, download: name, hidden: true });
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}
+/** 파일로 저장(캘린더): 웹은 내려받고 시트는 그대로(이미지로 저장과 같다). 앱은 다운로드에 넣고 시트를 닫은 뒤 스낵바(못 하면 [다시 시도]) */
+async function calSave() {
+  const f = await icsNow();
+  if (!f) return;
+  const app = IN_APP && window.TTW_APP;
+  if (!app) { downloadText(f.text, f.name, ICS_MIME); return; }
+  const sheet = $("share-sheet");
+  try {
+    await app.saveFile({ text: f.text, name: f.name, mime: ICS_MIME });
+    closeSheet(sheet);
+    showSnackbar("다운로드에 저장했어요");
+  } catch {
+    closeSheet(sheet);
+    showSnackbar("파일을 저장하지 못했어요", "다시 시도", () => {
+      Promise.resolve().then(() => app.saveFile({ text: f.text, name: f.name, mime: ICS_MIME }))
+        .then(() => showSnackbar("다운로드에 저장했어요"), () => showSnackbar("파일을 저장하지 못했어요"));
+    });
+  }
+}
+/** 더 보기(캘린더): 기기 공유 창에 캘린더 파일. 앱 연결에 shareFile 이 없는 앱(UNSUPPORTED)은 웹처럼 내려받는다. 공유 창을 그냥 닫으면 시트는 그대로 */
+async function calMore() {
+  const f = await icsNow(), sheet = $("share-sheet"), title = imageTitle(shareTt);
+  if (!f) return;
+  const app = IN_APP && window.TTW_APP;
+  if (app) {
+    try { await app.shareFile({ text: f.text, name: f.name, mime: ICS_MIME, title }); closeSheet(sheet); return; } catch (e) { if (!e || e.code !== "UNSUPPORTED") return; }
+    downloadText(f.text, f.name, ICS_MIME);
+    return;
+  }
+  try { await navigator.share({ files: [new File([f.text], f.name, { type: ICS_MIME })], title }); closeSheet(sheet); } catch { /* 닫았다 */ }
+}
+/** 캘린더 앱 단추(안드로이드 앱): 그 앱으로 캘린더 파일을 열고 시트를 닫는다. 그 앱이 없어졌으면(MISSING) 단추를 빼고, 못 열면 기기 공유 창(더 보기와 같다) */
+async function calOpen(id) {
+  const f = await icsNow(), app = window.TTW_APP;
+  if (!f) return;
+  try { await app.openCalendar({ target: id, text: f.text, name: f.name }); closeSheet($("share-sheet")); return; } catch (e) {
+    if (e && e.code === "MISSING") { calApps = (calApps || []).filter((g) => g.id !== id); renderShareApps(); refreshCalApps(); }
+  }
+  calMore();
+}
+/** Tachyon 으로 보내기: 링크의 #t= 뒤 글 그대로 #ttw= 에 넣어 연다(# 뒤는 서버로 가지 않는다). 앱은 바깥 브라우저, 웹은 새 탭. 시트를 닫는다 */
+async function tachyonSend() {
+  const url = await shareLinkNow();
+  if (!url) return;
+  const code = url.slice(url.indexOf("#t=") + 3);
+  const to = `${TACHYON_URL}#ttw=${code}`;
+  openSystem(to);
+  closeSheet($("share-sheet"));
+}
+/** 바깥 브라우저로 연다: 웹은 새 탭, 앱은 기기의 기본 브라우저(native.js 가 data-browser="system" 링크를 기기에 넘긴다. 강의평·수강편람과 같다).
+ *  모달 시트 밖은 inert 라 링크는 열린 시트 안에 잠깐 둔다 */
+function openSystem(url) {
+  const a = h("a", { href: url, target: "_blank", rel: "noopener", "data-browser": "system", hidden: true });
+  (topSheet() || document.body).append(a);
+  a.click();
+  a.remove();
+}
 /** 더 보기: 기기 공유 창에 제목과 링크, 또는 이미지 파일. 공유 창을 그냥 닫으면 시트는 그대로 */
 async function moreShare() {
   const sheet = $("share-sheet"), t = shareTt;
   if (shareKind() === "image") { imageAct("share-image", t, sheet); return; }
+  if (shareKind() === "cal") { calMore(); return; }
   const url = await shareLinkNow();
   if (url && await deviceShareLink(url, imageTitle(t))) closeSheet(sheet);
 }
@@ -6256,7 +6413,7 @@ function renderPage() {
   $("page-foot").hidden = !sources; // '강의 시간과 강의실은 수강편람에서 한 번 더 확인하세요'(자료 출처 아래)
   $("page-texts").hidden = sources || dev;
   // 내용이 같으면 다시 그리지 않는다(기록으로 돌아올 때 읽던 자리와 초점이 그대로 있게)
-  const key = dev ? "developer" : sources ? `sources ${state.semesterMeta.updated || ""}` : "licenses";
+  const key = dev ? "developer" : sources ? `sources ${state.semesterMeta.updated || ""} ${calChecked}` : "licenses";
   if ($("page-list").dataset.key === key) return;
   $("page-list").dataset.key = key;
   const link = (href, text) => h("a", { href, target: "_blank", rel: "noopener" }, text);
@@ -6270,9 +6427,13 @@ function renderPage() {
   }
   if (sources) {
     $("page-texts").replaceChildren();
+    if (!calChecked) calendarData().then((c) => { if (c && c.checked_on && !calChecked) { calChecked = c.checked_on; if (screen === "page" && pageName === "sources") renderPage(); } }, () => null);
     list([
       ["과목", [link(CATALOG_URL, "서울대학교 수강편람"), state.semesterMeta.updated ? ` · ${asofLong(state.semesterMeta.updated)}` : ""]],
       ["건물", "서울대학교 캠퍼스맵"],
+      // 캘린더 파일의 학기 기간과 수업 없는 날(법무 11/13: 날짜 사실을 옮긴 것이라 출처 '서울대학교 학사일정(기준일)', '관공서의 공휴일에 관한 규정과 정부 발표'.
+      // 백엔드 update102 data/calendar.json, 기준일은 그 checked_on. 아직 안 받았으면 받은 뒤 다시 그린다)
+      ["학기 일정", `서울대학교 학사일정${calChecked ? `(${monthDay(calChecked)} 기준)` : ""} · 관공서의 공휴일에 관한 규정과 정부 발표`],
       // 걷는 길 그래프가 OpenStreetMap 바탕이라 그 그래프와 거기서 나온 경로 모양·걷는 시간은 ODbL(11/5 법무, 백엔드 update95). 모양은 '지도' 줄처럼
       ["길", [link("https://moreadorecampus.com/", "캠퍼스 마법 지도"), " · ", link("https://www.openstreetmap.org/copyright", "OpenStreetMap"), " 바탕, ODbL"]],
       // 공공누리 제1유형: 온라인에서는 가능하면 출처 누리집으로 가는 링크를 준다(국토정보플랫폼. 10/5 디자인)
