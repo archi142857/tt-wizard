@@ -1,0 +1,5365 @@
+{
+ "checked_on": "2026-11-12",
+ "colleges": [
+  {
+   "name": "인문대학",
+   "units": [
+    {
+     "id": "u-cabe9454",
+     "name": "국어국문학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-3e203121"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-eccbab7f",
+     "name": "중어중문학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-e171f470"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-ca8f4cf9",
+     "name": "영어영문학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-9618364c"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-de361024",
+     "name": "불어불문학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-1d91d72d"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-3f0f3489",
+     "name": "독어독문학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-b9aaeb80"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-5c4f65ed",
+     "name": "노어노문학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-2408e57e"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-d0419d67",
+     "name": "서어서문학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-a9188efc"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-be089d1a",
+     "name": "언어학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-1f5bd1b5"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-f28f4113",
+     "name": "아시아언어문명학부",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-ef30f28f",
+      "p-73756aa5",
+      "p-8af8eacd",
+      "p-1bcbd6fe"
+     ],
+     "when": "학부 진입 때(인문계열 광역생은 학과배정 때, 전공예약생은 입학 뒤 학부 심사; 보통 6·12월에 다음 학기 적용 진입 심사)",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-f0d156d4",
+     "name": "역사학부",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-b1cc35e9",
+      "p-c43beb02",
+      "p-5e5648a7"
+     ],
+     "when": "입학 1년 뒤. 전기: 매년 2학기 말, 2개 학기 이수·24학점 이상이면 신청 가능. 후기: 매년 1학기 중, 3개 학기 이수·36학점 이상이면 신청 필수.",
+     "exists_for": [
+      2023,
+      2026
+     ]
+    },
+    {
+     "id": "u-41315eeb",
+     "name": "철학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-4ad4be97"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-9622cca2",
+     "name": "종교학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-26490b22"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-bdba9d18",
+     "name": "미학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-60140ad3"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-033ba79a",
+     "name": "고고미술사학과",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-db3fc74e",
+      "p-0ec7f3f7"
+     ],
+     "when": "미확인(입학 단계에서는 '별도의 전공 배정 없음')",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-f4eeab83",
+     "name": "국사학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-44f16156"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2022
+     ]
+    },
+    {
+     "id": "u-241ba1bc",
+     "name": "동양사학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-89f20073"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2022
+     ]
+    },
+    {
+     "id": "u-6f5a3df7",
+     "name": "서양사학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-3f49cad7"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2022
+     ]
+    }
+   ]
+  },
+  {
+   "name": "사회과학대학",
+   "units": [
+    {
+     "id": "u-3c00aaf6",
+     "name": "정치외교학부",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-5235bf07",
+      "p-bbf86688"
+     ],
+     "when": "2학년 진입 무렵(1학년 2학기 말 신청 — 여름·겨울 계절학기 종강 뒤 신청기간, 날짜는 학부 공지)",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-b05dd492",
+     "name": "경제학부",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-26c40934"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-8dc58484",
+     "name": "사회학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-b13fbed6"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-db965888",
+     "name": "인류학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-58032f4f"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-865badca",
+     "name": "심리학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-03aa5ef6"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-524be1df",
+     "name": "지리학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-259c8d96"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-5b07209b",
+     "name": "사회복지학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-b148f5f4"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-e5a2913f",
+     "name": "언론정보학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-d3470527"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    }
+   ]
+  },
+  {
+   "name": "자연과학대학",
+   "units": [
+    {
+     "id": "u-31284f47",
+     "name": "수리과학부",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-58922b29"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-0d01fd76",
+     "name": "통계학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-638ed6b5"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-2ff607d0",
+     "name": "물리·천문학부",
+     "splits": true,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-76162784",
+      "p-3b4ed39d"
+     ],
+     "when": "입학 때(모집단위가 전공별)",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-1044c6c5",
+     "name": "화학부",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-38d77850"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-16dbc28b",
+     "name": "생명과학부",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "life-sciences"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-436717c1",
+     "name": "지구환경과학부",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-e5fab35c"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    }
+   ]
+  },
+  {
+   "name": "간호대학",
+   "units": [
+    {
+     "id": "u-6c68dbda",
+     "name": "간호학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-234741e0"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    }
+   ]
+  },
+  {
+   "name": "경영대학",
+   "units": [
+    {
+     "id": "u-bd08a956",
+     "name": "경영학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-dc24e59c"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    }
+   ]
+  },
+  {
+   "name": "공과대학",
+   "units": [
+    {
+     "id": "u-6ed313b4",
+     "name": "공과대학 광역",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": true,
+     "multi_major": false,
+     "programs": [
+      "p-d75e8638"
+     ],
+     "when": "입학 후 1개 학기를 마친 뒤(1학년 1학기 뒤)",
+     "exists_for": [
+      2023,
+      2026
+     ]
+    },
+    {
+     "id": "u-921745b3",
+     "name": "건축학과",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-a4068275",
+      "p-90504114"
+     ],
+     "when": "입학 후 4개 학기(2학년)를 마친 뒤 배정 → 3학년부터 전공 과정(1·2학년은 공통과정)",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-f7ee18aa",
+     "name": "산업공학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-49fa7eeb"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-e4d12265",
+     "name": "원자핵공학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-825e63cf"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-47bf30cc",
+     "name": "조선해양공학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-c91f696e"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-774c276d",
+     "name": "컴퓨터공학부",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-18cd75ef"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-0ad88f92",
+     "name": "전기·정보공학부",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-121aa7bb"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-7e7bb3a5",
+     "name": "재료공학부",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-463194e6"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-dcbaa46b",
+     "name": "건설환경공학부",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-1ff44350"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-855510a5",
+     "name": "화학생물공학부",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "chem-bio-eng"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-df54e60d",
+     "name": "에너지자원공학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-5754ebe4"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-528f9bfc",
+     "name": "기계공학부",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-d8bff34e"
+     ],
+     "when": null,
+     "exists_for": [
+      2021,
+      2026
+     ]
+    },
+    {
+     "id": "u-d6006d49",
+     "name": "항공우주공학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-84fb4524"
+     ],
+     "when": null,
+     "exists_for": [
+      2021,
+      2026
+     ]
+    }
+   ]
+  },
+  {
+   "name": "농업생명과학대학",
+   "units": [
+    {
+     "id": "u-1f4caec5",
+     "name": "식물생산과학부",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-1b7f1668",
+      "p-1b7a392b",
+      "p-ff402de1"
+     ],
+     "when": "입학 후 27학점 이상 이수한 뒤 학부 내 전공 배정(보통 1학년을 마치고 2학년부터 전공 과정)",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-be3a8505",
+     "name": "산림과학부",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-55a75f4e",
+      "p-ee20a5ca"
+     ],
+     "when": "입학 후 27학점 이상 이수한 뒤 학부 내 전공 배정(2학년부터 전공 표준이수형태)",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-f2cb56c1",
+     "name": "응용생물화학부",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-ff570a3c",
+      "p-d65d42a1"
+     ],
+     "when": "입학 후 27학점 이상 이수한 뒤 학부 내 전공 배정('2024학년도 진입생'처럼 전공 진입 시기 기준 규정을 씀)",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-8576dfec",
+     "name": "식품·동물생명공학부",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-e202bbef",
+      "animal-biotech"
+     ],
+     "when": "입학 후 27학점 이상 이수한 뒤 학부 내 전공 배정(2학년부터 전공 표준이수형태)",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-5b3d46d2",
+     "name": "바이오시스템·소재학부",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-e2c4f272",
+      "p-a7785a82"
+     ],
+     "when": "입학 후 27학점 이상 이수한 뒤 학부 내 전공 배정. 바이오시스템공학은 2학년 첫 학기 말에 트랙(A 물리학·B 생물학·화학) 선택",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-56ccab09",
+     "name": "조경·지역시스템공학부",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-3d1bae16",
+      "p-d2e2af8f"
+     ],
+     "when": "입학 후 27학점 이상 이수한 뒤 학부 내 전공 배정(2학년부터 전공 표준이수형태)",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-7108243b",
+     "name": "농경제사회학부",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-3ba62abd",
+      "p-fb9a2ae0"
+     ],
+     "when": "입학 후 27학점 이상 이수한 뒤 학부 내 전공 배정, 2학년부터 고른 전공 과목 수강",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-da8d2e68",
+     "name": "스마트시스템과학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-a0fa364e"
+     ],
+     "when": "입학부터 학과 소속(전공 배정 없음)",
+     "exists_for": [
+      2025,
+      2026
+     ]
+    }
+   ]
+  },
+  {
+   "name": "미술대학",
+   "units": [
+    {
+     "id": "u-efa5d383",
+     "name": "동양화과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-5c8ee76e"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-f741b7e0",
+     "name": "서양화과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-6a67f329"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-c7ea7ae6",
+     "name": "조소과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-1f9e8c1b"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-ec8a6cff",
+     "name": "공예과",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-278a95e3",
+      "p-b4a82d66"
+     ],
+     "when": "2개 학기 이수 뒤(2학년부터)",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-415a3f50",
+     "name": "디자인과",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-421f1331",
+      "p-7c104a63"
+     ],
+     "when": "미확인(이수표준형태상 2학년부터 전공 과목)",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    }
+   ]
+  },
+  {
+   "name": "사범대학",
+   "units": [
+    {
+     "id": "u-8ad7ba38",
+     "name": "교육학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-bf59d12c"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-4462f0ff",
+     "name": "국어교육과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-41637bd4"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-8cd25434",
+     "name": "영어교육과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-0975d7e3"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-64d2426e",
+     "name": "불어교육과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-2d920bdb"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-a8ff6053",
+     "name": "독어교육과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-dcff7393"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-ce935b1c",
+     "name": "사회교육과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-cae89602"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-3121025e",
+     "name": "역사교육과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-d569f217"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-dfcd3916",
+     "name": "지리교육과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-f17d6c49"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-c4c87f4b",
+     "name": "윤리교육과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-56afea81"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-a363a4a4",
+     "name": "수학교육과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-ddda9e11"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-7922ae6e",
+     "name": "물리교육과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-9baede1b"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-c6ba388e",
+     "name": "화학교육과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-7e32b985"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-5026171c",
+     "name": "생물교육과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-3b9c97b2"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-6d6ca7a4",
+     "name": "지구과학교육과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-f61bbb8f"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-4d0c072a",
+     "name": "체육교육과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-35c6807d"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-b028806f",
+     "name": "융합학습과학전공",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-2249d85e"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    }
+   ]
+  },
+  {
+   "name": "생활과학대학",
+   "units": [
+    {
+     "id": "u-83f4412a",
+     "name": "소비자아동학부",
+     "splits": true,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-509f9c7c",
+      "p-db64f2a8"
+     ],
+     "when": "입학 때(전공별 모집단위)",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-63209f9b",
+     "name": "식품영양학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-67f0f7cb"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-1e66a045",
+     "name": "의류학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-2c21b927"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    }
+   ]
+  },
+  {
+   "name": "수의과대학",
+   "units": [
+    {
+     "id": "u-1a568c79",
+     "name": "수의예과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-79fbff13"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-54329357",
+     "name": "수의학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-ad49affe"
+     ],
+     "when": "예과 수료 뒤(3학년부터)",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    }
+   ]
+  },
+  {
+   "name": "약학대학",
+   "units": [
+    {
+     "id": "u-97789a76",
+     "name": "약학계열",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-11daf6a5",
+      "p-e7ca2382"
+     ],
+     "when": "4학년 진입 시(약학 기본과정 3년 이수 후)",
+     "exists_for": [
+      2022,
+      2026
+     ]
+    }
+   ]
+  },
+  {
+   "name": "음악대학",
+   "units": [
+    {
+     "id": "u-8db9a76b",
+     "name": "성악과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-2bae4102"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-b8c18007",
+     "name": "작곡과",
+     "splits": true,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-a0bdc6e6",
+      "p-101b786d"
+     ],
+     "when": "입학 때",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-9ac4af17",
+     "name": "음악학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-8bc02fbf"
+     ],
+     "when": null,
+     "exists_for": [
+      2023,
+      2026
+     ]
+    },
+    {
+     "id": "u-e91772f6",
+     "name": "피아노과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-085d9249"
+     ],
+     "when": null,
+     "exists_for": [
+      2023,
+      2026
+     ]
+    },
+    {
+     "id": "u-08b8f271",
+     "name": "관현악과",
+     "splits": true,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-3948b64e",
+      "p-63dea661"
+     ],
+     "when": "입학 때",
+     "exists_for": [
+      2023,
+      2026
+     ]
+    },
+    {
+     "id": "u-432baee0",
+     "name": "국악과",
+     "splits": true,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-923b6f9e",
+      "p-13df6045",
+      "p-f76a4a1c",
+      "p-f3e53a1e",
+      "p-4ccd7012"
+     ],
+     "when": "입학 때",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    }
+   ]
+  },
+  {
+   "name": "의과대학",
+   "units": [
+    {
+     "id": "u-00127645",
+     "name": "의예과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-5881562d"
+     ],
+     "when": null,
+     "exists_for": [
+      2019,
+      2026
+     ]
+    },
+    {
+     "id": "u-0b97ccf0",
+     "name": "의학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-fccadae3"
+     ],
+     "when": "예과 수료 뒤(3학년부터)",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    }
+   ]
+  },
+  {
+   "name": "치의학대학원",
+   "units": [
+    {
+     "id": "u-f0474683",
+     "name": "치의학과",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-a346f2bb"
+     ],
+     "when": "학사과정 3년 뒤 치의학대학원(전문석사 4년) 진입",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    }
+   ]
+  },
+  {
+   "name": "학부대학",
+   "units": [
+    {
+     "id": "u-59134ebe",
+     "name": "학부대학 광역",
+     "splits": false,
+     "undecided": false,
+     "ask_entry": false,
+     "wide": true,
+     "multi_major": false,
+     "programs": [
+      "p-97f3ee92"
+     ],
+     "when": "입학 후 정규학기 2개 이상 이수·총 24학점 이상 취득 뒤 매 학기 말 신청(공고·신청 5월/11월, 심의·확정 6월/12월, 학적 반영 7월/1월). 2025학번은 2025-2학기 말 신청 → 2026-1학기 소속 변경이 첫 기회.",
+     "exists_for": [
+      2025,
+      2026
+     ]
+    },
+    {
+     "id": "u-0676b721",
+     "name": "자유전공학부",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": true,
+     "programs": [
+      "p-41df1808",
+      "p-a758e356"
+     ],
+     "when": "입학 후 정규 2개 학기 이상 이수·총 24학점 이상 취득 뒤 신청(계절 학점은 학점에만 셈). 첫 전공 선택은 졸업예정 4학기(계절 제외) 이전까지. 신청 4월 말/10월 말, 최종 승인 7월 초/1월 초. 졸업 전 '첫 번째 전공 선택 후 4개 학기 경과'가 필요하다.",
+     "exists_for": [
+      2019,
+      2026
+     ]
+    }
+   ]
+  },
+  {
+   "name": "첨단융합학부",
+   "units": [
+    {
+     "id": "u-e6ff225f",
+     "name": "첨단융합학부",
+     "splits": true,
+     "undecided": true,
+     "ask_entry": true,
+     "wide": false,
+     "multi_major": false,
+     "programs": [
+      "p-7fccc8d9",
+      "p-8a8be90a",
+      "p-1643f5b3",
+      "p-76b45405",
+      "p-c1c26b61"
+     ],
+     "when": "학부로 입학해 3개 학기 이상 등록한 뒤(보통 2학년 2학기) 학부가 정한 기간에 전공선택 신청 → 학사운영위원회 심의·확정",
+     "exists_for": [
+      2024,
+      2026
+     ]
+    }
+   ]
+  }
+ ],
+ "others": [
+  {
+   "id": "u-4ab0dc00",
+   "name": "연합전공",
+   "splits": true,
+   "undecided": true,
+   "ask_entry": true,
+   "wide": false,
+   "multi_major": false,
+   "programs": [
+    "p-f0f8e8fb",
+    "p-17c61991",
+    "p-85768b17",
+    "p-5f19ca61",
+    "p-74c7d4dc",
+    "p-558e07aa",
+    "p-71f38ec1",
+    "p-499f3ab6",
+    "p-21e29be7",
+    "p-4d92ea73",
+    "p-282c121e",
+    "p-526889bd"
+   ],
+   "when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연합전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
+   "exists_for": null
+  },
+  {
+   "id": "u-31aaa17f",
+   "name": "연계전공",
+   "splits": true,
+   "undecided": true,
+   "ask_entry": true,
+   "wide": false,
+   "multi_major": false,
+   "programs": [
+    "p-993fb716",
+    "p-31f9ba48",
+    "p-1d53fe3a",
+    "p-7c0ad312",
+    "p-d1ae6cef",
+    "p-45680310",
+    "p-46b9fb4b",
+    "p-97dd3e8a",
+    "p-fe1827e6",
+    "p-431861ea",
+    "p-b68e4d7a",
+    "p-4778b7c7",
+    "p-b3d6648f",
+    "p-17341675",
+    "p-08f081c9",
+    "p-3b07cd3d",
+    "p-a1667980",
+    "p-6861092c"
+   ],
+   "when": "2개 정규학기 이상 이수·33학점 이상 취득한 뒤 연계전공 신청 기간에 mySNU 또는 서울대학교 앱으로 신청",
+   "exists_for": null
+  },
+  {
+   "id": "u-5dc9e994",
+   "name": "학생설계전공",
+   "splits": false,
+   "undecided": false,
+   "ask_entry": false,
+   "wide": false,
+   "multi_major": false,
+   "programs": [
+    "p-2cfbd5f9"
+   ],
+   "when": "2개 정규학기 이상 이수·33학점 이상 취득 뒤 신청 기간",
+   "exists_for": [
+    2019,
+    2026
+   ]
+  }
+ ],
+ "programs": {
+  "p-3e203121": {
+   "name": "국어국문학과",
+   "short": "국어국문학과",
+   "unit": "u-cabe9454",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-e171f470": {
+   "name": "중어중문학과",
+   "short": "중어중문학과",
+   "unit": "u-eccbab7f",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-9618364c": {
+   "name": "영어영문학과",
+   "short": "영어영문학과",
+   "unit": "u-ca8f4cf9",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-1d91d72d": {
+   "name": "불어불문학과",
+   "short": "불어불문학과",
+   "unit": "u-de361024",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-b9aaeb80": {
+   "name": "독어독문학과",
+   "short": "독어독문학과",
+   "unit": "u-3f0f3489",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-2408e57e": {
+   "name": "노어노문학과",
+   "short": "노어노문학과",
+   "unit": "u-5c4f65ed",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 42,
+   "minor": 21,
+   "data": true
+  },
+  "p-a9188efc": {
+   "name": "서어서문학과",
+   "short": "서어서문학과",
+   "unit": "u-d0419d67",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-1f5bd1b5": {
+   "name": "언어학과",
+   "short": "언어학과",
+   "unit": "u-be089d1a",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-ef30f28f": {
+   "name": "일본언어문명전공",
+   "short": "일본언어문명전공",
+   "unit": "u-f28f4113",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-73756aa5": {
+   "name": "동남아시아언어문명전공",
+   "short": "동남아시아언어문명전공",
+   "unit": "u-f28f4113",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-8af8eacd": {
+   "name": "인도언어문명전공",
+   "short": "인도언어문명전공",
+   "unit": "u-f28f4113",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-1bcbd6fe": {
+   "name": "서아시아언어문명전공",
+   "short": "서아시아언어문명전공",
+   "unit": "u-f28f4113",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-b1cc35e9": {
+   "name": "한국사학전공",
+   "short": "한국사학전공",
+   "unit": "u-f0d156d4",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2023,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-c43beb02": {
+   "name": "동양사학전공",
+   "short": "동양사학전공",
+   "unit": "u-f0d156d4",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2023,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-5e5648a7": {
+   "name": "서양사학전공",
+   "short": "서양사학전공",
+   "unit": "u-f0d156d4",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2023,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-4ad4be97": {
+   "name": "철학과",
+   "short": "철학과",
+   "unit": "u-41315eeb",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-26490b22": {
+   "name": "종교학과",
+   "short": "종교학과",
+   "unit": "u-9622cca2",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-60140ad3": {
+   "name": "미학과",
+   "short": "미학과",
+   "unit": "u-bdba9d18",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-db3fc74e": {
+   "name": "고고학전공",
+   "short": "고고학전공",
+   "unit": "u-033ba79a",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-0ec7f3f7": {
+   "name": "미술사학전공",
+   "short": "미술사학전공",
+   "unit": "u-033ba79a",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-5235bf07": {
+   "name": "정치학전공",
+   "short": "정치학전공",
+   "unit": "u-3c00aaf6",
+   "college": "사회과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-bbf86688": {
+   "name": "외교학전공",
+   "short": "외교학전공",
+   "unit": "u-3c00aaf6",
+   "college": "사회과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-26c40934": {
+   "name": "경제학부",
+   "short": "경제학부",
+   "unit": "u-b05dd492",
+   "college": "사회과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-b13fbed6": {
+   "name": "사회학과",
+   "short": "사회학과",
+   "unit": "u-8dc58484",
+   "college": "사회과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-58032f4f": {
+   "name": "인류학과",
+   "short": "인류학과",
+   "unit": "u-db965888",
+   "college": "사회과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-03aa5ef6": {
+   "name": "심리학과",
+   "short": "심리학과",
+   "unit": "u-865badca",
+   "college": "사회과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-259c8d96": {
+   "name": "지리학과",
+   "short": "지리학과",
+   "unit": "u-524be1df",
+   "college": "사회과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-b148f5f4": {
+   "name": "사회복지학과",
+   "short": "사회복지학과",
+   "unit": "u-5b07209b",
+   "college": "사회과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-d3470527": {
+   "name": "언론정보학과",
+   "short": "언론정보학과",
+   "unit": "u-e5a2913f",
+   "college": "사회과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-58922b29": {
+   "name": "수리과학부",
+   "short": "수리과학부",
+   "unit": "u-31284f47",
+   "college": "자연과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-638ed6b5": {
+   "name": "통계학과",
+   "short": "통계학과",
+   "unit": "u-0d01fd76",
+   "college": "자연과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-76162784": {
+   "name": "물리학전공",
+   "short": "물리학전공",
+   "unit": "u-2ff607d0",
+   "college": "자연과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-3b4ed39d": {
+   "name": "천문학전공",
+   "short": "천문학전공",
+   "unit": "u-2ff607d0",
+   "college": "자연과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-38d77850": {
+   "name": "화학부",
+   "short": "화학부",
+   "unit": "u-1044c6c5",
+   "college": "자연과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "life-sciences": {
+   "name": "생명과학부",
+   "short": "생명과학부",
+   "unit": "u-16dbc28b",
+   "college": "자연과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-e5fab35c": {
+   "name": "지구환경과학부",
+   "short": "지구환경과학부",
+   "unit": "u-436717c1",
+   "college": "자연과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-dc24e59c": {
+   "name": "경영학과",
+   "short": "경영학과",
+   "unit": "u-bd08a956",
+   "college": "경영대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-234741e0": {
+   "name": "간호학과",
+   "short": "간호학과",
+   "unit": "u-6c68dbda",
+   "college": "간호대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": null,
+   "minor": null,
+   "data": true
+  },
+  "p-509f9c7c": {
+   "name": "소비자학전공",
+   "short": "소비자학전공",
+   "unit": "u-83f4412a",
+   "college": "생활과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 24,
+   "data": true
+  },
+  "p-db64f2a8": {
+   "name": "아동가족학전공",
+   "short": "아동가족학전공",
+   "unit": "u-83f4412a",
+   "college": "생활과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 24,
+   "data": true
+  },
+  "p-67f0f7cb": {
+   "name": "식품영양학과",
+   "short": "식품영양학과",
+   "unit": "u-63209f9b",
+   "college": "생활과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 24,
+   "data": true
+  },
+  "p-2c21b927": {
+   "name": "의류학과",
+   "short": "의류학과",
+   "unit": "u-1e66a045",
+   "college": "생활과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 24,
+   "data": true
+  },
+  "p-d75e8638": {
+   "name": "공과대학 광역",
+   "short": "공과대학 광역",
+   "unit": "u-6ed313b4",
+   "college": "공과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2023,
+    2026
+   ],
+   "double": null,
+   "minor": null,
+   "data": true
+  },
+  "p-a4068275": {
+   "name": "건축학전공",
+   "short": "건축학전공",
+   "unit": "u-921745b3",
+   "college": "공과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 110,
+   "minor": 66,
+   "data": true
+  },
+  "p-90504114": {
+   "name": "건축공학전공",
+   "short": "건축공학전공",
+   "unit": "u-921745b3",
+   "college": "공과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-49fa7eeb": {
+   "name": "산업공학과",
+   "short": "산업공학과",
+   "unit": "u-f7ee18aa",
+   "college": "공과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-825e63cf": {
+   "name": "원자핵공학과",
+   "short": "원자핵공학과",
+   "unit": "u-e4d12265",
+   "college": "공과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-c91f696e": {
+   "name": "조선해양공학과",
+   "short": "조선해양공학과",
+   "unit": "u-47bf30cc",
+   "college": "공과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-18cd75ef": {
+   "name": "컴퓨터공학부",
+   "short": "컴퓨터공학부",
+   "unit": "u-774c276d",
+   "college": "공과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-121aa7bb": {
+   "name": "전기·정보공학부",
+   "short": "전기·정보공학부",
+   "unit": "u-0ad88f92",
+   "college": "공과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 42,
+   "minor": 24,
+   "data": true
+  },
+  "p-463194e6": {
+   "name": "재료공학부",
+   "short": "재료공학부",
+   "unit": "u-7e7bb3a5",
+   "college": "공과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 48,
+   "minor": 21,
+   "data": true
+  },
+  "p-1ff44350": {
+   "name": "건설환경공학부",
+   "short": "건설환경공학부",
+   "unit": "u-dcbaa46b",
+   "college": "공과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "chem-bio-eng": {
+   "name": "화학생물공학부",
+   "short": "화학생물공학부",
+   "unit": "u-855510a5",
+   "college": "공과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 42,
+   "minor": 24,
+   "data": true
+  },
+  "p-5754ebe4": {
+   "name": "에너지자원공학과",
+   "short": "에너지자원공학과",
+   "unit": "u-df54e60d",
+   "college": "공과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-d8bff34e": {
+   "name": "기계공학부",
+   "short": "기계공학부",
+   "unit": "u-528f9bfc",
+   "college": "공과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2021,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-84fb4524": {
+   "name": "항공우주공학과",
+   "short": "항공우주공학과",
+   "unit": "u-d6006d49",
+   "college": "공과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2021,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-1b7f1668": {
+   "name": "작물생명과학전공",
+   "short": "작물생명과학전공",
+   "unit": "u-1f4caec5",
+   "college": "농업생명과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 48,
+   "minor": 24,
+   "data": true
+  },
+  "p-1b7a392b": {
+   "name": "원예생명공학전공",
+   "short": "원예생명공학전공",
+   "unit": "u-1f4caec5",
+   "college": "농업생명과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": true,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 48,
+   "minor": 24,
+   "data": true
+  },
+  "p-ff402de1": {
+   "name": "산업인력개발학전공",
+   "short": "산업인력개발학전공",
+   "unit": "u-1f4caec5",
+   "college": "농업생명과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 41,
+   "minor": 21,
+   "data": true
+  },
+  "p-55a75f4e": {
+   "name": "산림환경학전공",
+   "short": "산림환경학전공",
+   "unit": "u-be3a8505",
+   "college": "농업생명과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 48,
+   "minor": 24,
+   "data": true
+  },
+  "p-ee20a5ca": {
+   "name": "환경재료과학전공",
+   "short": "환경재료과학전공",
+   "unit": "u-be3a8505",
+   "college": "농업생명과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 48,
+   "minor": 24,
+   "data": true
+  },
+  "p-ff570a3c": {
+   "name": "응용생명화학전공",
+   "short": "응용생명화학전공",
+   "unit": "u-f2cb56c1",
+   "college": "농업생명과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": true,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 48,
+   "minor": 30,
+   "data": true
+  },
+  "p-d65d42a1": {
+   "name": "응용생물학전공",
+   "short": "응용생물학전공",
+   "unit": "u-f2cb56c1",
+   "college": "농업생명과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 24,
+   "data": true
+  },
+  "p-e202bbef": {
+   "name": "식품생명공학전공",
+   "short": "식품생명공학전공",
+   "unit": "u-8576dfec",
+   "college": "농업생명과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 48,
+   "minor": 24,
+   "data": true
+  },
+  "animal-biotech": {
+   "name": "동물생명공학전공",
+   "short": "동물생명공학전공",
+   "unit": "u-8576dfec",
+   "college": "농업생명과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 48,
+   "minor": 24,
+   "data": true
+  },
+  "p-e2c4f272": {
+   "name": "바이오시스템공학전공",
+   "short": "바이오시스템공학전공",
+   "unit": "u-5b3d46d2",
+   "college": "농업생명과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 41,
+   "minor": 22,
+   "data": true
+  },
+  "p-a7785a82": {
+   "name": "바이오소재공학전공",
+   "short": "바이오소재공학전공",
+   "unit": "u-5b3d46d2",
+   "college": "농업생명과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 48,
+   "minor": 24,
+   "data": true
+  },
+  "p-3d1bae16": {
+   "name": "조경학전공",
+   "short": "조경학전공",
+   "unit": "u-56ccab09",
+   "college": "농업생명과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 48,
+   "minor": 24,
+   "data": true
+  },
+  "p-d2e2af8f": {
+   "name": "지역시스템공학전공",
+   "short": "지역시스템공학전공",
+   "unit": "u-56ccab09",
+   "college": "농업생명과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 48,
+   "minor": 24,
+   "data": true
+  },
+  "p-3ba62abd": {
+   "name": "농업·자원경제학전공",
+   "short": "농업·자원경제학전공",
+   "unit": "u-7108243b",
+   "college": "농업생명과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-fb9a2ae0": {
+   "name": "지역정보학전공",
+   "short": "지역정보학전공",
+   "unit": "u-7108243b",
+   "college": "농업생명과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 48,
+   "minor": 24,
+   "data": true
+  },
+  "p-a0fa364e": {
+   "name": "스마트시스템과학과",
+   "short": "스마트시스템과학과",
+   "unit": "u-da8d2e68",
+   "college": "농업생명과학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2025,
+    2026
+   ],
+   "double": null,
+   "minor": null,
+   "data": true
+  },
+  "p-5c8ee76e": {
+   "name": "동양화과",
+   "short": "동양화과",
+   "unit": "u-efa5d383",
+   "college": "미술대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 62,
+   "minor": 21,
+   "data": true
+  },
+  "p-6a67f329": {
+   "name": "서양화과",
+   "short": "서양화과",
+   "unit": "u-f741b7e0",
+   "college": "미술대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 48,
+   "minor": 21,
+   "data": true
+  },
+  "p-1f9e8c1b": {
+   "name": "조소과",
+   "short": "조소과",
+   "unit": "u-c7ea7ae6",
+   "college": "미술대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 68,
+   "minor": 21,
+   "data": true
+  },
+  "p-278a95e3": {
+   "name": "도자공예전공",
+   "short": "도자공예전공",
+   "unit": "u-ec8a6cff",
+   "college": "미술대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 57,
+   "minor": 21,
+   "data": true
+  },
+  "p-b4a82d66": {
+   "name": "금속공예전공",
+   "short": "금속공예전공",
+   "unit": "u-ec8a6cff",
+   "college": "미술대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 57,
+   "minor": 21,
+   "data": true
+  },
+  "p-421f1331": {
+   "name": "시각디자인전공",
+   "short": "시각디자인전공",
+   "unit": "u-415a3f50",
+   "college": "미술대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 57,
+   "minor": 21,
+   "data": true
+  },
+  "p-7c104a63": {
+   "name": "산업디자인전공",
+   "short": "산업디자인전공",
+   "unit": "u-415a3f50",
+   "college": "미술대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 57,
+   "minor": 21,
+   "data": true
+  },
+  "p-2bae4102": {
+   "name": "성악과",
+   "short": "성악과",
+   "unit": "u-8db9a76b",
+   "college": "음악대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 68,
+   "minor": 60,
+   "data": true
+  },
+  "p-a0bdc6e6": {
+   "name": "작곡전공",
+   "short": "작곡전공",
+   "unit": "u-b8c18007",
+   "college": "음악대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 64,
+   "minor": 64,
+   "data": true
+  },
+  "p-101b786d": {
+   "name": "지휘전공",
+   "short": "지휘전공",
+   "unit": "u-b8c18007",
+   "college": "음악대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 64,
+   "minor": 64,
+   "data": true
+  },
+  "p-8bc02fbf": {
+   "name": "음악학과",
+   "short": "음악학과",
+   "unit": "u-9ac4af17",
+   "college": "음악대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2023,
+    2026
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-085d9249": {
+   "name": "피아노과",
+   "short": "피아노과",
+   "unit": "u-e91772f6",
+   "college": "음악대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2023,
+    2026
+   ],
+   "double": 45,
+   "minor": 26,
+   "data": true
+  },
+  "p-3948b64e": {
+   "name": "관악전공",
+   "short": "관악전공",
+   "unit": "u-08b8f271",
+   "college": "음악대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2023,
+    2026
+   ],
+   "double": 62,
+   "minor": 30,
+   "data": true
+  },
+  "p-63dea661": {
+   "name": "현악전공",
+   "short": "현악전공",
+   "unit": "u-08b8f271",
+   "college": "음악대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2023,
+    2026
+   ],
+   "double": 72,
+   "minor": 30,
+   "data": true
+  },
+  "p-923b6f9e": {
+   "name": "기악전공",
+   "short": "기악전공",
+   "unit": "u-432baee0",
+   "college": "음악대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 38,
+   "minor": 31,
+   "data": true
+  },
+  "p-13df6045": {
+   "name": "성악전공",
+   "short": "성악전공",
+   "unit": "u-432baee0",
+   "college": "음악대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 38,
+   "minor": 31,
+   "data": true
+  },
+  "p-f76a4a1c": {
+   "name": "이론전공",
+   "short": "이론전공",
+   "unit": "u-432baee0",
+   "college": "음악대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 38,
+   "minor": 31,
+   "data": true
+  },
+  "p-f3e53a1e": {
+   "name": "작곡전공",
+   "short": "작곡전공",
+   "unit": "u-432baee0",
+   "college": "음악대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 38,
+   "minor": 31,
+   "data": true
+  },
+  "p-4ccd7012": {
+   "name": "지휘전공",
+   "short": "지휘전공",
+   "unit": "u-432baee0",
+   "college": "음악대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 38,
+   "minor": 31,
+   "data": true
+  },
+  "p-bf59d12c": {
+   "name": "교육학과",
+   "short": "교육학과",
+   "unit": "u-8ad7ba38",
+   "college": "사범대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 52,
+   "minor": 21,
+   "data": true
+  },
+  "p-41637bd4": {
+   "name": "국어교육과",
+   "short": "국어교육과",
+   "unit": "u-4462f0ff",
+   "college": "사범대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 52,
+   "minor": 21,
+   "data": true
+  },
+  "p-0975d7e3": {
+   "name": "영어교육과",
+   "short": "영어교육과",
+   "unit": "u-8cd25434",
+   "college": "사범대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 52,
+   "minor": 21,
+   "data": true
+  },
+  "p-2d920bdb": {
+   "name": "불어교육과",
+   "short": "불어교육과",
+   "unit": "u-64d2426e",
+   "college": "사범대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 52,
+   "minor": 21,
+   "data": true
+  },
+  "p-dcff7393": {
+   "name": "독어교육과",
+   "short": "독어교육과",
+   "unit": "u-a8ff6053",
+   "college": "사범대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 52,
+   "minor": 21,
+   "data": true
+  },
+  "p-cae89602": {
+   "name": "사회교육과",
+   "short": "사회교육과",
+   "unit": "u-ce935b1c",
+   "college": "사범대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 52,
+   "minor": 30,
+   "data": true
+  },
+  "p-d569f217": {
+   "name": "역사교육과",
+   "short": "역사교육과",
+   "unit": "u-3121025e",
+   "college": "사범대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 53,
+   "minor": 36,
+   "data": true
+  },
+  "p-f17d6c49": {
+   "name": "지리교육과",
+   "short": "지리교육과",
+   "unit": "u-dfcd3916",
+   "college": "사범대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 52,
+   "minor": 21,
+   "data": true
+  },
+  "p-56afea81": {
+   "name": "윤리교육과",
+   "short": "윤리교육과",
+   "unit": "u-c4c87f4b",
+   "college": "사범대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 52,
+   "minor": 21,
+   "data": true
+  },
+  "p-ddda9e11": {
+   "name": "수학교육과",
+   "short": "수학교육과",
+   "unit": "u-a363a4a4",
+   "college": "사범대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 52,
+   "minor": 21,
+   "data": true
+  },
+  "p-9baede1b": {
+   "name": "물리교육과",
+   "short": "물리교육과",
+   "unit": "u-7922ae6e",
+   "college": "사범대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 52,
+   "minor": 21,
+   "data": true
+  },
+  "p-7e32b985": {
+   "name": "화학교육과",
+   "short": "화학교육과",
+   "unit": "u-c6ba388e",
+   "college": "사범대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 52,
+   "minor": 21,
+   "data": true
+  },
+  "p-3b9c97b2": {
+   "name": "생물교육과",
+   "short": "생물교육과",
+   "unit": "u-5026171c",
+   "college": "사범대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 52,
+   "minor": null,
+   "data": true
+  },
+  "p-f61bbb8f": {
+   "name": "지구과학교육과",
+   "short": "지구과학교육과",
+   "unit": "u-6d6ca7a4",
+   "college": "사범대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 52,
+   "minor": 21,
+   "data": true
+  },
+  "p-35c6807d": {
+   "name": "체육교육과",
+   "short": "체육교육과",
+   "unit": "u-4d0c072a",
+   "college": "사범대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 52,
+   "minor": 21,
+   "data": true
+  },
+  "p-79fbff13": {
+   "name": "수의예과",
+   "short": "수의예과",
+   "unit": "u-1a568c79",
+   "college": "수의과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": null,
+   "minor": null,
+   "data": true
+  },
+  "p-ad49affe": {
+   "name": "수의학과",
+   "short": "수의학과",
+   "unit": "u-54329357",
+   "college": "수의과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": true,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": null,
+   "minor": null,
+   "data": true
+  },
+  "p-11daf6a5": {
+   "name": "약학과",
+   "short": "약학과",
+   "unit": "u-97789a76",
+   "college": "약학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2022,
+    2026
+   ],
+   "double": null,
+   "minor": null,
+   "data": true
+  },
+  "p-e7ca2382": {
+   "name": "제약학과",
+   "short": "제약학과",
+   "unit": "u-97789a76",
+   "college": "약학대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2022,
+    2026
+   ],
+   "double": null,
+   "minor": null,
+   "data": true
+  },
+  "p-5881562d": {
+   "name": "의예과",
+   "short": "의예과",
+   "unit": "u-00127645",
+   "college": "의과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": null,
+   "minor": null,
+   "data": true
+  },
+  "p-fccadae3": {
+   "name": "의학과",
+   "short": "의학과",
+   "unit": "u-0b97ccf0",
+   "college": "의과대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": null,
+   "minor": null,
+   "data": true
+  },
+  "p-a346f2bb": {
+   "name": "학사과정",
+   "short": "치의학과",
+   "unit": "u-f0474683",
+   "college": "치의학대학원",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": null,
+   "minor": null,
+   "data": true
+  },
+  "p-97f3ee92": {
+   "name": "학부대학 광역",
+   "short": "학부대학 광역",
+   "unit": "u-59134ebe",
+   "college": "학부대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2025,
+    2026
+   ],
+   "double": null,
+   "minor": null,
+   "data": true
+  },
+  "p-41df1808": {
+   "name": "자유전공학부",
+   "short": "자유전공학부",
+   "unit": "u-0676b721",
+   "college": "학부대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": null,
+   "minor": null,
+   "data": true
+  },
+  "p-a758e356": {
+   "name": "학생설계전공",
+   "short": "학생설계전공",
+   "unit": "u-0676b721",
+   "college": "학부대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": null,
+   "minor": null,
+   "data": true
+  },
+  "p-7fccc8d9": {
+   "name": "디지털헬스케어전공",
+   "short": "디지털헬스케어전공",
+   "unit": "u-e6ff225f",
+   "college": "첨단융합학부",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2024,
+    2026
+   ],
+   "double": 39,
+   "minor": 24,
+   "data": true
+  },
+  "p-8a8be90a": {
+   "name": "융합데이터과학전공",
+   "short": "융합데이터과학전공",
+   "unit": "u-e6ff225f",
+   "college": "첨단융합학부",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2024,
+    2026
+   ],
+   "double": 39,
+   "minor": 24,
+   "data": true
+  },
+  "p-1643f5b3": {
+   "name": "지속가능기술전공",
+   "short": "지속가능기술전공",
+   "unit": "u-e6ff225f",
+   "college": "첨단융합학부",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2024,
+    2026
+   ],
+   "double": 39,
+   "minor": 24,
+   "data": true
+  },
+  "p-76b45405": {
+   "name": "차세대지능형반도체전공",
+   "short": "차세대지능형반도체전공",
+   "unit": "u-e6ff225f",
+   "college": "첨단융합학부",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2024,
+    2026
+   ],
+   "double": 39,
+   "minor": 24,
+   "data": true
+  },
+  "p-c1c26b61": {
+   "name": "혁신신약전공",
+   "short": "혁신신약전공",
+   "unit": "u-e6ff225f",
+   "college": "첨단융합학부",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2024,
+    2026
+   ],
+   "double": 39,
+   "minor": 24,
+   "data": true
+  },
+  "p-f0f8e8fb": {
+   "name": "동아시아비교인문학",
+   "short": "연합전공 동아시아비교인문학",
+   "unit": "u-4ab0dc00",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": 39,
+   "minor": null,
+   "data": true
+  },
+  "p-17c61991": {
+   "name": "정치-경제-철학",
+   "short": "연합전공 정치-경제-철학",
+   "unit": "u-4ab0dc00",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": 39,
+   "minor": null,
+   "data": true
+  },
+  "p-85768b17": {
+   "name": "정보문화학",
+   "short": "연합전공 정보문화학",
+   "unit": "u-4ab0dc00",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": 40,
+   "minor": null,
+   "data": true
+  },
+  "p-5f19ca61": {
+   "name": "기술경영",
+   "short": "연합전공 기술경영",
+   "unit": "u-4ab0dc00",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": 39,
+   "minor": null,
+   "data": true
+  },
+  "p-74c7d4dc": {
+   "name": "글로벌환경경영학",
+   "short": "연합전공 글로벌환경경영학",
+   "unit": "u-4ab0dc00",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": 39,
+   "minor": null,
+   "data": true
+  },
+  "p-558e07aa": {
+   "name": "계산과학",
+   "short": "연합전공 계산과학",
+   "unit": "u-4ab0dc00",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": 39,
+   "minor": null,
+   "data": true
+  },
+  "p-71f38ec1": {
+   "name": "벤처경영학",
+   "short": "연합전공 벤처경영학",
+   "unit": "u-4ab0dc00",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": 39,
+   "minor": null,
+   "data": true
+  },
+  "p-499f3ab6": {
+   "name": "영상매체예술",
+   "short": "연합전공 영상매체예술",
+   "unit": "u-4ab0dc00",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": 39,
+   "minor": null,
+   "data": true
+  },
+  "p-21e29be7": {
+   "name": "인공지능",
+   "short": "연합전공 인공지능",
+   "unit": "u-4ab0dc00",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": 39,
+   "minor": null,
+   "data": true
+  },
+  "p-4d92ea73": {
+   "name": "인공지능반도체공학",
+   "short": "연합전공 인공지능반도체공학",
+   "unit": "u-4ab0dc00",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": 39,
+   "minor": null,
+   "data": true
+  },
+  "p-282c121e": {
+   "name": "지능형통신",
+   "short": "연합전공 지능형통신",
+   "unit": "u-4ab0dc00",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": 39,
+   "minor": null,
+   "data": true
+  },
+  "p-526889bd": {
+   "name": "과학기술의학",
+   "short": "연합전공 과학기술의학",
+   "unit": "u-4ab0dc00",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": 39,
+   "minor": null,
+   "data": true
+  },
+  "p-993fb716": {
+   "name": "고전문헌학",
+   "short": "연계전공 고전문헌학",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-31f9ba48": {
+   "name": "러시아학",
+   "short": "연계전공 러시아학",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-1d53fe3a": {
+   "name": "라틴아메리카학",
+   "short": "연계전공 라틴아메리카학",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-7c0ad312": {
+   "name": "인문데이터과학",
+   "short": "연계전공 인문데이터과학",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-d1ae6cef": {
+   "name": "유럽지역학",
+   "short": "연계전공 유럽지역학",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-45680310": {
+   "name": "일본학",
+   "short": "연계전공 일본학",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-46b9fb4b": {
+   "name": "금융경제",
+   "short": "연계전공 금융경제",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-97dd3e8a": {
+   "name": "뇌-마음-행동",
+   "short": "연계전공 뇌-마음-행동",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-fe1827e6": {
+   "name": "금융수학",
+   "short": "연계전공 금융수학",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-431861ea": {
+   "name": "과학기술학",
+   "short": "연계전공 과학기술학",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-b68e4d7a": {
+   "name": "영화영상학",
+   "short": "연계전공 영화영상학",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-4778b7c7": {
+   "name": "공연예술학",
+   "short": "연계전공 공연예술학",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-b3d6648f": {
+   "name": "한국학",
+   "short": "연계전공 한국학",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-17341675": {
+   "name": "리테일",
+   "short": "연계전공 리테일",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-08f081c9": {
+   "name": "중국학",
+   "short": "연계전공 중국학",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-3b07cd3d": {
+   "name": "미국학",
+   "short": "연계전공 미국학",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-a1667980": {
+   "name": "통합창의디자인",
+   "short": "연계전공 통합창의디자인",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-6861092c": {
+   "name": "정치-경제-철학",
+   "short": "연계전공 정치-경제-철학",
+   "unit": "u-31aaa17f",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": null,
+   "double": null,
+   "minor": 21,
+   "data": true
+  },
+  "p-2cfbd5f9": {
+   "name": "학생설계전공",
+   "short": "학생설계전공",
+   "unit": "u-5dc9e994",
+   "college": null,
+   "kind": "multi",
+   "version_key": "selection",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": 39,
+   "minor": null,
+   "data": true
+  },
+  "p-44f16156": {
+   "name": "국사학과",
+   "short": "국사학과",
+   "unit": "u-f4eeab83",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2022
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-89f20073": {
+   "name": "동양사학과",
+   "short": "동양사학과",
+   "unit": "u-241ba1bc",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2022
+   ],
+   "double": 39,
+   "minor": 24,
+   "data": true
+  },
+  "p-3f49cad7": {
+   "name": "서양사학과",
+   "short": "서양사학과",
+   "unit": "u-6f5a3df7",
+   "college": "인문대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": false,
+   "exists_for": [
+    2019,
+    2022
+   ],
+   "double": 39,
+   "minor": 21,
+   "data": true
+  },
+  "p-2249d85e": {
+   "name": "융합학습과학전공",
+   "short": "사범대학",
+   "unit": "u-b028806f",
+   "college": "사범대학",
+   "kind": "major",
+   "version_key": "entry",
+   "major_entry": true,
+   "exists_for": [
+    2019,
+    2026
+   ],
+   "double": null,
+   "minor": null,
+   "data": true
+  }
+ },
+ "depts": {
+  "간호학과": {
+   "units": [
+    "u-6c68dbda"
+   ],
+   "programs": [
+    {
+     "id": "p-234741e0",
+     "prefixes": []
+    }
+   ]
+  },
+  "건설환경공학부": {
+   "units": [
+    "u-dcbaa46b"
+   ],
+   "programs": [
+    {
+     "id": "p-1ff44350",
+     "prefixes": []
+    }
+   ]
+  },
+  "건축학과": {
+   "units": [
+    "u-921745b3"
+   ],
+   "programs": []
+  },
+  "경영학과": {
+   "units": [
+    "u-bd08a956"
+   ],
+   "programs": [
+    {
+     "id": "p-dc24e59c",
+     "prefixes": []
+    }
+   ]
+  },
+  "경제학부": {
+   "units": [
+    "u-b05dd492"
+   ],
+   "programs": [
+    {
+     "id": "p-26c40934",
+     "prefixes": []
+    }
+   ]
+  },
+  "고고미술사학과": {
+   "units": [
+    "u-033ba79a"
+   ],
+   "programs": []
+  },
+  "공예과": {
+   "units": [
+    "u-ec8a6cff"
+   ],
+   "programs": [
+    {
+     "id": "p-278a95e3",
+     "prefixes": [
+      "6123.",
+      "M1774."
+     ]
+    },
+    {
+     "id": "p-b4a82d66",
+     "prefixes": [
+      "6124."
+     ]
+    }
+   ]
+  },
+  "관현악과": {
+   "units": [
+    "u-08b8f271"
+   ],
+   "programs": [
+    {
+     "id": "p-63dea661",
+     "prefixes": [
+      "6533."
+     ]
+    }
+   ]
+  },
+  "교육학과": {
+   "units": [
+    "u-8ad7ba38"
+   ],
+   "programs": [
+    {
+     "id": "p-bf59d12c",
+     "prefixes": []
+    }
+   ]
+  },
+  "국사학과": {
+   "units": [
+    "u-f4eeab83"
+   ],
+   "programs": [
+    {
+     "id": "p-44f16156",
+     "prefixes": []
+    }
+   ]
+  },
+  "국악과": {
+   "units": [
+    "u-432baee0"
+   ],
+   "programs": [
+    {
+     "id": "p-13df6045",
+     "prefixes": [
+      "6542."
+     ]
+    },
+    {
+     "id": "p-f76a4a1c",
+     "prefixes": [
+      "6545."
+     ]
+    },
+    {
+     "id": "p-f3e53a1e",
+     "prefixes": [
+      "6544."
+     ]
+    }
+   ]
+  },
+  "국어교육과": {
+   "units": [
+    "u-4462f0ff"
+   ],
+   "programs": [
+    {
+     "id": "p-41637bd4",
+     "prefixes": []
+    }
+   ]
+  },
+  "국어국문학과": {
+   "units": [
+    "u-cabe9454"
+   ],
+   "programs": [
+    {
+     "id": "p-3e203121",
+     "prefixes": []
+    }
+   ]
+  },
+  "기계공학부": {
+   "units": [
+    "u-528f9bfc"
+   ],
+   "programs": [
+    {
+     "id": "p-d8bff34e",
+     "prefixes": []
+    }
+   ]
+  },
+  "노어노문학과": {
+   "units": [
+    "u-5c4f65ed"
+   ],
+   "programs": [
+    {
+     "id": "p-2408e57e",
+     "prefixes": []
+    }
+   ]
+  },
+  "농경제사회학부": {
+   "units": [
+    "u-7108243b"
+   ],
+   "programs": [
+    {
+     "id": "p-3ba62abd",
+     "prefixes": [
+      "5201."
+     ]
+    },
+    {
+     "id": "p-fb9a2ae0",
+     "prefixes": [
+      "5202.",
+      "M1683."
+     ]
+    }
+   ]
+  },
+  "독어교육과": {
+   "units": [
+    "u-a8ff6053"
+   ],
+   "programs": [
+    {
+     "id": "p-dcff7393",
+     "prefixes": []
+    }
+   ]
+  },
+  "독어독문학과": {
+   "units": [
+    "u-3f0f3489"
+   ],
+   "programs": [
+    {
+     "id": "p-b9aaeb80",
+     "prefixes": []
+    }
+   ]
+  },
+  "동양사학과": {
+   "units": [
+    "u-241ba1bc"
+   ],
+   "programs": [
+    {
+     "id": "p-89f20073",
+     "prefixes": []
+    }
+   ]
+  },
+  "동양화과": {
+   "units": [
+    "u-efa5d383"
+   ],
+   "programs": [
+    {
+     "id": "p-5c8ee76e",
+     "prefixes": []
+    }
+   ]
+  },
+  "디자인과": {
+   "units": [
+    "u-415a3f50"
+   ],
+   "programs": [
+    {
+     "id": "p-421f1331",
+     "prefixes": [
+      "6125."
+     ]
+    }
+   ]
+  },
+  "물리·천문학부": {
+   "units": [
+    "u-2ff607d0"
+   ],
+   "programs": [
+    {
+     "id": "p-76162784",
+     "prefixes": [
+      "3342.",
+      "884.",
+      "M1419.",
+      "M2173."
+     ]
+    },
+    {
+     "id": "p-3b4ed39d",
+     "prefixes": [
+      "3345.",
+      "M1420."
+     ]
+    }
+   ]
+  },
+  "물리교육과": {
+   "units": [
+    "u-7922ae6e"
+   ],
+   "programs": [
+    {
+     "id": "p-9baede1b",
+     "prefixes": []
+    }
+   ]
+  },
+  "미학과": {
+   "units": [
+    "u-bdba9d18"
+   ],
+   "programs": [
+    {
+     "id": "p-60140ad3",
+     "prefixes": []
+    }
+   ]
+  },
+  "바이오시스템·소재학부": {
+   "units": [
+    "u-5b3d46d2"
+   ],
+   "programs": [
+    {
+     "id": "p-e2c4f272",
+     "prefixes": [
+      "500.",
+      "5261.",
+      "M1704."
+     ]
+    },
+    {
+     "id": "p-a7785a82",
+     "prefixes": [
+      "5262."
+     ]
+    }
+   ]
+  },
+  "불어교육과": {
+   "units": [
+    "u-64d2426e"
+   ],
+   "programs": [
+    {
+     "id": "p-2d920bdb",
+     "prefixes": []
+    }
+   ]
+  },
+  "불어불문학과": {
+   "units": [
+    "u-de361024"
+   ],
+   "programs": [
+    {
+     "id": "p-1d91d72d",
+     "prefixes": []
+    }
+   ]
+  },
+  "사범대학": {
+   "units": [
+    "u-b028806f"
+   ],
+   "programs": []
+  },
+  "사회교육과": {
+   "units": [
+    "u-ce935b1c"
+   ],
+   "programs": [
+    {
+     "id": "p-cae89602",
+     "prefixes": []
+    }
+   ]
+  },
+  "사회복지학과": {
+   "units": [
+    "u-5b07209b"
+   ],
+   "programs": [
+    {
+     "id": "p-b148f5f4",
+     "prefixes": []
+    }
+   ]
+  },
+  "사회학과": {
+   "units": [
+    "u-8dc58484"
+   ],
+   "programs": [
+    {
+     "id": "p-b13fbed6",
+     "prefixes": []
+    }
+   ]
+  },
+  "산림과학부": {
+   "units": [
+    "u-be3a8505"
+   ],
+   "programs": [
+    {
+     "id": "p-55a75f4e",
+     "prefixes": [
+      "M1698."
+     ]
+    },
+    {
+     "id": "p-ee20a5ca",
+     "prefixes": [
+      "457.",
+      "5242.",
+      "M1693.",
+      "M1699."
+     ]
+    }
+   ]
+  },
+  "산업공학과": {
+   "units": [
+    "u-f7ee18aa"
+   ],
+   "programs": [
+    {
+     "id": "p-49fa7eeb",
+     "prefixes": []
+    }
+   ]
+  },
+  "생명과학부": {
+   "units": [
+    "u-16dbc28b"
+   ],
+   "programs": [
+    {
+     "id": "life-sciences",
+     "prefixes": []
+    }
+   ]
+  },
+  "생물교육과": {
+   "units": [
+    "u-5026171c"
+   ],
+   "programs": [
+    {
+     "id": "p-3b9c97b2",
+     "prefixes": []
+    }
+   ]
+  },
+  "서양사학과": {
+   "units": [
+    "u-6f5a3df7"
+   ],
+   "programs": [
+    {
+     "id": "p-3f49cad7",
+     "prefixes": []
+    }
+   ]
+  },
+  "서양화과": {
+   "units": [
+    "u-f741b7e0"
+   ],
+   "programs": [
+    {
+     "id": "p-6a67f329",
+     "prefixes": []
+    }
+   ]
+  },
+  "서어서문학과": {
+   "units": [
+    "u-d0419d67"
+   ],
+   "programs": [
+    {
+     "id": "p-a9188efc",
+     "prefixes": []
+    }
+   ]
+  },
+  "성악과": {
+   "units": [
+    "u-8db9a76b"
+   ],
+   "programs": [
+    {
+     "id": "p-2bae4102",
+     "prefixes": []
+    }
+   ]
+  },
+  "소비자아동학부": {
+   "units": [
+    "u-83f4412a"
+   ],
+   "programs": [
+    {
+     "id": "p-509f9c7c",
+     "prefixes": [
+      "357.",
+      "M1471."
+     ]
+    },
+    {
+     "id": "p-db64f2a8",
+     "prefixes": [
+      "M2808."
+     ]
+    }
+   ]
+  },
+  "수리과학부": {
+   "units": [
+    "u-31284f47"
+   ],
+   "programs": [
+    {
+     "id": "p-58922b29",
+     "prefixes": []
+    }
+   ]
+  },
+  "수의예과": {
+   "units": [
+    "u-1a568c79"
+   ],
+   "programs": [
+    {
+     "id": "p-79fbff13",
+     "prefixes": []
+    }
+   ]
+  },
+  "수의학과": {
+   "units": [
+    "u-54329357"
+   ],
+   "programs": [
+    {
+     "id": "p-ad49affe",
+     "prefixes": []
+    }
+   ]
+  },
+  "수학교육과": {
+   "units": [
+    "u-a363a4a4"
+   ],
+   "programs": [
+    {
+     "id": "p-ddda9e11",
+     "prefixes": []
+    }
+   ]
+  },
+  "스마트시스템과학과": {
+   "units": [
+    "u-da8d2e68"
+   ],
+   "programs": [
+    {
+     "id": "p-a0fa364e",
+     "prefixes": []
+    }
+   ]
+  },
+  "식물생산과학부": {
+   "units": [
+    "u-1f4caec5"
+   ],
+   "programs": [
+    {
+     "id": "p-1b7f1668",
+     "prefixes": [
+      "5171."
+     ]
+    },
+    {
+     "id": "p-1b7a392b",
+     "prefixes": [
+      "5172.",
+      "M2744."
+     ]
+    },
+    {
+     "id": "p-ff402de1",
+     "prefixes": [
+      "500.",
+      "5173.",
+      "M1671."
+     ]
+    }
+   ]
+  },
+  "식품·동물생명공학부": {
+   "units": [
+    "u-8576dfec"
+   ],
+   "programs": [
+    {
+     "id": "p-e202bbef",
+     "prefixes": [
+      "519.",
+      "5251.",
+      "M1701."
+     ]
+    },
+    {
+     "id": "animal-biotech",
+     "prefixes": [
+      "5252.",
+      "M1702."
+     ]
+    }
+   ]
+  },
+  "식품영양학과": {
+   "units": [
+    "u-63209f9b"
+   ],
+   "programs": [
+    {
+     "id": "p-67f0f7cb",
+     "prefixes": []
+    }
+   ]
+  },
+  "심리학과": {
+   "units": [
+    "u-865badca"
+   ],
+   "programs": [
+    {
+     "id": "p-03aa5ef6",
+     "prefixes": []
+    }
+   ]
+  },
+  "아시아언어문명학부": {
+   "units": [
+    "u-f28f4113"
+   ],
+   "programs": [
+    {
+     "id": "p-8af8eacd",
+     "prefixes": [
+      "M2752."
+     ]
+    }
+   ]
+  },
+  "약학과": {
+   "units": [
+    "u-97789a76"
+   ],
+   "programs": [
+    {
+     "id": "p-11daf6a5",
+     "prefixes": []
+    }
+   ]
+  },
+  "언론정보학과": {
+   "units": [
+    "u-e5a2913f"
+   ],
+   "programs": [
+    {
+     "id": "p-d3470527",
+     "prefixes": []
+    }
+   ]
+  },
+  "언어학과": {
+   "units": [
+    "u-be089d1a"
+   ],
+   "programs": [
+    {
+     "id": "p-1f5bd1b5",
+     "prefixes": []
+    }
+   ]
+  },
+  "에너지자원공학과": {
+   "units": [
+    "u-df54e60d"
+   ],
+   "programs": [
+    {
+     "id": "p-5754ebe4",
+     "prefixes": []
+    }
+   ]
+  },
+  "역사교육과": {
+   "units": [
+    "u-3121025e"
+   ],
+   "programs": [
+    {
+     "id": "p-d569f217",
+     "prefixes": []
+    }
+   ]
+  },
+  "역사학부": {
+   "units": [
+    "u-f0d156d4"
+   ],
+   "programs": [
+    {
+     "id": "p-b1cc35e9",
+     "prefixes": [
+      "M3544."
+     ]
+    },
+    {
+     "id": "p-c43beb02",
+     "prefixes": [
+      "M3545."
+     ]
+    }
+   ]
+  },
+  "영어교육과": {
+   "units": [
+    "u-8cd25434"
+   ],
+   "programs": [
+    {
+     "id": "p-0975d7e3",
+     "prefixes": []
+    }
+   ]
+  },
+  "영어영문학과": {
+   "units": [
+    "u-ca8f4cf9"
+   ],
+   "programs": [
+    {
+     "id": "p-9618364c",
+     "prefixes": []
+    }
+   ]
+  },
+  "원자핵공학과": {
+   "units": [
+    "u-e4d12265"
+   ],
+   "programs": [
+    {
+     "id": "p-825e63cf",
+     "prefixes": []
+    }
+   ]
+  },
+  "윤리교육과": {
+   "units": [
+    "u-c4c87f4b"
+   ],
+   "programs": [
+    {
+     "id": "p-56afea81",
+     "prefixes": []
+    }
+   ]
+  },
+  "융합학습과학전공": {
+   "units": [
+    "u-b028806f"
+   ],
+   "programs": [
+    {
+     "id": "p-2249d85e",
+     "prefixes": []
+    }
+   ]
+  },
+  "음악학과": {
+   "units": [
+    "u-9ac4af17"
+   ],
+   "programs": [
+    {
+     "id": "p-8bc02fbf",
+     "prefixes": []
+    }
+   ]
+  },
+  "응용생물화학부": {
+   "units": [
+    "u-f2cb56c1"
+   ],
+   "programs": [
+    {
+     "id": "p-ff570a3c",
+     "prefixes": [
+      "5191."
+     ]
+    },
+    {
+     "id": "p-d65d42a1",
+     "prefixes": [
+      "5192.",
+      "M1677."
+     ]
+    }
+   ]
+  },
+  "의류학과": {
+   "units": [
+    "u-1e66a045"
+   ],
+   "programs": [
+    {
+     "id": "p-2c21b927",
+     "prefixes": []
+    }
+   ]
+  },
+  "의예과": {
+   "units": [
+    "u-00127645"
+   ],
+   "programs": [
+    {
+     "id": "p-5881562d",
+     "prefixes": []
+    }
+   ]
+  },
+  "의학과": {
+   "units": [
+    "u-0b97ccf0"
+   ],
+   "programs": [
+    {
+     "id": "p-fccadae3",
+     "prefixes": []
+    }
+   ]
+  },
+  "인류학과": {
+   "units": [
+    "u-db965888"
+   ],
+   "programs": [
+    {
+     "id": "p-58032f4f",
+     "prefixes": []
+    }
+   ]
+  },
+  "자유전공학부": {
+   "units": [
+    "u-0676b721"
+   ],
+   "programs": []
+  },
+  "작곡과": {
+   "units": [
+    "u-b8c18007"
+   ],
+   "programs": [
+    {
+     "id": "p-101b786d",
+     "prefixes": [
+      "M1796.",
+      "M2183."
+     ]
+    }
+   ]
+  },
+  "재료공학부": {
+   "units": [
+    "u-7e7bb3a5"
+   ],
+   "programs": [
+    {
+     "id": "p-463194e6",
+     "prefixes": []
+    }
+   ]
+  },
+  "전기·정보공학부": {
+   "units": [
+    "u-0ad88f92"
+   ],
+   "programs": [
+    {
+     "id": "p-121aa7bb",
+     "prefixes": []
+    }
+   ]
+  },
+  "정치외교학부": {
+   "units": [
+    "u-3c00aaf6"
+   ],
+   "programs": [
+    {
+     "id": "p-5235bf07",
+     "prefixes": [
+      "216A."
+     ]
+    },
+    {
+     "id": "p-bbf86688",
+     "prefixes": [
+      "216B."
+     ]
+    }
+   ]
+  },
+  "제약학과": {
+   "units": [
+    "u-97789a76"
+   ],
+   "programs": [
+    {
+     "id": "p-e7ca2382",
+     "prefixes": []
+    }
+   ]
+  },
+  "조경·지역시스템공학부": {
+   "units": [
+    "u-56ccab09"
+   ],
+   "programs": [
+    {
+     "id": "p-3d1bae16",
+     "prefixes": [
+      "5271."
+     ]
+    },
+    {
+     "id": "p-d2e2af8f",
+     "prefixes": [
+      "457.",
+      "5272.",
+      "M1708."
+     ]
+    }
+   ]
+  },
+  "조선해양공학과": {
+   "units": [
+    "u-47bf30cc"
+   ],
+   "programs": [
+    {
+     "id": "p-c91f696e",
+     "prefixes": []
+    }
+   ]
+  },
+  "조소과": {
+   "units": [
+    "u-c7ea7ae6"
+   ],
+   "programs": [
+    {
+     "id": "p-1f9e8c1b",
+     "prefixes": []
+    }
+   ]
+  },
+  "종교학과": {
+   "units": [
+    "u-9622cca2"
+   ],
+   "programs": [
+    {
+     "id": "p-26490b22",
+     "prefixes": []
+    }
+   ]
+  },
+  "중어중문학과": {
+   "units": [
+    "u-eccbab7f"
+   ],
+   "programs": [
+    {
+     "id": "p-e171f470",
+     "prefixes": []
+    }
+   ]
+  },
+  "지구과학교육과": {
+   "units": [
+    "u-6d6ca7a4"
+   ],
+   "programs": [
+    {
+     "id": "p-f61bbb8f",
+     "prefixes": []
+    }
+   ]
+  },
+  "지구환경과학부": {
+   "units": [
+    "u-436717c1"
+   ],
+   "programs": [
+    {
+     "id": "p-e5fab35c",
+     "prefixes": []
+    }
+   ]
+  },
+  "지리교육과": {
+   "units": [
+    "u-dfcd3916"
+   ],
+   "programs": [
+    {
+     "id": "p-f17d6c49",
+     "prefixes": []
+    }
+   ]
+  },
+  "지리학과": {
+   "units": [
+    "u-524be1df"
+   ],
+   "programs": [
+    {
+     "id": "p-259c8d96",
+     "prefixes": []
+    }
+   ]
+  },
+  "철학과": {
+   "units": [
+    "u-41315eeb"
+   ],
+   "programs": [
+    {
+     "id": "p-4ad4be97",
+     "prefixes": []
+    }
+   ]
+  },
+  "첨단융합학부": {
+   "units": [
+    "u-e6ff225f"
+   ],
+   "programs": [
+    {
+     "id": "p-7fccc8d9",
+     "prefixes": [
+      "M3634."
+     ]
+    },
+    {
+     "id": "p-8a8be90a",
+     "prefixes": [
+      "M3635."
+     ]
+    },
+    {
+     "id": "p-1643f5b3",
+     "prefixes": [
+      "M3632.",
+      "M3636."
+     ]
+    },
+    {
+     "id": "p-76b45405",
+     "prefixes": [
+      "M3637."
+     ]
+    },
+    {
+     "id": "p-c1c26b61",
+     "prefixes": [
+      "M3638."
+     ]
+    }
+   ]
+  },
+  "체육교육과": {
+   "units": [
+    "u-4d0c072a"
+   ],
+   "programs": [
+    {
+     "id": "p-35c6807d",
+     "prefixes": []
+    }
+   ]
+  },
+  "치의학과": {
+   "units": [
+    "u-f0474683"
+   ],
+   "programs": [
+    {
+     "id": "p-a346f2bb",
+     "prefixes": []
+    }
+   ]
+  },
+  "컴퓨터공학부": {
+   "units": [
+    "u-774c276d"
+   ],
+   "programs": [
+    {
+     "id": "p-18cd75ef",
+     "prefixes": []
+    }
+   ]
+  },
+  "통계학과": {
+   "units": [
+    "u-0d01fd76"
+   ],
+   "programs": [
+    {
+     "id": "p-638ed6b5",
+     "prefixes": []
+    }
+   ]
+  },
+  "피아노과": {
+   "units": [
+    "u-e91772f6"
+   ],
+   "programs": [
+    {
+     "id": "p-085d9249",
+     "prefixes": []
+    }
+   ]
+  },
+  "항공우주공학과": {
+   "units": [
+    "u-d6006d49"
+   ],
+   "programs": [
+    {
+     "id": "p-84fb4524",
+     "prefixes": []
+    }
+   ]
+  },
+  "화학교육과": {
+   "units": [
+    "u-c6ba388e"
+   ],
+   "programs": [
+    {
+     "id": "p-7e32b985",
+     "prefixes": []
+    }
+   ]
+  },
+  "화학부": {
+   "units": [
+    "u-1044c6c5"
+   ],
+   "programs": [
+    {
+     "id": "p-38d77850",
+     "prefixes": []
+    }
+   ]
+  },
+  "화학생물공학부": {
+   "units": [
+    "u-855510a5"
+   ],
+   "programs": [
+    {
+     "id": "chem-bio-eng",
+     "prefixes": []
+    }
+   ]
+  }
+ },
+ "note": "보이는 이름은 괄호 설명을 뺀 것. exists_for 는 과정이 있던 학번(null 은 모름). double·minor 는 복수·부전공 학점(null 은 자료에 없음: 받지 않거나 모름). 혁신공유학부(교과인증과정)는 넣지 않았다. docs/requirements.md '학과 목록'"
+}

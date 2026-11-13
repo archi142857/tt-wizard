@@ -2,7 +2,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
-  pickVersion, buildSameCourse, tidyRecords, evaluateProgram, creditSummary, gpa, gradeNeeded,
+  pickVersion, pickVersionFor, buildSameCourse, tidyRecords, evaluateProgram, creditSummary, gpa, gradeNeeded,
   termCreditLimit, withinLimit, isMajorCourse, suggestCourses, rankSuggestions,
 } from "../web/js/requirements.js";
 import { gapFit, parseCourses, TravelMatrix } from "../web/js/engine.js";
@@ -20,6 +20,10 @@ const out = read(casesPath).map((c) => {
   switch (c.kind) {
     case "pick": {
       const { version, reason } = pickVersion(program(c.program), c.entryYear);
+      return version ? version.entry_years : reason;
+    }
+    case "pickfor": {
+      const { version, reason } = pickVersionFor(program(c.program), c.who);
       return version ? version.entry_years : reason;
     }
     case "same": {

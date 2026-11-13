@@ -32,6 +32,19 @@ export function pickVersion(program, entryYear) {
   return v ? { version: v, reason: null } : { version: null, reason: "no_data" };
 }
 
+/**
+ * 판 고르기(화면이 학번·전공 진입·선발 학기를 받은 뒤): version_key 가 selection 이면 다전공 선발 연도로,
+ * 전공 진입 연도로 갈리는 판(basis '전공 진입 …')이면 전공 진입 연도로, 그 밖은 입학 연도로. 모르는 값은 입학 연도로 대신한다.
+ */
+export function pickVersionFor(program, { entryYear, majorEntryYear = null, selectionYear = null } = {}) {
+  if (program.version_key === "selection") return pickVersion(program, selectionYear ?? entryYear);
+  if (majorEntryYear != null) {
+    const byMajor = pickVersion(program, majorEntryYear);
+    if (byMajor.version && /^전공 진입/.test(byMajor.version.basis || "")) return byMajor;
+  }
+  return pickVersion(program, entryYear);
+}
+
 // ---------------------------------------------------------------- 같은 과목
 
 /** 같은 과목으로 볼 번호 묶음: 학교 교양 대응표(2024 → 2025 → 2026)와 요건의 alt_codes. 번호 → 대표 번호 */

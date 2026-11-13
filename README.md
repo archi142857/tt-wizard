@@ -282,6 +282,7 @@ scripts/
   experiments.py             비교 실험 (웹 엔진 시간은 engine_bench.mjs)
   restrictions.py            수강편람 비고의 수강 제한(®) 읽기
   requirements_import.py     졸업 요건 조사 자료 → data/requirements/ (docs/requirements.md)
+  dept_catalog.py            학과 목록(처음 화면의 대학 → 학과 → 전공, 편람 학과 → 과정) → data/requirements/catalog.json
   field_validation.py        실측 구간 고르기, 실측과 모형 견주기, GPS 기록 분석
   build_app.py               web/ → app/www/ (스토어 앱 묶음)
   app_icons.py               아이콘 → 안드로이드 mipmap, iOS AppIcon

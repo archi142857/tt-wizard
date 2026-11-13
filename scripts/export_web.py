@@ -209,7 +209,7 @@ def export_requirements(src: Path, out: Path) -> tuple[int, int] | None:
         return None
     compact = {"ensure_ascii": False, "separators": (",", ":")}
     (out / "programs").mkdir(parents=True, exist_ok=True)
-    for name in ("index.json", "common.json", "course_map.json", "ge_credits.json"):
+    for name in ("index.json", "catalog.json", "common.json", "course_map.json", "ge_credits.json"):
         if (src / name).exists():
             data = json.loads((src / name).read_text(encoding="utf-8"))
             (out / name).write_text(json.dumps(data, **compact), encoding="utf-8")

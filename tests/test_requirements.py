@@ -156,6 +156,7 @@ def test_apply_diff_and_cover():
 def test_export_requirements(tmp_path):
     n = ew.export_requirements(REQ, tmp_path / "requirements")
     assert n == (len(load("index.json")["programs"]), len(programs()))
+    assert json.loads((tmp_path / "requirements" / "catalog.json").read_text(encoding="utf-8"))["depts"]
     for name in ("index.json", "common.json", "course_map.json", "ge_credits.json", "programs/life-sciences.json"):
         text = (tmp_path / "requirements" / name).read_text(encoding="utf-8")
         assert "\n" not in text.strip() and json.loads(text)
@@ -395,3 +396,51 @@ def test_suggest_next_courses(tmp_path):
     assert all(x[2] is not None for x in syn["ranked"])
     s = {x[0]: x[1] for x in cbe["suggestions"]}
     assert s == {core[0]["code"]: "need", sel1[0]["code"]: "choose"}  # 들은 전필(core[1])은 없다
+
+
+# ---------------------------------------------------------------- 학과 목록 (update103, 디자인 121판)
+
+def test_dept_catalog():
+    """처음 화면의 대학 → 학과(부) → 전공 목록. 레포 자료만으로 다시 만들면 파일과 같다."""
+    import dept_catalog as dc
+    cat = dc.build(REQ, ri.HISTORY)
+    assert cat == load("catalog.json")
+    idx = load("index.json")["programs"]
+    ids = [i for col in cat["colleges"] for u in col["units"] for i in u["programs"]] + [i for g in cat["others"] for i in g["programs"]]
+    assert len(ids) == len(set(ids)) == len(cat["programs"]) == len([p for p in idx if p["unit"] not in dc.SKIP_UNITS])
+    assert all("(" not in p["name"] and "(" not in p["short"] for p in cat["programs"].values())
+    assert [c["name"] for c in cat["colleges"]][:3] == ["인문대학", "사회과학대학", "자연과학대학"]
+    units = {u["name"]: u for col in cat["colleges"] for u in col["units"]}
+    fa = units["식품·동물생명공학부"]
+    assert fa["splits"] and fa["undecided"] and fa["ask_entry"] and "animal-biotech" in fa["programs"]
+    assert units["물리·천문학부"]["splits"] and not units["물리·천문학부"]["undecided"]  # 입학 때 전공이 정해진다
+    assert units["자유전공학부"]["multi_major"] and units["공과대학 광역"]["wide"]
+    assert units["융합학습과학전공"]["ask_entry"]  # 판이 전공 진입 연도로 갈린다
+    assert units["국사학과"]["exists_for"] == [2019, 2022]
+    assert cat["programs"]["animal-biotech"]["short"] == "동물생명공학전공" and cat["programs"]["life-sciences"]["short"] == "생명과학부"
+    assert [g["name"] for g in cat["others"]] == ["연합전공", "연계전공", "학생설계전공"]
+    ai = next(p for p in cat["programs"].values() if p["short"] == "연합전공 인공지능")
+    assert ai["college"] is None and ai["double"] and ai["version_key"] == "selection"
+    m = cat["depts"]["식품·동물생명공학부"]
+    assert len(m["units"]) == 1 and next(x for x in m["programs"] if x["id"] == "animal-biotech")["prefixes"] == ["5252.", "M1702."]
+    assert cat["depts"]["생명과학부"]["programs"] == [{"id": "life-sciences", "prefixes": []}]
+
+
+@node
+def test_pick_version_for(tmp_path):
+    """입학 연도·전공 진입 연도·선발 연도 가운데 판이 갈리는 기준으로 고른다."""
+    ps = {p["program"]: p for p in programs().values()}
+    vet = ps["수의학과(본과 4년)"]
+    vet_years = {tuple(v["entry_years"]): v["basis"] for v in vet["versions"]}
+    major_v = next(y for y, b in vet_years.items() if b.startswith("전공 진입"))
+    sd = ps["학생설계전공(복수전공)"]["id"]
+    got = _run(tmp_path, [
+        {"kind": "pickfor", "program": sd, "who": {"entryYear": 2024, "selectionYear": 2021}},
+        {"kind": "pickfor", "program": sd, "who": {"entryYear": 2024}},
+        {"kind": "pickfor", "program": vet["id"], "who": {"entryYear": 2019, "majorEntryYear": major_v[0]}},
+        {"kind": "pickfor", "program": "animal-biotech", "who": {"entryYear": 2020, "majorEntryYear": 2023}},
+    ])
+    assert got[0] == [2019, 2021] and got[1] == [2022, 2026]
+    assert tuple(got[2]) == major_v
+    assert got[3] == [2019, 2020]  # 입학 연도로 갈리는 과정은 전공 진입 연도를 써도 입학 연도로
+

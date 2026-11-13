@@ -16,7 +16,8 @@ update101(11/13, 사용자 '이건 다 구현해'): 모든 과정 파일, 다음
 
 | 파일 | 내용 |
 | --- | --- |
-| `index.json` | 과정 목록 157개(대학 · 학과(부) · 전공, 학부 안 세부전공, 있는 학번, 판의 학번 범위, `data`: 과정 파일이 있는지). 처음 화면의 '대학 → 학과(부) → 전공' 고르기에 쓴다 |
+| `index.json` | 과정 목록 157개(대학 · 학과(부) · 전공, 학부 안 세부전공, 있는 학번, 판의 학번 범위, `data`: 과정 파일이 있는지). 조사 글이 섞인 이름이라 화면은 `catalog.json` 을 쓴다 |
+| `catalog.json` | 학과 목록(update103): 처음 화면의 대학 → 학과(부) → 전공, 다른 전공 묶음, 편람 학과 → 과정. 아래 '학과 목록' |
 | `programs/<id>.json` | 과정 하나. 모든 과정 157개(update101). 시범 셋은 `animal-biotech`(동물생명공학전공), `life-sciences`(생명과학부), `chem-bio-eng`(화학생물공학부), 나머지 id 는 이름에서 만든 `p-` + 해시 |
 | `common.json` | 학교 공통 규칙: 성적 평점, 학점 받는 성적, 졸업 학점·평점, 재수강, 다른 학교 학점 1/2, 계절학기, 다전공 겹쳐 인정, 학기당 상한 |
 | `ge_credits.json` | 학부대학 해마다 교양 이수규정의 단과대·학과별 교양 학점(2019~2026학번). 시험이 판의 교양 학점을 이 표와 견준다 |
@@ -64,11 +65,31 @@ update101(11/13, 사용자 '이건 다 구현해'): 모든 과정 파일, 다음
 - 2차 자료를 고친 것은 `FIXES`(학생설계전공(복수전공): 2022-1 신청자부터의 판을 선발 연도 2022~2026 으로). 출처의 '레포 data/history/' 꼴 주소는 `repo` 로 바꾸고, 2차 조사가 1차 조사 파일을 가리킨 출처는 뺀다(1차 출처가 이미 표에 있다).
 - 시험(`tests/test_requirements.py`): 판이 학번을 덮는지, 요건 id·상태·출처, 판마다 교양 학점 = `ge_credits.json`, 동물생명공학전공의 학번 경계(2021 동물생화학 1·2).
 
+### 학과 목록: `catalog.json` (update103, 디자인 121판 '학과와 학번')
+
+`scripts/dept_catalog.py` 가 index.json·과정 파일·지난 편람(`data/history/`)으로 만든다(조사 원본 없이 다시 만들 수 있고, 시험이 다시 만든 것과 파일이 같은지 본다).
+
+| 칸 | 뜻 |
+| --- | --- |
+| `colleges[] = {name, units[]}` | 대학 차례(인문대학 … 첨단융합학부). 학과(부) `units[] = {id, name, splits, undecided, ask_entry, wide, multi_major, programs[], when, exists_for}` |
+| `splits` · `undecided` · `ask_entry` | 전공으로 나뉘는지 · 입학 뒤 전공을 정해 '아직 안 정함'을 둘지 · '전공 진입'을 물을지(입학 뒤 전공을 정하거나 판이 전공 진입 연도로 갈리는 전공이 있으면) |
+| `wide` · `multi_major` | 광역(공과대학 광역, 학부대학 광역) · 주전공을 여럿 두는 학부(자유전공학부: `전공 추가` 의 `주전공`) |
+| `others[]` | 대학 목록 끝의 다른 전공 묶음: 연합전공 · 연계전공 · 학생설계전공(같은 꼴, 과정의 `college` 는 null) |
+| `programs{id → {name, short, unit, college, kind, version_key, major_entry, exists_for, double, minor, data}}` | id 는 index.json 과정 id(저장한 값을 졸업 요건 계산이 바로 쓴다). `name` 은 학과(부) 안에서 보일 이름(괄호 설명·앞의 학과 이름 뺌), `short` 는 정보 줄의 짧은 이름(`동물생명공학전공`, `생명과학부`, `연합전공 인공지능`). `double`·`minor` 는 복수·부전공 학점(null 은 자료에 없음: 받지 않거나 모름) |
+| `depts{편람 개설학과 → {units[], programs[{id, prefixes}]}}` | 지난 시간표의 전필·전선 과목으로 주전공을 미리 채울 때: 개설학과 → 학과(부). 그 학과(부)가 나뉘면 과목번호 앞자리로 전공을, 못 가르면 학과(부)까지('아직 안 정함') |
+
+- 보이는 이름: '국사학과(2022학번까지; …)' → '국사학과'(`exists_for` [2019, 2022] 라 그 학번에만 보인다), '사범대학' 안의 과정은 학과(부) 이름을 '융합학습과학전공'으로.
+- 혁신공유학부(교과인증과정)는 소속 학생이 없고 복수·부전공도 아니라 넣지 않았다.
+- 판 고르기는 `pickVersionFor(program, {entryYear, majorEntryYear, selectionYear})`: selection 과정은 선발 연도, 전공 진입 연도로 갈리는 판은 전공 진입 연도, 그 밖은 입학 연도.
+- 저장 꼴(프론트엔드 제안, 기기에만): `{major: {id, entry}, others: [{kind: "double"|"minor"|"major", id, term}], year, grade}`. `major.id` 는 과정 id, 전공을 아직 안 정했으면 학과(부) id(`u-…`).
+  학과·학번은 처리방침 '기기 안' 줄과 7일 알림 뒤에 켠다(법무 11/11 ②).
+
 ## 2. 계산: `web/js/requirements.js`
 
 | 함수 | 하는 일 |
 | --- | --- |
 | `pickVersion(program, entryYear)` | 입학 연도의 판. 자료가 없는 학번이면 `{version: null, reason: "no_data"}` |
+| `pickVersionFor(program, {entryYear, majorEntryYear, selectionYear})` | 과정이 판을 가르는 기준(입학·전공 진입·다전공 선발)으로 판 고르기 |
 | `buildSameCourse(courseMap, programs)` | 같은 과목으로 볼 번호(교양 대응표 + 요건의 `alt_codes`) → 대표 번호 |
 | `tidyRecords(records, same)` | 들은 과목 정리: 재수강은 옛 수강을 빼고, 표시 없이 두 번이면 `duplicates`(확인 필요), W·드랍과 학사에 안 넣는 대학원 과목은 셈에서 뺀다. F·U 는 학점 0 |
 | `evaluateProgram(program, version, courses, {role, sameCourse})` | 요건 줄마다 `met`(충족) · `remaining`(남음, 남은 과목) · `check`(확인 필요, 까닭) |
