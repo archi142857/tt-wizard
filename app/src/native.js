@@ -10,7 +10,8 @@
 // 3) <html data-platform="android|ios">
 // 4) 안드로이드 상태 바 글자색: 앱을 켜 둔 채 기기가 라이트·다크로 바뀌면 다시 맞춘다(아래 '상태 바 글자색').
 // 5) 로그인해 둔 브라우저에서 열려야 하는 바깥 링크(에브리타임 강의평)는 앱 안 브라우저가 아니라 기기의 기본 브라우저로 보낸다(아래 '기기 브라우저로 여는 링크').
-// 6) 시간표 이미지 공유·저장: TTW_APP.shareImage·saveImage(앱 안 플러그인 TTWImage. 아래 '시간표 이미지').
+// 6) 시간표 이미지 공유·저장: TTW_APP.shareImage·saveImage(앱 안 플러그인 TTWImage. 아래 '시간표 이미지'),
+//    캘린더 파일 공유: TTW_APP.shareFile(같은 플러그인, update102)
 // 7) 시간표 링크로 앱 열기: TTW_APP.launchUrl·'ttw:open-url' 이벤트(아래 '앱으로 연 주소').
 // 8) 링크 공유·앱 설정 열기: TTW_APP.shareLink·openSettings(앱 안 플러그인 TTWShell. 아래 '링크 공유·앱 설정').
 // 9) 홈 화면 위젯(안드로이드): TTW_APP.updateWidgets(앱 안 플러그인 TTWWidget. 아래 '홈 화면 위젯').
@@ -249,10 +250,29 @@
     });
   }
 
+  // 캘린더 파일(.ics) 같은 다른 파일(update102): TTW_APP.shareFile({ text | bytes, name, mime, title }) → 공유 시트.
+  //   mime 은 플러그인이 받는 것만("text/calendar"). 플러그인에 shareFile 이 없는 판(옛 앱·iOS)은 UNSUPPORTED → 화면은 웹처럼 내려받기.
+  function utf8(text) { // 글 → UTF-8 바이트(TextEncoder 없이도)
+    var s = unescape(encodeURIComponent(text)), b = new Uint8Array(s.length);
+    for (var i = 0; i < s.length; i++) b[i] = s.charCodeAt(i);
+    return b;
+  }
+  function fileCall(opts) {
+    var p = (cap.Plugins || {}).TTWImage;
+    if (!p || typeof p.shareFile !== "function") return unsupported();
+    opts = opts || {};
+    var data = typeof opts.text === "string" ? Promise.resolve(utf8(opts.text)) : imageBytes(opts.bytes);
+    return data.then(function (b) {
+      return pluginCall("TTWImage", "shareFile", { data: base64(b), name: String(opts.name || ""), mime: String(opts.mime || ""),
+        title: String(opts.title || "") });
+    });
+  }
+
   var app = {
     build: BUILD, remote: REMOTE, platform: platform,
     shareImage: function (opts) { return imageCall("share", opts); },
     saveImage: function (opts) { return imageCall("save", opts); },
+    shareFile: fileCall,
     canSaveImage: false,
     canShareImage: false,
   };

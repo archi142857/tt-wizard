@@ -292,6 +292,7 @@ data/
   raw/                       편람 엑셀 원본 (latest와 바뀐 날짜별, history/는 지난 학기)
   history/                   지난 학기 편람 (학기 선택용)
   requirements/              졸업 요건: 과정 목록과 과정별 학번 판(157과정), 학교 공통 규칙, 교양 학점 표, 교양 과목 대응표 (docs/requirements.md)
+  calendar/                  학기 기간(개강·종강·보강)과 학기 안 공휴일: 캘린더 파일 내보내기용 (docs/calendar.md)
   topo/                      수치지형도 원본 자리. 저장소에는 없습니다 (docs/topo.md)
   local/                     높이 자료(고도·높이차·경사, 3D·2D 모형) 자리. PC 에만 있고 저장소에는 없습니다 (docs/elevation_method.md)
   magicmap/                  캠퍼스 마법 지도에서 받은 그래프·거리표와 패치를 더한 그래프(높이 칸을 뺀 공개 판)
@@ -301,12 +302,12 @@ data/
   lectures.json, buildings.csv, travel.csv, travel_slope.csv, route_stats.csv, route_paths.json, basemap.json, stats.csv, changes/
 web/                         웹 앱 (GitHub Pages)
   js/                        app.js(화면), engine.js(탐색·동선·빈 자리 과목), search.js(과목 검색), search-worker.js(탐색 워커),
-                             timetables.js(저장한 시간표), requirements.js(졸업 요건·성적·학기 학점·다음 학기 추천 계산, 화면은 아직), dev.js(개발자 메뉴)
+                             timetables.js(저장한 시간표), requirements.js(졸업 요건·성적·학기 학점·다음 학기 추천 계산, 화면은 아직), ics.js(캘린더 파일, 화면은 아직), dev.js(개발자 메뉴)
   licenses/                  고지문 (SNUTT, Pretendard, Fredoka, OpenStreetMap, 공공누리)
   field/                     실측 기록 페이지 (앱 화면에서는 연결하지 않는 페이지)
 app/                         스토어 앱 (Capacitor 8): android/, ios/, src/native.js, assets/icons/
 results/experiments/         비교 실험 결과
-docs/                        방법과 결정 (travel_time_method, experiments, elevation_method, basemap, search, timetables, app, topo, requirements 등)
+docs/                        방법과 결정 (travel_time_method, experiments, elevation_method, basemap, search, timetables, app, topo, requirements, calendar 등)
   screenshots/               이 README 의 앱 화면 캡처
 licenses/                    앱에만 들어가는 다른 사람 코드의 고지문 (Capacitor, AndroidX, Cordova)
 tests/                       pytest
@@ -336,6 +337,7 @@ tests/                       pytest
 | 수강편람: `data/raw/`, `lectures.json`, `data/history/`, `data/changes/`, `stats.csv`, `buildings_history.csv` | 서울대학교 수강신청 시스템 강좌검색 | 서울대학교 자료. MIT 대상이 아닙니다 |
 | 건물 번호·이름·좌표: `buildings.csv`, `campus_buildings.csv` | [서울대학교 캠퍼스맵](https://map.snu.ac.kr) | 서울대학교 자료. MIT 대상이 아닙니다 |
 | 졸업 요건: `data/requirements/`(과정별 요건과 학번 판, 교양 학점 표, 교양 과목 대응표, 학사 공통 규칙)와 웹이 받는 `web/data/requirements/` | 서울대학교 공개 문서(교과과정 해설, 학부대학 교양 이수규정·기초교양 수강편람, 단과대·학과 누리집)를 이 저장소가 조사해 요약. 요건마다 출처를 적었습니다 | 서울대학교 자료에서 온 사실과 요약. MIT 대상이 아닙니다. 학교의 공식 졸업 사정이 아니며 학번·개별 인정에 따라 다를 수 있습니다 |
+| 학기 기간·공휴일: `data/calendar/`(웹 `web/data/calendar.json`) | 서울대학교 학사일정(공개 누리집), 관공서의 공휴일에 관한 규정과 그해 공휴일 발표 | 날짜만 옮긴 사실입니다. MIT 대상이 아닙니다 |
 | 이름 `TT Wizard`, 로고·아이콘(`web/icons/`, `app/assets/icons/` 와 거기서 만든 앱 아이콘) | 이 저장소 | 라이선스를 주지 않습니다(MIT 대상이 아닙니다) |
 | 앱 화면 캡처: `docs/screenshots/` | 이 저장소 | 라이선스를 주지 않습니다(MIT 대상이 아닙니다). 화면에 보이는 편람·지도·로고는 이 표의 조건을 따릅니다 |
 | 가져다 쓴 코드: Leaflet·three.js(`web/vendor/`), SNUTT 의 값·규칙, 앱에 넣는 Pretendard·Capacitor·AndroidX·Cordova | 각 프로젝트 | 각자의 라이선스를 따릅니다. 고지문은 `web/vendor/` 는 그 폴더의 `LICENSE`, SNUTT·Pretendard·Fredoka(로고 글꼴)는 `web/licenses/`, 앱에만 들어가는 것은 `licenses/` 에 있습니다 |

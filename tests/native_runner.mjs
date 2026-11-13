@@ -40,7 +40,7 @@ function fakeIndexedDB() {
   };
 }
 
-function setup({ native = true, http = null, online = true, platform = "android", bars = true, image = true, sdk = 34, imageInfo = null,
+function setup({ native = true, http = null, online = true, platform = "android", bars = true, image = true, oldImage = false, sdk = 34, imageInfo = null,
   saveError = null, shell = true, shellError = null, share = platform === "android", shareError = null, targets = null, launch, launchFails = false, appUrl = true, widget = platform === "android", widgetError = null,
   store = {}, campus = null } = {}) {
   const calls = { local: [], remote: [], back: 0, minimized: 0, bars: [], image: [], shell: [], share: [], opened: [], widget: [] };
@@ -75,6 +75,7 @@ function setup({ native = true, http = null, online = true, platform = "android"
           share: (opts) => { calls.image.push(["share", opts]); return Promise.resolve(); },
           save: (opts) => { calls.image.push(["save", opts]); return saveError ? reject(saveError) : Promise.resolve({ uri: "content://media/1" }); },
           info: () => Promise.resolve(imageInfo || { save: true, sdk }),
+          ...(oldImage ? {} : { shareFile: (opts) => { calls.image.push(["shareFile", opts]); return Promise.resolve(); } }),
         } } : {}),
         ...(widget ? { TTWWidget: {
           update: (opts) => { calls.widget.push(opts.data); return widgetError ? reject(widgetError) : Promise.resolve({ placed: 2, changed: true }); },
@@ -265,6 +266,13 @@ const out = {};
     big: Buffer.from(s.calls.image[2][1].data, "base64").equals(Buffer.alloc(70000, 7)),
     saved, unsupported: err, bad, count: s.calls.image.length,
   };
+  // 캘린더 파일(update102): 글은 UTF-8 바이트를 base64 로, mime·이름·제목은 그대로. shareFile 이 없는 옛 플러그인·플러그인 없음은 UNSUPPORTED
+  const f = setup();
+  await f.win.TTW_APP.shareFile({ text: "BEGIN:VCALENDAR\r\n가", name: "TT Wizard 2026-2.ics", mime: "text/calendar", title: "캘린더에 넣기" });
+  const oldFile = await setup({ oldImage: true }).win.TTW_APP.shareFile({ text: "x", mime: "text/calendar" }).then(() => null, (e) => e.code);
+  const gone = await setup({ image: false }).win.TTW_APP.shareFile({ text: "x", mime: "text/calendar" }).then(() => null, (e) => e.code);
+  const [fm, fo] = f.calls.image[0];
+  out.file = { method: fm, text: Buffer.from(fo.data, "base64").toString("utf8"), name: fo.name, mime: fo.mime, title: fo.title, old: oldFile, gone };
   // 사진에 저장되는 기기인지: 켤 때 한 번 묻고(처음엔 false) 답이 오면 바뀐다. 플러그인이 없으면(옛 iOS 앱) 둘 다 false.
   // 10/30 부터 모든 기기가 저장한다(안드로이드 9 이하·iOS 는 권한을 물어서). 저장하지 않는다고 답하는 옛 앱 연결(9 이하)은 false 그대로
   const fresh = setup();

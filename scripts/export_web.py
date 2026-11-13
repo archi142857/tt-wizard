@@ -11,6 +11,7 @@
   web/data/semesters.json, semesters/<학기>.json
                          학기 선택: 지난 학기 편람(data/history/<학기>.json, 이미 courses.json 형식)과 목록.
                          지금 학기는 courses.json. data/history/ 는 build_history.py(처음 한 번)와 sync.py(학기가 바뀔 때)가 채운다
+  web/data/calendar.json 학기 기간·수업 없는 날(data/calendar/terms.json, 캘린더 파일 내보내기 web/js/ics.js, docs/calendar.md)
   web/data/requirements/ 졸업 요건 미리 보기·성적 계산(data/requirements/ 를 줄 바꿈 없이 그대로. 형식은 docs/requirements.md,
                          계산은 web/js/requirements.js). 과정 파일은 고른 과정만 화면이 받는다
 
@@ -220,6 +221,15 @@ def export_requirements(src: Path, out: Path) -> tuple[int, int] | None:
     return len(index["programs"]), len(files)
 
 
+def export_calendar(src: Path, out: Path) -> int | None:
+    """학기 기간·수업 없는 날(data/calendar/terms.json) → web/data/calendar.json(줄 바꿈 없이). 학기 수를 돌려준다"""
+    if not src.exists():
+        return None
+    data = json.loads(src.read_text(encoding="utf-8"))
+    out.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    return len(data.get("terms") or {})
+
+
 def stamp_assets(web: Path = WEB) -> str:
     """index.html·app.js·search-worker.js 가 부르는 스타일·스크립트 주소에 ?v=<STAMP_FILES 내용 해시 8자리> 를 붙인다.
 
@@ -246,6 +256,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--data", default=str(DATA))
     ap.add_argument("-o", "--output", default=str(OUT))
     ap.add_argument("--requirements", default=str(DATA / "requirements"), help="졸업 요건 자료 폴더(없으면 건너뛴다)")
+    ap.add_argument("--calendar", default=str(DATA / "calendar" / "terms.json"), help="학기 기간 자료(없으면 건너뛴다)")
     ap.add_argument("--stamp", action="store_true",
                     help="배포용: web/index.html·js/*.js 의 스타일·스크립트 주소에 ?v=<내용 해시> 를 붙인다(파일이 바뀐다)")
     args = ap.parse_args(argv)
@@ -268,6 +279,7 @@ def main(argv: list[str] | None = None) -> int:
         shutil.copyfile(basemap, out / "basemap.json")
     semesters = export_semesters(data, out, campus["meta"]["semester"])
     reqs = export_requirements(Path(args.requirements), out / "requirements")
+    terms = export_calendar(Path(args.calendar), out / "calendar.json")
 
     n_sec = sum(len(c[6]) for c in courses["courses"])
     print(f"저장: {out}")
@@ -280,6 +292,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"  semesters.json 학기 {len(semesters)}개 ({semesters[0][0] or '학기 모름'}"
           f"{' ~ ' + semesters[-1][0] if len(semesters) > 1 else ''})")
     print(f"  requirements/  {f'과정 목록 {reqs[0]}개 · 과정 파일 {reqs[1]}개' if reqs else '없음'}")
+    print(f"  calendar.json  {f'학기 {terms}개' if terms else '없음'}")
     if args.stamp:
         print(f"  화면 파일 주소에 판 ?v={stamp_assets()} 를 붙임 (index.html, js/app.js, js/search-worker.js)")
     return 0

@@ -39,6 +39,7 @@ def fake_web(tmp_path: Path) -> Path:
     (web / "data" / "requirements" / "programs").mkdir(parents=True)
     for name in ("index.json", "common.json", "programs/animal-biotech.json"):
         (web / "data" / "requirements" / name).write_text("{}", encoding="utf-8")
+    (web / "data" / "calendar.json").write_text("{}", encoding="utf-8")
     return web
 
 
@@ -212,6 +213,10 @@ def test_native_shim():
     assert i["calls"] == [["share", "iVBORwD/", "시간표 1", "시간표 보내기"], ["save", "AQID", "a.png", ""]] and i["big"]
     assert i["saved"] == {"uri": "content://media/1"} and i["unsupported"] == "UNSUPPORTED" and i["bad"] == "no image data" and i["count"] == 3
     # 메뉴에 '이미지로 저장' 줄을 둘지(디자인 10/23): 켤 때 한 번 묻고 답이 오면 canSaveImage·canShareImage 가 바뀐다
+    assert r["file"] == {"method": "shareFile", "text": "BEGIN:VCALENDAR\r\n가", "name": "TT Wizard 2026-2.ics", "mime": "text/calendar",
+                         "title": "캘린더에 넣기", "old": "UNSUPPORTED", "gone": "UNSUPPORTED"}
+    java = (APP / "android" / "app" / "src" / "main" / "java" / "com" / "ttwizard" / "app" / "ImagePlugin.java").read_text(encoding="utf-8")
+    assert "public void shareFile(PluginCall call)" in java and '"text/calendar".equals(mime) ? ".ics" : null' in java  # 받는 mime 은 캘린더 하나
     n = r["imageInfo"]
     assert n["before"] == [False, False] and n["info"] == {"save": True, "share": True} and n["after"] == [True, True]
     assert n["ios"] == [{"save": True, "share": True}, True]  # iOS 도 사진에 저장한다(10/30)

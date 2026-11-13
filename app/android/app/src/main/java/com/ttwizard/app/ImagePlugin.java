@@ -34,6 +34,7 @@ import java.io.OutputStream;
  *          9 이하: 저장소 쓰기 권한(WRITE_EXTERNAL_STORAGE, 매니페스트 maxSdkVersion 28)을 처음 저장할 때 묻고 파일로 쓴 뒤 미디어 스캔.
  *          거절(다시 묻지 않음 포함)이면 "DENIED"(화면: '사진 접근이 꺼져 있어요' [설정] → TTWShell.openSettings), 그 밖의 실패는 "FAILED".
  *   info   { save: 사진에 저장되는 기기인지(지금은 모든 기기), sdk } — native.js 가 켤 때 한 번 물어 TTW_APP.canSaveImage 로 둔다.
+ *   shareFile  캘린더 파일(.ics, text/calendar, update102)을 share 처럼 앱 캐시에 쓰고 공유 시트로. 다른 mime 은 받지 않는다(UNSUPPORTED). 권한 없음.
  * 파일은 받은 바이트 그대로 쓴다: PNG 안에 넣은 시간표 자료(iTXt, web/js/timetables.js '이미지 파일에 담기')가 남는다.
  */
 @CapacitorPlugin(
@@ -57,11 +58,49 @@ public class ImagePlugin extends Plugin {
 
     /** 파일 이름: 경로·제어 글자를 빼고 .png 로 끝나게 */
     static String fileName(PluginCall call) {
+        return fileName(call, ".png");
+    }
+
+    /** 파일 이름: 경로·제어 글자를 빼고 ext(.png, .ics)로 끝나게 */
+    static String fileName(PluginCall call, String ext) {
         String name = call.getString("name", "");
         name = name == null ? "" : name.replaceAll("[\\\\/:*?\"<>|\\p{Cntrl}]", "_").trim();
         if (name.isEmpty() || name.startsWith(".")) name = "timetable";
         if (name.length() > 80) name = name.substring(0, 80);
-        return name.toLowerCase().endsWith(".png") ? name : name + ".png";
+        return name.toLowerCase().endsWith(ext) ? name : name + ext;
+    }
+
+    /** 공유 시트로 넘길 수 있는 다른 파일: mime → 확장자. 지금은 캘린더 파일 하나 */
+    static String extensionFor(String mime) {
+        return "text/calendar".equals(mime) ? ".ics" : null;
+    }
+
+    @PluginMethod
+    public void shareFile(PluginCall call) {
+        String mime = call.getString("mime", "");
+        String ext = extensionFor(mime);
+        if (ext == null) {
+            call.reject("unsupported type", "UNSUPPORTED");
+            return;
+        }
+        byte[] data = bytes(call);
+        if (data == null) {
+            call.reject("no file data");
+            return;
+        }
+        try {
+            Uri uri = cacheForShare(getContext(), data, fileName(call, ext));
+            Intent send = new Intent(Intent.ACTION_SEND);
+            send.setType(mime);
+            send.putExtra(Intent.EXTRA_STREAM, uri);
+            send.setClipData(ClipData.newRawUri("", uri));
+            send.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            String title = call.getString("title", "");
+            getActivity().startActivity(Intent.createChooser(send, title == null ? "" : title));
+            call.resolve();
+        } catch (Exception e) {
+            call.reject(message(e, "share failed"), "FAILED");
+        }
     }
 
     private static String message(Exception e, String fallback) {

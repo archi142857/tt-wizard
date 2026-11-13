@@ -42,8 +42,10 @@ SKIP_DIRS = {"model", "field", "three", "privacy", "support"}  # 3D·2D 모델�
 # 개인정보 처리방침·문의 페이지(앱은 웹 주소를 바깥 링크로 연다. 앱에 옛 판이 남지 않게. scripts/legal_pages.py)
 SKIP_FILES = {"sw.js", "README.md", "package.json", "dev.js"}  # 서비스 워커, 설명, node 테스트용 모듈 표시,
 # 웹에만 둔 개발자 메뉴(js/dev.js: 스토어 앱은 열지 않는다. 숨긴 기능을 앱에 넣지 않는다, 법무 10/24)
-UNTIL_USED = {"js/requirements.js": "requirements.js", "data/requirements": "data/requirements"}  # 화면이 아직 부르지 않는 모듈·자료:
-# 묶음의 다른 HTML·JS 가 이름을 부를 때만 넣는다(졸업 요건·성적 계산, docs/requirements.md. 숨긴 기능을 앱에 넣지 않는다, 법무 10/24)
+UNTIL_USED = {"js/requirements.js": "requirements.js", "data/requirements": "data/requirements",  # 화면이 아직 부르지 않는 모듈·자료:
+              "js/ics.js": "ics.js", "data/calendar.json": "data/calendar.json"}
+# 묶음의 다른 HTML·JS 가 이름을 부를 때만 넣는다(졸업 요건·성적 계산 docs/requirements.md, 캘린더 파일 docs/calendar.md.
+# 숨긴 기능을 앱에 넣지 않는다, 법무 10/24)
 NEEDED = ("index.html", "style.css", "js/app.js", "js/engine.js", "js/search-worker.js", "js/search.js", "js/timetables.js",
           "data/campus.json", "data/courses.json")
 FONT_CSS = "pretendardvariable-dynamic-subset.css"
