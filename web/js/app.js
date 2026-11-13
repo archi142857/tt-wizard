@@ -3641,7 +3641,7 @@ function renderMineHead(t) {
 
 /**
  * 주간 격자: 월–금(토·일 항목이 있으면 그 요일까지), 9~18시(항목이 더 이르거나 늦으면 정시로 넓힌다). 한 시간 = max(mine-hour-min, 30rem ÷ 시간 수),
- * 컴퓨터는 창에 맞춘 높이(아래 wkFillHour, 2.5rem ~ 8rem).
+ * 컴퓨터는 창에 맞춘 높이(아래 wkFillHour, mine-hour-fit 3rem ~ mine-hour-max 8rem).
  * 칸은 요일·시각 순 <ol> 이고 자리만 절대 배치다. 칸 글자는 t-label: 강의실은 늘 보이고(좁으면 건물과 호 사이에서 줄을 바꾼다) 과목명은 남는 줄만큼,
  * 칸이 낮아 과목명 한 줄도 못 두면 강의실을 건물만('43-1동'). 시간이 겹치는 칸은 반씩 나란히. 시간이 미정인 항목은 격자에 없다(목록에 '미정')
  */
@@ -3649,8 +3649,10 @@ let wkWidth = 0, wkFill = 0, wkGeom = null; // 내 시간표 격자의 첫 시�
 // 컴퓨터(사이드바, 1100px부터)는 격자 카드가 화면 아래 끝(space-6 위, 색 풀이가 있으면 그 아래 끝)까지 오게 한 시간 높이를 늘린다(10/23 사용자: "뭔가 균형이 안 맞음.
 // 배치 가이드 같은 거 찾아보고 반영해봐". 안드로이드 큰 화면 '보조 칸' 배치처럼 두 칸이 창의 본문 높이를 채우면 위 끝은 사이드바 탭, 아래 끝은 사이드바의 정보와
 // 같은 줄에 선다. 전에는 격자가 내용만큼이라 화면 아래 5분의 1이 비었다). 높이가 25em 보다 낮은 창은 하지 않고, 한 시간은 8rem 까지.
-// 낮은 창에서도 페이지가 스크롤하지 않게 한 시간을 mine-hour-min(3.75rem)보다 낮게 2.5rem 까지 줄인다(11/11 사용자: "여기서 스크롤 안되도록? 딱 화면에 맞아서
-// 한 번에 보이도록, 필요하다면 과목 부분만 스크롤 되도록". 그보다 낮아야 하는 창은 전처럼 페이지가 스크롤한다). 합이 창을 넘지 않게 0.1px 아래로 자른다
+// 낮은 창에서도 페이지가 스크롤하지 않게 한 시간을 mine-hour-min(3.75rem)보다 낮게 mine-hour-fit(3rem)까지 줄인다(11/11 사용자: "여기서 스크롤 안되도록? 딱 화면에 맞아서
+// 한 번에 보이도록, 필요하다면 과목 부분만 스크롤 되도록". 그보다 낮아야 하는 창은 전처럼 페이지가 스크롤한다). 합이 창을 넘지 않게 0.1px 아래로 자른다.
+// 3rem 이면 50분 칸이 38px(칸 사이 2px 빼고)라 과목명 한 줄과 강의실 한 줄이 들어간다(디자인 120판. 처음 넣은 2.5rem 은 31px 라 과목명이 빠졌다)
+const MINE_HOUR_MIN = 3.75, MINE_HOUR_FIT = 3, MINE_HOUR_MAX = 8; // rem. 디자인 토큰 mine-hour-min·mine-hour-fit·mine-hour-max
 const wkFillWide = matchMedia("(min-width: 68.75em) and (min-height: 25em)");
 function wkFillHour(box, body, hours, rem) {
   if (!wkFillWide.matches || !mineShown()) return 0;
@@ -3660,7 +3662,7 @@ function wkFillHour(box, body, hours, rem) {
   $("view-mine").style.setProperty("--mine-top", `${Math.round(top)}px`);
   const legend = $("tt-legend"), below = legend.hidden ? 0 : legend.getBoundingClientRect().height + parseFloat(getComputedStyle(legend).marginTop);
   const room = window.innerHeight - top - chrome - below - 24; // 24 = space-6(사이드바 아래 여백과 같다)
-  return Math.min(8 * rem, Math.floor((room / hours) * 10) / 10);
+  return Math.min(MINE_HOUR_MAX * rem, Math.floor((room / hours) * 10) / 10);
 }
 // 창 높이가 바뀌면(컴퓨터) 격자를 다시 채운다
 let wkFillRaf = 0;
@@ -3689,7 +3691,7 @@ function renderWeek(t, entries, clash, opts = {}) {
   const body = h("div", { class: "wk-body" });
   box.replaceChildren(h("div", { class: "wk-head", "aria-hidden": "true" }, h("span"), days.map((d) => h("span", {}, DAY_KO[d]))), body);
   const fill = opts.hourPx ? 0 : wkFillHour(box, body, hours, rem);
-  const hourPx = opts.hourPx || (fill ? Math.max(2.5 * rem, fill) : Math.max(3.75 * rem, (30 * rem) / hours));
+  const hourPx = opts.hourPx || (fill ? Math.max(MINE_HOUR_FIT * rem, fill) : Math.max(MINE_HOUR_MIN * rem, (30 * rem) / hours));
   box.style.setProperty("--hour-h", `${hourPx}px`);
   for (let i = 0; i <= hours; i++) {
     body.append(h("div", { class: "wk-line", "aria-hidden": "true", style: { top: `${i * hourPx}px` } }));
@@ -4938,7 +4940,7 @@ function openShared(payload) {
     document.body.append(d);
     openSheet(d, null, { over: below });
   }
-  renderWeek(t, entries, clashKeys(entries), { box: $("sd-wk"), hourPx: 3.75 * remPx(), still: true }); // 시트가 열린 뒤 그린다(칸 폭을 잰다)
+  renderWeek(t, entries, clashKeys(entries), { box: $("sd-wk"), hourPx: MINE_HOUR_MIN * remPx(), still: true }); // 시트가 열린 뒤 그린다(칸 폭을 잰다)
   $("sd-legend").hidden = ttColor !== "cls" || !entries.length;
   $("sd-untimed").hidden = !untimed.length;
   $("sd-untimed").textContent = untimed.length ? `시간 미정 · ${untimed.map((e) => courseName(e)).join(", ")}` : "";
