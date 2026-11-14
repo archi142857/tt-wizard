@@ -44,6 +44,8 @@ jobs:
           cache: gradle
       - name: Web data
         run: python scripts/export_web.py
+        env:
+          FIREBASE_WEB_CONFIG: ${{ vars.FIREBASE_WEB_CONFIG }}  # 로그인(update110)
       - name: Install Capacitor
         working-directory: app
         run: npm ci
@@ -104,6 +106,8 @@ jobs:
         run: xcodebuild -version
       - name: Web data
         run: python scripts/export_web.py
+        env:
+          FIREBASE_WEB_CONFIG: ${{ vars.FIREBASE_WEB_CONFIG }}  # 로그인(update110)
       - name: Install Capacitor
         working-directory: app
         run: npm ci

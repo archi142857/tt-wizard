@@ -1,0 +1,67 @@
+rules_version = '2';
+// TT Wizard Firestore 규칙 — 백엔드 update110(로그인·동기화·친구, docs/account.md). 콘솔 Firestore > 규칙에 이 글을 그대로 붙여 게시한다.
+// 원칙: 내 것만 읽고 쓴다. 남이 읽는 것은 친구 사본(친구만)과 닉네임(로그인한 사람: 친구 찾기). 요청은 보낸 사람이 만들고 받은 사람이 수락한다.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isMe(uid) { return signedIn() && request.auth.uid == uid; }
+    function req(id) { return /databases/$(database)/documents/requests/$(id); }
+    function accepted(id) { return exists(req(id)) && get(req(id)).data.state == 'accepted'; }
+    function friends(a, b) { return accepted(a + '_' + b) || accepted(b + '_' + a); }
+
+    // 내 시간표(기기 사본). 교수 이름·출발 지점은 올리지 않는다(sync.js toServer)
+    match /users/{uid} {
+      allow read, write: if isMe(uid);
+      match /timetables/{id} {
+        allow read, delete: if isMe(uid);
+        allow write: if isMe(uid) && request.resource.data.id == id && request.resource.data.sem is string
+          && request.resource.data.updated is string;
+      }
+    }
+
+    // 닉네임#태그 → uid(겹치지 않게). 로그인한 사람은 친구 찾기로 읽는다
+    match /handles/{key} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.resource.data.keys().hasOnly(['uid']) && request.resource.data.uid == request.auth.uid
+        && key.matches('^[0-9a-z가-힣_]{2,12}#[0-9]{4}$');
+      allow delete: if signedIn() && resource.data.uid == request.auth.uid;
+    }
+
+    match /profiles/{uid} {
+      allow read: if signedIn();
+      allow create, update: if isMe(uid) && request.resource.data.keys().hasOnly(['nick', 'tag', 'handle', 'updated'])
+        && request.resource.data.nick is string && request.resource.data.nick.size() >= 2 && request.resource.data.nick.size() <= 12
+        && request.resource.data.tag.matches('^[0-9]{4}$')
+        && getAfter(/databases/$(database)/documents/handles/$(request.resource.data.handle)).data.uid == uid;
+      allow delete: if isMe(uid);
+    }
+
+    // 친구 요청: 보낸 사람이 만든다(받는 사람이 나를 막았으면 못 만든다). 받은 사람만 수락한다. 끊기·거절·취소는 둘 다 지울 수 있다
+    match /requests/{id} {
+      // 하나 읽기는 id(보낸_받은)에 내가 들었는지로(없는 요청도 '없음'으로 읽혀야 상대 요청이 왔는지 본다. uid 에는 '_' 가 없다)
+      allow get: if signedIn() && (id.split('_')[0] == request.auth.uid || id.split('_')[1] == request.auth.uid);
+      allow list: if signedIn() && (resource.data.from == request.auth.uid || resource.data.to == request.auth.uid);
+      allow create: if signedIn() && request.resource.data.keys().hasOnly(['from', 'to', 'state', 'created', 'updated'])
+        && request.resource.data.from == request.auth.uid && request.resource.data.to is string
+        && request.resource.data.to != request.auth.uid && id == request.auth.uid + '_' + request.resource.data.to
+        && request.resource.data.state == 'pending'
+        && exists(/databases/$(database)/documents/profiles/$(request.resource.data.to))
+        && !exists(/databases/$(database)/documents/blocks/$(request.resource.data.to)/list/$(request.auth.uid))
+        && !exists(req(request.resource.data.to + '_' + request.auth.uid));
+      allow update: if signedIn() && resource.data.to == request.auth.uid && resource.data.state == 'pending'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['state', 'updated'])
+        && request.resource.data.state == 'accepted';
+      allow delete: if signedIn() && (resource.data.from == request.auth.uid || resource.data.to == request.auth.uid);
+    }
+
+    match /blocks/{uid}/list/{other} {
+      allow read, write: if isMe(uid);
+    }
+
+    // 친구에게 보이는 사본(학기마다 대표 시간표, sync.js friendCopies). 나와 친구만 읽는다
+    match /shared/{uid}/terms/{sem} {
+      allow read: if isMe(uid) || (signedIn() && friends(request.auth.uid, uid));
+      allow write: if isMe(uid) && (request.resource == null || request.resource.data.sem == sem);
+    }
+  }
+}

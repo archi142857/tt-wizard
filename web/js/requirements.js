@@ -3,6 +3,8 @@
 // 원칙: 확인된 줄만 '충족/남음'으로 단정하고, 나머지는 '확인 필요'와 까닭을 낸다. 학교 졸업 사정을 대신하지 않는다.
 // tests/test_requirements.py 가 node 로 확인한다.
 
+import { fitRank } from "./engine.js"; // 덜 걷는 순(디자인 128판)
+
 export const ROLES = ["single", "parallel", "double", "minor"]; // 단일 · 다른 전공과 병행 · 복수전공 · 부전공
 export const GRADE_POINTS = {
   "A+": 4.3, "A0": 4.0, "A-": 3.7, "B+": 3.3, "B0": 3.0, "B-": 2.7,
@@ -308,8 +310,8 @@ export function suggestCourses(picks, courses, { sameCourse = (c) => c } = {}) {
 export function rankSuggestions(suggestions, fit = null, { order = "req" } = {}) {
   const byId = new Map(((fit && fit.fits) || []).map((f) => [f.course.id, f]));
   const maybe = (x) => (x.strength === "maybe" ? 1 : 0);
-  const cost = (a, b) => (a.fit ? 0 : 1) - (b.fit ? 0 : 1)
-    || (a.fit && b.fit ? a.fit.add.cost - b.fit.add.cost || a.fit.add.days - b.fit.add.days : 0);
+  // 덜 걷는 순(디자인 128판): 걷기 주 +n분 → 등교 +n일 → 강의실 미정 → 줄 없음(engine.fitRank 와 같다)
+  const cost = (a, b) => { const x = fitRank(a.fit), y = fitRank(b.fit); return x[0] - y[0] || x[1] - y[1]; };
   return (suggestions || []).map((s) => ({ ...s, fit: byId.get(s.course.id) || null }))
     .sort((a, b) => maybe(a) - maybe(b) || (order === "walk"
       ? cost(a, b) || STRENGTH[a.strength] - STRENGTH[b.strength]

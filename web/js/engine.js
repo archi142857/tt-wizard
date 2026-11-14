@@ -338,6 +338,23 @@ export function fitLabel(fit) {
   return `들어감 · 걷기 주 +${min}분`;
 }
 
+/**
+ * '덜 걷는 순'의 열쇠(디자인 128판, fitLabel 과 같은 갈래): [0, 걷기 주 +n분] → [1, 등교 +n일] → [2, 강의실 미정] → [3, 줄 없음(넣음·바꾸기·겹침·시간 미정)].
+ * n 은 화면에 보이는 반올림 값이라 같은 글이면 같은 열쇠다
+ */
+export function fitRank(fit) {
+  if (!fit) return [3, 0];
+  if (fit.unknownRoom) return [2, 0];
+  if (fit.add && fit.add.days > 0) return [1, fit.add.days];
+  return [0, Math.max(0, Math.round(((fit.add && fit.add.travel) || 0) + ((fit.add && fit.add.late) || 0)))];
+}
+
+/** rows 를 덜 걷는 순으로(같은 열쇠끼리와 줄 없는 행은 원래 차례). fitOf(row) → gapFit 의 fit 또는 null. 과목 추가 검색 결과·둘러보기에 쓴다 */
+export function byWalk(rows, fitOf) {
+  return (rows || []).map((r, i) => [fitRank(fitOf(r)), i, r])
+    .sort((a, b) => a[0][0] - b[0][0] || a[0][1] - b[0][1] || a[1] - b[1]).map((x) => x[2]);
+}
+
 /** 과목마다 조건 아래에서 쓸 수 있는 분반만 남긴다. 하나도 안 남는 과목이 있으면 null(조합이 없다) */
 function admit(courses, R) {
   if (!R) return courses;

@@ -555,8 +555,8 @@ def test_limit_line_fit_label_and_order(tmp_path):
     sug = [{"course": {"id": "A"}, "strength": "need", "reasons": [{"name": "전공필수", "strength": "need"}]},
            {"course": {"id": "B"}, "strength": "maybe", "reasons": [{"name": "졸업 논문", "strength": "maybe"}]},
            {"course": {"id": "C"}, "strength": "choose", "reasons": [{"name": "지정 과목", "strength": "choose"}, {"name": "전공선택", "strength": "choose"}]}]
-    fit = {"fits": [{"course": {"id": "A"}, "add": {"cost": 9, "days": 0}}, {"course": {"id": "B"}, "add": {"cost": 0, "days": 0}},
-                    {"course": {"id": "C"}, "add": {"cost": 1, "days": 0}}]}
+    fit = {"fits": [{"course": {"id": "A"}, "add": {"cost": 9, "days": 0, "travel": 9, "late": 0}}, {"course": {"id": "B"}, "add": {"cost": 0, "days": 0, "travel": 0, "late": 0}},
+                    {"course": {"id": "C"}, "add": {"cost": 1, "days": 0, "travel": 1, "late": 0}}]}  # 덜 걷는 순은 화면의 '걷기 주 +n분'(engine.fitRank)
     who = {"college": "농업생명과학대학", "unit": "식품·동물생명공학부", "program": "동물생명공학전공", "entryYear": 2025}
     got = _run(tmp_path, [
         {"kind": "fitlabel", "fits": fits},
@@ -599,3 +599,19 @@ def test_short_locator(tmp_path):
         "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10)", "제5조 제1호 [표2](입학년도별 영역 인정 전공과목)",
         "바이오시스템공학 트랙 A·B 표준 이수체계(p.80~81)", "번호 15", "2024학번 표 035.001", "학점 표·이수표준형태(별표 15과목)", "", None]}])[0]
     assert got == ["120쪽", "31쪽", "21–22쪽", "9쪽 표 1", "표 2", "80–81쪽", "", "", "", "", ""]
+
+
+@node
+def test_walk_order():
+    """덜 걷는 순(디자인 128판): 걷기 주 +n분 → 등교 +n일 → 강의실 미정 → 줄 없음, 같은 값과 줄 없는 행은 원래 차례"""
+    code = """
+import { fitRank, byWalk } from "./web/js/engine.js";
+const f = (travel, days = 0, unknownRoom = false) => ({ add: { travel, late: 0, days }, unknownRoom });
+const rows = [["none", null], ["far", f(12.4)], ["day", f(1, 2)], ["room", f(0, 0, true)], ["near", f(3.2)], ["tie", f(2.6)], ["none2", null], ["day1", f(9, 1)]];
+const fits = new Map(rows);
+console.log(JSON.stringify({ order: byWalk(rows.map((r) => r[0]), (k) => fits.get(k)), ranks: rows.map((r) => fitRank(r[1])) }));
+"""
+    out = subprocess.run(["node", "--input-type=module", "-e", code], cwd=ROOT, capture_output=True, text=True, encoding="utf-8", check=True)
+    r = json.loads(out.stdout)
+    assert r["order"] == ["near", "tie", "far", "day1", "day", "room", "none", "none2"]
+    assert r["ranks"][1] == [0, 12] and r["ranks"][2] == [1, 2] and r["ranks"][3] == [2, 0] and r["ranks"][0] == [3, 0]

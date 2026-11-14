@@ -337,6 +337,7 @@ export function parseList(raw, sem) {
         const x = { custom: it.custom, title: cleanTitle(it.title) || "일정", meetings: tuples(it.meetings) };
         if (it.memo) x.memo = String(it.memo);
         if (color !== undefined) x.color = color;
+        if (it.hidden === true) x.hidden = true; // 친구에게 숨기기(update110, 로그인·친구)
         items.push(x);
         continue;
       }
@@ -346,11 +347,13 @@ export function parseList(raw, sem) {
       if (Array.isArray(it.own)) x.own = tuples(it.own);
       if (Array.isArray(it.alts) && it.alts.length) x.alts = it.alts.map(String);
       if (color !== undefined) x.color = color;
+      if (it.hidden === true) x.hidden = true; // 친구에게 숨기기(update110)
       items.push(x);
     }
     const t = { v: VERSION, id: r.id, sem: typeof r.sem === "string" ? r.sem : sem, title: cleanTitle(r.title) || "시간표",
       created: String(r.created || ""), updated: String(r.updated || r.created || ""), source: r.source === "search" ? "search" : "manual", items };
     if (r.primary === true) t.primary = true;
+    if (r.shareOff === true) t.shareOff = true; // 친구에게 보이기 끔(update110)
     if (r.from && typeof r.from === "object") t.from = { home: String(r.from.home ?? ""), mode: String(r.from.mode ?? "") };
     out.push(t);
   }

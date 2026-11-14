@@ -1,0 +1,36 @@
+# Firestore 규칙과 로그인·동기화·친구 모듈 시험(백엔드 update110): Firebase 에뮬레이터(Auth·Firestore)에서 돌린다. 실제 프로젝트·키는 쓰지 않는다(demo-ttw).
+name: firebase
+
+on:
+  push:
+    branches: [main]
+    paths: ["firebase/**", "web/js/account.js", "web/js/sync.js", "web/js/timetables.js", "tests/rules_test.mjs", "tests/account_e2e.mjs", ".github/workflows/firebase.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  emulator:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Install emulator tools
+        run: |
+          mkdir -p "$RUNNER_TEMP/emu" && cd "$RUNNER_TEMP/emu" && npm init -y > /dev/null
+          npm install --no-audit --no-fund firebase-tools@15.36.0 @firebase/rules-unit-testing@5 firebase@12.19.0
+          ln -s "$RUNNER_TEMP/emu/node_modules" "$GITHUB_WORKSPACE/node_modules"
+      - name: Rules
+        working-directory: firebase
+        run: npx firebase emulators:exec --only firestore --project demo-ttw "node ../tests/rules_test.mjs"
+      - name: Sign in, sync, friends, delete account
+        working-directory: firebase
+        run: npx firebase emulators:exec --only auth,firestore --project demo-ttw "node ../tests/account_e2e.mjs"

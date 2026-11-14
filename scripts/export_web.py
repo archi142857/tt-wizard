@@ -32,6 +32,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import shutil
 import sys
@@ -356,6 +357,30 @@ def export_notify(data: Path, out: Path, semesters: list, today: str | None = No
     return notify
 
 
+FIREBASE_KEYS = ("apiKey", "authDomain", "projectId", "storageBucket", "messagingSenderId", "appId", "googleClientId")
+
+
+def write_firebase_config(raw: str | None, path: Path) -> bool:
+    """로그인(update110): GitHub 변수 FIREBASE_WEB_CONFIG(JSON, 콘솔의 웹 앱 구성 + googleClientId)로 web/js/firebase-config.js 를 채운다.
+    값이 없거나 깨졌으면 손대지 않는다(저장소의 null 그대로 → 로그인이 숨는다). 저장소에는 이 값을 넣지 않는다(사용자 규칙: 키는 저장소 밖)"""
+    if not raw:
+        return False
+    text = re.sub(r"^\s*(?:const|let|var)\s+\w+\s*=\s*", "", raw.strip()).rstrip(";").strip()  # 콘솔의 'const firebaseConfig = {…};' 를 그대로 붙여도 된다
+    try:
+        cfg = json.loads(text)
+    except json.JSONDecodeError:
+        try:  # 따옴표 없는 열쇠(JS 꼴) → JSON
+            cfg = json.loads(re.sub(r",\s*}", "}", re.sub(r"([{,]\s*)([A-Za-z_]\w*)\s*:", r'\1"\2":', text)))
+        except json.JSONDecodeError:
+            return False
+    if not isinstance(cfg, dict) or not cfg.get("apiKey") or not cfg.get("projectId"):
+        return False
+    keep = {k: str(cfg[k]) for k in FIREBASE_KEYS if cfg.get(k)}
+    path.write_text("// 배포 때 export_web.py 가 GitHub 변수 FIREBASE_WEB_CONFIG 로 쓴 파일(저장소에는 null)\n"
+                    f"export default {json.dumps(keep, ensure_ascii=False)};\n", encoding="utf-8")
+    return True
+
+
 def export_calendar(src: Path, out: Path) -> int | None:
     """학기 기간·수업 없는 날(data/calendar/terms.json) → web/data/calendar.json(줄 바꿈 없이). 학기 수를 돌려준다"""
     if not src.exists():
@@ -417,6 +442,7 @@ def main(argv: list[str] | None = None) -> int:
     terms = export_calendar(Path(args.calendar), out / "calendar.json")
     limits = export_limits(data, out / "limits.json", campus["meta"]["semester"], Path(args.calendar))
     notify = export_notify(data, out / "notify.json", semesters)
+    firebase = write_firebase_config(os.environ.get("FIREBASE_WEB_CONFIG"), WEB / "js" / "firebase-config.js")
 
     n_sec = sum(len(c[6]) for c in courses["courses"])
     print(f"저장: {out}")
@@ -438,6 +464,7 @@ def main(argv: list[str] | None = None) -> int:
               f"{' · 변경기간 ' + '~'.join(sched['change']) if sched.get('change') else ''}")
     else:
         print("  limits.json    없음(지금 학기 규칙이 없다)")
+    print(f"  firebase-config.js {'GitHub 변수로 채움' if firebase else '그대로(로그인 숨김)'}")
     print(f"  notify.json    학기 {len(notify['terms'])}개 · 바뀜 {len(notify['changes'])}번(최근 {NOTIFY_DAYS}일)")
     if args.stamp:
         print(f"  화면 파일 주소에 판 ?v={stamp_assets()} 를 붙임 (index.html, js/app.js, js/search-worker.js)")
