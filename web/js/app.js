@@ -6,6 +6,7 @@ import { DAY_KO, parseCourses, TravelMatrix, search, countFeasible, routeLine, w
 import { indexCourses as indexSearch, searchCourses, splitMarks, normKey } from "./search.js";
 import * as T from "./timetables.js";
 import { termInfo, buildIcs, termRangeLabel, MIME as ICS_MIME } from "./ics.js"; // 캘린더 파일(.ics, 백엔드 update102·104. docs/calendar.md)
+import { studentFrom, limitOf, sectionTag, courseTag, noticeFor, sourceText, scheduleSourceText } from "./limits.js"; // 수강 제한 알림(백엔드 update105. docs/limits.md)
 
 const $ = (id) => document.getElementById(id);
 
@@ -597,6 +598,107 @@ function hideBanner() {
   bannerRetry = null;
 }
 
+// ---------------------------------------------------------------- 수강 제한 알림
+// 디자인 121판 CourseLimit(태그와 분반 행 글), 123판(시트 안내 .limit-note, 자료 출처 '수강신청' 줄), 법무 11/13·11/14. 고르기는 백엔드 update105 limits.js
+// (순수 함수, docs/limits.md): 분반 규칙(data/limits.json, 지금 학기만) + 내 학과·학번(ttw.dept → studentFrom, 학과 목록 catalog.json) + 오늘(한국 시각) +
+// 그 학기 수강신청 일정표. 알리기만 한다(분반을 끄거나 흐리게 하지 않고 조합에서도 빼지 않는다). 학과·학번을 넣지 않았으면(나중에) 없고, 지난 학기는 자료 학기가 달라
+// limitOf 가 null 이다. 결과 화면·내 시간표 격자·위젯·시간표 이미지에는 두지 않는다. 화면은 받은 글만 그린다(태그 글·대상 글·비고 원문. 비고 속 주소는 글자 그대로,
+// 누를 때만 기기 브라우저로). 학과·학번 화면이 11/27 처리방침 시행 뒤 켜지니 이것도 그때부터다(deptOn)
+let lim = null; // { data, student }: 학과·학번을 넣었고 지금 학기 자료를 받았을 때만
+let limP = null; // data/limits.json 받기(자료 출처 '수강신청' 줄은 학과·학번이 없어도 쓴다)
+let limSrc = null; // 자료 출처 '수강신청' 줄 글 '서울대학교 수강신청 사이트(8월 1일 기준)': null = 아직 안 받음, "" = 일정표 없음
+let limSite = null; // 그 줄의 이름과 주소 { name, url }
+const limMemo = new Map(); // `${학기}|${분반 키}` → sectionTag 답(오늘이 바뀌면 비운다)
+let limDay = "";
+const LIM_KIND = { limit: "danger", year: "danger", date: "warning", mark: "" };
+const LIM_ROW = new Set(["limit", "year", "date"]); // 과목 행·결과 행에 다는 것(수강반 제한과 글은 분반 행에만)
+const limitsJson = () => (limP ||= getJson("data/limits.json").catch(() => { limP = null; return null; }));
+/** 학과·학번을 넣었으면 자료와 학과 목록을 받아 태그를 켠다(값을 바꾸면 다시 부른다). 넣지 않았거나 못 받으면 끈다 */
+function loadLimits() {
+  if (!deptOn() || !deptSaved()) { setLim(null); return; }
+  Promise.all([limitsJson(), catalogData().catch(() => null)]).then(([data, c]) => {
+    const v = deptOn() ? deptSaved() : null; // 받는 사이 바뀌었으면 그 값으로
+    const student = data && c && v ? studentFrom({ ...v, grade: deptGrade(v) }, c) : null;
+    setLim(student ? { data, student } : null);
+  });
+}
+function setLim(next) {
+  if (!next && !lim) return;
+  lim = next;
+  limMemo.clear();
+  limitsChanged();
+}
+/** 분반 하나의 답(limits.js sectionTag: { tag, label, text, note }). 그 학기 규칙이 없거나 학과·학번을 넣지 않았으면 null */
+function secLimit(courseId, no, term) {
+  if (!lim || !courseId) return null;
+  const today = kstToday();
+  if (today !== limDay) { limMemo.clear(); limDay = today; }
+  const k = `${term}|${courseId}-${no}`;
+  if (!limMemo.has(k)) {
+    const rule = limitOf(lim.data, courseId, no, term);
+    limMemo.set(k, rule ? sectionTag(rule, lim.student, { today, schedule: lim.data.schedule }) : null);
+  }
+  return limMemo.get(k);
+}
+/** 과목 행·결과 행의 태그 { tag, label } 하나: 따질 분반(secs, 담은 과목은 켠 분반)이 모두 막혔거나 모두 뒤에 열릴 때만(limits.js courseTag, 날짜는 가장 이른 날) */
+const courseLimit = (secs, term) => (lim && secs.length ? courseTag(secs.map((s) => secLimit(s.courseId, s.no, term))) : null);
+/** 결과 행·항목 행에 다는 태그 [종류, 글] 하나(수강 제한·학번 제한·날짜), 없으면 null */
+const rowLimit = (r) => (r && LIM_ROW.has(r.tag) ? [LIM_KIND[r.tag], r.label] : null);
+/** 분반 행의 태그 [종류, 글]과 글: 수강 제한·학번 제한·날짜 태그 옆에는 그 단계의 대상 글, 수강반 제한에는 글이 없고, 태그를 못 다는 제한은 비고 원문만 */
+function secLimitParts(r) {
+  if (!r) return { tag: null, note: null };
+  if (r.tag) return { tag: [LIM_KIND[r.tag], r.label], note: r.tag === "mark" ? null : r.text || null };
+  return { tag: null, note: r.note || null };
+}
+// 글 속 주소: http(s) 로 시작해 띄어쓰기·한글 앞까지. 끝의 문장 부호와 짝 없는 닫는 괄호는 뺀다
+const NOTE_URL = /https?:\/\/[^\s<>"\u0080-\uffff]+/g;
+/** 비고 원문·대상 글. 주소는 글자 그대로 보이는 링크(누를 때만 기기 브라우저로. 법무 11/13: 미리 불러오기·앱 안 웹뷰 없이, 짧은 주소도 그대로). 글은 글자 노드로만 넣는다 */
+function noteNodes(raw) {
+  const text = String(raw), out = [];
+  let at = 0;
+  for (const m of text.matchAll(NOTE_URL)) {
+    let url = m[0];
+    for (;;) {
+      const last = url.slice(-1), open = (url.match(/\(/g) || []).length, close = (url.match(/\)/g) || []).length;
+      if (/[.,;:!?'\]]/.test(last) || (last === ")" && close > open)) url = url.slice(0, -1);
+      else break;
+    }
+    if (!/^https?:\/\/./.test(url)) continue;
+    if (m.index > at) out.push(text.slice(at, m.index));
+    out.push(h("a", { href: url, target: "_blank", rel: "noopener", "data-browser": "system" }, url));
+    at = m.index + url.length;
+  }
+  if (at < text.length) out.push(text.slice(at));
+  return out;
+}
+/** 분반 행 태그 줄의 글(.sec-note. 태그 오른쪽에 잇고 두 줄에서 말줄임) */
+const secNote = (text, id = null) => h("span", { class: "sec-note", id }, noteNodes(text));
+/** 태그 줄의 태그들: 고른 차례대로 두 개까지 */
+const tagSpans = (tags, hidden = false) => tags.map(([k, t]) => h("span", { class: k ? `tag ${k}` : "tag", "aria-hidden": hidden ? "true" : null }, t));
+/** 과목·항목 시트의 분반 목록 위 안내(123판 .limit-note): 보이는 분반 행에 태그나 비고 원문이 하나라도 있을 때만. 첫 줄의 '수강신청 사이트'는 글 속 링크 */
+function limitNote(results) {
+  if (!lim || !results.some((r) => r && (r.tag || r.note))) return null;
+  const text = noticeFor(results), word = "수강신청 사이트", at = text.indexOf(word);
+  const site = h("a", { href: lim.data.schedule_url || lim.data.site || CATALOG_URL, target: "_blank", rel: "noopener", "data-browser": "system" }, word);
+  return h("div", { class: "limit-note" },
+    h("p", {}, at < 0 ? text : [text.slice(0, at), site, text.slice(at + word.length)]),
+    h("p", {}, sourceText(lim.data)));
+}
+/** 자료 출처 '수강신청' 줄: 이름은 수강신청 사이트 링크(link 는 자료 출처의 글 속 링크), 뒤는 기준일 '(8월 1일 기준)' */
+function sugangSource(link) {
+  const name = limSite ? limSite.name : "";
+  return name && limSrc.startsWith(name) ? [link(limSite.url, name), limSrc.slice(name.length)] : limSrc;
+}
+/** 태그를 켜거나 껐다(자료를 받았거나 학과·학번을 바꿨다): 보이는 곳만 다시 칠한다 */
+function limitsChanged() {
+  syncAddButtons();
+  if (state.picks.length) renderPicked();
+  if (sheetId && $("course-sheet").open) refillCourseSecs();
+  if (mineShown()) renderMine();
+  markAddRows();
+  if ($("item-sheet").open) refreshItemSheet();
+}
+
 // ---------------------------------------------------------------- 검색
 
 // 찾는 규칙과 줄 세우기는 search.js(백엔드, docs/search.md): 줄임말·초성 섞기·치는 중인 글자·영문 자판·학과 줄임·특별 낱말
@@ -619,19 +721,23 @@ function marked(text, ranges) {
 const isPicked = (id) => state.picks.some((p) => p.id === id);
 
 /** 담기 버튼과 그 행. 누르는 영역은 행 전체(style.css), 담은 과목의 행은 어두운 바탕에 '✓ 담음'.
- *  담은 과목이 조합을 막으면 버튼 앞에 그 까닭을 단다: 시간이 겹치면 '시간 겹침', 추가 설정 때문이면 '공강 요일'·'점심시간'·'추가 설정'. */
+ *  담은 과목이 조합을 막으면 버튼 앞에 그 까닭을 단다: 시간이 겹치면 '시간 겹침', 추가 설정 때문이면 '공강 요일'·'점심시간'·'추가 설정'.
+ *  학과·학번을 넣었으면 같은 자리에 수강 제한 태그 하나(과목의 모든 분반이 막혔거나 모두 뒤에 열릴 때, 디자인 121판. 조합을 막는 까닭이 먼저). */
 function setAddButton(b, name, picked) {
   const clash = picked && state.errors.overlap.has(b.dataset.id) ? NONE_TAG[state.errors.cause] : "";
+  const c = clash || !lim ? null : state.byId.get(b.dataset.id);
+  const lt = c ? courseLimit(c.sections, state.semester) : null;
+  const why = clash ? ["danger r-clash", clash] : lt ? [`${LIM_KIND[lt.tag]} r-limit`, lt.label] : null;
   b.classList.toggle("is-on", picked);
   const row = b.closest(".result");
   if (row) {
     row.classList.toggle("is-picked", picked);
-    const tag = row.querySelector(".r-clash");
-    if (clash && !tag) b.before(h("span", { class: "tag danger r-clash", "aria-hidden": "true" }, clash));
-    else if (clash) tag.textContent = clash;
+    const tag = row.querySelector(".r-clash, .r-limit");
+    if (why && !tag) b.before(h("span", { class: `tag ${why[0]}`, "aria-hidden": "true" }, why[1]));
+    else if (why) { tag.className = `tag ${why[0]}`; tag.textContent = why[1]; }
     else if (tag) tag.remove();
   }
-  b.setAttribute("aria-label", `${name} ${picked ? "담음" : "담기"}${clash ? `, ${clash}` : ""}`);
+  b.setAttribute("aria-label", `${name} ${picked ? "담음" : "담기"}${why ? `, ${why[1]}` : ""}`);
   b.replaceChildren(...(picked ? [icon(I.check, 16), "담음"] : ["담기"]));
 }
 
@@ -911,12 +1017,16 @@ function focusRow(id, sel) {
   return Boolean(el);
 }
 
-/** 태그는 한 행에 두 개까지, 위험(조합이 없는 까닭) → 주의(편람 바뀜, 폐강 대상) → 중립(미정) 순. [[종류, 글]] */
+/** 태그는 한 행에 두 개까지, 위험(조합이 없는 까닭, 수강 제한·학번 제한) → 주의(편람 바뀜, 날짜 태그, 폐강 대상) → 중립(미정) 순. [[종류, 글]].
+ *  수강 제한 태그는 켠 분반이 모두 막혔거나 모두 뒤에 열릴 때(디자인 121판) */
 function courseTags(p, c) {
   const on = c.sections.filter((s) => !p.excluded.has(s.key));
+  const lt = courseLimit(on, state.semester), lk = lt && LIM_KIND[lt.tag];
   const tags = [];
   if (state.errors.overlap.has(c.id)) tags.push(["danger", NONE_TAG[state.errors.cause]]);
+  if (lk === "danger") tags.push(["danger", lt.label]);
   if (c.sections.some(catalogMoved)) tags.push(["warning", "편람 바뀜"]); // 과목 시트를 닫으면 사라지는 태그라 폐강 대상보다 앞에 둔다
+  if (lk === "warning") tags.push(["warning", lt.label]);
   if (on.some((s) => s.status === "폐강대상")) tags.push(["warning", "폐강 대상"]);
   if (on.some(isUndecided)) tags.push(["", "미정"]);
   return tags.slice(0, 2);
@@ -1058,11 +1168,25 @@ function renderCourseSheet() {
     return;
   }
   body.replaceChildren(
+    // 수강 제한 안내(123판): 분반 목록 머리 위, 보이는 분반 행에 태그나 비고 원문이 있을 때만
+    limitNote(c.sections.map((s) => secLimit(s.courseId, s.no, state.semester))),
     h("div", { class: "list-head" },
       h("span", { id: "cs-count" }),
       h("label", { class: "check" }, h("input", { type: "checkbox", id: "cs-all", "data-act": "all" }), "전체 선택")),
     h("ul", { class: "list secs" }, c.sections.map((s) => { const li = h("li", { class: "sec", "data-key": s.key }); fillSec(li, p, s); return li; })));
   refreshSheetHead();
+}
+/** 연 과목 시트의 분반 행과 수강 제한 안내만 다시(수강 제한 자료가 늦게 들어왔다. 목록과 스크롤 자리는 그대로) */
+function refillCourseSecs() {
+  const p = sheetPick(), c = p && state.byId.get(p.id), body = $("cs-body");
+  if (!c || !body.querySelector(".list-head")) return;
+  for (const li of body.querySelectorAll(".sec[data-key]")) {
+    const s = c.sections.find((x) => x.key === li.dataset.key);
+    if (s) fillSec(li, p, s);
+  }
+  body.querySelector(".limit-note")?.remove();
+  const note = limitNote(c.sections.map((s) => secLimit(s.courseId, s.no, state.semester)));
+  if (note) body.querySelector(".list-head").before(note);
 }
 
 function refreshSheetHead() {
@@ -1115,13 +1239,17 @@ function fillSec(li, p, s) {
     parts.push(h("button", { type: "button", class: "icon-btn sec-more", "data-act": "more", "aria-expanded": String(wide), "aria-label": `${sectionLabel(s)} 시간·장소 바꾸기` }, icon(I.down, 20)));
   }
 
-  // 태그는 둘까지: 추가 설정 때문에 쓰지 않는 까닭(흐린데 까닭이 안 보이면 안 되니 맨 앞) → 주의(편람 바뀜은 시트를 닫으면 사라지니 폐강 대상보다 앞) → 중립(직접 입력)
+  // 태그는 둘까지: 추가 설정 때문에 쓰지 않는 까닭(흐린데 까닭이 안 보이면 안 되니 맨 앞) → 위험(수강 제한·학번 제한) → 주의(편람 바뀜은 시트를 닫으면 사라지니
+  // 날짜 태그·폐강 대상보다 앞) → 중립(직접 입력, 수강반 제한). 수강 제한 태그 옆에는 그 단계의 대상 글, 태그를 못 단 제한은 비고 원문(디자인 121판)
+  const lp = secLimitParts(secLimit(s.courseId, s.no, state.semester));
   const tags = [];
   if (out) {
     const byDay = !meetsRules(unit, { freeDays: rules.freeDays }), byLunch = !meetsRules(unit, { lunch: rules.lunch });
     tags.push(["", byDay && byLunch ? NONE_TAG.rules : byDay ? NONE_TAG.freeDays : NONE_TAG.lunch]);
   }
+  if (lp.tag && lp.tag[0] === "danger") tags.push(lp.tag);
   if (catalogMoved(s)) tags.push(["warning", "편람 바뀜"]);
+  if (lp.tag && lp.tag[0] === "warning") tags.push(lp.tag);
   if (s.status === "폐강대상") tags.push(["warning", "폐강 대상"]);
 
   const rows = [], extra = [];
@@ -1160,7 +1288,14 @@ function fillSec(li, p, s) {
         h("button", { type: "button", class: "btn-text small", "data-act": "revert" }, "되돌리기")));
     }
   }
-  if (tags.length) rows.push(h("div", { class: "tags" }, tags.slice(0, 2).map(([k, t]) => h("span", { class: k ? `tag ${k}` : "tag" }, t))));
+  if (lp.tag && !lp.tag[0]) tags.push(lp.tag);
+  const shown = tags.slice(0, 2), note = lp.note && (!lp.tag || shown.includes(lp.tag)) ? lp.note : null;
+  if (shown.length || note) {
+    // 체크박스의 설명으로 태그와 글을 잇는다(CourseLimit 판처럼)
+    const id = `st-${uid(s.key)}`;
+    rows.push(h("div", { class: "tags", id }, tagSpans(shown), note ? secNote(note) : null));
+    parts[0].querySelector("input").setAttribute("aria-describedby", id);
+  }
   li.replaceChildren(...parts, ...rows, ...extra);
 }
 
@@ -3578,10 +3713,13 @@ const customWhen = (meetings) => meetingGroups(meetings).map((g) => `${daysLabel
 
 /** 태그는 두 개까지, 위험 → 주의 → 중립. 없는 과목은 편람에서 과목이 사라진 것(탐색과 같은 말), 없는 분반은 과목은 있고 분반만 사라진 것 */
 function itemTags(e, clash) {
+  const lt = e.item.custom ? null : rowLimit(secLimit(e.item.course, e.item.no, mine.sem)); // 넣은 분반의 수강 제한 태그(디자인 121판, 글은 두지 않는다)
   const tags = [];
   if (clash.has(e.key)) tags.push(["danger", "시간 겹침"]);
   if (e.state === "gone") tags.push(["danger", e.missing === "section" ? "없는 분반" : "없는 과목"]);
+  if (lt && lt[0] === "danger") tags.push(lt);
   if (e.state === "changed") tags.push(["warning", "편람 바뀜"]);
+  if (lt && lt[0] === "warning") tags.push(lt);
   if (e.live && e.live.status === "폐강대상") tags.push(["warning", "폐강 대상"]);
   if (!e.item.custom && (!e.meetings.length || e.meetings.some((m) => !m.building))) tags.push(["", "미정"]);
   if (e.item.own) tags.push(["", "직접 입력"]);
@@ -5011,6 +5149,7 @@ async function receiveLink(code) {
     // 어느 길로 왔든 받은 주소를 적어 둔다: 켤 때 주소가 이벤트보다 늦게 풀리거나 웹뷰를 새로 열어도 같은 시트를 다시 띄우지 않는다(닫았으면 그대로)
     try { sessionStorage.setItem(LAUNCH_DONE, code); } catch { /* 못 적으면 다음에 새로 열 때 한 번 더 띄울 수 있다 */ }
   }
+  if (screen === "setup") showView(ROOT[tab], "init"); // 학과와 학번 처음 화면 중에 링크로 켰다: 공유받은 시간표가 먼저, 그 화면은 다음에 켤 때(디자인 121판)
   if (r.problem) { showSnackbar(LINK_PROBLEM[r.problem]); return; }
   openShared(await linkToPayload(r.link));
 }
@@ -5031,6 +5170,7 @@ function navOf(url) {
 let lastNav = null; // 앱: 켤 때 같은 위젯 주소가 launchUrl 과 'ttw:open-url' 로 거의 같이 두 번 온다. 동선 지도는 한 번만 연다
 async function goNav(nav) {
   await semReady;
+  if (screen === "setup") showView(ROOT[tab], "init"); // 위젯·바로가기로 켰다: 그 화면이 먼저(학과와 학번은 다음에 켤 때)
   if (nav.sem && nav.sem !== state.semester && state.semesters.some(([x]) => x === nav.sem)) switchSemester(nav.sem);
   if (nav.item) { // 위젯에서 수업을 눌렀다: 그 수업의 항목 시트(아래 itemNav). 못 열면 그 탭으로
     const sig = `item|${nav.sem}|${nav.tt}|${nav.item}`;
@@ -5204,6 +5344,11 @@ const devApi = () => ({
     showAsk(opener);
   },
   forgetTheme() { store.del("themeOff"); store.del("themeAsked"); }, // 끈 테마·물어본 테마를 잊는다(묻는 팝업을 처음부터)
+  dept() { // 학과와 학번(시행일 전 미리 보기, 이 세션만): 정보 줄을 켜고 처음 화면을 띄운다. 넣은 값은 그대로 이 기기에 남는다
+    devDept = true;
+    renderInfo();
+    showView("setup", "tab");
+  },
   update() { showSnackbar("새 버전이 있어요", "새로고침", () => location.reload()); announce("새 버전이 있어요"); },
   image: () => timetablePng(curTt()), // 지금 보는 시간표의 그림(PNG 바이트, 자료 조각까지)
   info() {
@@ -5317,12 +5462,15 @@ function renderItemSheet() {
   others.sort((a, b) => (alts.includes(a.key) ? alts.indexOf(a.key) : alts.length) - (alts.includes(b.key) ? alts.indexOf(b.key) : alts.length));
   const cur = h("div", { class: "sec is-cur" });
   fillCurSec(cur, e);
+  // 수강 제한 안내(123판): 분반 목록(넣은 분반·다른 분반) 위, 보이는 분반 행에 태그나 비고 원문이 있을 때만
+  const note = limitNote([secLimit(it.course, it.no, mine.sem), ...others.map((s) => secLimit(s.courseId, s.no, mine.sem))]);
   $("is-body").replaceChildren(...[
     ttColor === "item" ? h("fieldset", { class: "sheet-field" }, h("legend", { class: "field-label" }, "색"),
       h("div", { class: "swatches" }, colorNames().map((name, i) => h("label", {},
         h("input", { type: "radio", name: "is-color", value: String(i), checked: colorNo(it) === i, "aria-label": name }),
         // 체크는 그 색의 글자색(크리스마스의 짙은 원 위에서는 흰색)
         h("span", { class: "sw", style: { background: `var(--item-${i})`, color: `var(--item-${i}-fg)` } }, icon(I.check, 20)))))) : null,
+    note,
     h("div", { class: "sheet-field item-secs" }, h("span", { class: "field-label" }, "넣은 분반"), cur),
     others.length ? h("div", { class: "sheet-field item-secs" },
       h("div", { class: "list-head" }, h("span", {}, `다른 분반 ${others.length}`)),
@@ -5349,17 +5497,26 @@ function otherSec(t, it, s) {
   const clash = T.overlapsWith(t, s.meetings, { except: T.itemKey(it), course: it.course, byId: state.byId }).length > 0;
   return secRow(s, clash, h("button", { type: "button", class: "btn-add", "data-act": "swap", "aria-label": `${sectionLabel(s)} 바꾸기${clash ? ", 시간 겹침" : ""}` }, "바꾸기"));
 }
-/** 분반 행(과목 추가 화면의 과목 시트, 항목 시트의 다른 분반): 번호(교수)와 오른쪽 버튼, 둘째 줄 '월·수 11:00~12:15 · 28동 103호', 태그 */
-function secRow(s, clash, btn) {
+/** 분반 행(과목 추가 화면의 과목 시트, 항목 시트의 다른 분반): 번호(교수)와 오른쪽 버튼, 둘째 줄 '월·수 11:00~12:15 · 28동 103호', 태그.
+ *  태그 글은 버튼 이름 끝에도 있어 읽지 않고(aria-hidden), 수강 제한의 대상 글·비고 원문은 버튼의 설명으로 잇는다(디자인 121판) */
+function secRow(s, clash, btn, term = mine.sem) {
   const groups = meetingGroups(s.meetings);
+  const lp = secLimitParts(secLimit(s.courseId, s.no, term));
   const tags = [];
   if (clash) tags.push(["danger", "시간 겹침"]);
+  if (lp.tag && lp.tag[0] === "danger") tags.push(lp.tag);
+  if (lp.tag && lp.tag[0] === "warning") tags.push(lp.tag);
   if (s.status === "폐강대상") tags.push(["warning", "폐강 대상"]);
   if (!s.meetings.length || s.meetings.some((m) => !m.building)) tags.push(["", "미정"]);
+  if (lp.tag && !lp.tag[0]) tags.push(lp.tag);
+  const shown = tags.slice(0, 2), note = lp.note && (!lp.tag || shown.includes(lp.tag)) ? lp.note : null;
+  if (lp.tag && shown.includes(lp.tag)) btn.setAttribute("aria-label", `${btn.getAttribute("aria-label")}, ${lp.tag[1]}`);
+  const noteId = note ? `sn-${uid(s.key)}` : null;
+  if (noteId) btn.setAttribute("aria-describedby", noteId);
   return h("li", { class: "sec", "data-key": s.key },
     h("div", { class: "sec-line" }, h("span", { class: "sec-title" }, s.no, h("span", { class: "prof" }, `(${instructorOf(s)})`)), btn),
     groups.length ? groups.map((g) => h("div", { class: "sec-when" }, h("span", {}, groupText(g)))) : h("div", { class: "sec-when" }, h("span", {}, "시간 미정")),
-    tags.length ? h("div", { class: "tags", "aria-hidden": "true" }, tags.slice(0, 2).map(([k, x]) => h("span", { class: k ? `tag ${k}` : "tag" }, x))) : null);
+    shown.length || note ? h("div", { class: "tags" }, tagSpans(shown, true), note ? secNote(note, noteId) : null) : null);
 }
 
 /**
@@ -5378,8 +5535,12 @@ function fillCurSec(li, e) {
     icon(I.plus, 16), "시간 추가");
   const parts = [h("div", { class: "sec-line" }, h("span", { class: "sec-title" }, it.no, h("span", { class: "prof" }, `(${instructorOf(s)})`)))];
   if (hasCat) parts.push(h("button", { type: "button", class: "icon-btn sec-more", "data-act": "more", "aria-expanded": String(wide), "aria-label": `${sectionLabel(s)} 시간·장소 바꾸기` }, icon(I.down, 20)));
+  // 태그는 과목 시트의 분반 행 차례: 위험(수강 제한·학번 제한) → 주의(편람 바뀜, 날짜 태그, 폐강 대상) → 중립(직접 입력, 수강반 제한). 옆에 대상 글이나 비고 원문
+  const lp = secLimitParts(secLimit(it.course, it.no, mine.sem));
   const tags = [];
+  if (lp.tag && lp.tag[0] === "danger") tags.push(lp.tag);
   if (e.state === "changed") tags.push(["warning", "편람 바뀜"]);
+  if (lp.tag && lp.tag[0] === "warning") tags.push(lp.tag);
   if (e.live && e.live.status === "폐강대상") tags.push(["warning", "폐강 대상"]);
   const rows = [], extra = [];
   if (hasCat && !wide) {
@@ -5400,7 +5561,9 @@ function fillCurSec(li, e) {
         h("button", { type: "button", class: "btn-text small", "data-act": "revert" }, "되돌리기")));
     }
   }
-  if (tags.length) rows.push(h("div", { class: "tags" }, tags.slice(0, 2).map(([k, x]) => h("span", { class: k ? `tag ${k}` : "tag" }, x))));
+  if (lp.tag && !lp.tag[0]) tags.push(lp.tag);
+  const shown = tags.slice(0, 2), note = lp.note && (!lp.tag || shown.includes(lp.tag)) ? lp.note : null;
+  if (shown.length || note) rows.push(h("div", { class: "tags" }, tagSpans(shown), note ? secNote(note) : null));
   li.replaceChildren(...parts, ...rows, ...extra);
 }
 function refillCur(focusSel) {
@@ -5747,13 +5910,17 @@ function addRow(d) {
 }
 function paintAddRow(li, d, t = curTt()) {
   const { kind, clash } = addState(d, t), b = li.querySelector(".btn-add");
+  // 버튼 앞 까닭 태그 하나: 시간 겹침이 먼저, 아니면 그 분반의 수강 제한·학번 제한·날짜 태그(디자인 121판)
+  const lt = clash ? null : rowLimit(secLimit(d.s.courseId, d.s.no, mine.sem));
+  const why = clash ? ["danger r-clash", "시간 겹침"] : lt ? [`${lt[0]} r-limit`, lt[1]] : null;
   li.classList.toggle("is-picked", kind === "on");
   b.classList.toggle("is-on", kind === "on");
   b.replaceChildren(...(kind === "on" ? [icon(I.check, 16), "넣음"] : [ADD_WORD[kind]]));
-  b.setAttribute("aria-label", [`${d.c.name} ${sectionLabel(d.s)}`, addWhen(d.s), ADD_WORD[kind], clash ? "시간 겹침" : ""].filter(Boolean).join(", "));
-  const tag = li.querySelector(".r-clash");
-  if (clash && !tag) b.before(h("span", { class: "tag danger r-clash", "aria-hidden": "true" }, "시간 겹침"));
-  else if (!clash && tag) tag.remove();
+  b.setAttribute("aria-label", [`${d.c.name} ${sectionLabel(d.s)}`, addWhen(d.s), ADD_WORD[kind], why ? why[1] : ""].filter(Boolean).join(", "));
+  const tag = li.querySelector(".r-clash, .r-limit");
+  if (why && !tag) b.before(h("span", { class: `tag ${why[0]}`, "aria-hidden": "true" }, why[1]));
+  else if (why) { tag.className = `tag ${why[0]}`; tag.textContent = why[1]; }
+  else if (tag) tag.remove();
 }
 /** 넣은 표시·바꾸기·시간 겹침만 고친다(검색 결과와 둘러보기). 목록을 다시 그리면 이어 붙인 결과(넓은 화면)가 처음으로 돌아가 읽던 자리를 잃는다 */
 function markAddRows() {
@@ -6376,8 +6543,10 @@ function renderInfo() {
   const out = (href, text) => h("a", { class: "info-row", href, target: "_blank", rel: "noopener" }, h("span", {}, text), icon(I.out, 20));
   // 카드 안 줄 사이는 line 1px(.list. 디자인 InfoList '.card.info-list 안 .list'. 10/22 카드를 나누며 빠졌던 것을 11/1 되돌렸다)
   const card = (rows) => (rows.some(Boolean) ? h("ul", { class: "card list info-list" }, rows.filter(Boolean).map((r) => h("li", {}, r))) : null);
+  const dv = deptOn() ? deptSaved() : null; // 내 학과·학번(디자인 121판): 정보 첫 카드 맨 위. 넣지 않았으면 값이 없다
   $("info-list").replaceChildren(...[
-    card([next("sources", "자료 출처")]),
+    card([deptOn() ? h("button", { type: "button", class: "info-row", "data-info": "dept" }, h("span", {}, "내 학과·학번"),
+      dv ? h("span", { class: "v v-dept" }, deptLabel(dv)) : null, icon(I.right, 20)) : null, next("sources", "자료 출처")]),
     card([next("feedback", "의견 보내기"), next("developer", "개발자 정보"), REVIEW_URL[SHELL] ? out(REVIEW_URL[SHELL], "리뷰 남기기") : null,
       isSafariTab() ? next("a2hs", "홈 화면에 추가") : null]),
     card([PRIVACY_URL ? out(PRIVACY_URL, "개인정보 처리방침") : null, next("licenses", "오픈소스 라이선스"),
@@ -6391,7 +6560,283 @@ $("info-list").addEventListener("click", (e) => {
   const k = b.dataset.info;
   if (k === "a2hs") openSheet($("a2hs-sheet"), b);
   else if (k === "feedback") go("feedback");
+  else if (k === "dept") go("dept");
   else go("page", { page: k });
+});
+
+// ---------- 학과와 학번(디자인 121판 DeptSetup·InfoList '내 학과·학번', 11/13 사용자 "ㅇㅇ 좋다") ----------
+// 앱을 처음 켤 때 한 번 시간표보다 먼저(이 판으로 처음 켜는 사람도. 지난 시간표로 주전공과 학번을 미리 채운다) + 정보 첫 줄 '내 학과·학번' 하위 화면.
+// 둘은 같은 카드 셋(#view-dept)이고 꼴만 다르다: setup(탭 막대·사이드바 없이 워드마크·나중에, 제목, 시작하기) / dept(뒤로·제목, 저장하기).
+// 목록은 백엔드 update103 data/requirements/catalog.json(대학 → 학과(부) → 전공, 다른 전공 묶음 셋, 편람 dept → 학과). 학번에 없던 과정(exists_for)은 숨긴다.
+// 값은 이 기기에만(ttw.dept): { v, major: { id, entry }, others: [{ kind: "double"|"minor"|"major", id, term }], year, grade, gradeYear, name, names }.
+// major.id 는 과정 id(나뉘지 않는 학과는 그 하나, '아직 안 정함'은 학과 id u-…), entry 는 전공 진입 해(묻는 학부만). grade 는 gradeYear 학기의 학년이고
+// 새 해의 학기 자료가 오면 그만큼 더한다(deptGrade). name·names 는 정보 줄 글(목록을 받지 않아도 그린다). 밖으로 보내지 않는다.
+// 처리방침 2-1절('기기 안'에 학과·학번)이 11/27 시행이라 그 전에는 처음 화면도 정보 줄도 없다(법무 11/11 ②, 문서 11/13). 웹 개발자 메뉴로만 미리 본다.
+// 날짜로 켜는 것은 법무 11/14 로 된다: 그 전에 낸 안드로이드 판은 출시 노트에 '11월 27일부터 학과와 학번 화면이 열립니다' 한 줄, iOS 는 그날 뒤 빌드로 낸다(Apple 2.5.19)
+const DEPT = "dept", DEPT_ASKED = "deptAsked";
+const DEPT_FROM = "2026-11-27"; // 한국 시각 날짜
+const UNDECIDED = "-"; // 전공 칸의 '아직 안 정함'
+const KIND_NAME = { major: "주전공", double: "복수전공", minor: "부전공" };
+let devDept = false; // 웹 개발자 메뉴의 '학과와 학번'(이 세션만, 시행일 전 미리 보기)
+const kstToday = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+const deptOn = () => devDept || kstToday() >= DEPT_FROM;
+let catP = null, cat = null;
+function catalogData() {
+  return (catP ||= getJson("data/requirements/catalog.json").then((c) => {
+    const units = new Map(), college = new Map();
+    for (const g of c.colleges) for (const u of g.units) { units.set(u.id, u); college.set(u.id, g.name); }
+    for (const u of c.others) { units.set(u.id, u); college.set(u.id, u.name); }
+    return (cat = { ...c, units, college });
+  }).catch((e) => { catP = null; throw e; }));
+}
+/** 보이는 학기 중 가장 최근의 해(학년을 셈한다) */
+const latestYear = () => Number(String(state.current || kstToday()).slice(0, 4)) || new Date().getFullYear();
+const clampGrade = (g) => Math.min(6, Math.max(1, g));
+function deptSaved() {
+  const v = store.get(DEPT, null);
+  return v && v.major && v.major.id && Number.isInteger(v.year) ? v : null;
+}
+/** 지금 학년: 저장한 해보다 새 해의 학기 자료가 왔으면 그만큼 더한다 */
+const deptGrade = (v) => clampGrade((Number(v.grade) || 1) + Math.max(0, latestYear() - (Number(v.gradeYear) || latestYear())));
+/** 정보 줄 값 '동물생명공학전공 외 2 · 25학번' */
+function deptLabel(v) {
+  return v ? `${v.name}${v.others && v.others.length ? ` 외 ${v.others.length}` : ""} · ${String(v.year).slice(2)}학번` : "";
+}
+const progName = (id) => (cat.programs[id] || {}).name || "";
+const progShort = (id) => { const p = cat.programs[id] || {}; return p.short && p.short !== p.college ? p.short : p.name || ""; };
+/** 학번에 있던 것만(모르면 보인다). keep 은 이미 고른 것이라 그대로 둔다 */
+const forYear = (span, year, keep) => keep || !year || !span || (year >= span[0] && year <= span[1]);
+
+let dd = null; // 고치는 값 { college, unit, prog, entry, others, year, grade, touched: Set }
+let ddFrom = ""; // 연 때 값(저장하기를 켜는 견줌)
+let deptMode = "setup";
+const ddKey = (d) => JSON.stringify([d.college, d.unit, d.prog, d.entry, d.others, d.year, d.grade]);
+function draftOf(v) {
+  const d = { college: "", unit: "", prog: "", entry: null, others: [], year: null, grade: null, touched: new Set() };
+  if (!v || !cat) return d;
+  const id = v.major.id, p = cat.programs[id], unit = cat.units.get(p ? p.unit : id);
+  if (unit) {
+    d.unit = unit.id;
+    d.college = cat.college.get(unit.id) || "";
+    d.prog = unit.splits ? (p ? id : UNDECIDED) : "";
+  }
+  d.entry = Number.isInteger(v.major.entry) ? v.major.entry : null;
+  d.others = (v.others || []).filter((o) => cat.programs[o.id] && KIND_NAME[o.kind]).map((o) => ({ kind: o.kind, id: o.id, term: o.term }));
+  d.year = v.year;
+  d.grade = deptGrade(v);
+  for (const k of ["entry", "grade"]) d.touched.add(k); // 저장한 값은 다시 채우지 않는다
+  return d;
+}
+const ddUnit = () => (dd && dd.unit ? cat.units.get(dd.unit) : null);
+/** 전공 진입을 묻나: 묻는 학부에서 전공을 골랐거나(나뉘는 학과), 나뉘지 않고 묻는 학과(수의학과 등) */
+function askEntry(u = ddUnit()) {
+  return !!u && u.ask_entry && (!u.splits || (dd.prog && dd.prog !== UNDECIDED));
+}
+const ddReady = () => { const u = ddUnit(); return !!u && (!u.splits || !!dd.prog) && !!dd.year; };
+function deptValue() {
+  const u = ddUnit(), entry = askEntry(u) ? dd.entry || dd.year + 1 : null;
+  const id = u.splits ? (dd.prog === UNDECIDED ? u.id : dd.prog) : u.programs[0] || u.id;
+  return {
+    v: 1, major: { id, entry }, others: dd.others.map((o) => ({ ...o })), year: dd.year, grade: dd.grade || clampGrade(latestYear() - dd.year + 1), gradeYear: latestYear(),
+    name: u.splits && dd.prog && dd.prog !== UNDECIDED ? progName(dd.prog) : u.name, // 고른 가장 아래 칸의 이름, 아직 안 정함이면 학과 이름
+    names: dd.others.map((o) => progShort(o.id)),
+  };
+}
+const opt = (value, text, on) => h("option", { value: String(value), selected: on || null }, text);
+/** 선택칸을 채운다. 처음 줄은 '고르기'(text3), 꺼진 칸은 흐리다(style.css) */
+function fillSel(sel, items, value, disabled = false) {
+  const v = value == null ? "" : String(value);
+  sel.replaceChildren(opt("", "고르기", !v), ...items.map(([val, text]) => opt(val, text, String(val) === v)));
+  sel.value = items.some(([val]) => String(val) === v) ? v : "";
+  sel.disabled = disabled;
+}
+function renderDeptForm() {
+  const d = dd, ok = !!cat, u = ok ? ddUnit() : null;
+  fillSel($("dp-college"), ok ? cat.colleges.map((g) => [g.name, g.name]) : [], d.college, !ok);
+  const units = ok && d.college ? (cat.colleges.find((g) => g.name === d.college) || { units: [] }).units.filter((x) => forYear(x.exists_for, d.year, x.id === d.unit)) : [];
+  fillSel($("dp-unit"), units.map((x) => [x.id, x.name]), d.unit, !ok || !d.college);
+  $("dp-prog-f").hidden = !(u && u.splits);
+  if (u && u.splits) {
+    const progs = u.programs.filter((id) => forYear((cat.programs[id] || {}).exists_for, d.year, id === d.prog)).map((id) => [id, progName(id)]);
+    fillSel($("dp-prog"), [...progs, ...(u.undecided ? [[UNDECIDED, "아직 안 정함"]] : [])], d.prog);
+  }
+  $("dp-entry-f").hidden = !askEntry(u);
+  if (askEntry(u)) {
+    const top = latestYear() + 1, from = Math.min(d.year || top - 8, top - 1), years = [];
+    for (let y = top; y >= from; y -= 1) years.push([y, `${y}년`]);
+    fillSel($("dp-entry"), years, d.entry || (d.year ? d.year + 1 : ""));
+  }
+  const list = $("dp-others");
+  list.replaceChildren(...(ok ? d.others : []).map((o, i) => {
+    const name = progShort(o.id), [y, n] = String(o.term).split("-");
+    return h("li", {},
+      h("span", { class: "tag" }, KIND_NAME[o.kind]),
+      h("span", { class: "m-txt" }, h("span", { class: "m-name" }, name), h("span", { class: "m-meta" }, `${y}년 ${n}학기 선발`)),
+      h("button", { type: "button", class: "icon-btn remove", "data-remove": String(i), "aria-label": `${name} ${KIND_NAME[o.kind]} 빼기` }, icon(I.x, 20)));
+  }));
+  list.hidden = !d.others.length;
+  $("dp-none").hidden = !!d.others.length;
+  $("dp-add").disabled = !ok;
+  const top = latestYear(), years = [];
+  for (let y = top; y >= top - 11; y -= 1) years.push([y, `${String(y).slice(2)}학번`]);
+  fillSel($("dp-year"), years, d.year, !ok);
+  const grades = [1, 2, 3, 4, 5, 6].map((g) => [g, `${g}학년`]);
+  fillSel($("dp-grade"), grades, d.year ? d.grade : "", !ok || !d.year);
+  $("dept-done").disabled = !(ok && ddReady() && (deptMode === "setup" || ddKey(d) !== ddFrom));
+}
+/** 화면을 그 꼴로(setup | dept). 목록을 받기 전에는 칸이 꺼져 있다 */
+function renderDept(mode) {
+  deptMode = mode;
+  const setup = mode === "setup";
+  $("dept-back").hidden = $("dept-title").hidden = setup;
+  $("dept-brand").hidden = $("dept-later").hidden = $("setup-title").hidden = !setup;
+  $("dept-done").textContent = setup ? "시작하기" : "저장하기";
+  dd = draftOf(null);
+  ddFrom = ddKey(dd);
+  renderDeptForm();
+  catalogData().then(() => {
+    if (deptMode !== mode || !deptShown()) return;
+    dd = draftOf(deptSaved());
+    ddFrom = ddKey(dd);
+    renderDeptForm();
+    if (!deptSaved()) guessDept().then((g) => { if (deptShown() && g) { applyGuess(g); renderDeptForm(); } }, () => null);
+  }, () => {
+    if (deptShown()) showSnackbar("학과 목록을 받지 못했어요", "다시 시도", () => { if (deptShown()) renderDept(deptMode); });
+  });
+}
+const deptShown = () => screen === "setup" || screen === "dept";
+/** 지난 시간표로 주전공과 학번을 짐작한다(디자인 121판: 주전공은 저장한 시간표에서 전필·전선 과목이 가장 많은 학과, 학번은 시간표가 있는 가장 이른 학기의 해.
+ *  다른 전공은 종류를 알 수 없어 채우지 않는다, 법무 11/11 ②). 기기 안에서만 본다 */
+async function guessDept() {
+  await semReady; // 켤 때 바로 뜨면 학기 목록을 아직 받지 않았다
+  const sems = state.semesters.map(([id]) => id).filter((id) => /^\d{4}-[12SW]$/.test(id));
+  const count = new Map(), codes = new Map();
+  let first = 0;
+  for (const sem of sems) {
+    const items = T.parseList(store.get(semKey(T.STORE_KEYS.list, sem), []), sem).flatMap((t) => t.items || []).filter((it) => !it.custom && it.course);
+    if (!items.length) continue;
+    const y = Number(sem.slice(0, 4));
+    if (!first || y < first) first = y;
+    const major = items.filter((it) => it.cls === "전필" || it.cls === "전선");
+    if (!major.length) continue;
+    const byId = await coursesFor(sem).catch(() => null);
+    for (const it of major) {
+      const c = byId && byId.get(it.course), dept = c && c.dept;
+      if (!dept || !cat.depts[dept]) continue;
+      count.set(dept, (count.get(dept) || 0) + 1);
+      codes.set(dept, [...(codes.get(dept) || []), it.course]);
+    }
+  }
+  const best = [...count].sort((a, b) => b[1] - a[1])[0];
+  if (!best && !first) return null;
+  const g = { year: first || null, unit: "", prog: "" };
+  if (best) {
+    const d = cat.depts[best[0]], u = cat.units.get(d.units[0]);
+    if (u && cat.colleges.some((c) => c.units.includes(u))) {
+      g.unit = u.id;
+      if (u.splits) { // 과목 번호 앞자리로 전공을 고른다. 갈리지 않으면 아직 안 정함
+        const score = (p) => (codes.get(best[0]) || []).filter((code) => (p.prefixes || []).some((x) => code.startsWith(x))).length;
+        const ranked = (d.programs || []).filter((p) => u.programs.includes(p.id)).map((p) => [p.id, score(p)]).sort((a, b) => b[1] - a[1]);
+        g.prog = ranked[0] && ranked[0][1] > 0 && (!ranked[1] || ranked[1][1] < ranked[0][1]) ? ranked[0][0] : u.undecided ? UNDECIDED : "";
+      }
+    }
+  }
+  return g;
+}
+/** 짐작을 사용자가 아직 고르지 않은 칸에만 넣는다 */
+function applyGuess(g) {
+  if (g.unit && !dd.unit) {
+    dd.unit = g.unit;
+    dd.college = cat.college.get(g.unit) || "";
+    dd.prog = g.prog;
+  }
+  if (g.year && !dd.year) setDeptYear(g.year);
+}
+function setDeptYear(y) {
+  dd.year = y || null;
+  if (!dd.touched.has("grade")) dd.grade = y ? clampGrade(latestYear() - y + 1) : null;
+  if (!dd.touched.has("entry")) dd.entry = y ? y + 1 : null;
+}
+$("view-dept").addEventListener("change", (e) => {
+  const t = e.target;
+  if (!dd || !cat || t.tagName !== "SELECT") return;
+  if (t.id === "dp-college") { dd.college = t.value; dd.unit = ""; dd.prog = ""; }
+  else if (t.id === "dp-unit") { dd.unit = t.value; dd.prog = ""; dd.others = dd.others.filter((o) => o.kind !== "major" || (ddUnit() && ddUnit().multi_major)); }
+  else if (t.id === "dp-prog") dd.prog = t.value;
+  else if (t.id === "dp-entry") { dd.entry = Number(t.value) || null; dd.touched.add("entry"); }
+  else if (t.id === "dp-year") setDeptYear(Number(t.value) || null);
+  else if (t.id === "dp-grade") { dd.grade = Number(t.value) || null; dd.touched.add("grade"); }
+  const id = t.id;
+  renderDeptForm();
+  $(id).focus({ preventScroll: true }); // 다시 채워도 초점은 그 칸에
+});
+$("dp-others").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-remove]");
+  if (!b || !dd) return;
+  dd.others.splice(Number(b.dataset.remove), 1);
+  renderDeptForm();
+  const left = $("dp-others").querySelectorAll("[data-remove]");
+  (left[Math.min(Number(b.dataset.remove), left.length - 1)] || $("dp-add")).focus({ preventScroll: true }); // 빼면 다음 행의 ×, 없으면 전공 추가
+});
+$("dept-done").addEventListener("click", () => {
+  if (!dd || !ddReady()) return;
+  store.set(DEPT, deptValue());
+  store.set(DEPT_ASKED, true);
+  loadLimits(); // 수강 제한 알림을 새 값으로
+  if (deptMode === "setup") leaveSetup(); else back();
+});
+$("dept-later").addEventListener("click", () => { store.set(DEPT_ASKED, true); leaveSetup(); });
+/** 처음 화면을 닫고 시간표 탭으로(따로 알리지 않는다) */
+function leaveSetup() {
+  if (screen !== "setup") return;
+  showView(ROOT[tab], "tab");
+}
+/** 켤 때 처음 화면을 띄울지: 시행일 뒤, 아직 시작하기·나중에를 누르지 않았고 넣은 값이 없을 때. 링크로 켜면 공유받은 시간표가 먼저(이 화면은 다음에 켤 때) */
+const setupAtLaunch = () => deptOn() && !store.get(DEPT_ASKED, false) && !deptSaved() && !launchLink && !launchNav;
+
+// 전공 추가 팝업(새 시간표 팝업 꼴): 종류(복수전공 | 부전공, 주전공이 자유전공학부면 주전공 | 복수전공 | 부전공), 대학(끝에 연합·연계·학생설계 묶음), 학과·전공, 선발된 학기
+const daSheet = $("dept-add");
+function daKinds() {
+  const u = ddUnit();
+  return u && u.multi_major ? ["major", "double", "minor"] : ["double", "minor"];
+}
+function renderDeptAdd(keep = {}) {
+  const kinds = daKinds(), kind = kinds.includes(keep.kind) ? keep.kind : "double";
+  $("da-kind").replaceChildren(...kinds.map((k) => h("label", {}, h("input", { type: "radio", name: "da-kind", value: k, checked: k === kind }), KIND_NAME[k])));
+  const groups = [...cat.colleges.map((g) => [g.name, g.name]), ...cat.others.map((u) => [u.id, u.name])];
+  fillSel($("da-college"), groups, keep.college || "");
+  const taken = new Set([deptValue().major.id, ...dd.others.map((o) => o.id)]);
+  const g = keep.college || "", other = cat.units.get(g);
+  const units = other ? [other] : g ? ((cat.colleges.find((c) => c.name === g) || { units: [] }).units) : [];
+  const progs = units.filter((u) => !u.wide && forYear(u.exists_for, dd.year)).flatMap((u) => u.programs)
+    .filter((id) => !taken.has(id) && cat.programs[id] && forYear(cat.programs[id].exists_for, dd.year)).map((id) => [id, other ? progName(id) : progShort(id)]);
+  fillSel($("da-prog"), progs, keep.prog || "", !g);
+  const terms = [], top = latestYear(), cur = String(state.current || "").split("-")[1] === "1" ? 1 : 2;
+  for (let y = top; y >= Math.max(dd.year || top - 8, top - 8); y -= 1) for (const n of [2, 1]) if (y < top || n <= cur) terms.push([`${y}-${n}`, `${y}년 ${n}학기`]);
+  fillSel($("da-term"), terms, keep.term || "");
+  $("da-ok").disabled = !($("da-prog").value && $("da-term").value);
+}
+$("dp-add").addEventListener("click", () => {
+  if (!cat || !dd) return;
+  renderDeptAdd();
+  openSheet(daSheet, $("dp-add"));
+});
+daSheet.addEventListener("change", (e) => {
+  const keep = { kind: daSheet.querySelector('input[name="da-kind"]:checked')?.value, college: $("da-college").value, prog: $("da-prog").value, term: $("da-term").value };
+  if (e.target.id === "da-college") keep.prog = "";
+  const id = e.target.id || "";
+  renderDeptAdd(keep);
+  if (id) $(id).focus({ preventScroll: true });
+  else daSheet.querySelector(`input[name="da-kind"][value="${keep.kind}"]`)?.focus({ preventScroll: true });
+});
+$("da-ok").addEventListener("click", () => {
+  const kind = daSheet.querySelector('input[name="da-kind"]:checked')?.value || "double", id = $("da-prog").value, term = $("da-term").value;
+  if (!id || !term) return;
+  dd.others.push({ kind, id, term });
+  daSheet.returnTo = null;
+  closeSheet(daSheet);
+  renderDeptForm();
+  $("dp-add").focus({ preventScroll: true });
 });
 
 let pageName = "sources";
@@ -6424,11 +6869,11 @@ function renderPage() {
   $("page-foot").hidden = !sources; // '강의 시간과 강의실은 수강편람에서 한 번 더 확인하세요'(자료 출처 아래)
   $("page-texts").hidden = sources || dev;
   // 내용이 같으면 다시 그리지 않는다(기록으로 돌아올 때 읽던 자리와 초점이 그대로 있게)
-  const key = dev ? "developer" : sources ? `sources ${state.semesterMeta.updated || ""} ${calChecked}` : "licenses";
+  const key = dev ? "developer" : sources ? `sources ${state.semesterMeta.updated || ""} ${calChecked} ${deptOn() ? limSrc : "-"}` : "licenses";
   if ($("page-list").dataset.key === key) return;
   $("page-list").dataset.key = key;
   const link = (href, text) => h("a", { href, target: "_blank", rel: "noopener" }, text);
-  const list = (rows) => $("page-list").replaceChildren(...rows.map(([k, v]) => h("li", {}, h("span", { class: "k" }, k), h("span", { class: "v" }, v))));
+  const list = (rows) => $("page-list").replaceChildren(...rows.filter(Boolean).map(([k, v]) => h("li", {}, h("span", { class: "k" }, k), h("span", { class: "v" }, v))));
   if (dev) {
     // 개발자 정보(10/23 사용자: "그냥 개발자 정보로 메뉴 만들고 거기다가 적어줘". 디자인 75판): 자료 출처와 같은 두 칸 목록.
     // 메일은 글줄 안의 링크(mailto:). 새 창(target)으로 두지 않는다: 앱은 그 링크를 인앱 브라우저로 여는데(아래 a[target=_blank]) 메일 주소는 기기가 메일 앱으로 연다
@@ -6439,12 +6884,21 @@ function renderPage() {
   if (sources) {
     $("page-texts").replaceChildren();
     if (!calChecked) calendarData().then((c) => { if (c && c.checked_on && !calChecked) { calChecked = c.checked_on; if (screen === "page" && pageName === "sources") renderPage(); } }, () => null);
+    // 수강 제한 알림의 날짜 태그가 쓰는 수강신청 일정표(123판 ④, 법무 11/13: 날짜 사실이라 옮겨도 되고 출처와 기준일). 수강 제한 알림을 켤 때 같이(일정표가 없으면 줄도 없다)
+    if (deptOn() && limSrc === null) {
+      limitsJson().then((d) => {
+        limSrc = (d && scheduleSourceText(d)) || "";
+        limSite = d ? { name: d.schedule_source || "서울대학교 수강신청 사이트", url: d.schedule_url || d.site || CATALOG_URL } : null;
+        if (screen === "page" && pageName === "sources") renderPage();
+      });
+    }
     list([
       ["과목", [link(CATALOG_URL, "서울대학교 수강편람"), state.semesterMeta.updated ? ` · ${asofLong(state.semesterMeta.updated)}` : ""]],
       ["건물", "서울대학교 캠퍼스맵"],
       // 캘린더 파일의 학기 기간과 수업 없는 날(법무 11/13: 날짜 사실을 옮긴 것이라 출처 '서울대학교 학사일정(기준일)', '관공서의 공휴일에 관한 규정과 정부 발표'.
       // 백엔드 update102 data/calendar.json, 기준일은 그 checked_on. 아직 안 받았으면 받은 뒤 다시 그린다)
       ["학기 일정", `서울대학교 학사일정${calChecked ? `(${monthDay(calChecked)} 기준)` : ""} · 관공서의 공휴일에 관한 규정과 정부 발표`],
+      deptOn() && limSrc ? ["수강신청", sugangSource(link)] : null,
       // 걷는 길 그래프가 OpenStreetMap 바탕이라 그 그래프와 거기서 나온 경로 모양·걷는 시간은 ODbL(11/5 법무, 백엔드 update95). 모양은 '지도' 줄처럼
       ["길", [link("https://moreadorecampus.com/", "캠퍼스 마법 지도"), " · ", link("https://www.openstreetmap.org/copyright", "OpenStreetMap"), " 바탕, ODbL"]],
       // 공공누리 제1유형: 온라인에서는 가능하면 출처 누리집으로 가는 링크를 준다(국토정보플랫폼. 10/5 디자인)
@@ -6652,10 +7106,10 @@ function renderFeedback() {
 
 // 과목 추가(add)는 내 시간표 화면이다: 넓은 화면은 그 오른쪽 칸, 폰 폭은 그 위의 시트(넓은 화면에서 연 기록을 폰 폭에서 보일 때. 폰에서 연 시트는 화면이 아니다)
 const VIEW_EL = { input: "view-input", mine: "view-mine", add: "view-mine", result: "view-result", map: "view-map", info: "view-info", page: "view-page",
-  feedback: "view-feedback", theme: "view-theme" };
+  feedback: "view-feedback", theme: "view-theme", dept: "view-dept", setup: "view-dept" };
 const VIEW_ELS = [...new Set(Object.values(VIEW_EL))];
 const H1 = { input: "input-title", mine: "mine-title", add: "add-panel-title", result: "result-title", map: "map-title", info: "info-title", page: "page-title",
-  feedback: "feedback-title", theme: "theme-title" };
+  feedback: "feedback-title", theme: "theme-title", dept: "dept-title", setup: "setup-title" };
 const ROOT = { mine: "mine", explore: "input", theme: "theme", info: "info" };
 const TABS = ["mine", "explore", "theme"]; // 막대·사이드바의 탭 단추(정보는 폰은 탭 첫 화면 상단 바의 ⓘ, 컴퓨터는 사이드바 맨 아래 '정보')
 // 탭 이름(10/23 사용자: "'시간표', '동선 탐색' 뭐 이런 느낌으로", 오후 "테마도 걍 탭 하나로 빼자"). 아래 탭 막대와 컴퓨터의 사이드바가 같은 이름을 보인다
@@ -6865,7 +7319,8 @@ function showView(name, dir, extra = {}) {
     screenTab = tab;
     layoutViews(name);
     document.body.classList.toggle("tabbar-off", name === "map"); // 전체 화면 지도는 탭 막대를 덮는다
-    document.body.classList.toggle("no-cta", name !== "input" && name !== "mine"); // 스낵바는 주요 버튼이 없는 화면에서 탭 막대 바로 위
+    document.body.classList.toggle("no-cta", name !== "input" && name !== "mine" && name !== "dept" && name !== "setup"); // 스낵바는 주요 버튼이 없는 화면에서 탭 막대 바로 위
+    document.documentElement.classList.toggle("setup-on", name === "setup"); // 학과와 학번 처음 화면: 탭 막대·사이드바 없이 한 칸
     renderTabs();
     if (name === "result") { $("result-title").textContent = "추천 시간표"; renderResult(); }
     if (name === "add") renderAdd();
@@ -6876,6 +7331,7 @@ function showView(name, dir, extra = {}) {
     if (from === "feedback" && name !== "feedback" && fbSent) clearFeedback(); // 'GitHub에 올리기'를 누른 뒤 떠나면 비운다(누르기 전이면 남긴다)
     if (name === "feedback") renderFeedback();
     if (name === "theme") renderThemes();
+    if (name === "dept" || name === "setup") renderDept(name);
     document.title = titleOf(name);
     if (from !== name) hideSnackbar();
     if (name === "result" && afterResult) { const f = afterResult; afterResult = null; f(); }
@@ -7280,9 +7736,10 @@ for (const id of ["cls-legend", "picked-legend", "tt-legend", "sd-legend"]) {
 renderInfo();
 renderOnline();
 renderResults(); // 검색창 지우기 단추와 결과 카드(자료를 받기 전에는 두지 않는다)
-showView(ROOT[tab], "init");
+showView(setupAtLaunch() ? "setup" : ROOT[tab], "init"); // 학과와 학번을 아직 묻지 않았으면 시간표보다 먼저(디자인 121판)
 delete document.documentElement.dataset.launch;
 startApp();
+loadLimits(); // 학과·학번을 넣었으면 수강 제한 알림(지금 학기 자료와 학과 목록을 받는다)
 if (launchLink) receiveLink(launchLink);
 if (launchNav && (launchNav.sem || launchNav.route !== null || launchNav.item)) goNav({ ...launchNav, tab: null });
 setTimeout(askTheme, 400); // 첫 화면이 그 테마로 보인 뒤에 묻는다

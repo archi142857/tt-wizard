@@ -291,6 +291,47 @@
   </main>
 </div>
 
+<!-- 학과와 학번(디자인 121판 DeptSetup, 11/13 사용자 "ㅇㅇ 좋다"): 같은 카드 셋을 두 꼴로 쓴다(app.js renderDept).
+     setup: 처음 켤 때 한 번 시간표보다 먼저. 탭 막대·사이드바 없이 한 칸(html.setup-on), 상단 바 왼쪽 워드마크(링크 아님)·오른쪽 나중에, 제목, 아래 고정 시작하기.
+     dept: 정보 첫 줄 '내 학과·학번'의 하위 화면. 뒤로·제목, 탭 막대 있음, 아래 고정 저장하기(바꾼 것이 있을 때). 이 화면의 문장은 0개(설명·단계 표시 없음).
+     값은 이 기기에만(처리방침 2-1절 '기기 안', 11/27 시행. 그 전에는 app.js DEPT_FROM 으로 켜지 않는다) -->
+<div id="view-dept" class="view" hidden>
+  <header class="topbar">
+    <button type="button" class="icon-btn back" aria-label="뒤로" data-back id="dept-back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+    <h1 class="title" id="dept-title" tabindex="-1">내 학과·학번</h1>
+    <span class="brand" id="dept-brand" hidden><img class="wordmark wm-light" src="icons/wordmark.svg" alt="TT Wizard" width="124" height="29">
+      <img class="wordmark wm-dark" src="icons/wordmark-dark.svg" alt="TT Wizard" width="124" height="29">
+      <img class="wordmark wm-white" src="icons/wordmark-white.svg" alt="TT Wizard" width="124" height="29"></span>
+    <button type="button" class="btn-text dept-later" id="dept-later" hidden>나중에</button>
+  </header>
+  <main hidden>
+    <div class="setup">
+      <h1 class="setup-title" id="setup-title" tabindex="-1" hidden>학과와 학번</h1>
+      <section class="card setup-card" aria-labelledby="dp-major-h">
+        <h2 id="dp-major-h">주전공</h2>
+        <div class="setup-field"><label class="field-label" for="dp-college">대학</label><select class="term-select" id="dp-college"></select></div>
+        <div class="setup-field"><label class="field-label" for="dp-unit">학과</label><select class="term-select" id="dp-unit"></select></div>
+        <div class="setup-field" id="dp-prog-f" hidden><label class="field-label" for="dp-prog">전공</label><select class="term-select" id="dp-prog"></select></div>
+        <div class="setup-field" id="dp-entry-f" hidden><label class="field-label" for="dp-entry">전공 진입</label><select class="term-select setup-year" id="dp-entry"></select></div>
+      </section>
+      <section class="card setup-card" aria-labelledby="dp-others-h">
+        <h2 id="dp-others-h">다른 전공</h2>
+        <ul class="majors" id="dp-others" aria-labelledby="dp-others-h" hidden></ul>
+        <p class="setup-none" id="dp-none">없음</p>
+        <button type="button" class="btn-text setup-add" id="dp-add" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>전공 추가</button>
+      </section>
+      <section class="card setup-card" aria-labelledby="dp-year-h">
+        <h2 id="dp-year-h">학번과 학년</h2>
+        <div class="setup-row2">
+          <div class="setup-field"><label class="field-label" for="dp-year">학번</label><select class="term-select" id="dp-year"></select></div>
+          <div class="setup-field"><label class="field-label" for="dp-grade">학년</label><select class="term-select" id="dp-grade" disabled></select></div>
+        </div>
+      </section>
+    </div>
+    <div class="bottom-bar"><button type="button" class="btn-primary" id="dept-done" disabled>시작하기</button></div>
+  </main>
+</div>
+
 <!-- 테마 탭(디자인 75판 '테마 탭', 10/23 사용자: "테마도 걍 탭 하나로 빼자"): 상단 바는 다른 탭 첫 화면과 같고(컴퓨터는 사이드바), 보이지 않는 h1.
      테마마다 카드(라디오, 미리보기 + 이름). 고르면 바로 바뀐다. 카드는 app.js(renderThemes)가 채운다 -->
 <div id="view-theme" class="view" hidden>
@@ -423,6 +464,21 @@
     <button type="button" class="btn-text" id="tn-make">만들기</button>
   </div>
   <div class="sr-only" role="alert" data-live="alert"></div>
+</dialog>
+<!-- 전공 추가 팝업(디자인 121판, 새 시간표 팝업과 같은 짜임): 종류(복수전공 | 부전공. 주전공이 자유전공학부면 주전공 | 복수전공 | 부전공), 대학(끝에 연합·연계·학생설계 묶음),
+     학과·전공(대학을 고르면 켜진다. 주전공과 이미 넣은 전공은 없다), 선발된 학기. 추가는 셋을 다 고르면 켜지고 누르면 목록 맨 아래에 붙인다 -->
+<dialog class="sheet ask tt-new dept-add" id="dept-add" aria-labelledby="da-title">
+  <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="da-title" tabindex="-1" autofocus>전공 추가</h2></div></div>
+  <div class="tn-body">
+    <fieldset><legend class="sr-only">종류</legend><div class="seg" id="da-kind"></div></fieldset>
+    <div class="tn-field"><label class="field-label" for="da-college">대학</label><select class="term-select" id="da-college"></select></div>
+    <div class="tn-field"><label class="field-label" for="da-prog">학과·전공</label><select class="term-select" id="da-prog" disabled></select></div>
+    <div class="tn-field"><label class="field-label" for="da-term">선발된 학기</label><select class="term-select" id="da-term"></select></div>
+  </div>
+  <div class="sheet-actions">
+    <button type="button" class="btn-text" data-close>닫기</button>
+    <button type="button" class="btn-text" id="da-ok" disabled>추가</button>
+  </div>
 </dialog>
 <!-- 시간표 메뉴 팝업(10/30 오후 사용자: "시간표 옵션은 그냥 창으로 띄우고". 그 전에는 목록의 행 아래에 펼쳤다): 목록 시트의 행마다 ⋯ 가 연다(app.js openTtOpts).
      태그·학기·메타, 이름 입력칸(이름이 곧 입력칸, 오른쪽 끝 연필), 복사하기·대표 시간표로 설정하기·이미지로 저장·지우기, [닫기]. 닫으면 목록 시트로 돌아간다 -->

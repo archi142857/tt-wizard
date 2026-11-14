@@ -24,7 +24,7 @@ const CSS = `
 `;
 
 const SHELL_NAME = { web: "브라우저", pwa: "설치한 웹 앱", android: "안드로이드 앱", ios: "iOS 앱" };
-const ROWS = [["ask", "묻는 팝업"], ["update", "새 버전 알림"], ["image", "시간표 이미지"], ["forget", "테마 기억 지우기"]];
+const ROWS = [["ask", "묻는 팝업"], ["update", "새 버전 알림"], ["image", "시간표 이미지"], ["forget", "테마 기억 지우기"], ["dept", "학과와 학번"]];
 
 /** 개발자 메뉴를 연다. a: app.js 의 devApi(), opener: 연 버튼(닫으면 초점이 돌아간다) */
 export function open(a, opener) {
@@ -95,6 +95,7 @@ function render() {
 async function act(k, b) {
   if (k === "ask") { api.ask(opener0); return; } // 시트를 바꿔 연다(시트 위에 시트를 띄우지 않는다). 닫으면 초점은 동선 확인하기로
   if (k === "update") { api.closeSheet(sheet); api.update(); return; }
+  if (k === "dept") { api.closeSheet(sheet); api.dept(); return; } // 학과와 학번 처음 화면(처리방침 11/27 시행 전 미리 보기. 정보 줄도 이 세션만 켠다)
   if (k === "forget") { api.forgetTheme(); api.closeSheet(sheet); api.showSnackbar("테마 기억을 지웠어요"); return; }
   if (k === "image") { await showImage(b); return; }
   if (k === "wipe") {
