@@ -2,11 +2,12 @@
 // 앱은 아래 탭 셋이다(10/22, 테마는 10/23 오후): 내 시간표(저장한 시간표, 과목 추가), 탐색(입력, 결과), 테마(테마 고르기). 정보(정보 → 자료 출처·
 // 의견 보내기·개발자 정보·오픈소스 라이선스)는 탭과 같은 층의 따로 된 묶음이고(10/23) 전체 화면 지도가 그 위에 뜬다. 화면만 방문 기록(pushState)을 남기고 탭 바꾸기와 시트(<dialog>)는 남기지 않는다.
 // 화면 문구는 디자인 규칙 '문구'를 따른다(문장은 해요체 한 줄, 그 밖에는 명사구).
-import { DAY_KO, parseCourses, TravelMatrix, search, countFeasible, routeLine, whyNone, meetsRules } from "./engine.js";
+import { DAY_KO, parseCourses, TravelMatrix, search, countFeasible, routeLine, whyNone, meetsRules, gapFit, fitLabel, byWalk } from "./engine.js";
 import { indexCourses as indexSearch, searchCourses, splitMarks, normKey } from "./search.js";
 import * as T from "./timetables.js";
 import { termInfo, buildIcs, termRangeLabel, MIME as ICS_MIME } from "./ics.js"; // 캘린더 파일(.ics, 백엔드 update102·104. docs/calendar.md)
 import { studentFrom, limitOf, sectionTag, courseTag, noticeFor, sourceText, scheduleSourceText } from "./limits.js"; // 수강 제한 알림(백엔드 update105. docs/limits.md)
+import * as R from "./requirements.js"; // 졸업 요건 탭(백엔드 update100·101·106·107·108. docs/requirements.md 2·2-1절)
 
 const $ = (id) => document.getElementById(id);
 
@@ -59,6 +60,7 @@ const CLS_GROUPS = [["전필", "req"], ["전선", "elec"], ["교양", "gen"], ["
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
 const coarsePointer = matchMedia("(pointer: coarse)");
 const finePointer = matchMedia("(hover: hover) and (pointer: fine)"); // 마우스: 지도 확대·축소 버튼, 휠, 끌기
+const phoneWide = matchMedia("(max-width: 37.4375em)"); // 폭 600px 아래(폰): 탭이 넷이면 탭 막대의 아이콘을 이름 위에
 
 const state = {
   campus: null, routes: null, routesLoading: null, travel: {},
@@ -574,7 +576,7 @@ function fitSelect(sel) {
   const text = sel.selectedIndex >= 0 ? sel.options[sel.selectedIndex].text : "";
   sel.style.width = `${Math.ceil(canvas.measureText(text).width + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + 2)}px`;
 }
-const fitTerm = () => { for (const id of ["year", "term", "browse-select", "add-browse-select"]) fitSelect($(id)); };
+const fitTerm = () => { for (const id of ["year", "term", "browse-select", "add-browse-select", "add-browse-order", "add-order"]) fitSelect($(id)); };
 if (document.fonts) document.fonts.addEventListener("loadingdone", fitTerm);
 window.addEventListener("resize", fitTerm);
 
@@ -3645,6 +3647,7 @@ function saveMine() {
   const listKey = semKey(T.STORE_KEYS.list, mine.sem), curKey = semKey(T.STORE_KEYS.current, mine.sem);
   if (mine.list.length) store.set(listKey, T.serialize(mine.list)); else store.del(listKey);
   if (mine.id) store.set(curKey, mine.id); else store.del(curKey);
+  syncSoon(); // 로그인돼 있으면 다른 기기와 맞춘다(조금 모아서)
 }
 /** 이 판이 읽을 수 있는 시간표(새 판이 적은 것은 목록에 남겨 두기만 한다: T.parseList 의 _newer) */
 const shownTts = () => mine.list.filter((t) => !t._newer);
@@ -3749,6 +3752,7 @@ function renderMine() {
   renderItems(entries, clash);
   $("route-run").disabled = !canRoute(t); // 동선 탐색에 보낼 과목이 없으면 꺼진다(비었으면 빈 격자가 까닭을 보인다)
   if (addActive()) markAddRows(); // 과목 추가: 격자·목록에서 빼거나 되돌리거나 다른 시간표로 바꾸면 결과 행의 넣음 표시도
+  maybeAskNotify(); // 폰 알림 권한(129판): 과목이 든 내 시간표가 시트·팝업 없이 처음 보일 때 한 번
 }
 /** 격자만 다시(과목 추가의 미리 보기가 바뀌었다) */
 function renderWeekNow() {
@@ -3776,6 +3780,7 @@ function renderMineHead(t) {
   $("tt-primary").hidden = !t.primary;
   $("tt-switch").setAttribute("aria-label", [sum ? `${sem} 총 ${sum}학점` : sem, t.title, t.primary ? "대표" : ""].filter(Boolean).join(", "));
   $("tt-share").hidden = !t.items.length; // 비어 있는 시간표는 나눌 것이 없다(이미지 줄과 같다)
+  paintFriendBtn(); // 친구(130판): 로그인을 켠 판에서만, 시간표가 비어도 있다
   sleighSoon(); // 크리스마스 썰매 그림: 학기·학점 줄, 이름, 공유가 바뀌었을 수 있다
 }
 
@@ -3878,10 +3883,16 @@ function renderWeek(t, entries, clash, opts = {}) {
     }
     const lines = Math.max(1, Math.floor((height - 6 - roomLines * rem) / rem));
     const said = [`${DAY_KO[m.day]} ${hm(m.start)}~${hm(m.end)} ${e.item.custom ? e.item.title : courseName(e)}`, full, clash.has(e.key) ? "시간 겹침" : ""].filter(Boolean).join(", ");
+    const place = { top: `${top}px`, height: `${height}px`, left: `calc(${days.indexOf(m.day)} * (100% + 2px) / ${n})`, width: `calc((100% + 2px) / ${n} - 2px)` };
+    if (opts.grayHidden && e.item.hidden) { // 친구가 숨긴 과목·일정(130판): 이름·강의실 없이 그 시간만 회색 칸(fill, line-strong 점선)
+      list.append(h("li", { style: place }, h("span", { class: `wk-block is-hidden${half ? ` ${half}` : ""}` },
+        h("span", { class: "sr-only" }, `숨긴 항목, ${DAY_KO[m.day]} ${hm(m.start)}~${hm(m.end)}`))));
+      continue;
+    }
     const mark = pv && pv.out.has(e.key) ? " is-out" : pv && pv.own === e.key ? " is-hl" : ""; // 미리 보기: 빠질 항목은 흐리게, 이미 넣은 분반은 테두리
     const cls = `wk-block${half ? ` ${half}` : ""}${mark}`, style = { background: itemFill(e.item), ...itemInk(e.item), "--lines": String(lines) };
     const parts = [h("span", { class: "b-title", "aria-hidden": "true" }, name), room ? h("span", { class: "b-room", "aria-hidden": "true" }, room) : null];
-    list.append(h("li", { style: { top: `${top}px`, height: `${height}px`, left: `calc(${days.indexOf(m.day)} * (100% + 2px) / ${n})`, width: `calc((100% + 2px) / ${n} - 2px)` } },
+    list.append(h("li", { style: place },
       // 누르지 않는 격자(공유받은 시간표 미리 보기): 칸은 글이고 스크린리더는 목록의 글로 읽는다
       opts.still ? h("span", { class: cls, style }, ...parts, h("span", { class: "sr-only" }, said))
         : h("button", { type: "button", class: cls, "data-key": e.key, "aria-haspopup": "dialog", "aria-label": said, style }, ...parts)));
@@ -4183,9 +4194,12 @@ function renderTtOpts(focusSel) {
   if (document.activeElement !== $("to-name")) $("to-name").value = t.title;
   const acts = TT_ACTS.filter(([k]) => !t.virtual && (k !== "primary" || !t.primary) && (k !== "save-image" || (t.items.length && canSaveImage())));
   if (acts.some(([k]) => k === "save-image")) preparedImage(t).catch(() => null); // 열 때 미리 그려 둔다(누르면 바로 저장한다)
-  $("to-acts").replaceChildren(...acts.map(([k, text]) => h("li", {}, h("button", { type: "button", class: k === "delete" ? "menu-row danger" : "menu-row", "data-tt-act": k,
+  // 대표 시간표의 맨 위 '친구에게 보이기'(130판, 친구를 켰을 때만. 처음 켜짐): 끄면 친구에게는 그 학기 시간표가 없는 것처럼(shareOff, sync.friendCopies)
+  const share = frShare() && !t.virtual && t.primary ? h("li", {}, h("label", { class: "menu-row sw" }, h("span", { id: "to-share-t" }, "친구에게 보이기"),
+    h("input", { type: "checkbox", role: "switch", class: "switch", name: "to-share", "aria-labelledby": "to-share-t", checked: !t.shareOff }))) : null;
+  $("to-acts").replaceChildren(...(share ? [share] : []), ...acts.map(([k, text]) => h("li", {}, h("button", { type: "button", class: k === "delete" ? "menu-row danger" : "menu-row", "data-tt-act": k,
     "aria-describedby": k === "copy" && !$("to-error").hidden ? "to-error" : null }, text))));
-  $("to-acts").hidden = !acts.length;
+  $("to-acts").hidden = !acts.length && !share;
   if (focusSel) $("to-acts").querySelector(focusSel)?.focus({ preventScroll: true });
 }
 function openTtOpts(id, opener) {
@@ -4228,6 +4242,14 @@ function ttOptsAct(k) {
 $("to-acts").addEventListener("click", (e) => {
   const b = e.target.closest("[data-tt-act]");
   if (b) ttOptsAct(b.dataset.ttAct);
+});
+$("to-acts").addEventListener("change", (e) => {
+  if (e.target.name !== "to-share") return;
+  const t = ttById(toId);
+  if (!t || t.virtual) return;
+  const next = { ...t, updated: new Date().toISOString() };
+  if (e.target.checked) delete next.shareOff; else next.shareOff = true;
+  putTt(next, { select: false }); // 저장하면 조금 모아 맞추고 친구 사본도 고친다(saveMine → syncSoon)
 });
 // 이름 입력칸: Enter 나 다른 곳을 누르면(change) 바꾼다. 비우면 원래 이름. Esc 는 고치던 것을 원래 이름으로 되돌리고(팝업은 닫지 않는다), 고친 것이 없으면 팝업을 닫는다
 function commitToName() {
@@ -5154,14 +5176,14 @@ async function receiveLink(code) {
   openShared(await linkToPayload(r.link));
 }
 /** 바로가기 주소 → { tab, sem, route, tt, item } 또는 null(10/30 백엔드: 홈 화면 위젯을 누르면 앱이 '…/tt-wizard/#tab=mine&sem=<학기>&route=<요일>' 로 열린다. 웹에서 같은 주소를
- *  열어도 같다: 나중의 홈 화면 바로가기). tab 은 탭 이름(TABS)일 때만, sem 은 학기 꼴('2026-2')일 때만, route 는 요일(월 0 … 일 6)일 때만. 시간표 링크(#t=)는 linkCodeOf.
+ *  열어도 같다: 나중의 홈 화면 바로가기). tab 은 탭 이름(TABS, 학과와 학번을 켰으면 grad 도)일 때만, sem 은 학기 꼴('2026-2')일 때만, route 는 요일(월 0 … 일 6)일 때만. 시간표 링크(#t=)는 linkCodeOf.
  *  item·tt(11/2 백엔드 update77): 위젯에서 수업을 누르면 '…&sem=<학기>&tt=<시간표 id>&item=<항목 열쇠>'(T.itemKey). 영문·숫자·'.'·'_'·'-' 64자까지일 때만 */
 function navOf(url) {
   const hash = String(url || "").split("#")[1];
   if (!hash || !/(^|&)(tab|sem|route|item)=/.test(hash)) return null;
   const q = new URLSearchParams(hash), t = q.get("tab"), sem = q.get("sem") || "", day = q.get("route") || "";
   const key = (x) => (/^[A-Za-z0-9._-]{1,64}$/.test(x || "") ? x : null);
-  const nav = { tab: TABS.includes(t) ? t : null, sem: /^\d{4}-[12SW]$/.test(sem) ? sem : null, route: /^[0-6]$/.test(day) ? Number(day) : null,
+  const nav = { tab: TABS.includes(t) || (t === "grad" && deptOn()) ? t : null, sem: /^\d{4}-[12SW]$/.test(sem) ? sem : null, route: /^[0-6]$/.test(day) ? Number(day) : null,
     tt: key(q.get("tt")), item: key(q.get("item")) };
   return nav.tab || nav.sem || nav.route !== null || nav.item ? nav : null;
 }
@@ -5344,8 +5366,14 @@ const devApi = () => ({
     showAsk(opener);
   },
   forgetTheme() { store.del("themeOff"); store.del("themeAsked"); }, // 끈 테마·물어본 테마를 잊는다(묻는 팝업을 처음부터)
+  account() { // 로그인(처리방침 전면 개정 전 데모, 이 탭만): 정보에 계정 줄을 켠다. 설정 값이 없는 배포면 알린다
+    devAccount = true;
+    try { sessionStorage.setItem("ttw.devAccount", "1"); } catch { /* 이 세션만이라도 */ }
+    startAccount().then(() => { renderInfo(); showSnackbar(accountOn() ? "정보에 계정 줄을 켰어요" : "로그인 설정 값이 없는 배포예요"); });
+  },
   dept() { // 학과와 학번(시행일 전 미리 보기, 이 세션만): 정보 줄을 켜고 처음 화면을 띄운다. 넣은 값은 그대로 이 기기에 남는다
     devDept = true;
+    try { sessionStorage.setItem("ttw.devDept", "1"); } catch { /* 이 세션만이라도 */ }
     renderInfo();
     showView("setup", "tab");
   },
@@ -5472,6 +5500,7 @@ function renderItemSheet() {
         h("span", { class: "sw", style: { background: `var(--item-${i})`, color: `var(--item-${i}-fg)` } }, icon(I.check, 20)))))) : null,
     note,
     h("div", { class: "sheet-field item-secs" }, h("span", { class: "field-label" }, "넣은 분반"), cur),
+    ...(frShare() ? frHideCard("is-hide", !!it.hidden, false) : []), // 친구에게 숨기기(130판, 친구를 켰을 때만. 132판: 넣은 분반 바로 아래, 다른 분반이 많아도 묻히지 않게)
     others.length ? h("div", { class: "sheet-field item-secs" },
       h("div", { class: "list-head" }, h("span", {}, `다른 분반 ${others.length}`)),
       h("ul", { class: "list secs" }, others.map((s) => otherSec(t, it, s)))) : null,
@@ -5594,6 +5623,13 @@ function setItemOwn(groups) {
 
 $("is-body").addEventListener("change", (ev) => {
   const x = ev.target;
+  if (x.name === "is-hide") { // 친구에게 숨기기: 친구 사본에서 뺀다(sync.friendItems). 저장하면 조금 모아 맞춘다(saveMine → syncSoon)
+    const [t] = itemNow();
+    if (!t) return;
+    putTt(T.updateItem(t, itemSheet.key, { hidden: x.checked || undefined }), { select: false });
+    renderMine();
+    return;
+  }
   if (x.name === "is-color") { // 고르면 바로 바뀐다
     const [t] = itemNow();
     if (!t) return;
@@ -5709,7 +5745,7 @@ function itemSheetClosed() {
 
 // ---- 직접 추가 시트(일정): 이름(30자), 요일(월–일, 여럿), 시각(시·분 선택), 장소(건물 선택칸, 처음 미정, 강의 건물에 기숙사 동을 더한 목록), 메모.
 // 넣은 일정을 누르면 같은 시트에 값이 채워져 열린다(제목은 일정 이름, 오른쪽 완료, 맨 아래 시간표에서 빼기. 바꾼 것은 바로 저장된다)
-const custom = { key: null, title: "", days: [], sh: 9, sm: 0, eh: 10, em: 0, b: "", memo: "", errors: new Set() };
+const custom = { key: null, title: "", days: [], sh: 9, sm: 0, eh: 10, em: 0, b: "", memo: "", hidden: false, errors: new Set() };
 
 function openCustom(key, opener) {
   const it = key ? curTt().items.find((x) => T.itemKey(x) === key) : null;
@@ -5717,8 +5753,8 @@ function openCustom(key, opener) {
   if (it) {
     const g = meetingGroups(it.meetings.map(meetOf))[0] || { days: [], start: 540, end: 600, building: "" };
     Object.assign(custom, { key, title: it.title, days: [...new Set(it.meetings.map(([d]) => d))].sort((a, b) => a - b),
-      sh: Math.floor(g.start / 60), sm: g.start % 60, eh: Math.floor(g.end / 60), em: g.end % 60, b: g.building || "", memo: it.memo || "", errors: new Set() });
-  } else Object.assign(custom, { key: null, title: "", days: [], sh: 9, sm: 0, eh: 10, em: 0, b: "", memo: "", errors: new Set() });
+      sh: Math.floor(g.start / 60), sm: g.start % 60, eh: Math.floor(g.end / 60), em: g.end % 60, b: g.building || "", memo: it.memo || "", hidden: !!it.hidden, errors: new Set() });
+  } else Object.assign(custom, { key: null, title: "", days: [], sh: 9, sm: 0, eh: 10, em: 0, b: "", memo: "", hidden: false, errors: new Set() });
   $("cu-title").textContent = it ? it.title : "직접 추가";
   $("cu-done").textContent = it ? "완료" : "추가";
   renderCustom();
@@ -5756,6 +5792,8 @@ function renderCustom() {
     h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-place" }, "장소"), placeSelect(c.b, { class: "select", id: "cu-place", "data-cu": "b" })),
     h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-memo" }, "메모"),
       h("input", { class: "text-input", id: "cu-memo", type: "text", maxlength: "100", autocomplete: "off", enterkeyhint: "done", value: c.memo, "data-cu": "memo" })),
+    // 친구에게 숨기기(130판, 친구를 켰을 때만): 넣기 전에도 정해 둘 수 있다('병원'처럼 남이 보면 곤란한 제목, 계정_동기화_설계안 7절). 아래 장소·메모 한 줄
+    ...(frShare() ? frHideCard("cu-hide", !!c.hidden, true, { "data-cu": "hidden" }) : []),
     c.key ? h("div", { class: "sheet-foot" }, h("button", { type: "button", class: "btn-text", "data-act": "remove" }, "시간표에서 빼기")) : null].filter(Boolean));
   syncCustomErrors();
 }
@@ -5792,6 +5830,7 @@ function customChanged(field) {
       if (field === "title" && !bad.has("name")) patch.title = T.cleanTitle(custom.title);
       if ((field === "day" || field === "time" || field === "b") && !bad.has("day") && !bad.has("time")) patch.meetings = T.customItem({ title: "x", meetings: customMeetings() }).meetings;
       if (field === "memo") patch.memo = custom.memo.trim() || undefined;
+      if (field === "hidden") patch.hidden = custom.hidden || undefined;
       if (Object.keys(patch).length) {
         putTt(T.updateItem(t, custom.key, patch), { select: false });
         renderMine();
@@ -5813,6 +5852,7 @@ $("cu-body").addEventListener("change", (ev) => {
     custom.days = x.checked ? [...new Set([...custom.days, d])].sort((a, b) => a - b) : custom.days.filter((y) => y !== d);
     customChanged("day");
   } else if (k === "b") { custom.b = x.value; customChanged("b"); }
+  else if (k === "hidden") { custom.hidden = x.checked; if (custom.key) customChanged("hidden"); }
   else { custom[k] = Number(x.value); customChanged("time"); }
 });
 $("cu-body").addEventListener("keydown", (ev) => {
@@ -5838,7 +5878,9 @@ $("cu-done").addEventListener("click", () => {
     announce(bad.has("name") ? "이름이 없어요" : bad.has("day") ? "고른 요일이 없어요" : "끝 시각이 시작보다 빨라요", "alert");
     return;
   }
-  const r = placeItem(T.customItem({ title: custom.title, meetings: customMeetings(), memo: custom.memo.trim() }));
+  const made = T.customItem({ title: custom.title, meetings: customMeetings(), memo: custom.memo.trim() });
+  if (custom.hidden) made.hidden = true; // 친구에게 숨기기를 켜고 넣었다
+  const r = placeItem(made);
   closeSheet($("custom-sheet"));
   renderMine();
   if (!r) return;
@@ -5868,11 +5910,16 @@ function splitAdd() {
 }
 /** 검색창과 결과 카드를 두 칸이면 내 시간표의 오른쪽 칸(#mine-add), 아니면 과목 추가 시트에 둔다. 옮기면 초점이 풀리므로 그 안에 있던 초점은 되돌린다 */
 function placeAdd() {
-  const home = splitAdd() ? $("mine-add") : $("as-body");
-  const box = $("add-box"), results = $("add-results");
-  if (box.parentElement === home) return;
-  const had = box.contains(document.activeElement) || results.contains(document.activeElement) ? document.activeElement : null;
-  home.append(box, results);
+  const wide = splitAdd(), home = wide ? $("mine-add") : $("as-body");
+  const box = $("add-box"), results = $("add-results"), head = $("add-head");
+  // 검색 결과 머리(128판): 폰은 카드 밖 .list-head(목록과 함께 스크롤), 넓은 화면은 카드 위에 붙는 둘러보기 머리 꼴(.browse-head, 왼쪽 .head-count)
+  const headAt = wide ? $("add-list") : results;
+  if (box.parentElement === home && head.nextElementSibling === headAt) return;
+  const had = [box, results, head].some((x) => x.contains(document.activeElement)) ? document.activeElement : null;
+  if (box.parentElement !== home) home.append(box, results);
+  headAt.before(head);
+  head.className = `${wide ? "browse-head" : "list-head"} add-head`;
+  $("add-count").className = wide ? "head-count" : "";
   if (had && !had.closest("[hidden]") && (!addSheet.contains(had) || addSheet.open)) had.focus({ preventScroll: true });
 }
 /** 검색한 과목들을 분반 행으로: 교수로 찾았으면(과목명·번호·학과로는 안 맞았다) 그 교수의 분반만 */
@@ -5893,6 +5940,34 @@ function addState({ c, s }, t = curTt()) {
 }
 const addWhen = (s) => (s.meetings.length ? meetingGroups(s.meetings).map(groupText).join(", ") : "시간 미정");
 const ADD_WORD = { add: "추가", on: "넣음", swap: "바꾸기" };
+
+// 빈 자리 줄(디자인 124·128판, 백엔드 update101 gapFit·update106 fitLabel): '추가' 행(겹치지 않고 아직 넣지 않은 과목, 시간이 있는 분반)의 넷째 줄에
+// 이 시간표에 넣었을 때 '들어감 · 걷기 주 +4분'(늦는 수업 포함)·'등교 +1일'·'강의실 미정'. gapFit 은 과목마다 가장 덜 느는 분반 하나라서 분반 하나짜리 과목으로 묶어
+// 분반마다 잰다. 걷기는 탐색의 이동 방식(state.mode)과 출발지(state.home). 동선 탐색의 검색·둘러보기에는 없다(넣을 시간표가 없다)
+const fitMemo = new Map(); // 분반 열쇠 → gapFit 의 fits 한 칸 또는 null
+let fitSig = "";
+/** 지금 시간표의 분반들(gapFit 의 base): 직접 입력 일정도 시간과 장소가 걷는 길에 들어간다 */
+const fitBase = (t) => ttEntries(t).map((e, i) => ({ courseId: e.item.custom ? `일정-${i}` : e.item.course, no: e.item.no, key: e.key, meetings: e.meetings }));
+/** rows 의 빈 자리를 한 번에 잰다(시간표·이동 방식·출발지가 바뀌면 처음부터) */
+function rowFits(rows, t = curTt()) {
+  const sig = `${t.id}|${t.updated}|${t.items.length}|${state.mode}|${state.home}|${state.semester}`;
+  if (sig !== fitSig) { fitMemo.clear(); fitSig = sig; }
+  const need = rows.filter((d) => !fitMemo.has(d.s.key));
+  if (!need.length) return fitMemo;
+  for (const d of need) fitMemo.set(d.s.key, null);
+  const want = need.filter((d) => { const { kind, clash } = addState(d, t); return kind === "add" && !clash && d.s.meetings.length; });
+  if (!want.length || !state.campus) return fitMemo;
+  const res = gapFit(fitBase(t), want.map((d) => ({ id: d.s.key, program: null, sections: [d.s] })), travelFor(state.mode), state.home, { levels: null });
+  for (const f of res.fits) fitMemo.set(f.course.id, f);
+  return fitMemo;
+}
+/** 덜 걷는 순(128판): 걷기 주 +n분이 적은 행 → 등교 +n일이 적은 행 → 강의실 미정 → 줄이 없는 행(넣음·바꾸기·시간 겹침·시간 미정). 같은 값끼리는 원래 차례(engine byWalk) */
+function byFit(rows, t = curTt()) {
+  const fits = rowFits(rows, t);
+  return byWalk(rows, (d) => fits.get(d.s.key) || null);
+}
+// 고른 차례는 이 기기에 하나(검색 결과의 관련도 순 = 둘러보기의 기본 순). 처음은 관련도 순
+let addOrder = store.get("addOrder", "rel") === "walk" ? "walk" : "rel";
 /** 분반 행: 과목명 / 001(교수) · 학과(번호로 찾았으면 번호) · 교과구분 · 학점 / 요일·시각 · 강의실, 오른쪽 추가·✓ 넣음·바꾸기. 행 어디를 눌러도 그 버튼(탐색의 결과 행과 같다) */
 function addRow(d) {
   const { c, s, marks } = d;
@@ -5912,11 +5987,18 @@ function paintAddRow(li, d, t = curTt()) {
   const { kind, clash } = addState(d, t), b = li.querySelector(".btn-add");
   // 버튼 앞 까닭 태그 하나: 시간 겹침이 먼저, 아니면 그 분반의 수강 제한·학번 제한·날짜 태그(디자인 121판)
   const lt = clash ? null : rowLimit(secLimit(d.s.courseId, d.s.no, mine.sem));
-  const why = clash ? ["danger r-clash", "시간 겹침"] : lt ? [`${lt[0]} r-limit`, lt[1]] : null;
+  const rq = !clash && !lt && d.sugg ? R.suggestionTag(d.sugg) : null; // 남은 요건 과목의 요건 이름·'아마 필요'(124판, 중립 태그)
+  const why = clash ? ["danger r-clash", "시간 겹침"] : lt ? [`${lt[0]} r-limit`, lt[1]] : rq ? ["r-limit", rq] : null;
   li.classList.toggle("is-picked", kind === "on");
   b.classList.toggle("is-on", kind === "on");
   b.replaceChildren(...(kind === "on" ? [icon(I.check, 16), "넣음"] : [ADD_WORD[kind]]));
-  b.setAttribute("aria-label", [`${d.c.name} ${sectionLabel(d.s)}`, addWhen(d.s), ADD_WORD[kind], why ? why[1] : ""].filter(Boolean).join(", "));
+  // 넷째 줄 빈 자리: '추가' 행만(넣음·바꾸기, 시간 겹침, 시간 미정 분반에는 없다)
+  const fit = kind === "add" && !clash ? rowFits([d], t).get(d.s.key) : null, fitText = fit ? fitLabel(fit) : "";
+  const line = li.querySelector(".r-fit");
+  if (fitText && !line) li.querySelector(".r-body").append(h("span", { class: "r-meta r-fit" }, fitText));
+  else if (fitText) line.textContent = fitText;
+  else if (line) line.remove();
+  b.setAttribute("aria-label", [`${d.c.name} ${sectionLabel(d.s)}`, addWhen(d.s), ADD_WORD[kind], why ? why[1] : "", fitText].filter(Boolean).join(", "));
   const tag = li.querySelector(".r-clash, .r-limit");
   if (why && !tag) b.before(h("span", { class: `tag ${why[0]}`, "aria-hidden": "true" }, why[1]));
   else if (why) { tag.className = `tag ${why[0]}`; tag.textContent = why[1]; }
@@ -5925,6 +6007,8 @@ function paintAddRow(li, d, t = curTt()) {
 /** 넣은 표시·바꾸기·시간 겹침만 고친다(검색 결과와 둘러보기). 목록을 다시 그리면 이어 붙인 결과(넓은 화면)가 처음으로 돌아가 읽던 자리를 잃는다 */
 function markAddRows() {
   const t = curTt();
+  if (reqMemo.data && !$("add-lim").hidden) paintLim(reqMemo.data, t); // 학기 학점 줄(넣고 빼면 남은 학점이 바뀐다)
+  rowFits([...addData.values(), ...addBrowse.values()], t); // 빈 자리는 한 번에 잰다
   for (const [list, data] of [[$("add-list"), addData], [$("add-browse-list"), addBrowse]]) {
     for (const li of list.querySelectorAll(".add-sec")) {
       const d = data.get(li.dataset.key);
@@ -5938,17 +6022,127 @@ const secOrder = (a, b) => String(a.no).localeCompare(String(b.no), "en", { nume
 function renderAddBrowse(show) {
   $("add-browse").hidden = !show;
   if (!show) return false;
+  const wide = splitAdd(), req = reqReady(), useReq = !!req && (!wide || reqOn);
   const fresh = addBrowseFor !== state.courses;
   if (fresh) { addBrowseFor = state.courses; addBrowseDrawn = ""; }
-  fillBrowseSelect($("add-browse-select"), fresh);
-  if (addBrowseDrawn === browseKey) return false;
-  addBrowseDrawn = browseKey;
-  const rows = browseCourses().flatMap((c) => [...c.sections].sort(secOrder).map((s) => ({ c, s, marks: NO_MARKS })));
+  const sel = $("add-browse-select"), ord = $("add-browse-order");
+  fillBrowseSelect(sel, fresh);
+  // 남은 요건 과목(124판): 넓은 화면은 둘러보기 선택칸 맨 위 '남은 요건 과목', 폰은 선택칸 없이 머리 글 '남은 요건 과목 7'
+  const reqOpt = sel.querySelector('option[value="@req"]');
+  if (req && !reqOpt) sel.prepend(h("option", { value: "@req" }, "남은 요건 과목"));
+  else if (!req && reqOpt) reqOpt.remove();
+  if (useReq) sel.value = "@req";
+  sel.hidden = !wide;
+  fitSelect(sel);
+  $("add-req-count").hidden = wide || !useReq;
+  $("add-browse-head").className = wide ? "list-head browse-head" : "list-head add-head";
+  // 차례: 남은 요건 과목은 덜 걷는 순 | 요건 순(따로 기억), 둘러보기는 기본 순 | 덜 걷는 순(검색 결과와 한 값)
+  const kind = useReq ? "req" : "browse";
+  if (ord.dataset.kind !== kind) {
+    ord.dataset.kind = kind;
+    ord.replaceChildren(...(useReq ? [["walk", "덜 걷는 순"], ["req", "요건 순"]] : [["rel", "기본 순"], ["walk", "덜 걷는 순"]]).map(([v, t]) => h("option", { value: v }, t)));
+  }
+  ord.value = useReq ? reqOrder : addOrder;
+  fitSelect(ord);
+  $("add-lim").hidden = !useReq;
+  if (useReq) paintLim(req);
+  const key = useReq ? `@req|${reqOrder}|${req.sig}|${mine.sem}|${curTt().id}` : `${browseKey}|${addOrder}`;
+  if (addBrowseDrawn === key) return false;
+  addBrowseDrawn = key;
+  let rows;
+  if (useReq) {
+    rows = reqRows(req);
+    $("add-req-count").textContent = `남은 요건 과목 ${rows.length.toLocaleString("ko-KR")}`;
+    rowFits(rows);
+  } else {
+    const base = browseCourses().flatMap((c) => [...c.sections].sort(secOrder).map((s) => ({ c, s, marks: NO_MARKS })));
+    rows = addOrder === "walk" ? byFit(base) : base; // 차례는 둘러보기 전체에 건다(128판)
+    if (addOrder !== "walk") rowFits(base); // 빈 자리 줄은 한 번에 잰다(행마다 재지 않게)
+  }
   addBrowse.clear();
   for (const d of rows) addBrowse.set(d.s.key, d);
   feedList($("add-browse-list"), rows, addRow);
   return true;
 }
+
+// 남은 요건 과목(디자인 124판 ⑦, 11/13 사용자 "그림대로". 백엔드 update101·106 suggestCourses·rankSuggestions·suggestionTag·limitLine): 학과·학번과 요건 자료가 있으면
+// 과목 추가의 검색 전 자리에 이 학기 편람에서 남은 요건을 채우는 과목을 과목마다 한 행(이 시간표에 가장 덜 느는 분반, 이미 넣었으면 그 분반). 행의 태그 자리에 채우는
+// 요건 이름(확인 필요 요건의 과목이면 '아마 필요', 목록 아래쪽). 시간 겹침·수강 제한 태그가 먼저다. 계산은 졸업 요건 탭과 같은 기록이되 고치는 학기의 시간표는 계획이라
+// 들은 과목에서 뺀다(넣어도 행이 그대로 남아 넣음이 된다). 그 아래 학기 학점 줄(limitLine. 고른 상한은 학기마다 ttw.creditCap). 처리방침 11/27 판 뒤(deptOn)
+let reqMemo = { sig: "", data: null }, reqBusy = "";
+let reqOn = store.get("addReq", true) !== false; // 넓은 화면 둘러보기 선택칸에서 남은 요건 과목을 골랐다(처음은 고름. 다른 목록을 고르면 끔)
+let reqOrder = store.get("reqOrder", "walk") === "req" ? "req" : "walk"; // 남은 요건 과목의 차례(덜 걷는 순이 처음, 따로 기억)
+const reqSig = () => [state.semester, state.courses.length, state.semesterMeta.updated || "", JSON.stringify(store.get(DEPT, null)), JSON.stringify(store.get(GRAD, null))].join("|");
+/** 이 학기의 남은 요건 과목 자료(과목 목록·학기 학점 줄에 쓰는 값). 다 받았으면 바로, 아니면 받기 시작하고 null(받으면 과목 추가를 다시 그린다) */
+function reqReady() {
+  if (!deptOn() || !state.loaded || !deptSaved()) return null;
+  const sig = reqSig();
+  if (reqMemo.sig === sig) return reqMemo.data;
+  if (reqBusy !== sig) {
+    reqBusy = sig;
+    reqCompute(sig).catch(() => null).then((data) => {
+      if (reqBusy !== sig) return;
+      reqBusy = "";
+      reqMemo = { sig, data: data && data.sugg.length ? data : null };
+      if (addActive() && !addQ.value.trim()) renderAdd();
+    });
+  }
+  return null;
+}
+async function reqCompute(sig) {
+  const sem = state.semester, courses = state.courses, v = deptSaved();
+  const [base] = await Promise.all([gradBase(), catalogData()]);
+  const [lo, hi] = base.index.cohorts || [2019, 2026];
+  if (v.year < lo || v.year > hi) return null;
+  const picks = await gradPicks(v, base);
+  if (!picks || !picks[0].version) return null;
+  const cur = termNow(await calendarData().catch(() => null));
+  const own = (await gradRecords(cur)).records.filter((r) => r.term !== sem);
+  const counted = picks.filter((p) => p.version);
+  const same = R.buildSameCourse(base.courseMap, counted.map((p) => p.program));
+  const tidy = R.tidyRecords(own, same);
+  const sugg = R.suggestCourses(counted.map((p) => ({ program: p.program, rows: R.evaluateProgram(p.program, p.version, tidy.courses, { role: p.role, sameCourse: same }) })),
+    courses.filter((c) => c.program === "학사" && c.sections.length), { sameCourse: same });
+  const grades = own.some((r) => r.grade) ? R.gpa(own, { sameCourse: same }) : null;
+  const main = counted[0];
+  const who = { college: cat.programs[main.id].college || "", unit: main.program.unit || "", program: main.program.program || "", entryYear: v.year,
+    gpaLastTwo: grades && grades.lastTwoRegular ? grades.lastTwoRegular.gpa : null };
+  return { sig, sem, sugg, common: base.common, who };
+}
+/** 남은 요건 과목 행: 차례는 rankSuggestions(덜 걷는 순 | 요건 순, 이 시간표의 빈 자리 gapFit). 과목마다 이 시간표에 넣은 분반, 없으면 가장 덜 느는 분반, 없으면 첫 분반 */
+function reqRows(req, t = curTt()) {
+  const fit = state.campus ? gapFit(fitBase(t), req.sugg.map((x) => x.course), travelFor(state.mode), state.home, { levels: null }) : null;
+  return R.rankSuggestions(req.sugg, fit, { order: reqOrder }).map((x) => {
+    const c = x.course, it = t.items.find((y) => y.course === c.id);
+    const s = (it && c.sections.find((y) => y.no === it.no)) || (x.fit && x.fit.section) || [...c.sections].sort(secOrder)[0];
+    return { c, s, marks: NO_MARKS, sugg: x };
+  });
+}
+/** 학기 학점 줄(124판 .lim-line): '18학점까지 ▾ · 12학점 남음'(고를 값이 하나면 글자만, 계절학기 '9학점까지'). 넘으면 '3학점 넘음' warning. 학점은 이 시간표(상한 밖 과목은 빼고) */
+function paintLim(req, t = curTt()) {
+  const exempt = new Set(req.common.term_limit.exempt_codes || []);
+  const credits = t.items.filter((it) => !it.custom && it.course && !exempt.has(it.course)).reduce((n, it) => n + (Number(it.credit) || 0), 0);
+  const caps = store.get("creditCap", {});
+  const line = R.limitLine({ common: req.common, who: req.who, term: req.sem, credits, chosen: caps && caps[req.sem] != null ? caps[req.sem] : null });
+  const box = $("add-lim"), sig = line.choices.map((c) => c.value).join(",");
+  let sel = box.querySelector("select"), rest = box.querySelector(".lim-rest");
+  if (box.dataset.choices !== sig || !rest) {
+    box.dataset.choices = sig;
+    sel = line.choices.length > 1 ? h("select", { class: "browse-select", id: "add-lim-cap", "aria-label": "학기 학점" },
+      line.choices.map((c) => h("option", { value: String(c.value) }, c.label))) : null;
+    rest = h("span", { class: "lim-rest" });
+    box.replaceChildren(sel || h("span", { class: "lim-cap" }), rest);
+  }
+  if (sel) { sel.value = String(line.value); fitSelect(sel); } else box.querySelector(".lim-cap").textContent = line.label;
+  rest.textContent = `· ${line.rest}`;
+  rest.classList.toggle("over", line.over);
+}
+$("add-lim").addEventListener("change", (e) => {
+  if (e.target.id !== "add-lim-cap" || !reqMemo.data) return;
+  const caps = store.get("creditCap", {}) || {};
+  store.set("creditCap", { ...caps, [reqMemo.data.sem]: Number(e.target.value) });
+  paintLim(reqMemo.data);
+});
 /** 최근 검색어 칩. 목록이 그대로면 다시 만들지 않는다(키보드 초점이 칩에 있을 때 다시 그려 초점을 잃지 않게) */
 function renderAddRecent(show) {
   $("add-recent").hidden = !show;
@@ -5975,11 +6169,14 @@ function renderAdd({ more = false } = {}) {
     addData.clear();
     setAddPreview(null, { hover: true });
     $("add-empty").hidden = $("add-more").hidden = true;
-    // 검색 전: 넓은 화면은 최근 검색어(있을 때만)와 과목 둘러보기, 폰은 빈 검색창에 초점이 있을 때 최근 검색어만. 불러오는 중에는 두지 않는다
+    $("add-head").hidden = true;
+    // 검색 전: 넓은 화면은 최근 검색어(있을 때만)와 과목 둘러보기(맨 위 남은 요건 과목), 폰은 빈 검색창에 초점이 있을 때 최근 검색어와 그 아래 남은 요건 과목
+    // (요건 자료가 있으면 초점이 없어도). 불러오는 중에는 두지 않는다
     const recentOn = state.loaded && recent.length > 0 && (wide || addFocused());
-    box.hidden = !(recentOn || (wide && state.loaded));
+    const reqOnPhone = !wide && state.loaded && !!reqReady();
+    box.hidden = !(recentOn || (wide && state.loaded) || reqOnPhone);
     renderAddRecent(recentOn);
-    const redrawn = renderAddBrowse(wide && state.loaded);
+    const redrawn = renderAddBrowse((wide && state.loaded) || reqOnPhone);
     if (fromSearch && wide && !box.hidden) box.scrollTop = redrawn ? 0 : addBrowseTop; // 검색을 지우면 둘러보던 자리로
     return;
   }
@@ -5988,12 +6185,19 @@ function renderAdd({ more = false } = {}) {
   renderAddRecent(false);
   renderAddBrowse(false);
   if (fresh) { addShown = RESULTS_STEP; addLast = raw; }
-  const found = findCourses(raw), rows = addSections(found.hits);
+  const found = findCourses(raw), hits = addSections(found.hits);
+  const rows = addOrder === "walk" ? byFit(hits) : hits; // 덜 걷는 순은 더 보기 전의 결과 전체에 건다(128판)
+  if (addOrder !== "walk") rowFits(hits);
   addData.clear();
   for (const d of rows) addData.set(d.s.key, d);
   if (fresh) setAddPreview(null, { hover: true });
   box.hidden = false;
   $("add-empty").hidden = rows.length > 0;
+  // 목록 머리: 왼쪽 '분반 23'(아직 안 보인 행까지), 오른쪽 차례
+  $("add-head").hidden = !rows.length;
+  $("add-count").textContent = `분반 ${rows.length.toLocaleString("ko-KR")}`;
+  $("add-order").value = addOrder;
+  fitSelect($("add-order"));
   if (wide) {
     if (fresh && box.scrollTop) box.scrollTop = 0;
     feedList(list, rows, addRow);
@@ -6052,15 +6256,46 @@ $("add-recent-list").addEventListener("click", (e) => {
 });
 // 둘러보기 목록을 바꿨다: 탐색의 둘러보기도 같이 바뀐다(고른 목록을 함께 기억). 새 목록을 맨 위부터(선택칸이 위로 지나갔으면 선택칸 바로 아래부터) 보이고 분반 수를 읽는다
 $("add-browse-select").addEventListener("change", (e) => {
-  browseKey = e.target.value;
-  store.set("browse", browseKey);
+  reqOn = e.target.value === "@req"; // 남은 요건 과목(124판)은 이 칸에만 있다
+  store.set("addReq", reqOn);
+  if (!reqOn) { browseKey = e.target.value; store.set("browse", browseKey); }
   renderAddBrowse(true);
-  if (!$("browse").hidden) renderBrowse(true); // 탐색 탭에 그려 둔 둘러보기도(돌아가면 바뀐 목록. 탭을 바꿀 때는 다시 그리지 않는다)
+  if (!reqOn && !$("browse").hidden) renderBrowse(true); // 탐색 탭에 그려 둔 둘러보기도(돌아가면 바뀐 목록. 탭을 바꿀 때는 다시 그리지 않는다)
   const box = $("add-results"), top = $("add-browse").getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop;
   if (box.scrollTop > top) box.scrollTop = top;
   setAddPreview(null, { hover: true });
-  announce(`분반 ${addBrowse.size.toLocaleString("ko-KR")}개`);
+  announce(reqOn && !$("add-lim").hidden ? `남은 요건 과목 ${addBrowse.size.toLocaleString("ko-KR")}개` : `분반 ${addBrowse.size.toLocaleString("ko-KR")}개`);
 });
+// 차례 선택칸(128판): 검색 결과와 둘러보기가 한 값. 바꾸면 그 목록을 처음부터 그 차례로
+for (const id of ["add-order", "add-browse-order"]) {
+  $(id).addEventListener("change", (e) => {
+    fitSelect(e.target);
+    if (e.target.dataset.kind === "req") { // 남은 요건 과목의 차례(덜 걷는 순 | 요건 순, 따로 기억)
+      reqOrder = e.target.value === "req" ? "req" : "walk";
+      store.set("reqOrder", reqOrder);
+      renderAddBrowse(true);
+      const box = $("add-results"), top = $("add-browse").getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop;
+      if (box.scrollTop > top) box.scrollTop = top;
+      announce(reqOrder === "walk" ? "덜 걷는 순" : "요건 순");
+      setAddPreview(null, { hover: true });
+      return;
+    }
+    addOrder = e.target.value === "walk" ? "walk" : "rel";
+    store.set("addOrder", addOrder);
+    if (id === "add-order") {
+      addLast = ""; // 같은 검색어도 처음부터(더 보기 수도)
+      renderAdd();
+      $("add-results").scrollTop = 0;
+      announce(addOrder === "walk" ? "덜 걷는 순" : "관련도 순");
+    } else {
+      renderAddBrowse(true);
+      const box = $("add-results"), top = $("add-browse").getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop;
+      if (box.scrollTop > top) box.scrollTop = top;
+      announce(addOrder === "walk" ? "덜 걷는 순" : "기본 순");
+    }
+    setAddPreview(null, { hover: true });
+  });
+}
 for (const list of addLists()) {
   list.addEventListener("click", (e) => {
     const b = e.target.closest(".btn-add[data-sec]"), d = b && addOf(b.dataset.sec);
@@ -6143,6 +6378,7 @@ addSheet.addEventListener("close", () => {
   if (addConverting) { addConverting = false; return; } // 넓은 화면의 칸으로 옮겨 갔다(검색어·초점은 그 칸에서 그대로)
   addQ.value = ""; // 닫으면 검색어를 비운다
   renderAdd();
+  maybeAskNotify(); // 과목을 넣고 과목 추가를 닫았다(폰 알림 권한, 129판)
   if (screen === "add" && history.state && history.state.view === "add") back(); // 넓은 화면에서 연 칸이 폰 폭이라 시트였다: 그 기록을 거둔다
 });
 // 손잡이(붙은 머리)를 끈다. 55%에서 올리면 90%(손가락을 따라 높이가 는다), 90%에서 내리면 55%, 55%에서 내리면 닫힌다(손가락을 따라 내려간다).
@@ -6543,15 +6779,22 @@ function renderInfo() {
   const out = (href, text) => h("a", { class: "info-row", href, target: "_blank", rel: "noopener" }, h("span", {}, text), icon(I.out, 20));
   // 카드 안 줄 사이는 line 1px(.list. 디자인 InfoList '.card.info-list 안 .list'. 10/22 카드를 나누며 빠졌던 것을 11/1 되돌렸다)
   const card = (rows) => (rows.some(Boolean) ? h("ul", { class: "card list info-list" }, rows.filter(Boolean).map((r) => h("li", {}, r))) : null);
-  const dv = deptOn() ? deptSaved() : null; // 내 학과·학번(디자인 121판): 정보 첫 카드 맨 위. 넣지 않았으면 값이 없다
+  const dv = deptOn() ? deptSaved() : null; // 내 학과·학번(디자인 121판): 정보 첫 카드(계정 다음). 넣지 않았으면 값이 없다
   $("info-list").replaceChildren(...[
-    card([deptOn() ? h("button", { type: "button", class: "info-row", "data-info": "dept" }, h("span", {}, "내 학과·학번"),
-      dv ? h("span", { class: "v v-dept" }, deptLabel(dv)) : null, icon(I.right, 20)) : null, next("sources", "자료 출처")]),
+    // 계정(130판, 맨 위): 값은 로그인한 메일(길면 말줄임), 하지 않았으면 없다
+    card([accountOn() ? h("button", { type: "button", class: "info-row", "data-info": "account" }, h("span", {}, "계정"),
+      h("span", { class: "v v-dept" }, acctValue()), icon(I.right, 20)) : null,
+    deptOn() ? h("button", { type: "button", class: "info-row", "data-info": "dept" }, h("span", {}, "내 학과·학번"),
+      dv ? h("span", { class: "v v-dept" }, deptLabel(dv)) : null, icon(I.right, 20)) : null,
+    // 알림(129판, 안드로이드 앱): 값은 켠 것(앱 연결에 물어 채운다)
+    notifyOn() ? h("button", { type: "button", class: "info-row", "data-info": "notify" }, h("span", {}, "알림"), h("span", { class: "v" }, ntValue(ntState)), icon(I.right, 20)) : null,
+    next("sources", "자료 출처")]),
     card([next("feedback", "의견 보내기"), next("developer", "개발자 정보"), REVIEW_URL[SHELL] ? out(REVIEW_URL[SHELL], "리뷰 남기기") : null,
       isSafariTab() ? next("a2hs", "홈 화면에 추가") : null]),
     card([PRIVACY_URL ? out(PRIVACY_URL, "개인정보 처리방침") : null, next("licenses", "오픈소스 라이선스"),
       h("div", { class: "info-row" }, h("span", {}, "버전"), h("span", { class: "v" }, APP_VERSION))]),
   ].filter(Boolean));
+  if (notifyOn()) ntRefresh().then(paintNotifyValue);
 }
 
 $("info-list").addEventListener("click", (e) => {
@@ -6561,6 +6804,8 @@ $("info-list").addEventListener("click", (e) => {
   if (k === "a2hs") openSheet($("a2hs-sheet"), b);
   else if (k === "feedback") go("feedback");
   else if (k === "dept") go("dept");
+  else if (k === "notify") go("notify");
+  else if (k === "account") go("account");
   else go("page", { page: k });
 });
 
@@ -6577,7 +6822,8 @@ const DEPT = "dept", DEPT_ASKED = "deptAsked";
 const DEPT_FROM = "2026-11-27"; // 한국 시각 날짜
 const UNDECIDED = "-"; // 전공 칸의 '아직 안 정함'
 const KIND_NAME = { major: "주전공", double: "복수전공", minor: "부전공" };
-let devDept = false; // 웹 개발자 메뉴의 '학과와 학번'(이 세션만, 시행일 전 미리 보기)
+// 웹 개발자 메뉴의 '학과와 학번'(이 탭만, 시행일 전 미리 보기). 데모 중에 새로 고쳐도 꺼지지 않게 sessionStorage 에 둔다(11/16 데모데이)
+let devDept = (() => { try { return sessionStorage.getItem("ttw.devDept") === "1"; } catch { return false; } })();
 const kstToday = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
 const deptOn = () => devDept || kstToday() >= DEPT_FROM;
 let catP = null, cat = null;
@@ -6839,6 +7085,1196 @@ $("da-ok").addEventListener("click", () => {
   $("dp-add").focus({ preventScroll: true });
 });
 
+// ---------------------------------------------------------------- 졸업 요건 탭
+// 디자인 124판(규칙 '졸업 요건 탭', 컴포넌트 GradReq. 11/13 밤 사용자가 시안을 보고 정했다: 세그먼트 셋, 성적은 따로 성적 계산기, 들은 과목은 "드랍 여부만")·
+// 127판(요건 시트 맨 위 자료 글, 확인 필요 시트의 고지와 출처 알려 주기, 자료 출처의 성적 계산 줄)·128판(출처 여러 줄).
+// 계산과 글은 백엔드 requirements.js(update100·101·106·107·108, 레포 docs/requirements.md 2·2-1절): 화면은 받은 글을 그대로 그린다(글을 짓지 않는다).
+// 학과·학번·성적을 받는 기능이라 처리방침 11/27 판이 시행된 뒤에 켠다(deptOn. 그전에는 탭이 셋이고 웹 개발자 메뉴로만 미리 본다).
+// 기기 안(ttw.grad): { v, view(마지막 보기), dropped{'학기|과목'}, grades{'학기|과목': 성적}, manual[다른 곳에서 들은 과목], versions{과정: 고른 판}, target(목표 평점) }.
+// 밖으로 보내지 않는다(출처 알려 주기가 미리 채우는 것은 과정·줄 이름과 앱 정보뿐, 법무 11/14)
+const GRAD = "grad";
+const GRADE_OPTS = ["A+", "A0", "A-", "B+", "B0", "B-", "C+", "C0", "C-", "D+", "D0", "D-", "F", "S", "U"];
+const GM_CLS = ["교양", "전필", "전선", "일선", "교직"]; // 다른 곳에서 들은 과목의 이수 구분
+const GRAD_VIEWS = [["req", "요건"], ["taken", "들은 과목"], ["gpa", "성적"]];
+const gradObj = (o) => !!o && typeof o === "object" && !Array.isArray(o);
+function gradStore() {
+  const v = store.get(GRAD, null), ok = gradObj(v);
+  return {
+    view: ok && GRAD_VIEWS.some(([k]) => k === v.view) ? v.view : "req",
+    dropped: ok && gradObj(v.dropped) ? v.dropped : {},
+    grades: ok && gradObj(v.grades) ? v.grades : {},
+    manual: ok && Array.isArray(v.manual) ? v.manual.filter((m) => gradObj(m) && typeof m.id === "string" && typeof m.name === "string" && SEM_ID.test(m.term)) : [],
+    versions: ok && gradObj(v.versions) ? v.versions : {},
+    target: ok && Number.isFinite(v.target) ? v.target : null,
+  };
+}
+const setGrad = (patch) => store.set(GRAD, { v: 1, ...gradStore(), ...patch });
+
+// 자료: index·common·course_map 은 한 번, 과정 파일은 고른 과정만(programs/<id>.json). 학기 편람은 이 탭이 쓰는 칸만 학기마다 한 번 줄여 둔다
+let gradP = null;
+const progP = new Map(), gradCourses = new Map();
+const gradBase = () => (gradP ||= Promise.all(["index", "common", "course_map"].map((n) => getJson(`data/requirements/${n}.json`)))
+  .then(([index, common, courseMap]) => ({ index, common, courseMap })).catch((e) => { gradP = null; throw e; }));
+function programJson(id) {
+  if (!progP.has(id)) progP.set(id, getJson(`data/requirements/programs/${id}.json`).catch((e) => { progP.delete(id); throw e; }));
+  return progP.get(id);
+}
+async function gradCoursesFor(sem) {
+  if (gradCourses.has(sem)) return gradCourses.get(sem);
+  const byId = await coursesFor(sem).catch(() => null);
+  if (!byId) return null; // 못 받았으면 다음에 다시
+  const slim = new Map();
+  for (const [id, c] of byId) slim.set(id, { name: c.name, credit: c.credit, cls: c.cls, dept: c.dept, level: c.program });
+  gradCourses.set(sem, slim);
+  return slim;
+}
+
+/** 지금 듣는 학기: 학사일정에 그 기간이 있으면 그것(보강 기간까지), 없으면 달로(3월~6월 20일 1학기, 9월~12월 21일 2학기, 그 사이는 계절학기).
+ *  들은 과목은 이 학기까지의 대표 시간표에서 모은다(뒤 학기의 시간표는 계획이라 넣지 않는다) */
+function termNow(calendar) {
+  const today = kstToday();
+  for (const [t, info] of Object.entries((calendar && calendar.terms) || {})) {
+    const end = (info.makeup && info.makeup[1]) || info.end;
+    if (info.start && end && info.start <= today && today <= end) return t;
+  }
+  const [y, m, d] = today.split("-").map(Number), md = m * 100 + d;
+  return md < 301 ? `${y - 1}-W` : md < 621 ? `${y}-1` : md < 901 ? `${y}-S` : md < 1222 ? `${y}-2` : `${y}-W`;
+}
+/** 입학한 해부터 지금 학기까지의 정규 학기: 대표 시간표가 없는 정규 학기는 들은 과목에 빈 카드로 보인다 */
+function regularTerms(year, cur) {
+  const out = [];
+  for (let y = Number(year); y <= Number(String(cur).slice(0, 4)); y++) for (const s of ["1", "2"]) if (R.termOrder(`${y}-${s}`) <= R.termOrder(cur)) out.push(`${y}-${s}`);
+  return out;
+}
+/** 고른 학과·학번 → 계산할 과정(첫째가 주전공, 그다음 다른 주전공·복수전공·부전공을 고른 차례로). 자료가 없는 과정(아직 안 정함, index 의 data 가 false)은 뺀다.
+ *  판은 입학·전공 진입·선발 학기로 고르고(pickVersionFor), 학과가 더 새 판을 허락하면(choices 둘 이상) 기기에 둔 고른 판. 주전공에 자료가 없으면 null */
+async function gradPicks(v, base) {
+  const ix = new Map((base.index.programs || []).map((p) => [p.id, p]));
+  const has = (id) => !!(ix.get(id) && ix.get(id).data && cat.programs[id]);
+  if (!has(v.major.id)) return null;
+  const others = (v.others || []).filter((o) => has(o.id));
+  const role0 = others.some((o) => o.kind !== "major") ? "parallel" : "single";
+  const list = [{ id: v.major.id, role: role0, title: progShort(v.major.id), majorEntryYear: Number.isInteger(v.major.entry) ? v.major.entry : null }];
+  for (const o of others) {
+    list.push(o.kind === "major" ? { id: o.id, role: role0, title: progShort(o.id), selectionTerm: o.term || null }
+      : { id: o.id, role: o.kind === "minor" ? "minor" : "double", title: `${progShort(o.id)} ${KIND_NAME[o.kind]}`, selectionTerm: o.term || null });
+  }
+  const progs = await Promise.all(list.map((p) => programJson(p.id)));
+  const chosen = gradStore().versions;
+  return list.map((p, i) => {
+    const program = progs[i], newer = cat.programs[p.id].newer || null;
+    const own = R.pickVersionFor(program, { entryYear: v.year, majorEntryYear: p.majorEntryYear ?? null,
+      selectionYear: p.selectionTerm ? Number(p.selectionTerm.slice(0, 4)) : null }).version;
+    // 고를 수 있는 판은 자기 판에서 센다(고른 더 새 판에서 세면 자기 판이 빠진다)
+    const choices = own ? R.versionChoices(program, own, { newer, entryYear: v.year, role: p.role, selectionTerm: p.selectionTerm })
+      .map((c) => ({ key: c.version.entry_years.join("-"), label: c.label, version: c.version })) : [];
+    const hit = choices.find((c) => c.key === chosen[p.id]) || choices[0] || null;
+    return { ...p, program, newer, entryYear: v.year, version: hit ? hit.version : null, choices, choice: hit ? hit.key : "" };
+  });
+}
+/** 들은 과목 기록(requirements.js tidyRecords 꼴): 지금 학기까지 학기마다 대표 시간표의 과목(직접 넣은 일정은 빼고. 학점·이수 구분·개설 학과·이수과정은 그 학기 편람,
+ *  편람에 없으면 시간표에 적어 둔 값)과 다른 곳에서 들은 과목. 드랍·성적은 기기에 둔 값. rk 는 드랍·성적을 두는 열쇠('학기|과목'), prim 은 학기마다 대표 시간표가 있는지 */
+async function gradRecords(cur) {
+  await semReady;
+  const g = gradStore(), records = [], prim = new Map();
+  const sems = state.semesters.map(([id]) => id).filter((id) => SEM_ID.test(id) && R.termOrder(id) <= R.termOrder(cur));
+  for (const sem of sems) {
+    const t = T.parseList(store.get(semKey(T.STORE_KEYS.list, sem), []), sem).find((x) => x.primary && !x._newer);
+    prim.set(sem, !!t);
+    const items = t ? t.items.filter((it) => !it.custom && it.course) : [];
+    if (!items.length) continue;
+    const byId = await gradCoursesFor(sem);
+    for (const it of items) {
+      const c = (byId && byId.get(it.course)) || null, rk = `${sem}|${it.course}`;
+      records.push({ code: it.course, name: (c && c.name) || it.name || it.course, credits: Number(c ? c.credit : it.credit) || 0, cls: (c && c.cls) || it.cls || "",
+        dept: (c && c.dept) || "", level: (c && c.level) || "학사", term: sem, dropped: !!g.dropped[rk], grade: GRADE_OPTS.includes(g.grades[rk]) ? g.grades[rk] : undefined, rk });
+    }
+  }
+  // 다른 곳에서 들은 과목(학점 교류·교환·대학원): 다른 학교 학점이라 평점에는 넣지 않는다(성적 보기의 계산 기준)
+  for (const m of g.manual) {
+    records.push({ code: `manual:${m.id}`, name: m.name, credits: Number(m.credits) || 0, cls: GM_CLS.includes(m.cls) ? m.cls : "", dept: "", level: "학사", term: m.term,
+      manual: true, source: "domestic", rk: `manual|${m.id}`, mid: m.id });
+  }
+  return { records, prim };
+}
+
+let gradSeq = 0, gradNow = null; // 늦게 끝난 계산은 버린다. gradNow: 지금 그린 값(요건 시트·팝업이 쓴다)
+let gradSrc = null; // 자료 출처의 졸업 요건·성적 계산 줄 { req, gpa }(디자인 124·127판 InfoList. 받기 전 null, 받는 중 false)
+/** 자료 출처 줄 글: 요건 자료의 해와 기준일(index.json), 성적 계산의 학사 안내·수강편람과 그 기준일(common.json) */
+function gradSources(base) {
+  const book = String(((base.common.sources || {}).pyeonram || {}).title || "").replace(/^[^,]*,\s*/, "");
+  return {
+    req: `서울대학교 교과과정 해설과 학과 누리집(${base.index.data_year ? `${base.index.data_year}학년도, ` : ""}${monthDay(base.index.checked_on)} 기준)`,
+    gpa: `서울대학교 학사 안내${book ? `와 ${book}` : ""}(${monthDay(base.common.checked_on)} 기준)`,
+  };
+}
+/** 졸업 요건 탭을 그린다. 고칠 때마다 다시 부른다(초점은 같은 data-gk 의 새 요소로, 스크롤 자리는 그대로) */
+async function renderGrad() {
+  const seq = ++gradSeq, body = $("grad-body");
+  askOsHint(); // 출처 알려 주기의 앱 정보(운영체제 판)
+  const empty = (text, button = null) => {
+    if (seq !== gradSeq) return;
+    gradNow = null;
+    body.replaceChildren(h("div", { class: "gr-empty" }, icon(TAB_ICON.grad[0], 32), h("p", {}, text), button));
+  };
+  const v = deptOn() ? deptSaved() : null;
+  if (!v) { empty("학과와 학번을 아직 넣지 않았어요", h("button", { type: "button", class: "btn-primary", "data-go": "dept", "data-gk": "dept" }, "학과와 학번 넣기")); return; }
+  const failed = () => empty(navigator.onLine === false ? "오프라인이라 요건 자료를 받지 못했어요" : "요건 자료를 받지 못했어요",
+    h("button", { type: "button", class: "btn-text", "data-retry": "1", "data-gk": "retry" }, "다시 시도"));
+  let base, picks;
+  try {
+    [base] = await Promise.all([gradBase(), catalogData()]);
+    const [lo, hi] = base.index.cohorts || [2019, 2026];
+    if (v.year < lo || v.year > hi) { empty("아직 이 학번은 요건 자료가 없어요"); return; }
+    picks = await gradPicks(v, base);
+  } catch { failed(); return; }
+  if (seq !== gradSeq) return;
+  if (!picks || !picks[0].version) { empty("아직 이 학과·학번은 요건 자료가 없어요"); return; }
+  const cur = termNow(await calendarData().catch(() => null));
+  const { records, prim } = await gradRecords(cur);
+  if (seq !== gradSeq) return;
+  const counted = picks.filter((p) => p.version);
+  const same = R.buildSameCourse(base.courseMap, counted.map((p) => p.program));
+  const majorOf = (p) => (c) => R.isMajorCourse(c, p.program, p.version, same);
+  const anyGrade = records.some((r) => r.grade);
+  const grades = anyGrade ? R.gpa(records, { sameCourse: same, isMajor: majorOf(counted[0]) }) : null;
+  const view = R.gradView({ picks: counted.map((p) => ({ program: p.program, version: p.version, role: p.role, title: p.title, entryYear: p.entryYear,
+    selectionTerm: p.selectionTerm || null, newer: p.newer })), records, grades, common: base.common, sameCourse: same });
+  const taken = R.takenTerms(records, { sameCourse: same, currentTerm: cur });
+  const others = anyGrade ? counted.slice(1).map((p) => ({ short: progShort(p.id), gpa: R.gpa(records, { sameCourse: same, isMajor: majorOf(p) }).major })) : [];
+  gradNow = { v, base, picks: counted, records, view, taken, grades, others, cur, prim };
+  const g = gradStore();
+  const had = body.contains(document.activeElement) ? document.activeElement.dataset.gk : null;
+  body.replaceChildren(
+    h("div", { class: "gr-head" }, h("span", { class: "sem" }, deptLabel(v)), h("span", { class: "nm" }, `들은 학점 ${taken.total}`)),
+    h("fieldset", { class: "gr-seg" }, h("legend", { class: "sr-only" }, "졸업 요건 보기"),
+      h("div", { class: "seg" }, GRAD_VIEWS.map(([k, t]) => h("label", {},
+        h("input", { type: "radio", name: "gr-view", value: k, checked: g.view === k, "data-gk": `seg:${k}` }), t)))),
+    h("div", { class: "gr-view" }, g.view === "taken" ? gradTakenView() : g.view === "gpa" ? gradGpaView(g) : gradReqView()),
+  );
+  if (had) body.querySelector(`[data-gk="${CSS.escape(had)}"]`)?.focus({ preventScroll: true });
+}
+
+/** 요건 보기: 묶음마다(공통 → 주전공 → 다른 전공) 제목과 판(.count, 고를 수 있으면 선택칸), 그 아래 카드의 요건 줄(정보 화면 행 꼴, 누르면 요건 시트).
+ *  그 뒤 카드 하나에 다음 학기 추천, 맨 아래 추정 문구와 기준 줄(자료 출처로) */
+function gradReqView() {
+  const { view, picks, base, cur } = gradNow;
+  const mainLabel = (view.bundles.find((b) => b.kind === "program") || {}).label || null; // 공통 줄도 주전공 판으로 센다
+  const out = [];
+  for (const b of view.bundles) {
+    const p = b.kind === "program" ? picks.find((x) => x.program.id === b.id) : null;
+    const label = b.kind === "common" ? mainLabel : b.label;
+    const count = p && p.choices.length > 1
+      ? h("select", { class: "browse-select gr-ver", "aria-label": `${b.title} 규정`, "data-ver": b.id, "data-gk": `ver:${b.id}` },
+        p.choices.map((c) => h("option", { value: c.key, selected: c.key === p.choice }, c.label)))
+      : label ? h("span", { class: "count" }, label) : null;
+    out.push(h("h2", { class: "section-title" }, b.title, count));
+    if (!b.rows.length) continue;
+    out.push(h("div", { class: "card info-list" }, h("ul", { class: "list" }, b.rows.map((r) => h("li", {},
+      h("button", { type: "button", class: "info-row", "aria-label": r.aria, "data-rq": `${b.id}|${r.id}`, "data-gk": `rq:${b.id}|${r.id}` },
+        h("span", {}, r.name),
+        r.value.kind === "left" ? h("span", { class: "v is-left" }, r.value.text)
+          : r.value.kind === "met" ? h("span", { class: "v is-ok" }, icon(I.check, 16), r.value.text)
+            : h("span", { class: "tag" }, r.value.text),
+        icon(I.right, 20)))))));
+  }
+  // 다음 학기 추천: 시간표 탭의 그 학기 대표 시간표(없으면 빈 시간표 1)로 가서 과목 추가를 연다. 그 학기 편람이 아직 없으면 누르지 않는 줄
+  const next = R.nextRegularTerm(cur), ready = R.hasCoursebook({ list: state.semesters }, next);
+  out.push(h("div", { class: "card info-list" }, h("ul", { class: "list" }, h("li", {}, ready
+    ? h("button", { type: "button", class: "info-row", "data-next": next, "data-gk": "next" }, h("span", {}, "다음 학기 추천"), h("span", { class: "v" }, R.termName(next)), icon(I.right, 20))
+    : h("div", { class: "info-row" }, h("span", {}, "다음 학기 추천"), h("span", { class: "v" }, "편람이 아직 없어요"))))));
+  out.push(h("p", { class: "gr-foot" }, "학교가 공개한 문서를 바탕으로 계산한 추정이에요. 학번·학과와 개별 인정(동일·대체 과목, 학점 인정)에 따라 다를 수 있어요. 졸업 사정은 학과와 마이스누에서 최종 확인해 주세요."));
+  const basis = R.basisText(base.index);
+  out.push(h("p", { class: "gr-foot" }, basis ? `${basis} · ` : "", h("a", { href: "#sources", "data-go": "sources", "data-gk": "sources" }, "자료 출처")));
+  return out;
+}
+
+/** 들은 과목 보기: 학기마다(새 학기 먼저) 제목·센 학점과 과목 줄(드랍 체크. 다른 곳에서 들은 과목은 빼기 ×). 대표 시간표가 없는 정규 학기는 빈 카드와 시간표 만들기.
+ *  맨 아래 카드 '+ 다른 곳에서 들은 과목' */
+function gradTakenView() {
+  const { taken, v, cur, prim, records } = gradNow;
+  const byTerm = new Map(taken.terms.map((t) => [t.term, t]));
+  const terms = [...new Set([...taken.terms.map((t) => t.term), ...regularTerms(v.year, cur).filter((t) => !prim.get(t))])]
+    .sort((a, b) => R.termOrder(b) - R.termOrder(a));
+  const out = [h("p", { class: "gr-lead" }, "학기마다 대표 시간표에서 모았어요")];
+  for (const term of terms) {
+    const t = byTerm.get(term);
+    out.push(h("h2", { class: "section-title" }, R.termName(term), t ? h("span", { class: "count" }, t.text) : null));
+    if (!t) {
+      const can = state.semesters.some(([x]) => x === term);
+      out.push(h("div", { class: "card gr-none" }, h("p", { class: "empty" }, "대표 시간표가 없어요"),
+        can ? h("button", { type: "button", class: "btn-text small", "data-make": term, "data-gk": `make:${term}` }, "시간표 만들기") : null));
+      continue;
+    }
+    out.push(h("div", { class: "card" }, h("ul", { class: "list" }, t.rows.map((r) => {
+      const rec = records[r.index];
+      return h("li", { class: "tk" }, h("span", { class: "b" }, h("span", { class: "t" }, r.name), h("span", { class: "m" }, r.meta)),
+        rec.manual
+          ? h("button", { type: "button", class: "icon-btn remove", "aria-label": `${r.name} 빼기`, "data-del": rec.mid, "data-gk": `del:${rec.mid}` }, icon(I.x, 20))
+          : h("label", { class: "check" }, h("input", { type: "checkbox", "aria-label": `${r.name} 드랍`, checked: !!rec.dropped, "data-drop": rec.rk, "data-gk": `drop:${rec.rk}` }), "드랍"));
+    }))));
+  }
+  out.push(h("div", { class: "card info-list" }, h("ul", { class: "list" }, h("li", {},
+    h("button", { type: "button", class: "add-row", "data-gm": "1", "data-gk": "gm" }, icon(I.plus, 20), "다른 곳에서 들은 과목")))));
+  return out;
+}
+
+/** 숫자 뒤 조사 이/가: 마지막 자리를 읽는 소리로(2·4·5·9 는 받침 없음) */
+const josaGa = (s) => ("2459".includes(String(s).slice(-1)) ? "가" : "이");
+/** 성적 보기(성적 계산기): 맨 위 카드(전체·전공 평점, 직전 두 학기와 다음 학기 학점 상한, 목표 평점과 남은 학점에서 필요한 평균),
+ *  학기마다 평점과 과목 줄의 성적 선택칸(드랍한 과목과 다른 곳에서 들은 과목은 없다), 맨 아래 법무 문구(11/13)와 계산 기준 */
+function gradGpaView(g) {
+  const { grades, others, taken, picks, base, v, cur, records } = gradNow;
+  const fmt = (x) => (x && x.gpa != null ? x.gpa.toFixed(2) : "–");
+  const all = grades && grades.all, last = grades && grades.lastTwoRegular;
+  // 직전 두 학기(계절 빼고 재이수 조정 전): 기본 상한이 낮은 곳은 3.3 이상이면 다음 학기 21학점까지(학사 공통 규정, termCreditLimit)
+  const lims = base.common.term_limit, plus = lims.plus, next = R.nextRegularTerm(cur), main = picks[0];
+  const lim = R.termCreditLimit(lims, { college: cat.programs[main.id].college || "", unit: main.program.unit || "", program: main.program.program || "",
+    entryYear: v.year, term: R.nthRegularTerm(v.year, next), gpaLastTwo: last ? last.gpa : null });
+  let limText = null;
+  if (last && last.gpa != null) {
+    limText = plus && lim.base <= plus.base_max
+      ? `${plus.gpa_min}${last.gpa >= plus.gpa_min ? " 이상이라" : "보다 낮아"} 다음 학기 ${lim.limit}학점까지` : `다음 학기 ${lim.limit}학점까지`;
+  }
+  // 목표 평점 3.00~4.30(0.05씩). 처음은 지금 평점 바로 위(성적이 없으면 3.50)
+  const steps = range(300, 430, 5).map((x) => x / 100);
+  const target = steps.find((x) => Math.abs(x - g.target) < 1e-9) ?? (all && all.gpa != null ? steps.find((x) => x > all.gpa + 1e-9) ?? 4.3 : 3.5);
+  const gradCredits = (main.version.credits && main.version.credits.grad) || (base.common.graduation && base.common.graduation.credits_min) || 130;
+  const left = Math.max(0, gradCredits - taken.total);
+  let need = null;
+  if (left > 0) {
+    const r = R.gradeNeeded(all || { credits: 0, points: 0 }, left, target), n = Math.max(0, r.need ?? 0).toFixed(2);
+    need = r.reachable ? h("span", { class: "need" }, `남은 ${left}학점에서 평균 `, h("b", {}, n), `${josaGa(n)} 필요해요`)
+      : h("span", { class: "need" }, "남은 학점으로는 닿을 수 없어요");
+  }
+  const more = others.filter((o) => o.gpa && o.gpa.gpa != null).map((o) => `${o.short} ${o.gpa.gpa.toFixed(2)}`);
+  const out = [h("div", { class: "card gpa" }, h("ul", { class: "list" },
+    h("li", {}, h("span", { class: "k" }, "전체 평점"), h("span", { class: "n" }, fmt(all))),
+    h("li", {}, h("span", { class: "k" }, "전공 평점"), h("span", { class: "n" }, fmt(grades && grades.major)),
+      h("span", { class: "s" }, more.length ? `${main.title}. ${more.join(" · ")}` : main.title)),
+    h("li", {}, h("span", { class: "k" }, "직전 두 학기"), h("span", { class: "n" }, fmt(last)), limText ? h("span", { class: "s" }, limText) : null),
+    h("li", {}, h("label", { class: "k", for: "gr-target" }, "목표 평점"),
+      h("select", { class: "browse-select", id: "gr-target", "data-target": "1", "data-gk": "target" },
+        steps.map((x) => h("option", { value: x.toFixed(2), selected: Math.abs(x - target) < 1e-9 }, x.toFixed(2)))), need)))];
+  for (const t of taken.terms) {
+    const rows = t.rows.filter((r) => r.why !== "dropped" && !records[r.index].manual);
+    if (!rows.length) continue;
+    const tg = grades && grades.byTerm[t.term];
+    out.push(h("h2", { class: "section-title" }, t.label, tg && tg.gpa != null ? h("span", { class: "count" }, `평점 ${tg.gpa.toFixed(2)}`) : null));
+    out.push(h("div", { class: "card" }, h("ul", { class: "list" }, rows.map((r) => {
+      const rec = records[r.index];
+      return h("li", { class: "tk" }, h("span", { class: "b" }, h("span", { class: "t" }, r.name), h("span", { class: "m" }, r.meta)),
+        h("select", { class: "browse-select", "aria-label": `${r.name} 성적`, "data-grade": rec.rk, "data-gk": `grade:${rec.rk}` },
+          h("option", { value: "", selected: !rec.grade }, "성적"), GRADE_OPTS.map((x) => h("option", { value: x, selected: rec.grade === x }, x))));
+    }))));
+  }
+  out.push(h("p", { class: "gr-foot" }, "직접 넣은 성적으로 계산한 참고값이에요. 공식 성적과 평점은 마이스누(mySNU)에서 확인해 주세요. 성적은 이 폰에만 저장돼요."));
+  out.push(h("p", { class: "gr-foot" }, "A+ 4.3 ~ F 0 · S·U는 빼고, 재수강은 나중 성적만 · 다른 학교 학점은 넣지 않음"));
+  return out;
+}
+
+/** 요건 시트(줄을 누르면): 제목은 줄 이름, 메타 '동물생명공학전공 · 2021~2026학번 규정'. 맨 위 자료 글. 남음·충족은 합과 과목 목록·출처,
+ *  확인 필요는 태그·까닭·학과 졸업요건(바깥 브라우저)·고지·출처 알려 주기(GitHub 양식을 인앱 브라우저로). 맨 아래 자료 기준일 */
+const RQ_DONE = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="currentColor"/><path d="M7.5 12.3l3 3 6-6.3" fill="none" stroke="var(--card)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const RQ_LEFT = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
+function openRq(key, opener) {
+  if (!gradNow) return;
+  const cut = key.indexOf("|"), bid = key.slice(0, cut), rid = key.slice(cut + 1);
+  const b = gradNow.view.bundles.find((x) => x.id === bid), r = b && b.rows.find((x) => String(x.id) === rid);
+  if (!r) return;
+  const s = r.sheet, body = [];
+  $("rq-title").textContent = s.title;
+  $("rq-meta").textContent = s.meta || "";
+  $("rq-meta").hidden = !s.meta;
+  const ext = (href, text, label, system) => h("div", { class: "rq-acts" }, h("a", { class: "btn-text small cs-review", href, target: "_blank", rel: "noopener",
+    "data-browser": system ? "system" : null, "aria-label": label }, text, icon(I.out, 16)));
+  if (s.detail) body.push(h("p", { class: "rq-detail" }, s.detail));
+  if (r.value.kind === "check") {
+    body.push(h("p", { class: "rq-state" }, h("span", { class: "tag" }, "확인 필요")));
+    if (s.because) body.push(h("p", { class: "rq-why" }, s.because));
+    if (s.link) body.push(ext(s.link, "학과 졸업요건", "학과 졸업요건 페이지", true));
+    body.push(h("p", { class: "rq-note" }, "공개된 학교 문서 주소만 적어 주세요. 이름·학번·성적·이수 내역은 적지 마세요. 누구나 볼 수 있어요."));
+    // 미리 채우는 것은 과정(catalog short)·줄 이름과 앱 정보뿐(학과·학번·판 이름·성적·들은 과목은 넣지 않는다. 법무 11/14, 백엔드 update107). 의견 보내기를 거치지 않는다
+    const prog = b.kind === "program" ? (cat.programs[b.id] || {}).short || progShort(b.id) : b.title;
+    const q = { template: "source.yml", title: `[출처] ${prog} · ${r.name}`, program: prog, row: r.name, app: appInfo() };
+    body.push(ext(`${FEEDBACK_URL}?${Object.entries(q).map(([k, x]) => `${k}=${encodeURIComponent(x.toWellFormed ? x.toWellFormed() : x)}`).join("&")}`,
+      "출처 알려 주기", "출처 알려 주기, GitHub 양식", false));
+  } else {
+    if (s.summary) {
+      const at = s.strong ? s.summary.lastIndexOf(s.strong) : -1;
+      body.push(h("p", { class: "rq-sum" }, at < 0 ? s.summary : [s.summary.slice(0, at), h("b", {}, s.strong), s.summary.slice(at + s.strong.length)]));
+    }
+    if (s.courses && s.courses.length) {
+      body.push(h("ul", { class: "list rq-list" }, s.courses.map((c) => h("li", { class: c.taken ? "done" : null },
+        h("span", { class: "ic" }, svg(c.taken ? RQ_DONE : RQ_LEFT)),
+        h("span", { class: "t" }, c.name || c.code, h("span", { class: "sr-only" }, c.taken ? ", 들음" : ", 아직")),
+        c.meta ? h("span", { class: "m" }, c.meta) : null))));
+    }
+    for (const src of s.sources || []) body.push(h("p", { class: "rq-src" }, src.text));
+  }
+  const basis = R.basisText(gradNow.base.index);
+  if (basis) body.push(h("p", { class: "rq-src" }, basis));
+  $("rq-body").replaceChildren(...body);
+  $("rq-body").scrollTop = 0;
+  openSheet($("rq-sheet"), opener);
+}
+
+/** 다른 곳에서 들은 과목 팝업(새 시간표 팝업 꼴): 과목 이름·학점·이수 구분·학기. 추가는 이름을 넣으면 켜진다 */
+const gmSheet = $("gm-add");
+function openGm(opener) {
+  if (!gradNow) return;
+  const { v, cur } = gradNow, terms = [];
+  for (let y = Number(String(cur).slice(0, 4)); y >= v.year; y--) for (const s of ["W", "2", "S", "1"]) if (R.termOrder(`${y}-${s}`) <= R.termOrder(cur)) terms.push(`${y}-${s}`);
+  $("gm-name").value = "";
+  $("gm-credit").replaceChildren(...range(1, 6).map((n) => h("option", { value: String(n), selected: n === 3 }, `${n}학점`)));
+  $("gm-cls").replaceChildren(...GM_CLS.map((c) => h("option", { value: c }, c)));
+  $("gm-term").replaceChildren(...terms.map((t) => h("option", { value: t }, R.termName(t))));
+  $("gm-ok").disabled = true;
+  openSheet(gmSheet, opener);
+}
+$("gm-name").addEventListener("input", () => { $("gm-ok").disabled = !$("gm-name").value.trim(); });
+$("gm-name").addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.isComposing && e.keyCode !== 229 && !$("gm-ok").disabled) { e.preventDefault(); $("gm-ok").click(); }
+});
+$("gm-ok").addEventListener("click", () => {
+  const name = $("gm-name").value.trim().slice(0, 40);
+  if (!name || !SEM_ID.test($("gm-term").value)) return;
+  const g = gradStore(), id = `m${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+  setGrad({ manual: [...g.manual, { id, name, credits: Number($("gm-credit").value) || 3, cls: $("gm-cls").value, term: $("gm-term").value }] });
+  gmSheet.returnTo = null;
+  closeSheet(gmSheet);
+  renderGrad().then(() => { $("grad-body").querySelector('[data-gk="gm"]')?.focus({ preventScroll: true }); announce(`${name} 넣었어요`); });
+});
+
+// 탭 안의 누름과 바꿈(다시 그려도 그대로인 바깥 요소에 한 번)
+$("grad-body").addEventListener("click", (e) => {
+  const el = e.target.closest("[data-rq], [data-next], [data-make], [data-del], [data-gm], [data-go], [data-retry]");
+  if (!el) return;
+  const d = el.dataset;
+  if (d.rq) openRq(d.rq, el);
+  else if (d.gm) openGm(el);
+  else if (d.retry) renderGrad();
+  else if (d.go === "dept") go("dept");
+  else if (d.go === "sources") { e.preventDefault(); go("page", { page: "sources" }); }
+  else if (d.del) {
+    const g = gradStore(), m = g.manual.find((x) => x.id === d.del);
+    setGrad({ manual: g.manual.filter((x) => x.id !== d.del) });
+    // 빼면 그 줄이 없어지니 초점은 다른 곳에서 들은 과목 넣기로
+    renderGrad().then(() => { $("grad-body").querySelector('[data-gk="gm"]')?.focus({ preventScroll: true }); if (m) announce(`${m.name} 뺐어요`); });
+  } else if (d.make || d.next) {
+    // 시간표 탭의 그 학기, 그 학기의 대표 시간표(없으면 빈 시간표 1). 다음 학기 추천이면 과목 추가를 연다(검색창이 비어 남은 요건 과목)
+    const sem = d.make || d.next, add = !!d.next;
+    const prim = T.parseList(store.get(semKey(T.STORE_KEYS.list, sem), []), sem).find((x) => x.primary && !x._newer);
+    if (prim) store.set(semKey(T.STORE_KEYS.current, sem), prim.id);
+    goMine(() => {
+      const then = () => { if (add && mine.sem === sem) openAdd(); };
+      if (state.semester === sem && (state.loaded || state.loading)) { readMine(sem); renderMine(); then(); return; }
+      switchSemester(sem).then(then, then);
+    });
+  }
+});
+$("grad-body").addEventListener("change", (e) => {
+  const el = e.target, d = el.dataset;
+  if (el.name === "gr-view") setGrad({ view: el.value });
+  else if (d.drop) {
+    const dropped = { ...gradStore().dropped };
+    if (el.checked) dropped[d.drop] = true; else delete dropped[d.drop];
+    setGrad({ dropped });
+  } else if (d.grade) {
+    const grades = { ...gradStore().grades };
+    if (GRADE_OPTS.includes(el.value)) grades[d.grade] = el.value; else delete grades[d.grade];
+    setGrad({ grades });
+  } else if (d.ver) setGrad({ versions: { ...gradStore().versions, [d.ver]: el.value } });
+  else if (d.target) setGrad({ target: Number(el.value) });
+  else return;
+  renderGrad();
+});
+
+// ---------------------------------------------------------------- 폰 알림(안드로이드 앱)
+// 디자인 129판(Notifications, 11/14 사용자 "편람은 켜두고, 나머지는 그대로"). 앱 연결 update109 TTW_APP.notify(state·request·settings·set, LEADS): 켜고 끈 값은 앱 안
+// (기기 SharedPreferences)에 있고 화면은 state 로 읽어 그린다. 처리방침 11/27 판 뒤(deptOn)에 정보 첫 카드 '내 학과·학번' 아래 '알림' › 과 하위 화면 '알림'.
+// 처음은 수업 꺼짐·편람 켜짐·출발 10분 전(앱 연결이 정한다). 권한(안드로이드 13 이상)은 앱을 켤 때·학과와 학번 화면에서 묻지 않고, 과목이 든 내 시간표가 시트·팝업 없이
+// 처음 보일 때 한 번(notifyAsked), 그전에 스위치를 켜면 그때. 웹·iOS 앱에는 없다
+const notifyApi = () => (IN_APP && SHELL === "android" && window.TTW_APP && window.TTW_APP.notify) || null;
+const notifyOn = () => deptOn() && !!notifyApi();
+const NT_LEADS = [[0, "출발할 때"], [5, "출발 5분 전"], [10, "출발 10분 전"], [15, "출발 15분 전"], [30, "출발 30분 전"]];
+let ntState = null; // 앱 연결이 준 마지막 state
+/** 앱 연결에게 지금 값을 묻는다(못 받으면 마지막 값) */
+async function ntRefresh() {
+  const api = notifyApi();
+  const st = api ? await api.state().catch(() => null) : null;
+  if (st) ntState = st;
+  return ntState;
+}
+const ntChannelOff = (st, k) => !!(st.channels && st.channels[k] === false); // 폰 설정에서 그 채널만 껐다
+/** 정보의 '알림' 값: 수업 · 편람, 수업, 편람, 꺼짐(권한이 꺼져 있어도 꺼짐) */
+function ntValue(st) {
+  if (!st) return "";
+  if (st.permission === "denied") return "꺼짐";
+  const c = st.classOn && !ntChannelOff(st, "class"), b = st.bookOn && !ntChannelOff(st, "book");
+  return c && b ? "수업 · 편람" : c ? "수업" : b ? "편람" : "꺼짐";
+}
+function paintNotifyValue() {
+  const v = document.querySelector('[data-info="notify"] .v');
+  if (v) v.textContent = ntValue(ntState);
+}
+/** 알림 화면: 권한이 꺼졌으면 맨 위 '폰 알림 권한 꺼짐 ↗'(폰 설정)과 막힌 스위치 둘, 아니면 수업 알림(켜면 알림 시각 줄)·편람 알림 카드와 아래 한 줄 */
+function renderNotify() {
+  paintNotify();
+  ntRefresh().then(() => { if (screen === "notify") paintNotify(); });
+}
+function paintNotify() {
+  const st = ntState, box = $("notify-list");
+  $("notify-foot").hidden = !st || st.permission === "denied";
+  if (!st) { box.replaceChildren(); return; }
+  const denied = st.permission === "denied";
+  const had = box.contains(document.activeElement) ? document.activeElement.dataset.nt : null;
+  const card = (...rows) => h("div", { class: "card info-list" }, h("ul", { class: "list" }, rows.map((r) => h("li", {}, r))));
+  const sw = (k, title, meta, on) => h("label", { class: "info-row switch-row" },
+    h("span", { class: "sw-body" }, h("span", { class: "sw-t", id: `nt-t-${k}` }, title), h("span", { class: "sw-m", id: `nt-m-${k}` }, meta)),
+    h("input", { type: "checkbox", role: "switch", class: "switch", "aria-labelledby": `nt-t-${k}`, "aria-describedby": `nt-m-${k}`, checked: on, disabled: denied, "data-nt": k }));
+  const classOn = !denied && !!st.classOn && !ntChannelOff(st, "class"), bookOn = !denied && !!st.bookOn && !ntChannelOff(st, "book");
+  const lead = NT_LEADS.find(([m]) => m === st.lead) || NT_LEADS[2];
+  const cards = [];
+  if (denied) {
+    cards.push(card(h("a", { class: "info-row", href: "#notify-settings", "data-nt": "settings", "aria-label": "폰 알림 권한 꺼짐, 폰 설정 열기" },
+      h("span", {}, "폰 알림 권한"), h("span", { class: "v" }, "꺼짐"), icon(I.out, 20))));
+  }
+  cards.push(card(sw("class", "수업 알림", "대표 시간표의 수업", classOn),
+    classOn ? h("div", { class: "info-row pick-row" }, h("span", {}, "알림 시각"), h("span", { class: "info-pick" }, lead[1], icon(I.down, 20),
+      h("select", { "aria-label": "알림 시각", "data-nt": "lead" }, NT_LEADS.map(([m, t]) => h("option", { value: String(m), selected: m === lead[0] }, t))))) : null));
+  cards.push(card(sw("book", "편람 알림", "새 학기 수강편람 · 담은 과목 바뀜", bookOn)));
+  box.replaceChildren(...cards);
+  if (had) box.querySelector(`[data-nt="${had}"]`)?.focus({ preventScroll: true });
+}
+/** 바꾼 값을 앱 연결에 넘기고 그 답으로 다시 그린다. 켜는데 아직 묻지 않았으면(prompt) 먼저 폰이 묻는다(거절해도 고른 값은 둔다: 권한을 켜고 돌아오면 전에 켠 대로) */
+async function ntSet(patch, asking) {
+  const api = notifyApi();
+  if (!api) return;
+  if (asking && ntState && ntState.permission === "prompt") {
+    store.set("notifyAsked", true);
+    const st = await api.request().catch(() => null);
+    if (st) ntState = st;
+  }
+  const st = await api.set(patch).catch(() => null);
+  if (st) ntState = st;
+  if (screen === "notify") paintNotify();
+  paintNotifyValue();
+}
+$("notify-list").addEventListener("change", (e) => {
+  const el = e.target, k = el.dataset.nt, api = notifyApi();
+  if (!api || !ntState) return;
+  if (k === "lead") { ntSet({ lead: Number(el.value) }); return; }
+  if (k !== "class" && k !== "book") return;
+  if (ntChannelOff(ntState, k)) { el.checked = false; api.settings(); return; } // 폰 설정에서 그 채널만 껐다: 줄은 꺼진 모양, 누르면 폰 설정
+  ntSet(k === "class" ? { classOn: el.checked } : { bookOn: el.checked }, el.checked);
+});
+$("notify-list").addEventListener("click", (e) => {
+  const a = e.target.closest('[data-nt="settings"]');
+  if (!a) return;
+  e.preventDefault();
+  const api = notifyApi();
+  if (api) api.settings();
+});
+// 폰 설정에서 돌아오면(권한·채널을 바꿨을 수 있다) 다시 읽는다
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState !== "visible" || !notifyOn()) return;
+  if (screen === "notify") renderNotify();
+  else if (screen === "info") ntRefresh().then(paintNotifyValue);
+});
+/** 권한을 묻는 때(129판): 과목이 든 내 시간표가 시트·팝업 없이 처음 보일 때 한 번. 켤 때 뜨는 묻는 팝업(테마)과 겹치지 않게 조금 뒤에 다시 보고 묻는다 */
+let ntAskTimer = 0;
+function maybeAskNotify() {
+  if (ntAskTimer || !notifyOn() || store.get("notifyAsked", false)) return;
+  const ready = () => screen === "mine" && !document.querySelector("dialog[open]") && curTt().items.some((it) => !it.custom);
+  if (!ready()) return;
+  ntAskTimer = setTimeout(async () => {
+    ntAskTimer = 0;
+    if (!ready() || store.get("notifyAsked", false)) return;
+    store.set("notifyAsked", true);
+    const api = notifyApi(), st = await ntRefresh();
+    if (api && st && st.permission === "prompt" && (st.classOn || st.bookOn)) {
+      const after = await api.request().catch(() => null);
+      if (after) ntState = after;
+    }
+  }, 1200);
+}
+
+// ---------------------------------------------------------------- 로그인·기기 간 동기화(백엔드 update110·111 account.js, 레포 docs/account.md, 디자인 130판 Account)
+// 사용자 11/14 "로그인이랑 친구 시간표도 지금 작업 시작하라고"(16일 데모데이), 130판 시안 02 "그대로". 정보 첫 카드 맨 위 '계정'(값 로그인한 메일) › 계정 하위 화면.
+// 처리방침 전면 개정 전이라 남에게 열지 않는다(데모는 사용자 계정 둘): 날짜 막기 ACCOUNT_FROM(먼 날짜. 앱 데모 빌드는 build_app 이 '이름_FROM' 날짜를 모두 열어 내부 테스트에만,
+// 백엔드 11/14), 웹은 개발자 메뉴 '로그인'(이 탭만, sessionStorage). 설정 값(firebase-config.js)이 없는 배포는 언제나 숨는다.
+// Firebase SDK 는 account.js 가 로그인을 켤 때만 받는다. 기기 자료가 먼저다: 로그인돼 있으면 로그인할 때·켤 때·시간표를 고친 뒤(3초 모아)·앱으로 돌아올 때(1분 넘게 지났으면)
+// 맞추고(account.sync), 보는 학기의 목록이 바뀌었으면 다시 그린다. 처음 켤 때 로그인을 묻지 않는다(로그인은 정보의 계정과 친구 화면에서만)
+let acct = null, acctP = null, acctOff = null;
+let acctUser; // undefined: 아직 모름, null: 로그인 안 함, { uid, email, name, school }
+const ACCOUNT_FROM = "2099-12-31"; // 한국 시각 날짜. 처리방침 전면 개정이 시행되는 날로 고친다
+let devAccount = (() => { try { return sessionStorage.getItem("ttw.devAccount") === "1"; } catch { return false; } })();
+const acctSync = { busy: false, at: 0, failed: "" };
+const accountMod = () => (acctP ||= import("./account.js").then((m) => (acct = m)).catch((e) => { acctP = null; throw e; }));
+const accountWanted = () => devAccount || kstToday() >= ACCOUNT_FROM;
+const accountOn = () => !!acct && acct.available() && accountWanted();
+// 로그인·로그아웃·계정 삭제 실패 스낵바(132판). CANCELLED(사용자가 계정 고르기를 닫음)는 알리지 않는다
+const ACCT_ERR = { OFFLINE: "인터넷에 연결되지 않았어요", NO_ACCOUNT: "이 폰에서 Google 계정을 쓸 수 없어요", APP_LOGIN: "앱을 업데이트해 주세요", NO_CONFIG: "지금은 로그인을 쓸 수 없어요" };
+const acctError = (e, what = "로그인하지 못했어요") => ACCT_ERR[e && e.code] || what;
+const SCHOOL_TAG = "학교 계정(snu.ac.kr)"; // 법무 11/11 ①: '재학생'·'인증'·학교 로고 없이 사실대로(졸업생·교직원 계정도 snu.ac.kr)
+// Google 로그인 브랜드 지침의 G 로고(Google 이 주는 파일: developers.google.com 의 signin-assets.zip 버튼 그림에서 배경만 걷었다. 색·모양은 그대로)
+const GOOGLE_G = "icons/google-g.svg";
+// account.sync 가 쓰는 기기 저장소('ttw.' 를 뗀 열쇠)
+const syncStore = {
+  get: (k) => store.get(k, null), set: (k, v) => store.set(k, v), remove: (k) => store.del(k),
+  keys: () => { try { return Object.keys(localStorage).filter((k) => k.startsWith("ttw.")).map((k) => k.slice(4)); } catch { return []; } },
+};
+/** 계정을 켠다(앱: 켤 때, 웹: 개발자 메뉴). 로그인 상태를 지켜보고 로그인되면 맞춘다 */
+async function startAccount() {
+  try { await accountMod(); } catch { return; }
+  if (!accountOn() || acctOff) return;
+  paintFriendBtn();
+  if (acct.onSyncStatus) acct.onSyncStatus(() => paintAccountSync()); // 동기화 줄(update112): 바뀔 때마다 다시 쓴다
+  acctOff = acct.onUser((u) => {
+    const was = acctUser ? acctUser.uid : null;
+    acctUser = u;
+    if (!u || u.uid !== frFor) fr = null; // 다른 사람이 됐다: 친구 목록을 비운다
+    frShareCheck();
+    paintAccountValue();
+    paintFriendBtn();
+    if (screen === "account") renderAccount();
+    if (screen === "friends") renderFriends();
+    if (u && u.uid !== was) {
+      syncNow();
+      if (screen !== "friends") frLoad().catch(() => null); // 친구 기능을 켰는지(숨기기 줄)·받은 요청(빨간 점)도 받아 둔다(친구 화면은 renderFriends 가 받는다)
+    }
+  });
+  if (screen === "info") renderInfo();
+}
+let syncTimer = 0;
+/** 시간표를 고쳤다: 로그인돼 있으면 조금 모아 맞춘다 */
+function syncSoon(ms = 3000) {
+  if (!acctUser) return;
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(syncNow, ms);
+}
+async function syncNow() {
+  if (!acctUser || !acct) return;
+  if (acctSync.busy) { syncSoon(); return; }
+  clearTimeout(syncTimer);
+  acctSync.busy = true;
+  paintAccountSync();
+  try {
+    const r = await acct.sync(syncStore);
+    acctSync.at = Date.now();
+    acctSync.failed = "";
+    if (r.changed.includes(mine.sem)) { // 다른 기기에서 고친 것이 왔다
+      readMine(mine.sem);
+      if (mineShown()) renderMine();
+      if (addActive()) renderAdd();
+    }
+  } catch (e) {
+    acctSync.failed = (e && e.code) || "FAILED";
+  }
+  acctSync.busy = false;
+  paintAccountSync();
+}
+window.addEventListener("online", () => {
+  if (!acctUser) return;
+  syncNow(); // '연결되면 맞춰요'가 풀린다(update112)
+  if (screen === "friends" && frErr === "OFFLINE") renderFriends();
+  if (screen === "friend" && frView.failed === "OFFLINE") { frView.failed = ""; renderFriendTt({ uid: frView.uid }); }
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState !== "visible" || !acctUser || Date.now() - acctSync.at <= 60e3) return;
+  syncNow();
+  frLoad().then(() => { if (screen === "friends") paintFriends(); }, () => null); // 받은 요청(빨간 점)
+});
+/** 동기화 상태: account.syncStatus(update112: idle·syncing·offline·error·signedOut 와 마지막으로 맞춘 때, 기기 syncLast 에도 있다). 옛 account.js 면 이 화면이 센 것 */
+function syncView() {
+  if (acct && acct.syncStatus) {
+    const st = acct.syncStatus(syncStore);
+    return { state: st.state, at: st.last ? Date.parse(st.last) || 0 : 0 };
+  }
+  return { state: acctSync.busy ? "syncing" : acctSync.failed === "OFFLINE" ? "offline" : acctSync.failed ? "error" : "idle", at: acctSync.at };
+}
+/** 동기화 줄 값(130·131판): 1분 안 방금 · 한 시간 안 3분 전 · 오늘 14:05 · 어제나 그 전 11월 13일 · 맞추는 중 · 오프라인 연결되면 맞춰요(연결되면 저절로) ·
+ *  그 밖에 못 맞추면 맞추지 못했어요(danger. 저절로 다시 맞추지 않으므로) */
+function acctSyncText() {
+  const { state, at } = syncView();
+  if (state === "syncing") return "맞추는 중";
+  if (state === "offline") return "연결되면 맞춰요";
+  if (state === "error") return "맞추지 못했어요";
+  if (!at) return "";
+  const s = (Date.now() - at) / 1000;
+  if (s < 60) return "방금";
+  if (s < 3600) return `${Math.max(1, Math.floor(s / 60))}분 전`;
+  const d = new Date(at), now = new Date(Date.now());
+  if (d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth() && d.getDate() === now.getDate()) return hm(d.getHours() * 60 + d.getMinutes());
+  return `${d.getMonth() + 1}월 ${d.getDate()}일`;
+}
+setInterval(() => { if (screen === "account" && acctUser) paintAccountSync(); }, 30e3); // '3분 전'이 늘어나게
+/** 정보의 '계정' 값: 로그인한 메일(130판. 하지 않았으면 없다) */
+const acctValue = () => (acctUser ? acctUser.email : "");
+function paintAccountValue() {
+  const v = document.querySelector('[data-info="account"] .v');
+  if (v) v.textContent = acctValue();
+}
+function paintAccountSync() {
+  const v = document.querySelector('#account-list [data-acct="sync"] .v');
+  if (!v) return;
+  v.textContent = acctSyncText();
+  v.classList.toggle("is-error", syncView().state === "error");
+}
+/** 로그인 전 카드(130판 Account·Friends '로그인 전'): 한 줄, (계정 화면만) 서버에 두는 것 셋(법무 11/11: 로그인 화면에서 무엇이 가는지),
+ *  만 14세 이상 체크(법무 11/11 ③. 처음 꺼짐이고 기억하지 않는다), Google 계정으로 계속(Google 지침 버튼. 체크를 켜야 켜진다) */
+function loginCard(lead, what) {
+  return h("div", { class: "card acct" },
+    h("p", { class: "acct-lead" }, lead),
+    what ? [h("p", { class: "acct-what-h" }, "서버에 두는 것"),
+      h("ul", { class: "acct-what" }, ["로그인한 Google 메일", "시간표(교수 이름은 빼고)", "친구를 쓰면 닉네임과 친구 목록"].map((t) => h("li", {}, t)))] : null,
+    h("label", { class: "check" }, h("input", { type: "checkbox", "data-age": "1" }), "만 14세 이상이에요"),
+    h("button", { type: "button", class: "g-btn", "data-signin": "1", disabled: true }, h("img", { src: GOOGLE_G, alt: "", width: "20", height: "20" }), "Google 계정으로 계속"));
+}
+// 체크를 켜야 Google 버튼이 켜진다(계정·친구 화면 둘 다)
+document.addEventListener("change", (e) => {
+  const c = e.target.closest && e.target.closest("[data-age]");
+  if (!c) return;
+  const b = c.closest(".acct")?.querySelector("[data-signin]");
+  if (b) b.disabled = !c.checked;
+});
+document.addEventListener("click", async (e) => {
+  const b = e.target.closest && e.target.closest("[data-signin]");
+  if (!b || b.disabled || !acct) return;
+  b.disabled = true;
+  try {
+    const u = await acct.signIn();
+    if (u) showSnackbar("로그인했어요"); // 화면은 onUser 가 로그인 뒤로 바꾼다
+  } catch (err) {
+    if (!err || err.code !== "CANCELLED") showSnackbar(acctError(err));
+  }
+  if (b.isConnected) b.disabled = !b.closest(".acct")?.querySelector("[data-age]")?.checked;
+});
+/** 계정 화면: 로그인 전은 로그인 카드, 로그인하면 카드 셋(메일과 학교 계정 태그, 동기화(누르면 지금 맞춤), 로그아웃·계정 삭제) */
+function renderAccount() {
+  const box = $("account-list"), u = acctUser, foot = $("account-foot");
+  const had = box.contains(document.activeElement) ? document.activeElement.dataset.acct : null;
+  const card = (...rows) => h("div", { class: "card info-list" }, h("ul", { class: "list" }, rows.map((r) => h("li", {}, r))));
+  if (!accountOn() || u === undefined) { box.replaceChildren(); foot.hidden = true; return; }
+  if (!u) {
+    box.replaceChildren(loginCard("로그인하면 시간표를 다른 기기와 맞추고 친구와 대표 시간표를 서로 볼 수 있어요", true));
+    foot.replaceChildren("로그인하지 않아도 지금처럼 다 쓸 수 있어요", ...(PRIVACY_URL ? [" · ", h("a", { href: PRIVACY_URL, target: "_blank", rel: "noopener" }, "개인정보 처리방침")] : []));
+  } else {
+    box.replaceChildren(
+      h("div", { class: "card info-list" }, h("div", { class: "acct-me" }, h("span", { class: "mail" }, u.email), u.school ? h("span", { class: "tag" }, SCHOOL_TAG) : null)),
+      card(h("button", { type: "button", class: "info-row", "data-acct": "sync" }, h("span", {}, "동기화"),
+        h("span", { class: syncView().state === "error" ? "v is-error" : "v" }, acctSyncText()))),
+      card(h("button", { type: "button", class: "info-row", "data-acct": "signout", "aria-haspopup": "dialog" }, h("span", {}, "로그아웃")),
+        h("button", { type: "button", class: "info-row danger", "data-acct": "delete", "aria-haspopup": "dialog" }, h("span", {}, "계정 삭제"))));
+    foot.textContent = "로그아웃해도 이 기기의 시간표는 남아요";
+  }
+  foot.hidden = false;
+  if (had) box.querySelector(`[data-acct="${had}"]`)?.focus({ preventScroll: true });
+}
+$("account-list").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-acct]");
+  if (!b || !acct) return;
+  const k = b.dataset.acct;
+  if (k === "sync") { syncNow().then(() => announce(acctSyncText())); return; } // 누른 뒤 바뀐 값(방금·맞추지 못했어요)을 읽는다(131판)
+  if (k !== "delete" && k !== "signout") return;
+  $(k === "delete" ? "ad-wipe" : "ao-wipe").checked = false; // 처음 꺼짐
+  openSheet($(k === "delete" ? "acct-del" : "acct-out"), b);
+});
+/** 이 기기의 시간표도 지우기(로그아웃·계정 삭제 팝업의 체크). 로그아웃한 뒤에 지운다(로그인돼 있으면 지운 것이 서버에도 간다). 학기마다 시간표 목록·보던 시간표 */
+function wipeDeviceTimetables() {
+  clearTimeout(syncTimer);
+  let keys = [];
+  try { keys = Object.keys(localStorage).filter((k) => /^ttw\.timetables?@/.test(k)); } catch { keys = []; }
+  for (const k of keys) store.del(k.slice(4));
+  // 맞추기 기록(syncKnown·syncLast)도 지운다: 남으면 다시 로그인할 때 서버 시간표를 '이 기기에서 지운 것'으로 본다(update112 forget. 옛 account.js 면 직접)
+  if (acct && acct.forget) acct.forget(syncStore); else store.del("syncKnown");
+  readMine(mine.sem);
+  if (mineShown()) renderMine();
+}
+/** 로그아웃·계정 삭제: 묻는 팝업의 오른쪽 버튼. 끝나면 로그인 전 화면(onUser)과 스낵바 */
+async function acctLeave(kind) {
+  const d = $(kind === "delete" ? "acct-del" : "acct-out"), ok = $(kind === "delete" ? "acct-del-ok" : "acct-out-ok");
+  const wipe = $(kind === "delete" ? "ad-wipe" : "ao-wipe").checked;
+  ok.disabled = true;
+  try {
+    if (kind === "delete") await acct.deleteAccount(); else await acct.signOut();
+    acctUser = null; // onUser 보다 먼저: 지우는 동안 맞추지 않게
+    if (wipe) wipeDeviceTimetables();
+    d.returnTo = null;
+    closeSheet(d);
+    showSnackbar(kind === "delete" ? "계정을 지웠어요" : "로그아웃했어요");
+    if (screen === "account") { renderAccount(); $("account-title").focus({ preventScroll: true }); }
+  } catch (err) {
+    closeSheet(d);
+    if (!err || err.code !== "CANCELLED") showSnackbar(acctError(err, kind === "delete" ? "계정을 지우지 못했어요" : "로그아웃하지 못했어요"));
+  }
+  ok.disabled = false;
+}
+$("acct-out-ok").addEventListener("click", () => acctLeave("signout"));
+$("acct-del-ok").addEventListener("click", () => acctLeave("delete"));
+
+// ---------------------------------------------------------------- 친구(백엔드 update110 account.js·sync.js, 디자인 130판 Friends·FriendTimetable)
+// 사용자 11/14 오후 시안을 보고 "나 시간표 탭 안", 숨긴 과목·일정은 회색 칸과 미리보기, 나머지 "그대로". 내 시간표 머리 줄의 친구 버튼(받은 요청이 있으면 빨간 점) → 시간표 탭의
+// 하위 화면 '친구'. 로그인 전 → 로그인 카드, 처음 → 닉네임·친구에게 보이는 것·학교 계정 보이기·시작하기, 그다음 머리(내 닉네임·복사·친구 추가)·친구에게 보이는 내 시간표 ›·
+// 받은 요청·친구·보낸 요청·차단한 사람. 친구 시간표·미리보기는 하위 화면(읽기만 하는 격자, 숨긴 항목은 회색 칸). 친구에게는 학기마다 대표 시간표의 강좌(과목명·시간·강의실)와
+// 일정의 이름·시간, 숨긴 것은 시간만 간다(account.sync 가 올린다)
+let fr = null; // { profile: {nick, tag, showSchool?}|null, list: friends() } 받은 것(로그인이 바뀌면 비운다)
+let frFor = ""; // fr 을 받은 사람(uid)
+let frBusy = false;
+let frPending = ""; // 초대 링크로 연 닉네임#태그(로그인·닉네임 뒤 묻는 팝업)
+let frErr = ""; // 친구 목록을 못 받았다: OFFLINE(연결되면 저절로 다시) | FAILED(다시 시도)
+let syncLib = null; // sync.js(nickProblem·parseHandle)
+const NICK_MAX = 12;
+// 친구 추가의 오류 줄(130판): 까닭은 말하지 않는다(차단 등)
+const FR_ADD_ERR = { NOT_FOUND: "없는 닉네임이에요", SELF: "내 닉네임이에요", ALREADY: "이미 친구예요", OFFLINE: "인터넷에 연결되지 않았어요" };
+const FR_ERR = { OFFLINE: "인터넷에 연결되지 않았어요", SIGNED_OUT: "로그인해 주세요" };
+const handleText = (p) => (p && p.nick ? `${p.nick}#${p.tag}` : "");
+/** 닉네임#번호(번호는 400 text3, .t i·.n i·.title i) */
+const handleNodes = (p) => (p && p.nick ? [p.nick, h("i", {}, `#${p.tag}`)] : ["알 수 없는 사람"]);
+/** 초대 링크('…#friend=닉네임%231234')의 닉네임#태그 */
+const friendOf = (url) => { const m = /#(?:.*&)?friend=([^&]+)/.exec(String(url || "")); if (!m) return null; try { return decodeURIComponent(m[1]); } catch { return null; } };
+/** 친구 기능을 켰다(로그인하고 닉네임이 있다): 항목 시트·일정 시트의 '친구에게 숨기기'와 대표 시간표 메뉴의 '친구에게 보이기' 줄을 보인다(130판) */
+const frShare = () => accountOn() && !!acctUser && !!fr && frFor === acctUser.uid && !!fr.profile;
+const FR_HIDE_META = "친구에게는 이 시간만 회색 칸으로 보여요";
+/** 스위치 줄(라벨 전체를 누른다, 129판 꼴): name 으로 change 를 가른다 */
+const frSwitch = (name, title, meta, on, attrs = {}) => h("label", { class: "info-row switch-row" },
+  h("span", { class: "sw-body" }, h("span", { class: "sw-t", id: `${name}-t` }, title), meta ? h("span", { class: "sw-m", id: `${name}-m` }, meta) : null),
+  h("input", { type: "checkbox", role: "switch", class: "switch", name, value: "1", "aria-labelledby": `${name}-t`, "aria-describedby": meta ? `${name}-m` : null, checked: on, ...attrs }));
+/** 시트의 친구에게 숨기기 카드(130판: raised 카드 안 스위치 줄. 일정이면 아래 한 줄) */
+const frHideCard = (name, on, custom, attrs) => [h("div", { class: "card info-list fr-hide" }, h("ul", { class: "list" }, h("li", {}, frSwitch(name, "친구에게 숨기기", FR_HIDE_META, on, attrs)))),
+  custom ? h("p", { class: "hide-note" }, "장소와 메모는 숨기지 않아도 친구에게 보이지 않아요") : null];
+let frShareWas = false;
+/** 친구 기능이 켜지거나 꺼졌다(로그인·닉네임·로그아웃): 열린 항목 시트·시간표 메뉴의 스위치 줄을 맞춘다 */
+function frShareCheck() {
+  const on = frShare();
+  if (on === frShareWas) return;
+  frShareWas = on;
+  if ($("item-sheet").open) refreshItemSheet();
+  if (ttOpts.open) renderTtOpts();
+}
+/** 내 시간표 머리 줄의 친구 버튼: 로그인을 켠 판에서만, 받은 요청이 있으면 빨간 점 */
+function paintFriendBtn() {
+  const b = $("tt-friends"), n = fr && acctUser && frFor === acctUser.uid ? fr.list.incoming.length : 0;
+  b.hidden = !accountOn();
+  b.classList.toggle("has-dot", n > 0);
+  b.setAttribute("aria-label", n ? `친구, 받은 요청 ${n}` : "친구");
+}
+$("tt-friends").addEventListener("click", () => go("friends"));
+/** 받은 것을 다시 받는다(로그인할 때, 친구 화면을 열 때, 고친 뒤) */
+async function frLoad() {
+  if (!acct || !acctUser) { fr = null; return null; }
+  if (!syncLib) syncLib = await import("./sync.js").catch(() => null);
+  const uid = acctUser.uid;
+  const [profile, list] = await Promise.all([acct.profile(), acct.friends()]); // 받지 못한 목록을 빈 목록으로 보이지 않는다(132판)
+  if (!acctUser || acctUser.uid !== uid) return null;
+  fr = { profile, list };
+  frFor = uid;
+  frShareCheck();
+  paintFriendBtn();
+  return fr;
+}
+/** 받지 못한 까닭: 오프라인이면 OFFLINE(연결되면 저절로 다시), 그 밖은 FAILED */
+const loadErr = (e) => ((e && e.code === "OFFLINE") || navigator.onLine === false ? "OFFLINE" : "FAILED");
+/** 받는 동안·오프라인 한 줄(131판: 그 자리 가운데, 스피너는 받는 동안만). 읽기는 role=status 영역으로 */
+const loadLine = (text, spin) => h("div", { class: "fr-load" }, spin ? h("span", { class: "spinner small", "aria-hidden": "true" }) : null, h("span", {}, text));
+/** 못 받은 줄과 다시 시도(131판: 후보 목록 아래 '더 찾지 못했어요' 꼴). 읽기는 role=alert 영역으로 */
+const failLine = (text, attrs) => h("div", { class: "ranks-more fr-fail" }, h("p", { class: "error-line" }, text), h("button", { type: "button", class: "btn-text", ...attrs }, "다시 시도"));
+/** 친구 화면: 로그인 전 → 로그인 카드, 처음 → 닉네임 정하기, 그다음 친구 목록 */
+function renderFriends() {
+  frErr = "";
+  paintFriends();
+  if (!acctUser) return;
+  const had = !!(fr && frFor === acctUser.uid);
+  if (!had) announce("불러오는 중");
+  frLoad().then(() => { frErr = ""; if (screen === "friends") paintFriends(); }, (e) => {
+    if (had && fr) return; // 전에 받은 목록이 있으면 그대로 둔다
+    frErr = loadErr(e);
+    if (screen !== "friends") return;
+    paintFriends();
+    announce(frErr === "OFFLINE" ? "연결되면 불러와요" : "친구 목록을 불러오지 못했어요", frErr === "OFFLINE" ? "status" : "alert");
+  });
+}
+/** 친구에게 보이는 내 시간표 줄의 값: 미리보기가 처음 여는 학기(지금 보는 학기, 대표 시간표가 없으면 가장 가까운 학기, 132판)의 대표 시간표에서 숨긴 항목 수 */
+function hiddenCount() {
+  const sem = nearestSem(primarySems(), mine.sem), t = sem ? primaryOf(sem) : null;
+  return t ? t.items.filter((it) => it.hidden).length : 0;
+}
+function paintFriends() {
+  const box = $("friends-body"), u = acctUser;
+  const had = box.contains(document.activeElement) ? (document.activeElement.dataset.frk || document.activeElement.id) : null;
+  const card = (rows) => h("div", { class: "card info-list" }, h("ul", { class: "list" }, rows.map((r) => h("li", {}, r))));
+  const who = (p) => h("span", { class: "b" }, h("span", { class: "t" }, ...handleNodes(p)), p.school ? h("span", { class: "m" }, SCHOOL_TAG) : null);
+  const act = (k, p, text, cls = "btn-text small") => h("button", { type: "button", class: cls, "data-fr": k, "data-uid": p.uid, "data-frk": `${k}:${p.uid}`,
+    "aria-label": `${handleText(p)} ${{ 취소: "요청 취소", 풀기: "차단 풀기" }[text] || text}` }, text);
+  const section = (title, n, body) => h("section", { class: "fr-section" }, h("h2", { class: "section-title" }, title, n ? h("span", { class: "count" }, String(n)) : null), body);
+  if (!accountOn() || u === undefined) { box.replaceChildren(); return; }
+  if (!u) { box.replaceChildren(loginCard("친구 시간표는 로그인하면 볼 수 있어요", false)); return; }
+  if (!fr || frFor !== u.uid) { // 받는 동안·오프라인·못 받음(131·132판): 묶음 자리 가운데
+    box.replaceChildren(frErr === "FAILED" ? failLine("친구 목록을 불러오지 못했어요", { "data-fr": "retry", "data-frk": "retry" })
+      : frErr === "OFFLINE" ? loadLine("연결되면 불러와요", false) : loadLine("불러오는 중", true));
+    if (had === "retry") box.querySelector('[data-frk="retry"]')?.focus({ preventScroll: true });
+    return;
+  }
+  if (!fr.profile) {
+    // 처음 한 번(130판): 제목, 닉네임(2~12자, #네 자리는 저절로, 글자 수), 친구에게 보이는 것, 학교 계정이면 학교 계정 보이기(처음 켜짐), 시작하기(2자 이상이면 켜짐)
+    const ok = (t) => h("li", { class: "ok" }, icon(I.check, 16), h("span", {}, t)), no = (t) => h("li", { class: "no" }, icon(I.x, 16), h("span", {}, t));
+    const keep = $("fr-nick") ? $("fr-nick").value : "", school = $("fr-school") ? $("fr-school").checked : true;
+    box.replaceChildren(
+      h("h2", { class: "fr-ttl" }, "친구 시간표"),
+      h("div", { class: "card fr-nick-card" },
+        h("label", { class: "field-label", for: "fr-nick" }, "닉네임"),
+        h("input", { class: "text-input", id: "fr-nick", type: "text", maxlength: String(NICK_MAX), autocomplete: "off", enterkeyhint: "done", value: keep,
+          "aria-describedby": "fr-nick-help fr-nick-err" }),
+        h("p", { class: "nick-help", id: "fr-nick-help" }, h("span", {}, "#네 자리 번호는 저절로 붙어요"), h("span", { id: "fr-nick-count" }, `${keep.length}/${NICK_MAX}`)),
+        h("p", { class: "error-line", id: "fr-nick-err", hidden: true }, "쓸 수 없는 닉네임이에요")),
+      h("div", { class: "card fr-vis-card" }, h("p", { class: "vis-head" }, "친구에게 보이는 것"),
+        h("ul", { class: "vis" }, ok("학기마다 대표 시간표의 과목명·시간·강의실"), ok("직접 넣은 일정의 이름·시간"), ok("숨긴 과목·일정은 시간만(회색 칸)"),
+          no("일정의 장소·메모, 학과·학번, 성적, 로그인 메일")),
+        h("p", { class: "vis-foot" }, "과목·일정마다 숨기고, 시간표마다 끌 수 있어요")),
+      u.school ? h("div", { class: "card info-list fr-school-card" }, h("ul", { class: "list" }, h("li", {},
+        frSwitch("fr-school", "학교 계정 보이기", "친구에게 학교 계정(snu.ac.kr)이라고 보여요", school, { id: "fr-school" })))) : null,
+      h("button", { type: "button", class: "btn-primary fr-start", id: "fr-start", "data-fr": "start", disabled: keep.trim().length < 2 }, "시작하기"));
+    if (had) $(had)?.focus({ preventScroll: true });
+    return;
+  }
+  const L = fr.list, hid = hiddenCount();
+  box.replaceChildren(...[
+    h("div", { class: "fr-head" },
+      h("button", { type: "button", class: "fr-me", "data-fr": "nick", "data-frk": "nick", "aria-haspopup": "dialog", "aria-label": `내 닉네임 ${handleText(fr.profile)}, 바꾸기` },
+        h("span", { class: "k" }, "내 닉네임"), h("span", { class: "n" }, ...handleNodes(fr.profile))),
+      h("button", { type: "button", class: "icon-btn fr-copy", "data-fr": "copy", "data-frk": "copy", "aria-label": "닉네임 복사" }, icon(COPY_ICON, 24)),
+      h("button", { type: "button", class: "btn-text with-ic fr-add-btn", "data-fr": "add", "data-frk": "add", "aria-haspopup": "dialog" }, icon(I.plus, 20), "친구 추가")),
+    card([h("button", { type: "button", class: "info-row", "data-fr": "preview", "data-frk": "preview" }, h("span", {}, "친구에게 보이는 내 시간표"),
+      hid ? h("span", { class: "v" }, `숨긴 항목 ${hid}`) : null, icon(I.right, 20))]),
+    L.incoming.length ? section("받은 요청", L.incoming.length, card(L.incoming.map((p) => h("div", { class: "fr-row" }, who(p),
+      h("span", { class: "acts" }, act("decline", p, "거절"), act("accept", p, "수락", "btn-add")))))) : null,
+    section("친구", L.friends.length, L.friends.length ? card(L.friends.map((p) => h("button", { type: "button", class: "fr-row", "data-fr": "open", "data-uid": p.uid,
+      "data-frk": `open:${p.uid}`, "aria-label": [handleText(p), p.school ? SCHOOL_TAG : ""].filter(Boolean).join(", ") }, who(p), icon(I.right, 20))))
+      : h("div", { class: "card" }, h("p", { class: "fr-empty" }, "친구가 아직 없어요"))),
+    L.outgoing.length ? section("보낸 요청", L.outgoing.length, card(L.outgoing.map((p) => h("div", { class: "fr-row" }, who(p), h("span", { class: "acts" }, act("cancel", p, "취소")))))) : null,
+    L.blocked.length ? section("차단한 사람", 0, card(L.blocked.map((p) => h("div", { class: "fr-row" }, who(p), h("span", { class: "acts" }, act("unblock", p, "풀기")))))) : null,
+  ].filter(Boolean));
+  if (had) box.querySelector(`[data-frk="${CSS.escape(had)}"]`)?.focus({ preventScroll: true });
+  if (frPending && !document.querySelector("dialog[open]")) { // 초대 링크로 열었다: 로그인·닉네임 뒤 묻는다
+    const handle = frPending;
+    frPending = "";
+    $("fri-title").textContent = `${handle}에게 친구 요청을 보낼까요?`;
+    $("fr-invite-ask").dataset.handle = handle;
+    openSheet($("fr-invite-ask"), $("friends-title"));
+  }
+}
+const COPY_ICON = '<rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5V6A1.5 1.5 0 0 0 14 4.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/>';
+/** 닉네임 칸(처음 화면·내 닉네임 팝업): 글자 수, 2자 이상이면 버튼 켜짐, 오류 줄은 고치면 거둔다 */
+function nickInput(input, count, err, btn) {
+  const v = input.value;
+  count.textContent = `${v.length}/${NICK_MAX}`;
+  err.hidden = true;
+  input.removeAttribute("aria-invalid");
+  btn.disabled = v.trim().length < 2;
+}
+function nickError(input, err) {
+  err.hidden = false;
+  input.setAttribute("aria-invalid", "true");
+  input.focus({ preventScroll: true });
+}
+$("friends-body").addEventListener("input", (e) => { if (e.target.id === "fr-nick") nickInput(e.target, $("fr-nick-count"), $("fr-nick-err"), $("fr-start")); });
+$("friends-body").addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" || e.isComposing || e.keyCode === 229) return;
+  if (e.target.id === "fr-nick" && !$("fr-start").disabled) { e.preventDefault(); $("fr-start").click(); }
+});
+/** 친구 일 하나: 부르고 다시 받아 그린다. 실패는 스낵바(fail 이 있으면 그것) */
+async function frDo(fn, done, fail) {
+  if (frBusy) return false;
+  frBusy = true;
+  let ok = true;
+  try {
+    const r = await fn();
+    await frLoad().catch(() => null);
+    if (screen === "friends") paintFriends();
+    if (done) done(r);
+  } catch (e) {
+    ok = false;
+    if (fail) fail(e); else showSnackbar(FR_ERR[e && e.code] || "하지 못했어요");
+  }
+  frBusy = false;
+  return ok;
+}
+/** 닉네임 정하기(처음·바꾸기): 서버가 거르면(BAD_NICK) 칸 아래 오류 줄. 학교 계정 보이기는 백엔드가 받는 대로(showSchool) */
+function saveNick(input, err, school, done) {
+  const nick = input.value.trim();
+  if (syncLib && syncLib.nickProblem(nick)) { nickError(input, err); return; }
+  frDo(async () => { const p = await acct.setNick(nick, { showSchool: school }); syncNow(); return p; }, done,
+    (e) => { if (e && e.code === "BAD_NICK") nickError(input, err); else showSnackbar(FR_ERR[e && e.code] || "닉네임을 정하지 못했어요"); });
+}
+$("friends-body").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-fr]");
+  if (!b || !acct) return;
+  const k = b.dataset.fr, uid = b.dataset.uid;
+  const person = () => (fr ? Object.values(fr.list).flat() : []).find((p) => p.uid === uid);
+  if (k === "retry") { renderFriends(); return; }
+  if (k === "start") { if (!b.disabled) saveNick($("fr-nick"), $("fr-nick-err"), $("fr-school") ? $("fr-school").checked : false, (p) => announce(`닉네임 ${handleText(p)}`)); return; }
+  if (k === "open") { go("friend", { uid }); return; }
+  if (k === "preview") { frpvSem = ""; go("frpv"); return; } // 처음은 지금 보는 학기부터(132판)
+  if (k === "add") { openFrAdd(b); return; }
+  if (k === "nick") { openNickPop(b); return; }
+  if (k === "copy") { copyText(handleText(fr.profile)).then((ok) => showSnackbar(ok ? "닉네임을 복사했어요" : "복사하지 못했어요")); return; }
+  const p = person();
+  if (k === "accept") frDo(() => acct.accept(uid), () => showSnackbar("친구가 됐어요"));
+  else if (k === "decline") frDo(() => acct.decline(uid)); // 알리지 않는다(상대에게도)
+  else if (k === "cancel") frDo(() => acct.cancel(uid), () => announce(`${handleText(p)} 요청을 취소했어요`));
+  else if (k === "unblock") frDo(() => acct.unblock(uid), () => announce(`${handleText(p)} 차단을 풀었어요`));
+});
+
+// 친구 추가 팝업(130판): 친구의 닉네임#번호, 초대 링크 보내기, [닫기] [요청 보내기]. 오류 줄은 칸 아래, 보내면 닫고 스낵바
+function frAddError(text) {
+  $("fra-err").hidden = !text;
+  $("fra-err").textContent = text || "";
+  if (text) { $("fra-handle").setAttribute("aria-invalid", "true"); $("fra-handle").setAttribute("aria-describedby", "fra-err"); }
+  else { $("fra-handle").removeAttribute("aria-invalid"); $("fra-handle").removeAttribute("aria-describedby"); }
+}
+function openFrAdd(opener) {
+  $("fra-handle").value = "";
+  $("fra-send").disabled = true; // 칸이 비어 있으면 꺼짐(132판)
+  frAddError(null);
+  openSheet($("fr-add"), opener);
+}
+$("fra-handle").addEventListener("input", () => { frAddError(null); $("fra-send").disabled = !$("fra-handle").value.trim(); });
+$("fra-handle").addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" || e.isComposing || e.keyCode === 229) return;
+  e.preventDefault();
+  $("fra-send").click();
+});
+/** 닉네임#번호로 요청한다(친구 추가 팝업·초대 링크 묻는 팝업). 이미 친구·내 닉네임은 묻기 전에 거른다 */
+function frRequest(text, onError, onDone) {
+  const h0 = syncLib ? syncLib.parseHandle(text) : null, key = h0 ? `${h0.nick}#${h0.tag}` : text;
+  if (syncLib && !h0) { onError("NOT_FOUND"); return; }
+  // 서버가 찾는 열쇠처럼 대소문자·띄어쓰기를 가리지 않고 견준다(sync.handleKey)
+  const same = (p) => !!(h0 && p && p.nick && syncLib.handleKey(p.nick, p.tag) === syncLib.handleKey(h0.nick, h0.tag));
+  if (same(fr && fr.profile)) { onError("SELF"); return; }
+  if (fr && fr.list.friends.some(same)) { onError("ALREADY"); return; }
+  frDo(() => acct.request(key), (r) => onDone(r), (e) => onError((e && e.code) || "FAILED"));
+}
+$("fra-send").addEventListener("click", () => {
+  const text = $("fra-handle").value.trim();
+  if (!text || $("fra-send").disabled) { $("fra-handle").focus(); return; }
+  frRequest(text, (code) => { frAddError(FR_ADD_ERR[code] || "요청을 보낼 수 없어요"); $("fra-handle").focus(); announce(FR_ADD_ERR[code] || "요청을 보낼 수 없어요", "alert"); },
+    (r) => { closeSheet($("fr-add")); showSnackbar(r && r.accepted ? "친구가 됐어요" : "요청을 보냈어요"); });
+});
+$("fra-invite").addEventListener("click", () => {
+  if (!fr || !fr.profile) return;
+  const url = acct.inviteLink(fr.profile);
+  deviceShareLink(url, "TT Wizard 친구 초대").then((ok) => { if (!ok) copyText(url).then((c) => showSnackbar(c ? "초대 링크를 복사했어요" : "초대 링크를 복사하지 못했어요")); });
+});
+$("fri-send").addEventListener("click", () => {
+  const d = $("fr-invite-ask"), text = d.dataset.handle || "";
+  closeSheet(d);
+  frRequest(text, (code) => showSnackbar(FR_ADD_ERR[code] || "요청을 보낼 수 없어요"), (r) => showSnackbar(r && r.accepted ? "친구가 됐어요" : "요청을 보냈어요"));
+});
+// 내 닉네임 팝업: 닉네임 칸(글자 수), 학교 계정이면 학교 계정 보이기, [닫기] [저장]. 바꾸는 횟수는 백엔드가 막는다
+function openNickPop(opener) {
+  const p = fr && fr.profile;
+  if (!p) return;
+  $("frn-body").replaceChildren(
+    h("div", { class: "tn-field" }, h("label", { class: "field-label", for: "frn-nick" }, "닉네임"),
+      h("input", { class: "text-input", id: "frn-nick", type: "text", maxlength: String(NICK_MAX), autocomplete: "off", enterkeyhint: "done", value: p.nick,
+        "aria-describedby": "frn-help frn-err" }),
+      h("p", { class: "nick-help", id: "frn-help" }, h("span", {}, "#네 자리 번호는 저절로 붙어요"), h("span", { id: "frn-count" }, `${p.nick.length}/${NICK_MAX}`)),
+      h("p", { class: "error-line", id: "frn-err", hidden: true }, "쓸 수 없는 닉네임이에요")),
+    acctUser && acctUser.school ? h("div", { class: "card info-list fr-hide" }, h("ul", { class: "list" }, h("li", {},
+      frSwitch("frn-school", "학교 계정 보이기", "친구에게 학교 계정(snu.ac.kr)이라고 보여요", p.showSchool !== false, { id: "frn-school" })))) : null);
+  $("frn-save").disabled = false;
+  openSheet($("fr-nick-pop"), opener);
+}
+$("frn-body").addEventListener("input", (e) => { if (e.target.id === "frn-nick") nickInput(e.target, $("frn-count"), $("frn-err"), $("frn-save")); });
+$("frn-body").addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" || e.isComposing || e.keyCode === 229 || e.target.id !== "frn-nick") return;
+  e.preventDefault();
+  if (!$("frn-save").disabled) $("frn-save").click();
+});
+$("frn-save").addEventListener("click", () => {
+  const input = $("frn-nick"), p = fr && fr.profile;
+  if (!input || !p) return;
+  const school = $("frn-school") ? $("frn-school").checked : p.showSchool !== false;
+  if (input.value.trim() === p.nick && school === (p.showSchool !== false)) { closeSheet($("fr-nick-pop")); return; } // 바꾼 것이 없다
+  saveNick(input, $("frn-err"), school, (q) => { closeSheet($("fr-nick-pop")); announce(`닉네임 ${handleText(q)}`); });
+});
+
+// 친구 시간표(하위 화면 'friend', 130판 FriendTimetable): 상단 바 '민지#0420'·⋯, 학기(친구가 대표 시간표를 둔 학기만. 처음은 앱의 학기, 없으면 가장 가까운 학기)와 '대표 시간표',
+// 읽기만 하는 격자(친구의 일정은 이름·시간만, 숨긴 것은 회색 칸). 그 학기에 보일 시간표가 없으면 '이 학기 시간표가 없어요'(끈 것을 알리지 않는다)
+let frView = { uid: "", terms: null, sem: "", failed: "" };
+/** 친구 사본 한 학기 → 격자에 그릴 시간표(T 꼴). 강좌는 친구가 보인 수업 그대로(own: 이 기기의 편람과 견주지 않는다), 숨긴 항목은 시간만(hidden, 회색 칸) */
+function friendTt(copy) {
+  const items = (copy.items || []).filter((x) => !x.hidden).map((x, i) => {
+    const ms = (x.meetings || []).map((m) => [m.day, m.start, m.end, m.building || "", m.room || ""]);
+    const color = Number.isInteger(x.color) ? { color: x.color } : {};
+    return x.course ? { course: x.course, no: x.no, name: x.name, base: ms, own: ms, ...color } : { custom: `f${i}`, title: x.title, meetings: ms, ...color };
+  });
+  // 숨긴 항목은 시간만: 같은 요일에 겹치는 것은 한 칸으로 합친다(이른 시작~늦은 끝, 몇 개가 겹쳤는지 보이지 않게. 131판). 보이는 칸과의 겹침은 반씩 그대로
+  const hid = (copy.items || []).filter((x) => x.hidden).flatMap((x) => x.meetings || []).map((m) => [m.day, m.start, m.end]).filter((m) => m[2] > m[1])
+    .sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  const merged = [];
+  for (const m of hid) {
+    const last = merged[merged.length - 1];
+    if (last && last[0] === m[0] && m[1] < last[2]) last[2] = Math.max(last[2], m[2]);
+    else merged.push([...m]);
+  }
+  if (merged.length) items.push({ custom: "hidden", title: "숨긴 항목", meetings: merged.map(([d, a, b]) => [d, a, b, "", ""]), hidden: true });
+  return T.parseList([{ v: T.VERSION, id: `friend-${copy.sem}`, sem: copy.sem, title: copy.title, created: copy.updated, updated: copy.updated, items }], copy.sem)[0] || null;
+}
+/** 내 대표 시간표 → 친구에게 가는 사본 꼴(미리보기. 백엔드 sync.friendItems 와 같은 것을 보이고 숨긴 것은 시간만) */
+function myFriendCopy(t) {
+  const items = t.items.map((it) => {
+    const ms = (it.custom ? it.meetings : it.own || it.base || []).map((m) => ({ day: m[0], start: m[1], end: m[2], building: it.custom ? "" : String(m[3] || ""), room: it.custom ? "" : String(m[4] || "") }));
+    if (it.hidden) return { hidden: true, meetings: ms.map(({ day, start, end }) => ({ day, start, end })) };
+    const color = Number.isInteger(it.color) ? { color: it.color } : {};
+    return it.custom ? { title: it.title, meetings: ms, ...color } : { course: it.course, no: it.no, name: it.name, meetings: ms, ...color };
+  });
+  return { sem: t.sem, title: t.title, items, updated: t.updated };
+}
+/** 읽기만 하는 격자(친구 시간표·미리보기). 없으면 격자 자리에 한 줄 */
+function frGrid(box, t, empty) {
+  if (!t) {
+    box.style.removeProperty("--hour-h");
+    box.replaceChildren(h("p", { class: "fr-wk-empty" }, empty));
+    return;
+  }
+  const entries = ttEntries(t);
+  renderWeek(t, entries, clashKeys(entries), { box, hourPx: MINE_HOUR_MIN * remPx(), still: true, grayHidden: true });
+}
+/** 학기 선택칸: 학기 목록(새 학기가 앞)과 고른 학기 */
+function frSemSelect(sel, sems, cur) {
+  sel.replaceChildren(...sems.map((s) => h("option", { value: s }, semesterLabel(s))));
+  sel.value = cur;
+  sel.disabled = sems.length < 2;
+  fitSelect(sel);
+}
+/** 학기의 차례(1학기 < 여름 < 2학기 < 겨울) */
+const semRank = (s) => { const [y, k] = String(s).split("-"); return Number(y) * 4 + ({ 1: 0, S: 1, 2: 2, W: 3 }[k] ?? 0); };
+/** 앱의 학기, 없으면 가장 가까운 학기 */
+function nearestSem(sems, want) {
+  if (sems.includes(want)) return want;
+  return [...sems].sort((a, b) => Math.abs(semRank(a) - semRank(want)) - Math.abs(semRank(b) - semRank(want)))[0] || "";
+}
+function friendPerson(uid) {
+  return fr && fr.list.friends.find((x) => x.uid === uid);
+}
+function renderFriendTt(extra = {}) {
+  const uid = extra.uid || frView.uid, p = friendPerson(uid);
+  $("friend-title").replaceChildren(...handleNodes(p));
+  $("friend-more").setAttribute("aria-label", `${handleText(p) || "친구"} 메뉴`);
+  $("friend-more").hidden = !p;
+  if (frView.uid !== uid) frView = { uid, terms: null, sem: "", failed: "" };
+  const fetch = !frView.terms && !!p && !!acct;
+  if (fetch) frView.failed = ""; // 다시 받는다(돌아왔을 때 지난 실패를 지운다)
+  paintFriendTt();
+  if (!fetch) return;
+  announce("불러오는 중");
+  acct.friendTimetables(uid).then((terms) => {
+    if (frView.uid !== uid) return;
+    frView.terms = terms || [];
+    frView.sem = nearestSem(frView.terms.map((x) => x.sem), state.semester);
+    if (screen === "friend") paintFriendTt();
+  }, (e) => {
+    if (frView.uid !== uid) return;
+    frView.failed = loadErr(e);
+    if (screen !== "friend") return;
+    paintFriendTt();
+    announce(frView.failed === "OFFLINE" ? "연결되면 불러와요" : "시간표를 불러오지 못했어요", frView.failed === "OFFLINE" ? "status" : "alert");
+  });
+}
+function paintFriendTt() {
+  const box = $("friend-wk"), terms = frView.terms;
+  $("friend-semrow").hidden = !terms || !terms.length;
+  if (!terms) { // 격자 카드 안 가운데(131·132판): 받는 동안 스피너, 오프라인 한 줄, 못 받으면 danger 한 줄과 다시 시도
+    box.style.removeProperty("--hour-h");
+    const focus = box.contains(document.activeElement);
+    box.replaceChildren(frView.failed === "FAILED" ? failLine("시간표를 불러오지 못했어요", { "data-fr-retry": "1" })
+      : loadLine(frView.failed === "OFFLINE" ? "연결되면 불러와요" : "불러오는 중", !frView.failed));
+    if (focus) box.querySelector("[data-fr-retry]")?.focus({ preventScroll: true });
+    return;
+  }
+  frSemSelect($("friend-sem"), terms.map((x) => x.sem), frView.sem);
+  const copy = terms.find((x) => x.sem === frView.sem);
+  frGrid(box, copy && copy.items ? friendTt(copy) : null, "이 학기 시간표가 없어요");
+}
+$("friend-sem").addEventListener("change", (e) => { frView.sem = e.target.value; paintFriendTt(); });
+$("friend-wk").addEventListener("click", (e) => {
+  if (!e.target.closest("[data-fr-retry]")) return;
+  frView = { uid: frView.uid, terms: null, sem: "", failed: "" };
+  renderFriendTt({ uid: frView.uid });
+});
+// 친구 메뉴(⋯): 친구 끊기·차단하기는 묻는 팝업, 끝나면 친구 화면으로 돌아가 스낵바. 닉네임 신고는 메일 앱(받는 사람 개발자 메일)
+$("friend-more").addEventListener("click", (e) => {
+  const p = friendPerson(frView.uid);
+  if (!p) return;
+  $("fm-title").replaceChildren(...handleNodes(p));
+  $("fm-meta").replaceChildren(...(p.school ? [h("span", { class: "tag" }, SCHOOL_TAG)] : []));
+  $("fm-meta").hidden = !p.school;
+  openSheet($("fr-menu"), e.currentTarget);
+});
+$("fr-menu").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-fm]");
+  if (!b) return;
+  const k = b.dataset.fm, p = friendPerson(frView.uid);
+  if (!p) return;
+  if (k === "report") { location.href = acct.reportLink(p); return; } // 메일 앱(mailto)
+  const menu = $("fr-menu");
+  menu.returnTo = null;
+  closeSheet(menu);
+  const block = k === "block";
+  $("fa-ask-title").textContent = block ? "차단할까요?" : "친구를 끊을까요?";
+  $("fa-ask-text").textContent = block ? "친구가 끊기고 서로 요청을 보낼 수 없어요" : "";
+  $("fa-ask-body").hidden = !block;
+  $("fa-ask-ok").textContent = block ? "차단하기" : "끊기";
+  $("fr-ask").dataset.act = k;
+  openSheet($("fr-ask"), $("friend-more"));
+});
+$("fa-ask-ok").addEventListener("click", () => {
+  const d = $("fr-ask"), k = d.dataset.act, uid = frView.uid;
+  d.returnTo = null;
+  closeSheet(d);
+  frDo(() => (k === "block" ? acct.block(uid) : acct.unfriend(uid)), () => {
+    frView = { uid: "", terms: null, sem: "", failed: "" };
+    if (screen === "friend") back(); // 친구 화면으로
+    showSnackbar(k === "block" ? "차단했어요" : "친구를 끊었어요");
+  });
+});
+
+// 친구에게 보이는 내 시간표(하위 화면 'frpv', 130판 미리보기): 이 기기에 대표 시간표가 있는 학기, 메타 '영표#4821 · 시간표 1', 친구 시간표와 같은 격자.
+// 대표 시간표의 '친구에게 보이기'가 꺼져 있으면 '친구에게 보이지 않는 학기예요'
+let frpvSem = "";
+/** 이 기기에 대표 시간표가 있는 학기(새 학기가 앞) */
+function primarySems() {
+  let keys = [];
+  try { keys = Object.keys(localStorage).filter((k) => k.startsWith("ttw.timetables@")); } catch { keys = []; }
+  const sems = keys.map((k) => k.slice("ttw.timetables@".length)).filter((s) => /^\d{4}-[12SW]$/.test(s));
+  return sems.filter((s) => primaryOf(s)).sort((a, b) => semRank(b) - semRank(a));
+}
+/** 그 학기의 대표 시간표(이 기기) */
+const primaryOf = (sem) => T.parseList(store.get(semKey(T.STORE_KEYS.list, sem), []), sem).find((x) => x.primary && !x._newer) || null;
+function renderFrPreview() {
+  const sems = primarySems();
+  if (!sems.includes(frpvSem)) frpvSem = nearestSem(sems, mine.sem);
+  frSemSelect($("frpv-sem"), sems, frpvSem);
+  $("frpv-sem").hidden = !sems.length;
+  const t = frpvSem ? primaryOf(frpvSem) : null;
+  $("frpv-meta").textContent = t ? [handleText(fr && fr.profile), t.title].filter(Boolean).join(" · ") : "";
+  frGrid($("frpv-wk"), t && !t.shareOff ? friendTt(myFriendCopy(t)) : null, t ? "친구에게 보이지 않는 학기예요" : "이 학기 시간표가 없어요");
+}
+$("frpv-sem").addEventListener("change", (e) => { frpvSem = e.target.value; renderFrPreview(); });
+
+/** 초대 링크로 열렸다: 시간표 탭의 친구 화면으로 간다(로그인·닉네임 전이면 그 단계부터). 로그인·닉네임 뒤 '…에게 친구 요청을 보낼까요?' */
+function openFriendInvite(handle) {
+  if (!accountWanted()) return;
+  frPending = handle;
+  startAccount().then(() => {
+    if (!accountOn()) return;
+    const show = () => { if (screen !== "friends") go("friends"); else renderFriends(); };
+    if (tab !== "mine") switchTab("mine", show); else show();
+  });
+}
+
 let pageName = "sources";
 const NGII_URL = "https://map.ngii.go.kr/"; // 국토정보플랫폼(국토지리정보원이 수치지형도를 내주는 누리집)
 const APACHE_URL = "https://www.apache.org/licenses/LICENSE-2.0";
@@ -6869,7 +8305,7 @@ function renderPage() {
   $("page-foot").hidden = !sources; // '강의 시간과 강의실은 수강편람에서 한 번 더 확인하세요'(자료 출처 아래)
   $("page-texts").hidden = sources || dev;
   // 내용이 같으면 다시 그리지 않는다(기록으로 돌아올 때 읽던 자리와 초점이 그대로 있게)
-  const key = dev ? "developer" : sources ? `sources ${state.semesterMeta.updated || ""} ${calChecked} ${deptOn() ? limSrc : "-"}` : "licenses";
+  const key = dev ? "developer" : sources ? `sources ${state.semesterMeta.updated || ""} ${calChecked} ${deptOn() ? `${limSrc} ${!!gradSrc}` : "-"}` : "licenses";
   if ($("page-list").dataset.key === key) return;
   $("page-list").dataset.key = key;
   const link = (href, text) => h("a", { href, target: "_blank", rel: "noopener" }, text);
@@ -6892,6 +8328,11 @@ function renderPage() {
         if (screen === "page" && pageName === "sources") renderPage();
       });
     }
+    // 졸업 요건 탭의 요건 자료와 성적 계산 기준(디자인 124·127판: 졸업 요건 탭을 켤 때 같이, 수강신청 다음)
+    if (deptOn() && gradSrc === null) {
+      gradSrc = false;
+      gradBase().then((b) => { gradSrc = gradSources(b); if (screen === "page" && pageName === "sources") renderPage(); }, () => { gradSrc = null; });
+    }
     list([
       ["과목", [link(CATALOG_URL, "서울대학교 수강편람"), state.semesterMeta.updated ? ` · ${asofLong(state.semesterMeta.updated)}` : ""]],
       ["건물", "서울대학교 캠퍼스맵"],
@@ -6899,6 +8340,8 @@ function renderPage() {
       // 백엔드 update102 data/calendar.json, 기준일은 그 checked_on. 아직 안 받았으면 받은 뒤 다시 그린다)
       ["학기 일정", `서울대학교 학사일정${calChecked ? `(${monthDay(calChecked)} 기준)` : ""} · 관공서의 공휴일에 관한 규정과 정부 발표`],
       deptOn() && limSrc ? ["수강신청", sugangSource(link)] : null,
+      deptOn() && gradSrc ? ["졸업 요건", gradSrc.req] : null,
+      deptOn() && gradSrc ? ["성적 계산", gradSrc.gpa] : null,
       // 걷는 길 그래프가 OpenStreetMap 바탕이라 그 그래프와 거기서 나온 경로 모양·걷는 시간은 ODbL(11/5 법무, 백엔드 update95). 모양은 '지도' 줄처럼
       ["길", [link("https://moreadorecampus.com/", "캠퍼스 마법 지도"), " · ", link("https://www.openstreetmap.org/copyright", "OpenStreetMap"), " 바탕, ODbL"]],
       // 공공누리 제1유형: 온라인에서는 가능하면 출처 누리집으로 가는 링크를 준다(국토정보플랫폼. 10/5 디자인)
@@ -7106,14 +8549,18 @@ function renderFeedback() {
 
 // 과목 추가(add)는 내 시간표 화면이다: 넓은 화면은 그 오른쪽 칸, 폰 폭은 그 위의 시트(넓은 화면에서 연 기록을 폰 폭에서 보일 때. 폰에서 연 시트는 화면이 아니다)
 const VIEW_EL = { input: "view-input", mine: "view-mine", add: "view-mine", result: "view-result", map: "view-map", info: "view-info", page: "view-page",
-  feedback: "view-feedback", theme: "view-theme", dept: "view-dept", setup: "view-dept" };
+  feedback: "view-feedback", theme: "view-theme", dept: "view-dept", setup: "view-dept", grad: "view-grad", notify: "view-notify", account: "view-account", friends: "view-friends",
+  friend: "view-friend", frpv: "view-frpv" };
 const VIEW_ELS = [...new Set(Object.values(VIEW_EL))];
 const H1 = { input: "input-title", mine: "mine-title", add: "add-panel-title", result: "result-title", map: "map-title", info: "info-title", page: "page-title",
-  feedback: "feedback-title", theme: "theme-title", dept: "dept-title", setup: "setup-title" };
-const ROOT = { mine: "mine", explore: "input", theme: "theme", info: "info" };
+  feedback: "feedback-title", theme: "theme-title", dept: "dept-title", setup: "setup-title", grad: "grad-title", notify: "notify-title", account: "account-title", friends: "friends-title",
+  friend: "friend-title", frpv: "frpv-title" };
+const ROOT = { mine: "mine", explore: "input", theme: "theme", info: "info", grad: "grad" };
 const TABS = ["mine", "explore", "theme"]; // 막대·사이드바의 탭 단추(정보는 폰은 탭 첫 화면 상단 바의 ⓘ, 컴퓨터는 사이드바 맨 아래 '정보')
+// 처리방침 11/27 판 시행 뒤(deptOn)에는 셋째에 졸업 요건(디자인 124판 TabBar: 시간표 · 동선 탐색 · 졸업 요건 · 테마)
+const tabList = () => (deptOn() ? ["mine", "explore", "grad", "theme"] : TABS);
 // 탭 이름(10/23 사용자: "'시간표', '동선 탐색' 뭐 이런 느낌으로", 오후 "테마도 걍 탭 하나로 빼자"). 아래 탭 막대와 컴퓨터의 사이드바가 같은 이름을 보인다
-const TAB_NAME = { mine: "시간표", explore: "동선 탐색", theme: "테마" };
+const TAB_NAME = { mine: "시간표", explore: "동선 탐색", theme: "테마", grad: "졸업 요건" };
 // 탭 아이콘 [선, 채운 판]. 채운 판의 뚫린 선(격자의 칸 선)은 알약 색(--tab-ind)으로 그린다(style.css)
 const TAB_ICON = {
   mine: ['<rect x="3.5" y="4.5" width="17" height="16" rx="2.5"/><path d="M3.5 9.5h17M9.2 9.5v11M14.8 9.5v11"/>',
@@ -7126,13 +8573,17 @@ const TAB_ICON = {
     + ["7.6 12.3", "8.9 8.1", "13.2 6.9", "16.9 9.4"].map((c) => { const [x, y] = c.split(" "); return `<circle cx="${x}" cy="${y}" r="1.25" fill="currentColor" stroke="none"/>`; }).join(""),
   '<path d="M12 3.5C7.3 3.5 3.5 7.3 3.5 12s3.8 8.5 8.5 8.5c1.2 0 1.9-.9 1.6-2-.3-1.2.5-2.3 1.8-2.3H17c1.9 0 3.5-1.6 3.5-3.6C20.5 7.4 16.7 3.5 12 3.5z" fill="currentColor"/>'
     + ["7.6 12.3", "8.9 8.1", "13.2 6.9", "16.9 9.4"].map((c) => { const [x, y] = c.split(" "); return `<circle cx="${x}" cy="${y}" r="1.3" fill="var(--tab-ind)" stroke="none"/>`; }).join("")],
+  // 졸업 요건: 학사모(마름모 판, 그 아래 둥근 띠, 판 오른쪽 끝에서 내려오는 술. 디자인 124판 TabBar 그대로). 고르면 마름모를 채운다
+  grad: ['<path d="M2.5 9.2L12 4.6l9.5 4.6L12 13.8z"/><path d="M6.6 11.4v4.4c0 1.5 2.4 3 5.4 3s5.4-1.5 5.4-3v-4.4"/><path d="M21.5 9.2v5.3"/>',
+    '<path d="M2.5 9.2L12 4.6l9.5 4.6L12 13.8z" fill="currentColor"/><path d="M6.6 11.4v4.4c0 1.5 2.4 3 5.4 3s5.4-1.5 5.4-3v-4.4"/><path d="M21.5 9.2v5.3"/>'],
 };
 // 사이드바 '정보'의 ⓘ [선, 채운 판]: 정보에 있는 동안 탭처럼 고른 모양(채운 원, 안의 i 는 알약 색)
 const INFO_ICON = ['<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r=".6" fill="currentColor"/>',
   '<circle cx="12" cy="12" r="9" fill="currentColor"/><path d="M12 11v5" stroke="var(--tab-ind)"/><circle cx="12" cy="7.8" r=".6" fill="var(--tab-ind)" stroke="var(--tab-ind)"/>'];
 let screen = "input", depth = 0, tab = "mine", launchTab = "mine", screenTab = "mine";
 let rebuild = null; // 탭을 바꾸며 기록을 되감는 중: 되감기가 끝나면(popstate) 새 탭의 기록을 쌓는다
-const stacks = { explore: [{ view: "input", extra: {} }], mine: [{ view: "mine", extra: {} }], theme: [{ view: "theme", extra: {} }], info: [{ view: "info", extra: {} }] };
+const stacks = { explore: [{ view: "input", extra: {} }], mine: [{ view: "mine", extra: {} }], theme: [{ view: "theme", extra: {} }], info: [{ view: "info", extra: {} }],
+  grad: [{ view: "grad", extra: {} }] };
 const scrollOf = {}, openers = {}, lastFocus = {};
 let infoFrom = null, infoBase = null; // 정보를 연 탭, 기록에서 정보 첫 화면의 깊이(정보를 연 적이 없으면 null)
 /** 그 묶음 첫 화면의 기록 깊이: 켤 때 연 탭 0, 다른 탭 1, 정보는 연 탭의 기록 위 */
@@ -7161,7 +8612,7 @@ function back() {
  *  정보에서 누르면: 정보를 연 탭이면 정보만큼 기록을 되돌리고(그 탭의 마지막 화면), 다른 탭이면 탭을 바꿀 때처럼 되감아 쌓는다.
  *  after: 다른 탭으로 바꾸고 그 화면을 보인 뒤 부른다(동선 확인하기가 탐색 탭에서 시간표 만들기를 돌린다) */
 function switchTab(next, after) {
-  if (rebuild || !TAB_NAME[next]) return;
+  if (rebuild || !tabList().includes(next)) return;
   if (next === tab) { toFirst(); return; }
   if (tab === "info" && next === infoFrom) { history.go(-(depth - infoBase + 1)); return; }
   const apply = () => {
@@ -7195,12 +8646,15 @@ function renderTabs() {
     if (on) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
     b.replaceChildren(icon(INFO_ICON[on ? 1 : 0]), h("span", {}, "정보"));
   }
+  const keys = tabList();
   for (const list of document.querySelectorAll(".tabbar ul, .sidebar ul")) {
     const bar = !list.closest(".sidebar");
-    if (!list.children.length) {
-      list.replaceChildren(...TABS.map((k) => h("li", {}, h("button", bar
+    if (list.dataset.tabs !== keys.join(" ")) { // 처음, 또는 졸업 요건 탭이 생겼다(시행일, 웹 개발자 메뉴)
+      list.dataset.tabs = keys.join(" ");
+      list.replaceChildren(...keys.map((k) => h("li", {}, h("button", bar
         ? { type: "button", class: "tab", "data-tab": k }
         : { type: "button", class: "sb-item", "data-tab": k }))));
+      if (bar) requestAnimationFrame(() => tabFit());
     }
     for (const b of list.querySelectorAll("[data-tab]")) {
       const on = b.dataset.tab === tab;
@@ -7227,7 +8681,9 @@ for (const a of document.querySelectorAll("[data-home]")) {
 // 탭이 셋이라 칸이 모자라면(폭 320, 글자를 키움) 이름이 여러 줄이 되고 막대가 그만큼 높아진다(디자인 75판 '탭'). 늘어난 만큼을 --tabbar-grow 로 알려
 // 하단 주요 버튼·스낵바·본문 끝 여백(style.css 의 --tabbar-top·--tabbar-space)이 막대에 가리지 않게 한다. 막대가 숨으면(컴퓨터, 화상 키보드) 0
 // 칸이 아이콘 옆에 가장 긴 낱말(시간표)도 못 담을 만큼 좁으면(탭 셋에 글자 200% 등) 이름이 글자마다 꺾이므로 아이콘을 이름 위에 둔다(style.css .is-tight).
-// 지금 모양이 아니라 낱말 폭으로 정해서 모양을 바꿔도 판단이 오가지 않는다
+// 지금 모양이 아니라 낱말 폭으로 정해서 모양을 바꿔도 판단이 오가지 않는다. 탭이 넷이면(졸업 요건, 디자인 124판) 폭 600px 아래의 폰은 늘 아이콘을 이름 위에 둔다
+// (폭 412에서도 칸이 99px 라 '졸업 요건'·'동선 탐색'이 아이콘 옆에서 두 줄로 꺾인다)
+let tabFit = () => {};
 {
   const bar = $("tabbar"), ul = bar.querySelector("ul");
   const ruler = document.createElement("canvas").getContext("2d");
@@ -7236,9 +8692,10 @@ for (const a of document.querySelectorAll("[data-home]")) {
     if (!cell || !name || !ruler) return;
     const cs = getComputedStyle(name), ccs = getComputedStyle(cell);
     ruler.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
-    const word = Math.max(...TABS.flatMap((k) => TAB_NAME[k].split(" ")).map((w) => ruler.measureText(w).width));
+    const keys = tabList();
+    const word = Math.max(...keys.flatMap((k) => TAB_NAME[k].split(" ")).map((w) => ruler.measureText(w).width));
     const room = cell.clientWidth - parseFloat(ccs.paddingLeft) - parseFloat(ccs.paddingRight);
-    bar.classList.toggle("is-tight", room > 0 && room + 0.5 < 12 + 20 + 6 + word + 16); // 알약 여백·아이콘·사이(style.css .tabbar .tab .ind)
+    bar.classList.toggle("is-tight", (keys.length > 3 && phoneWide.matches) || (room > 0 && room + 0.5 < 12 + 20 + 6 + word + 16)); // 알약 여백·아이콘·사이(style.css .tabbar .tab .ind)
   };
   // 모양을 정한 뒤 늘어난 높이를 잰다. 한 번에 한다: 모양이 바뀌었다 같은 프레임에 되돌아오면 크기 관찰은 알리지 않는다
   const update = () => {
@@ -7249,6 +8706,8 @@ for (const a of document.querySelectorAll("[data-home]")) {
   };
   new ResizeObserver(update).observe(ul);
   document.fonts?.ready.then(update); // 글꼴이 들어오면 낱말 폭이 달라진다
+  phoneWide.addEventListener("change", update);
+  tabFit = update;
 }
 // 탭마다 마지막에 초점이 있던 곳(그 탭으로 돌아오면 거기로. 화면 밖의 탭 막대·사이드바는 빼고)
 document.addEventListener("focusin", (e) => {
@@ -7331,6 +8790,12 @@ function showView(name, dir, extra = {}) {
     if (from === "feedback" && name !== "feedback" && fbSent) clearFeedback(); // 'GitHub에 올리기'를 누른 뒤 떠나면 비운다(누르기 전이면 남긴다)
     if (name === "feedback") renderFeedback();
     if (name === "theme") renderThemes();
+    if (name === "grad") renderGrad();
+    if (name === "notify") renderNotify();
+    if (name === "account") renderAccount();
+    if (name === "friends") renderFriends();
+    if (name === "friend") renderFriendTt(extra);
+    if (name === "frpv") renderFrPreview();
     if (name === "dept" || name === "setup") renderDept(name);
     document.title = titleOf(name);
     if (from !== name) hideSnackbar();
@@ -7728,6 +9193,7 @@ const launchNav = IN_APP ? null : navOf(location.href);
 launchTab = tab = screenTab = launchNav?.tab || "mine";
 // 공유받은 시간표 링크(웹 #t=…): 주소를 지우기 전에 읽어 둔다(지우면 새로 고쳐도 다시 열리지 않는다). 학기 목록을 받은 뒤 공유받은 시간표 시트로 연다
 const launchLink = IN_APP ? null : linkCodeOf(location.hash);
+const launchInvite = IN_APP ? null : friendOf(location.hash); // 친구 초대 링크(웹 '#friend=닉네임%231234')
 history.replaceState({ tab, view: ROOT[tab], depth: 0 }, "", location.pathname + location.search);
 // 교과구분 색 풀이: 결과 화면 시간표 아래, 입력 화면 담은 과목 아래, 내 시간표 격자 아래(교과구분별 칸 색일 때), 공유받은 시간표 격자 아래
 for (const id of ["cls-legend", "picked-legend", "tt-legend", "sd-legend"]) {
@@ -7740,12 +9206,16 @@ showView(setupAtLaunch() ? "setup" : ROOT[tab], "init"); // 학과와 학번을 
 delete document.documentElement.dataset.launch;
 startApp();
 loadLimits(); // 학과·학번을 넣었으면 수강 제한 알림(지금 학기 자료와 학과 목록을 받는다)
+if (accountWanted()) startAccount(); // 로그인(ACCOUNT_FROM 뒤, 웹은 개발자 메뉴로 켠 탭): 로그인돼 있으면 맞춘다
 if (launchLink) receiveLink(launchLink);
+if (launchInvite) openFriendInvite(launchInvite);
 if (launchNav && (launchNav.sem || launchNav.route !== null || launchNav.item)) goNav({ ...launchNav, tab: null });
 setTimeout(askTheme, 400); // 첫 화면이 그 테마로 보인 뒤에 묻는다
 // 이미 열어 둔 웹 앱의 주소 칸에 시간표 링크를 붙여 넣었다(주소의 # 만 바뀌면 새로 열리지 않는다)
 window.addEventListener("hashchange", () => {
   if (IN_APP) return;
+  const invite = friendOf(location.hash);
+  if (invite) { history.replaceState({ tab, view: screen, depth }, "", location.pathname + location.search); openFriendInvite(invite); return; } // 친구 초대 링크
   const code = linkCodeOf(location.hash), nav = code ? null : navOf(location.href);
   if (!code && !nav) return;
   history.replaceState({ tab, view: screen, depth }, "", location.pathname + location.search);
@@ -7755,6 +9225,7 @@ window.addEventListener("hashchange", () => {
 // 켜 둔 동안 열린 주소는 window 의 'ttw:open-url' 이벤트(detail.url)). 웹처럼 공유받은 시간표 시트를 띄운다(11/4 사용자. 그 전에는 보여 주지 않고 바로 넣었다)
 if (IN_APP) {
   Promise.resolve(window.TTW_APP?.launchUrl).then((u) => {
+    if (friendOf(u)) { openFriendInvite(friendOf(u)); return; } // 친구 초대 링크
     const c = linkCodeOf(u);
     if (!c) { const nav = navOf(u); if (nav) goNav(nav); return; } // 홈 화면 위젯(navOf)
     let done = false;
@@ -7763,6 +9234,7 @@ if (IN_APP) {
   }).catch(() => {});
   window.addEventListener("ttw:open-url", (e) => {
     const u = e.detail && e.detail.url, c = linkCodeOf(u);
+    if (friendOf(u)) { openFriendInvite(friendOf(u)); return; } // 친구 초대 링크
     if (c) { receiveLink(c); return; }
     const nav = navOf(u);
     if (nav) goNav(nav);

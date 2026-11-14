@@ -309,7 +309,7 @@ a { color: var(--accent-text); }
 
 .view { max-width: var(--width-input); margin: 0 auto; padding: 0 var(--gutter-right) calc(var(--bottom-bar-h) + var(--space-6)) var(--gutter-left); }
 #view-result { max-width: var(--width-result); padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
-#view-info, #view-page, #view-feedback, #view-theme { padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
+#view-info, #view-page, #view-feedback, #view-theme, #view-grad, #view-notify, #view-account, #view-friends, #view-friend, #view-frpv { padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
 
 /* 화면 전환(View Transitions): 결과 화면(지도, 결과 화면에서 연 자료 출처)은 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms).
    정보 묶음 안은 10/23 저녁부터 탭처럼 교차 페이드다(app.js showView). 못 쓰는 브라우저와 동작 줄이기에서는 바로 바뀐다(app.js 가 전환을 건너뛴다) */
@@ -416,6 +416,9 @@ body.is-typing .bottom-bar { display: none; }
   .mine-right .btn-primary { max-width: none; }
   #view-input { max-width: var(--width-result); padding-bottom: 0; }
   #view-theme { max-width: var(--width-result); } /* 테마 탭도 다른 탭 첫 화면과 같은 폭(카드를 한 줄에 넷 놓을 자리, 탭을 바꿔도 상단 바 워드마크가 그 자리) */
+  /* 졸업 요건 탭: 상단 바는 다른 탭 첫 화면과 같은 폭(워드마크가 그 자리), 본문은 가운데 한 칸(width-input. 디자인 124판 '넓은 화면') */
+  #view-grad { max-width: var(--width-result); }
+  #view-grad > main { max-width: calc(var(--width-input) - var(--gutter-left) - var(--gutter-right)); margin: 0 auto; }
   #view-input > main { display: grid; grid-template-columns: minmax(0, 1fr) min(var(--width-pane), calc((100% - var(--space-6)) / 2));
     column-gap: var(--space-6); align-items: start; }
   .input-left, .input-right { position: sticky; top: calc(var(--topbar-h) + var(--safe-top)); display: flex; flex-direction: column; }
@@ -558,7 +561,14 @@ button.btn-text[aria-disabled="true"], button.btn-text[aria-disabled="true"]:hov
 /* 넓은 화면 검색 전: 과목 둘러보기(10/2 디자인). 목록 머리의 선택칸(교양 전체·학과, 이름 '과목 목록')이 곧 목록 제목이라 따로 제목이 없다.
    바탕·테두리 없이 t-body-sm-strong text, 꺾쇠 muted, 높이 48, 폭은 고른 글자에 맞춘다(app.js fitSelect). 행은 검색 결과 행과 같다.
    선택칸 아래 줄은 머리 쪽에 그어서 머리가 카드 위에 붙어 있을 때도 행과 갈린다 */
-.browse-head { padding: var(--space-1) var(--space-2) 0; border-bottom: 1px solid var(--line); }
+.browse-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding: var(--space-1) var(--space-2) 0; border-bottom: 1px solid var(--line); }
+/* 과목 추가의 차례 선택칸(128판): 넓은 화면 검색 결과 머리는 왼쪽에 '분반 23'(.head-count, 글자가 행 글자 줄 16 에 선다), 둘러보기 머리는 목록 선택칸 오른쪽.
+   차례 선택칸은 줄지 않고 왼쪽이 준다. 꺾쇠를 행 버튼의 오른쪽 끝(카드 끝에서 12)에 맞춘다(폰 시트의 .list-head 는 그대로 맞는다) */
+.browse-head > .head-count { padding-left: var(--space-2); font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
+.browse-select.order-select { flex: none; }
+.browse-head > .order-select { margin-right: calc(var(--space-2) * -1); }
+/* 과목 추가 분반 행의 넷째 줄 빈 자리(124판 .r-fit, '들어감 · 걷기 주 +4분'): t-caption text2 */
+.result .r-fit { color: var(--text2); }
 .browse-select { appearance: none; -webkit-appearance: none; min-width: 0; max-width: 100%; min-height: var(--touch); padding: 0 30px 0 var(--space-2);
   border: 0; border-radius: var(--radius-sm);
   background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238a92a6' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right var(--space-2) center;
@@ -1149,8 +1159,8 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
   #view-input:not([hidden]) ~ .snackbar, #view-mine:not([hidden]) ~ .snackbar {
     right: max(var(--gutter-right), calc((100% - var(--sidebar-w) - var(--width-result)) / 2 + var(--gutter-right))); }
   /* 탭의 첫 화면: 상단 바 없이 본문은 위 space-4 부터, 두 칸도 거기에 붙는다 */
-  #view-input > .topbar, #view-mine > .topbar, #view-theme > .topbar { display: none; }
-  #view-input, #view-mine, #view-theme { padding-top: calc(var(--space-4) + var(--safe-top)); }
+  #view-input > .topbar, #view-mine > .topbar, #view-theme > .topbar, #view-grad > .topbar { display: none; }
+  #view-input, #view-mine, #view-theme, #view-grad { padding-top: calc(var(--space-4) + var(--safe-top)); }
   .input-left, .input-right, .mine-right, .mine-add { top: calc(var(--space-4) + var(--safe-top)); }
 }
 @media (min-width: 68.75em) and (min-height: 25em) {
@@ -1476,6 +1486,8 @@ dialog.sheet.shared-sheet { padding-bottom: 0; }
 .text-input::placeholder { color: var(--text3); opacity: 1; }
 dialog.sheet .text-input { background: var(--raised); } /* 시트·팝업 위 입력칸은 옆 선택칸과 같은 raised(디자인 88판. card 면 다크에서 한 단 어둡다) */
 .cu-field { padding: var(--space-2) 0 var(--space-3); }
+fieldset.cu-field { min-width: 0; margin: 0; border: 0; } /* 요일 칸 묶음: 브라우저 기본 테두리(홈 선)와 legend 안쪽 여백을 걷어 다른 칸과 같은 왼쪽 끝에 */
+.cu-field > legend.field-label { padding: 0; }
 .cu-field .field-label { margin-bottom: var(--space-2); }
 .cu-field .error-line { margin: var(--space-2) 0 0; }
 .cu-field .select { margin-top: 0; }
@@ -1797,3 +1809,241 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 .limit-note p { margin: 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text2); word-break: keep-all; overflow-wrap: anywhere; }
 .limit-note p + p { margin-top: 2px; color: var(--text3); }
 .limit-note a { color: var(--text); text-decoration-line: underline; text-decoration-color: var(--line-strong); white-space: nowrap; }
+
+/* ---------- 졸업 요건 탭(디자인 124판 '졸업 요건 탭', 컴포넌트 GradReq, bundle.css '졸업 요건 탭'. 11월 13일 밤 사용자가 시안을 보고 정했다: 큰 틀은 세그먼트 셋 '나',
+   성적은 따로 성적 계산기, 들은 과목은 "드랍 여부만", 요건 줄과 다음 학기 추천은 그림대로). 처리방침 11/27 판 시행 뒤에 켠다(app.js deptOn).
+   머리 .gr-head(학과·학번 한 줄 t-caption on-bg-text3 + 들은 학점 t-title on-bg-heading, 시간표 탭 머리와 같은 꼴), 그 아래 세그먼트 .gr-seg(요건 | 들은 과목 | 성적),
+   보기마다 묶음 제목(h2.section-title + 판·학점 .count)과 카드 목록 */
+.gr-head { padding: var(--space-1) var(--space-1) 0; }
+.gr-head .sem { display: block; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); }
+.gr-head .nm { display: block; margin-top: 2px; font-size: 1.25rem; line-height: 1.75rem; font-weight: 700; letter-spacing: -0.01em; color: var(--on-bg-heading); }
+.gr-seg { margin: var(--space-4) 0 0; padding: 0; border: 0; min-width: 0; }
+.gr-view h2.section-title { margin-top: var(--space-6); flex-wrap: wrap; row-gap: 0; }
+.gr-view h2.section-title .count { font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400; letter-spacing: 0; }
+/* 학과가 더 새 판을 허락하면 판 이름이 선택칸(.count 와 같은 글자. 누르는 높이는 위아래로 넘친다) */
+.gr-view h2.section-title .gr-ver { align-self: center; margin: -12px 0 -12px calc(var(--space-2) * -1); font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400;
+  letter-spacing: 0; color: var(--on-bg-text3); }
+.gr-view > .card { margin-top: var(--space-6); }
+.gr-view h2.section-title + .card { margin-top: 0; }
+/* 요건 줄: 정보 화면의 행(.info-row) 그대로. 남음은 text 500, 충족은 체크 16 + text3, 확인 필요는 중립 태그. 값 뒤 꺾쇠는 값에 붙는다(값이 오른쪽 끝으로 민다) */
+.info-row .v.is-left { color: var(--text); font-weight: 500; }
+.info-row .v.is-ok { display: inline-flex; align-items: center; gap: 2px; }
+.info-row .v.is-ok svg { margin-left: 0; color: var(--text3); }
+.info-row > .tag { margin-left: auto; }
+.info-row > .v ~ svg, .info-row > .tag ~ svg { margin-left: 0; }
+div.info-row { cursor: default; }
+.gr-foot { margin: var(--space-5) var(--space-1) 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); word-break: keep-all; }
+.gr-foot + .gr-foot { margin-top: var(--space-2); }
+.gr-foot a { color: var(--on-bg-text); text-decoration-line: underline; text-decoration-color: var(--line-strong); }
+.gr-lead { margin: var(--space-4) var(--space-1) 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); word-break: keep-all; }
+/* 요건 시트(남음·충족 줄과 확인 필요 줄을 누르면) */
+.sheet-body p.rq-detail { margin: 0 0 var(--space-1); font-size: 0.875rem; line-height: 1.3125rem; color: var(--text2); word-break: keep-all; }
+.sheet-body p.rq-sum { margin: 0 0 var(--space-2); color: var(--text); }
+.rq-sum b { font-weight: 700; }
+.rq-list > li { display: flex; align-items: center; gap: var(--space-3); min-height: 52px; }
+.rq-list .ic { flex: none; display: flex; color: var(--line-strong); }
+.rq-list .done .ic { color: var(--accent-text); }
+.rq-list .t { flex: 1; min-width: 0; font-size: 1rem; line-height: 1.5rem; color: var(--text); word-break: keep-all; }
+.rq-list .done .t { color: var(--text2); }
+.rq-list .m { flex: none; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); text-align: right; }
+.sheet-body p.rq-src { margin: var(--space-4) 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; }
+.sheet-body p.rq-src + p.rq-src { margin-top: 2px; }
+.sheet-body p.rq-why { margin: var(--space-3) 0 var(--space-1); color: var(--text); word-break: keep-all; }
+.sheet-body p.rq-state { margin: 0; }
+.rq-acts { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-left: calc(var(--space-2) * -1); }
+.sheet-body p.rq-note { margin: var(--space-4) 0 var(--space-1); font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; }
+/* 들은 과목·성적의 과목 줄(.tk): 과목명·메타 + 오른쪽 '드랍' 체크(들은 과목) 또는 성적 선택칸(성적) */
+.tk { display: flex; align-items: center; gap: var(--space-2); min-height: 60px; box-sizing: border-box; padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4); }
+.tk .b { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.tk .t { font-size: 1rem; line-height: 1.5rem; color: var(--text); word-break: keep-all; overflow-wrap: anywhere; }
+.tk .m { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
+.tk .check { flex: none; padding: 0 var(--space-2); font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
+.tk:has(.check input:checked) .t { color: var(--text3); }
+.tk .browse-select { flex: none; font-size: 0.875rem; font-weight: 500; color: var(--text); }
+.tk .browse-select:has(option[value=""]:checked) { color: var(--text3); font-weight: 400; }
+.tk .icon-btn.remove { flex: none; }
+/* 대표 시간표가 없는 정규 학기: 카드 안 한 줄에 '대표 시간표가 없어요'와 텍스트 버튼 '시간표 만들기'(시간표 탭의 그 학기로) */
+.gr-none { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding-right: var(--space-2); }
+.gr-view .gr-none > .empty { padding: var(--space-4); font-size: 0.875rem; line-height: 1.25rem; }
+/* 맨 아래 카드 '+ 다른 곳에서 들은 과목'(카드 안 한 줄. 내 시간표 항목 목록의 셋 줄과 달리 아이콘 옆에 이름) */
+.gr-view .add-row { flex-direction: row; justify-content: flex-start; gap: var(--space-2); min-height: 3.5rem; padding: 0 var(--space-4); font-size: 1rem; line-height: 1.5rem; text-align: left; }
+.gr-view .add-row:focus-visible { outline-offset: -2px; }
+/* 성적 계산기 머리 카드 */
+.gpa li { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 var(--space-3); min-height: 52px; box-sizing: border-box; padding: var(--space-3) var(--space-4); }
+.gpa .k { flex: 1; min-width: 0; font-size: 1rem; line-height: 1.5rem; color: var(--text); }
+.gpa .n { font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; color: var(--heading); font-variant-numeric: tabular-nums; }
+.gpa .s { flex-basis: 100%; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
+.gpa .browse-select { margin: -12px -8px -12px 0; font-size: 1.0625rem; font-weight: 700; color: var(--heading); }
+.gpa .need { flex-basis: 100%; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
+.gpa .need b { color: var(--text); font-weight: 700; }
+.gr-view > .card.gpa:first-child { margin-top: var(--space-4); }
+/* 자료가 없을 때: 가운데 학사모 32, 글, 주요 버튼(학과와 학번 넣기) */
+.gr-empty { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); padding: var(--space-8) var(--space-5) var(--space-6); text-align: center; }
+.gr-empty svg { color: var(--on-bg-text3); }
+.gr-empty p { margin: 0; font-size: 1rem; line-height: 1.5rem; color: var(--on-bg-text2); word-break: keep-all; }
+.gr-empty .btn-primary { margin-top: var(--space-2); }
+.gr-empty .btn-text { color: var(--on-bg-link); }
+/* 과목 추가의 남은 요건 과목(124판 ⑦): 학기 학점 줄(.lim-line, '18학점까지 ▾ · 12학점 남음'. 넘으면 '3학점 넘음' warning). 폰 시트는 머리 아래 그대로,
+   넓은 화면 칸은 둘러보기 머리 아래에서 선택칸 글자와 같은 줄에 선다. 행의 요건 태그는 수강 제한 태그 자리(.r-limit, 중립) */
+.lim-line { display: flex; align-items: center; gap: var(--space-1); margin: 0 0 var(--space-1); font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
+.lim-line .browse-select { min-height: 36px; font-size: 0.8125rem; color: var(--text2); }
+.lim-line .over { color: var(--warning); }
+.browse-head + .lim-line { margin: 0; padding: 0 var(--space-2) var(--space-1); border-bottom: 1px solid var(--line); }
+.browse-head:has(+ .lim-line:not([hidden])) { border-bottom: 0; } /* 머리와 학기 학점 줄을 한 덩어리로(아래 줄 하나) */
+.browse-head + .lim-line > .lim-cap { padding-left: var(--space-2); }
+.list-head > #add-req-count { min-width: 0; }
+.add-head + .lim-line > .browse-select { margin-left: calc(var(--space-2) * -1); } /* 폰 시트: 선택칸 글자를 머리 글자 줄에 */
+/* ---------- 폰 알림(디자인 129판 Notifications, 안드로이드 앱. bundle.css '폰 알림'): 알림 화면의 스위치 줄(.switch-row)과 스위치(.switch, 머티리얼 3 크기),
+   알림 시각 줄(정보의 선택칸 줄 .pick-row: 보이는 값과 꺾쇠는 그림이고 투명한 select 를 줄 전체에 덮는다. 글자 16px 이라 iPhone 이 누를 때 확대하지 않는다).
+   막대 52×32, 꺼짐은 line-strong 테두리 2와 card 바탕에 손잡이 16(line-strong), 켜짐은 accent 막대에 손잡이 24(on-color), 누르는 동안 28.
+   손잡이 가운데는 막대 왼끝에서 16(꺼짐)·36(켜짐)이다(테두리 안쪽 기준 14·34). 줄 어디를 눌러도 바뀌고 초점 테두리는 줄에 그린다 */
+.info-row.pick-row { position: relative; cursor: pointer; }
+.info-pick { display: flex; align-items: center; gap: var(--space-2); margin-left: auto; color: var(--text); font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; white-space: nowrap; }
+.info-pick select { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; font-size: 1rem; cursor: pointer; }
+.info-pick svg { margin-left: 0; }
+.info-row.pick-row:has(select:focus-visible) { outline: 2px solid var(--focus); outline-offset: -2px; }
+.info-row.pick-row:active { background: var(--surface-hover); }
+@media (hover: hover) { .info-row.pick-row:hover { background: var(--surface-hover); } }
+.info-row.switch-row { min-height: 64px; padding: var(--space-2) var(--space-4); cursor: pointer; }
+.switch-row .sw-body { display: flex; flex: 1; flex-direction: column; min-width: 0; }
+.switch-row .sw-m { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
+.switch-row:has(.switch:focus-visible) { outline: 2px solid var(--focus); outline-offset: -2px; }
+.switch-row:active { background: var(--surface-hover); }
+@media (hover: hover) { .switch-row:hover { background: var(--surface-hover); } }
+.switch { appearance: none; -webkit-appearance: none; position: relative; flex: none; width: 52px; height: 32px; margin: 0; box-sizing: border-box;
+  border: 2px solid var(--line-strong); border-radius: 16px; background: var(--card); cursor: inherit; }
+.switch:focus-visible { outline: none; }
+.switch::before { content: ""; position: absolute; top: 50%; left: 14px; width: 16px; height: 16px; border-radius: 50%; background: var(--line-strong);
+  transform: translate(-50%, -50%); transition: left var(--dur-press) var(--ease-standard), width var(--dur-press) var(--ease-standard), height var(--dur-press) var(--ease-standard); }
+.switch:checked { border-color: var(--accent); background: var(--accent); }
+.switch:checked::before { left: 34px; width: 24px; height: 24px; background: var(--on-color); }
+.switch-row:active .switch:not(:disabled)::before { width: 28px; height: 28px; }
+/* 권한이 꺼져 막힌 줄: 스위치 38%, 글 50%. 누름·올림 바탕도 없다(맨 위 '폰 알림 권한' 줄이 까닭을 말한다) */
+.switch:disabled { opacity: 0.38; }
+.switch-row:has(.switch:disabled) { cursor: default; }
+.switch-row:has(.switch:disabled) :is(.sw-t, .sw-m) { opacity: 0.5; }
+.switch-row:has(.switch:disabled):active { background: transparent; }
+@media (hover: hover) { .switch-row:has(.switch:disabled):hover { background: transparent; } }
+@media (prefers-reduced-motion: reduce) { .switch::before { transition: none; } }
+@media (forced-colors: active) {
+  .switch { border-color: CanvasText; background: Canvas; }
+  .switch::before { background: CanvasText; }
+  .switch:checked { border-color: Highlight; background: Highlight; }
+  .switch:checked::before { background: HighlightText; }
+  .switch:disabled { border-color: GrayText; opacity: 1; }
+  .switch:disabled::before { background: GrayText; }
+}
+/* ---------- 계정과 로그인(디자인 130판 Account, bundle.css 그대로): 로그인 전 카드(.acct), Google 버튼(.g-btn, Google 로그인 브랜드 지침의 색. DS 버튼이 아니다.
+   라이트·크리스마스는 흰 바탕, 다크는 #131314), 로그인 뒤 메일 카드(.acct-me), 빨간 줄·버튼(.info-row.danger, .btn-text.danger), 정보 아래 한 줄의 글 속 링크 */
+.acct { padding: var(--space-4); }
+.acct-lead { margin: 0; font-size: 1rem; line-height: 1.5rem; color: var(--text); word-break: keep-all; }
+.acct-what-h { margin: var(--space-4) 0 0; font-size: 0.8125rem; line-height: 1.125rem; font-weight: 500; color: var(--text3); }
+.acct-what { display: flex; flex-direction: column; gap: 6px; margin: var(--space-2) 0 0; padding: 0; list-style: none; }
+.acct-what li { display: flex; gap: var(--space-2); font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); word-break: keep-all; }
+.acct-what li::before { content: ""; flex: none; width: 4px; height: 4px; margin-top: 8px; border-radius: 2px; background: var(--text3); }
+.acct .check { margin-top: var(--space-3); }
+.g-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: var(--touch); margin-top: var(--space-2); padding: 0 12px; box-sizing: border-box;
+  border: 1px solid #747775; border-radius: 24px; background: #FFFFFF; color: #1F1F1F; font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; cursor: pointer; }
+.g-btn img { flex: none; width: 20px; height: 20px; }
+html[data-scheme="dark"]:not([data-theme]) .g-btn { border-color: #8E918F; background: #131314; color: #E3E3E3; }
+.g-btn:disabled { opacity: 0.38; cursor: default; }
+.g-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.acct-me { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-1); padding: var(--space-4); }
+.acct-me .mail { font-size: 1rem; line-height: 1.5rem; color: var(--text); overflow-wrap: anywhere; }
+.info-row.danger, .btn-text.danger { color: var(--danger); }
+.info-foot a { color: inherit; text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; white-space: nowrap; }
+/* 묻는 팝업 본문(로그아웃·계정 삭제·차단): 글 한 줄과 체크 */
+.sheet.ask .sheet-body { padding-bottom: var(--space-2); }
+.sheet.ask .sheet-body > p { margin: 0; font-size: 0.9375rem; line-height: 1.375rem; word-break: keep-all; }
+/* ---------- 친구(디자인 130판 Friends·FriendTimetable, bundle.css 그대로): 내 시간표 머리 줄 친구 버튼의 빨간 점(.has-dot), 친구 화면 머리(.fr-head, 내 닉네임 .fr-me)·
+   묶음(.fr-section)·행(.fr-row), 처음 한 번(.nick-help, 보이는 것 .vis), 친구 시간표·미리보기(.fr-sem, .pv-note, 숨긴 항목의 회색 칸 .wk-block.is-hidden), 메뉴의 스위치 줄(.menu-row.sw) */
+.tt-head > .icon-btn.has-dot { position: relative; }
+.tt-head > .icon-btn.has-dot::after { content: ""; position: absolute; top: 11px; right: 10px; width: 8px; height: 8px; border-radius: 4px; background: var(--danger); box-shadow: 0 0 0 2px var(--bg); }
+.fr-head { display: flex; align-items: center; gap: var(--space-2); min-height: 56px; margin: var(--space-2) 0 var(--space-3); }
+.fr-me { display: flex; flex: 1; flex-direction: column; min-width: 0; padding: 0; border: 0; background: transparent; text-align: left; cursor: pointer; }
+.fr-me .k { font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); }
+.fr-me .n { font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; color: var(--on-bg-heading); }
+.fr-me .n i, .fr-row .t i, .topbar .title i, .to-meta-n i { font-style: normal; font-weight: 400; }
+.fr-me .n i, .topbar .title i { color: var(--on-bg-text3); }
+.fr-row .t i, .to-meta-n i { color: var(--text3); }
+.fr-head .btn-text { color: var(--on-bg-link); }
+.btn-text.with-ic { display: inline-flex; align-items: center; gap: 4px; }
+.fr-section { margin-top: var(--space-5); }
+.fr-section > .section-title { margin: 0 0 var(--space-2); }
+.fr-row { display: flex; align-items: center; gap: var(--space-3); box-sizing: border-box; width: 100%; min-height: 64px; padding: var(--space-2) var(--space-3) var(--space-2) var(--space-4);
+  border: 0; background: transparent; text-align: left; color: var(--text); }
+.fr-row .b { display: flex; flex: 1; flex-direction: column; min-width: 0; }
+.fr-row .t { font-size: 1rem; line-height: 1.5rem; color: var(--text); }
+.fr-row .m { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
+.fr-row > svg { flex: none; color: var(--muted); }
+.fr-row .acts { display: flex; align-items: center; gap: var(--space-1); }
+button.fr-row { cursor: pointer; }
+button.fr-row:active { background: var(--surface-hover); }
+@media (hover: hover) { button.fr-row:hover { background: var(--surface-hover); } button.fr-row:hover > svg { color: var(--text2); } }
+.fr-empty { margin: 0; padding: var(--space-4); font-size: 0.875rem; line-height: 1.25rem; color: var(--text3); }
+.nick-help { display: flex; justify-content: space-between; gap: var(--space-2); margin: var(--space-1) 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
+.vis-head { margin: 0; padding: var(--space-4) var(--space-4) 0; font-size: 1rem; line-height: 1.5rem; font-weight: 500; color: var(--heading); }
+.vis { margin: 0; padding: var(--space-2) var(--space-4) var(--space-2); list-style: none; }
+.vis li { display: flex; align-items: flex-start; gap: var(--space-2); padding: 4px 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--text); word-break: keep-all; }
+.vis li svg { flex: none; margin-top: 2px; }
+.vis li.ok svg { color: var(--accent-text); }
+.vis li.no { color: var(--text2); }
+.vis li.no svg { color: var(--text3); }
+.vis-foot { margin: 0; padding: 0 var(--space-4) var(--space-4); font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; }
+.fr-sem { display: flex; align-items: center; gap: var(--space-2); margin: var(--space-1) 0 var(--space-3); }
+.fr-sem .m { min-width: 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); }
+.pv-note { margin: 0 0 var(--space-3); font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); word-break: keep-all; }
+.wk-block.is-hidden { background: var(--fill); border: 1px dashed var(--line-strong); }
+.sheet-body p.hide-note { margin: var(--space-2) 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; }
+.menu-row.sw { justify-content: space-between; gap: var(--space-3); box-sizing: border-box; cursor: pointer; }
+@media (forced-colors: active) {
+  .g-btn { border-color: CanvasText; background: Canvas; color: CanvasText; }
+  .tt-head > .icon-btn.has-dot::after { background: CanvasText; box-shadow: none; }
+  .wk-block.is-hidden { border: 1px dashed CanvasText; background: Canvas; }
+}
+/* bundle.css 에 없는 자리(프론트엔드): 머리 줄의 친구 버튼(공유 왼쪽. 공유가 없으면 줄 끝, 공유와 같은 바탕 위 아이콘), 처음 한 번의 제목·카드 사이, 시트·팝업 안의
+   스위치 카드(raised 카드 = 시트 바탕), 친구 추가 팝업의 초대 링크 줄, 격자 자리의 한 줄(이 학기 시간표가 없어요) */
+.tt-friends { margin-left: auto; color: var(--on-bg-text2); }
+.tt-friends:not([hidden]) + .tt-share { margin-left: 0; }
+.tt-friends:has(+ .tt-share[hidden]) { margin-right: calc(var(--space-3) * -1); }
+.tt-friends:active { background: var(--bg-hover); }
+.tt-friends svg, .fr-copy svg { filter: var(--on-bg-halo-icon, none); }
+.tt-friends:active svg, .fr-copy:active svg { filter: none; }
+#view-mine.is-adding .tt-friends { display: none; }
+.fr-copy { color: var(--on-bg-text2); }
+.fr-copy:active { background: var(--bg-hover); }
+@media (hover: hover) { .tt-friends:hover, .fr-copy:hover { background: var(--bg-hover); } .tt-friends:hover svg, .fr-copy:hover svg { filter: none; } }
+.fr-ttl { margin: var(--space-2) var(--space-1) var(--space-3); font-size: 1.25rem; line-height: 1.75rem; font-weight: 700; color: var(--on-bg-heading); }
+.fr-nick-card { padding: var(--space-4); }
+.fr-nick-card .field-label { margin-bottom: var(--space-2); }
+.fr-nick-card .error-line { margin: var(--space-2) 0 0; }
+.fr-vis-card, .fr-school-card { margin-top: var(--space-3); }
+.btn-primary.fr-start { margin-top: var(--space-5); }
+/* 시트 안의 친구에게 숨기기 줄(132판, bundle.css 그대로): 시트와 같은 색 카드는 안 여백 때문에 줄만 들어가 보여서 카드 꼴을 걷는다. 위에 line, 글은 시트 글과 같은 왼쪽 선(space-5),
+   누르는 면(올리기·누르기 면, 초점 테두리)은 시트 폭 끝까지. 과목 시트는 넣은 분반 칸 바로 아래라 그 칸의 아래 선이 위 선이 되고, 아래에 선을 두어 다른 분반과 가른다(프론트엔드).
+   내 닉네임 팝업(.tn-body, 좌우 space-5)의 학교 계정 보이기도 같은 꼴 */
+.sheet-body .fr-hide, .tn-body .fr-hide { margin-top: var(--space-4); border-top: 1px solid var(--line); border-radius: 0; background: none; overflow: visible; }
+.sheet-body .fr-hide .info-row.switch-row, .tn-body .fr-hide .info-row.switch-row { width: calc(100% + var(--space-5) * 2); margin: 0 calc(var(--space-5) * -1); padding: var(--space-2) var(--space-5); }
+.sheet-body .sheet-field + .fr-hide { margin-top: 0; border-top: 0; border-bottom: 1px solid var(--line); }
+.tn-body .nick-help + .error-line { margin: var(--space-2) 0 0; }
+.btn-text.fra-invite { margin: var(--space-3) 0 0 calc(var(--space-2) * -1); }
+.fr-wk-empty { margin: 0; padding: var(--space-8) var(--space-4); text-align: center; font-size: 0.875rem; line-height: 1.25rem; color: var(--text3); }
+/* 바탕 위 글자·버튼(졸업 요건 탭·친구): 크리스마스 눈 위에서 둘레(위 '바탕 위 글자'와 같은 까닭), 바탕 위 텍스트 버튼을 누르거나 올리면 bg-hover 면(카드 위 버튼의 surface-hover 가 아니라)이고 그동안 둘레를 뺀다 */
+.gr-head, .gr-foot, .gr-lead, .gr-empty p, .gr-empty .btn-text, .fr-me, .fr-ttl, .fr-sem .m, .pv-note, .fr-head .btn-text { text-shadow: var(--on-bg-halo, none); }
+.gr-empty svg { filter: var(--on-bg-halo-icon, none); }
+.gr-empty .btn-text:active, .fr-head .btn-text:active { background: var(--bg-hover); text-shadow: none; }
+@media (hover: hover) { .gr-empty .btn-text:hover, .fr-head .btn-text:hover { background: var(--bg-hover); text-shadow: none; } }
+/* 동기화 줄의 못 맞춘 값(131판, bundle.css 그대로) */
+.info-row .v.is-error { color: var(--danger); }
+/* 친구 화면·친구 시간표를 받는 동안·오프라인(131판): 그 자리 가운데 작은 스피너와 t-body-sm(바탕 위 on-bg-text3, 격자 카드 안 text3). 못 받으면 후보 목록 아래 '더 찾지 못했어요' 꼴(.ranks-more:
+   바탕 위 on-bg-danger·on-bg-link, 격자 카드 안 danger·accent-text) */
+.fr-load { display: flex; align-items: center; justify-content: center; gap: var(--space-2); padding: var(--space-8) var(--space-4); text-align: center;
+  font-size: 0.875rem; line-height: 1.25rem; color: var(--on-bg-text3); }
+.fr-load .spinner { color: currentColor; }
+.ranks-more.fr-fail { padding: var(--space-6) var(--space-4) var(--space-4); text-align: center; }
+#friends-body .fr-load, #friends-body .fr-fail .error-line { text-shadow: var(--on-bg-halo, none); }
+#friend-wk .fr-load { color: var(--text3); }
+#friend-wk .fr-fail .error-line { color: var(--danger); }
+#friend-wk .fr-fail .btn-text { color: var(--accent-text); text-shadow: none; }
+#friend-wk .fr-fail .btn-text:active { background: var(--surface-hover); }
+@media (hover: hover) { #friend-wk .fr-fail .btn-text:hover { background: var(--surface-hover); } }

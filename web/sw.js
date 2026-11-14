@@ -10,11 +10,12 @@
 // - 3D·2D 모델(web/model/, 파일이 커서)은 다루지 않는다
 const CACHE = "ttw-v2";
 const SHELL = [
-  "./", "index.html", "style.css", "js/app.js", "js/engine.js", "js/search-worker.js", "js/search.js", "js/timetables.js", "js/ics.js", "js/limits.js", "manifest.webmanifest",
+  "./", "index.html", "style.css", "js/app.js", "js/engine.js", "js/search-worker.js", "js/search.js", "js/timetables.js", "js/ics.js", "js/limits.js", "js/requirements.js", "manifest.webmanifest",
   "vendor/leaflet/leaflet.css", "vendor/leaflet/leaflet.js", "icons/icon-192.png", "icons/favicon-32.png", "icons/favicon.svg",
   "icons/wordmark.svg", "icons/wordmark-dark.svg", "icons/wordmark-white.svg", "icons/xmas-sleigh.svg", "licenses/snutt.txt", "licenses/pretendard.txt",
   "licenses/fredoka.txt", "licenses/odbl.txt", "licenses/kogl-type1.txt", "licenses/leaflet.txt",
   "data/campus.json", "data/courses.json", "data/semesters.json", "data/basemap.json", "data/calendar.json", "data/requirements/catalog.json", "data/limits.json",
+  "data/requirements/index.json", "data/requirements/common.json", "data/requirements/course_map.json",
 ];
 const WAIT_MS = 3000;
 const FONT_CACHE = "ttw-font-v1";
