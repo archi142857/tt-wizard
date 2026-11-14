@@ -8283,7 +8283,7 @@ const APACHE_URL = "https://www.apache.org/licenses/LICENSE-2.0";
  *  더 있다: 고지문을 함께 내야 하는 라이선스다(10/22 법무·백엔드). SNUTT 는 과목 검색 규칙을 따온 곳(search.js 머리의 고지와 같은 레포).
  *  고지문 파일: 여섯은 web/licenses/(SNUTT·Pretendard 는 10/22 밤 백엔드 update60, Fredoka·ODbL·공공누리는 10/23 update61, Leaflet 은 11/4 update92 가 vendor/leaflet/LICENSE 와
  *  같은 글에 판·주소 머리를 붙인 leaflet.txt. 앱 안 서버(Capacitor)는 확장자 없는 주소에 index.html 을 줘서 LICENSE 로는 Leaflet 칸에 페이지 소스가 보였다. 앱도 web/ 을 옮길 때
- *  같은 자리로 들어간다), 앱에만 있는 셋은 앱 묶음의 licenses/(백엔드 build_app.py). 파일을 못 읽은 줄(HTML 이 온 것 포함)은 원문 링크다 */
+ *  같은 자리로 들어간다), 앱에만 있는 넷(Capacitor·Cordova·AndroidX·Google)은 앱 묶음의 licenses/(백엔드 build_app.py). 파일을 못 읽은 줄(HTML 이 온 것 포함)은 원문 링크다 */
 function ossRows() {
   return [
     { k: "지도 표시", name: "Leaflet", lic: "BSD-2-Clause", href: "https://github.com/Leaflet/Leaflet/blob/main/LICENSE", file: "licenses/leaflet.txt" },
@@ -8291,6 +8291,8 @@ function ossRows() {
     IN_APP && { k: "앱 실행 환경", name: "Capacitor", lic: "MIT", href: "https://github.com/ionic-team/capacitor/blob/main/LICENSE", file: "licenses/capacitor.txt" },
     IN_APP && { k: "", name: "Apache Cordova", lic: "Apache-2.0", href: APACHE_URL, file: "licenses/cordova.txt" }, // 앱 실행 환경 한 칸에 두 줄(안드로이드·iOS 같다)
     SHELL === "android" && { k: "안드로이드", name: "AndroidX", lic: "Apache-2.0", href: APACHE_URL, file: "licenses/androidx.txt" },
+    // 앱 안 구글 로그인(백엔드 update111): Google Play 서비스 클라이언트 라이브러리와 Google ID. 안드로이드 칸 둘째 줄, 고지문은 앱 묶음의 licenses/google.txt(그 안에 든 오픈소스 고지문까지)
+    SHELL === "android" && { k: "", name: "Google Play 서비스 · Google ID", lic: "Android SDK 라이선스", href: "https://developer.android.com/studio/terms", file: "licenses/google.txt" },
     { k: "글꼴", name: "Pretendard", lic: "SIL OFL 1.1", href: "https://github.com/orioncactus/pretendard/blob/main/LICENSE", file: "licenses/pretendard.txt" },
     // 아래 셋도 전문(10/23 사용자: "전문 말하는 거임"). 백엔드 update61 이 web/licenses/ 에 넣었다(Fredoka·ODbL 은 프론트엔드 초안, 공공누리 제1유형은 법무 문안.
     // web/licenses/ 와 그 파일 목록을 정한 시험은 백엔드 몫). 공공누리 고지문은 줄표 줄이 없어 한 칸이다

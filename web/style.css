@@ -2047,3 +2047,7 @@ button.fr-row:active { background: var(--surface-hover); }
 #friend-wk .fr-fail .btn-text { color: var(--accent-text); text-shadow: none; }
 #friend-wk .fr-fail .btn-text:active { background: var(--surface-hover); }
 @media (hover: hover) { #friend-wk .fr-fail .btn-text:hover { background: var(--surface-hover); } }
+/* 꺼진 텍스트 버튼(133판, bundle.css 그대로: 친구 추가 칸이 비었을 때 [요청 보내기]가 켜진 것과 똑같아 보였다). 0.38 투명, 올림·눌림 바탕 없이. 바탕별 .btn-text 규칙보다 뒤(파일 끝)에 둔다 */
+.btn-text:disabled, .btn-text:disabled:active { opacity: 0.38; background: transparent; cursor: default; }
+@media (hover: hover) { .btn-text:disabled:hover { background: transparent; } }
+@media (forced-colors: active) { .btn-text:disabled { color: GrayText; opacity: 1; } }

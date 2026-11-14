@@ -725,7 +725,7 @@ TT Wizard 화면. 정적 사이트라 서버 없이 돈다: `data/*.json` 을 �
     그 밖 실패 `.ranks-more.fr-fail` `친구 목록을 불러오지 못했어요`(alert)와 `다시 시도`. 받지 못한 목록을 빈 목록으로 보이지 않는다(131·132판)). 로그인 전은 로그인 카드(`친구 시간표는 로그인하면 볼 수 있어요`), 처음 한 번은 제목 `친구 시간표`·닉네임 칸(12자, 글자 수,
     2자 이상이면 `시작하기`가 켜짐. 쓸 수 없으면(`nickProblem`, 서버 BAD_NICK) 칸 아래 `쓸 수 없는 닉네임이에요`)·`친구에게 보이는 것` 넷과 한 줄·학교 계정이면 `학교 계정 보이기`(처음 켜짐,
     `setNick(nick, {showSchool})`). 그다음 머리(`내 닉네임` 닉네임#번호 → 팝업 `#fr-nick-pop`(닉네임·학교 계정 보이기, 저장), 복사(스낵바 `닉네임을 복사했어요`), `+ 친구 추가` → 팝업 `#fr-add`
-    (친구의 닉네임#번호(비어 있으면 [요청 보내기] 꺼짐), `초대 링크 보내기`(기기 공유 창, 못 하면 복사), 오류 줄 `없는 닉네임이에요`·`내 닉네임이에요`·`이미 친구예요`(ALREADY, 화면도
+    (친구의 닉네임#번호(비어 있으면 [요청 보내기] 꺼짐. 꺼진 텍스트 버튼은 어디서나 0.38 투명 `.btn-text:disabled`, 133판), `초대 링크 보내기`(기기 공유 창, 못 하면 복사), 오류 줄 `없는 닉네임이에요`·`내 닉네임이에요`·`이미 친구예요`(ALREADY, 화면도
     `sync.handleKey` 로 먼저 거름)·`요청을 보낼 수 없어요`, 보내면 스낵바 `요청을 보냈어요`)), `친구에게 보이는 내 시간표` ›(값 `숨긴 항목 n`: 미리보기가 처음 여는 학기), `받은 요청 n`(거절·수락 → `친구가 됐어요`), `친구 n`(행 메타 `학교 계정(snu.ac.kr)`, 없으면 `친구가 아직 없어요`), `보낸 요청 n`(취소),
     `차단한 사람`(풀기). 친구 시간표는 하위 화면 `#view-friend`(`renderFriendTt`: 상단 바 닉네임#번호·⋯, 학기 `#friend-sem`(친구가 둔 학기만, 앱의 학기, 없으면 가장 가까운 학기)과
     `대표 시간표`, 읽기만 하는 격자 `frGrid` → `renderWeek(…, {still, grayHidden})`. 숨긴 항목 `{hidden, meetings}`(update112)은 `friendTt` 가 같은 요일에서 겹치는 것끼리 한 칸으로 합쳐
@@ -782,10 +782,10 @@ TT Wizard 화면. 정적 사이트라 서버 없이 돈다: `data/*.json` 을 �
   `길` 줄은 `캠퍼스 마법 지도 · OpenStreetMap 바탕, ODbL`(11/5 법무, 백엔드 update95: 걷는 길 그래프가 OpenStreetMap 바탕이라 그 그래프와 거기서 나온 경로 모양·걷는
   시간은 ODbL. `지도` 줄처럼 이름마다 링크, OpenStreetMap 은 저작권 페이지)
 - 오픈소스 라이선스(10/22 법무·백엔드 요청, 디자인 규칙 63판. 10/22 밤 사용자: "라이센스는 앱 안에서 전문 쭉 작성해줘"): 위에 쓰는 것 목록, 그 아래 고지문 전문을 차례로 쭉.
-  목록은 지도 표시 Leaflet, 과목 검색 SNUTT, 앱 실행 환경 Capacitor·Apache Cordova(스토어 앱만), 안드로이드 AndroidX(안드로이드만), 글꼴 Pretendard, 로고 글꼴 Fredoka,
+  목록은 지도 표시 Leaflet, 과목 검색 SNUTT, 앱 실행 환경 Capacitor·Apache Cordova(스토어 앱만), 안드로이드 AndroidX·Google Play 서비스 · Google ID(Android SDK 라이선스, 앱 안 구글 로그인 update111. 안드로이드만), 글꼴 Pretendard, 로고 글꼴 Fredoka,
   지도·길 자료 OpenStreetMap(11/5 '지도 자료'에서: 걷는 길 그래프도 그 바탕이라), 지도·경사 자료 국토지리정보원 차례(`ossRows`). 자료 출처와 같은 두 칸 목록(카드 하나에 구분선 행)이고 앱 실행 환경은 한 칸에 두 줄이다.
   Capacitor·Cordova·AndroidX 는 고지문을 앱과 함께 내야 하는 라이선스다. 목록 아래 `#page-texts` 에 고지문(웹·앱 같은 `licenses/leaflet.txt`·`licenses/snutt.txt`·
-  `licenses/pretendard.txt`(백엔드 update60·update92 의 `web/licenses/`), 앱에만 있는 `licenses/capacitor.txt`·`cordova.txt`·`androidx.txt`(백엔드 `scripts/build_app.py` 가 넣는다))을 목록 차례대로
+  `licenses/pretendard.txt`(백엔드 update60·update92 의 `web/licenses/`), 앱에만 있는 `licenses/capacitor.txt`·`cordova.txt`·`androidx.txt`·`google.txt`(백엔드 `scripts/build_app.py` 가 넣는다))을 목록 차례대로
   이름·라이선스 머리(`.section-title`)와 칸으로 보인다(`renderLicenseTexts`). 전문이 있는 이름은 목록에서 글자 그대로 두고(바로 아래 전문), 없는 것은 원문 링크다.
   고지문 글 속 주소(http·https)는 링크다(`linkify`, 10/23 사용자: "라이선스에 있는 링크들 다 하이퍼링크로". 글자는 그대로, 주소 끝의 문장부호와 짝 없는 닫는 괄호는 링크 밖.
   모양은 자료 출처 이름 링크와 같은 `text` 글자 + `line-strong` 밑줄, 새 창·스토어 앱은 Capacitor Browser).
