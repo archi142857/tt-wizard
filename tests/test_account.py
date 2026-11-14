@@ -127,6 +127,15 @@ def test_firebase_config_from_variable(tmp_path):
     assert ew.write_firebase_config(bare, f)
     got = json.loads(f.read_text(encoding="utf-8").split("export default ", 1)[1].rstrip().rstrip(";"))
     assert got == {"apiKey": "AIzaTEST", "projectId": "tt-wizard", "googleClientId": "621792010542-abc.apps.googleusercontent.com"}
+    # 줄 사이 쉼표가 빠졌거나 둥근 따옴표여도 아는 열쇠의 값만 하나씩 읽는다(update114, 사용자 변수 390자를 못 읽던 것)
+    no_comma = 'const firebaseConfig = {\n  apiKey: "AIzaTEST",\n  projectId: "tt-wizard",\n  appId: "1:6:web:a"\n  googleClientId: "621792010542-abc.apps.googleusercontent.com"\n};'
+    curly = 'const firebaseConfig = {\n  apiKey: \u201cAIzaTEST\u201d,\n  projectId: \u201ctt-wizard\u201d\n};'
+    for raw in (no_comma, curly):
+        assert ew.write_firebase_config(raw, f), raw
+        got = json.loads(f.read_text(encoding="utf-8").split("export default ", 1)[1].rstrip().rstrip(";"))
+        assert got["apiKey"] == "AIzaTEST" and got["projectId"] == "tt-wizard"
+    assert got == {"apiKey": "AIzaTEST", "projectId": "tt-wizard"}
+    assert ew.write_firebase_config(no_comma, f) and '"googleClientId": "621792010542-abc.apps.googleusercontent.com"' in f.read_text(encoding="utf-8")
     # 못 읽은 까닭은 값 없이(글자 수·찾은 열쇠 이름만)
     assert "비었다" in ew.config_problem("") and "Variables" in ew.config_problem(None)
     why = ew.config_problem('{"apiKey": "AIzaSECRETVALUE"}')

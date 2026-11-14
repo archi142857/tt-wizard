@@ -391,6 +391,20 @@ def config_problem(raw: str | None) -> str:
             "apiKey·projectId 가 든 '{ 열쇠: \"값\", … }' 꼴이어야 한다(docs/account.md)")
 
 
+QUOTES = "\"'\u201c\u201d\u2018\u2019"
+
+
+def config_by_keys(raw: str) -> dict:
+    """아는 열쇠(FIREBASE_KEYS)마다 '열쇠: "값"' 을 하나씩 찾는다. 줄 사이 쉼표가 빠졌거나, 메모장·메신저가 따옴표를 둥근 따옴표로 바꿨어도 읽는다
+    (사용자 11/14 17시 변수 390자에 열쇠는 다 있는데 JSON 으로 못 읽음, update114). 값에 따옴표·공백은 없다"""
+    out = {}
+    for k in FIREBASE_KEYS:
+        m = re.search(rf"\b{k}\b[\"'\u201c\u201d\u2018\u2019]?\s*[:=]\s*[{QUOTES}]([^{QUOTES}\s]+)[{QUOTES}]", raw)
+        if m:
+            out[k] = m.group(1)
+    return out
+
+
 def write_firebase_config(raw: str | None, path: Path) -> bool:
     """로그인(update110): GitHub 변수 FIREBASE_WEB_CONFIG(JSON, 콘솔의 웹 앱 구성 + googleClientId)로 web/js/firebase-config.js 를 채운다.
     값이 없거나 깨졌으면 손대지 않는다(저장소의 null 그대로 → 로그인이 숨는다). 저장소에는 이 값을 넣지 않는다(사용자 규칙: 키는 저장소 밖).
@@ -399,18 +413,20 @@ def write_firebase_config(raw: str | None, path: Path) -> bool:
     남기는 열쇠는 FIREBASE_KEYS 뿐이다(웹 클라이언트 보안 비밀번호 같은 다른 값은 버린다)"""
     if not raw or not raw.strip():
         return False
+    cfg = None
     text = _config_object(raw)
-    if not text:
-        return False
-    try:
-        cfg = json.loads(text)
-    except json.JSONDecodeError:
-        try:  # 따옴표 없는 열쇠(JS 꼴)·작은따옴표 값 → JSON
-            js = re.sub(r",\s*}", "}", re.sub(r"([{,]\s*)([A-Za-z_]\w*)\s*:", r'\1"\2":', text))
-            cfg = json.loads(re.sub(r"'([^'\"]*)'", r'"\1"', js))
+    if text:
+        try:
+            cfg = json.loads(text)
         except json.JSONDecodeError:
-            return False
+            try:  # 따옴표 없는 열쇠(JS 꼴)·작은따옴표 값 → JSON
+                js = re.sub(r",\s*}", "}", re.sub(r"([{,]\s*)([A-Za-z_]\w*)\s*:", r'\1"\2":', text))
+                cfg = json.loads(re.sub(r"'([^'\"]*)'", r'"\1"', js))
+            except json.JSONDecodeError:
+                cfg = None
     if not isinstance(cfg, dict) or not cfg.get("apiKey") or not cfg.get("projectId"):
+        cfg = config_by_keys(raw)  # 쉼표가 빠졌거나 둥근 따옴표(“ ”)여도 아는 열쇠의 값만 하나씩(update114)
+    if not cfg.get("apiKey") or not cfg.get("projectId"):
         return False
     if not cfg.get("googleClientId"):
         m = re.search(r"\b(\d+-[0-9a-z]+\.apps\.googleusercontent\.com)\b", raw)
