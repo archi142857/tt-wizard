@@ -201,17 +201,18 @@ def test_pick_version_and_same_course(tmp_path):
 
 @node
 def test_tidy_records(tmp_path):
-    """재수강은 옛 수강을 빼고, 표시 없이 두 번이면 확인 필요, W·드랍·학사에 안 넣는 대학원 과목은 셈에서 뺀다."""
-    r = lambda code, term, **kw: {"code": code, "credits": 3, "cls": "전선", "dept": "가", "term": term, "status": "taken", **kw}
+    """디자인 124판: 같은 과목을 다시 들으면 앞 것은 묻지 않고 재수강으로 뺀다. 드랍(체크·옛 꼴·W)과 학사에 안 넣는 대학원 과목은 셈에서 뺀다."""
+    r = lambda code, term, **kw: {"code": code, "credits": 3, "cls": "전선", "dept": "가", "term": term, **kw}
     got = _run(tmp_path, [{"kind": "tidy", "records": [
         r("X", "2025-1"), r("X", "2025-2"),
-        r("Y", "2025-1", status="failed", grade="F"), r("Y", "2026-1", status="retake"),
-        r("Z", "2025-2", status="dropped"),
-        r("G", "2026-1", level="석사"), r("H", "2026-1", level="석사", toBachelor=True),
+        r("Y", "2025-1", grade="F"), r("Y", "2026-1"),
+        r("Z", "2025-2", dropped=True), r("W", "2025-2", status="dropped"), r("V", "2025-2", grade="W"),
+        r("G", "2026-1", level="석사"), r("H", "2026-1", level="석사", toBachelor=True), r("U", "2026-1", grade="U"),
     ]}])[0]
     assert ["X", "2025-2", 3] in got["courses"] and ["Y", "2026-1", 3] in got["courses"] and ["H", "2026-1", 3] in got["courses"]
-    assert got["replaced"] == [["Y", "2025-1"]] and got["duplicates"] == [["X", "X"]]
-    assert ["Z", "W"] in got["dropped"] and ["G", "graduate_not_counted"] in got["dropped"]
+    assert ["U", "2026-1", 0] in got["courses"]
+    assert got["replaced"] == [["X", "2025-1", "2025-2"], ["Y", "2025-1", "2026-1"]] and got["duplicates"] == [] and got["substituted"] == []
+    assert {"Z", "W", "V"} <= {x[0] for x in got["dropped"] if x[1] == "dropped"} and ["G", "graduate_not_counted"] in got["dropped"]
 
 
 @node
@@ -444,3 +445,146 @@ def test_pick_version_for(tmp_path):
     assert tuple(got[2]) == major_v
     assert got[3] == [2019, 2020]  # 입학 연도로 갈리는 과정은 전공 진입 연도를 써도 입학 연도로
 
+
+
+# ---------------------------------------------------------------- 졸업 요건 탭 값 (update106, 디자인 124판)
+
+def _pid(name):
+    idx = json.loads((REQ / "index.json").read_text(encoding="utf-8"))
+    return next(p["id"] for p in idx["programs"] if p["program"] == name)
+
+
+@node
+def test_shared_course_and_substitution(tmp_path):
+    """들은 과목 하나가 셀 수 있는 줄 둘에 걸리면 두 줄 다 확인 필요(목록이 다른 줄 안에 다 들면 그대로), 대체 과목을 둘 다 들어도 확인 필요."""
+    nuc = _pid("원자핵공학과")
+    rec = lambda code, term="2025-1": {"code": code, "name": code, "credits": 3, "cls": "전필", "dept": "원자핵공학과", "term": term}
+    sel1 = next(r for r in programs()["chem-bio-eng"]["versions"] if r["entry_years"] == [2021, 2023])
+    old = next(x for x in sel1["requirements"] if x["id"] == "cbe-sel1")["courses"][0]
+    bio = [c for c in _req("life-sciences", "bio-ge-bio", version=next(i for i, v in enumerate(programs()["life-sciences"]["versions"]) if v["entry_years"] == [2025, 2025]))["courses"]]
+    got = _run(tmp_path, [
+        {"kind": "evaluate", "program": nuc, "entryYear": 2025, "role": "single", "records": [rec("409.223")]},
+        {"kind": "evaluate", "program": nuc, "entryYear": 2025, "role": "single", "records": [rec("409.201")]},
+        {"kind": "evaluate", "program": "chem-bio-eng", "entryYear": 2022, "role": "single",
+         "records": [rec(old["code"]), rec(old["alt_codes"][0], term="2025-2")]},
+        {"kind": "evaluate", "program": "life-sciences", "entryYear": 2025, "role": "single",
+         "records": [{**rec(c["code"]), "cls": "교양"} for c in bio]},
+    ])
+    shared, alone, sub, nested = got
+    assert shared["nuc-core"]["state"] == "check" and shared["nuc-core"]["reason"] == "여러 요건에 걸린 과목"
+    assert shared["nuc-lab"]["state"] == "check" and alone["nuc-core"]["state"] == "remaining" and alone["nuc-lab"]["state"] == "remaining"
+    assert sub["cbe-sel1"] == {"state": "check", "reason": "대체 과목을 둘 다 들음", "have": 1, "missing": []}
+    assert nested["bio-ge-bio"]["state"] != "check" and nested["bio-ge-science"]["state"] != "check"  # 과학 영역 안의 생물학: 같이 센다
+
+
+@node
+def test_taken_terms_and_labels(tmp_path):
+    r = lambda code, term, **kw: {"code": code, "name": f"과목 {code}", "credits": 3, "cls": "전필", "term": term, **kw}
+    cs = _pid("컴퓨터공학부")
+    catalog = json.loads((REQ / "catalog.json").read_text(encoding="utf-8"))
+    got = _run(tmp_path, [
+        {"kind": "taken", "currentTerm": "2026-2", "records": [
+            r("A", "2025-1", grade="F"), r("A", "2026-2"), r("B", "2025-1", dropped=True),
+            {"code": "M", "name": "교류 과목", "credits": 1, "cls": "교양", "term": "2025-1", "manual": True}]},
+        {"kind": "labels", "program": "animal-biotech", "entryYear": 2025, "terms": ["2026-2", "2026-S", "2026-W", "2027-1"],
+         "src": ["s1", "s3", "s1"], "index": {"checked_on": "2026-11-12", "data_year": 2025},
+         "semesters": {"list": [["2026-W", "courses.json"], ["2026-2", "semesters/2026-2.json"]]}, "ask": ["2026-2", "2027-1"]},
+        {"kind": "labels", "program": "life-sciences", "entryYear": 2025, "opts": {"role": "double", "selectionTerm": "2026-1"}},
+        {"kind": "labels", "program": cs, "entryYear": 2022, "opts": {"newer": catalog["programs"][cs]["newer"], "role": "single"}},
+        {"kind": "labels", "program": cs, "entryYear": 2022, "opts": {"role": "single"}},
+    ])
+    taken, animal, second, newer, plain = got
+    assert taken["total"] == 4  # A 다시 들은 것 3 + 직접 넣은 1(F 였던 앞 A·드랍 B 는 뺀다)
+    t26, t25 = taken["terms"]
+    assert t26[:3] == ["2026-2", "2026년 2학기", "3학점 · 듣는 중"] and t25[:3] == ["2025-1", "2025년 1학기", "1학점"]
+    rows = {x[0] + str(i): x for i, x in enumerate(t25[3])}
+    assert rows["A0"] == ["A", False, "retake", "전필 · 3학점 · 2026년 2학기에 재수강해서 빠짐"]
+    assert rows["B1"][1:3] == [False, "dropped"] and rows["M2"] == ["M", True, None, "직접 추가 · 교양 · 1학점"]
+    assert animal["terms"] == [["2026년 2학기", "2027-1", 4], ["2026년 여름학기", "2026-2", 3], ["2026년 겨울학기", "2027-1", 4],
+                               ["2027년 1학기", "2027-2", 5]]
+    assert animal["version"] == "2021~2026학번 규정" and animal["choices"] == ["2021~2026학번 규정"]
+    assert animal["link"].startswith("https://anibiotech.snu.ac.kr/")
+    assert animal["sources"] == ["출처: 동물생명공학전공 졸업요건 학부과정(2022년도)", "출처: 서울대학교 2024 전공별 교과목(학사과정)"]
+    assert animal["basis"] == "2025학년도 자료 · 11월 12일 기준" and animal["coursebook"] == [True, False]
+    assert second["version"] == "2026년 1학기 선발"
+    assert len(newer["choices"]) > 1 and newer["choices"][0] == plain["choices"][0] and len(plain["choices"]) == 1
+
+
+@node
+def test_grad_view(tmp_path):
+    """요건 보기: 공통(졸업 학점·졸업 평점·주전공 교양 줄) → 주전공 → 복수전공, 줄마다 값·시트 글."""
+    core = _req("chem-bio-eng", "cbe-core12")["courses"]
+    records = [_rec(c) for c in core[:4]]
+    got = _run(tmp_path, [
+        {"kind": "view", "records": records, "picks": [
+            {"program": "chem-bio-eng", "role": "single", "entryYear": 2025, "title": "화학생물공학부"}]},
+        {"kind": "view", "records": [], "picks": [
+            {"program": "animal-biotech", "role": "parallel", "entryYear": 2025, "title": "동물생명공학전공"},
+            {"program": "life-sciences", "role": "double", "entryYear": 2025, "selectionTerm": "2026-1", "title": "생명과학부"}]},
+        {"kind": "view", "records": [], "picks": [{"program": "animal-biotech", "role": "single", "entryYear": 2018}]},
+    ])
+    cbe, two, old = got
+    common, main = cbe["bundles"]
+    assert cbe["total"] == sum(c["credits"] for c in core[:4]) and common["kind"] == "common" and common["title"] == "공통"
+    credits = common["rows"]["grad-credits"]
+    assert credits["name"] == "졸업 학점" and credits["value"] == f"{130 - cbe['total']}학점 남음"
+    assert credits["summary"] == f"130학점 중 {cbe['total']}학점 · {130 - cbe['total']}학점 남음" and credits["strong"] == credits["value"]
+    gpa_row = common["rows"]["grad-gpa"]
+    assert gpa_row["value"] == "확인 필요" and gpa_row["because"] == "성적을 다 넣지 않았어요."
+    assert "cbe-ge-total" in common["rows"] and "cbe-ge-total" not in main["rows"]  # 교양 줄은 공통으로
+    row = main["rows"]["cbe-core12"]
+    have = sum(c["credits"] for c in core[:4])
+    assert main["label"] == "2025~2026학번 규정" and row["name"] == "전공필수" and row["value"] == f"{33 - have}학점 남음"  # 학점이 남으면 학점으로
+    assert row["aria"] == f"전공필수, {33 - have}학점 남음" and row["meta"] == "화학생물공학부 · 2025~2026학번 규정"
+    assert row["summary"] == f"33학점 중 {have}학점 · {33 - have}학점 남음"
+    assert [x[1] for x in row["courses"]].count(True) == 4 and row["courses"][0][2] == f"{core[0]['credits']}학점 · 2025년 1학기"
+    assert row["checked"] == "11월 12일 기준" and row["sources"]
+    check = main["rows"]["cbe-core46-sum"]
+    assert check["value"] == "확인 필요" and check["because"] == "2025학번 세부 규정이 공개 자료에 다 나오지 않았어요."
+    _, animal, bio = two["bundles"]
+    assert animal["title"] == "동물생명공학전공" and bio["label"] == "2026년 1학기 선발" and bio["title"] == "생명과학부"
+    assert all(b["kind"] == "program" for b in (animal, bio)) and two["missing"] == []
+    assert old["missing"] == ["animal-biotech"] and len(old["bundles"]) == 1  # 2018학번은 자료 없음: 공통만
+
+
+@node
+def test_limit_line_fit_label_and_order(tmp_path):
+    fits = [{"add": {"travel": 3.2, "late": 1.1, "days": 0}, "unknownRoom": False}, {"add": {"travel": 0, "late": 0, "days": 1}, "unknownRoom": False},
+            {"add": {"travel": 2, "late": 0, "days": 0}, "unknownRoom": True}, {"add": {"travel": -1, "late": 0, "days": 0}, "unknownRoom": False}]
+    sug = [{"course": {"id": "A"}, "strength": "need", "reasons": [{"name": "전공필수", "strength": "need"}]},
+           {"course": {"id": "B"}, "strength": "maybe", "reasons": [{"name": "졸업 논문", "strength": "maybe"}]},
+           {"course": {"id": "C"}, "strength": "choose", "reasons": [{"name": "지정 과목", "strength": "choose"}, {"name": "전공선택", "strength": "choose"}]}]
+    fit = {"fits": [{"course": {"id": "A"}, "add": {"cost": 9, "days": 0}}, {"course": {"id": "B"}, "add": {"cost": 0, "days": 0}},
+                    {"course": {"id": "C"}, "add": {"cost": 1, "days": 0}}]}
+    who = {"college": "농업생명과학대학", "unit": "식품·동물생명공학부", "program": "동물생명공학전공", "entryYear": 2025}
+    got = _run(tmp_path, [
+        {"kind": "fitlabel", "fits": fits},
+        {"kind": "rank", "suggestions": sug, "fit": fit},
+        {"kind": "limitline", "who": who, "term": "2027-1", "credits": 15},
+        {"kind": "limitline", "who": {**who, "gpaLastTwo": 3.5}, "term": "2027-1", "credits": 24},
+        {"kind": "limitline", "who": {**who, "gpaLastTwo": 3.5}, "term": "2027-1", "credits": 15, "chosen": 18},
+        {"kind": "limitline", "who": who, "term": "2026-S", "credits": 3},
+        {"kind": "limitline", "who": who, "term": "2026-W", "credits": 9},
+        {"kind": "limitline", "who": {"college": "자연과학대학", "unit": "생명과학부", "program": "생명과학부", "entryYear": 2026},
+         "term": "2026-1", "credits": 0},
+    ])
+    labels, rank, base, plus, chosen, summer, winter, first = got
+    assert labels == ["들어감 · 걷기 주 +4분", "들어감 · 등교 +1일", "들어감 · 강의실 미정", "들어감 · 걷기 주 +0분"]
+    assert rank["req"] == ["A", "C", "B"] and rank["walk"] == ["C", "A", "B"]  # 아마 필요는 늘 아래
+    assert rank["tags"] == ["전공필수", "아마 필요", "지정 과목"]
+    assert (base["value"], base["label"], base["rest"], base["over"]) == (18, "18학점까지", "3학점 남음", False)
+    assert [c["label"] for c in base["choices"]] == ["18학점까지", "21학점까지"]
+    assert (plus["value"], plus["rest"], plus["over"]) == (21, "3학점 넘음", True)
+    assert (chosen["value"], chosen["rest"]) == (18, "3학점 남음")
+    assert (summer["label"], summer["choices"], summer["rest"]) == ("9학점까지", [], "6학점 남음") and winter["rest"] == "3학점 넘음"
+    assert first["value"] == 20 and [c["value"] for c in first["choices"]] == [18, 20, 21]  # 자연대 2024학번부터 첫 두 학기 20
+
+
+@node
+def test_row_names(tmp_path):
+    got = _run(tmp_path, [{"kind": "rowname", "texts": [
+        ["전공필수 15과목 46학점", "major_required"], ["동물생명공학논문연구 M1702.000400(3학점, 전선) — 졸업학기 이수 원칙", "thesis"],
+        ["통계학개론 및 실습 500.301A 는 1·2학기 모두 열리며 한 번만 이수", "other"], ["1학년은 미대 공통 전선 10과목 중", "major_choose"],
+        ["[2-1] 공학수학 1, [2-2] 공학수학 2", "major_required"], ["[과학] 물리학 영역(물리학·물리학 1·물리학 2)", "ge"],
+        ["외국어진행강좌(대학영어 포함) 3과목 이상", "other"], ["", "double"]]}])[0]
+    assert got == ["전공필수", "동물생명공학논문연구", "통계학개론 및 실습", "지정 과목", "공학수학", "과학 물리학 영역", "외국어진행강좌", "복수전공"]

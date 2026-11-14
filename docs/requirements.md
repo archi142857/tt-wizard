@@ -4,6 +4,7 @@
 해마다 바뀌는 졸업 규정은 학번에 따라 반영한다, 성적 계산기도 넣는다.
 이 판은 **자료와 계산만** 넣는다. 화면은 아직 없다(디자인 → 프론트엔드). 화면이 생기기 전까지 사용자가 보는 것은 바뀌지 않는다.
 update101(11/13, 사용자 '이건 다 구현해'): 모든 과정 파일, 다음 학기 추천(남은 요건 과목)과 빈 자리 강의 추천(엔진 `gapFit`).
+update106(11/14, 디자인 124판 '졸업 요건 탭'): 들은 과목은 드랍만, 재수강은 저절로, 화면에 그대로 그릴 값(아래 2-1절).
 
 - 계산은 폰 안에서만 한다(`web/js/requirements.js`). 서버도 로그인도 없다.
 - 학교 졸업 사정을 대신하지 않는다. 화면 이름은 '졸업 사정'이 아니라 '졸업 요건 미리 보기' 같은 것, 확인 문구는 '학교 공개 문서를 바탕으로 한 추정이며 학번·학과·개별 인정에 따라 다를 수 있음, 최종 확인은 학과와 mySNU'(법무 11/11).
@@ -91,23 +92,44 @@ update101(11/13, 사용자 '이건 다 구현해'): 모든 과정 파일, 다음
 | `pickVersion(program, entryYear)` | 입학 연도의 판. 자료가 없는 학번이면 `{version: null, reason: "no_data"}` |
 | `pickVersionFor(program, {entryYear, majorEntryYear, selectionYear})` | 과정이 판을 가르는 기준(입학·전공 진입·다전공 선발)으로 판 고르기 |
 | `buildSameCourse(courseMap, programs)` | 같은 과목으로 볼 번호(교양 대응표 + 요건의 `alt_codes`) → 대표 번호 |
-| `tidyRecords(records, same)` | 들은 과목 정리: 재수강은 옛 수강을 빼고, 표시 없이 두 번이면 `duplicates`(확인 필요), W·드랍과 학사에 안 넣는 대학원 과목은 셈에서 뺀다. F·U 는 학점 0 |
-| `evaluateProgram(program, version, courses, {role, sameCourse})` | 요건 줄마다 `met`(충족) · `remaining`(남음, 남은 과목) · `check`(확인 필요, 까닭) |
+| `tidyRecords(records, same)` | 들은 과목 정리: 같은 과목을 다시 들었으면 앞 것은 묻지 않고 재수강으로 뺀다(`replaced`, `by` = 다시 들은 학기). 번호가 다른 대체 과목을 둘 다 들었으면 `substituted`. 드랍(`dropped: true`, 옛 꼴 status dropped, W)과 학사에 안 넣는 대학원 과목은 셈에서 뺀다. F·U 는 학점 0 |
+| `evaluateProgram(program, version, courses, {role, sameCourse})` | 요건 줄마다 `met`(충족) · `remaining`(남음, 남은 과목) · `check`(확인 필요, 까닭). 대체 과목을 둘 다 들었거나 들은 과목 하나가 셀 수 있는 줄 둘에 걸리면(한 줄 목록이 다른 줄 안에 다 드는 큰 요건·작은 요건은 빼고) 확인 필요. 줄마다 짧은 이름 `name`(`rowName`) |
 | `creditSummary(courses, picks, {rules})` | 교양 · 전공(과정마다) · 교직 · 일반선택 · 전체 학점, 두 전공에 걸린 과목(`shared`, 3과목까지), 부전공과 겹친 과목, 다른 학교 학점이 졸업학점 1/2 을 넘는지 |
 | `gpa(records, {isMajor})` | 성적 계산기: 전체·전공 평점, 학기별 평점, 직전 2개 정규학기 평점, 졸업 평점(2.0) |
 | `gradeNeeded(current, plannedCredits, target)` | 목표 평점에 닿으려면 앞으로 평균 몇이 필요한지 |
 | `termCreditLimit(limits, who)` · `withinLimit(courses, lim)` | 학기당 수강 학점 상한과 고른 과목이 그 안인지(상한 밖 과목은 뺀다) |
 | `suggestCourses(picks, courses, {sameCourse})` | 다음 학기 추천: 과정마다 `{program, rows}`(evaluateProgram 결과)와 다음 학기 편람(`engine.parseCourses`)에서 남은 요건 과목. 강도 need(남은 과목을 다 들어야 하는 줄) · choose(몇 중 몇) · maybe('확인 필요' 줄의 목록 과목, `row.left`) |
-| `rankSuggestions(suggestions, fit)` | 추천 차례(엔진 점수): 강도 → 대표 시간표에 들어가는지 → 늘어나는 비용. `fit` 은 아래 `gapFit` 결과 |
+| `rankSuggestions(suggestions, fit, {order})` | 추천 차례(엔진 점수). `order` "req"(요건 순, 기본): 강도 → 대표 시간표에 들어가는지 → 늘어나는 비용, "walk"(덜 걷는 순): 들어가는지 → 비용 → 강도. '아마 필요'는 늘 맨 아래. `fit` 은 아래 `gapFit` 결과 |
+| `suggestionTag(s)` | 과목 추가 행의 요건 태그: 채우는 요건 이름(`전공필수`), 확인 필요 줄의 과목이면 `아마 필요` |
 | `engine.gapFit(base, courses, travel, home, {rules, levels, skip})` | 빈 자리 강의 추천: 대표 시간표(분반 목록)에 겹치지 않고 들어가는 과목마다 비용이 가장 덜 느는 분반과 `add = {cost, travel, late, days}`(걷는 분·지각 분·학교 오는 요일, 줄어든 것은 0), `unknownRoom`(강의실 미정)·`atRisk`(폐강 대상). 공강·점심 조건을 주면 지키는 것만, 기본은 학사 과목만. 2026-2 편람 전체를 훑어도 가볍다 |
+
+| `engine.fitLabel(fit)` | 분반 행 넷째 줄: `들어감 · 걷기 주 +4분`(걷는 분 + 늦는 수업), 학교 오는 날이 늘면 `들어감 · 등교 +1일`, 강의실 미정이면 `들어감 · 강의실 미정` |
 
 화면이 쓰는 차례(예): 들은 과목 → `tidyRecords` → 과정마다 `evaluateProgram` → `suggestCourses` → `gapFit(대표 시간표, 추천 과목)` → `rankSuggestions`.
 졸업 요건 없이 빈 자리만 볼 때는 `gapFit(대표 시간표, 다음 학기 모든 과목)` 의 `fits` 를 검색 결과에 붙인다('들어감 · 주 +n분').
 
-들은 과목 기록: `{code, name, credits, cls, dept, level, term, status, grade?, source?, toBachelor?}`
-- `status`: taken(들음) · failed(학점 못 받음: F·U) · dropped(안 들음: W·드랍) · retake(재수강한 수강)
-- `cls`·`dept`·`level`(이수과정: 학사·석사…)은 그 학기 편람에서 화면이 채운다. `source`: snu · exchange · domestic · transfer
+들은 과목 기록: `{code, name, credits, cls, dept, level, term, dropped?, grade?, source?, toBachelor?, manual?}`
+- 학생이 고르는 것은 `dropped`(드랍) 하나다(디자인 124판, 사용자 11/13 "드랍 여부만 받을 수 있으면 되고"). F·U 는 성적 계산기의 `grade`, 재수강은 같은 과목이 다시 나오면 저절로.
+  옛 꼴 `status`(taken · failed · dropped · retake)도 그대로 읽는다.
+- `cls`·`dept`·`level`(이수과정: 학사·석사…)은 그 학기 편람에서 화면이 채운다. `source`: snu · exchange · domestic · transfer. `manual`: '다른 곳에서 들은 과목'으로 직접 넣은 것
 - `grade` 는 성적 계산기에서만 쓴다. 없어도 졸업 요건 계산은 된다.
+
+### 2-1. 졸업 요건 탭 값 (update106, 디자인 124판)
+
+화면은 이 함수들이 주는 글을 그대로 그린다(글을 짓지 않는다).
+
+| 함수 | 화면 |
+| --- | --- |
+| `takenTerms(records, {sameCourse, currentTerm})` | 들은 과목 보기: `total`(머리 `들은 학점 76`: 드랍·F·U·재수강 앞 것을 뺀 값), 학기마다(새 학기 먼저) `label`(`2026년 2학기`)·`text`(`18학점`, 이번 학기 `18학점 · 듣는 중`)과 줄(`counted`, `why` dropped·failed·retake·graduate, `meta` `전필 · 3학점`, 직접 넣은 것 `직접 추가 · 교양 · 1학점`, 재수강으로 빠진 앞 수강은 끝에 `2026년 2학기에 재수강해서 빠짐`) |
+| `gradView({picks, records, grades, common, sameCourse})` | 요건 보기. `picks` = `[{program, version?, role, title, entryYear, selectionTerm?, newer?}]`(첫째가 주전공, `version` 이 없으면 `pickVersionFor`, `newer` 는 catalog 의 값), `grades` = `gpa(records, {isMajor})`(성적을 안 넣었으면 null). → `{total, bundles, missing}`: `공통`(`졸업 학점`, `졸업 평점`: 성적을 다 넣고 전체·전공 2.0 이상이면 충족, 아니면 확인 필요와 까닭, 주전공 판의 교양 줄) → 과정마다 `{title, label, choices, rows}`. `missing` 은 그 학번 자료가 없는 과정 |
+| 줄(`rowView`) | `name`(`전공필수`), `value`(`{kind: left·met·check, text: '6학점 남음'·'충족'·'확인 필요'}`, 학점이 남으면 학점, 아니면 과목), `aria`(`전공필수, 6학점 남음`), `sheet`: `meta`(`동물생명공학전공 · 2021~2026학번 규정`), `summary`·`strong`(`18학점 중 12학점 · 6학점 남음`, 굵게 `6학점 남음`), `courses`(`taken` 과 `meta` `3학점 · 2025년 1학기`, 안 들은 과목은 `3학점`), `because`(확인 필요의 까닭 한 줄), `link`(학과 졸업요건 페이지), `sources`(`출처: …`), `checked`(`11월 12일 기준`), `detail`(자료 글 그대로) |
+| `rowName(req)` | 줄 이름: 자료 글의 앞부분(`전공필수 15과목 46학점` → `전공필수`, `외국어진행강좌(…) 3과목` → `외국어진행강좌`). 길거나 숫자로 시작하면 종류 이름(전공필수·전공선택·지정 과목·복수전공·부전공·졸업 논문·분배 이수·교양·기타 조건) |
+| `reasonText(row, {entryYear})` | 까닭: `2025학번 내규가 공개되지 않았어요.`(자료 미확인), `2025학번 세부 규정이 공개 자료에 다 나오지 않았어요.`(부분), `공개된 자료끼리 내용이 달라요.`(충돌), 과목 목록·기준 수가 없는 요건, 여러 갈래 조건, 대체 과목을 둘 다 들음, 여러 요건에 걸린 과목 |
+| `versionLabel(program, version, {role, selectionTerm})` · `versionChoices(…, {newer, entryYear})` | 판 이름 `2025~2026학번 규정`(전공 진입 연도로 고르는 판 `2024~2026년 진입 규정`), 복수·부전공과 선발 연도로 고르는 과정은 `2026년 1학기 선발`. 학과가 더 새 학번 규정을 허락하면(catalog `programs[id].newer`: 식품영양학과·응용생물학전공·컴퓨터공학부, `졸업_요건_학번별.md` 4절) 고를 수 있는 판이 둘 이상이라 판 이름이 선택칸 |
+| `deptLink(program)` · `sourceTexts(program, src)` | `학과 졸업요건` 링크(과정 출처 가운데 학과 누리집의 졸업요건·내규 페이지), 출처 줄 |
+| `basisText(index)` | 맨 아래 기준 줄 `2025학년도 자료 · 11월 12일 기준`(index.json 의 `data_year`·`checked_on`) |
+| `termName(term)` · `nextRegularTerm(term)` · `hasCoursebook(semesters, term)` | `다음 학기 추천` 줄의 값 `2027년 1학기`, 그 학기 편람이 없으면 화면이 `편람이 아직 없어요` |
+| `limitLine({common, who, term, credits, chosen})` | 과목 추가의 학기 학점 줄: `label` `18학점까지`·`choices`(기본, 학기 예외, 직전 두 학기 3.3 이상 21)·`rest` `12학점 남음`(넘으면 `3학점 넘음`, `over`). 처음 값은 `termCreditLimit`(입학 뒤 몇 번째 학기는 `nthRegularTerm`), 계절학기는 9·6 글자만 |
 
 ### 학교 규칙 (common.json, 근거는 `학사_공통_규정.md`)
 
@@ -124,6 +146,7 @@ update101(11/13, 사용자 '이건 다 구현해'): 모든 과정 파일, 다음
 - 화면(처음 화면의 대학 → 학과(부) → 전공·학번, 들은 과목 확인, 요건 목록, 성적 입력, 추천의 학점 상한)은 디자인·프론트엔드. 화면이 이 모듈을 쓰기 시작하면 `web/sw.js` 의 SHELL 에 `js/requirements.js`·`data/requirements/index.json`·`common.json` 을 더한다(백엔드).
   스토어 앱 묶음에는 화면이 부를 때까지 넣지 않는다(`scripts/build_app.py` 의 `UNTIL_USED`: 다른 HTML·JS 에 `requirements.js`·`data/requirements` 가 보이면 저절로 들어간다, `docs/app.md`).
 - **성적은 아직 저장하지 않는다.** 계산 함수만 있다. 성적을 기기에 저장하는 것은 법무 확인 뒤(공유 폴더 `요청_법무.md`), 처리방침 '기기 안' 줄은 기능이 들어가는 판에(문서).
-- 판 고르기는 입학 연도만. 전공 진입 연도·다전공 선발 시기·졸업 시기 기준 판, 학과가 허락하는 '더 새 학번 기준으로 보기'는 다음 판.
+- 판 고르기: 입학·전공 진입·다전공 선발 연도(`pickVersionFor`)와 학과가 허락하는 더 새 판(`versionChoices`, update106). 졸업 시기로 갈리는 판은 아직(간호 2019학번 등).
+- 교양 영역 줄은 영역마다 세지 않는다(과목 목록이 없는 줄이라 확인 필요). 영역 표(`course_map.json`)로 세는 것은 다음 판.
 - 학과 칸을 비운 17과정(같은 학과를 쓰는데 번호 앞자리로 못 가르는 전공들, 광역)은 요건 목록에 있는 과목만 전공으로 센다. 학과 문의나 편람의 전공 표시로 더 가른다.
 - 앱 묶음: 화면이 부르면 `data/requirements/` 전체(약 6.6 MB, 과정 파일이 대부분)가 들어간다. 그때 과정 파일은 웹에서 받게 할지 정한다.

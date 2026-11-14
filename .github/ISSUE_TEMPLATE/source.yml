@@ -1,0 +1,42 @@
+# 졸업 요건 출처 알려 주기(백엔드 update107, 디자인 124판 '출처 알려 주기', 법무 11/14 `법무_검토.md` 7절).
+# 졸업 요건 탭 '확인 필요' 줄 시트의 '출처 알려 주기'가 연다: issues/new?template=source.yml&title=…&program=…&row=…&app=… (docs/feedback.md)
+# 앱이 미리 채우는 것은 과정·줄 이름과 앱 정보뿐이다. 학과·학번·판(학번 범위)·성적 같은 사용자 정보는 넣지 않는다(법무 11/14).
+name: 졸업 요건 출처 알려 주기
+description: 졸업 요건에서 '확인 필요'인 줄을 확인할 수 있는 공개 학교 문서를 알려 주세요.
+title: "[출처] "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        공개된 학교 문서 주소만 적어 주세요. 이름·학번·성적·이수 내역은 적지 마세요. 누구나 볼 수 있어요.
+        받은 주소는 학교·학과 누리집의 공개 문서인지 확인한 뒤 그 문서의 사실만 졸업 요건 자료에 옮겨요. 로그인해야 보이는 파일, 학생회·개인이 공유한 파일은 쓰지 않아요.
+        개인정보 정정·삭제 요청은 메일(sanger.lee138@gmail.com)로 보내 주세요.
+  - type: input
+    id: program
+    attributes:
+      label: 과정
+      description: 앱에서 보내면 저절로 채워져요.
+  - type: input
+    id: row
+    attributes:
+      label: 요건 줄
+      description: 앱에서 보내면 저절로 채워져요.
+  - type: input
+    id: url
+    attributes:
+      label: 공개 문서 주소
+      description: 학교·학과 누리집의 문서 주소(https://…)를 적어 주세요.
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: 문서에서 본 것
+      description: 몇 쪽 어느 표에 무엇이 있는지 적어 주면 옮기기 쉬워요.
+  - type: input
+    id: app
+    attributes:
+      label: 앱 정보
+      description: 앱에서 보내면 저절로 채워져요.
+      placeholder: 0.10.3 · Android 14 · 앱 · 2026년 2학기

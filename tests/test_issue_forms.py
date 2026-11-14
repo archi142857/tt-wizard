@@ -12,7 +12,9 @@ FORMS = ROOT / ".github" / "ISSUE_TEMPLATE"
 WANT = {  # 양식 → (제목 머리말, 라벨, 글 칸 id 차례, 꼭 채울 칸)
     "bug.yml": ("[버그] ", ["bug"], ["what", "steps", "app"], {"what"}),
     "idea.yml": ("[제안] ", ["enhancement"], ["what", "why", "app"], {"what"}),
+    "source.yml": ("[출처] ", ["documentation"], ["program", "row", "url", "what", "app"], {"url"}),  # 졸업 요건 출처 알려 주기(update107)
 }
+APP_FORMS = ("bug.yml", "idea.yml")  # 의견 보내기 화면이 늘 쓰는 양식. source.yml 은 졸업 요건 탭의 '출처 알려 주기'가 쓴다
 
 
 def test_issue_forms_match_feedback_contract():
@@ -44,9 +46,19 @@ def test_app_feedback_url_uses_forms():
     if "issues/new" not in app:
         pytest.skip("앱에 아직 의견 보내기가 없다")
     assert "github.com/Archi142857/tt-wizard/issues/new" in app
-    for name in WANT:
+    for name in APP_FORMS:
         assert name in app
     assert "what" in app and "labels=" not in app
+    if "source.yml" in app:  # 출처 알려 주기를 넣었으면 과정·줄 칸으로 연다(학과·학번·성적은 넣지 않는다, 법무 11/14)
+        assert "program" in app and "row" in app
+
+
+def test_source_form_notice():
+    """출처 알려 주기 양식의 맨 위 알림(법무 11/14): 공개 문서 주소만, 개인정보 적지 않기, 누구나 볼 수 있음, 공개 문서인지 확인하고 사실만 옮김"""
+    text = (FORMS / "source.yml").read_text(encoding="utf-8")
+    for want in ("공개된 학교 문서 주소만 적어 주세요", "이름·학번·성적·이수 내역은 적지 마세요", "누구나 볼 수 있어요", "그 문서의 사실만",
+                 "로그인해야 보이는 파일"):
+        assert want in text
 
 
 def test_feedback_url_fits_without_length_error():
@@ -61,3 +73,8 @@ def test_feedback_url_fits_without_length_error():
     app = "0.9.0 · Android 14 · 설치한 웹 앱 · 2026년 여름학기"
     longest = max(len(url(form, head + "갈" * 50, "갈" * 500, app)) for form, head in (("bug.yml", "[버그] "), ("idea.yml", "[제안] ")))
     assert longest < 6000, longest
+    # 출처 알려 주기: 제목 '[출처] 과정 · 줄'(과정 30자·줄 30자까지), 과정·줄 칸, 내용 500자
+    enc = lambda v: quote(v, safe="")  # noqa: E731
+    src = (f"https://github.com/Archi142857/tt-wizard/issues/new?template=source.yml&title={enc('[출처] ' + '갈' * 30 + ' · ' + '갈' * 30)}"
+           f"&program={enc('갈' * 30)}&row={enc('갈' * 30)}&what={enc('갈' * 500)}&app={enc(app)}")
+    assert len(src) < 6000, len(src)

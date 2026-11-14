@@ -1790,7 +1790,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-e171f470": {
    "name": "중어중문학과",
@@ -1806,7 +1807,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-9618364c": {
    "name": "영어영문학과",
@@ -1822,7 +1824,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-1d91d72d": {
    "name": "불어불문학과",
@@ -1838,7 +1841,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-b9aaeb80": {
    "name": "독어독문학과",
@@ -1854,7 +1858,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-2408e57e": {
    "name": "노어노문학과",
@@ -1870,7 +1875,8 @@
    ],
    "double": 42,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-a9188efc": {
    "name": "서어서문학과",
@@ -1886,7 +1892,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-1f5bd1b5": {
    "name": "언어학과",
@@ -1902,7 +1909,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-ef30f28f": {
    "name": "일본언어문명전공",
@@ -1918,7 +1926,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-73756aa5": {
    "name": "동남아시아언어문명전공",
@@ -1934,7 +1943,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-8af8eacd": {
    "name": "인도언어문명전공",
@@ -1950,7 +1960,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-1bcbd6fe": {
    "name": "서아시아언어문명전공",
@@ -1966,7 +1977,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-b1cc35e9": {
    "name": "한국사학전공",
@@ -1982,7 +1994,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-c43beb02": {
    "name": "동양사학전공",
@@ -1998,7 +2011,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-5e5648a7": {
    "name": "서양사학전공",
@@ -2014,7 +2028,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-4ad4be97": {
    "name": "철학과",
@@ -2030,7 +2045,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-26490b22": {
    "name": "종교학과",
@@ -2046,7 +2062,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-60140ad3": {
    "name": "미학과",
@@ -2062,7 +2079,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-db3fc74e": {
    "name": "고고학전공",
@@ -2078,7 +2096,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-0ec7f3f7": {
    "name": "미술사학전공",
@@ -2094,7 +2113,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-5235bf07": {
    "name": "정치학전공",
@@ -2110,7 +2130,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-bbf86688": {
    "name": "외교학전공",
@@ -2126,7 +2147,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-26c40934": {
    "name": "경제학부",
@@ -2142,7 +2164,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-b13fbed6": {
    "name": "사회학과",
@@ -2158,7 +2181,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-58032f4f": {
    "name": "인류학과",
@@ -2174,7 +2198,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-03aa5ef6": {
    "name": "심리학과",
@@ -2190,7 +2215,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-259c8d96": {
    "name": "지리학과",
@@ -2206,7 +2232,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-b148f5f4": {
    "name": "사회복지학과",
@@ -2222,7 +2249,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-d3470527": {
    "name": "언론정보학과",
@@ -2238,7 +2266,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-58922b29": {
    "name": "수리과학부",
@@ -2254,7 +2283,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-638ed6b5": {
    "name": "통계학과",
@@ -2270,7 +2300,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-76162784": {
    "name": "물리학전공",
@@ -2286,7 +2317,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-3b4ed39d": {
    "name": "천문학전공",
@@ -2302,7 +2334,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-38d77850": {
    "name": "화학부",
@@ -2318,7 +2351,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "life-sciences": {
    "name": "생명과학부",
@@ -2334,7 +2368,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-e5fab35c": {
    "name": "지구환경과학부",
@@ -2350,7 +2385,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-dc24e59c": {
    "name": "경영학과",
@@ -2366,7 +2402,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-234741e0": {
    "name": "간호학과",
@@ -2382,7 +2419,8 @@
    ],
    "double": null,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-509f9c7c": {
    "name": "소비자학전공",
@@ -2398,7 +2436,8 @@
    ],
    "double": 39,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-db64f2a8": {
    "name": "아동가족학전공",
@@ -2414,7 +2453,8 @@
    ],
    "double": 39,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-67f0f7cb": {
    "name": "식품영양학과",
@@ -2430,7 +2470,16 @@
    ],
    "double": 39,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": {
+    "mode": "any",
+    "entry_max": null,
+    "roles": [
+     "single",
+     "parallel"
+    ],
+    "note": "전산기준년도: 입학 연도부터 졸업하는 해의 정규 학번까지 가운데 더 새 규정"
+   }
   },
   "p-2c21b927": {
    "name": "의류학과",
@@ -2446,7 +2495,8 @@
    ],
    "double": 39,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-d75e8638": {
    "name": "공과대학 광역",
@@ -2462,7 +2512,8 @@
    ],
    "double": null,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-a4068275": {
    "name": "건축학전공",
@@ -2478,7 +2529,8 @@
    ],
    "double": 110,
    "minor": 66,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-90504114": {
    "name": "건축공학전공",
@@ -2494,7 +2546,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-49fa7eeb": {
    "name": "산업공학과",
@@ -2510,7 +2563,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-825e63cf": {
    "name": "원자핵공학과",
@@ -2526,7 +2580,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-c91f696e": {
    "name": "조선해양공학과",
@@ -2542,7 +2597,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-18cd75ef": {
    "name": "컴퓨터공학부",
@@ -2558,7 +2614,18 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": {
+    "mode": "any",
+    "entry_max": null,
+    "roles": [
+     "single",
+     "parallel",
+     "double",
+     "minor"
+    ],
+    "note": "입학년도 이후 기준 중 선택(복수·부전공도)"
+   }
   },
   "p-121aa7bb": {
    "name": "전기·정보공학부",
@@ -2574,7 +2641,8 @@
    ],
    "double": 42,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-463194e6": {
    "name": "재료공학부",
@@ -2590,7 +2658,8 @@
    ],
    "double": 48,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-1ff44350": {
    "name": "건설환경공학부",
@@ -2606,7 +2675,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "chem-bio-eng": {
    "name": "화학생물공학부",
@@ -2622,7 +2692,8 @@
    ],
    "double": 42,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-5754ebe4": {
    "name": "에너지자원공학과",
@@ -2638,7 +2709,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-d8bff34e": {
    "name": "기계공학부",
@@ -2654,7 +2726,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-84fb4524": {
    "name": "항공우주공학과",
@@ -2670,7 +2743,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-1b7f1668": {
    "name": "작물생명과학전공",
@@ -2686,7 +2760,8 @@
    ],
    "double": 48,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-1b7a392b": {
    "name": "원예생명공학전공",
@@ -2702,7 +2777,8 @@
    ],
    "double": 48,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-ff402de1": {
    "name": "산업인력개발학전공",
@@ -2718,7 +2794,8 @@
    ],
    "double": 41,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-55a75f4e": {
    "name": "산림환경학전공",
@@ -2734,7 +2811,8 @@
    ],
    "double": 48,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-ee20a5ca": {
    "name": "환경재료과학전공",
@@ -2750,7 +2828,8 @@
    ],
    "double": 48,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-ff570a3c": {
    "name": "응용생명화학전공",
@@ -2766,7 +2845,8 @@
    ],
    "double": 48,
    "minor": 30,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-d65d42a1": {
    "name": "응용생물학전공",
@@ -2782,7 +2862,16 @@
    ],
    "double": 39,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": {
+    "mode": "latest",
+    "entry_max": 2023,
+    "roles": [
+     "single",
+     "parallel"
+    ],
+    "note": "2024 이전 입학생은 이전·현행 규정 중 선택"
+   }
   },
   "p-e202bbef": {
    "name": "식품생명공학전공",
@@ -2798,7 +2887,8 @@
    ],
    "double": 48,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "animal-biotech": {
    "name": "동물생명공학전공",
@@ -2814,7 +2904,8 @@
    ],
    "double": 48,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-e2c4f272": {
    "name": "바이오시스템공학전공",
@@ -2830,7 +2921,8 @@
    ],
    "double": 41,
    "minor": 22,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-a7785a82": {
    "name": "바이오소재공학전공",
@@ -2846,7 +2938,8 @@
    ],
    "double": 48,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-3d1bae16": {
    "name": "조경학전공",
@@ -2862,7 +2955,8 @@
    ],
    "double": 48,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-d2e2af8f": {
    "name": "지역시스템공학전공",
@@ -2878,7 +2972,8 @@
    ],
    "double": 48,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-3ba62abd": {
    "name": "농업·자원경제학전공",
@@ -2894,7 +2989,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-fb9a2ae0": {
    "name": "지역정보학전공",
@@ -2910,7 +3006,8 @@
    ],
    "double": 48,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-a0fa364e": {
    "name": "스마트시스템과학과",
@@ -2926,7 +3023,8 @@
    ],
    "double": null,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-5c8ee76e": {
    "name": "동양화과",
@@ -2942,7 +3040,8 @@
    ],
    "double": 62,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-6a67f329": {
    "name": "서양화과",
@@ -2958,7 +3057,8 @@
    ],
    "double": 48,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-1f9e8c1b": {
    "name": "조소과",
@@ -2974,7 +3074,8 @@
    ],
    "double": 68,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-278a95e3": {
    "name": "도자공예전공",
@@ -2990,7 +3091,8 @@
    ],
    "double": 57,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-b4a82d66": {
    "name": "금속공예전공",
@@ -3006,7 +3108,8 @@
    ],
    "double": 57,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-421f1331": {
    "name": "시각디자인전공",
@@ -3022,7 +3125,8 @@
    ],
    "double": 57,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-7c104a63": {
    "name": "산업디자인전공",
@@ -3038,7 +3142,8 @@
    ],
    "double": 57,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-2bae4102": {
    "name": "성악과",
@@ -3054,7 +3159,8 @@
    ],
    "double": 68,
    "minor": 60,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-a0bdc6e6": {
    "name": "작곡전공",
@@ -3070,7 +3176,8 @@
    ],
    "double": 64,
    "minor": 64,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-101b786d": {
    "name": "지휘전공",
@@ -3086,7 +3193,8 @@
    ],
    "double": 64,
    "minor": 64,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-8bc02fbf": {
    "name": "음악학과",
@@ -3102,7 +3210,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-085d9249": {
    "name": "피아노과",
@@ -3118,7 +3227,8 @@
    ],
    "double": 45,
    "minor": 26,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-3948b64e": {
    "name": "관악전공",
@@ -3134,7 +3244,8 @@
    ],
    "double": 62,
    "minor": 30,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-63dea661": {
    "name": "현악전공",
@@ -3150,7 +3261,8 @@
    ],
    "double": 72,
    "minor": 30,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-923b6f9e": {
    "name": "기악전공",
@@ -3166,7 +3278,8 @@
    ],
    "double": 38,
    "minor": 31,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-13df6045": {
    "name": "성악전공",
@@ -3182,7 +3295,8 @@
    ],
    "double": 38,
    "minor": 31,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-f76a4a1c": {
    "name": "이론전공",
@@ -3198,7 +3312,8 @@
    ],
    "double": 38,
    "minor": 31,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-f3e53a1e": {
    "name": "작곡전공",
@@ -3214,7 +3329,8 @@
    ],
    "double": 38,
    "minor": 31,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-4ccd7012": {
    "name": "지휘전공",
@@ -3230,7 +3346,8 @@
    ],
    "double": 38,
    "minor": 31,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-bf59d12c": {
    "name": "교육학과",
@@ -3246,7 +3363,8 @@
    ],
    "double": 52,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-41637bd4": {
    "name": "국어교육과",
@@ -3262,7 +3380,8 @@
    ],
    "double": 52,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-0975d7e3": {
    "name": "영어교육과",
@@ -3278,7 +3397,8 @@
    ],
    "double": 52,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-2d920bdb": {
    "name": "불어교육과",
@@ -3294,7 +3414,8 @@
    ],
    "double": 52,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-dcff7393": {
    "name": "독어교육과",
@@ -3310,7 +3431,8 @@
    ],
    "double": 52,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-cae89602": {
    "name": "사회교육과",
@@ -3326,7 +3448,8 @@
    ],
    "double": 52,
    "minor": 30,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-d569f217": {
    "name": "역사교육과",
@@ -3342,7 +3465,8 @@
    ],
    "double": 53,
    "minor": 36,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-f17d6c49": {
    "name": "지리교육과",
@@ -3358,7 +3482,8 @@
    ],
    "double": 52,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-56afea81": {
    "name": "윤리교육과",
@@ -3374,7 +3499,8 @@
    ],
    "double": 52,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-ddda9e11": {
    "name": "수학교육과",
@@ -3390,7 +3516,8 @@
    ],
    "double": 52,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-9baede1b": {
    "name": "물리교육과",
@@ -3406,7 +3533,8 @@
    ],
    "double": 52,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-7e32b985": {
    "name": "화학교육과",
@@ -3422,7 +3550,8 @@
    ],
    "double": 52,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-3b9c97b2": {
    "name": "생물교육과",
@@ -3438,7 +3567,8 @@
    ],
    "double": 52,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-f61bbb8f": {
    "name": "지구과학교육과",
@@ -3454,7 +3584,8 @@
    ],
    "double": 52,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-35c6807d": {
    "name": "체육교육과",
@@ -3470,7 +3601,8 @@
    ],
    "double": 52,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-79fbff13": {
    "name": "수의예과",
@@ -3486,7 +3618,8 @@
    ],
    "double": null,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-ad49affe": {
    "name": "수의학과",
@@ -3502,7 +3635,8 @@
    ],
    "double": null,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-11daf6a5": {
    "name": "약학과",
@@ -3518,7 +3652,8 @@
    ],
    "double": null,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-e7ca2382": {
    "name": "제약학과",
@@ -3534,7 +3669,8 @@
    ],
    "double": null,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-5881562d": {
    "name": "의예과",
@@ -3550,7 +3686,8 @@
    ],
    "double": null,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-fccadae3": {
    "name": "의학과",
@@ -3566,7 +3703,8 @@
    ],
    "double": null,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-a346f2bb": {
    "name": "학사과정",
@@ -3582,7 +3720,8 @@
    ],
    "double": null,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-97f3ee92": {
    "name": "학부대학 광역",
@@ -3598,7 +3737,8 @@
    ],
    "double": null,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-41df1808": {
    "name": "자유전공학부",
@@ -3614,7 +3754,8 @@
    ],
    "double": null,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-a758e356": {
    "name": "학생설계전공",
@@ -3630,7 +3771,8 @@
    ],
    "double": null,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-7fccc8d9": {
    "name": "디지털헬스케어전공",
@@ -3646,7 +3788,8 @@
    ],
    "double": 39,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-8a8be90a": {
    "name": "융합데이터과학전공",
@@ -3662,7 +3805,8 @@
    ],
    "double": 39,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-1643f5b3": {
    "name": "지속가능기술전공",
@@ -3678,7 +3822,8 @@
    ],
    "double": 39,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-76b45405": {
    "name": "차세대지능형반도체전공",
@@ -3694,7 +3839,8 @@
    ],
    "double": 39,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-c1c26b61": {
    "name": "혁신신약전공",
@@ -3710,7 +3856,8 @@
    ],
    "double": 39,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-f0f8e8fb": {
    "name": "동아시아비교인문학",
@@ -3723,7 +3870,8 @@
    "exists_for": null,
    "double": 39,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-17c61991": {
    "name": "정치-경제-철학",
@@ -3736,7 +3884,8 @@
    "exists_for": null,
    "double": 39,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-85768b17": {
    "name": "정보문화학",
@@ -3749,7 +3898,8 @@
    "exists_for": null,
    "double": 40,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-5f19ca61": {
    "name": "기술경영",
@@ -3762,7 +3912,8 @@
    "exists_for": null,
    "double": 39,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-74c7d4dc": {
    "name": "글로벌환경경영학",
@@ -3775,7 +3926,8 @@
    "exists_for": null,
    "double": 39,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-558e07aa": {
    "name": "계산과학",
@@ -3788,7 +3940,8 @@
    "exists_for": null,
    "double": 39,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-71f38ec1": {
    "name": "벤처경영학",
@@ -3801,7 +3954,8 @@
    "exists_for": null,
    "double": 39,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-499f3ab6": {
    "name": "영상매체예술",
@@ -3814,7 +3968,8 @@
    "exists_for": null,
    "double": 39,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-21e29be7": {
    "name": "인공지능",
@@ -3827,7 +3982,8 @@
    "exists_for": null,
    "double": 39,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-4d92ea73": {
    "name": "인공지능반도체공학",
@@ -3840,7 +3996,8 @@
    "exists_for": null,
    "double": 39,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-282c121e": {
    "name": "지능형통신",
@@ -3853,7 +4010,8 @@
    "exists_for": null,
    "double": 39,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-526889bd": {
    "name": "과학기술의학",
@@ -3866,7 +4024,8 @@
    "exists_for": null,
    "double": 39,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-993fb716": {
    "name": "고전문헌학",
@@ -3879,7 +4038,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-31f9ba48": {
    "name": "러시아학",
@@ -3892,7 +4052,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-1d53fe3a": {
    "name": "라틴아메리카학",
@@ -3905,7 +4066,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-7c0ad312": {
    "name": "인문데이터과학",
@@ -3918,7 +4080,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-d1ae6cef": {
    "name": "유럽지역학",
@@ -3931,7 +4094,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-45680310": {
    "name": "일본학",
@@ -3944,7 +4108,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-46b9fb4b": {
    "name": "금융경제",
@@ -3957,7 +4122,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-97dd3e8a": {
    "name": "뇌-마음-행동",
@@ -3970,7 +4136,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-fe1827e6": {
    "name": "금융수학",
@@ -3983,7 +4150,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-431861ea": {
    "name": "과학기술학",
@@ -3996,7 +4164,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-b68e4d7a": {
    "name": "영화영상학",
@@ -4009,7 +4178,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-4778b7c7": {
    "name": "공연예술학",
@@ -4022,7 +4192,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-b3d6648f": {
    "name": "한국학",
@@ -4035,7 +4206,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-17341675": {
    "name": "리테일",
@@ -4048,7 +4220,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-08f081c9": {
    "name": "중국학",
@@ -4061,7 +4234,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-3b07cd3d": {
    "name": "미국학",
@@ -4074,7 +4248,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-a1667980": {
    "name": "통합창의디자인",
@@ -4087,7 +4262,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-6861092c": {
    "name": "정치-경제-철학",
@@ -4100,7 +4276,8 @@
    "exists_for": null,
    "double": null,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-2cfbd5f9": {
    "name": "학생설계전공",
@@ -4116,7 +4293,8 @@
    ],
    "double": 39,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-44f16156": {
    "name": "국사학과",
@@ -4132,7 +4310,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-89f20073": {
    "name": "동양사학과",
@@ -4148,7 +4327,8 @@
    ],
    "double": 39,
    "minor": 24,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-3f49cad7": {
    "name": "서양사학과",
@@ -4164,7 +4344,8 @@
    ],
    "double": 39,
    "minor": 21,
-   "data": true
+   "data": true,
+   "newer": null
   },
   "p-2249d85e": {
    "name": "융합학습과학전공",
@@ -4180,7 +4361,8 @@
    ],
    "double": null,
    "minor": null,
-   "data": true
+   "data": true,
+   "newer": null
   }
  },
  "depts": {

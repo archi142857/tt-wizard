@@ -326,6 +326,18 @@ export function gapFit(base, courses, travel, home, { weights = WEIGHTS, rules =
   return { base: { cost: tenth(ev0.cost), travel: tenth(ev0.travel), late: tenth(ev0.late), days: ev0.campusDays }, fits, blocked };
 }
 
+/**
+ * 분반 행 넷째 줄의 빈 자리 글(디자인 124판): '들어감 · ' + 바뀌는 것 하나. 강의실 미정이면 '들어감 · 강의실 미정',
+ * 학교 오는 날이 늘면 '들어감 · 등교 +1일', 아니면 '들어감 · 걷기 주 +4분'(걷는 분 + 늦는 수업, 반올림). fit = gapFit 의 fits 한 칸
+ */
+export function fitLabel(fit) {
+  if (!fit) return null;
+  if (fit.unknownRoom) return "들어감 · 강의실 미정";
+  if (fit.add && fit.add.days > 0) return `들어감 · 등교 +${fit.add.days}일`;
+  const min = Math.max(0, Math.round(((fit.add && fit.add.travel) || 0) + ((fit.add && fit.add.late) || 0)));
+  return `들어감 · 걷기 주 +${min}분`;
+}
+
 /** 과목마다 조건 아래에서 쓸 수 있는 분반만 남긴다. 하나도 안 남는 과목이 있으면 null(조합이 없다) */
 function admit(courses, R) {
   if (!R) return courses;

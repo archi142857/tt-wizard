@@ -7,6 +7,7 @@ update103(11/13, 디자인·프론트엔드 요청). 졸업 요건 과정 목록
 - 학과(부)마다 전공으로 나뉘는지(splits), 입학 뒤 전공을 정하는지(undecided: '아직 안 정함'), '전공 진입'을 묻는지(ask_entry:
   입학 뒤 전공을 정하거나 판이 전공 진입 연도로 갈리는 전공이 있으면), 광역(wide), 주전공을 여럿 두는지(multi_major: 자유전공학부).
 - 다른 전공 묶음(연합·연계·학생설계전공)은 대학 목록 끝(others).
+- 더 새 학번 규정을 고를 수 있는 과정(newer, update106·디자인 124판): 판 이름이 선택칸이 된다.
 - 편람 개설학과 이름 → 학과(부)·전공(depts): 지난 시간표의 전필·전선 과목으로 주전공을 미리 채울 때.
   같은 학과를 쓰는 전공은 과목번호 앞자리(prefixes)로 가르고, 못 가르면 학과(부)까지만.
 
@@ -30,6 +31,19 @@ COLLEGES = ["인문대학", "사회과학대학", "자연과학대학", "간호�
 OTHERS = ["연합전공", "연계전공", "학생설계전공(복수전공)"]  # 대학 목록 끝의 다른 전공 묶음
 SKIP_UNITS = {"혁신공유학부"}  # 교과인증과정: 소속 학생이 없고 복수·부전공도 아니다(docs/requirements.md)
 AT_ENTRY = ("입학 때", "모집단위")  # 입학할 때 전공이 정해지는 학과(부): '아직 안 정함'·'전공 진입'을 묻지 않는다
+# 학생이 더 새 학번 규정을 고를 수 있는 과정(공유 폴더 `졸업_요건_학번별.md` 4절, 디자인 124판 '판 이름이 선택칸').
+# mode any = 자기 판보다 새 판 아무거나, latest = 지금(가장 새) 판만. entry_max = 그 학번까지만. roles = 고를 수 있는 역할
+NEWER = {
+    ("생활과학대학", "식품영양학과", "식품영양학과"): {
+        "mode": "any", "entry_max": None, "roles": ["single", "parallel"],
+        "note": "전산기준년도: 입학 연도부터 졸업하는 해의 정규 학번까지 가운데 더 새 규정"},
+    ("농업생명과학대학", "응용생물화학부", "응용생물학전공"): {
+        "mode": "latest", "entry_max": 2023, "roles": ["single", "parallel"],
+        "note": "2024 이전 입학생은 이전·현행 규정 중 선택"},
+    ("공과대학", "컴퓨터공학부", "컴퓨터공학부"): {
+        "mode": "any", "entry_max": None, "roles": ["single", "parallel", "double", "minor"],
+        "note": "입학년도 이후 기준 중 선택(복수·부전공도)"},
+}
 
 
 def plain(name: str | None) -> str:
@@ -98,7 +112,8 @@ def build(req: Path = REQ, history: Path = HISTORY) -> dict:
                 "name": name, "short": short, "unit": uid, "college": None if group else college,
                 "kind": p["kind"], "version_key": p["version_key"], "major_entry": p["id"] in by_major_entry,
                 "exists_for": p["exists_for"],
-                "double": cr.get("double"), "minor": cr.get("minor"), "data": p["data"]}
+                "double": cr.get("double"), "minor": cr.get("minor"), "data": p["data"],
+                "newer": NEWER.get((p["college"], p["unit"], p["program"]))}
             for d in f.get("depts") or []:
                 hit = dept_map.setdefault(d, {"units": [], "programs": []})
                 hit["programs"].append({"id": p["id"], "prefixes": f.get("code_prefixes") or []})

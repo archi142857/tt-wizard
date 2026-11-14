@@ -349,11 +349,12 @@ def test_native_projects_match_config():
     for density in ("mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi"):
         for name in ("ic_launcher", "ic_launcher_round", "ic_launcher_foreground", "ic_launcher_background", "ic_launcher_monochrome"):
             assert (RES / f"mipmap-{density}" / f"{name}.png").exists(), (density, name)
-        for name in ("ic_launcher_foreground", "ic_launcher_background"):
-            assert (RES / f"mipmap-night-{density}" / f"{name}.png").exists(), (density, name)
+        assert not list((RES / f"mipmap-night-{density}").glob("ic_launcher*"))  # 기기가 다크여도 라이트 판만(디자인 126판)
     assert "<monochrome" in (RES / "mipmap-anydpi-v26" / "ic_launcher.xml").read_text(encoding="utf-8")
     icon = json.loads((IOS / "App" / "Assets.xcassets" / "AppIcon.appiconset" / "Contents.json").read_text(encoding="utf-8"))
     assert [i.get("appearances", [{}])[0].get("value", "any") for i in icon["images"]] == ["any", "dark"]
+    shots = IOS / "App" / "Assets.xcassets" / "AppIcon.appiconset"
+    assert (shots / "AppIcon-1024-dark.png").read_bytes() == (shots / "AppIcon-1024.png").read_bytes()  # Dark 모양 칸에도 라이트 판
 
     info = plistlib.loads((IOS / "App" / "Info.plist").read_bytes())
     assert info["ITSAppUsesNonExemptEncryption"] is False and info["CFBundleDevelopmentRegion"] == "ko"

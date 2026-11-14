@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- scripts/app_icons.py 가 만든다. 앞면·뒷면·단색(Android 13 테마 아이콘) 층, 다크 테마는 mipmap-night-* -->
+<!-- scripts/app_icons.py 가 만든다. 앞면·뒷면·단색(Android 13 테마 아이콘) 층. 기기가 다크여도 이 라이트 판(디자인 126판) -->
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
     <background android:drawable="@mipmap/ic_launcher_background"/>
     <foreground android:drawable="@mipmap/ic_launcher_foreground"/>

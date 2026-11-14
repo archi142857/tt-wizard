@@ -444,8 +444,9 @@ iOS 위젯(WidgetKit)은 iOS 를 낼 때 붙인다(App Group 을 쓰면 개인�
 디자인 세션 판(규칙 '로고' > '앱 아이콘 파일')을 `app/assets/icons/` 에 두고 `python scripts/app_icons.py` 로 만든다(Pillow).
 
 - 안드로이드 적응형 아이콘: 앞면·단색(Android 13 테마 아이콘)은 108dp 층 가운데 72dp(사방 16.7 % 여백), 뒷면은 층 전체.
-  다크 테마는 `mipmap-night-*`(파랑 바탕·흰 심볼). 안드로이드 7.x(API 24·25)는 `ic_launcher.png`(웹 `icon-512.png`)·`ic_launcher_round.png`.
-- iOS: `AppIcon` 1024 한 장(알파 없음) + Dark 모양(`app-icon-1024-dark.png`).
+  기기가 다크여도 이 라이트 판만 쓴다(디자인 126판, 사용자 11/13 밤: 홈 화면과 시작 화면 아이콘 모두. update106 에서 `mipmap-night-*` 아이콘 층을 뺐다. 시작 화면 바탕만 다크면 #16171B).
+  안드로이드 7.x(API 24·25)는 `ic_launcher.png`(웹 `icon-512.png`)·`ic_launcher_round.png`.
+- iOS: `AppIcon` 1024 한 장(알파 없음). Dark 모양 칸에도 같은 라이트 판.
 - Play 등록 아이콘(`play-icon-512.png`)과 App Store 등록 아이콘은 콘솔에 따로 올린다.
 - 디자인 세션이 아이콘을 다시 내면 `design\v3\app-icons` 의 같은 이름 파일로 덮어쓰고(`legacy-icon-512.png` 는 거기의 `icon-512.png`) 스크립트를 다시 돌린다.
   바뀐 층에서 나오는 파일만 달라져야 한다(전부 달라지면 Pillow 판이 달라 PNG 가 다르게 써진 것이니 화소로 견줘 본다).

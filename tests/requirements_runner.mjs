@@ -4,8 +4,10 @@ import { join } from "node:path";
 import {
   pickVersion, pickVersionFor, buildSameCourse, tidyRecords, evaluateProgram, creditSummary, gpa, gradeNeeded,
   termCreditLimit, withinLimit, isMajorCourse, suggestCourses, rankSuggestions,
+  suggestionTag, rowName, termName, nextRegularTerm, nthRegularTerm, hasCoursebook, versionLabel, versionChoices,
+  takenTerms, gradView, basisText, limitLine, deptLink, sourceTexts,
 } from "../web/js/requirements.js";
-import { gapFit, parseCourses, TravelMatrix } from "../web/js/engine.js";
+import { gapFit, parseCourses, TravelMatrix, fitLabel } from "../web/js/engine.js";
 
 const [, , dataDir, casesPath] = process.argv;
 const read = (p) => JSON.parse(readFileSync(p, "utf8"));
@@ -32,8 +34,8 @@ const out = read(casesPath).map((c) => {
     }
     case "tidy": {
       const t = tidyRecords(c.records);
-      return { courses: t.courses.map((x) => [x.code, x.term, x.earned]), replaced: t.replaced.map((x) => [x.code, x.term]),
-        duplicates: t.duplicates, dropped: t.dropped.map((x) => [x.code, x.why || "W"]) };
+      return { courses: t.courses.map((x) => [x.code, x.term, x.earned]), replaced: t.replaced.map((x) => [x.code, x.term, x.by]),
+        duplicates: t.duplicates, substituted: t.substituted.map((x) => x.codes), dropped: t.dropped.map((x) => [x.code, x.why]) };
     }
     case "evaluate": {
       const p = program(c.program);
@@ -86,8 +88,47 @@ const out = read(casesPath).map((c) => {
       const sug = suggestCourses([{ program: p, rows }], next, { sameCourse: same });
       const fit = c.fit ? gapFit(sections(c.base), sug.map((x) => x.course), matrix(c), "H") : null;
       return { suggestions: sug.map((x) => [x.course.id, x.strength, x.reasons.map((r) => r.row)]),
-        ranked: rankSuggestions(sug, fit).map((x) => [x.course.id, x.strength, x.fit ? x.fit.add.cost : null]) };
+        ranked: rankSuggestions(sug, fit).map((x) => [x.course.id, x.strength, x.fit ? x.fit.add.cost : null]),
+        walk: rankSuggestions(sug, fit, { order: "walk" }).map((x) => x.course.id),
+        tags: Object.fromEntries(sug.map((x) => [x.course.id, suggestionTag(x)])) };
     }
+    case "rank":
+      return { req: rankSuggestions(c.suggestions, c.fit).map((x) => x.course.id),
+        walk: rankSuggestions(c.suggestions, c.fit, { order: "walk" }).map((x) => x.course.id),
+        tags: c.suggestions.map(suggestionTag) };
+    case "rowname":
+      return c.texts.map((t) => rowName({ text: t[0], type: t[1] }));
+    case "labels": {
+      const p = c.program ? program(c.program) : null;
+      return {
+        terms: (c.terms || []).map((t) => [termName(t), nextRegularTerm(t), nthRegularTerm(c.entryYear, t)]),
+        version: p && c.entryYear ? versionLabel(p, pickVersion(p, c.entryYear).version, c.opts || {}) : null,
+        choices: p && c.entryYear ? versionChoices(p, pickVersion(p, c.entryYear).version, { ...(c.opts || {}), entryYear: c.entryYear }).map((x) => x.label) : null,
+        link: p ? deptLink(p) : null,
+        sources: p && c.src ? sourceTexts(p, c.src).map((x) => x.text) : null,
+        basis: c.index ? basisText(c.index) : null,
+        coursebook: c.semesters ? c.ask.map((t) => hasCoursebook(c.semesters, t)) : null,
+      };
+    }
+    case "taken": {
+      const v = takenTerms(c.records, { currentTerm: c.currentTerm });
+      return { total: v.total, terms: v.terms.map((t) => [t.term, t.label, t.text, t.rows.map((r) => [r.code, r.counted, r.why, r.meta])]) };
+    }
+    case "view": {
+      const picks = c.picks.map((x) => ({ ...x, program: program(x.program), newer: x.newer || null }));
+      const same = buildSameCourse(courseMap, picks.map((x) => x.program));
+      const grades = c.grades ? gpa(c.records, { sameCourse: same }) : null;
+      const v = gradView({ picks, records: c.records, grades, common, sameCourse: same });
+      return { total: v.total, missing: v.missing,
+        bundles: v.bundles.map((b) => ({ kind: b.kind, title: b.title, label: b.label, choices: b.choices.map((x) => x.label),
+          rows: Object.fromEntries(b.rows.map((r) => [r.id, { name: r.name, value: r.value.text, aria: r.aria, summary: r.sheet.summary,
+            strong: r.sheet.strong, because: r.sheet.because, meta: r.sheet.meta, link: r.sheet.link, checked: r.sheet.checked,
+            courses: r.sheet.courses.map((x) => [x.code, x.taken, x.meta]), sources: r.sheet.sources.map((x) => x.text) }])) })) };
+    }
+    case "limitline":
+      return limitLine({ common, who: c.who, term: c.term, credits: c.credits, chosen: c.chosen ?? null });
+    case "fitlabel":
+      return c.fits.map(fitLabel);
     default:
       return { error: `모르는 사례 ${c.kind}` };
   }

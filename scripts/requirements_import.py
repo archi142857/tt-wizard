@@ -28,6 +28,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "requirements"
 LO, HI = 2019, 2026
+DATA_YEAR = 2025  # 졸업 요건 탭 맨 아래 '2025학년도 자료'(1차 조사가 2025학년도 교과과정, 디자인 124판). 학년도마다 다시 조사하면 올린다
 STATUS = ("확인", "부분", "미확인", "충돌")
 CORE = ("id", "type", "applies_to", "text", "min_count", "min_credits", "courses", "status", "note")
 
@@ -565,7 +566,7 @@ def main(argv: list[str] | None = None) -> int:
     for prog in built.values():
         (out / "programs" / f"{prog['id']}.json").write_text(json.dumps(prog, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     index = [index_entry(one.get(k), two.get(k), k[0], built) for k in keys]
-    (out / "index.json").write_text(json.dumps({"checked_on": checked, "cohorts": [LO, HI], "programs": index},
+    (out / "index.json").write_text(json.dumps({"checked_on": checked, "data_year": DATA_YEAR, "cohorts": [LO, HI], "programs": index},
                                                ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     (out / "ge_credits.json").write_text(json.dumps(read_ge_table(Path(args.ge_table)), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     (out / "course_map.json").write_text(json.dumps(read_course_map(Path(args.course_map)), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
