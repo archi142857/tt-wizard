@@ -469,7 +469,7 @@ def test_widget_resources_and_manifest():
     # 자바가 쓰는 자원이 다 있다(빌드 전에 이름 틀림을 잡는다)
     for kind, name in set(re.findall(r"(?<!android\.)\bR\.(layout|id|string|array|drawable|color)\.(\w+)", java)):  # android.R 은 기기 것
         assert name in _res_names(kind), (kind, name)
-    main = (JAVA / "MainActivity.java").read_text(encoding="utf-8")
+    main = (JAVA / "AppActivity.java").read_text(encoding="utf-8")
     assert main.index("registerPlugin(WidgetPlugin.class)") < main.index("super.onCreate(savedInstanceState)")
     assert '@CapacitorPlugin(name = "TTWWidget")' in (JAVA / "WidgetPlugin.java").read_text(encoding="utf-8")
     # 위젯을 누르면 여는 주소: 웹 앱 주소 + '#tab=mine'(화면이 내 시간표로 간다)

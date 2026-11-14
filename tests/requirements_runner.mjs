@@ -5,7 +5,7 @@ import {
   pickVersion, pickVersionFor, buildSameCourse, tidyRecords, evaluateProgram, creditSummary, gpa, gradeNeeded,
   termCreditLimit, withinLimit, isMajorCourse, suggestCourses, rankSuggestions,
   suggestionTag, rowName, termName, nextRegularTerm, nthRegularTerm, hasCoursebook, versionLabel, versionChoices,
-  takenTerms, gradView, basisText, limitLine, deptLink, sourceTexts,
+  takenTerms, gradView, basisText, limitLine, deptLink, sourceTexts, shortLocator,
 } from "../web/js/requirements.js";
 import { gapFit, parseCourses, TravelMatrix, fitLabel } from "../web/js/engine.js";
 
@@ -98,6 +98,8 @@ const out = read(casesPath).map((c) => {
         tags: c.suggestions.map(suggestionTag) };
     case "rowname":
       return c.texts.map((t) => rowName({ text: t[0], type: t[1] }));
+    case "locator":
+      return c.texts.map(shortLocator);
     case "labels": {
       const p = c.program ? program(c.program) : null;
       return {

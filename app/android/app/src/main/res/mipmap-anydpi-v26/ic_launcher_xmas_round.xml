@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- scripts/app_icons.py 가 만든다. 12월 계절 아이콘(디자인 125판): 앞면·뒷면은 크리스마스 판, 단색 층은 기본 아이콘 것 그대로. 밤 층은 없다 -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@mipmap/ic_launcher_xmas_background"/>
+    <foreground android:drawable="@mipmap/ic_launcher_xmas_foreground"/>
+    <monochrome android:drawable="@mipmap/ic_launcher_monochrome"/>
+</adaptive-icon>

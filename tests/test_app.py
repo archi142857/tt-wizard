@@ -296,7 +296,7 @@ def test_android_plugins_permissions_and_links():
     assert all(f'"{i}"' in native_js for i in ids)
     assert "ADD_TO_STORY\")" not in send and "source_application" not in send and "Telephony.Sms.getDefaultSmsPackage" in send
     assert "ImagePlugin.cacheForShare(" in send and '"MISSING"' in send and '"FAILED"' in send
-    main = (java / "MainActivity.java").read_text(encoding="utf-8")
+    main = (java / "AppActivity.java").read_text(encoding="utf-8")
     for name in ("ImagePlugin", "ShellPlugin", "SharePlugin"):
         assert main.index(f"registerPlugin({name}.class)") < main.index("super.onCreate(savedInstanceState)")
     manifest = (APP / "android" / "app" / "src" / "main" / "AndroidManifest.xml").read_text(encoding="utf-8")
@@ -325,8 +325,9 @@ def test_native_projects_match_config():
     pbx = (IOS / "App.xcodeproj" / "project.pbxproj").read_text(encoding="utf-8")
     assert f'applicationId "{app_id}"' in gradle and f'namespace = "{app_id}"' in gradle
     assert pbx.count(f"PRODUCT_BUNDLE_IDENTIFIER = {app_id};") == 2
-    activity = APP / "android" / "app" / "src" / "main" / "java" / Path(*app_id.split(".")) / "MainActivity.java"
+    activity = APP / "android" / "app" / "src" / "main" / "java" / Path(*app_id.split(".")) / "AppActivity.java"
     assert activity.exists() and activity.read_text(encoding="utf-8").startswith(f"package {app_id};")
+    assert not activity.with_name("MainActivity.java").exists()  # update108: 런처 별칭 이름이 됐다(클래스는 AppActivity)
 
     web_version = re.search(r'const APP_VERSION = "([^"]+)"', (ROOT / "web" / "js" / "app.js").read_text(encoding="utf-8")).group(1)
     android_version = re.search(r'versionName "([^"]+)"', gradle).group(1)
@@ -347,10 +348,16 @@ def test_native_projects_match_config():
     assert 'name="LaunchBackground"' in (IOS / "App" / "Base.lproj" / "LaunchScreen.storyboard").read_text(encoding="utf-8")
 
     for density in ("mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi"):
-        for name in ("ic_launcher", "ic_launcher_round", "ic_launcher_foreground", "ic_launcher_background", "ic_launcher_monochrome"):
+        for name in ("ic_launcher", "ic_launcher_round", "ic_launcher_foreground", "ic_launcher_background", "ic_launcher_monochrome",
+                     "ic_launcher_xmas", "ic_launcher_xmas_round", "ic_launcher_xmas_foreground", "ic_launcher_xmas_background"):
             assert (RES / f"mipmap-{density}" / f"{name}.png").exists(), (density, name)
         assert not list((RES / f"mipmap-night-{density}").glob("ic_launcher*"))  # 기기가 다크여도 라이트 판만(디자인 126판)
     assert "<monochrome" in (RES / "mipmap-anydpi-v26" / "ic_launcher.xml").read_text(encoding="utf-8")
+    # 12월 계절 아이콘(디자인 125판): 앞면·뒷면만 크리스마스 판, 단색 층(테마 아이콘)은 기본 것 그대로
+    for name in ("ic_launcher_xmas", "ic_launcher_xmas_round"):
+        xml = (RES / "mipmap-anydpi-v26" / f"{name}.xml").read_text(encoding="utf-8")
+        assert re.findall(r'android:drawable="@mipmap/(\w+)"', xml) == [
+            "ic_launcher_xmas_background", "ic_launcher_xmas_foreground", "ic_launcher_monochrome"], name
     icon = json.loads((IOS / "App" / "Assets.xcassets" / "AppIcon.appiconset" / "Contents.json").read_text(encoding="utf-8"))
     assert [i.get("appearances", [{}])[0].get("value", "any") for i in icon["images"]] == ["any", "dark"]
     shots = IOS / "App" / "Assets.xcassets" / "AppIcon.appiconset"
@@ -376,6 +383,42 @@ def test_native_projects_match_config():
     assert "rootViewController = MainViewController()" in swift and "allowsBackForwardNavigationGestures = true" in swift
     assert "registerPluginInstance(ImagePlugin())" in swift and "registerPluginInstance(ShellPlugin())" in swift
     assert 'customClass="MainViewController"' in (IOS / "App" / "Base.lproj" / "Main.storyboard").read_text(encoding="utf-8")
+
+
+def test_launcher_aliases_for_season_icon():
+    """계절 앱 아이콘(update108, 디자인 125판): 런처 아이콘은 AppActivity 를 여는 별칭 둘이고, 12월·안드로이드 11 이상에서 앱이 안 보일 때만 바꾼다.
+    기본 별칭 이름은 update108 전 앱 화면 이름(.MainActivity) 그대로라 업데이트해도 홈 화면 아이콘이 남는다."""
+    java = APP / "android" / "app" / "src" / "main" / "java" / "com" / "ttwizard" / "app"
+    manifest = (APP / "android" / "app" / "src" / "main" / "AndroidManifest.xml").read_text(encoding="utf-8")
+    activities = re.findall(r"<activity\s(.*?)</activity>", manifest, re.S)
+    assert len(activities) == 1 and 'android:name=".AppActivity"' in activities[0]
+    assert "android.intent.category.LAUNCHER" not in activities[0] and 'android:autoVerify="true"' in activities[0]  # 링크는 별칭과 상관없이 늘 연다
+    aliases = {re.search(r'android:name="([^"]+)"', a).group(1): a for a in re.findall(r"<activity-alias\s(.*?)</activity-alias>", manifest, re.S)}
+    assert list(aliases) == [".MainActivity", ".MainActivityXmas"]
+    want = {".MainActivity": ("true", "ic_launcher"), ".MainActivityXmas": ("false", "ic_launcher_xmas")}
+    for name, (enabled, icon) in want.items():
+        a = aliases[name]
+        assert 'android:targetActivity=".AppActivity"' in a and 'android:exported="true"' in a and f'android:enabled="{enabled}"' in a, name
+        assert f'android:icon="@mipmap/{icon}"' in a and f'android:roundIcon="@mipmap/{icon}_round"' in a, name
+        assert "android.intent.action.MAIN" in a and "android.intent.category.LAUNCHER" in a, name
+        assert 'android:label="@string/title_activity_main"' in a, name
+    assert manifest.count("android.intent.category.LAUNCHER") == 2
+    assert 'android:icon="@mipmap/ic_launcher"' in re.search(r"<application(.*?)>", manifest, re.S).group(1)  # 앱 정보·설정의 아이콘은 기본
+    icon = (java / "LauncherIcon.java").read_text(encoding="utf-8")
+    namespace = re.search(r'namespace = "([^"]+)"', (APP / "android" / "app" / "build.gradle").read_text(encoding="utf-8")).group(1)
+    assert re.findall(r'static final String (?:DEFAULT|XMAS) = "([^"]+)"', icon) == [namespace + n for n in aliases]
+    assert "sdk >= Build.VERSION_CODES.R && month == 12 ? XMAS : DEFAULT" in icon  # 12월 한 달, 안드로이드 11 이상
+    assert icon.count("PackageManager.DONT_KILL_APP") == 4 and "AppActivity.visible() || mayComeBack(c)" in icon
+    assert "isInteractive()" in icon and "isKeyguardLocked()" in icon and "getAppTasks()" in icon
+    # 바꾸는 때: 앱 화면이 안 보이게 됐을 때와 위젯 받는 곳(0시 알람·시각 바뀜·앱 업데이트)
+    app = (java / "AppActivity.java").read_text(encoding="utf-8")
+    assert "if (!isChangingConfigurations()) LauncherIcon.sync(this);" in app
+    updater = (java / "WidgetUpdater.java").read_text(encoding="utf-8")
+    body = updater.split("public void onReceive(Context context, Intent intent) {", 1)[1]
+    assert body.lstrip().startswith("LauncherIcon.sync(context);")
+    # 위젯이 여는 화면은 별칭이 아니라 AppActivity(12월에 기본 별칭이 꺼져도 열린다)
+    views = (java / "WidgetViews.java").read_text(encoding="utf-8")
+    assert "c, AppActivity.class)" in views and "MainActivity.class" not in views
 
 
 def test_release_workflow_keeps_key_secret():

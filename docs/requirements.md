@@ -126,7 +126,7 @@ update106(11/14, 디자인 124판 '졸업 요건 탭'): 들은 과목은 드랍�
 | `rowName(req)` | 줄 이름: 자료 글의 앞부분(`전공필수 15과목 46학점` → `전공필수`, `외국어진행강좌(…) 3과목` → `외국어진행강좌`). 길거나 숫자로 시작하면 종류 이름(전공필수·전공선택·지정 과목·복수전공·부전공·졸업 논문·분배 이수·교양·기타 조건) |
 | `reasonText(row, {entryYear})` | 까닭: `2025학번 내규가 공개되지 않았어요.`(자료 미확인), `2025학번 세부 규정이 공개 자료에 다 나오지 않았어요.`(부분), `공개된 자료끼리 내용이 달라요.`(충돌), 과목 목록·기준 수가 없는 요건, 여러 갈래 조건, 대체 과목을 둘 다 들음, 여러 요건에 걸린 과목 |
 | `versionLabel(program, version, {role, selectionTerm})` · `versionChoices(…, {newer, entryYear})` | 판 이름 `2025~2026학번 규정`(전공 진입 연도로 고르는 판 `2024~2026년 진입 규정`), 복수·부전공과 선발 연도로 고르는 과정은 `2026년 1학기 선발`. 학과가 더 새 학번 규정을 허락하면(catalog `programs[id].newer`: 식품영양학과·응용생물학전공·컴퓨터공학부, `졸업_요건_학번별.md` 4절) 고를 수 있는 판이 둘 이상이라 판 이름이 선택칸 |
-| `deptLink(program)` · `sourceTexts(program, src)` | `학과 졸업요건` 링크(과정 출처 가운데 학과 누리집의 졸업요건·내규 페이지), 출처 줄 |
+| `deptLink(program)` · `sourceTexts(program, src)` · `shortLocator(locator)` | `학과 졸업요건` 링크(과정 출처 가운데 학과 누리집의 졸업요건·내규 페이지), 출처 줄 `출처: 〈문서 이름〉 · 〈쪽·표〉`(디자인 127판. 위치는 조사 메모에서 쪽과 표만 뽑은 `3쪽`·`표 2`·`9쪽 표 1`, 모르면 문서 이름만. 메모 그대로는 `detail`) |
 | `basisText(index)` | 맨 아래 기준 줄 `2025학년도 자료 · 11월 12일 기준`(index.json 의 `data_year`·`checked_on`) |
 | `termName(term)` · `nextRegularTerm(term)` · `hasCoursebook(semesters, term)` | `다음 학기 추천` 줄의 값 `2027년 1학기`, 그 학기 편람이 없으면 화면이 `편람이 아직 없어요` |
 | `limitLine({common, who, term, credits, chosen})` | 과목 추가의 학기 학점 줄: `label` `18학점까지`·`choices`(기본, 학기 예외, 직전 두 학기 3.3 이상 21)·`rest` `12학점 남음`(넘으면 `3학점 넘음`, `over`). 처음 값은 `termCreditLimit`(입학 뒤 몇 번째 학기는 `nthRegularTerm`), 계절학기는 9·6 글자만 |

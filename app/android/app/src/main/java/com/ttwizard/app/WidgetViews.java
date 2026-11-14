@@ -33,7 +33,7 @@ import java.util.function.Predicate;
  *   주간 시간표(4×4) 대표 시간표 한 주 그림(WeekBitmap, 라이트·다크 두 장).
  *   동선 지도(4×2~)  그날(오늘 수업이 끝났으면 다음 수업 날) 걷는 길과 수업 핀(DayMapBitmap, 라이트·다크 두 장), 머리에 그날 걷기 합(update71).
  * 보일 수업이 없으면 머리 줄 아래 가운데에 빈 상태(widget_empty: 아이콘, 한 문장, 다음 수업 줄이나 '내 시간표 열기').
- * 누르면 앱(MainActivity 에 주소를 넘긴다: native.js 의 launchUrl·'ttw:open-url' 로 화면에 간다). 다음 수업·오늘 수업은 그 요일 동선 지도
+ * 누르면 앱(AppActivity 에 주소를 넘긴다: native.js 의 launchUrl·'ttw:open-url' 로 화면에 간다. 런처 별칭이 아니라 계절 아이콘과 상관없다). 다음 수업·오늘 수업은 그 요일 동선 지도
  * (주소의 route, WidgetData.openUrl)이고 동선 지도는 그 지도의 요일, 주간 시간표는 내 시간표.
  * 수업을 누르면(update77) 그 수업의 항목 시트: 다음 수업의 수업 줄, 오늘 수업의 행, 주간 시간표의 칸(안드로이드 12 이상) → WidgetData.itemUrl.
  * 맨 위는 머리 띠(update78, 디자인 106판: 앱 테마의 bg 단색에 제목 13 굵게, 오른쪽 흐린 글 12), 그 아래 몸(card).
@@ -579,9 +579,9 @@ final class WidgetViews {
         return intent(c, WidgetData.itemUrl(OPEN_URL, t == null ? null : t.sem, t == null ? "" : t.id, l.key));
     }
 
-    /** 주소를 앱(MainActivity)에 넘기는 PendingIntent. 주소(data)가 다르면 다른 PendingIntent 다(같은 requestCode 여도) */
+    /** 주소를 앱(AppActivity)에 넘기는 PendingIntent. 주소(data)가 다르면 다른 PendingIntent 다(같은 requestCode 여도) */
     private static PendingIntent intent(Context c, String url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url), c, MainActivity.class);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url), c, AppActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return PendingIntent.getActivity(c, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
     }

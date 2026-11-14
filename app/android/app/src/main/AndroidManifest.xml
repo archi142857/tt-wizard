@@ -12,18 +12,14 @@
         android:enableOnBackInvokedCallback="true"
         android:theme="@style/AppTheme">
 
+        <!-- 앱 화면(웹뷰 하나, AppActivity.java). 런처 아이콘은 아래 별칭 둘이고, 위젯·시간표 링크는 이 화면으로 바로 온다 -->
         <activity
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode|navigation|density"
-            android:name=".MainActivity"
+            android:name=".AppActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBarLaunch"
             android:launchMode="singleTask"
             android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
             <!-- 시간표 링크로 앱 열기(App Links, 10/30). 공유한 링크 https://archi142857.github.io/tt-wizard/#t=… 를 앱이 깔린 폰에서 누르면 이 앱이 연다
                  (화면은 native.js 의 TTW_APP.launchUrl·'ttw:open-url' 로 받는다). 경로는 웹 앱 첫 주소 하나만(path): 같은 사이트의 실측 페이지(field/)·
@@ -38,6 +34,36 @@
             </intent-filter>
 
         </activity>
+
+        <!-- 런처 아이콘(update108, 디자인 125판 계절 아이콘, LauncherIcon.java): 별칭 둘 가운데 하나만 켜져 앱 서랍·홈 화면에 보인다.
+             .MainActivity 는 update108 전 앱 화면의 이름 그대로라 업데이트해도 홈 화면에 둔 아이콘이 남는다(이 이름은 바꾸지 않는다).
+             .MainActivityXmas 는 12월(기기 날짜) 한 달, 안드로이드 11 이상에서 앱이 안 보일 때 켜진다. 둘 다 AppActivity 를 연다 -->
+        <activity-alias
+            android:name=".MainActivity"
+            android:targetActivity=".AppActivity"
+            android:label="@string/title_activity_main"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".MainActivityXmas"
+            android:targetActivity=".AppActivity"
+            android:label="@string/title_activity_main"
+            android:icon="@mipmap/ic_launcher_xmas"
+            android:roundIcon="@mipmap/ic_launcher_xmas_round"
+            android:enabled="false"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -84,7 +110,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_week_info" />
         </receiver>
-        <!-- 위젯을 다시 그리는 때: 부정확 알람(수업 시작·끝, 0시. 정확한 알람 권한 없음), 기기 시각·시간대가 바뀔 때, 앱을 업데이트했을 때 -->
+        <!-- 위젯을 다시 그리는 때: 부정확 알람(수업 시작·끝, 0시. 정확한 알람 권한 없음), 기기 시각·시간대가 바뀔 때, 앱을 업데이트했을 때.
+             받을 때마다 계절 앱 아이콘도 맞춘다(LauncherIcon) -->
         <receiver
             android:name=".DayMapWidget"
             android:exported="false"

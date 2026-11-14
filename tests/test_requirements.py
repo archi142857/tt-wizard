@@ -504,7 +504,8 @@ def test_taken_terms_and_labels(tmp_path):
                                ["2027년 1학기", "2027-2", 5]]
     assert animal["version"] == "2021~2026학번 규정" and animal["choices"] == ["2021~2026학번 규정"]
     assert animal["link"].startswith("https://anibiotech.snu.ac.kr/")
-    assert animal["sources"] == ["출처: 동물생명공학전공 졸업요건 학부과정(2022년도)", "출처: 서울대학교 2024 전공별 교과목(학사과정)"]
+    assert animal["sources"] == ["출처: 동물생명공학전공 졸업요건 학부과정(2022년도)",  # 쪽·표를 모르면 문서 이름만(디자인 127판)
+                                 "출처: 서울대학교 2024 전공별 교과목(학사과정) · 79–80쪽"]
     assert animal["basis"] == "2025학년도 자료 · 11월 12일 기준" and animal["coursebook"] == [True, False]
     assert second["version"] == "2026년 1학기 선발"
     assert len(newer["choices"]) > 1 and newer["choices"][0] == plain["choices"][0] and len(plain["choices"]) == 1
@@ -588,3 +589,13 @@ def test_row_names(tmp_path):
         ["[2-1] 공학수학 1, [2-2] 공학수학 2", "major_required"], ["[과학] 물리학 영역(물리학·물리학 1·물리학 2)", "ge"],
         ["외국어진행강좌(대학영어 포함) 3과목 이상", "other"], ["", "double"]]}])[0]
     assert got == ["전공필수", "동물생명공학논문연구", "통계학개론 및 실습", "지정 과목", "공학수학", "과학 물리학 영역", "외국어진행강좌", "복수전공"]
+
+
+@node
+def test_short_locator(tmp_path):
+    """출처 줄의 짧은 위치(디자인 127판 '출처: 〈문서 이름〉 · 〈locator〉'): 조사 메모에서 쪽과 표만"""
+    got = _run(tmp_path, [{"kind": "locator", "texts": [
+        "p.120(PDF 12쪽)", "교양 이수규정 31쪽(PDF 24쪽) □ 미술대학", "Ⅵ 부전공·복수전공(PDF 21–22쪽)",
+        "표 1 학사과정 졸업(수료) 이수학점 기준(p.9)·표 2 복수·부전공 이수학점 기준(p.10)", "제5조 제1호 [표2](입학년도별 영역 인정 전공과목)",
+        "바이오시스템공학 트랙 A·B 표준 이수체계(p.80~81)", "번호 15", "2024학번 표 035.001", "학점 표·이수표준형태(별표 15과목)", "", None]}])[0]
+    assert got == ["120쪽", "31쪽", "21–22쪽", "9쪽 표 1", "표 2", "80–81쪽", "", "", "", "", ""]

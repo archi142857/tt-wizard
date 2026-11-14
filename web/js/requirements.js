@@ -521,14 +521,38 @@ export function reasonText(row, { entryYear = null } = {}) {
   }
 }
 
-/** 요건 시트의 출처 줄: [{text: '출처: 동물생명공학전공 졸업요건 학부과정(2022년도)', url, locator}] (같은 문서는 한 번) */
+/**
+ * 출처 위치를 짧게(디자인 127판): 자료의 locator(조사 메모) 가운데 쪽과 표만 → '3쪽'·'표 2'·'9쪽 표 1'. 없으면 ''.
+ * 쪽은 인쇄 쪽('p.17', '31쪽')을 먼저, 없으면 PDF 쪽('PDF 21–22쪽'). 표는 첫 '표 N'·'[표N]'
+ */
+export function shortLocator(locator) {
+  const s = String(locator || "");
+  const range = (a, b) => (b && b !== a ? `${a}–${b}쪽` : `${a}쪽`);
+  const printed = s.replace(/PDF\s*\d+(?:\s*[–~-]\s*\d+)?\s*쪽/g, " ");
+  let page = null, m;
+  if ((m = /p\.\s*(\d+)(?:\s*[–~-]\s*(\d+))?/.exec(printed))) page = range(m[1], m[2]);
+  else if ((m = /(\d+)(?:\s*[–~-]\s*(\d+))?\s*쪽/.exec(printed))) page = range(m[1], m[2]);
+  else if ((m = /PDF\s*(\d+)(?:\s*[–~-]\s*(\d+))?\s*쪽/.exec(s))) page = range(m[1], m[2]);
+  // 첫 '표 N'('표 035.001' 같은 과목 번호와 '별표 15과목'의 별표는 빼고. 뒤 보기 정규식은 옛 사파리가 못 읽어 쓰지 않는다)
+  const tables = [...s.matchAll(/(.?)표\s*(\d{1,2})(?![\d.])/g)].filter((x) => x[1] !== "별");
+  return [page, tables.length ? `표 ${tables[0][2]}` : null].filter(Boolean).join(" ");
+}
+
+/**
+ * 요건 시트의 출처 줄(디자인 127판): [{text: '출처: 〈문서 이름〉 · 〈쪽·표〉', url, locator(짧은 위치, 없으면 ''), detail(조사 메모 그대로)}].
+ * 쪽·표를 모르면 '출처: 〈문서 이름〉' 만. 같은 문서·같은 위치는 한 번
+ */
 export function sourceTexts(program, src = []) {
   const out = [], seen = new Set();
   for (const k of src || []) {
     const s = ((program && program.sources) || {})[k];
-    if (!s || seen.has(s.title)) continue;
-    seen.add(s.title);
-    out.push({ text: `출처: ${String(s.title).replace(/\s+—\s+/g, " ")}`, url: s.url || null, locator: s.locator || null });
+    if (!s) continue;
+    const title = String(s.title).replace(/\s+—\s+/g, " ");
+    const locator = shortLocator(s.locator);
+    const text = `출처: ${title}${locator ? ` · ${locator}` : ""}`;
+    if (seen.has(text)) continue;
+    seen.add(text);
+    out.push({ text, url: s.url || null, locator, detail: s.locator || null });
   }
   return out;
 }

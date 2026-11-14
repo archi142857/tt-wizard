@@ -18,7 +18,7 @@ import java.util.Calendar;
  *   화면이 켜질 때 온다)이라 정확한 알람 권한이 없다(법무: USE_EXACT_ALARM 은 쓰지 않는다). 창은 10분(안드로이드 12 이상의 가장 짧은 창)이라
  *   늦으면 10분쯤 늦게 바뀐다. 위젯 정보의 updatePeriodMillis(3시간)와 시각·시간대 바뀜·앱 업데이트(이 받는 곳의 intent-filter)가 받침이다.
  *   주간 시간표 위젯이 놓였으면 오늘 열의 지금 줄(update98)이 보이는 동안 10분마다도 울리고, 그때는 주간 시간표만 다시 그린다(WidgetData.nextTick, EXTRA_FULL_AT).
- * 이 클래스는 알람과 시각 바뀜을 받는 BroadcastReceiver 이기도 하다(AndroidManifest.xml).
+ * 이 클래스는 알람과 시각 바뀜을 받는 BroadcastReceiver 이기도 하다(AndroidManifest.xml). 받을 때마다 계절 앱 아이콘도 맞춘다(LauncherIcon).
  */
 public class WidgetUpdater extends BroadcastReceiver {
 
@@ -38,6 +38,7 @@ public class WidgetUpdater extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        LauncherIcon.sync(context); // 계절 아이콘(update108): 0시 알람·기기 날짜 바뀜·앱 업데이트 때도 앱이 안 보이면 맞춘다
         long fullAt = ACTION_TICK.equals(intent.getAction()) ? intent.getLongExtra(EXTRA_FULL_AT, 0) : 0;
         if (System.currentTimeMillis() < fullAt) refreshWeek(context); // 지금 줄만 옮긴다(늦게 와서 다 그릴 때가 지났으면 다 그린다)
         else refreshAll(context);

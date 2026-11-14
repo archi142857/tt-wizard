@@ -7,11 +7,15 @@
   adaptive-background-1024.png                                 뒷면(흰색)
   app-icon-1024.png                                            iOS 앱 아이콘 (알파 없음). Dark 모양 칸에도 같은 그림
   legacy-icon-512.png                                          안드로이드 7.x(API 24·25) 아이콘 = 웹 icon-512.png (흰 둥근 네모)
+  adaptive-{foreground,background}-xmas-1024.png, app-icon-xmas-1024.png
+                                                               12월 계절 아이콘(디자인 125판). 단색 층은 기본 것을 같이 쓴다
 
 출력
   app/android/app/src/main/res/mipmap-*dpi/ic_launcher_{foreground,background,monochrome}.png (108dp 층: 앞면·단색은
     가운데 72dp, 뒷면은 꽉), ic_launcher.png·ic_launcher_round.png (48dp, API 24·25),
     mipmap-anydpi-v26/ic_launcher.xml·ic_launcher_round.xml (<monochrome> = Android 13 테마 아이콘)
+    같은 꼴로 ic_launcher_xmas*(12월 계절 아이콘: 런처 별칭 .MainActivityXmas, 안드로이드 11 이상만 켜진다. docs/app.md '계절 아이콘').
+    7.x 용 ic_launcher_xmas.png 는 보이는 일이 없지만 자원이 모든 판에 있어야 해서 만든다
   app/ios/App/App/Assets.xcassets/AppIcon.appiconset/ (1024 한 장 + Dark 모양 칸에 같은 그림)
 앱 아이콘은 기기가 다크여도 라이트 판만 쓴다(디자인 126판, 사용자 11/13 밤 '모든 기본 아이콘은 다 라이트 테마를 기준으로'):
 mipmap-night-* 아이콘 층을 만들지 않고, 예전 판이 만든 것은 지운다. 시작 화면 바탕만 다크면 #16171B(values-night/colors.xml).
@@ -42,6 +46,14 @@ ADAPTIVE_XML = """<?xml version="1.0" encoding="utf-8"?>
     <monochrome android:drawable="@mipmap/ic_launcher_monochrome"/>
 </adaptive-icon>
 """
+XMAS_XML = """<?xml version="1.0" encoding="utf-8"?>
+<!-- scripts/app_icons.py 가 만든다. 12월 계절 아이콘(디자인 125판): 앞면·뒷면은 크리스마스 판, 단색 층은 기본 아이콘 것 그대로. 밤 층은 없다 -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@mipmap/ic_launcher_xmas_background"/>
+    <foreground android:drawable="@mipmap/ic_launcher_xmas_foreground"/>
+    <monochrome android:drawable="@mipmap/ic_launcher_monochrome"/>
+</adaptive-icon>
+"""
 
 
 def load(name: str) -> Image.Image:
@@ -60,8 +72,19 @@ def inset(img: Image.Image, px: int) -> Image.Image:
     return layer
 
 
-def full(img: Image.Image, px: int) -> Image.Image:
-    return img.resize((px, px), Image.LANCZOS)
+def backdrop(img: Image.Image, px: int) -> Image.Image:
+    """뒷면 층: 보이는 72dp 판을 가운데에 두고 바깥 18dp 는 판을 거울로 비춰 채운다(움직이는 효과 때나 보이는 자리. 크리스마스 땡땡이가 그대로 이어지게).
+    흰 기본 뒷면은 예전처럼 층 전체가 흰색이다."""
+    inner = round(px * VISIBLE_DP / LAYER_DP)
+    off = (px - inner) // 2
+    mid = img.resize((inner, inner), Image.LANCZOS)
+    wide = Image.new("RGBA", (inner * 3, inner * 3))
+    flip_x, flip_y = mid.transpose(Image.FLIP_LEFT_RIGHT), mid.transpose(Image.FLIP_TOP_BOTTOM)
+    both = flip_x.transpose(Image.FLIP_TOP_BOTTOM)
+    for i, row in enumerate(((both, flip_y, both), (flip_x, mid, flip_x), (both, flip_y, both))):
+        for j, tile in enumerate(row):
+            wide.paste(tile, (j * inner, i * inner))
+    return wide.crop((inner - off, inner - off, inner - off + px, inner - off + px))
 
 
 def round_icon(img: Image.Image, px: int) -> Image.Image:
@@ -74,6 +97,13 @@ def round_icon(img: Image.Image, px: int) -> Image.Image:
     return out.resize((px, px), Image.LANCZOS)
 
 
+def rounded(img: Image.Image, shape: Image.Image, px: int) -> Image.Image:
+    """정사각 아이콘을 7.x 기본 아이콘(legacy-icon-512.png)과 같은 둥근 네모로 깎는다"""
+    out = img.resize(shape.size, Image.LANCZOS)
+    out.putalpha(shape.getchannel("A"))
+    return out.resize((px, px), Image.LANCZOS)
+
+
 def save_png(img: Image.Image, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     img.save(path, optimize=True)
@@ -82,15 +112,20 @@ def save_png(img: Image.Image, path: Path) -> None:
 def android() -> int:
     fg, bg, mono = load("adaptive-foreground-1024.png"), load("adaptive-background-1024.png"), load("adaptive-monochrome-1024.png")
     legacy, square = load("legacy-icon-512.png"), load("app-icon-1024.png")
+    xfg, xbg, xsquare = load("adaptive-foreground-xmas-1024.png"), load("adaptive-background-xmas-1024.png"), load("app-icon-xmas-1024.png")
     n = 0
     for name, scale in DENSITY.items():
         layer, small = round(LAYER_DP * scale), round(LEGACY_DP * scale)
         day, night = RES / f"mipmap-{name}", RES / f"mipmap-night-{name}"
         for img, path in ((inset(fg, layer), day / "ic_launcher_foreground.png"),
-                          (full(bg, layer), day / "ic_launcher_background.png"),
+                          (backdrop(bg, layer), day / "ic_launcher_background.png"),
                           (inset(mono, layer), day / "ic_launcher_monochrome.png"),
-                          (full(legacy, small), day / "ic_launcher.png"),
-                          (round_icon(square, small), day / "ic_launcher_round.png")):
+                          (legacy.resize((small, small), Image.LANCZOS), day / "ic_launcher.png"),
+                          (round_icon(square, small), day / "ic_launcher_round.png"),
+                          (inset(xfg, layer), day / "ic_launcher_xmas_foreground.png"),
+                          (backdrop(xbg, layer), day / "ic_launcher_xmas_background.png"),
+                          (rounded(xsquare, legacy, small), day / "ic_launcher_xmas.png"),
+                          (round_icon(xsquare, small), day / "ic_launcher_xmas_round.png")):
             save_png(img, path)
             n += 1
         for old in night.glob("ic_launcher*.png"):  # 다크 층(126판 전)은 지운다
@@ -101,6 +136,8 @@ def android() -> int:
     anydpi.mkdir(parents=True, exist_ok=True)
     for name in ("ic_launcher.xml", "ic_launcher_round.xml"):
         (anydpi / name).write_text(ADAPTIVE_XML, encoding="utf-8")
+    for name in ("ic_launcher_xmas.xml", "ic_launcher_xmas_round.xml"):
+        (anydpi / name).write_text(XMAS_XML, encoding="utf-8")
     # 템플릿 기본 아이콘(벡터 앞면·흰색 뒷면)은 쓰지 않는다
     for old in (RES / "drawable-v24" / "ic_launcher_foreground.xml", RES / "drawable" / "ic_launcher_background.xml",
                 RES / "values" / "ic_launcher_background.xml"):

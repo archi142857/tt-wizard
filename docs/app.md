@@ -18,7 +18,7 @@ app/
   package.json, package-lock.json   Capacitor 8.5.2 (core·cli·android·ios) + 플러그인 app·browser·haptics, 글꼴 pretendard
   capacitor.config.json             앱 아이디·이름, 시스템 바(SystemBars)
   src/native.js                     앱 연결 스크립트 (웹에서는 아무것도 안 한다)
-  assets/icons/                     디자인 세션 아이콘 원본(design\v3\app-icons, 10/5 판)
+  assets/icons/                     디자인 세션 아이콘 원본(design\v3\app-icons, 10/5 판, 12월 계절 아이콘 125판)
   android/                          네이티브 안드로이드 프로젝트 (커밋한다. 빌드 결과·복사본은 .gitignore)
   ios/                              네이티브 iOS 프로젝트 (커밋한다)
   www/                              build_app.py 가 만드는 묶음 (git 에 안 올림)
@@ -29,7 +29,7 @@ app/
 - 앱 안 플러그인(이 앱에만 있는 네이티브 코드): `TTWImage`(시간표 이미지 공유·저장, 안드로이드 `ImagePlugin.java`·iOS `ImagePlugin.swift`),
   `TTWShell`(링크 공유·앱 설정 열기, `ShellPlugin.java`·`ShellPlugin.swift`), `TTWWidget`(홈 화면 위젯 자료, 안드로이드 `WidgetPlugin.java`. 아래 '홈 화면 위젯'),
   `TTWShare`(공유 카드의 바로 보내기: 카카오톡·인스타·문자, 안드로이드 `SharePlugin.java`. 아래 '공유 카드의 바로 보내기').
-  안드로이드는 `MainActivity` 가, iOS 는 `MainViewController`(`SceneDelegate.swift`)가 등록한다.
+  안드로이드는 앱 화면 `AppActivity`(update108 전 이름 `MainActivity`)가, iOS 는 `MainViewController`(`SceneDelegate.swift`)가 등록한다.
   화면은 이것들을 직접 부르지 않고 `native.js` 의 `TTW_APP` 으로 쓴다.
 - 앱 묶음(`www/`)에서 빼는 것: 서비스 워커 `sw.js`(앱은 파일을 품고 있다), 3D·2D 모델(`model/`, `vendor/three/`), 실측 페이지(`field/`), 설명(`README.md`),
   node 시험용 표시(`js/package.json`), 웹에만 둔 개발자 메뉴(`js/dev.js`, 10/24. 스토어 앱은 열지 않고 숨긴 기능을 바이너리에 넣지 않는다, 법무: Apple 2.5.19).
@@ -40,8 +40,8 @@ app/
   화면이 부르기 시작하면 따로 손대지 않아도 들어간다. 그때 앱이 켤 때 새로 받는 자료(`native.js`)에 넣을지는 따로 정한다.
 
 - 앱 아이디 `com.ttwizard.app`(10/1 사용자 결정: 개인 GitHub 아이디와 떼어 두고, 나중에 `ttwizard.com` 같은 주소를 사면 그대로 맞게), 이름 `TT Wizard`.
-  **스토어에 처음 올린 뒤에는 앱 아이디를 바꿀 수 없다.** 안드로이드 `namespace`·`applicationId`·`MainActivity` 패키지, iOS `PRODUCT_BUNDLE_IDENTIFIER`,
-  `capacitor.config.json` 이 같아야 한다(`tests/test_app.py`).
+  **스토어에 처음 올린 뒤에는 앱 아이디를 바꿀 수 없다.** 안드로이드 `namespace`·`applicationId`·`AppActivity` 패키지, iOS `PRODUCT_BUNDLE_IDENTIFIER`,
+  `capacitor.config.json` 이 같아야 한다(`tests/test_app.py`). 런처 별칭 이름 `.MainActivity` 도 바꾸지 않는다(홈 화면에 둔 아이콘이 그 이름을 가리킨다. 아래 '계절 아이콘').
   사용자가 Play Console 을 보고 정하기 전까지 바꾸지 않는다(법무 10/22: 콘솔에서 앱을 만들 때 패키지 이름이 등록된 것으로 보이고, 바꾸면 Play 는 다른 앱으로 본다).
 - 안드로이드: minSdk 24, compile·targetSdk 36(Play 2026-08-31 요건), AGP 8.13, Gradle 8.14.3, JDK 21.
 - iOS: 15.0 이상, Xcode 26 이상(Capacitor 8 요건), iPhone 전용(`TARGETED_DEVICE_FAMILY = 1`, 디자인 규칙의 권장. iPad 를 넣으려면 `1,2` 와 iPad 스크린샷).
@@ -177,7 +177,7 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
 | --- | --- |
 | 글꼴 Pretendard 내장(웹은 CDN) | `build_app.py` 가 `node_modules/pretendard` 의 가변 동적 서브셋(CSS + woff2 92개, 3 MB)과 OFL 라이선스를 넣고 `<link>` 를 바꾼다 |
 | 시작 화면: bg 단색(라이트 `#EEF0FF`, 다크 `#16171B`), 로고 없음 | 안드로이드 `values(-night)/colors.xml` `launch_background`·`styles.xml`(12 이상은 시스템 스플래시 = 아이콘 + 바탕색), iOS `LaunchScreen.storyboard` + 색 에셋 `LaunchBackground` |
-| 첫 화면 전 흰 화면 번쩍임 막기 | 웹뷰 바탕을 같은 색으로: `MainActivity.java`, iOS `MainViewController`(`SceneDelegate.swift`) |
+| 첫 화면 전 흰 화면 번쩍임 막기 | 웹뷰 바탕을 같은 색으로: `AppActivity.java`, iOS `MainViewController`(`SceneDelegate.swift`) |
 | 시스템 바·안전 영역 | Capacitor 8 SystemBars(`insetsHandling: css`): 안드로이드 15 의 edge-to-edge 에서 `env(safe-area-inset-*)` 가 맞게 나온다. 옛 웹뷰(140 미만)는 `--safe-area-inset-*` 변수로 준다 |
 | 예측 뒤로 가기(안드로이드 13+) | `AndroidManifest.xml` `enableOnBackInvokedCallback` |
 | 지도 바탕 | 타일을 쓰지 않고 우리 자료(`data/basemap.json`)로 그린다(10/1, `docs/basemap.md`). 앱은 앱에 넣은 것만 쓴다(`native.js` `BUNDLED_ONLY`). OSM 타일용 User-Agent 꼬리표(`appendUserAgent`)는 뗐다 |
@@ -276,7 +276,7 @@ TTWShare 의 `TTW_APP.calendarApps`·`openCalendar`(.ics 를 여는 앱 셋까�
 앱이 없으면 웹 앱이 열려 '공유받은 시간표' 시트를 보인다. 11/4 부터는 앱도 같은 시트를 띄우고 `내 시간표에 넣기`를 누를 때만 넣는다
 (프론트엔드 ui103b, 디자인 118판. 그 전에는 앱이 보여 주지 않고 바로 넣었다. `docs/timetables.md` '링크에 담기'의 받기).
 
-- **안드로이드 App Links**: `MainActivity` 의 `autoVerify` intent-filter(`https`, 호스트 `archi142857.github.io`, `path="/tt-wizard/"`). 경로는 웹 앱 첫 주소 하나만이다:
+- **안드로이드 App Links**: `AppActivity`(앱 화면. 런처 별칭이 아니라 계절 아이콘을 바꿔도 늘 열린다)의 `autoVerify` intent-filter(`https`, 호스트 `archi142857.github.io`, `path="/tt-wizard/"`). 경로는 웹 앱 첫 주소 하나만이다:
   같은 사이트의 실측 페이지(`field/`)·고지문·처리방침 같은 다른 페이지는 앱이 깔려 있어도 브라우저로 열려야 한다. `#` 뒤는 맞춰 보지 않는다.
 - **iOS Universal Links**: 권한 파일 `app/ios/App/App/App.entitlements` 의 `applinks:archi142857.github.io`(앱 타깃의 `CODE_SIGN_ENTITLEMENTS`).
   Apple 쪽 확인 파일에는 경로와 `#` 뒤를 함께 적을 수 있어서 `#t=` 가 있는 주소만 앱으로 보낸다(아래). 무료 개인 팀(Personal Team)은 이 권한을 서명할 수 없어서
@@ -364,7 +364,7 @@ iOS 위젯(WidgetKit)은 iOS 를 낼 때 붙인다(App Group 을 쓰면 개인�
     위젯이 그릴 때의 기기 날짜로 정한다: 다음 날 0시에 다시 그리므로 앱을 열지 않아도 12월 1일 0시에 크리스마스가 되고 1월 1일 0시에 돌아온다. `ttw.devTheme`(웹 개발자 메뉴)는 보지 않는다.
   - 위젯 고르는 화면의 미리 보기(`widget_*_preview.xml`)는 앱 테마를 모르니 기기 라이트·다크 그대로다(머리 띠·블록은 지금 모양).
   - 글꼴은 기기 기본(Pretendard 를 넣지 않았다), 크기는 sp 라 기기 글자 크기를 따른다(격자 그림은 1.3배에서 멈춘다).
-- **누르면**: `MainActivity` 에 `https://archi142857.github.io/tt-wizard/#tab=mine&sem=<학기>` 를 넘기고 `native.js` 의 `launchUrl`·`ttw:open-url` 로 화면에 간다
+- **누르면**: `AppActivity` 에 `https://archi142857.github.io/tt-wizard/#tab=mine&sem=<학기>` 를 넘기고 `native.js` 의 `launchUrl`·`ttw:open-url` 로 화면에 간다
   (화면이 `#tab=mine` 을 읽어 내 시간표로, `sem` 이 있으면 그 학기로. 프론트엔드가 0e822ff 에 넣었다). 다음 수업·오늘 수업은 뒤에 `&route=<요일>`(월 0 … 일 6)을
   붙인다(update70, 사용자: "동선탐색에서 해당하는 요일의 지도 화면으로 바로 연결되면 좋을 듯"): 다음 수업은 그 수업의 요일, 오늘 수업은 오늘(수업이 없는 날은 다음 수업 날).
   동선 지도 위젯은 그 지도의 요일. 주간 시간표는 `route` 없이(내 시간표).
@@ -443,7 +443,8 @@ iOS 위젯(WidgetKit)은 iOS 를 낼 때 붙인다(App Group 을 쓰면 개인�
 
 디자인 세션 판(규칙 '로고' > '앱 아이콘 파일')을 `app/assets/icons/` 에 두고 `python scripts/app_icons.py` 로 만든다(Pillow).
 
-- 안드로이드 적응형 아이콘: 앞면·단색(Android 13 테마 아이콘)은 108dp 층 가운데 72dp(사방 16.7 % 여백), 뒷면은 층 전체.
+- 안드로이드 적응형 아이콘: 앞면·단색(Android 13 테마 아이콘)은 108dp 층 가운데 72dp(사방 16.7 % 여백), 뒷면은 층 전체
+  (보이는 72dp 판을 가운데에 두고 바깥 18dp 는 판을 거울로 비춰 채운다. update108: 흰 기본 뒷면은 전과 같고 크리스마스 땡땡이는 끝까지 이어진다).
   기기가 다크여도 이 라이트 판만 쓴다(디자인 126판, 사용자 11/13 밤: 홈 화면과 시작 화면 아이콘 모두. update106 에서 `mipmap-night-*` 아이콘 층을 뺐다. 시작 화면 바탕만 다크면 #16171B).
   안드로이드 7.x(API 24·25)는 `ic_launcher.png`(웹 `icon-512.png`)·`ic_launcher_round.png`.
 - iOS: `AppIcon` 1024 한 장(알파 없음). Dark 모양 칸에도 같은 라이트 판.
@@ -451,6 +452,33 @@ iOS 위젯(WidgetKit)은 iOS 를 낼 때 붙인다(App Group 을 쓰면 개인�
 - 디자인 세션이 아이콘을 다시 내면 `design\v3\app-icons` 의 같은 이름 파일로 덮어쓰고(`legacy-icon-512.png` 는 거기의 `icon-512.png`) 스크립트를 다시 돌린다.
   바뀐 층에서 나오는 파일만 달라져야 한다(전부 달라지면 Pillow 판이 달라 PNG 가 다르게 써진 것이니 화소로 견줘 본다).
   지금은 10/5 판이다: 모자의 옅은 띠를 뚫린 띠로 바꿨고(작은 아이콘에서 모자 모양이 잘 안 보여서) 뒷면 층 둘은 10/1 판 그대로라 거기서 나오는 10장은 그대로였다.
+
+### 계절 아이콘 (안드로이드, update108)
+
+디자인 125판(사용자 11/13 밤에 고름): 12월 1일~31일(기기 날짜) 크리스마스 아이콘(솔잎 바탕과 땡땡이, 산타 모자처럼 칠한 모자, 흰 TT, 노란 별).
+안드로이드 11(API 30) 이상만, 알림·끄기 스위치 없음(법무 11/13: 날짜로 저절로 바꿔도 되고 우리가 그린 흔한 소재만). iOS 는 바꾸지 않는다
+(125판이 안드로이드만이다. iOS 는 앱이 아이콘을 바꿀 때마다 시스템 알림 창이 뜬다).
+
+- 원본: `adaptive-foreground-xmas-1024.png`·`adaptive-background-xmas-1024.png`(지금 적응형 층과 같은 규칙)·`app-icon-xmas-1024.png`(합친 그림, 7.x 용 자원).
+  단색 층은 기본 `ic_launcher_monochrome` 을 같이 쓰고 밤 층은 없다. 만든 것: `mipmap-*/ic_launcher_xmas*.png`, `mipmap-anydpi-v26/ic_launcher_xmas(_round).xml`.
+- 런처에 보이는 것은 `AndroidManifest.xml` 의 별칭 둘이다. 둘 다 앱 화면 `AppActivity` 를 연다.
+  - `.MainActivity`(켜짐, 기본 아이콘): update108 전 앱 화면의 이름이다. 클래스 이름만 `AppActivity` 로 바꾸고 런처 이름은 그대로 둬서
+    앱을 업데이트해도 홈 화면에 둔 아이콘이 그대로 남는다. **이 이름은 바꾸지 않는다.**
+  - `.MainActivityXmas`(꺼짐, 크리스마스 아이콘).
+- 바꾸기(`LauncherIcon.java`): 12월이면 크리스마스를 켜고 기본을 끄고, 그 밖에는 둘 다 매니페스트 값으로 되돌린다. 켜는 쪽을 먼저 바꾼다
+  (안드로이드 13 이상은 `setComponentEnabledSettings` 로 한 번에). `DONT_KILL_APP`.
+  - 바꾸는 때: 앱 화면이 안 보이게 됐을 때(`AppActivity.onStop`)와 `WidgetUpdater` 가 받을 때(위젯 0시 알람, 기기 시각·시간대 바뀜, 앱 업데이트).
+  - 별칭을 끄면 그 별칭으로 연 작업이 최근 앱 목록에서 지워진다(다음에 누르면 새로 켜진다). 바꾸는 날(12월 1일 뒤 처음, 1월 1일 뒤 처음) 한 번이다.
+    그래서 사용자가 곧 돌아올 수 있을 때는 바꾸지 않고 다음 때를 기다린다: 앱이 보일 때, 화면이 꺼졌거나 잠겼을 때, 우리 작업 맨 위에
+    다른 앱 화면(앱 안 브라우저·사진 고르기·공유 창)이 있을 때.
+  - 12월에 앱을 한 번도 안 열고 위젯도 없으면 아이콘은 그대로다. 크리스마스 아이콘인 채 1월에 앱을 안 열면 다음에 앱을 열었다 내릴 때(위젯이 있으면 0시 알람 때) 돌아온다.
+- 위젯과 시간표 링크(App Links)는 `AppActivity` 로 바로 와서 별칭을 켜고 끄는 것과 상관없다. 시작 화면(안드로이드 12 이상) 아이콘은 연 별칭의 아이콘으로
+  보일 것이다(폰에서 본다. 위젯·링크로 열면 기본 아이콘).
+- 별칭을 빼는 판을 내게 되면 `.MainActivity` 를 매니페스트 값으로 되돌리는 `LauncherIcon.sync` 는 남긴다. 12월에 기본이 꺼진 채로 그 판으로 업데이트하면
+  런처 아이콘이 없어진다.
+- 보는 법: 기기 날짜를 12월로 옮기면(설정의 날짜 및 시간에서 자동을 끄고) 시각 바뀜 방송으로 앱이 안 보여도 바뀐다. 아래 '폰에서 볼 것' 10.
+  홈 화면에 둔 아이콘이 그대로 남고 그림만 바뀌는지가 런처(갤럭시 One UI 홈 등)마다 다를 수 있어 직접 본다. 지워지는 런처가 있으면
+  별칭을 바꾸는 대신 12월 판·1월 판 빌드를 따로 내는 길로 바꾼다.
 
 ## 판(버전)
 
@@ -542,6 +570,10 @@ iOS 위젯(WidgetKit)은 iOS 를 낼 때 붙인다(App Group 을 쓰면 개인�
 9. 공유 카드의 바로 보내기(update80, 프론트엔드가 카드를 넣은 뒤): 카카오톡·인스타·문자가 깔린 앱만 단추로 나오고 아이콘이 폰의 앱 아이콘과 같은지.
    카카오톡 → 친구·채팅 고르는 화면에 링크, 인스타 DM → 받는 사람 고르는 화면, 인스타 스토리 → 시간표 이미지가 든 스토리 편집 화면, 문자 → 글이 채워진 새 메시지가 바로 뜨는지
    (한 번 더 고르는 창이 뜨면 그 앱이 받는 화면 이름을 바꾼 것: 동작은 하지만 `SharePlugin.TARGETS` 의 낱말을 고친다). 카카오톡을 지운 뒤 카드를 다시 열면 단추가 없어지는지.
+10. 계절 아이콘(update108, 디자인 125판, 안드로이드 11 이상): 홈 화면에 앱 아이콘을 둔 채 앱을 내리고, 설정에서 날짜를 12월 1일로 바꾼다.
+   홈 화면·앱 서랍의 아이콘이 크리스마스 판이 되는지, **홈 화면에 둔 아이콘이 없어지지 않고 그 자리에서 그림만 바뀌는지**, 이름이 TT Wizard 그대로인지,
+   눌러서 앱이 열리는지(크리스마스 테마, 시작 화면 아이콘), 위젯을 누르면 열리는지, 시간표 링크가 앱으로 열리는지. 앱을 켠 채로 날짜를 바꾸면
+   앱을 내릴 때 바뀐다. 날짜를 자동으로 되돌리면 기본 아이콘으로 돌아오는지(그때도 홈 화면 아이콘이 남는지). 테마 아이콘(단색)을 켠 기기는 단색 TT 그대로인지.
 
 ## 확인한 것 (10/1)
 
