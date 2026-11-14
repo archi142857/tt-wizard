@@ -206,6 +206,7 @@ def main() -> int:
             print(f"끝난 학기 보관: {path.relative_to(ROOT)}")
         sections_to_json(new_sections, LECTURES)
         state["lectures_semester"] = cb.label
+        d["term"] = cb.label  # 편람 알림(export_web notify.json, update109)이 어느 학기 바뀜인지 안다
         (CHANGES / f"{stamp}.json").write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
         (RAW / f"{cb.label}_{stamp}{ext}").write_bytes(data)  # 바뀐 때만 원본 보관 (용량 관리)
         try:  # 수강 제한 알림 자료. 읽기가 틀어져도 편람 갱신은 그대로 간다

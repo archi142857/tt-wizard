@@ -18,6 +18,7 @@
 // 7) 시간표 링크로 앱 열기: TTW_APP.launchUrl·'ttw:open-url' 이벤트(아래 '앱으로 연 주소').
 // 8) 링크 공유·앱 설정 열기: TTW_APP.shareLink·openSettings(앱 안 플러그인 TTWShell. 아래 '링크 공유·앱 설정').
 // 9) 홈 화면 위젯(안드로이드): TTW_APP.updateWidgets(앱 안 플러그인 TTWWidget. 아래 '홈 화면 위젯').
+// 10) 폰 알림(안드로이드): TTW_APP.notify(앱 안 플러그인 TTWNotify. 아래 '폰 알림', update109).
 // 10) 공유 카드의 바로 보내기(안드로이드): TTW_APP.shareTargets·shareTo(앱 안 플러그인 TTWShare. 아래 '바로 보내기').
 (function () {
   "use strict";
@@ -409,6 +410,7 @@
       if (json === sentWidgets) return Promise.resolve(true);
       return pluginCall("TTWWidget", "update", { data: json }).then(function () {
         sentWidgets = json;
+        if (app.notifyPeriods) app.notifyPeriods(data); // 폰 알림: 그 학기들의 학사 일정(update109)
         return true;
       }, function () { return false; });
     };
@@ -467,6 +469,62 @@
     });
     window.addEventListener("pagehide", function () { refreshWidgets(); });
     setTimeout(refreshWidgets, 2500); // 켤 때: 화면이 뜬 뒤(앱을 새로 깔았거나 업데이트한 뒤 첫 자료)
+  }
+
+  // ------------------------------------------------------------ 폰 알림 (안드로이드, TTWNotify, update109)
+
+  // 수업 알림(대표 시간표 수업의 출발 시각 몇 분 전)·편람 알림(새 학기 수강편람, 담은 과목의 시간·강의실 바뀜). 서버 없이 앱이 기기 안에서 알린다:
+  // 수업 알림은 위 '홈 화면 위젯'이 넘기는 위젯 자료(대표 시간표, 걷는 분)로 앱이 셈하고, 편람 알림은 앱이 하루 두 번 data/notify.json 을 받아 본다.
+  // 켜고 끈 값은 앱 안(기기)에 있고 화면은 state 로 읽어 그린다(디자인 '폰 알림' 01, docs/app.md '폰 알림'). 처리방침 11/27 판이 시행된 뒤에 보이게 한다.
+  //   TTW_APP.notify.state()     Promise → { permission: "granted"|"denied"|"prompt", classOn, lead, bookOn, channels: { class, book } } 또는 null
+  //   TTW_APP.notify.request()   Promise → state. 안드로이드 13 이상에서 아직 묻지 않았으면 폰이 묻는다(스위치를 처음 켤 때만 부른다. 앱을 켤 때 묻지 않는다)
+  //   TTW_APP.notify.settings()  Promise. 폰의 이 앱 알림 설정을 연다('폰 알림 권한 꺼짐 ↗')
+  //   TTW_APP.notify.set({ classOn, lead, bookOn })  Promise → state. 준 값만 바꾼다. lead 는 0·5·10·15·30(출발할 때·출발 n분 전, 처음 10)
+  //   TTW_APP.notify.LEADS       [0, 5, 10, 15, 30]
+  // 앱 연결은 위젯 자료를 넘긴 뒤 그 학기들의 학사 일정(data/calendar.json 의 개강·종강·수업 없는 날)을 앱에 넘긴다(공휴일·종강 뒤에 울리지 않게).
+  // 플러그인이 없는 곳(웹·iOS·옛 앱)에는 TTW_APP.notify 가 없다.
+  if (plugins.TTWNotify) {
+    var sentPeriods = null, calendarData = null;
+    var notifyCall = function (method, args) {
+      return pluginCall("TTWNotify", method, args || {}).then(function (r) { return r || null; }, function () { return null; });
+    };
+    app.notify = {
+      LEADS: [0, 5, 10, 15, 30],
+      state: function () { return notifyCall("state"); },
+      request: function () { return notifyCall("request"); },
+      settings: function () { return pluginCall("TTWNotify", "settings", {}).then(function () { return true; }, function () { return false; }); },
+      set: function (v) {
+        var args = {};
+        if (v && typeof v.classOn === "boolean") args.classOn = v.classOn;
+        if (v && typeof v.bookOn === "boolean") args.bookOn = v.bookOn;
+        if (v && typeof v.lead === "number") args.lead = v.lead;
+        return notifyCall("update", args);
+      },
+    };
+    app.notifyPeriods = function (data) {
+      var sems = ((data && data.terms) || []).map(function (t) { return t && t.sem; }).filter(Boolean);
+      if (!sems.length) return Promise.resolve(false);
+      if (!calendarData) {
+        calendarData = Promise.all([
+          import("./ics.js"),
+          nativeFetch("data/calendar.json").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
+        ]);
+        calendarData.catch(function () { calendarData = null; });
+      }
+      return calendarData.then(function (m) {
+        var periods = {};
+        sems.forEach(function (sem) {
+          var info = m[1] ? m[0].termInfo(m[1], sem) : null;
+          if (info) periods[sem] = { start: info.start, end: info.end, skip: Array.from(info.skip) };
+        });
+        var json = JSON.stringify(periods);
+        if (json === sentPeriods) return true;
+        return notifyCall("update", { periods: periods }).then(function (r) {
+          if (r) sentPeriods = json;
+          return !!r;
+        });
+      }).catch(function () { return false; });
+    };
   }
 
   window.TTW_APP = app;

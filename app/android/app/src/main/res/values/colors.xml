@@ -50,4 +50,6 @@
     <color name="widget_on_home">#EEF0FF</color>
     <!-- 지도 출처 글 바탕: card 90%(앱 지도의 .map-attr) -->
     <color name="widget_attr_bg">#E6FFFFFF</color>
+    <!-- 폰 알림 색(setColor, update109): 테마와 상관없이 라이트 accent(디자인 '폰 알림' 02). values-night 에 두지 않는다 -->
+    <color name="notify_accent">#415FEC</color>
 </resources>

@@ -27,6 +27,7 @@ public class WidgetPlugin extends Plugin {
             boolean changed = WidgetUpdater.save(getContext(), data);
             if (changed) WidgetUpdater.refreshAll(getContext());
             else WidgetUpdater.reschedule(getContext()); // 같은 자료여도 알람은 다시 건다(앱을 강제 종료하면 알람이 지워진다)
+            Notifier.rearm(getContext()); // 폰 알림(update109): 수업 알림은 이 자료(대표 시간표)로 셈한다
             JSObject ret = new JSObject();
             ret.put("placed", WidgetUpdater.placed(getContext()));
             ret.put("changed", changed);

@@ -17,6 +17,8 @@
   web/data/limits.json   수강 제한 알림: 지금 학기의 분반 규칙(data/limits/<학기>.json, sync.py 가 편람 비고에서 만든다) +
                          그 학기 수강신청 일정표(data/registration.json 의 줄 → 일차별 날짜·변경기간). 계산은 web/js/limits.js,
                          형식은 docs/limits.md. 지금 학기 규칙이 없으면 만들지 않는다
+  web/data/notify.json   편람 알림(앱의 폰 알림, update109): 편람이 있는 학기 목록과 최근 30일의 분반 바뀜(data/changes/ 의 시간·강의실 바뀜과
+                         빠진 분반, 글은 화면 꼴로). 앱이 가끔 받아 대표 시간표의 과목과 견준다(docs/app.md '폰 알림')
 
 배포(GitHub Actions)에서는 --stamp 를 더 붙여 web/index.html·js/app.js·js/search-worker.js 가 부르는 스타일·스크립트 주소에
 ?v=<내용 해시> 를 붙인다. GitHub Pages 는 파일을 10분 동안 다시 묻지 않고 쓰게 해서, 주소가 그대로면 배포 직후 새로고침한
@@ -251,6 +253,109 @@ def export_limits(data: Path, out: Path, term: str, calendar: Path | None = None
     return limits
 
 
+NOTIFY_DAYS = 30  # 편람 알림 자료에 남기는 바뀜(앱은 마지막으로 본 바뀜 뒤 것만 알린다)
+NOTIFY_TERMS = 6  # 편람 알림 자료의 학기 목록(새 학기가 나왔는지 보는 데 쓴다)
+DAY_KO = "월화수목금토일"
+TERM_NAMES = {"1": "1학기", "S": "여름학기", "2": "2학기", "W": "겨울학기"}
+
+
+def term_name(label: str) -> str:
+    """'2027-1' → '2027년 1학기'(web/js/timetables.js termLabel 과 같다)"""
+    y, _, k = str(label).partition("-")
+    return f"{y}년 {TERM_NAMES[k]}" if k in TERM_NAMES else str(label)
+
+
+def place_text(building: str, room: str) -> str:
+    """화면 강의실 꼴(web/js/ics.js placeOf): 301동 118호, 호수가 글이면 '301동 강당', 강의실이 없으면 '301동', 동도 없으면 """""
+    if not building:
+        return ""
+    r = room_no(room)
+    if not r:
+        return f"{building}동"
+    return f"{building}동 {r}호" if re.match(r"[A-Za-z]?\d", r) else f"{building}동 {r}"
+
+
+def _hm(minute: int) -> str:
+    return f"{minute // 60:02d}:{minute % 60:02d}"
+
+
+def meetings_text(meetings: list, *, time: bool = True, place: bool = True) -> str:
+    """수업들 → '월·수 10:30–11:45 83동 201호'. 같은 시각·같은 곳은 요일을 묶는다. time=False 면 곳만('83동 201호 · 81동 101호').
+    수업이 없으면 '시간 미정', 곳이 없으면 '강의실 미정'"""
+    if not time:
+        places = []
+        for m in meetings:
+            p = place_text(m[3], m[4])
+            if p and p not in places:
+                places.append(p)
+        return " · ".join(places) or "강의실 미정"
+    if not meetings:
+        return "시간 미정"
+    groups: list[list] = []
+    for day, start, end, building, room in sorted(meetings, key=lambda m: (m[1], m[2], m[0])):
+        key = (start, end, place_text(building, room) if place else "")
+        for g in groups:
+            if g[0] == key:
+                g[1].append(day)
+                break
+        else:
+            groups.append([key, [day]])
+    groups.sort(key=lambda g: (min(g[1]), g[0][0]))
+    return ", ".join(f"{'·'.join(DAY_KO[d] for d in sorted(days))} {_hm(s)}–{_hm(e)}{' ' + p if p else ''}" for (s, e, p), days in groups)
+
+
+def section_change(before: list, after: list) -> dict | None:
+    """분반 하나의 수업 바뀜 → {what: 시간|강의실|시간과 강의실, now, was}. 화면에 보이는 곳·시각이 같으면(호실 표기만 바뀜) None"""
+    times = lambda ms: sorted((m[0], m[1], m[2]) for m in ms)  # noqa: E731
+    places = lambda ms: sorted({place_text(m[3], m[4]) for m in ms} - {""})  # noqa: E731  곳이 없는 수업은 곳 바뀜으로 치지 않는다
+    t, p = times(before) != times(after), places(before) != places(after)
+    if t and p:
+        return {"what": "시간과 강의실", "now": meetings_text(after), "was": meetings_text(before)}
+    if t:
+        return {"what": "시간", "now": meetings_text(after, place=False), "was": meetings_text(before, place=False)}
+    if p:
+        return {"what": "강의실", "now": meetings_text(after, time=False), "was": meetings_text(before, time=False)}
+    return None
+
+
+def export_notify(data: Path, out: Path, semesters: list, today: str | None = None) -> dict:
+    """편람 알림 자료 → web/data/notify.json(줄 바꿈 없이). 바뀜 파일의 학기는 파일 안 term(sync.py update109 부터), 없으면 같은 분의 stats.csv 줄"""
+    from datetime import date, timedelta
+
+    stats: dict[str, str] = {}
+    stats_path = data / "stats.csv"
+    if stats_path.exists():
+        for row in read_rows(stats_path):
+            ts = (row.get("timestamp") or "")[:16]
+            if ts:
+                stats[ts] = row.get("semester") or ""
+    since = (date.fromisoformat(today) if today else date.today()) - timedelta(days=NOTIFY_DAYS)
+    changes = []
+    for f in sorted((data / "changes").glob("*.json")):
+        m = re.fullmatch(r"(\d{4})-(\d{2})-(\d{2})_(\d{2})(\d{2})", f.stem)
+        if not m or date(int(m[1]), int(m[2]), int(m[3])) < since:
+            continue
+        d = json.loads(f.read_text(encoding="utf-8"))
+        term = d.get("term") or stats.get(f"{m[1]}-{m[2]}-{m[3]}T{m[4]}:{m[5]}", "")
+        if not term:
+            continue
+        sections = {}
+        for u in d.get("updated") or []:
+            if "meetings" in (u.get("fields") or []):
+                c = section_change(u["before"]["meetings"], u["after"]["meetings"])
+                if c:
+                    sections[u["key"]] = c
+        for key in d.get("deleted") or []:
+            sections[key] = {"what": "빠짐"}
+        if sections:
+            changes.append({"id": f.stem, "term": term, "basis": f"수강편람 {int(m[2])}월 {int(m[3])}일 {m[4]}:{m[5]} 기준",
+                            "sections": sections})
+    terms = [{"id": label, "name": term_name(label)} for label, _ in semesters[:NOTIFY_TERMS] if label]
+    notify = {"v": 1, "terms": terms, "changes": changes}
+    out.write_text(json.dumps(notify, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    return notify
+
+
 def export_calendar(src: Path, out: Path) -> int | None:
     """학기 기간·수업 없는 날(data/calendar/terms.json) → web/data/calendar.json(줄 바꿈 없이). 학기 수를 돌려준다"""
     if not src.exists():
@@ -311,6 +416,7 @@ def main(argv: list[str] | None = None) -> int:
     reqs = export_requirements(Path(args.requirements), out / "requirements")
     terms = export_calendar(Path(args.calendar), out / "calendar.json")
     limits = export_limits(data, out / "limits.json", campus["meta"]["semester"], Path(args.calendar))
+    notify = export_notify(data, out / "notify.json", semesters)
 
     n_sec = sum(len(c[6]) for c in courses["courses"])
     print(f"저장: {out}")
@@ -332,6 +438,7 @@ def main(argv: list[str] | None = None) -> int:
               f"{' · 변경기간 ' + '~'.join(sched['change']) if sched.get('change') else ''}")
     else:
         print("  limits.json    없음(지금 학기 규칙이 없다)")
+    print(f"  notify.json    학기 {len(notify['terms'])}개 · 바뀜 {len(notify['changes'])}번(최근 {NOTIFY_DAYS}일)")
     if args.stamp:
         print(f"  화면 파일 주소에 판 ?v={stamp_assets()} 를 붙임 (index.html, js/app.js, js/search-worker.js)")
     return 0

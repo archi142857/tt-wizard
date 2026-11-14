@@ -110,6 +110,9 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_week_info" />
         </receiver>
+        <!-- 폰 알림의 알람을 받는 곳(update109, Notifier). 밖에서 부르지 못한다 -->
+        <receiver android:name=".NotifyReceiver" android:exported="false" />
+
         <!-- 위젯을 다시 그리는 때: 부정확 알람(수업 시작·끝, 0시. 정확한 알람 권한 없음), 기기 시각·시간대가 바뀔 때, 앱을 업데이트했을 때.
              받을 때마다 계절 앱 아이콘도 맞춘다(LauncherIcon) -->
         <receiver
@@ -140,6 +143,8 @@
     <!-- 안드로이드 9 이하에서 시간표 이미지를 사진(Pictures/TT Wizard)에 저장할 때만 묻는다(디자인 79판 '모든 기기에 둔다', ImagePlugin.java).
          10 이상은 MediaStore 에 제 파일을 더해서 권한이 없다. 거절해도 공유 시트로는 내보낼 수 있다 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+    <!-- 폰 알림(update109, 법무 11/13): 안드로이드 13 이상에서 화면의 스위치를 처음 켤 때만 묻는다. 정확한 알람·부팅 권한은 쓰지 않는다 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <!-- 공유 카드의 바로 보내기(update80, SharePlugin.java): 안드로이드 11 이상은 여기 적은 앱만 보인다(깔렸는지, 그 앱 아이콘·이름, 받는 화면).
          카카오톡·인스타그램과 문자 앱(smsto: 를 받는 앱, 기본 문자 앱을 찾으려고)만. 모든 앱을 보는 QUERY_ALL_PACKAGES 는 쓰지 않는다.

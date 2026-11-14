@@ -97,7 +97,8 @@ def test_widget_data_from_device_store(made):
 def test_app_reads_widget_data(made, tmp_path):
     """앱의 WidgetData 가 화면이 만든 자료를 읽고, 시각마다 다음 수업·다시 그릴 때·오늘 행·주간 격자를 맞게 고른다(2026-10-26 은 월요일)"""
     out = tmp_path / "classes"
-    sources = [JAVA / "WidgetData.java", JAVA / "RouteMap.java", *sorted((ROOT / "tests" / "widget_java").rglob("*.java"))]
+    sources = [JAVA / "WidgetData.java", JAVA / "RouteMap.java", JAVA / "ClassAlerts.java", JAVA / "BookNews.java",  # 폰 알림 셈(NotifyCheck 가 같이 든다)
+               *sorted((ROOT / "tests" / "widget_java").rglob("*.java"))]
     subprocess.run(["javac", "-encoding", "UTF-8", "-d", str(out), *map(str, sources)], check=True, capture_output=True)
     real = tmp_path / "web"  # 앱에 넣는 실제 자료(바탕·길·건물): 동선 지도 위젯
     assert ew.main(["--data", str(ROOT / "data"), "-o", str(real)]) == 0

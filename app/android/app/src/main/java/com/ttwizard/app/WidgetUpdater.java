@@ -39,6 +39,7 @@ public class WidgetUpdater extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         LauncherIcon.sync(context); // 계절 아이콘(update108): 0시 알람·기기 날짜 바뀜·앱 업데이트 때도 앱이 안 보이면 맞춘다
+        Notifier.rearm(context); // 폰 알림(update109): 기기 시각 바뀜·앱 업데이트 뒤에도 알람을 다시 건다(부팅 권한은 쓰지 않는다)
         long fullAt = ACTION_TICK.equals(intent.getAction()) ? intent.getLongExtra(EXTRA_FULL_AT, 0) : 0;
         if (System.currentTimeMillis() < fullAt) refreshWeek(context); // 지금 줄만 옮긴다(늦게 와서 다 그릴 때가 지났으면 다 그린다)
         else refreshAll(context);

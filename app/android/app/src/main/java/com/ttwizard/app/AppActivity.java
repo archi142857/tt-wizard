@@ -26,6 +26,7 @@ public class AppActivity extends BridgeActivity {
         registerPlugin(ShellPlugin.class); // 링크 공유·앱 설정 열기(TTWShell)
         registerPlugin(SharePlugin.class); // 공유 카드의 바로 보내기: 카카오톡·인스타·문자(TTWShare)
         registerPlugin(WidgetPlugin.class); // 홈 화면 위젯 자료(TTWWidget)
+        registerPlugin(NotifyPlugin.class); // 폰 알림 설정(TTWNotify, update109)
         super.onCreate(savedInstanceState);
         // 첫 화면을 그리기 전 웹뷰 바탕을 시작 화면과 같은 색으로(라이트·다크). 흰 화면이 번쩍이지 않게
         WebView webView = getBridge() != null ? getBridge().getWebView() : null;

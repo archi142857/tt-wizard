@@ -300,7 +300,8 @@ def test_android_plugins_permissions_and_links():
     for name in ("ImagePlugin", "ShellPlugin", "SharePlugin"):
         assert main.index(f"registerPlugin({name}.class)") < main.index("super.onCreate(savedInstanceState)")
     manifest = (APP / "android" / "app" / "src" / "main" / "AndroidManifest.xml").read_text(encoding="utf-8")
-    assert re.findall(r'<uses-permission android:name="([^"]+)"', manifest) == ["android.permission.INTERNET", "android.permission.WRITE_EXTERNAL_STORAGE"]
+    assert re.findall(r'<uses-permission android:name="([^"]+)"', manifest) == [
+        "android.permission.INTERNET", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.POST_NOTIFICATIONS"]  # 알림: update109(법무 11/13)
     assert '<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />' in manifest
     # 다른 앱이 보이는 범위(안드로이드 11 이상): 바로 보내기 곳의 앱(카카오톡·인스타그램)과 문자 앱만. 모든 앱(QUERY_ALL_PACKAGES)은 보지 않는다
     queries = re.search(r"<queries>(.*?)</queries>", manifest, re.S).group(1)
