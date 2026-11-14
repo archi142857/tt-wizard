@@ -58,9 +58,11 @@ def test_merge(r):
 
 
 def test_friend_copy(r):
-    """친구에게: 대표 시간표의 강좌(정한 시간·강의실)와 직접 넣은 일정의 제목·시간만. 숨긴 항목·메모·일정 장소·보이기 끈 시간표는 안 보인다"""
+    """친구에게: 대표 시간표의 강좌(정한 시간·강의실)와 직접 넣은 일정의 제목·시간만. 메모·일정 장소·보이기 끈 시간표는 안 보인다.
+    숨긴 항목은 시간만(이름·과목 번호·강의실·색 없이, 친구 화면의 회색 칸. 디자인 130판, update112)"""
     assert r["items"] == [{"course": "881.007", "no": "001", "name": "881.007 과목", "color": 2,
                            "meetings": [{"day": 1, "start": 600, "end": 675, "building": "25", "room": "102"}]},
+                          {"hidden": True, "meetings": [{"day": 0, "start": 540, "end": 615}]},
                           {"title": "알바", "meetings": [{"day": 4, "start": 1080, "end": 1200, "building": "", "room": ""}]}]
     assert r["copies"]["2027-1"] is None and r["copies"]["2026-W"] is None
     assert r["copies"]["2026-2"]["title"] == "대표" and "memo" not in json.dumps(r["copies"], ensure_ascii=False)
@@ -71,8 +73,10 @@ def test_account_module_surface():
     # 앱 안 로그인(update111): 앱 플러그인이 없으면 APP_LOGIN, 폰 계정 오류는 NO_ACCOUNT 로. 이미 보낸 요청은 다시 쓰지 않는다(규칙이 막는다)
     assert 'throw err("APP_LOGIN")' in js and '"NO_ACCOUNT"' in js and "NOT_FRIEND" in js
     assert 'const mine = await F.getDoc(F.doc(db, "requests", reqId(uid, other)));' in js
+    assert 'throw err("ALREADY", { uid: other })' in js and "[신고] 닉네임 " in js  # 디자인 130판(update112)
     for name in ("available", "ready", "onUser", "signIn", "signOut", "deleteAccount", "sync", "profile", "setNick", "friends",
-                 "request", "accept", "decline", "cancel", "unfriend", "block", "unblock", "friendTimetables", "publish", "inviteLink", "reportLink"):
+                 "request", "accept", "decline", "cancel", "unfriend", "block", "unblock", "friendTimetables", "publish", "inviteLink", "reportLink",
+                 "syncStatus", "onSyncStatus", "forget"):
         assert re.search(rf"export (?:async function|function|const) {name}\b", js), name
     assert re.search(r'SDK_URL = "https://www\.gstatic\.com/firebasejs/\d+\.\d+\.\d+"', js)  # 판을 고정
     assert 'import FIREBASE from "./firebase-config.js"' in js
@@ -86,6 +90,8 @@ def test_firestore_rules():
     assert "allow read: if isMe(uid) || (signedIn() && friends(request.auth.uid, uid));" in rules  # 친구 사본은 친구만
     assert "!exists(/databases/$(database)/documents/blocks/$(request.resource.data.to)/list/$(request.auth.uid))" in rules  # 막은 사람은 요청 못 함
     assert "resource.data.to == request.auth.uid && resource.data.state == 'pending'" in rules  # 받은 사람만 수락
+    # 학교 계정 표시는 본인이 보이게 둔 확인된 snu.ac.kr 메일만(update112)
+    assert "request.auth.token.get('email', '').lower().matches('^[^@]+@snu[.]ac[.]kr$')" in rules and "schoolOk(request.resource.data)" in rules
     assert "allow get: if signedIn() && (id.split('_')[0] == request.auth.uid || id.split('_')[1] == request.auth.uid);" in rules
     assert json.loads((ROOT / "firebase" / "firebase.json").read_text(encoding="utf-8"))["firestore"]["rules"] == "firestore.rules"
 

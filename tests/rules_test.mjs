@@ -9,7 +9,7 @@ const env = await initializeTestEnvironment({
   projectId: "demo-ttw",
   firestore: { rules: readFileSync(new URL("../firebase/firestore.rules", import.meta.url), "utf8"), host: "127.0.0.1", port: 8085 },
 });
-const db = (uid) => env.authenticatedContext(uid).firestore();
+const db = (uid, token = {}) => env.authenticatedContext(uid, token).firestore();
 const anon = env.unauthenticatedContext().firestore();
 const results = [];
 const check = async (name, p) => { try { await p; results.push([name, "ok"]); } catch (e) { results.push([name, "FAIL " + (e && e.message)]); } };
@@ -33,6 +33,16 @@ await check("한 글자 닉네임 막음", assertFails(nick("D", "남", "0002"))
 await check("남의 닉네임 열쇠 뺏기 막음", assertFails(nick("C", "영표", "0420")));
 await check("열쇠 없이 프로필 막음", assertFails(setDoc(doc(db("C"), "profiles", "C"), { nick: "가짜", tag: "9999", handle: "가짜#9999", updated: new Date() })));
 await check("친구 찾기(열쇠 읽기)", assertSucceeds(getDoc(doc(db("B"), "handles", "영표#0420"))));
+// 학교 계정 표시(update112): 확인된 snu.ac.kr 메일이고 본인이 보이게 둔 때만 school: true
+const prof = (name, tag, extra) => ({ nick: name, tag, handle: `${name.toLowerCase()}#${tag}`, updated: new Date(), ...extra });
+const snu = { email: "yp@snu.ac.kr", email_verified: true };
+await check("학교 계정 표시(snu.ac.kr)", assertSucceeds(setDoc(doc(db("A", snu), "profiles", "A"), prof("영표", "0420", { showSchool: true, school: true }))));
+await check("학교 계정 숨기기", assertSucceeds(setDoc(doc(db("A", snu), "profiles", "A"), prof("영표", "0420", { showSchool: false, school: false }))));
+await check("숨겼는데 학교 표시 막음", assertFails(setDoc(doc(db("A", snu), "profiles", "A"), prof("영표", "0420", { showSchool: false, school: true }))));
+await check("gmail 이 학교 표시 막음", assertFails(setDoc(doc(db("B", { email: "x@gmail.com", email_verified: true }), "profiles", "B"), prof("친구", "1234", { showSchool: true, school: true }))));
+await check("확인 안 된 메일 학교 표시 막음", assertFails(setDoc(doc(db("B", { email: "x@snu.ac.kr", email_verified: false }), "profiles", "B"), prof("친구", "1234", { showSchool: true, school: true }))));
+await check("비슷한 도메인 막음", assertFails(setDoc(doc(db("B", { email: "x@snu.ac.kr.evil.com", email_verified: true }), "profiles", "B"), prof("친구", "1234", { showSchool: true, school: true }))));
+await check("모르는 칸 막음", assertFails(setDoc(doc(db("B"), "profiles", "B"), prof("친구", "1234", { email: "x@gmail.com" }))));
 await check("A→B 요청", assertSucceeds(setDoc(doc(db("A"), "requests", "A_B"), { from: "A", to: "B", state: "pending", created: new Date(), updated: new Date() })));
 await check("남 이름으로 요청 막음", assertFails(setDoc(doc(db("C"), "requests", "B_C"), { from: "B", to: "C", state: "pending", created: new Date(), updated: new Date() })));
 await check("보낸 사람이 수락 막음", assertFails(updateDoc(doc(db("A"), "requests", "A_B"), { state: "accepted", updated: new Date() })));

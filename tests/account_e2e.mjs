@@ -8,7 +8,8 @@ import assert from "node:assert/strict";
 
 const store = (init = {}) => {
   const m = new Map(Object.entries(init));
-  return { get: (k) => (m.has(k) ? JSON.parse(JSON.stringify(m.get(k))) : null), set: (k, v) => m.set(k, JSON.parse(JSON.stringify(v))), keys: () => [...m.keys()], m };
+  return { get: (k) => (m.has(k) ? JSON.parse(JSON.stringify(m.get(k))) : null), set: (k, v) => m.set(k, JSON.parse(JSON.stringify(v))), keys: () => [...m.keys()],
+    remove: (k) => m.delete(k), m };
 };
 const as = (sub, email) => account.configure({
   sdk: { app: appM, auth: authM, firestore: fsM },
@@ -29,8 +30,12 @@ const phoneA = store({ "timetables@2026-2": [t1] });
 as("google-a", "yp@snu.ac.kr");
 out.userA = await account.ready();
 const A = out.userA.uid;
+out.statusBefore = account.syncStatus(phoneA);
 out.syncA = await account.sync(phoneA);
+out.statusAfter = account.syncStatus(phoneA);
+out.lastSaved = phoneA.get("syncLast");
 out.nickA = await account.setNick("영표");
+out.profileA = await account.profile();
 as("google-b", "friend@gmail.com");
 const B = (await account.ready()).uid;
 out.nickB = await account.setNick("친구");
@@ -46,12 +51,25 @@ out.afterA = await account.friends();
 out.publishA = await account.sync(phoneA); // 닉네임이 있어 친구 사본도 올린다
 as("google-b", "friend@gmail.com");
 out.friendView = await account.friendTimetables(A);
-out.alreadyFriend = await account.request(`영표#${out.nickA.tag}`);
+out.alreadyFriend = await account.request(`영표#${out.nickA.tag}`).catch((e) => e.code);
+out.friendsOfB = await account.friends(); // A 는 snu.ac.kr 이고 보이게 둠 → school
+as("google-a", "yp@snu.ac.kr");
+out.sameNick = await account.setNick("영표", { showSchool: false }); // 같은 닉네임: 태그 그대로, 학교 계정 숨기기만(update112)
+as("google-b", "friend@gmail.com");
+out.friendsOfB2 = await account.friends();
 // A 의 다른 기기: 비어 있다가 서버에서 받는다
 as("google-a", "yp@snu.ac.kr");
 const laptopA = store({});
 out.laptop = await account.sync(laptopA);
 out.laptopList = laptopA.get("timetables@2026-2");
+// 로그아웃하며 기기 시간표를 지울 때 forget 을 같이 부르면, 다시 로그인해도 서버 것을 지우지 않고 받는다(update112)
+const wiped = store({ "timetables@2026-2": [t1] });
+await account.sync(wiped);
+wiped.m.delete("timetables@2026-2");
+account.forget(wiped);
+out.forgotKeys = wiped.keys();
+out.afterForget = await account.sync(wiped);
+out.afterForgetList = (wiped.get("timetables@2026-2") || []).map((t) => t.id);
 // 이 기기에서 지우면 다른 기기에서도 지운다
 phoneA.set("timetables@2026-2", []);
 out.deleteSync = await account.sync(phoneA);
@@ -84,10 +102,21 @@ assert.deepEqual(out.beforeA.incoming.map((x) => x.nick), ["친구"]);
 assert.deepEqual(out.afterA.friends.map((x) => x.nick), ["친구"]);
 const view = out.friendView.find((t) => t.sem === "2026-2");
 assert.ok(view, "친구 사본");
-assert.deepEqual(view.items.map((x) => x.name || x.title), ["유전학", "동아리"]); // 숨긴 '병원'은 안 보인다
-assert.ok(!JSON.stringify(out.friendView).includes("회비") && !JSON.stringify(out.friendView).includes("김교수") && !JSON.stringify(out.friendView).includes("919"));
-assert.deepEqual(view.items[1].meetings, [{ day: 4, start: 1080, end: 1200, building: "", room: "" }]); // 일정 장소는 안 보인다
-assert.deepEqual(out.alreadyFriend, { uid: A, accepted: true });
+assert.deepEqual(view.items.map((x) => x.name || x.title || (x.hidden && "숨김")), ["유전학", "숨김", "동아리"]);
+assert.deepEqual(view.items[1], { hidden: true, meetings: [{ day: 2, start: 600, end: 660 }] }); // 숨긴 '병원'은 시간만(회색 칸, update112)
+const seen = JSON.stringify(out.friendView);
+assert.ok(!seen.includes("병원") && !seen.includes("회비") && !seen.includes("김교수") && !seen.includes("919"));
+assert.deepEqual(view.items[2].meetings, [{ day: 4, start: 1080, end: 1200, building: "", room: "" }]); // 일정 장소는 안 보인다
+assert.equal(out.alreadyFriend, "ALREADY");
+assert.deepEqual(out.statusBefore, { state: "idle", last: null });
+assert.equal(out.statusAfter.state, "idle");
+assert.ok(out.statusAfter.last && out.lastSaved.at === out.statusAfter.last && out.lastSaved.uid === A);
+assert.deepEqual(out.profileA, { nick: "영표", tag: out.nickA.tag, showSchool: true });
+assert.deepEqual(out.friendsOfB.friends.map((x) => [x.nick, x.school]), [["영표", true]]);
+assert.deepEqual(out.sameNick, { nick: "영표", tag: out.nickA.tag, showSchool: false });
+assert.deepEqual(out.friendsOfB2.friends.map((x) => [x.nick, x.tag, x.school]), [["영표", out.nickA.tag, false]]);
+assert.deepEqual(out.forgotKeys, []);
+assert.deepEqual(out.afterForgetList, ["t1"]); // 지움 표시를 올리지 않고 서버 것을 받았다
 assert.equal(out.laptopList.length, 1);
 assert.equal(out.laptopList[0].from, undefined); // 출발 지점은 서버에 없다
 assert.deepEqual(out.laptopAfter, []);

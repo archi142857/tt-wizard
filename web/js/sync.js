@@ -5,8 +5,9 @@
 // 지운 시간표는 서버에 '지움 표시'(deleted, 내용 없음)로 남겨 다른 기기에서도 지운다. 지난번 맞출 때 서버에 있던 id(known)로
 // '이 기기에서 지운 것'과 '다른 기기에서 새로 만든 것'을 가른다.
 // 서버에 올리지 않는 것: 강좌 항목의 교수 이름(instructor, 기기에서 편람으로 채운다), 출발 지점 설정(from: 사는 곳을 짐작할 수 있다).
-// 친구에게 보이는 것: 학기마다 대표 시간표의 강좌(과목명·시간·강의실)와 직접 넣은 일정의 제목·시간. 메모·장소, '친구에게 숨기기'(hidden) 항목,
-// '친구에게 보이기'를 끈 시간표(shareOff)는 안 보인다.
+// 친구에게 보이는 것: 학기마다 대표 시간표의 강좌(과목명·시간·강의실)와 직접 넣은 일정의 제목·시간. 메모·장소는 안 보인다.
+// '친구에게 숨기기'(hidden) 항목은 시간만 간다(이름·과목 번호·강의실·색 없이 { hidden: true, meetings: [{ day, start, end }] }, 친구 화면의 회색 칸.
+// 디자인 130판·사용자 11/14 '숨길 과목은 회색 박스로', update112). '친구에게 보이기'를 끈 시간표(shareOff)는 아무것도 안 간다.
 
 import { parseList, uniqueTitle } from "./timetables.js";
 
@@ -154,13 +155,18 @@ export function mergeTimetables(local, remote, known = [], now = new Date().toIS
 const plain = (ms) => (ms || []).map((m) => ({ day: m[0], start: m[1], end: m[2], building: String(m[3] || ""), room: String(m[4] || "") }));
 
 /**
- * 시간표 → 친구에게 보이는 항목: 강좌 {course, no, name, meetings(정한 수업, 없으면 편람 수업), color}, 직접 넣은 일정 {title, meetings(시간만), color}.
+ * 시간표 → 친구에게 보이는 항목: 강좌 {course, no, name, meetings(정한 수업, 없으면 편람 수업), color}, 직접 넣은 일정 {title, meetings(시간만), color},
+ * 숨긴 항목 {hidden: true, meetings: [{ day, start, end }]}(무엇인지 알 수 있는 것은 없이 시간만, 회색 칸).
  * meetings = [{ day, start, end, building, room }](Firestore 에 그대로 둘 수 있는 꼴. 일정은 building·room 이 "")
  */
 export function friendItems(t) {
   const out = [];
   for (const it of (t && t.items) || []) {
-    if (it.hidden) continue;
+    if (it.hidden) {
+      const ms = plain(it.custom ? it.meetings : it.own || it.base).map(({ day, start, end }) => ({ day, start, end }));
+      if (ms.length) out.push({ hidden: true, meetings: ms });
+      continue;
+    }
     const color = Number.isInteger(it.color) ? { color: it.color } : {};
     if (it.custom) out.push({ title: it.title, meetings: plain(it.meetings).map((m) => ({ ...m, building: "", room: "" })), ...color });
     else out.push({ course: it.course, no: it.no, name: it.name, meetings: plain(it.own || it.base), ...color });

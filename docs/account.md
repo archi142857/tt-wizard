@@ -17,19 +17,24 @@
 | 경로 | 무엇 | 누가 |
 | --- | --- | --- |
 | `users/{uid}`, `users/{uid}/timetables/{id}` | 내 시간표 사본(기기 꼴, 교수 이름·출발 지점 뺌, 수업은 `{day,start,end,building,room}`), 지운 것은 `{id, sem, deleted, updated}` | 나만 |
-| `profiles/{uid}` | 닉네임·태그(친구 기능을 켤 때) | 로그인한 사람이 읽음, 나만 씀 |
+| `profiles/{uid}` | 닉네임·태그(친구 기능을 켤 때), `showSchool`(학교 계정 보이기, 처음 true)·`school`(보이게 두었고 확인된 snu.ac.kr 메일일 때만 true, 규칙이 토큰으로 본다, update112) | 로그인한 사람이 읽음, 나만 씀 |
 | `handles/{닉네임#태그}` | uid(겹치지 않게) | 로그인한 사람이 읽음, 내 것만 만들고 지움 |
 | `requests/{보낸_받은}` | 친구 요청 `pending` → 받은 사람이 `accepted` | 보낸·받은 사람. 받은 사람이 막았으면 못 만든다 |
 | `blocks/{uid}/list/{상대}` | 막은 사람 | 나만 |
-| `shared/{uid}/terms/{학기}` | 친구에게 보이는 사본(대표 시간표의 강좌, 일정은 제목·시간만) | 나와 친구만 읽음 |
+| `shared/{uid}/terms/{학기}` | 친구에게 보이는 사본(대표 시간표의 강좌, 일정은 제목·시간만, 숨긴 항목은 `{hidden: true, meetings: [{day,start,end}]}` 시간만) | 나와 친구만 읽음 |
 
-규칙은 콘솔 Firestore > 규칙에 그대로 붙여 게시한다(백엔드가 사용자 크롬에서). 시험: `.github/workflows/firebase.yml`(에뮬레이터, `tests/rules_test.mjs` 26가지,
+규칙은 콘솔 Firestore > 규칙에 그대로 붙여 게시한다(백엔드가 사용자 크롬에서. 규칙 파일이 바뀌면 다시 게시). 시험: `.github/workflows/firebase.yml`(에뮬레이터, `tests/rules_test.mjs` 33가지,
 `tests/account_e2e.mjs` 두 사람으로 로그인·맞추기·닉네임·요청·수락·친구 사본·다른 기기·지우기·막기·계정 삭제).
 
 ## 화면이 부르는 것
 
-`web/js/account.js` 머리 주석(available·ready·onUser·signIn·signOut·deleteAccount·sync(store)·profile·setNick·friends·request·accept·decline·cancel·
-unfriend·block·unblock·friendTimetables·publish·inviteLink·reportLink). 순수 셈은 `web/js/sync.js`(node 시험 `tests/sync_runner.mjs`).
+`web/js/account.js` 머리 주석(available·ready·onUser·signIn·signOut·deleteAccount·sync(store)·syncStatus·onSyncStatus·forget·profile·setNick·friends·request·accept·
+decline·cancel·unfriend·block·unblock·friendTimetables·publish·inviteLink·reportLink). 순수 셈은 `web/js/sync.js`(node 시험 `tests/sync_runner.mjs`).
+- 디자인 130판(update112): 숨긴 항목은 친구에게 시간만(회색 칸), 학교 계정 표시는 `setNick(nick, { showSchool })`·`profile().showSchool`·`friends()` 사람마다 `school`
+  (화면 글 `학교 계정(snu.ac.kr)`, 법무 11/11 ①), 동기화 줄은 `syncStatus(store)`·`onSyncStatus(cb)`(`idle`·`syncing`·`offline`·`error`·`signedOut`와 마지막으로 맞춘 때 `last`,
+  기기 `syncLast`), 이미 친구에게 `request` 는 `ALREADY`, 신고 메일 제목 `[신고] 닉네임 민지#0420`. 같은 닉네임으로 다시 저장하면 태그를 그대로 둔다.
+- 로그아웃·계정 삭제 때 `이 기기의 시간표도 지우기`를 고르면 화면이 기기 시간표를 지운 뒤 `forget(store)` 를 부른다: 맞추기 기록(`syncKnown`·`syncLast`)이 남아 있으면
+  다시 로그인할 때 서버 시간표를 '이 기기에서 지운 것'으로 보고 지움 표시를 올린다.
 
 - 맞추기: 기기 자료가 먼저. 같은 id 는 `updated` 가 늦은 쪽, 지운 것은 지움 표시로 다른 기기에서도 지운다(지난번 서버에 있던 id 를 기기 `syncKnown` 에 둔다).
   처음 로그인 때 이름이 겹치면 '이름 (2)'. 학기마다 대표는 하나(늦게 고친 쪽). 받은 시간표는 이 기기의 출발 지점·교수 이름을 이어 쓴다.

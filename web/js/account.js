@@ -3,20 +3,25 @@
 // 설정 값은 web/js/firebase-config.js(배포 때 GitHub 변수 FIREBASE_WEB_CONFIG 로 채운다. 저장소에는 null). 없으면 available() 이 false.
 // 서버 규칙은 firebase/firestore.rules(남의 시간표는 못 읽고, 친구 사본은 친구만). 순수 셈(합치기·사본·닉네임)은 sync.js. 자세한 건 docs/account.md.
 //
-// 화면이 부르는 것(모두 Promise. 실패는 Error 에 code: NO_CONFIG·OFFLINE·SIGNED_OUT·NOT_FOUND·SELF·BLOCKED·NOT_FRIEND·BAD_NICK·
-//   APP_LOGIN(앱이 옛 판이라 앱 안 로그인이 없음)·NO_ACCOUNT(폰에 구글 계정이 없거나 이 앱 서명이 Firebase 에 없음)·FAILED):
+// 화면이 부르는 것(모두 Promise. 실패는 Error 에 code: NO_CONFIG·OFFLINE·SIGNED_OUT·NOT_FOUND·SELF·BLOCKED·NOT_FRIEND·ALREADY(이미 친구)·BAD_NICK·
+//   APP_LOGIN(앱이 옛 판이라 앱 안 로그인이 없음)·NO_ACCOUNT(폰에 구글 계정이 없거나 이 앱 서명이 Firebase 에 없음)·CANCELLED·FAILED):
 //   available()                    로그인을 쓸 수 있나(설정이 있나). 동기
 //   ready()                        → user | null   지금 로그인 상태(앱을 켤 때 이어진다)
-//   onUser(cb)                     → 끊기 함수. cb(user | null). user = { uid, email, name, school(서울대 계정) }
+//   onUser(cb)                     → 끊기 함수. cb(user | null). user = { uid, email, name, school(snu.ac.kr 계정. 화면 글은 '학교 계정(snu.ac.kr)') }
 //   signIn()                       → user | null(취소)   웹: 구글 창, 앱: 폰의 구글 계정 고르기(TTW_APP.googleSignIn, update111)
 //   signOut()                      기기 자료는 그대로
 //   deleteAccount()                서버의 시간표·프로필·친구·친구 사본과 계정을 지운다(기기 자료는 그대로). 오래전에 로그인했으면 다시 로그인을 묻는다
-//   sync(store)                    store = { get(k), set(k, v), keys() }(화면의 기기 저장소, 'ttw.' 를 뗀 열쇠) → { changed: [학기], uploaded, downloaded }
+//   sync(store)                    store = { get(k), set(k, v), keys(), remove?(k) }(화면의 기기 저장소, 'ttw.' 를 뗀 열쇠) → { changed: [학기], uploaded, downloaded }
 //                                  기기 시간표('timetables@<학기>')와 서버를 합쳐 둘 다 맞추고, 친구 기능을 켰으면 친구 사본도 올린다
-//   profile()                      → { nick, tag } | null(친구 기능을 아직 안 켬)
-//   setNick(nick)                  → { nick, tag }   2~12자 한글·영문·숫자·밑줄, #네 자리는 저절로. 거르는 말이면 BAD_NICK(problem)
-//   friends()                      → { friends, incoming, outgoing, blocked } 각 [{ uid, nick, tag }]
-//   request('닉네임#1234')          → { uid, accepted }. 상대가 먼저 보낸 요청이 있으면 그걸 수락한다(accepted: true). 이미 보냈거나 친구면 그대로
+//   syncStatus(store?)             → { state: 'idle'|'syncing'|'offline'|'error'|'signedOut', last: ISO | null }(마지막으로 맞춘 때, 동기화 줄 '방금'·'3분 전')
+//   onSyncStatus(cb)               → 끊기 함수. cb(syncStatus()) 를 바로 한 번, 바뀔 때마다
+//   forget(store)                  이 기기의 맞추기 기록(지난번 서버에 있던 id·마지막 시각)을 지운다. 로그아웃·계정 삭제 때 기기 시간표를 지우면 같이 부른다
+//                                  (안 지우면 다시 로그인할 때 '이 기기에서 지운 시간표'로 보고 서버 것을 지운다)
+//   profile()                      → { nick, tag, showSchool } | null(친구 기능을 아직 안 켬)
+//   setNick(nick, { showSchool }?) → { nick, tag, showSchool }   2~12자 한글·영문·숫자·밑줄, #네 자리는 저절로. 거르는 말이면 BAD_NICK(problem).
+//                                  같은 닉네임이면 태그 그대로(학교 계정 보이기만 바꿀 때도 이것). showSchool 은 처음 true
+//   friends()                      → { friends, incoming, outgoing, blocked } 각 [{ uid, nick, tag, school }](school: 그 사람이 보이게 둔 snu.ac.kr 계정)
+//   request('닉네임#1234')          → { uid, accepted }. 상대가 먼저 보낸 요청이 있으면 그걸 수락한다(accepted: true). 이미 보냈으면 그대로, 이미 친구면 ALREADY
 //   accept(uid) · decline(uid) · cancel(uid) · unfriend(uid) · block(uid) · unblock(uid)
 //   friendTimetables(uid)          → [{ sem, title, items, updated }](새 학기가 앞). items 는 sync.js friendItems 꼴. 친구가 아니면 NOT_FRIEND
 //   publish(store)                 친구 사본만 다시 올린다(sync 가 같이 한다)
@@ -31,6 +36,7 @@ export const SDK_URL = "https://www.gstatic.com/firebasejs/12.19.0"; // Firebase
 export const APP_URL = "https://archi142857.github.io/tt-wizard/";
 export const REPORT_MAIL = "sanger.lee138@gmail.com"; // 정보 화면의 개발자 메일과 같다
 const SYNC_KEY = "syncKnown"; // 기기 저장소: { uid, ids }(지난번 맞춘 뒤 서버에 있던 시간표 id)
+const LAST_KEY = "syncLast"; // 기기 저장소: { uid, at }(마지막으로 맞춘 때, update112)
 
 let fb = null;
 let injected = null; // 시험용: { sdk: { app, auth, firestore }, config, connect }
@@ -72,7 +78,8 @@ async function load() {
   return fb;
 }
 
-const userOf = (u) => (u ? { uid: u.uid, email: u.email || "", name: u.displayName || "", school: /@snu\.ac\.kr$/i.test(u.email || "") } : null);
+const schoolMail = (u) => !!(u && u.emailVerified !== false && /^[^@\s]+@snu\.ac\.kr$/i.test(u.email || ""));
+const userOf = (u) => (u ? { uid: u.uid, email: u.email || "", name: u.displayName || "", school: schoolMail(u) } : null);
 
 async function me() {
   const { auth } = await load();
@@ -151,8 +158,73 @@ function localLists(store) {
   return lists;
 }
 
+// 동기화 상태(디자인 130판 동기화 줄: '방금'·'3분 전'·'14:05'·'맞추는 중'·'연결되면 맞춰요')
+let status = { state: "idle", last: null, uid: null };
+const listeners = new Set();
+function setStatus(next) {
+  status = { ...status, ...next };
+  const view = syncStatus();
+  for (const cb of listeners) { try { cb(view); } catch { /* 화면 쪽 오류는 무시 */ } }
+}
+
+export function syncStatus(store = null) {
+  let last = status.last;
+  if (!last && store) {
+    const saved = store.get(LAST_KEY);
+    if (saved && saved.at && (!status.uid || saved.uid === status.uid)) last = saved.at;
+  }
+  return { state: status.state, last: last || null };
+}
+
+export function onSyncStatus(cb) {
+  listeners.add(cb);
+  cb(syncStatus());
+  return () => listeners.delete(cb);
+}
+
+const offline = () => typeof navigator !== "undefined" && navigator && navigator.onLine === false;
+
+export function forget(store) {
+  for (const k of [SYNC_KEY, LAST_KEY]) {
+    if (typeof store.remove === "function") store.remove(k);
+    else store.set(k, null);
+  }
+  status = { state: "idle", last: null, uid: null };
+  setStatus({});
+}
+
 export async function sync(store) {
-  const uid = await me();
+  let uid;
+  try {
+    uid = await me();
+  } catch (e) {
+    if (e && e.code === "SIGNED_OUT") setStatus({ state: "signedOut", last: null, uid: null });
+    throw e;
+  }
+  const saved = store.get(LAST_KEY);
+  setStatus({ state: "syncing", uid, last: status.uid === uid && status.last ? status.last : saved && saved.uid === uid ? saved.at : null });
+  if (offline()) {
+    setStatus({ state: "offline" });
+    throw err("OFFLINE");
+  }
+  try {
+    const r = await syncNow(uid, store);
+    const at = new Date().toISOString();
+    store.set(LAST_KEY, { uid, at });
+    setStatus({ state: "idle", last: at });
+    return r;
+  } catch (e) {
+    const code = e && e.code;
+    if (code === "OFFLINE" || code === "unavailable" || offline()) {
+      setStatus({ state: "offline" });
+      throw err("OFFLINE", { cause: e });
+    }
+    setStatus({ state: "error" });
+    throw code && /^[A-Z_]+$/.test(code) ? e : err("FAILED", { cause: e });
+  }
+}
+
+async function syncNow(uid, store) {
   const { db, F } = await load();
   const col = F.collection(db, "users", uid, "timetables");
   const snap = await F.getDocs(col);
@@ -200,37 +272,48 @@ export async function publish(store) {
 
 // ---------------------------------------------------------------- 친구
 
-export async function profile(uid = null) {
-  const id = uid || (await me());
+async function readProfile(id) {
   const { db, F } = await load();
   const s = await F.getDoc(F.doc(db, "profiles", id));
-  if (!s.exists()) return null;
-  const p = s.data();
-  return { nick: p.nick, tag: p.tag };
+  return s.exists() ? s.data() : null;
 }
 
-export async function setNick(nick) {
+export async function profile() {
+  const p = await readProfile(await me());
+  return p ? { nick: p.nick, tag: p.tag, showSchool: p.showSchool !== false } : null;
+}
+
+export async function setNick(nick, opts = {}) {
   const name = String(nick ?? "").trim();
   const problem = nickProblem(name);
   if (problem) throw err("BAD_NICK", { problem });
   const uid = await me();
-  const { db, F } = await load();
+  const { db, F, auth } = await load();
   const old = await profile();
+  const showSchool = typeof opts.showSchool === "boolean" ? opts.showSchool : old ? old.showSchool : true;
+  // 학교 계정 표시는 본인이 보이게 둔 snu.ac.kr 계정만(규칙이 로그인 토큰의 메일로 다시 본다)
+  const school = showSchool && schoolMail(auth.currentUser);
+  const sameName = old && handleKey(old.nick, "0") === handleKey(name, "0");
+  if (sameName) { // 태그·열쇠는 그대로, 글자 모양(대소문자)과 학교 계정 보이기만
+    try {
+      await F.setDoc(F.doc(db, "profiles", uid), { nick: name, tag: old.tag, handle: handleKey(name, old.tag), updated: F.serverTimestamp(), showSchool, school });
+    } catch (e) {
+      throw err("FAILED", { cause: e });
+    }
+    return { nick: name, tag: old.tag, showSchool };
+  }
   for (let i = 0; i < 8; i++) {
-    const tag = old && handleKey(old.nick, old.tag).split("#")[0] === handleKey(name, "0").split("#")[0] ? old.tag : randomTag();
+    const tag = randomTag();
     const key = handleKey(name, tag);
     try {
       await F.runTransaction(db, async (tx) => {
         const h = await tx.get(F.doc(db, "handles", key));
-        if (h.exists() && h.data().uid !== uid) throw err("TAKEN");
-        if (old) {
-          const oldKey = handleKey(old.nick, old.tag);
-          if (oldKey !== key) tx.delete(F.doc(db, "handles", oldKey));
-        }
+        if (h.exists()) throw err("TAKEN");
+        if (old) tx.delete(F.doc(db, "handles", handleKey(old.nick, old.tag)));
         tx.set(F.doc(db, "handles", key), { uid });
-        tx.set(F.doc(db, "profiles", uid), { nick: name, tag, handle: key, updated: F.serverTimestamp() });
+        tx.set(F.doc(db, "profiles", uid), { nick: name, tag, handle: key, updated: F.serverTimestamp(), showSchool, school });
       });
-      return { nick: name, tag };
+      return { nick: name, tag, showSchool };
     } catch (e) {
       if (e && e.code === "TAKEN") continue;
       throw err("FAILED", { cause: e });
@@ -243,7 +326,10 @@ const reqId = (from, to) => `${from}_${to}`;
 
 async function people(uids) {
   const out = new Map();
-  await Promise.all([...new Set(uids)].map(async (u) => { out.set(u, await profile(u).catch(() => null)); }));
+  await Promise.all([...new Set(uids)].map(async (u) => {
+    const p = await readProfile(u).catch(() => null);
+    out.set(u, p ? { nick: p.nick, tag: p.tag, school: p.school === true } : null);
+  }));
   return out;
 }
 
@@ -259,7 +345,7 @@ export async function friends() {
   const rows = [...sent.docs.map((d) => d.data()), ...got.docs.map((d) => d.data())];
   const blocked = blocks.docs.map((d) => d.id);
   const names = await people([...rows.map((r) => (r.from === uid ? r.to : r.from)), ...blocked]);
-  const row = (other) => ({ uid: other, ...(names.get(other) || { nick: "", tag: "" }) });
+  const row = (other) => ({ uid: other, ...(names.get(other) || { nick: "", tag: "", school: false }) });
   const out = { friends: [], incoming: [], outgoing: [], blocked: blocked.map(row) };
   const seen = new Set();
   for (const r of rows) {
@@ -284,11 +370,15 @@ export async function request(text) {
   if (other === uid) throw err("SELF");
   const theirs = await F.getDoc(F.doc(db, "requests", reqId(other, uid)));
   if (theirs.exists()) {
-    if (theirs.data().state !== "accepted") await accept(other);
+    if (theirs.data().state === "accepted") throw err("ALREADY", { uid: other });
+    await accept(other);
     return { uid: other, accepted: true };
   }
   const mine = await F.getDoc(F.doc(db, "requests", reqId(uid, other))); // 이미 보냈거나 친구다: 다시 쓰면 규칙이 막는다(받은 사람만 고친다)
-  if (mine.exists()) return { uid: other, accepted: mine.data().state === "accepted" };
+  if (mine.exists()) {
+    if (mine.data().state === "accepted") throw err("ALREADY", { uid: other });
+    return { uid: other, accepted: false };
+  }
   try {
     await F.setDoc(F.doc(db, "requests", reqId(uid, other)), { from: uid, to: other, state: "pending", created: F.serverTimestamp(), updated: F.serverTimestamp() });
   } catch (e) {
@@ -346,7 +436,7 @@ export async function friendTimetables(other) {
 }
 
 export const inviteLink = (p) => `${APP_URL}#friend=${encodeURIComponent(`${p.nick}#${p.tag}`)}`;
-export const reportLink = (p) => `mailto:${REPORT_MAIL}?subject=${encodeURIComponent(`[TT Wizard 닉네임 신고] ${p.nick}#${p.tag}`)}`;
+export const reportLink = (p) => `mailto:${REPORT_MAIL}?subject=${encodeURIComponent(`[신고] 닉네임 ${p.nick}#${p.tag}`)}`; // 디자인 130판
 
 // ---------------------------------------------------------------- 계정 지우기
 

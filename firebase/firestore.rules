@@ -27,11 +27,20 @@ service cloud.firestore {
       allow delete: if signedIn() && resource.data.uid == request.auth.uid;
     }
 
+    // 학교 계정 표시(update112, 디자인 130판·법무 11/11 ①): 본인이 보이게 두었고(showSchool) 로그인 토큰의 메일이 확인된 snu.ac.kr 일 때만 school: true
+    function schoolOk(d) {
+      return !d.get('school', false)
+        || (d.get('showSchool', true) == true && request.auth.token.get('email_verified', false) == true
+            && request.auth.token.get('email', '').lower().matches('^[^@]+@snu[.]ac[.]kr$'));
+    }
+
     match /profiles/{uid} {
       allow read: if signedIn();
-      allow create, update: if isMe(uid) && request.resource.data.keys().hasOnly(['nick', 'tag', 'handle', 'updated'])
+      allow create, update: if isMe(uid) && request.resource.data.keys().hasOnly(['nick', 'tag', 'handle', 'updated', 'showSchool', 'school'])
         && request.resource.data.nick is string && request.resource.data.nick.size() >= 2 && request.resource.data.nick.size() <= 12
         && request.resource.data.tag.matches('^[0-9]{4}$')
+        && request.resource.data.get('showSchool', true) is bool && request.resource.data.get('school', false) is bool
+        && schoolOk(request.resource.data)
         && getAfter(/databases/$(database)/documents/handles/$(request.resource.data.handle)).data.uid == uid;
       allow delete: if isMe(uid);
     }
