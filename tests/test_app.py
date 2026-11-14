@@ -68,6 +68,22 @@ def test_until_used(tmp_path):
     assert build_app.drop_unused(out) == [] and (out / "data" / "requirements" / "programs" / "x.json").exists()
 
 
+def test_demo_build_opens_date_gates(tmp_path):
+    """데모 빌드(update111): 앱 묶음의 app.js 날짜 막기(const 이름_FROM = "YYYY-MM-DD";)만 지난 날짜로 연다. 저장소 web/ 은 그대로, 막기가 없으면 멈춘다"""
+    app_js = tmp_path / "app.js"
+    app_js.write_text('const LUNCH_FROM = 600;\nconst DEPT_FROM = "2026-11-27"; // 한국 시각\nconst ACCOUNT_FROM = "2099-12-31";\nconst x = "2026-11-27";\n',
+                      encoding="utf-8")
+    assert build_app.open_gates(app_js) == ["DEPT_FROM", "ACCOUNT_FROM"]
+    assert app_js.read_text(encoding="utf-8") == ('const LUNCH_FROM = 600;\nconst DEPT_FROM = "2000-01-01"; // 한국 시각\n'
+                                                  'const ACCOUNT_FROM = "2000-01-01";\nconst x = "2026-11-27";\n')
+    app_js.write_text("const nothing = 1;\n", encoding="utf-8")
+    with pytest.raises(SystemExit):
+        build_app.open_gates(app_js)
+    assert build_app.DEMO_GATE.search((ROOT / "web" / "js" / "app.js").read_text(encoding="utf-8")), "app.js 에 날짜 막기가 있어야 데모 빌드가 연다"
+    release = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
+    assert "python scripts/build_app.py ${{ inputs.demo && '--demo' || '' }}" in release and "tt-wizard-android-demo" in release
+
+
 def test_build_app_bundle(tmp_path, monkeypatch):
     web = fake_web(tmp_path)
     font = tmp_path / "pretendard"
@@ -131,6 +147,13 @@ def test_license_notices_match_app():
                      ("androidxCoordinatorLayoutVersion", "coordinatorlayout:coordinatorlayout"),
                      ("androidxWebkitVersion", "webkit:webkit"), ("coreSplashScreenVersion", "core:core-splashscreen")):
         assert f"androidx.{art} {gradle[key]}" in ax, key
+    # 앱 안 구글 로그인(update111): Credential Manager(AndroidX)와 Google ID·Play 서비스(Android SDK 라이선스, 안에 든 오픈소스 고지문)
+    assert f"androidx.credentials:credentials {gradle['androidxCredentialsVersion']}" in ax
+    assert f"androidx.credentials:credentials-play-services-auth {gradle['androidxCredentialsVersion']}" in ax
+    google = (lic / "google.txt").read_text(encoding="utf-8")
+    assert f"com.google.android.libraries.identity.googleid:googleid {gradle['googleIdVersion']}" in google
+    assert "Android Software Development Kit License" in google and "https://developer.android.com/studio/terms" in google
+    assert "Kotlin coroutines" in google and "J2ObjC" in google and "AndroidX " not in google.split("AndroidX 는 androidx.txt")[1]
     cordova = (lic / "cordova.txt").read_text(encoding="utf-8")
     assert f"cordova-android {gradle['cordovaAndroidVersion']}" in cordova and "The Apache Software Foundation" in cordova
     apache = cordova[cordova.index("Apache License\n"):]  # 전문(파일 끝)
@@ -300,8 +323,11 @@ def test_android_plugins_permissions_and_links():
     for name in ("ImagePlugin", "ShellPlugin", "SharePlugin"):
         assert main.index(f"registerPlugin({name}.class)") < main.index("super.onCreate(savedInstanceState)")
     manifest = (APP / "android" / "app" / "src" / "main" / "AndroidManifest.xml").read_text(encoding="utf-8")
-    assert re.findall(r'<uses-permission android:name="([^"]+)"', manifest) == [
+    assert re.findall(r'<uses-permission android:name="([^"]+)"(?! tools:node="remove")', manifest) == [
         "android.permission.INTERNET", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.POST_NOTIFICATIONS"]  # 알림: update109(법무 11/13)
+    # 앱 안 구글 로그인(update111)의 라이브러리가 들여오는 생체 인증 권한은 병합 매니페스트에서 뺀다
+    assert re.findall(r'<uses-permission android:name="([^"]+)" tools:node="remove" />', manifest) == [
+        "android.permission.USE_BIOMETRIC", "android.permission.USE_FINGERPRINT"]
     assert '<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />' in manifest
     # 다른 앱이 보이는 범위(안드로이드 11 이상): 바로 보내기 곳의 앱(카카오톡·인스타그램)과 문자 앱만. 모든 앱(QUERY_ALL_PACKAGES)은 보지 않는다
     queries = re.search(r"<queries>(.*?)</queries>", manifest, re.S).group(1)
@@ -426,7 +452,8 @@ def test_release_workflow_keeps_key_secret():
     """출시 AAB(release 워크플로, update86): 손으로만 돌리고, 업로드 키는 저장소 비밀값으로만 받아 단계의 env 로 넘기며(명령 줄·로그에 비밀값을 쓰지 않는다),
     키 파일은 저장소 폴더 밖(RUNNER_TEMP)에 풀었다가 늘 지운다. versionCode 는 실행 번호 + 100, build.gradle 은 환경 변수로만 서명한다."""
     text = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
-    assert re.search(r"^on:\n  workflow_dispatch: \{\}\n\n", text, re.M) and "pull_request" not in text and "push:" not in text
+    assert re.search(r"^on:\n  workflow_dispatch:\n    inputs:\n      demo:\n", text, re.M) and "pull_request" not in text and "push:" not in text
+    assert "        type: boolean\n        default: false\n" in text  # 데모 빌드(update111)는 손으로 골라야만
     assert "permissions:\n  contents: read" in text
     names = {"TTW_KEYSTORE_BASE64", "TTW_KEYSTORE_PASSWORD", "TTW_KEY_ALIAS", "TTW_KEY_PASSWORD"}
     uses = re.findall(r"\$\{\{\s*secrets\.(\w+)\s*\}\}", text)

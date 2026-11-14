@@ -107,6 +107,19 @@ public final class NotifyCheck {
         String gone = "{\"v\":1,\"terms\":[],\"changes\":[{\"id\":\"2026-11-23_1000\",\"term\":\"2026-2\",\"basis\":\"수강편람 11월 23일 10:00 기준\",\"sections\":{\"" + stats + "\":{\"what\":\"빠짐\"}}}]}";
         o.append(",\"gone\":").append(notes(BookNews.check(gone, w, "2026-11-22_1000", first.terms)));
         o.append(",\"bad\":").append(notes(BookNews.check("{not json", w, "x", first.terms)));
+        // 디자인 129판: 걷는 시간을 모르는 수업의 글(강의실, 없으면 '강의실 미정'), 편람 알림의 처음 값(11/27 부터)·밤 시간·받아 보는 때
+        List<WidgetData.Lesson> none0 = new ArrayList<>();
+        o.append(",\"unknownWalk\":[").append(q(ClassAlerts.textOf(none0, new WidgetData.Lesson("유전학", "83동 201호", "req", 630, 705, 0, -1, true, 0))))
+            .append(",").append(q(ClassAlerts.textOf(none0, new WidgetData.Lesson("유전학", "", "req", 630, 705, 0, -1, true, 0)))).append("]");
+        o.append(",\"defaultOn\":[").append(BookNews.onByDefault(at(2026, 11, 26, 23, 59))).append(",").append(BookNews.onByDefault(at(2026, 11, 27, 0, 0))).append("]");
+        o.append(",\"quiet\":[").append(BookNews.quiet(at(2026, 11, 20, 21, 59).getTimeInMillis())).append(",")
+            .append(BookNews.quiet(at(2026, 11, 20, 22, 0).getTimeInMillis())).append(",").append(BookNews.quiet(at(2026, 11, 21, 7, 59).getTimeInMillis()))
+            .append(",").append(BookNews.quiet(at(2026, 11, 21, 8, 0).getTimeInMillis())).append("]");
+        long h = 60 * 60_000L;
+        o.append(",\"nextCheck\":[").append(q(when(BookNews.nextCheck(at(2026, 11, 20, 23, 0).getTimeInMillis(), at(2026, 11, 20, 18, 40).getTimeInMillis(), true))))
+            .append(",").append(q(when(BookNews.nextCheck(at(2026, 11, 21, 6, 0).getTimeInMillis(), at(2026, 11, 20, 18, 40).getTimeInMillis(), true))))
+            .append(",").append(q(when(BookNews.nextCheck(at(2026, 11, 21, 8, 30).getTimeInMillis(), at(2026, 11, 21, 8, 20).getTimeInMillis(), true))))
+            .append(",").append(q(when(BookNews.nextCheck(at(2026, 11, 21, 23, 0).getTimeInMillis(), 0, false)))).append("]");
         o.append("}");
         System.out.write(o.toString().getBytes(StandardCharsets.UTF_8));
         System.out.flush();

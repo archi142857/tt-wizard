@@ -1,6 +1,7 @@
 package com.ttwizard.app;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -14,8 +15,8 @@ import org.json.JSONObject;
 /**
  * 편람 알림 — 백엔드 세션(update109, 디자인 '폰 알림' 02 ③④⑤, 법무 11/13). 웹 자료 data/notify.json(scripts/export_web.py export_notify)을 받아
  *   ① 새 학기 수강편람(본 적 없는 학기): 제목 '2027년 1학기 수강편람이 나왔어요'. 누르면 그 학기 내 시간표
- *   ② 담은 과목(대표 시간표)의 시간·강의실 바뀜과 빠진 분반: 하나면 '유전학 강의실이 바뀌었어요' + '83동 201호, 전에는 81동 101호 · 수강편람 11월 20일 09:00 기준.
- *      수업 공지도 확인해 주세요'(누르면 그 항목 시트), 여럿이면 '담은 과목 3개가 바뀌었어요' + 과목 이름들과 기준(누르면 내 시간표)
+ *   ② 담은 과목(대표 시간표)의 시간·강의실 바뀜과 빠진 분반: 하나면 '유전학 강의실이 바뀌었어요' + '83동 201호, 전에는 81동 101호 · 수강편람 11월 20일 09:00 기준'
+ *      과 줄을 바꿔 '수업 공지도 확인해 주세요'(누르면 그 항목 시트), 여럿이면 '담은 과목 3개가 바뀌었어요' + 과목 이름들과 기준, 줄 바꿔 같은 줄(누르면 내 시간표)
  *   을 고른다. 처음 볼 때(본 학기 목록이 없음)는 지금 것을 다 본 것으로 두고 알리지 않는다(켜기 전의 바뀜은 알리지 않는다).
  *   바뀜은 마지막으로 본 바뀜 id(날짜 꼴 '2026-11-13_0008')보다 뒤인 것만 본다.
  * 안드로이드 코드 없이 돈다(tests/widget_java 의 NotifyCheck). 받기·알림은 Notifier.
@@ -23,6 +24,44 @@ import org.json.JSONObject;
 final class BookNews {
 
     private BookNews() {}
+
+    /** 편람을 받아 보는 때(Notifier 가 한 시간 창으로 건다): 아침 8시·저녁 6시 반 무렵. 밤 10시~아침 8시에는 받아 보지도 알리지도 않는다(디자인 129판 ⑤) */
+    static final int[][] SLOTS = { { 8, 0 }, { 18, 30 } };
+    static final int QUIET_FROM = 22;
+    static final int QUIET_TO = 8;
+    /** 편람 알림은 처음부터 켜짐(디자인 129판 ①)이지만 처리방침 11/27 판이 시행되는 날부터(그 전에는 화면에서 켠 때만). 한국 시각 날짜 */
+    static final int DEFAULT_ON_FROM = 20261127;
+
+    /** 화면에서 아직 고르지 않았을 때 편람 알림이 켜졌나(seoulNow = 한국 시각) */
+    static boolean onByDefault(Calendar seoulNow) {
+        return WidgetData.ymd(seoulNow) >= DEFAULT_ON_FROM;
+    }
+
+    /** 밤 10시~아침 8시인가(기기 시각) */
+    static boolean quiet(long ms) {
+        Calendar t = Calendar.getInstance();
+        t.setTimeInMillis(ms);
+        int h = t.get(Calendar.HOUR_OF_DAY);
+        return h >= QUIET_FROM || h < QUIET_TO;
+    }
+
+    /** 다음에 notify.json 을 받아 볼 때: 처음 본 적이 없으면 곧(실패하면 30분 뒤), 아니면 다음 8시·18시 반(마지막으로 본 뒤 3시간 넘어) */
+    static long nextCheck(long now, long last, boolean seenBefore) {
+        if (!seenBefore) return Math.max(now + 60_000L, last + 30 * 60_000L);
+        Calendar day = Calendar.getInstance();
+        day.setTimeInMillis(now);
+        for (int d = 0; d < 3; d++) {
+            for (int[] slot : SLOTS) {
+                Calendar t = WidgetData.startOfDay(day);
+                t.add(Calendar.DAY_OF_MONTH, d);
+                t.set(Calendar.HOUR_OF_DAY, slot[0]);
+                t.set(Calendar.MINUTE, slot[1]);
+                long at = t.getTimeInMillis();
+                if (at > now + 60_000L && at >= last + 3 * 60 * 60_000L) return at;
+            }
+        }
+        return now + 12 * 60 * 60_000L;
+    }
 
     /** 지켜볼 과목: 대표 시간표가 있는 학기의 항목(직접 넣은 일정은 편람에 없어 저절로 맞지 않는다) */
     static final class Watch {
@@ -80,7 +119,7 @@ final class BookNews {
         return new ArrayList<>(out.values());
     }
 
-    private static final String CHECK = "수업 공지도 확인해 주세요"; // 법무 11/13 ③
+    private static final String CHECK = "수업 공지도 확인해 주세요"; // 법무 11/13 ③. 디자인 129판 ③: 글 끝에 줄을 바꿔
 
     /** 바뀐 것 하나 → 제목 */
     static String titleOf(String name, String what) {
@@ -90,8 +129,8 @@ final class BookNews {
 
     /** 바뀐 것 하나 → 글 */
     static String textOf(String what, String now, String was, String basis) {
-        if ("빠짐".equals(what) || now.isEmpty()) return basis + ". " + CHECK;
-        return now + (was.isEmpty() ? "" : ", 전에는 " + was) + " · " + basis + ". " + CHECK;
+        if ("빠짐".equals(what) || now.isEmpty()) return basis + "\n" + CHECK;
+        return now + (was.isEmpty() ? "" : ", 전에는 " + was) + " · " + basis + "\n" + CHECK;
     }
 
     /**
@@ -161,7 +200,7 @@ final class BookNews {
                 }
             }
             notes.add(new Note(("book:many:" + newest).hashCode(), "담은 과목 " + hits.size() + "개가 바뀌었어요",
-                String.join(" · ", names) + " · " + basis + ". " + CHECK, WidgetData.openUrl(ClassAlerts.OPEN_URL, sem, -1)));
+                String.join(" · ", names) + " · " + basis + "\n" + CHECK, WidgetData.openUrl(ClassAlerts.OPEN_URL, sem, -1)));
         }
         return new Result(notes, last, new ArrayList<>(known));
     }

@@ -42,7 +42,9 @@ import org.json.JSONObject;
  *   작은 아이콘은 디자인 ic_stat_tt(흰 단색), 색은 테마와 상관없이 #415FEC(notify_accent).
  *   알람은 부정확한 것만(정확한 알람 권한 SCHEDULE_EXACT_ALARM·USE_EXACT_ALARM 없음):
  *     수업 알림 setAndAllowWhileIdle(RTC_WAKEUP) — 몇 분 늦게 올 수 있다('알림은 몇 분 늦게 올 수 있어요').
- *     편람 알림 하루 두 번(9시 반·18시 반 무렵) setWindow(RTC, 한 시간 창, 기기를 깨우지 않는다)에 웹 자료 data/notify.json 을 받아 본다
+ *     편람 알림 하루 두 번(아침 8시·18시 반 무렵) setWindow(RTC, 한 시간 창, 기기를 깨우지 않는다)에 웹 자료 data/notify.json 을 받아 본다.
+ *     밤 10시~아침 8시에는 알리지 않는다(디자인 129판 ⑤: 알람이 밤에 늦게 오면 받지 않고 아침 8시 무렵에 다시 본다).
+ *     편람 알림은 처음부터 켜짐, 수업 알림은 꺼짐(디자인 129판 ①). 편람 알림을 저절로 켜는 것은 처리방침 11/27 판 시행일부터다(BOOK_DEFAULT_FROM).
  *     (처리방침 11/27 판 '편람 알림을 켜면 앱을 열지 않은 때에도 가끔 공개 자료를 받음').
  *   다시 거는 때: 앱이 위젯 자료를 넘길 때(앱을 켜고·내릴 때, WidgetPlugin), 설정을 바꿀 때(NotifyPlugin), WidgetUpdater 가 받을 때(위젯 알람·기기 시각 바뀜·앱 업데이트).
  *   부팅 권한은 쓰지 않는다: 폰을 다시 켜면 앱을 열거나 위젯이 다시 그려질 때까지 알람이 없다.
@@ -64,8 +66,7 @@ final class Notifier {
     private static final String KEY_BOOK_SEEN = "book_seen"; // 마지막으로 본 바뀜 id
     private static final String KEY_BOOK_TERMS = "book_terms"; // 본 학기들(JSON 배열). 없으면 아직 처음
     private static final String KEY_BOOK_LAST = "book_last"; // 마지막으로 받아 본 때(ms)
-    private static final long BOOK_WINDOW_MS = 60 * 60_000L;
-    private static final int[][] BOOK_SLOTS = { { 9, 30 }, { 18, 30 } };
+    private static final long BOOK_WINDOW_MS = 60 * 60_000L; // 편람 알람의 창(BookNews.nextCheck 의 때부터 한 시간)
     private static final int MAX_BYTES = 512 * 1024;
 
     private Notifier() {}
@@ -79,7 +80,7 @@ final class Notifier {
     }
 
     static boolean bookOn(Context c) {
-        return prefs(c).getBoolean(KEY_BOOK_ON, false);
+        return prefs(c).getBoolean(KEY_BOOK_ON, BookNews.onByDefault(Calendar.getInstance(java.util.TimeZone.getTimeZone("Asia/Seoul"))));
     }
 
     static int lead(Context c) {
@@ -221,29 +222,11 @@ final class Notifier {
             if (next.isEmpty()) alarms.cancel(classPi);
             else alarms.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, next.get(0).at, classPi);
             PendingIntent bookPi = alarm(c, NotifyReceiver.ACTION_BOOK, 2);
-            if (ok && bookOn(c)) alarms.setWindow(AlarmManager.RTC, nextBookCheck(now, p.getLong(KEY_BOOK_LAST, 0), p.contains(KEY_BOOK_TERMS)), BOOK_WINDOW_MS, bookPi);
+            if (ok && bookOn(c)) alarms.setWindow(AlarmManager.RTC, BookNews.nextCheck(now, p.getLong(KEY_BOOK_LAST, 0), p.contains(KEY_BOOK_TERMS)), BOOK_WINDOW_MS, bookPi);
             else alarms.cancel(bookPi);
         } catch (RuntimeException e) {
             Log.w(TAG, "alarms not set", e);
         }
-    }
-
-    /** 다음에 notify.json 을 받아 볼 때: 처음 본 적이 없으면 곧(실패하면 30분 뒤), 아니면 다음 9시 반·18시 반(마지막으로 본 뒤 3시간 넘어) */
-    static long nextBookCheck(long now, long last, boolean seenBefore) {
-        if (!seenBefore) return Math.max(now + 60_000L, last + 30 * 60_000L);
-        Calendar day = Calendar.getInstance();
-        day.setTimeInMillis(now);
-        for (int d = 0; d < 3; d++) {
-            for (int[] slot : BOOK_SLOTS) {
-                Calendar t = WidgetData.startOfDay(day);
-                t.add(Calendar.DAY_OF_MONTH, d);
-                t.set(Calendar.HOUR_OF_DAY, slot[0]);
-                t.set(Calendar.MINUTE, slot[1]);
-                long at = t.getTimeInMillis();
-                if (at > now + 60_000L && at >= last + 3 * 60 * 60_000L) return at;
-            }
-        }
-        return now + 12 * 60 * 60_000L;
     }
 
     /** 수업 알람이 왔다: 지금까지 알릴 것을 알리고 다음 알람을 건다 */
@@ -263,6 +246,10 @@ final class Notifier {
     /** 편람 알람이 왔다(메인 스레드가 아닌 곳에서 부른다: 네트워크) */
     static void checkBook(Context c) {
         SharedPreferences p = prefs(c);
+        if (BookNews.quiet(System.currentTimeMillis()) && p.contains(KEY_BOOK_TERMS)) { // 밤에 늦게 온 알람: 받지 않고 아침 8시 무렵에 다시(디자인 129판 ⑤)
+            rearm(c);
+            return;
+        }
         try {
             if (!bookOn(c) || !allowed(c)) return;
             String json = fetch(NOTIFY_URL);

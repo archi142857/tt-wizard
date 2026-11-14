@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- allowBackup: 켜 둔다(10/22). 담은 과목·저장한 시간표·출발 지점이 사용자의 기기 백업(Google 계정)에 들어가 새 폰에서 이어질 수 있다.
          개발자는 그 백업을 볼 수 없다. 처리방침에 적을 내용은 docs/app.md '기기 백업' -->
@@ -145,6 +146,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
     <!-- 폰 알림(update109, 법무 11/13): 안드로이드 13 이상에서 화면의 스위치를 처음 켤 때만 묻는다. 정확한 알람·부팅 권한은 쓰지 않는다 -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- 앱 안 구글 로그인(update111, AuthPlugin)의 Credential Manager 가 지문 라이브러리(androidx.biometric)를 함께 들여와 생체 인증 권한이 붙는다.
+         구글 계정 고르기만 쓰고 생체 인증은 쓰지 않아서 뺀다 -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" tools:node="remove" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" tools:node="remove" />
 
     <!-- 공유 카드의 바로 보내기(update80, SharePlugin.java): 안드로이드 11 이상은 여기 적은 앱만 보인다(깔렸는지, 그 앱 아이콘·이름, 받는 화면).
          카카오톡·인스타그램과 문자 앱(smsto: 를 받는 앱, 기본 문자 앱을 찾으려고)만. 모든 앱을 보는 QUERY_ALL_PACKAGES 는 쓰지 않는다.

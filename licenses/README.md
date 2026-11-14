@@ -13,6 +13,7 @@
 | `web/licenses/leaflet.txt` | 지도 라이브러리 Leaflet(BSD-2-Clause). `web/vendor/leaflet/LICENSE` 그대로에 판·주소 머리 | `web/vendor/leaflet/`. 웹·앱 |
 | `capacitor.txt` | Capacitor 와 플러그인(MIT), 그 안의 다른 사람 코드(Apache-2.0, BSD, MIT) | 스토어 앱(안드로이드·iOS) |
 | `androidx.txt` | AndroidX(Apache-2.0) | 안드로이드 앱 |
+| `google.txt` | Google Play 서비스 클라이언트 라이브러리와 Google ID(Android SDK 라이선스), 그 안에 든 다른 사람의 코드 고지문(라이브러리가 싣는 third_party_licenses 그대로) | 안드로이드 앱(앱 안 구글 로그인, update111). `python scripts/google_notices.py --deps <의존성 목록>` 으로 만든다 |
 | `cordova.txt` | Apache Cordova(Apache-2.0)와 NOTICE | 안드로이드 앱(cordova-android framework), iOS 앱(CapacitorCordova) |
 
 Apache License 2.0 전문은 따로 두지 않고 그 라이선스가 걸리는 세 파일(`capacitor.txt`·`androidx.txt`·`cordova.txt`) 끝에 같이 넣었다(파일 하나만 읽어도 되게).
@@ -26,3 +27,4 @@ Apache License 2.0 전문은 따로 두지 않고 그 라이선스가 걸리는 
 Pretendard 판을 올리면(`app/package.json`, `web/index.html` 의 CDN 주소) `web/licenses/pretendard.txt` 첫 줄의 판도 고친다(`tests/test_app.py` 가 본다).
 
 Capacitor·AndroidX·Cordova 의 판을 올리면(`app/package.json`, `app/android/variables.gradle`) 위 파일의 판 숫자도 같이 고친다(`tests/test_app.py` 가 본다).
+로그인 라이브러리(`androidxCredentialsVersion`·`googleIdVersion`)를 올리면 빌드한 뒤 `scripts/google_notices.py` 로 `google.txt` 를 다시 만든다.

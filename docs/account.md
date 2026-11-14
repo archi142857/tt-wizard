@@ -34,5 +34,15 @@ unfriend·block·unblock·friendTimetables·publish·inviteLink·reportLink). �
 - 맞추기: 기기 자료가 먼저. 같은 id 는 `updated` 가 늦은 쪽, 지운 것은 지움 표시로 다른 기기에서도 지운다(지난번 서버에 있던 id 를 기기 `syncKnown` 에 둔다).
   처음 로그인 때 이름이 겹치면 '이름 (2)'. 학기마다 대표는 하나(늦게 고친 쪽). 받은 시간표는 이 기기의 출발 지점·교수 이름을 이어 쓴다.
 - 친구에게 숨기기: 항목 `hidden: true`, 시간표 `shareOff: true`(timetables.js parseList 가 남긴다). 친구 기능을 켠 뒤(닉네임이 있으면) 맞출 때마다 친구 사본을 올린다.
-- 앱 안 로그인: 웹뷰는 구글 창을 못 띄워 `TTW_APP.googleSignIn()`(앱 플러그인, update111)이 폰의 계정 고르기로 받은 id 토큰을 넘긴다.
+- 앱 안 로그인(update111): 웹뷰는 구글 로그인 창을 못 띄운다(구글이 막는다). 그래서 앱 플러그인 `TTWAuth`(`AuthPlugin.java`)가 폰의 구글 계정 고르기
+  (AndroidX Credential Manager 의 'Google 계정으로 로그인' 시트, `GetSignInWithGoogleOption`)로 id 토큰을 받고, `native.js` 의 `TTW_APP.googleSignIn({ clientId })` 로
+  `account.js` 에 넘긴다. `account.js` 는 `GoogleAuthProvider.credential(idToken)` 으로 Firebase 에 들어간다(웹뷰 안 Firebase 가 로그인 상태를 IndexedDB 에 둔다).
+  - `clientId` 는 Firebase 웹 클라이언트 ID(`googleClientId`, GitHub 변수 `FIREBASE_WEB_CONFIG` 의 중괄호 안에 한 줄). 없으면 `NO_CONFIG`.
+  - 폰이 그 앱의 서명을 Google 에 묻는다: Firebase 안드로이드 앱 `com.ttwizard.app` 에 그 빌드의 서명 SHA-1 이 있어야 한다(지금: Play 앱 서명 키·업로드 키).
+    Play(내부·비공개 테스트)로 깐 앱은 된다. 디버그 APK 는 만든 PC·실행기의 디버그 키라 안 된다(`NO_ACCOUNT` 또는 `FAILED`) → 데모는 release 워크플로의 데모 빌드를 내부 테스트로.
+  - 닫으면 `null`(취소), 폰에 구글 계정이 없거나 서명이 없으면 `NO_ACCOUNT`, 앱이 옛 판(플러그인 없음)이면 `APP_LOGIN`.
+  - 로그아웃은 Firebase 로그아웃과 `TTW_APP.googleSignOut()`(다음 로그인 때 계정을 다시 고르게).
+  - 권한은 더하지 않는다(라이브러리가 들여오는 생체 인증 권한은 매니페스트에서 뺀다). 고지문은 `licenses/google.txt`·`androidx.txt`.
+- 에뮬레이터 시험 `tests/account_e2e.mjs` 는 결과를 `node:assert` 로 확인한다(update111): 같은 요청을 두 번 보내도·이미 친구여도 막히지 않고(`request` 가 먼저 내 요청을 본다),
+  친구가 아닌 사람의 사본은 `NOT_FRIEND`, 숨긴 항목·메모·교수 이름·출발 지점·일정 장소는 친구에게 안 보인다.
 - 계정 삭제: 서버의 내 시간표·친구 사본·막은 목록·요청·닉네임·프로필을 지우고 계정을 지운다(오래전에 로그인했으면 다시 로그인). 기기 자료는 그대로.

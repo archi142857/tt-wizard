@@ -360,12 +360,35 @@ def export_notify(data: Path, out: Path, semesters: list, today: str | None = No
 FIREBASE_KEYS = ("apiKey", "authDomain", "projectId", "storageBucket", "messagingSenderId", "appId", "googleClientId")
 
 
+def _config_object(raw: str) -> str | None:
+    """붙여 넣은 글에서 설정 객체 { … } 하나를 꺼낸다(콘솔 코드 조각 전체를 붙여도: import 줄·주석·initializeApp 줄은 버린다)"""
+    text = re.sub(r"^\s*//.*$", "", raw, flags=re.M)  # 줄 주석(값 안의 https:// 는 줄 머리가 아니라 남는다)
+    m = re.search(r"\bfirebaseConfig\s*=\s*", text)
+    start = text.find("{", m.end() if m else 0)
+    depth = 0
+    for i in range(max(start, 0), len(text)):
+        if start < 0:
+            break
+        if text[i] == "{":
+            depth += 1
+        elif text[i] == "}":
+            depth -= 1
+            if depth == 0:
+                return text[start:i + 1]
+    return None
+
+
 def write_firebase_config(raw: str | None, path: Path) -> bool:
     """로그인(update110): GitHub 변수 FIREBASE_WEB_CONFIG(JSON, 콘솔의 웹 앱 구성 + googleClientId)로 web/js/firebase-config.js 를 채운다.
-    값이 없거나 깨졌으면 손대지 않는다(저장소의 null 그대로 → 로그인이 숨는다). 저장소에는 이 값을 넣지 않는다(사용자 규칙: 키는 저장소 밖)"""
-    if not raw:
+    값이 없거나 깨졌으면 손대지 않는다(저장소의 null 그대로 → 로그인이 숨는다). 저장소에는 이 값을 넣지 않는다(사용자 규칙: 키는 저장소 밖).
+    콘솔의 'const firebaseConfig = {…};' 를 그대로(코드 조각 전체도) 붙여도 되고, 앱 안 로그인용 googleClientId 는 중괄호 안에 한 줄로 넣는다.
+    중괄호 밖에 두어도 '….apps.googleusercontent.com' 꼴이면 그 값을 쓴다(update111, 사용자 11/14 '값 2가 중괄호 안으로 들어가는 거임?').
+    남기는 열쇠는 FIREBASE_KEYS 뿐이다(웹 클라이언트 보안 비밀번호 같은 다른 값은 버린다)"""
+    if not raw or not raw.strip():
         return False
-    text = re.sub(r"^\s*(?:const|let|var)\s+\w+\s*=\s*", "", raw.strip()).rstrip(";").strip()  # 콘솔의 'const firebaseConfig = {…};' 를 그대로 붙여도 된다
+    text = _config_object(raw)
+    if not text:
+        return False
     try:
         cfg = json.loads(text)
     except json.JSONDecodeError:
@@ -375,6 +398,10 @@ def write_firebase_config(raw: str | None, path: Path) -> bool:
             return False
     if not isinstance(cfg, dict) or not cfg.get("apiKey") or not cfg.get("projectId"):
         return False
+    if not cfg.get("googleClientId"):
+        m = re.search(r"\b(\d+-[0-9a-z]+\.apps\.googleusercontent\.com)\b", raw)
+        if m:
+            cfg["googleClientId"] = m.group(1)
     keep = {k: str(cfg[k]) for k in FIREBASE_KEYS if cfg.get(k)}
     path.write_text("// 배포 때 export_web.py 가 GitHub 변수 FIREBASE_WEB_CONFIG 로 쓴 파일(저장소에는 null)\n"
                     f"export default {json.dumps(keep, ensure_ascii=False)};\n", encoding="utf-8")
@@ -464,7 +491,11 @@ def main(argv: list[str] | None = None) -> int:
               f"{' · 변경기간 ' + '~'.join(sched['change']) if sched.get('change') else ''}")
     else:
         print("  limits.json    없음(지금 학기 규칙이 없다)")
-    print(f"  firebase-config.js {'GitHub 변수로 채움' if firebase else '그대로(로그인 숨김)'}")
+    if firebase:  # 값은 찍지 않는다(어느 열쇠가 들었는지만)
+        has = json.loads((WEB / "js" / "firebase-config.js").read_text(encoding="utf-8").split("export default ", 1)[1].rstrip().rstrip(";"))
+        print(f"  firebase-config.js GitHub 변수로 채움 (앱 안 로그인 googleClientId {'있음' if has.get('googleClientId') else '없음: 앱에서는 로그인이 안 된다'})")
+    else:
+        print("  firebase-config.js 그대로(로그인 숨김: GitHub 변수 FIREBASE_WEB_CONFIG 가 없거나 읽지 못함)")
     print(f"  notify.json    학기 {len(notify['terms'])}개 · 바뀜 {len(notify['changes'])}번(최근 {NOTIFY_DAYS}일)")
     if args.stamp:
         print(f"  화면 파일 주소에 판 ?v={stamp_assets()} 를 붙임 (index.html, js/app.js, js/search-worker.js)")

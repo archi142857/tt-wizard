@@ -20,6 +20,7 @@
 // 9) 홈 화면 위젯(안드로이드): TTW_APP.updateWidgets(앱 안 플러그인 TTWWidget. 아래 '홈 화면 위젯').
 // 10) 폰 알림(안드로이드): TTW_APP.notify(앱 안 플러그인 TTWNotify. 아래 '폰 알림', update109).
 // 10) 공유 카드의 바로 보내기(안드로이드): TTW_APP.shareTargets·shareTo(앱 안 플러그인 TTWShare. 아래 '바로 보내기').
+// 11) 앱 안 구글 로그인(안드로이드): TTW_APP.googleSignIn·googleSignOut(앱 안 플러그인 TTWAuth. 아래 '구글 로그인', update111). web/js/account.js 가 부른다.
 (function () {
   "use strict";
   var cap = window.Capacitor;
@@ -524,6 +525,30 @@
           return !!r;
         });
       }).catch(function () { return false; });
+    };
+  }
+
+  // ------------------------------------------------------------ 구글 로그인 (안드로이드, TTWAuth, update111)
+
+  // 웹뷰는 구글 로그인 창을 띄울 수 없어서(구글이 막는다) 폰의 구글 계정 고르기로 id 토큰을 받는다. web/js/account.js 의 signIn 이 부르고
+  // 그 토큰으로 Firebase 에 들어간다(화면은 직접 부르지 않는다. docs/account.md '앱 안 로그인').
+  //   TTW_APP.googleSignIn({ clientId })  Promise → { idToken, email, name } · 닫으면 null
+  //                                       실패는 Error(code: NO_CONFIG 클라이언트 ID 없음 · NO_ACCOUNT 폰에 구글 계정이 없거나 이 앱 서명이 Firebase 에 없음 · FAILED)
+  //   TTW_APP.googleSignOut()             Promise → true. 다음 로그인 때 계정을 다시 고르게
+  // 플러그인이 없는 곳(웹·iOS·옛 앱)에는 둘 다 없다(account.js 는 APP_LOGIN 으로 알린다).
+  if (plugins.TTWAuth) {
+    app.googleSignIn = function (o) {
+      return pluginCall("TTWAuth", "signIn", { clientId: (o && o.clientId) || "" }).then(function (r) {
+        if (!r || r.cancelled || !r.idToken) return null;
+        return { idToken: r.idToken, email: r.email || "", name: r.name || "" };
+      }, function (e) {
+        var err = new Error((e && e.message) || "google sign-in failed");
+        err.code = e && (e.code === "NO_CONFIG" || e.code === "NO_ACCOUNT") ? e.code : "FAILED";
+        throw err;
+      });
+    };
+    app.googleSignOut = function () {
+      return pluginCall("TTWAuth", "signOut", {}).then(function () { return true; }, function () { return true; });
     };
   }
 

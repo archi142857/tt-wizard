@@ -80,7 +80,7 @@
 
     <!-- 폰 알림(update109, 디자인 '폰 알림' 02, 법무 11/13: 정보만, 보내는 이름은 TT Wizard). 채널 이름·설명은 폰 설정에 보인다. 공개 판은 잠금 화면 -->
     <string name="notify_class">수업 알림</string>
-    <string name="notify_class_desc">대표 시간표 수업의 출발 시각</string>
+    <string name="notify_class_desc">대표 시간표의 수업</string>
     <string name="notify_class_public">곧 출발 시각</string>
     <string name="notify_book">편람 알림</string>
     <string name="notify_book_desc">새 학기 수강편람 · 담은 과목 바뀜</string>

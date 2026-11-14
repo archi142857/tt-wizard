@@ -111,11 +111,16 @@ def test_alerts_and_book_news(tmp_path):
     term_note, change = r["one"]["notes"]
     assert term_note == {"title": "2027년 여름학기 수강편람이 나왔어요", "text": "", "url": build_app.REMOTE + "#tab=mine&sem=2027-S"}
     assert (change["title"], change["text"]) == ("대학 글쓰기 1 강의실이 바뀌었어요",
-                                                 "C동 101호, 전에는 B동 303호 · 수강편람 11월 20일 09:00 기준. 수업 공지도 확인해 주세요") and item(change["url"])
+                                                 "C동 101호, 전에는 B동 303호 · 수강편람 11월 20일 09:00 기준\n수업 공지도 확인해 주세요") and item(change["url"])
     assert r["one"]["seen"] == "2026-11-20_0900" and r["one"]["terms"] == ["2027-1", "2026-2", "2027-S"]
-    assert r["many"]["notes"] == [{"title": "담은 과목 2개가 바뀌었어요", "text": "대학 글쓰기 1 · 통계학 · 수강편람 11월 22일 10:00 기준. 수업 공지도 확인해 주세요",
+    assert r["many"]["notes"] == [{"title": "담은 과목 2개가 바뀌었어요", "text": "대학 글쓰기 1 · 통계학 · 수강편람 11월 22일 10:00 기준\n수업 공지도 확인해 주세요",
                                    "url": build_app.REMOTE + "#tab=mine&sem=2026-2"}]
     assert r["gone"]["notes"][0]["title"] == "통계학 분반이 수강편람에서 빠졌어요" and r["bad"] is None
+    # 디자인 129판(update111): 걷는 시간을 모르면 강의실만(없으면 '강의실 미정'), 편람 알림은 11/27(처리방침 시행)부터 처음 값이 켜짐,
+    # 밤 10시~아침 8시엔 받아 보지 않고 아침 8시·저녁 6시 반 무렵에 본다(본 뒤 3시간 넘어)
+    assert r["unknownWalk"] == ["83동 201호", "강의실 미정"]
+    assert r["defaultOn"] == [False, True] and r["quiet"] == [False, True, True, False]
+    assert r["nextCheck"] == ["2026-11-21 08:00", "2026-11-21 08:00", "2026-11-21 18:30", "2026-11-21 23:01"]
 
 
 def test_android_notify_wiring():

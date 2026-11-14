@@ -11,7 +11,14 @@
 name: release
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      demo:
+        # 데모 빌드(update111, 사용자 11/14 '16일에 데모데이'): 처리방침 11/27 판 시행 전이라 날짜로 막아 둔 화면(학과·학번·수강 제한·졸업 요건 등)을 연다.
+        # 이 AAB 는 Play Console 의 내부 테스트(Internal testing) 트랙에만 올린다. 비공개 테스트 트랙에 올리면 시행 전에 테스터에게 열린다(법무 11/14)
+        description: "데모 빌드(날짜 막기를 연다) — 내부 테스트 트랙에만 올리기"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -59,7 +66,7 @@ jobs:
         working-directory: app
         run: npm ci
       - name: Bundle web screens into the app
-        run: python scripts/build_app.py
+        run: python scripts/build_app.py ${{ inputs.demo && '--demo' || '' }}
       - name: Sync Android project
         working-directory: app
         run: npx cap sync android
@@ -89,7 +96,12 @@ jobs:
           jarsigner -verify "$aab" | grep -q "jar verified."
           name=$(grep -oE 'versionName "[^"]+"' app/android/app/build.gradle | cut -d'"' -f2)
           {
-            echo "### 출시 AAB"
+            if [ "${{ inputs.demo }}" = "true" ]; then
+              echo "### 데모 AAB — 내부 테스트(Internal testing) 트랙에만. 비공개 테스트 트랙에 올리지 않는다"
+              echo "- 연 날짜 막기: $(python -c "import json; print(', '.join(json.load(open('app/www/app-build.json'))['demo']))")"
+            else
+              echo "### 출시 AAB"
+            fi
             echo "- versionCode $TTW_VERSION_CODE · versionName $name · $(du -h "$aab" | cut -f1)"
             echo "- 서명 확인(jarsigner -verify) 통과"
             echo "### 업로드 인증서"
@@ -99,7 +111,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v6
         with:
-          name: tt-wizard-android-release
+          name: ${{ inputs.demo && 'tt-wizard-android-demo' || 'tt-wizard-android-release' }}
           path: app/android/app/build/outputs/bundle/release/app-release.aab
           retention-days: 14
           if-no-files-found: error

@@ -14,7 +14,7 @@ import java.util.Set;
  *   같은 건물이라 걷지 않는 수업(걷기 0분)은 알리지 않는다.
  *   날: 학기 기간(앱 연결이 학사 일정 data/calendar.json 에서 넘긴 개강·종강, 없으면 위젯 자료의 어림 기간) 안이고 수업 없는 날(공휴일 등)이 아닌 날.
  *   글(정보만): 제목 '10:18 출발 · 유전학', 글 '10:30 83동 201호 · 25동에서 걷기 12분', 지각이면 '10:30 301동 105호 · 걷기 18분 · 3분 지각',
- *   걷는 시간을 모르면 제목 '10:30 시작 · 유전학'과 글 강의실. 누르면 위젯처럼 그 시간표의 그 항목 시트(WidgetData.itemUrl).
+ *   걷는 시간을 모르면 제목 '10:30 시작 · 유전학'과 글 강의실(없으면 '강의실 미정', 디자인 129판 ④). 누르면 위젯처럼 그 시간표의 그 항목 시트(WidgetData.itemUrl).
  * 안드로이드 코드 없이 돈다(tests/widget_java 의 NotifyCheck). 알람·알림은 Notifier.
  */
 final class ClassAlerts {
@@ -81,7 +81,7 @@ final class ClassAlerts {
 
     /** 알림 글: 시작 시각과 강의실, 걷기(앞 건물), 지각 */
     static String textOf(List<WidgetData.Lesson> day, WidgetData.Lesson l) {
-        if (l.walk < 0) return l.place;
+        if (l.walk < 0) return l.place.isEmpty() ? "강의실 미정" : l.place; // 디자인 129판 ④: 걷는 시간을 모르면 강의실만(시작 시각에서 셈)
         String head = hm(l.start) + (l.place.isEmpty() ? "" : " " + l.place);
         if (l.fromHome) return head + " · 걷기 " + l.walk + "분";
         if (l.late > 0) return head + " · 걷기 " + l.walk + "분 · " + l.late + "분 지각";

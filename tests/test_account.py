@@ -68,6 +68,9 @@ def test_friend_copy(r):
 
 def test_account_module_surface():
     js = (ROOT / "web" / "js" / "account.js").read_text(encoding="utf-8")
+    # 앱 안 로그인(update111): 앱 플러그인이 없으면 APP_LOGIN, 폰 계정 오류는 NO_ACCOUNT 로. 이미 보낸 요청은 다시 쓰지 않는다(규칙이 막는다)
+    assert 'throw err("APP_LOGIN")' in js and '"NO_ACCOUNT"' in js and "NOT_FRIEND" in js
+    assert 'const mine = await F.getDoc(F.doc(db, "requests", reqId(uid, other)));' in js
     for name in ("available", "ready", "onUser", "signIn", "signOut", "deleteAccount", "sync", "profile", "setNick", "friends",
                  "request", "accept", "decline", "cancel", "unfriend", "block", "unblock", "friendTimetables", "publish", "inviteLink", "reportLink"):
         assert re.search(rf"export (?:async function|function|const) {name}\b", js), name
@@ -97,5 +100,39 @@ def test_firebase_config_from_variable(tmp_path):
     assert ew.write_firebase_config('{"apiKey":"x","projectId":"p","googleClientId":"g","other":1}', f)
     assert '"googleClientId": "g"' in f.read_text(encoding="utf-8") and "other" not in f.read_text(encoding="utf-8")
     assert not ew.write_firebase_config("", f) and not ew.write_firebase_config("nope", f) and not ew.write_firebase_config('{"apiKey":"x"}', f)
+    # 콘솔 코드 조각 전체(import·주석·initializeApp 줄, https:// 값)를 붙여도 설정 객체만 읽는다(update111)
+    whole = ('// Import the functions you need from the SDKs you need\nimport { initializeApp } from "firebase/app";\n'
+             'const firebaseConfig = {\n  apiKey: "AIzaTEST",\n  databaseURL: "https://x.firebaseio.com",\n  projectId: "tt-wizard",\n'
+             '  googleClientId: "621792010542-abc.apps.googleusercontent.com"\n};\nconst app = initializeApp(firebaseConfig);')
+    assert ew.write_firebase_config(whole, f)
+    got = json.loads(f.read_text(encoding="utf-8").split("export default ", 1)[1].rstrip().rstrip(";"))
+    assert got == {"apiKey": "AIzaTEST", "projectId": "tt-wizard", "googleClientId": "621792010542-abc.apps.googleusercontent.com"}
+    # googleClientId 를 중괄호 밖에 둔 것도 꼴로 찾는다. 다른 값(보안 비밀번호 같은 것)은 버린다
+    outside = 'const firebaseConfig = {\n  apiKey: "AIzaTEST",\n  projectId: "tt-wizard",\n};\ngoogleClientId: "621792010542-abc.apps.googleusercontent.com"\nGOCSPX-secret'
+    assert ew.write_firebase_config(outside, f)
+    text = f.read_text(encoding="utf-8")
+    assert '"googleClientId": "621792010542-abc.apps.googleusercontent.com"' in text and "GOCSPX" not in text
     for wf in ("pages.yml", "app.yml", "release.yml"):
         assert "FIREBASE_WEB_CONFIG: ${{ vars.FIREBASE_WEB_CONFIG }}" in (ROOT / ".github" / "workflows" / wf).read_text(encoding="utf-8"), wf
+
+
+def test_app_google_sign_in_wiring():
+    """앱 안 구글 로그인(update111): 웹뷰는 구글 창을 못 띄워 앱 플러그인 TTWAuth 가 폰의 계정 고르기(Credential Manager)로 id 토큰을 받는다.
+    권한은 더하지 않고, 화면은 native.js 의 TTW_APP.googleSignIn 을 account.js 가 부른다"""
+    java = ROOT / "app" / "android" / "app" / "src" / "main" / "java" / "com" / "ttwizard" / "app"
+    plugin = (java / "AuthPlugin.java").read_text(encoding="utf-8")
+    assert '@CapacitorPlugin(name = "TTWAuth")' in plugin and "permissions" not in plugin.split("@CapacitorPlugin")[1].split(")")[0]
+    for m in ("signIn", "signOut"):
+        assert f"public void {m}(PluginCall call)" in plugin
+    assert "new GetSignInWithGoogleOption.Builder(clientId)" in plugin and "TYPE_GOOGLE_ID_TOKEN_SIWG_CREDENTIAL" in plugin
+    assert "GetCredentialCancellationException" in plugin and '"NO_ACCOUNT"' in plugin and '"NO_CONFIG"' in plugin
+    activity = (java / "AppActivity.java").read_text(encoding="utf-8")
+    assert activity.index("registerPlugin(AuthPlugin.class)") < activity.index("super.onCreate(savedInstanceState)")
+    gradle = (ROOT / "app" / "android" / "app" / "build.gradle").read_text(encoding="utf-8")
+    for dep in ('"androidx.credentials:credentials:$androidxCredentialsVersion"', '"androidx.credentials:credentials-play-services-auth:$androidxCredentialsVersion"',
+                '"com.google.android.libraries.identity.googleid:googleid:$googleIdVersion"'):
+        assert f"implementation {dep}" in gradle
+    native = (ROOT / "app" / "src" / "native.js").read_text(encoding="utf-8")
+    assert "app.googleSignIn = function" in native and "app.googleSignOut = function" in native and 'pluginCall("TTWAuth", "signIn"' in native
+    js = (ROOT / "web" / "js" / "account.js").read_text(encoding="utf-8")
+    assert "app.googleSignIn({ clientId })" in js and "A.GoogleAuthProvider.credential(r.idToken)" in js

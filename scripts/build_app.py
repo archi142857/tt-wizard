@@ -141,7 +141,24 @@ def copy_licenses(out: Path, src: Path = LICENSES) -> int:
     return len(texts)
 
 
-def build(web: Path = WEB, out: Path = OUT, remote: str = REMOTE, tag: str | None = None) -> dict:
+DEMO_GATE = re.compile(r'(const ([A-Z][A-Z0-9_]*_FROM) = ")(\d{4}-\d{2}-\d{2})(";)')
+DEMO_OPEN = "2000-01-01"
+
+
+def open_gates(app_js: Path) -> list[str]:
+    """데모 빌드(update111, 사용자 11/14 '16일에 데모데이'): 앱 묶음의 app.js 에서 날짜로 막아 둔 화면(`const 이름_FROM = "YYYY-MM-DD";`,
+    처리방침 11/27 판 시행 전이라 막은 학과·학번·수강 제한·졸업 요건 등)을 모두 지난 날짜로 연다. 저장소의 web/ 은 그대로.
+    이 빌드는 데모 폰(내부 테스트 트랙)에만: 비공개 테스트 트랙에 올리면 처리방침 시행 전에 테스터에게 열린다(프론트엔드·법무 11/14).
+    연 상수 이름들을 돌려준다. 하나도 없으면 멈춘다(데모 화면이 열리지 않은 빌드를 내지 않게)"""
+    text = app_js.read_text(encoding="utf-8")
+    names = [m.group(2) for m in DEMO_GATE.finditer(text)]
+    if not names:
+        raise SystemExit(f"데모 빌드: {app_js} 에 날짜 막기(const 이름_FROM = \"YYYY-MM-DD\";)가 없습니다")
+    app_js.write_text(DEMO_GATE.sub(lambda m: m.group(1) + DEMO_OPEN + m.group(4), text), encoding="utf-8")
+    return names
+
+
+def build(web: Path = WEB, out: Path = OUT, remote: str = REMOTE, tag: str | None = None, demo: bool = False) -> dict:
     missing = [n for n in NEEDED if not (web / n).exists()]
     if missing:
         raise SystemExit(f"web/ 에 없는 파일: {', '.join(missing)} (자료면 먼저 python scripts/export_web.py)")
@@ -160,9 +177,12 @@ def build(web: Path = WEB, out: Path = OUT, remote: str = REMOTE, tag: str | Non
             raise SystemExit(f"app/src/native.js: {key} 자리가 하나가 아닙니다")
         native = native.replace(key, value)
     (out / "js" / "native.js").write_text(native, encoding="utf-8")
+    opened = open_gates(out / "js" / "app.js") if demo else []
     paths = [p for p in out.rglob("*") if p.is_file()]
     info = {"build": bid, "remote": remote, "files": len(paths), "bytes": sum(p.stat().st_size for p in paths),
             "font": "앱에 넣음" if local_font else "CDN"}
+    if demo:
+        info["demo"] = opened
     (out / "app-build.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
     info["left_out"] = left_out
     return info
@@ -173,9 +193,12 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--remote", default=REMOTE, help="앱이 자료를 새로 받는 주소")
     ap.add_argument("-o", "--output", default=str(OUT))
+    ap.add_argument("--demo", action="store_true", help="데모 빌드: 날짜로 막은 화면을 연다(데모 폰·내부 테스트 트랙에만)")
     args = ap.parse_args(argv)
-    info = build(out=Path(args.output), remote=args.remote)
+    info = build(out=Path(args.output), remote=args.remote, demo=args.demo)
     print(f"저장: {args.output} (파일 {info['files']}개, {info['bytes'] / 1e6:.1f} MB, 글꼴 {info['font']}, 빌드 {info['build']})")
+    if args.demo:
+        print(f"  데모 빌드: 연 날짜 막기 {', '.join(info['demo'])} → {DEMO_OPEN} (내부 테스트 트랙에만. 비공개 테스트 트랙 X)")
     if info["left_out"]:
         print(f"  화면이 아직 부르지 않아 뺌: {', '.join(info['left_out'])}")
     if info["font"] == "CDN":

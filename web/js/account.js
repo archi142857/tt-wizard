@@ -3,11 +3,12 @@
 // 설정 값은 web/js/firebase-config.js(배포 때 GitHub 변수 FIREBASE_WEB_CONFIG 로 채운다. 저장소에는 null). 없으면 available() 이 false.
 // 서버 규칙은 firebase/firestore.rules(남의 시간표는 못 읽고, 친구 사본은 친구만). 순수 셈(합치기·사본·닉네임)은 sync.js. 자세한 건 docs/account.md.
 //
-// 화면이 부르는 것(모두 Promise. 실패는 Error 에 code: NO_CONFIG·CANCELLED·OFFLINE·NOT_FOUND·SELF·BLOCKED·BAD_NICK·APP_LOGIN·FAILED):
+// 화면이 부르는 것(모두 Promise. 실패는 Error 에 code: NO_CONFIG·OFFLINE·SIGNED_OUT·NOT_FOUND·SELF·BLOCKED·NOT_FRIEND·BAD_NICK·
+//   APP_LOGIN(앱이 옛 판이라 앱 안 로그인이 없음)·NO_ACCOUNT(폰에 구글 계정이 없거나 이 앱 서명이 Firebase 에 없음)·FAILED):
 //   available()                    로그인을 쓸 수 있나(설정이 있나). 동기
 //   ready()                        → user | null   지금 로그인 상태(앱을 켤 때 이어진다)
 //   onUser(cb)                     → 끊기 함수. cb(user | null). user = { uid, email, name, school(서울대 계정) }
-//   signIn()                       → user | null(취소)   웹: 구글 창, 앱: 폰의 구글 계정 고르기(TTW_APP.googleSignIn)
+//   signIn()                       → user | null(취소)   웹: 구글 창, 앱: 폰의 구글 계정 고르기(TTW_APP.googleSignIn, update111)
 //   signOut()                      기기 자료는 그대로
 //   deleteAccount()                서버의 시간표·프로필·친구·친구 사본과 계정을 지운다(기기 자료는 그대로). 오래전에 로그인했으면 다시 로그인을 묻는다
 //   sync(store)                    store = { get(k), set(k, v), keys() }(화면의 기기 저장소, 'ttw.' 를 뗀 열쇠) → { changed: [학기], uploaded, downloaded }
@@ -15,9 +16,9 @@
 //   profile()                      → { nick, tag } | null(친구 기능을 아직 안 켬)
 //   setNick(nick)                  → { nick, tag }   2~12자 한글·영문·숫자·밑줄, #네 자리는 저절로. 거르는 말이면 BAD_NICK(problem)
 //   friends()                      → { friends, incoming, outgoing, blocked } 각 [{ uid, nick, tag }]
-//   request('닉네임#1234')          상대가 먼저 보낸 요청이 있으면 그걸 수락한다
+//   request('닉네임#1234')          → { uid, accepted }. 상대가 먼저 보낸 요청이 있으면 그걸 수락한다(accepted: true). 이미 보냈거나 친구면 그대로
 //   accept(uid) · decline(uid) · cancel(uid) · unfriend(uid) · block(uid) · unblock(uid)
-//   friendTimetables(uid)          → [{ sem, title, items, updated }](새 학기가 앞). items 는 sync.js friendItems 꼴
+//   friendTimetables(uid)          → [{ sem, title, items, updated }](새 학기가 앞). items 는 sync.js friendItems 꼴. 친구가 아니면 NOT_FRIEND
 //   publish(store)                 친구 사본만 다시 올린다(sync 가 같이 한다)
 //   inviteLink({ nick, tag })      → 'https://archi142857.github.io/tt-wizard/#friend=닉네임%231234'
 //   reportLink({ nick, tag })      → 닉네임 신고 메일 주소(mailto)
@@ -101,10 +102,22 @@ async function google(reauth = false) {
   if (inApp()) {
     const app = globalThis.TTW_APP;
     if (!app || typeof app.googleSignIn !== "function") throw err("APP_LOGIN");
-    const r = await app.googleSignIn({ clientId: conf().googleClientId || "" });
+    const clientId = conf().googleClientId || "";
+    if (!clientId) throw err("NO_CONFIG");
+    let r;
+    try {
+      r = await app.googleSignIn({ clientId });
+    } catch (e) {
+      throw err(e && (e.code === "NO_ACCOUNT" || e.code === "NO_CONFIG") ? e.code : "FAILED", { cause: e });
+    }
     if (!r || !r.idToken) return null;
     const cred = A.GoogleAuthProvider.credential(r.idToken);
-    return reauth ? A.reauthenticateWithCredential(auth.currentUser, cred) : A.signInWithCredential(auth, cred);
+    try {
+      return reauth ? await A.reauthenticateWithCredential(auth.currentUser, cred) : await A.signInWithCredential(auth, cred);
+    } catch (e) {
+      if (e && /network/.test(e.code || "")) throw err("OFFLINE");
+      throw err("FAILED", { cause: e });
+    }
   }
   const provider = new A.GoogleAuthProvider();
   provider.setCustomParameters({ prompt: "select_account" });
@@ -274,6 +287,8 @@ export async function request(text) {
     if (theirs.data().state !== "accepted") await accept(other);
     return { uid: other, accepted: true };
   }
+  const mine = await F.getDoc(F.doc(db, "requests", reqId(uid, other))); // 이미 보냈거나 친구다: 다시 쓰면 규칙이 막는다(받은 사람만 고친다)
+  if (mine.exists()) return { uid: other, accepted: mine.data().state === "accepted" };
   try {
     await F.setDoc(F.doc(db, "requests", reqId(uid, other)), { from: uid, to: other, state: "pending", created: F.serverTimestamp(), updated: F.serverTimestamp() });
   } catch (e) {
@@ -319,7 +334,14 @@ export async function unblock(other) {
 export async function friendTimetables(other) {
   await me();
   const { db, F } = await load();
-  const snap = await F.getDocs(F.collection(db, "shared", other, "terms"));
+  let snap;
+  try {
+    snap = await F.getDocs(F.collection(db, "shared", other, "terms"));
+  } catch (e) {
+    if (e && e.code === "permission-denied") throw err("NOT_FRIEND"); // 친구가 아니다(끊겼거나 막혔다)
+    if (e && e.code === "unavailable") throw err("OFFLINE");
+    throw err("FAILED", { cause: e });
+  }
   return snap.docs.map((d) => d.data()).sort((a, b) => String(b.sem).localeCompare(String(a.sem)));
 }
 
