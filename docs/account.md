@@ -11,6 +11,8 @@
 - 웹 설정 값: GitHub 저장소 변수 `FIREBASE_WEB_CONFIG`(Settings > Secrets and variables > Actions > Variables). 콘솔 > 프로젝트 설정 > 내 앱 > TT Wizard Web 의
   '구성'(`const firebaseConfig = {…}` 를 그대로 붙여도 된다)에 앱 안 로그인용 `googleClientId`(Authentication > Google > 웹 SDK 구성의 웹 클라이언트 ID)를 더한다.
   배포(pages·app·release)의 `export_web.py` 가 `web/js/firebase-config.js` 를 채운다. 저장소의 그 파일은 `export default null`(값이 없으면 로그인이 숨는다).
+  비밀값(Secrets) 탭에 같은 이름으로 넣어도 읽는다(`FIREBASE_WEB_CONFIG_SECRET`, update113). 중괄호 없이 `열쇠: "값"` 줄만 붙여도 된다.
+  못 채우면 배포 로그의 `firebase-config.js 그대로(…)` 줄이 까닭을 적는다(변수가 비었는지, 글자 수와 찾은 열쇠 이름. 값은 찍지 않는다).
 
 ## 서버 자료(Firestore)와 규칙(`firebase/firestore.rules`)
 

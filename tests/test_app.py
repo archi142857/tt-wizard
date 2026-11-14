@@ -455,7 +455,8 @@ def test_release_workflow_keeps_key_secret():
     assert re.search(r"^on:\n  workflow_dispatch:\n    inputs:\n      demo:\n", text, re.M) and "pull_request" not in text and "push:" not in text
     assert "        type: boolean\n        default: false\n" in text  # 데모 빌드(update111)는 손으로 골라야만
     assert "permissions:\n  contents: read" in text
-    names = {"TTW_KEYSTORE_BASE64", "TTW_KEYSTORE_PASSWORD", "TTW_KEY_ALIAS", "TTW_KEY_PASSWORD"}
+    names = {"TTW_KEYSTORE_BASE64", "TTW_KEYSTORE_PASSWORD", "TTW_KEY_ALIAS", "TTW_KEY_PASSWORD",
+             "FIREBASE_WEB_CONFIG"}  # 웹 앱 구성(공개 값)을 비밀값 탭에 넣었을 때도 읽게(update113)
     uses = re.findall(r"\$\{\{\s*secrets\.(\w+)\s*\}\}", text)
     assert set(uses) == names
     for line in text.splitlines():  # 비밀값은 env 의 'NAME: ${{ secrets.X }}' 줄에서만

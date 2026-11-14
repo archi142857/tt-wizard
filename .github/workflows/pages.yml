@@ -43,6 +43,7 @@ jobs:
         run: python scripts/export_web.py --stamp
         env:
           FIREBASE_WEB_CONFIG: ${{ vars.FIREBASE_WEB_CONFIG }}  # 로그인(update110): 웹 앱 구성. 없으면 로그인이 숨는다
+          FIREBASE_WEB_CONFIG_SECRET: ${{ secrets.FIREBASE_WEB_CONFIG }}
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:

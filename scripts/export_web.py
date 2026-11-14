@@ -365,6 +365,9 @@ def _config_object(raw: str) -> str | None:
     text = re.sub(r"^\s*//.*$", "", raw, flags=re.M)  # 줄 주석(값 안의 https:// 는 줄 머리가 아니라 남는다)
     m = re.search(r"\bfirebaseConfig\s*=\s*", text)
     start = text.find("{", m.end() if m else 0)
+    if start < 0 and re.search(r"\bapiKey\s*:", text):  # 중괄호 없이 '열쇠: 값' 줄만 붙였다(update113)
+        lines = [ln.strip().rstrip(",") for ln in text.splitlines() if re.match(r"\s*[A-Za-z_]\w*\s*:\s*[\"']", ln)]
+        return "{" + ",".join(lines) + "}" if lines else None
     depth = 0
     for i in range(max(start, 0), len(text)):
         if start < 0:
@@ -376,6 +379,16 @@ def _config_object(raw: str) -> str | None:
             if depth == 0:
                 return text[start:i + 1]
     return None
+
+
+def config_problem(raw: str | None) -> str:
+    """설정을 못 채운 까닭(값은 찍지 않는다: 글자 수와 찾은 열쇠 이름만, update113)"""
+    if not raw or not raw.strip():
+        return ("GitHub 변수 FIREBASE_WEB_CONFIG 가 비었다. Settings > Secrets and variables > Actions > Variables 탭의 Repository variables 에 넣는다"
+                "(Environments 나 다른 저장소가 아니라)")
+    found = [k for k in FIREBASE_KEYS if re.search(rf"\b{k}\b", raw)]
+    return (f"변수는 있지만({len(raw.strip())}자) 읽지 못함 — 찾은 열쇠: {', '.join(found) or '없음'}. "
+            "apiKey·projectId 가 든 '{ 열쇠: \"값\", … }' 꼴이어야 한다(docs/account.md)")
 
 
 def write_firebase_config(raw: str | None, path: Path) -> bool:
@@ -392,8 +405,9 @@ def write_firebase_config(raw: str | None, path: Path) -> bool:
     try:
         cfg = json.loads(text)
     except json.JSONDecodeError:
-        try:  # 따옴표 없는 열쇠(JS 꼴) → JSON
-            cfg = json.loads(re.sub(r",\s*}", "}", re.sub(r"([{,]\s*)([A-Za-z_]\w*)\s*:", r'\1"\2":', text)))
+        try:  # 따옴표 없는 열쇠(JS 꼴)·작은따옴표 값 → JSON
+            js = re.sub(r",\s*}", "}", re.sub(r"([{,]\s*)([A-Za-z_]\w*)\s*:", r'\1"\2":', text))
+            cfg = json.loads(re.sub(r"'([^'\"]*)'", r'"\1"', js))
         except json.JSONDecodeError:
             return False
     if not isinstance(cfg, dict) or not cfg.get("apiKey") or not cfg.get("projectId"):
@@ -469,7 +483,8 @@ def main(argv: list[str] | None = None) -> int:
     terms = export_calendar(Path(args.calendar), out / "calendar.json")
     limits = export_limits(data, out / "limits.json", campus["meta"]["semester"], Path(args.calendar))
     notify = export_notify(data, out / "notify.json", semesters)
-    firebase = write_firebase_config(os.environ.get("FIREBASE_WEB_CONFIG"), WEB / "js" / "firebase-config.js")
+    raw_config = os.environ.get("FIREBASE_WEB_CONFIG") or os.environ.get("FIREBASE_WEB_CONFIG_SECRET")  # 변수(Variables)가 먼저, 비밀값(Secrets)에 넣었어도(update113)
+    firebase = write_firebase_config(raw_config, WEB / "js" / "firebase-config.js")
 
     n_sec = sum(len(c[6]) for c in courses["courses"])
     print(f"저장: {out}")
@@ -495,7 +510,7 @@ def main(argv: list[str] | None = None) -> int:
         has = json.loads((WEB / "js" / "firebase-config.js").read_text(encoding="utf-8").split("export default ", 1)[1].rstrip().rstrip(";"))
         print(f"  firebase-config.js GitHub 변수로 채움 (앱 안 로그인 googleClientId {'있음' if has.get('googleClientId') else '없음: 앱에서는 로그인이 안 된다'})")
     else:
-        print("  firebase-config.js 그대로(로그인 숨김: GitHub 변수 FIREBASE_WEB_CONFIG 가 없거나 읽지 못함)")
+        print(f"  firebase-config.js 그대로(로그인 숨김: {config_problem(raw_config)})")
     print(f"  notify.json    학기 {len(notify['terms'])}개 · 바뀜 {len(notify['changes'])}번(최근 {NOTIFY_DAYS}일)")
     if args.stamp:
         print(f"  화면 파일 주소에 판 ?v={stamp_assets()} 를 붙임 (index.html, js/app.js, js/search-worker.js)")

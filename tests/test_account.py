@@ -119,7 +119,18 @@ def test_firebase_config_from_variable(tmp_path):
     text = f.read_text(encoding="utf-8")
     assert '"googleClientId": "621792010542-abc.apps.googleusercontent.com"' in text and "GOCSPX" not in text
     for wf in ("pages.yml", "app.yml", "release.yml"):
-        assert "FIREBASE_WEB_CONFIG: ${{ vars.FIREBASE_WEB_CONFIG }}" in (ROOT / ".github" / "workflows" / wf).read_text(encoding="utf-8"), wf
+        text = (ROOT / ".github" / "workflows" / wf).read_text(encoding="utf-8")
+        assert "FIREBASE_WEB_CONFIG: ${{ vars.FIREBASE_WEB_CONFIG }}" in text, wf
+        assert "FIREBASE_WEB_CONFIG_SECRET: ${{ secrets.FIREBASE_WEB_CONFIG }}" in text, wf  # 비밀값 탭에 넣었어도(update113)
+    # 중괄호 없이 '열쇠: 값' 줄만 붙여도, 작은따옴표여도 읽는다(update113)
+    bare = 'apiKey: "AIzaTEST",\n  projectId: \'tt-wizard\',\n  googleClientId: "621792010542-abc.apps.googleusercontent.com"'
+    assert ew.write_firebase_config(bare, f)
+    got = json.loads(f.read_text(encoding="utf-8").split("export default ", 1)[1].rstrip().rstrip(";"))
+    assert got == {"apiKey": "AIzaTEST", "projectId": "tt-wizard", "googleClientId": "621792010542-abc.apps.googleusercontent.com"}
+    # 못 읽은 까닭은 값 없이(글자 수·찾은 열쇠 이름만)
+    assert "비었다" in ew.config_problem("") and "Variables" in ew.config_problem(None)
+    why = ew.config_problem('{"apiKey": "AIzaSECRETVALUE"}')
+    assert "AIzaSECRETVALUE" not in why and "apiKey" in why and "읽지 못함" in why
 
 
 def test_app_google_sign_in_wiring():
