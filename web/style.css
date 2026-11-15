@@ -309,7 +309,7 @@ a { color: var(--accent-text); }
 
 .view { max-width: var(--width-input); margin: 0 auto; padding: 0 var(--gutter-right) calc(var(--bottom-bar-h) + var(--space-6)) var(--gutter-left); }
 #view-result { max-width: var(--width-result); padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
-#view-info, #view-page, #view-feedback, #view-theme, #view-grad, #view-notify, #view-account, #view-friends, #view-friend, #view-frpv { padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
+#view-info, #view-page, #view-feedback, #view-theme, #view-grad, #view-notify, #view-account, #view-friends, #view-friend, #view-frpv, #view-login { padding-bottom: calc(var(--space-8) + var(--tabbar-space)); }
 
 /* 화면 전환(View Transitions): 결과 화면(지도, 결과 화면에서 연 자료 출처)은 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms).
    정보 묶음 안은 10/23 저녁부터 탭처럼 교차 페이드다(app.js showView). 못 쓰는 브라우저와 동작 줄이기에서는 바로 바뀐다(app.js 가 전환을 건너뛴다) */
@@ -417,8 +417,8 @@ body.is-typing .bottom-bar { display: none; }
   #view-input { max-width: var(--width-result); padding-bottom: 0; }
   #view-theme { max-width: var(--width-result); } /* 테마 탭도 다른 탭 첫 화면과 같은 폭(카드를 한 줄에 넷 놓을 자리, 탭을 바꿔도 상단 바 워드마크가 그 자리) */
   /* 졸업 요건 탭: 상단 바는 다른 탭 첫 화면과 같은 폭(워드마크가 그 자리), 본문은 가운데 한 칸(width-input. 디자인 124판 '넓은 화면') */
-  #view-grad { max-width: var(--width-result); }
-  #view-grad > main { max-width: calc(var(--width-input) - var(--gutter-left) - var(--gutter-right)); margin: 0 auto; }
+  #view-grad, #view-friends { max-width: var(--width-result); }
+  #view-grad > main, #view-friends > main { max-width: calc(var(--width-input) - var(--gutter-left) - var(--gutter-right)); margin: 0 auto; }
   #view-input > main { display: grid; grid-template-columns: minmax(0, 1fr) min(var(--width-pane), calc((100% - var(--space-6)) / 2));
     column-gap: var(--space-6); align-items: start; }
   .input-left, .input-right { position: sticky; top: calc(var(--topbar-h) + var(--safe-top)); display: flex; flex-direction: column; }
@@ -1100,6 +1100,9 @@ button.info-row:active, a.info-row:active { background: var(--surface-hover); }
    (시/간/표). 그때만 아이콘을 이름 위에 두고 안쪽 여백을 줄여 이름이 낱말 단위로 두 줄까지 들어가게 한다(app.js 가 낱말 폭을 재서 is-tight 를 단다.
    아이콘 옆 배치에 필요한 폭 = 여백 12 + 아이콘 20 + 사이 6 + 가장 긴 낱말 + 여백 16). 막대는 그만큼 높아진다 */
 .tabbar.is-tight .tab .ind { flex-direction: column; gap: 2px; min-width: 0; width: 100%; padding: var(--space-1); border-radius: var(--radius-lg); }
+/* 탭 다섯(11/15 친구 탭): 칸이 75px 남짓이라 칸·알약 옆 여백을 2px 로(폭 360까지 '동선 탐색'·'졸업 요건'이 한 줄. 320 은 두 줄) */
+.tabbar.is-tight ul[data-tabs~="friends"][data-tabs~="grad"] .tab { padding: 0 2px; }
+.tabbar.is-tight ul[data-tabs~="friends"][data-tabs~="grad"] .tab .ind { padding: var(--space-1) 2px; }
 .tabbar.is-tight .tab .tab-name { text-align: center; }
 /* 고른 탭의 아이콘·이름은 accent-text: 다크의 accent(#4d6ce0)는 accent-weak 알약 위에서 2.86:1 이라 3:1 에 못 미친다(10/22 프론트엔드가 잼. 라이트·이벤트 테마는 accent 와 같은 값) */
 .tabbar .tab[aria-current="page"] { --tab-ind: var(--accent-weak); color: var(--accent-text); }
@@ -1160,8 +1163,8 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
   #view-input:not([hidden]) ~ .snackbar, #view-mine:not([hidden]) ~ .snackbar {
     right: max(var(--gutter-right), calc((100% - var(--sidebar-w) - var(--width-result)) / 2 + var(--gutter-right))); }
   /* 탭의 첫 화면: 상단 바 없이 본문은 위 space-4 부터, 두 칸도 거기에 붙는다 */
-  #view-input > .topbar, #view-mine > .topbar, #view-theme > .topbar, #view-grad > .topbar { display: none; }
-  #view-input, #view-mine, #view-theme, #view-grad { padding-top: calc(var(--space-4) + var(--safe-top)); }
+  #view-input > .topbar, #view-mine > .topbar, #view-theme > .topbar, #view-grad > .topbar, #view-friends > .topbar { display: none; }
+  #view-input, #view-mine, #view-theme, #view-grad, #view-friends { padding-top: calc(var(--space-4) + var(--safe-top)); }
   .input-left, .input-right, .mine-right, .mine-add { top: calc(var(--space-4) + var(--safe-top)); }
 }
 @media (min-width: 68.75em) and (min-height: 25em) {
@@ -1775,7 +1778,6 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 .setup .term-select { background-color: var(--card); box-shadow: inset 0 0 0 1px var(--line-strong); }
 .setup .term-select:has(option[value=""]:checked), .dept-add .term-select:has(option[value=""]:checked) { color: var(--text3); } /* 고르기 전 '고르기' */
 .setup .term-select:disabled, .dept-add .term-select:disabled { opacity: .5; cursor: default; } /* 앞 칸을 고르기 전의 칸 */
-.setup .term-select.setup-year { width: 7.5rem; } /* 전공 진입: 해 '2026년' */
 .setup-row2 { display: flex; gap: var(--space-3); } /* 학번 | 학년 */
 .setup-row2 > .setup-field { flex: 1; min-width: 0; margin-top: 0; }
 .majors { margin: 0; padding: 0; list-style: none; }
@@ -1792,6 +1794,25 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 /* 전공 추가 팝업: 새 시간표 팝업(.tt-new)과 같은 짜임. 세그먼트 아래 space-4, 칸 사이 space-3. 선택칸은 .tn-body 의 raised 바탕 */
 .dept-add fieldset { margin: 0 0 var(--space-4); padding: 0; border: 0; min-width: 0; }
 .dept-add .tn-field + .tn-field { margin-top: var(--space-3); }
+/* 선발된 학기 아래 한 줄(11/15 사용자: 신청·면접한 학기와 헷갈림) */
+.field-help { margin: var(--space-1) 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; }
+/* 고르기와 치기를 한 칸에서(11/15 사용자: 학과·학과·전공 칸): 선택칸 꼴의 입력칸(.term-select 그대로, 글자는 치는 커서)과 바로 아래 목록(줄 이름 t-body text, 메타 t-caption text3).
+   목록은 여섯 줄 남짓에서 안에서 스크롤(막대 없음). 키보드로 고르는 줄(.is-active)은 surface-hover 바탕과 focus 2px 안쪽 테두리 */
+.combo { position: relative; }
+.combo-input { cursor: text; font-weight: 500; }
+.combo-input::placeholder { color: var(--text3); opacity: 1; }
+.combo-list { max-height: calc(var(--touch) * 6.5); margin: var(--space-2) 0 0; padding: 0; list-style: none; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none;
+  border: 1px solid var(--line-strong); border-radius: var(--radius-sm); background: var(--card); }
+.combo-list::-webkit-scrollbar { display: none; }
+.dept-add .combo-list { background: var(--raised); }
+.combo-list li + li { border-top: 1px solid var(--line); }
+.combo-opt { display: flex; flex-direction: column; justify-content: center; gap: 2px; min-height: var(--touch); padding: var(--space-2) var(--space-3); cursor: pointer; }
+.combo-opt .t { font-size: 1rem; line-height: 1.5rem; color: var(--text); word-break: keep-all; overflow-wrap: anywhere; }
+.combo-opt .m { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; }
+.combo-opt.is-active { background: var(--surface-hover); outline: 2px solid var(--focus); outline-offset: -2px; }
+@media (hover: hover) { .combo-opt:hover { background: var(--surface-hover); } }
+.combo-none { padding: var(--space-3); font-size: 0.875rem; line-height: 1.25rem; color: var(--text3); }
+@media (forced-colors: active) { .combo-list { border-color: CanvasText; } .combo-opt.is-active { outline-color: Highlight; } }
 /* 정보의 '내 학과·학번' 줄 값: 길면 말줄임 */
 .info-row .v.v-dept { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 
@@ -1813,12 +1834,14 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 
 /* ---------- 졸업 요건 탭(디자인 124판 '졸업 요건 탭', 컴포넌트 GradReq, bundle.css '졸업 요건 탭'. 11월 13일 밤 사용자가 시안을 보고 정했다: 큰 틀은 세그먼트 셋 '나',
    성적은 따로 성적 계산기, 들은 과목은 "드랍 여부만", 요건 줄과 다음 학기 추천은 그림대로). 처리방침 11/27 판 시행 뒤에 켠다(app.js deptOn).
-   머리 .gr-head(학과·학번 한 줄 t-caption on-bg-text3 + 들은 학점 t-title on-bg-heading, 시간표 탭 머리와 같은 꼴), 그 아래 세그먼트 .gr-seg(요건 | 들은 과목 | 성적),
-   보기마다 묶음 제목(h2.section-title + 판·학점 .count)과 카드 목록 */
+   머리 .gr-head(학과·학번 한 줄 t-caption on-bg-text3 + 들은 학점 t-title on-bg-heading, 시간표 탭 머리와 같은 꼴), 그 아래 세그먼트 .gr-seg
+   (11/15 사용자: 졸업 요건 | 수강한 과목 | 다음 학기. 수강한 과목은 들은 과목과 성적을 합친 것), 보기마다 묶음 제목(h2.section-title + 판·학점 .count)과 카드 목록 */
 .gr-head { padding: var(--space-1) var(--space-1) 0; }
 .gr-head .sem { display: block; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); }
 .gr-head .nm { display: block; margin-top: 2px; font-size: 1.25rem; line-height: 1.75rem; font-weight: 700; letter-spacing: -0.01em; color: var(--on-bg-heading); }
 .gr-seg { margin: var(--space-4) 0 0; padding: 0; border: 0; min-width: 0; }
+/* 폭 380 아래는 칸을 글 길이대로 나눈다(같은 폭이면 360에서 '수강한 과목'이 꺾인다. 320까지 한 줄) */
+@media (max-width: 380px) { .gr-seg .seg label { flex: 1 1 auto; padding: 0 var(--space-1); } }
 .gr-view h2.section-title { margin-top: var(--space-6); flex-wrap: wrap; row-gap: 0; }
 .gr-view h2.section-title .count { font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400; letter-spacing: 0; }
 /* 학과가 더 새 판을 허락하면 판 이름이 선택칸(.count 와 같은 글자. 누르는 높이는 위아래로 넘친다) */
@@ -1860,6 +1883,7 @@ div.info-row { cursor: default; }
 .tk .m { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
 .tk .check { flex: none; padding: 0 var(--space-2); font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
 .tk:has(.check input:checked) .t { color: var(--text3); }
+.tk:has(.browse-select option[value="drop"]:checked) .t { color: var(--text3); } /* 수강한 과목에서 드랍을 고른 과목(11/15) */
 .tk .browse-select { flex: none; font-size: 0.875rem; font-weight: 500; color: var(--text); }
 .tk .browse-select:has(option[value=""]:checked) { color: var(--text3); font-weight: 400; }
 .tk .icon-btn.remove { flex: none; }
@@ -1878,6 +1902,11 @@ div.info-row { cursor: default; }
 .gpa .need { flex-basis: 100%; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
 .gpa .need b { color: var(--text); font-weight: 700; }
 .gr-view > .card.gpa:first-child { margin-top: var(--space-4); }
+/* 다음 학기 추천(11/15 사용자: 졸업 요건 탭 셋째 보기): 다음 정규 학기와 한 줄, 시간표 짜기(주요 버튼) */
+.gr-next { margin-top: var(--space-4); padding: var(--space-4) var(--space-4) var(--space-5); }
+.gr-next-t { margin: 0; font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; color: var(--heading); }
+.gr-next-m { margin: var(--space-1) 0 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); word-break: keep-all; }
+.gr-next-go { width: 100%; margin-top: var(--space-4); }
 /* 자료가 없을 때: 가운데 학사모 32, 글, 주요 버튼(학과와 학번 넣기) */
 .gr-empty { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); padding: var(--space-8) var(--space-5) var(--space-6); text-align: center; }
 .gr-empty svg { color: var(--on-bg-text3); }
@@ -1950,6 +1979,8 @@ div.info-row { cursor: default; }
 .acct .check-row .check { margin-top: 0; }
 .acct .check-row .btn-text { flex: none; margin-right: calc(var(--space-2) * -1); text-decoration: none; }
 .acct-err { margin: var(--space-1) 0 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--danger); word-break: keep-all; }
+/* 로그인 처음 화면의 건너뛰기(11/15 사용자): Google 버튼 아래 가운데 텍스트 버튼 */
+.acct .acct-skip { display: flex; margin: var(--space-2) auto 0; }
 .g-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: var(--touch); margin-top: var(--space-2); padding: 0 12px; box-sizing: border-box;
   border: 1px solid #747775; border-radius: 24px; background: #FFFFFF; color: #1F1F1F; font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; cursor: pointer; }
 .g-btn img { flex: none; width: 20px; height: 20px; }
@@ -1963,10 +1994,11 @@ html[data-scheme="dark"]:not([data-theme]) .g-btn { border-color: #8E918F; backg
 /* 묻는 팝업 본문(로그아웃·계정 삭제·차단): 글 한 줄과 체크 */
 .sheet.ask .sheet-body { padding-bottom: var(--space-2); }
 .sheet.ask .sheet-body > p { margin: 0; font-size: 0.9375rem; line-height: 1.375rem; word-break: keep-all; }
-/* ---------- 친구(디자인 130판 Friends·FriendTimetable, bundle.css 그대로): 내 시간표 머리 줄 친구 버튼의 빨간 점(.has-dot), 친구 화면 머리(.fr-head, 내 닉네임 .fr-me)·
-   묶음(.fr-section)·행(.fr-row), 처음 한 번(.nick-help, 보이는 것 .vis), 친구 시간표·미리보기(.fr-sem, .pv-note, 숨긴 항목의 회색 칸 .wk-block.is-hidden), 메뉴의 스위치 줄(.menu-row.sw) */
-.tt-head > .icon-btn.has-dot { position: relative; }
-.tt-head > .icon-btn.has-dot::after { content: ""; position: absolute; top: 11px; right: 10px; width: 8px; height: 8px; border-radius: 4px; background: var(--danger); box-shadow: 0 0 0 2px var(--bg); }
+/* ---------- 친구(디자인 130판 Friends·FriendTimetable, bundle.css 그대로. 11/15 사용자: 친구 탭으로 뺐다): 친구 탭 아이콘의 빨간 점(.has-dot .tab-ic, 130판 친구 버튼의 점을
+   옮겼다. 둘레는 그 자리 바탕(--tab-ind: 막대 card·고른 알약 accent-weak, 사이드바 bg·고른 card)), 친구 화면 머리(.fr-head, 내 닉네임 .fr-me)·묶음(.fr-section)·행(.fr-row),
+   처음 한 번(.nick-help, 보이는 것 .vis), 친구 시간표·미리보기(.fr-sem, .pv-note, 숨긴 항목의 회색 칸 .wk-block.is-hidden), 메뉴의 스위치 줄(.menu-row.sw) */
+.tab-ic { position: relative; display: flex; flex: none; }
+.has-dot .tab-ic::after { content: ""; position: absolute; top: -1px; right: -3px; width: 8px; height: 8px; border-radius: 4px; background: var(--danger); box-shadow: 0 0 0 2px var(--tab-ind); }
 .fr-head { display: flex; align-items: center; gap: var(--space-2); min-height: 56px; margin: var(--space-2) 0 var(--space-3); }
 .fr-me { display: flex; flex: 1; flex-direction: column; min-width: 0; padding: 0; border: 0; background: transparent; text-align: left; cursor: pointer; }
 .fr-me .k { font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); }
@@ -2003,6 +2035,7 @@ button.fr-row:active { background: var(--surface-hover); }
 .pv-note { margin: 0 0 var(--space-3); font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); word-break: keep-all; }
 .wk-block.is-hidden { background: var(--fill); border: 1px dashed var(--line-strong); }
 .sheet-body p.hide-note { margin: var(--space-2) 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; }
+.sheet-body p.cu-fr-note { margin: calc(var(--space-2) * -1) 0 var(--space-4); } /* 일정 시트 시각 아래 한 줄(11/15: 숨기기는 친구 탭에서) */
 .menu-row.sw { justify-content: space-between; gap: var(--space-3); box-sizing: border-box; cursor: pointer; }
 /* 메뉴 스위치 줄의 메타(134판, 법무 11/15: 친구에게 보이기 아래 끄면 …): 두 줄이면 위아래 8 */
 .menu-row.sw .sw-body { display: flex; flex: 1; flex-direction: column; min-width: 0; }
@@ -2010,21 +2043,20 @@ button.fr-row:active { background: var(--surface-hover); }
 .menu-row.sw:has(.sw-m) { padding-top: var(--space-2); padding-bottom: var(--space-2); }
 @media (forced-colors: active) {
   .g-btn { border-color: CanvasText; background: Canvas; color: CanvasText; }
-  .tt-head > .icon-btn.has-dot::after { background: CanvasText; box-shadow: none; }
+  .has-dot .tab-ic::after { background: CanvasText; box-shadow: none; }
   .wk-block.is-hidden { border: 1px dashed CanvasText; background: Canvas; }
 }
-/* bundle.css 에 없는 자리(프론트엔드): 머리 줄의 친구 버튼(공유 왼쪽. 공유가 없으면 줄 끝, 공유와 같은 바탕 위 아이콘), 처음 한 번의 제목·카드 사이, 시트·팝업 안의
-   스위치 카드(raised 카드 = 시트 바탕), 친구 추가 팝업의 초대 링크 줄, 격자 자리의 한 줄(이 학기 시간표가 없어요) */
-.tt-friends { margin-left: auto; color: var(--on-bg-text2); }
-.tt-friends:not([hidden]) + .tt-share { margin-left: 0; }
-.tt-friends:has(+ .tt-share[hidden]) { margin-right: calc(var(--space-3) * -1); }
-.tt-friends:active { background: var(--bg-hover); }
-.tt-friends svg, .fr-copy svg { filter: var(--on-bg-halo-icon, none); }
-.tt-friends:active svg, .fr-copy:active svg { filter: none; }
-#view-mine.is-adding .tt-friends { display: none; }
+/* bundle.css 에 없는 자리(프론트엔드): 처음 한 번의 제목·카드 사이, 시트·팝업 안의 스위치 카드(raised 카드 = 시트 바탕), 친구 추가 팝업의 초대 링크 줄,
+   격자 자리의 한 줄(이 학기 시간표가 없어요), 미리보기의 보이기 카드와 '과목·일정' 묶음(11/15) */
+.fr-copy svg { filter: var(--on-bg-halo-icon, none); }
+.fr-copy:active svg { filter: none; }
 .fr-copy { color: var(--on-bg-text2); }
 .fr-copy:active { background: var(--bg-hover); }
-@media (hover: hover) { .tt-friends:hover, .fr-copy:hover { background: var(--bg-hover); } .tt-friends:hover svg, .fr-copy:hover svg { filter: none; } }
+@media (hover: hover) { .fr-copy:hover { background: var(--bg-hover); } .fr-copy:hover svg { filter: none; } }
+.pv-share { margin-bottom: var(--space-4); }
+.pv-share:empty { display: none; }
+.pv-items > .section-title { margin: var(--space-6) 0 var(--space-2); }
+.pv-note.pv-foot { margin: var(--space-3) 0 0; }
 .fr-ttl { margin: var(--space-2) var(--space-1) var(--space-3); font-size: 1.25rem; line-height: 1.75rem; font-weight: 700; color: var(--on-bg-heading); }
 .fr-nick-card { padding: var(--space-4); }
 .fr-nick-card .field-label { margin-bottom: var(--space-2); }

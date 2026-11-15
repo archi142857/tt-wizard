@@ -3782,7 +3782,6 @@ function renderMineHead(t) {
   $("tt-primary").hidden = !t.primary;
   $("tt-switch").setAttribute("aria-label", [sum ? `${sem} 총 ${sum}학점` : sem, t.title, t.primary ? "대표" : ""].filter(Boolean).join(", "));
   $("tt-share").hidden = !t.items.length; // 비어 있는 시간표는 나눌 것이 없다(이미지 줄과 같다)
-  paintFriendBtn(); // 친구(130판): 로그인을 켠 판에서만, 시간표가 비어도 있다
   sleighSoon(); // 크리스마스 썰매 그림: 학기·학점 줄, 이름, 공유가 바뀌었을 수 있다
 }
 
@@ -4196,14 +4195,10 @@ function renderTtOpts(focusSel) {
   if (document.activeElement !== $("to-name")) $("to-name").value = t.title;
   const acts = TT_ACTS.filter(([k]) => !t.virtual && (k !== "primary" || !t.primary) && (k !== "save-image" || (t.items.length && canSaveImage())));
   if (acts.some(([k]) => k === "save-image")) preparedImage(t).catch(() => null); // 열 때 미리 그려 둔다(누르면 바로 저장한다)
-  // 대표 시간표의 맨 위 '친구에게 보이기'(130판, 친구를 켰을 때만. 처음 켜짐): 끄면 친구에게는 그 학기 시간표가 없는 것처럼(shareOff, sync.friendCopies)
-  // 메타 '끄면 친구에게 이 시간표가 아예 보이지 않아요'(134판, 법무 11/15)
-  const share = frShare() && !t.virtual && t.primary ? h("li", {}, h("label", { class: "menu-row sw" },
-    h("span", { class: "sw-body" }, h("span", { class: "sw-t", id: "to-share-t" }, "친구에게 보이기"), h("span", { class: "sw-m", id: "to-share-m" }, "끄면 친구에게 이 시간표가 아예 보이지 않아요")),
-    h("input", { type: "checkbox", role: "switch", class: "switch", name: "to-share", "aria-labelledby": "to-share-t", "aria-describedby": "to-share-m", checked: !t.shareOff }))) : null;
-  $("to-acts").replaceChildren(...(share ? [share] : []), ...acts.map(([k, text]) => h("li", {}, h("button", { type: "button", class: k === "delete" ? "menu-row danger" : "menu-row", "data-tt-act": k,
+  // '친구에게 보이기'는 친구 탭의 '친구에게 보이는 내 시간표'로 옮겼다(11/15 사용자)
+  $("to-acts").replaceChildren(...acts.map(([k, text]) => h("li", {}, h("button", { type: "button", class: k === "delete" ? "menu-row danger" : "menu-row", "data-tt-act": k,
     "aria-describedby": k === "copy" && !$("to-error").hidden ? "to-error" : null }, text))));
-  $("to-acts").hidden = !acts.length && !share;
+  $("to-acts").hidden = !acts.length;
   if (focusSel) $("to-acts").querySelector(focusSel)?.focus({ preventScroll: true });
 }
 function openTtOpts(id, opener) {
@@ -4246,14 +4241,6 @@ function ttOptsAct(k) {
 $("to-acts").addEventListener("click", (e) => {
   const b = e.target.closest("[data-tt-act]");
   if (b) ttOptsAct(b.dataset.ttAct);
-});
-$("to-acts").addEventListener("change", (e) => {
-  if (e.target.name !== "to-share") return;
-  const t = ttById(toId);
-  if (!t || t.virtual) return;
-  const next = { ...t, updated: new Date().toISOString() };
-  if (e.target.checked) delete next.shareOff; else next.shareOff = true;
-  putTt(next, { select: false }); // 저장하면 조금 모아 맞추고 친구 사본도 고친다(saveMine → syncSoon)
 });
 // 이름 입력칸: Enter 나 다른 곳을 누르면(change) 바꾼다. 비우면 원래 이름. Esc 는 고치던 것을 원래 이름으로 되돌리고(팝업은 닫지 않는다), 고친 것이 없으면 팝업을 닫는다
 function commitToName() {
@@ -5175,19 +5162,19 @@ async function receiveLink(code) {
     // 어느 길로 왔든 받은 주소를 적어 둔다: 켤 때 주소가 이벤트보다 늦게 풀리거나 웹뷰를 새로 열어도 같은 시트를 다시 띄우지 않는다(닫았으면 그대로)
     try { sessionStorage.setItem(LAUNCH_DONE, code); } catch { /* 못 적으면 다음에 새로 열 때 한 번 더 띄울 수 있다 */ }
   }
-  if (screen === "setup") showView(ROOT[tab], "init"); // 학과와 학번 처음 화면 중에 링크로 켰다: 공유받은 시간표가 먼저, 그 화면은 다음에 켤 때(디자인 121판)
+  if (screen === "setup" || screen === "login") showView(ROOT[tab], "init"); // 처음 화면 중에 링크로 켰다: 공유받은 시간표가 먼저, 그 화면은 다음에 켤 때(디자인 121판)
   if (r.problem) { showSnackbar(LINK_PROBLEM[r.problem]); return; }
   openShared(await linkToPayload(r.link));
 }
 /** 바로가기 주소 → { tab, sem, route, tt, item } 또는 null(10/30 백엔드: 홈 화면 위젯을 누르면 앱이 '…/tt-wizard/#tab=mine&sem=<학기>&route=<요일>' 로 열린다. 웹에서 같은 주소를
- *  열어도 같다: 나중의 홈 화면 바로가기). tab 은 탭 이름(TABS, 학과와 학번을 켰으면 grad 도)일 때만, sem 은 학기 꼴('2026-2')일 때만, route 는 요일(월 0 … 일 6)일 때만. 시간표 링크(#t=)는 linkCodeOf.
+ *  열어도 같다: 나중의 홈 화면 바로가기). tab 은 탭 이름(TABS, 학과와 학번을 켰으면 grad, 로그인을 열었으면 friends 도)일 때만, sem 은 학기 꼴('2026-2')일 때만, route 는 요일(월 0 … 일 6)일 때만. 시간표 링크(#t=)는 linkCodeOf.
  *  item·tt(11/2 백엔드 update77): 위젯에서 수업을 누르면 '…&sem=<학기>&tt=<시간표 id>&item=<항목 열쇠>'(T.itemKey). 영문·숫자·'.'·'_'·'-' 64자까지일 때만 */
 function navOf(url) {
   const hash = String(url || "").split("#")[1];
   if (!hash || !/(^|&)(tab|sem|route|item)=/.test(hash)) return null;
   const q = new URLSearchParams(hash), t = q.get("tab"), sem = q.get("sem") || "", day = q.get("route") || "";
   const key = (x) => (/^[A-Za-z0-9._-]{1,64}$/.test(x || "") ? x : null);
-  const nav = { tab: TABS.includes(t) || (t === "grad" && deptOn()) ? t : null, sem: /^\d{4}-[12SW]$/.test(sem) ? sem : null, route: /^[0-6]$/.test(day) ? Number(day) : null,
+  const nav = { tab: TABS.includes(t) || (t === "grad" && deptOn()) || (t === "friends" && accountWanted()) ? t : null, sem: /^\d{4}-[12SW]$/.test(sem) ? sem : null, route: /^[0-6]$/.test(day) ? Number(day) : null,
     tt: key(q.get("tt")), item: key(q.get("item")) };
   return nav.tab || nav.sem || nav.route !== null || nav.item ? nav : null;
 }
@@ -5196,7 +5183,7 @@ function navOf(url) {
 let lastNav = null; // 앱: 켤 때 같은 위젯 주소가 launchUrl 과 'ttw:open-url' 로 거의 같이 두 번 온다. 동선 지도는 한 번만 연다
 async function goNav(nav) {
   await semReady;
-  if (screen === "setup") showView(ROOT[tab], "init"); // 위젯·바로가기로 켰다: 그 화면이 먼저(학과와 학번은 다음에 켤 때)
+  if (screen === "setup" || screen === "login") showView(ROOT[tab], "init"); // 위젯·바로가기로 켰다: 그 화면이 먼저(처음 화면은 다음에 켤 때)
   if (nav.sem && nav.sem !== state.semester && state.semesters.some(([x]) => x === nav.sem)) switchSemester(nav.sem);
   if (nav.item) { // 위젯에서 수업을 눌렀다: 그 수업의 항목 시트(아래 itemNav). 못 열면 그 탭으로
     const sig = `item|${nav.sem}|${nav.tt}|${nav.item}`;
@@ -5370,7 +5357,7 @@ const devApi = () => ({
     showAsk(opener);
   },
   forgetTheme() { store.del("themeOff"); store.del("themeAsked"); }, // 끈 테마·물어본 테마를 잊는다(묻는 팝업을 처음부터)
-  account() { // 로그인(처리방침 전면 개정 전 데모, 이 탭만): 정보에 계정 줄을 켠다. 설정 값이 없는 배포면 알린다
+  account() { // 로그인(ACCOUNT_FROM 전 날짜에 미리 보기, 이 탭만): 정보에 계정 줄을 켠다. 설정 값이 없는 배포면 알린다
     devAccount = true;
     try { sessionStorage.setItem("ttw.devAccount", "1"); } catch { /* 이 세션만이라도 */ }
     startAccount().then(() => { renderInfo(); showSnackbar(accountOn() ? "정보에 계정 줄을 켰어요" : "로그인 설정 값이 없는 배포예요"); });
@@ -5504,7 +5491,6 @@ function renderItemSheet() {
         h("span", { class: "sw", style: { background: `var(--item-${i})`, color: `var(--item-${i}-fg)` } }, icon(I.check, 20)))))) : null,
     note,
     h("div", { class: "sheet-field item-secs" }, h("span", { class: "field-label" }, "넣은 분반"), cur),
-    ...(frShare() ? frHideCard("is-hide", !!it.hidden, false) : []), // 친구에게 숨기기(130판, 친구를 켰을 때만. 132판: 넣은 분반 바로 아래, 다른 분반이 많아도 묻히지 않게)
     others.length ? h("div", { class: "sheet-field item-secs" },
       h("div", { class: "list-head" }, h("span", {}, `다른 분반 ${others.length}`)),
       h("ul", { class: "list secs" }, others.map((s) => otherSec(t, it, s)))) : null,
@@ -5627,13 +5613,6 @@ function setItemOwn(groups) {
 
 $("is-body").addEventListener("change", (ev) => {
   const x = ev.target;
-  if (x.name === "is-hide") { // 친구에게 숨기기: 친구 사본에서 뺀다(sync.friendItems). 저장하면 조금 모아 맞춘다(saveMine → syncSoon)
-    const [t] = itemNow();
-    if (!t) return;
-    putTt(T.updateItem(t, itemSheet.key, { hidden: x.checked || undefined }), { select: false });
-    renderMine();
-    return;
-  }
   if (x.name === "is-color") { // 고르면 바로 바뀐다
     const [t] = itemNow();
     if (!t) return;
@@ -5793,9 +5772,9 @@ function renderCustom() {
         h("span", { class: "time-part" }, sel("sh", 6, 23, 1, "시작 시"), colon(), sel("sm", 0, 55, 5, "시작 분"), h("span", { "aria-hidden": "true" }, "~")),
         h("span", { class: "time-part" }, sel("eh", 6, 23, 1, "끝 시"), colon(), sel("em", 0, 55, 5, "끝 분"))),
       err("time", "끝 시각이 시작보다 빨라요")),
-    // 친구에게 숨기기(130판, 친구를 켰을 때만): 넣기 전에도 정해 둘 수 있다('병원'처럼 남이 보면 곤란한 제목, 계정_동기화_설계안 7절). 아래 장소·메모 한 줄.
-    // 시각 바로 아래(장소·메모 위. 134판, 법무 11/15: 새 일정은 처음에 보이므로 만드는 화면에서 눈에 띄게)
-    ...(frShare() ? frHideCard("cu-hide", !!c.hidden, true, { "data-cu": "hidden" }) : []),
+    // 친구에게 숨기기는 친구 탭의 '친구에게 보이는 내 시간표'에서만 한다(11/15 사용자 "친구에게 숨기고 말고 하는 건 친구 탭에서 할 수 있도록. 메인 시간표 거기서 하지 말고").
+    // 새 일정은 처음에 친구에게 보이므로 만드는 시트의 시각 바로 아래에 한 줄로 알린다(134판, 법무 11/15: 만드는 화면에서 눈에 띄게. 친구를 켰을 때만)
+    frShare() ? h("p", { class: "hide-note cu-fr-note" }, "친구에게 이름과 시간이 보여요. 친구 탭에서 숨길 수 있어요") : null,
     h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-place" }, "장소"), placeSelect(c.b, { class: "select", id: "cu-place", "data-cu": "b" })),
     h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-memo" }, "메모"),
       h("input", { class: "text-input", id: "cu-memo", type: "text", maxlength: "100", autocomplete: "off", enterkeyhint: "done", value: c.memo, "data-cu": "memo" })),
@@ -6824,7 +6803,8 @@ $("info-list").addEventListener("click", (e) => {
 // 둘은 같은 카드 셋(#view-dept)이고 꼴만 다르다: setup(탭 막대·사이드바 없이 워드마크·나중에, 제목, 시작하기) / dept(뒤로·제목, 저장하기).
 // 목록은 백엔드 update103 data/requirements/catalog.json(대학 → 학과(부) → 전공, 다른 전공 묶음 셋, 편람 dept → 학과). 학번에 없던 과정(exists_for)은 숨긴다.
 // 값은 이 기기에만(ttw.dept): { v, major: { id, entry }, others: [{ kind: "double"|"minor"|"major", id, term }], year, grade, gradeYear, name, names }.
-// major.id 는 과정 id(나뉘지 않는 학과는 그 하나, '아직 안 정함'은 학과 id u-…), entry 는 전공 진입 해(묻는 학부만). grade 는 gradeYear 학기의 학년이고
+// major.id 는 과정 id(나뉘지 않는 학과는 그 하나, '아직 안 정함'은 학과 id u-…), entry 는 전공 진입 해(전공을 나중에 고르는 학부만. 묻지 않고 학번 + 1:
+// 11/15 사용자 '전공 진입이 뭔 뜻인지 모르겠음', '굳이 필요 없으면 아예 없애는 것도 좋음'. 요건 판이 전공 진입 연도로 갈리는 과정만 쓴다). grade 는 gradeYear 학기의 학년이고
 // 새 해의 학기 자료가 오면 그만큼 더한다(deptGrade). name·names 는 정보 줄 글(목록을 받지 않아도 그린다). 밖으로 보내지 않는다.
 // 여는 날(DEPT_FROM, 한국 시각) 전에는 처음 화면도 정보 줄도 없고 웹 개발자 메뉴로만 미리 본다. 처음에는 처리방침 2-1절('기기 안'에 학과·학번)이 시행되는 11/27 이었고
 // (법무 11/11 ②, 문서 11/13), 사용자 11/15 '지금 다 열자'로 11/15 에 연다(백엔드 update115, 법무 11/15: 값이 기기 안에만 있어 처리방침 새 판을 같은 날 올리면 된다)
@@ -6850,25 +6830,28 @@ const latestYear = () => Number(String(state.current || kstToday()).slice(0, 4))
 const clampGrade = (g) => Math.min(6, Math.max(1, g));
 function deptSaved() {
   const v = store.get(DEPT, null);
-  return v && v.major && v.major.id && Number.isInteger(v.year) ? v : null;
+  if (!(v && v.major && v.major.id && Number.isInteger(v.year))) return null;
+  // 전에 고른 전공 진입 해는 학번 + 1 로 읽는다(11/15 칸을 없애 고칠 길이 없다. 넣지 않은 과정은 그대로 null)
+  return Number.isInteger(v.major.entry) && v.major.entry !== v.year + 1 ? { ...v, major: { ...v.major, entry: v.year + 1 } } : v;
 }
 /** 지금 학년: 저장한 해보다 새 해의 학기 자료가 왔으면 그만큼 더한다 */
 const deptGrade = (v) => clampGrade((Number(v.grade) || 1) + Math.max(0, latestYear() - (Number(v.gradeYear) || latestYear())));
-/** 정보 줄 값 '동물생명공학전공 외 2 · 25학번' */
+/** 정보 줄·졸업 요건 머리 값 '동물생명공학전공 외 · 25학번'. 다른 전공이 있으면 수 없이 '외'만(11/15 사용자: "외 2 이게 뭐임. 차라리 외 만 남겨두던지 상세하게 적던지".
+ *  한 줄 값이라 다 적으면 잘린다. 다른 전공은 누르면 나오는 학과와 학번 화면에) */
 function deptLabel(v) {
-  return v ? `${v.name}${v.others && v.others.length ? ` 외 ${v.others.length}` : ""} · ${String(v.year).slice(2)}학번` : "";
+  return v ? `${v.name}${v.others && v.others.length ? " 외" : ""} · ${String(v.year).slice(2)}학번` : "";
 }
 const progName = (id) => (cat.programs[id] || {}).name || "";
 const progShort = (id) => { const p = cat.programs[id] || {}; return p.short && p.short !== p.college ? p.short : p.name || ""; };
 /** 학번에 있던 것만(모르면 보인다). keep 은 이미 고른 것이라 그대로 둔다 */
 const forYear = (span, year, keep) => keep || !year || !span || (year >= span[0] && year <= span[1]);
 
-let dd = null; // 고치는 값 { college, unit, prog, entry, others, year, grade, touched: Set }
+let dd = null; // 고치는 값 { college, unit, prog, others, year, grade, touched: Set }
 let ddFrom = ""; // 연 때 값(저장하기를 켜는 견줌)
 let deptMode = "setup";
-const ddKey = (d) => JSON.stringify([d.college, d.unit, d.prog, d.entry, d.others, d.year, d.grade]);
+const ddKey = (d) => JSON.stringify([d.college, d.unit, d.prog, d.others, d.year, d.grade]);
 function draftOf(v) {
-  const d = { college: "", unit: "", prog: "", entry: null, others: [], year: null, grade: null, touched: new Set() };
+  const d = { college: "", unit: "", prog: "", others: [], year: null, grade: null, touched: new Set() };
   if (!v || !cat) return d;
   const id = v.major.id, p = cat.programs[id], unit = cat.units.get(p ? p.unit : id);
   if (unit) {
@@ -6876,21 +6859,20 @@ function draftOf(v) {
     d.college = cat.college.get(unit.id) || "";
     d.prog = unit.splits ? (p ? id : UNDECIDED) : "";
   }
-  d.entry = Number.isInteger(v.major.entry) ? v.major.entry : null;
   d.others = (v.others || []).filter((o) => cat.programs[o.id] && KIND_NAME[o.kind]).map((o) => ({ kind: o.kind, id: o.id, term: o.term }));
   d.year = v.year;
   d.grade = deptGrade(v);
-  for (const k of ["entry", "grade"]) d.touched.add(k); // 저장한 값은 다시 채우지 않는다
+  d.touched.add("grade"); // 저장한 값은 다시 채우지 않는다
   return d;
 }
 const ddUnit = () => (dd && dd.unit ? cat.units.get(dd.unit) : null);
-/** 전공 진입을 묻나: 묻는 학부에서 전공을 골랐거나(나뉘는 학과), 나뉘지 않고 묻는 학과(수의학과 등) */
+/** 전공 진입 해를 두나(화면에서는 묻지 않는다, 11/15): 전공을 나중에 고르는 학부에서 전공을 골랐거나(나뉘는 학과), 나뉘지 않고 그런 학과(수의학과 등) */
 function askEntry(u = ddUnit()) {
   return !!u && u.ask_entry && (!u.splits || (dd.prog && dd.prog !== UNDECIDED));
 }
 const ddReady = () => { const u = ddUnit(); return !!u && (!u.splits || !!dd.prog) && !!dd.year; };
 function deptValue() {
-  const u = ddUnit(), entry = askEntry(u) ? dd.entry || dd.year + 1 : null;
+  const u = ddUnit(), entry = askEntry(u) && dd.year ? dd.year + 1 : null; // 전공 진입은 묻지 않고 학번 + 1(보통 1학년을 마치고 고른다)
   const id = u.splits ? (dd.prog === UNDECIDED ? u.id : dd.prog) : u.programs[0] || u.id;
   return {
     v: 1, major: { id, entry }, others: dd.others.map((o) => ({ ...o })), year: dd.year, grade: dd.grade || clampGrade(latestYear() - dd.year + 1), gradeYear: latestYear(),
@@ -6909,25 +6891,19 @@ function fillSel(sel, items, value, disabled = false) {
 function renderDeptForm() {
   const d = dd, ok = !!cat, u = ok ? ddUnit() : null;
   fillSel($("dp-college"), ok ? cat.colleges.map((g) => [g.name, g.name]) : [], d.college, !ok);
-  const units = ok && d.college ? (cat.colleges.find((g) => g.name === d.college) || { units: [] }).units.filter((x) => forYear(x.exists_for, d.year, x.id === d.unit)) : [];
-  fillSel($("dp-unit"), units.map((x) => [x.id, x.name]), d.unit, !ok || !d.college);
+  $("dp-unit").disabled = !ok; // 학과: 고르기·치기 한 칸(대학을 고르기 전에도 칠 수 있다)
+  if (!unitCombo.editing) $("dp-unit").value = u ? u.name : "";
   $("dp-prog-f").hidden = !(u && u.splits);
   if (u && u.splits) {
     const progs = u.programs.filter((id) => forYear((cat.programs[id] || {}).exists_for, d.year, id === d.prog)).map((id) => [id, progName(id)]);
     fillSel($("dp-prog"), [...progs, ...(u.undecided ? [[UNDECIDED, "아직 안 정함"]] : [])], d.prog);
   }
-  $("dp-entry-f").hidden = !askEntry(u);
-  if (askEntry(u)) {
-    const top = latestYear() + 1, from = Math.min(d.year || top - 8, top - 1), years = [];
-    for (let y = top; y >= from; y -= 1) years.push([y, `${y}년`]);
-    fillSel($("dp-entry"), years, d.entry || (d.year ? d.year + 1 : ""));
-  }
   const list = $("dp-others");
   list.replaceChildren(...(ok ? d.others : []).map((o, i) => {
-    const name = progShort(o.id), [y, n] = String(o.term).split("-");
+    const name = progShort(o.id), [y, n] = String(o.term || "").split("-");
     return h("li", {},
       h("span", { class: "tag" }, KIND_NAME[o.kind]),
-      h("span", { class: "m-txt" }, h("span", { class: "m-name" }, name), h("span", { class: "m-meta" }, `${y}년 ${n}학기 선발`)),
+      h("span", { class: "m-txt" }, h("span", { class: "m-name" }, name), h("span", { class: "m-meta" }, o.term ? `${y}년 ${n}학기 선발` : "선발 학기 모름")),
       h("button", { type: "button", class: "icon-btn remove", "data-remove": String(i), "aria-label": `${name} ${KIND_NAME[o.kind]} 빼기` }, icon(I.x, 20)));
   }));
   list.hidden = !d.others.length;
@@ -6949,6 +6925,8 @@ function renderDept(mode) {
   $("dept-done").textContent = setup ? "시작하기" : "저장하기";
   dd = draftOf(null);
   ddFrom = ddKey(dd);
+  unitCombo.close(false);
+  unitCombo.editing = false;
   renderDeptForm();
   catalogData().then(() => {
     if (deptMode !== mode || !deptShown()) return;
@@ -7011,20 +6989,140 @@ function applyGuess(g) {
 function setDeptYear(y) {
   dd.year = y || null;
   if (!dd.touched.has("grade")) dd.grade = y ? clampGrade(latestYear() - y + 1) : null;
-  if (!dd.touched.has("entry")) dd.entry = y ? y + 1 : null;
 }
 $("view-dept").addEventListener("change", (e) => {
   const t = e.target;
   if (!dd || !cat || t.tagName !== "SELECT") return;
   if (t.id === "dp-college") { dd.college = t.value; dd.unit = ""; dd.prog = ""; }
-  else if (t.id === "dp-unit") { dd.unit = t.value; dd.prog = ""; dd.others = dd.others.filter((o) => o.kind !== "major" || (ddUnit() && ddUnit().multi_major)); }
   else if (t.id === "dp-prog") dd.prog = t.value;
-  else if (t.id === "dp-entry") { dd.entry = Number(t.value) || null; dd.touched.add("entry"); }
   else if (t.id === "dp-year") setDeptYear(Number(t.value) || null);
   else if (t.id === "dp-grade") { dd.grade = Number(t.value) || null; dd.touched.add("grade"); }
   const id = t.id;
   renderDeptForm();
   $(id).focus({ preventScroll: true }); // 다시 채워도 초점은 그 칸에
+});
+// 고르기와 치기를 한 칸에서(11/15 사용자 "학과 칸은 타이핑해서 입력할 수도 있게… 검색해서 나오는 거 선택하면 자동으로 나머지(농업--대학, 공과대학 등등)는 채워지고",
+// "학과 찾기는 추가로 두지 말고. 한 칸에서 선택이랑 입력 동시에"): 주전공의 '학과'와 전공 추가의 '학과·전공' 칸. 선택칸 꼴의 입력칸(role=combobox)과 아래 목록(listbox).
+// 누르거나 ↓ 면 고른 대학의 목록(대학을 고르지 않았으면 모두), 치면 모든 대학에서 이름 일부(앞부분이 먼저)나 글자 차례(줄임말 '동생공')로 찾는다(띄어쓰기·가운뎃점은 뺀다).
+// 고르면 대학(·학과·전공)을 채운다. 초점은 입력칸에 남고 ↓↑ 가 고르는 줄(aria-activedescendant), Enter 로 고르고 Esc 는 닫는다(글자는 지금 값으로 돌린다)
+const findKey = (s) => String(s || "").replace(/[\s·・()（）,]/g, "").toLowerCase();
+/** 주전공 줄: 학과(부)와, 나뉘면 전공마다(고르면 학과와 전공을 함께 채운다). college 를 주면 그 대학만(목록), 없으면 모든 대학(메타에 대학) */
+function unitItems(college) {
+  const out = [];
+  for (const g of cat.colleges) {
+    if (college && g.name !== college) continue;
+    for (const u of g.units) {
+      if (!forYear(u.exists_for, dd.year, u.id === dd.unit)) continue;
+      out.push({ college: g.name, unit: u.id, prog: "", name: u.name, meta: college ? "" : g.name, keys: [u.name] });
+      if (!college && u.splits) for (const id of u.programs) {
+        if (!cat.programs[id] || !forYear(cat.programs[id].exists_for, dd.year)) continue;
+        out.push({ college: g.name, unit: u.id, prog: id, name: progName(id), meta: `${g.name} · ${u.name}`, keys: [progName(id), progShort(id)] });
+      }
+    }
+  }
+  return out;
+}
+/** 전공 추가 줄: 넣을 수 있는 과정(주전공과 이미 넣은 것 빼고). group 을 주면 그 묶음(대학·연합·연계·학생설계)만 */
+function addItems(group) {
+  const out = [], taken = new Set([...(ddUnit() ? [deptValue().major.id] : []), ...dd.others.map((o) => o.id)]);
+  const groups = [...cat.colleges.map((g) => ({ key: g.name, name: g.name, units: g.units, other: false })), ...cat.others.map((u) => ({ key: u.id, name: u.name, units: [u], other: true }))];
+  for (const g of groups) {
+    if (group && g.key !== group) continue;
+    for (const u of g.units) {
+      if (u.wide || !forYear(u.exists_for, dd.year)) continue;
+      for (const id of u.programs) {
+        if (taken.has(id) || !cat.programs[id] || !forYear(cat.programs[id].exists_for, dd.year)) continue;
+        const name = g.other ? progName(id) : progShort(id);
+        out.push({ college: g.key, unit: u.id, prog: id, name, meta: group ? "" : g.other || u.name === name ? g.name : `${g.name} · ${u.name}`, keys: [name, progName(id), u.name] });
+      }
+    }
+  }
+  return out;
+}
+/** 맞는 정도: 0 앞부분, 1 가운데, 2 글자 차례(두 글자부터), 없으면 -1 */
+function findScore(item, q) {
+  let best = -1;
+  for (const k of item.keys.map(findKey)) {
+    const s = k.startsWith(q) ? 0 : k.includes(q) ? 1 : q.length >= 2 && [...q].every(((i) => (c) => (i = k.indexOf(c, i) + 1) > 0)(0)) ? 2 : -1;
+    if (s >= 0 && (best < 0 || s < best)) best = s;
+  }
+  return best;
+}
+const COMBO_FIND = 8; // 치면 이만큼까지
+/** 고르기·치기 한 칸. browse() 는 누를 때의 목록, all() 은 칠 때 찾을 거리, current() 는 지금 값의 글, pick(item) 은 고른 줄 */
+function makeCombo(input, list, { browse, all, current, pick }) {
+  const c = { editing: false, shown: [], active: -1, timer: 0 };
+  const optId = (i) => `${input.id}-o${i}`;
+  const setActive = (i) => {
+    c.active = i;
+    list.querySelectorAll("[role=option]").forEach((o, j) => { o.classList.toggle("is-active", j === i); o.setAttribute("aria-selected", j === i ? "true" : "false"); });
+    if (i >= 0) { input.setAttribute("aria-activedescendant", optId(i)); $(optId(i))?.scrollIntoView({ block: "nearest" }); } else input.removeAttribute("aria-activedescendant");
+  };
+  c.close = (restore = true) => {
+    clearTimeout(c.timer);
+    list.hidden = true;
+    list.replaceChildren();
+    c.shown = [];
+    c.active = -1;
+    input.setAttribute("aria-expanded", "false");
+    input.removeAttribute("aria-activedescendant");
+    if (restore) { c.editing = false; input.value = current(); }
+  };
+  c.open = () => {
+    const q = c.editing ? findKey(input.value) : "";
+    c.shown = q ? all().map((x) => [findScore(x, q), x]).filter(([s]) => s >= 0)
+      .sort((a, b) => a[0] - b[0] || a[1].name.length - b[1].name.length || a[1].name.localeCompare(b[1].name, "ko")).slice(0, COMBO_FIND).map(([, x]) => x) : browse();
+    list.replaceChildren(...(c.shown.length ? c.shown.map((x, i) => h("li", { role: "option", id: optId(i), class: "combo-opt", "aria-selected": "false", "data-i": String(i) },
+      h("span", { class: "t" }, x.name), x.meta ? h("span", { class: "m" }, x.meta) : null))
+      : [h("li", { class: "combo-none", role: "presentation" }, q ? "찾는 학과·전공이 없어요" : "고를 것이 없어요")]));
+    list.hidden = false;
+    input.setAttribute("aria-expanded", "true");
+    setActive(q && c.shown.length ? 0 : -1); // 치면 첫 줄이 고르는 줄(Enter 로 바로)
+    if (q) { clearTimeout(c.timer); c.timer = setTimeout(() => announce(c.shown.length ? `결과 ${c.shown.length}개` : "검색 결과 없음"), 500); }
+  };
+  const choose = (i) => { const x = c.shown[i]; if (!x) return; c.close(false); c.editing = false; pick(x); input.value = current(); };
+  input.addEventListener("input", () => { c.editing = true; c.open(); });
+  input.addEventListener("click", () => { if (list.hidden) c.open(); });
+  input.addEventListener("keydown", (e) => {
+    if (e.isComposing || e.keyCode === 229) return;
+    const n = c.shown.length;
+    if (e.key === "ArrowDown") { e.preventDefault(); if (list.hidden) c.open(); else if (n) setActive(Math.min(c.active + 1, n - 1)); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); if (!list.hidden && n) setActive(Math.max(c.active - 1, 0)); }
+    else if (e.key === "Enter" && !list.hidden) { e.preventDefault(); choose(c.active >= 0 ? c.active : n === 1 ? 0 : -1); }
+    else if (e.key === "Escape" && (!list.hidden || c.editing)) { e.preventDefault(); e.stopPropagation(); c.close(); } // 팝업은 닫지 않는다
+    else if (e.key === "Tab" && !list.hidden) c.close();
+  });
+  input.addEventListener("blur", () => setTimeout(() => { if (document.activeElement !== input && !list.hidden) c.close(); }, 0));
+  list.addEventListener("mousedown", (e) => e.preventDefault()); // 초점은 입력칸에
+  list.addEventListener("click", (e) => { const o = e.target.closest("[role=option]"); if (o) choose(Number(o.dataset.i)); });
+  return c;
+}
+const unitCombo = makeCombo($("dp-unit"), $("dp-unit-list"), {
+  browse: () => (cat && dd ? unitItems(dd.college || null) : []),
+  all: () => (cat && dd ? unitItems(null) : []),
+  current: () => (dd && dd.unit && cat ? (cat.units.get(dd.unit) || {}).name || "" : ""),
+  pick: (x) => {
+    dd.college = x.college;
+    dd.unit = x.unit;
+    dd.prog = x.prog;
+    dd.others = dd.others.filter((o) => o.kind !== "major" || (ddUnit() && ddUnit().multi_major));
+    renderDeptForm();
+    announce([x.college, cat.units.get(x.unit)?.name, x.prog ? progName(x.prog) : ""].filter(Boolean).join(" · "));
+    const u = ddUnit();
+    if (u && u.splits && !dd.prog) $("dp-prog").focus({ preventScroll: true }); // 다음에 고를 칸
+    else if (!dd.year) $("dp-year").focus({ preventScroll: true });
+  },
+});
+let daKeep = { kind: "double", college: "", prog: "", term: "" }; // 전공 추가 팝업에서 고른 것(학과·전공은 한 칸이라 여기에 둔다)
+const progCombo = makeCombo($("da-prog"), $("da-prog-list"), {
+  browse: () => (cat && dd ? addItems(daKeep.college || null) : []),
+  all: () => (cat && dd ? addItems(null) : []),
+  current: () => (daKeep.prog && cat ? (cat.others.some((u) => u.id === daKeep.college) ? progName(daKeep.prog) : progShort(daKeep.prog)) : ""),
+  pick: (x) => {
+    renderDeptAdd({ ...daKeep, kind: daSheet.querySelector('input[name="da-kind"]:checked')?.value, college: x.college, prog: x.prog, term: $("da-term").value });
+    announce(x.meta ? `${x.meta} · ${x.name}` : x.name);
+    $(daKeep.term ? "da-ok" : "da-term").focus({ preventScroll: true });
+  },
 });
 $("dp-others").addEventListener("click", (e) => {
   const b = e.target.closest("[data-remove]");
@@ -7061,24 +7159,26 @@ function renderDeptAdd(keep = {}) {
   $("da-kind").replaceChildren(...kinds.map((k) => h("label", {}, h("input", { type: "radio", name: "da-kind", value: k, checked: k === kind }), KIND_NAME[k])));
   const groups = [...cat.colleges.map((g) => [g.name, g.name]), ...cat.others.map((u) => [u.id, u.name])];
   fillSel($("da-college"), groups, keep.college || "");
-  const taken = new Set([deptValue().major.id, ...dd.others.map((o) => o.id)]);
-  const g = keep.college || "", other = cat.units.get(g);
-  const units = other ? [other] : g ? ((cat.colleges.find((c) => c.name === g) || { units: [] }).units) : [];
-  const progs = units.filter((u) => !u.wide && forYear(u.exists_for, dd.year)).flatMap((u) => u.programs)
-    .filter((id) => !taken.has(id) && cat.programs[id] && forYear(cat.programs[id].exists_for, dd.year)).map((id) => [id, other ? progName(id) : progShort(id)]);
-  fillSel($("da-prog"), progs, keep.prog || "", !g);
+  const college = $("da-college").value;
+  // 학과·전공(고르기·치기 한 칸): 고른 것이 이 묶음에서 넣을 수 있는 과정일 때만 둔다
+  const prog = keep.prog && addItems(college || null).some((x) => x.prog === keep.prog && (!college || x.college === college)) ? keep.prog : "";
   const terms = [], top = latestYear(), cur = String(state.current || "").split("-")[1] === "1" ? 1 : 2;
   for (let y = top; y >= Math.max(dd.year || top - 8, top - 8); y -= 1) for (const n of [2, 1]) if (y < top || n <= cur) terms.push([`${y}-${n}`, `${y}년 ${n}학기`]);
-  fillSel($("da-term"), terms, keep.term || "");
-  $("da-ok").disabled = !($("da-prog").value && $("da-term").value);
+  fillSel($("da-term"), [...terms, ["?", "모름"]], keep.term || ""); // 모름(11/15 사용자): 저장은 term null, 판은 학번으로 고른다
+  daKeep = { kind, college, prog, term: $("da-term").value };
+  if (!progCombo.editing) $("da-prog").value = progCombo ? (prog ? (cat.others.some((u) => u.id === college) ? progName(prog) : progShort(prog)) : "") : "";
+  $("da-ok").disabled = !(daKeep.prog && daKeep.term);
 }
 $("dp-add").addEventListener("click", () => {
   if (!cat || !dd) return;
+  progCombo.close(false);
+  progCombo.editing = false;
   renderDeptAdd();
   openSheet(daSheet, $("dp-add"));
 });
 daSheet.addEventListener("change", (e) => {
-  const keep = { kind: daSheet.querySelector('input[name="da-kind"]:checked')?.value, college: $("da-college").value, prog: $("da-prog").value, term: $("da-term").value };
+  if (e.target.id === "da-prog") return; // 학과·전공 칸은 콤보가 맡는다
+  const keep = { kind: daSheet.querySelector('input[name="da-kind"]:checked')?.value, college: $("da-college").value, prog: daKeep.prog, term: $("da-term").value };
   if (e.target.id === "da-college") keep.prog = "";
   const id = e.target.id || "";
   renderDeptAdd(keep);
@@ -7086,9 +7186,9 @@ daSheet.addEventListener("change", (e) => {
   else daSheet.querySelector(`input[name="da-kind"][value="${keep.kind}"]`)?.focus({ preventScroll: true });
 });
 $("da-ok").addEventListener("click", () => {
-  const kind = daSheet.querySelector('input[name="da-kind"]:checked')?.value || "double", id = $("da-prog").value, term = $("da-term").value;
+  const kind = daSheet.querySelector('input[name="da-kind"]:checked')?.value || "double", id = daKeep.prog, term = $("da-term").value;
   if (!id || !term) return;
-  dd.others.push({ kind, id, term });
+  dd.others.push({ kind, id, term: term === "?" ? null : term });
   daSheet.returnTo = null;
   closeSheet(daSheet);
   renderDeptForm();
@@ -7105,12 +7205,13 @@ $("da-ok").addEventListener("click", () => {
 const GRAD = "grad";
 const GRADE_OPTS = ["A+", "A0", "A-", "B+", "B0", "B-", "C+", "C0", "C-", "D+", "D0", "D-", "F", "S", "U"];
 const GM_CLS = ["교양", "전필", "전선", "일선", "교직"]; // 다른 곳에서 들은 과목의 이수 구분
-const GRAD_VIEWS = [["req", "요건"], ["taken", "들은 과목"], ["gpa", "성적"]];
+// 11/15 사용자: "'요건' 탭은 '졸업 요건'으로", "'들은 과목'은 '수강한 과목'으로 바꾸고, 수강한 과목 탭이랑 성적 탭이랑 합치자", "세번째 탭으로 다음 학기 시간표 추천"
+const GRAD_VIEWS = [["req", "졸업 요건"], ["taken", "수강한 과목"], ["next", "다음 학기"]]; // 셋째는 다음 학기 추천(폰 폭에서 한 줄로 서게 짧게)
 const gradObj = (o) => !!o && typeof o === "object" && !Array.isArray(o);
 function gradStore() {
   const v = store.get(GRAD, null), ok = gradObj(v);
   return {
-    view: ok && GRAD_VIEWS.some(([k]) => k === v.view) ? v.view : "req",
+    view: ok && GRAD_VIEWS.some(([k]) => k === v.view) ? v.view : ok && v.view === "gpa" ? "taken" : "req", // 옛 성적 보기는 수강한 과목으로
     dropped: ok && gradObj(v.dropped) ? v.dropped : {},
     grades: ok && gradObj(v.grades) ? v.grades : {},
     manual: ok && Array.isArray(v.manual) ? v.manual.filter((m) => gradObj(m) && typeof m.id === "string" && typeof m.name === "string" && SEM_ID.test(m.term)) : [],
@@ -7260,15 +7361,15 @@ async function renderGrad() {
     h("fieldset", { class: "gr-seg" }, h("legend", { class: "sr-only" }, "졸업 요건 보기"),
       h("div", { class: "seg" }, GRAD_VIEWS.map(([k, t]) => h("label", {},
         h("input", { type: "radio", name: "gr-view", value: k, checked: g.view === k, "data-gk": `seg:${k}` }), t)))),
-    h("div", { class: "gr-view" }, g.view === "taken" ? gradTakenView() : g.view === "gpa" ? gradGpaView(g) : gradReqView()),
+    h("div", { class: "gr-view" }, g.view === "taken" ? gradTakenView(g) : g.view === "next" ? gradNextView() : gradReqView()),
   );
   if (had) body.querySelector(`[data-gk="${CSS.escape(had)}"]`)?.focus({ preventScroll: true });
 }
 
 /** 요건 보기: 묶음마다(공통 → 주전공 → 다른 전공) 제목과 판(.count, 고를 수 있으면 선택칸), 그 아래 카드의 요건 줄(정보 화면 행 꼴, 누르면 요건 시트).
- *  그 뒤 카드 하나에 다음 학기 추천, 맨 아래 추정 문구와 기준 줄(자료 출처로) */
+ *  맨 아래 추정 문구와 기준 줄(자료 출처로). 다음 학기 추천은 셋째 보기(11/15) */
 function gradReqView() {
-  const { view, picks, base, cur } = gradNow;
+  const { view, picks, base } = gradNow;
   const mainLabel = (view.bundles.find((b) => b.kind === "program") || {}).label || null; // 공통 줄도 주전공 판으로 센다
   const out = [];
   for (const b of view.bundles) {
@@ -7288,28 +7389,24 @@ function gradReqView() {
             : h("span", { class: "tag" }, r.value.text),
         icon(I.right, 20)))))));
   }
-  // 다음 학기 추천: 시간표 탭의 그 학기 대표 시간표(없으면 빈 시간표 1)로 가서 과목 추가를 연다. 그 학기 편람이 아직 없으면 누르지 않는 줄
-  const next = R.nextRegularTerm(cur), ready = R.hasCoursebook({ list: state.semesters }, next);
-  out.push(h("div", { class: "card info-list" }, h("ul", { class: "list" }, h("li", {}, ready
-    ? h("button", { type: "button", class: "info-row", "data-next": next, "data-gk": "next" }, h("span", {}, "다음 학기 추천"), h("span", { class: "v" }, R.termName(next)), icon(I.right, 20))
-    : h("div", { class: "info-row" }, h("span", {}, "다음 학기 추천"), h("span", { class: "v" }, "편람이 아직 없어요"))))));
   out.push(h("p", { class: "gr-foot" }, "학교가 공개한 문서를 바탕으로 계산한 추정이에요. 학번·학과와 개별 인정(동일·대체 과목, 학점 인정)에 따라 다를 수 있어요. 졸업 사정은 학과와 마이스누에서 최종 확인해 주세요."));
   const basis = R.basisText(base.index);
   out.push(h("p", { class: "gr-foot" }, basis ? `${basis} · ` : "", h("a", { href: "#sources", "data-go": "sources", "data-gk": "sources" }, "자료 출처")));
   return out;
 }
 
-/** 들은 과목 보기: 학기마다(새 학기 먼저) 제목·센 학점과 과목 줄(드랍 체크. 다른 곳에서 들은 과목은 빼기 ×). 대표 시간표가 없는 정규 학기는 빈 카드와 시간표 만들기.
- *  맨 아래 카드 '+ 다른 곳에서 들은 과목' */
-function gradTakenView() {
-  const { taken, v, cur, prim, records } = gradNow;
+/** 수강한 과목 보기(11/15 사용자: 들은 과목과 성적을 합침): 맨 위 평점 카드(gpaCard), 학기마다(새 학기 먼저) 제목·센 학점·그 학기 평점과 과목 줄.
+ *  줄 오른쪽 선택칸 하나에 성적(A+~U)과 '드랍'(드랍하면 성적은 지우고 요건에서 뺀다). 다른 곳에서 들은 과목은 빼기 ×. 대표 시간표가 없는 정규 학기는 빈 카드와 시간표 만들기.
+ *  맨 아래 카드 '+ 다른 곳에서 들은 과목', 법무 문구(11/13)와 계산 기준 */
+function gradTakenView(g) {
+  const { taken, v, cur, prim, records, grades } = gradNow;
   const byTerm = new Map(taken.terms.map((t) => [t.term, t]));
   const terms = [...new Set([...taken.terms.map((t) => t.term), ...regularTerms(v.year, cur).filter((t) => !prim.get(t))])]
     .sort((a, b) => R.termOrder(b) - R.termOrder(a));
-  const out = [h("p", { class: "gr-lead" }, "학기마다 대표 시간표에서 모았어요")];
+  const out = [gpaCard(g), h("p", { class: "gr-lead" }, "학기마다 대표 시간표에서 모았어요")];
   for (const term of terms) {
-    const t = byTerm.get(term);
-    out.push(h("h2", { class: "section-title" }, R.termName(term), t ? h("span", { class: "count" }, t.text) : null));
+    const t = byTerm.get(term), tg = grades && grades.byTerm[term];
+    out.push(h("h2", { class: "section-title" }, R.termName(term), t ? h("span", { class: "count" }, `${t.text}${tg && tg.gpa != null ? ` · 평점 ${tg.gpa.toFixed(2)}` : ""}`) : null));
     if (!t) {
       const can = state.semesters.some(([x]) => x === term);
       out.push(h("div", { class: "card gr-none" }, h("p", { class: "empty" }, "대표 시간표가 없어요"),
@@ -7321,20 +7418,34 @@ function gradTakenView() {
       return h("li", { class: "tk" }, h("span", { class: "b" }, h("span", { class: "t" }, r.name), h("span", { class: "m" }, r.meta)),
         rec.manual
           ? h("button", { type: "button", class: "icon-btn remove", "aria-label": `${r.name} 빼기`, "data-del": rec.mid, "data-gk": `del:${rec.mid}` }, icon(I.x, 20))
-          : h("label", { class: "check" }, h("input", { type: "checkbox", "aria-label": `${r.name} 드랍`, checked: !!rec.dropped, "data-drop": rec.rk, "data-gk": `drop:${rec.rk}` }), "드랍"));
+          : h("select", { class: "browse-select", "aria-label": `${r.name} 성적`, "data-mark": rec.rk, "data-gk": `mark:${rec.rk}` },
+            h("option", { value: "", selected: !rec.dropped && !rec.grade }, "성적"), GRADE_OPTS.map((x) => h("option", { value: x, selected: !rec.dropped && rec.grade === x }, x)),
+            h("option", { value: "drop", selected: !!rec.dropped }, "드랍")));
     }))));
   }
   out.push(h("div", { class: "card info-list" }, h("ul", { class: "list" }, h("li", {},
     h("button", { type: "button", class: "add-row", "data-gm": "1", "data-gk": "gm" }, icon(I.plus, 20), "다른 곳에서 들은 과목")))));
+  out.push(h("p", { class: "gr-foot" }, "직접 넣은 성적으로 계산한 참고값이에요. 공식 성적과 평점은 마이스누(mySNU)에서 확인해 주세요. 성적은 이 폰에만 저장돼요."));
+  out.push(h("p", { class: "gr-foot" }, "A+ 4.3 ~ F 0 · S·U는 빼고, 재수강은 나중 성적만 · 다른 학교 학점은 넣지 않음"));
   return out;
+}
+
+/** 다음 학기 추천 보기(11/15 사용자 "세번째 탭으로 다음 학기 시간표 추천"): 다음 정규 학기 카드와 시간표 짜기(그 학기 대표 시간표로 가서 과목 추가를 연다.
+ *  검색 전 자리에 남은 요건 과목이 먼저 뜬다). 그 학기 편람이 아직 없으면 글만 */
+function gradNextView() {
+  const { cur } = gradNow;
+  const next = R.nextRegularTerm(cur), ready = R.hasCoursebook({ list: state.semesters }, next);
+  return [h("div", { class: "card gr-next" },
+    h("p", { class: "gr-next-t" }, R.termName(next)),
+    h("p", { class: "gr-next-m" }, ready ? "남은 졸업 요건을 채우는 과목부터 보여 줄게요" : "이 학기 수강편람이 아직 없어요"),
+    ready ? h("button", { type: "button", class: "btn-primary gr-next-go", "data-next": next, "data-gk": "next" }, "시간표 짜기") : null)];
 }
 
 /** 숫자 뒤 조사 이/가: 마지막 자리를 읽는 소리로(2·4·5·9 는 받침 없음) */
 const josaGa = (s) => ("2459".includes(String(s).slice(-1)) ? "가" : "이");
-/** 성적 보기(성적 계산기): 맨 위 카드(전체·전공 평점, 직전 두 학기와 다음 학기 학점 상한, 목표 평점과 남은 학점에서 필요한 평균),
- *  학기마다 평점과 과목 줄의 성적 선택칸(드랍한 과목과 다른 곳에서 들은 과목은 없다), 맨 아래 법무 문구(11/13)와 계산 기준 */
-function gradGpaView(g) {
-  const { grades, others, taken, picks, base, v, cur, records } = gradNow;
+/** 수강한 과목 맨 위 평점 카드(성적 계산기, 11/15 수강한 과목에 합침): 전체·전공 평점, 직전 두 학기와 다음 학기 학점 상한, 목표 평점과 남은 학점에서 필요한 평균 */
+function gpaCard(g) {
+  const { grades, others, taken, picks, base, v, cur } = gradNow;
   const fmt = (x) => (x && x.gpa != null ? x.gpa.toFixed(2) : "–");
   const all = grades && grades.all, last = grades && grades.lastTwoRegular;
   // 직전 두 학기(계절 빼고 재이수 조정 전): 기본 상한이 낮은 곳은 3.3 이상이면 다음 학기 21학점까지(학사 공통 규정, termCreditLimit)
@@ -7358,29 +7469,14 @@ function gradGpaView(g) {
       : h("span", { class: "need" }, "남은 학점으로는 닿을 수 없어요");
   }
   const more = others.filter((o) => o.gpa && o.gpa.gpa != null).map((o) => `${o.short} ${o.gpa.gpa.toFixed(2)}`);
-  const out = [h("div", { class: "card gpa" }, h("ul", { class: "list" },
+  return h("div", { class: "card gpa" }, h("ul", { class: "list" },
     h("li", {}, h("span", { class: "k" }, "전체 평점"), h("span", { class: "n" }, fmt(all))),
     h("li", {}, h("span", { class: "k" }, "전공 평점"), h("span", { class: "n" }, fmt(grades && grades.major)),
       h("span", { class: "s" }, more.length ? `${main.title}. ${more.join(" · ")}` : main.title)),
     h("li", {}, h("span", { class: "k" }, "직전 두 학기"), h("span", { class: "n" }, fmt(last)), limText ? h("span", { class: "s" }, limText) : null),
     h("li", {}, h("label", { class: "k", for: "gr-target" }, "목표 평점"),
       h("select", { class: "browse-select", id: "gr-target", "data-target": "1", "data-gk": "target" },
-        steps.map((x) => h("option", { value: x.toFixed(2), selected: Math.abs(x - target) < 1e-9 }, x.toFixed(2)))), need)))];
-  for (const t of taken.terms) {
-    const rows = t.rows.filter((r) => r.why !== "dropped" && !records[r.index].manual);
-    if (!rows.length) continue;
-    const tg = grades && grades.byTerm[t.term];
-    out.push(h("h2", { class: "section-title" }, t.label, tg && tg.gpa != null ? h("span", { class: "count" }, `평점 ${tg.gpa.toFixed(2)}`) : null));
-    out.push(h("div", { class: "card" }, h("ul", { class: "list" }, rows.map((r) => {
-      const rec = records[r.index];
-      return h("li", { class: "tk" }, h("span", { class: "b" }, h("span", { class: "t" }, r.name), h("span", { class: "m" }, r.meta)),
-        h("select", { class: "browse-select", "aria-label": `${r.name} 성적`, "data-grade": rec.rk, "data-gk": `grade:${rec.rk}` },
-          h("option", { value: "", selected: !rec.grade }, "성적"), GRADE_OPTS.map((x) => h("option", { value: x, selected: rec.grade === x }, x))));
-    }))));
-  }
-  out.push(h("p", { class: "gr-foot" }, "직접 넣은 성적으로 계산한 참고값이에요. 공식 성적과 평점은 마이스누(mySNU)에서 확인해 주세요. 성적은 이 폰에만 저장돼요."));
-  out.push(h("p", { class: "gr-foot" }, "A+ 4.3 ~ F 0 · S·U는 빼고, 재수강은 나중 성적만 · 다른 학교 학점은 넣지 않음"));
-  return out;
+        steps.map((x) => h("option", { value: x.toFixed(2), selected: Math.abs(x - target) < 1e-9 }, x.toFixed(2)))), need)));
 }
 
 /** 요건 시트(줄을 누르면): 제목은 줄 이름, 메타 '동물생명공학전공 · 2021~2026학번 규정'. 맨 위 자료 글. 남음·충족은 합과 과목 목록·출처,
@@ -7486,14 +7582,11 @@ $("grad-body").addEventListener("click", (e) => {
 $("grad-body").addEventListener("change", (e) => {
   const el = e.target, d = el.dataset;
   if (el.name === "gr-view") setGrad({ view: el.value });
-  else if (d.drop) {
-    const dropped = { ...gradStore().dropped };
-    if (el.checked) dropped[d.drop] = true; else delete dropped[d.drop];
-    setGrad({ dropped });
-  } else if (d.grade) {
-    const grades = { ...gradStore().grades };
-    if (GRADE_OPTS.includes(el.value)) grades[d.grade] = el.value; else delete grades[d.grade];
-    setGrad({ grades });
+  else if (d.mark) { // 수강한 과목의 선택칸 하나: 성적 또는 드랍(드랍하면 성적은 지운다)
+    const g0 = gradStore(), dropped = { ...g0.dropped }, grades = { ...g0.grades };
+    if (el.value === "drop") { dropped[d.mark] = true; delete grades[d.mark]; }
+    else { delete dropped[d.mark]; if (GRADE_OPTS.includes(el.value)) grades[d.mark] = el.value; else delete grades[d.mark]; }
+    setGrad({ dropped, grades });
   } else if (d.ver) setGrad({ versions: { ...gradStore().versions, [d.ver]: el.value } });
   else if (d.target) setGrad({ target: Number(el.value) });
   else return;
@@ -7617,15 +7710,16 @@ $("nt-ask-ok").addEventListener("click", async () => {
 
 // ---------------------------------------------------------------- 로그인·기기 간 동기화(백엔드 update110·111 account.js, 레포 docs/account.md, 디자인 130판 Account)
 // 사용자 11/14 "로그인이랑 친구 시간표도 지금 작업 시작하라고"(16일 데모데이), 130판 시안 02 "그대로". 정보 첫 카드 맨 위 '계정'(값 로그인한 메일) › 계정 하위 화면.
-// 처리방침 전면 개정 전이라 남에게 열지 않는다(데모는 사용자 계정 둘): 날짜 막기 ACCOUNT_FROM(먼 날짜. 앱 데모 빌드는 build_app 이 '이름_FROM' 날짜를 모두 열어 내부 테스트에만,
-// 백엔드 11/14), 웹은 개발자 메뉴 '로그인'(이 탭만, sessionStorage). 설정 값(firebase-config.js)이 없는 배포는 언제나 숨는다.
+// 처리방침 11/15 판(계정과 친구 절)·이용 규칙·계정 삭제 안내 페이지와 같은 푸시로 모두에게 연다(날짜 막기 ACCOUNT_FROM, 백엔드 update116. 사용자 11/15 '구현한 기능 싹 다
+// 릴리즈', 법무 11/15). 그 전 날짜에는 웹 개발자 메뉴 '로그인'·주소 '?demo'(이 탭만, sessionStorage)로만 보고, 앱 데모 빌드는 build_app 이 '이름_FROM' 날짜를 모두 연다.
+// 설정 값(firebase-config.js)이 없는 배포는 언제나 숨는다.
 // Firebase SDK 는 account.js 가 로그인을 켤 때만 받는다. 기기 자료가 먼저다: 로그인돼 있으면 로그인할 때·켤 때·시간표를 고친 뒤(3초 모아)·앱으로 돌아올 때(1분 넘게 지났으면)
 // 맞추고(account.sync), 보는 학기의 목록이 바뀌었으면 다시 그린다. 처음 켤 때 로그인을 묻지 않는다(로그인은 정보의 계정과 친구 화면에서만)
 let acct = null, acctP = null, acctOff = null;
 let acctUser; // undefined: 아직 모름, null: 로그인 안 함, { uid, email, name, school }
 const ACCOUNT_FROM = "2026-11-15"; // 한국 시각 날짜. 처리방침 11/15 판·이용 규칙·계정 삭제 안내가 시행되는 날(백엔드 update116, 프론트엔드 11/15: 페이지와 한 푸시). 날을 넘겨 올리면 그날로
-// 웹 데모 주소 '?demo'(백엔드 update115, 사용자 11/15 '지금 다 열자'): 개발자 메뉴의 '로그인'과 같다(이 탭만, 주소에서는 지운다). 공개 화면은 그대로 막고
-// (처리방침 전면 개정 전, 법무 11/15) 데모 때 주소 하나로 연다. 스토어 앱은 보지 않는다(앱 데모 빌드는 날짜 막기를 연다)
+// 웹 데모 주소 '?demo'(백엔드 update115, 사용자 11/15 '지금 다 열자'): 개발자 메뉴의 '로그인'과 같다(이 탭만, 주소에서는 지운다). ACCOUNT_FROM 전에 로그인을 미리 볼 때 쓴다
+// (그날부터는 모두에게 열려 있어 할 일이 없다). 스토어 앱은 보지 않는다(앱 데모 빌드는 날짜 막기를 연다)
 let devAccount = (() => {
   try {
     if (!IN_APP && new URLSearchParams(location.search).has("demo")) {
@@ -7653,10 +7747,17 @@ const syncStore = {
   keys: () => { try { return Object.keys(localStorage).filter((k) => k.startsWith("ttw.")).map((k) => k.slice(4)); } catch { return []; } },
 };
 /** 계정을 켠다(앱: 켤 때, 웹: 개발자 메뉴). 로그인 상태를 지켜보고 로그인되면 맞춘다 */
+let acctModFailed = false; // 로그인 모듈(account.js)을 받지 못했다: 친구 탭에 다시 시도
 async function startAccount() {
-  try { await accountMod(); } catch { return; }
+  try { await accountMod(); acctModFailed = false; } catch {
+    acctModFailed = true;
+    if (screen === "friends") paintFriends();
+    afterLogin(); // 로그인 처음 화면이면 다음으로(다음에 켤 때 다시 묻는다)
+    return;
+  }
+  if (!accountOn()) afterLogin(); // 로그인 설정이 없는 배포: 로그인 처음 화면이면 다음으로
   if (!accountOn() || acctOff) return;
-  paintFriendBtn();
+  paintFriendTab();
   if (acct.onSyncStatus) acct.onSyncStatus(() => paintAccountSync()); // 동기화 줄(update112): 바뀔 때마다 다시 쓴다
   acctOff = acct.onUser((u) => {
     const was = acctUser ? acctUser.uid : null;
@@ -7664,10 +7765,12 @@ async function startAccount() {
     if (!u || u.uid !== frFor) fr = null; // 다른 사람이 됐다: 친구 목록을 비운다
     frShareCheck();
     paintAccountValue();
-    paintFriendBtn();
+    paintFriendTab();
     if (screen === "account") renderAccount();
     if (screen === "friends") renderFriends();
     if (screen === "info") renderInfo(); // 계정 카드의 계정 삭제 줄(134판)
+    if (u && screen === "login") { store.set(LOGIN_ASKED, true); afterLogin(); showSnackbar("로그인했어요"); } // 로그인 처음 화면에서 로그인했다: 다음으로
+    else if (screen === "login") renderLogin(); // 로그인 모듈이 왔다(구글 단추가 바로 일한다)
     if (u && u.uid !== was) {
       syncNow();
       if (screen !== "friends") frLoad().catch(() => null); // 친구 기능을 켰는지(숨기기 줄)·받은 요청(빨간 점)도 받아 둔다(친구 화면은 renderFriends 가 받는다)
@@ -7753,16 +7856,17 @@ function paintAccountSync() {
 /** 로그인 전 카드(130판 Account·Friends '로그인 전', 134판): 한 줄, (계정 화면만) 서버에 두는 것 셋(법무 11/11: 로그인 화면에서 무엇이 가는지),
  *  필수 확인 둘 '만 14세 이상이에요'(법무 11/11 ③)·'이용 규칙에 동의해요'와 줄 오른쪽 '보기'(이용 규칙 웹 페이지. 법무 11/15 ③. 둘 다 처음 꺼짐이고 기억하지 않는다),
  *  오류 줄(.acct-err, role=alert. 확인 없이 누를 때만), Google 계정으로 계속(Google 지침 버튼. 늘 켜진 기본 모양: 꺼진 모양은 지침에 없고 G 까지 흐려진다, 134판) */
-function loginCard(lead, what) {
+/** 로그인 카드(11/15 사용자 "로그인 자체는 만 14세, 이용 규칙 저것만 깔끔하게 남겨두자": 머리 글과 '서버에 두는 것' 목록은 뺐다. 서버에 두는 것은 처리방침에 있다):
+ *  필수 확인 둘·오류 줄·Google 버튼. lead 는 친구 탭만(왜 로그인하는지), skip 이면 맨 아래 '건너뛰기'(로그인 처음 화면, 묻는 팝업 #login-skip) */
+function loginCard(lead, skip = false) {
   return h("div", { class: "card acct" },
-    h("p", { class: "acct-lead" }, lead),
-    what ? [h("p", { class: "acct-what-h" }, "서버에 두는 것"),
-      h("ul", { class: "acct-what" }, ["로그인한 Google 메일", "시간표(교수 이름은 빼고)", "친구를 쓰면 닉네임과 친구 목록"].map((t) => h("li", {}, t)))] : null,
+    lead ? h("p", { class: "acct-lead" }, lead) : null,
     h("div", { class: "check-row" }, h("label", { class: "check" }, h("input", { type: "checkbox", "data-age": "1" }), "만 14세 이상이에요")),
     h("div", { class: "check-row" }, h("label", { class: "check" }, h("input", { type: "checkbox", "data-terms": "1" }), "이용 규칙에 동의해요"),
       h("a", { class: "btn-text small", href: TERMS_URL, target: "_blank", rel: "noopener", "aria-label": "이용 규칙 보기" }, "보기")),
     h("p", { class: "acct-err", role: "alert", hidden: true }),
-    h("button", { type: "button", class: "g-btn", "data-signin": "1" }, h("img", { src: GOOGLE_G, alt: "", width: "20", height: "20" }), "Google 계정으로 계속"));
+    h("button", { type: "button", class: "g-btn", "data-signin": "1" }, h("img", { src: GOOGLE_G, alt: "", width: "20", height: "20" }), "Google 계정으로 계속"),
+    skip ? h("button", { type: "button", class: "btn-text acct-skip", "data-login-skip": "1", "aria-haspopup": "dialog" }, "건너뛰기") : null);
 }
 // 확인 없이 누를 때의 오류 글(134판): 빈 것에 따라
 const ACCT_CHECK_ERR = { age: "만 14세 이상인지 확인해 주세요", terms: "이용 규칙에 동의해 주세요", both: "두 가지 모두 확인해 주세요" };
@@ -7783,7 +7887,8 @@ document.addEventListener("change", (e) => {
 let signingIn = false; // Google 창·기기 계정 고르기가 떠 있는 동안(버튼은 꺼진 모양 없이 두고 다시 누른 것만 넘긴다)
 document.addEventListener("click", async (e) => {
   const b = e.target.closest && e.target.closest("[data-signin]");
-  if (!b || !acct || signingIn) return;
+  if (!b || signingIn) return;
+  if (!acct) { try { await accountMod(); } catch { showSnackbar(ACCT_ERR.OFFLINE); return; } } // 로그인 처음 화면: 모듈을 받기 전에 눌렀다
   const card = b.closest(".acct"), miss = card ? acctMissing(card) : "";
   if (miss) { // 확인 없이 눌렀다: 확인 줄 아래 오류 한 줄(알림 영역으로 읽힌다), 초점은 첫 빈 체크
     const err = card.querySelector(".acct-err");
@@ -7801,6 +7906,35 @@ document.addEventListener("click", async (e) => {
   }
   signingIn = false;
 });
+// 로그인하지 않으면 못 쓰는 것(11/15 사용자 "로그인 하지 않으면 기기간 동기화, 친구 탭을 이용할 수 없어요"): 계정 화면 아래 줄과 건너뛰기 묻는 팝업(index.html #ls-text)
+const NO_LOGIN = "로그인하지 않으면 기기 간 동기화와 친구 탭을 이용할 수 없어요";
+const privacyLink = () => (PRIVACY_URL ? [h("a", { href: PRIVACY_URL, target: "_blank", rel: "noopener" }, "개인정보 처리방침")] : []);
+/** 계정 화면 로그인 카드 아래 한 줄과 처리방침 */
+const loginFoot = () => [NO_LOGIN, ...(PRIVACY_URL ? [" · ", ...privacyLink()] : [])];
+// 로그인 처음 화면(11/15 사용자 "로그인 창도 맨 처음에 띄우되, 로그인을 안 하면 동기화, 친구 탭을 이용할 수 없다. 이렇게 하자", 13:58 "건너뛰기 버튼을 두자"): 로그인을 연 뒤, 아직 묻지 않았고(loginAsked)
+// 이 기기에서 로그인한 적이 없으면(account.js 의 표시 ttw.signedIn) 켤 때 한 번, 학과와 학번 처음 화면보다 먼저. 링크·바로가기·초대 링크로 켜면 그것이 먼저(다음에 켤 때).
+// 로그인하거나 건너뛰면 묻지 않는다. 로그인 모듈을 받지 못했거나 로그인 설정이 없는 배포면 묻지 않고 넘어간다(다음에 켤 때 다시)
+const LOGIN_ASKED = "loginAsked";
+const loginAtLaunch = () => accountWanted() && !store.get(LOGIN_ASKED, false) && !store.get("signedIn", null) && !launchLink && !launchNav && !launchInvite;
+function renderLogin() {
+  const box = $("login-body");
+  if (!box.querySelector(".acct")) box.replaceChildren(loginCard(null, true)); // 확인 체크는 다시 그리지 않는다(모듈이 와도)
+  $("login-foot").replaceChildren(...privacyLink()); // 아래는 처리방침만(못 쓰는 것은 건너뛰기 팝업이 말한다)
+}
+/** 로그인 처음 화면을 떠난다: 학과와 학번을 아직 묻지 않았으면 그 처음 화면, 아니면 켤 때의 탭 */
+function afterLogin() {
+  if (screen !== "login") return;
+  showView(setupAtLaunch() ? "setup" : ROOT[tab], "tab");
+}
+// 건너뛰기(11/15 사용자): 묻는 팝업 '로그인을 건너뛸까요?' · '로그인하지 않으면 기기 간 동기화와 친구 탭을 이용할 수 없어요' [닫기] [건너뛰기]
+$("login-body").addEventListener("click", (e) => { const b = e.target.closest("[data-login-skip]"); if (b) openSheet($("login-skip"), b); });
+$("login-skip-ok").addEventListener("click", () => {
+  const d = $("login-skip");
+  d.returnTo = null; // 다음 화면이 초점을 정한다
+  closeSheet(d);
+  store.set(LOGIN_ASKED, true);
+  afterLogin();
+});
 /** 계정 화면: 로그인 전은 로그인 카드, 로그인하면 카드 셋(메일과 학교 계정 태그, 동기화(누르면 지금 맞춤), 로그아웃·계정 삭제) */
 function renderAccount() {
   const box = $("account-list"), u = acctUser, foot = $("account-foot");
@@ -7808,8 +7942,8 @@ function renderAccount() {
   const card = (...rows) => h("div", { class: "card info-list" }, h("ul", { class: "list" }, rows.map((r) => h("li", {}, r))));
   if (!accountOn() || u === undefined) { box.replaceChildren(); foot.hidden = true; return; }
   if (!u) {
-    box.replaceChildren(loginCard("로그인하면 시간표를 다른 기기와 맞추고 친구와 대표 시간표를 서로 볼 수 있어요", true));
-    foot.replaceChildren("로그인하지 않아도 지금처럼 다 쓸 수 있어요", ...(PRIVACY_URL ? [" · ", h("a", { href: PRIVACY_URL, target: "_blank", rel: "noopener" }, "개인정보 처리방침")] : []));
+    box.replaceChildren(loginCard(null));
+    foot.replaceChildren(...loginFoot());
   } else {
     box.replaceChildren(
       h("div", { class: "card info-list" }, h("div", { class: "acct-me" }, h("span", { class: "mail" }, u.email), u.school ? h("span", { class: "tag" }, SCHOOL_TAG) : null)),
@@ -7886,34 +8020,32 @@ const handleText = (p) => (p && p.nick ? `${p.nick}#${p.tag}` : "");
 const handleNodes = (p) => (p && p.nick ? [p.nick, h("i", {}, `#${p.tag}`)] : ["알 수 없는 사람"]);
 /** 초대 링크('…#friend=닉네임%231234')의 닉네임#태그 */
 const friendOf = (url) => { const m = /#(?:.*&)?friend=([^&]+)/.exec(String(url || "")); if (!m) return null; try { return decodeURIComponent(m[1]); } catch { return null; } };
-/** 친구 기능을 켰다(로그인하고 닉네임이 있다): 항목 시트·일정 시트의 '친구에게 숨기기'와 대표 시간표 메뉴의 '친구에게 보이기' 줄을 보인다(130판) */
+/** 친구 기능을 켰다(로그인하고 닉네임이 있다): 일정 시트에 '친구에게 이름과 시간이 보여요' 한 줄(11/15. 숨기기·보이기는 친구 탭의 미리보기에서) */
 const frShare = () => accountOn() && !!acctUser && !!fr && frFor === acctUser.uid && !!fr.profile;
-// 숨겨도 그 시간은 보인다는 것을 알린다(134판, 법무 11/15)
-const FR_HIDE_META = { course: "친구에게는 이름·강의실 없이 이 시간만 회색 칸으로 보여요", custom: "친구에게는 이름 없이 이 시간만 회색 칸으로 보여요" };
 /** 스위치 줄(라벨 전체를 누른다, 129판 꼴): name 으로 change 를 가른다 */
 const frSwitch = (name, title, meta, on, attrs = {}) => h("label", { class: "info-row switch-row" },
   h("span", { class: "sw-body" }, h("span", { class: "sw-t", id: `${name}-t` }, title), meta ? h("span", { class: "sw-m", id: `${name}-m` }, meta) : null),
   h("input", { type: "checkbox", role: "switch", class: "switch", name, value: "1", "aria-labelledby": `${name}-t`, "aria-describedby": meta ? `${name}-m` : null, checked: on, ...attrs }));
-/** 시트의 친구에게 숨기기 줄(130·132판: 카드 꼴 없이 위에 선. 메타는 과목·일정이 다르다(134판). 일정이면 아래 한 줄) */
-const frHideCard = (name, on, custom, attrs) => [h("div", { class: "card info-list fr-hide" }, h("ul", { class: "list" }, h("li", {}, frSwitch(name, "친구에게 숨기기", custom ? FR_HIDE_META.custom : FR_HIDE_META.course, on, attrs)))),
-  custom ? h("p", { class: "hide-note" }, "장소와 메모는 숨기지 않아도 친구에게 보이지 않아요") : null];
 let frShareWas = false;
-/** 친구 기능이 켜지거나 꺼졌다(로그인·닉네임·로그아웃): 열린 항목 시트·시간표 메뉴의 스위치 줄을 맞춘다 */
+/** 친구 기능이 켜지거나 꺼졌다(로그인·닉네임·로그아웃): 열린 일정 시트의 알림 줄을 맞춘다(넣던 값은 custom 에 있다) */
 function frShareCheck() {
   const on = frShare();
   if (on === frShareWas) return;
   frShareWas = on;
-  if ($("item-sheet").open) refreshItemSheet();
-  if (ttOpts.open) renderTtOpts();
+  const note = $("cu-body").querySelector(".cu-fr-note");
+  if ($("custom-sheet").open && !!note !== on) {
+    if (note) note.remove();
+    else $("cu-body").querySelector(".time-row")?.closest(".cu-field")?.after(h("p", { class: "hide-note cu-fr-note" }, "친구에게 이름과 시간이 보여요. 친구 탭에서 숨길 수 있어요"));
+  }
 }
-/** 내 시간표 머리 줄의 친구 버튼: 로그인을 켠 판에서만, 받은 요청이 있으면 빨간 점 */
-function paintFriendBtn() {
-  const b = $("tt-friends"), n = fr && acctUser && frFor === acctUser.uid ? fr.list.incoming.length : 0;
-  b.hidden = !accountOn();
-  b.classList.toggle("has-dot", n > 0);
-  b.setAttribute("aria-label", n ? `친구, 받은 요청 ${n}` : "친구");
+/** 친구 탭(막대·사이드바)의 빨간 점: 받은 요청이 있으면(130판 친구 버튼의 점을 11/15 탭으로 옮겼다). 이름은 '친구, 받은 요청 2' */
+function paintFriendTab() {
+  const n = fr && acctUser && frFor === acctUser.uid ? fr.list.incoming.length : 0;
+  for (const b of document.querySelectorAll('.tabbar [data-tab="friends"], .sidebar [data-tab="friends"]')) {
+    b.classList.toggle("has-dot", n > 0);
+    if (n) b.setAttribute("aria-label", `친구, 받은 요청 ${n}`); else b.removeAttribute("aria-label");
+  }
 }
-$("tt-friends").addEventListener("click", () => go("friends"));
 /** 받은 것을 다시 받는다(로그인할 때, 친구 화면을 열 때, 고친 뒤) */
 async function frLoad() {
   if (!acct || !acctUser) { fr = null; return null; }
@@ -7924,7 +8056,7 @@ async function frLoad() {
   fr = { profile, list };
   frFor = uid;
   frShareCheck();
-  paintFriendBtn();
+  paintFriendTab();
   return fr;
 }
 /** 받지 못한 까닭: 오프라인이면 OFFLINE(연결되면 저절로 다시), 그 밖은 FAILED */
@@ -7961,7 +8093,14 @@ function paintFriends() {
   const act = (k, p, text, cls = "btn-text small") => h("button", { type: "button", class: cls, "data-fr": k, "data-uid": p.uid, "data-frk": `${k}:${p.uid}`,
     "aria-label": `${handleText(p)} ${{ 취소: "요청 취소", 풀기: "차단 풀기" }[text] || text}` }, text);
   const section = (title, n, body) => h("section", { class: "fr-section" }, h("h2", { class: "section-title" }, title, n ? h("span", { class: "count" }, String(n)) : null), body);
-  if (!accountOn() || u === undefined) { box.replaceChildren(); return; }
+  // 친구 탭은 로그인 모듈을 받기 전에도 선다(11/15): 받는 동안은 받는 중, 못 받으면 다시 시도, 로그인 설정이 없는 판이면 그 한 줄
+  if (!accountWanted()) { box.replaceChildren(); return; }
+  if (!acct || u === undefined) {
+    box.replaceChildren(!acct && acctModFailed ? failLine("친구 화면을 불러오지 못했어요", { "data-fr": "retry-mod", "data-frk": "retry" }) : loadLine("불러오는 중", true));
+    if (had === "retry") box.querySelector('[data-frk="retry"]')?.focus({ preventScroll: true });
+    return;
+  }
+  if (!acct.available()) { box.replaceChildren(loadLine(ACCT_ERR.NO_CONFIG, false)); return; }
   if (!u) { box.replaceChildren(loginCard("친구 시간표는 로그인하면 볼 수 있어요", false)); return; }
   if (!fr || frFor !== u.uid) { // 받는 동안·오프라인·못 받음(131·132판): 묶음 자리 가운데
     box.replaceChildren(frErr === "FAILED" ? failLine("친구 목록을 불러오지 못했어요", { "data-fr": "retry", "data-frk": "retry" })
@@ -7984,7 +8123,7 @@ function paintFriends() {
       h("div", { class: "card fr-vis-card" }, h("p", { class: "vis-head" }, "친구에게 보이는 것"),
         h("ul", { class: "vis" }, ok("학기마다 대표 시간표의 과목명·시간·강의실"), ok("직접 넣은 일정의 이름·시간"), ok("숨긴 과목·일정은 시간만(회색 칸)"),
           no("일정의 장소·메모, 학과·학번, 성적, 로그인 메일")),
-        h("p", { class: "vis-foot" }, "과목·일정마다 숨기고, 시간표마다 끌 수 있어요")),
+        h("p", { class: "vis-foot" }, "과목·일정마다 숨기고, 학기마다 끌 수 있어요")),
       u.school ? h("div", { class: "card info-list fr-school-card" }, h("ul", { class: "list" }, h("li", {},
         frSwitch("fr-school", "학교 계정 보이기", "친구에게 학교 계정(snu.ac.kr)이라고 보여요", school, { id: "fr-school" })))) : null,
       h("button", { type: "button", class: "btn-primary fr-start", id: "fr-start", "data-fr": "start", disabled: keep.trim().length < 2 }, "시작하기"));
@@ -8062,6 +8201,7 @@ function saveNick(input, err, school, done) {
 }
 $("friends-body").addEventListener("click", (e) => {
   const b = e.target.closest("[data-fr]");
+  if (b && b.dataset.fr === "retry-mod") { acctModFailed = false; paintFriends(); startAccount().then(() => { if (screen === "friends") renderFriends(); }); return; }
   if (!b || !acct) return;
   const k = b.dataset.fr, uid = b.dataset.uid;
   const person = () => (fr ? Object.values(fr.list).flat() : []).find((p) => p.uid === uid);
@@ -8303,8 +8443,10 @@ $("fa-ask-ok").addEventListener("click", () => {
   });
 });
 
-// 친구에게 보이는 내 시간표(하위 화면 'frpv', 130판 미리보기): 이 기기에 대표 시간표가 있는 학기, 메타 '영표#4821 · 시간표 1', 친구 시간표와 같은 격자.
-// 대표 시간표의 '친구에게 보이기'가 꺼져 있으면 '친구에게 보이지 않는 학기예요'
+// 친구에게 보이는 내 시간표(친구 탭의 하위 화면 'frpv', 130판 미리보기): 이 기기에 대표 시간표가 있는 학기, 메타 '영표#4821 · 시간표 1', 친구 시간표와 같은 격자.
+// 11/15 사용자 "친구에게 숨기고 말고 하는 건 친구 탭에서 할 수 있도록. 메인 시간표 거기서 하지 말고": 보이기·숨기기를 모두 여기서 한다(항목 시트·일정 시트·시간표 메뉴의
+// 스위치는 없앴다). 격자 위 카드 '친구에게 보이기'(그 학기 대표 시간표의 shareOff. 끄면 격자 자리에 '친구에게 보이지 않는 학기예요'), 격자 아래 묶음 '과목·일정'
+// (항목마다 보이기 스위치, 처음 켜짐. 끄면 hidden: 친구에게는 시간만 회색 칸. 학기를 끄면 꺼져 흐리다)과 숨기면 어떻게 보이는지(134판 고지, 법무 11/15)
 let frpvSem = "";
 /** 이 기기에 대표 시간표가 있는 학기(새 학기가 앞) */
 function primarySems() {
@@ -8315,25 +8457,67 @@ function primarySems() {
 }
 /** 그 학기의 대표 시간표(이 기기) */
 const primaryOf = (sem) => T.parseList(store.get(semKey(T.STORE_KEYS.list, sem), []), sem).find((x) => x.primary && !x._newer) || null;
+/** 항목의 요일·시각 '월·수 09:30~10:45'(장소 없이. 시각이 없으면 '시간 미정') */
+const itemWhen = (it) => meetingGroups((it.custom ? it.meetings : it.own || it.base || []).map(([d, a, z]) => meetOf([d, a, z])))
+  .map((g) => `${daysLabel(g.days)} ${hm(g.start)}~${hm(g.end)}`).join(", ") || "시간 미정";
 function renderFrPreview() {
   const sems = primarySems();
   if (!sems.includes(frpvSem)) frpvSem = nearestSem(sems, mine.sem);
   frSemSelect($("frpv-sem"), sems, frpvSem);
   $("frpv-sem").hidden = !sems.length;
-  const t = frpvSem ? primaryOf(frpvSem) : null;
+  const t = frpvSem ? primaryOf(frpvSem) : null, main = $("view-frpv").querySelector("main");
+  const had = main.contains(document.activeElement) ? document.activeElement.dataset.pvk : null;
   $("frpv-meta").textContent = t ? [handleText(fr && fr.profile), t.title].filter(Boolean).join(" · ") : "";
+  $("frpv-share").replaceChildren(...(t ? [h("div", { class: "card info-list" }, h("ul", { class: "list" }, h("li", {},
+    frSwitch("pv-share", "친구에게 보이기", "끄면 친구에게 이 학기 시간표가 아예 보이지 않아요", !t.shareOff, { "data-pvk": "share" }))))] : []));
+  $("frpv-note").hidden = !t || !!t.shareOff;
   frGrid($("frpv-wk"), t && !t.shareOff ? friendTt(myFriendCopy(t)) : null, t ? "친구에게 보이지 않는 학기예요" : "이 학기 시간표가 없어요");
+  const items = t ? t.items : [], hidden = items.filter((it) => it.hidden).length;
+  $("frpv-items").replaceChildren(...(items.length ? [
+    h("h2", { class: "section-title" }, "과목·일정", hidden ? h("span", { class: "count" }, `숨긴 항목 ${hidden}`) : null),
+    h("div", { class: "card info-list" }, h("ul", { class: "list" }, items.map((it, i) => {
+      const name = it.custom ? it.title : it.name, key = T.itemKey(it);
+      return h("li", {}, h("label", { class: "info-row switch-row" },
+        h("span", { class: "sw-body" }, h("span", { class: "sw-t" }, name), h("span", { class: "sw-m", id: `pv-m${i}` }, itemWhen(it))),
+        h("input", { type: "checkbox", role: "switch", class: "switch", name: "pv-show", value: key, "aria-label": `${name}, 친구에게 보이기`, "aria-describedby": `pv-m${i}`,
+          checked: !it.hidden, disabled: !!t.shareOff, "data-pvk": `show:${key}` })));
+    }))),
+    h("p", { class: "pv-note pv-foot" }, "끈 과목은 이름·강의실 없이, 끈 일정은 이름 없이 시간만 회색 칸으로 보여요. 일정의 장소와 메모는 늘 보이지 않아요"),
+  ] : []));
+  if (had) main.querySelector(`[data-pvk="${CSS.escape(had)}"]`)?.focus({ preventScroll: true });
 }
 $("frpv-sem").addEventListener("change", (e) => { frpvSem = e.target.value; renderFrPreview(); });
+/** 다른 학기의 시간표도 고쳐 넣는다(친구에게 보이는 내 시간표: 그 학기의 대표 시간표). 보는 학기면 putTt(내 시간표도 다시). 저장하면 조금 모아 맞추고 친구 사본도 고친다(syncSoon) */
+function putTtIn(sem, t) {
+  if (sem === mine.sem) { putTt(t, { select: false }); return; }
+  const key = semKey(T.STORE_KEYS.list, sem), list = T.parseList(store.get(key, []), sem), i = list.findIndex((x) => x.id === t.id);
+  if (i < 0) return;
+  list[i] = t;
+  store.set(key, T.serialize(list));
+  syncSoon();
+}
+$("view-frpv").addEventListener("change", (e) => {
+  const x = e.target;
+  if (x.name !== "pv-share" && x.name !== "pv-show") return;
+  const t = frpvSem ? primaryOf(frpvSem) : null;
+  if (!t) return;
+  let next;
+  if (x.name === "pv-share") { // 학기를 끄고 켠다(shareOff, sync.friendCopies)
+    next = { ...t, updated: new Date().toISOString() };
+    if (x.checked) delete next.shareOff; else next.shareOff = true;
+  } else next = T.updateItem(t, x.value, { hidden: x.checked ? undefined : true }); // 항목을 숨긴다(sync.friendItems: 시간만)
+  putTtIn(frpvSem, next);
+  renderFrPreview();
+});
 
-/** 초대 링크로 열렸다: 시간표 탭의 친구 화면으로 간다(로그인·닉네임 전이면 그 단계부터). 로그인·닉네임 뒤 '…에게 친구 요청을 보낼까요?' */
+/** 초대 링크로 열렸다: 친구 탭의 첫 화면으로 간다(로그인·닉네임 전이면 그 단계부터. 친구 시간표·미리보기를 보던 중이면 되돌린다). 로그인·닉네임 뒤 '…에게 친구 요청을 보낼까요?' */
 function openFriendInvite(handle) {
   if (!accountWanted()) return;
   frPending = handle;
   startAccount().then(() => {
     if (!accountOn()) return;
-    const show = () => { if (screen !== "friends") go("friends"); else renderFriends(); };
-    if (tab !== "mine") switchTab("mine", show); else show();
+    const show = () => { if (screen === "friends") renderFriends(); else toFirst(); };
+    if (tab !== "friends") switchTab("friends", show); else show();
   });
 }
 
@@ -8614,17 +8798,18 @@ function renderFeedback() {
 // 과목 추가(add)는 내 시간표 화면이다: 넓은 화면은 그 오른쪽 칸, 폰 폭은 그 위의 시트(넓은 화면에서 연 기록을 폰 폭에서 보일 때. 폰에서 연 시트는 화면이 아니다)
 const VIEW_EL = { input: "view-input", mine: "view-mine", add: "view-mine", result: "view-result", map: "view-map", info: "view-info", page: "view-page",
   feedback: "view-feedback", theme: "view-theme", dept: "view-dept", setup: "view-dept", grad: "view-grad", notify: "view-notify", account: "view-account", friends: "view-friends",
-  friend: "view-friend", frpv: "view-frpv" };
+  friend: "view-friend", frpv: "view-frpv", login: "view-login" };
 const VIEW_ELS = [...new Set(Object.values(VIEW_EL))];
 const H1 = { input: "input-title", mine: "mine-title", add: "add-panel-title", result: "result-title", map: "map-title", info: "info-title", page: "page-title",
   feedback: "feedback-title", theme: "theme-title", dept: "dept-title", setup: "setup-title", grad: "grad-title", notify: "notify-title", account: "account-title", friends: "friends-title",
-  friend: "friend-title", frpv: "frpv-title" };
-const ROOT = { mine: "mine", explore: "input", theme: "theme", info: "info", grad: "grad" };
+  friend: "friend-title", frpv: "frpv-title", login: "login-title" };
+const ROOT = { mine: "mine", explore: "input", theme: "theme", info: "info", grad: "grad", friends: "friends" };
 const TABS = ["mine", "explore", "theme"]; // 막대·사이드바의 탭 단추(정보는 폰은 탭 첫 화면 상단 바의 ⓘ, 컴퓨터는 사이드바 맨 아래 '정보')
-// 학과·학번을 켠 뒤(deptOn)에는 셋째에 졸업 요건(디자인 124판 TabBar: 시간표 · 동선 탐색 · 졸업 요건 · 테마)
-const tabList = () => (deptOn() ? ["mine", "explore", "grad", "theme"] : TABS);
+// 학과·학번을 켠 뒤(deptOn)에는 셋째에 졸업 요건(디자인 124판 TabBar: 시간표 · 동선 탐색 · 졸업 요건 · 테마), 로그인을 연 뒤(accountWanted)에는 테마 앞에 친구
+// (11/15 사용자 "친구도 탭으로 빼는 게 낫긴 하겠다". 그 전에는 내 시간표 머리 줄의 친구 버튼이 연 시간표 탭의 하위 화면이었다). 로그인 모듈을 받기 전에도 탭은 선다(막대가 뒤늦게 늘지 않게)
+const tabList = () => ["mine", "explore", ...(deptOn() ? ["grad"] : []), ...(accountWanted() ? ["friends"] : []), "theme"];
 // 탭 이름(10/23 사용자: "'시간표', '동선 탐색' 뭐 이런 느낌으로", 오후 "테마도 걍 탭 하나로 빼자"). 아래 탭 막대와 컴퓨터의 사이드바가 같은 이름을 보인다
-const TAB_NAME = { mine: "시간표", explore: "동선 탐색", theme: "테마", grad: "졸업 요건" };
+const TAB_NAME = { mine: "시간표", explore: "동선 탐색", theme: "테마", grad: "졸업 요건", friends: "친구" };
 // 탭 아이콘 [선, 채운 판]. 채운 판의 뚫린 선(격자의 칸 선)은 알약 색(--tab-ind)으로 그린다(style.css)
 const TAB_ICON = {
   mine: ['<rect x="3.5" y="4.5" width="17" height="16" rx="2.5"/><path d="M3.5 9.5h17M9.2 9.5v11M14.8 9.5v11"/>',
@@ -8640,6 +8825,9 @@ const TAB_ICON = {
   // 졸업 요건: 학사모(마름모 판, 그 아래 둥근 띠, 판 오른쪽 끝에서 내려오는 술. 디자인 124판 TabBar 그대로). 고르면 마름모를 채운다
   grad: ['<path d="M2.5 9.2L12 4.6l9.5 4.6L12 13.8z"/><path d="M6.6 11.4v4.4c0 1.5 2.4 3 5.4 3s5.4-1.5 5.4-3v-4.4"/><path d="M21.5 9.2v5.3"/>',
     '<path d="M2.5 9.2L12 4.6l9.5 4.6L12 13.8z" fill="currentColor"/><path d="M6.6 11.4v4.4c0 1.5 2.4 3 5.4 3s5.4-1.5 5.4-3v-4.4"/><path d="M21.5 9.2v5.3"/>'],
+  // 친구: 사람 둘(디자인 130판 내 시간표 머리 줄 친구 버튼의 그림 그대로). 고르면 앞사람(머리와 몸)을 채운다
+  friends: ['<circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 20c.4-3.6 3.1-6 6.5-6s6.1 2.4 6.5 6"/><path d="M15.3 5.2a3.5 3.5 0 0 1 0 6.6"/><path d="M17.7 14.5c2.2.7 3.5 2.7 3.8 5.5"/>',
+    '<circle cx="9" cy="8.5" r="3.5" fill="currentColor"/><path d="M2.5 20c.4-3.6 3.1-6 6.5-6s6.1 2.4 6.5 6z" fill="currentColor"/><path d="M15.3 5.2a3.5 3.5 0 0 1 0 6.6"/><path d="M17.7 14.5c2.2.7 3.5 2.7 3.8 5.5"/>'],
 };
 // 사이드바 '정보'의 ⓘ [선, 채운 판]: 정보에 있는 동안 탭처럼 고른 모양(채운 원, 안의 i 는 알약 색)
 const INFO_ICON = ['<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r=".6" fill="currentColor"/>',
@@ -8647,7 +8835,7 @@ const INFO_ICON = ['<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle c
 let screen = "input", depth = 0, tab = "mine", launchTab = "mine", screenTab = "mine";
 let rebuild = null; // 탭을 바꾸며 기록을 되감는 중: 되감기가 끝나면(popstate) 새 탭의 기록을 쌓는다
 const stacks = { explore: [{ view: "input", extra: {} }], mine: [{ view: "mine", extra: {} }], theme: [{ view: "theme", extra: {} }], info: [{ view: "info", extra: {} }],
-  grad: [{ view: "grad", extra: {} }] };
+  grad: [{ view: "grad", extra: {} }], friends: [{ view: "friends", extra: {} }] };
 const scrollOf = {}, openers = {}, lastFocus = {};
 let infoFrom = null, infoBase = null; // 정보를 연 탭, 기록에서 정보 첫 화면의 깊이(정보를 연 적이 없으면 null)
 /** 그 묶음 첫 화면의 기록 깊이: 켤 때 연 탭 0, 다른 탭 1, 정보는 연 탭의 기록 위 */
@@ -8723,11 +8911,13 @@ function renderTabs() {
     for (const b of list.querySelectorAll("[data-tab]")) {
       const on = b.dataset.tab === tab;
       if (on) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
-      const pic = icon(TAB_ICON[b.dataset.tab][on ? 1 : 0], bar ? 20 : 24);
+      let pic = icon(TAB_ICON[b.dataset.tab][on ? 1 : 0], bar ? 20 : 24);
+      if (b.dataset.tab === "friends") pic = h("span", { class: "tab-ic" }, pic); // 받은 요청의 빨간 점 자리(paintFriendTab)
       const name = h("span", bar ? { class: "tab-name" } : {}, TAB_NAME[b.dataset.tab]);
       b.replaceChildren(...(bar ? [h("span", { class: "ind" }, pic, name)] : [pic, name]));
     }
   }
+  paintFriendTab();
 }
 for (const nav of document.querySelectorAll(".tabbar, .sidebar nav")) {
   nav.addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (b) switchTab(b.dataset.tab); });
@@ -8843,7 +9033,7 @@ function showView(name, dir, extra = {}) {
     layoutViews(name);
     document.body.classList.toggle("tabbar-off", name === "map"); // 전체 화면 지도는 탭 막대를 덮는다
     document.body.classList.toggle("no-cta", name !== "input" && name !== "mine" && name !== "dept" && name !== "setup"); // 스낵바는 주요 버튼이 없는 화면에서 탭 막대 바로 위
-    document.documentElement.classList.toggle("setup-on", name === "setup"); // 학과와 학번 처음 화면: 탭 막대·사이드바 없이 한 칸
+    document.documentElement.classList.toggle("setup-on", name === "setup" || name === "login"); // 처음 화면(로그인, 학과와 학번): 탭 막대·사이드바 없이 한 칸
     renderTabs();
     if (name === "result") { $("result-title").textContent = "추천 시간표"; renderResult(); }
     if (name === "add") renderAdd();
@@ -8861,6 +9051,7 @@ function showView(name, dir, extra = {}) {
     if (name === "friend") renderFriendTt(extra);
     if (name === "frpv") renderFrPreview();
     if (name === "dept" || name === "setup") renderDept(name);
+    if (name === "login") renderLogin();
     document.title = titleOf(name);
     if (from !== name) hideSnackbar();
     if (name === "result" && afterResult) { const f = afterResult; afterResult = null; f(); }
@@ -9266,7 +9457,8 @@ for (const id of ["cls-legend", "picked-legend", "tt-legend", "sd-legend"]) {
 renderInfo();
 renderOnline();
 renderResults(); // 검색창 지우기 단추와 결과 카드(자료를 받기 전에는 두지 않는다)
-showView(setupAtLaunch() ? "setup" : ROOT[tab], "init"); // 학과와 학번을 아직 묻지 않았으면 시간표보다 먼저(디자인 121판)
+// 처음 화면: 로그인(11/15 사용자)을 아직 묻지 않았으면 그것부터, 학과와 학번을 아직 묻지 않았으면 그다음(디자인 121판), 그 뒤 시간표
+showView(loginAtLaunch() ? "login" : setupAtLaunch() ? "setup" : ROOT[tab], "init");
 delete document.documentElement.dataset.launch;
 startApp();
 loadLimits(); // 학과·학번을 넣었으면 수강 제한 알림(지금 학기 자료와 학과 목록을 받는다)

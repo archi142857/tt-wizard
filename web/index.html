@@ -156,10 +156,9 @@
   <main hidden>
     <h1 class="sr-only" id="mine-title" tabindex="-1">내 시간표</h1>
     <!-- 머리 줄: 시간표 고르기, 오른쪽 끝에 공유(10/23 사용자: "오른쪽 위에 공유 … 버튼". 비어 있는 시간표에는 없다).
-         공유 왼쪽에 친구(디자인 130판, 사람 둘. 로그인을 켠 판에서만, 시간표가 비어도 있다. 받은 요청이 있으면 빨간 점 .has-dot) -->
+         130판의 친구 버튼은 11/15 친구 탭으로 옮겼다(사용자 "친구도 탭으로 빼는 게 낫긴 하겠다") -->
     <div class="tt-head">
       <button type="button" class="tt-switch" id="tt-switch" aria-haspopup="dialog"><span class="sem" id="tt-sem"></span><span class="nm"><span id="tt-name"></span><span class="tag" id="tt-primary" hidden>대표</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span></button>
-      <button type="button" class="icon-btn tt-friends" id="tt-friends" aria-label="친구" hidden><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8.5" r="3.5"></circle><path d="M2.5 20c.4-3.6 3.1-6 6.5-6s6.1 2.4 6.5 6"></path><path d="M15.3 5.2a3.5 3.5 0 0 1 0 6.6"></path><path d="M17.7 14.5c2.2.7 3.5 2.7 3.8 5.5"></path></svg></button>
       <button type="button" class="icon-btn tt-share" id="tt-share" aria-label="공유" aria-haspopup="dialog" hidden><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="17.5" cy="5.5" r="2.5"></circle><circle cx="6.5" cy="12" r="2.5"></circle><circle cx="17.5" cy="18.5" r="2.5"></circle><path d="M8.65 10.73l6.7-3.96M8.65 13.27l6.7 3.96"></path></svg></button>
     </div>
     <div class="mine-left">
@@ -312,9 +311,8 @@
       <section class="card setup-card" aria-labelledby="dp-major-h">
         <h2 id="dp-major-h">주전공</h2>
         <div class="setup-field"><label class="field-label" for="dp-college">대학</label><select class="term-select" id="dp-college"></select></div>
-        <div class="setup-field"><label class="field-label" for="dp-unit">학과</label><select class="term-select" id="dp-unit"></select></div>
+        <div class="setup-field"><label class="field-label" for="dp-unit" id="dp-unit-l">학과</label><div class="combo"><input class="term-select combo-input" id="dp-unit" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="dp-unit-list" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="고르기"><ul class="combo-list" id="dp-unit-list" role="listbox" aria-labelledby="dp-unit-l" hidden></ul></div></div>
         <div class="setup-field" id="dp-prog-f" hidden><label class="field-label" for="dp-prog">전공</label><select class="term-select" id="dp-prog"></select></div>
-        <div class="setup-field" id="dp-entry-f" hidden><label class="field-label" for="dp-entry">전공 진입</label><select class="term-select setup-year" id="dp-entry"></select></div>
       </section>
       <section class="card setup-card" aria-labelledby="dp-others-h">
         <h2 id="dp-others-h">다른 전공</h2>
@@ -331,6 +329,25 @@
       </section>
     </div>
     <div class="bottom-bar"><button type="button" class="btn-primary" id="dept-done" disabled>시작하기</button></div>
+  </main>
+</div>
+
+<!-- 로그인 처음 화면(11/15 사용자 "로그인 창도 맨 처음에 띄우되, 로그인을 안 하면 동기화, 친구 탭을 이용할 수 없다. 이렇게 하자", 13:58 "서버에 두는 것 저건 빼고,
+     건너뛰기 버튼을 두자", "로그인 자체는 만 14세, 이용 규칙 저것만 깔끔하게"): 로그인을 연 뒤(ACCOUNT_FROM), 아직 묻지 않았고 이 기기에서 로그인한 적이 없으면 켤 때 한 번,
+     학과와 학번 처음 화면보다 먼저. 학과와 학번 처음 화면 꼴(html.setup-on: 탭 막대·사이드바 없이 한 칸): 상단 바 워드마크(링크 아님), 제목 '로그인', 로그인 카드(필수 확인 둘·
+     Google 버튼·맨 아래 '건너뛰기' → 묻는 팝업 #login-skip), 아래 처리방침 링크. 로그인하거나 건너뛰면 다음(학과와 학번 처음 화면, 이미 물었으면 시간표). 카드는 app.js(renderLogin)가 채운다 -->
+<div id="view-login" class="view" hidden>
+  <header class="topbar">
+    <span class="brand"><img class="wordmark wm-light" src="icons/wordmark.svg" alt="TT Wizard" width="124" height="29">
+      <img class="wordmark wm-dark" src="icons/wordmark-dark.svg" alt="TT Wizard" width="124" height="29">
+      <img class="wordmark wm-white" src="icons/wordmark-white.svg" alt="TT Wizard" width="124" height="29"></span>
+  </header>
+  <main hidden>
+    <div class="setup">
+      <h1 class="setup-title" id="login-title" tabindex="-1">로그인</h1>
+      <div id="login-body"></div>
+      <p class="info-foot" id="login-foot"></p>
+    </div>
   </main>
 </div>
 
@@ -366,8 +383,8 @@
   </main>
 </div>
 
-<!-- 계정(로그인·기기 간 동기화, 백엔드 update110·111, 디자인 130판 Account): 정보 첫 카드 맨 위 '계정' › 이 여는 정보 안의 하위 화면. 처리방침 전면 개정 전이라
-     웹은 개발자 메뉴 '로그인', 앱은 데모 빌드(ACCOUNT_FROM)에서만. 로그인 전 카드(서버에 두는 것·만 14세 이상·Google 계정으로 계속), 로그인 뒤 카드 셋.
+<!-- 계정(로그인·기기 간 동기화, 백엔드 update110·111, 디자인 130판 Account): 정보 첫 카드 맨 위 '계정' › 이 여는 정보 안의 하위 화면. 처리방침 11/15 판·이용 규칙과
+     같은 푸시로 모두에게 연다(ACCOUNT_FROM, update116). 로그인 전 카드(서버에 두는 것·만 14세 이상·이용 규칙·Google 계정으로 계속), 로그인 뒤 카드 셋.
      내용은 app.js(renderAccount)가 채운다 -->
 <div id="view-account" class="view" hidden>
   <header class="topbar">
@@ -380,19 +397,27 @@
   </main>
 </div>
 
-<!-- 친구(백엔드 update110, 디자인 130판 Friends): 내 시간표 머리 줄의 친구 버튼이 여는 시간표 탭의 하위 화면. 로그인 전 → 로그인 카드, 처음 → 닉네임·친구에게 보이는 것·
-     학교 계정 보이기·시작하기, 그다음 머리(내 닉네임·복사·친구 추가)·친구에게 보이는 내 시간표 ›·받은 요청·친구·보낸 요청·차단한 사람. 내용은 app.js(renderFriends)가 채운다 -->
+<!-- 친구 탭(백엔드 update110, 디자인 130판 Friends. 11/15 사용자 "친구도 탭으로 빼는 게 낫긴 하겠다": 그 전에는 내 시간표 머리 줄의 친구 버튼이 연 하위 화면).
+     상단 바는 다른 탭 첫 화면과 같고(컴퓨터는 사이드바), 보이지 않는 h1. 로그인 전 → 로그인 카드, 처음 → 닉네임·친구에게 보이는 것·학교 계정 보이기·시작하기,
+     그다음 머리(내 닉네임·복사·친구 추가)·친구에게 보이는 내 시간표 ›·받은 요청·친구·보낸 요청·차단한 사람. 내용은 app.js(renderFriends)가 채운다 -->
 <div id="view-friends" class="view" hidden>
   <header class="topbar">
-    <button type="button" class="icon-btn back" aria-label="뒤로" data-back><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
-    <h1 class="title" id="friends-title" tabindex="-1">친구</h1>
+    <a class="brand" href="./" data-home tabindex="-1">
+      <img class="wordmark wm-light" src="icons/wordmark.svg" alt="TT Wizard" width="124" height="29">
+      <img class="wordmark wm-dark" src="icons/wordmark-dark.svg" alt="TT Wizard" width="124" height="29">
+      <img class="wordmark wm-white" src="icons/wordmark-white.svg" alt="TT Wizard" width="124" height="29">
+    </a>
+    <span class="tag offline-tag" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 2l20 20M5.8 9.3A5.5 5.5 0 0 0 7 20h10.5M20.9 17.3A4.5 4.5 0 0 0 17.5 10h-.9A7 7 0 0 0 9.9 5.2"></path></svg>오프라인</span>
+    <span class="spacer"></span>
+    <button type="button" class="icon-btn" aria-label="정보" data-open-info><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><circle cx="12" cy="7.8" r=".6" fill="currentColor"></circle></svg></button>
   </header>
   <main hidden>
+    <h1 class="sr-only" id="friends-title" tabindex="-1">친구</h1>
     <div id="friends-body"></div>
   </main>
 </div>
 
-<!-- 친구 시간표(디자인 130판 FriendTimetable): 친구 화면의 친구 행이 여는 하위 화면. 상단 바 뒤로·'민지#0420'·⋯(친구 메뉴), 학기(친구가 대표 시간표를 둔 학기만)와 '대표 시간표',
+<!-- 친구 시간표(디자인 130판 FriendTimetable): 친구 탭의 친구 행이 여는 하위 화면. 상단 바 뒤로·'민지#0420'·⋯(친구 메뉴), 학기(친구가 대표 시간표를 둔 학기만)와 '대표 시간표',
      읽기만 하는 격자(숨긴 과목·일정은 회색 칸). 그 학기에 보일 시간표가 없으면 격자 자리에 '이 학기 시간표가 없어요' -->
 <div id="view-friend" class="view" hidden>
   <header class="topbar">
@@ -406,8 +431,9 @@
   </main>
 </div>
 
-<!-- 친구에게 보이는 내 시간표(미리보기, 디자인 130판): 친구 화면의 첫 카드 줄이 여는 하위 화면. 학기(이 기기에 대표 시간표가 있는 학기)와 '영표#4821 · 시간표 1', 한 줄, 친구 시간표와
-     같은 격자. 대표 시간표의 '친구에게 보이기'가 꺼져 있으면 격자 자리에 '친구에게 보이지 않는 학기예요' -->
+<!-- 친구에게 보이는 내 시간표(미리보기, 디자인 130판): 친구 탭의 첫 카드 줄이 여는 하위 화면. 학기(이 기기에 대표 시간표가 있는 학기)와 '영표#4821 · 시간표 1',
+     카드 '친구에게 보이기'(그 학기 대표 시간표), 한 줄, 친구 시간표와 같은 격자(꺼져 있으면 격자 자리에 '친구에게 보이지 않는 학기예요'), 묶음 '과목·일정'(항목마다 보이기 스위치)과
+     맨 아래 숨기면 어떻게 보이는지. 11/15 사용자: 보이기·숨기기는 여기서만 한다(시간표 탭의 시트·메뉴에는 두지 않는다). 카드·묶음은 app.js(renderFrPreview)가 채운다 -->
 <div id="view-frpv" class="view" hidden>
   <header class="topbar">
     <button type="button" class="icon-btn back" aria-label="뒤로" data-back><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
@@ -415,8 +441,10 @@
   </header>
   <main hidden>
     <div class="fr-sem"><select class="term-select" id="frpv-sem" aria-label="학기"></select><span class="m" id="frpv-meta"></span></div>
-    <p class="pv-note">친구에게 이렇게 보여요. 회색 칸은 숨긴 과목·일정이에요</p>
+    <div class="pv-share" id="frpv-share"></div>
+    <p class="pv-note" id="frpv-note">친구에게 이렇게 보여요. 회색 칸은 숨긴 과목·일정이에요</p>
     <div class="card wk" id="frpv-wk"></div>
+    <div class="pv-items" id="frpv-items"></div>
   </main>
 </div>
 
@@ -554,14 +582,17 @@
   <div class="sr-only" role="alert" data-live="alert"></div>
 </dialog>
 <!-- 전공 추가 팝업(디자인 121판, 새 시간표 팝업과 같은 짜임): 종류(복수전공 | 부전공. 주전공이 자유전공학부면 주전공 | 복수전공 | 부전공), 대학(끝에 연합·연계·학생설계 묶음),
-     학과·전공(대학을 고르면 켜진다. 주전공과 이미 넣은 전공은 없다), 선발된 학기. 추가는 셋을 다 고르면 켜지고 누르면 목록 맨 아래에 붙인다 -->
+     학과·전공(고르기와 치기를 한 칸에서: 대학을 고르면 그 대학의 것, 치면 모든 대학에서 찾고 고르면 대학도 채운다. 주전공과 이미 넣은 전공은 없다. 11/15 사용자),
+     선발된 학기(아래 한 줄, '모름'도. 11/15 사용자).
+     추가는 셋을 다 고르면 켜지고 누르면 목록 맨 아래에 붙인다 -->
 <dialog class="sheet ask tt-new dept-add" id="dept-add" aria-labelledby="da-title">
   <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="da-title" tabindex="-1" autofocus>전공 추가</h2></div></div>
   <div class="tn-body">
     <fieldset><legend class="sr-only">종류</legend><div class="seg" id="da-kind"></div></fieldset>
     <div class="tn-field"><label class="field-label" for="da-college">대학</label><select class="term-select" id="da-college"></select></div>
-    <div class="tn-field"><label class="field-label" for="da-prog">학과·전공</label><select class="term-select" id="da-prog" disabled></select></div>
-    <div class="tn-field"><label class="field-label" for="da-term">선발된 학기</label><select class="term-select" id="da-term"></select></div>
+    <div class="tn-field"><label class="field-label" for="da-prog" id="da-prog-l">학과·전공</label><div class="combo"><input class="term-select combo-input" id="da-prog" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="da-prog-list" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="고르기"><ul class="combo-list" id="da-prog-list" role="listbox" aria-labelledby="da-prog-l" hidden></ul></div></div>
+    <div class="tn-field"><label class="field-label" for="da-term">선발된 학기</label><select class="term-select" id="da-term" aria-describedby="da-term-help"></select>
+      <p class="field-help" id="da-term-help">신청·면접한 학기가 아니라 이 전공을 시작한 학기를 말해요</p></div>
   </div>
   <div class="sheet-actions">
     <button type="button" class="btn-text" data-close>닫기</button>
@@ -819,6 +850,16 @@
 </dialog>
 
 <!-- 로그아웃·계정 삭제 묻는 팝업(디자인 130판 Account): 체크 '이 기기의 시간표도 지우기'(처음 꺼짐). 계정 삭제는 서버의 시간표·닉네임·친구와 계정을 지운다 -->
+<!-- 로그인 처음 화면의 '건너뛰기'가 묻는 팝업(11/15 사용자 "건너뛰기를 누르면 '로그인 하지 않으면 기기간 동기화, 친구 탭을 이용할 수 없어요. 그래도 건너뛸까요?'"):
+     제목은 묻는 말, 글은 못 쓰는 것(app.js NO_LOGIN 과 같은 글), [닫기] [건너뛰기] -->
+<dialog class="sheet ask" id="login-skip" aria-labelledby="ls-title" aria-describedby="ls-text">
+  <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="ls-title" tabindex="-1" autofocus>로그인을 건너뛸까요?</h2></div></div>
+  <div class="sheet-body"><p id="ls-text">로그인하지 않으면 기기 간 동기화와 친구 탭을 이용할 수 없어요</p></div>
+  <div class="sheet-actions">
+    <button type="button" class="btn-text" data-close>닫기</button>
+    <button type="button" class="btn-text" id="login-skip-ok">건너뛰기</button>
+  </div>
+</dialog>
 <dialog class="sheet ask" id="acct-out" aria-labelledby="ao-title">
   <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="ao-title" tabindex="-1" autofocus>로그아웃할까요?</h2></div></div>
   <div class="sheet-body"><label class="check"><input type="checkbox" id="ao-wipe">이 기기의 시간표도 지우기</label></div>
