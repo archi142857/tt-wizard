@@ -1099,10 +1099,16 @@ button.info-row:active, a.info-row:active { background: var(--surface-hover); }
 /* 좁은 칸(탭 셋에 글자를 키움: 폭 390 이하에서 글자 200% 등): 알약 안에 아이콘 옆으로는 가장 긴 낱말(시간표)도 못 들어가 이름이 글자마다 꺾인다
    (시/간/표). 그때만 아이콘을 이름 위에 두고 안쪽 여백을 줄여 이름이 낱말 단위로 두 줄까지 들어가게 한다(app.js 가 낱말 폭을 재서 is-tight 를 단다.
    아이콘 옆 배치에 필요한 폭 = 여백 12 + 아이콘 20 + 사이 6 + 가장 긴 낱말 + 여백 16). 막대는 그만큼 높아진다 */
-.tabbar.is-tight .tab .ind { flex-direction: column; gap: 2px; min-width: 0; width: 100%; padding: var(--space-1); border-radius: var(--radius-lg); }
-/* 탭 다섯(11/15 친구 탭): 칸이 75px 남짓이라 칸·알약 옆 여백을 2px 로(폭 360까지 '동선 탐색'·'졸업 요건'이 한 줄. 320 은 두 줄) */
-.tabbar.is-tight ul[data-tabs~="friends"][data-tabs~="grad"] .tab { padding: 0 2px; }
-.tabbar.is-tight ul[data-tabs~="friends"][data-tabs~="grad"] .tab .ind { padding: var(--space-1) 2px; }
+/* 이름 위 아이콘 배치(탭 넷 이상인 폰, 좁은 칸): 아이콘을 24로, 알약(높이 32, 폭 3.5rem)은 아이콘만 감싸고 그 아래 이름(11/15 16:40 사용자 '탭 크기 좀 키워도 될 듯'.
+   전에는 알약이 아이콘 20과 이름을 함께 감싸 막대 48을 꽉 채웠다). 막대는 위 6·알약 32·사이 2·이름 20·아래 4 = 64 + 아래 안전 영역(늘어난 16은 --tabbar-grow).
+   칸 옆 여백 2px(탭 다섯이 폭 360까지 '동선 탐색'·'졸업 요건' 한 줄, 320은 두 줄) */
+.tabbar.is-tight .tab { align-items: flex-start; padding: 6px 2px var(--space-1); }
+.tabbar.is-tight .tab .ind { flex-direction: column; gap: 2px; min-width: 0; width: 100%; min-height: 0; padding: 0; border-radius: 0; }
+.tabbar.is-tight .tab[aria-current="page"] .ind, .tabbar.is-tight .tab:not([aria-current="page"]):active .ind { background: none; }
+.tabbar.is-tight .tab .tab-ic { align-items: center; justify-content: center; width: 3.5rem; max-width: 100%; height: 2rem; border-radius: var(--radius-full); }
+.tabbar.is-tight .tab .tab-ic svg { width: 24px; height: 24px; }
+.tabbar.is-tight .tab[aria-current="page"] .tab-ic { background: var(--accent-weak); }
+.tabbar.is-tight .tab:not([aria-current="page"]):active .tab-ic { background: var(--surface-hover); }
 .tabbar.is-tight .tab .tab-name { text-align: center; }
 /* 고른 탭의 아이콘·이름은 accent-text: 다크의 accent(#4d6ce0)는 accent-weak 알약 위에서 2.86:1 이라 3:1 에 못 미친다(10/22 프론트엔드가 잼. 라이트·이벤트 테마는 accent 와 같은 값) */
 .tabbar .tab[aria-current="page"] { --tab-ind: var(--accent-weak); color: var(--accent-text); }
@@ -1245,14 +1251,14 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
 /* 주간 격자: --days(5~7), --hours, --hour-h(= max(mine-hour-min, 30rem ÷ 시간 수))는 app.js 가 넣는다. 칸은 요일·시각 순 <ol> 이고 자리만 절대 배치로 그린다.
    칸은 칸 색으로 채우고 그 색의 글자색을 함께 넣는다(디자인 80판. 과목별 var(--item-N)와 --block-fg·--block-fg2: var(--item-N-fg)·var(--item-N-fg2),
    교과구분별 var(--cls-*-bg)와 var(--cls-*-fg)·var(--cls-*-fg2)). 과목명·강의실 모두 t-label(다섯 요일이 한 카드라 칸 폭 60px 안팎) */
-.wk { padding: var(--space-2) var(--space-2) var(--space-3) var(--space-1); }
-.wk-head { display: grid; grid-template-columns: 1.375rem repeat(var(--days, 5), minmax(0, 1fr)); column-gap: 2px; padding-bottom: var(--space-1); }
+.wk { --wk-hours: 1.375rem; padding: var(--space-2) var(--space-2) var(--space-3) var(--space-1); } /* --wk-hours: 왼쪽 시각 칸 폭 */
+.wk-head { display: grid; grid-template-columns: var(--wk-hours) repeat(var(--days, 5), minmax(0, 1fr)); column-gap: 2px; padding-bottom: var(--space-1); }
 .wk-head span { text-align: center; font-size: 0.75rem; line-height: 1rem; font-weight: 500; color: var(--text3); }
 .wk-body { position: relative; height: calc(var(--hours, 9) * var(--hour-h, var(--mine-hour-min))); }
-.wk-line { position: absolute; left: 1.375rem; right: 0; height: 1px; background: var(--line); }
-.wk-hour { position: absolute; left: 0; width: 1.125rem; text-align: right; transform: translateY(-50%); font-size: 0.75rem; line-height: 1rem; font-weight: 500;
+.wk-line { position: absolute; left: var(--wk-hours); right: 0; height: 1px; background: var(--line); }
+.wk-hour { position: absolute; left: 0; width: calc(var(--wk-hours) - 0.25rem); text-align: right; white-space: nowrap; transform: translateY(-50%); font-size: 0.75rem; line-height: 1rem; font-weight: 500;
   color: var(--text3); font-variant-numeric: tabular-nums; }
-.wk-blocks { position: absolute; top: 0; bottom: 0; left: calc(1.375rem + 2px); right: 0; margin: 0; padding: 0; list-style: none; }
+.wk-blocks { position: absolute; top: 0; bottom: 0; left: calc(var(--wk-hours) + 2px); right: 0; margin: 0; padding: 0; list-style: none; }
 .wk-blocks > li { position: absolute; }
 .wk-block { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 3px 4px; overflow: hidden; border: 0;
   border-radius: var(--radius-xs); color: var(--block-fg, var(--text)); text-align: left; font: inherit; }
@@ -1265,7 +1271,7 @@ button.wk-block:active { filter: brightness(0.96); } /* 공유받은 시간표 �
 .wk-block:focus-visible { outline-offset: 1px; }
 /* 과목 추가의 미리 보기(넓은 화면, 행에 마우스를 올리거나 키보드로 고른 분반): 넣으면 생길 칸은 accent 점선 테두리와 옅은 accent 면, 빠질 항목은 흐리게,
    이미 넣은 분반이면 그 칸들에 accent 테두리. 칸들 위에 얹고 마우스를 받지 않는다 */
-.wk-ghosts { position: absolute; top: 0; bottom: 0; left: calc(1.375rem + 2px); right: 0; margin: 0; padding: 0; list-style: none; pointer-events: none; }
+.wk-ghosts { position: absolute; top: 0; bottom: 0; left: calc(var(--wk-hours) + 2px); right: 0; margin: 0; padding: 0; list-style: none; pointer-events: none; }
 .wk-ghosts > li { position: absolute; }
 .wk-ghost { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 2px 3px; overflow: hidden; border: 2px dashed var(--accent);
   border-radius: var(--radius-xs); background: color-mix(in srgb, var(--accent) 14%, var(--card)); color: var(--text); }
@@ -1274,8 +1280,16 @@ button.wk-block:active { filter: brightness(0.96); } /* 공유받은 시간표 �
 .wk-ghost .b-room { font-size: 0.75rem; line-height: 1rem; font-weight: 500; color: var(--text2); overflow: hidden; word-break: keep-all; overflow-wrap: anywhere; }
 .wk-block.is-out { opacity: 0.35; }
 .wk-block.is-hl { box-shadow: inset 0 0 0 2px var(--accent); }
-.wk-empty { position: absolute; top: 0; bottom: 0; left: 1.375rem; right: 0; display: flex; align-items: center; justify-content: center; margin: 0;
+.wk-empty { position: absolute; top: 0; bottom: 0; left: var(--wk-hours); right: 0; display: flex; align-items: center; justify-content: center; margin: 0;
   font-size: 0.875rem; line-height: 1.25rem; color: var(--text3); }
+/* 칸이 좁은 격자(폰: 카드 폭 ÷ 요일 수가 84px 아래면 app.js renderWeek 가 .is-dense): 11/15 16:41 사용자가 기본 글자 크기에서 SNUTT 와 견줘 '개선해줘'
+   ('기능해부/학'처럼 낱말 끝 한 글자가 꺾이고 강의실이 두 줄). 칸 글자 11/14(자간 -0.01em), 칸 안 여백 3, 시각 칸 18px, 카드 오른쪽 여백 4.
+   강의실은 '200-4213'(수강편람 표기, app.js roomShort), 줄보다 긴 낱말만 글자 사이에서 줄을 바꾼다(app.js breakLong) */
+.wk.is-dense { --wk-hours: 1.125rem; padding-right: var(--space-1); }
+.wk.is-dense .wk-block { padding: 3px; }
+.wk.is-dense .b-title, .wk.is-dense .b-room { font-size: 0.6875rem; line-height: 0.875rem; letter-spacing: -0.01em; }
+/* 폰 내 시간표는 격자 카드를 화면 끝 4px 까지 넓힌다(본문 여백 20 → 4. 폭 360 에서 요일 칸 55 → 63px) */
+@media (max-width: 37.4375em) { #view-mine #wk { margin-inline: calc(var(--space-1) - var(--space-5)); } }
 .tt-legend { margin: var(--space-2) var(--space-1) 0; }
 /* 항목 목록: 행은 담은 과목 행(.course) 그대로. 맨 아래 셋으로 나눈 추가 행(10/23 저녁 사용자: "과목추가, 직접 추가, 이 옆에 이미지로 추가 이렇게 3개로").
    폰 폭에서 셋이 한 줄에 들어가게 아이콘(20) 아래에 이름(t-body-sm 500, accent-text). 사이에 line 세로선, 위에 line 구분선 */
@@ -1684,6 +1698,8 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
   .sidebar .sb-item:not([aria-current="page"]):hover { background: var(--bg-hover); }
   .icon-btn:hover, .btn-text:hover, .result:hover, .rank-hit:hover, button.info-row:hover, a.info-row:hover, .course-hit:hover .c-title { background: var(--surface-hover); }
   .tabbar .tab:not([aria-current="page"]):hover .ind, .add-row:hover, .tt-row:hover, .menu-row:hover { background: var(--surface-hover); }
+  .tabbar.is-tight .tab:not([aria-current="page"]):hover .ind { background: none; }
+  .tabbar.is-tight .tab:not([aria-current="page"]):hover .tab-ic { background: var(--surface-hover); }
   .tl-sem-head:hover { background: var(--tl-head-press); }
   .tl-tts .is-current .tt-row:hover, .tl-tts .is-current .tl-more:hover { background: var(--tl-row-press); }
   .tl-tts .tl-more:hover { color: var(--text2); }
@@ -1732,6 +1748,8 @@ html[data-scheme="dark"]:not([data-theme]) dialog.sheet::backdrop { background: 
   /* 아래 탭 막대(10/22): 기기 색 바탕과 윗선, 고른 탭은 알약 대신 윤곽선. 사이드바는 선 없이 고른 행만 윤곽선. 칸과 색 고르기는 색을 그대로 둔다 */
   .tabbar { background: Canvas; border-top: 1px solid CanvasText; }
   .tabbar .tab[aria-current="page"] .ind, .sidebar .sb-item[aria-current="page"] { outline: 2px solid Highlight; outline-offset: -2px; }
+  .tabbar.is-tight .tab[aria-current="page"] .ind { outline: none; }
+  .tabbar.is-tight .tab[aria-current="page"] .tab-ic { outline: 2px solid Highlight; outline-offset: -2px; }
   .wk-block { border: 1px solid CanvasText; }
   .wk-ghost { border-color: Highlight; }
   .theme-card { border: 1px solid CanvasText; }
@@ -1791,6 +1809,12 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 .setup-none { margin: 0; font-size: 1rem; line-height: 1.5rem; color: var(--text3); }
 .setup-add { margin: var(--space-1) 0 0 calc(var(--space-3) * -1); } /* + 전공 추가: 아이콘이 칸 왼쪽 끝에 맞는다 */
 .setup-add svg { width: 20px; height: 20px; }
+/* 로그인 처음 화면: 제목·카드·처리방침 덩이를 화면 세로 가운데에(11/15 16:37 사용자: '모바일에서 로그인창 뜨는 위치가 좀 별로', '가운데가 낫지 않을까').
+   위 상단 바만큼 아래도 비워 화면 한가운데에 선다. 화면보다 길면(글자를 키움) 위에서부터 그대로 스크롤한다 */
+#view-login:not([hidden]) { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh;
+  padding-bottom: max(calc(var(--topbar-h) + var(--safe-top)), calc(var(--space-8) + var(--tabbar-space))); }
+#view-login > main:not([hidden]) { display: flex; flex: 1 0 auto; flex-direction: column; justify-content: center; }
+#view-login .setup { width: 100%; }
 /* 전공 추가 팝업: 새 시간표 팝업(.tt-new)과 같은 짜임. 세그먼트 아래 space-4, 칸 사이 space-3. 선택칸은 .tn-body 의 raised 바탕 */
 .dept-add fieldset { margin: 0 0 var(--space-4); padding: 0; border: 0; min-width: 0; }
 .dept-add .tn-field + .tn-field { margin-top: var(--space-3); }
@@ -1802,7 +1826,7 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 .combo-input { cursor: text; font-weight: 500; }
 .combo-input::placeholder { color: var(--text3); opacity: 1; }
 .combo-list { max-height: calc(var(--touch) * 6.5); margin: var(--space-2) 0 0; padding: 0; list-style: none; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none;
-  border: 1px solid var(--line-strong); border-radius: var(--radius-sm); background: var(--card); }
+  scroll-padding-block: var(--space-1); border: 1px solid var(--line-strong); border-radius: var(--radius-sm); background: var(--card); }
 .combo-list::-webkit-scrollbar { display: none; }
 .dept-add .combo-list { background: var(--raised); }
 .combo-list li + li { border-top: 1px solid var(--line); }
@@ -1810,6 +1834,10 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 .combo-opt .t { font-size: 1rem; line-height: 1.5rem; color: var(--text); word-break: keep-all; overflow-wrap: anywhere; }
 .combo-opt .m { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; }
 .combo-opt.is-active { background: var(--surface-hover); outline: 2px solid var(--focus); outline-offset: -2px; }
+/* 고른 줄의 테두리가 목록의 둥근 모서리에 잘리지 않게(11/15 16:40 사용자: 첫 줄 테두리의 모서리가 목록 테두리에 가려짐): 첫 줄·끝 줄은 목록 안쪽(12 − 테두리 1)과
+   같은 둥글기로 테두리가 모서리를 따라 돌고, 가운데 줄은 키보드로 끝에 와도 scroll-padding 4px 만큼 떨어져 모서리에 닿지 않는다 */
+.combo-opt:first-child { border-top-left-radius: calc(var(--radius-sm) - 1px); border-top-right-radius: calc(var(--radius-sm) - 1px); }
+.combo-opt:last-child { border-bottom-left-radius: calc(var(--radius-sm) - 1px); border-bottom-right-radius: calc(var(--radius-sm) - 1px); }
 @media (hover: hover) { .combo-opt:hover { background: var(--surface-hover); } }
 .combo-none { padding: var(--space-3); font-size: 0.875rem; line-height: 1.25rem; color: var(--text3); }
 @media (forced-colors: active) { .combo-list { border-color: CanvasText; } .combo-opt.is-active { outline-color: Highlight; } }
@@ -2005,6 +2033,7 @@ html[data-scheme="dark"]:not([data-theme]) .g-btn { border-color: #8E918F; backg
    처음 한 번(.nick-help, 보이는 것 .vis), 친구 시간표·미리보기(.fr-sem, .pv-note, 숨긴 항목의 회색 칸 .wk-block.is-hidden), 메뉴의 스위치 줄(.menu-row.sw) */
 .tab-ic { position: relative; display: flex; flex: none; }
 .has-dot .tab-ic::after { content: ""; position: absolute; top: -1px; right: -3px; width: 8px; height: 8px; border-radius: 4px; background: var(--danger); box-shadow: 0 0 0 2px var(--tab-ind); }
+.tabbar.is-tight .has-dot .tab-ic::after { top: 3px; right: calc(50% - 15px); } /* 알약(3.5rem × 32) 가운데 아이콘 24의 오른쪽 위 */
 .fr-head { display: flex; align-items: center; gap: var(--space-2); min-height: 56px; margin: var(--space-2) 0 var(--space-3); }
 .fr-me { display: flex; flex: 1; flex-direction: column; min-width: 0; padding: 0; border: 0; background: transparent; text-align: left; cursor: pointer; }
 .fr-me .k { font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); }

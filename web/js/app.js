@@ -179,6 +179,11 @@ function roomLabel(m) {
   if (!m.room) return `${m.building}동`;
   return /^[A-Za-z]?\d/.test(m.room) ? `${m.building}동 ${m.room}호` : `${m.building}동 ${m.room}`;
 }
+/** 좁은 격자 칸의 강의실(폰 내 시간표, 11/15 사용자가 SNUTT 와 견줌): 수강편람 표기 '200-4213'. 호수가 글자면 '301동 강당', 건물만 알면 '301동' */
+function roomShort(m) {
+  if (!m.building || m.manual || !m.room) return roomLabel(m).replace(" (직접 입력)", "");
+  return /^[A-Za-z]?\d/.test(m.room) ? `${m.building}-${m.room}` : `${m.building}동 ${m.room}`;
+}
 const daysLabel = (days) => days.map((d) => DAY_KO[d]).join("·");
 
 /** 분반 표기는 어디서나 061(나민애). 교수가 없으면 061(교수 미정). 번호와 교수를 따로 칠할 때는 sectionParts(이어 붙이면 같다). */
@@ -2444,6 +2449,14 @@ function glueTail(text, width, widthOf) {
   if (!m || !(width > 0)) return s;
   return widthOf(`${m[1].split(/\s+/).pop()} ${m[2]}`) <= width - 1 ? `${m[1]}${NBSP}${m[2]}` : s; // 캔버스와 화면의 글자 폭 차이에 1px 여유
 }
+/** 줄보다 긴 낱말에만 글자 사이 줄바꿈 자리(U+200B)를 넣는다. 칸 글자는 keep-all 이라 긴 낱말을 통째로 다음 줄로 넘긴 뒤에야 쪼개서 앞 줄이 비고
+ *  끝 한두 글자가 따로 섰다('2:' / '과학기술글쓰' / '기'). 넣으면 '2: 과학기술글' / '쓰기'처럼 줄을 채운다(11/15 사용자가 SNUTT 와 견줌). 줄에 드는 낱말은 통째 */
+const ZWSP = "​";
+function breakLong(text, width, widthOf) {
+  const s = String(text ?? "");
+  if (!(width > 0)) return s;
+  return s.split(/([^\S ]+)/).map((w) => (!w || /^\s+$/.test(w) || widthOf(w) <= width - 1 ? w : [...w].join(ZWSP))).join("");
+}
 /** 줄을 바꿀 수 있는 낱말들(띄어쓰기에서 나눈다. glueTail 이 붙인 끝 번호(U+00A0)는 앞 낱말과 한 덩이) */
 const lineWords = (text) => String(text).split(/[^\S\u00a0]+/).filter(Boolean);
 const canvasWidth = (font) => (s) => { canvas.font = font; return canvas.measureText(s).width; };
@@ -3831,7 +3844,13 @@ function renderWeek(t, entries, clash, opts = {}) {
   days.sort((a, b) => a - b);
   let h0 = 9, h1 = 18;
   for (const m of [...blocks.map((x) => x.m), ...ghosts]) { h0 = Math.min(h0, Math.floor(m.start / 60)); h1 = Math.max(h1, Math.ceil(m.end / 60)); }
-  const hours = h1 - h0, rem = remPx();
+  const hours = h1 - h0, rem = remPx(), n = days.length;
+  // 칸이 좁은 격자(폰: 카드 폭 ÷ 요일 수가 84px 아래): 칸 글자 11/14·안 여백 3·시각 칸 18px·강의실 '200-4213'(style.css .wk.is-dense. 11/15 16:41 사용자가
+  // 기본 글자 크기에서 SNUTT 와 견줘 '개선해줘'). 아직 폭이 없으면(숨은 화면) 좁은 쪽으로 그리고, 보이면 폭이 바뀌어 다시 그린다
+  const dense = box.clientWidth / n < 84;
+  box.classList.toggle("is-dense", dense);
+  const fs = (dense ? 0.6875 : 0.75) * rem, lh = (dense ? 0.875 : 1) * rem, padX = dense ? 6 : 8, hoursW = (dense ? 1.125 : 1.375) * rem;
+  const font = `500 ${fs}px ${getComputedStyle(box).fontFamily}`;
   box.style.setProperty("--days", String(days.length));
   box.style.setProperty("--hours", String(hours));
   const body = h("div", { class: "wk-body" });
@@ -3848,14 +3867,13 @@ function renderWeek(t, entries, clash, opts = {}) {
     wkFill = wkFillWide.matches ? hourPx : 0;
     wkGeom = { h0, hourPx };
   }
-  const n = days.length;
   const at = (m) => ({ top: `${((m.start - h0 * 60) / 60) * hourPx}px`, height: `${((m.end - m.start) / 60) * hourPx - 2}px`,
     left: `calc(${days.indexOf(m.day)} * (100% + 2px) / ${n})`, width: `calc((100% + 2px) / ${n} - 2px)` });
   // 미리 보기: 넣으면 생길 칸(점선, 글자는 과목명과 강의실. 칸들 위에 얹는다). 마우스를 받지 않는다
   const addGhosts = () => {
     if (!ghosts.length) return;
-    // 끝 번호 붙이기(glueTail)의 폭: 칸 폭(.wk-ghosts 는 시각 칸 1.375rem + 2px 오른쪽) − 안쪽 여백 3·3 − 점선 2·2
-    const gw = (body.clientWidth - 1.375 * rem) / n - 2 - 10, gName = glueTail(shortName(pv.name), gw, canvasWidth(`500 ${0.75 * rem}px ${getComputedStyle(box).fontFamily}`));
+    // 끝 번호 붙이기(glueTail)의 폭: 칸 폭(.wk-ghosts 는 시각 칸 --wk-hours + 2px 오른쪽) − 안쪽 여백 3·3 − 점선 2·2
+    const gw = (body.clientWidth - hoursW) / n - 2 - 10, gName = breakLong(glueTail(shortName(pv.name), gw, canvasWidth(font)), gw, canvasWidth(font));
     body.append(h("ol", { class: "wk-ghosts", "aria-hidden": "true" }, ghosts.map((m) => h("li", { style: at(m) },
       h("span", { class: "wk-ghost" }, h("span", { class: "b-title" }, gName), h("span", { class: "b-room" }, roomLabel(m)))))));
   };
@@ -3871,19 +3889,20 @@ function renderWeek(t, entries, clash, opts = {}) {
   const list = h("ol", { class: "wk-blocks" });
   body.append(list);
   const colW = (list.clientWidth + 2) / n - 2;
-  const font = `500 ${0.75 * rem}px ${getComputedStyle(box).fontFamily}`;
   for (const { e, m, half } of blocks) {
     const top = ((m.start - h0 * 60) / 60) * hourPx, height = ((m.end - m.start) / 60) * hourPx - 2;
-    const textW = (half ? (colW - 2) / 2 : colW) - 8;
-    const name = glueTail(e.item.custom ? e.item.title : shortName(courseName(e)), textW, canvasWidth(font)); // 끝 번호는 앞 낱말에(glueTail)
-    const full = e.item.custom ? (m.building ? buildingLabel(m.building) : "") : roomLabel(m);
+    const textW = (half ? (colW - 2) / 2 : colW) - padX;
+    // 끝 번호는 앞 낱말에(glueTail), 줄보다 긴 낱말은 글자 사이에서도 줄을 바꾼다(breakLong)
+    const name = breakLong(glueTail(e.item.custom ? e.item.title : shortName(courseName(e)), textW, canvasWidth(font)), textW, canvasWidth(font));
+    const spoken = e.item.custom ? (m.building ? buildingLabel(m.building) : "") : roomLabel(m); // 스크린리더는 늘 '200동 4213호'
+    const full = dense && !e.item.custom ? roomShort(m) : spoken;
     let room = full, roomLines = room ? textLines(room, font, textW) : 0;
-    if (room && height - 6 - roomLines * rem < rem && m.building && room !== buildingLabel(m.building)) {
+    if (room && height - 6 - roomLines * lh < lh && m.building && room !== buildingLabel(m.building)) {
       room = buildingLabel(m.building);
       roomLines = textLines(room, font, textW);
     }
-    const lines = Math.max(1, Math.floor((height - 6 - roomLines * rem) / rem));
-    const said = [`${DAY_KO[m.day]} ${hm(m.start)}~${hm(m.end)} ${e.item.custom ? e.item.title : courseName(e)}`, full, clash.has(e.key) ? "시간 겹침" : ""].filter(Boolean).join(", ");
+    const lines = Math.max(1, Math.floor((height - 6 - roomLines * lh) / lh));
+    const said = [`${DAY_KO[m.day]} ${hm(m.start)}~${hm(m.end)} ${e.item.custom ? e.item.title : courseName(e)}`, spoken, clash.has(e.key) ? "시간 겹침" : ""].filter(Boolean).join(", ");
     const place = { top: `${top}px`, height: `${height}px`, left: `calc(${days.indexOf(m.day)} * (100% + 2px) / ${n})`, width: `calc((100% + 2px) / ${n} - 2px)` };
     if (opts.grayHidden && e.item.hidden) { // 친구가 숨긴 과목·일정(130판): 이름·강의실 없이 그 시간만 회색 칸(fill, line-strong 점선)
       list.append(h("li", { style: place }, h("span", { class: `wk-block is-hidden${half ? ` ${half}` : ""}` },
@@ -7741,26 +7760,16 @@ $("nt-ask-ok").addEventListener("click", async () => {
 // ---------------------------------------------------------------- 로그인·기기 간 동기화(백엔드 update110·111 account.js, 레포 docs/account.md, 디자인 130판 Account)
 // 사용자 11/14 "로그인이랑 친구 시간표도 지금 작업 시작하라고"(16일 데모데이), 130판 시안 02 "그대로". 정보 첫 카드 맨 위 '계정'(값 로그인한 메일) › 계정 하위 화면.
 // 처리방침 11/15 판(계정과 친구 절)·이용 규칙·계정 삭제 안내 페이지와 같은 푸시로 모두에게 연다(날짜 막기 ACCOUNT_FROM, 백엔드 update116. 사용자 11/15 '구현한 기능 싹 다
-// 릴리즈', 법무 11/15). 그 전 날짜에는 웹 개발자 메뉴 '로그인'·주소 '?demo'(이 탭만, sessionStorage)로만 보고, 앱 데모 빌드는 build_app 이 '이름_FROM' 날짜를 모두 연다.
+// 릴리즈', 법무 11/15). 그 전 날짜에는 웹 개발자 메뉴 '로그인'(이 탭만, sessionStorage)으로만 본다.
 // 설정 값(firebase-config.js)이 없는 배포는 언제나 숨는다.
 // Firebase SDK 는 account.js 가 로그인을 켤 때만 받는다. 기기 자료가 먼저다: 로그인돼 있으면 로그인할 때·켤 때·시간표를 고친 뒤(3초 모아)·앱으로 돌아올 때(1분 넘게 지났으면)
 // 맞추고(account.sync), 보는 학기의 목록이 바뀌었으면 다시 그린다. 처음 켤 때 로그인을 묻지 않는다(로그인은 정보의 계정과 친구 화면에서만)
 let acct = null, acctP = null, acctOff = null;
 let acctUser; // undefined: 아직 모름, null: 로그인 안 함, { uid, email, name, school }
 const ACCOUNT_FROM = "2026-11-15"; // 한국 시각 날짜. 처리방침 11/15 판·이용 규칙·계정 삭제 안내가 시행되는 날(백엔드 update116, 프론트엔드 11/15: 페이지와 한 푸시). 날을 넘겨 올리면 그날로
-// 웹 데모 주소 '?demo'(백엔드 update115, 사용자 11/15 '지금 다 열자'): 개발자 메뉴의 '로그인'과 같다(이 탭만, 주소에서는 지운다). ACCOUNT_FROM 전에 로그인을 미리 볼 때 쓴다
-// (그날부터는 모두에게 열려 있어 할 일이 없다). 스토어 앱은 보지 않는다(앱 데모 빌드는 날짜 막기를 연다)
-let devAccount = (() => {
-  try {
-    if (!IN_APP && new URLSearchParams(location.search).has("demo")) {
-      sessionStorage.setItem("ttw.devAccount", "1");
-      const u = new URL(location.href);
-      u.searchParams.delete("demo");
-      history.replaceState(history.state, "", u.pathname + u.search + u.hash);
-    }
-    return sessionStorage.getItem("ttw.devAccount") === "1";
-  } catch { return false; }
-})();
+// 웹 개발자 메뉴 '로그인'(이 탭만): ACCOUNT_FROM 전 날짜에 로그인을 미리 본다. 웹 데모 주소 '?demo'(update115)와 앱 데모 빌드는 11/15 에 모두에게 열어
+// 쓸 일이 없어 뺐다(백엔드 update117: 사용자 11/15 15:00 '데모 빌드 굳이 필요 없지 않냐')
+let devAccount = (() => { try { return sessionStorage.getItem("ttw.devAccount") === "1"; } catch { return false; } })();
 const acctSync = { busy: false, at: 0, failed: "" };
 const accountMod = () => (acctP ||= import("./account.js").then((m) => (acct = m)).catch((e) => { acctP = null; throw e; }));
 const accountWanted = () => devAccount || kstToday() >= ACCOUNT_FROM;
@@ -8584,7 +8593,8 @@ function ossRows() {
     IN_APP && { k: "", name: "Apache Cordova", lic: "Apache-2.0", href: APACHE_URL, file: "licenses/cordova.txt" }, // 앱 실행 환경 한 칸에 두 줄(안드로이드·iOS 같다)
     SHELL === "android" && { k: "안드로이드", name: "AndroidX", lic: "Apache-2.0", href: APACHE_URL, file: "licenses/androidx.txt" },
     // 앱 안 구글 로그인(백엔드 update111): Google Play 서비스 클라이언트 라이브러리와 Google ID. 안드로이드 칸 둘째 줄, 고지문은 앱 묶음의 licenses/google.txt(그 안에 든 오픈소스 고지문까지)
-    SHELL === "android" && { k: "", name: "Google Play 서비스 · Google ID", lic: "Android SDK 라이선스", href: "https://developer.android.com/studio/terms", file: "licenses/google.txt" },
+    // 앱 안 업데이트(백엔드 update118)의 Play 앱 내 업데이트(Play Core SDK 약관)도 같은 고지문 licenses/google.txt 에 든다
+    SHELL === "android" && { k: "", name: "Google Play 서비스 · Google ID · Play 앱 내 업데이트", lic: "Android SDK 라이선스 · Play Core SDK 약관", href: "https://developer.android.com/studio/terms", file: "licenses/google.txt" },
     { k: "글꼴", name: "Pretendard", lic: "SIL OFL 1.1", href: "https://github.com/orioncactus/pretendard/blob/main/LICENSE", file: "licenses/pretendard.txt" },
     // 아래 셋도 전문(10/23 사용자: "전문 말하는 거임"). 백엔드 update61 이 web/licenses/ 에 넣었다(Fredoka·ODbL 은 프론트엔드 초안, 공공누리 제1유형은 법무 문안.
     // web/licenses/ 와 그 파일 목록을 정한 시험은 백엔드 몫). 공공누리 고지문은 줄표 줄이 없어 한 칸이다
@@ -8935,7 +8945,7 @@ function enterTab(next) {
   tab = next;
 }
 
-/** 아래 탭 막대(알약 안에 아이콘 20 + 이름)와 컴퓨터의 사이드바(아이콘 24 + 이름): 고른 것에 aria-current="page"와 채운 아이콘.
+/** 아래 탭 막대(알약 안에 아이콘 20 + 이름. 탭 넷 이상인 폰은 아이콘 24를 감싼 알약 아래에 이름)와 컴퓨터의 사이드바(아이콘 24 + 이름): 고른 것에 aria-current="page"와 채운 아이콘.
  *  이름이 보이므로 버튼 이름은 그 글자다. 둘 중 하나만 보인다(style.css 의 1100px 규칙). 정보에 있는 동안은 세 탭 모두 고르지 않은 모양이고
  *  사이드바 맨 아래 '정보'가 고른 모양이다(탭과 같은 층. 폰의 ⓘ 는 탭 첫 화면의 상단 바에만 있어 정보 화면에서는 보이지 않는다) */
 function renderTabs() {
@@ -8958,7 +8968,8 @@ function renderTabs() {
       const on = b.dataset.tab === tab;
       if (on) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
       let pic = icon(TAB_ICON[b.dataset.tab][on ? 1 : 0], bar ? 20 : 24);
-      if (b.dataset.tab === "friends") pic = h("span", { class: "tab-ic" }, pic); // 받은 요청의 빨간 점 자리(paintFriendTab)
+      // 탭 막대는 아이콘을 늘 감싼다(이름 위 배치에서 알약이 아이콘만 감싼다, style.css .is-tight). 친구는 받은 요청의 빨간 점 자리(paintFriendTab)
+      if (bar || b.dataset.tab === "friends") pic = h("span", { class: "tab-ic" }, pic);
       const name = h("span", bar ? { class: "tab-name" } : {}, TAB_NAME[b.dataset.tab]);
       b.replaceChildren(...(bar ? [h("span", { class: "ind" }, pic, name)] : [pic, name]));
     }
@@ -9235,6 +9246,20 @@ function showUpdateIfReady() {
   updateShown = true;
   showSnackbar("새 버전이 있어요", "새로고침", () => location.reload());
   announce("새 버전이 있어요");
+}
+// 앱 안 업데이트(안드로이드, 백엔드 update118 native.js TTW_APP.appUpdate·'ttw:app-update'. 사용자 11/15 16:36 '업데이트가 있다고 알려 주는 팝업'):
+// 묻는 창은 Play 가 스스로 띄우고, 다 받으면 웹의 새 버전 스낵바 모양으로 '업데이트를 받았어요' [다시 시작](complete(): Play 가 화면을 덮고 깐 뒤
+// 앱을 다시 연다). 안 누르면 앱을 내릴 때 깔린다. 켤 때 한 번 묻고(이미 받아 둔 판) 바뀔 때마다 받는다. 한 번만 띄운다. 웹·iOS·옛 앱에는 appUpdate 가 없다
+let appUpdateShown = false;
+function appUpdateSeen(s) {
+  if (!s || s.status !== "downloaded" || appUpdateShown) return;
+  appUpdateShown = true;
+  showSnackbar("업데이트를 받았어요", "다시 시작", () => { const u = window.TTW_APP && window.TTW_APP.appUpdate; if (u) u.complete(); });
+  announce("업데이트를 받았어요");
+}
+if (IN_APP && window.TTW_APP && window.TTW_APP.appUpdate) {
+  window.addEventListener("ttw:app-update", (e) => appUpdateSeen(e.detail));
+  Promise.resolve(window.TTW_APP.appUpdate.state()).then(appUpdateSeen, () => null);
 }
 
 // 설치 권유(웹 브라우저만): 첫 시간표를 만든 뒤 입력 화면 상단 바의 작은 '설치'(컴퓨터는 사이드바 맨 아래의 '설치'). 시스템 창을 닫으면 버튼을 없애고 다시 두지 않는다
