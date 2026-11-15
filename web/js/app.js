@@ -6819,7 +6819,7 @@ $("info-list").addEventListener("click", (e) => {
 // 처리방침 2-1절('기기 안'에 학과·학번)이 11/27 시행이라 그 전에는 처음 화면도 정보 줄도 없다(법무 11/11 ②, 문서 11/13). 웹 개발자 메뉴로만 미리 본다.
 // 날짜로 켜는 것은 법무 11/14 로 된다: 그 전에 낸 안드로이드 판은 출시 노트에 '11월 27일부터 학과와 학번 화면이 열립니다' 한 줄, iOS 는 그날 뒤 빌드로 낸다(Apple 2.5.19)
 const DEPT = "dept", DEPT_ASKED = "deptAsked";
-const DEPT_FROM = "2026-11-27"; // 한국 시각 날짜
+const DEPT_FROM = "2026-11-15"; // 한국 시각 날짜. 사용자 11/15 03:48 '걍 지금 다 열자니까'(백엔드 update115): 처리방침 11/27 시행 전이지만 값이 기기 안에만 있어 지금 연다
 const UNDECIDED = "-"; // 전공 칸의 '아직 안 정함'
 const KIND_NAME = { major: "주전공", double: "복수전공", minor: "부전공" };
 // 웹 개발자 메뉴의 '학과와 학번'(이 탭만, 시행일 전 미리 보기). 데모 중에 새로 고쳐도 꺼지지 않게 sessionStorage 에 둔다(11/16 데모데이)
@@ -7609,7 +7609,19 @@ function maybeAskNotify() {
 let acct = null, acctP = null, acctOff = null;
 let acctUser; // undefined: 아직 모름, null: 로그인 안 함, { uid, email, name, school }
 const ACCOUNT_FROM = "2099-12-31"; // 한국 시각 날짜. 처리방침 전면 개정이 시행되는 날로 고친다
-let devAccount = (() => { try { return sessionStorage.getItem("ttw.devAccount") === "1"; } catch { return false; } })();
+// 웹 데모 주소 '?demo'(백엔드 update115, 사용자 11/15 '지금 다 열자'): 개발자 메뉴의 '로그인'과 같다(이 탭만, 주소에서는 지운다). 공개 화면은 그대로 막고
+// (처리방침 전면 개정 전, 법무 11/15) 데모 때 주소 하나로 연다. 스토어 앱은 보지 않는다(앱 데모 빌드는 날짜 막기를 연다)
+let devAccount = (() => {
+  try {
+    if (!IN_APP && new URLSearchParams(location.search).has("demo")) {
+      sessionStorage.setItem("ttw.devAccount", "1");
+      const u = new URL(location.href);
+      u.searchParams.delete("demo");
+      history.replaceState(history.state, "", u.pathname + u.search + u.hash);
+    }
+    return sessionStorage.getItem("ttw.devAccount") === "1";
+  } catch { return false; }
+})();
 const acctSync = { busy: false, at: 0, failed: "" };
 const accountMod = () => (acctP ||= import("./account.js").then((m) => (acct = m)).catch((e) => { acctP = null; throw e; }));
 const accountWanted = () => devAccount || kstToday() >= ACCOUNT_FROM;

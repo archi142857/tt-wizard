@@ -36,6 +36,11 @@ decline·cancel·unfriend·block·unblock·friendTimetables·publish·inviteLink
 - 디자인 130판(update112): 숨긴 항목은 친구에게 시간만(회색 칸), 학교 계정 표시는 `setNick(nick, { showSchool })`·`profile().showSchool`·`friends()` 사람마다 `school`
   (화면 글 `학교 계정(snu.ac.kr)`, 법무 11/11 ①), 동기화 줄은 `syncStatus(store)`·`onSyncStatus(cb)`(`idle`·`syncing`·`offline`·`error`·`signedOut`와 마지막으로 맞춘 때 `last`,
   기기 `syncLast`), 이미 친구에게 `request` 는 `ALREADY`, 신고 메일 제목 `[신고] 닉네임 민지#0420`. 같은 닉네임으로 다시 저장하면 태그를 그대로 둔다.
+- SDK 는 로그인한 적이 있는 기기에서만 받는다(update115, 법무 11/15): 로그인하면 기기에 `ttw.signedIn` 표시를 두고 로그아웃·계정 삭제 때 지운다. 표시가 없으면
+  `ready()`·`onUser` 는 SDK 없이 '로그인 안 함'(gstatic·Firebase 로 아무것도 보내지 않음), `signIn()` 이 그때 받는다. 표시 전 판에서 로그인한 기기는 Firebase 저장소
+  (`firebaseLocalStorageDb`)를 보고 이어 간다. 시험 `tests/lazy_runner.mjs`.
+- 웹 데모 주소 `?demo`(update115, 사용자 11/15 '지금 다 열자'): 개발자 메뉴의 '로그인'과 같다(그 탭만, 주소에서는 지운다). 공개 화면의 로그인은 처리방침 전면 개정 전이라
+  `ACCOUNT_FROM` 으로 막아 둔다(법무 11/15: 공개 전 차례 ①~⑨, 그 전에는 OAuth 동의 화면을 테스트로 두고 테스트 사용자에 사용자 계정 둘만).
 - 로그아웃·계정 삭제 때 `이 기기의 시간표도 지우기`를 고르면 화면이 기기 시간표를 지운 뒤 `forget(store)` 를 부른다: 맞추기 기록(`syncKnown`·`syncLast`)이 남아 있으면
   다시 로그인할 때 서버 시간표를 '이 기기에서 지운 것'으로 보고 지움 표시를 올린다.
 

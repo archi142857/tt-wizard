@@ -81,25 +81,56 @@ async function load() {
 const schoolMail = (u) => !!(u && u.emailVerified !== false && /^[^@\s]+@snu\.ac\.kr$/i.test(u.email || ""));
 const userOf = (u) => (u ? { uid: u.uid, email: u.email || "", name: u.displayName || "", school: schoolMail(u) } : null);
 
+// Firebase SDK 는 이 기기에서 로그인한 적이 있을 때만 받는다(법무 11/15 'SDK 를 로그인 때만 gstatic 에서', update115): 로그인하면 표시(MARK)를 두고
+// 로그아웃·계정 삭제 때 지운다. 표시가 없으면 ready()·onUser 는 SDK 없이 '로그인 안 함'이고, signIn() 이 그때 받는다.
+// 표시를 두기 전 판에서 로그인한 기기는 Firebase 가 남긴 저장소(firebaseLocalStorageDb)를 보고 이어 간다.
+const MARK = "ttw.signedIn";
+const pending = new Set(); // 로그인 전에 붙은 onUser: 로그인하면 붙인다
+function marked() {
+  if (injected && injected.connect) return true; // 에뮬레이터 시험
+  try { return !!globalThis.localStorage && globalThis.localStorage.getItem(MARK) === "1"; } catch { return false; }
+}
+function setMark(on) {
+  try { if (on) globalThis.localStorage.setItem(MARK, "1"); else globalThis.localStorage.removeItem(MARK); } catch { /* 저장소가 막혀도 로그인은 된다 */ }
+}
+async function wanted() {
+  if (fb || marked()) return true;
+  try {
+    const dbs = globalThis.indexedDB && typeof globalThis.indexedDB.databases === "function" ? await globalThis.indexedDB.databases() : [];
+    if (dbs.some((d) => d && d.name === "firebaseLocalStorageDb")) { setMark(true); return true; }
+  } catch { /* 모르면 로그인 안 함으로 */ }
+  return false;
+}
+
 async function me() {
+  if (!(await wanted())) throw err("SIGNED_OUT");
   const { auth } = await load();
   if (!auth.currentUser) throw err("SIGNED_OUT");
   return auth.currentUser.uid;
 }
 
 export async function ready() {
-  const { auth, A } = await load();
+  if (!(await wanted())) return null;
+  const { auth } = await load();
   if (typeof auth.authStateReady === "function") await auth.authStateReady();
   return userOf(auth.currentUser);
 }
 
 export function onUser(cb) {
   let off = null, closed = false;
-  load().then(({ auth, A }) => {
+  const attach = () => {
+    pending.delete(attach);
+    load().then(({ auth, A }) => {
+      if (closed) return;
+      off = A.onAuthStateChanged(auth, (u) => cb(userOf(u)));
+    }).catch(() => cb(null));
+  };
+  wanted().then((yes) => {
     if (closed) return;
-    off = A.onAuthStateChanged(auth, (u) => cb(userOf(u)));
-  }).catch(() => cb(null));
-  return () => { closed = true; if (off) off(); };
+    if (yes) attach();
+    else { pending.add(attach); cb(null); }
+  });
+  return () => { closed = true; pending.delete(attach); if (off) off(); };
 }
 
 
@@ -139,10 +170,15 @@ async function google(reauth = false) {
 
 export async function signIn() {
   const r = await google(false);
-  return r ? userOf(r.user) : null;
+  if (!r) return null;
+  setMark(true);
+  for (const attach of [...pending]) attach(); // 로그인 전에 붙은 onUser 를 이제 붙인다
+  return userOf(r.user);
 }
 
 export async function signOut() {
+  setMark(false);
+  if (!fb) return; // SDK 를 받은 적이 없다: 로그인한 적도 없다
   const { auth, A } = await load();
   await A.signOut(auth);
   if (inApp() && globalThis.TTW_APP && typeof globalThis.TTW_APP.googleSignOut === "function") globalThis.TTW_APP.googleSignOut();
@@ -464,4 +500,5 @@ export async function deleteAccount() {
     if (!(await google(true))) throw err("CANCELLED");
     await A.deleteUser(auth.currentUser);
   }
+  setMark(false);
 }
