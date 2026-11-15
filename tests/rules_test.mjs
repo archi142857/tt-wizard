@@ -33,6 +33,11 @@ await check("한 글자 닉네임 막음", assertFails(nick("D", "남", "0002"))
 await check("남의 닉네임 열쇠 뺏기 막음", assertFails(nick("C", "영표", "0420")));
 await check("열쇠 없이 프로필 막음", assertFails(setDoc(doc(db("C"), "profiles", "C"), { nick: "가짜", tag: "9999", handle: "가짜#9999", updated: new Date() })));
 await check("친구 찾기(열쇠 읽기)", assertSucceeds(getDoc(doc(db("B"), "handles", "영표#0420"))));
+await check("프로필 하나 읽기", assertSucceeds(getDoc(doc(db("B"), "profiles", "A"))));
+// 목록째 읽기는 막는다(update116 보안 마무리): 로그인한 사람이 닉네임·학교 계정 표시를 모두 받아 가지 못하게
+await check("닉네임 표 목록 막음", assertFails(getDocs(collection(db("B"), "handles"))));
+await check("프로필 목록 막음", assertFails(getDocs(collection(db("B"), "profiles"))));
+await check("프로필 찾기(조건) 막음", assertFails(getDocs(query(collection(db("B"), "profiles"), where("nick", "==", "영표")))));
 // 학교 계정 표시(update112): 확인된 snu.ac.kr 메일이고 본인이 보이게 둔 때만 school: true
 const prof = (name, tag, extra) => ({ nick: name, tag, handle: `${name.toLowerCase()}#${tag}`, updated: new Date(), ...extra });
 const snu = { email: "yp@snu.ac.kr", email_verified: true };

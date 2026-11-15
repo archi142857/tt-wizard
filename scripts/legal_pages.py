@@ -1,14 +1,17 @@
-"""개인정보 처리방침·문의 페이지를 웹에 올릴 HTML 로 만든다 (백엔드 update74, 11/1).
+"""개인정보 처리방침·문의·이용 규칙·계정 삭제 안내 페이지를 웹에 올릴 HTML 로 만든다 (백엔드 update74, 11/1. 이용 규칙·계정 삭제 안내는 update116, 11/15).
 
-원문은 docs/legal/privacy.md·support.md(문서·법무 세션이 공유 폴더 `개인정보_처리방침.md` 2·3절에 쓴 것을 그대로 옮김).
+원문은 docs/legal/privacy.md·support.md·terms.md·delete-account.md(문서·법무 세션이 공유 폴더 `개인정보_처리방침.md` 2-1·3·4·5절에 쓴 것을 그대로 옮김).
 나오는 곳: web/privacy/index.html(https://archi142857.github.io/tt-wizard/privacy/), web/support/index.html(…/support/),
+web/terms/index.html(…/terms/, 로그인할 때 동의받는 이용 규칙), web/delete-account/index.html(…/delete-account/, Play 데이터 보안의 계정 삭제 주소),
 처리방침의 이전 판 web/privacy/2026-11-01/·2026-11-11/index.html(원문 docs/legal/privacy-<시행일>.md. 17절 '이전 판도 볼 수 있게 둡니다', update81·99).
-스토어(Play 처리방침 칸, App Store 처리방침·지원 주소)와 앱 정보 탭이 이 주소를 쓴다. 앱 묶음에는 넣지 않는다(scripts/build_app.py).
+스토어(Play 처리방침·계정 삭제 칸, App Store 처리방침·지원 주소)와 앱 정보 탭·로그인 카드가 이 주소를 쓴다. 앱 묶음에는 넣지 않는다(scripts/build_app.py).
 
 원문에 쓰는 것은 문안에 나오는 만큼만 읽는다: ### 제목(h1), #### 제목(h2), 문단, 글머리표 목록(두 칸 들여 쓰면 안쪽 목록).
 글 속 주소(https://…)·메일 주소·기관 누리집(아래 SITES)은 링크로, 개발자 메일은 앱처럼 제목 'TT Wizard 문의'를 채운다.
 【올리는 날】은 처음 시행일 EFFECTIVE, 【이 판 시행일】은 지금 판의 시행일 REVISED 로 채운다(처리방침을 바꾸면 시행일 7일 전에 알린다: 17절).
 【앱에 들어간 뒤에 넣음】이 붙은 줄과 【앱에 들어간 뒤에 넣음: …】 문장은 그 기능이 앱에 들어간 판에서만 넣는다(LATER_FEATURES: 글에 든 낱말로 기능을 찾는다).
+【Tachyon 처리방침이 올라간 뒤에 넣음】처럼 표시가 곧 조건인 줄은 LATER_MARKERS 의 켜는 이름이 참일 때만 넣는다.
+원문에 쓰는 목록은 글머리표(- )와 번호(1. , 줄 머리에서만)다.
 
     python scripts/legal_pages.py          # 다시 만든다
     python scripts/legal_pages.py --check  # 원문과 같은지 본다(다르면 1)
@@ -33,20 +36,32 @@ EFFECTIVE = "2026년 11월 1일"  # 처음 시행일(처음 올린 날. 문안�
 # 11/12(update99): 문서가 쓰고 법무가 11/11 에 본 2-2절(테스트용 구글 그룹) 판. 11/13 안에 올리면 시행일 7일 전 알림이 되도록 11/20 시행, 그때까지는 11/11 판이 시행 중이다
 # (이전 판 privacy-2026-11-11). 그룹은 법무 11/11 대로 이 알림과 함께 연다(17절 줄). 다음 판(2-1절 닉네임)은 이 판이 시행된 뒤(11/20 부터) 올려 판이 겹치지 않게 한다.
 # 처리방침을 다시 바꾸면 이 날짜, 지금 판을 이전 판으로 남기기(PAGES, 앞 이전 판 문단의 【이 판 시행일】을 그 날로 굳히기)를 같이 한다
-REVISED = "2026년 11월 20일"
+# 11/15(update116): 사용자 11/15 09:26 '로그인 기능도 그냥 지금 되게 … 구현한 기능 싹 다 릴리즈'에 따라 문서가 11/27 판에 로그인(계정과 친구)을 합친 판(공유 폴더 2-1절)을
+# 올리는 날 시행한다(법무 11/15 오전: 17절 '새 기능을 켜는 분에게만 해당하는 내용은 그 기능을 켤 때 화면에서 알리고 바로 시행'. 11/20·11/27 판 알림은 이 판으로 갈음).
+# 11/20 판은 시행되지 않아 이전 판으로 두지 않는다(11/10 판과 같다). 지금까지 시행 중이던 11/11 판(privacy-2026-11-11)의 '…전날까지'가 이 날로 채워진다.
+# 올리는 날을 넘기면 이 날짜와 TERMS_REVISED 를 그날로 고친다
+REVISED = "2026년 11월 15일"
+TERMS_REVISED = "2026년 11월 15일"  # 이용 규칙의 시행일(이용 규칙 원문의 【이 판 시행일】). 처음은 처리방침 새 판과 같은 날
 FEEDBACK_IN_APP = True  # 앱 정보 탭에 '의견 보내기'가 들어간 판에서 True. 프론트엔드 e9a70a9(11/1)에 들어가 켰다(update76)
 # 공유 화면의 앱 단추(update80 의 TTW_APP.shareTargets + 프론트엔드 공유 카드 ui100a eab3a92, 11/3 15:35 푸시)가 앱에 들어가 켰다(update83).
 # 11/3 에 올린 11/10 시행 판에 같이 넣어서 17절 7일 전 알림을 지킨다(11/3 안에 올려야 한다)
 SHARE_APPS_IN_APP = True
 # 【앱에 들어간 뒤에 넣음】이 붙은 줄·문장이 어느 기능인지: 그 글에 든 낱말 → 켜는 이름(위). 낱말이 없거나 둘 이상이면 멈춘다
 LATER_FEATURES = {"의견 보내기": "FEEDBACK_IN_APP", "공유 화면의 앱 단추": "SHARE_APPS_IN_APP"}
+# 'Tachyon으로 보내기' 단추(web/js/app.js TACHYON_ON)를 켰을 때 True. 켜기 전에 Tachyon 처리방침 페이지가 먼저 올라가야 한다(법무 11/13, 문서 11/13 ②)
+TACHYON_IN_APP = False
+LATER_MARKERS = {"【Tachyon 처리방침이 올라간 뒤에 넣음】": "TACHYON_IN_APP"}  # 이 표시가 붙은 줄은 켜는 이름이 참일 때만(표시는 지운다)
 DEV_MAIL = "sanger.lee138@gmail.com"
 MAIL_SUBJECT = "TT Wizard 문의"  # 앱 개발자 정보의 메일 링크와 같다(web/js/app.js DEV_MAIL_HREF)
+# 글 덩이에 이 말이 있으면 그 덩이의 개발자 메일 링크는 이 제목(계정 삭제 안내 '‘TT Wizard 계정 삭제 요청’이라고 보내 주십시오'). 나머지는 MAIL_SUBJECT
+MAIL_SUBJECTS = {"TT Wizard 계정 삭제 요청": "TT Wizard 계정 삭제 요청"}
 SITES = ("privacy.kisa.or.kr", "www.kopico.go.kr", "www.spo.go.kr", "ecrm.police.go.kr")  # 16절 기관(글에는 https:// 없이)
 
-PAGES = {  # 원문 → (나오는 폴더, 문서 제목, 설명, 맞은편 페이지)
+PAGES = {  # 원문 → (나오는 폴더, 문서 제목(원문의 ### 제목은 이것이거나 'TT Wizard ' + 이것), 설명, 맞은편 페이지)
     "privacy": ("privacy", "개인정보 처리방침", "TT Wizard가 다루는 개인정보와 요청하는 방법", ("support", "문의")),
     "support": ("support", "문의", "TT Wizard 버그 제보·기능 제안과 문의", ("privacy", "개인정보 처리방침")),
+    "terms": ("terms", "이용 규칙", "TT Wizard 로그인과 친구 기능을 쓸 때 지킬 규칙", ("privacy", "개인정보 처리방침")),
+    "delete-account": ("delete-account", "계정 삭제", "TT Wizard 계정과 서버 자료를 지우는 방법", ("privacy", "개인정보 처리방침")),
     # 이전 판(17절 '이전 판도 볼 수 있게 둬요'): 올렸던 글을 풀어 둔 채로 두고 고치지 않는다. 맞은편은 지금 판
     "privacy-2026-11-01": ("privacy/2026-11-01", "개인정보 처리방침", "TT Wizard 개인정보 처리방침의 이전 판(2026년 11월 1일 시행)",
                            ("privacy", "지금 판 개인정보 처리방침")),
@@ -81,7 +96,7 @@ h1 { margin: 0 0 4px; color: var(--heading); font-size: 1.25rem; line-height: 1.
 h2 { margin: 32px 0 8px; color: var(--heading); font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; }
 p { margin: 0 0 12px; }
 .date { margin-bottom: 24px; color: var(--text3); font-size: .875rem; line-height: 1.25rem; }
-ul { margin: 0 0 12px; padding-left: 1.25rem; }
+ul, ol { margin: 0 0 12px; padding-left: 1.25rem; }
 ul ul { margin: 4px 0 0; }
 li { margin: 0 0 6px; }
 a { color: var(--text); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; overflow-wrap: anywhere; }
@@ -100,9 +115,9 @@ def later_on(text: str) -> bool:
     return bool(globals()[hits[0]])
 
 
-def resolve(text: str) -> str:
-    """【】 자리를 판에 맞게 푼다"""
-    text = text.replace("【올리는 날】", EFFECTIVE).replace("【이 판 시행일】", REVISED)
+def resolve(text: str, revised: str = "") -> str:
+    """【】 자리를 판에 맞게 푼다(revised: 이 원문의 【이 판 시행일】, 처음 값은 처리방침의 REVISED)"""
+    text = text.replace("【올리는 날】", EFFECTIVE).replace("【이 판 시행일】", revised or REVISED)
     text = LATER_INLINE.sub(lambda m: " " + m.group(1) if later_on(m.group(1)) else "", text)
     lines = []
     for line in text.split("\n"):
@@ -110,18 +125,25 @@ def resolve(text: str) -> str:
             if not later_on(line):
                 continue
             line = line.replace(" " + LATER, "").replace(LATER, "")
+        marks = [m for m in LATER_MARKERS if m in line]
+        if marks:
+            if not all(globals()[LATER_MARKERS[m]] for m in marks):
+                continue
+            for m in marks:
+                line = line.replace(" " + m, "").replace(m, "")
         lines.append(line)
     return "\n".join(lines)
 
 
 def inline(text: str) -> str:
-    """글 한 덩이 → HTML(링크 넣기)"""
+    """글 한 덩이 → HTML(링크 넣기). 개발자 메일은 제목을 채운다(그 덩이에 MAIL_SUBJECTS 의 말이 있으면 그 제목, 없으면 MAIL_SUBJECT)"""
+    subject = next((s for word, s in MAIL_SUBJECTS.items() if word in text), MAIL_SUBJECT)
     out, last = [], 0
     for m in LINK.finditer(text):
         out.append(html.escape(text[last:m.start()], quote=False))
         s = m.group(0)
         if "@" in s and not s.startswith("http"):
-            href = f"mailto:{s}" + (f"?subject={quote(MAIL_SUBJECT)}" if s == DEV_MAIL else "")
+            href = f"mailto:{s}" + (f"?subject={quote(subject)}" if s == DEV_MAIL else "")
         elif s.startswith("http"):
             href = s
         else:
@@ -132,10 +154,11 @@ def inline(text: str) -> str:
     return "".join(out)
 
 
-def body(md: str) -> tuple[str, str]:
-    """원문 → (h1 글, 본문 HTML). h1 바로 아래 '시행일: …' 문단은 날짜 줄로"""
+def body(md: str, revised: str = "") -> tuple[str, str]:
+    """원문 → (h1 글, 본문 HTML). h1 바로 아래 '시행일: …' 문단은 날짜 줄로. 줄 머리의 '1. ' 꼴은 번호 목록(ol)"""
     md = re.sub(r"<!--.*?-->", "", md, flags=re.S).strip("\n")
     title, parts, para, stack = "", [], [], []  # stack: 열린 목록의 들여쓰기 깊이
+    numbered = []  # 열린 번호 목록(하나, 줄 머리에서만)
 
     def close_para():
         if para:
@@ -149,10 +172,26 @@ def body(md: str) -> tuple[str, str]:
             stack.pop()
             parts.append("</li></ul>")
 
-    for line in resolve(md).split("\n"):
+    def close_numbered():
+        if numbered:
+            numbered.clear()
+            parts.append("</li></ol>")
+
+    for line in resolve(md, revised).split("\n"):
         if not line.strip():
             close_para()
             continue
+        n = re.match(r"^(\d+)\. (.*)$", line)
+        if n and not stack:
+            close_para()
+            if numbered:
+                parts.append("</li>")
+            else:
+                parts.append("<ol>")
+                numbered.append(True)
+            parts.append(f"<li>{inline(n.group(2).strip())}")
+            continue
+        close_numbered()
         m = re.match(r"^( *)- (.*)$", line)
         if m:
             close_para()
@@ -178,14 +217,16 @@ def body(md: str) -> tuple[str, str]:
             para.append(line.strip())
     close_para()
     close_lists()
+    close_numbered()
     return title, "\n".join(parts)
 
 
 def page(name: str) -> str:
     folder, title, description, (other, other_title) = PAGES[name]
     up = "../" * (folder.count("/") + 1)  # 웹 앱 첫 주소(…/tt-wizard/)까지
-    h1, content = body((SRC / f"{name}.md").read_text(encoding="utf-8"))
-    if h1 != title:
+    revised = TERMS_REVISED if name == "terms" else REVISED
+    h1, content = body((SRC / f"{name}.md").read_text(encoding="utf-8"), revised)
+    if h1 not in (title, f"TT Wizard {title}"):
         raise SystemExit(f"{name}.md: 맨 위 제목이 '{title}' 이 아니다: {h1!r}")
     if "【" in content or "】" in content:
         raise SystemExit(f"{name}.md: 풀지 않은 【】 가 있다")

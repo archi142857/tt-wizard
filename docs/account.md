@@ -20,13 +20,13 @@
 | 경로 | 무엇 | 누가 |
 | --- | --- | --- |
 | `users/{uid}`, `users/{uid}/timetables/{id}` | 내 시간표 사본(기기 꼴, 교수 이름·출발 지점 뺌, 수업은 `{day,start,end,building,room}`), 지운 것은 `{id, sem, deleted, updated}` | 나만 |
-| `profiles/{uid}` | 닉네임·태그(친구 기능을 켤 때), `showSchool`(학교 계정 보이기, 처음 true)·`school`(보이게 두었고 확인된 snu.ac.kr 메일일 때만 true, 규칙이 토큰으로 본다, update112) | 로그인한 사람이 읽음, 나만 씀 |
-| `handles/{닉네임#태그}` | uid(겹치지 않게) | 로그인한 사람이 읽음, 내 것만 만들고 지움 |
+| `profiles/{uid}` | 닉네임·태그(친구 기능을 켤 때), `showSchool`(학교 계정 보이기, 처음 true)·`school`(보이게 두었고 확인된 snu.ac.kr 메일일 때만 true, 규칙이 토큰으로 본다, update112) | 로그인한 사람이 uid 로 하나씩 읽음(목록째는 막음, update116), 나만 씀 |
+| `handles/{닉네임#태그}` | uid(겹치지 않게) | 로그인한 사람이 열쇠로 하나씩 읽음(목록째는 막음, update116), 내 것만 만들고 지움 |
 | `requests/{보낸_받은}` | 친구 요청 `pending` → 받은 사람이 `accepted` | 보낸·받은 사람. 받은 사람이 막았으면 못 만든다 |
 | `blocks/{uid}/list/{상대}` | 막은 사람 | 나만 |
 | `shared/{uid}/terms/{학기}` | 친구에게 보이는 사본(대표 시간표의 강좌, 일정은 제목·시간만, 숨긴 항목은 `{hidden: true, meetings: [{day,start,end}]}` 시간만) | 나와 친구만 읽음 |
 
-규칙은 콘솔 Firestore > 규칙에 그대로 붙여 게시한다(백엔드가 사용자 크롬에서. 규칙 파일이 바뀌면 다시 게시). 시험: `.github/workflows/firebase.yml`(에뮬레이터, `tests/rules_test.mjs` 33가지,
+규칙은 콘솔 Firestore > 규칙에 그대로 붙여 게시한다(백엔드가 사용자 크롬에서. 규칙 파일이 바뀌면 다시 게시). 시험: `.github/workflows/firebase.yml`(에뮬레이터, `tests/rules_test.mjs` 37가지,
 `tests/account_e2e.mjs` 두 사람으로 로그인·맞추기·닉네임·요청·수락·친구 사본·다른 기기·지우기·막기·계정 삭제).
 
 ## 화면이 부르는 것
@@ -38,7 +38,9 @@ decline·cancel·unfriend·block·unblock·friendTimetables·publish·inviteLink
   기기 `syncLast`), 이미 친구에게 `request` 는 `ALREADY`, 신고 메일 제목 `[신고] 닉네임 민지#0420`. 같은 닉네임으로 다시 저장하면 태그를 그대로 둔다.
 - SDK 는 로그인한 적이 있는 기기에서만 받는다(update115, 법무 11/15): 로그인하면 기기에 `ttw.signedIn` 표시를 두고 로그아웃·계정 삭제 때 지운다. 표시가 없으면
   `ready()`·`onUser` 는 SDK 없이 '로그인 안 함'(gstatic·Firebase 로 아무것도 보내지 않음), `signIn()` 이 그때 받는다. 표시 전 판에서 로그인한 기기는 Firebase 저장소
-  (`firebaseLocalStorageDb`)를 보고 이어 간다. 시험 `tests/lazy_runner.mjs`.
+  (`firebaseLocalStorageDb` 의 `firebaseLocalStorage` 에 `firebase:authUser:` 열쇠가 있을 때)를 보고 이어 간다. update116: 저장소는 Firebase 를 켜기만 해도 생기고
+  로그아웃해도 남아서, 115 는 있는지만 보고 로그아웃한 기기에서도 SDK 를 받았다(11/15 사이트에서 확인). 이제 사용자 열쇠를 보고, SDK 를 받은 뒤 사용자가 없으면
+  표시를 지운다(115 가 빈 저장소를 보고 둔 표시도 한 번 받은 뒤 풀린다). 시험 `tests/lazy_runner.mjs`.
 - 웹 데모 주소 `?demo`(update115, 사용자 11/15 '지금 다 열자'): 개발자 메뉴의 '로그인'과 같다(그 탭만, 주소에서는 지운다). 공개 화면의 로그인은 처리방침 전면 개정 전이라
   `ACCOUNT_FROM` 으로 막아 둔다(법무 11/15: 공개 전 차례 ①~⑨, 그 전에는 OAuth 동의 화면을 테스트로 두고 테스트 사용자에 사용자 계정 둘만).
 - 로그아웃·계정 삭제 때 `이 기기의 시간표도 지우기`를 고르면 화면이 기기 시간표를 지운 뒤 `forget(store)` 를 부른다: 맞추기 기록(`syncKnown`·`syncLast`)이 남아 있으면
@@ -59,3 +61,11 @@ decline·cancel·unfriend·block·unblock·friendTimetables·publish·inviteLink
 - 에뮬레이터 시험 `tests/account_e2e.mjs` 는 결과를 `node:assert` 로 확인한다(update111): 같은 요청을 두 번 보내도·이미 친구여도 막히지 않고(`request` 가 먼저 내 요청을 본다),
   친구가 아닌 사람의 사본은 `NOT_FRIEND`, 숨긴 항목·메모·교수 이름·출발 지점·일정 장소는 친구에게 안 보인다.
 - 계정 삭제: 서버의 내 시간표·친구 사본·막은 목록·요청·닉네임·프로필을 지우고 계정을 지운다(오래전에 로그인했으면 다시 로그인). 기기 자료는 그대로.
+  남이 나를 막아 둔 기록(`blocks/{그 사람}/list/{내 uid}`, 차단한 때만)은 그 사람 자료라 남는다(계정이 지워져 누구인지 알 수 없는 번호). 지운 시간표의 '지움 표시'는 계정과 함께 지워진다.
+  앱 없이 메일로 청하면 개발자가 콘솔에서 그 메일의 인증 계정(Authentication > Users)과 위 문서를 손으로 지운다(관리용 키·서버는 쓰지 않는다).
+- 처리방침·이용 규칙·계정 삭제 안내(update116, 11/15 시행): `docs/legal/privacy.md`·`terms.md`·`delete-account.md` → https://archi142857.github.io/tt-wizard/privacy/ ·…/terms/ ·…/delete-account/
+  (`scripts/legal_pages.py`). 로그인 카드의 '이용 규칙에 동의해요'가 …/terms/ 를, Play 데이터 보안의 계정 삭제 칸이 …/delete-account/ 를 쓴다.
+  처리방침에 쓴 사실(11/15 백엔드 확인): Firebase 인증 기록에는 Google 메일·메일 확인 여부·uid·Google 계정 번호·이름·프로필 사진 주소·가입·마지막 로그인 때가 남는다
+  (Google 로그인이면 이름·사진 주소가 저절로 들어간다). IP 기록은 몇 주, 지운 사용자는 실제 시스템과 백업에서 180일 안(https://firebase.google.com/support/privacy),
+  Firestore 는 Google Cloud 삭제 약속 최대 약 180일(https://docs.cloud.google.com/security/deletion). 개발자 쪽 백업은 없다(무료 요금제라 지난 시점 복구·예약 백업을 켤 수 없다.
+  켜게 되면 처리방침부터 고친다). Firestore 저장 위치는 asia-northeast3(서울), Firebase 인증은 미국에서만 돈다. 우리 사이트·앱은 쿠키를 쓰지 않는다(로그인 상태는 IndexedDB·앱 저장공간).

@@ -34,6 +34,6 @@ sanger.lee138@gmail.com
 
 #### 개인정보
 
-앱이 다루는 정보와 요청하는 방법은 개인정보 처리방침(https://archi142857.github.io/tt-wizard/privacy/)에 있습니다.
+앱이 다루는 정보와 요청하는 방법은 개인정보 처리방침(https://archi142857.github.io/tt-wizard/privacy/)에 있습니다. 로그인한 계정을 지우는 방법은 계정 삭제 안내(https://archi142857.github.io/tt-wizard/delete-account/)에, 로그인할 때 동의하는 규칙은 이용 규칙(https://archi142857.github.io/tt-wizard/terms/)에 있습니다.
 
 서울대학교 공식 서비스가 아닙니다. 학생 개인이 만든 앱입니다. 수강신청이나 학사에 관한 문의는 학교에 해 주십시오.

@@ -166,11 +166,13 @@ def test_app_google_sign_in_wiring():
 
 def test_sdk_only_after_sign_in():
     """Firebase SDK(gstatic)는 이 기기에서 로그인한 적이 있을 때만 받는다(update115, 법무 11/15): 표시가 없으면 ready·onUser 는 '로그인 안 함',
-    sync 는 SIGNED_OUT, 로그아웃은 SDK 없이. 표시 전 판에서 로그인한 기기(Firebase 저장소가 있음)는 이어 간다"""
+    sync 는 SIGNED_OUT, 로그아웃은 SDK 없이. 표시 전 판에서 로그인한 기기(Firebase 저장소에 로그인 사용자가 있음)는 이어 가고,
+    저장소만 있고 사용자가 없으면(Firebase 를 켜기만 했거나 로그아웃한 기기) 받지 않는다(update116)"""
     if shutil.which("node") is None:
         pytest.skip("node 없음")
     run = subprocess.run(["node", str(ROOT / "tests" / "lazy_runner.mjs")], capture_output=True, text=True, encoding="utf-8", check=True)
     r = json.loads(run.stdout)
     assert r["available"] is True and r["ready"] is None and r["onUser"] == [None] and r["sync"] == "SIGNED_OUT"
     assert r["signOut"] == "ok" and r["markAfterSignOut"] is None
+    assert r["readyEmpty"] is None and r["markEmpty"] is None
     assert r["readyOld"] == "OFFLINE" and r["markOld"] == "1"  # 받으려 했다(시험에는 네트워크가 없다)

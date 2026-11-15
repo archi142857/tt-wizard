@@ -340,7 +340,7 @@ tests/                       pytest
 | 국토지리정보원 수치지형도에서 온 것: `basemap.json` 의 건물·도로면 모양·인도·물, 경사를 반영한 이동시간(`travel_slope.csv`)과 층 추정(`building_entrances.*`의 `floor_est`), 1:1,000 으로 그린 길·접속선(`graph_patch/gwanaksa.geojson`·`links.geojson`, `campus.geojson` 의 일부). 등고선과 고도·높이차·경사, 지형 모형은 2026-11-03 부터 저장소에 두지 않습니다 | 국토지리정보원 수치지형도(1:5,000·1:1,000, [국토정보플랫폼](https://map.ngii.go.kr)) | 공공누리 제1유형(출처 표시). 원본은 저장소에 없습니다. 공간정보관리법의 절차가 따로 있습니다(`docs/topo.md`). 출처 문장과 조건은 `web/licenses/kogl-type1.txt` 에 있습니다 |
 | 수강편람: `data/raw/`, `lectures.json`, `data/history/`, `data/changes/`, `stats.csv`, `buildings_history.csv` | 서울대학교 수강신청 시스템 강좌검색 | 서울대학교 자료. MIT 대상이 아닙니다 |
 | 건물 번호·이름·좌표: `buildings.csv`, `campus_buildings.csv` | [서울대학교 캠퍼스맵](https://map.snu.ac.kr) | 서울대학교 자료. MIT 대상이 아닙니다 |
-| 졸업 요건: `data/requirements/`(과정별 요건과 학번 판, 교양 학점 표, 교양 과목 대응표, 학사 공통 규칙)와 웹이 받는 `web/data/requirements/` | 서울대학교 공개 문서(교과과정 해설, 학부대학 교양 이수규정·기초교양 수강편람, 단과대·학과 누리집)를 이 저장소가 조사해 요약. 요건마다 출처를 적었습니다 | 서울대학교 자료에서 온 사실과 요약. MIT 대상이 아닙니다. 학교의 공식 졸업 사정이 아니며 학번·개별 인정에 따라 다를 수 있습니다 |
+| 졸업 요건: `data/requirements/`(과정별 요건과 학번 판, 교양 학점 표, 교양 과목 대응표, 학사 공통 규칙)와 웹이 받는 `web/data/requirements/` | 서울대학교 공개 문서(교과과정 해설, 학부대학 교양 이수규정·기초교양 수강편람, 단과대·학과 누리집)를 이 저장소가 조사해 요약. 요건마다 출처를 적었습니다. 성적 계산은 서울대학교 학사 안내(성적·학점)와 기초교양 수강편람 | 서울대학교 자료에서 온 사실과 요약. MIT 대상이 아닙니다. 학교의 공식 졸업 사정이 아니며 학번·개별 인정에 따라 다를 수 있습니다 |
 | 학기 기간과 공휴일: `data/calendar/`(웹 `web/data/calendar.json`) | 서울대학교 학사일정(기준일: `data/calendar/terms.json` 의 `checked_on`), 공휴일은 「관공서의 공휴일에 관한 규정」과 정부 발표 | 날짜만 옮긴 사실입니다. MIT 대상이 아닙니다 |
 | 수강 제한 알림: `data/limits/`(웹 `web/data/limits.json`) | 수강편람 비고(서울대학교 수강신청 시스템 강좌검색)를 이 저장소가 읽어 분반마다 단계 규칙과 대상 글로 바꾼 것. 개인 메일 주소는 가렸습니다 | 서울대학교 자료에서 온 것이라 MIT 대상이 아닙니다. 사람이 쓴 글을 읽어 낸 규칙이라 틀릴 수 있고, 학교의 수강 제한을 대신하지 않습니다(`docs/limits.md`) |
 | 수강신청 일정표: `data/registration.json`(웹 `web/data/limits.json` 의 `schedule`) | [서울대학교 수강신청 사이트](https://sugang.snu.ac.kr) 첫 화면의 일정표(모은 날을 같이 적습니다) | 날짜만 옮긴 사실입니다. 일정은 바뀔 수 있습니다. MIT 대상이 아닙니다 |
@@ -362,4 +362,4 @@ tests/                       pytest
 
 버그 제보와 기능 제안은 [GitHub 이슈](https://github.com/Archi142857/tt-wizard/issues/new/choose)에 남겨 주세요(`버그 제보`·`기능 제안` 양식). 올린 글은 누구나 볼 수 있으니 개인정보는 적지 마세요. 개인정보 정정·삭제 요청은 메일로 보내 주세요. 양식과 앱이 여는 주소는 [docs/feedback.md](docs/feedback.md)에 있습니다.
 
-[개인정보 처리방침](https://archi142857.github.io/tt-wizard/privacy/) · [문의](https://archi142857.github.io/tt-wizard/support/)(원문 `docs/legal/`, `python scripts/legal_pages.py` 로 `web/privacy/`·`web/support/` 를 다시 만듭니다)
+[개인정보 처리방침](https://archi142857.github.io/tt-wizard/privacy/) · [문의](https://archi142857.github.io/tt-wizard/support/) · [이용 규칙](https://archi142857.github.io/tt-wizard/terms/) · [계정 삭제](https://archi142857.github.io/tt-wizard/delete-account/)(원문 `docs/legal/`, `python scripts/legal_pages.py` 로 `web/privacy/`·`web/support/`·`web/terms/`·`web/delete-account/` 를 다시 만듭니다)

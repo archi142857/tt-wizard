@@ -23,7 +23,7 @@ document.documentElement.dataset.shell = SHELL;
 
 // ---------------------------------------------------------------- 설정
 
-const APP_VERSION = "0.10.3";
+const APP_VERSION = "0.11.0";
 // 정보 화면 링크. 주소가 정해지면 넣는다(비어 있으면 그 행을 보이지 않는다)
 // 개인정보 처리방침 공개 페이지(스토어에 적는 주소와 같게). 백엔드 update74 가 docs/legal/privacy.md 로 만든 web/privacy/(GitHub Pages). 앱 묶음에는 넣지 않아 늘 이 주소를 연다
 const PRIVACY_URL = "https://archi142857.github.io/tt-wizard/privacy/";
@@ -7623,7 +7623,7 @@ $("nt-ask-ok").addEventListener("click", async () => {
 // 맞추고(account.sync), 보는 학기의 목록이 바뀌었으면 다시 그린다. 처음 켤 때 로그인을 묻지 않는다(로그인은 정보의 계정과 친구 화면에서만)
 let acct = null, acctP = null, acctOff = null;
 let acctUser; // undefined: 아직 모름, null: 로그인 안 함, { uid, email, name, school }
-const ACCOUNT_FROM = "2099-12-31"; // 한국 시각 날짜. 처리방침 전면 개정이 시행되는 날로 고친다
+const ACCOUNT_FROM = "2026-11-15"; // 한국 시각 날짜. 처리방침 11/15 판·이용 규칙·계정 삭제 안내가 시행되는 날(백엔드 update116, 프론트엔드 11/15: 페이지와 한 푸시). 날을 넘겨 올리면 그날로
 // 웹 데모 주소 '?demo'(백엔드 update115, 사용자 11/15 '지금 다 열자'): 개발자 메뉴의 '로그인'과 같다(이 탭만, 주소에서는 지운다). 공개 화면은 그대로 막고
 // (처리방침 전면 개정 전, 법무 11/15) 데모 때 주소 하나로 연다. 스토어 앱은 보지 않는다(앱 데모 빌드는 날짜 막기를 연다)
 let devAccount = (() => {

@@ -19,9 +19,9 @@ service cloud.firestore {
       }
     }
 
-    // 닉네임#태그 → uid(겹치지 않게). 로그인한 사람은 친구 찾기로 읽는다
+    // 닉네임#태그 → uid(겹치지 않게). 로그인한 사람은 친구 찾기로 하나씩 읽는다(목록째 읽기는 막는다: 보안 마무리, 법무 11/15 ⑦·update116)
     match /handles/{key} {
-      allow read: if signedIn();
+      allow get: if signedIn();
       allow create: if signedIn() && request.resource.data.keys().hasOnly(['uid']) && request.resource.data.uid == request.auth.uid
         && key.matches('^[0-9a-z가-힣_]{2,12}#[0-9]{4}$');
       allow delete: if signedIn() && resource.data.uid == request.auth.uid;
@@ -34,8 +34,9 @@ service cloud.firestore {
             && request.auth.token.get('email', '').lower().matches('^[^@]+@snu[.]ac[.]kr$'));
     }
 
+    // 프로필(닉네임#태그·학교 계정 표시): 친구·요청 목록과 친구 찾기가 uid 로 하나씩 읽는다. 목록째 읽기는 막는다(update116)
     match /profiles/{uid} {
-      allow read: if signedIn();
+      allow get: if signedIn();
       allow create, update: if isMe(uid) && request.resource.data.keys().hasOnly(['nick', 'tag', 'handle', 'updated', 'showSchool', 'school'])
         && request.resource.data.nick is string && request.resource.data.nick.size() >= 2 && request.resource.data.nick.size() <= 12
         && request.resource.data.tag.matches('^[0-9]{4}$')

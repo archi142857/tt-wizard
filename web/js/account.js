@@ -83,7 +83,8 @@ const userOf = (u) => (u ? { uid: u.uid, email: u.email || "", name: u.displayNa
 
 // Firebase SDK 는 이 기기에서 로그인한 적이 있을 때만 받는다(법무 11/15 'SDK 를 로그인 때만 gstatic 에서', update115): 로그인하면 표시(MARK)를 두고
 // 로그아웃·계정 삭제 때 지운다. 표시가 없으면 ready()·onUser 는 SDK 없이 '로그인 안 함'이고, signIn() 이 그때 받는다.
-// 표시를 두기 전 판에서 로그인한 기기는 Firebase 가 남긴 저장소(firebaseLocalStorageDb)를 보고 이어 간다.
+// 표시를 두기 전 판에서 로그인한 기기는 Firebase 가 남긴 저장소(firebaseLocalStorageDb)에 로그인한 사용자가 있을 때만 이어 간다(update116: 저장소는
+// Firebase 를 한 번 켜기만 해도 생기고 로그아웃해도 남아서, 있는지만 보면 로그아웃한 기기도 늘 받았다. 처리방침 12절 '로그인하지 않으면 접속하지 않습니다').
 const MARK = "ttw.signedIn";
 const pending = new Set(); // 로그인 전에 붙은 onUser: 로그인하면 붙인다
 function marked() {
@@ -93,11 +94,32 @@ function marked() {
 function setMark(on) {
   try { if (on) globalThis.localStorage.setItem(MARK, "1"); else globalThis.localStorage.removeItem(MARK); } catch { /* 저장소가 막혀도 로그인은 된다 */ }
 }
+/** Firebase 가 기기에 둔 로그인 사용자가 있나(firebaseLocalStorageDb 의 firebaseLocalStorage 에 'firebase:authUser:' 열쇠). 없는 저장소는 만들지 않는다 */
+async function storedUser() {
+  const idb = globalThis.indexedDB;
+  if (!idb || typeof idb.databases !== "function") return false;
+  const dbs = await idb.databases();
+  if (!dbs.some((d) => d && d.name === "firebaseLocalStorageDb")) return false;
+  return new Promise((resolve) => {
+    const req = idb.open("firebaseLocalStorageDb");
+    req.onupgradeneeded = () => { try { req.transaction.abort(); } catch { /* 그사이 지워졌으면 만들지 않는다 */ } };
+    req.onerror = () => resolve(false);
+    req.onsuccess = () => {
+      const db = req.result;
+      const done = (v) => { try { db.close(); } catch { /* 닫혀 있음 */ } resolve(v); };
+      try {
+        if (!db.objectStoreNames.contains("firebaseLocalStorage")) return done(false);
+        const keys = db.transaction("firebaseLocalStorage", "readonly").objectStore("firebaseLocalStorage").getAllKeys();
+        keys.onsuccess = () => done((keys.result || []).some((k) => String(k).startsWith("firebase:authUser:")));
+        keys.onerror = () => done(false);
+      } catch { done(false); }
+    };
+  });
+}
 async function wanted() {
   if (fb || marked()) return true;
   try {
-    const dbs = globalThis.indexedDB && typeof globalThis.indexedDB.databases === "function" ? await globalThis.indexedDB.databases() : [];
-    if (dbs.some((d) => d && d.name === "firebaseLocalStorageDb")) { setMark(true); return true; }
+    if (await storedUser()) { setMark(true); return true; }
   } catch { /* 모르면 로그인 안 함으로 */ }
   return false;
 }
@@ -113,6 +135,7 @@ export async function ready() {
   if (!(await wanted())) return null;
   const { auth } = await load();
   if (typeof auth.authStateReady === "function") await auth.authStateReady();
+  if (!auth.currentUser) setMark(false); // 표시는 있는데 로그인 사용자가 없다(로그인해 둔 것이 풀렸거나 update115 가 빈 저장소를 보고 둔 표시): 다음부터 받지 않는다
   return userOf(auth.currentUser);
 }
 
@@ -122,7 +145,7 @@ export function onUser(cb) {
     pending.delete(attach);
     load().then(({ auth, A }) => {
       if (closed) return;
-      off = A.onAuthStateChanged(auth, (u) => cb(userOf(u)));
+      off = A.onAuthStateChanged(auth, (u) => { if (!u) setMark(false); cb(userOf(u)); }); // 사용자가 없으면 표시를 지운다(ready 와 같다)
     }).catch(() => cb(null));
   };
   wanted().then((yes) => {
