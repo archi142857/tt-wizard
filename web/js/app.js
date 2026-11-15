@@ -4801,6 +4801,10 @@ async function linkToPayload(link) {
 // 전에는 없다, 법무 11/13) · 캘린더 앱(안드로이드 앱: 폰에서 .ics 를 여는 앱 셋까지, 백엔드 update104) · 더 보기(기기 공유 창에 파일). 학기 기간 자료가 없으면
 // '이 학기 기간이 아직 없어요'만
 let shareTt = null, shareUrl = null; // 공유 시트를 연 시간표, 그 링크(Promise. 열 때 만들어 둔다: 웹의 공유는 누른 바로 그때만 된다)
+// 친구 초대(11/15 사용자 "친구 초대 링크 보내기도 시간표 공유랑 마찬가지로 공유 방식 맞춰줘 … 그 앱 밑에 뜨고 그런거", 백엔드 전달): 같은 공유 시트를 링크 꼴로만 연다(openInviteShare).
+// 그동안 shareTt 는 null 이고 shareInvite 가 { url, title }
+let shareInvite = null;
+const INVITE_TITLE = "TT Wizard 친구 초대"; // 기기 공유 창·앱에 넘기는 제목(백엔드 11/15)
 let shareThumb = ""; // 이미지 칸 썸네일의 blob 주소(다시 열 때 놓는다)
 let shareTargets = null; // 안드로이드 앱: 바로 보낼 수 있는 앱(shareTargets() 의 지난 답. 시트를 열 때마다 다시 묻는다)
 let calApps = null; // 안드로이드 앱: 캘린더 파일을 여는 앱 셋까지(calendarApps() 의 지난 답, 백엔드 update104. 시트를 열 때마다 다시 묻는다)
@@ -4838,6 +4842,8 @@ function openShare(opener) {
   const t = curTt();
   if (!t.items.length) return;
   shareTt = t;
+  shareInvite = null;
+  shareSheetMode();
   shareUrl = linkCode(t).then((code) => `${linkBase()}#t=${code}`);
   shareUrl.catch(() => null);
   const png = preparedImage(t); // 이미지도 미리 그려 둔다
@@ -4860,6 +4866,29 @@ function openShare(opener) {
   refreshShareTargets();
   refreshCalApps();
 }
+/** 친구 초대 링크 보내기: 공유 시트를 '친구 초대'(메타 내 닉네임#번호)로, 고르는 칸·이미지·캘린더 없이 링크 칸(주소·링크 복사)과 앱 단추(스토리는 이미지만 받아 뺀다).
+ *  링크 고지(시간표가 주소에 든다)는 초대에 맞지 않아 두지 않는다. 앱 단추로 바로 보내는 길은 시간표 링크와 같다(TTW_APP.shareTo text, 백엔드 11/15) */
+function openInviteShare(opener) {
+  if (!acct || !fr || !fr.profile) return;
+  const url = acct.inviteLink(fr.profile);
+  shareTt = null;
+  shareInvite = { url, title: INVITE_TITLE };
+  shareUrl = Promise.resolve(url);
+  shareSheetMode();
+  $("sh-meta").textContent = handleText(fr.profile);
+  $("sh-url").textContent = url.replace(/^https:\/\//, "");
+  renderShareKind();
+  openSheet($("share-sheet"), opener);
+  refreshShareTargets();
+}
+/** 시트의 머리·고르는 칸을 시간표 공유와 친구 초대에 맞춘다 */
+function shareSheetMode() {
+  const invite = !!shareInvite;
+  $("sh-title").textContent = invite ? "친구 초대" : "공유";
+  $("share-sheet").querySelector(".share-kind").hidden = invite;
+  const copy = $("sh-link-field").querySelector('[data-share="copy"]');
+  if (invite) copy.removeAttribute("aria-describedby"); else copy.setAttribute("aria-describedby", "sh-link-note");
+}
 function setShareThumb(bytes) {
   if (shareThumb) URL.revokeObjectURL(shareThumb);
   shareThumb = bytes ? URL.createObjectURL(new Blob([bytes], { type: "image/png" })) : "";
@@ -4867,8 +4896,9 @@ function setShareThumb(bytes) {
 }
 /** 링크 | 이미지 | 캘린더: 보내는 것의 칸(늘 78 높이라 바꿔도 단추 줄이 움직이지 않는다)과 앱 단추 */
 function renderShareKind() {
-  const k = shareKind();
-  $("sh-link-field").hidden = $("sh-link-note").hidden = k !== "link";
+  const k = shareInvite ? "link" : shareKind();
+  $("sh-link-field").hidden = k !== "link";
+  $("sh-link-note").hidden = k !== "link" || !!shareInvite;
   $("sh-image-field").hidden = k !== "image";
   $("sh-cal-field").hidden = k !== "cal";
   $("sh-cal-note").hidden = k !== "cal" || !(shareIcsNow && shareIcsNow.info);
@@ -4910,7 +4940,7 @@ function moreOk(link) {
 /** 앱 단추 줄(다섯 칸 격자에 왼쪽부터, 맨 끝은 더 보기). 안드로이드 앱은 깔린 앱 가운데 고른 것을 받는 것(스토리는 링크일 때도 둔다: 이미지를 보낸다),
  *  웹·iOS 는 메시지(링크일 때)·더 보기. 단추가 없으면 줄을 두지 않는다(링크 복사·이미지로 저장만) */
 function renderShareApps() {
-  const list = $("sh-apps"), kind = shareKind(), link = kind === "link", app = IN_APP && window.TTW_APP;
+  const list = $("sh-apps"), kind = shareInvite ? "link" : shareKind(), link = kind === "link", app = IN_APP && window.TTW_APP;
   const had = list.contains(document.activeElement) ? document.activeElement : null; // 다시 그려도 초점은 같은 단추에
   const ours = (k, path, name, label = null) => h("button", { type: "button", class: "share-app", "data-share": k, "aria-label": label },
     h("span", { class: "ic" }, icon(path, 24)), h("span", { class: "nm" }, name));
@@ -4926,7 +4956,7 @@ function renderShareApps() {
     }
   }
   for (const g of kind !== "cal" && app && typeof app.shareTo === "function" ? shareTargets || [] : []) {
-    if (!(link ? g.text || g.id === "instagram-story" : g.image)) continue;
+    if (!(link ? g.text || (g.id === "instagram-story" && !shareInvite) : g.image)) continue; // 초대에는 이미지가 없어 스토리를 뺀다
     const name = g.app || SHARE_NAME[g.id] || g.id, sub = SHARE_SUB[g.id] || "";
     rows.push(h("button", { type: "button", class: "share-app", "data-target": g.id, "aria-label": sub ? `${name} ${sub}` : null },
       h("span", { class: "ic" }, g.icon ? h("img", { src: g.icon, alt: "", width: "36", height: "36" }) : null),
@@ -4964,7 +4994,7 @@ function refreshCalApps() {
 if (IN_APP) setTimeout(() => { refreshShareTargets(); refreshCalApps(); }, 3000); // 처음 여는 시트도 단추가 한 번에 그려지게
 $("share-sheet").addEventListener("click", (e) => {
   const b = e.target.closest("[data-share], [data-target], [data-cal]");
-  if (!b || !shareTt) return;
+  if (!b || (!shareTt && !shareInvite)) return;
   if (b.dataset.target) shareToApp(b.dataset.target);
   else if (b.dataset.cal) calOpen(b.dataset.cal);
   else if (b.dataset.share === "copy") copyShareLink();
@@ -4985,9 +5015,9 @@ async function shareLinkNow() {
 async function copyShareLink() {
   const url = await shareLinkNow();
   if (!url) return;
-  const ok = await copyText(url);
+  const ok = await copyText(url), what = shareInvite ? "초대 링크를" : "링크를";
   closeSheet($("share-sheet"));
-  showSnackbar(ok ? "링크를 복사했어요" : "링크를 복사하지 못했어요");
+  showSnackbar(ok ? `${what} 복사했어요` : `${what} 복사하지 못했어요`);
 }
 /** 메시지(웹·iOS): 문자 앱에 링크를 넣어 연다(받는 사람 없이). iOS·안드로이드가 다 여는 꼴 sms:?&body= */
 async function smsShare() {
@@ -5077,10 +5107,10 @@ function openSystem(url) {
 /** 더 보기: 기기 공유 창에 제목과 링크, 또는 이미지 파일. 공유 창을 그냥 닫으면 시트는 그대로 */
 async function moreShare() {
   const sheet = $("share-sheet"), t = shareTt;
-  if (shareKind() === "image") { imageAct("share-image", t, sheet); return; }
-  if (shareKind() === "cal") { calMore(); return; }
+  if (!shareInvite && shareKind() === "image") { imageAct("share-image", t, sheet); return; }
+  if (!shareInvite && shareKind() === "cal") { calMore(); return; }
   const url = await shareLinkNow();
-  if (url && await deviceShareLink(url, imageTitle(t))) closeSheet(sheet);
+  if (url && await deviceShareLink(url, shareInvite ? shareInvite.title : imageTitle(t))) closeSheet(sheet);
 }
 /** 링크를 기기 공유 창으로: 앱은 앱 연결(shareLink), 웹은 navigator.share. 보냈으면 true, 닫았거나 못 하면 false */
 async function deviceShareLink(url, title) {
@@ -5095,7 +5125,7 @@ async function deviceShareLink(url, title) {
  *  보내기 전에 링크를 복사해 둔다(링크 스티커에 붙일 수 있게. 앱으로 돌아오면 스낵바). 그 앱이 없어졌거나 받지 않으면(MISSING) 단추를 빼고,
  *  바로 못 보내면(UNSUPPORTED·FAILED) 같은 것을 기기 공유 창으로 */
 async function shareToApp(id) {
-  const sheet = $("share-sheet"), t = shareTt, app = window.TTW_APP, link = shareKind() === "link", story = id === "instagram-story";
+  const sheet = $("share-sheet"), t = shareTt, app = window.TTW_APP, link = !!shareInvite || shareKind() === "link", story = id === "instagram-story" && !shareInvite;
   const asImage = !link || story;
   const url = link ? await shareLinkNow() : null;
   if (link && !url) return;
@@ -5119,7 +5149,7 @@ async function shareToApp(id) {
     }
   }
   if (asImage) { await imageAct("share-image", t, sheet); if (note && !sheet.open) snackOnReturn(note); return; }
-  if (await deviceShareLink(url, imageTitle(t))) closeSheet(sheet);
+  if (await deviceShareLink(url, shareInvite ? shareInvite.title : imageTitle(t))) closeSheet(sheet);
 }
 /** 다른 앱에 갔다가 돌아오면 띄울 스낵바(스토리: 링크를 복사해 두었다). 1.5초가 지나도 이 앱이 보이고 있으면(다른 앱으로 가지 않았다) 그때 띄운다 */
 function snackOnReturn(text) {
@@ -5773,8 +5803,8 @@ function renderCustom() {
         h("span", { class: "time-part" }, sel("eh", 6, 23, 1, "끝 시"), colon(), sel("em", 0, 55, 5, "끝 분"))),
       err("time", "끝 시각이 시작보다 빨라요")),
     // 친구에게 숨기기는 친구 탭의 '친구에게 보이는 내 시간표'에서만 한다(11/15 사용자 "친구에게 숨기고 말고 하는 건 친구 탭에서 할 수 있도록. 메인 시간표 거기서 하지 말고").
-    // 새 일정은 처음에 친구에게 보이므로 만드는 시트의 시각 바로 아래에 한 줄로 알린다(134판, 법무 11/15: 만드는 화면에서 눈에 띄게. 친구를 켰을 때만)
-    frShare() ? h("p", { class: "hide-note cu-fr-note" }, "친구에게 이름과 시간이 보여요. 친구 탭에서 숨길 수 있어요") : null,
+    // 새 일정은 처음에 친구에게 보이므로 만드는 시트의 시각 바로 아래에 한 줄로 알린다(134판, 법무 11/15: 만드는 화면에서 눈에 띄게. 법무 11/15 오후: 그 시간표가 친구에게 보일 때만, frNoteOn)
+    frNoteOn() ? h("p", { class: "hide-note cu-fr-note" }, frNoteText()) : null,
     h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-place" }, "장소"), placeSelect(c.b, { class: "select", id: "cu-place", "data-cu": "b" })),
     h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-memo" }, "메모"),
       h("input", { class: "text-input", id: "cu-memo", type: "text", maxlength: "100", autocomplete: "off", enterkeyhint: "done", value: c.memo, "data-cu": "memo" })),
@@ -7437,7 +7467,7 @@ function gradNextView() {
   const next = R.nextRegularTerm(cur), ready = R.hasCoursebook({ list: state.semesters }, next);
   return [h("div", { class: "card gr-next" },
     h("p", { class: "gr-next-t" }, R.termName(next)),
-    h("p", { class: "gr-next-m" }, ready ? "남은 졸업 요건을 채우는 과목부터 보여 줄게요" : "이 학기 수강편람이 아직 없어요"),
+    h("p", { class: "gr-next-m" }, ready ? "남은 졸업 요건을 채우는 과목부터 보여 드려요" : "이 학기 수강편람이 아직 없어요"),
     ready ? h("button", { type: "button", class: "btn-primary gr-next-go", "data-next": next, "data-gk": "next" }, "시간표 짜기") : null)];
 }
 
@@ -7856,8 +7886,9 @@ function paintAccountSync() {
 /** 로그인 전 카드(130판 Account·Friends '로그인 전', 134판): 한 줄, (계정 화면만) 서버에 두는 것 셋(법무 11/11: 로그인 화면에서 무엇이 가는지),
  *  필수 확인 둘 '만 14세 이상이에요'(법무 11/11 ③)·'이용 규칙에 동의해요'와 줄 오른쪽 '보기'(이용 규칙 웹 페이지. 법무 11/15 ③. 둘 다 처음 꺼짐이고 기억하지 않는다),
  *  오류 줄(.acct-err, role=alert. 확인 없이 누를 때만), Google 계정으로 계속(Google 지침 버튼. 늘 켜진 기본 모양: 꺼진 모양은 지침에 없고 G 까지 흐려진다, 134판) */
-/** 로그인 카드(11/15 사용자 "로그인 자체는 만 14세, 이용 규칙 저것만 깔끔하게 남겨두자": 머리 글과 '서버에 두는 것' 목록은 뺐다. 서버에 두는 것은 처리방침에 있다):
- *  필수 확인 둘·오류 줄·Google 버튼. lead 는 친구 탭만(왜 로그인하는지), skip 이면 맨 아래 '건너뛰기'(로그인 처음 화면, 묻는 팝업 #login-skip) */
+/** 로그인 카드(11/15 사용자 "로그인 자체는 만 14세, 이용 규칙 저것만 깔끔하게 남겨두자": 머리 글과 '서버에 두는 것' 목록은 뺐다. 서버에 두는 것은 처리방침에 있다. 디자인 136판):
+ *  필수 확인 둘·오류 줄·Google 버튼, skip 이면 그 아래 Google 버튼과 같은 크기의 보조 버튼 '건너뛰기'(.btn-secondary, 로그인 처음 화면, 묻는 팝업 #login-skip. 법무 11/15 오후:
+ *  로그인 버튼만큼 잘 보이게). 처리방침 링크는 카드 바로 아래 .info-foot(법무 11/15 오후: 로그인 버튼 가까이 잘 보이게, loginFoot). lead 는 친구 탭만(왜 로그인하는지) */
 function loginCard(lead, skip = false) {
   return h("div", { class: "card acct" },
     lead ? h("p", { class: "acct-lead" }, lead) : null,
@@ -7866,7 +7897,7 @@ function loginCard(lead, skip = false) {
       h("a", { class: "btn-text small", href: TERMS_URL, target: "_blank", rel: "noopener", "aria-label": "이용 규칙 보기" }, "보기")),
     h("p", { class: "acct-err", role: "alert", hidden: true }),
     h("button", { type: "button", class: "g-btn", "data-signin": "1" }, h("img", { src: GOOGLE_G, alt: "", width: "20", height: "20" }), "Google 계정으로 계속"),
-    skip ? h("button", { type: "button", class: "btn-text acct-skip", "data-login-skip": "1", "aria-haspopup": "dialog" }, "건너뛰기") : null);
+    skip ? h("button", { type: "button", class: "btn-secondary acct-skip", "data-login-skip": "1", "aria-haspopup": "dialog" }, "건너뛰기") : null);
 }
 // 확인 없이 누를 때의 오류 글(134판): 빈 것에 따라
 const ACCT_CHECK_ERR = { age: "만 14세 이상인지 확인해 주세요", terms: "이용 규칙에 동의해 주세요", both: "두 가지 모두 확인해 주세요" };
@@ -7909,8 +7940,8 @@ document.addEventListener("click", async (e) => {
 // 로그인하지 않으면 못 쓰는 것(11/15 사용자 "로그인 하지 않으면 기기간 동기화, 친구 탭을 이용할 수 없어요"): 계정 화면 아래 줄과 건너뛰기 묻는 팝업(index.html #ls-text)
 const NO_LOGIN = "로그인하지 않으면 기기 간 동기화와 친구 탭을 이용할 수 없어요";
 const privacyLink = () => (PRIVACY_URL ? [h("a", { href: PRIVACY_URL, target: "_blank", rel: "noopener" }, "개인정보 처리방침")] : []);
-/** 계정 화면 로그인 카드 아래 한 줄과 처리방침 */
-const loginFoot = () => [NO_LOGIN, ...(PRIVACY_URL ? [" · ", ...privacyLink()] : [])];
+/** 로그인 카드 바로 아래 줄(.info-foot, 136판. 법무 11/15 오후: 처리방침 링크를 로그인 버튼 가까이): 계정 화면은 못 쓰는 것 · 처리방침, 로그인 처음 화면·친구 탭은 처리방침만 */
+const loginFoot = (why = true) => [...(why ? [NO_LOGIN, ...(PRIVACY_URL ? [" · "] : [])] : []), ...privacyLink()];
 // 로그인 처음 화면(11/15 사용자 "로그인 창도 맨 처음에 띄우되, 로그인을 안 하면 동기화, 친구 탭을 이용할 수 없다. 이렇게 하자", 13:58 "건너뛰기 버튼을 두자"): 로그인을 연 뒤, 아직 묻지 않았고(loginAsked)
 // 이 기기에서 로그인한 적이 없으면(account.js 의 표시 ttw.signedIn) 켤 때 한 번, 학과와 학번 처음 화면보다 먼저. 링크·바로가기·초대 링크로 켜면 그것이 먼저(다음에 켤 때).
 // 로그인하거나 건너뛰면 묻지 않는다. 로그인 모듈을 받지 못했거나 로그인 설정이 없는 배포면 묻지 않고 넘어간다(다음에 켤 때 다시)
@@ -7918,8 +7949,9 @@ const LOGIN_ASKED = "loginAsked";
 const loginAtLaunch = () => accountWanted() && !store.get(LOGIN_ASKED, false) && !store.get("signedIn", null) && !launchLink && !launchNav && !launchInvite;
 function renderLogin() {
   const box = $("login-body");
-  if (!box.querySelector(".acct")) box.replaceChildren(loginCard(null, true)); // 확인 체크는 다시 그리지 않는다(모듈이 와도)
-  $("login-foot").replaceChildren(...privacyLink()); // 아래는 처리방침만(못 쓰는 것은 건너뛰기 팝업이 말한다)
+  if (!box.querySelector(".acct")) box.replaceChildren(loginCard(null, true)); // 확인 체크는 다시 그리지 않는다(모듈이 와도). 못 쓰는 것은 건너뛰기 팝업이 말한다
+  $("login-foot").replaceChildren(...loginFoot(false));
+  $("login-foot").hidden = !PRIVACY_URL;
 }
 /** 로그인 처음 화면을 떠난다: 학과와 학번을 아직 묻지 않았으면 그 처음 화면, 아니면 켤 때의 탭 */
 function afterLogin() {
@@ -8026,16 +8058,26 @@ const frShare = () => accountOn() && !!acctUser && !!fr && frFor === acctUser.ui
 const frSwitch = (name, title, meta, on, attrs = {}) => h("label", { class: "info-row switch-row" },
   h("span", { class: "sw-body" }, h("span", { class: "sw-t", id: `${name}-t` }, title), meta ? h("span", { class: "sw-m", id: `${name}-m` }, meta) : null),
   h("input", { type: "checkbox", role: "switch", class: "switch", name, value: "1", "aria-labelledby": `${name}-t`, "aria-describedby": meta ? `${name}-m` : null, checked: on, ...attrs }));
+const FR_NOTE = "친구에게 이름과 시간이 보여요. 친구 탭에서 숨길 수 있어요";
+const FR_NOTE_HIDDEN = "친구에게 이름 없이 시간만 회색 칸으로 보여요. 친구 탭에서 바꿀 수 있어요"; // 친구 탭에서 숨긴 일정(디자인 136판)
+const frNoteText = () => (custom.key && custom.hidden ? FR_NOTE_HIDDEN : FR_NOTE);
+/** 일정 시트의 한 줄을 둘지(법무 11/15 오후 '아니면 사실이 아니라서'): 친구 기능을 켰고, 그 일정이 들어가는 시간표가 친구에게 보일 때만(그 학기 대표 시간표이고
+ *  '친구에게 보이기'가 켜짐. 아직 없는 빈 시간표 1은 만들 때 대표가 되면) */
+function frNoteOn() {
+  if (!frShare()) return false;
+  const t = curTt();
+  return (t.virtual ? !mine.list.some((x) => x.primary) : !!t.primary) && !t.shareOff;
+}
 let frShareWas = false;
 /** 친구 기능이 켜지거나 꺼졌다(로그인·닉네임·로그아웃): 열린 일정 시트의 알림 줄을 맞춘다(넣던 값은 custom 에 있다) */
 function frShareCheck() {
   const on = frShare();
   if (on === frShareWas) return;
   frShareWas = on;
-  const note = $("cu-body").querySelector(".cu-fr-note");
-  if ($("custom-sheet").open && !!note !== on) {
+  const note = $("cu-body").querySelector(".cu-fr-note"), want = frNoteOn();
+  if ($("custom-sheet").open && !!note !== want) {
     if (note) note.remove();
-    else $("cu-body").querySelector(".time-row")?.closest(".cu-field")?.after(h("p", { class: "hide-note cu-fr-note" }, "친구에게 이름과 시간이 보여요. 친구 탭에서 숨길 수 있어요"));
+    else $("cu-body").querySelector(".time-row")?.closest(".cu-field")?.after(h("p", { class: "hide-note cu-fr-note" }, frNoteText()));
   }
 }
 /** 친구 탭(막대·사이드바)의 빨간 점: 받은 요청이 있으면(130판 친구 버튼의 점을 11/15 탭으로 옮겼다). 이름은 '친구, 받은 요청 2' */
@@ -8101,7 +8143,10 @@ function paintFriends() {
     return;
   }
   if (!acct.available()) { box.replaceChildren(loadLine(ACCT_ERR.NO_CONFIG, false)); return; }
-  if (!u) { box.replaceChildren(loginCard("친구 시간표는 로그인하면 볼 수 있어요", false)); return; }
+  if (!u) { // 로그인 카드와 바로 아래 처리방침(136판)
+    box.replaceChildren(loginCard("친구 시간표는 로그인하면 볼 수 있어요", false), ...(PRIVACY_URL ? [h("p", { class: "info-foot" }, ...loginFoot(false))] : []));
+    return;
+  }
   if (!fr || frFor !== u.uid) { // 받는 동안·오프라인·못 받음(131·132판): 묶음 자리 가운데
     box.replaceChildren(frErr === "FAILED" ? failLine("친구 목록을 불러오지 못했어요", { "data-fr": "retry", "data-frk": "retry" })
       : frErr === "OFFLINE" ? loadLine("연결되면 불러와요", false) : loadLine("불러오는 중", true));
@@ -8263,10 +8308,11 @@ $("fra-send").addEventListener("click", () => {
   frRequest(text, (code) => { frAddError(FR_ADD_ERR[code] || "요청을 보낼 수 없어요"); $("fra-handle").focus(); announce(FR_ADD_ERR[code] || "요청을 보낼 수 없어요", "alert"); },
     (r) => { closeSheet($("fr-add")); showSnackbar(r && r.accepted ? "친구가 됐어요" : "요청을 보냈어요"); });
 });
+// 초대 링크 보내기(11/15 사용자: 시간표 공유처럼 아래에서 올라오는 공유 시트로): 친구 추가 팝업을 닫고 공유 시트를 친구 초대 꼴로 연다. 닫으면 초점은 친구 탭의 '친구 추가'
 $("fra-invite").addEventListener("click", () => {
   if (!fr || !fr.profile) return;
-  const url = acct.inviteLink(fr.profile);
-  deviceShareLink(url, "TT Wizard 친구 초대").then((ok) => { if (!ok) copyText(url).then((c) => showSnackbar(c ? "초대 링크를 복사했어요" : "초대 링크를 복사하지 못했어요")); });
+  $("fr-add").returnTo = null;
+  openInviteShare(document.querySelector('#friends-body [data-fr="add"]'));
 });
 $("fri-send").addEventListener("click", () => {
   const d = $("fr-invite-ask"), text = d.dataset.handle || "";
