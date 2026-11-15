@@ -1288,6 +1288,10 @@ button.wk-block:active { filter: brightness(0.96); } /* 공유받은 시간표 �
 .wk.is-dense { --wk-hours: 1.125rem; padding-right: var(--space-1); }
 .wk.is-dense .wk-block { padding: 3px; }
 .wk.is-dense .b-title, .wk.is-dense .b-room { font-size: 0.6875rem; line-height: 0.875rem; letter-spacing: -0.01em; }
+/* 강의실은 건물 '200-'과 호 '4213' 덩이(.r-part, app.js denseRoom) 사이에서만 줄을 바꾼다(디자인 140판: 크롬은 붙임표 뒤마다 끊을 수 있어 겹친 반 칸에서
+   '200-' / '421' / '3'이 됐다). 덩이가 줄보다 길면 칸 안 여백까지 쓰고 칸 끝(.wk-block 의 overflow)에서 잘린다 */
+.wk.is-dense .b-room { overflow: visible; overflow-wrap: normal; }
+.wk.is-dense .b-room .r-part { white-space: nowrap; }
 /* 폰 내 시간표는 격자 카드를 화면 끝 4px 까지 넓힌다(본문 여백 20 → 4. 폭 360 에서 요일 칸 55 → 63px) */
 @media (max-width: 37.4375em) { #view-mine #wk { margin-inline: calc(var(--space-1) - var(--space-5)); } }
 .tt-legend { margin: var(--space-2) var(--space-1) 0; }

@@ -184,6 +184,15 @@ function roomShort(m) {
   if (!m.building || m.manual || !m.room) return roomLabel(m).replace(" (직접 입력)", "");
   return /^[A-Za-z]?\d/.test(m.room) ? `${m.building}-${m.room}` : `${m.building}동 ${m.room}`;
 }
+/** 좁은 격자 칸의 강의실 조각과 줄 수(디자인 140판): '200-4213'은 건물 '200-'과 호 '4213'을 줄을 바꾸지 않는 덩이(.r-part) 둘로 두고 그 사이(<wbr>)에서만
+ *  줄을 바꾼다. 크롬은 붙임표 뒤마다 끊을 수 있어 덩이 없이는 겹친 반 칸에서 '200-' / '421' / '3', '43-' / '1-' / '304'가 됐다. 덩이가 줄보다 길면 칸 안
+ *  여백까지 쓰고 칸 끝에서 잘린다(style.css .wk.is-dense .b-room). 그 밖의 글('강의실 미정', '43-1동')은 과목명처럼 줄보다 긴 낱말에만 글자 사이 줄바꿈 */
+function denseRoom(m, text, width, font) {
+  const widthOf = canvasWidth(font);
+  if (text !== roomShort(m) || !m.building || !m.room || m.manual || !/^[A-Za-z]?\d/.test(m.room)) return { kids: [breakLong(text, width, widthOf)], lines: textLines(text, font, width) };
+  const a = `${m.building}-`, b = String(m.room);
+  return { kids: [h("span", { class: "r-part" }, a), h("wbr"), h("span", { class: "r-part" }, b)], lines: widthOf(a + b) <= width ? 1 : 2 };
+}
 const daysLabel = (days) => days.map((d) => DAY_KO[d]).join("·");
 
 /** 분반 표기는 어디서나 061(나민애). 교수가 없으면 061(교수 미정). 번호와 교수를 따로 칠할 때는 sectionParts(이어 붙이면 같다). */
@@ -3896,11 +3905,15 @@ function renderWeek(t, entries, clash, opts = {}) {
     const name = breakLong(glueTail(e.item.custom ? e.item.title : shortName(courseName(e)), textW, canvasWidth(font)), textW, canvasWidth(font));
     const spoken = e.item.custom ? (m.building ? buildingLabel(m.building) : "") : roomLabel(m); // 스크린리더는 늘 '200동 4213호'
     const full = dense && !e.item.custom ? roomShort(m) : spoken;
-    let room = full, roomLines = room ? textLines(room, font, textW) : 0;
-    if (room && height - 6 - roomLines * lh < lh && m.building && room !== buildingLabel(m.building)) {
-      room = buildingLabel(m.building);
-      roomLines = textLines(room, font, textW);
-    }
+    // 강의실 글과 줄 수(좁은 격자는 건물·호 덩이 또는 긴 낱말만 글자 사이, denseRoom). 낮아서 과목명 한 줄도 못 두면 건물만('43-1동')
+    let room = "", roomKids = [], roomLines = 0;
+    const setRoom = (text) => {
+      room = text;
+      if (!text) { roomKids = []; roomLines = 0; } else if (dense) ({ kids: roomKids, lines: roomLines } = denseRoom(m, text, textW, font));
+      else { roomKids = [text]; roomLines = textLines(text, font, textW); }
+    };
+    setRoom(full);
+    if (room && height - 6 - roomLines * lh < lh && m.building && room !== buildingLabel(m.building)) setRoom(buildingLabel(m.building));
     const lines = Math.max(1, Math.floor((height - 6 - roomLines * lh) / lh));
     const said = [`${DAY_KO[m.day]} ${hm(m.start)}~${hm(m.end)} ${e.item.custom ? e.item.title : courseName(e)}`, spoken, clash.has(e.key) ? "시간 겹침" : ""].filter(Boolean).join(", ");
     const place = { top: `${top}px`, height: `${height}px`, left: `calc(${days.indexOf(m.day)} * (100% + 2px) / ${n})`, width: `calc((100% + 2px) / ${n} - 2px)` };
@@ -3911,7 +3924,7 @@ function renderWeek(t, entries, clash, opts = {}) {
     }
     const mark = pv && pv.out.has(e.key) ? " is-out" : pv && pv.own === e.key ? " is-hl" : ""; // 미리 보기: 빠질 항목은 흐리게, 이미 넣은 분반은 테두리
     const cls = `wk-block${half ? ` ${half}` : ""}${mark}`, style = { background: itemFill(e.item), ...itemInk(e.item), "--lines": String(lines) };
-    const parts = [h("span", { class: "b-title", "aria-hidden": "true" }, name), room ? h("span", { class: "b-room", "aria-hidden": "true" }, room) : null];
+    const parts = [h("span", { class: "b-title", "aria-hidden": "true" }, name), room ? h("span", { class: "b-room", "aria-hidden": "true" }, ...roomKids) : null];
     list.append(h("li", { style: place },
       // 누르지 않는 격자(공유받은 시간표 미리 보기): 칸은 글이고 스크린리더는 목록의 글로 읽는다
       opts.still ? h("span", { class: cls, style }, ...parts, h("span", { class: "sr-only" }, said))
@@ -9249,16 +9262,25 @@ function showUpdateIfReady() {
 }
 // 앱 안 업데이트(안드로이드, 백엔드 update118 native.js TTW_APP.appUpdate·'ttw:app-update'. 사용자 11/15 16:36 '업데이트가 있다고 알려 주는 팝업'):
 // 묻는 창은 Play 가 스스로 띄우고, 다 받으면 웹의 새 버전 스낵바 모양으로 '업데이트를 받았어요' [다시 시작](complete(): Play 가 화면을 덮고 깐 뒤
-// 앱을 다시 연다). 안 누르면 앱을 내릴 때 깔린다. 켤 때 한 번 묻고(이미 받아 둔 판) 바뀔 때마다 받는다. 한 번만 띄운다. 웹·iOS·옛 앱에는 appUpdate 가 없다
-let appUpdateShown = false;
-function appUpdateSeen(s) {
-  if (!s || s.status !== "downloaded" || appUpdateShown) return;
+// 앱을 다시 연다). 안 누르면 앱을 내릴 때 깔린다. 켤 때 한 번 묻고(이미 받아 둔 판) 바뀔 때마다 받는다. 한 번만 띄운다. 웹·iOS·옛 앱에는 appUpdate 가 없다.
+// 시트·팝업이 열려 있거나 다른 스낵바가 떠 있으면 닫힌 뒤에 띄운다(디자인 140판: 바로 띄우면 열린 시트 뒤에 가려진다)
+let appUpdateShown = false, appUpdateWaiting = false;
+function appUpdateShow() {
+  if (!appUpdateWaiting || appUpdateShown || document.querySelector("dialog[open]") || !$("snackbar").hidden) return;
+  appUpdateWaiting = false;
   appUpdateShown = true;
   showSnackbar("업데이트를 받았어요", "다시 시작", () => { const u = window.TTW_APP && window.TTW_APP.appUpdate; if (u) u.complete(); });
   announce("업데이트를 받았어요");
 }
+function appUpdateSeen(s) {
+  if (!s || s.status !== "downloaded" || appUpdateShown) return;
+  appUpdateWaiting = true;
+  appUpdateShow();
+}
 if (IN_APP && window.TTW_APP && window.TTW_APP.appUpdate) {
   window.addEventListener("ttw:app-update", (e) => appUpdateSeen(e.detail));
+  document.addEventListener("close", () => setTimeout(appUpdateShow, 0), true); // 시트·팝업(dialog)이 닫히면(다른 것이 이어 열리면 또 기다린다)
+  new MutationObserver(() => { if ($("snackbar").hidden) setTimeout(appUpdateShow, 0); }).observe($("snackbar"), { attributes: true, attributeFilter: ["hidden"] });
   Promise.resolve(window.TTW_APP.appUpdate.state()).then(appUpdateSeen, () => null);
 }
 
