@@ -41,7 +41,10 @@ export function pickVersion(program, entryYear) {
 export function pickVersionFor(program, { entryYear, majorEntryYear = null, selectionYear = null } = {}) {
   if (program.version_key === "selection") return pickVersion(program, selectionYear ?? entryYear);
   if (majorEntryYear != null) {
-    const byMajor = pickVersion(program, majorEntryYear);
+    // 전공 진입 칸을 없애서(프론트엔드 ui121b) 화면은 학번+1 을 준다. 본과 진입(예과 2년 뒤)으로 갈리는 과정(수의학과 본과)은 학번+2 로 고친다(백엔드 update117)
+    const y = Number(entryYear), m = Number(majorEntryYear);
+    const late = (program.versions || []).some((v) => /본과 진입/.test(v.basis || ""));
+    const byMajor = pickVersion(program, late && Number.isFinite(y) && m === y + 1 ? y + 2 : majorEntryYear);
     if (byMajor.version && /^전공 진입/.test(byMajor.version.basis || "")) return byMajor;
   }
   return pickVersion(program, entryYear);
@@ -186,12 +189,29 @@ export const SHARED_COURSE = "여러 요건에 걸린 과목";
 const TYPE_NAME = { major_required: "전공필수", major_elective: "전공선택", major_choose: "지정 과목", double: "복수전공", minor: "부전공",
   thesis: "졸업 논문", distribution: "분배 이수", ge: "교양", other: "기타 조건" };
 
-/** 요건 줄 이름(짧게): 자료 글의 앞부분('전공필수 15과목 46학점' → '전공필수', '외국어진행강좌(…) 3과목' → '외국어진행강좌'), 길거나 숫자로 시작하면 종류 이름 */
+const ROW_STOP = new Set(["표", "총", "합"]); // 줄 이름이 될 수 없는 앞말 → 종류 이름
+const ROW_MAP = { "등록": "등록 학기", "학기당": "학기당 수강 학점", "유형별": "유형별 과목군" }; // 너무 짧은 앞말
+/**
+ * 요건 줄 이름(짧게). 자료에 이름(name)이 있으면 그것(requirements_import.py ROW_NAMES), 없으면 자료 글의 앞부분
+ * ('전공필수 15과목 46학점' → '전공필수', '외국어진행강좌(…) 3과목' → '외국어진행강좌'), 길거나 숫자로 시작하면 종류 이름.
+ * update117(프론트엔드 11/15 '줄 이름 정리'): '표 1 …'의 표 번호, 낱말에 붙은 숫자('제2외국어')는 살리고 띄어 쓴 숫자부터 자름, 따옴표·끝 마침표·물음표,
+ * 끝 토씨(' 중'·'…에서'·'전공은'), 줄임말(전선 → 전공선택, 전필 → 전공필수), 졸업 논문 줄의 학과 이름 앞말, 복수전공·부전공 전체 줄은 '… 전체 학점'
+ */
 export function rowName(req) {
-  let t = String((req && req.text) || "").replace(/^\[\d-\d\]\s*/, "").replace(/^\[([^\]]{1,8})\]\s*/, "$1 ").split(/[:：(（—]/)[0];
-  t = t.replace(/[A-Z]?\d{3,4}\.[0-9A-Z]+/g, " ").replace(/\d.*$/, "").replace(/[\s,·→]+$/, "").trim();
-  t = t.replace(/\s+(?:는|은|이|가|을|를|의|와|과|및)$/, "").replace(/\s+/g, " ").trim();
-  if (!t || t.length > 14) return TYPE_NAME[req && req.type] || "요건";
+  if (req && typeof req.name === "string" && req.name.trim()) return req.name.trim();
+  const text = String((req && req.text) || ""), type = req && req.type;
+  const head = text.replace(/^\[\d-\d\]\s*/, "").replace(/^표\s*\d+\s*/, "").replace(/^\[([^\]]{1,8})\]\s*/, "$1 ").split(/[:：(（—]/)[0];
+  let t = head.replace(/[A-Z]?\d{3,4}\.[0-9A-Z]+/g, " ").replace(/(^|\s)[\d?？].*$/, "").replace(/[?？].*$/, "");
+  t = t.replace(/^['"‘’“”\s]+/, "").replace(/[\s,·→.'"‘’“”]+$/, "").trim(); // 「」는 짝이라 그대로
+  t = t.replace(/^(.+?(?:과목|전공|학점))(?:은|는)\s.+$/, "$1"); // '교양 체육 과목은 졸업학점' → '교양 체육 과목'
+  for (let i = 0; i < 2; i++) t = t.replace(/\s+(?:는|은|이|가|을|를|의|와|과|및|중|에서|에)$/, "").trim();
+  t = t.replace(/(\S)에서$/, "$1").replace(/(전공|과목|교과목|영역|학점)(?:은|는)$/, "$1");
+  t = t.replace(/(^|\s)전선(?=\s|$)/g, "$1전공선택").replace(/(^|\s)전필(?=\s|$)/g, "$1전공필수").replace(/\s+/g, " ").trim();
+  if (type === "thesis") t = t.replace(/^\S.*?(학위논문연구|학사논문연구)$/, "$1"); // '생명과학학위논문연구' → '학위논문연구'
+  const whole = type === "double" ? "복수전공" : type === "minor" ? "부전공" : null;
+  if (whole && /[:：]/.test(text) && text.split(/[:：]/)[0].includes(whole) && (t === whole || t.length > 14 || /^(타|다른)\s/.test(t))) return `${whole} 전체 학점`;
+  if (ROW_MAP[t]) return ROW_MAP[t];
+  if (!t || t.length > 14 || ROW_STOP.has(t)) return TYPE_NAME[type] || "요건";
   return t;
 }
 

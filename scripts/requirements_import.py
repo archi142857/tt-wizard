@@ -43,6 +43,32 @@ PILOTS = {
 }
 
 
+# 요건 줄 이름(앱 화면). 보통은 web/js/requirements.js rowName 이 자료 글의 앞부분에서 줄이지만, 글이 조건으로 시작해
+# 이름이 맞지 않는 줄은 여기서 정한다: (과정 id, 요건 id) → 이름. 프론트엔드 11/15 '요건 줄 이름 정리'(사용자 '사진에 나온 졸업 요건들 이름도 좀 정리해봐', update117)
+ROW_NAMES = {
+    ("life-sciences", "bio-dist"): "분야별 전공선택",          # '표 1 전공선택: 4과목 이상, 세 분야에서 1과목 이상씩'
+    ("life-sciences", "bio-research"): "연구실습",             # '학위논문연구 전에: 생명과학연구실습 2회…'
+    ("life-sciences", "bio-labs"): "전공실험·특수연구",        # '전공선택 필수: 생명과학전공실험 1·2, 생명과학특수연구 1'
+    ("life-sciences", "bio-ge-msc-area"): "수학·과학·컴퓨팅",   # '학문의 토대 '수학·과학·컴퓨팅' 영역 24학점'
+    ("life-sciences", "bio-ge-science"): "과학 과목",          # '통계학(…), 물리학 1·2(…), 화학 1·2, 생물학 1·2…'
+    ("life-sciences", "bio-ge-exempt"): "진단평가 면제",       # '2026학년도 입학생부터: 「…학습역량 진단 평가」에서…'
+    ("chem-bio-eng", "cbe-elective-single"): "단일전공 전공 학점",  # '단일전공 전공 62학점 = 전필 46 + 전선 16'
+    ("p-fccadae3", "med-main-required"): "본과 전공필수",       # '본과 1~3학년과 4학년 1학기 전공필수'
+}
+
+
+def name_rows(prog: dict) -> int:
+    """ROW_NAMES 의 이름을 그 과정의 판마다 같은 요건 id 에 넣는다(앱은 이름이 있으면 그것을 쓴다). 넣은 줄 수"""
+    n = 0
+    for v in prog.get("versions") or []:
+        for r in v.get("requirements") or []:
+            name = ROW_NAMES.get((prog.get("id"), r.get("id")))
+            if name:
+                r["name"] = name
+                n += 1
+    return n
+
+
 # 1차와 2차에서 학과(부)·과정 이름을 다르게 적은 것: 2차 이름 → 1차 이름
 ALIAS = {
     ("prof", "수의과대학", "수의예과(예과 2년)"): ("prof", "수의예과", "수의예과(예과 2년)"),
@@ -564,6 +590,7 @@ def main(argv: list[str] | None = None) -> int:
         if i not in pilot_ids:
             built[i]["depts"], built[i]["code_prefixes"] = ds, pre
     for prog in built.values():
+        name_rows(prog)
         (out / "programs" / f"{prog['id']}.json").write_text(json.dumps(prog, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     index = [index_entry(one.get(k), two.get(k), k[0], built) for k in keys]
     (out / "index.json").write_text(json.dumps({"checked_on": checked, "data_year": DATA_YEAR, "cohorts": [LO, HI], "programs": index},

@@ -97,7 +97,7 @@ const out = read(casesPath).map((c) => {
         walk: rankSuggestions(c.suggestions, c.fit, { order: "walk" }).map((x) => x.course.id),
         tags: c.suggestions.map(suggestionTag) };
     case "rowname":
-      return c.texts.map((t) => rowName({ text: t[0], type: t[1] }));
+      return c.texts.map((t) => rowName({ text: t[0], type: t[1], name: t[2] }));
     case "locator":
       return c.texts.map(shortLocator);
     case "labels": {

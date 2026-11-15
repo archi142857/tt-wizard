@@ -69,20 +69,11 @@ def test_until_used(tmp_path):
     assert build_app.drop_unused(out) == [] and (out / "data" / "requirements" / "programs" / "x.json").exists()
 
 
-def test_demo_build_opens_date_gates(tmp_path):
-    """데모 빌드(update111): 앱 묶음의 app.js 날짜 막기(const 이름_FROM = "YYYY-MM-DD";)만 지난 날짜로 연다. 저장소 web/ 은 그대로, 막기가 없으면 멈춘다"""
-    app_js = tmp_path / "app.js"
-    app_js.write_text('const LUNCH_FROM = 600;\nconst DEPT_FROM = "2026-11-27"; // 한국 시각\nconst ACCOUNT_FROM = "2099-12-31";\nconst x = "2026-11-27";\n',
-                      encoding="utf-8")
-    assert build_app.open_gates(app_js) == ["DEPT_FROM", "ACCOUNT_FROM"]
-    assert app_js.read_text(encoding="utf-8") == ('const LUNCH_FROM = 600;\nconst DEPT_FROM = "2000-01-01"; // 한국 시각\n'
-                                                  'const ACCOUNT_FROM = "2000-01-01";\nconst x = "2026-11-27";\n')
-    app_js.write_text("const nothing = 1;\n", encoding="utf-8")
-    with pytest.raises(SystemExit):
-        build_app.open_gates(app_js)
-    assert build_app.DEMO_GATE.search((ROOT / "web" / "js" / "app.js").read_text(encoding="utf-8")), "app.js 에 날짜 막기가 있어야 데모 빌드가 연다"
+def test_no_demo_build():
+    """데모 빌드(update111)는 update117 에서 뺐다(날짜 막기가 11/15 에 다 열림, 사용자 11/15 '데모 빌드 굳이 필요 없지 않냐 그거 없애두셈')"""
     release = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
-    assert "python scripts/build_app.py ${{ inputs.demo && '--demo' || '' }}" in release and "tt-wizard-android-demo" in release
+    assert "inputs.demo" not in release and "tt-wizard-android-demo" not in release and "name: tt-wizard-android-release\n" in release
+    assert not hasattr(build_app, "open_gates") and "--demo" not in (ROOT / "scripts" / "build_app.py").read_text(encoding="utf-8")
 
 
 def test_build_app_bundle(tmp_path, monkeypatch):
@@ -454,8 +445,7 @@ def test_release_workflow_keeps_key_secret():
     """출시 AAB(release 워크플로, update86): 손으로만 돌리고, 업로드 키는 저장소 비밀값으로만 받아 단계의 env 로 넘기며(명령 줄·로그에 비밀값을 쓰지 않는다),
     키 파일은 저장소 폴더 밖(RUNNER_TEMP)에 풀었다가 늘 지운다. versionCode 는 실행 번호 + 100, build.gradle 은 환경 변수로만 서명한다."""
     text = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
-    assert re.search(r"^on:\n  workflow_dispatch:\n    inputs:\n      demo:\n", text, re.M) and "pull_request" not in text and "push:" not in text
-    assert "        type: boolean\n        default: false\n" in text  # 데모 빌드(update111)는 손으로 골라야만
+    assert re.search(r"^on:\n  workflow_dispatch:", text, re.M) and "pull_request" not in text and "push:" not in text
     assert "permissions:\n  contents: read" in text
     names = {"TTW_KEYSTORE_BASE64", "TTW_KEYSTORE_PASSWORD", "TTW_KEY_ALIAS", "TTW_KEY_PASSWORD",
              "FIREBASE_WEB_CONFIG"}  # 웹 앱 구성(공개 값)을 비밀값 탭에 넣었을 때도 읽게(update113)

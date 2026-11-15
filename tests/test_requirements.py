@@ -440,10 +440,14 @@ def test_pick_version_for(tmp_path):
         {"kind": "pickfor", "program": sd, "who": {"entryYear": 2024}},
         {"kind": "pickfor", "program": vet["id"], "who": {"entryYear": 2019, "majorEntryYear": major_v[0]}},
         {"kind": "pickfor", "program": "animal-biotech", "who": {"entryYear": 2020, "majorEntryYear": 2023}},
+        # 전공 진입 칸을 없애 화면이 학번+1 을 주면 본과(예과 2년 뒤) 과정은 학번+2 로(update117). 학번+1 이 아닌 값은 그대로
+        {"kind": "pickfor", "program": vet["id"], "who": {"entryYear": 2017, "majorEntryYear": 2018}},
+        {"kind": "pickfor", "program": vet["id"], "who": {"entryYear": 2017, "majorEntryYear": 2020}},
     ])
     assert got[0] == [2019, 2021] and got[1] == [2022, 2026]
     assert tuple(got[2]) == major_v
     assert got[3] == [2019, 2020]  # 입학 연도로 갈리는 과정은 전공 진입 연도를 써도 입학 연도로
+    assert got[4] == [2019, 2019] and got[5] == [2020, 2026]
 
 
 
@@ -589,6 +593,36 @@ def test_row_names(tmp_path):
         ["[2-1] 공학수학 1, [2-2] 공학수학 2", "major_required"], ["[과학] 물리학 영역(물리학·물리학 1·물리학 2)", "ge"],
         ["외국어진행강좌(대학영어 포함) 3과목 이상", "other"], ["", "double"]]}])[0]
     assert got == ["전공필수", "동물생명공학논문연구", "통계학개론 및 실습", "지정 과목", "공학수학", "과학 물리학 영역", "외국어진행강좌", "복수전공"]
+
+
+@node
+def test_row_names_tidy(tmp_path):
+    """요건 줄 이름 정리(update117, 프론트엔드 11/15 '줄 이름 정리'): 자료의 이름이 먼저, 표 번호·따옴표·끝 토씨·줄임말·졸업 논문 학과 앞말,
+    복수전공·부전공 전체 줄, 낱말에 붙은 숫자는 살림, 너무 짧은 앞말은 종류 이름이나 풀어 쓴 이름"""
+    got = _run(tmp_path, [{"kind": "rowname", "texts": [
+        ["생명과학학위논문연구(1학점, 전필)", "thesis"], ["전선 학점: 단일 47 이상, 병행·복수 26 이상", "major_elective"],
+        ["복수전공: 전필 13(6중 4 + 학위논문연구) + 전선 26 이상", "double"], ["부전공: 전필 12(6중 4) + 전선 9 이상", "minor"],
+        ["타 학부(과) 복수전공: 단일전공 교과목 중 48학점 이상", "double"], ["표 1 전공선택: 4과목(12학점) 이상", "distribution"],
+        ["제2외국어 9학점(중급 1과목 포함)", "other"], ["베리타스 영역에서 1과목", "ge"], ["바이올린 전공은 졸업연주 2회", "other"],
+        ["총 21학점 이상", "major_elective"], ["등록 12회 이상 16회까지", "other"], ["'대학원 세미나 과목' 6학점까지", "other"],
+        ["교양 체육 과목은 졸업학점(130)에 넣지 않음", "other"], ["전필 중 3과목", "major_required"], ["전공필수 ?학점", "major_required"],
+        ["학위논문연구 전에: 생명과학연구실습 2회", "other", "연구실습"], ["교과인증과정 「스마트팜」 12학점", "other"]]}])[0]
+    assert got == ["학위논문연구", "전공선택 학점", "복수전공 전체 학점", "부전공 전체 학점", "복수전공 전체 학점", "전공선택",
+                   "제2외국어", "베리타스 영역", "바이올린 전공", "전공선택", "등록 학기", "대학원 세미나 과목", "교양 체육 과목", "전공필수",
+                   "전공필수", "연구실습", "교과인증과정 「스마트팜」"]
+
+
+def test_row_names_in_data():
+    """requirements_import.ROW_NAMES 의 이름이 그 과정의 판마다 같은 요건 id 에 들어 있다(생명과학부 '표'·'학위논문연구 전에'·'전공선택 필수' 줄)"""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import requirements_import as ri
+    for (pid, rid), name in ri.ROW_NAMES.items():
+        prog = json.loads((REQ / "programs" / f"{pid}.json").read_text(encoding="utf-8"))
+        rows = [r for v in prog["versions"] for r in v["requirements"] if r["id"] == rid]
+        assert rows and all(r.get("name") == name for r in rows), (pid, rid)
+    life = json.loads((REQ / "programs" / "life-sciences.json").read_text(encoding="utf-8"))
+    names = {r["id"]: r.get("name") for r in life["versions"][0]["requirements"]}
+    assert names["bio-dist"] == "분야별 전공선택" and names["bio-research"] == "연구실습" and names["bio-labs"] == "전공실험·특수연구"
 
 
 @node

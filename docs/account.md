@@ -41,8 +41,8 @@ decline·cancel·unfriend·block·unblock·friendTimetables·publish·inviteLink
   (`firebaseLocalStorageDb` 의 `firebaseLocalStorage` 에 `firebase:authUser:` 열쇠가 있을 때)를 보고 이어 간다. update116: 저장소는 Firebase 를 켜기만 해도 생기고
   로그아웃해도 남아서, 115 는 있는지만 보고 로그아웃한 기기에서도 SDK 를 받았다(11/15 사이트에서 확인). 이제 사용자 열쇠를 보고, SDK 를 받은 뒤 사용자가 없으면
   표시를 지운다(115 가 빈 저장소를 보고 둔 표시도 한 번 받은 뒤 풀린다). 시험 `tests/lazy_runner.mjs`.
-- 웹 데모 주소 `?demo`(update115, 사용자 11/15 '지금 다 열자'): 개발자 메뉴의 '로그인'과 같다(그 탭만, 주소에서는 지운다). 공개 화면의 로그인은 처리방침 전면 개정 전이라
-  `ACCOUNT_FROM` 으로 막아 둔다(법무 11/15: 공개 전 차례 ①~⑨, 그 전에는 OAuth 동의 화면을 테스트로 두고 테스트 사용자에 사용자 계정 둘만).
+- 웹 데모 주소 `?demo`(update115, 사용자 11/15 '지금 다 열자'): 개발자 메뉴의 '로그인'과 같다(그 탭만, 주소에서는 지운다). 11/15 처리방침 새 판과 함께
+  `ACCOUNT_FROM` 을 열어(update116) 이제 쓸 일이 없다. 앱 데모 빌드(release 의 `demo`)는 update117 에서 뺐다.
 - 로그아웃·계정 삭제 때 `이 기기의 시간표도 지우기`를 고르면 화면이 기기 시간표를 지운 뒤 `forget(store)` 를 부른다: 맞추기 기록(`syncKnown`·`syncLast`)이 남아 있으면
   다시 로그인할 때 서버 시간표를 '이 기기에서 지운 것'으로 보고 지움 표시를 올린다.
 
