@@ -708,6 +708,7 @@ html:has(#add-sheet[open]) #view-mine { padding-bottom: calc(55vh + var(--space-
 .sheet-meta { margin: 2px 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
 .sheet-body { padding: 0 var(--space-5) var(--space-6); }
 .sheet-body > p { max-width: 40em; margin: 0 0 var(--space-2); font-size: 1rem; line-height: 1.5rem; color: var(--text2); }
+.sheet-body p { word-break: keep-all; overflow-wrap: anywhere; }   /* 팝업·시트 글은 낱말 가운데서 끊지 않는다(134판) */
 .list-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); min-height: var(--touch);
   font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
 .check { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--touch); cursor: pointer; }
@@ -1942,11 +1943,18 @@ div.info-row { cursor: default; }
 .acct-what li { display: flex; gap: var(--space-2); font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); word-break: keep-all; }
 .acct-what li::before { content: ""; flex: none; width: 4px; height: 4px; margin-top: 8px; border-radius: 2px; background: var(--text3); }
 .acct .check { margin-top: var(--space-3); }
+/* 필수 확인 둘(134판, 법무 11/15): 줄마다 label.check, 이용 규칙 줄은 오른쪽에 .btn-text.small 보기(글 끝을 카드 글 끝에 맞춘다).
+   확인 없이 누르면 그 아래 오류 한 줄 .acct-err(t-body-sm danger, 알림 영역으로 읽힌다) */
+.acct .check-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin-top: 0; }
+.acct :not(.check-row) + .check-row { margin-top: var(--space-3); }
+.acct .check-row .check { margin-top: 0; }
+.acct .check-row .btn-text { flex: none; margin-right: calc(var(--space-2) * -1); text-decoration: none; }
+.acct-err { margin: var(--space-1) 0 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--danger); word-break: keep-all; }
 .g-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: var(--touch); margin-top: var(--space-2); padding: 0 12px; box-sizing: border-box;
   border: 1px solid #747775; border-radius: 24px; background: #FFFFFF; color: #1F1F1F; font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; cursor: pointer; }
 .g-btn img { flex: none; width: 20px; height: 20px; }
 html[data-scheme="dark"]:not([data-theme]) .g-btn { border-color: #8E918F; background: #131314; color: #E3E3E3; }
-.g-btn:disabled { opacity: 0.38; cursor: default; }
+/* 꺼진 모양(:disabled)은 두지 않는다(134판: Google 지침에 없고 G까지 흐려진다). 확인 없이 누르면 .acct-err */
 .g-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .acct-me { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-1); padding: var(--space-4); }
 .acct-me .mail { font-size: 1rem; line-height: 1.5rem; color: var(--text); overflow-wrap: anywhere; }
@@ -1996,6 +2004,10 @@ button.fr-row:active { background: var(--surface-hover); }
 .wk-block.is-hidden { background: var(--fill); border: 1px dashed var(--line-strong); }
 .sheet-body p.hide-note { margin: var(--space-2) 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; }
 .menu-row.sw { justify-content: space-between; gap: var(--space-3); box-sizing: border-box; cursor: pointer; }
+/* 메뉴 스위치 줄의 메타(134판, 법무 11/15: 친구에게 보이기 아래 끄면 …): 두 줄이면 위아래 8 */
+.menu-row.sw .sw-body { display: flex; flex: 1; flex-direction: column; min-width: 0; }
+.menu-row.sw .sw-m { font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400; color: var(--text3); }
+.menu-row.sw:has(.sw-m) { padding-top: var(--space-2); padding-bottom: var(--space-2); }
 @media (forced-colors: active) {
   .g-btn { border-color: CanvasText; background: Canvas; color: CanvasText; }
   .tt-head > .icon-btn.has-dot::after { background: CanvasText; box-shadow: none; }

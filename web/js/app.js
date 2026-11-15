@@ -27,6 +27,8 @@ const APP_VERSION = "0.10.3";
 // 정보 화면 링크. 주소가 정해지면 넣는다(비어 있으면 그 행을 보이지 않는다)
 // 개인정보 처리방침 공개 페이지(스토어에 적는 주소와 같게). 백엔드 update74 가 docs/legal/privacy.md 로 만든 web/privacy/(GitHub Pages). 앱 묶음에는 넣지 않아 늘 이 주소를 연다
 const PRIVACY_URL = "https://archi142857.github.io/tt-wizard/privacy/";
+// 이용 규칙(134판, 법무 11/15 ②: 계정이 생겨 처리방침 새 판과 같은 날 올린다. 백엔드가 web/terms/ 로 올린다, 문서 11/15). 로그인을 열 때만 보인다(accountWanted)
+const TERMS_URL = "https://archi142857.github.io/tt-wizard/terms/";
 // 개발자 정보(10/23 사용자가 정한 글. 처리방침의 개인정보 보호책임자·스토어 연락처와 같다). 메일은 누르면 메일 앱이 제목을 채워 연다
 const DEV_NAME = "동물생명공학전공 25학번 이영표";
 const DEV_MAIL = "sanger.lee138@gmail.com";
@@ -605,7 +607,7 @@ function hideBanner() {
 // (순수 함수, docs/limits.md): 분반 규칙(data/limits.json, 지금 학기만) + 내 학과·학번(ttw.dept → studentFrom, 학과 목록 catalog.json) + 오늘(한국 시각) +
 // 그 학기 수강신청 일정표. 알리기만 한다(분반을 끄거나 흐리게 하지 않고 조합에서도 빼지 않는다). 학과·학번을 넣지 않았으면(나중에) 없고, 지난 학기는 자료 학기가 달라
 // limitOf 가 null 이다. 결과 화면·내 시간표 격자·위젯·시간표 이미지에는 두지 않는다. 화면은 받은 글만 그린다(태그 글·대상 글·비고 원문. 비고 속 주소는 글자 그대로,
-// 누를 때만 기기 브라우저로). 학과·학번 화면이 11/27 처리방침 시행 뒤 켜지니 이것도 그때부터다(deptOn)
+// 누를 때만 기기 브라우저로). 학과·학번 화면과 같이 켜진다(deptOn, DEPT_FROM)
 let lim = null; // { data, student }: 학과·학번을 넣었고 지금 학기 자료를 받았을 때만
 let limP = null; // data/limits.json 받기(자료 출처 '수강신청' 줄은 학과·학번이 없어도 쓴다)
 let limSrc = null; // 자료 출처 '수강신청' 줄 글 '서울대학교 수강신청 사이트(8월 1일 기준)': null = 아직 안 받음, "" = 일정표 없음
@@ -4195,8 +4197,10 @@ function renderTtOpts(focusSel) {
   const acts = TT_ACTS.filter(([k]) => !t.virtual && (k !== "primary" || !t.primary) && (k !== "save-image" || (t.items.length && canSaveImage())));
   if (acts.some(([k]) => k === "save-image")) preparedImage(t).catch(() => null); // 열 때 미리 그려 둔다(누르면 바로 저장한다)
   // 대표 시간표의 맨 위 '친구에게 보이기'(130판, 친구를 켰을 때만. 처음 켜짐): 끄면 친구에게는 그 학기 시간표가 없는 것처럼(shareOff, sync.friendCopies)
-  const share = frShare() && !t.virtual && t.primary ? h("li", {}, h("label", { class: "menu-row sw" }, h("span", { id: "to-share-t" }, "친구에게 보이기"),
-    h("input", { type: "checkbox", role: "switch", class: "switch", name: "to-share", "aria-labelledby": "to-share-t", checked: !t.shareOff }))) : null;
+  // 메타 '끄면 친구에게 이 시간표가 아예 보이지 않아요'(134판, 법무 11/15)
+  const share = frShare() && !t.virtual && t.primary ? h("li", {}, h("label", { class: "menu-row sw" },
+    h("span", { class: "sw-body" }, h("span", { class: "sw-t", id: "to-share-t" }, "친구에게 보이기"), h("span", { class: "sw-m", id: "to-share-m" }, "끄면 친구에게 이 시간표가 아예 보이지 않아요")),
+    h("input", { type: "checkbox", role: "switch", class: "switch", name: "to-share", "aria-labelledby": "to-share-t", "aria-describedby": "to-share-m", checked: !t.shareOff }))) : null;
   $("to-acts").replaceChildren(...(share ? [share] : []), ...acts.map(([k, text]) => h("li", {}, h("button", { type: "button", class: k === "delete" ? "menu-row danger" : "menu-row", "data-tt-act": k,
     "aria-describedby": k === "copy" && !$("to-error").hidden ? "to-error" : null }, text))));
   $("to-acts").hidden = !acts.length && !share;
@@ -5789,11 +5793,12 @@ function renderCustom() {
         h("span", { class: "time-part" }, sel("sh", 6, 23, 1, "시작 시"), colon(), sel("sm", 0, 55, 5, "시작 분"), h("span", { "aria-hidden": "true" }, "~")),
         h("span", { class: "time-part" }, sel("eh", 6, 23, 1, "끝 시"), colon(), sel("em", 0, 55, 5, "끝 분"))),
       err("time", "끝 시각이 시작보다 빨라요")),
+    // 친구에게 숨기기(130판, 친구를 켰을 때만): 넣기 전에도 정해 둘 수 있다('병원'처럼 남이 보면 곤란한 제목, 계정_동기화_설계안 7절). 아래 장소·메모 한 줄.
+    // 시각 바로 아래(장소·메모 위. 134판, 법무 11/15: 새 일정은 처음에 보이므로 만드는 화면에서 눈에 띄게)
+    ...(frShare() ? frHideCard("cu-hide", !!c.hidden, true, { "data-cu": "hidden" }) : []),
     h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-place" }, "장소"), placeSelect(c.b, { class: "select", id: "cu-place", "data-cu": "b" })),
     h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-memo" }, "메모"),
       h("input", { class: "text-input", id: "cu-memo", type: "text", maxlength: "100", autocomplete: "off", enterkeyhint: "done", value: c.memo, "data-cu": "memo" })),
-    // 친구에게 숨기기(130판, 친구를 켰을 때만): 넣기 전에도 정해 둘 수 있다('병원'처럼 남이 보면 곤란한 제목, 계정_동기화_설계안 7절). 아래 장소·메모 한 줄
-    ...(frShare() ? frHideCard("cu-hide", !!c.hidden, true, { "data-cu": "hidden" }) : []),
     c.key ? h("div", { class: "sheet-foot" }, h("button", { type: "button", class: "btn-text", "data-act": "remove" }, "시간표에서 빼기")) : null].filter(Boolean));
   syncCustomErrors();
 }
@@ -6068,7 +6073,7 @@ function renderAddBrowse(show) {
 // 남은 요건 과목(디자인 124판 ⑦, 11/13 사용자 "그림대로". 백엔드 update101·106 suggestCourses·rankSuggestions·suggestionTag·limitLine): 학과·학번과 요건 자료가 있으면
 // 과목 추가의 검색 전 자리에 이 학기 편람에서 남은 요건을 채우는 과목을 과목마다 한 행(이 시간표에 가장 덜 느는 분반, 이미 넣었으면 그 분반). 행의 태그 자리에 채우는
 // 요건 이름(확인 필요 요건의 과목이면 '아마 필요', 목록 아래쪽). 시간 겹침·수강 제한 태그가 먼저다. 계산은 졸업 요건 탭과 같은 기록이되 고치는 학기의 시간표는 계획이라
-// 들은 과목에서 뺀다(넣어도 행이 그대로 남아 넣음이 된다). 그 아래 학기 학점 줄(limitLine. 고른 상한은 학기마다 ttw.creditCap). 처리방침 11/27 판 뒤(deptOn)
+// 들은 과목에서 뺀다(넣어도 행이 그대로 남아 넣음이 된다). 그 아래 학기 학점 줄(limitLine. 고른 상한은 학기마다 ttw.creditCap). 학과·학번과 같이 켠다(deptOn)
 let reqMemo = { sig: "", data: null }, reqBusy = "";
 let reqOn = store.get("addReq", true) !== false; // 넓은 화면 둘러보기 선택칸에서 남은 요건 과목을 골랐다(처음은 고름. 다른 목록을 고르면 끔)
 let reqOrder = store.get("reqOrder", "walk") === "req" ? "req" : "walk"; // 남은 요건 과목의 차례(덜 걷는 순이 처음, 따로 기억)
@@ -6779,21 +6784,25 @@ function renderInfo() {
   const out = (href, text) => h("a", { class: "info-row", href, target: "_blank", rel: "noopener" }, h("span", {}, text), icon(I.out, 20));
   // 카드 안 줄 사이는 line 1px(.list. 디자인 InfoList '.card.info-list 안 .list'. 10/22 카드를 나누며 빠졌던 것을 11/1 되돌렸다)
   const card = (rows) => (rows.some(Boolean) ? h("ul", { class: "card list info-list" }, rows.filter(Boolean).map((r) => h("li", {}, r))) : null);
-  const dv = deptOn() ? deptSaved() : null; // 내 학과·학번(디자인 121판): 정보 첫 카드(계정 다음). 넣지 않았으면 값이 없다
-  $("info-list").replaceChildren(...[
-    // 계정(130판, 맨 위): 값은 로그인한 메일(길면 말줄임), 하지 않았으면 없다
+  const dv = deptOn() ? deptSaved() : null; // 내 학과·학번(디자인 121판): 계정 카드 다음 카드. 넣지 않았으면 값이 없다
+  const list = $("info-list"), had = list.contains(document.activeElement) ? document.activeElement.dataset.info : null;
+  list.replaceChildren(...[
+    // 계정(130판. 134판: 맨 위에 따로 둔 카드): 값은 로그인한 메일(길면 말줄임), 하지 않았으면 없다. 로그인했으면 그 아래 계정 삭제(꺾쇠 없음, 같은 묻는 팝업. 법무 11/15)
     card([accountOn() ? h("button", { type: "button", class: "info-row", "data-info": "account" }, h("span", {}, "계정"),
       h("span", { class: "v v-dept" }, acctValue()), icon(I.right, 20)) : null,
-    deptOn() ? h("button", { type: "button", class: "info-row", "data-info": "dept" }, h("span", {}, "내 학과·학번"),
+    accountOn() && acctUser ? h("button", { type: "button", class: "info-row danger", "data-info": "acct-delete", "aria-haspopup": "dialog" }, h("span", {}, "계정 삭제")) : null]),
+    card([deptOn() ? h("button", { type: "button", class: "info-row", "data-info": "dept" }, h("span", {}, "내 학과·학번"),
       dv ? h("span", { class: "v v-dept" }, deptLabel(dv)) : null, icon(I.right, 20)) : null,
     // 알림(129판, 안드로이드 앱): 값은 켠 것(앱 연결에 물어 채운다)
-    notifyOn() ? h("button", { type: "button", class: "info-row", "data-info": "notify" }, h("span", {}, "알림"), h("span", { class: "v" }, ntValue(ntState)), icon(I.right, 20)) : null,
-    next("sources", "자료 출처")]),
+    notifyOn() ? h("button", { type: "button", class: "info-row", "data-info": "notify" }, h("span", {}, "알림"), h("span", { class: "v" }, ntValue(ntState)), icon(I.right, 20)) : null]),
+    card([next("sources", "자료 출처")]),
     card([next("feedback", "의견 보내기"), next("developer", "개발자 정보"), REVIEW_URL[SHELL] ? out(REVIEW_URL[SHELL], "리뷰 남기기") : null,
       isSafariTab() ? next("a2hs", "홈 화면에 추가") : null]),
-    card([PRIVACY_URL ? out(PRIVACY_URL, "개인정보 처리방침") : null, next("licenses", "오픈소스 라이선스"),
+    // 법적 고지: 이용 규칙은 로그인을 열 때(로그인 카드의 '보기'와 같은 페이지, 134판)
+    card([PRIVACY_URL ? out(PRIVACY_URL, "개인정보 처리방침") : null, TERMS_URL && accountWanted() ? out(TERMS_URL, "이용 규칙") : null, next("licenses", "오픈소스 라이선스"),
       h("div", { class: "info-row" }, h("span", {}, "버전"), h("span", { class: "v" }, APP_VERSION))]),
   ].filter(Boolean));
+  if (had) (list.querySelector(`[data-info="${had}"]`) || list.querySelector('[data-info="account"]'))?.focus({ preventScroll: true }); // 다시 그려도 초점은 그 줄(지운 계정 삭제 줄이면 계정)
   if (notifyOn()) ntRefresh().then(paintNotifyValue);
 }
 
@@ -6806,6 +6815,7 @@ $("info-list").addEventListener("click", (e) => {
   else if (k === "dept") go("dept");
   else if (k === "notify") go("notify");
   else if (k === "account") go("account");
+  else if (k === "acct-delete") { if (!acct) return; $("ad-wipe").checked = false; openSheet($("acct-del"), b); } // 계정 화면의 계정 삭제와 같은 팝업(134판)
   else go("page", { page: k });
 });
 
@@ -6816,8 +6826,8 @@ $("info-list").addEventListener("click", (e) => {
 // 값은 이 기기에만(ttw.dept): { v, major: { id, entry }, others: [{ kind: "double"|"minor"|"major", id, term }], year, grade, gradeYear, name, names }.
 // major.id 는 과정 id(나뉘지 않는 학과는 그 하나, '아직 안 정함'은 학과 id u-…), entry 는 전공 진입 해(묻는 학부만). grade 는 gradeYear 학기의 학년이고
 // 새 해의 학기 자료가 오면 그만큼 더한다(deptGrade). name·names 는 정보 줄 글(목록을 받지 않아도 그린다). 밖으로 보내지 않는다.
-// 처리방침 2-1절('기기 안'에 학과·학번)이 11/27 시행이라 그 전에는 처음 화면도 정보 줄도 없다(법무 11/11 ②, 문서 11/13). 웹 개발자 메뉴로만 미리 본다.
-// 날짜로 켜는 것은 법무 11/14 로 된다: 그 전에 낸 안드로이드 판은 출시 노트에 '11월 27일부터 학과와 학번 화면이 열립니다' 한 줄, iOS 는 그날 뒤 빌드로 낸다(Apple 2.5.19)
+// 여는 날(DEPT_FROM, 한국 시각) 전에는 처음 화면도 정보 줄도 없고 웹 개발자 메뉴로만 미리 본다. 처음에는 처리방침 2-1절('기기 안'에 학과·학번)이 시행되는 11/27 이었고
+// (법무 11/11 ②, 문서 11/13), 사용자 11/15 '지금 다 열자'로 11/15 에 연다(백엔드 update115, 법무 11/15: 값이 기기 안에만 있어 처리방침 새 판을 같은 날 올리면 된다)
 const DEPT = "dept", DEPT_ASKED = "deptAsked";
 const DEPT_FROM = "2026-11-15"; // 한국 시각 날짜. 사용자 11/15 03:48 '걍 지금 다 열자니까'(백엔드 update115): 처리방침 11/27 시행 전이지만 값이 기기 안에만 있어 지금 연다
 const UNDECIDED = "-"; // 전공 칸의 '아직 안 정함'
@@ -7089,7 +7099,7 @@ $("da-ok").addEventListener("click", () => {
 // 디자인 124판(규칙 '졸업 요건 탭', 컴포넌트 GradReq. 11/13 밤 사용자가 시안을 보고 정했다: 세그먼트 셋, 성적은 따로 성적 계산기, 들은 과목은 "드랍 여부만")·
 // 127판(요건 시트 맨 위 자료 글, 확인 필요 시트의 고지와 출처 알려 주기, 자료 출처의 성적 계산 줄)·128판(출처 여러 줄).
 // 계산과 글은 백엔드 requirements.js(update100·101·106·107·108, 레포 docs/requirements.md 2·2-1절): 화면은 받은 글을 그대로 그린다(글을 짓지 않는다).
-// 학과·학번·성적을 받는 기능이라 처리방침 11/27 판이 시행된 뒤에 켠다(deptOn. 그전에는 탭이 셋이고 웹 개발자 메뉴로만 미리 본다).
+// 학과·학번·성적을 받는 기능이라 학과·학번과 같이 켠다(deptOn, DEPT_FROM. 그전에는 탭이 셋이고 웹 개발자 메뉴로만 미리 본다).
 // 기기 안(ttw.grad): { v, view(마지막 보기), dropped{'학기|과목'}, grades{'학기|과목': 성적}, manual[다른 곳에서 들은 과목], versions{과정: 고른 판}, target(목표 평점) }.
 // 밖으로 보내지 않는다(출처 알려 주기가 미리 채우는 것은 과정·줄 이름과 앱 정보뿐, 법무 11/14)
 const GRAD = "grad";
@@ -7205,7 +7215,7 @@ function gradSources(base) {
   const book = String(((base.common.sources || {}).pyeonram || {}).title || "").replace(/^[^,]*,\s*/, "");
   return {
     req: `서울대학교 교과과정 해설과 학과 누리집(${base.index.data_year ? `${base.index.data_year}학년도, ` : ""}${monthDay(base.index.checked_on)} 기준)`,
-    gpa: `서울대학교 학사 안내${book ? `와 ${book}` : ""}(${monthDay(base.common.checked_on)} 기준)`,
+    gpa: `서울대학교 학사 안내(성적·학점)${book ? `와 ${book}` : ""}(${monthDay(base.common.checked_on)} 기준)`, // 괄호 안은 실제로 본 페이지 이름(134판, 법무 11/15)
   };
 }
 /** 졸업 요건 탭을 그린다. 고칠 때마다 다시 부른다(초점은 같은 data-gk 의 새 요소로, 스크롤 자리는 그대로) */
@@ -7492,7 +7502,7 @@ $("grad-body").addEventListener("change", (e) => {
 
 // ---------------------------------------------------------------- 폰 알림(안드로이드 앱)
 // 디자인 129판(Notifications, 11/14 사용자 "편람은 켜두고, 나머지는 그대로"). 앱 연결 update109 TTW_APP.notify(state·request·settings·set, LEADS): 켜고 끈 값은 앱 안
-// (기기 SharedPreferences)에 있고 화면은 state 로 읽어 그린다. 처리방침 11/27 판 뒤(deptOn)에 정보 첫 카드 '내 학과·학번' 아래 '알림' › 과 하위 화면 '알림'.
+// (기기 SharedPreferences)에 있고 화면은 state 로 읽어 그린다. 학과·학번과 같이(deptOn) 정보 첫 카드 '내 학과·학번' 아래 '알림' › 과 하위 화면 '알림'.
 // 처음은 수업 꺼짐·편람 켜짐·출발 10분 전(앱 연결이 정한다). 권한(안드로이드 13 이상)은 앱을 켤 때·학과와 학번 화면에서 묻지 않고, 과목이 든 내 시간표가 시트·팝업 없이
 // 처음 보일 때 한 번(notifyAsked), 그전에 스위치를 켜면 그때. 웹·iOS 앱에는 없다
 const notifyApi = () => (IN_APP && SHELL === "android" && window.TTW_APP && window.TTW_APP.notify) || null;
@@ -7593,12 +7603,17 @@ function maybeAskNotify() {
     if (!ready() || store.get("notifyAsked", false)) return;
     store.set("notifyAsked", true);
     const api = notifyApi(), st = await ntRefresh();
-    if (api && st && st.permission === "prompt" && (st.classOn || st.bookOn)) {
-      const after = await api.request().catch(() => null);
-      if (after) ntState = after;
-    }
+    if (api && st && st.permission === "prompt" && (st.classOn || st.bookOn) && ready()) openSheet($("nt-ask")); // 초점은 닫으면 원래 자리로
   }, 1200);
 }
+// 묻는 팝업 '폰 알림'(134판, 법무 11/15)의 [계속]: 닫고 폰이 묻는다. 뒤로 가기·Esc 로 닫으면 묻지 않는다(알림 화면에서 켜면 그때 묻는다)
+$("nt-ask-ok").addEventListener("click", async () => {
+  closeSheet($("nt-ask"));
+  const api = notifyApi();
+  if (!api) return;
+  const after = await api.request().catch(() => null);
+  if (after) ntState = after;
+});
 
 // ---------------------------------------------------------------- 로그인·기기 간 동기화(백엔드 update110·111 account.js, 레포 docs/account.md, 디자인 130판 Account)
 // 사용자 11/14 "로그인이랑 친구 시간표도 지금 작업 시작하라고"(16일 데모데이), 130판 시안 02 "그대로". 정보 첫 카드 맨 위 '계정'(값 로그인한 메일) › 계정 하위 화면.
@@ -7652,6 +7667,7 @@ async function startAccount() {
     paintFriendBtn();
     if (screen === "account") renderAccount();
     if (screen === "friends") renderFriends();
+    if (screen === "info") renderInfo(); // 계정 카드의 계정 삭제 줄(134판)
     if (u && u.uid !== was) {
       syncNow();
       if (screen !== "friends") frLoad().catch(() => null); // 친구 기능을 켰는지(숨기기 줄)·받은 요청(빨간 점)도 받아 둔다(친구 화면은 renderFriends 가 받는다)
@@ -7734,34 +7750,56 @@ function paintAccountSync() {
   v.textContent = acctSyncText();
   v.classList.toggle("is-error", syncView().state === "error");
 }
-/** 로그인 전 카드(130판 Account·Friends '로그인 전'): 한 줄, (계정 화면만) 서버에 두는 것 셋(법무 11/11: 로그인 화면에서 무엇이 가는지),
- *  만 14세 이상 체크(법무 11/11 ③. 처음 꺼짐이고 기억하지 않는다), Google 계정으로 계속(Google 지침 버튼. 체크를 켜야 켜진다) */
+/** 로그인 전 카드(130판 Account·Friends '로그인 전', 134판): 한 줄, (계정 화면만) 서버에 두는 것 셋(법무 11/11: 로그인 화면에서 무엇이 가는지),
+ *  필수 확인 둘 '만 14세 이상이에요'(법무 11/11 ③)·'이용 규칙에 동의해요'와 줄 오른쪽 '보기'(이용 규칙 웹 페이지. 법무 11/15 ③. 둘 다 처음 꺼짐이고 기억하지 않는다),
+ *  오류 줄(.acct-err, role=alert. 확인 없이 누를 때만), Google 계정으로 계속(Google 지침 버튼. 늘 켜진 기본 모양: 꺼진 모양은 지침에 없고 G 까지 흐려진다, 134판) */
 function loginCard(lead, what) {
   return h("div", { class: "card acct" },
     h("p", { class: "acct-lead" }, lead),
     what ? [h("p", { class: "acct-what-h" }, "서버에 두는 것"),
       h("ul", { class: "acct-what" }, ["로그인한 Google 메일", "시간표(교수 이름은 빼고)", "친구를 쓰면 닉네임과 친구 목록"].map((t) => h("li", {}, t)))] : null,
-    h("label", { class: "check" }, h("input", { type: "checkbox", "data-age": "1" }), "만 14세 이상이에요"),
-    h("button", { type: "button", class: "g-btn", "data-signin": "1", disabled: true }, h("img", { src: GOOGLE_G, alt: "", width: "20", height: "20" }), "Google 계정으로 계속"));
+    h("div", { class: "check-row" }, h("label", { class: "check" }, h("input", { type: "checkbox", "data-age": "1" }), "만 14세 이상이에요")),
+    h("div", { class: "check-row" }, h("label", { class: "check" }, h("input", { type: "checkbox", "data-terms": "1" }), "이용 규칙에 동의해요"),
+      h("a", { class: "btn-text small", href: TERMS_URL, target: "_blank", rel: "noopener", "aria-label": "이용 규칙 보기" }, "보기")),
+    h("p", { class: "acct-err", role: "alert", hidden: true }),
+    h("button", { type: "button", class: "g-btn", "data-signin": "1" }, h("img", { src: GOOGLE_G, alt: "", width: "20", height: "20" }), "Google 계정으로 계속"));
 }
-// 체크를 켜야 Google 버튼이 켜진다(계정·친구 화면 둘 다)
+// 확인 없이 누를 때의 오류 글(134판): 빈 것에 따라
+const ACCT_CHECK_ERR = { age: "만 14세 이상인지 확인해 주세요", terms: "이용 규칙에 동의해 주세요", both: "두 가지 모두 확인해 주세요" };
+/** 로그인 카드에서 아직 켜지 않은 확인: "age" | "terms" | "both" | "" */
+function acctMissing(card) {
+  const age = !card.querySelector("[data-age]")?.checked, terms = !card.querySelector("[data-terms]")?.checked;
+  return age && terms ? "both" : age ? "age" : terms ? "terms" : "";
+}
+// 오류 줄이 떠 있을 때 확인을 켜면: 둘 다 켰으면 거두고, 하나 남았으면 그 글로
 document.addEventListener("change", (e) => {
-  const c = e.target.closest && e.target.closest("[data-age]");
-  if (!c) return;
-  const b = c.closest(".acct")?.querySelector("[data-signin]");
-  if (b) b.disabled = !c.checked;
+  const c = e.target.closest && e.target.closest(".acct [data-age], .acct [data-terms]");
+  const card = c && c.closest(".acct"), err = card && card.querySelector(".acct-err");
+  if (!err || err.hidden) return;
+  const miss = acctMissing(card);
+  err.textContent = miss ? ACCT_CHECK_ERR[miss] : "";
+  err.hidden = !miss;
 });
+let signingIn = false; // Google 창·기기 계정 고르기가 떠 있는 동안(버튼은 꺼진 모양 없이 두고 다시 누른 것만 넘긴다)
 document.addEventListener("click", async (e) => {
   const b = e.target.closest && e.target.closest("[data-signin]");
-  if (!b || b.disabled || !acct) return;
-  b.disabled = true;
+  if (!b || !acct || signingIn) return;
+  const card = b.closest(".acct"), miss = card ? acctMissing(card) : "";
+  if (miss) { // 확인 없이 눌렀다: 확인 줄 아래 오류 한 줄(알림 영역으로 읽힌다), 초점은 첫 빈 체크
+    const err = card.querySelector(".acct-err");
+    err.textContent = ACCT_CHECK_ERR[miss];
+    err.hidden = false;
+    card.querySelector(miss === "terms" ? "[data-terms]" : "[data-age]").focus();
+    return;
+  }
+  signingIn = true;
   try {
     const u = await acct.signIn();
-    if (u) showSnackbar("로그인했어요"); // 화면은 onUser 가 로그인 뒤로 바꾼다
+    if (u) showSnackbar("로그인했어요"); // 화면은 onUser 가 로그인 뒤로 바꾼다(update115: signIn 이 끝난 뒤에 올 수 있다)
   } catch (err) {
     if (!err || err.code !== "CANCELLED") showSnackbar(acctError(err));
   }
-  if (b.isConnected) b.disabled = !b.closest(".acct")?.querySelector("[data-age]")?.checked;
+  signingIn = false;
 });
 /** 계정 화면: 로그인 전은 로그인 카드, 로그인하면 카드 셋(메일과 학교 계정 태그, 동기화(누르면 지금 맞춤), 로그아웃·계정 삭제) */
 function renderAccount() {
@@ -7817,6 +7855,7 @@ async function acctLeave(kind) {
     closeSheet(d);
     showSnackbar(kind === "delete" ? "계정을 지웠어요" : "로그아웃했어요");
     if (screen === "account") { renderAccount(); $("account-title").focus({ preventScroll: true }); }
+    else if (screen === "info") { renderInfo(); $("info-list").querySelector('[data-info="account"]')?.focus({ preventScroll: true }); } // 정보의 계정 삭제(134판)
   } catch (err) {
     closeSheet(d);
     if (!err || err.code !== "CANCELLED") showSnackbar(acctError(err, kind === "delete" ? "계정을 지우지 못했어요" : "로그아웃하지 못했어요"));
@@ -7835,6 +7874,7 @@ let fr = null; // { profile: {nick, tag, showSchool?}|null, list: friends() } �
 let frFor = ""; // fr 을 받은 사람(uid)
 let frBusy = false;
 let frPending = ""; // 초대 링크로 연 닉네임#태그(로그인·닉네임 뒤 묻는 팝업)
+let frStarting = false; // 처음 한 번의 시작하기를 보내는 중(그동안 초대 링크의 묻는 팝업을 미룬다: 미리보기를 먼저 보이고 돌아오면 묻는다, 134판)
 let frErr = ""; // 친구 목록을 못 받았다: OFFLINE(연결되면 저절로 다시) | FAILED(다시 시도)
 let syncLib = null; // sync.js(nickProblem·parseHandle)
 const NICK_MAX = 12;
@@ -7848,13 +7888,14 @@ const handleNodes = (p) => (p && p.nick ? [p.nick, h("i", {}, `#${p.tag}`)] : ["
 const friendOf = (url) => { const m = /#(?:.*&)?friend=([^&]+)/.exec(String(url || "")); if (!m) return null; try { return decodeURIComponent(m[1]); } catch { return null; } };
 /** 친구 기능을 켰다(로그인하고 닉네임이 있다): 항목 시트·일정 시트의 '친구에게 숨기기'와 대표 시간표 메뉴의 '친구에게 보이기' 줄을 보인다(130판) */
 const frShare = () => accountOn() && !!acctUser && !!fr && frFor === acctUser.uid && !!fr.profile;
-const FR_HIDE_META = "친구에게는 이 시간만 회색 칸으로 보여요";
+// 숨겨도 그 시간은 보인다는 것을 알린다(134판, 법무 11/15)
+const FR_HIDE_META = { course: "친구에게는 이름·강의실 없이 이 시간만 회색 칸으로 보여요", custom: "친구에게는 이름 없이 이 시간만 회색 칸으로 보여요" };
 /** 스위치 줄(라벨 전체를 누른다, 129판 꼴): name 으로 change 를 가른다 */
 const frSwitch = (name, title, meta, on, attrs = {}) => h("label", { class: "info-row switch-row" },
   h("span", { class: "sw-body" }, h("span", { class: "sw-t", id: `${name}-t` }, title), meta ? h("span", { class: "sw-m", id: `${name}-m` }, meta) : null),
   h("input", { type: "checkbox", role: "switch", class: "switch", name, value: "1", "aria-labelledby": `${name}-t`, "aria-describedby": meta ? `${name}-m` : null, checked: on, ...attrs }));
-/** 시트의 친구에게 숨기기 카드(130판: raised 카드 안 스위치 줄. 일정이면 아래 한 줄) */
-const frHideCard = (name, on, custom, attrs) => [h("div", { class: "card info-list fr-hide" }, h("ul", { class: "list" }, h("li", {}, frSwitch(name, "친구에게 숨기기", FR_HIDE_META, on, attrs)))),
+/** 시트의 친구에게 숨기기 줄(130·132판: 카드 꼴 없이 위에 선. 메타는 과목·일정이 다르다(134판). 일정이면 아래 한 줄) */
+const frHideCard = (name, on, custom, attrs) => [h("div", { class: "card info-list fr-hide" }, h("ul", { class: "list" }, h("li", {}, frSwitch(name, "친구에게 숨기기", custom ? FR_HIDE_META.custom : FR_HIDE_META.course, on, attrs)))),
   custom ? h("p", { class: "hide-note" }, "장소와 메모는 숨기지 않아도 친구에게 보이지 않아요") : null];
 let frShareWas = false;
 /** 친구 기능이 켜지거나 꺼졌다(로그인·닉네임·로그아웃): 열린 항목 시트·시간표 메뉴의 스위치 줄을 맞춘다 */
@@ -7968,7 +8009,7 @@ function paintFriends() {
     L.blocked.length ? section("차단한 사람", 0, card(L.blocked.map((p) => h("div", { class: "fr-row" }, who(p), h("span", { class: "acts" }, act("unblock", p, "풀기")))))) : null,
   ].filter(Boolean));
   if (had) box.querySelector(`[data-frk="${CSS.escape(had)}"]`)?.focus({ preventScroll: true });
-  if (frPending && !document.querySelector("dialog[open]")) { // 초대 링크로 열었다: 로그인·닉네임 뒤 묻는다
+  if (frPending && !frStarting && !document.querySelector("dialog[open]")) { // 초대 링크로 열었다: 로그인·닉네임 뒤 묻는다
     const handle = frPending;
     frPending = "";
     $("fri-title").textContent = `${handle}에게 친구 요청을 보낼까요?`;
@@ -8015,8 +8056,8 @@ async function frDo(fn, done, fail) {
 /** 닉네임 정하기(처음·바꾸기): 서버가 거르면(BAD_NICK) 칸 아래 오류 줄. 학교 계정 보이기는 백엔드가 받는 대로(showSchool) */
 function saveNick(input, err, school, done) {
   const nick = input.value.trim();
-  if (syncLib && syncLib.nickProblem(nick)) { nickError(input, err); return; }
-  frDo(async () => { const p = await acct.setNick(nick, { showSchool: school }); syncNow(); return p; }, done,
+  if (syncLib && syncLib.nickProblem(nick)) { nickError(input, err); return Promise.resolve(false); }
+  return frDo(async () => { const p = await acct.setNick(nick, { showSchool: school }); syncNow(); return p; }, done,
     (e) => { if (e && e.code === "BAD_NICK") nickError(input, err); else showSnackbar(FR_ERR[e && e.code] || "닉네임을 정하지 못했어요"); });
 }
 $("friends-body").addEventListener("click", (e) => {
@@ -8025,7 +8066,16 @@ $("friends-body").addEventListener("click", (e) => {
   const k = b.dataset.fr, uid = b.dataset.uid;
   const person = () => (fr ? Object.values(fr.list).flat() : []).find((p) => p.uid === uid);
   if (k === "retry") { renderFriends(); return; }
-  if (k === "start") { if (!b.disabled) saveNick($("fr-nick"), $("fr-nick-err"), $("fr-school") ? $("fr-school").checked : false, (p) => announce(`닉네임 ${handleText(p)}`)); return; }
+  if (k === "start") { // 처음 한 번: 닉네임을 정하면 미리보기 '친구에게 보이는 내 시간표'를 한 번 열고, 뒤로 가면 친구 화면(134판, 법무 11/15)
+    if (b.disabled || frStarting) return;
+    frStarting = true;
+    saveNick($("fr-nick"), $("fr-nick-err"), $("fr-school") ? $("fr-school").checked : false, (p) => {
+      frStarting = false;
+      announce(`닉네임 ${handleText(p)}`);
+      if (screen === "friends") { frpvSem = ""; go("frpv"); }
+    }).finally(() => { frStarting = false; });
+    return;
+  }
   if (k === "open") { go("friend", { uid }); return; }
   if (k === "preview") { frpvSem = ""; go("frpv"); return; } // 처음은 지금 보는 학기부터(132판)
   if (k === "add") { openFrAdd(b); return; }
@@ -8571,7 +8621,7 @@ const H1 = { input: "input-title", mine: "mine-title", add: "add-panel-title", r
   friend: "friend-title", frpv: "frpv-title" };
 const ROOT = { mine: "mine", explore: "input", theme: "theme", info: "info", grad: "grad" };
 const TABS = ["mine", "explore", "theme"]; // 막대·사이드바의 탭 단추(정보는 폰은 탭 첫 화면 상단 바의 ⓘ, 컴퓨터는 사이드바 맨 아래 '정보')
-// 처리방침 11/27 판 시행 뒤(deptOn)에는 셋째에 졸업 요건(디자인 124판 TabBar: 시간표 · 동선 탐색 · 졸업 요건 · 테마)
+// 학과·학번을 켠 뒤(deptOn)에는 셋째에 졸업 요건(디자인 124판 TabBar: 시간표 · 동선 탐색 · 졸업 요건 · 테마)
 const tabList = () => (deptOn() ? ["mine", "explore", "grad", "theme"] : TABS);
 // 탭 이름(10/23 사용자: "'시간표', '동선 탐색' 뭐 이런 느낌으로", 오후 "테마도 걍 탭 하나로 빼자"). 아래 탭 막대와 컴퓨터의 사이드바가 같은 이름을 보인다
 const TAB_NAME = { mine: "시간표", explore: "동선 탐색", theme: "테마", grad: "졸업 요건" };
