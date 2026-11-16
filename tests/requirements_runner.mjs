@@ -5,7 +5,7 @@ import {
   pickVersion, pickVersionFor, buildSameCourse, tidyRecords, evaluateProgram, creditSummary, gpa, gradeNeeded,
   termCreditLimit, withinLimit, isMajorCourse, suggestCourses, rankSuggestions,
   suggestionTag, rowName, termName, nextRegularTerm, nthRegularTerm, hasCoursebook, versionLabel, versionChoices,
-  takenTerms, gradView, basisText, limitLine, deptLink, sourceTexts, shortLocator,
+  takenTerms, gradView, basisText, limitLine, deptLink, sourceTexts, shortLocator, rowView,
 } from "../web/js/requirements.js";
 import { gapFit, parseCourses, TravelMatrix, fitLabel } from "../web/js/engine.js";
 
@@ -45,6 +45,21 @@ const out = read(casesPath).map((c) => {
       const rows = evaluateProgram(p, version, t.courses, { role: c.role, sameCourse: same });
       return Object.fromEntries(rows.map((r) => [r.id, { state: r.state, reason: r.reason || null, have: r.have.count,
         missing: (r.missing || []).map((m) => m.code) }]));
+    }
+    case "rows": {
+      // 분야·갈래 줄(11/16 졸업 요건 체크박스): 줄 값·시트의 분야·갈래 값·들은 과목 메타·남은 과목
+      const p = program(c.program);
+      const { version } = pickVersion(p, c.entryYear);
+      const same = buildSameCourse(courseMap, [p]);
+      const t = tidyRecords(c.records, same);
+      const rows = evaluateProgram(p, version, t.courses, { role: c.role || "single", sameCourse: same });
+      return Object.fromEntries(rows.filter((r) => c.ids.includes(r.id)).map((r) => {
+        const v = rowView(r, { program: p });
+        return [r.id, { state: r.state, reason: r.reason || null, value: v.value.text, summary: v.sheet.summary, strong: v.sheet.strong,
+          groups: v.sheet.groups && v.sheet.groups.map((g) => [g.name, g.need, g.value.kind, g.value.text]),
+          paths: v.sheet.paths && v.sheet.paths.map((x) => [x.name, x.value.text]),
+          courses: v.sheet.courses.filter((x) => x.taken).map((x) => [x.code, x.meta]), missing: (r.missing || r.left || []).map((m) => m.code) }];
+      }));
     }
     case "credits": {
       const picks = c.picks.map((x) => {
@@ -120,8 +135,8 @@ const out = read(casesPath).map((c) => {
       const picks = c.picks.map((x) => ({ ...x, program: program(x.program), newer: x.newer || null }));
       const same = buildSameCourse(courseMap, picks.map((x) => x.program));
       const grades = c.grades ? gpa(c.records, { sameCourse: same }) : null;
-      const v = gradView({ picks, records: c.records, grades, common, sameCourse: same });
-      return { total: v.total, missing: v.missing,
+      const v = gradView({ picks, records: c.records, grades, common, sameCourse: same, gpaChecks: c.gpaChecks || null });
+      return { total: v.total, missing: v.missing, ge: v.credits.ge, general: v.credits.general, byChecks: v.bundles[0].rows.find((r) => r.id === "grad-gpa").byChecks,
         bundles: v.bundles.map((b) => ({ kind: b.kind, title: b.title, label: b.label, choices: b.choices.map((x) => x.label),
           rows: Object.fromEntries(b.rows.map((r) => [r.id, { name: r.name, value: r.value.text, aria: r.aria, summary: r.sheet.summary,
             strong: r.sheet.strong, because: r.sheet.because, meta: r.sheet.meta, link: r.sheet.link, checked: r.sheet.checked,

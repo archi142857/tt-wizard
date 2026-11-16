@@ -69,6 +69,53 @@ def name_rows(prog: dict) -> int:
     return n
 
 
+def term_rank(stem: str) -> int:
+    """'2025-1' < '2025-S' < '2025-2' < '2025-W' 차례의 수(학기 이름이 아니면 -1)"""
+    m = re.match(r"^(\d{4})-(1|S|2|W)$", stem)
+    return int(m.group(1)) * 4 + {"1": 0, "S": 1, "2": 2, "W": 3}[m.group(2)] if m else -1
+
+
+def history_courses(history: Path) -> dict[str, tuple[str, float, str]]:
+    """지난 편람 → 교과목번호마다 (이름, 학점, 학기)(가장 최근 학기 것)"""
+    out: dict[str, tuple[str, float, str]] = {}
+    for f in sorted(history.glob("*.json"), key=lambda f: term_rank(f.stem)):
+        for c in json.loads(f.read_text(encoding="utf-8")).get("courses", []):
+            out[c[0]] = (c[1], c[3], f.stem)
+    return out
+
+
+def _course_of(code: str, known: dict, hist: dict) -> dict:
+    if code in known:
+        c = known[code]
+        return {k: c[k] for k in ("code", "name", "credits", "credits_from", "alt_codes", "note") if k in c}
+    if code in hist:
+        name, credits, term = hist[code]
+        credits = int(credits) if float(credits).is_integer() else credits
+        return {"code": code, "name": name, "credits": credits, "credits_from": f"편람 {term} (data/history)"}
+    return {"code": code, "name": None, "credits": None}
+
+
+def fill_code_lists(prog: dict, hist: dict) -> int:
+    """분야(extra.groups)·갈래(extra.paths)에 번호(codes)만 있으면 과목 객체(courses: code·name·credits)를 더한다(앱의 졸업 요건 체크박스,
+    프론트엔드 11/16 '졸업 요건 체크박스'). 이름·학점은 같은 과정에 적힌 과목, 없으면 지난 편람(가장 최근 학기)에서, 못 찾으면 번호만.
+    codes 는 그대로 둔다. 더한 분야·갈래 수"""
+    known: dict = {}
+    for v in prog.get("versions") or []:
+        for r in v.get("requirements") or []:
+            e = r.get("extra") or {}
+            for c in (r.get("courses") or []) + [c for g in (e.get("groups") or []) + (e.get("paths") or []) for c in (g.get("courses") or [])]:
+                known.setdefault(c["code"], c)
+    n = 0
+    for v in prog.get("versions") or []:
+        for r in v.get("requirements") or []:
+            e = r.get("extra") or {}
+            for g in (e.get("groups") or []) + (e.get("paths") or []):
+                if g.get("codes") and not g.get("courses"):
+                    g["courses"] = [_course_of(code, known, hist) for code in g["codes"]]
+                    n += 1
+    return n
+
+
 # 1차와 2차에서 학과(부)·과정 이름을 다르게 적은 것: 2차 이름 → 1차 이름
 ALIAS = {
     ("prof", "수의과대학", "수의예과(예과 2년)"): ("prof", "수의예과", "수의예과(예과 2년)"),
@@ -585,12 +632,14 @@ def main(argv: list[str] | None = None) -> int:
         if w:
             warns[prog["id"]] = w
     depts_of = course_depts(Path(args.history))
+    hist = history_courses(Path(args.history))
     pilot_ids = {m["id"] for m in PILOTS.values()}
     for i, (ds, pre) in derive_depts(list(built.values()), depts_of).items():
         if i not in pilot_ids:
             built[i]["depts"], built[i]["code_prefixes"] = ds, pre
     for prog in built.values():
         name_rows(prog)
+        fill_code_lists(prog, hist)
         (out / "programs" / f"{prog['id']}.json").write_text(json.dumps(prog, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     index = [index_entry(one.get(k), two.get(k), k[0], built) for k in keys]
     (out / "index.json").write_text(json.dumps({"checked_on": checked, "data_year": DATA_YEAR, "cohorts": [LO, HI], "programs": index},

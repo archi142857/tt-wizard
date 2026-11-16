@@ -50,7 +50,10 @@ update106(11/14, 디자인 124판 '졸업 요건 탭'): 들은 과목은 드랍�
 - **전공 과목 알아보기**: 요건 목록에 있거나, 편람 개설 학과가 `depts` 이고 교과구분이 전필·전선(`code_prefixes` 가 있으면 번호 앞자리도). 같은 학부 안 두 전공(식품·동물생명공학부)은 번호 앞자리로 가른다(5252·M1702 = 동물생명공학).
 - **name**(있을 때만): 요건 줄 이름. 없으면 앱이 자료 글의 앞부분에서 줄인다(`web/js/requirements.js` rowName). 글이 조건으로 시작해 이름이 맞지 않는 줄만
   `requirements_import.py` 의 `ROW_NAMES`((과정 id, 요건 id) → 이름)로 넣는다(update117, 프론트엔드 11/15 '요건 줄 이름 정리').
-- `extra` 에는 아직 계산하지 않는 조건(여러 갈래, 영역 수, 경로별 학점 등)을 조사 자료 그대로 둔다. 이런 줄은 '확인 필요'.
+- `extra` 에는 조사 자료의 조건을 그대로 둔다. 분야(`groups`: 분야마다 `name`·`field`, 과목 `courses` 또는 번호 `codes`, 기준 `min_count`·`min_credits`,
+  줄에 `min_groups`·`min_areas`·`min_in_one_group`·`not_counted`)와 갈래(`paths`: '(1)·(2)·(3) 중 택 1')는 앱이 센다(update120, 아래 2절).
+  번호만 적힌 분야·갈래에는 `requirements_import.py` 의 `fill_code_lists` 가 과목 객체(`courses`: 이름·학점은 같은 과정에 적힌 과목, 없으면 지난 편람)를 더한다
+  (앱의 졸업 요건 체크박스, 프론트엔드 11/16). 그 밖의 조건(영역 수, 경로별 학점, 문장형 조건 등)이 섞인 줄은 '확인 필요'.
 - **kind**: major(학과·전공) · multi(연합·연계·학생설계 같은 다전공: 여러 학과 과목을 모아 학과 칸이 없고 요건 목록으로만 센다).
 - **version_key**: entry(판을 입학 연도로 고름) · selection(판을 다전공 선발 연도로 고름: 연합·연계전공, 학생설계전공(복수전공)). 화면은 selection 과정을 더할 때 선발 학기를 묻는다.
 - **exists_for**: 과정이 있던 학번. 1차 조사에만 있는 연합·연계전공(30개)은 모름(null)이고, 판은 선발 연도 2025~2026 하나뿐이다(그 전에 선발된 학생은 '자료 없음').
@@ -94,8 +97,10 @@ update106(11/14, 디자인 124판 '졸업 요건 탭'): 들은 과목은 드랍�
 | `pickVersion(program, entryYear)` | 입학 연도의 판. 자료가 없는 학번이면 `{version: null, reason: "no_data"}` |
 | `pickVersionFor(program, {entryYear, majorEntryYear, selectionYear})` | 과정이 판을 가르는 기준(입학·전공 진입·다전공 선발)으로 판 고르기 |
 | `buildSameCourse(courseMap, programs)` | 같은 과목으로 볼 번호(교양 대응표 + 요건의 `alt_codes`) → 대표 번호 |
-| `tidyRecords(records, same)` | 들은 과목 정리: 같은 과목을 다시 들었으면 앞 것은 묻지 않고 재수강으로 뺀다(`replaced`, `by` = 다시 들은 학기). 번호가 다른 대체 과목을 둘 다 들었으면 `substituted`. 드랍(`dropped: true`, 옛 꼴 status dropped, W)과 학사에 안 넣는 대학원 과목은 셈에서 뺀다. F·U 는 학점 0 |
-| `evaluateProgram(program, version, courses, {role, sameCourse})` | 요건 줄마다 `met`(충족) · `remaining`(남음, 남은 과목) · `check`(확인 필요, 까닭). 대체 과목을 둘 다 들었거나 들은 과목 하나가 셀 수 있는 줄 둘에 걸리면(한 줄 목록이 다른 줄 안에 다 드는 큰 요건·작은 요건은 빼고) 확인 필요. 줄마다 짧은 이름 `name`(`rowName`) |
+| `tidyRecords(records, same)` | 들은 과목 정리: 같은 과목을 다시 들었으면 앞 것은 묻지 않고 재수강으로 뺀다(`replaced`, `by` = 다시 들은 학기). 번호가 다른 대체 과목을 둘 다 들었으면 `substituted`. 드랍(`dropped: true`, 옛 꼴 status dropped, W)과 학사에 안 넣는 대학원 과목은 셈에서 뺀다. F·U 는 학점 0. 요건 시트에서 체크한 기록(`checked: true`, 학기·성적 없음)은 같은 과목의 다른 기록이 있으면 세지 않는다(update120) |
+| `evaluateProgram(program, version, courses, {role, sameCourse})` | 요건 줄마다 `met`(충족) · `remaining`(남음, 남은 과목) · `check`(확인 필요, 까닭). 대체 과목을 둘 다 들었거나 들은 과목 하나가 셀 수 있는 줄 둘에 걸리면(한 줄 목록이 다른 줄 안에 다 드는 큰 요건·작은 요건은 빼고) 확인 필요. 줄마다 짧은 이름 `name`(`rowName`). 분야·갈래 줄은 아래 |
+| 분야 줄(`extra.groups`, update120) | 분야마다 기준(`min_count`·`min_credits`)과 줄 기준(분야 과목을 한 번씩 모아), `min_groups`·`min_areas`(채운 분야 수, 기준 없는 분야는 1과목 이상), `min_in_one_group`, `not_counted` 빼기. 다른 종류 줄(전필 등)이 센 과목이나 두 분야에 함께 든 과목은 겹침이라, 그것을 빼고(엄격)·넣고(느슨) 둘 다 센다: 엄격으로 채우면 충족, 느슨으로도 모자라면 남음, 그 사이는 확인 필요(`여러 요건에 걸린 과목`). 목록 없는 분야(번호 앞자리·이름만)나 목록을 다 들어도 닿지 않는 줄 기준(부전공 21학점 같은)은 셀 수 없어 확인 필요(`과목 목록이 없는 조건`). 남은 값은 줄 기준(학점 먼저) → 분야 수(`2분야 남음`) → 분야마다 모자란 것(`생물다양성 · 1과목 남음`) |
+| 갈래 줄(`extra.paths`, update120) | 한 갈래의 과목을 다 들으면 그 갈래를 채운다. 채운 갈래가 `min_count` 이상이면 충족, 아니면 남은 과목이 가장 적은 갈래로 `N과목 남음`. 같은 판에 기준 없는 갈래 줄(대체 허용, `bio-ge-alt`)의 갈래를 다 들었으면 확인 필요 |
 | `creditSummary(courses, picks, {rules})` | 교양 · 전공(과정마다) · 교직 · 일반선택 · 전체 학점, 두 전공에 걸린 과목(`shared`, 3과목까지), 부전공과 겹친 과목, 다른 학교 학점이 졸업학점 1/2 을 넘는지 |
 | `gpa(records, {isMajor})` | 성적 계산기: 전체·전공 평점, 학기별 평점, 직전 2개 정규학기 평점, 졸업 평점(2.0) |
 | `gradeNeeded(current, plannedCredits, target)` | 목표 평점에 닿으려면 앞으로 평균 몇이 필요한지 |
@@ -123,8 +128,8 @@ update106(11/14, 디자인 124판 '졸업 요건 탭'): 들은 과목은 드랍�
 | 함수 | 화면 |
 | --- | --- |
 | `takenTerms(records, {sameCourse, currentTerm})` | 들은 과목 보기: `total`(머리 `들은 학점 76`: 드랍·F·U·재수강 앞 것을 뺀 값), 학기마다(새 학기 먼저) `label`(`2026년 2학기`)·`text`(`18학점`, 이번 학기 `18학점 · 듣는 중`)과 줄(`counted`, `why` dropped·failed·retake·graduate, `meta` `전필 · 3학점`, 직접 넣은 것 `직접 추가 · 교양 · 1학점`, 재수강으로 빠진 앞 수강은 끝에 `2026년 2학기에 재수강해서 빠짐`) |
-| `gradView({picks, records, grades, common, sameCourse})` | 요건 보기. `picks` = `[{program, version?, role, title, entryYear, selectionTerm?, newer?}]`(첫째가 주전공, `version` 이 없으면 `pickVersionFor`, `newer` 는 catalog 의 값), `grades` = `gpa(records, {isMajor})`(성적을 안 넣었으면 null). → `{total, bundles, missing}`: `공통`(`졸업 학점`, `졸업 평점`: 성적을 다 넣고 전체·전공 2.0 이상이면 충족, 아니면 확인 필요와 까닭, 주전공 판의 교양 줄) → 과정마다 `{title, label, choices, rows}`. `missing` 은 그 학번 자료가 없는 과정 |
-| 줄(`rowView`) | `name`(`전공필수`), `value`(`{kind: left·met·check, text: '6학점 남음'·'충족'·'확인 필요'}`, 학점이 남으면 학점, 아니면 과목), `aria`(`전공필수, 6학점 남음`), `sheet`: `meta`(`동물생명공학전공 · 2021~2026학번 규정`), `summary`·`strong`(`18학점 중 12학점 · 6학점 남음`, 굵게 `6학점 남음`), `courses`(`taken` 과 `meta` `3학점 · 2025년 1학기`, 안 들은 과목은 `3학점`), `because`(확인 필요의 까닭 한 줄), `link`(학과 졸업요건 페이지), `sources`(`출처: …`), `checked`(`11월 12일 기준`), `detail`(자료 글 그대로) |
+| `gradView({picks, records, grades, common, sameCourse, gpaChecks})` | 요건 보기. `picks` = `[{program, version?, role, title, entryYear, selectionTerm?, newer?}]`(첫째가 주전공, `version` 이 없으면 `pickVersionFor`, `newer` 는 catalog 의 값), `grades` = `gpa(records, {isMajor})`(성적을 안 넣었으면 null). → `{total, bundles, missing}`: `공통`(`졸업 학점`, `졸업 평점`: 성적을 다 넣고 전체·전공 2.0 이상이면 충족, 아니면 확인 필요와 까닭, 주전공 판의 교양 줄) → 과정마다 `{title, label, choices, rows}`. `missing` 은 그 학번 자료가 없는 과정. `records` 의 체크한 기록(`checked: true`, 이수 구분이 비면 교양 줄 과목은 교양으로 본다). `gpaChecks` = `{all, major}`(시트에서 켠 `전체 평점 2.0 이상`·`전공 평점 2.0 이상`): 성적을 다 넣지 않았어도 둘 다 켜면 졸업 평점 충족(그 줄 `byChecks: true`, update120) |
+| 줄(`rowView`) | `name`(`전공필수`), `value`(`{kind: left·met·check, text: '6학점 남음'·'충족'·'확인 필요'}`, 학점이 남으면 학점, 아니면 과목), `aria`(`전공필수, 6학점 남음`), `sheet`: `meta`(`동물생명공학전공 · 2021~2026학번 규정`), `summary`·`strong`(`18학점 중 12학점 · 6학점 남음`, 굵게 `6학점 남음`), `courses`(`taken` 과 `meta` `3학점 · 2025년 1학기`, 체크로만 들은 것은 `3학점 · 체크`, 안 들은 과목은 `3학점`), `groups`(분야 줄: 분야마다 `{name, need: '1과목 이상', value: {kind: met·left·check·count, text: '충족'·'1과목 남음'·'확인 필요'·'2과목'}, codes}`, `count` 는 기준 없는 분야의 들은 수), `paths`(갈래 줄: 갈래마다 `{name, value, codes}`), `because`(확인 필요의 까닭 한 줄), `link`(학과 졸업요건 페이지), `sources`(`출처: …`), `checked`(`11월 12일 기준`), `detail`(자료 글 그대로) |
 | `rowName(req)` | 줄 이름: 자료 글의 앞부분(`전공필수 15과목 46학점` → `전공필수`, `외국어진행강좌(…) 3과목` → `외국어진행강좌`). 길거나 숫자로 시작하면 종류 이름(전공필수·전공선택·지정 과목·복수전공·부전공·졸업 논문·분배 이수·교양·기타 조건) |
 | `reasonText(row, {entryYear})` | 까닭: `2025학번 내규가 공개되지 않았어요.`(자료 미확인), `2025학번 세부 규정이 공개 자료에 다 나오지 않았어요.`(부분), `공개된 자료끼리 내용이 달라요.`(충돌), 과목 목록·기준 수가 없는 요건, 여러 갈래 조건, 대체 과목을 둘 다 들음, 여러 요건에 걸린 과목 |
 | `versionLabel(program, version, {role, selectionTerm})` · `versionChoices(…, {newer, entryYear})` | 판 이름 `2025~2026학번 규정`(전공 진입 연도로 고르는 판 `2024~2026년 진입 규정`), 복수·부전공과 선발 연도로 고르는 과정은 `2026년 1학기 선발`. 학과가 더 새 학번 규정을 허락하면(catalog `programs[id].newer`: 식품영양학과·응용생물학전공·컴퓨터공학부, `졸업_요건_학번별.md` 4절) 고를 수 있는 판이 둘 이상이라 판 이름이 선택칸 |

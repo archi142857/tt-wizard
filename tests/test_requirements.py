@@ -552,6 +552,90 @@ def test_grad_view(tmp_path):
     assert old["missing"] == ["animal-biotech"] and len(old["bundles"]) == 1  # 2018학번은 자료 없음: 공통만
 
 
+def test_code_lists_have_courses():
+    """분야·갈래에 번호(codes)만 적힌 것도 과목 객체(이름·학점)를 함께 둔다(앱의 졸업 요건 체크박스, update120 fill_code_lists)."""
+    n = 0
+    for pid, prog in programs().items():
+        for v in prog["versions"]:
+            for r in v["requirements"]:
+                e = r.get("extra") or {}
+                for g in (e.get("groups") or []) + (e.get("paths") or []):
+                    if g.get("codes"):
+                        n += 1
+                        assert [c["code"] for c in g.get("courses") or []] == g["codes"], (pid, r["id"])
+                        assert all(c.get("name") for c in g["courses"]), (pid, r["id"])
+    assert n >= 60
+
+
+@node
+def test_group_and_path_rows(tmp_path):
+    """분야 줄(extra.groups)·갈래 줄(extra.paths)을 체크한 과목으로 센다(사용자 11/16 '졸업요건은 체크박스로', 프론트엔드 요청 ①②④).
+    다른 종류 줄(전필)이 센 과목은 겹침이라 엄격히는 빼고 세서, 그것만으로 채우면 '확인 필요'. 줄 기준이 목록 밖 과목까지 세면 목록 없는 조건."""
+    core = [c["code"] for c in _req("life-sciences", "bio-core", 1)["courses"]]
+    groups = _req("life-sciences", "bio-dist", 1)["extra"]["groups"]
+    other = [[c for c in g["courses"] if c["code"] not in core] for g in groups]
+    rec = lambda c, **kw: _rec(c, cls="전선", dept="생명과학부", **kw)
+    core_recs = [rec(c) for c in _req("life-sciences", "bio-core", 1)["courses"][:4]]
+    four = [other[0][0], other[0][1], other[1][0], other[2][0]]
+    paths = _req("life-sciences", "bio-ge-math", 1)["extra"]["paths"]
+    cbe = _req("chem-bio-eng", "cbe-eng-social-creative", -1)
+    social, creative = (g["courses"] for g in cbe["extra"]["groups"])
+    ids = ["bio-dist", "bio-ge-math", "bio-core"]
+    got = _run(tmp_path, [
+        {"kind": "rows", "program": "life-sciences", "entryYear": 2025, "ids": ids, "records": core_recs},
+        {"kind": "rows", "program": "life-sciences", "entryYear": 2025, "ids": ids, "records": core_recs + [rec(c) for c in four]},
+        {"kind": "rows", "program": "life-sciences", "entryYear": 2025, "ids": ids, "records":
+            [{**rec(c), "term": None, "checked": True, "cls": ""} for c in four + paths[0]["courses"][:2]]},
+        {"kind": "rows", "program": "life-sciences", "entryYear": 2025, "ids": ids, "records": [rec(c) for c in paths[0]["courses"]]},
+        {"kind": "rows", "program": "chem-bio-eng", "entryYear": 2019, "ids": [cbe["id"]], "records": [rec(social[0])]},
+        {"kind": "rows", "program": "chem-bio-eng", "entryYear": 2019, "ids": [cbe["id"]], "records": [rec(social[0]), rec(creative[0])]},
+        {"kind": "rows", "program": "p-38d77850", "entryYear": 2025, "role": "minor", "ids": ["chem-minor"], "records":
+            [rec(c) for g in _req("p-38d77850", "chem-minor", 1)["extra"]["groups"] for c in g["courses"]]},
+    ])
+    only_core, both, checked, math, one_social, two_social, minor = got
+    d = only_core["bio-dist"]  # 전필로 센 4과목만: 두 분야는 겹침이라 확인 필요, 생물다양성은 1과목 남음
+    assert d["state"] == "remaining" and d["value"] == "1과목 남음" and d["summary"] == "생물다양성 · 1과목 남음"
+    assert [g[2:] for g in d["groups"]] == [["check", "확인 필요"], ["check", "확인 필요"], ["left", "1과목 남음"]]
+    assert [g[:2] for g in d["groups"]] == [["분자세포생물학", "1과목 이상"], ["개체생물학", "1과목 이상"], ["생물다양성", "1과목 이상"]]
+    assert both["bio-dist"]["state"] == "met" and both["bio-dist"]["value"] == "충족" and all(g[3] == "충족" for g in both["bio-dist"]["groups"])
+    c = checked["bio-dist"]  # 체크한 과목(학기 없음)도 같은 기록으로 센다
+    assert c["state"] == "met" and checked["bio-ge-math"]["value"] == "2과목 남음"
+    assert checked["bio-ge-math"]["paths"][0] == [paths[0]["name"], "2과목 남음"] and checked["bio-ge-math"]["missing"] == [x["code"] for x in paths[0]["courses"][2:]]
+    m = math["bio-ge-math"]
+    assert m["state"] == "met" and m["summary"] == paths[0]["name"] and m["paths"][1][1] == f"{len(paths[1]['courses'])}과목 남음"
+    s = one_social[cbe["id"]]
+    assert s["state"] == "remaining" and s["value"] == "3학점 남음" and [g[3] for g in s["groups"]] == ["충족", "3학점 남음"]
+    assert two_social[cbe["id"]]["state"] == "met"
+    assert minor["chem-minor"]["state"] == "check" and minor["chem-minor"]["reason"] == "과목 목록이 없는 조건"  # 21학점은 목록 밖 과목까지
+
+
+@node
+def test_checked_records_and_gpa_checks(tmp_path):
+    """체크한 기록(학기·성적 없음): 같은 과목을 시간표로 들었으면 세지 않고, 시트 메타는 '3학점 · 체크', 교양 줄 과목은 교양 학점으로.
+    졸업 평점은 성적을 다 넣지 않았어도 '전체·전공 평점 2.0 이상' 둘 다 켜면 충족(프론트엔드 요청 ③④⑤)."""
+    core = _req("chem-bio-eng", "cbe-core12")["courses"]
+    real = _rec(core[0])
+    ticked = {"code": core[0]["code"], "name": core[0]["name"], "credits": core[0]["credits"], "cls": "", "term": None, "checked": True}
+    only_tick = {**ticked, "code": core[1]["code"], "name": core[1]["name"], "credits": core[1]["credits"]}
+    math = _req("life-sciences", "bio-ge-math", 1)["extra"]["paths"][0]["courses"][0]
+    ge_tick = {"code": math["code"], "name": math["name"], "credits": math["credits"], "cls": "", "term": None, "checked": True}
+    pick = [{"program": "chem-bio-eng", "role": "single", "entryYear": 2025, "title": "화학생물공학부"}]
+    got = _run(tmp_path, [
+        {"kind": "tidy", "records": [real, ticked]},
+        {"kind": "rows", "program": "chem-bio-eng", "entryYear": 2025, "ids": ["cbe-core12"], "records": [real, ticked, only_tick]},
+        {"kind": "view", "records": [], "picks": pick, "gpaChecks": {"all": True, "major": True}},
+        {"kind": "view", "records": [], "picks": pick, "gpaChecks": {"all": True, "major": False}},
+        {"kind": "view", "records": [ge_tick], "picks": [{"program": "life-sciences", "role": "single", "entryYear": 2025}]},
+    ])
+    tidy, rows, on, half, ge = got
+    assert tidy["courses"] == [[core[0]["code"], "2025-1", core[0]["credits"]]] and tidy["replaced"] == [] and tidy["substituted"] == []
+    metas = dict(rows["cbe-core12"]["courses"])
+    assert metas[core[0]["code"]] == f"{core[0]['credits']}학점 · 2025년 1학기" and metas[core[1]["code"]] == f"{core[1]['credits']}학점 · 체크"
+    assert on["bundles"][0]["rows"]["grad-gpa"]["value"] == "충족" and on["byChecks"] is True
+    assert half["bundles"][0]["rows"]["grad-gpa"]["value"] == "확인 필요" and half["byChecks"] is False
+    assert ge["ge"] == math["credits"] and ge["general"] == 0
+
+
 @node
 def test_limit_line_fit_label_and_order(tmp_path):
     fits = [{"add": {"travel": 3.2, "late": 1.1, "days": 0}, "unknownRoom": False}, {"add": {"travel": 0, "late": 0, "days": 1}, "unknownRoom": False},
