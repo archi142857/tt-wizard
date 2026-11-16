@@ -5593,7 +5593,7 @@ function routeTt(t, { day = null } = {}) {
 }
 
 // ---- 항목 시트(과목): 과목 시트와 같은 시트. 머리(과목명, 메타, 겹친 과목을 뺐다는 줄), 강의평·수강편람, 색, 넣은 분반(시간·장소 바꾸기), 다른 분반(바꾸기),
-// 시간표에서 빼기. 바꾼 것은 바로 저장된다. 닫으면 '편람 바뀜'을 본 것으로 친다(T.acknowledge)
+// 맨 아래 오른쪽 삭제 알약(11/16 사용자: '시간표에서 빼기'를 오른쪽 아래 삭제 버튼으로, '둥글게 버튼으로 싸줘'). 바꾼 것은 바로 저장된다. 닫으면 '편람 바뀜'을 본 것으로 친다(T.acknowledge)
 const itemSheet = { tid: "", key: "", undo: null };
 // 넣은 분반의 펼침과 입력 줄(과목 시트의 editState 와 같은 칸)
 let itemEdit = null;
@@ -5642,7 +5642,7 @@ function renderItemSheet() {
     others.length ? h("div", { class: "sheet-field item-secs" },
       h("div", { class: "list-head" }, h("span", {}, `다른 분반 ${others.length}`)),
       h("ul", { class: "list secs" }, others.map((s) => otherSec(t, it, s)))) : null,
-    h("div", { class: "sheet-foot" }, h("button", { type: "button", class: "btn-text", "data-act": "remove" }, "시간표에서 빼기"))].filter(Boolean));
+    h("div", { class: "sheet-foot" }, h("button", { type: "button", class: "btn-del", "data-act": "remove" }, "삭제"))].filter(Boolean));
 }
 
 /** 연 항목 시트를 다시 그린다(편람이 늦게 들어왔다: 위젯에서 연 시트는 편람을 1초까지만 기다린다). 본문 안에 있던 초점은 같은 일을 하는 요소로
@@ -5875,7 +5875,7 @@ function itemSheetClosed() {
 }
 
 // ---- 직접 추가 시트(일정): 이름(30자), 요일(월–일, 여럿), 시각(시·분 선택), 장소(건물 선택칸, 처음 미정, 강의 건물에 기숙사 동을 더한 목록), 메모.
-// 넣은 일정을 누르면 같은 시트에 값이 채워져 열린다(제목은 일정 이름, 오른쪽 완료, 맨 아래 시간표에서 빼기. 바꾼 것은 바로 저장된다)
+// 넣은 일정을 누르면 같은 시트에 값이 채워져 열린다(제목은 일정 이름, 오른쪽 완료, 맨 아래 오른쪽 삭제(과목 시트와 같다). 바꾼 것은 바로 저장된다)
 const custom = { key: null, title: "", days: [], sh: 9, sm: 0, eh: 10, em: 0, b: "", memo: "", hidden: false, errors: new Set() };
 
 function openCustom(key, opener) {
@@ -5926,7 +5926,7 @@ function renderCustom() {
     h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-place" }, "장소"), placeSelect(c.b, { class: "select", id: "cu-place", "data-cu": "b" })),
     h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-memo" }, "메모"),
       h("input", { class: "text-input", id: "cu-memo", type: "text", maxlength: "100", autocomplete: "off", enterkeyhint: "done", value: c.memo, "data-cu": "memo" })),
-    c.key ? h("div", { class: "sheet-foot" }, h("button", { type: "button", class: "btn-text", "data-act": "remove" }, "시간표에서 빼기")) : null].filter(Boolean));
+    c.key ? h("div", { class: "sheet-foot" }, h("button", { type: "button", class: "btn-del", "data-act": "remove" }, "삭제")) : null].filter(Boolean));
   syncCustomErrors();
 }
 /** 오류 줄을 원인 아래에 보이거나 거두고, 원인인 칸에 잇는다 */

@@ -1493,7 +1493,14 @@ dialog.sheet.shared-sheet { padding-bottom: 0; }
 .sheet-cta .btn-primary { max-width: none; }
 .sheet-field { margin: 0; padding: var(--space-2) 0 var(--space-3); border: 0; border-bottom: 1px solid var(--line); min-width: 0; }
 .sheet-field > .field-label, .sheet-field > legend.field-label { display: flex; margin: 0 0 var(--space-1); padding: 0; }
-.sheet-foot { display: flex; padding-top: var(--space-3); margin-left: calc(var(--space-3) * -1); }
+/* 과목·일정 시트 맨 아래 오른쪽 삭제(11/16 사용자: '시간표에서 빼기'를 오른쪽 아래 삭제 버튼으로, '둥글게 버튼으로 싸줘'): 알약 radius-full,
+   danger-weak 바탕에 danger 글자 14/20 500(태그 .tag.danger 와 같은 짝), 보이는 높이 40·안쪽 좌우 16, 누르는 영역은 ::before 로 48. 오른쪽 끝이 본문 오른쪽 끝 */
+.sheet-foot { display: flex; justify-content: flex-end; padding-top: var(--space-4); }
+.btn-del { position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 var(--space-4); border: 0;
+  border-radius: var(--radius-full); background: var(--danger-weak); color: var(--danger); font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; }
+.btn-del::before { content: ""; position: absolute; inset: -4px 0; }
+.btn-del:active { box-shadow: var(--shadow-press); }
+@media (forced-colors: active) { .btn-del { border: 1px solid ButtonText; } }
 .sheet-body:has(.swatches) { container-type: inline-size; }
 .swatches { display: grid; grid-template-columns: repeat(4, var(--touch)); margin: 0; padding: 0; border: 0; }
 @container (min-width: 24rem) { .swatches { grid-template-columns: repeat(8, var(--touch)); } }
