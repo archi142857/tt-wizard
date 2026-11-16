@@ -63,7 +63,12 @@
      "src": [
       "s1",
       "s2"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "edu-lsci-ge-writing",
@@ -117,7 +122,40 @@
      "status": "확인",
      "src": [
       "s1"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "edu-lsci-ge-msc",
@@ -199,7 +237,13 @@
      "status": "확인",
      "src": [
       "s1"
-     ]
+     ],
+     "sum": {
+      "of": "ge",
+      "after": 30
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     },
     {
      "id": "edu-lsci-core",

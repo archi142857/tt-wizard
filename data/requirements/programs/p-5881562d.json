@@ -262,31 +262,63 @@
      ],
      "text": "글쓰기와 말하기 7학점: 말하기와 토론(1-1), 대학 글쓰기 1(1-2), 대학 글쓰기 2: 과학기술글쓰기(2학년). 글쓰기 1 먼저",
      "min_count": 3,
-     "min_credits": 7,
-     "courses": [
-      {
-       "code": "F12.102",
-       "name": "말하기와 토론",
-       "credits": 3
-      },
-      {
-       "code": "F11.101",
-       "name": "대학 글쓰기 1",
-       "credits": 2
-      },
-      {
-       "code": "F11.203",
-       "name": "대학 글쓰기 2: 과학기술글쓰기",
-       "credits": 2
-      }
-     ],
+     "min_credits": null,
+     "courses": [],
      "status": "확인",
      "src": [
       "s6"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "글쓰기와 말하기"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "F11.101",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000600"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "F11.203",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000900"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "말하기와 토론",
+        "courses": [
+         {
+          "code": "F12.102",
+          "name": "말하기와 토론",
+          "credits": 3,
+          "alt_codes": [
+           "031.031"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "글쓰기와 말하기",
+     "auto": "rule_writing"
     },
     {
      "id": "premed-ge-foreign",
@@ -304,9 +336,31 @@
       "s6"
      ],
      "note": "입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수.",
-     "extra": {
+     "extra_research": {
       "ge_area": "외국어"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "F21.",
+         "F22.",
+         "F23.",
+         "F24.",
+         "F25.",
+         "F26.",
+         "F27.",
+         "F28.",
+         "F29."
+        ],
+        "area": true,
+        "min_count": 2
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "premed-ge-math",
@@ -419,14 +473,44 @@
      "src": [
       "s6"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "지성의 열쇠",
       "per_area": {
        "문화 해석과 상상": 3,
        "역사적 탐구와 철학적 사유": 3,
        "인간의 이해와 사회 분석": 3
       }
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "prefixes": [
+         "C10."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "prefixes": [
+         "C20."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "prefixes": [
+         "C30."
+        ],
+        "area": true,
+        "min_credits": 3
+       }
+      ]
+     },
+     "name": "지성의 열쇠",
+     "auto": "rule_keys"
     },
     {
      "id": "premed-ge-veritas",
@@ -443,9 +527,24 @@
      "src": [
       "s6"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "베리타스"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "베리타스",
+        "prefixes": [
+         "V10.",
+         "V20.",
+         "V30."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "베리타스",
+     "auto": "rule_veritas"
     },
     {
      "id": "premed-ge-free",
@@ -462,9 +561,15 @@
      "src": [
       "s6"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "전체 교양"
-     }
+     },
+     "sum": {
+      "of": "ge",
+      "after": 36
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     },
     {
      "id": "premed-ge-total",
@@ -480,7 +585,12 @@
      "status": "확인",
      "src": [
       "s6"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     }
    ],
    "note": "2026학번 교양은 2026 길잡이 p.158·2026 이수규정 p.91('2025학년도 입학생부터')로 2025학번과 같다. 전공 규정(2024학년도 입학생부터)을 바꾼 공개 자료는 없어 2025·2026학번도 같다고 봤다(학과 자료는 2024 판이 마지막)."
@@ -723,32 +833,67 @@
      ],
      "text": "사고와 표현 7학점: 말하기와 토론(1-1), 대학 글쓰기 1(1-2), 대학 글쓰기 2: 과학기술글쓰기(2학년). 대학 글쓰기 1 먼저",
      "min_count": 3,
-     "min_credits": 7,
-     "courses": [
-      {
-       "code": "031.031",
-       "name": "말하기와 토론",
-       "credits": 3
-      },
-      {
-       "code": "L0440.000600",
-       "name": "대학 글쓰기 1",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000900",
-       "name": "대학 글쓰기 2: 과학기술글쓰기",
-       "credits": 2
-      }
-     ],
+     "min_credits": null,
+     "courses": [],
      "status": "확인",
      "src": [
       "s13"
      ],
      "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
-     "extra": {
+     "extra_research": {
       "ge_area": "사고와 표현"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "L0440.000600",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "F11.101",
+           "F11.101"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "L0440.000900",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.203",
+           "F11.203"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "말하기와 토론",
+        "courses": [
+         {
+          "code": "031.031",
+          "name": "말하기와 토론",
+          "credits": 3,
+          "alt_codes": [
+           "F12.102",
+           "F12.102"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "사고와 표현",
+     "auto": "rule_writing"
     },
     {
      "id": "premed-ge-foreign",
@@ -765,9 +910,42 @@
      "src": [
       "s13"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "외국어"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "premed-ge-math",
@@ -880,9 +1058,15 @@
      "src": [
       "s13"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "전체 교양"
-     }
+     },
+     "sum": {
+      "of": "ge",
+      "after": 36
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     },
     {
      "id": "premed-ge-total",
@@ -899,7 +1083,12 @@
      "src": [
       "s13",
       "s15"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "premed-ge-world",
@@ -917,7 +1106,7 @@
       "s13",
       "s17"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "학문의 세계",
       "areas": [
        "언어와 문학",
@@ -927,7 +1116,54 @@
        "인간과 사회"
       ],
       "min_areas": 4
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "prefixes": [
+         "041.",
+         "L0545."
+        ],
+        "area": true
+       },
+       {
+        "name": "문화와 예술",
+        "prefixes": [
+         "042.",
+         "L0546."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사와 철학",
+        "prefixes": [
+         "043.",
+         "L0547."
+        ],
+        "area": true
+       },
+       {
+        "name": "정치와 경제",
+        "prefixes": [
+         "044.",
+         "L0548."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간과 사회",
+        "prefixes": [
+         "045.",
+         "L0549."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 4
+     },
+     "name": "학문의 세계",
+     "auto": "rule_world"
     }
    ],
    "changed": "교양만 옛 체계(41: 사고와 표현 7·외국어 6·수량 3·과학 8·학문의 세계 12·전체 5). 전공(전필 14 + 전선 12)·기타 7·예체능 3 은 같다.",
@@ -1046,32 +1282,67 @@
      ],
      "text": "사고와 표현 7학점: 말하기와 토론(1-1), 대학 글쓰기 1(1-2), 대학 글쓰기 2: 과학기술글쓰기(2학년). 대학 글쓰기 1 먼저",
      "min_count": 3,
-     "min_credits": 7,
-     "courses": [
-      {
-       "code": "031.031",
-       "name": "말하기와 토론",
-       "credits": 3
-      },
-      {
-       "code": "L0440.000600",
-       "name": "대학 글쓰기 1",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000900",
-       "name": "대학 글쓰기 2: 과학기술글쓰기",
-       "credits": 2
-      }
-     ],
+     "min_credits": null,
+     "courses": [],
      "status": "확인",
      "src": [
       "s13"
      ],
      "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
-     "extra": {
+     "extra_research": {
       "ge_area": "사고와 표현"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "L0440.000600",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "F11.101",
+           "F11.101"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "L0440.000900",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.203",
+           "F11.203"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "말하기와 토론",
+        "courses": [
+         {
+          "code": "031.031",
+          "name": "말하기와 토론",
+          "credits": 3,
+          "alt_codes": [
+           "F12.102",
+           "F12.102"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "사고와 표현",
+     "auto": "rule_writing"
     },
     {
      "id": "premed-ge-foreign",
@@ -1088,9 +1359,42 @@
      "src": [
       "s13"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "외국어"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "premed-ge-math",
@@ -1203,9 +1507,15 @@
      "src": [
       "s13"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "전체 교양"
-     }
+     },
+     "sum": {
+      "of": "ge",
+      "after": 36
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     },
     {
      "id": "premed-ge-total",
@@ -1222,7 +1532,12 @@
      "src": [
       "s13",
       "s15"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "premed-ge-world",
@@ -1240,7 +1555,7 @@
       "s13",
       "s17"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "학문의 세계",
       "areas": [
        "언어와 문학",
@@ -1250,7 +1565,54 @@
        "인간과 사회"
       ],
       "min_areas": 4
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "prefixes": [
+         "041.",
+         "L0545."
+        ],
+        "area": true
+       },
+       {
+        "name": "문화와 예술",
+        "prefixes": [
+         "042.",
+         "L0546."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사와 철학",
+        "prefixes": [
+         "043.",
+         "L0547."
+        ],
+        "area": true
+       },
+       {
+        "name": "정치와 경제",
+        "prefixes": [
+         "044.",
+         "L0548."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간과 사회",
+        "prefixes": [
+         "045.",
+         "L0549."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 4
+     },
+     "name": "학문의 세계",
+     "auto": "rule_world"
     }
    ],
    "changed": "전공 23 = 전필 11(4과목, 기초의학통계학 및 실험은 전선) + 전선 12, 기타 선택 10. 교양은 2024학번과 같다.",
@@ -1329,32 +1691,67 @@
      ],
      "text": "사고와 표현 7학점: 말하기와 토론(1-1), 대학 글쓰기 1(1-2), 대학 글쓰기 2: 과학기술글쓰기(2학년). 대학 글쓰기 1 먼저",
      "min_count": 3,
-     "min_credits": 7,
-     "courses": [
-      {
-       "code": "031.031",
-       "name": "말하기와 토론",
-       "credits": 3
-      },
-      {
-       "code": "L0440.000600",
-       "name": "대학 글쓰기 1",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000900",
-       "name": "대학 글쓰기 2: 과학기술글쓰기",
-       "credits": 2
-      }
-     ],
+     "min_credits": null,
+     "courses": [],
      "status": "확인",
      "src": [
       "s13"
      ],
      "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
-     "extra": {
+     "extra_research": {
       "ge_area": "사고와 표현"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "L0440.000600",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "F11.101",
+           "F11.101"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "L0440.000900",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.203",
+           "F11.203"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "말하기와 토론",
+        "courses": [
+         {
+          "code": "031.031",
+          "name": "말하기와 토론",
+          "credits": 3,
+          "alt_codes": [
+           "F12.102",
+           "F12.102"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "사고와 표현",
+     "auto": "rule_writing"
     },
     {
      "id": "premed-ge-foreign",
@@ -1373,9 +1770,42 @@
       "s25",
       "s26"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "외국어"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "premed-ge-math",
@@ -1540,7 +1970,12 @@
      "src": [
       "s13",
       "s15"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "premed-ge-world",
@@ -1558,7 +1993,7 @@
       "s13",
       "s17"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "학문의 세계",
       "areas": [
        "언어와 문학",
@@ -1568,7 +2003,54 @@
        "인간과 사회"
       ],
       "min_areas": 4
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "prefixes": [
+         "041.",
+         "L0545."
+        ],
+        "area": true
+       },
+       {
+        "name": "문화와 예술",
+        "prefixes": [
+         "042.",
+         "L0546."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사와 철학",
+        "prefixes": [
+         "043.",
+         "L0547."
+        ],
+        "area": true
+       },
+       {
+        "name": "정치와 경제",
+        "prefixes": [
+         "044.",
+         "L0548."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간과 사회",
+        "prefixes": [
+         "045.",
+         "L0549."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 4
+     },
+     "name": "학문의 세계",
+     "auto": "rule_world"
     }
    ],
    "changed": "2021 규정 이전(종전) 규정. 학점 74/41/23 은 같고, 교양 표가 학부대학 2019·2020 판(외국어 4~6, 과학 6과목 중 택 2, 전체 5~7; 사고와 표현 7 은 같음). 전필·전선 구분, 예체능 규정 유무는 미확인.",

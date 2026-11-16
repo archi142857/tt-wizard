@@ -540,9 +540,17 @@
       "s3"
      ],
      "note": "해설 3.가: 교직과정 이수자는 전공과 별도로 교직 22학점 이상. 사범대 학과 자료는 이를 졸업 요건으로 적음(물리·수학은 23으로 적음).",
-     "extra": {
+     "extra_research": {
       "group": "교직"
-     }
+     },
+     "sum": {
+      "of": "cls",
+      "cls": [
+       "교직"
+      ]
+     },
+     "name": "교직",
+     "auto": "rule_teaching"
     },
     {
      "id": "edu-kor-teach-checks",
@@ -581,7 +589,12 @@
      "status": "확인",
      "src": [
       "s11"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "edu-kor-ge-writing",
@@ -697,13 +710,48 @@
       "parallel"
      ],
      "text": "지성의 열쇠 4개 영역(문화 해석과 상상 / 역사적 탐구와 철학적 사유 / 인간의 이해와 사회 분석 / 과학적 사고와 응용) 중 3개 영역에서 9학점 이상",
-     "min_count": 3,
+     "min_count": null,
      "min_credits": 9,
      "courses": [],
      "status": "확인",
      "src": [
       "s11"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "prefixes": [
+         "C10."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "prefixes": [
+         "C20."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "prefixes": [
+         "C30."
+        ],
+        "area": true
+       },
+       {
+        "name": "과학적 사고와 응용",
+        "prefixes": [
+         "C40."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 3
+     },
+     "name": "지성의 열쇠",
+     "auto": "rule_keys"
     },
     {
      "id": "edu-kor-ge-veritas",
@@ -719,7 +767,22 @@
      "status": "확인",
      "src": [
       "s11"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "베리타스",
+        "prefixes": [
+         "V10.",
+         "V20.",
+         "V30."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "베리타스",
+     "auto": "rule_veritas"
     },
     {
      "id": "edu-kor-ge-pe",
@@ -735,7 +798,20 @@
      "status": "확인",
      "src": [
       "s11"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "체육",
+        "prefixes": [
+         "E43."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "체육",
+     "auto": "rule_pe"
     },
     {
      "id": "edu-kor-ge-free",
@@ -751,7 +827,13 @@
      "status": "확인",
      "src": [
       "s11"
-     ]
+     ],
+     "sum": {
+      "of": "ge",
+      "after": 27
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     },
     {
      "id": "edu-kor-ge-msc",
@@ -1401,9 +1483,17 @@
       "s3"
      ],
      "note": "해설 3.가: 교직과정 이수자는 전공과 별도로 교직 22학점 이상. 사범대 학과 자료는 이를 졸업 요건으로 적음(물리·수학은 23으로 적음).",
-     "extra": {
+     "extra_research": {
       "group": "교직"
-     }
+     },
+     "sum": {
+      "of": "cls",
+      "cls": [
+       "교직"
+      ]
+     },
+     "name": "교직",
+     "auto": "rule_teaching"
     },
     {
      "id": "edu-kor-teach-checks",
@@ -1442,7 +1532,12 @@
      "status": "확인",
      "src": [
       "s11"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "edu-kor-ge-writing",
@@ -1558,13 +1653,48 @@
       "parallel"
      ],
      "text": "지성의 열쇠 4개 영역(문화 해석과 상상 / 역사적 탐구와 철학적 사유 / 인간의 이해와 사회 분석 / 과학적 사고와 응용) 중 3개 영역에서 9학점 이상",
-     "min_count": 3,
+     "min_count": null,
      "min_credits": 9,
      "courses": [],
      "status": "확인",
      "src": [
       "s11"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "prefixes": [
+         "C10."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "prefixes": [
+         "C20."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "prefixes": [
+         "C30."
+        ],
+        "area": true
+       },
+       {
+        "name": "과학적 사고와 응용",
+        "prefixes": [
+         "C40."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 3
+     },
+     "name": "지성의 열쇠",
+     "auto": "rule_keys"
     },
     {
      "id": "edu-kor-ge-veritas",
@@ -1580,7 +1710,22 @@
      "status": "확인",
      "src": [
       "s11"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "베리타스",
+        "prefixes": [
+         "V10.",
+         "V20.",
+         "V30."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "베리타스",
+     "auto": "rule_veritas"
     },
     {
      "id": "edu-kor-ge-pe",
@@ -1596,7 +1741,20 @@
      "status": "확인",
      "src": [
       "s11"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "체육",
+        "prefixes": [
+         "E43."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "체육",
+     "auto": "rule_pe"
     },
     {
      "id": "edu-kor-ge-free",
@@ -1612,7 +1770,13 @@
      "status": "확인",
      "src": [
       "s11"
-     ]
+     ],
+     "sum": {
+      "of": "ge",
+      "after": 27
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     },
     {
      "id": "edu-kor-ge-msc",
@@ -2263,9 +2427,17 @@
       "s3"
      ],
      "note": "해설 3.가: 교직과정 이수자는 전공과 별도로 교직 22학점 이상. 사범대 학과 자료는 이를 졸업 요건으로 적음(물리·수학은 23으로 적음).",
-     "extra": {
+     "extra_research": {
       "group": "교직"
-     }
+     },
+     "sum": {
+      "of": "cls",
+      "cls": [
+       "교직"
+      ]
+     },
+     "name": "교직",
+     "auto": "rule_teaching"
     },
     {
      "id": "edu-kor-teach-checks",
@@ -2377,7 +2549,12 @@
      "src": [
       "s21",
       "s22"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "edu-kor-geold-writing",
@@ -2558,12 +2735,45 @@
       "s21"
      ],
      "note": "courses 는 영어 필수 대상 과목(대학영어·고급영어)만. 외국어 영역(옛 032.xxx·L0441.xxxx) 아무 2과목. 기초영어는 외국어 학점에 안 듦(국어교육과 자료). 2021학번부터 6학점(해설 2022 표·수학 표 1 '21학년도부터 40').",
-     "extra": {
+     "extra_research": {
       "area_code_prefixes": [
        "032",
        "L0441"
       ]
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "edu-kor-geold-comp",
@@ -2648,7 +2858,7 @@
       "parallel"
      ],
      "text": "학문의 세계 12학점: [언어와 문학·문화와 예술] [역사와 철학] [정치와 경제·인간과 사회] [자연과 기술·생명과 환경] 묶음마다 3학점",
-     "min_count": 4,
+     "min_count": null,
      "min_credits": 12,
      "courses": [],
      "status": "확인",
@@ -2658,7 +2868,7 @@
       "s21"
      ],
      "note": "area_code_prefixes 는 옛 교양 번호 앞자리(041~047, L0545~L0551). 2025-1 뒤 새 체계 과목의 옛 영역 인정은 학부대학 대응표를 못 봄 → 확인 필요.",
-     "extra": {
+     "extra_research": {
       "groups": [
        {
         "name": "언어와 문학 · 문화와 예술",
@@ -2699,7 +2909,55 @@
         ]
        }
       ]
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학 · 문화와 예술",
+        "prefixes": [
+         "041.",
+         "L0545.",
+         "042.",
+         "L0546."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "역사와 철학",
+        "prefixes": [
+         "043.",
+         "L0547."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "정치와 경제 · 인간과 사회",
+        "prefixes": [
+         "044.",
+         "L0548.",
+         "045.",
+         "L0549."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "자연과 기술 · 생명과 환경",
+        "prefixes": [
+         "046.",
+         "L0550.",
+         "047.",
+         "L0551."
+        ],
+        "area": true,
+        "min_credits": 3
+       }
+      ]
+     },
+     "name": "학문의 세계",
+     "auto": "rule_world"
     },
     {
      "id": "edu-kor-geold-pe",
@@ -2718,12 +2976,26 @@
       "s24",
       "s21"
      ],
-     "extra": {
+     "extra_research": {
       "area_code_prefixes": [
        "051",
        "L0652"
       ]
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "체육",
+        "prefixes": [
+         "051.",
+         "L0652."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "체육",
+     "auto": "rule_pe"
     },
     {
      "id": "edu-kor-geold-free",
@@ -2741,7 +3013,13 @@
       "s23",
       "s24",
       "s21"
-     ]
+     ],
+     "sum": {
+      "of": "ge",
+      "after": 27
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     }
    ],
    "changed": "교양: 옛 체계(컴퓨터와 정보 활용 3 택1, 권장과목 해당 없음). 전공·교직 같음.",
@@ -3257,9 +3535,17 @@
       "s25"
      ],
      "note": "2023학번 이전은 디지털 교육이 없어 실질도 22.",
-     "extra": {
+     "extra_research": {
       "group": "교직"
-     }
+     },
+     "sum": {
+      "of": "cls",
+      "cls": [
+       "교직"
+      ]
+     },
+     "name": "교직",
+     "auto": "rule_teaching"
     },
     {
      "id": "edu-kor-teach-checks",
@@ -3371,7 +3657,12 @@
      "src": [
       "s21",
       "s22"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "edu-kor-geold-writing",
@@ -3552,12 +3843,45 @@
       "s21"
      ],
      "note": "courses 는 영어 필수 대상 과목(대학영어·고급영어)만. 외국어 영역(옛 032.xxx·L0441.xxxx) 아무 2과목. 기초영어는 외국어 학점에 안 듦(국어교육과 자료). 2021학번부터 6학점(해설 2022 표·수학 표 1 '21학년도부터 40').",
-     "extra": {
+     "extra_research": {
       "area_code_prefixes": [
        "032",
        "L0441"
       ]
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "edu-kor-geold-comp",
@@ -3642,7 +3966,7 @@
       "parallel"
      ],
      "text": "학문의 세계 12학점: [언어와 문학·문화와 예술] [역사와 철학] [정치와 경제·인간과 사회] [자연과 기술·생명과 환경] 묶음마다 3학점",
-     "min_count": 4,
+     "min_count": null,
      "min_credits": 12,
      "courses": [],
      "status": "확인",
@@ -3652,7 +3976,7 @@
       "s21"
      ],
      "note": "area_code_prefixes 는 옛 교양 번호 앞자리(041~047, L0545~L0551). 2025-1 뒤 새 체계 과목의 옛 영역 인정은 학부대학 대응표를 못 봄 → 확인 필요.",
-     "extra": {
+     "extra_research": {
       "groups": [
        {
         "name": "언어와 문학 · 문화와 예술",
@@ -3693,7 +4017,55 @@
         ]
        }
       ]
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학 · 문화와 예술",
+        "prefixes": [
+         "041.",
+         "L0545.",
+         "042.",
+         "L0546."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "역사와 철학",
+        "prefixes": [
+         "043.",
+         "L0547."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "정치와 경제 · 인간과 사회",
+        "prefixes": [
+         "044.",
+         "L0548.",
+         "045.",
+         "L0549."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "자연과 기술 · 생명과 환경",
+        "prefixes": [
+         "046.",
+         "L0550.",
+         "047.",
+         "L0551."
+        ],
+        "area": true,
+        "min_credits": 3
+       }
+      ]
+     },
+     "name": "학문의 세계",
+     "auto": "rule_world"
     },
     {
      "id": "edu-kor-geold-pe",
@@ -3712,12 +4084,26 @@
       "s24",
       "s21"
      ],
-     "extra": {
+     "extra_research": {
       "area_code_prefixes": [
        "051",
        "L0652"
       ]
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "체육",
+        "prefixes": [
+         "051.",
+         "L0652."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "체육",
+     "auto": "rule_pe"
     },
     {
      "id": "edu-kor-geold-free",
@@ -3735,7 +4121,13 @@
       "s23",
       "s24",
       "s21"
-     ]
+     ],
+     "sum": {
+      "of": "ge",
+      "after": 27
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     }
    ],
    "changed": "교직소양 3과목 6학점(디지털 교육 없음).",
@@ -4255,9 +4647,17 @@
       "s25"
      ],
      "note": "2023학번 이전은 디지털 교육이 없어 실질도 22.",
-     "extra": {
+     "extra_research": {
       "group": "교직"
-     }
+     },
+     "sum": {
+      "of": "cls",
+      "cls": [
+       "교직"
+      ]
+     },
+     "name": "교직",
+     "auto": "rule_teaching"
     },
     {
      "id": "edu-kor-teach-checks",
@@ -4370,7 +4770,12 @@
       "s24",
       "s31",
       "s30"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "edu-kor-geold-writing",
@@ -4551,12 +4956,45 @@
       "s21"
      ],
      "note": "courses 는 영어 필수 대상 과목(대학영어·고급영어)만. 외국어 영역(옛 032.xxx·L0441.xxxx) 아무 2과목. 기초영어는 외국어 학점에 안 듦(국어교육과 자료). 2021학번부터 6학점(해설 2022 표·수학 표 1 '21학년도부터 40').",
-     "extra": {
+     "extra_research": {
       "area_code_prefixes": [
        "032",
        "L0441"
       ]
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "edu-kor-geold-world",
@@ -4566,7 +5004,7 @@
       "parallel"
      ],
      "text": "학문의 세계 12학점: [언어와 문학·문화와 예술] [역사와 철학] [정치와 경제·인간과 사회] [자연과 기술·생명과 환경] 묶음마다 3학점",
-     "min_count": 4,
+     "min_count": null,
      "min_credits": 12,
      "courses": [],
      "status": "확인",
@@ -4576,7 +5014,7 @@
       "s21"
      ],
      "note": "area_code_prefixes 는 옛 교양 번호 앞자리(041~047, L0545~L0551). 2025-1 뒤 새 체계 과목의 옛 영역 인정은 학부대학 대응표를 못 봄 → 확인 필요.",
-     "extra": {
+     "extra_research": {
       "groups": [
        {
         "name": "언어와 문학 · 문화와 예술",
@@ -4617,7 +5055,55 @@
         ]
        }
       ]
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학 · 문화와 예술",
+        "prefixes": [
+         "041.",
+         "L0545.",
+         "042.",
+         "L0546."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "역사와 철학",
+        "prefixes": [
+         "043.",
+         "L0547."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "정치와 경제 · 인간과 사회",
+        "prefixes": [
+         "044.",
+         "L0548.",
+         "045.",
+         "L0549."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "자연과 기술 · 생명과 환경",
+        "prefixes": [
+         "046.",
+         "L0550.",
+         "047.",
+         "L0551."
+        ],
+        "area": true,
+        "min_credits": 3
+       }
+      ]
+     },
+     "name": "학문의 세계",
+     "auto": "rule_world"
     },
     {
      "id": "edu-kor-geold-pe",
@@ -4636,12 +5122,26 @@
       "s24",
       "s21"
      ],
-     "extra": {
+     "extra_research": {
       "area_code_prefixes": [
        "051",
        "L0652"
       ]
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "체육",
+        "prefixes": [
+         "051.",
+         "L0652."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "체육",
+     "auto": "rule_pe"
     },
     {
      "id": "edu-kor-geold-free",
@@ -4659,7 +5159,13 @@
       "s23",
       "s24",
       "s21"
-     ]
+     ],
+     "sum": {
+      "of": "ge",
+      "after": 24
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     }
    ],
    "changed": "교양: 컴퓨터와 정보 활용 없음. 기본이수 3영역에 문학감상론연습 없음.",
@@ -5209,9 +5715,17 @@
       "s25"
      ],
      "note": "2023학번 이전은 디지털 교육이 없어 실질도 22.",
-     "extra": {
+     "extra_research": {
       "group": "교직"
-     }
+     },
+     "sum": {
+      "of": "cls",
+      "cls": [
+       "교직"
+      ]
+     },
+     "name": "교직",
+     "auto": "rule_teaching"
     },
     {
      "id": "edu-kor-teach-checks",
@@ -5325,7 +5839,12 @@
       "s31",
       "s28",
       "s34"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "edu-kor-geold-writing",
@@ -5506,12 +6025,45 @@
       "s21"
      ],
      "note": "courses 는 영어 필수 대상 과목(대학영어·고급영어)만. 외국어 영역(옛 032.xxx·L0441.xxxx) 아무 2과목. 기초영어는 외국어 학점에 안 듦(국어교육과 자료). 2021학번부터 6학점(해설 2022 표·수학 표 1 '21학년도부터 40').",
-     "extra": {
+     "extra_research": {
       "area_code_prefixes": [
        "032",
        "L0441"
       ]
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "edu-kor-geold-world",
@@ -5521,7 +6073,7 @@
       "parallel"
      ],
      "text": "학문의 세계 12학점: [언어와 문학·문화와 예술] [역사와 철학] [정치와 경제·인간과 사회] [자연과 기술·생명과 환경] 묶음마다 3학점",
-     "min_count": 4,
+     "min_count": null,
      "min_credits": 12,
      "courses": [],
      "status": "확인",
@@ -5531,7 +6083,7 @@
       "s21"
      ],
      "note": "area_code_prefixes 는 옛 교양 번호 앞자리(041~047, L0545~L0551). 2025-1 뒤 새 체계 과목의 옛 영역 인정은 학부대학 대응표를 못 봄 → 확인 필요.",
-     "extra": {
+     "extra_research": {
       "groups": [
        {
         "name": "언어와 문학 · 문화와 예술",
@@ -5572,7 +6124,55 @@
         ]
        }
       ]
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학 · 문화와 예술",
+        "prefixes": [
+         "041.",
+         "L0545.",
+         "042.",
+         "L0546."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "역사와 철학",
+        "prefixes": [
+         "043.",
+         "L0547."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "정치와 경제 · 인간과 사회",
+        "prefixes": [
+         "044.",
+         "L0548.",
+         "045.",
+         "L0549."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "자연과 기술 · 생명과 환경",
+        "prefixes": [
+         "046.",
+         "L0550.",
+         "047.",
+         "L0551."
+        ],
+        "area": true,
+        "min_credits": 3
+       }
+      ]
+     },
+     "name": "학문의 세계",
+     "auto": "rule_world"
     },
     {
      "id": "edu-kor-geold-pe",
@@ -5591,12 +6191,26 @@
       "s24",
       "s21"
      ],
-     "extra": {
+     "extra_research": {
       "area_code_prefixes": [
        "051",
        "L0652"
       ]
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "체육",
+        "prefixes": [
+         "051.",
+         "L0652."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "체육",
+     "auto": "rule_pe"
     },
     {
      "id": "edu-kor-geold-free",
@@ -5614,7 +6228,13 @@
       "s23",
       "s24",
       "s21"
-     ]
+     ],
+     "sum": {
+      "of": "ge",
+      "after": 24
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     }
    ],
    "changed": "교양 외국어 4~6, 성인지 교육 2회, 교직 옛 과목 번호.",

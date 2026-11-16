@@ -53,37 +53,66 @@
       "parallel"
      ],
      "text": "대학 글쓰기 1(2) + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 1과목, 2) = 4학점",
-     "min_count": null,
-     "min_credits": 4,
-     "courses": [
-      {
-       "code": "F11.101",
-       "name": "대학 글쓰기 1",
-       "credits": 2.0
-      },
-      {
-       "code": "F11.201",
-       "name": "대학 글쓰기 2: 인문학글쓰기",
-       "credits": 2.0
-      },
-      {
-       "code": "F11.202",
-       "name": "대학 글쓰기 2: 사회과학글쓰기",
-       "credits": 2.0
-      },
-      {
-       "code": "F11.203",
-       "name": "대학 글쓰기 2: 과학기술글쓰기",
-       "credits": 2.0
-      }
-     ],
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
      "status": "확인",
      "src": [
       "s1"
      ],
-     "extra": {
+     "extra_research": {
       "area": "글쓰기와 말하기"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "F11.101",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000600"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "F11.201",
+          "name": "대학 글쓰기 2: 인문학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000700"
+          ]
+         },
+         {
+          "code": "F11.202",
+          "name": "대학 글쓰기 2: 사회과학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000800"
+          ]
+         },
+         {
+          "code": "F11.203",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000900"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "글쓰기와 말하기",
+     "auto": "rule_writing"
     },
     {
      "id": "nur-ge-foreign",
@@ -100,9 +129,40 @@
      "src": [
       "s1"
      ],
-     "extra": {
+     "extra_research": {
       "area": "외국어"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "F21.",
+         "F22.",
+         "F23.",
+         "F24.",
+         "F25.",
+         "F26.",
+         "F27.",
+         "F28.",
+         "F29."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "prefixes": [
+         "F21."
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "nur-ge-msc",
@@ -157,15 +217,15 @@
       "parallel"
      ],
      "text": "지성의 열쇠 12학점: 문화 해석과 상상·역사적 탐구와 철학적 사유·과학적 사고와 응용 세 영역 중 2개 영역 이상에서 9학점 + 인간의 이해와 사회 분석 1과목(3학점) 필수",
-     "min_count": 3,
-     "min_credits": 12,
+     "min_count": null,
+     "min_credits": 9,
      "courses": [],
      "status": "확인",
      "src": [
       "s1"
      ],
      "note": "두 갈래 조건: {문화·역사·과학적 사고 중 2영역 이상, 9학점} 과 {인간의 이해와 사회 분석 ≥ 3학점}.",
-     "extra": {
+     "extra_research": {
       "area": "지성의 열쇠",
       "areas": [
        "문화 해석과 상상",
@@ -173,7 +233,74 @@
        "인간의 이해와 사회 분석",
        "과학적 사고와 응용"
       ]
-     }
+     },
+     "name": "지성의 열쇠",
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "prefixes": [
+         "C10."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "prefixes": [
+         "C20."
+        ],
+        "area": true
+       },
+       {
+        "name": "과학적 사고와 응용",
+        "prefixes": [
+         "C40."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 2
+     },
+     "auto": "rule_keys"
+    },
+    {
+     "id": "nur-ge-keys-social",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 '인간의 이해와 사회 분석' 1과목(3학점) 필수",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "note": "두 갈래 조건: {문화·역사·과학적 사고 중 2영역 이상, 9학점} 과 {인간의 이해와 사회 분석 ≥ 3학점}.",
+     "extra_research": {
+      "area": "지성의 열쇠",
+      "areas": [
+       "문화 해석과 상상",
+       "역사적 탐구와 철학적 사유",
+       "인간의 이해와 사회 분석",
+       "과학적 사고와 응용"
+      ]
+     },
+     "name": "인간의 이해와 사회 분석",
+     "extra": {
+      "groups": [
+       {
+        "name": "인간의 이해와 사회 분석",
+        "prefixes": [
+         "C30."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "auto": "rule_keys"
     },
     {
      "id": "nur-ge-veritas",
@@ -190,9 +317,24 @@
      "src": [
       "s1"
      ],
-     "extra": {
+     "extra_research": {
       "area": "베리타스"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "베리타스",
+        "prefixes": [
+         "V10.",
+         "V20.",
+         "V30."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "베리타스",
+     "auto": "rule_veritas"
     },
     {
      "id": "nur-ge-free",
@@ -209,9 +351,15 @@
      "src": [
       "s1"
      ],
-     "extra": {
+     "extra_research": {
       "area": "전체 교양"
-     }
+     },
+     "sum": {
+      "of": "ge",
+      "after": 33
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     },
     {
      "id": "nur-core",
@@ -700,49 +848,8 @@
      ],
      "text": "사고와 표현 4학점: 대학 글쓰기 1(2) + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 1과목, 2)",
      "min_count": 2,
-     "min_credits": 4,
-     "courses": [
-      {
-       "code": "L0440.000600",
-       "name": "대학 글쓰기 1",
-       "credits": 2
-      },
-      {
-       "code": "F11.101",
-       "name": "대학 글쓰기 1",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000700",
-       "name": "대학 글쓰기 2: 인문학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "F11.201",
-       "name": "대학 글쓰기 2: 인문학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000800",
-       "name": "대학 글쓰기 2: 사회과학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "F11.202",
-       "name": "대학 글쓰기 2: 사회과학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000900",
-       "name": "대학 글쓰기 2: 과학기술글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "F11.203",
-       "name": "대학 글쓰기 2: 과학기술글쓰기",
-       "credits": 2
-      }
-     ],
+     "min_credits": null,
+     "courses": [],
      "status": "확인",
      "src": [
       "s9",
@@ -750,9 +857,63 @@
       "s11"
      ],
      "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
-     "extra": {
+     "extra_research": {
       "area": "사고와 표현"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "L0440.000600",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "F11.101",
+           "F11.101"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "L0440.000700",
+          "name": "대학 글쓰기 2: 인문학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.201",
+           "F11.201"
+          ]
+         },
+         {
+          "code": "L0440.000800",
+          "name": "대학 글쓰기 2: 사회과학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.202",
+           "F11.202"
+          ]
+         },
+         {
+          "code": "L0440.000900",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.203",
+           "F11.203"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "사고와 표현",
+     "auto": "rule_writing"
     },
     {
      "id": "nur-ge-foreign",
@@ -769,9 +930,42 @@
      "src": [
       "s1"
      ],
-     "extra": {
+     "extra_research": {
       "area": "외국어"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "nur-ge-msc",
@@ -860,9 +1054,15 @@
      "src": [
       "s1"
      ],
-     "extra": {
+     "extra_research": {
       "area": "전체 교양"
-     }
+     },
+     "sum": {
+      "of": "ge",
+      "after": 33
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     },
     {
      "id": "nur-core",
@@ -1348,9 +1548,23 @@
       "s9",
       "s10"
      ],
-     "extra": {
+     "extra_research": {
       "area": "학문의 세계(인간과 사회)"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "인간과 사회",
+        "prefixes": [
+         "045.",
+         "L0549."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "인간과 사회",
+     "auto": "rule_world"
     }
    ],
    "changed": "교양 옛 체계(사고와 표현 4, 외국어 6, 과학적 사고와 실험 8, 학문의 세계 12 + 인간과 사회 3, 전체 3). 전공 요건은 2025와 같음.",
@@ -1390,49 +1604,8 @@
      ],
      "text": "사고와 표현 4학점: 대학 글쓰기 1(2) + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 1과목, 2)",
      "min_count": 2,
-     "min_credits": 4,
-     "courses": [
-      {
-       "code": "L0440.000600",
-       "name": "대학 글쓰기 1",
-       "credits": 2
-      },
-      {
-       "code": "F11.101",
-       "name": "대학 글쓰기 1",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000700",
-       "name": "대학 글쓰기 2: 인문학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "F11.201",
-       "name": "대학 글쓰기 2: 인문학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000800",
-       "name": "대학 글쓰기 2: 사회과학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "F11.202",
-       "name": "대학 글쓰기 2: 사회과학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000900",
-       "name": "대학 글쓰기 2: 과학기술글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "F11.203",
-       "name": "대학 글쓰기 2: 과학기술글쓰기",
-       "credits": 2
-      }
-     ],
+     "min_credits": null,
+     "courses": [],
      "status": "확인",
      "src": [
       "s9",
@@ -1440,9 +1613,63 @@
       "s11"
      ],
      "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
-     "extra": {
+     "extra_research": {
       "area": "사고와 표현"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "L0440.000600",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "F11.101",
+           "F11.101"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "L0440.000700",
+          "name": "대학 글쓰기 2: 인문학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.201",
+           "F11.201"
+          ]
+         },
+         {
+          "code": "L0440.000800",
+          "name": "대학 글쓰기 2: 사회과학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.202",
+           "F11.202"
+          ]
+         },
+         {
+          "code": "L0440.000900",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.203",
+           "F11.203"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "사고와 표현",
+     "auto": "rule_writing"
     },
     {
      "id": "nur-ge-foreign",
@@ -1461,9 +1688,42 @@
       "s18"
      ],
      "note": "2021학번부터 6학점.",
-     "extra": {
+     "extra_research": {
       "area": "외국어"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "nur-ge-msc",
@@ -2052,9 +2312,23 @@
       "s9",
       "s10"
      ],
-     "extra": {
+     "extra_research": {
       "area": "학문의 세계(인간과 사회)"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "인간과 사회",
+        "prefixes": [
+         "045.",
+         "L0549."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "인간과 사회",
+     "auto": "rule_world"
     }
    ],
    "changed": "외국어 4~6, 전체 교양 3~5(해설과 충돌).",
@@ -2097,49 +2371,8 @@
      ],
      "text": "사고와 표현 4학점: 대학 글쓰기 1(2) + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 1과목, 2)",
      "min_count": 2,
-     "min_credits": 4,
-     "courses": [
-      {
-       "code": "L0440.000600",
-       "name": "대학 글쓰기 1",
-       "credits": 2
-      },
-      {
-       "code": "F11.101",
-       "name": "대학 글쓰기 1",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000700",
-       "name": "대학 글쓰기 2: 인문학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "F11.201",
-       "name": "대학 글쓰기 2: 인문학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000800",
-       "name": "대학 글쓰기 2: 사회과학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "F11.202",
-       "name": "대학 글쓰기 2: 사회과학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000900",
-       "name": "대학 글쓰기 2: 과학기술글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "F11.203",
-       "name": "대학 글쓰기 2: 과학기술글쓰기",
-       "credits": 2
-      }
-     ],
+     "min_credits": null,
+     "courses": [],
      "status": "확인",
      "src": [
       "s9",
@@ -2147,9 +2380,63 @@
       "s11"
      ],
      "note": "옛 교양 체계 과목. 2025-1부터 같은 이름 과목이 F·E 번호로 바뀌어 함께 적었다(옛 학번이 새 번호 과목을 들었을 때의 영역 인정은 학부대학 대응 기준 확인 필요).",
-     "extra": {
+     "extra_research": {
       "area": "사고와 표현"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "L0440.000600",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "F11.101",
+           "F11.101"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "L0440.000700",
+          "name": "대학 글쓰기 2: 인문학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.201",
+           "F11.201"
+          ]
+         },
+         {
+          "code": "L0440.000800",
+          "name": "대학 글쓰기 2: 사회과학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.202",
+           "F11.202"
+          ]
+         },
+         {
+          "code": "L0440.000900",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.203",
+           "F11.203"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "사고와 표현",
+     "auto": "rule_writing"
     },
     {
      "id": "nur-ge-foreign",
@@ -2168,9 +2455,42 @@
       "s18"
      ],
      "note": "2021학번부터 6학점.",
-     "extra": {
+     "extra_research": {
       "area": "외국어"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "nur-ge-msc",
@@ -2789,9 +3109,23 @@
       "s9",
       "s10"
      ],
-     "extra": {
+     "extra_research": {
       "area": "학문의 세계(인간과 사회)"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "인간과 사회",
+        "prefixes": [
+         "045.",
+         "L0549."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "인간과 사회",
+     "auto": "rule_world"
     }
    ],
    "changed": "옛 교과과정(2019학번 이전) 전필 과목으로 전공 85(전필 76~85) — 학점은 졸업 시기 경과조치로 130.",

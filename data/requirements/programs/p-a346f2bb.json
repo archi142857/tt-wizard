@@ -412,36 +412,65 @@
      ],
      "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1(1-1) + 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 택 1, 1-2)",
      "min_count": 2,
-     "min_credits": 4,
-     "courses": [
-      {
-       "code": "F11.101",
-       "name": "대학 글쓰기 1",
-       "credits": 2
-      },
-      {
-       "code": "F11.201",
-       "name": "대학 글쓰기 2: 인문학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "F11.202",
-       "name": "대학 글쓰기 2: 사회과학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "F11.203",
-       "name": "대학 글쓰기 2: 과학기술글쓰기",
-       "credits": 2
-      }
-     ],
+     "min_credits": null,
+     "courses": [],
      "status": "확인",
      "src": [
       "s3"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "글쓰기와 말하기"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "F11.101",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000600"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "F11.201",
+          "name": "대학 글쓰기 2: 인문학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000700"
+          ]
+         },
+         {
+          "code": "F11.202",
+          "name": "대학 글쓰기 2: 사회과학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000800"
+          ]
+         },
+         {
+          "code": "F11.203",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000900"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "글쓰기와 말하기",
+     "auto": "rule_writing"
     },
     {
      "id": "dent-ge-foreign",
@@ -459,9 +488,31 @@
       "s3"
      ],
      "note": "입학 때 TEPS 900(New TEPS 525) 이하이면 영어 1과목 필수.",
-     "extra": {
+     "extra_research": {
       "ge_area": "외국어"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "F21.",
+         "F22.",
+         "F23.",
+         "F24.",
+         "F25.",
+         "F26.",
+         "F27.",
+         "F28.",
+         "F29."
+        ],
+        "area": true,
+        "min_count": 2
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "dent-ge-math",
@@ -615,7 +666,7 @@
      "src": [
       "s3"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "지성의 열쇠",
       "areas": [
        "문화 해석과 상상",
@@ -624,7 +675,42 @@
        "과학적 사고와 응용"
       ],
       "min_areas": 3
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "prefixes": [
+         "C10."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "prefixes": [
+         "C20."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "prefixes": [
+         "C30."
+        ],
+        "area": true
+       },
+       {
+        "name": "과학적 사고와 응용",
+        "prefixes": [
+         "C40."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 3
+     },
+     "name": "지성의 열쇠",
+     "auto": "rule_keys"
     },
     {
      "id": "dent-ge-veritas",
@@ -641,9 +727,24 @@
      "src": [
       "s3"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "베리타스"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "베리타스",
+        "prefixes": [
+         "V10.",
+         "V20.",
+         "V30."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "베리타스",
+     "auto": "rule_veritas"
     },
     {
      "id": "dent-ge-free",
@@ -685,7 +786,12 @@
      "status": "확인",
      "src": [
       "s3"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     }
    ],
    "note": "2026학번 교양은 2026 길잡이 p.161·2026 이수규정 p.93('2025학년도 입학생부터')으로 2025학번과 같다. 전공(진입 요건)은 2021 규정이 2022·2024 대학원 목록에 그대로이고, 2025·2026 판은 공개되지 않아 같다고 봤다."
@@ -1086,37 +1192,70 @@
      ],
      "text": "사고와 표현 4학점: 대학 글쓰기 1(1-1) + 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 택 1, 1-2)",
      "min_count": 2,
-     "min_credits": 4,
-     "courses": [
-      {
-       "code": "L0440.000600",
-       "name": "대학 글쓰기 1",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000700",
-       "name": "대학 글쓰기 2: 인문학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000800",
-       "name": "대학 글쓰기 2: 사회과학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000900",
-       "name": "대학 글쓰기 2: 과학기술글쓰기",
-       "credits": 2
-      }
-     ],
+     "min_credits": null,
+     "courses": [],
      "status": "확인",
      "src": [
       "s11"
      ],
      "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
-     "extra": {
+     "extra_research": {
       "ge_area": "사고와 표현"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "L0440.000600",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "F11.101",
+           "F11.101"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "L0440.000700",
+          "name": "대학 글쓰기 2: 인문학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.201",
+           "F11.201"
+          ]
+         },
+         {
+          "code": "L0440.000800",
+          "name": "대학 글쓰기 2: 사회과학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.202",
+           "F11.202"
+          ]
+         },
+         {
+          "code": "L0440.000900",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.203",
+           "F11.203"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "사고와 표현",
+     "auto": "rule_writing"
     },
     {
      "id": "dent-ge-foreign",
@@ -1133,9 +1272,42 @@
      "src": [
       "s11"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "외국어"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "dent-ge-math",
@@ -1237,9 +1409,15 @@
      "src": [
       "s11"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "전체 교양"
-     }
+     },
+     "sum": {
+      "of": "ge",
+      "after": 40
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     },
     {
      "id": "dent-ge-total",
@@ -1255,7 +1433,12 @@
      "status": "확인",
      "src": [
       "s11"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "dent-ge-world",
@@ -1627,37 +1810,70 @@
      ],
      "text": "사고와 표현 4학점: 대학 글쓰기 1(1-1) + 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 택 1, 1-2)",
      "min_count": 2,
-     "min_credits": 4,
-     "courses": [
-      {
-       "code": "L0440.000600",
-       "name": "대학 글쓰기 1",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000700",
-       "name": "대학 글쓰기 2: 인문학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000800",
-       "name": "대학 글쓰기 2: 사회과학글쓰기",
-       "credits": 2
-      },
-      {
-       "code": "L0440.000900",
-       "name": "대학 글쓰기 2: 과학기술글쓰기",
-       "credits": 2
-      }
-     ],
+     "min_credits": null,
+     "courses": [],
      "status": "확인",
      "src": [
       "s11"
      ],
      "note": "옛 교양 번호(2024-2 까지). 2025-1 부터 교양 과목 번호가 F·E 계열로 바뀌었으니, 옛 학번 학생이 2025-1 이후 들은 같은 과목의 대응은 학부대학 대응 기준으로 본다.",
-     "extra": {
+     "extra_research": {
       "ge_area": "사고와 표현"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "L0440.000600",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "F11.101",
+           "F11.101"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "L0440.000700",
+          "name": "대학 글쓰기 2: 인문학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.201",
+           "F11.201"
+          ]
+         },
+         {
+          "code": "L0440.000800",
+          "name": "대학 글쓰기 2: 사회과학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.202",
+           "F11.202"
+          ]
+         },
+         {
+          "code": "L0440.000900",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.203",
+           "F11.203"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "사고와 표현",
+     "auto": "rule_writing"
     },
     {
      "id": "dent-ge-foreign",
@@ -1676,9 +1892,24 @@
       "s22",
       "s23"
      ],
-     "extra": {
+     "extra_research": {
       "ge_area": "외국어"
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "dent-ge-math",
@@ -1800,7 +2031,12 @@
      "status": "확인",
      "src": [
       "s11"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "dent-ge-world",

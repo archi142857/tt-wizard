@@ -139,7 +139,7 @@ const out = read(casesPath).map((c) => {
       return { total: v.total, missing: v.missing, ge: v.credits.ge, general: v.credits.general, byChecks: v.bundles[0].rows.find((r) => r.id === "grad-gpa").byChecks,
         bundles: v.bundles.map((b) => ({ kind: b.kind, id: b.id, title: b.title, label: b.label, choices: b.choices.map((x) => x.label),
           rows: Object.fromEntries(b.rows.map((r) => [r.id, { name: r.name, value: r.value.text, aria: r.aria, summary: r.sheet.summary, progress: r.progress,
-            byChecks: Boolean(r.byChecks),
+            byChecks: Boolean(r.byChecks), groups: r.sheet.groups ? r.sheet.groups.map((g) => [g.name, g.value.text]) : null,
             strong: r.sheet.strong, because: r.sheet.because, meta: r.sheet.meta, link: r.sheet.link, checked: r.sheet.checked,
             courses: r.sheet.courses.map((x) => [x.code, x.taken, x.meta]), sources: r.sheet.sources.map((x) => x.text) }])) })) };
     }

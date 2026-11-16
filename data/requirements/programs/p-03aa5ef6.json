@@ -59,7 +59,12 @@
      "src": [
       "s1"
      ],
-     "note": "영역 학점 합: 글쓰기와 말하기 4 + 외국어 6 + 수학·과학·컴퓨팅 3 + 지성의 열쇠 9 + 베리타스 3 + 전체 교양 11 = 36."
+     "note": "영역 학점 합: 글쓰기와 말하기 4 + 외국어 6 + 수학·과학·컴퓨팅 3 + 지성의 열쇠 9 + 베리타스 3 + 전체 교양 11 = 36.",
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "psy-ge-soc-writing",
@@ -105,7 +110,29 @@
      "src": [
       "s1"
      ],
-     "note": "입학 시 TEPS 900점(New TEPS 525점) 이하인 학생은 영어 1과목 필수. TEPS 점수는 앱이 모르므로 '확인 필요'로 둔다."
+     "note": "입학 시 TEPS 900점(New TEPS 525점) 이하인 학생은 영어 1과목 필수. TEPS 점수는 앱이 모르므로 '확인 필요'로 둔다.",
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "F21.",
+         "F22.",
+         "F23.",
+         "F24.",
+         "F25.",
+         "F26.",
+         "F27.",
+         "F28.",
+         "F29."
+        ],
+        "area": true,
+        "min_count": 2
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "psy-ge-soc-msc",
@@ -122,7 +149,26 @@
      "src": [
       "s1"
      ],
-     "note": "사회과학대학 표에는 지정 과목이 없다."
+     "note": "사회과학대학 표에는 지정 과목이 없다.",
+     "extra": {
+      "groups": [
+       {
+        "name": "수학·과학·컴퓨팅",
+        "prefixes": [
+         "F31.",
+         "F32.",
+         "F33.",
+         "F34.",
+         "F35.",
+         "F36.",
+         "F37."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "수학·과학·컴퓨팅",
+     "auto": "rule_msc"
     },
     {
      "id": "psy-ge-soc-keys",
@@ -132,14 +178,49 @@
       "parallel"
      ],
      "text": "지성의 열쇠 9학점: 문화 해석과 상상 / 역사적 탐구와 철학적 사유 / 인간의 이해와 사회 분석 / 과학적 사고와 응용 중 3개 영역 이상에서 9학점 이상",
-     "min_count": 3,
+     "min_count": null,
      "min_credits": 9,
      "courses": [],
      "status": "확인",
      "src": [
       "s1"
      ],
-     "note": "min_count 는 영역 수(3개 영역 이상)."
+     "note": "min_count 는 영역 수(3개 영역 이상).",
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "prefixes": [
+         "C10."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "prefixes": [
+         "C20."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "prefixes": [
+         "C30."
+        ],
+        "area": true
+       },
+       {
+        "name": "과학적 사고와 응용",
+        "prefixes": [
+         "C40."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 3
+     },
+     "name": "지성의 열쇠",
+     "auto": "rule_keys"
     },
     {
      "id": "psy-ge-soc-veritas",
@@ -157,7 +238,22 @@
       "s1",
       "s2"
      ],
-     "note": "편람의 베리타스 과목 번호 머리: 강좌 1 = V10., 강좌 2 = V20., 실천 = V30.(2025-1~)."
+     "note": "편람의 베리타스 과목 번호 머리: 강좌 1 = V10., 강좌 2 = V20., 실천 = V30.(2025-1~).",
+     "extra": {
+      "groups": [
+       {
+        "name": "베리타스",
+        "prefixes": [
+         "V10.",
+         "V20.",
+         "V30."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "베리타스",
+     "auto": "rule_veritas"
     },
     {
      "id": "psy-ge-soc-free",
@@ -173,7 +269,13 @@
      "status": "확인",
      "src": [
       "s1"
-     ]
+     ],
+     "sum": {
+      "of": "ge",
+      "after": 25
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     },
     {
      "id": "psy-core",

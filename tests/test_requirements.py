@@ -104,13 +104,22 @@ def test_course_map_pairs_old_and_new_numbers():
 
 
 def test_animal_biotech_cohorts():
-    """동물생명공학전공: 2019~2020학번은 생화학 1·2(300.312·300.313), 2021학번부터 동물생화학 1·2."""
+    """동물생명공학전공: 2019~2020학번은 생화학 1·2(300.312·300.313), 2021학번부터 동물생화학 1·2.
+    update127: 2021~2026 판은 2025학번 교양 개편으로 [2025, 2026]·[2021, 2024]로 나뉘고, 2025~ 쪽 교양 묶음 줄은 영역마다 줄로 나뉜다"""
     p = programs()["animal-biotech"]
-    new, old = p["versions"]
-    assert new["entry_years"] == [2021, 2026] and old["entry_years"] == [2019, 2020]
+    new, mid, old = p["versions"]
+    assert new["entry_years"] == [2025, 2026] and mid["entry_years"] == [2021, 2024] and old["entry_years"] == [2019, 2020]
+    assert new["split"] and mid["split"] and "split" not in old
     codes = lambda v: {c["code"] for r in v["requirements"] if r["id"] == "animal-main-core" for c in r["courses"]}
-    assert {"M1702.001000", "M1702.001100"} <= codes(new) and not {"300.312", "300.313"} & codes(new)
+    assert {"M1702.001000", "M1702.001100"} <= codes(new) == codes(mid) and not {"300.312", "300.313"} & codes(new)
     assert {"300.312", "300.313"} <= codes(old)
+    ge = [r for r in new["requirements"] if r["type"] == "ge"]
+    assert [r["id"] for r in ge] == ["ge-cals-natural", "ge-cals-natural-writing", "ge-cals-natural-foreign", "ge-cals-natural-math",
+                                     "ge-cals-natural-science", "ge-cals-natural-keys", "ge-cals-natural-veritas"]
+    assert all(r["auto"] == "rule_composite" for r in ge) and ge[0]["sum"] == {"of": "ge"} and ge[0]["min_credits"] == 36
+    total, old_row = [r for r in mid["requirements"] if r["type"] == "ge"][:2]  # 옛 학번 쪽: 교양 학점 합(학부대학 표 36)과 2025 글 줄은 '부분'
+    assert total["id"] == "ge-cals-natural-old-total" and total["sum"] == {"of": "ge"} and total["min_credits"] == 36
+    assert old_row["id"] == "ge-cals-natural" and old_row["status"] == "부분" and old_row.get("auto") is None
     assert p["depts"] == ["식품·동물생명공학부"] and p["code_prefixes"] == ["5252.", "M1702."]
 
 
@@ -194,7 +203,7 @@ def test_pick_version_and_same_course(tmp_path):
         {"kind": "pick", "program": "life-sciences", "entryYear": 2025},
         {"kind": "same", "codes": ["L0440.000600", "F11.101", "458.201"]},
     ])
-    assert got[0] == [2019, 2020] and got[1] == [2021, 2026] and got[2] == "no_data" and got[3] == [2025, 2025]
+    assert got[0] == [2019, 2020] and got[1] == [2025, 2026] and got[2] == "no_data" and got[3] == [2025, 2025]
     a, b, c = got[4]
     assert a == b and c == "458.201"  # 대학 글쓰기 1 옛 번호와 새 번호는 같은 과목
 
@@ -237,7 +246,7 @@ def test_evaluate_chem_bio(tmp_path):
     assert one["cbe-sel2"]["state"] == "met" and one["cbe-ge-writing"]["state"] == "met"
     assert one["cbe-eng-intro"]["state"] == "remaining"
     assert one["cbe-core46-sum"]["state"] == "check" and one["cbe-core46-sum"]["reason"] == "자료 부분"
-    assert one["cbe-ge-total"] == {"state": "check", "reason": "과목 목록이 없는 조건", "have": 0, "missing": []}
+    assert one["cbe-ge-total"] == {"state": "remaining", "reason": None, "have": 2, "missing": []}  # 교양 학점 합(update127): 글쓰기 두 과목
     assert "cbe-double" not in one and "cbe-minor" not in one  # 단일전공에는 복수·부전공 줄이 없다
     assert animal["animal-main-core"]["state"] == "check" and animal["animal-main-core"]["reason"] == "자료 부분"
 
@@ -506,7 +515,7 @@ def test_taken_terms_and_labels(tmp_path):
     assert rows["B1"][1:3] == [False, "dropped"] and rows["M2"] == ["M", True, None, "직접 추가 · 교양 · 1학점"]
     assert animal["terms"] == [["2026년 2학기", "2027-1", 4], ["2026년 여름학기", "2026-2", 3], ["2026년 겨울학기", "2027-1", 4],
                                ["2027년 1학기", "2027-2", 5]]
-    assert animal["version"] == "2021~2026학번 규정" and animal["choices"] == ["2021~2026학번 규정"]
+    assert animal["version"] == "2025~2026학번 규정" and animal["choices"] == ["2025~2026학번 규정"]  # 2025학번 교양 개편으로 나뉜 판(update127)
     assert animal["link"].startswith("https://anibiotech.snu.ac.kr/")
     assert animal["sources"] == ["출처: 동물생명공학전공 졸업요건 학부과정(2022년도)",  # 쪽·표를 모르면 문서 이름만(디자인 127판)
                                  "출처: 서울대학교 2024 전공별 교과목(학사과정) · 79–80쪽"]
@@ -562,7 +571,7 @@ def test_code_lists_have_courses():
             for r in v["requirements"]:
                 e = r.get("extra") or {}
                 for g in (e.get("groups") or []) + (e.get("paths") or []):
-                    if g.get("codes"):
+                    if g.get("codes") and not g.get("area"):  # 교양 영역 분야(update127: 옛 영어·권장과목★)는 번호만, 체크박스로 펼치지 않는다
                         n += 1
                         assert [c["code"] for c in g.get("courses") or []] == g["codes"], (pid, r["id"])
                         assert all(c.get("name") for c in g["courses"]), (pid, r["id"])
@@ -652,7 +661,7 @@ def test_row_checks_and_final_terms(tmp_path):
     core = _req("chem-bio-eng", "cbe-core12")["courses"]
     pick = [{"program": "chem-bio-eng", "role": "single", "entryYear": 2025, "title": "화학생물공학부"}]
     ticks = {"common|cbe-ge-total": True, "chem-bio-eng|cbe-core46-sum": True, "chem-bio-eng|cbe-core12": True,
-             "chem-bio-eng|cbe-ge-foreign": True, "common|cbe-ge-keys": False, "common|grad-gpa": True}
+             "chem-bio-eng|cbe-life-respect": True, "common|cbe-ge-keys": False, "common|grad-gpa": True, "common|cbe-life-respect": True}
     r = lambda code, cr, grade, term, **kw: {"code": code, "credits": cr, "grade": grade, "term": term,
                                              "status": kw.pop("status", "taken"), "cls": "전선", **kw}
     records = [r("A", 3, "A+", "2025-1"), r("B", 3, "C+", "2025-1"), r("B", 3, "A0", "2025-2", status="retake"),
@@ -665,11 +674,12 @@ def test_row_checks_and_final_terms(tmp_path):
     view, plain, final = got
     common, main = view["bundles"]
     assert common["id"] == "common" and main["id"] == "chem-bio-eng"
-    ge, sum46 = common["rows"]["cbe-ge-total"], main["rows"]["cbe-core46-sum"]
-    assert ge["value"] == "충족" and ge["byChecks"] is True and ge["progress"] is None and ge["summary"] is None and ge["because"] is None
+    ge, sum46, life = common["rows"]["cbe-ge-total"], main["rows"]["cbe-core46-sum"], main["rows"]["cbe-life-respect"]
+    assert life["value"] == "충족" and life["byChecks"] is True and life["progress"] is None and life["summary"] is None and life["because"] is None
+    assert ge["value"] == "53학점 남음" and ge["byChecks"] is False  # 교양 학점은 이제 앱이 센다(update127) → 옛 체크는 쓰지 않는다
     assert sum46["value"] == "충족" and sum46["byChecks"] is True and sum46["aria"].endswith(", 충족")
     assert main["rows"]["cbe-core12"]["value"] != "충족" and main["rows"]["cbe-core12"]["byChecks"] is False  # 목록이 있는 줄은 과목 체크로
-    assert common["rows"]["cbe-ge-foreign"]["value"] == "확인 필요" and common["rows"]["cbe-ge-keys"]["value"] == "확인 필요"  # 다른 묶음 열쇠·false
+    assert common["rows"]["cbe-ge-keys"]["value"] == "9학점 남음"  # false 는 그대로(지성의 열쇠는 이제 영역으로 센다)
     assert common["rows"]["grad-gpa"]["value"] == "확인 필요"  # 졸업 평점은 gpaChecks 로만
     assert plain["byTerm"]["2025-1"]["gpa"] == 3.3 and final["byTerm"]["2025-1"]["gpa"] == 4.3  # 학기 평점: 재수강으로 빠진 C+ 를 뺌
     assert final["byTerm"]["2025-2"] == plain["byTerm"]["2025-2"] and final["all"] == plain["all"]
@@ -774,3 +784,90 @@ console.log(JSON.stringify({ order: byWalk(rows.map((r) => r[0]), (k) => fits.ge
     r = json.loads(out.stdout)
     assert r["order"] == ["near", "tie", "far", "day1", "day", "room", "none", "none2"]
     assert r["ranks"][1] == [0, 12] and r["ranks"][2] == [1, 2] and r["ranks"][3] == [2, 0] and r["ranks"][0] == [3, 0]
+
+
+@node
+def test_ge_areas_sums_and_conditions(tmp_path):
+    """update127(사용자 11/16 '조사 안 된 것들 다 목록으로'): 교양은 영역(번호 앞자리)으로, 교양·전공 학점 합 줄, 조건부(TEPS 영어)·덧붙은 조건(권장과목★),
+    학과의 평점 줄은 공통 졸업 평점 값, 갈래를 둘 채우는 과학 줄은 모자란 갈래 수만큼 남음."""
+    g = lambda code, cr=3, term="2025-1": {"code": code, "name": code, "credits": cr, "cls": "교양", "term": term, "status": "taken"}
+    picks = [{"program": "animal-biotech", "role": "parallel", "entryYear": 2025, "title": "동물생명공학전공"},
+             {"program": "life-sciences", "role": "double", "entryYear": 2025, "title": "생명과학부"},
+             {"program": "chem-bio-eng", "role": "double", "entryYear": 2025, "title": "화학생물공학부"}]
+    base = [g("F11.101", 2), g("F22.101"), g("F22.102"), g("C10.101"), g("C20.101"), g("V10.101"), g("F31.111"), g("F31.112"),
+            g("F35.103"), g("F35.103L", 1)]
+    got = _run(tmp_path, [
+        {"kind": "view", "picks": picks, "records": base},
+        {"kind": "view", "picks": picks, "records": base + [g("F21.101"), g("C30.101"), g("F11.203", 2), g("F34.103"), g("F34.103L", 1)]},
+    ])
+    one, two = (dict((b["id"], b) for b in v["bundles"]) for v in got)
+    c1, c2 = one["common"]["rows"], two["common"]["rows"]
+    assert c1["ge-cals-natural"]["value"] == "9학점 남음" and c1["ge-cals-natural"]["progress"] == {"have": 27, "need": 36, "unit": "학점"}
+    assert c1["ge-cals-natural-writing"]["value"] == "1과목 남음" and c2["ge-cals-natural-writing"]["value"] == "충족"
+    foreign = c1["ge-cals-natural-foreign"]
+    assert foreign["value"] == "확인 필요" and "TEPS 900점" in foreign["because"] and foreign["groups"] == [["외국어", "충족"], ["영어", "확인 필요"]]
+    assert c2["ge-cals-natural-foreign"]["value"] == "충족"  # 대학영어 1 을 들으면 조건부 영어도 채움
+    assert c1["ge-cals-natural-math"]["value"] == "충족"  # 생명과학을 위한 수학 1·2 짝
+    assert c1["ge-cals-natural-science"]["value"] == "2과목 남음" and c2["ge-cals-natural-science"]["value"] == "충족"
+    assert c1["ge-cals-natural-keys"]["value"] == "3학점 남음" and c2["ge-cals-natural-keys"]["value"] == "충족"
+    assert c1["ge-cals-natural-veritas"]["value"] == "충족"
+    bio = one["life-sciences"]["rows"]
+    assert bio["bio-elective"]["value"] == "26학점 남음" and bio["bio-double"]["value"] == "39학점 남음"  # 복수전공: 전선 26·전체 39
+    cbe = one["chem-bio-eng"]["rows"]
+    assert cbe["cbe-gpa"]["value"] == "확인 필요" and cbe["cbe-gpa"]["because"] == "성적을 다 넣지 않았어요."  # 공통 졸업 평점과 같은 값
+
+
+@node
+def test_old_curriculum_areas_and_star(tmp_path):
+    """옛 학번(2019~2024) 학문의 세계: 영역 번호 앞자리(041·L0545 …)로 세고, 새 번호로 들은 같은 과목은 대표 번호(2024 번호)로 옛 영역에 든다.
+    권장과목(★)은 덧붙은 조건(also): 영역을 다 채워도 ★ 과목이 없으면 남음."""
+    hit = None
+    for pid, prog in programs().items():
+        for v in prog["versions"]:
+            if v["entry_years"][1] > 2024 or v["entry_years"][0] < 2021:
+                continue
+            for r in v["requirements"]:
+                e = r.get("extra") or {}
+                if r.get("auto") == "rule_world" and any(x.get("also") for x in e.get("groups") or []) and e.get("min_areas") == 4 and r.get("min_credits") == 12:
+                    hit = (pid, v["entry_years"][1], r)
+                    break
+            if hit:
+                break
+        if hit:
+            break
+    assert hit, "학문의 세계 + 권장과목 줄"
+    pid, year, row = hit
+    roles = row.get("applies_to") or ["single"]
+    star = next(x for x in row["extra"]["groups"] if x.get("also"))["codes"]
+    assert len(star) == 44
+    g = lambda code: {"code": code, "name": code, "credits": 3, "cls": "교양", "term": "2024-1", "status": "taken"}
+    areas = [x["prefixes"][0] for x in row["extra"]["groups"] if x.get("prefixes")]
+    plain = [g(f"{areas[i]}9{i}") for i in range(4)]  # 네 영역에 하나씩(★ 아님)
+    star_new = {"code": "C10.107", "name": "도스토예프스키와 톨스토이", "credits": 3, "cls": "교양", "term": "2025-1", "status": "taken"}  # 041.035(★)의 새 번호
+    pick = [{"program": pid, "role": roles[0], "entryYear": year, "title": "t"}]
+    got = _run(tmp_path, [
+        {"kind": "view", "picks": pick, "records": plain},
+        {"kind": "view", "picks": pick, "records": plain + [star_new]},
+    ])
+    a = got[0]["bundles"][0]["rows"][row["id"]]
+    b = got[1]["bundles"][0]["rows"][row["id"]]
+    assert a["value"] == "1과목 남음" and a["summary"].startswith("권장과목(★)")
+    assert b["value"] == "충족"
+
+
+def test_converted_rows_are_countable():
+    """requirements_lists.apply 가 바꾼 줄은 모두 앱이 셀 수 있는 꼴이고(countable), 2025학번 판에서 '과목 목록이 없는 조건'인 교양 줄이 크게 줄었다."""
+    import requirements_lists as rl
+    n = 0
+    no_list_ge_2025 = 0
+    for pid, prog in programs().items():
+        for v in prog["versions"]:
+            for r in v["requirements"]:
+                if r.get("auto"):
+                    n += 1
+                    assert rl.countable(r), (pid, r["id"])
+                    for gr in (r.get("extra") or {}).get("groups") or []:
+                        assert gr.get("prefixes") or gr.get("courses") or gr.get("codes") or gr.get("cond"), (pid, r["id"])
+                if r["type"] == "ge" and v["entry_years"][0] <= 2025 <= v["entry_years"][1] and r["status"] == "확인" and not rl.countable(r):
+                    no_list_ge_2025 += 1
+    assert n >= 1500 and no_list_ge_2025 <= 80, (n, no_list_ge_2025)

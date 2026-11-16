@@ -25,6 +25,9 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import requirements_lists  # noqa: E402  (update127: 셀 수 없던 줄을 셀 수 있는 꼴로)
+
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "requirements"
 LO, HI = 2019, 2026
@@ -633,6 +636,13 @@ def main(argv: list[str] | None = None) -> int:
             warns[prog["id"]] = w
     depts_of = course_depts(Path(args.history))
     hist = history_courses(Path(args.history))
+    course_map = read_course_map(Path(args.course_map))
+    tables = requirements_lists.Tables(course_map, hist)
+    star = requirements_lists.star_list(r2, tables)
+    hum1 = requirements_lists.round1_humanities(r1)
+    requirements_lists.ENG_COMMON.update(requirements_lists.eng_common_from(r1))
+    ge_table = read_ge_table(Path(args.ge_table))
+    counted: dict[str, int] = {}
     pilot_ids = {m["id"] for m in PILOTS.values()}
     for i, (ds, pre) in derive_depts(list(built.values()), depts_of).items():
         if i not in pilot_ids:
@@ -640,15 +650,20 @@ def main(argv: list[str] | None = None) -> int:
     for prog in built.values():
         name_rows(prog)
         fill_code_lists(prog, hist)
+        counted["인문대 공통 판 나눔"] = counted.get("인문대 공통 판 나눔", 0) + requirements_lists.expand_humanities(prog, hum1, tables, star)
+        counted["판 나눔"] = counted.get("판 나눔", 0) + requirements_lists.split_new_ge(prog, ge_table)  # update127: 셀 수 있는 꼴로(requirements_lists.py)
+        for k, n in requirements_lists.apply(prog, tables, star).items():
+            counted[k] = counted.get(k, 0) + n
         (out / "programs" / f"{prog['id']}.json").write_text(json.dumps(prog, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     index = [index_entry(one.get(k), two.get(k), k[0], built) for k in keys]
     (out / "index.json").write_text(json.dumps({"checked_on": checked, "data_year": DATA_YEAR, "cohorts": [LO, HI], "programs": index},
                                                ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    (out / "ge_credits.json").write_text(json.dumps(read_ge_table(Path(args.ge_table)), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    (out / "course_map.json").write_text(json.dumps(read_course_map(Path(args.course_map)), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    (out / "ge_credits.json").write_text(json.dumps(ge_table, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    (out / "course_map.json").write_text(json.dumps(course_map, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     common = common_rules(Path(args.common))
     (out / "common.json").write_text(json.dumps(common, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"과정 파일 {len(built)}개, 목록 {len(index)}개 → {out}")
+    print("셀 수 있게 바꾼 줄: " + ", ".join(f"{k} {n}" for k, n in sorted(counted.items(), key=lambda kv: -kv[1])))
     for k, w in warns.items():
         for x in w:
             print(f"  ! {k}: {x}")

@@ -28,7 +28,7 @@
  "versions": [
   {
    "entry_years": [
-    2019,
+    2025,
     2026
    ],
    "basis": "입학 연도",
@@ -234,7 +234,524 @@
       "s5",
       "s6"
      ],
-     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36).",
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_composite"
+    },
+    {
+     "id": "ge-cals-natural-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 1)",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36).",
+     "extra": {
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "F11.101",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000600"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "F11.201",
+          "name": "대학 글쓰기 2: 인문학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000700"
+          ]
+         },
+         {
+          "code": "F11.202",
+          "name": "대학 글쓰기 2: 사회과학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000800"
+          ]
+         },
+         {
+          "code": "F11.203",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000900"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "글쓰기와 말하기",
+     "auto": "rule_composite"
+    },
+    {
+     "id": "ge-cals-natural-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36).",
+     "name": "외국어",
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "F21.",
+         "F22.",
+         "F23.",
+         "F24.",
+         "F25.",
+         "F26.",
+         "F27.",
+         "F28.",
+         "F29."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "prefixes": [
+         "F21."
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "auto": "rule_composite"
+    },
+    {
+     "id": "ge-cals-natural-math",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학 6학점: 생명과학을 위한 수학 1·2 / 수학 1·2와 수학연습 1·2 / 고급수학 1·2와 고급수학연습 1·2 중 한 짝",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36).",
+     "name": "수학",
+     "extra": {
+      "paths": [
+       {
+        "name": "생명과학을 위한 수학 1 + 생명과학을 위한 수학 2",
+        "codes": [
+         "F31.111",
+         "F31.112"
+        ],
+        "courses": [
+         {
+          "code": "F31.111",
+          "name": "생명과학을 위한 수학 1",
+          "credits": 3,
+          "alt_codes": [
+           "033.007"
+          ]
+         },
+         {
+          "code": "F31.112",
+          "name": "생명과학을 위한 수학 2",
+          "credits": 3,
+          "alt_codes": [
+           "033.008"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "수학 1 + 수학연습 1 + 수학 2 + 수학연습 2",
+        "codes": [
+         "F31.104",
+         "F31.104L",
+         "F31.105",
+         "F31.105L"
+        ],
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2,
+          "alt_codes": [
+           "L0442.000100"
+          ]
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1,
+          "alt_codes": [
+           "L0442.000200"
+          ]
+         },
+         {
+          "code": "F31.105",
+          "name": "수학 2",
+          "credits": 2,
+          "alt_codes": [
+           "L0442.000300"
+          ]
+         },
+         {
+          "code": "F31.105L",
+          "name": "수학연습 2",
+          "credits": 1,
+          "alt_codes": [
+           "L0442.000400"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "고급수학 1 + 고급수학연습 1 + 고급수학 2 + 고급수학연습 2",
+        "codes": [
+         "F31.106",
+         "F31.106L",
+         "F31.107",
+         "F31.107L"
+        ],
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2,
+          "alt_codes": [
+           "L0442.000500"
+          ]
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1,
+          "alt_codes": [
+           "L0442.000600"
+          ]
+         },
+         {
+          "code": "F31.107",
+          "name": "고급수학 2",
+          "credits": 2,
+          "alt_codes": [
+           "L0442.000700"
+          ]
+         },
+         {
+          "code": "F31.107L",
+          "name": "고급수학연습 2",
+          "credits": 1,
+          "alt_codes": [
+           "L0442.000800"
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     "auto": "rule_composite"
+    },
+    {
+     "id": "ge-cals-natural-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학 8학점: 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목(이론과 실험을 같은 학기에)",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36).",
+     "name": "과학",
+     "extra": {
+      "paths": [
+       {
+        "name": "물리학 + 물리학실험",
+        "codes": [
+         "F33.105",
+         "F33.105L"
+        ],
+        "courses": [
+         {
+          "code": "F33.105",
+          "name": "물리학",
+          "credits": 3,
+          "alt_codes": [
+           "034.007"
+          ]
+         },
+         {
+          "code": "F33.105L",
+          "name": "물리학실험",
+          "credits": 1,
+          "alt_codes": [
+           "034.011"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "화학 + 화학실험",
+        "codes": [
+         "F34.103",
+         "F34.103L"
+        ],
+        "courses": [
+         {
+          "code": "F34.103",
+          "name": "화학",
+          "credits": 3,
+          "alt_codes": [
+           "034.020"
+          ]
+         },
+         {
+          "code": "F34.103L",
+          "name": "화학실험",
+          "credits": 1,
+          "alt_codes": [
+           "034.024"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "고급화학 + 화학실험",
+        "codes": [
+         "F34.106",
+         "F34.103L"
+        ],
+        "courses": [
+         {
+          "code": "F34.106",
+          "name": "고급화학",
+          "credits": 3,
+          "alt_codes": [
+           "L0443.000100"
+          ]
+         },
+         {
+          "code": "F34.103L",
+          "name": "화학실험",
+          "credits": 1,
+          "alt_codes": [
+           "034.024"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "생물학 + 생물학실험",
+        "codes": [
+         "F35.103",
+         "F35.103L"
+        ],
+        "courses": [
+         {
+          "code": "F35.103",
+          "name": "생물학",
+          "credits": 3,
+          "alt_codes": [
+           "034.029"
+          ]
+         },
+         {
+          "code": "F35.103L",
+          "name": "생물학실험",
+          "credits": 1,
+          "alt_codes": [
+           "034.033"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "대기과학 + 대기과학실험",
+        "codes": [
+         "F36.101",
+         "F36.101L"
+        ],
+        "courses": [
+         {
+          "code": "F36.101",
+          "name": "대기과학",
+          "credits": 3,
+          "alt_codes": [
+           "034.038"
+          ]
+         },
+         {
+          "code": "F36.101L",
+          "name": "대기과학실험",
+          "credits": 1,
+          "alt_codes": [
+           "034.039"
+          ]
+         }
+        ]
+       },
+       {
+        "name": "지구시스템과학 + 지구시스템과학실험",
+        "codes": [
+         "F36.103",
+         "F36.103L"
+        ],
+        "courses": [
+         {
+          "code": "F36.103",
+          "name": "지구시스템과학",
+          "credits": 3,
+          "alt_codes": [
+           "034.040"
+          ]
+         },
+         {
+          "code": "F36.103L",
+          "name": "지구시스템과학실험",
+          "credits": 1,
+          "alt_codes": [
+           "034.041"
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     "auto": "rule_composite"
+    },
+    {
+     "id": "ge-cals-natural-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 4개 영역 중 3개 영역 이상",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36).",
+     "name": "지성의 열쇠",
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "prefixes": [
+         "C10."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "prefixes": [
+         "C20."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "prefixes": [
+         "C30."
+        ],
+        "area": true
+       },
+       {
+        "name": "과학적 사고와 응용",
+        "prefixes": [
+         "C40."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 3
+     },
+     "auto": "rule_composite"
+    },
+    {
+     "id": "ge-cals-natural-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36).",
+     "name": "베리타스",
+     "extra": {
+      "groups": [
+       {
+        "name": "베리타스",
+        "prefixes": [
+         "V10.",
+         "V20.",
+         "V30."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "auto": "rule_composite"
     },
     {
      "id": "cals-foreign-lang-lectures",
@@ -255,7 +772,262 @@
      "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
     }
    ],
-   "note": "학번 경계 근거는 없다(경과조치는 2009학년도 입학자). 다만 경관생태학(5271.225)이 2022 목록·편람 2021-2·2022-2 에서 전필, 2024 목록·편람 2024-2 에서 전선, 학부 페이지(2025-08)에서 다시 전필로 나와 자료끼리 다르다(1차 충돌 그대로). 2023·2025·2026 에는 개설 기록이 없다. 졸업논문 세미나 1·2(M1707.001000·001100)는 2024-1 에 새로 열렸다(전선). 2026학번: 같게 둔다."
+   "note": "학번 경계 근거는 없다(경과조치는 2009학년도 입학자). 다만 경관생태학(5271.225)이 2022 목록·편람 2021-2·2022-2 에서 전필, 2024 목록·편람 2024-2 에서 전선, 학부 페이지(2025-08)에서 다시 전필로 나와 자료끼리 다르다(1차 충돌 그대로). 2023·2025·2026 에는 개설 기록이 없다. 졸업논문 세미나 1·2(M1707.001000·001100)는 2024-1 에 새로 열렸다(전선). 2026학번: 같게 둔다.",
+   "split": "2025학번 교양 개편으로 나눔(update127)"
+  },
+  {
+   "entry_years": [
+    2019,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 48,
+    "double": 48,
+    "minor": 24,
+    "status": "부분",
+    "src": [
+     "s9",
+     "s10",
+     "s11",
+     "s12",
+     "s13",
+     "s14"
+    ]
+   },
+   "status": "충돌",
+   "src": [
+    "s15",
+    "s10",
+    "s16",
+    "s17"
+   ],
+   "requirements": [
+    {
+     "id": "la-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 14과목 42학점(학부 누리집 2025-08-05 판의 *) — 2024 목록은 경관생태학을 뺀 13과목 39학점",
+     "min_count": 14,
+     "min_credits": 42,
+     "courses": [
+      {
+       "code": "5271.212A",
+       "name": "조경식물재료학",
+       "credits": 3
+      },
+      {
+       "code": "5271.213",
+       "name": "조경컴퓨터그래픽",
+       "credits": 3
+      },
+      {
+       "code": "5271.214A",
+       "name": "공간디자인",
+       "credits": 3
+      },
+      {
+       "code": "5271.221B",
+       "name": "GIS와 계량분석 실습",
+       "credits": 3
+      },
+      {
+       "code": "5271.225",
+       "name": "경관생태학",
+       "credits": 3
+      },
+      {
+       "code": "5271.226",
+       "name": "서양 조경의 역사와 이론",
+       "credits": 3
+      },
+      {
+       "code": "5271.227",
+       "name": "조경생태분석",
+       "credits": 3
+      },
+      {
+       "code": "5271.324",
+       "name": "조경설계 1",
+       "credits": 3
+      },
+      {
+       "code": "5271.224A",
+       "name": "조경공학",
+       "credits": 3
+      },
+      {
+       "code": "5271.311",
+       "name": "조경계획",
+       "credits": 3
+      },
+      {
+       "code": "5271.321",
+       "name": "공원녹지계획",
+       "credits": 3
+      },
+      {
+       "code": "5271.422",
+       "name": "조경미학",
+       "credits": 3
+      },
+      {
+       "code": "5271.323A",
+       "name": "동양조경의 역사와 이론",
+       "credits": 3
+      },
+      {
+       "code": "5271.412",
+       "name": "조경설계 2",
+       "credits": 3
+      }
+     ],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s2",
+      "s3"
+     ],
+     "note": "경관생태학 5271.225 는 2024 목록에 * 없음, 편람 2024-2 '전선'. 2025학번에 전필인지 확인 필요."
+    },
+    {
+     "id": "la-studio-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업작품스튜디오 1·2(M1707.000300·000400), 졸업논문 세미나 1·2(M1707.001000·001100), 각 3학점 전선 — 졸업작품·논문 요건 미확인",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "M1707.000300",
+       "name": "졸업작품스튜디오 1",
+       "credits": 3
+      },
+      {
+       "code": "M1707.000400",
+       "name": "졸업작품스튜디오 2",
+       "credits": 3
+      },
+      {
+       "code": "M1707.001000",
+       "name": "졸업논문 세미나 1",
+       "credits": 3
+      },
+      {
+       "code": "M1707.001100",
+       "name": "졸업논문 세미나 2",
+       "credits": 3
+      }
+     ],
+     "status": "미확인",
+     "src": [
+      "s2",
+      "s1",
+      "s3"
+     ]
+    },
+    {
+     "id": "la-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 조경학 전공과목 48학점 이상(세부 이수과목은 학부 학사운영내규)",
+     "min_count": null,
+     "min_credits": 48,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s4"
+     ]
+    },
+    {
+     "id": "la-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 조경학 전공과목 24학점 이상(세부는 학부 학사운영내규)",
+     "min_count": null,
+     "min_credits": 24,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s4"
+     ]
+    },
+    {
+     "id": "ge-cals-natural-old-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2019~2024학번, 학부대학 교양 이수규정의 단과대·학과 교양 학점)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "old_total"
+    },
+    {
+     "id": "ge-cals-natural",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s5",
+      "s6"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36). 이 판(2019~2024학번)에는 2025학번 교양 글이 들어 있다: 그 학번 교양 영역 규정은 조사 자료에 없음(update127)"
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s7",
+      "s8"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "note": "학번 경계 근거는 없다(경과조치는 2009학년도 입학자). 다만 경관생태학(5271.225)이 2022 목록·편람 2021-2·2022-2 에서 전필, 2024 목록·편람 2024-2 에서 전선, 학부 페이지(2025-08)에서 다시 전필로 나와 자료끼리 다르다(1차 충돌 그대로). 2023·2025·2026 에는 개설 기록이 없다. 졸업논문 세미나 1·2(M1707.001000·001100)는 2024-1 에 새로 열렸다(전선). 2026학번: 같게 둔다.",
+   "split": "2025학번 교양 개편으로 나눔(update127)"
   }
  ],
  "change_points": [

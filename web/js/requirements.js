@@ -240,6 +240,12 @@ export function evaluateProgram(program, version, courses, { role = "single", sa
   for (const r of version.requirements || []) {
     if ((r.applies_to || []).length && !r.applies_to.includes(role)) continue;
     const row = { id: r.id, type: r.type, name: rowName(r), text: r.text, status: r.status, note: r.note || null, src: r.src || [] };
+    if (r.same_as) { // 공통 '졸업 평점'과 같은 줄(update127, 학과의 '전체·전공 평점 2.0 이상'): gradView 가 그 줄 값을 그대로 쓴다
+      Object.assign(row, { state: "check", reason: SAME_GPA, sameAs: r.same_as, have: { count: 0, credits: 0, codes: [] }, need: { count: null, credits: null },
+        taken: [], all: [] });
+      rows.push(row);
+      continue;
+    }
     const kind = structuredKind(r);
     if (kind) {
       later.push([row, r, kind]);
@@ -300,6 +306,7 @@ export function evaluateProgram(program, version, courses, { role = "single", sa
     const apart = (o) => KIND[o.type] !== KIND[r.type] || (!inside(mine, keysOf.get(o)) && !inside(keysOf.get(o), mine));
     const shared = new Set([...hitsOf].filter(([, list]) => list.some(apart)).map(([k]) => k));
     if (kind === "groups") evaluateGroups(r, row, got, shared, sameCourse);
+    else if (kind === "sum") evaluateSum(r, row, courses, { program, version, role, sameCourse });
     else evaluatePaths(r, row, got, sameCourse, version);
     if (row.state !== "check" && (row.taken || []).some((m) => m.substituted)) {
       row.left = row.missing || [];
@@ -317,11 +324,15 @@ const GROUP_KEYS = new Set(["groups", "not_counted", "min_groups", "min_areas", 
 const KIND = { major_required: "required", major_elective: "elective", distribution: "elective", major_choose: "elective", ge: "ge",
   double: "double", minor: "minor", thesis: "thesis", other: "other" };
 const NO_LIST = "과목 목록이 없는 조건";
+export const COND = "조건부 요건"; // 기준은 채웠지만 학생이 아는 조건(입학 때 TEPS 점수, 진단평가 면제 등)에 따라 더 필요할 수 있다(update127)
+export const SAME_GPA = "졸업 평점과 같은 조건";
 
 /** 분야(extra.groups)·갈래(extra.paths)로 셀 수 있는 줄인가: 자료가 '확인'이고 extra 에 그 둘과 셈에 쓰는 값만 있다(다른 문장형 조건이 섞이면 그대로 '확인 필요') */
 function structuredKind(r) {
+  if (r.status !== "확인") return null;
+  if (r.sum && typeof r.sum === "object" && (r.min_credits != null || Object.keys(r.sum.by_role || {}).length)) return "sum"; // 학점 합 줄(update127)
   const e = r.extra;
-  if (!e || r.status !== "확인") return null;
+  if (!e) return null;
   const keys = Object.keys(e);
   if (Array.isArray(e.groups) && e.groups.length && keys.every((k) => GROUP_KEYS.has(k))) return "groups";
   if (Array.isArray(e.paths) && e.paths.length && keys.length === 1 && r.min_count != null) return "paths";
@@ -332,7 +343,26 @@ function structuredKind(r) {
 function listOf(g, own) {
   if (Array.isArray(g.courses)) return g.courses;
   if (Array.isArray(g.codes)) return g.codes.map((code) => own.get(code) || { code, name: null, credits: null });
+  if (Array.isArray(g.prefixes) && g.prefixes.length) return []; // 번호 앞자리가 곧 영역인 교양(update127): 목록 대신 앞자리로 센다(prefixHits)
   return null;
+}
+
+/**
+ * 번호 앞자리 분야(g.prefixes, update127)에 드는 들은 과목. 번호나 대표 번호가 앞자리로 시작하면 든다: 2025 새 교양(C10·F21·V10…)은 번호로,
+ * 옛 교양(041·L0545…)은 대표 번호(교양 대응표의 2024 번호)로도 봐서 옛 학번이 새 번호로 들은 같은·대체 과목은 옛 영역에 든다(학부대학 '입학년도 이수규정 기준',
+ * 인문대학 공지 2026-08-07). 대응이 없는 새 과목은 옛 영역에 들지 않고 교양 학점으로만 센다. skip(셀 수 없는 대표 번호)·have(이미 센 것)는 뺀다
+ */
+function prefixHits(g, got, skip, have) {
+  const pre = g.prefixes || [];
+  const out = [];
+  if (!pre.length) return out;
+  for (const [key, hit] of got) {
+    if (have.has(key) || (skip && skip.has(key))) continue;
+    if (!pre.some((p) => String(hit.code).startsWith(p) || String(key).startsWith(p))) continue;
+    out.push({ code: hit.code, name: hit.name || null, credits: Number(hit.earned) || 0, term: hit.term ?? null, key,
+      substituted: Boolean(hit.substituted), checked: Boolean(hit.checked) });
+  }
+  return out;
 }
 
 /** 목록에서 들은 과목(대표 번호 한 번씩). skip: 세지 않는 대표 번호 */
@@ -377,6 +407,10 @@ function shortOf(min, xs) {
  * (min_groups·min_areas 가 없으면 기준이 있는 분야 모두), min_groups·min_areas(채운 분야 수, 기준이 없는 분야는 1과목 이상),
  * min_in_one_group(한 분야에서 그만큼). not_counted 는 세지 않는다.
  * 엄격으로 다 채우면 met, 느슨으로도 모자라면 remaining, 그 사이는 확인 필요(목록 없는 분야가 있으면 그 까닭, 아니면 SHARED_COURSE).
+ * update127(사용자 11/16 '조사 안 된 것들 다 목록으로'): 분야의 prefixes(번호 앞자리가 곧 영역인 교양)는 prefixHits 로 센다.
+ * area(교양 영역 분야)는 추천 과목에 넣지 않고(수백 과목) 줄 기준이 목록을 넘는지 보지 않는다. cond(조건부 분야: '입학 때 TEPS 900점 이하이면 영어 1과목')는
+ * 기준·겹침에 넣지 않고, 다른 기준을 다 채웠는데 그 분야를 못 채웠으면 확인 필요(COND, because = cond 글).
+ * also(덧붙은 조건 분야: '그중 중급 이상 1과목'·'권장과목(★) 1과목')는 다른 분야와 겹쳐도 되는 부분 조건이라 겹침·합에 넣지 않고, 못 채우면 남음
  * row.groups = [{name, need, value: {kind: met|left|check|count, text}, codes}](시트의 분야 소제목 값. count 는 기준 없는 분야의 들은 수)
  */
 function evaluateGroups(r, row, got, shared, sameCourse) {
@@ -386,19 +420,26 @@ function evaluateGroups(r, row, got, shared, sameCourse) {
   const minGroups = e.min_groups ?? e.min_areas ?? null;
   const oneGroup = e.min_in_one_group ?? null;
   const lists = e.groups.map((g) => listOf(g, own));
-  const inGroups = new Map(); // 대표 번호 → 그 과목이 든 분야 수
-  for (const list of lists) {
-    for (const k of new Set((list || []).flatMap((c) => [c.code, ...(c.alt_codes || [])].map(sameCourse)))) inGroups.set(k, (inGroups.get(k) || 0) + 1);
-  }
-  const groups = e.groups.map((g, i) => {
+  const hits = e.groups.map((g, i) => {
+    const listed = lists[i] ? takenIn(lists[i], got, sameCourse, skip) : [];
+    return listed.concat(prefixHits(g, got, skip, new Set(listed.map((x) => x.key))));
+  });
+  const inGroups = new Map(); // 대표 번호 → 그 과목이 든 분야 수(조건부 분야는 빼고)
+  e.groups.forEach((g, i) => {
+    if (g.cond || g.also) return;
+    for (const k of new Set(hits[i].map((x) => x.key))) inGroups.set(k, (inGroups.get(k) || 0) + 1);
+  });
+  const every = e.groups.map((g, i) => {
     const list = lists[i];
-    const taken = list ? takenIn(list, got, sameCourse, skip) : [];
+    const taken = hits[i];
     const strict = taken.filter((x) => !shared.has(x.key) && (inGroups.get(x.key) || 0) < 2);
     const hasMin = g.min_count != null || g.min_credits != null;
     const okStrict = list ? (hasMin ? !shortOf(g, strict) : strict.length > 0) : false;
     const okLoose = list ? (hasMin ? !shortOf(g, taken) : taken.length > 0) : true;
     return { g, list, taken, strict, hasMin, okStrict, okLoose };
   });
+  const groups = every.filter((G) => !G.g.cond && !G.g.also), conds = every.filter((G) => G.g.cond), alsos = every.filter((G) => G.g.also);
+  const wide = (G) => Boolean(G.g.area) || (G.g.prefixes || []).length > 0; // 교양 영역: 추천에 안 넣고 목록 끝을 따지지 않는다
   const union = (pick) => {
     const m = new Map();
     for (const G of groups) for (const x of pick(G)) m.set(x.key, x);
@@ -408,7 +449,7 @@ function evaluateGroups(r, row, got, shared, sameCourse) {
   const unlisted = groups.some((G) => !G.list);
   // 줄 기준(학점·과목 수)이 분야 목록을 다 들어도 닿지 않으면 목록 밖 과목까지 세는 기준이다(부전공 21학점 가운데 물리화학 1 같은 것): 셀 수 없다
   const capacity = union((G) => (G.list || []).map((c) => ({ key: sameCourse(c.code), credits: Number(c.credits) || 0 })));
-  const beyond = (r.min_credits != null && sumCredits(capacity) < r.min_credits) || (r.min_count != null && capacity.length < r.min_count);
+  const beyond = !groups.some(wide) && ((r.min_credits != null && sumCredits(capacity) < r.min_credits) || (r.min_count != null && capacity.length < r.min_count));
   const totalUnknown = unlisted || beyond;
   const counted = groups.filter((G) => G.hasMin || !G.list); // min_groups 가 없을 때 저마다 채워야 하는 분야
   const fields = (ok) => (minGroups != null ? groups.filter(ok).length : counted.filter(ok).length);
@@ -424,25 +465,36 @@ function evaluateGroups(r, row, got, shared, sameCourse) {
   const strictOk = pass(false), looseOk = pass(true);
   row.state = strictOk ? "met" : looseOk ? "check" : "remaining";
   if (row.state === "check") row.reason = totalUnknown && !groups.some((G) => G.list && G.okLoose && !G.okStrict) ? NO_LIST : SHARED_COURSE;
+  const condMiss = conds.find((G) => !G.list || !G.okLoose); // 목록 없는 조건부 분야는 늘 학생이 확인
+  if (row.state === "met" && condMiss) Object.assign(row, { state: "check", reason: COND, because: condMiss.g.cond });
+  const alsoMiss = alsos.filter((G) => G.list && !G.okLoose);
+  if (alsoMiss.length && row.state !== "remaining") { // 덧붙은 조건을 못 채우면 나머지가 다 찼어도 남음
+    const sh = shortOf(alsoMiss[0].g, alsoMiss[0].taken) || { unit: "과목", left: 1 };
+    Object.assign(row, { state: "remaining", alsoShort: { ...sh, name: alsoMiss[0].g.name || "" } });
+    delete row.reason;
+    delete row.because;
+  }
   const shown = row.state === "met" ? strict : loose;
   row.have = { count: shown.length, credits: sumCredits(shown), codes: shown.map((x) => x.code) };
   row.need = { count: r.min_count ?? null, credits: r.min_credits ?? null };
   row.taken = loose;
   row.all = [];
-  row.groups = groups.map((G) => {
+  row.groups = every.map((G) => {
     let value;
-    if (!G.list) value = { kind: "check", text: "확인 필요" };
+    if (G.g.cond) value = G.list && G.okLoose ? { kind: "met", text: "충족" } : { kind: "check", text: "확인 필요" };
+    else if (G.g.also && !G.list) value = { kind: "check", text: "확인 필요" };
+    else if (!G.list) value = { kind: "check", text: "확인 필요" };
     else if (!G.hasMin) value = { kind: "count", text: `${G.taken.length}과목` };
     else if (G.okStrict) value = { kind: "met", text: "충족" };
     else if (!G.okLoose) {
-      const s = shortOf(G.g, G.taken);
-      value = { kind: "left", unit: s.unit, left: s.left, text: `${s.left}${s.unit} 남음` };
+      const sh = shortOf(G.g, G.taken);
+      value = { kind: "left", unit: sh.unit, left: sh.left, text: `${sh.left}${sh.unit} 남음` };
     } else value = { kind: "check", text: "확인 필요" };
     return { name: G.g.name || G.g.field || "", need: needText(G.g), value, codes: G.taken.map((x) => x.code) };
   });
-  // 남은 과목(추천): 줄 기준이 모자라면 모든 분야의, 아니면 못 채운 분야의 안 들은 과목
+  // 남은 과목(추천): 줄 기준이 모자라면 모든 분야의, 아니면 못 채운 분야의 안 들은 과목(교양 영역 분야는 빼고)
   const rowShort = totalUnknown ? null : shortOf(r, loose);
-  const open = rowShort ? groups.filter((G) => G.list) : groups.filter((G) => G.list && !G.okLoose);
+  const open = rowShort ? groups.filter((G) => G.list && !wide(G)) : groups.filter((G) => G.list && !G.okLoose && !wide(G));
   const left = [];
   for (const G of open) for (const c of notTaken(G.list, G.taken)) if (!left.some((x) => x.code === c.code)) left.push(c);
   // 센 값 {have, need, unit}(줄 앞 동그라미·시트 상태 칸, 프론트엔드 141판). 충족은 엄격, 그 밖은 느슨하게 센 것으로
@@ -468,7 +520,14 @@ function evaluateGroups(r, row, got, shared, sameCourse) {
     return { have: counted.filter(okG).length, need: counted.length, unit: "분야" };
   };
   const inOne = () => (oneGroup != null ? { have: most(inG), need: oneGroup, unit: "과목" } : null);
-  if (row.state === "remaining") {
+  if (row.state === "remaining" && row.alsoShort) {
+    const { unit, left: k, name } = row.alsoShort;
+    delete row.alsoShort;
+    row.missing = [];
+    row.short = { unit, left: k };
+    row.summaryText = `${name} · ${k}${unit} 남음`;
+    row.progress = totals(r.min_credits != null ? "학점" : "과목") || byFields();
+  } else if (row.state === "remaining") {
     row.missing = left;
     const lacking = counted.filter((G) => G.list && !G.okLoose);
     const shorts = lacking.map((G) => shortOf(G.g, G.taken)).filter(Boolean);
@@ -481,8 +540,8 @@ function evaluateGroups(r, row, got, shared, sameCourse) {
       row.progress = byFields();
     } else if (minGroups == null && shorts.length) {
       // 분야마다 모자란 것: 단위가 같으면 더하고(생물다양성 1과목 → '1과목 남음'), 다르면 분야 수로
-      const unit = shorts.every((s) => s.unit === shorts[0].unit) ? shorts[0].unit : null;
-      row.short = unit ? { unit, left: shorts.reduce((s, x) => s + x.left, 0) } : { unit: "분야", left: lacking.length };
+      const unit = shorts.every((x) => x.unit === shorts[0].unit) ? shorts[0].unit : null;
+      row.short = unit ? { unit, left: shorts.reduce((t, x) => t + x.left, 0) } : { unit: "분야", left: lacking.length };
       row.summaryText = `${lacking.map((G) => G.g.name || G.g.field).filter(Boolean).join(" · ")} · ${row.short.left}${row.short.unit} 남음`;
       row.progress = byFields();
     } else {
@@ -494,6 +553,38 @@ function evaluateGroups(r, row, got, shared, sameCourse) {
     if (row.state === "check" && left.length) row.left = left;
     row.progress = totals(r.min_credits != null ? "학점" : "과목") || byFields() || inOne();
   }
+}
+
+/**
+ * 학점 합 줄(r.sum, update127): 교양 N학점 이상(of: "ge", 교과구분 교양), 전공 학점·전공선택 학점(of: "major", 이 과정의 전공 과목, cls 로 전필·전선을 가름),
+ * 교직 22학점(of: "cls", cls: ["교직"]). after: 그만큼 뺀 나머지(자유 선택 = 교양 합 − 영역 학점). by_role: 단일·병행·복수 기준이 다를 때.
+ * floor·cond: 학생이 아는 조건에 따라 기준이 낮아지면(진단평가 면제 46 → 최소 36) floor 이상 기준 미만은 확인 필요(because = cond).
+ * 과목 목록은 없다(row.all·taken 빈 목록). 센 값은 학점
+ */
+function evaluateSum(r, row, courses, { program, version, role, sameCourse }) {
+  const s = r.sum;
+  const pick = (c) => {
+    if (c.failed) return false;
+    if (s.of === "ge") return c.cls === "교양";
+    if (s.of === "cls") return (s.cls || []).includes(c.cls);
+    if (s.of === "major") return isMajorCourse(c, program, version, sameCourse) && (!s.cls || s.cls.includes(c.cls));
+    return true;
+  };
+  const xs = courses.filter(pick);
+  const have = Math.max(0, xs.reduce((t, c) => t + (Number(c.earned) || 0), 0) - (Number(s.after) || 0));
+  const need = s.by_role && s.by_role[role] != null ? s.by_role[role] : r.min_credits;
+  row.have = { count: xs.length, credits: have, codes: [] };
+  row.need = { count: null, credits: need ?? null };
+  row.taken = [];
+  row.all = [];
+  if (need == null) {
+    Object.assign(row, { state: "check", reason: "기준 수가 없는 조건", progress: null });
+    return;
+  }
+  row.progress = { have, need, unit: "학점" };
+  if (have >= need) row.state = "met";
+  else if (s.floor != null && have >= s.floor) Object.assign(row, { state: "check", reason: COND, because: s.cond || null });
+  else Object.assign(row, { state: "remaining", short: { unit: "학점", left: need - have } });
 }
 
 /**
@@ -536,6 +627,19 @@ function evaluatePaths(r, row, got, sameCourse, version) {
     return;
   }
   row.state = "remaining";
+  if (r.min_count > 1) { // 갈래를 둘 이상 채워야 하면(과학 '이론+실험 중 2과목', update127) 아직 못 채운 갈래 가운데 가까운 것부터 모자란 수만큼 더한다
+    const want = r.min_count - done.length;
+    const nearest = paths.filter((x) => !x.done && x.list.length)
+      .sort((a, b) => a.missing.length - b.missing.length || b.taken.length - a.taken.length).slice(0, want);
+    const miss = [];
+    for (const x of nearest) for (const c of x.missing) if (!miss.some((m) => m.code === c.code)) miss.push(c);
+    row.missing = miss;
+    row.short = { unit: "과목", left: miss.length };
+    row.summaryText = `${nearest.map((x) => x.p.name).join(" · ")} · ${miss.length}과목 남음`;
+    const sizes = (xs) => xs.reduce((t, x) => t + x.list.length, 0);
+    row.progress = { have: sizes(done) + nearest.reduce((t, x) => t + x.taken.length, 0), need: sizes(done) + sizes(nearest), unit: "과목" };
+    return;
+  }
   row.missing = near.missing;
   row.short = { unit: "과목", left: near.missing.length };
   row.summaryText = `${near.p.name} · ${near.missing.length}과목 남음`;
@@ -811,6 +915,8 @@ export function reasonText(row, { entryYear = null } = {}) {
     case "여러 갈래·문장형 조건": return "여러 갈래로 나뉘는 조건이라 계산하지 않았어요.";
     case SUBSTITUTED: return "대체 관계인 과목을 둘 다 들었어요. 어느 쪽으로 셀지 학과에 확인해 주세요.";
     case SHARED_COURSE: return "들은 과목 하나가 여러 요건에 걸려 있어요. 어느 요건으로 셀지 학과에 확인해 주세요.";
+    case COND: return (row && row.because) || "조건에 따라 더 들어야 할 수 있어요.";
+    case SAME_GPA: return "공통의 졸업 평점과 같은 조건이에요.";
     default: return (row && row.because) || null;
   }
 }
@@ -997,6 +1103,10 @@ export function gradView({ picks = [], records = [], grades = null, common = nul
       // '이 요건을 채웠어요'(rowChecks): 과목 목록이 없어 앱이 셀 수 없는 확인 필요 줄만(목록이 생긴 줄의 옛 체크는 쓰지 않는다)
       if (rowChecks && rowChecks[`${toCommon ? "common" : p.program.id}|${r.id}`] === true && r.state === "check" && !rowCourses(raw.get(r.id) || {}).length) {
         Object.assign(r, { state: "met", byChecks: true });
+      }
+      if (r.sameAs === "grad-gpa") { // 학과의 '전체·전공 평점 2.0 이상' 줄은 공통 졸업 평점 값을 그대로(update127)
+        Object.assign(r, { state: gpaRow.state, because: gpaRow.because || null, byChecks: byChecks || undefined });
+        delete r.reason;
       }
       if (toCommon) commonRows.push(rowView(r, { ...opts, title: "공통" }));
       else mine.push(rowView(r, opts));

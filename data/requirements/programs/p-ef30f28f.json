@@ -26,7 +26,7 @@
  "versions": [
   {
    "entry_years": [
-    2024,
+    2025,
     2026
    ],
    "basis": "입학 연도(복수전공은 전공 진입 연도: 2024년 이후 진입)",
@@ -264,14 +264,712 @@
      ]
     },
     {
-     "id": "hum-common-ref",
+     "id": "hum-ge-total",
      "type": "ge",
      "applies_to": [
       "single",
       "parallel"
      ],
-     "text": "인문대학 공통(2025학번 교양 36과 인문대 졸업 의무: 제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학 세미나) — college_common 참조",
+     "text": "교양 36학점 이상(인문대학 2025학번~)",
      "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "교양 학점",
+     "sum": {
+      "of": "ge"
+     },
+     "auto": "humanities"
+    },
+    {
+     "id": "hum-ge25-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1 [1-1,1-2] + 대학 글쓰기 2 (인문학·사회과학·과학기술 글쓰기 중 택 1) [1-2,2-1]",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ]
+    },
+    {
+     "id": "hum-ge25-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학·과학·컴퓨팅 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "수학·과학·컴퓨팅",
+        "prefixes": [
+         "F31.",
+         "F32.",
+         "F33.",
+         "F34.",
+         "F35.",
+         "F36.",
+         "F37."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "수학·과학·컴퓨팅",
+     "auto": "rule_msc"
+    },
+    {
+     "id": "hum-ge25-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 문화 해석과 상상, 역사적 탐구와 철학적 사유, 인간의 이해와 사회 분석, 과학적 사고와 응용 4개 영역 중 3개 영역 이상",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "prefixes": [
+         "C10."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "prefixes": [
+         "C20."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "prefixes": [
+         "C30."
+        ],
+        "area": true
+       },
+       {
+        "name": "과학적 사고와 응용",
+        "prefixes": [
+         "C40."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 3
+     },
+     "name": "지성의 열쇠",
+     "auto": "rule_keys"
+    },
+    {
+     "id": "hum-ge25-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·2·실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "베리타스",
+        "prefixes": [
+         "V10.",
+         "V20.",
+         "V30."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "베리타스",
+     "auto": "rule_veritas"
+    },
+    {
+     "id": "hum-ge25-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 3(0)학점 자유 선택",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "note": "괄호의 0은 영어 2과목(6학점) 이수자의 경우로 읽음(합계 36이 맞음).",
+     "sum": {
+      "of": "ge",
+      "after": 33
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
+    },
+    {
+     "id": "hum-foreign-taught",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌 3과목 이상(2008학번~). 서울대 개설 과목만, 대학영어·중국어회화 같은 외국어 진행 교양도 포함. 전공과목 포함 여부는 학과(부) 내규",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ]
+    },
+    {
+     "id": "hum-life-seminar",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "삶과 인문학 세미나(1학점, 일선) — 인문대학 신입생(3월·9월 입학)만. 타 대학·학과 재학생, 복수전공자, 학사편입생, 전과생, 자유전공학부 학생은 미적용",
+     "min_count": 1,
+     "min_credits": 1,
+     "courses": [
+      {
+       "code": "M2169.009900",
+       "name": "삶과 인문학 세미나",
+       "credits": 1
+      },
+      {
+       "code": "100.165",
+       "name": "삶과 인문학",
+       "credits": 1
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "note": "의무사항 표는 '삶과 인문학 또는 삶과 인문학 세미나'. 2025학번 인문계열·전공예약생은 해당으로 읽음. 학부대학 광역에서 들어온 학생에게 적용되는지 미확인."
+    },
+    {
+     "id": "hum-ge25-2ndlang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "제2외국어 9학점(3과목, [1-1][1-2][2-1] 권장), 그 가운데 중급 이상 1과목 이상. 제2외국어가 전공인 학생은 영어와 전공외국어를 뺀 다른 외국어·고전어로 채움",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "제2외국어",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "제2외국어",
+        "prefixes": [
+         "F22.",
+         "F23.",
+         "F24.",
+         "F25.",
+         "F26.",
+         "F27.",
+         "F28.",
+         "F29."
+        ],
+        "area": true,
+        "min_count": 3
+       },
+       {
+        "name": "중급 이상",
+        "codes": [
+         "F28.201",
+         "F28.302",
+         "F28.301",
+         "F25.201",
+         "F25.202",
+         "F25.301",
+         "F25.302",
+         "F25.303",
+         "F26.201",
+         "F26.202",
+         "F26.301",
+         "F26.303",
+         "F22.201",
+         "F22.202",
+         "F22.302",
+         "F22.301",
+         "F22.303",
+         "F23.201",
+         "F23.202",
+         "F23.302",
+         "F24.201",
+         "F24.202",
+         "F24.301",
+         "F24.302",
+         "F24.303",
+         "F29.123",
+         "F29.117",
+         "F29.115",
+         "F29.127",
+         "F29.121",
+         "F29.111",
+         "F29.108",
+         "F29.106",
+         "F29.118",
+         "F29.119",
+         "F29.102",
+         "F29.104"
+        ],
+        "area": true,
+        "min_count": 1,
+        "also": true
+       }
+      ]
+     },
+     "note": "제2외국어가 전공인 학생은 영어와 전공 외국어를 뺀 다른 외국어·고전어로 채운다(앱은 가르지 않음)."
+    },
+    {
+     "id": "hum-ge25-english",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 1~2과목, 3(6)학점: 입학 때 TEPS 801(New TEPS 453) 이상 1과목, 800(452) 이하 2과목",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "영어",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "영어",
+        "prefixes": [
+         "F21."
+        ],
+        "area": true,
+        "min_count": 1
+       },
+       {
+        "name": "영어 2과목",
+        "prefixes": [
+         "F21."
+        ],
+        "area": true,
+        "min_count": 2,
+        "cond": "입학 때 TEPS 800점(New TEPS 452점) 이하였다면 영어 2과목이 필요해요."
+       }
+      ],
+      "not_counted": [
+       {
+        "code": "F21.100",
+        "name": "기초영어",
+        "credits": 2,
+        "alt_codes": [
+         "L0441.000400"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "hum-ge25-expansion",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 확장 2학점, 그 안에 소그룹 고전원전읽기 1 또는 2 를 1과목 이상(E52.103·E52.104)",
+     "min_count": null,
+     "min_credits": 2,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "지성의 확장",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "지성의 확장",
+        "prefixes": [
+         "E11.",
+         "E12.",
+         "E20.",
+         "E31.",
+         "E32.",
+         "E41.",
+         "E42.",
+         "E43.",
+         "E51.",
+         "E52."
+        ],
+        "area": true
+       },
+       {
+        "name": "소그룹 고전원전읽기",
+        "codes": [
+         "E52.103",
+         "E52.104"
+        ],
+        "area": true,
+        "min_count": 1,
+        "also": true
+       }
+      ]
+     }
+    }
+   ],
+   "note": "2026학번도 같음(학부 규정에 2025·2026 변경 없음, 상세본은 25학번 교양 변화만 적음).",
+   "split": "인문대학 공통 교양이 학번마다 달라 나눔(update127)"
+  },
+  {
+   "entry_years": [
+    2024,
+    2024
+   ],
+   "basis": "입학 연도(복수전공은 전공 진입 연도: 2024년 이후 진입)",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": null,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s12",
+     "s13",
+     "s14",
+     "s15",
+     "s16",
+     "s17"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s18",
+    "s19"
+   ],
+   "requirements": [
+    {
+     "id": "asia-core",
+     "type": "major_required",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 2과목: 아시아문명론입문, 아시아연구지도(아시아연구지도는 18학번부터 전필)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "1003.221",
+       "name": "아시아문명론입문",
+       "credits": 3
+      },
+      {
+       "code": "M2641.000300",
+       "name": "아시아연구지도",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4",
+      "s5"
+     ]
+    },
+    {
+     "id": "asia-must-pair",
+     "type": "other",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "단일전공 불가: 주전공 39학점과 함께 복수전공 또는 부전공 하나를 반드시 이수(학부 안 다른 세부전공도 가능)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s2",
+      "s7"
+     ]
+    },
+    {
+     "id": "asia-cross-track",
+     "type": "distribution",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "2024학번 이후 주전공(2024년 이후 진입 복수전공): 자기 세부전공을 뺀 3개 세부전공 개설 과목 1과목 필수, 최대 2과목까지 전선 인정(학부 개설 과목만)",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "asia-main-lang",
+     "type": "other",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "주이수 언어 3과목(교양·전공 합산, 필수이수 교과목 1개 이상) — 일본어",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s2"
+     ],
+     "note": "필수이수·인정 교과목 목록은 첨부 xlsx(못 엶). 2015학번~."
+    },
+    {
+     "id": "asia-2ndlang",
+     "type": "other",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "제2외국어 9학점(중급 1과목 포함, 주이수 언어 외). 동남아·인도·서아시아 전공은 자기 지역 언어 교양도 제2외국어로 인정. 복수전공생은 인문대 소속에만 적용, 자유전공학부 출신은 영어 외 1과목 C- 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s2"
+     ]
+    },
+    {
+     "id": "asia-elective-credit",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 인정교과목: 고고미술사학과·역사학부·언어학과·종교학과 등 지정 16과목 중 3과목 이내(목록 세부는 못 옮김)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "asia-external-cap",
+     "type": "other",
+     "applies_to": [
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "타 대학·타 과(부) 개설 과목 합산 인정 한도: 주전공·복수전공 13학점, 부전공 10학점(2020-1부터)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "이수규정은 부전공 10, 졸업요건 상세본 요약은 11."
+    },
+    {
+     "id": "asia-foreign-taught",
+     "type": "other",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "외국어진행 3과목(교양·전공·일선 무관). SWP 는 인정, 국외수학 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "asia-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 심사 합격(학사학위 졸업논문 집필요령 별도)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s9"
+     ]
+    },
+    {
+     "id": "asia-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전필 2과목 포함 39학점(진입 연도 기준)",
+     "min_count": 2,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "1003.221",
+       "name": "아시아문명론입문",
+       "credits": 3
+      },
+      {
+       "code": "M2641.000300",
+       "name": "아시아연구지도",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "asia-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 21학점, 2019-1 진입부터 전공필수 없음(2018-2 이전 진입자는 아시아문명론입문)",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "hum-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(인문대학 2024학번)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "교양 학점",
+     "sum": {
+      "of": "ge"
+     },
+     "auto": "humanities"
+    },
+    {
+     "id": "hum-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1 + 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 1)",
+     "min_count": 2,
      "min_credits": null,
      "courses": [],
      "status": "확인",
@@ -280,17 +978,613 @@
       "s11"
      ],
      "extra": {
-      "see": [
-       "college_common.requirements"
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "L0440.000600",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "F11.101",
+           "F11.101"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "L0440.000700",
+          "name": "대학 글쓰기 2: 인문학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.201",
+           "F11.201"
+          ]
+         },
+         {
+          "code": "L0440.000800",
+          "name": "대학 글쓰기 2: 사회과학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.202",
+           "F11.202"
+          ]
+         },
+         {
+          "code": "L0440.000900",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.203",
+           "F11.203"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "사고와 표현",
+     "auto": "rule_writing"
+    },
+    {
+     "id": "hum-ge-2ndlang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "제2외국어 9학점(3과목), 그중 중급 이상 1과목 이상. 제2외국어가 전공이면 영어·전공어를 뺀 외국어·고전어",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "제2외국어",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "제2외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 3
+       },
+       {
+        "name": "중급 이상",
+        "codes": [
+         "032.007",
+         "032.008",
+         "032.009",
+         "032.012",
+         "032.013",
+         "032.014",
+         "032.015",
+         "032.016",
+         "032.029",
+         "032.030",
+         "032.031",
+         "032.033",
+         "032.036",
+         "032.037",
+         "032.038",
+         "L0441.00300",
+         "032.040",
+         "032.043",
+         "032.044",
+         "032.046",
+         "032.050",
+         "032.051",
+         "032.052",
+         "032.053",
+         "032.054",
+         "032.056",
+         "032.058",
+         "032.068",
+         "032.070",
+         "032.074",
+         "032.076",
+         "032.072",
+         "032.064",
+         "032.065",
+         "032.066",
+         "032.078",
+         "032.080"
+        ],
+        "area": true,
+        "min_count": 1,
+        "also": true
+       }
+      ],
+      "not_counted": [
+       {
+        "code": "L0441.000600",
+        "name": "대학영어 1",
+        "credits": 3,
+        "alt_codes": [
+         "F21.101",
+         "F21.101"
+        ]
+       },
+       {
+        "code": "L0441.000700",
+        "name": "대학영어 2: 글쓰기",
+        "credits": 3,
+        "alt_codes": [
+         "F21.201",
+         "F21.201"
+        ]
+       },
+       {
+        "code": "L0441.000800",
+        "name": "대학영어 2: 말하기",
+        "credits": 3,
+        "alt_codes": [
+         "F21.202",
+         "F21.202"
+        ]
+       },
+       {
+        "code": "L0441.000900",
+        "name": "고급영어: 산문",
+        "credits": 3,
+        "alt_codes": [
+         "F21.304",
+         "F21.304"
+        ]
+       },
+       {
+        "code": "L0441.001000",
+        "name": "고급영어: 학술작문",
+        "credits": 3,
+        "alt_codes": [
+         "F21.307",
+         "F21.307"
+        ]
+       },
+       {
+        "code": "L0441.001100",
+        "name": "고급영어: 영화",
+        "credits": 3,
+        "alt_codes": [
+         "F21.306",
+         "F21.306"
+        ]
+       },
+       {
+        "code": "L0441.001200",
+        "name": "고급영어: 연극",
+        "credits": 3,
+        "alt_codes": [
+         "F21.305",
+         "F21.305"
+        ]
+       },
+       {
+        "code": "L0441.001300",
+        "name": "고급영어: 문화와 사회",
+        "credits": 3,
+        "alt_codes": [
+         "F21.302",
+         "F21.302"
+        ]
+       },
+       {
+        "code": "L0441.001400",
+        "name": "고급영어: 발표",
+        "credits": 3,
+        "alt_codes": [
+         "F21.303",
+         "F21.303"
+        ]
+       },
+       {
+        "code": "L0441.001500",
+        "name": "고급영어: 문학",
+        "credits": 3,
+        "alt_codes": [
+         "F21.301",
+         "F21.301"
+        ]
+       },
+       {
+        "code": "L0441.000400",
+        "name": "기초영어",
+        "credits": 2,
+        "alt_codes": [
+         "F21.100",
+         "F21.100"
+        ]
+       }
       ]
      }
+    },
+    {
+     "id": "hum-ge-english",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 1~2과목 3(6)학점: 입학 때 TEPS 점수에 따라 대학영어 1·대학영어 2·고급영어 중 1~2과목",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "영어",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1
+       },
+       {
+        "name": "영어 2과목",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 2,
+        "cond": "입학 때 TEPS 점수에 따라 영어 2과목이 필요할 수 있어요."
+       }
+      ]
+     }
+    },
+    {
+     "id": "hum-ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 15학점: 4개 영역 이상, 언어와 문학·문화와 예술·역사와 철학 영역 권장과목(★) 1과목",
+     "min_count": null,
+     "min_credits": 15,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "학문의 세계",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "prefixes": [
+         "041.",
+         "L0545."
+        ],
+        "area": true
+       },
+       {
+        "name": "문화와 예술",
+        "prefixes": [
+         "042.",
+         "L0546."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사와 철학",
+        "prefixes": [
+         "043.",
+         "L0547."
+        ],
+        "area": true
+       },
+       {
+        "name": "정치와 경제",
+        "prefixes": [
+         "044.",
+         "L0548."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간과 사회",
+        "prefixes": [
+         "045.",
+         "L0549."
+        ],
+        "area": true
+       },
+       {
+        "name": "자연과 기술",
+        "prefixes": [
+         "046.",
+         "L0550."
+        ],
+        "area": true
+       },
+       {
+        "name": "생명과 환경",
+        "prefixes": [
+         "047.",
+         "L0551."
+        ],
+        "area": true
+       },
+       {
+        "name": "권장과목(★)",
+        "codes": [
+         "043.074",
+         "043.075",
+         "041.035",
+         "041.019",
+         "041.032",
+         "041.038",
+         "041.023",
+         "041.025",
+         "042.007",
+         "042.009",
+         "041.022",
+         "042.011",
+         "043.028",
+         "041.033",
+         "L0545.000700",
+         "L0545.000500",
+         "L0545.000600",
+         "041.004",
+         "042.005",
+         "042.016",
+         "L0545.001000",
+         "L0547.001200",
+         "043.004",
+         "L0547.000400",
+         "L0547.001000",
+         "L0547.001800",
+         "043.064",
+         "043.048",
+         "043.041",
+         "043.083",
+         "L0547.002900",
+         "043.047",
+         "043.006",
+         "L0547.001900",
+         "043.076",
+         "L0547.000300",
+         "043.003",
+         "043.049",
+         "043.029",
+         "041.037",
+         "041.040",
+         "041.021",
+         "042.013",
+         "041.029"
+        ],
+        "area": true,
+        "min_count": 1,
+        "also": true
+       }
+      ],
+      "min_areas": 4
+     }
+    },
+    {
+     "id": "hum-ge-world-split",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 배분: 언어와 문학·문화와 예술·역사와 철학 6 이상, 정치와 경제·인간과 사회 3 이상, 자연과 기술·생명과 환경 3 이상(학문의 기초 수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용 1과목으로 대체 가능)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "학문의 세계 배분",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학 · 문화와 예술 · 역사와 철학",
+        "prefixes": [
+         "041.",
+         "L0545.",
+         "042.",
+         "L0546.",
+         "043.",
+         "L0547."
+        ],
+        "area": true,
+        "min_credits": 6
+       },
+       {
+        "name": "정치와 경제 · 인간과 사회",
+        "prefixes": [
+         "044.",
+         "L0548.",
+         "045.",
+         "L0549."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "자연과 기술 · 생명과 환경",
+        "area": true,
+        "min_credits": 3,
+        "prefixes": [
+         "046.",
+         "L0550.",
+         "047.",
+         "L0551.",
+         "033.",
+         "L0442.",
+         "034.",
+         "L0443.",
+         "035.",
+         "L0444."
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "hum-ge-select",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택교양 2학점, 그 안에 소그룹 고전원전읽기 1 또는 2 1과목(054.008·054.009)",
+     "min_count": null,
+     "min_credits": 2,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "선택교양",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "선택교양",
+        "prefixes": [
+         "051.",
+         "052.",
+         "053.",
+         "054.",
+         "055.",
+         "L0652.",
+         "L0653.",
+         "L0654.",
+         "L0655.",
+         "L0656."
+        ],
+        "area": true
+       },
+       {
+        "name": "소그룹 고전원전읽기",
+        "codes": [
+         "054.008",
+         "054.009"
+        ],
+        "area": true,
+        "min_count": 1,
+        "also": true
+       }
+      ]
+     }
+    },
+    {
+     "id": "hum-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 3학점(영어를 2과목 들으면 그만큼 줄어든다)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "자유 선택 교양",
+     "sum": {
+      "of": "ge",
+      "after": 33
+     },
+     "auto": "humanities"
+    },
+    {
+     "id": "hum-life",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "삶과 인문학(100.165, 1학점, 일선) 수강 의무: 인문대 신입생만(복수전공·편입·전과·자유전공학부 학생 미적용)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "100.165",
+       "name": "삶과 인문학",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "삶과 인문학"
+    },
+    {
+     "id": "hum-foreign-taught",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌 3과목 이상(서울대 개설 과목, 대학영어 같은 외국어 진행 교양 포함, 국외수학 불인정)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "외국어진행강좌"
     }
    ],
-   "note": "2026학번도 같음(학부 규정에 2025·2026 변경 없음, 상세본은 25학번 교양 변화만 적음)."
+   "note": "2026학번도 같음(학부 규정에 2025·2026 변경 없음, 상세본은 25학번 교양 변화만 적음).",
+   "split": "인문대학 공통 교양이 학번마다 달라 나눔(update127)"
   },
   {
    "entry_years": [
-    2019,
+    2021,
     2023
    ],
    "basis": "입학 연도(복수전공은 전공 진입 연도: 2023년까지 진입)",
@@ -506,14 +1800,36 @@
      ]
     },
     {
-     "id": "hum-common-ref",
+     "id": "hum-ge-total",
      "type": "ge",
      "applies_to": [
       "single",
       "parallel"
      ],
-     "text": "인문대학 공통(2025학번 교양 36과 인문대 졸업 의무: 제2외국어 9·외국어진행 3과목·소그룹 고전원전읽기·삶과 인문학 세미나) — college_common 참조",
+     "text": "교양 36학점 이상(인문대학 2021~2023학번)",
      "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "교양 학점",
+     "sum": {
+      "of": "ge"
+     },
+     "auto": "humanities"
+    },
+    {
+     "id": "hum-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1 + 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 1)",
+     "min_count": 2,
      "min_credits": null,
      "courses": [],
      "status": "확인",
@@ -522,14 +1838,1471 @@
       "s11"
      ],
      "extra": {
-      "see": [
-       "college_common.requirements"
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "L0440.000600",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "F11.101",
+           "F11.101"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "L0440.000700",
+          "name": "대학 글쓰기 2: 인문학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.201",
+           "F11.201"
+          ]
+         },
+         {
+          "code": "L0440.000800",
+          "name": "대학 글쓰기 2: 사회과학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.202",
+           "F11.202"
+          ]
+         },
+         {
+          "code": "L0440.000900",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.203",
+           "F11.203"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "사고와 표현",
+     "auto": "rule_writing"
+    },
+    {
+     "id": "hum-ge-2ndlang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "제2외국어 9학점(3과목), 그중 중급 이상 1과목 이상. 제2외국어가 전공이면 영어·전공어를 뺀 외국어·고전어",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "제2외국어",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "제2외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 3
+       },
+       {
+        "name": "중급 이상",
+        "codes": [
+         "032.007",
+         "032.008",
+         "032.009",
+         "032.012",
+         "032.013",
+         "032.014",
+         "032.015",
+         "032.016",
+         "032.029",
+         "032.030",
+         "032.031",
+         "032.033",
+         "032.036",
+         "032.037",
+         "032.038",
+         "L0441.00300",
+         "032.040",
+         "032.043",
+         "032.044",
+         "032.046",
+         "032.050",
+         "032.051",
+         "032.052",
+         "032.053",
+         "032.054",
+         "032.056",
+         "032.058",
+         "032.068",
+         "032.070",
+         "032.074",
+         "032.076",
+         "032.072",
+         "032.064",
+         "032.065",
+         "032.066",
+         "032.078",
+         "032.080"
+        ],
+        "area": true,
+        "min_count": 1,
+        "also": true
+       }
+      ],
+      "not_counted": [
+       {
+        "code": "L0441.000600",
+        "name": "대학영어 1",
+        "credits": 3,
+        "alt_codes": [
+         "F21.101",
+         "F21.101"
+        ]
+       },
+       {
+        "code": "L0441.000700",
+        "name": "대학영어 2: 글쓰기",
+        "credits": 3,
+        "alt_codes": [
+         "F21.201",
+         "F21.201"
+        ]
+       },
+       {
+        "code": "L0441.000800",
+        "name": "대학영어 2: 말하기",
+        "credits": 3,
+        "alt_codes": [
+         "F21.202",
+         "F21.202"
+        ]
+       },
+       {
+        "code": "L0441.000900",
+        "name": "고급영어: 산문",
+        "credits": 3,
+        "alt_codes": [
+         "F21.304",
+         "F21.304"
+        ]
+       },
+       {
+        "code": "L0441.001000",
+        "name": "고급영어: 학술작문",
+        "credits": 3,
+        "alt_codes": [
+         "F21.307",
+         "F21.307"
+        ]
+       },
+       {
+        "code": "L0441.001100",
+        "name": "고급영어: 영화",
+        "credits": 3,
+        "alt_codes": [
+         "F21.306",
+         "F21.306"
+        ]
+       },
+       {
+        "code": "L0441.001200",
+        "name": "고급영어: 연극",
+        "credits": 3,
+        "alt_codes": [
+         "F21.305",
+         "F21.305"
+        ]
+       },
+       {
+        "code": "L0441.001300",
+        "name": "고급영어: 문화와 사회",
+        "credits": 3,
+        "alt_codes": [
+         "F21.302",
+         "F21.302"
+        ]
+       },
+       {
+        "code": "L0441.001400",
+        "name": "고급영어: 발표",
+        "credits": 3,
+        "alt_codes": [
+         "F21.303",
+         "F21.303"
+        ]
+       },
+       {
+        "code": "L0441.001500",
+        "name": "고급영어: 문학",
+        "credits": 3,
+        "alt_codes": [
+         "F21.301",
+         "F21.301"
+        ]
+       },
+       {
+        "code": "L0441.000400",
+        "name": "기초영어",
+        "credits": 2,
+        "alt_codes": [
+         "F21.100",
+         "F21.100"
+        ]
+       }
       ]
      }
+    },
+    {
+     "id": "hum-ge-english",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 1~2과목 3(6)학점: 입학 때 TEPS 점수에 따라 대학영어 1·대학영어 2·고급영어 중 1~2과목",
+     "min_count": 1,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "영어",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1
+       },
+       {
+        "name": "영어 2과목",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 2,
+        "cond": "입학 때 TEPS 점수에 따라 영어 2과목이 필요할 수 있어요."
+       }
+      ]
+     }
+    },
+    {
+     "id": "hum-ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 15학점: 4개 영역 이상, 언어와 문학·문화와 예술·역사와 철학 영역 권장과목(★) 1과목",
+     "min_count": null,
+     "min_credits": 15,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "학문의 세계",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "prefixes": [
+         "041.",
+         "L0545."
+        ],
+        "area": true
+       },
+       {
+        "name": "문화와 예술",
+        "prefixes": [
+         "042.",
+         "L0546."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사와 철학",
+        "prefixes": [
+         "043.",
+         "L0547."
+        ],
+        "area": true
+       },
+       {
+        "name": "정치와 경제",
+        "prefixes": [
+         "044.",
+         "L0548."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간과 사회",
+        "prefixes": [
+         "045.",
+         "L0549."
+        ],
+        "area": true
+       },
+       {
+        "name": "자연과 기술",
+        "prefixes": [
+         "046.",
+         "L0550."
+        ],
+        "area": true
+       },
+       {
+        "name": "생명과 환경",
+        "prefixes": [
+         "047.",
+         "L0551."
+        ],
+        "area": true
+       },
+       {
+        "name": "권장과목(★)",
+        "codes": [
+         "043.074",
+         "043.075",
+         "041.035",
+         "041.019",
+         "041.032",
+         "041.038",
+         "041.023",
+         "041.025",
+         "042.007",
+         "042.009",
+         "041.022",
+         "042.011",
+         "043.028",
+         "041.033",
+         "L0545.000700",
+         "L0545.000500",
+         "L0545.000600",
+         "041.004",
+         "042.005",
+         "042.016",
+         "L0545.001000",
+         "L0547.001200",
+         "043.004",
+         "L0547.000400",
+         "L0547.001000",
+         "L0547.001800",
+         "043.064",
+         "043.048",
+         "043.041",
+         "043.083",
+         "L0547.002900",
+         "043.047",
+         "043.006",
+         "L0547.001900",
+         "043.076",
+         "L0547.000300",
+         "043.003",
+         "043.049",
+         "043.029",
+         "041.037",
+         "041.040",
+         "041.021",
+         "042.013",
+         "041.029"
+        ],
+        "area": true,
+        "min_count": 1,
+        "also": true
+       }
+      ],
+      "min_areas": 4
+     }
+    },
+    {
+     "id": "hum-ge-world-split",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 배분: 언어와 문학·문화와 예술·역사와 철학 6 이상, 정치와 경제·인간과 사회 3 이상, 자연과 기술·생명과 환경 3 이상(학문의 기초 수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용 1과목으로 대체 가능)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "학문의 세계 배분",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학 · 문화와 예술 · 역사와 철학",
+        "prefixes": [
+         "041.",
+         "L0545.",
+         "042.",
+         "L0546.",
+         "043.",
+         "L0547."
+        ],
+        "area": true,
+        "min_credits": 6
+       },
+       {
+        "name": "정치와 경제 · 인간과 사회",
+        "prefixes": [
+         "044.",
+         "L0548.",
+         "045.",
+         "L0549."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "자연과 기술 · 생명과 환경",
+        "area": true,
+        "min_credits": 3,
+        "prefixes": [
+         "046.",
+         "L0550.",
+         "047.",
+         "L0551.",
+         "033.",
+         "L0442.",
+         "034.",
+         "L0443.",
+         "035.",
+         "L0444."
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "hum-ge-select",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택교양 2학점, 그 안에 소그룹 고전원전읽기 1 또는 2 1과목(054.008·054.009)",
+     "min_count": null,
+     "min_credits": 2,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "선택교양",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "선택교양",
+        "prefixes": [
+         "051.",
+         "052.",
+         "053.",
+         "054.",
+         "055.",
+         "L0652.",
+         "L0653.",
+         "L0654.",
+         "L0655.",
+         "L0656."
+        ],
+        "area": true
+       },
+       {
+        "name": "소그룹 고전원전읽기",
+        "codes": [
+         "054.008",
+         "054.009"
+        ],
+        "area": true,
+        "min_count": 1,
+        "also": true
+       }
+      ]
+     }
+    },
+    {
+     "id": "hum-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 3학점(영어를 2과목 들으면 그만큼 줄어든다)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "자유 선택 교양",
+     "sum": {
+      "of": "ge",
+      "after": 33
+     },
+     "auto": "humanities"
+    },
+    {
+     "id": "hum-life",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "삶과 인문학(100.165, 1학점, 일선) 수강 의무: 인문대 신입생만(복수전공·편입·전과·자유전공학부 학생 미적용)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "100.165",
+       "name": "삶과 인문학",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "삶과 인문학"
+    },
+    {
+     "id": "hum-foreign-taught",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌 3과목 이상(서울대 개설 과목, 대학영어 같은 외국어 진행 교양 포함, 국외수학 불인정)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "외국어진행강좌"
     }
    ],
    "changed": "타 세부전공 과목 1과목 필수 규정 없음(2024학번·2024년 진입부터).",
-   "note": "학번별 기준표(2020-12 작성)는 2019~ 를 한 줄로 묶는다(2018~ 와 다른 것은 부전공 전필 해제)."
+   "note": "학번별 기준표(2020-12 작성)는 2019~ 를 한 줄로 묶는다(2018~ 와 다른 것은 부전공 전필 해제).",
+   "split": "인문대학 공통 교양이 학번마다 달라 나눔(update127)"
+  },
+  {
+   "entry_years": [
+    2019,
+    2020
+   ],
+   "basis": "입학 연도(복수전공은 전공 진입 연도: 2023년까지 진입)",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": null,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "확인",
+    "src": [
+     "s20"
+    ]
+   },
+   "status": "확인",
+   "src": [
+    "s21",
+    "s22"
+   ],
+   "requirements": [
+    {
+     "id": "asia-core",
+     "type": "major_required",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "전공필수 2과목: 아시아문명론입문, 아시아연구지도(아시아연구지도는 18학번부터 전필)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "1003.221",
+       "name": "아시아문명론입문",
+       "credits": 3
+      },
+      {
+       "code": "M2641.000300",
+       "name": "아시아연구지도",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s3",
+      "s4",
+      "s5"
+     ]
+    },
+    {
+     "id": "asia-must-pair",
+     "type": "other",
+     "applies_to": [
+      "parallel"
+     ],
+     "text": "단일전공 불가: 주전공 39학점과 함께 복수전공 또는 부전공 하나를 반드시 이수(학부 안 다른 세부전공도 가능)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s2",
+      "s7"
+     ]
+    },
+    {
+     "id": "asia-main-lang",
+     "type": "other",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "주이수 언어 3과목(교양·전공 합산, 필수이수 교과목 1개 이상) — 일본어",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s2"
+     ],
+     "note": "필수이수·인정 교과목 목록은 첨부 xlsx(못 엶). 2015학번~."
+    },
+    {
+     "id": "asia-2ndlang",
+     "type": "other",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "제2외국어 9학점(중급 1과목 포함, 주이수 언어 외). 동남아·인도·서아시아 전공은 자기 지역 언어 교양도 제2외국어로 인정. 복수전공생은 인문대 소속에만 적용, 자유전공학부 출신은 영어 외 1과목 C- 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s8",
+      "s2"
+     ]
+    },
+    {
+     "id": "asia-elective-credit",
+     "type": "major_elective",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "전공선택 인정교과목: 고고미술사학과·역사학부·언어학과·종교학과 등 지정 16과목 중 3과목 이내(목록 세부는 못 옮김)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "asia-external-cap",
+     "type": "other",
+     "applies_to": [
+      "parallel",
+      "double",
+      "minor"
+     ],
+     "text": "타 대학·타 과(부) 개설 과목 합산 인정 한도: 주전공·복수전공 13학점, 부전공 10학점(2020-1부터)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "이수규정은 부전공 10, 졸업요건 상세본 요약은 11."
+    },
+    {
+     "id": "asia-foreign-taught",
+     "type": "other",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "외국어진행 3과목(교양·전공·일선 무관). SWP 는 인정, 국외수학 과목은 불인정",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "asia-thesis",
+     "type": "thesis",
+     "applies_to": [
+      "parallel",
+      "double"
+     ],
+     "text": "졸업논문 심사 합격(학사학위 졸업논문 집필요령 별도)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s2",
+      "s9"
+     ]
+    },
+    {
+     "id": "asia-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전필 2과목 포함 39학점(진입 연도 기준)",
+     "min_count": 2,
+     "min_credits": 39,
+     "courses": [
+      {
+       "code": "1003.221",
+       "name": "아시아문명론입문",
+       "credits": 3
+      },
+      {
+       "code": "M2641.000300",
+       "name": "아시아연구지도",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "asia-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 21학점, 2019-1 진입부터 전공필수 없음(2018-2 이전 진입자는 아시아문명론입문)",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ]
+    },
+    {
+     "id": "hum-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(인문대학 2019~2020학번)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "교양 학점",
+     "sum": {
+      "of": "ge"
+     },
+     "auto": "humanities"
+    },
+    {
+     "id": "hum-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "사고와 표현 4학점: 대학 글쓰기 1 + 대학 글쓰기 2(인문학·사회과학·과학기술 글쓰기 중 1)",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "L0440.000600",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "F11.101",
+           "F11.101"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "L0440.000700",
+          "name": "대학 글쓰기 2: 인문학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.201",
+           "F11.201"
+          ]
+         },
+         {
+          "code": "L0440.000800",
+          "name": "대학 글쓰기 2: 사회과학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.202",
+           "F11.202"
+          ]
+         },
+         {
+          "code": "L0440.000900",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "F11.203",
+           "F11.203"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "사고와 표현",
+     "auto": "rule_writing"
+    },
+    {
+     "id": "hum-ge-2ndlang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "제2외국어 9학점(3과목), 그중 중급 이상 1과목 이상. 제2외국어가 전공이면 영어·전공어를 뺀 외국어·고전어",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "제2외국어",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "제2외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 3
+       },
+       {
+        "name": "중급 이상",
+        "codes": [
+         "032.007",
+         "032.008",
+         "032.009",
+         "032.012",
+         "032.013",
+         "032.014",
+         "032.015",
+         "032.016",
+         "032.029",
+         "032.030",
+         "032.031",
+         "032.033",
+         "032.036",
+         "032.037",
+         "032.038",
+         "L0441.00300",
+         "032.040",
+         "032.043",
+         "032.044",
+         "032.046",
+         "032.050",
+         "032.051",
+         "032.052",
+         "032.053",
+         "032.054",
+         "032.056",
+         "032.058",
+         "032.068",
+         "032.070",
+         "032.074",
+         "032.076",
+         "032.072",
+         "032.064",
+         "032.065",
+         "032.066",
+         "032.078",
+         "032.080"
+        ],
+        "area": true,
+        "min_count": 1,
+        "also": true
+       }
+      ],
+      "not_counted": [
+       {
+        "code": "L0441.000600",
+        "name": "대학영어 1",
+        "credits": 3,
+        "alt_codes": [
+         "F21.101",
+         "F21.101"
+        ]
+       },
+       {
+        "code": "L0441.000700",
+        "name": "대학영어 2: 글쓰기",
+        "credits": 3,
+        "alt_codes": [
+         "F21.201",
+         "F21.201"
+        ]
+       },
+       {
+        "code": "L0441.000800",
+        "name": "대학영어 2: 말하기",
+        "credits": 3,
+        "alt_codes": [
+         "F21.202",
+         "F21.202"
+        ]
+       },
+       {
+        "code": "L0441.000900",
+        "name": "고급영어: 산문",
+        "credits": 3,
+        "alt_codes": [
+         "F21.304",
+         "F21.304"
+        ]
+       },
+       {
+        "code": "L0441.001000",
+        "name": "고급영어: 학술작문",
+        "credits": 3,
+        "alt_codes": [
+         "F21.307",
+         "F21.307"
+        ]
+       },
+       {
+        "code": "L0441.001100",
+        "name": "고급영어: 영화",
+        "credits": 3,
+        "alt_codes": [
+         "F21.306",
+         "F21.306"
+        ]
+       },
+       {
+        "code": "L0441.001200",
+        "name": "고급영어: 연극",
+        "credits": 3,
+        "alt_codes": [
+         "F21.305",
+         "F21.305"
+        ]
+       },
+       {
+        "code": "L0441.001300",
+        "name": "고급영어: 문화와 사회",
+        "credits": 3,
+        "alt_codes": [
+         "F21.302",
+         "F21.302"
+        ]
+       },
+       {
+        "code": "L0441.001400",
+        "name": "고급영어: 발표",
+        "credits": 3,
+        "alt_codes": [
+         "F21.303",
+         "F21.303"
+        ]
+       },
+       {
+        "code": "L0441.001500",
+        "name": "고급영어: 문학",
+        "credits": 3,
+        "alt_codes": [
+         "F21.301",
+         "F21.301"
+        ]
+       },
+       {
+        "code": "L0441.000400",
+        "name": "기초영어",
+        "credits": 2,
+        "alt_codes": [
+         "F21.100",
+         "F21.100"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "hum-ge-english",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "영어 1~2과목 2(4)학점: 입학 때 TEPS 점수에 따라 대학영어 1·대학영어 2·고급영어 중 1~2과목",
+     "min_count": 1,
+     "min_credits": 2,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "영어",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1
+       },
+       {
+        "name": "영어 2과목",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 2,
+        "cond": "입학 때 TEPS 점수에 따라 영어 2과목이 필요할 수 있어요."
+       }
+      ]
+     }
+    },
+    {
+     "id": "hum-ge-world",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 15학점: 4개 영역 이상, 언어와 문학·문화와 예술·역사와 철학 영역 권장과목(★) 1과목",
+     "min_count": null,
+     "min_credits": 15,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "학문의 세계",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "prefixes": [
+         "041.",
+         "L0545."
+        ],
+        "area": true
+       },
+       {
+        "name": "문화와 예술",
+        "prefixes": [
+         "042.",
+         "L0546."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사와 철학",
+        "prefixes": [
+         "043.",
+         "L0547."
+        ],
+        "area": true
+       },
+       {
+        "name": "정치와 경제",
+        "prefixes": [
+         "044.",
+         "L0548."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간과 사회",
+        "prefixes": [
+         "045.",
+         "L0549."
+        ],
+        "area": true
+       },
+       {
+        "name": "자연과 기술",
+        "prefixes": [
+         "046.",
+         "L0550."
+        ],
+        "area": true
+       },
+       {
+        "name": "생명과 환경",
+        "prefixes": [
+         "047.",
+         "L0551."
+        ],
+        "area": true
+       },
+       {
+        "name": "권장과목(★)",
+        "codes": [
+         "043.074",
+         "043.075",
+         "041.035",
+         "041.019",
+         "041.032",
+         "041.038",
+         "041.023",
+         "041.025",
+         "042.007",
+         "042.009",
+         "041.022",
+         "042.011",
+         "043.028",
+         "041.033",
+         "L0545.000700",
+         "L0545.000500",
+         "L0545.000600",
+         "041.004",
+         "042.005",
+         "042.016",
+         "L0545.001000",
+         "L0547.001200",
+         "043.004",
+         "L0547.000400",
+         "L0547.001000",
+         "L0547.001800",
+         "043.064",
+         "043.048",
+         "043.041",
+         "043.083",
+         "L0547.002900",
+         "043.047",
+         "043.006",
+         "L0547.001900",
+         "043.076",
+         "L0547.000300",
+         "043.003",
+         "043.049",
+         "043.029",
+         "041.037",
+         "041.040",
+         "041.021",
+         "042.013",
+         "041.029"
+        ],
+        "area": true,
+        "min_count": 1,
+        "also": true
+       }
+      ],
+      "min_areas": 4
+     }
+    },
+    {
+     "id": "hum-ge-world-split",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "학문의 세계 배분: 언어와 문학·문화와 예술·역사와 철학 6 이상, 정치와 경제·인간과 사회 3 이상, 자연과 기술·생명과 환경 3 이상(학문의 기초 수량적 분석과 추론·과학적 사고와 실험·컴퓨터와 정보 활용 1과목으로 대체 가능)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "학문의 세계 배분",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학 · 문화와 예술 · 역사와 철학",
+        "prefixes": [
+         "041.",
+         "L0545.",
+         "042.",
+         "L0546.",
+         "043.",
+         "L0547."
+        ],
+        "area": true,
+        "min_credits": 6
+       },
+       {
+        "name": "정치와 경제 · 인간과 사회",
+        "prefixes": [
+         "044.",
+         "L0548.",
+         "045.",
+         "L0549."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "자연과 기술 · 생명과 환경",
+        "area": true,
+        "min_credits": 3,
+        "prefixes": [
+         "046.",
+         "L0550.",
+         "047.",
+         "L0551.",
+         "033.",
+         "L0442.",
+         "034.",
+         "L0443.",
+         "035.",
+         "L0444."
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "id": "hum-ge-select",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "선택교양 2학점, 그 안에 소그룹 고전원전읽기 1 또는 2 1과목(054.008·054.009)",
+     "min_count": null,
+     "min_credits": 2,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "선택교양",
+     "auto": "humanities",
+     "extra": {
+      "groups": [
+       {
+        "name": "선택교양",
+        "prefixes": [
+         "051.",
+         "052.",
+         "053.",
+         "054.",
+         "055.",
+         "L0652.",
+         "L0653.",
+         "L0654.",
+         "L0655.",
+         "L0656."
+        ],
+        "area": true
+       },
+       {
+        "name": "소그룹 고전원전읽기",
+        "codes": [
+         "054.008",
+         "054.009"
+        ],
+        "area": true,
+        "min_count": 1,
+        "also": true
+       }
+      ]
+     }
+    },
+    {
+     "id": "hum-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 4학점(영어를 2과목 들으면 그만큼 줄어든다)",
+     "min_count": null,
+     "min_credits": 4,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "자유 선택 교양",
+     "sum": {
+      "of": "ge",
+      "after": 32
+     },
+     "auto": "humanities"
+    },
+    {
+     "id": "hum-life",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "삶과 인문학(100.165, 1학점, 일선) 수강 의무: 인문대 신입생만(복수전공·편입·전과·자유전공학부 학생 미적용)",
+     "min_count": 1,
+     "min_credits": null,
+     "courses": [
+      {
+       "code": "100.165",
+       "name": "삶과 인문학",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "삶과 인문학"
+    },
+    {
+     "id": "hum-foreign-taught",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌 3과목 이상(서울대 개설 과목, 대학영어 같은 외국어 진행 교양 포함, 국외수학 불인정)",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11"
+     ],
+     "name": "외국어진행강좌"
+    }
+   ],
+   "changed": "타 세부전공 과목 1과목 필수 규정 없음(2024학번·2024년 진입부터).",
+   "note": "학번별 기준표(2020-12 작성)는 2019~ 를 한 줄로 묶는다(2018~ 와 다른 것은 부전공 전필 해제).",
+   "split": "인문대학 공통 교양이 학번마다 달라 나눔(update127)"
   }
  ],
  "change_points": [

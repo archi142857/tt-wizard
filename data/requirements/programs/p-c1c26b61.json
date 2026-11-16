@@ -478,7 +478,9 @@
      "status": "확인",
      "src": [
       "s23"
-     ]
+     ],
+     "same_as": "grad-gpa",
+     "auto": "rule_gpa"
     },
     {
      "id": "sti-ge-writing",
@@ -534,7 +536,38 @@
       "s25",
       "s26",
       "s27"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "F21.",
+         "F22.",
+         "F23.",
+         "F24.",
+         "F25.",
+         "F26.",
+         "F27.",
+         "F28.",
+         "F29."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "prefixes": [
+         "F21."
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "sti-ge-math",
@@ -751,7 +784,7 @@
       "parallel"
      ],
      "text": "학문의 토대 수학·과학·컴퓨팅 20학점 이상(영역 필수: 수학 1과목 이상, 과학 두 분야 각 1과목 이상, 컴퓨팅 1과목 이상)",
-     "min_count": 4,
+     "min_count": null,
      "min_credits": 20,
      "courses": [],
      "status": "확인",
@@ -759,7 +792,96 @@
       "s27",
       "s6"
      ],
-     "note": "2025학번 판의 '세 영역 각 1과목 + 3과목 이상 더' 문구는 2026 판에 없고 학점 20만 남았다. 중복 인정 안 되는 과목은 한 과목만 필수 학점으로 셈하고 나머지는 전체 교양 학점으로(2026 판 주석)."
+     "note": "2025학번 판의 '세 영역 각 1과목 + 3과목 이상 더' 문구는 2026 판에 없고 학점 20만 남았다. 중복 인정 안 되는 과목은 한 과목만 필수 학점으로 셈하고 나머지는 전체 교양 학점으로(2026 판 주석).",
+     "name": "수학·과학·컴퓨팅",
+     "extra": {
+      "groups": [
+       {
+        "name": "수학·과학·컴퓨팅",
+        "prefixes": [
+         "F31.",
+         "F32.",
+         "F33.",
+         "F34.",
+         "F35.",
+         "F36.",
+         "F37."
+        ],
+        "area": true
+       },
+       {
+        "name": "수학",
+        "prefixes": [
+         "F31.",
+         "F32."
+        ],
+        "area": true,
+        "min_count": 1
+       },
+       {
+        "name": "컴퓨팅",
+        "prefixes": [
+         "F37."
+        ],
+        "area": true,
+        "min_count": 1
+       }
+      ]
+     },
+     "auto": "rule_msc"
+    },
+    {
+     "id": "sti-ge-msc-total-science",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "과학 두 분야에서 각 1과목 이상(물리·화학·생물·지구과학)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s27",
+      "s6"
+     ],
+     "note": "2025학번 판의 '세 영역 각 1과목 + 3과목 이상 더' 문구는 2026 판에 없고 학점 20만 남았다. 중복 인정 안 되는 과목은 한 과목만 필수 학점으로 셈하고 나머지는 전체 교양 학점으로(2026 판 주석).",
+     "name": "과학 두 분야",
+     "extra": {
+      "groups": [
+       {
+        "name": "물리",
+        "prefixes": [
+         "F33."
+        ],
+        "area": true
+       },
+       {
+        "name": "화학",
+        "prefixes": [
+         "F34."
+        ],
+        "area": true
+       },
+       {
+        "name": "생물",
+        "prefixes": [
+         "F35."
+        ],
+        "area": true
+       },
+       {
+        "name": "지구과학",
+        "prefixes": [
+         "F36."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 2
+     },
+     "auto": "rule_msc"
     },
     {
      "id": "sti-ge-major-credit",
@@ -808,8 +930,8 @@
       "parallel"
      ],
      "text": "지성의 열쇠 4개 영역 각 3학점(문화 해석과 상상, 역사적 탐구와 철학적 사유, 인간의 이해와 사회 분석, 과학적 사고와 응용) = 12",
-     "min_count": 4,
-     "min_credits": 12,
+     "min_count": null,
+     "min_credits": 3,
      "courses": [],
      "status": "확인",
      "src": [
@@ -817,7 +939,45 @@
       "s25",
       "s26",
       "s27"
-     ]
+     ],
+     "name": "지성의 열쇠",
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "prefixes": [
+         "C10."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "prefixes": [
+         "C20."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "prefixes": [
+         "C30."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "과학적 사고와 응용",
+        "prefixes": [
+         "C40."
+        ],
+        "area": true,
+        "min_credits": 3
+       }
+      ]
+     },
+     "auto": "rule_keys"
     },
     {
      "id": "sti-ge-veritas",
@@ -834,7 +994,22 @@
      "src": [
       "s27",
       "s6"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "베리타스",
+        "prefixes": [
+         "V10.",
+         "V20.",
+         "V30."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "베리타스",
+     "auto": "rule_veritas"
     },
     {
      "id": "ips-minor",
@@ -1380,7 +1555,9 @@
      "status": "확인",
      "src": [
       "s23"
-     ]
+     ],
+     "same_as": "grad-gpa",
+     "auto": "rule_gpa"
     },
     {
      "id": "sti-ge-writing",
@@ -1436,7 +1613,38 @@
       "s25",
       "s26",
       "s27"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "F21.",
+         "F22.",
+         "F23.",
+         "F24.",
+         "F25.",
+         "F26.",
+         "F27.",
+         "F28.",
+         "F29."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "prefixes": [
+         "F21."
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "sti-ge-math",
@@ -1671,7 +1879,41 @@
       "s24",
       "s25",
       "s26"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "수학",
+        "prefixes": [
+         "F31.",
+         "F32."
+        ],
+        "area": true,
+        "min_count": 1
+       },
+       {
+        "name": "과학",
+        "prefixes": [
+         "F33.",
+         "F34.",
+         "F35.",
+         "F36."
+        ],
+        "area": true,
+        "min_count": 1
+       },
+       {
+        "name": "컴퓨팅",
+        "prefixes": [
+         "F37."
+        ],
+        "area": true,
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "수학·과학·컴퓨팅",
+     "auto": "rule_msc"
     },
     {
      "id": "sti-ge-major-credit",
@@ -1720,8 +1962,8 @@
       "parallel"
      ],
      "text": "지성의 열쇠 4개 영역 각 3학점(문화 해석과 상상, 역사적 탐구와 철학적 사유, 인간의 이해와 사회 분석, 과학적 사고와 응용) = 12",
-     "min_count": 4,
-     "min_credits": 12,
+     "min_count": null,
+     "min_credits": 3,
      "courses": [],
      "status": "확인",
      "src": [
@@ -1729,7 +1971,45 @@
       "s25",
       "s26",
       "s27"
-     ]
+     ],
+     "name": "지성의 열쇠",
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "prefixes": [
+         "C10."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "prefixes": [
+         "C20."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "prefixes": [
+         "C30."
+        ],
+        "area": true,
+        "min_credits": 3
+       },
+       {
+        "name": "과학적 사고와 응용",
+        "prefixes": [
+         "C40."
+        ],
+        "area": true,
+        "min_credits": 3
+       }
+      ]
+     },
+     "auto": "rule_keys"
     },
     {
      "id": "sti-ge-veritas",
@@ -2327,7 +2607,9 @@
      "status": "확인",
      "src": [
       "s23"
-     ]
+     ],
+     "same_as": "grad-gpa",
+     "auto": "rule_gpa"
     },
     {
      "id": "sti-ge-writing",
@@ -2391,7 +2673,40 @@
       "s25",
       "s26",
       "s27"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "sti-ge-math",
@@ -2739,7 +3054,40 @@
      "src": [
       "s45",
       "s46"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "수량적 분석과 추론",
+        "prefixes": [
+         "033.",
+         "L0442."
+        ],
+        "area": true,
+        "min_count": 1
+       },
+       {
+        "name": "과학적 사고와 실험",
+        "prefixes": [
+         "034.",
+         "L0443."
+        ],
+        "area": true,
+        "min_count": 1
+       },
+       {
+        "name": "컴퓨터와 정보 활용",
+        "prefixes": [
+         "035.",
+         "L0444."
+        ],
+        "area": true,
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "학문의 기초",
+     "auto": "rule_basics"
     },
     {
      "id": "sti-ge-major-credit",

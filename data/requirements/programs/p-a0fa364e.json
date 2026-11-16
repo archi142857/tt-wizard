@@ -63,7 +63,206 @@
       "s1",
       "s2"
      ],
-     "note": "전체 교양 칸 학점 없음(4+6+20+9+3=42)."
+     "note": "전체 교양 칸 학점 없음(4+6+20+9+3=42).",
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_composite"
+    },
+    {
+     "id": "smart-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 1)",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "전체 교양 칸 학점 없음(4+6+20+9+3=42).",
+     "extra": {
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "F11.101",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000600"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "F11.201",
+          "name": "대학 글쓰기 2: 인문학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000700"
+          ]
+         },
+         {
+          "code": "F11.202",
+          "name": "대학 글쓰기 2: 사회과학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000800"
+          ]
+         },
+         {
+          "code": "F11.203",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000900"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "글쓰기와 말하기",
+     "auto": "rule_composite"
+    },
+    {
+     "id": "smart-ge-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "전체 교양 칸 학점 없음(4+6+20+9+3=42).",
+     "name": "외국어",
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "F21.",
+         "F22.",
+         "F23.",
+         "F24.",
+         "F25.",
+         "F26.",
+         "F27.",
+         "F28.",
+         "F29."
+        ],
+        "area": true,
+        "min_count": 2
+       }
+      ]
+     },
+     "auto": "rule_composite"
+    },
+    {
+     "id": "smart-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 4개 영역 중 3개 영역 이상",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "전체 교양 칸 학점 없음(4+6+20+9+3=42).",
+     "name": "지성의 열쇠",
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "prefixes": [
+         "C10."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "prefixes": [
+         "C20."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "prefixes": [
+         "C30."
+        ],
+        "area": true
+       },
+       {
+        "name": "과학적 사고와 응용",
+        "prefixes": [
+         "C40."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 3
+     },
+     "auto": "rule_composite"
+    },
+    {
+     "id": "smart-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "전체 교양 칸 학점 없음(4+6+20+9+3=42).",
+     "name": "베리타스",
+     "extra": {
+      "groups": [
+       {
+        "name": "베리타스",
+        "prefixes": [
+         "V10.",
+         "V20.",
+         "V30."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "auto": "rule_composite"
     },
     {
      "id": "smart-core-seen",

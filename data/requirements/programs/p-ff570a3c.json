@@ -164,7 +164,14 @@
      "src": [
       "s1",
       "s2"
-     ]
+     ],
+     "sum": {
+      "of": "major",
+      "cls": [
+       "전필"
+      ]
+     },
+     "auto": "rule_major_sum"
     },
     {
      "id": "alc-double",

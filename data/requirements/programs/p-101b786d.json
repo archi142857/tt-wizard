@@ -350,7 +350,12 @@
      "status": "확인",
      "src": [
       "s6"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "ge-writing",
@@ -416,7 +421,38 @@
      "status": "확인",
      "src": [
       "s6"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "F21.",
+         "F22.",
+         "F23.",
+         "F24.",
+         "F25.",
+         "F26.",
+         "F27.",
+         "F28.",
+         "F29."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "prefixes": [
+         "F21."
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "ge-msc",
@@ -432,7 +468,26 @@
      "status": "확인",
      "src": [
       "s6"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "수학·과학·컴퓨팅",
+        "prefixes": [
+         "F31.",
+         "F32.",
+         "F33.",
+         "F34.",
+         "F35.",
+         "F36.",
+         "F37."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "수학·과학·컴퓨팅",
+     "auto": "rule_msc"
     },
     {
      "id": "ge-keys",
@@ -449,7 +504,7 @@
      "src": [
       "s6"
      ],
-     "extra": {
+     "extra_research": {
       "distribution": {
        "areas": [
         "문화 해석과 상상",
@@ -459,7 +514,42 @@
        ],
        "min_areas": 3
       }
-     }
+     },
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "prefixes": [
+         "C10."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "prefixes": [
+         "C20."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "prefixes": [
+         "C30."
+        ],
+        "area": true
+       },
+       {
+        "name": "과학적 사고와 응용",
+        "prefixes": [
+         "C40."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 3
+     },
+     "name": "지성의 열쇠",
+     "auto": "rule_keys"
     },
     {
      "id": "ge-veritas",
@@ -475,7 +565,22 @@
      "status": "확인",
      "src": [
       "s6"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "베리타스",
+        "prefixes": [
+         "V10.",
+         "V20.",
+         "V30."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "베리타스",
+     "auto": "rule_veritas"
     },
     {
      "id": "ge-free",
@@ -491,7 +596,13 @@
      "status": "확인",
      "src": [
       "s6"
-     ]
+     ],
+     "sum": {
+      "of": "ge",
+      "after": 25
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     }
    ],
    "note": "1차 2025학번 요건 그대로. 2026학번도 같다."
@@ -820,7 +931,12 @@
       "s12",
       "s13",
       "s14"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "ge-writing",
@@ -885,7 +1001,7 @@
      ],
      "text": "외국어 2개 교과목: 2021~2024학번 6학점, 2019·2020학번 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
      "min_count": 2,
-     "min_credits": null,
+     "min_credits": 6,
      "courses": [],
      "status": "확인",
      "src": [
@@ -894,7 +1010,40 @@
       "s13",
       "s14"
      ],
-     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort."
+     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort.",
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "ge-free",
@@ -905,7 +1054,7 @@
      ],
      "text": "전체 교양 교과목 중 자유 선택: 2021~2024학번 14학점, 2019·2020학번 14~16학점(외국어 학점에 따라)",
      "min_count": null,
-     "min_credits": null,
+     "min_credits": 14,
      "courses": [],
      "status": "확인",
      "src": [
@@ -913,7 +1062,13 @@
       "s12",
       "s13",
       "s14"
-     ]
+     ],
+     "sum": {
+      "of": "ge",
+      "after": 22
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     },
     {
      "id": "ge-world",
@@ -932,7 +1087,70 @@
       "s12",
       "s13",
       "s14"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "prefixes": [
+         "041.",
+         "L0545."
+        ],
+        "area": true
+       },
+       {
+        "name": "문화와 예술",
+        "prefixes": [
+         "042.",
+         "L0546."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사와 철학",
+        "prefixes": [
+         "043.",
+         "L0547."
+        ],
+        "area": true
+       },
+       {
+        "name": "정치와 경제",
+        "prefixes": [
+         "044.",
+         "L0548."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간과 사회",
+        "prefixes": [
+         "045.",
+         "L0549."
+        ],
+        "area": true
+       },
+       {
+        "name": "자연과 기술",
+        "prefixes": [
+         "046.",
+         "L0550."
+        ],
+        "area": true
+       },
+       {
+        "name": "생명과 환경",
+        "prefixes": [
+         "047.",
+         "L0551."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 4
+     },
+     "name": "학문의 세계",
+     "auto": "rule_world"
     }
    ],
    "changed": "교양만 옛 체계. 전공 요건 같음(74).",
@@ -1273,7 +1491,12 @@
       "s12",
       "s13",
       "s14"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "ge-writing",
@@ -1338,7 +1561,7 @@
      ],
      "text": "외국어 2개 교과목: 2021~2024학번 6학점, 2019·2020학번 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
      "min_count": 2,
-     "min_credits": null,
+     "min_credits": 6,
      "courses": [],
      "status": "확인",
      "src": [
@@ -1347,7 +1570,40 @@
       "s13",
       "s14"
      ],
-     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort."
+     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort.",
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "ge-free",
@@ -1358,7 +1614,7 @@
      ],
      "text": "전체 교양 교과목 중 자유 선택: 2021~2024학번 14학점, 2019·2020학번 14~16학점(외국어 학점에 따라)",
      "min_count": null,
-     "min_credits": null,
+     "min_credits": 14,
      "courses": [],
      "status": "확인",
      "src": [
@@ -1366,7 +1622,13 @@
       "s12",
       "s13",
       "s14"
-     ]
+     ],
+     "sum": {
+      "of": "ge",
+      "after": 22
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     },
     {
      "id": "ge-world",
@@ -1385,7 +1647,70 @@
       "s12",
       "s13",
       "s14"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "prefixes": [
+         "041.",
+         "L0545."
+        ],
+        "area": true
+       },
+       {
+        "name": "문화와 예술",
+        "prefixes": [
+         "042.",
+         "L0546."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사와 철학",
+        "prefixes": [
+         "043.",
+         "L0547."
+        ],
+        "area": true
+       },
+       {
+        "name": "정치와 경제",
+        "prefixes": [
+         "044.",
+         "L0548."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간과 사회",
+        "prefixes": [
+         "045.",
+         "L0549."
+        ],
+        "area": true
+       },
+       {
+        "name": "자연과 기술",
+        "prefixes": [
+         "046.",
+         "L0550."
+        ],
+        "area": true
+       },
+       {
+        "name": "생명과 환경",
+        "prefixes": [
+         "047.",
+         "L0551."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 4
+     },
+     "name": "학문의 세계",
+     "auto": "rule_world"
     }
    ],
    "changed": "전필 78(현대음악사 1·2 포함)."
@@ -1722,7 +2047,12 @@
       "s12",
       "s13",
       "s14"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "ge-writing",
@@ -1787,7 +2117,7 @@
      ],
      "text": "외국어 2개 교과목: 2021~2024학번 6학점, 2019·2020학번 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
      "min_count": 2,
-     "min_credits": null,
+     "min_credits": 6,
      "courses": [],
      "status": "확인",
      "src": [
@@ -1796,7 +2126,40 @@
       "s13",
       "s14"
      ],
-     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort."
+     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort.",
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "ge-free",
@@ -1807,7 +2170,7 @@
      ],
      "text": "전체 교양 교과목 중 자유 선택: 2021~2024학번 14학점, 2019·2020학번 14~16학점(외국어 학점에 따라)",
      "min_count": null,
-     "min_credits": null,
+     "min_credits": 14,
      "courses": [],
      "status": "확인",
      "src": [
@@ -1815,7 +2178,13 @@
       "s12",
       "s13",
       "s14"
-     ]
+     ],
+     "sum": {
+      "of": "ge",
+      "after": 22
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     },
     {
      "id": "ge-world",
@@ -1834,7 +2203,70 @@
       "s12",
       "s13",
       "s14"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "prefixes": [
+         "041.",
+         "L0545."
+        ],
+        "area": true
+       },
+       {
+        "name": "문화와 예술",
+        "prefixes": [
+         "042.",
+         "L0546."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사와 철학",
+        "prefixes": [
+         "043.",
+         "L0547."
+        ],
+        "area": true
+       },
+       {
+        "name": "정치와 경제",
+        "prefixes": [
+         "044.",
+         "L0548."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간과 사회",
+        "prefixes": [
+         "045.",
+         "L0549."
+        ],
+        "area": true
+       },
+       {
+        "name": "자연과 기술",
+        "prefixes": [
+         "046.",
+         "L0550."
+        ],
+        "area": true
+       },
+       {
+        "name": "생명과 환경",
+        "prefixes": [
+         "047.",
+         "L0551."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 4
+     },
+     "name": "학문의 세계",
+     "auto": "rule_world"
     }
    ],
    "changed": "요건은 2022학번과 같고 보컬 스코어 학점 변경 탓에 합계만 77."
@@ -2173,7 +2605,12 @@
       "s12",
       "s13",
       "s14"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "ge-writing",
@@ -2238,7 +2675,7 @@
      ],
      "text": "외국어 2개 교과목: 2021~2024학번 6학점, 2019·2020학번 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
      "min_count": 2,
-     "min_credits": null,
+     "min_credits": 4,
      "courses": [],
      "status": "확인",
      "src": [
@@ -2247,7 +2684,40 @@
       "s13",
       "s14"
      ],
-     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort."
+     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort.",
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "ge-free",
@@ -2258,7 +2728,7 @@
      ],
      "text": "전체 교양 교과목 중 자유 선택: 2021~2024학번 14학점, 2019·2020학번 14~16학점(외국어 학점에 따라)",
      "min_count": null,
-     "min_credits": null,
+     "min_credits": 14,
      "courses": [],
      "status": "확인",
      "src": [
@@ -2266,7 +2736,13 @@
       "s12",
       "s13",
       "s14"
-     ]
+     ],
+     "sum": {
+      "of": "ge",
+      "after": 22
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     },
     {
      "id": "ge-world",
@@ -2285,7 +2761,70 @@
       "s12",
       "s13",
       "s14"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "prefixes": [
+         "041.",
+         "L0545."
+        ],
+        "area": true
+       },
+       {
+        "name": "문화와 예술",
+        "prefixes": [
+         "042.",
+         "L0546."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사와 철학",
+        "prefixes": [
+         "043.",
+         "L0547."
+        ],
+        "area": true
+       },
+       {
+        "name": "정치와 경제",
+        "prefixes": [
+         "044.",
+         "L0548."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간과 사회",
+        "prefixes": [
+         "045.",
+         "L0549."
+        ],
+        "area": true
+       },
+       {
+        "name": "자연과 기술",
+        "prefixes": [
+         "046.",
+         "L0550."
+        ],
+        "area": true
+       },
+       {
+        "name": "생명과 환경",
+        "prefixes": [
+         "047.",
+         "L0551."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 4
+     },
+     "name": "학문의 세계",
+     "auto": "rule_world"
     }
    ],
    "changed": "요건은 2021학번과 같고 합계 75."
@@ -2606,7 +3145,12 @@
       "s12",
       "s13",
       "s14"
-     ]
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
     },
     {
      "id": "ge-writing",
@@ -2671,7 +3215,7 @@
      ],
      "text": "외국어 2개 교과목: 2021~2024학번 6학점, 2019·2020학번 4~6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
      "min_count": 2,
-     "min_credits": null,
+     "min_credits": 4,
      "courses": [],
      "status": "확인",
      "src": [
@@ -2680,7 +3224,40 @@
       "s13",
       "s14"
      ],
-     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort."
+     "note": "학번에 따라 최소 학점이 달라 min_credits 는 비웠다. 정확한 값은 college_common.ge_by_cohort.",
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "ge-free",
@@ -2691,7 +3268,7 @@
      ],
      "text": "전체 교양 교과목 중 자유 선택: 2021~2024학번 14학점, 2019·2020학번 14~16학점(외국어 학점에 따라)",
      "min_count": null,
-     "min_credits": null,
+     "min_credits": 14,
      "courses": [],
      "status": "확인",
      "src": [
@@ -2699,7 +3276,13 @@
       "s12",
       "s13",
       "s14"
-     ]
+     ],
+     "sum": {
+      "of": "ge",
+      "after": 22
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
     },
     {
      "id": "ge-world",
@@ -2718,7 +3301,70 @@
       "s12",
       "s13",
       "s14"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "언어와 문학",
+        "prefixes": [
+         "041.",
+         "L0545."
+        ],
+        "area": true
+       },
+       {
+        "name": "문화와 예술",
+        "prefixes": [
+         "042.",
+         "L0546."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사와 철학",
+        "prefixes": [
+         "043.",
+         "L0547."
+        ],
+        "area": true
+       },
+       {
+        "name": "정치와 경제",
+        "prefixes": [
+         "044.",
+         "L0548."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간과 사회",
+        "prefixes": [
+         "045.",
+         "L0549."
+        ],
+        "area": true
+       },
+       {
+        "name": "자연과 기술",
+        "prefixes": [
+         "046.",
+         "L0550."
+        ],
+        "area": true
+       },
+       {
+        "name": "생명과 환경",
+        "prefixes": [
+         "047.",
+         "L0551."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 4
+     },
+     "name": "학문의 세계",
+     "auto": "rule_world"
     }
    ],
    "changed": "지휘 추가 과목이 보컬 스코어 리딩 1학기(1학점)뿐(총보독법·지휘자를 위한 피아노·보컬 스코어 4학기 없음). 전필 65.",

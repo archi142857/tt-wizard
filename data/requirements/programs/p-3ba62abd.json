@@ -28,7 +28,7 @@
  "versions": [
   {
    "entry_years": [
-    2019,
+    2025,
     2026
    ],
    "basis": "입학 연도",
@@ -148,7 +148,215 @@
       "s4",
       "s5"
      ],
-     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수."
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수.",
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_composite"
+    },
+    {
+     "id": "ge-cals-humanities-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 1)",
+     "min_count": 2,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수.",
+     "extra": {
+      "groups": [
+       {
+        "name": "대학 글쓰기 1",
+        "courses": [
+         {
+          "code": "F11.101",
+          "name": "대학 글쓰기 1",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000600"
+          ]
+         }
+        ],
+        "min_count": 1
+       },
+       {
+        "name": "대학 글쓰기 2",
+        "courses": [
+         {
+          "code": "F11.201",
+          "name": "대학 글쓰기 2: 인문학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000700"
+          ]
+         },
+         {
+          "code": "F11.202",
+          "name": "대학 글쓰기 2: 사회과학글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000800"
+          ]
+         },
+         {
+          "code": "F11.203",
+          "name": "대학 글쓰기 2: 과학기술글쓰기",
+          "credits": 2,
+          "alt_codes": [
+           "L0440.000900"
+          ]
+         }
+        ],
+        "min_count": 1
+       }
+      ]
+     },
+     "name": "글쓰기와 말하기",
+     "auto": "rule_composite"
+    },
+    {
+     "id": "ge-cals-humanities-foreign",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수.",
+     "name": "외국어",
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "F21.",
+         "F22.",
+         "F23.",
+         "F24.",
+         "F25.",
+         "F26.",
+         "F27.",
+         "F28.",
+         "F29."
+        ],
+        "area": true,
+        "min_count": 2
+       },
+       {
+        "name": "영어",
+        "prefixes": [
+         "F21."
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "auto": "rule_composite"
+    },
+    {
+     "id": "ge-cals-humanities-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 9학점: 4개 영역 중 3개 영역 이상",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수.",
+     "name": "지성의 열쇠",
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "prefixes": [
+         "C10."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "prefixes": [
+         "C20."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "prefixes": [
+         "C30."
+        ],
+        "area": true
+       },
+       {
+        "name": "과학적 사고와 응용",
+        "prefixes": [
+         "C40."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 3
+     },
+     "auto": "rule_composite"
+    },
+    {
+     "id": "ge-cals-humanities-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점(베리타스 강좌 1·강좌 2·실천 중)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수.",
+     "name": "베리타스",
+     "extra": {
+      "groups": [
+       {
+        "name": "베리타스",
+        "prefixes": [
+         "V10.",
+         "V20.",
+         "V30."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "auto": "rule_composite"
     },
     {
      "id": "cals-foreign-lang-lectures",
@@ -169,7 +377,176 @@
      "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
     }
    ],
-   "note": "2022·2024 목록의 전필(*)·이수규정(60 = 전필 15 + 전선 45)이 같고 학번 경계 문구가 없다. 학부·전공 누리집은 robots 로 막혀 학번별 글을 못 봤다. 경제원론 1·2·미시경제이론·거시경제이론·경제수학은 2022학년도부터 학부 자체 번호(M2649)로 열렸고, 그 전(2019~2021학번의 1·2학년 때)은 경제학부 과목(212.201·212.202·212.214, 200.105·200.106)을 들은 것으로 보이나 인정 규정은 못 봤다. 2026학번: 같게 둔다."
+   "note": "2022·2024 목록의 전필(*)·이수규정(60 = 전필 15 + 전선 45)이 같고 학번 경계 문구가 없다. 학부·전공 누리집은 robots 로 막혀 학번별 글을 못 봤다. 경제원론 1·2·미시경제이론·거시경제이론·경제수학은 2022학년도부터 학부 자체 번호(M2649)로 열렸고, 그 전(2019~2021학번의 1·2학년 때)은 경제학부 과목(212.201·212.202·212.214, 200.105·200.106)을 들은 것으로 보이나 인정 규정은 못 봤다. 2026학번: 같게 둔다.",
+   "split": "2025학번 교양 개편으로 나눔(update127)"
+  },
+  {
+   "entry_years": [
+    2019,
+    2024
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 39,
+    "double": 39,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s8",
+     "s9",
+     "s10",
+     "s11",
+     "s12",
+     "s13"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s14",
+    "s15",
+    "s16"
+   ],
+   "requirements": [
+    {
+     "id": "are-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수 5과목 15학점",
+     "min_count": 5,
+     "min_credits": 15,
+     "courses": [
+      {
+       "code": "M2649.001600",
+       "name": "경제수학",
+       "credits": 3
+      },
+      {
+       "code": "M2649.001300",
+       "name": "미시경제이론",
+       "credits": 3
+      },
+      {
+       "code": "M2649.001400",
+       "name": "거시경제이론",
+       "credits": 3
+      },
+      {
+       "code": "5201.201",
+       "name": "농업경제학",
+       "credits": 3
+      },
+      {
+       "code": "5201.301",
+       "name": "농경제계량분석",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ]
+    },
+    {
+     "id": "are-elective",
+     "type": "major_elective",
+     "applies_to": [
+      "single"
+     ],
+     "text": "학부 농업·자원경제학 전공선택 중 45학점 이상",
+     "min_count": null,
+     "min_credits": 45,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "병행(39) 때 전선 학점은 규정에 없다."
+    },
+    {
+     "id": "are-double-minor",
+     "type": "double",
+     "applies_to": [
+      "double",
+      "minor"
+     ],
+     "text": "복수전공 39·부전공 21(해설 표 2). 세부는 '전공내규에 의함'",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s3"
+     ]
+    },
+    {
+     "id": "ge-cals-humanities-old-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2019~2024학번, 학부대학 교양 이수규정의 단과대·학과 교양 학점)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "old_total"
+    },
+    {
+     "id": "ge-cals-humanities",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학번, 농생대 인문계=농경제사회학부): 글쓰기와 말하기 4, 외국어 2과목 6, 수학·과학·컴퓨팅 3, 지성의 열쇠 9(4영역 중 3영역), 베리타스 3, 전체 교양 11",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s4",
+      "s5"
+     ],
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 이 판(2019~2024학번)에는 2025학번 교양 글이 들어 있다: 그 학번 교양 영역 규정은 조사 자료에 없음(update127)"
+    },
+    {
+     "id": "cals-foreign-lang-lectures",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목",
+     "min_count": 3,
+     "min_credits": null,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+    }
+   ],
+   "note": "2022·2024 목록의 전필(*)·이수규정(60 = 전필 15 + 전선 45)이 같고 학번 경계 문구가 없다. 학부·전공 누리집은 robots 로 막혀 학번별 글을 못 봤다. 경제원론 1·2·미시경제이론·거시경제이론·경제수학은 2022학년도부터 학부 자체 번호(M2649)로 열렸고, 그 전(2019~2021학번의 1·2학년 때)은 경제학부 과목(212.201·212.202·212.214, 200.105·200.106)을 들은 것으로 보이나 인정 규정은 못 봤다. 2026학번: 같게 둔다.",
+   "split": "2025학번 교양 개편으로 나눔(update127)"
   }
  ],
  "change_points": [

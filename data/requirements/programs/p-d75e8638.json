@@ -108,7 +108,38 @@
      "status": "확인",
      "src": [
       "s1"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "F21.",
+         "F22.",
+         "F23.",
+         "F24.",
+         "F25.",
+         "F26.",
+         "F27.",
+         "F28.",
+         "F29."
+        ],
+        "area": true,
+        "min_count": 1
+       },
+       {
+        "name": "영어",
+        "prefixes": [
+         "F21."
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "eng-gw-ge-math",
@@ -117,8 +148,8 @@
       "single"
      ],
      "text": "[1-1] 수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1",
-     "min_count": null,
-     "min_credits": 3,
+     "min_count": 1,
+     "min_credits": null,
      "courses": [
       {
        "code": "F31.104",
@@ -145,7 +176,7 @@
      "src": [
       "s1"
      ],
-     "extra": {
+     "extra_research": {
       "options": [
        [
         "F31.104",
@@ -156,7 +187,50 @@
         "F31.106L"
        ]
       ]
-     }
+     },
+     "extra": {
+      "paths": [
+       {
+        "name": "수학 1 + 수학연습 1",
+        "codes": [
+         "F31.104",
+         "F31.104L"
+        ],
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1
+         }
+        ]
+       },
+       {
+        "name": "고급수학 1 + 고급수학연습 1",
+        "codes": [
+         "F31.106",
+         "F31.106L"
+        ],
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1
+         }
+        ]
+       }
+      ]
+     },
+     "auto": "rule_options"
     },
     {
      "id": "eng-gw-ge-sci",
@@ -165,8 +239,8 @@
       "single"
      ],
      "text": "[1-1] 과학 8학점: 물리학 1(물리의 기본 1·고급물리학 1로 대체 가능)+물리학실험 1, 화학 1+화학실험 1(이론·실험 같은 학기)",
-     "min_count": null,
-     "min_credits": 8,
+     "min_count": 1,
+     "min_credits": null,
      "courses": [
       {
        "code": "F33.106",
@@ -204,7 +278,7 @@
       "s1"
      ],
      "note": "전기·정보공학부로 갈 학생은 '물리학 1'(또는 고급물리학 1)만 인정, '물리의 기본 1' 불인정. 고교 물리 2를 이수했으면 '물리학 1·2', 아니면 '물리의 기본 1·2'가 원칙. 물리의 기본 대상자가 물리학을 들으려면 물리학성취도평가 점수 필요",
-     "extra": {
+     "extra_research": {
       "options": [
        [
         "F33.106",
@@ -225,7 +299,105 @@
         "F34.104L"
        ]
       ]
-     }
+     },
+     "extra": {
+      "paths": [
+       {
+        "name": "물리학 1 + 물리학실험 1 + 화학 1 + 화학실험 1",
+        "codes": [
+         "F33.106",
+         "F33.106L",
+         "F34.104",
+         "F34.104L"
+        ],
+        "courses": [
+         {
+          "code": "F33.106",
+          "name": "물리학 1",
+          "credits": 3
+         },
+         {
+          "code": "F33.106L",
+          "name": "물리학실험 1",
+          "credits": 1
+         },
+         {
+          "code": "F34.104",
+          "name": "화학 1",
+          "credits": 3
+         },
+         {
+          "code": "F34.104L",
+          "name": "화학실험 1",
+          "credits": 1
+         }
+        ]
+       },
+       {
+        "name": "물리의 기본 1 + 물리학실험 1 + 화학 1 + 화학실험 1",
+        "codes": [
+         "F33.103",
+         "F33.106L",
+         "F34.104",
+         "F34.104L"
+        ],
+        "courses": [
+         {
+          "code": "F33.103",
+          "name": "물리의 기본 1",
+          "credits": 3
+         },
+         {
+          "code": "F33.106L",
+          "name": "물리학실험 1",
+          "credits": 1
+         },
+         {
+          "code": "F34.104",
+          "name": "화학 1",
+          "credits": 3
+         },
+         {
+          "code": "F34.104L",
+          "name": "화학실험 1",
+          "credits": 1
+         }
+        ]
+       },
+       {
+        "name": "고급물리학 1 + 물리학실험 1 + 화학 1 + 화학실험 1",
+        "codes": [
+         "F33.108",
+         "F33.106L",
+         "F34.104",
+         "F34.104L"
+        ],
+        "courses": [
+         {
+          "code": "F33.108",
+          "name": "고급물리학 1",
+          "credits": 3
+         },
+         {
+          "code": "F33.106L",
+          "name": "물리학실험 1",
+          "credits": 1
+         },
+         {
+          "code": "F34.104",
+          "name": "화학 1",
+          "credits": 3
+         },
+         {
+          "code": "F34.104L",
+          "name": "화학실험 1",
+          "credits": 1
+         }
+        ]
+       }
+      ]
+     },
+     "auto": "rule_options"
     },
     {
      "id": "eng-gw-ge-computing",
@@ -372,7 +544,40 @@
      "status": "확인",
      "src": [
       "s1"
-     ]
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "외국어",
+        "prefixes": [
+         "032.",
+         "L0441."
+        ],
+        "area": true,
+        "min_count": 1
+       },
+       {
+        "name": "영어",
+        "codes": [
+         "L0441.000600",
+         "L0441.000700",
+         "L0441.000800",
+         "L0441.000900",
+         "L0441.001000",
+         "L0441.001100",
+         "L0441.001200",
+         "L0441.001300",
+         "L0441.001400",
+         "L0441.001500"
+        ],
+        "area": true,
+        "min_count": 1,
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+       }
+      ]
+     },
+     "name": "외국어",
+     "auto": "rule_foreign"
     },
     {
      "id": "eng-gw-ge-math",
@@ -381,8 +586,8 @@
       "single"
      ],
      "text": "[1-1] 수학 1+수학연습 1 또는 고급수학 1+고급수학연습 1(연습 같은 학기)",
-     "min_count": null,
-     "min_credits": 3,
+     "min_count": 1,
+     "min_credits": null,
      "courses": [
       {
        "code": "L0442.000100",
@@ -429,7 +634,7 @@
      "src": [
       "s11"
      ],
-     "extra": {
+     "extra_research": {
       "options": [
        [
         "L0442.000100",
@@ -448,7 +653,88 @@
         "F31.106L"
        ]
       ]
-     }
+     },
+     "extra": {
+      "paths": [
+       {
+        "name": "수학 1 + 수학연습 1",
+        "codes": [
+         "L0442.000100",
+         "L0442.000200"
+        ],
+        "courses": [
+         {
+          "code": "L0442.000100",
+          "name": "수학 1",
+          "credits": 2
+         },
+         {
+          "code": "L0442.000200",
+          "name": "수학연습 1",
+          "credits": 1
+         }
+        ]
+       },
+       {
+        "name": "수학 1 + 수학연습 1",
+        "codes": [
+         "F31.104",
+         "F31.104L"
+        ],
+        "courses": [
+         {
+          "code": "F31.104",
+          "name": "수학 1",
+          "credits": 2
+         },
+         {
+          "code": "F31.104L",
+          "name": "수학연습 1",
+          "credits": 1
+         }
+        ]
+       },
+       {
+        "name": "고급수학 1 + 고급수학연습 1",
+        "codes": [
+         "L0442.000500",
+         "L0442.000600"
+        ],
+        "courses": [
+         {
+          "code": "L0442.000500",
+          "name": "고급수학 1",
+          "credits": 2
+         },
+         {
+          "code": "L0442.000600",
+          "name": "고급수학연습 1",
+          "credits": 1
+         }
+        ]
+       },
+       {
+        "name": "고급수학 1 + 고급수학연습 1",
+        "codes": [
+         "F31.106",
+         "F31.106L"
+        ],
+        "courses": [
+         {
+          "code": "F31.106",
+          "name": "고급수학 1",
+          "credits": 2
+         },
+         {
+          "code": "F31.106L",
+          "name": "고급수학연습 1",
+          "credits": 1
+         }
+        ]
+       }
+      ]
+     },
+     "auto": "rule_options"
     },
     {
      "id": "eng-gw-ge-sci",
