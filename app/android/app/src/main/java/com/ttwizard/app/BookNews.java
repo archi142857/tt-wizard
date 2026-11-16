@@ -29,8 +29,9 @@ final class BookNews {
     static final int[][] SLOTS = { { 8, 0 }, { 18, 30 } };
     static final int QUIET_FROM = 22;
     static final int QUIET_TO = 8;
-    /** 편람 알림은 처음부터 켜짐(디자인 129판 ①)이지만 처리방침 11/27 판이 시행되는 날부터(그 전에는 화면에서 켠 때만). 한국 시각 날짜 */
-    static final int DEFAULT_ON_FROM = 20261127;
+    /** 편람 알림은 처음부터 켜짐(디자인 129판 ①). 처리방침 11/15 판(시행 중)이 '편람 알림은 처음부터 켜져 있어'(1·12·13절)를 담아 그날부터
+     *  (사용자 11/16 '편람 알림은 켜 두는 걸 기본으로', update119. 전에는 11/27 판 시행일). 한국 시각 날짜 */
+    static final int DEFAULT_ON_FROM = 20261115;
 
     /** 화면에서 아직 고르지 않았을 때 편람 알림이 켜졌나(seoulNow = 한국 시각) */
     static boolean onByDefault(Calendar seoulNow) {
