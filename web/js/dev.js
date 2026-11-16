@@ -4,6 +4,7 @@
 // 스토어 앱에서는 열지 않고 앱 묶음에도 넣지 않는다(scripts/build_app.py. 법무: 바이너리에 숨긴 기능은 Apple 2.5.19 의 앱 삭제·계정 해지 사유).
 // 디자인 규칙 밖의 도구라 있는 모양(시트, 세그먼트, 메뉴 행, 정보 행)만 쓴다. 그리기와 스타일은 모두 이 파일 안이다(app.js 에는 여는 고리와 api 만 있다).
 //   테마: 기본 · 라이트 · 다크 · 크리스마스를 기간과 상관없이(크리스마스는 시험으로 켜고 고른 것은 따로 기억한다: app.js pickDevTheme)
+//   이동시간: 경사 반영 · 평지(이 탭만. 11/16 사용자: 동선 탐색 조건에서 빼고 평지는 내부 시험으로만: app.js pickDevMode)
 //   시험: 묻는 팝업, 새 버전 알림, 시간표 이미지(지금 보는 시간표를 그려 시트 안에 보인다), 테마 기억 지우기(묻는 팝업을 처음부터)
 //   이 기기: 버전·실행 환경·화면·글자 크기·기기 설정·기기 날짜·편람·서비스 워커·저장한 기록, 기록 모두 지우기(두 번 눌러야 지운다)
 
@@ -48,6 +49,7 @@ function build() {
   document.body.append(sheet);
   api.wireSheet(sheet);
   sheet.addEventListener("change", (e) => {
+    if (e.target.name === "dev-mode") { api.pickMode(e.target.value); api.showSnackbar(e.target.value === "flat" ? "이 탭은 평지로 계산해요" : "경사를 반영해 계산해요"); return; }
     if (e.target.name !== "dev-theme") return;
     api.pickTheme(e.target.value); // 바로 바뀐다(시트도 새 테마의 색으로)
   });
@@ -84,6 +86,9 @@ function render() {
   body.replaceChildren(
     h("fieldset", { class: "dev-field" }, h("legend", { class: "field-label" }, "테마"),
       h("div", { class: "seg" }, api.themes.map(([id, name]) => h("label", {}, h("input", { type: "radio", name: "dev-theme", value: id, checked: id === cur }), name)))),
+    h("fieldset", { class: "dev-field" }, h("legend", { class: "field-label dev-label" }, "이동시간"),
+      h("div", { class: "seg" }, [["slope", "경사 반영"], ["flat", "평지"]].map(([id, name]) =>
+        h("label", {}, h("input", { type: "radio", name: "dev-mode", value: id, checked: id === api.mode() }), name)))),
     h("h3", { class: "field-label dev-label" }, "시험"),
     h("ul", { class: "sheet-list" }, ROWS.map(([k, text]) => h("li", {}, h("button", { type: "button", class: "menu-row", "data-dev": k }, text)))),
     h("div", { class: "dev-image", id: "dev-image", hidden: true }),

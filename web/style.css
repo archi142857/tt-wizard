@@ -2038,11 +2038,20 @@ html[data-scheme="dark"]:not([data-theme]) .g-btn { border-color: #8E918F; backg
 .tab-ic { position: relative; display: flex; flex: none; }
 .has-dot .tab-ic::after { content: ""; position: absolute; top: -1px; right: -3px; width: 8px; height: 8px; border-radius: 4px; background: var(--danger); box-shadow: 0 0 0 2px var(--tab-ind); }
 .tabbar.is-tight .has-dot .tab-ic::after { top: 3px; right: calc(50% - 15px); } /* 알약(3.5rem × 32) 가운데 아이콘 24의 오른쪽 위 */
-.fr-head { display: flex; align-items: center; gap: var(--space-2); min-height: 56px; margin: var(--space-2) 0 var(--space-3); }
-.fr-me { display: flex; flex: 1; flex-direction: column; min-width: 0; padding: 0; border: 0; background: transparent; text-align: left; cursor: pointer; }
+/* 한 줄에 다 들어가지 않으면(긴 닉네임, 큰 글자) 친구 추가가 다음 줄 오른쪽으로 내려간다. 닉네임은 낱말 가운데서 끊지 않는다(한 낱말이 줄보다 길 때만) */
+.fr-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-2); min-height: 56px; margin: var(--space-2) 0 var(--space-3); }
+.fr-head .fr-add-btn { margin-left: auto; }
+/* 내 닉네임: 닉네임 버튼(.fr-nick, 누르면 바꾸기)과 그 바로 뒤 복사(.fr-copy). 11/16 사용자: 복사가 친구 추가 옆이라 무엇을 복사하는지 알기 어려웠다.
+   복사는 아이콘 20, 보이는 칸 40 을 닉네임 끝줄(1.5rem)의 가운데에. 누르는 영역 48 은 오른쪽으로만 넓힌다(왼쪽은 #번호 글자: 덮지 않는다) */
+.fr-me { display: flex; flex: 1 1 auto; align-items: flex-end; min-width: 0; }
+.fr-me .k, .fr-me .n { word-break: keep-all; overflow-wrap: anywhere; }
+.fr-nick { display: flex; flex-direction: column; min-width: 0; padding: 0; border: 0; background: transparent; text-align: left; cursor: pointer; }
+.fr-me .fr-copy { position: relative; width: 40px; height: 40px; margin-bottom: calc((1.5rem - 40px) / 2); }
+.fr-me .fr-copy::before { content: ""; position: absolute; top: 50%; left: 0; width: var(--touch); height: var(--touch); transform: translateY(-50%); }
 .fr-me .k { font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); }
 .fr-me .n { font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; color: var(--on-bg-heading); }
-.fr-me .n i, .fr-row .t i, .topbar .title i, .to-meta-n i { font-style: normal; font-weight: 400; }
+/* 닉네임 뒤 #번호: 닉네임과 0.25em 띄우고 0.875em(11/16 사용자 '조금 띄우고 폰트 크기도 조금 줄여도') */
+.fr-me .n i, .fr-row .t i, .topbar .title i, .to-meta-n i { margin-left: 0.25em; font-size: 0.875em; font-style: normal; font-weight: 400; }
 .fr-me .n i, .topbar .title i { color: var(--on-bg-text3); }
 .fr-row .t i, .to-meta-n i { color: var(--text3); }
 .fr-head .btn-text { color: var(--on-bg-link); }

@@ -416,7 +416,10 @@ async function startApp() {
     state.home = known(saved) ? saved : lostDorm(saved) ? dormHome : homes[0] || campus.ids[0];
     if (lostDorm(saved)) store.set("home", state.home);
     if (lostDorm(savedDorm)) store.set("homeDorm", state.homeDorm);
-    state.mode = campus.slope ? store.get("mode", "slope") : "flat";
+    // 이동시간은 늘 경사 반영(11/16 사용자: 조건의 '경사 반영·평지'를 빼고 평지는 내부 시험으로만). 평지는 웹 개발자 메뉴에서 이 탭만(devFlat).
+    // 예전에 고른 평지(ttw.mode)는 지운다
+    state.mode = campus.slope && !devFlat ? "slope" : "flat";
+    store.del("mode");
     renderSettings();
     // 지난번에 보던 학기로 연다. 그사이 새 학기가 올라왔으면 새 학기로
     const last = store.get("semester", null);
@@ -1678,10 +1681,6 @@ function renderSettings() {
   $("home-seg").hidden = false;
   delete $("home-select").dataset.kind; // 자료를 새로 받았으면 목록도 새로
   syncHomeSelect();
-  for (const r of document.querySelectorAll('input[name="mode"]')) {
-    r.checked = r.value === state.mode;
-    r.disabled = r.value === "slope" && !state.campus.slope;
-  }
 }
 
 /** 출발·도착을 바꾼다. 기숙사 동과 다른 건물은 마지막에 고른 것을 따로 기억해, 세그먼트를 오가도 그대로다. */
@@ -1707,13 +1706,16 @@ $("home-seg").addEventListener("change", (e) => {
   } else setHome(v);
 });
 $("home-select").addEventListener("change", (e) => setHome(e.target.value));
-document.querySelector('input[name="mode"]').closest("fieldset").addEventListener("change", (e) => {
-  if (e.target.name !== "mode") return;
+// 웹 개발자 메뉴의 이동시간(내부 시험, 이 탭만): 평지면 경사 없이 초속 1.1m. 스토어 앱에는 개발자 메뉴가 없다
+let devFlat = (() => { try { return sessionStorage.getItem("ttw.devFlat") === "1"; } catch { return false; } })();
+function pickDevMode(v) {
+  devFlat = v === "flat";
+  try { if (devFlat) sessionStorage.setItem("ttw.devFlat", "1"); else sessionStorage.removeItem("ttw.devFlat"); } catch { /* 이 탭에서만 */ }
+  if (!state.campus) return;
   cancelCompute();
-  state.mode = e.target.value;
-  store.set("mode", state.mode);
+  state.mode = state.campus.slope && !devFlat ? "slope" : "flat";
   dropExplore();
-});
+}
 
 // ---------------------------------------------------------------- 추가 설정 (공강 요일·점심시간)
 // 조건 카드 맨 아래의 '추가 설정' 행을 누르면 시트가 열린다(10/5 사용자: "추가 설정 탭 하나 만들어서 공강 요일 고르는 옵션이랑 점심시간 지정하는
@@ -2238,10 +2240,11 @@ function rankTitle(R) {
   return [h("span", { class: "rank-total" }, `(${all} 중)`), " ", found];
 }
 
-/** 결과 화면의 조건 줄. 결과 화면에서 기숙사 동을 밝히는 곳은 이 줄뿐이다: '출발·도착 기숙사 906동 · 경사 반영'
- *  (번호표·파선 견본·핀 이름은 어느 동이든 '기숙사'). 추가 설정을 걸었으면 끝에 붙인다: '… · 금 공강 · 점심 60분'(목록 제목의 두 수는 그 조건을 지키는 조합만 센 것이다) */
+/** 결과 화면의 조건 줄. 결과 화면에서 기숙사 동을 밝히는 곳은 이 줄뿐이다: '출발·도착 기숙사 906동'
+ *  (번호표·파선 견본·핀 이름은 어느 동이든 '기숙사'). 이동시간은 늘 경사 반영이라 적지 않고, 개발자 메뉴로 평지로 잰 결과만 ' · 평지'(11/16 사용자).
+ *  추가 설정을 걸었으면 끝에 붙인다: '… · 금 공강 · 점심 60분'(목록 제목의 두 수는 그 조건을 지키는 조합만 센 것이다) */
 const condText = (R) => dotted([`출발·도착 ${isDorm(R.home) ? `기숙사 ${buildingLabel(R.home)}` : placeLabel(R.home)}`,
-  R.mode === "slope" ? "경사 반영" : "평지", ...rulesParts(R.rules)]);
+  ...(R.mode === "flat" ? ["평지"] : []), ...rulesParts(R.rules)]);
 
 /** 한 주 요약: '걷기 주 187분 · 월화수목 등교'(늦으면 빨간 ' · 화목 3분 지각'). 덩이 사이(가운뎃점 앞)에서만 줄을 바꾼다. 시간이 모두 미정이면 등교 요일이 없다 */
 function weekSum(ev, days) {
@@ -5414,6 +5417,8 @@ const devApi = () => ({
   themes: [...SCHEMES.map(([id, name]) => [id, name]), ...THEMES.map(([id, name]) => [id, name])],
   theme: () => (themeOn() ? season.id : scheme),
   pickTheme: pickDevTheme,
+  mode: () => (devFlat ? "flat" : "slope"), // 이동시간(내부 시험, 이 탭만): 경사 반영 · 평지(pickDevMode)
+  pickMode: pickDevMode,
   ask(opener) { // 묻는 팝업(이벤트 테마가 꺼져 있으면 시험으로 켠 뒤)
     if (!themeOn()) pickDevTheme(THEMES[0][0]);
     showAsk(opener);
@@ -8070,8 +8075,8 @@ const NICK_MAX = 12;
 const FR_ADD_ERR = { NOT_FOUND: "없는 닉네임이에요", SELF: "내 닉네임이에요", ALREADY: "이미 친구예요", OFFLINE: "인터넷에 연결되지 않았어요" };
 const FR_ERR = { OFFLINE: "인터넷에 연결되지 않았어요", SIGNED_OUT: "로그인해 주세요" };
 const handleText = (p) => (p && p.nick ? `${p.nick}#${p.tag}` : "");
-/** 닉네임#번호(번호는 400 text3, .t i·.n i·.title i) */
-const handleNodes = (p) => (p && p.nick ? [p.nick, h("i", {}, `#${p.tag}`)] : ["알 수 없는 사람"]);
+/** 닉네임#번호(번호는 400 text3, 닉네임과 0.25em·0.875em: .t i·.n i·.title i). 줄이 모자라면 번호 앞에서 먼저 바뀐다(<wbr>) */
+const handleNodes = (p) => (p && p.nick ? [p.nick, h("wbr"), h("i", {}, `#${p.tag}`)] : ["알 수 없는 사람"]);
 /** 초대 링크('…#friend=닉네임%231234')의 닉네임#태그 */
 const friendOf = (url) => { const m = /#(?:.*&)?friend=([^&]+)/.exec(String(url || "")); if (!m) return null; try { return decodeURIComponent(m[1]); } catch { return null; } };
 /** 친구 기능을 켰다(로그인하고 닉네임이 있다): 일정 시트에 '친구에게 이름과 시간이 보여요' 한 줄(11/15. 숨기기·보이기는 친구 탭의 미리보기에서) */
@@ -8200,9 +8205,11 @@ function paintFriends() {
   const L = fr.list, hid = hiddenCount();
   box.replaceChildren(...[
     h("div", { class: "fr-head" },
-      h("button", { type: "button", class: "fr-me", "data-fr": "nick", "data-frk": "nick", "aria-haspopup": "dialog", "aria-label": `내 닉네임 ${handleText(fr.profile)}, 바꾸기` },
-        h("span", { class: "k" }, "내 닉네임"), h("span", { class: "n" }, ...handleNodes(fr.profile))),
-      h("button", { type: "button", class: "icon-btn fr-copy", "data-fr": "copy", "data-frk": "copy", "aria-label": "닉네임 복사" }, icon(COPY_ICON, 24)),
+      // 내 닉네임(누르면 바꾸기 팝업)과 그 바로 뒤 복사(11/16 사용자: 복사가 친구 추가 옆에 있어 무엇을 복사하는지 알기 어려움)
+      h("div", { class: "fr-me" },
+        h("button", { type: "button", class: "fr-nick", "data-fr": "nick", "data-frk": "nick", "aria-haspopup": "dialog", "aria-label": `내 닉네임 ${handleText(fr.profile)}, 바꾸기` },
+          h("span", { class: "k" }, "내 닉네임"), h("span", { class: "n" }, ...handleNodes(fr.profile))),
+        h("button", { type: "button", class: "icon-btn fr-copy", "data-fr": "copy", "data-frk": "copy", "aria-label": "닉네임 복사" }, icon(COPY_ICON, 20))),
       h("button", { type: "button", class: "btn-text with-ic fr-add-btn", "data-fr": "add", "data-frk": "add", "aria-haspopup": "dialog" }, icon(I.plus, 20), "친구 추가")),
     card([h("button", { type: "button", class: "info-row", "data-fr": "preview", "data-frk": "preview" }, h("span", {}, "친구에게 보이는 내 시간표"),
       hid ? h("span", { class: "v" }, `숨긴 항목 ${hid}`) : null, icon(I.right, 20))]),
@@ -9500,7 +9507,6 @@ function openInfo() {
   showView(top.view, "tab", top.extra);
 }
 for (const b of document.querySelectorAll("[data-open-info]")) b.addEventListener("click", openInfo);
-$("open-calc").addEventListener("click", (e) => openSheet($("calc-sheet"), e.currentTarget));
 $("open-sources").addEventListener("click", () => go("page", { page: "sources" }));
 $("map-expand").addEventListener("click", () => go("map"));
 for (const b of document.querySelectorAll("[data-back]")) b.addEventListener("click", back);
