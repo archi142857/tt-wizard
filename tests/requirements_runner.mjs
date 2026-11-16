@@ -55,7 +55,7 @@ const out = read(casesPath).map((c) => {
       const rows = evaluateProgram(p, version, t.courses, { role: c.role || "single", sameCourse: same });
       return Object.fromEntries(rows.filter((r) => c.ids.includes(r.id)).map((r) => {
         const v = rowView(r, { program: p });
-        return [r.id, { state: r.state, reason: r.reason || null, value: v.value.text, summary: v.sheet.summary, strong: v.sheet.strong,
+        return [r.id, { state: r.state, reason: r.reason || null, value: v.value.text, summary: v.sheet.summary, strong: v.sheet.strong, progress: v.progress,
           groups: v.sheet.groups && v.sheet.groups.map((g) => [g.name, g.need, g.value.kind, g.value.text]),
           paths: v.sheet.paths && v.sheet.paths.map((x) => [x.name, x.value.text]),
           courses: v.sheet.courses.filter((x) => x.taken).map((x) => [x.code, x.meta]), missing: (r.missing || r.left || []).map((m) => m.code) }];
@@ -77,7 +77,7 @@ const out = read(casesPath).map((c) => {
       return c.courses.map((x) => isMajorCourse(x, p, version));
     }
     case "gpa": {
-      const g = gpa(c.records, c.majorCodes ? { isMajor: (x) => c.majorCodes.includes(x.code) } : {});
+      const g = gpa(c.records, { ...(c.majorCodes ? { isMajor: (x) => c.majorCodes.includes(x.code) } : {}), finalTerms: Boolean(c.finalTerms) });
       return { all: g.all, major: g.major, byTerm: g.byTerm, lastTwoRegular: g.lastTwoRegular, ungraded: g.ungraded,
         graduation: g.graduation };
     }
@@ -135,10 +135,11 @@ const out = read(casesPath).map((c) => {
       const picks = c.picks.map((x) => ({ ...x, program: program(x.program), newer: x.newer || null }));
       const same = buildSameCourse(courseMap, picks.map((x) => x.program));
       const grades = c.grades ? gpa(c.records, { sameCourse: same }) : null;
-      const v = gradView({ picks, records: c.records, grades, common, sameCourse: same, gpaChecks: c.gpaChecks || null });
+      const v = gradView({ picks, records: c.records, grades, common, sameCourse: same, gpaChecks: c.gpaChecks || null, rowChecks: c.rowChecks || null });
       return { total: v.total, missing: v.missing, ge: v.credits.ge, general: v.credits.general, byChecks: v.bundles[0].rows.find((r) => r.id === "grad-gpa").byChecks,
-        bundles: v.bundles.map((b) => ({ kind: b.kind, title: b.title, label: b.label, choices: b.choices.map((x) => x.label),
-          rows: Object.fromEntries(b.rows.map((r) => [r.id, { name: r.name, value: r.value.text, aria: r.aria, summary: r.sheet.summary,
+        bundles: v.bundles.map((b) => ({ kind: b.kind, id: b.id, title: b.title, label: b.label, choices: b.choices.map((x) => x.label),
+          rows: Object.fromEntries(b.rows.map((r) => [r.id, { name: r.name, value: r.value.text, aria: r.aria, summary: r.sheet.summary, progress: r.progress,
+            byChecks: Boolean(r.byChecks),
             strong: r.sheet.strong, because: r.sheet.because, meta: r.sheet.meta, link: r.sheet.link, checked: r.sheet.checked,
             courses: r.sheet.courses.map((x) => [x.code, x.taken, x.meta]), sources: r.sheet.sources.map((x) => x.text) }])) })) };
     }

@@ -534,18 +534,20 @@ def test_grad_view(tmp_path):
     credits = common["rows"]["grad-credits"]
     assert credits["name"] == "졸업 학점" and credits["value"] == f"{130 - cbe['total']}학점 남음"
     assert credits["summary"] == f"130학점 중 {cbe['total']}학점 · {130 - cbe['total']}학점 남음" and credits["strong"] == credits["value"]
+    assert credits["progress"] == {"have": cbe["total"], "need": 130, "unit": "학점"}  # 줄 앞 동그라미의 호(141판)
     gpa_row = common["rows"]["grad-gpa"]
-    assert gpa_row["value"] == "확인 필요" and gpa_row["because"] == "성적을 다 넣지 않았어요."
+    assert gpa_row["value"] == "확인 필요" and gpa_row["because"] == "성적을 다 넣지 않았어요." and gpa_row["progress"] is None
     assert "cbe-ge-total" in common["rows"] and "cbe-ge-total" not in main["rows"]  # 교양 줄은 공통으로
     row = main["rows"]["cbe-core12"]
     have = sum(c["credits"] for c in core[:4])
     assert main["label"] == "2025~2026학번 규정" and row["name"] == "전공필수" and row["value"] == f"{33 - have}학점 남음"  # 학점이 남으면 학점으로
     assert row["aria"] == f"전공필수, {33 - have}학점 남음" and row["meta"] == "화학생물공학부 · 2025~2026학번 규정"
-    assert row["summary"] == f"33학점 중 {have}학점 · {33 - have}학점 남음"
+    assert row["summary"] == f"33학점 중 {have}학점 · {33 - have}학점 남음" and row["progress"] == {"have": have, "need": 33, "unit": "학점"}
     assert [x[1] for x in row["courses"]].count(True) == 4 and row["courses"][0][2] == f"{core[0]['credits']}학점 · 2025년 1학기"
     assert row["checked"] == "11월 12일 기준" and row["sources"]
     check = main["rows"]["cbe-core46-sum"]
     assert check["value"] == "확인 필요" and check["because"] == "2025학번 세부 규정이 공개 자료에 다 나오지 않았어요."
+    assert check["progress"] is None  # 과목 목록이 없는 확인 필요 줄은 센 값이 없다
     _, animal, bio = two["bundles"]
     assert animal["title"] == "동물생명공학전공" and bio["label"] == "2026년 1학기 선발" and bio["title"] == "생명과학부"
     assert all(b["kind"] == "program" for b in (animal, bio)) and two["missing"] == []
@@ -597,14 +599,21 @@ def test_group_and_path_rows(tmp_path):
     assert d["state"] == "remaining" and d["value"] == "1과목 남음" and d["summary"] == "생물다양성 · 1과목 남음"
     assert [g[2:] for g in d["groups"]] == [["check", "확인 필요"], ["check", "확인 필요"], ["left", "1과목 남음"]]
     assert [g[:2] for g in d["groups"]] == [["분자세포생물학", "1과목 이상"], ["개체생물학", "1과목 이상"], ["생물다양성", "1과목 이상"]]
+    assert d["progress"] == {"have": 2, "need": 3, "unit": "과목"}  # 값 글과 같은 단위: 분야마다 기준까지만 더함(남은 1과목 = 3 - 2)
+    p = both["bio-dist"]["progress"]
+    assert p["unit"] == "학점" and p["need"] == 12 and p["have"] >= 12  # 충족은 줄 학점
     assert both["bio-dist"]["state"] == "met" and both["bio-dist"]["value"] == "충족" and all(g[3] == "충족" for g in both["bio-dist"]["groups"])
     c = checked["bio-dist"]  # 체크한 과목(학기 없음)도 같은 기록으로 센다
     assert c["state"] == "met" and checked["bio-ge-math"]["value"] == "2과목 남음"
     assert checked["bio-ge-math"]["paths"][0] == [paths[0]["name"], "2과목 남음"] and checked["bio-ge-math"]["missing"] == [x["code"] for x in paths[0]["courses"][2:]]
+    n0 = len(paths[0]["courses"])
+    assert checked["bio-ge-math"]["progress"] == {"have": 2, "need": n0, "unit": "과목"}  # 남은 과목이 가장 적은 갈래
     m = math["bio-ge-math"]
     assert m["state"] == "met" and m["summary"] == paths[0]["name"] and m["paths"][1][1] == f"{len(paths[1]['courses'])}과목 남음"
+    assert m["progress"] == {"have": n0, "need": n0, "unit": "과목"}
     s = one_social[cbe["id"]]
     assert s["state"] == "remaining" and s["value"] == "3학점 남음" and [g[3] for g in s["groups"]] == ["충족", "3학점 남음"]
+    assert s["progress"] == {"have": 3, "need": 6, "unit": "학점"}
     assert two_social[cbe["id"]]["state"] == "met"
     assert minor["chem-minor"]["state"] == "check" and minor["chem-minor"]["reason"] == "과목 목록이 없는 조건"  # 21학점은 목록 밖 과목까지
 
@@ -634,6 +643,38 @@ def test_checked_records_and_gpa_checks(tmp_path):
     assert on["bundles"][0]["rows"]["grad-gpa"]["value"] == "충족" and on["byChecks"] is True
     assert half["bundles"][0]["rows"]["grad-gpa"]["value"] == "확인 필요" and half["byChecks"] is False
     assert ge["ge"] == math["credits"] and ge["general"] == 0
+
+
+@node
+def test_row_checks_and_final_terms(tmp_path):
+    """'이 요건을 채웠어요'(rowChecks, 프론트엔드 141판 ⑥): 과목 목록이 없는 확인 필요 줄만 충족(byChecks, 센 값 없음). 목록이 있는 줄·다른 묶음 열쇠·false 는 그대로.
+    평점: finalTerms 면 학기 평점에서 재수강으로 빠진 앞 수강을 빼고, 직전 두 학기는 학사 규정대로 그 성적도 넣는다(2026-2 수강신청 안내)."""
+    core = _req("chem-bio-eng", "cbe-core12")["courses"]
+    pick = [{"program": "chem-bio-eng", "role": "single", "entryYear": 2025, "title": "화학생물공학부"}]
+    ticks = {"common|cbe-ge-total": True, "chem-bio-eng|cbe-core46-sum": True, "chem-bio-eng|cbe-core12": True,
+             "chem-bio-eng|cbe-ge-foreign": True, "common|cbe-ge-keys": False, "common|grad-gpa": True}
+    r = lambda code, cr, grade, term, **kw: {"code": code, "credits": cr, "grade": grade, "term": term,
+                                             "status": kw.pop("status", "taken"), "cls": "전선", **kw}
+    records = [r("A", 3, "A+", "2025-1"), r("B", 3, "C+", "2025-1"), r("B", 3, "A0", "2025-2", status="retake"),
+               r("C", 2, "F", "2025-2", status="failed"), r("E", 3, "B0", "2025-S")]
+    got = _run(tmp_path, [
+        {"kind": "view", "records": [_rec(c) for c in core[:2]], "picks": pick, "rowChecks": ticks},
+        {"kind": "gpa", "records": records},
+        {"kind": "gpa", "records": records, "finalTerms": True},
+    ])
+    view, plain, final = got
+    common, main = view["bundles"]
+    assert common["id"] == "common" and main["id"] == "chem-bio-eng"
+    ge, sum46 = common["rows"]["cbe-ge-total"], main["rows"]["cbe-core46-sum"]
+    assert ge["value"] == "충족" and ge["byChecks"] is True and ge["progress"] is None and ge["summary"] is None and ge["because"] is None
+    assert sum46["value"] == "충족" and sum46["byChecks"] is True and sum46["aria"].endswith(", 충족")
+    assert main["rows"]["cbe-core12"]["value"] != "충족" and main["rows"]["cbe-core12"]["byChecks"] is False  # 목록이 있는 줄은 과목 체크로
+    assert common["rows"]["cbe-ge-foreign"]["value"] == "확인 필요" and common["rows"]["cbe-ge-keys"]["value"] == "확인 필요"  # 다른 묶음 열쇠·false
+    assert common["rows"]["grad-gpa"]["value"] == "확인 필요"  # 졸업 평점은 gpaChecks 로만
+    assert plain["byTerm"]["2025-1"]["gpa"] == 3.3 and final["byTerm"]["2025-1"]["gpa"] == 4.3  # 학기 평점: 재수강으로 빠진 C+ 를 뺌
+    assert final["byTerm"]["2025-2"] == plain["byTerm"]["2025-2"] and final["all"] == plain["all"]
+    for g in (plain, final):  # 직전 두 학기는 두 번의 성적을 다 넣는다(계절 빼고)
+        assert g["lastTwoRegular"]["terms"] == ["2025-1", "2025-2"] and g["lastTwoRegular"]["gpa"] == 2.89 and g["lastTwoRegular"]["retakes"] == 1
 
 
 @node
