@@ -54,6 +54,9 @@
   --danger-weak: #ffedec;
   --warning: #a25c04;
   --warning-weak: #fff1e5;
+  --success: #18794e; /* 충족(졸업 요건, 디자인 141판): 상태 동그라미 채움, 값 '충족', 칸 띠, 다 채운 요약 제목. card 5.4:1 */
+  --success-weak: #e1f4e8; /* 다 채운 요약 카드 바탕(그 위 success 4.7:1) */
+  --on-success: var(--tt-white); /* success 동그라미 위 체크 */
   --inverse: var(--tt-ink);
   --on-inverse: var(--tt-white);
   --inverse-accent: #a9b8ff;
@@ -218,6 +221,9 @@
   --danger-weak: #3c2221;
   --warning: #e6b463;
   --warning-weak: #382c19;
+  --success: #7bd7a1;
+  --success-weak: #1c3326;
+  --on-success: #16171b;
   --inverse: #3a3d45;
   --on-inverse: #eaebef;
   --inverse-accent: #a7baff;
@@ -1582,6 +1588,7 @@ html[data-theme="xmas"], .mini.is-xmas {
   --line: #d7e6dc; --line-strong: #728679; --fill: #dbebe0; --accent: #0d6f44; --accent-press: #005d36; --accent-text: #0d6f44; --accent-weak: #def8e7;
   --accent-line: #14a968; --cta: #df2932; --on-cta: #ffffff; --on-color: #ffffff; --on-disabled: #a2b7aa; --focus: #14a968; --disabled: #355542;
   --danger: #d8152f; --on-danger: #ffffff; --danger-weak: #ffedec; --inverse: #1f6441; --on-inverse: #ffffff; --inverse-accent: #f8d788;
+  --success: var(--accent); --success-weak: var(--accent-weak); --on-success: #ffffff; /* 충족은 accent(디자인 141판) */
   --scrim: #03140b80; --home: #0b3a23; --on-home: #ffffff; --route: #148753; --route-home: #0b3a23;
   --shadow-sm: 0 1px 3px #03140b40; --shadow-md: 0 6px 20px #03140b4d;
   /* 시간표 칸 색(디자인 81판 '선명하게'. 10/23 밤 사용자: "테마들은 시간표 색깔 팔레트도 자체적으로 가져야 함", 교과구분도 "따른다". 80판 리스를 보고 "다시 검토해봐",
@@ -1842,7 +1849,7 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 .tour-art svg { width: 48px; height: 48px; } /* 그림은 글자 크기를 따라 커지지 않는다(글자 200% 에서 글이 먼저 보이게) */
 .tour-h { margin: var(--space-6) 0 var(--space-2); font-size: 1.25rem; line-height: 1.75rem; font-weight: 700; letter-spacing: -0.01em; color: var(--on-bg-heading); word-break: keep-all; }
 .tour-p { max-width: 20rem; margin: 0; font-size: 1rem; line-height: 1.5rem; color: var(--on-bg-text2); word-break: keep-all; overflow-wrap: anywhere; }
-.tour-h, .tour-p { text-shadow: var(--on-bg-halo, none); }
+.tour-h, .tour-p { text-shadow: var(--on-bg-halo, none); text-wrap: pretty; } /* 폭 320 세 줄에서 끝 낱말이 홀로 남지 않게(142판) */
 .tour-nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; margin-top: var(--space-6); padding: 0 var(--space-1); }
 .tour-prev { justify-self: start; margin-left: calc(var(--space-3) * -1); }
 .tour-prev.is-off { visibility: hidden; } /* 첫 장: 자리는 남겨 점이 가운데에 그대로 */
@@ -1921,26 +1928,53 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 @media (max-width: 380px) { .gr-seg .seg label { flex: 1 1 auto; padding: 0 var(--space-1); } }
 .gr-view h2.section-title { margin-top: var(--space-6); flex-wrap: wrap; row-gap: 0; }
 .gr-view h2.section-title .count { font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400; letter-spacing: 0; }
-/* 학과가 더 새 판을 허락하면 판 이름이 선택칸(.count 와 같은 글자. 누르는 높이는 위아래로 넘친다) */
-.gr-view h2.section-title .gr-ver { align-self: center; margin: -12px 0 -12px calc(var(--space-2) * -1); font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400;
-  letter-spacing: 0; color: var(--on-bg-text3); }
+/* 학과가 더 새 판을 허락하면 '적용한 규정' 줄의 판 이름이 선택칸(141판, 전에는 묶음 제목 옆) */
+.gr-view .info-row .gr-ver { margin-left: auto; }
 .gr-view > .card { margin-top: var(--space-6); }
-.gr-view h2.section-title + .card, .gr-view h2.section-title + .gr-tip + .card { margin-top: 0; }
-/* 요건 줄의 색(11/16 사용자 "졸업 요건 다 만족하면 색을 다르게 해주고, 만족 못 한 요건들도 색을 다르게"): 왼쪽 띠 4px 와 값 글자. 충족 accent(값 accent-text 500),
-   남음 warning, 확인 필요는 line-strong 띠에 태그 그대로. 맨 위 한 줄 '요건 14개 중 9개 충족'(14/20 500 on-bg-text2), 다 채우면 '모든 요건 충족'(on-bg-link, 체크 18) */
-.gr-view li.rq-met > .info-row { box-shadow: inset 4px 0 var(--accent); }
-.gr-view li.rq-left > .info-row { box-shadow: inset 4px 0 var(--warning); }
-.gr-view li.rq-check > .info-row { box-shadow: inset 4px 0 var(--line-strong); }
-.gr-view li.rq-met .v.is-ok, .gr-view li.rq-met .v.is-ok svg { color: var(--accent-text); font-weight: 500; }
-.gr-view li.rq-left .v.is-left { color: var(--warning); }
-.gr-view p.gr-sum { display: flex; align-items: center; gap: var(--space-1); margin: var(--space-4) var(--space-1) 0; font-size: 0.875rem; line-height: 1.25rem; font-weight: 500;
-  color: var(--on-bg-text2); text-shadow: var(--on-bg-halo, none); }
-.gr-view p.gr-sum.is-all { color: var(--on-bg-link); }
-@media (forced-colors: active) { .gr-view li.rq-met > .info-row, .gr-view li.rq-left > .info-row, .gr-view li.rq-check > .info-row { box-shadow: none; border-left: 4px solid CanvasText; } } /* 평점 옆 ? 의 한 줄(접혀 있어도)을 사이에 둔 카드도 */
-/* 요건 줄: 정보 화면의 행(.info-row) 그대로. 남음은 text 500, 충족은 체크 16 + text3, 확인 필요는 중립 태그. 값 뒤 꺾쇠는 값에 붙는다(값이 오른쪽 끝으로 민다) */
-.info-row .v.is-left { color: var(--text); font-weight: 500; }
-.info-row .v.is-ok { display: inline-flex; align-items: center; gap: 2px; }
-.info-row .v.is-ok svg { margin-left: 0; color: var(--text3); }
+.gr-view h2.section-title + .card, .gr-view h2.section-title + .gr-tip + .card { margin-top: 0; } /* 평점 옆 ? 의 한 줄(접혀 있어도)을 사이에 둔 카드도 */
+/* 요건 줄 값(141판): 남음 warning 500, 충족 success 500(옆에 체크 없음, 사용자 11/16), 확인 필요 text3(태그 없이) */
+.info-row .v.is-left { color: var(--warning); font-weight: 500; }
+.info-row .v.is-ok { color: var(--success); font-weight: 500; }
+.info-row .v.is-ask { color: var(--text3); }
+/* 졸업 요건 표시(141판, 11월 16일 사용자: 요건 줄 왼쪽 띠를 보고 "야 이거 별로임", 시안 셋 가운데 "가 다 합쳐줘", "충족 옆에 체크 표시는 빼고". 작업 자료 졸업 요건 표시\04).
+   요약 카드(.gr-sum)와 칸 띠(.gr-segs: 충족 success → 남음 warning → 확인 필요 fill), 상태별 묶음, 요건 줄 앞 동그라미(svg.gr-st 22, 앱이 그린다)와 같은 색 값 */
+.gr-sum { margin-top: var(--space-5); padding: var(--space-4); border-radius: var(--radius-lg); background: var(--card); }
+.gr-sum .t { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--space-2); margin: 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
+.gr-sum .t b { font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; color: var(--heading); }
+.gr-sum.is-done { background: var(--success-weak); }
+.gr-sum.is-done .t b { color: var(--success); }
+.gr-segs { display: flex; gap: 3px; margin-top: var(--space-3); }
+.gr-segs i { flex: 1; min-width: 0; height: 8px; border-radius: 2px; background: var(--fill); }
+.gr-segs i.ok { background: var(--success); }
+.gr-segs i.left { background: var(--warning); }
+.gr-segs i:first-child { border-top-left-radius: 4px; border-bottom-left-radius: 4px; }
+.gr-segs i:last-child { border-top-right-radius: 4px; border-bottom-right-radius: 4px; }
+.gr-key { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); margin: var(--space-3) 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
+.gr-key span { display: inline-flex; align-items: center; gap: 6px; }
+.gr-key i { width: 8px; height: 8px; border-radius: 2px; background: var(--fill); }
+.gr-key i.ok { background: var(--success); }
+.gr-key i.left { background: var(--warning); }
+.info-row.gr-row { min-height: 64px; padding-top: var(--space-2); padding-bottom: var(--space-2); }
+.gr-name { min-width: 0; word-break: keep-all; }
+.gr-name small { display: block; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
+.info-row svg.gr-st, svg.gr-st { flex: none; width: 22px; height: 22px; margin-left: 0; color: inherit; } /* 줄 앞이라 .info-row svg 의 margin-left: auto 를 지운다 */
+.info-row.gr-fold > svg:last-child { margin-left: auto; }
+/* 동그라미의 색(앱이 그리는 svg 의 클래스): 충족 채움 success·체크 on-success, 남음 둘레 fill·호 warning, 확인 필요 점선 muted */
+svg.gr-st .st-ok { fill: var(--success); }
+svg.gr-st .st-ck { stroke: var(--on-success); }
+svg.gr-st .st-ring { stroke: var(--fill); }
+svg.gr-st .st-arc { stroke: var(--warning); }
+svg.gr-st .st-ask { stroke: var(--muted); }
+@media (forced-colors: active) {
+  .gr-segs i, .gr-key i { border: 1px solid CanvasText; background: Canvas; }
+  .gr-segs i.ok, .gr-key i.ok { background: Highlight; }
+  .gr-sum.is-done, .gr-sstat { border: 1px solid CanvasText; }
+  .gr-path.is-ok { border-color: Highlight; }
+  svg.gr-st .st-ok { fill: Highlight; }
+  svg.gr-st .st-ck { stroke: HighlightText; }
+  svg.gr-st .st-ring, svg.gr-st .st-ask { stroke: GrayText; }
+  svg.gr-st .st-arc { stroke: CanvasText; }
+}
 .info-row > .tag { margin-left: auto; }
 .info-row > .v ~ svg, .info-row > .tag ~ svg { margin-left: 0; }
 div.info-row { cursor: default; }
@@ -1950,30 +1984,39 @@ div.info-row { cursor: default; }
 .gr-lead { margin: var(--space-4) var(--space-1) 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); word-break: keep-all; }
 /* 요건 시트(남음·충족 줄과 확인 필요 줄을 누르면) */
 .sheet-body p.rq-detail { margin: 0 0 var(--space-1); font-size: 0.875rem; line-height: 1.3125rem; color: var(--text2); word-break: keep-all; }
-.sheet-body p.rq-sum { margin: 0 0 var(--space-2); color: var(--text); }
-.rq-sum b { font-weight: 700; }
-.rq-list > li { display: flex; align-items: center; gap: var(--space-3); min-height: 52px; }
-/* 과목 체크 줄(11/16 사용자: 요건 시트를 체크박스로): 줄 전체가 라벨(누르는 영역 52), 체크 22 accent, 이름 16/24, 오른쪽 메타 13/18 text3.
-   시간표로 들은 과목은 체크된 채 꺼짐(라벨은 기본 커서). 분야·길은 소제목 15/22 600 heading 과 조건 13/18 text3 */
-.rq-list > li > .rq-ck { display: flex; flex: 1; align-items: center; gap: var(--space-3); min-width: 0; min-height: 52px; cursor: pointer; }
-.rq-ck input { flex: none; width: 22px; height: 22px; margin: 0; accent-color: var(--accent); }
-.rq-ck:has(input:disabled) { cursor: default; }
-.sheet-body h3.rq-group { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--space-2); margin: var(--space-5) 0 0; font-size: 0.9375rem; line-height: 1.375rem;
-  font-weight: 600; color: var(--heading); }
-.sheet-body h3.rq-group .m { font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400; color: var(--text3); }
-/* 분야 소제목 오른쪽 값: 충족 accent-text, 남음 warning(요건 줄 값과 같은 색). 14/20 500 */
-.sheet-body h3.rq-group .v { margin-left: auto; font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; }
-.sheet-body h3.rq-group .v.is-ok { color: var(--accent-text); }
-.sheet-body h3.rq-group .v.is-left { color: var(--warning); }
-.rq-list .ic { flex: none; display: flex; color: var(--line-strong); }
-.rq-list .done .ic { color: var(--accent-text); }
-.rq-list .t { flex: 1; min-width: 0; font-size: 1rem; line-height: 1.5rem; color: var(--text); word-break: keep-all; }
-.rq-list .done .t { color: var(--text2); }
-.rq-list .m { flex: none; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); text-align: right; }
+/* 요건 시트(141판): 상태 칸, 분야, 과목 줄(앱이 센 과목은 동그라미, 그 밖은 체크 칸), 갈래 */
+.gr-sstat { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--inset); }
+.sheet-body > .gr-sstat:first-child { margin-top: 0; } /* 자료 글이 없을 때 */
+.gr-sstat .t { font-size: 1rem; line-height: 1.5rem; color: var(--text); }
+.gr-sstat .t b { font-weight: 700; }
+.gr-sstat .v { margin-left: auto; font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; white-space: nowrap; }
+.gr-sstat .v.is-left { color: var(--warning); }
+.gr-sstat .v.is-ok { color: var(--success); }
+.gr-sstat .v.is-ask { color: var(--text3); font-weight: 400; }
+.gr-field { margin-top: var(--space-6); }
+.gr-fh { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--space-2); padding-bottom: var(--space-1); }
+.gr-fh .n { font-size: 0.9375rem; line-height: 1.375rem; font-weight: 700; color: var(--heading); }
+.gr-fh .c { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
+.gr-fh .v { margin-left: auto; font-size: 0.8125rem; line-height: 1.125rem; font-weight: 500; white-space: nowrap; }
+.gr-fh .v.is-left { color: var(--warning); }
+.gr-fh .v.is-ok { color: var(--success); }
+.gr-fh .v.is-ask { color: var(--text3); font-weight: 400; }
+.gr-checks { margin: 0; padding: 0; list-style: none; }
+.gr-checks > li + li { border-top: 1px solid var(--line); }
+.sheet-body ul.gr-checks.gr-gpa, .sheet-body .rq-why + ul.gr-checks { margin-top: var(--space-3); } /* 졸업 평점 조건 둘, 목록 없는 요건의 '이 요건을 채웠어요' */
+.gr-ck { display: flex; align-items: center; gap: var(--space-3); min-height: 52px; box-sizing: border-box; padding: 6px 0; }
+label.gr-ck { cursor: pointer; }
+.gr-ck input { flex: none; width: 22px; height: 22px; margin: 0; accent-color: var(--accent); }
+.gr-ck .t { flex: 1; min-width: 0; font-size: 1rem; line-height: 1.5rem; color: var(--text); word-break: keep-all; overflow-wrap: anywhere; }
+.gr-ck .t small { display: block; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
+.gr-ck .cr { flex: none; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); font-variant-numeric: tabular-nums; }
+.gr-ck .cr.is-left { color: var(--warning); font-weight: 500; }
+.gr-path { margin-top: var(--space-2); padding: var(--space-1) var(--space-3) 0; border: 1px solid var(--line); border-radius: var(--radius-md); }
+.gr-path.is-ok { border-color: var(--success); }
+.gr-path .pn { display: block; padding-top: var(--space-2); font-size: 0.8125rem; line-height: 1.125rem; font-weight: 500; color: var(--text2); }
 .sheet-body p.rq-src { margin: var(--space-4) 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; }
 .sheet-body p.rq-src + p.rq-src { margin-top: 2px; }
 .sheet-body p.rq-why { margin: var(--space-3) 0 var(--space-1); color: var(--text); word-break: keep-all; }
-.sheet-body p.rq-state { margin: 0; }
 .rq-acts { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-left: calc(var(--space-2) * -1); }
 .sheet-body p.rq-note { margin: var(--space-4) 0 var(--space-1); font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; }
 /* 들은 과목·성적의 과목 줄(.tk): 과목명·메타 + 오른쪽 '드랍' 체크(들은 과목) 또는 성적 선택칸(성적) */

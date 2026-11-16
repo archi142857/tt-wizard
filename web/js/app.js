@@ -107,6 +107,7 @@ const I = {
   right: '<path d="M9 6l6 6-6 6"/>',
   out: '<path d="M8 16L16 8M9.5 8H16v6.5"/>',
   down: '<path d="M6 9l6 6 6-6"/>',
+  up: '<path d="M6 15l6-6 6 6"/>',
   more: '<path d="M5.5 12h.01M12 12h.01M18.5 12h.01" stroke-width="3.2"/>',
   msg: '<path d="M20.5 11.5c0 4.1-3.8 7.4-8.5 7.4-1.2 0-2.3-.2-3.3-.6L4 19.5l1.2-3.6c-1.1-1.2-1.7-2.8-1.7-4.4 0-4.1 3.8-7.4 8.5-7.4s8.5 3.3 8.5 7.4z"/>', // 말풍선(공유 카드의 메시지: 웹·iOS)
   edit: '<path d="M4.5 19.5l.9-4.1L15.7 5.1a2 2 0 0 1 2.8 0l.4.4a2 2 0 0 1 0 2.8L8.6 18.6z"/><path d="M13.6 7.2l3.2 3.2"/>', // 연필(시간표 목록 시트의 이름 입력칸. 누르는 것이 아니라 고칠 수 있다는 표시)
@@ -2261,6 +2262,10 @@ function renderResult() {
   if (!R) return;
   $("rank-count").replaceChildren(...rankTitle(R));
   $("rank-cond").replaceChildren(...condText(R));
+  // 추정 고지(디자인 142판): 결과를 만든 켠 분반에 시간이나 강의실이 미정인 수업이 있으면(동선 확인하기는 그 시간표 과목) 둘째 문장
+  const tba = R.courses.some((c) => c.sections.some((s) => !(s.meetings || []).length || s.meetings.some((m) => !m.building)));
+  $("result-est").textContent = tba ? "추정값이라 실제로 걸리는 시간과 다를 수 있어요. 시간이나 강의실이 미정인 수업은 걷는 시간 계산에서 빠져요."
+    : "추정값이라 실제로 걸리는 시간과 다를 수 있어요";
   $("daytabs").replaceChildren(...R.days.map((d) => h("button", { type: "button", role: "tab", id: `tab-${d}`, "data-day": String(d), "aria-controls": "day-panel" }, DAY_KO[d])));
   updateTabs();
   renderDay({ reveal: state.reveal });
@@ -7305,6 +7310,7 @@ const GM_CLS = ["교양", "전필", "전선", "일선", "교직"]; // 다른 곳
 const GRAD_VIEWS = [["req", "졸업 요건"], ["taken", "수강한 과목"], ["next", "다음 학기"]]; // 셋째는 다음 학기 추천(폰 폭에서 한 줄로 서게 짧게)
 const gradObj = (o) => !!o && typeof o === "object" && !Array.isArray(o);
 const CHECK_CODE = /^[A-Za-z0-9.]{1,32}$/; // 체크한 과목의 번호(편람 교과목번호 꼴)
+const ROW_KEY = /^[A-Za-z0-9._-]{1,64}\|[A-Za-z0-9._-]{1,96}$/; // 요건 줄 열쇠 '과정 id|요건 id'
 function gradStore() {
   const v = store.get(GRAD, null), ok = gradObj(v);
   return {
@@ -7316,6 +7322,7 @@ function gradStore() {
     target: ok && Number.isFinite(v.target) ? v.target : null,
     checks: ok && gradObj(v.checks) ? Object.fromEntries(Object.entries(v.checks).filter(([k, c]) => CHECK_CODE.test(k) && gradObj(c))) : {},
     gpaOk: { all: ok && gradObj(v.gpaOk) && v.gpaOk.all === true, major: ok && gradObj(v.gpaOk) && v.gpaOk.major === true }, // 졸업 평점 시트의 두 체크(성적을 다 넣지 않았을 때)
+    rowOk: ok && gradObj(v.rowOk) ? Object.fromEntries(Object.entries(v.rowOk).filter(([k, x]) => ROW_KEY.test(k) && x === true)) : {}, // 목록 없는 요건 '이 요건을 채웠어요'(141판)
   };
 }
 const setGrad = (patch) => store.set(GRAD, { v: 1, ...gradStore(), ...patch });
@@ -7465,7 +7472,7 @@ async function renderGrad() {
   const grades = anyGrade ? R.gpa(gpaRecs, { sameCourse: same, isMajor: majorOf(counted[0]) }) : null;
   const view = R.gradView({ picks: counted.map((p) => ({ program: p.program, version: p.version, role: p.role, title: p.title, entryYear: p.entryYear,
     selectionTerm: p.selectionTerm || null, newer: p.newer })), records, grades, common: base.common, sameCourse: same, gpaChecks: gradStore().gpaOk });
-  gpaByChecks(view, grades);
+  rowsByChecks(view); // 졸업 평점 두 체크는 엔진(gpaChecks, update120)이 센다
   const taken = R.takenTerms(recs, { sameCourse: same, currentTerm: cur });
   const others = anyGrade ? counted.slice(1).map((p) => ({ short: progShort(p.id), gpa: R.gpa(gpaRecs, { sameCourse: same, isMajor: majorOf(p) }).major })) : [];
   // 요건 시트의 체크박스: 시간표·직접 넣은 과목으로 들은 것(끌 수 없음, 그 학기)과 체크로만 들은 것
@@ -7483,36 +7490,89 @@ async function renderGrad() {
   if (had) body.querySelector(`[data-gk="${CSS.escape(had)}"]`)?.focus({ preventScroll: true });
 }
 
-/** 요건 보기: 묶음마다(공통 → 주전공 → 다른 전공) 제목과 판(.count, 고를 수 있으면 선택칸), 그 아래 카드의 요건 줄(정보 화면 행 꼴, 누르면 요건 시트).
- *  맨 아래 추정 문구와 기준 줄(자료 출처로). 다음 학기 추천은 셋째 보기(11/15) */
+const GRV = { met: "is-ok", left: "is-left", check: "is-ask" }; // 값 글자(141판): 충족 success 500, 남음 warning 500, 확인 필요 text3(태그 없이)
+let gradFold = true; // 채운 요건을 접어 둔다(141판 '졸업 평점 외 2개'). 펼치면 다시 그려도 그대로
+/** 상태 동그라미(141판 svg.gr-st 22): 충족은 success 원에 on-success 체크, 남음은 fill 2.8 둘레에 warning 호(센 값 ÷ 기준, 0 이면 호 없음), 확인 필요는 muted 1.7 점선.
+ *  색은 style.css 의 svg.gr-st 클래스(고대비에서는 시스템 색). 숫자만 넣는 고정 그림이다 */
+function grSt(kind, frac = 0) {
+  const head = '<svg class="gr-st" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">';
+  if (kind === "met") return svg(`${head}<circle class="st-ok" cx="11" cy="11" r="11"/><path class="st-ck" d="M6.4 11.3l3.1 3.1 6.1-6.5" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`);
+  if (kind === "left") {
+    const c = 2 * Math.PI * 8.6, f = Math.min(0.95, Math.max(0, Number(frac) || 0)); // 남았는데 다 찬 호로 보이지 않게(학점·과목 단위가 다를 때)
+    const arc = f > 0 ? `<circle class="st-arc" cx="11" cy="11" r="8.6" fill="none" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="${(f * c).toFixed(2)} ${c.toFixed(2)}" transform="rotate(-90 11 11)"/>` : "";
+    return svg(`${head}<circle class="st-ring" cx="11" cy="11" r="8.6" fill="none" stroke-width="2.8"/>${arc}</svg>`);
+  }
+  return svg(`${head}<circle class="st-ask" cx="11" cy="11" r="9.2" fill="none" stroke-width="1.7" stroke-dasharray="3.1 2.7"/></svg>`);
+}
+/** 줄의 센 값과 기준 {have, need, unit}: 엔진이 progress 를 주면 그것, 아니면 시트 합 글('18학점 중 12학점 · 6학점 남음', '3분야 중 1분야 · …')에서. 모르면 null */
+function grProgress(r) {
+  const p = r.progress || (r.sheet && r.sheet.progress);
+  if (p && Number.isFinite(p.have) && Number.isFinite(p.need) && p.need > 0) return p;
+  const m = /^(\d+(?:\.\d+)?)(\S+) 중 (\d+(?:\.\d+)?)\2(?:\s|$)/.exec((r.sheet && r.sheet.summary) || "");
+  return m && Number(m[1]) > 0 ? { need: Number(m[1]), have: Number(m[3]), unit: m[2] } : null;
+}
+const grKind = (r) => (r.value.kind === "met" || r.value.kind === "left" ? r.value.kind : "check");
+/** 요건 줄(141판 .info-row.gr-row 64): 앞 상태 동그라미, 이름과 그 아래 과정 이름(small), 같은 색 값, 꺾쇠. 누르면 요건 시트. 이름표는 '동물생명공학전공 전공필수, 6학점 남음' */
+function grRow({ b, r }) {
+  const k = grKind(r), key = `${b.id}|${r.id}`, p = k === "left" ? grProgress(r) : null;
+  return h("li", {}, h("button", { type: "button", class: "info-row gr-row", "aria-label": `${b.title} ${r.aria}`, "data-rq": key, "data-gk": `rq:${key}` },
+    grSt(k, p ? p.have / p.need : 0), h("span", { class: "gr-name" }, r.name, h("small", {}, b.title)), h("span", { class: `v ${GRV[k]}` }, r.value.text), icon(I.right, 20)));
+}
+
+/** 요건 보기(141판. 11/16 사용자: 요건 줄 왼쪽 띠를 보고 "야 이거 별로임", 시안 셋 가운데 "가 다 합쳐줘", "충족 옆에 체크 표시는 빼고"): 맨 위 요약 카드 .gr-sum
+ *  ('2개 충족' + '요건 13개 중', 칸 띠 충족 → 남음 → 확인 필요와 풀이. 다 채우면 '모든 요건 충족'·'요건 13개를 다 채웠어요'), 상태별 묶음 '남은 요건'·'확인할 요건'·'채운 요건'
+ *  (묶음 안은 과정 차례: 공통 → 주전공 → 다른 전공). 채운 요건이 둘 이상이고 다 채운 것이 아니면 '졸업 평점 외 2개' 한 줄로 접고, 펼치면 맨 아래 '접기'.
+ *  그 아래 '적용한 규정'(과정마다 판, 고를 수 있으면 선택칸), 추정 문구와 기준 줄(자료 출처로). 다음 학기 추천은 셋째 보기(11/15) */
 function gradReqView() {
   const { view, picks, base } = gradNow;
   const mainLabel = (view.bundles.find((b) => b.kind === "program") || {}).label || null; // 공통 줄도 주전공 판으로 센다
-  // 맨 위 한 줄(11/16 사용자: 다 채우면 색을 다르게): '요건 14개 중 9개 충족', 다 채우면 '모든 요건 충족'(accent)
-  const rows = view.bundles.flatMap((b) => b.rows), met = rows.filter((r) => r.value.kind === "met").length, all = rows.length > 0 && met === rows.length;
-  const out = [h("p", { class: `gr-sum${all ? " is-all" : ""}` }, all ? icon(I.check, 18) : null, all ? "모든 요건 충족" : `요건 ${rows.length}개 중 ${met}개 충족`)];
-  for (const b of view.bundles) {
-    const p = b.kind === "program" ? picks.find((x) => x.program.id === b.id) : null;
-    const label = b.kind === "common" ? mainLabel : b.label;
-    const count = p && p.choices.length > 1
+  const all = view.bundles.flatMap((b) => b.rows.map((r) => ({ b, r })));
+  const met = all.filter((x) => grKind(x.r) === "met"), left = all.filter((x) => grKind(x.r) === "left"), ask = all.filter((x) => grKind(x.r) === "check");
+  const done = all.length > 0 && met.length === all.length;
+  const segs = h("div", { class: "gr-segs", "aria-hidden": "true" }, met.map(() => h("i", { class: "ok" })), left.map(() => h("i", { class: "left" })), ask.map(() => h("i", {})));
+  const out = [done
+    ? h("div", { class: "gr-sum is-done" }, h("p", { class: "t" }, h("b", {}, "모든 요건 충족"), `요건 ${all.length}개를 다 채웠어요`), segs)
+    : h("div", { class: "gr-sum" }, h("p", { class: "t" }, h("b", {}, `${met.length}개 충족`), `요건 ${all.length}개 중`), segs,
+      h("p", { class: "gr-key", "aria-hidden": "true" }, h("span", {}, h("i", { class: "ok" }), `충족 ${met.length}`), h("span", {}, h("i", { class: "left" }), `남음 ${left.length}`),
+        h("span", {}, h("i", {}), `확인 필요 ${ask.length}`)))];
+  const group = (title, list, rows) => out.push(h("h2", { class: "section-title" }, title, h("span", { class: "count" }, String(list.length))),
+    h("div", { class: "card info-list" }, h("ul", { class: "list" }, rows)));
+  if (left.length) group("남은 요건", left, left.map(grRow));
+  if (ask.length) group("확인할 요건", ask, ask.map(grRow));
+  if (met.length) {
+    const foldable = met.length > 1 && !done;
+    group("채운 요건", met, foldable && gradFold
+      ? h("li", {}, h("button", { type: "button", class: "info-row gr-fold", "aria-expanded": "false", "data-fold": "open", "data-gk": "fold" },
+        grSt("met"), h("span", { class: "gr-name" }, `${met[0].r.name} 외 ${met.length - 1}개`), icon(I.down, 20)))
+      : [met.map(grRow), foldable ? h("li", {}, h("button", { type: "button", class: "info-row gr-fold", "aria-expanded": "true", "data-fold": "close", "data-gk": "fold" },
+        h("span", { class: "gr-name" }, "접기"), icon(I.up, 20))) : null]);
+  }
+  // 적용한 규정(141판): 과정마다 판 이름, 학과가 더 새 판을 허락하면 선택칸(전에는 묶음 제목 옆)
+  out.push(h("h2", { class: "section-title" }, "적용한 규정"), h("div", { class: "card info-list" }, h("ul", { class: "list" }, view.bundles.map((b) => {
+    const p = b.kind === "program" ? picks.find((x) => x.program.id === b.id) : null, label = b.kind === "common" ? mainLabel : b.label;
+    return h("li", {}, h("div", { class: "info-row" }, h("span", {}, b.title), p && p.choices.length > 1
       ? h("select", { class: "browse-select gr-ver", "aria-label": `${b.title} 규정`, "data-ver": b.id, "data-gk": `ver:${b.id}` },
         p.choices.map((c) => h("option", { value: c.key, selected: c.key === p.choice }, c.label)))
-      : label ? h("span", { class: "count" }, label) : null;
-    out.push(h("h2", { class: "section-title" }, b.title, count));
-    if (!b.rows.length) continue;
-    // 줄의 색(11/16 사용자: 채운 요건과 못 채운 요건을 다른 색으로): 충족 accent, 남음 warning, 확인 필요는 태그 그대로. 왼쪽 띠도 같은 색
-    out.push(h("div", { class: "card info-list" }, h("ul", { class: "list" }, b.rows.map((r) => h("li", { class: `rq-${r.value.kind}` },
-      h("button", { type: "button", class: "info-row", "aria-label": r.aria, "data-rq": `${b.id}|${r.id}`, "data-gk": `rq:${b.id}|${r.id}` },
-        h("span", {}, r.name),
-        r.value.kind === "left" ? h("span", { class: "v is-left" }, r.value.text)
-          : r.value.kind === "met" ? h("span", { class: "v is-ok" }, icon(I.check, 16), r.value.text)
-            : h("span", { class: "tag" }, r.value.text),
-        icon(I.right, 20)))))));
-  }
+      : label ? h("span", { class: "v" }, label) : null));
+  }))));
   out.push(h("p", { class: "gr-foot" }, "학교가 공개한 문서를 바탕으로 계산한 추정이에요. 학번·학과와 개별 인정(동일·대체 과목, 학점 인정)에 따라 다를 수 있어요. 졸업 사정은 학과와 마이스누에서 최종 확인해 주세요."));
   const basis = R.basisText(base.index);
   out.push(h("p", { class: "gr-foot" }, basis ? `${basis} · ` : "", h("a", { href: "#sources", "data-go": "sources", "data-gk": "sources" }, "자료 출처")));
   return out;
+}
+
+/** 체크한 과목이 든 요건 '동물생명공학전공 전공필수'(요건 차례로 처음 것: 과목 목록·분야·갈래). 없으면 '졸업 요건에서 체크' */
+function checkHome(code) {
+  const { view, same } = gradNow, k = same(code);
+  for (const b of view.bundles) {
+    for (const r of b.rows) {
+      const raw = rqRaw(b.id, String(r.id));
+      if (!raw) continue;
+      const ex = raw.extra || {}, lists = [raw.courses || [], ...(ex.groups || []).map((g) => g.courses || []), ...(ex.paths || []).map((p) => p.courses || [])];
+      if (lists.some((l) => l.some((c) => [c.code, ...(c.alt_codes || [])].some((x) => same(x) === k)))) return `${b.title} ${r.name}`;
+    }
+  }
+  return "졸업 요건에서 체크";
 }
 
 /** 수강한 과목 보기(11/15 사용자: 들은 과목과 성적을 합침): 맨 위 평점 카드(gpaCard), 학기마다(새 학기 먼저) 제목·센 학점·그 학기 평점과 과목 줄.
@@ -7551,13 +7611,13 @@ function gradTakenView(g) {
             h("option", { value: "drop", selected: !!rec.dropped }, "드랍")));
     }))));
   }
-  // 졸업 요건에서 체크한 과목(11/16): 학기를 모르니 학기 목록 밖에 따로. 시간표에도 있는 과목은 거기서 센다(여기 넣지 않는다). × 로 체크를 푼다
+  // 졸업 요건에서 체크한 과목(141판): 학기 묶음 뒤, 머리 'n과목', 줄 메타는 그 과목이 든 요건과 학점 '동물생명공학전공 전공필수 · 3학점', × '유기화학 체크 풀기'.
+  // 학점·요건에는 세고 평점에는 넣지 않는다. 시간표에도 있는 과목은 거기서 센다(여기 넣지 않는다)
   const { same, fixed } = gradNow, cks = Object.entries(gradStore().checks).filter(([code]) => !fixed.has(same(code)));
   if (cks.length) {
-    const sum = cks.reduce((n, [, c]) => n + (Number(c.credits) || 0), 0);
-    out.push(h("h2", { class: "section-title" }, "체크한 과목", h("span", { class: "count" }, `${sum}학점`)));
+    out.push(h("h2", { class: "section-title" }, "체크한 과목", h("span", { class: "count" }, `${cks.length}과목`)));
     out.push(h("div", { class: "card" }, h("ul", { class: "list" }, cks.map(([code, c]) => h("li", { class: "tk" },
-      h("span", { class: "b" }, h("span", { class: "t" }, c.name || code), h("span", { class: "m" }, c.credits != null ? `졸업 요건에서 체크 · ${c.credits}학점` : "졸업 요건에서 체크")),
+      h("span", { class: "b" }, h("span", { class: "t" }, c.name || code), h("span", { class: "m" }, [checkHome(code), c.credits != null ? `${c.credits}학점` : null].filter(Boolean).join(" · "))),
       h("button", { type: "button", class: "icon-btn remove", "aria-label": `${c.name || code} 체크 풀기`, "data-unck": code, "data-gk": `unck:${code}` }, icon(I.x, 20)))))));
   }
   out.push(h("div", { class: "card info-list" }, h("ul", { class: "list" }, h("li", {},
@@ -7616,61 +7676,39 @@ function gpaCard(g) {
         steps.map((x) => h("option", { value: x.toFixed(2), selected: Math.abs(x - target) < 1e-9 }, x.toFixed(2)))), need)));
 }
 
-/** 요건 시트(줄을 누르면): 제목은 줄 이름, 메타 '동물생명공학전공 · 2021~2026학번 규정'. 맨 위 자료 글, 그 아래 상태(남음·충족은 합, 확인 필요는 태그·까닭).
- *  11/16 사용자 "졸업요건은 설명으로 써두지 말고 체크박스로 구성하자", "분야별로 과목 목록을 만들어 두고, 과목마다 체크박스가 있어서 체크하고, 이 여부로 졸업 요건
- *  확인할 수 있게", 졸업 평점은 "☐ 전체 평점 2.0 이상 ☐ 전공 평점 2.0 이상": 과목 목록이 있으면 과목마다 체크박스(시간표·직접 넣은 과목으로 들었으면 체크된 채 꺼짐과
- *  그 학기, 아니면 눌러서 들음·안 들음), 분야(extra.groups)·갈래(extra.paths)가 있으면 그 묶음마다 소제목·조건·값(분야는 충족·남음, 갈래는 다 들었을 때 충족)과 목록.
- *  졸업 평점은 성적을 다 넣었으면 계산한 체크(누르지 않음), 덜 넣었으면 학생이 체크하고 둘 다 켜면 줄이 충족(gpaByChecks).
- *  체크하면 바로 다시 센다(renderGrad → 이 시트 다시 그리기). 확인 필요는 아래에 학과 졸업요건(바깥 브라우저)·고지·출처 알려 주기(GitHub 양식을 인앱 브라우저로).
- *  맨 아래 출처·자료 기준일. 분야·갈래 줄 전체의 충족 계산은 백엔드에 부탁했다(지금은 엔진이 그 줄을 '확인 필요'로 둔다) */
+/** 요건 시트(141판. 11/16 사용자 "졸업요건은 설명으로 써두지 말고 체크박스로 구성하자", "분야별로 과목 목록을 만들어 두고, 과목마다 체크박스가 있어서 체크하고, 이 여부로
+ *  졸업 요건 확인할 수 있게", 졸업 평점은 "☐ 전체 평점 2.0 이상 ☐ 전공 평점 2.0 이상"): 제목은 줄 이름, 메타 '동물생명공학전공 · 2021~2026학번 규정'. 맨 위 자료 글(.rq-detail),
+ *  상태 칸(.gr-sstat: 동그라미, '12 / 18학점', 값. 확인 필요는 '확인 필요'와 아래 까닭 .rq-why). 과목 목록은 분야(.gr-field, 머리 .gr-fh 이름·조건·값)마다 과목 줄(.gr-ck):
+ *  시간표·직접 넣은 과목으로 들은 것은 충족 동그라미와 '3학점 · 2025년 1학기'(앱이 센 것), 그 밖은 체크 칸·이름·학점(체크하면 '직접 체크'). 갈래 줄은 갈래마다 .gr-path
+ *  (다 들으면 테 success). 졸업 평점은 같은 꼴의 줄 둘(성적을 다 넣었으면 앱이 계산한 동그라미와 '넣은 성적으로 계산 · 3.62', 아니면 체크 칸과 넣은 성적의 평점).
+ *  과목 목록이 없는 확인 필요 요건은 '이 요건을 채웠어요'(체크하면 그 요건 충족, rowsByChecks). 체크하면 바로 다시 센다(renderGrad → 이 시트 다시 그리기).
+ *  확인 필요는 학과 졸업요건 ↗(바깥 브라우저)·고지·출처 알려 주기 ↗(GitHub 양식을 인앱 브라우저로), 남음·충족은 출처 줄. 맨 아래 자료 기준일 */
 let rqKey = null; // 열린 요건 시트의 줄(체크하면 그 줄로 다시 그린다)
 function openRq(key, opener) {
   if (!gradNow || !paintRq(key)) return;
   $("rq-body").scrollTop = 0;
   openSheet($("rq-sheet"), opener);
 }
-/** 요건 줄의 자료(과정 파일의 요건 하나): 과목 목록의 옛 번호(alt_codes)·분야·길. 공통 묶음은 주전공 판의 교양 줄 */
+/** 요건 줄의 자료(과정 파일의 요건 하나): 과목 목록의 옛 번호(alt_codes)·분야·갈래. 공통 묶음은 주전공 판의 교양 줄 */
 function rqRaw(bid, rid) {
   const p = bid === "common" ? gradNow.picks[0] : gradNow.picks.find((x) => x.program.id === bid);
   return (p && (p.version.requirements || []).find((x) => String(x.id) === rid)) || null;
 }
-/** 과목 체크 줄: 시간표·직접 넣은 과목으로 들었으면 체크된 채 꺼짐(학점·그 학기), 체크로만 들었으면 끌 수 있고, 안 들었으면 빈 칸(학점). c: { code, name, credits, alt_codes? } */
-function rqCheckRow(c) {
-  const { same, fixed } = gradNow, checks = gradStore().checks;
+/** 과목 줄(141판 .gr-ck 52): 시간표·직접 넣은 과목으로 들었으면 충족 동그라미와 '3학점 · 2025년 1학기'(누르지 않음), 아니면 체크 칸 22·이름·오른쪽 학점,
+ *  체크했으면 이름 아래 '직접 체크'. c: { code, name, credits, alt_codes? } */
+function rqCk(c) {
+  const { same, fixed } = gradNow, checks = gradStore().checks, name = c.name || c.code;
   const keys = [c.code, ...(c.alt_codes || [])].map(same);
   const f = keys.map((k) => fixed.get(k)).find(Boolean);
-  const ck = !f && Object.keys(checks).some((k) => keys.includes(same(k)));
-  const meta = f ? `${Number(f.credits) || 0}학점 · ${R.termName(f.term)}` : c.credits != null ? `${c.credits}학점` : null;
-  return h("li", { class: f || ck ? "done" : null }, h("label", { class: "rq-ck" },
-    h("input", { type: "checkbox", checked: !!(f || ck), disabled: !!f, "data-ck": c.code, "data-ckn": c.name || c.code, "data-ckc": c.credits ?? "" }),
-    h("span", { class: "t" }, c.name || c.code), meta ? h("span", { class: "m" }, meta) : null));
+  if (f) {
+    return h("li", {}, h("div", { class: "gr-ck" }, grSt("met"), h("span", { class: "t" }, h("span", { class: "sr-only" }, "들음, "), name,
+      h("small", {}, `${Number(f.credits) || 0}학점 · ${R.termName(f.term)}`))));
+  }
+  const ck = Object.keys(checks).some((k) => keys.includes(same(k)));
+  return h("li", {}, h("label", { class: "gr-ck" }, h("input", { type: "checkbox", checked: ck, "data-ck": c.code, "data-ckn": name, "data-ckc": c.credits ?? "" }),
+    h("span", { class: "t" }, name, ck ? h("small", {}, "직접 체크") : null), c.credits != null ? h("span", { class: "cr" }, `${c.credits}학점`) : null));
 }
-/** 분야의 조건: '1과목 이상', '3학점 이상' */
-const rqNeed = (g) => [g.min_count != null ? `${g.min_count}과목 이상` : "", g.min_credits != null ? `${g.min_credits}학점 이상` : ""].filter(Boolean).join(" · ");
-/** 성적을 다 넣었는가(엔진 gradView 의 졸업 평점 줄과 같은 기준) */
-const gpaComplete = (grades) => !!(grades && grades.all && grades.all.gpa != null && grades.graduation && grades.graduation.complete);
-/** 졸업 평점 줄(11/16 사용자 "☐ 전체 평점 2.0 이상 ☐ 전공 평점 2.0 이상"): 성적을 다 넣지 않아 엔진이 '확인 필요'로 둔 줄인데 요건 시트의 두 체크를 다 켰으면 충족.
- *  엔진이 gpaChecks 를 받아 같은 일을 하게 되면(백엔드에 부탁) 이미 충족이라 여기서는 할 일이 없다 */
-function gpaByChecks(view, grades) {
-  const ok = gradStore().gpaOk, row = view.bundles[0] && view.bundles[0].rows.find((r) => r.id === "grad-gpa");
-  if (!row || row.value.kind !== "check" || gpaComplete(grades) || !(ok.all && ok.major)) return;
-  row.value = { kind: "met", text: "충족" };
-  row.aria = `${row.name}, 충족`;
-  Object.assign(row.sheet, { because: null, summary: null, strong: null });
-}
-/** 졸업 평점 시트의 조건 둘: 성적을 다 넣었으면 계산한 값이라 누르지 않는다(넘었으면 체크). 덜 넣었으면 학생이 체크한다(이 기기에만). 오른쪽은 넣은 성적의 평점(없으면 '성적 없음') */
-function rqGpaChecks() {
-  const { grades, base } = gradNow, min = (base.common.graduation && base.common.graduation.gpa_min) || 2.0;
-  const done = gpaComplete(grades), mine = gradStore().gpaOk;
-  const row = (k, label, x) => {
-    const has = !!(x && x.gpa != null), on = done ? has && x.gpa >= min : mine[k];
-    return h("li", { class: on ? "done" : null }, h("label", { class: "rq-ck" },
-      h("input", { type: "checkbox", checked: on, disabled: done, "data-gpa": done ? null : k }),
-      h("span", { class: "t" }, `${label} ${min.toFixed(1)} 이상`), h("span", { class: "m" }, has ? x.gpa.toFixed(2) : "성적 없음")));
-  };
-  return h("ul", { class: "list rq-list" }, row("all", "전체 평점", grades && grades.all), row("major", "전공 평점", grades && grades.major));
-}
-/** 분야·갈래 목록에서 들은 정도(이 시트 체크박스 그대로: 시간표·직접 넣은 과목으로 들었거나 체크한 과목) */
+/** 목록에서 들은 정도(이 시트의 줄 그대로: 시간표·직접 넣은 과목으로 들었거나 체크한 과목) */
 function rqHave(list) {
   const { same, fixed } = gradNow, ck = new Map(Object.entries(gradStore().checks).map(([k, c]) => [same(k), c]));
   let count = 0, credits = 0;
@@ -7683,16 +7721,61 @@ function rqHave(list) {
   }
   return { count, credits };
 }
-/** 분야(다 채울 것)·갈래(하나만) 소제목 오른쪽 값: 분야는 조건을 채웠으면 '충족', 아니면 'n학점 남음'·'n과목 남음'(엔진 줄 값과 같은 차례).
- *  갈래는 목록을 다 들었을 때만 '충족'(안 고른 갈래에 남음을 달지 않는다). 조건이 없으면 null */
-function rqGroupState(kind, g) {
-  const have = rqHave(g.courses);
-  if (kind === "path") return have.count >= g.courses.length ? { ok: true, text: "충족" } : null;
-  if (g.min_count == null && g.min_credits == null) return null;
-  const nk = g.min_credits != null ? g.min_credits - have.credits : 0, nc = g.min_count != null ? g.min_count - have.count : 0;
-  if (nk > 0) return { ok: false, text: `${nk}학점 남음` };
-  if (nc > 0) return { ok: false, text: `${nc}과목 남음` };
-  return { ok: true, text: "충족" };
+/** 목록의 조건 글: '6과목 모두', '4과목·12학점 이상', '1과목 이상', '3학점 이상'(없으면 null) */
+function rqCond(n, minCount, minCredits) {
+  if (minCount != null && minCount >= n && minCredits == null) return `${n}과목 모두`;
+  const t = [minCount != null ? `${minCount}과목` : null, minCredits != null ? `${minCredits}학점` : null].filter(Boolean).join("·");
+  return t ? `${t} 이상` : null;
+}
+/** 목록 머리 값(141판 .gr-fh .v): 과목 수 먼저 '2과목 남음', 그다음 학점 '3학점 남음', 다 채우면 '충족'. 조건이 없으면 null */
+function rqListState(list, minCount, minCredits) {
+  if (minCount == null && minCredits == null) return null;
+  const have = rqHave(list), nc = minCount != null ? minCount - have.count : 0, nk = minCredits != null ? minCredits - have.credits : 0;
+  if (nc > 0) return { kind: "left", text: `${nc}과목 남음` };
+  if (nk > 0) return { kind: "left", text: `${nk}학점 남음` };
+  return { kind: "met", text: "충족" };
+}
+/** 분야 하나(141판 section.gr-field): 머리 .gr-fh(이름 15/22 700, 조건 13/18 text3, 오른쪽 값)와 그 아래 것들 */
+function rqField(id, name, cond, st, ...items) {
+  return h("section", { class: "gr-field", "aria-labelledby": id }, h("div", { class: "gr-fh" }, h("span", { class: "n", id }, name), cond ? h("span", { class: "c" }, cond) : null,
+    st ? h("span", { class: `v ${GRV[st.kind] || ""}` }, st.text) : null), ...items);
+}
+/** 갈래 조건 글: 갈래 이름 앞 '(1)'·'A.' 를 모아 '(1)·(2)·(3) 중 하나', 없으면 '갈래 3개 중 하나' */
+function rqPathCond(paths, need) {
+  const tags = paths.map((p) => (/^\s*(\(\d+\)|[A-Z]\.)/.exec(p.name || "") || [])[1]);
+  const n = !need || need === 1 ? "하나" : `${need}개`;
+  return tags.every(Boolean) ? `${tags.join("·")} 중 ${n}` : `갈래 ${paths.length}개 중 ${n}`;
+}
+/** 성적을 다 넣었는가(엔진 gradView 의 졸업 평점 줄과 같은 기준) */
+const gpaComplete = (grades) => !!(grades && grades.all && grades.all.gpa != null && grades.graduation && grades.graduation.complete);
+const gpaMin = () => (gradNow.base.common.graduation && gradNow.base.common.graduation.gpa_min) || 2.0;
+/** 졸업 평점의 조건 둘(141판): 성적을 다 넣었으면 앱이 계산한 줄(충족이면 동그라미, '넣은 성적으로 계산 · 3.62'), 아니면 체크 칸(이 기기 ttw.grad.gpaOk)과 넣은 성적의 평점.
+ *  → { rows, n }(n = 채운 조건 수). 전공 과목 성적이 없으면 엔진처럼 전공 평점은 막지 않는다 */
+function rqGpa() {
+  const { grades } = gradNow, min = gpaMin(), done = gpaComplete(grades), mine = gradStore().gpaOk;
+  let n = 0;
+  const row = (k, label, x) => {
+    const has = !!(x && x.gpa != null), name = `${label} ${min.toFixed(1)} 이상`;
+    if (done) {
+      const ok = has ? x.gpa >= min : k === "major";
+      if (ok) n += 1;
+      return h("li", {}, h("div", { class: "gr-ck" }, grSt(ok ? "met" : "left"), h("span", { class: "t" }, name,
+        h("small", {}, has ? `넣은 성적으로 계산 · ${x.gpa.toFixed(2)}` : "전공 과목 성적이 없어요"))));
+    }
+    if (mine[k]) n += 1;
+    return h("li", {}, h("label", { class: "gr-ck" }, h("input", { type: "checkbox", checked: !!mine[k], "data-gpa": k }),
+      h("span", { class: "t" }, name, mine[k] ? h("small", {}, "직접 체크") : null), h("span", { class: "cr" }, has ? x.gpa.toFixed(2) : "성적 없음")));
+  };
+  const rows = [row("all", "전체 평점", grades && grades.all), row("major", "전공 평점", grades && grades.major)];
+  return { rows, n };
+}
+/** 상태 칸(141판 .gr-sstat): 동그라미, 센 값('<b>12</b> / 18학점', 모르면 합 글의 앞말이나 줄 이름), 오른쪽 값. 확인 필요는 점선과 '확인 필요'만 */
+function rqStat(r) {
+  const k = grKind(r), s = r.sheet, p = k === "check" ? null : grProgress(r);
+  if (k === "check") return h("div", { class: "gr-sstat" }, grSt("check"), h("span", { class: "t" }, "확인 필요"));
+  const pre = s.summary && s.strong && s.summary.endsWith(s.strong) ? s.summary.slice(0, -s.strong.length).replace(/\s*·\s*$/, "") : s.summary;
+  const t = p ? [h("b", {}, String(p.have)), ` / ${p.need}${p.unit}`] : k === "met" ? "요건을 채웠어요" : pre || r.name;
+  return h("div", { class: "gr-sstat" }, grSt(k, p ? p.have / p.need : 0), h("span", { class: "t" }, t), h("span", { class: `v ${GRV[k]}` }, r.value.text));
 }
 /** 요건 시트 내용을 그린다(열 때, 체크한 뒤). 줄이 없으면 false */
 function paintRq(key) {
@@ -7700,46 +7783,61 @@ function paintRq(key) {
   const b = gradNow.view.bundles.find((x) => x.id === bid), r = b && b.rows.find((x) => String(x.id) === rid);
   if (!r) return false;
   rqKey = key;
-  const s = r.sheet, body = [], raw = rqRaw(bid, rid), ex = (raw && raw.extra) || {};
+  const s = r.sheet, body = [], raw = rqRaw(bid, rid), ex = (raw && raw.extra) || {}, k = grKind(r), gpa = bid === "common" && rid === "grad-gpa";
   $("rq-title").textContent = s.title;
   $("rq-meta").textContent = s.meta || "";
   $("rq-meta").hidden = !s.meta;
   const ext = (href, text, label, system) => h("div", { class: "rq-acts" }, h("a", { class: "btn-text small cs-review", href, target: "_blank", rel: "noopener",
     "data-browser": system ? "system" : null, "aria-label": label }, text, icon(I.out, 16)));
-  if (s.detail) body.push(h("p", { class: "rq-detail" }, s.detail));
-  const lists = [["group", ex.groups], ["path", ex.paths]].map(([kind, l]) => [kind, (l || []).filter((x) => (x.courses || []).length)]);
-  let because = s.because;
-  // 과목 목록이 분야·갈래에만 있는 줄: 엔진의 '정해진 과목 목록이 없는 요건' 대신 체크로 확인하라는 말(분야·갈래 충족 계산은 백엔드에 부탁)
-  if (because && because === R.reasonText({ reason: "과목 목록이 없는 조건" }) && lists.some(([, l]) => l.length)) {
-    because = lists[0][1].length ? "분야별 조건이라 앱이 아직 충족을 세지 못해요. 분야마다 체크해서 확인해 주세요."
-      : "여러 갈래 가운데 하나를 고르는 요건이라 앱이 아직 충족을 세지 못해요. 들은 갈래를 체크해서 확인해 주세요.";
-  }
-  if (r.value.kind === "check") {
-    body.push(h("p", { class: "rq-state" }, h("span", { class: "tag" }, "확인 필요")));
-    if (because) body.push(h("p", { class: "rq-why" }, because));
-  } else if (s.summary) {
-    const at = s.strong ? s.summary.lastIndexOf(s.strong) : -1;
-    body.push(h("p", { class: "rq-sum" }, at < 0 ? s.summary : [s.summary.slice(0, at), h("b", {}, s.strong), s.summary.slice(at + s.strong.length)]));
-  }
-  // 체크박스: 졸업 평점은 조건 둘, 과목 목록(자료의 옛 번호까지), 분야·갈래마다 소제목과 목록
-  if (rid === "grad-gpa") body.push(rqGpaChecks());
+  const detail = s.detail || (gpa ? `전체 평점과 전공 평점이 모두 ${gpaMin().toFixed(1)} 이상` : null);
+  if (detail) body.push(h("p", { class: "rq-detail" }, detail));
   const flat = raw && (raw.courses || []).length ? raw.courses : s.courses || [];
-  if (flat.length) body.push(h("ul", { class: "list rq-list" }, flat.map(rqCheckRow)));
-  for (const [kind, list] of lists) {
-    for (const g of list) {
-      const need = kind === "group" ? rqNeed(g) : g.credits != null ? `${g.credits}학점` : "", st = rqGroupState(kind, g);
-      body.push(h("h3", { class: "rq-group" }, h("span", { class: "n" }, String(g.name || g.field || "")), need ? h("span", { class: "m" }, need) : null,
-        st ? h("span", { class: `v ${st.ok ? "is-ok" : "is-left"}` }, st.text) : null));
-      body.push(h("ul", { class: "list rq-list" }, g.courses.map(rqCheckRow)));
+  const groups = (ex.groups || []).map((g, i) => ({ g, i })).filter(({ g }) => (g.courses || []).length);
+  const paths = (ex.paths || []).filter((p) => (p.courses || []).length);
+  const lists = flat.length + groups.length + paths.length > 0;
+  if (gpa) { // 졸업 평점: 상태 칸은 채운 조건 수('1 / 2', '1개 남음'), 그 아래 조건 둘
+    const g = rqGpa(), all = g.n === 2;
+    body.push(h("div", { class: "gr-sstat" }, grSt(all ? "met" : "left", g.n / 2), h("span", { class: "t" }, h("b", {}, String(g.n)), " / 2"),
+      h("span", { class: `v ${all ? "is-ok" : "is-left"}` }, all ? "충족" : `${2 - g.n}개 남음`)), h("ul", { class: "gr-checks gr-gpa" }, g.rows));
+  } else {
+    body.push(rqStat(r));
+    let because = s.because;
+    // 과목 목록이 분야·갈래에만 있는데 엔진이 '정해진 과목 목록이 없는 요건'이라 할 때(목록 없는 분야가 섞임): 체크로 확인하라는 말
+    if (because && because === R.reasonText({ reason: "과목 목록이 없는 조건" }) && (groups.length || paths.length)) {
+      because = groups.length ? "분야별 조건이라 앱이 아직 충족을 세지 못해요. 분야마다 체크해서 확인해 주세요."
+        : "여러 갈래 가운데 하나를 고르는 요건이라 앱이 아직 충족을 세지 못해요. 들은 갈래를 체크해서 확인해 주세요.";
     }
+    if (k === "check" && because) body.push(h("p", { class: "rq-why" }, because));
   }
-  if (r.value.kind === "check") {
+  // 과목 목록: 한 줄 목록은 줄 이름의 분야 하나, 분야 줄은 분야마다(엔진의 sheet.groups 값), 갈래 줄은 분야 하나 안에 갈래마다
+  if (flat.length) {
+    body.push(rqField("rqf-list", r.name, rqCond(flat.length, raw ? raw.min_count : null, raw ? raw.min_credits : null),
+      rqListState(flat, raw ? raw.min_count : null, raw ? raw.min_credits : null), h("ul", { class: "gr-checks" }, flat.map(rqCk))));
+  }
+  for (const { g, i } of groups) {
+    const name = String(g.name || g.field || ""), sg = (s.groups || []).find((x) => x.name === name) || (s.groups || [])[i] || null;
+    const st = sg && sg.value ? { kind: sg.value.kind, text: sg.value.text } : rqListState(g.courses, g.min_count, g.min_credits);
+    body.push(rqField(`rqf-${i}`, name, sg ? sg.need : rqCond(g.courses.length, g.min_count, g.min_credits), st, h("ul", { class: "gr-checks" }, g.courses.map(rqCk))));
+  }
+  if (paths.length) {
+    body.push(rqField("rqf-path", r.name, rqPathCond(paths, raw && raw.min_count), { kind: k, text: r.value.text }, paths.map((p, i) => {
+      const sp = (s.paths || []).find((x) => x.name === p.name) || (s.paths || [])[i] || null;
+      const ok = sp && sp.value ? sp.value.kind === "met" : rqHave(p.courses).count >= p.courses.length;
+      return h("div", { class: `gr-path${ok ? " is-ok" : ""}` }, h("span", { class: "pn" }, p.name), h("ul", { class: "gr-checks" }, p.courses.map(rqCk)));
+    })));
+  }
+  // 과목 목록이 없는 확인 필요 요건(141판 ⑥): '이 요건을 채웠어요'를 체크하면 그 요건을 충족으로 본다(이 기기 ttw.grad.rowOk)
+  if (!gpa && !lists && rid !== "grad-credits" && (k === "check" || r.rowOk)) {
+    body.push(h("ul", { class: "gr-checks" }, h("li", {}, h("label", { class: "gr-ck" }, h("input", { type: "checkbox", checked: !!r.rowOk, "data-rowok": key }),
+      h("span", { class: "t" }, "이 요건을 채웠어요", r.rowOk ? h("small", {}, "직접 체크") : null)))));
+  }
+  if (k === "check" && !gpa) {
     if (s.link) body.push(ext(s.link, "학과 졸업요건", "학과 졸업요건 페이지", true));
     body.push(h("p", { class: "rq-note" }, "공개된 학교 문서 주소만 적어 주세요. 이름·학번·성적·이수 내역은 적지 마세요. 누구나 볼 수 있어요."));
     // 미리 채우는 것은 과정(catalog short)·줄 이름과 앱 정보뿐(학과·학번·판 이름·성적·들은 과목은 넣지 않는다. 법무 11/14, 백엔드 update107). 의견 보내기를 거치지 않는다
     const prog = b.kind === "program" ? (cat.programs[b.id] || {}).short || progShort(b.id) : b.title;
     const q = { template: "source.yml", title: `[출처] ${prog} · ${r.name}`, program: prog, row: r.name, app: appInfo() };
-    body.push(ext(`${FEEDBACK_URL}?${Object.entries(q).map(([k, x]) => `${k}=${encodeURIComponent(x.toWellFormed ? x.toWellFormed() : x)}`).join("&")}`,
+    body.push(ext(`${FEEDBACK_URL}?${Object.entries(q).map(([k2, x]) => `${k2}=${encodeURIComponent(x.toWellFormed ? x.toWellFormed() : x)}`).join("&")}`,
       "출처 알려 주기", "출처 알려 주기, GitHub 양식", false));
   } else {
     for (const src of s.sources || []) body.push(h("p", { class: "rq-src" }, src.text));
@@ -7749,9 +7847,22 @@ function paintRq(key) {
   $("rq-body").replaceChildren(...body);
   return true;
 }
-// 과목 체크: 체크한 과목(ttw.grad.checks, 이 기기에만)을 바꾸고 다시 센다. 시트는 그 줄로 다시 그리고 초점·스크롤 자리는 그대로, 바뀐 줄 값을 읽어 준다
+/** 과목 목록이 없는 요건을 '이 요건을 채웠어요'로 체크했으면(ttw.grad.rowOk) 그 줄을 충족으로 본다(141판 ⑥). 엔진은 확인 필요로 둔 줄이다 */
+function rowsByChecks(view) {
+  const ok = gradStore().rowOk;
+  for (const b of view.bundles) {
+    for (const r of b.rows) {
+      if (!ok[`${b.id}|${r.id}`] || r.value.kind !== "check") continue;
+      r.value = { kind: "met", text: "충족" };
+      r.aria = `${r.name}, 충족`;
+      r.rowOk = true;
+      r.sheet.because = null;
+    }
+  }
+}
+// 체크: 과목(ttw.grad.checks)·졸업 평점 조건(gpaOk)·목록 없는 요건(rowOk)을 바꾸고(이 기기에만) 다시 센다. 시트는 그 줄로 다시 그리고 초점·스크롤 자리는 그대로, 바뀐 줄 값을 읽어 준다
 $("rq-body").addEventListener("change", async (e) => {
-  const el = e.target.closest("[data-ck], [data-gpa]");
+  const el = e.target.closest("[data-ck], [data-gpa], [data-rowok]");
   if (!el || !gradNow) return;
   let sel;
   if (el.dataset.gpa) { // 졸업 평점의 조건 둘(성적을 다 넣지 않았을 때)
@@ -7759,6 +7870,12 @@ $("rq-body").addEventListener("change", async (e) => {
     if (k !== "all" && k !== "major") return;
     setGrad({ gpaOk: { ...gradStore().gpaOk, [k]: el.checked } });
     sel = `[data-gpa="${k}"]`;
+  } else if (el.dataset.rowok) { // 목록 없는 요건 '이 요건을 채웠어요'
+    const k = el.dataset.rowok, ok = { ...gradStore().rowOk };
+    if (el.checked) ok[k] = true;
+    else delete ok[k];
+    setGrad({ rowOk: ok });
+    sel = `[data-rowok="${CSS.escape(k)}"]`;
   } else {
     const code = el.dataset.ck, checks = { ...gradStore().checks }, same = gradNow.same;
     if (el.checked) checks[code] = { name: el.dataset.ckn, credits: el.dataset.ckc === "" ? null : Number(el.dataset.ckc) };
@@ -7770,7 +7887,7 @@ $("rq-body").addEventListener("change", async (e) => {
   await renderGrad();
   if (!d.open || rqKey !== key || !gradNow || !paintRq(key)) return;
   $("rq-body").scrollTop = top;
-  d.returnTo = $("grad-body").querySelector(`[data-gk="${CSS.escape(`rq:${key}`)}"]`) || d.returnTo; // 다시 그린 요건 줄로
+  d.returnTo = $("grad-body").querySelector(`[data-gk="${CSS.escape(`rq:${key}`)}"]`) || $("grad-body").querySelector('[data-gk="fold"]') || d.returnTo; // 다시 그린 요건 줄(접혔으면 접은 줄)로
   $("rq-body").querySelector(sel)?.focus({ preventScroll: true });
   const cut = key.indexOf("|"), b = gradNow.view.bundles.find((x) => x.id === key.slice(0, cut)), r = b && b.rows.find((x) => String(x.id) === key.slice(cut + 1));
   if (r) announce(`${r.name}, ${r.value.text}`);
@@ -7805,9 +7922,17 @@ $("gm-ok").addEventListener("click", () => {
 
 // 탭 안의 누름과 바꿈(다시 그려도 그대로인 바깥 요소에 한 번)
 $("grad-body").addEventListener("click", (e) => {
-  const el = e.target.closest("[data-rq], [data-next], [data-make], [data-del], [data-gm], [data-go], [data-retry], [data-tip], [data-unck]");
+  const el = e.target.closest("[data-rq], [data-next], [data-make], [data-del], [data-gm], [data-go], [data-retry], [data-tip], [data-unck], [data-fold]");
   if (!el) return;
   const d = el.dataset;
+  if (d.fold) { // 채운 요건 접기·펼치기(141판): 펼치면 첫 줄로, 접으면 접은 줄로(renderGrad 가 같은 data-gk 로 돌려놓는다)
+    gradFold = d.fold === "close";
+    renderGrad().then(() => {
+      if (!gradFold) $("grad-body").querySelector('[data-gk="fold"]')?.closest("ul")?.querySelector(".gr-row")?.focus({ preventScroll: true });
+      announce(gradFold ? "채운 요건을 접었어요" : "채운 요건을 펼쳤어요");
+    });
+    return;
+  }
   if (d.unck) { // 체크한 과목 풀기: 그 줄이 없어지니 초점은 다른 곳에서 들은 과목 넣기로
     const checks = { ...gradStore().checks }, name = (checks[d.unck] || {}).name || d.unck;
     delete checks[d.unck];
@@ -8199,12 +8324,13 @@ $("login-skip-ok").addEventListener("click", () => {
 // 지금 있는 탭마다 한 장(그 탭의 채운 아이콘·이름·두 문장). 옆으로 밀면 장이 손가락을 따라 움직이고(장 너비의 20%를 넘기거나 빠르게 밀면 넘어간다. 양 끝은 1/3 만 따라온다),
 // 이전·다음 단추와 ←→ 로도 넘긴다(미는 몸짓 없이도 다 된다). 웹 개발자 메뉴 '처음 안내'로 다시 본다
 const TOUR = "tour";
+// 문구는 디자인 142판(시간표·동선 탐색은 폰에서 세 줄이고 끝 낱말이 홀로 남아 줄였다. '동선 확인하기' 가운데 칸은 줄바꿈 없는 칸 U+00A0)
 const TOUR_TEXT = {
-  mine: "들을 수업과 일정을 넣은 한 주 시간표예요. 동선 확인하기로 그날 걷는 길을 보고, 링크나 이미지로 보내요.",
-  explore: "들을 과목을 담으면 걷는 시간이 짧은 분반 조합부터 보여 줘요. 추가 설정에서 공강 요일과 점심시간도 정해요.",
+  mine: "수업과 일정을 넣은 한 주 시간표예요. 동선\u00a0확인하기로 그날 걷는 길을 봐요.",
+  explore: "들을 과목을 담으면 걷는 시간이 짧은 분반 조합부터 보여 줘요. 공강 요일과 점심시간도 정해요.",
   grad: "학과와 학번에 맞춘 졸업 요건과 남은 학점을 봐요. 학교가 공개한 문서로 계산한 추정이에요.",
   friends: "로그인하고 닉네임으로 친구를 맺으면 서로의 시간표를 봐요. 보이기 싫은 과목·일정은 숨겨요.",
-  theme: "앱 색을 기본·라이트·다크 테마 가운데 골라요. 정해 둔 기간에는 크리스마스 같은 테마도 켜져요.",
+  theme: "앱 색을 기본·라이트·다크 가운데 골라요. 12월에는 크리스마스 테마가 켜져요.",
 };
 const tourAtLaunch = () => (FRESH || store.get(TOUR, null) === "open") && !launchLink && !launchNav && !launchInvite;
 /** 처음 화면(처음 안내, 로그인, 학과와 학번): 탭 막대·사이드바 없이 한 칸이고, 링크·바로가기로 켜면 거둔다 */
