@@ -2008,13 +2008,12 @@ div.info-row { cursor: default; }
 .gr-lead { margin: var(--space-4) var(--space-1) 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); word-break: keep-all; }
 /* 수강한 과목의 학기 넘기기(11/16 사용자 '학기마다 성적 입력하는 건 좌우로 넘길 수 있도록'): 이끄는 글, 가로 칸 .gr-track(본문 폭: 장이 카드 양끝 선을 넘어 지나가지 않는다.
    11/16 사용자 그림 '저 빨간 라인 넘어가지 않았으면'. scroll-snap 한 장 = 칸 폭, 한 번에 한 장, 끝에서 더 밀어도 화면이 따라가지 않게 overscroll contain, 스크롤 막대 없음,
-   높이는 보이는 장. app.js gradPager), 아래 점 .gr-dots(처음 안내와 같은 꼴, 가운데).
+   높이는 가장 긴 학기(flex 칸이라 알아서: 넘겨도 아래 점과 그 밑이 들썩이지 않고 짧은 학기는 아래가 빈다. 11/16 사용자 '가장 긴 목록 기준으로 칸 크기를 정해줘.
+   남는 만큼은 여백으로'). app.js gradPager), 아래 점 .gr-dots(처음 안내와 같은 꼴, 가운데).
    이전·다음(누르는 영역 48)은 장마다 학기 제목 줄 양끝(11/16 사용자 그림 '화살표 위치 저렇게'): 꺾쇠 아이콘 칸(24)이 본문 양끝 안쪽에 붙고(뒤로 단추처럼 12 를 바깥으로, 바깥은 칸이 자른다),
    제목 줄 가운데 높이. 장 안이라 위에서 밀어도 넘어간다('물론 스와이프도 되어야 함'). 제목 글은 왼쪽 24 를, 센 학점·? 는 다음 단추의 누르는 영역(본문 끝 36)을 비킨다(넘치면 다음 줄로) */
-.gr-track { display: flex; align-items: flex-start; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none;
-  transition: height var(--dur-move) var(--ease-standard); }
+.gr-track { display: flex; align-items: flex-start; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
 .gr-track::-webkit-scrollbar { display: none; }
-.gr-track.is-still { transition: none; }
 .gr-slide { position: relative; flex: 0 0 100%; min-width: 0; scroll-snap-align: start; scroll-snap-stop: always; }
 .gr-slide > h2.section-title { margin-top: var(--space-2); padding: 0 var(--space-8) 0 var(--space-6); }
 .gr-pbtn { position: absolute; top: -2px; z-index: 1; color: var(--on-bg-text2); }
@@ -2028,7 +2027,6 @@ div.info-row { cursor: default; }
 .gr-pbtn:focus-visible { outline: none; }
 .gr-pbtn:focus-visible::before { outline: 2px solid var(--focus); outline-offset: -2px; }
 .gr-dots { justify-content: center; margin-top: var(--space-3); }
-@media (prefers-reduced-motion: reduce) { .gr-track { transition: none; } }
 /* 요건 시트(남음·충족 줄과 확인 필요 줄을 누르면) */
 .sheet-body p.rq-detail { margin: 0 0 var(--space-1); font-size: 0.875rem; line-height: 1.3125rem; color: var(--text2); word-break: keep-all; }
 /* 요건 시트(141판): 상태 칸, 분야, 과목 줄(앱이 센 과목은 동그라미, 그 밖은 체크 칸), 갈래 */

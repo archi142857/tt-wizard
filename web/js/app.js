@@ -6903,14 +6903,14 @@ $("info-list").addEventListener("click", (e) => {
 // 둘은 같은 카드 셋(#view-dept)이고 꼴만 다르다: setup(탭 막대·사이드바 없이 워드마크·나중에, 제목, 시작하기) / dept(뒤로·제목, 저장하기).
 // 목록은 백엔드 update103 data/requirements/catalog.json(대학 → 학과(부) → 전공, 다른 전공 묶음 셋, 편람 dept → 학과). 학번에 없던 과정(exists_for)은 숨긴다.
 // 값은 이 기기에만(ttw.dept): { v, major: { id, entry }, others: [{ kind: "double"|"minor"|"major", id, term }], year, grade, gradeYear, name, names }.
-// major.id 는 과정 id(나뉘지 않는 학과는 그 하나, '아직 안 정함'은 학과 id u-…), entry 는 전공 진입 해(전공을 나중에 고르는 학부만. 묻지 않고 학번 + 1:
+// major.id 는 과정 id(나뉘지 않는 학과는 그 하나, '미정'은 학과 id u-…), entry 는 전공 진입 해(전공을 나중에 고르는 학부만. 묻지 않고 학번 + 1:
 // 11/15 사용자 '전공 진입이 뭔 뜻인지 모르겠음', '굳이 필요 없으면 아예 없애는 것도 좋음'. 요건 판이 전공 진입 연도로 갈리는 과정만 쓴다). grade 는 gradeYear 학기의 학년이고
 // 새 해의 학기 자료가 오면 그만큼 더한다(deptGrade). name·names 는 정보 줄 글(목록을 받지 않아도 그린다). 밖으로 보내지 않는다.
 // 여는 날(DEPT_FROM, 한국 시각) 전에는 처음 화면도 정보 줄도 없고 웹 개발자 메뉴로만 미리 본다. 처음에는 처리방침 2-1절('기기 안'에 학과·학번)이 시행되는 11/27 이었고
 // (법무 11/11 ②, 문서 11/13), 사용자 11/15 '지금 다 열자'로 11/15 에 연다(백엔드 update115, 법무 11/15: 값이 기기 안에만 있어 처리방침 새 판을 같은 날 올리면 된다)
 const DEPT = "dept", DEPT_ASKED = "deptAsked";
 const DEPT_FROM = "2026-11-15"; // 한국 시각 날짜. 사용자 11/15 03:48 '걍 지금 다 열자니까'(백엔드 update115): 처리방침 11/27 시행 전이지만 값이 기기 안에만 있어 지금 연다
-const UNDECIDED = "-"; // 전공 칸의 '아직 안 정함'
+const UNDECIDED = "-"; // 전공 칸의 '미정'(전공을 아직 정하지 않은 학부생. 11/16 사용자 '아직 안 정함 말고 미정으로')
 const KIND_NAME = { major: "주전공", double: "복수전공", minor: "부전공" };
 // 웹 개발자 메뉴의 '학과와 학번'(이 탭만, 시행일 전 미리 보기). 데모 중에 새로 고쳐도 꺼지지 않게 sessionStorage 에 둔다(11/16 데모데이)
 let devDept = (() => { try { return sessionStorage.getItem("ttw.devDept") === "1"; } catch { return false; } })();
@@ -6976,7 +6976,7 @@ function deptValue() {
   const id = u.splits ? (dd.prog === UNDECIDED ? u.id : dd.prog) : u.programs[0] || u.id;
   return {
     v: 1, major: { id, entry }, others: dd.others.map((o) => ({ ...o })), year: dd.year, grade: dd.grade || clampGrade(latestYear() - dd.year + 1), gradeYear: latestYear(),
-    name: u.splits && dd.prog && dd.prog !== UNDECIDED ? progName(dd.prog) : u.name, // 고른 가장 아래 칸의 이름, 아직 안 정함이면 학과 이름
+    name: u.splits && dd.prog && dd.prog !== UNDECIDED ? progName(dd.prog) : u.name, // 고른 가장 아래 칸의 이름, 미정이면 학과 이름
     names: dd.others.map((o) => progShort(o.id)),
   };
 }
@@ -6996,7 +6996,7 @@ function renderDeptForm() {
   $("dp-prog-f").hidden = !(u && u.splits);
   if (u && u.splits) {
     const progs = u.programs.filter((id) => forYear((cat.programs[id] || {}).exists_for, d.year, id === d.prog)).map((id) => [id, progName(id)]);
-    fillSel($("dp-prog"), [...progs, ...(u.undecided ? [[UNDECIDED, "아직 안 정함"]] : [])], d.prog);
+    fillSel($("dp-prog"), [...progs, ...(u.undecided ? [[UNDECIDED, "미정"]] : [])], d.prog);
   }
   const list = $("dp-others");
   list.replaceChildren(...(ok ? d.others : []).map((o, i) => {
@@ -7068,7 +7068,7 @@ async function guessDept() {
     const d = cat.depts[best[0]], u = cat.units.get(d.units[0]);
     if (u && cat.colleges.some((c) => c.units.includes(u))) {
       g.unit = u.id;
-      if (u.splits) { // 과목 번호 앞자리로 전공을 고른다. 갈리지 않으면 아직 안 정함
+      if (u.splits) { // 과목 번호 앞자리로 전공을 고른다. 갈리지 않으면 미정
         const score = (p) => (codes.get(best[0]) || []).filter((code) => (p.prefixes || []).some((x) => code.startsWith(x))).length;
         const ranked = (d.programs || []).filter((p) => u.programs.includes(p.id)).map((p) => [p.id, score(p)]).sort((a, b) => b[1] - a[1]);
         g.prog = ranked[0] && ranked[0][1] > 0 && (!ranked[1] || ranked[1][1] < ranked[0][1]) ? ranked[0][0] : u.undecided ? UNDECIDED : "";
@@ -7363,7 +7363,7 @@ function regularTerms(year, cur) {
   for (let y = Number(year); y <= Number(String(cur).slice(0, 4)); y++) for (const s of ["1", "2"]) if (R.termOrder(`${y}-${s}`) <= R.termOrder(cur)) out.push(`${y}-${s}`);
   return out;
 }
-/** 고른 학과·학번 → 계산할 과정(첫째가 주전공, 그다음 다른 주전공·복수전공·부전공을 고른 차례로). 자료가 없는 과정(아직 안 정함, index 의 data 가 false)은 뺀다.
+/** 고른 학과·학번 → 계산할 과정(첫째가 주전공, 그다음 다른 주전공·복수전공·부전공을 고른 차례로). 자료가 없는 과정(전공 미정, index 의 data 가 false)은 뺀다.
  *  판은 입학·전공 진입·선발 학기로 고르고(pickVersionFor), 학과가 더 새 판을 허락하면(choices 둘 이상) 기기에 둔 고른 판. 주전공에 자료가 없으면 null */
 async function gradPicks(v, base) {
   const ix = new Map((base.index.programs || []).map((p) => [p.id, p]));
@@ -7489,7 +7489,8 @@ async function renderGrad() {
 
 /** 수강한 과목의 학기 넘기기(11/16 사용자 '학기마다 성적 입력하는 건 좌우로 넘길 수 있도록'): 가로 스크롤 칸 .gr-track(scroll-snap, 한 번에 한 장)에 학기마다 한 장
  *  (옛 학기 → 새 학기). 처음은 보던 학기(gradTermAt, 없으면 가장 새 학기). 손가락으로 밀거나 학기 제목 줄 양끝의 이전·다음(첫·끝 장에서는 그쪽을 숨김), 아래 점.
- *  멈춘 장 밖은 inert(Tab·스크린리더는 보이는 장만), 칸 높이는 보이는 장에 맞춘다(짧은 학기 아래가 비지 않게). 탭 사이 밀어 넘기기는 이 안에서 하지 않는다(data-noswipe) */
+ *  멈춘 장 밖은 inert(Tab·스크린리더는 보이는 장만). 칸 높이는 가장 긴 학기(style.css 의 flex 칸이 알아서, 11/16 사용자 '가장 긴 목록 기준으로 칸 크기를 정해줘.
+ *  남는 만큼은 여백으로'): 넘겨도 아래 점과 그 밑이 들썩이지 않고, 짧은 학기는 아래가 빈다. 탭 사이 밀어 넘기기는 이 안에서 하지 않는다(data-noswipe) */
 function gradPager() {
   gradPagerRO?.disconnect();
   gradPagerRO = null;
@@ -7499,9 +7500,8 @@ function gradPager() {
   const clamp = (i) => Math.max(0, Math.min(n - 1, i)), near = () => clamp(Math.round(track.scrollLeft / Math.max(1, track.clientWidth)));
   let at = slides.findIndex((s) => s.dataset.term === gradTermAt), width = 0, settle = 0;
   if (at < 0) at = n - 1;
-  const fit = () => { track.style.height = `${slides[at].offsetHeight}px`; };
   const mark = (i) => dots.forEach((d, j) => d.classList.toggle("is-on", j === i)); // 점은 미는 중에도 바로
-  const show = (i) => { // 멈춘 뒤: 보던 학기, 다른 장은 inert(그 안에 있던 초점은 새 장의 같은 쪽 단추로, 없으면 다른 쪽), 높이. 장 사이에 멈춰 있으면 그 장 자리로
+  const show = (i) => { // 멈춘 뒤: 보던 학기, 다른 장은 inert(그 안에 있던 초점은 새 장의 같은 쪽 단추로, 없으면 다른 쪽). 장 사이에 멈춰 있으면 그 장 자리로
     at = i;
     gradTermAt = slides[i].dataset.term;
     if (Math.abs(track.scrollLeft - i * track.clientWidth) > 1) track.scrollLeft = i * track.clientWidth;
@@ -7509,13 +7509,10 @@ function gradPager() {
     slides.forEach((s, j) => { s.inert = j !== i; });
     if (moved) (slides[i].querySelector(`[data-pg="${a.dataset.pg || 1}"]:not(.is-off)`) || slides[i].querySelector("[data-pg]:not(.is-off)"))?.focus({ preventScroll: true });
     mark(i);
-    fit();
   };
   const place = () => { width = track.clientWidth; track.scrollLeft = at * width; };
-  track.classList.add("is-still"); // 처음 자리와 높이는 움직이지 않고 바로
   place();
   show(at);
-  requestAnimationFrame(() => track.classList.remove("is-still"));
   track.addEventListener("scroll", () => {
     mark(near());
     clearTimeout(settle);
@@ -7529,13 +7526,9 @@ function gradPager() {
     track.scrollTo({ left: i * track.clientWidth, behavior: reduceMotion.matches ? "auto" : "smooth" });
     announce(slides[i].getAttribute("aria-label"));
   });
-  // 폭이 바뀌면(폰 돌리기, 창 크기, 숨어 있다 보임) 그 장 자리로, 보이는 장의 높이가 바뀌면 칸도
-  gradPagerRO = new ResizeObserver(() => {
-    if (track.clientWidth !== width) place();
-    fit();
-  });
+  // 폭이 바뀌면(폰 돌리기, 창 크기, 숨어 있다 보임) 그 장 자리로
+  gradPagerRO = new ResizeObserver(() => { if (track.clientWidth !== width) place(); });
   gradPagerRO.observe(track);
-  slides.forEach((s) => gradPagerRO.observe(s));
 }
 
 const GRV = { met: "is-ok", left: "is-left", check: "is-ask" }; // 값 글자(141판): 충족 success 500, 남음 warning 500, 확인 필요 text3(태그 없이)
