@@ -5497,6 +5497,47 @@ const devApi = () => ({
  *  동선 탐색의 담은 과목으로 바꿔 넣고, 항목에서 바꾼 시간·장소(강의실 미정에 고른 건물 등, 항목의 own)는 탐색의 직접 입력으로 옮긴 뒤 동선 탐색 탭에서 시간표 만들기를 돌린다
  *  (켠 분반이 과목마다 하나라 조합은 이 시간표 하나다. 탐색의 조건·추가 설정은 그대로 쓴다: 맞는 조합이 없으면 입력 화면의 오류 줄). 전에 담아 둔 과목이 달랐으면
  *  결과 화면(조합이 없으면 입력 화면)에 되돌리기 스낵바. 직접 넣은 일정과 편람에서 사라진 과목·분반은 탐색에 담을 수 없어 빠진다 */
+/**
+ * 다음 학기 추천 시간표(백엔드 update125, 사용자 11/16 '동선까지 고려해서 시간표를 순위대로 제안해주는 방향으로'): 그 학기 편람(미리 보기면 작년 같은 학기)에서
+ * 남은 요건 과목(suggestCourses)을 꼭 들을 과목 → 고를 과목 → 아마 필요 차례로, 학점이 큰 과목부터(같으면 걸린 요건이 많은 것) 학기 상한 학점(termCreditLimit)까지 고른다(8과목까지).
+ * 하나씩 더할 때마다 겹치지 않는 조합이 남는지 본다(countFeasible, 추가 설정 포함). 고른 과목을 그 학기 동선 탐색에 담고 시간표 만들기를 돌려
+ * 걷는 시간이 짧은 순위로 보인다. 전에 담아 둔 과목이 있었으면 결과 화면에 되돌리기 스낵바
+ */
+async function recommendNext(sem) {
+  if (busy) return;
+  try { await switchSemester(sem); } catch { /* 배너가 다시 시도를 알린다 */ }
+  if (state.semester !== sem || !state.loaded) return;
+  const req = await reqCompute(reqSig()).catch(() => null);
+  if (!req || !req.sugg.length) { showSnackbar("추천할 과목이 없어요"); return; }
+  const cap = R.termCreditLimit(req.common.term_limit, { ...req.who, term: R.nthRegularTerm(req.who.entryYear, sem) });
+  const lim = (cap && cap.limit) || 18, rules = activeRules();
+  const STR = { need: 0, choose: 1, maybe: 2 };
+  const cands = [...req.sugg].sort((a, b) => STR[a.strength] - STR[b.strength] || (Number(b.course.credit) || 0) - (Number(a.course.credit) || 0) || b.reasons.length - a.reasons.length);
+  const live = (c) => ({ ...c, sections: groupSections(c.sections.map((s) => ({ ...s, meetings: effMeetings(s) }))) });
+  const chosen = [];
+  let credits = 0;
+  for (const x of cands) {
+    const c = x.course, cr = Number(c.credit) || 0;
+    if (chosen.length >= 8 || credits + cr > lim) continue;
+    const r = countFeasible([...chosen, c].map(live), { limit: 1, budgetMs: 60, rules });
+    if (r.count === 0 && r.exact) continue; // 넣으면 겹치지 않는 조합이 없다
+    chosen.push(c);
+    credits += cr;
+  }
+  if (!chosen.length) { showSnackbar("추천할 과목이 없어요"); return; }
+  const before = { picks: state.picks.map((p) => ({ ...p, excluded: new Set(p.excluded) })), overrides: JSON.parse(JSON.stringify(state.overrides)) };
+  state.picks = chosen.map((c) => ({ id: c.id, excluded: new Set(), ...snapshot(c) }));
+  changed();
+  renderPicked();
+  const undo = before.picks.length ? () => { state.picks = before.picks; state.overrides = before.overrides; changed(); renderPicked(); if (screen === "result") back(); } : null;
+  const done = () => showSnackbar(`남은 요건 과목 ${chosen.length}개 · ${credits}학점으로 만들었어요`, undo ? "되돌리기" : undefined, undo || undefined);
+  switchTab("explore", async () => {
+    afterResult = done;
+    await run();
+    if (afterResult && !state.result) { const f = afterResult; afterResult = null; f(); } // 조합이 없거나 못 만들었다: 입력 화면에서
+  });
+}
+
 const canRoute = (t) => state.loaded && state.semester === mine.sem && t.items.some((it) => !it.custom && state.byId.get(it.course)?.sections.some((s) => s.key === T.itemKey(it)));
 let afterResult = null; // 결과 화면이 뜬 뒤 할 일(동선 확인하기의 되돌리기 스낵바. showView 가 결과 화면을 그린 뒤 부른다)
 /** 동선 확인하기. day(요일)가 있으면 결과가 뜬 뒤 그 요일 전체 화면 지도까지 연다(홈 화면 위젯, routeDay) */
@@ -7621,16 +7662,19 @@ function gradTakenView(g) {
   return out;
 }
 
-/** 다음 학기 추천 보기(11/15 사용자 "세번째 탭으로 다음 학기 시간표 추천"): 다음 정규 학기 카드와 시간표 짜기(그 학기 대표 시간표로 가서 과목 추가를 연다.
+/** 다음 학기 추천 보기(11/15 사용자 "세번째 탭으로 다음 학기 시간표 추천", 11/16 "동선까지 고려해서 시간표를 순위대로 제안"): 다음 정규 학기 카드와
+ *  추천 시간표 보기(recommendNext: 남은 요건 과목을 골라 동선 탐색에서 걷는 시간이 짧은 순위로), 과목 직접 고르기(그 학기 대표 시간표로 가서 과목 추가를 연다.
  *  검색 전 자리에 남은 요건 과목이 먼저 뜬다). 그 학기 편람이 아직 없으면 글만 */
 function gradNextView() {
   const { cur } = gradNow;
   const next = R.nextRegularTerm(cur), ready = R.hasCoursebook({ list: state.semesters }, next);
   const lent = (state.semesters.find(([x]) => x === next) || [])[2]; // 미리 보기: 빌려 온 작년 같은 학기(update124)
+  const say = "남은 졸업 요건 과목으로 걷는 시간이 짧은 시간표부터 보여 드려요";
   return [h("div", { class: "card gr-next" },
     h("p", { class: "gr-next-t" }, R.termName(next)),
-    h("p", { class: "gr-next-m" }, ready ? (lent ? `${R.termName(lent)} 편람으로 미리 봐요. 남은 졸업 요건을 채우는 과목부터 보여 드려요` : "남은 졸업 요건을 채우는 과목부터 보여 드려요") : "수강편람이 없어요"), // 11/16 사용자 '그냥 수강편람이 없어요만 남겨 이 학기는 빼'(카드 제목이 학기)
-    ready ? h("button", { type: "button", class: "btn-primary gr-next-go", "data-next": next, "data-gk": "next" }, "시간표 짜기") : null)];
+    h("p", { class: "gr-next-m" }, ready ? (lent ? `${R.termName(lent)} 편람으로 미리 봐요. ${say}` : say) : "수강편람이 없어요"), // 11/16 사용자 '그냥 수강편람이 없어요만 남겨 이 학기는 빼'(카드 제목이 학기)
+    ready ? h("button", { type: "button", class: "btn-primary gr-next-go", "data-rec": next, "data-gk": "rec" }, "추천 시간표 보기") : null,
+    ready ? h("button", { type: "button", class: "btn-text gr-next-go", "data-next": next, "data-gk": "next" }, "과목 직접 고르기") : null)];
 }
 
 /** 숫자 뒤 조사 이/가: 마지막 자리를 읽는 소리로(2·4·5·9 는 받침 없음) */
@@ -7911,7 +7955,7 @@ $("gm-ok").addEventListener("click", () => {
 
 // 탭 안의 누름과 바꿈(다시 그려도 그대로인 바깥 요소에 한 번)
 $("grad-body").addEventListener("click", (e) => {
-  const el = e.target.closest("[data-rq], [data-next], [data-make], [data-del], [data-gm], [data-go], [data-retry], [data-tip], [data-unck]");
+  const el = e.target.closest("[data-rq], [data-rec], [data-next], [data-make], [data-del], [data-gm], [data-go], [data-retry], [data-tip], [data-unck]");
   if (!el) return;
   const d = el.dataset;
   if (d.unck) { // 체크한 과목 풀기: 그 줄이 없어지니 초점은 다른 곳에서 들은 과목 넣기로
@@ -7937,6 +7981,8 @@ $("grad-body").addEventListener("click", (e) => {
     setGrad({ manual: g.manual.filter((x) => x.id !== d.del) });
     // 빼면 그 줄이 없어지니 초점은 다른 곳에서 들은 과목 넣기로
     renderGrad().then(() => { $("grad-body").querySelector('[data-gk="gm"]')?.focus({ preventScroll: true }); if (m) announce(`${m.name} 뺐어요`); });
+  } else if (d.rec) {
+    recommendNext(d.rec);
   } else if (d.make || d.next) {
     // 시간표 탭의 그 학기, 그 학기의 대표 시간표(없으면 빈 시간표 1). 다음 학기 추천이면 과목 추가를 연다(검색창이 비어 남은 요건 과목)
     const sem = d.make || d.next, add = !!d.next;
