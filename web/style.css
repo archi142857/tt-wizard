@@ -1589,6 +1589,7 @@ html[data-theme="xmas"], .mini.is-xmas {
   --accent-line: #14a968; --cta: #df2932; --on-cta: #ffffff; --on-color: #ffffff; --on-disabled: #a2b7aa; --focus: #14a968; --disabled: #355542;
   --danger: #d8152f; --on-danger: #ffffff; --danger-weak: #ffedec; --inverse: #1f6441; --on-inverse: #ffffff; --inverse-accent: #f8d788;
   --success: var(--accent); --success-weak: var(--accent-weak); --on-success: #ffffff; /* 충족은 accent(디자인 141판) */
+  --on-bg-success: var(--on-bg-link); /* 짙은 초록 바탕 위 '모두 충족'(accent 는 바탕과 대비가 모자란다) */
   --scrim: #03140b80; --home: #0b3a23; --on-home: #ffffff; --route: #148753; --route-home: #0b3a23;
   --shadow-sm: 0 1px 3px #03140b40; --shadow-md: 0 6px 20px #03140b4d;
   /* 시간표 칸 색(디자인 81판 '선명하게'. 10/23 밤 사용자: "테마들은 시간표 색깔 팔레트도 자체적으로 가져야 함", 교과구분도 "따른다". 80판 리스를 보고 "다시 검토해봐",
@@ -1928,8 +1929,14 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 @media (max-width: 380px) { .gr-seg .seg label { flex: 1 1 auto; padding: 0 var(--space-1); } }
 .gr-view h2.section-title { margin-top: var(--space-6); flex-wrap: wrap; row-gap: 0; }
 .gr-view h2.section-title .count { font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400; letter-spacing: 0; }
-/* 학과가 더 새 판을 허락하면 '적용한 규정' 줄의 판 이름이 선택칸(141판, 전에는 묶음 제목 옆) */
-.gr-view .info-row .gr-ver { margin-left: auto; }
+/* 학과가 더 새 판을 허락하면 판 이름이 선택칸(.count 와 같은 글자. 누르는 높이는 위아래로 넘친다) */
+.gr-view h2.section-title .gr-ver { align-self: center; margin: -12px 0 -12px calc(var(--space-2) * -1); font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400;
+  letter-spacing: 0; color: var(--on-bg-text3); }
+/* 묶음 제목 오른쪽 '1/5'(채운 요건 수/요건 수), 다 채우면 체크 16 + '모두 충족'(디자인 시안 가. 11/16 사용자 '학과별로 다시 나눠'). 바탕 위라 on-bg 글자,
+   모두 충족은 success(크리스마스는 바탕이 짙은 초록이라 on-bg-link) */
+.gr-view h2.section-title .gr-prog { margin-left: auto; font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400; letter-spacing: 0; color: var(--on-bg-text3);
+  font-variant-numeric: tabular-nums; white-space: nowrap; }
+.gr-view h2.section-title .gr-prog.is-done { display: inline-flex; align-items: center; gap: 2px; font-weight: 500; color: var(--on-bg-success, var(--success)); }
 .gr-view > .card { margin-top: var(--space-6); }
 .gr-view h2.section-title + .card, .gr-view h2.section-title + .gr-tip + .card { margin-top: 0; } /* 평점 옆 ? 의 한 줄(접혀 있어도)을 사이에 둔 카드도 */
 /* 요건 줄 값(141판): 남음 warning 500, 충족 success 500(옆에 체크 없음, 사용자 11/16), 확인 필요 text3(태그 없이) */
@@ -1958,7 +1965,6 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 .gr-name { min-width: 0; word-break: keep-all; }
 .gr-name small { display: block; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
 .info-row svg.gr-st, svg.gr-st { flex: none; width: 22px; height: 22px; margin-left: 0; color: inherit; } /* 줄 앞이라 .info-row svg 의 margin-left: auto 를 지운다 */
-.info-row.gr-fold > svg:last-child { margin-left: auto; }
 /* 동그라미의 색(앱이 그리는 svg 의 클래스): 충족 채움 success·체크 on-success, 남음 둘레 fill·호 warning, 확인 필요 점선 muted */
 svg.gr-st .st-ok { fill: var(--success); }
 svg.gr-st .st-ck { stroke: var(--on-success); }
@@ -1994,6 +2000,7 @@ div.info-row { cursor: default; }
 .gr-sstat .v.is-ok { color: var(--success); }
 .gr-sstat .v.is-ask { color: var(--text3); font-weight: 400; }
 .gr-field { margin-top: var(--space-6); }
+.gr-field.is-solo { margin-top: var(--space-4); } /* 분야가 하나뿐인 목록(143판): 머리 없이 과목 줄만. 이름·조건·값이 시트 제목·자료 글·상태 칸과 겹친다 */
 .gr-fh { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--space-2); padding-bottom: var(--space-1); }
 .gr-fh .n { font-size: 0.9375rem; line-height: 1.375rem; font-weight: 700; color: var(--heading); }
 .gr-fh .c { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
@@ -2056,6 +2063,8 @@ label.gr-ck { cursor: pointer; }
 .gpa .browse-select { margin: -12px -8px -12px 0; font-size: 1.0625rem; font-weight: 700; color: var(--heading); }
 .gpa .need { flex-basis: 100%; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
 .gpa .need b { color: var(--text); font-weight: 700; }
+.gpa .gr-why { align-self: center; } /* 직전 두 학기 평점 옆 ?(재수강 전 성적도 넣었을 때) */
+.gpa p.gpa-tip { flex-basis: 100%; margin: var(--space-1) 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text2); word-break: keep-all; }
 .gr-view > .card.gpa:first-child { margin-top: var(--space-4); }
 /* 다음 학기 추천(11/15 사용자: 졸업 요건 탭 셋째 보기): 다음 정규 학기와 한 줄, 시간표 짜기(주요 버튼) */
 .gr-next { margin-top: var(--space-4); padding: var(--space-4) var(--space-4) var(--space-5); }
