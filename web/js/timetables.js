@@ -15,7 +15,7 @@
 // 편람과 맞추기: 강좌 항목은 편람을 따른다(SNUTT 와 같다). 편람은 하루 두 번에서 네 번 새로 받으니, 화면은 그릴 때 reconcile 로
 //   지금 편람과 견준다. 저장할 때 본 편람(base)과 달라졌으면 changed(새 편람 값을 쓰고 '편람 바뀜'), 편람에서 사라졌으면
 //   gone(적어 둔 값을 쓴다. 과목째 사라졌는지 분반만 사라졌는지는 missing). own 이 있으면 편람이 바뀌어도 own 을 쓰고 changed 만 알린다.
-//   acknowledge 로 base 를 지금 편람에 맞추면 알림이 꺼진다.
+//   acknowledge 로 base 를 지금 편람에 맞추면 알림이 꺼진다. 교수 이름도 편람에 분반이 있으면 편람 것을 쓴다(서버에서 받은 시간표에는 없다).
 //
 // 동선 확인하기: toSections 로 엔진이 읽는 분반 모양을 만들어 engine.checkRoute 에 넘긴다(탐색 결과와 같은 비용·경로).
 //
@@ -251,6 +251,8 @@ export function findSaved(list, ev, byId) {
  *   missing state 가 gone 일 때 "course"(과목째 사라짐: '없는 과목') | "section"(과목은 있고 분반만 사라짐: '없는 분반'), 아니면 null
  *   meetings 그릴 수업({day, start, end, building, room}): own > 지금 편람 > 적어 둔 base
  *   live   지금 편람의 분반(없으면 null). live.status 가 "폐강대상" 이면 화면이 태그를 단다
+ *   item   항목. 교수 이름은 지금 편람을 따른다(편람에 분반이 있으면 그 이름, 없으면 적어 둔 이름). 서버에서 받은 시간표는
+ *          교수 이름이 없어서(sync.toServer 가 뺀다) 여기서 채운다(update123, 사용자 11/16 '업데이트 될 때마다 교수가 미정으로 다 변하지')
  */
 export function reconcile(t, byId) {
   return t.items.map((it) => {
@@ -261,7 +263,9 @@ export function reconcile(t, byId) {
     const base = it.base.map(meeting);
     const state = !live ? "gone" : sig(live.meetings) === sig(base) ? "same" : "changed";
     const meetings = it.own ? it.own.map(meeting) : live ? live.meetings.map((m) => ({ ...m })) : base;
-    return { key, item: it, meetings, state, live, missing: live ? null : c ? "section" : "course" };
+    const prof = live ? String(live.instructor || "") : it.instructor;
+    const item = prof === it.instructor ? it : { ...it, instructor: prof };
+    return { key, item, meetings, state, live, missing: live ? null : c ? "section" : "course" };
   });
 }
 

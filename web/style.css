@@ -1839,6 +1839,7 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 #view-tour:not([hidden]) { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
 #view-tour > main:not([hidden]) { display: flex; flex: 1 0 auto; flex-direction: column; justify-content: center; }
 .tour-skip { margin-left: auto; margin-right: calc(var(--space-2) * -1); }
+.tour-skip.is-off { visibility: hidden; } /* 마지막 장: 자리는 남겨 상단 바·덩이 높이가 그대로(첫 장의 이전과 같다) */
 .tour { width: 100%; max-width: var(--width-sheet); margin: 0 auto; }
 .tour-viewport { overflow: hidden; touch-action: pan-y; margin: 0 calc(var(--gutter-right) * -1) 0 calc(var(--gutter-left) * -1); }
 .tour-track { display: flex; transition: transform var(--dur-move) var(--ease-standard); }

@@ -175,6 +175,28 @@ const later = (c, mins) => ({ ...c, sections: c.sections.map((x) => ({ ...x, mee
   };
 }
 
+// 4-3) 교수 이름은 지금 편람을 따른다: 서버에서 받은 시간표(교수 이름 없음, sync.toServer)도 편람으로 채우고, 편람에 분반이 없으면 적어 둔 이름
+{
+  const A = course("A", 3, [["001", [[0, 540, 615, "301"]]]]);
+  let t = T.createTimetable([], "2026-2", { now: NOW });
+  t = T.addItem(t, T.sectionItem(A, A.sections[0]), { now: NOW }).t;
+  t = T.addItem(t, T.customItem({ title: "운동", meetings: [{ day: 4, start: 600, end: 660, building: "" }] }), { now: NOW }).t;
+  const blank = { ...t, items: t.items.map((it) => (it.custom ? it : { ...it, instructor: "" })) };
+  const map = new Map([["A", A]]);
+  const named = (name) => new Map([["A", { ...A, sections: [{ ...A.sections[0], instructor: name }] }]]);
+  const ins = (tt, m) => T.reconcile(tt, m).map((x) => (x.item.custom ? null : x.item.instructor));
+  out.instructor = {
+    stored: t.items[0].instructor,
+    blank: ins(blank, map),
+    sections: T.toSections(blank, map).map((s) => s.instructor),
+    renamed: ins(t, named("새 교수")),
+    liveEmpty: ins(t, named("")),
+    gone: ins(t, new Map()),
+    sameObj: T.reconcile(t, map)[0].item === t.items[0],
+    untouched: blank.items[0].instructor,
+  };
+}
+
 // 5) 기기에 두기: 그대로 돌아오고, 어긋난 것은 버리고, 새 판은 지우지 않고 그대로 돌려준다. 대표는 하나만
 {
   const c = courses[0], s = c.sections[0];

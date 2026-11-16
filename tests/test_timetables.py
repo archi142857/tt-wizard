@@ -92,6 +92,16 @@ def test_acknowledge_one_item_and_missing(out):
     assert [(s, m) for _, s, m in r["noSection"]][:2] == [("gone", "section"), ("same", None)]  # '없는 분반'
 
 
+def test_instructor_follows_coursebook(out):
+    """교수 이름은 지금 편람을 따른다(update123, 사용자 11/16 '업데이트 될 때마다 교수가 미정으로 다 변하지'):
+    서버에서 받은 시간표(교수 이름을 올리지 않는다)도 편람으로 채우고, 편람에서 사라진 분반만 적어 둔 이름."""
+    r = out["instructor"]
+    assert r["stored"] == "교수001"
+    assert r["blank"] == ["교수001", None] and r["sections"][0] == "교수001" and r["untouched"] == ""  # 받은 것은 고치지 않는다
+    assert r["renamed"] == ["새 교수", None] and r["liveEmpty"] == ["", None]  # 편람이 바꾸거나 비우면 그대로 따른다
+    assert r["gone"] == ["교수001", None] and r["sameObj"] is True  # 편람에 없으면 적어 둔 이름, 같으면 같은 항목
+
+
 def test_storage(out):
     s = out["storage"]
     assert s["same"] and s["newerKept"] and s["notArray"] == []

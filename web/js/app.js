@@ -23,7 +23,7 @@ document.documentElement.dataset.shell = SHELL;
 
 // ---------------------------------------------------------------- 설정
 
-const APP_VERSION = "0.11.0";
+const APP_VERSION = "0.12.1";
 // 정보 화면 링크. 주소가 정해지면 넣는다(비어 있으면 그 행을 보이지 않는다)
 // 개인정보 처리방침 공개 페이지(스토어에 적는 주소와 같게). 백엔드 update74 가 docs/legal/privacy.md 로 만든 web/privacy/(GitHub Pages). 앱 묶음에는 넣지 않아 늘 이 주소를 연다
 const PRIVACY_URL = "https://archi142857.github.io/tt-wizard/privacy/";
@@ -8296,13 +8296,14 @@ $("login-skip-ok").addEventListener("click", () => {
 // 지금 있는 탭마다 한 장(그 탭의 채운 아이콘·이름·두 문장). 옆으로 밀면 장이 손가락을 따라 움직이고(장 너비의 20%를 넘기거나 빠르게 밀면 넘어간다. 양 끝은 1/3 만 따라온다),
 // 이전·다음 단추와 ←→ 로도 넘긴다(미는 몸짓 없이도 다 된다). 웹 개발자 메뉴 '처음 안내'로 다시 본다
 const TOUR = "tour";
-// 문구는 디자인 142판(시간표·동선 탐색은 폰에서 세 줄이고 끝 낱말이 홀로 남아 줄였다. '동선 확인하기' 가운데 칸은 줄바꿈 없는 칸 U+00A0)
+// 문구는 '~수 있어요'로 맞춘다(11/16 사용자 "문구도 수정 좀 해줘. ~~수 있어요로 맞춰줘". 그 전 디자인 142판). '동선 확인하기'와 '볼 수 있어요' 같은 끝말은 줄바꿈 없는 칸
+// U+00A0 으로 묶는다('수 있어요.'만 다음 줄에 홀로 남지 않게)
 const TOUR_TEXT = {
-  mine: "수업과 일정을 넣은 한 주 시간표예요. 동선\u00a0확인하기로 그날 걷는 길을 봐요.",
-  explore: "들을 과목을 담으면 걷는 시간이 짧은 분반 조합부터 보여 줘요. 공강 요일과 점심시간도 정해요.",
-  grad: "학과와 학번에 맞춘 졸업 요건과 남은 학점을 봐요. 학교가 공개한 문서로 계산한 추정이에요.",
-  friends: "로그인하고 닉네임으로 친구를 맺으면 서로의 시간표를 봐요. 보이기 싫은 과목·일정은 숨겨요.",
-  theme: "앱 색을 기본·라이트·다크 가운데 골라요. 12월에는 크리스마스 테마가 켜져요.",
+  mine: "수업과 일정을 넣어 한 주 시간표를 만들\u00a0수\u00a0있어요. 동선\u00a0확인하기로 그날 걷는 길도 볼\u00a0수\u00a0있어요.",
+  explore: "들을 과목을 담으면 걷는 시간이 짧은 분반 조합부터 볼\u00a0수\u00a0있어요. 공강 요일과 점심시간도 정할\u00a0수\u00a0있어요.",
+  grad: "학과와 학번에 맞춘 졸업 요건과 남은 학점을 볼\u00a0수\u00a0있어요. 학교가 공개한 문서로 계산한 추정이라 실제와 다를\u00a0수\u00a0있어요.",
+  friends: "로그인하고 닉네임으로 친구를 맺으면 서로의 시간표를 볼\u00a0수\u00a0있어요. 보이기 싫은 과목·일정은 숨길\u00a0수\u00a0있어요.",
+  theme: "앱 색을 기본·라이트·다크 가운데 고를\u00a0수\u00a0있어요. 12월에는 크리스마스 테마도 쓸\u00a0수\u00a0있어요.",
 };
 const tourAtLaunch = () => (FRESH || store.get(TOUR, null) === "open") && !launchLink && !launchNav && !launchInvite;
 /** 처음 화면(처음 안내, 로그인, 학과와 학번): 탭 막대·사이드바 없이 한 칸이고, 링크·바로가기로 켜면 거둔다 */
@@ -8328,7 +8329,7 @@ function tourGo(i, say = true) {
   const first = tourAt === 0, last = tourAt === n - 1, next = $("tour-next");
   if ((first && document.activeElement === $("tour-prev")) || (last && document.activeElement === $("tour-skip"))) next.focus({ preventScroll: true }); // 숨는 단추의 초점은 다음으로
   $("tour-prev").classList.toggle("is-off", first);
-  $("tour-skip").hidden = last;
+  $("tour-skip").classList.toggle("is-off", last); // 마지막 장: 자리는 남겨 덩이 높이가 그대로(11/16 사용자 "마지막에 건너뛰기 없어지면서 높이 달라지는 거")
   next.textContent = last ? "시작하기" : "다음";
   if (say) announce(`${TAB_NAME[keys[tourAt]]}, ${n}개 중 ${tourAt + 1}번째. ${TOUR_TEXT[keys[tourAt]]}`);
 }
