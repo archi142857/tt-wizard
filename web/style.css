@@ -336,6 +336,12 @@ html[data-nav="swipe-next"]::view-transition-old(root), html[data-nav="swipe-pre
 html[data-nav="swipe-next"]::view-transition-new(root) { animation: tt-enter var(--dur-enter) var(--ease-enter) both; }
 html[data-nav="swipe-prev"]::view-transition-new(root) { animation: tt-enter-back var(--dur-enter) var(--ease-enter) both; }
 @keyframes tt-enter-back { from { opacity: 0; transform: translateX(-24px); } }
+/* 탭 사이 밀어 넘기기에서는 탭 첫 화면의 상단 바(워드마크·정보)도 따로 떼어 제자리에 둔다(11/16 사용자 '앱에서 스와이프 할 때 위에 워드마크랑 정보는 안 움직이고 유지되게').
+   탭 막대처럼 옛 바는 감추고 새 바를 바로 보인다. 밀기 때만 이름을 주어(보이는 화면의 바 하나) 다른 전환(새 화면·뒤로)의 상단 바는 화면과 같이 움직인다 */
+html[data-nav^="swipe-"] .view:not([hidden]) > .topbar { view-transition-name: topbar; }
+::view-transition-group(topbar) { animation: none; }
+::view-transition-old(topbar) { display: none; }
+::view-transition-new(topbar) { animation: none; }
 
 /* ---------------------------------------------------------------- 카드와 목록 */
 .card { background: var(--card); border-radius: var(--radius-lg); }
@@ -1730,7 +1736,7 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
   .tl-tts .tl-more:hover { color: var(--text2); }
   .share-act:hover { box-shadow: var(--shadow-press), var(--shadow-sm); }
   .share-app:hover .ic { background: color-mix(in srgb, var(--inset), var(--text) 6%); }
-  .tt-switch:hover, .add-head .icon-btn:hover, .tt-share:hover { background: var(--bg-hover); }
+  .tt-switch:hover, .add-head .icon-btn:hover, .tt-share:hover, .gr-pbtn:hover::before { background: var(--bg-hover); }
   .topbar .icon-btn:hover, .topbar .btn-text:hover, .bottom-bar .btn-text:hover, .picked-error .btn-text:hover, .ranks-more .btn-text:hover, .footnote .btn-text:hover { background: var(--bg-hover); }
   .result.is-picked:hover { background: var(--row-picked); } /* 담은 행은 어두운 그대로, 버튼만 빨갛게(빼기) */
   .course-hit:hover .c-title { background: none; text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
@@ -1865,11 +1871,11 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 .tour .btn-text { color: var(--on-bg-link); text-shadow: var(--on-bg-halo, none); }
 .tour .btn-text:active { background: var(--bg-hover); text-shadow: none; }
 @media (hover: hover) { .tour .btn-text:hover { background: var(--bg-hover); text-shadow: none; } }
-.tour-dots { display: flex; align-items: center; gap: var(--space-2); }
-.tour-dots span { width: 8px; height: 8px; border-radius: 4px; background: var(--on-bg-text3); transition: width var(--dur-move) var(--ease-standard); }
-.tour-dots span.is-on { width: 20px; background: var(--on-bg-link); }
-@media (prefers-reduced-motion: reduce) { .tour-track, .tour-dots span { transition: none; } }
-@media (forced-colors: active) { .tour-art { border: 2px solid CanvasText; } .tour-dots span { background: CanvasText; } .tour-dots span.is-on { background: Highlight; } }
+.tour-dots, .gr-dots { display: flex; align-items: center; gap: var(--space-2); }
+.tour-dots span, .gr-dots span { width: 8px; height: 8px; border-radius: 4px; background: var(--on-bg-text3); transition: width var(--dur-move) var(--ease-standard); }
+.tour-dots span.is-on, .gr-dots span.is-on { width: 20px; background: var(--on-bg-link); }
+@media (prefers-reduced-motion: reduce) { .tour-track, .tour-dots span, .gr-dots span { transition: none; } }
+@media (forced-colors: active) { .tour-art { border: 2px solid CanvasText; } .tour-dots span, .gr-dots span { background: CanvasText; } .tour-dots span.is-on, .gr-dots span.is-on { background: Highlight; } }
 /* 600px 부터(태블릿·컴퓨터. 11/16 사용자 '태블릿인데 워드마크 위치가 좀 애매함': 덩이는 화면 가운데인데 워드마크만 맨 위에 떨어져 있었다): 상단 바(워드마크)를
    덩이와 한데 묶어 같이 세로 가운데에 둔다. 워드마크 왼쪽 끝은 제목 글자에 맞추고(카드 폭 width-sheet 안, space-1 들임) 제목과 space-6. 폰은 그대로(상단 바는 위, 덩이만 가운데).
    처음 안내(#view-tour)도 같은 꼴이고 하단 버튼까지 덩이에 넣는다 */
@@ -2000,6 +2006,29 @@ div.info-row { cursor: default; }
 .gr-foot + .gr-foot { margin-top: var(--space-2); }
 .gr-foot a { color: var(--on-bg-text); text-decoration-line: underline; text-decoration-color: var(--line-strong); }
 .gr-lead { margin: var(--space-4) var(--space-1) 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); word-break: keep-all; }
+/* 수강한 과목의 학기 넘기기(11/16 사용자 '학기마다 성적 입력하는 건 좌우로 넘길 수 있도록'): 이끄는 글, 가로 칸 .gr-track(본문 폭: 장이 카드 양끝 선을 넘어 지나가지 않는다.
+   11/16 사용자 그림 '저 빨간 라인 넘어가지 않았으면'. scroll-snap 한 장 = 칸 폭, 한 번에 한 장, 끝에서 더 밀어도 화면이 따라가지 않게 overscroll contain, 스크롤 막대 없음,
+   높이는 보이는 장. app.js gradPager), 아래 점 .gr-dots(처음 안내와 같은 꼴, 가운데).
+   이전·다음(누르는 영역 48)은 장마다 학기 제목 줄 양끝(11/16 사용자 그림 '화살표 위치 저렇게'): 꺾쇠 아이콘 칸(24)이 본문 양끝 안쪽에 붙고(뒤로 단추처럼 12 를 바깥으로, 바깥은 칸이 자른다),
+   제목 줄 가운데 높이. 장 안이라 위에서 밀어도 넘어간다('물론 스와이프도 되어야 함'). 제목 글은 왼쪽 24 를, 센 학점·? 는 다음 단추의 누르는 영역(본문 끝 36)을 비킨다(넘치면 다음 줄로) */
+.gr-track { display: flex; align-items: flex-start; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none;
+  transition: height var(--dur-move) var(--ease-standard); }
+.gr-track::-webkit-scrollbar { display: none; }
+.gr-track.is-still { transition: none; }
+.gr-slide { position: relative; flex: 0 0 100%; min-width: 0; scroll-snap-align: start; scroll-snap-stop: always; }
+.gr-slide > h2.section-title { margin-top: var(--space-2); padding: 0 var(--space-8) 0 var(--space-6); }
+.gr-pbtn { position: absolute; top: -2px; z-index: 1; color: var(--on-bg-text2); }
+.gr-pbtn.is-prev { left: calc(var(--space-3) * -1); }
+.gr-pbtn.is-next { right: calc(var(--space-3) * -1); }
+.gr-pbtn.is-off { visibility: hidden; }
+/* 누름·올림 바탕과 초점 테두리는 아이콘 칸(24) 동그라미 안: 본문 양끝 선 안에 머물고 제목 글을 덮지 않는다(누르는 영역은 48 그대로) */
+.gr-pbtn:active, .gr-pbtn:hover { background: transparent; }
+.gr-pbtn::before { content: ""; position: absolute; z-index: -1; top: 12px; left: 12px; width: 24px; height: 24px; border-radius: 50%; }
+.gr-pbtn:active::before { background: var(--bg-hover); }
+.gr-pbtn:focus-visible { outline: none; }
+.gr-pbtn:focus-visible::before { outline: 2px solid var(--focus); outline-offset: -2px; }
+.gr-dots { justify-content: center; margin-top: var(--space-3); }
+@media (prefers-reduced-motion: reduce) { .gr-track { transition: none; } }
 /* 요건 시트(남음·충족 줄과 확인 필요 줄을 누르면) */
 .sheet-body p.rq-detail { margin: 0 0 var(--space-1); font-size: 0.875rem; line-height: 1.3125rem; color: var(--text2); word-break: keep-all; }
 /* 요건 시트(141판): 상태 칸, 분야, 과목 줄(앱이 센 과목은 동그라미, 그 밖은 체크 칸), 갈래 */

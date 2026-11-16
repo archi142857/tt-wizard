@@ -105,6 +105,7 @@ const I = {
   check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
   plus: '<path d="M12 5v14M5 12h14"/>',
   right: '<path d="M9 6l6 6-6 6"/>',
+  left: '<path d="M15 6l-6 6 6 6"/>',
   out: '<path d="M8 16L16 8M9.5 8H16v6.5"/>',
   down: '<path d="M6 9l6 6 6-6"/>',
   more: '<path d="M5.5 12h.01M12 12h.01M18.5 12h.01" stroke-width="3.2"/>',
@@ -7421,6 +7422,8 @@ async function gradRecords(cur) {
 
 let gradSeq = 0, gradNow = null; // 늦게 끝난 계산은 버린다. gradNow: 지금 그린 값(요건 시트·팝업이 쓴다)
 let gradTip = null; // 수강한 과목에서 평점 옆 ? 를 눌러 편 학기(다시 그려도 그대로)
+let gradTermAt = null; // 수강한 과목에서 가로로 넘겨 보던 학기(다시 그려도 그대로. 처음은 가장 새 학기)
+let gradPagerRO = null;
 let gradSrc = null; // 자료 출처의 졸업 요건·성적 계산 줄 { req, gpa }(디자인 124·127판 InfoList. 받기 전 null, 받는 중 false)
 /** 자료 출처 줄 글: 요건 자료의 해와 기준일(index.json), 성적 계산의 학사 안내·수강편람과 그 기준일(common.json) */
 function gradSources(base) {
@@ -7480,7 +7483,59 @@ async function renderGrad() {
         h("input", { type: "radio", name: "gr-view", value: k, checked: g.view === k, "data-gk": `seg:${k}` }), t)))),
     h("div", { class: "gr-view" }, g.view === "taken" ? gradTakenView(g) : g.view === "next" ? gradNextView() : gradReqView()),
   );
+  gradPager();
   if (had) body.querySelector(`[data-gk="${CSS.escape(had)}"]`)?.focus({ preventScroll: true });
+}
+
+/** 수강한 과목의 학기 넘기기(11/16 사용자 '학기마다 성적 입력하는 건 좌우로 넘길 수 있도록'): 가로 스크롤 칸 .gr-track(scroll-snap, 한 번에 한 장)에 학기마다 한 장
+ *  (옛 학기 → 새 학기). 처음은 보던 학기(gradTermAt, 없으면 가장 새 학기). 손가락으로 밀거나 학기 제목 줄 양끝의 이전·다음(첫·끝 장에서는 그쪽을 숨김), 아래 점.
+ *  멈춘 장 밖은 inert(Tab·스크린리더는 보이는 장만), 칸 높이는 보이는 장에 맞춘다(짧은 학기 아래가 비지 않게). 탭 사이 밀어 넘기기는 이 안에서 하지 않는다(data-noswipe) */
+function gradPager() {
+  gradPagerRO?.disconnect();
+  gradPagerRO = null;
+  const pg = $("grad-body").querySelector(".gr-pager");
+  if (!pg) return;
+  const track = pg.querySelector(".gr-track"), slides = [...track.children], n = slides.length, dots = [...pg.querySelectorAll(".gr-dots > span")];
+  const clamp = (i) => Math.max(0, Math.min(n - 1, i)), near = () => clamp(Math.round(track.scrollLeft / Math.max(1, track.clientWidth)));
+  let at = slides.findIndex((s) => s.dataset.term === gradTermAt), width = 0, settle = 0;
+  if (at < 0) at = n - 1;
+  const fit = () => { track.style.height = `${slides[at].offsetHeight}px`; };
+  const mark = (i) => dots.forEach((d, j) => d.classList.toggle("is-on", j === i)); // 점은 미는 중에도 바로
+  const show = (i) => { // 멈춘 뒤: 보던 학기, 다른 장은 inert(그 안에 있던 초점은 새 장의 같은 쪽 단추로, 없으면 다른 쪽), 높이. 장 사이에 멈춰 있으면 그 장 자리로
+    at = i;
+    gradTermAt = slides[i].dataset.term;
+    if (Math.abs(track.scrollLeft - i * track.clientWidth) > 1) track.scrollLeft = i * track.clientWidth;
+    const a = document.activeElement, moved = slides.some((s, j) => j !== i && s.contains(a));
+    slides.forEach((s, j) => { s.inert = j !== i; });
+    if (moved) (slides[i].querySelector(`[data-pg="${a.dataset.pg || 1}"]:not(.is-off)`) || slides[i].querySelector("[data-pg]:not(.is-off)"))?.focus({ preventScroll: true });
+    mark(i);
+    fit();
+  };
+  const place = () => { width = track.clientWidth; track.scrollLeft = at * width; };
+  track.classList.add("is-still"); // 처음 자리와 높이는 움직이지 않고 바로
+  place();
+  show(at);
+  requestAnimationFrame(() => track.classList.remove("is-still"));
+  track.addEventListener("scroll", () => {
+    mark(near());
+    clearTimeout(settle);
+    settle = setTimeout(() => show(near()), 120);
+  }, { passive: true });
+  track.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-pg]");
+    if (!b) return;
+    const i = clamp(at + Number(b.dataset.pg));
+    if (i === at) return;
+    track.scrollTo({ left: i * track.clientWidth, behavior: reduceMotion.matches ? "auto" : "smooth" });
+    announce(slides[i].getAttribute("aria-label"));
+  });
+  // 폭이 바뀌면(폰 돌리기, 창 크기, 숨어 있다 보임) 그 장 자리로, 보이는 장의 높이가 바뀌면 칸도
+  gradPagerRO = new ResizeObserver(() => {
+    if (track.clientWidth !== width) place();
+    fit();
+  });
+  gradPagerRO.observe(track);
+  slides.forEach((s) => gradPagerRO.observe(s));
 }
 
 const GRV = { met: "is-ok", left: "is-left", check: "is-ask" }; // 값 글자(141판): 충족 success 500, 남음 warning 500, 확인 필요 text3(태그 없이)
@@ -7568,24 +7623,26 @@ function checkHome(code) {
 function gradTakenView(g) {
   const { taken, v, cur, prim, records, grades } = gradNow;
   const byTerm = new Map(taken.terms.map((t) => [t.term, t]));
+  // 옛 학기 → 새 학기(가로로 넘긴다. 처음은 가장 새 학기: gradPager)
   const terms = [...new Set([...taken.terms.map((t) => t.term), ...regularTerms(v.year, cur).filter((t) => !prim.get(t))])]
-    .sort((a, b) => R.termOrder(b) - R.termOrder(a));
-  const out = [gpaCard(g), h("p", { class: "gr-lead" }, "학기마다 대표 시간표에서 모았어요")];
+    .sort((a, b) => R.termOrder(a) - R.termOrder(b));
+  const out = [gpaCard(g)];
   const by = new Map(taken.tidy.replaced.map((x) => [x.index, x.by])); // 재수강해서 빠진 기록 → 다시 들은 학기
-  for (const term of terms) {
+  const pages = terms.map((term) => {
+    const page = []; // 이 학기 한 장: 제목 줄, ? 풀이, 과목 카드(대표 시간표가 없으면 빈 카드)
     const t = byTerm.get(term), tg = grades && grades.byTerm[term];
     // 학기 평점에서 뺀 재수강 과목이 있으면 평점 옆 ?(11/16 사용자): 누르면 바로 아래 한 줄 '재수강한 과목은 반영하지 않았어요'(다시 누르면 접는다)
     const why = t && tg && tg.gpa != null && t.rows.some((r) => by.has(r.index)), tip = `gr-tip-${term}`, open = gradTip === term;
-    out.push(h("h2", { class: "section-title" }, R.termName(term), t ? h("span", { class: "count" }, `${t.text}${tg && tg.gpa != null ? ` · 평점 ${tg.gpa.toFixed(2)}` : ""}`,
+    page.push(h("h2", { class: "section-title" }, R.termName(term), t ? h("span", { class: "count" }, `${t.text}${tg && tg.gpa != null ? ` · 평점 ${tg.gpa.toFixed(2)}` : ""}`,
       why ? h("button", { type: "button", class: "gr-why", "aria-label": "평점 계산 안내", "aria-expanded": String(open), "aria-controls": tip, "data-tip": term, "data-gk": `tip:${term}` }, "?") : null) : null));
-    if (why) out.push(h("p", { class: "gr-tip", id: tip, hidden: !open }, "재수강한 과목은 반영하지 않았어요"));
+    if (why) page.push(h("p", { class: "gr-tip", id: tip, hidden: !open }, "재수강한 과목은 반영하지 않았어요"));
     if (!t) {
       const can = state.semesters.some(([x]) => x === term);
-      out.push(h("div", { class: "card gr-none" }, h("p", { class: "empty" }, "대표 시간표가 없어요"),
+      page.push(h("div", { class: "card gr-none" }, h("p", { class: "empty" }, "대표 시간표가 없어요"),
         can ? h("button", { type: "button", class: "btn-text small", "data-make": term, "data-gk": `make:${term}` }, "시간표 만들기") : null));
-      continue;
+      return page;
     }
-    out.push(h("div", { class: "card" }, h("ul", { class: "list" }, t.rows.map((r) => {
+    page.push(h("div", { class: "card" }, h("ul", { class: "list" }, t.rows.map((r) => {
       const rec = records[r.index], again = by.get(r.index);
       // 재수강해서 빠진 과목: 이름 옆 빨간 '(2025년 겨울학기 재수강)', 메타는 '교양 · 2학점'만(11/16 사용자 "재수강은 저런식으로 빨간 글씨로 써줘. 문장형으로 하지 말고")
       const meta = again ? `${rec.cls ? `${rec.cls} · ` : ""}${r.credits}학점` : r.meta;
@@ -7597,7 +7654,20 @@ function gradTakenView(g) {
             h("option", { value: "", selected: !rec.dropped && !rec.grade }, "성적"), GRADE_OPTS.map((x) => h("option", { value: x, selected: !rec.dropped && rec.grade === x }, x)),
             h("option", { value: "drop", selected: !!rec.dropped }, "드랍")));
     }))));
-  }
+    return page;
+  });
+  const lead = h("p", { class: "gr-lead" }, "학기마다 대표 시간표에서 모았어요");
+  if (terms.length > 1) {
+    // 학기 넘기기(11/16 사용자 '학기마다 성적 입력하는 건 좌우로 넘길 수 있도록'): 이끄는 글, 가로 칸에 학기마다 한 장, 아래 점(gradPager).
+    // 이전·다음은 장마다 학기 제목 줄 양끝(11/16 사용자 그림 '화살표 위치 저렇게', '물론 스와이프도 되어야 함': 장 안에 있어 화살표 위에서 밀어도 넘어간다. '저 빨간 라인 넘어가지 않았으면':
+    // 칸과 화살표 모두 본문 양끝 선 안, style.css). 첫 장은 이전, 끝 장은 다음이 없다
+    const n = terms.length, arrow = (term, d, on) => h("button", { type: "button", class: `icon-btn gr-pbtn ${d < 0 ? "is-prev" : "is-next"}${on ? "" : " is-off"}`,
+      "data-pg": String(d), "aria-label": d < 0 ? "이전 학기" : "다음 학기", "data-gk": `pg:${term}:${d}` }, icon(d < 0 ? I.left : I.right, 24)); // 없는 쪽은 숨김(.is-off, 초점·읽기에서도 빠진다)
+    out.push(h("div", { class: "gr-pager", "data-noswipe": "" }, lead,
+      h("div", { class: "gr-track" }, terms.map((term, i) => h("div", { class: "gr-slide", role: "group", "aria-label": `${R.termName(term)}, ${n}개 중 ${i + 1}번째`, "data-term": term },
+        arrow(term, -1, i > 0), arrow(term, 1, i < n - 1), pages[i]))), // 단추는 제목 앞(제목 + 카드가 붙어 있어야 하는 style.css 규칙 그대로)
+      h("div", { class: "gr-dots", "aria-hidden": "true" }, terms.map(() => h("span", {})))));
+  } else out.push(lead, ...pages.flat());
   // 졸업 요건에서 체크한 과목(141판): 학기 묶음 뒤, 머리 'n과목', 줄 메타는 그 과목이 든 요건과 학점 '동물생명공학전공 전공필수 · 3학점', × '유기화학 체크 풀기'.
   // 학점·요건에는 세고 평점에는 넣지 않는다. 시간표에도 있는 과목은 거기서 센다(여기 넣지 않는다)
   const { same, fixed } = gradNow, cks = Object.entries(gradStore().checks).filter(([code]) => !fixed.has(same(code)));
