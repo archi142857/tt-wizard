@@ -1933,11 +1933,15 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 /* 학과가 더 새 판을 허락하면 판 이름이 선택칸(.count 와 같은 글자. 누르는 높이는 위아래로 넘친다) */
 .gr-view h2.section-title .gr-ver { align-self: center; margin: -12px 0 -12px calc(var(--space-2) * -1); font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400;
   letter-spacing: 0; color: var(--on-bg-text3); }
-/* 묶음 제목 오른쪽 '1/5'(채운 요건 수/요건 수), 다 채우면 체크 16 + '모두 충족'(디자인 시안 가. 11/16 사용자 '학과별로 다시 나눠'). 바탕 위라 on-bg 글자,
-   모두 충족은 success(크리스마스는 바탕이 짙은 초록이라 on-bg-link) */
-.gr-view h2.section-title .gr-prog { margin-left: auto; font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400; letter-spacing: 0; color: var(--on-bg-text3);
+/* 과정별 묶음 제목(144판): 제목 글과 판(.count, 고를 수 있으면 .gr-ver)을 한 덩이 .gr-gt 로 묶어 한 줄에 들지 않으면 덩이 안에서 줄을 바꾼다
+   (폭 320 에서 '0/5'만 다음 줄 오른쪽에 홀로 남던 것). 오른쪽 '1/5'(채운 요건 수/요건 수)는 늘 첫 줄 오른쪽, 다 채우면 체크 16 + '모두 충족'
+   (디자인 시안 가. 11/16 사용자 '학과별로 다시 나눠'). 바탕 위라 on-bg 글자, 모두 충족은 on-bg-success(크리스마스는 바탕이 짙은 초록이라 on-bg-link).
+   모두 충족은 글자 줄 그대로 두고 체크만 내린다(144판: inline-flex 면 기준선이 체크 아래끝에 잡혀 글자가 제목·판보다 4px 위에 떴다) */
+.gr-view h2.section-title .gr-gt { display: flex; flex: 1 1 0%; flex-wrap: wrap; align-items: baseline; column-gap: var(--space-2); min-width: 0; }
+.gr-view h2.section-title .gr-prog { flex: none; margin-left: auto; font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400; letter-spacing: 0; color: var(--on-bg-text3);
   font-variant-numeric: tabular-nums; white-space: nowrap; }
-.gr-view h2.section-title .gr-prog.is-done { display: inline-flex; align-items: center; gap: 2px; font-weight: 500; color: var(--on-bg-success, var(--success)); }
+.gr-view h2.section-title .gr-prog.is-done { font-weight: 500; color: var(--on-bg-success, var(--success)); }
+.gr-prog.is-done svg { width: 16px; height: 16px; margin-right: 2px; vertical-align: -3px; }
 .gr-view > .card { margin-top: var(--space-6); }
 .gr-view h2.section-title + .card, .gr-view h2.section-title + .gr-tip + .card { margin-top: 0; } /* 평점 옆 ? 의 한 줄(접혀 있어도)을 사이에 둔 카드도 */
 /* 요건 줄 값(141판): 남음 warning 500, 충족 success 500(옆에 체크 없음, 사용자 11/16), 확인 필요 text3(태그 없이) */
@@ -2064,14 +2068,17 @@ label.gr-ck { cursor: pointer; }
 .gpa .browse-select { margin: -12px -8px -12px 0; font-size: 1.0625rem; font-weight: 700; color: var(--heading); }
 .gpa .need { flex-basis: 100%; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
 .gpa .need b { color: var(--text); font-weight: 700; }
-.gpa .gr-why { align-self: center; } /* 직전 두 학기 평점 옆 ?(재수강 전 성적도 넣었을 때) */
+.gpa .gr-why { align-self: center; margin-left: calc(var(--space-1) - var(--space-3)); } /* 직전 두 학기 평점 옆 ?(재수강 전 성적도 넣었을 때): 수 바로 뒤 4(줄 사이 12 를 당긴다. 144판) */
 .gpa p.gpa-tip { flex-basis: 100%; margin: var(--space-1) 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text2); word-break: keep-all; }
 .gr-view > .card.gpa:first-child { margin-top: var(--space-4); }
-/* 다음 학기 추천(11/15 사용자: 졸업 요건 탭 셋째 보기): 다음 정규 학기와 한 줄, 시간표 짜기(주요 버튼) */
+/* 다음 학기 추천(11/15 사용자: 졸업 요건 탭 셋째 보기. 디자인 145판, 백엔드 update125): 다음 정규 학기와 한 줄, 추천 시간표 보기(주요 버튼, 카드 폭)와
+ *  그 아래 텍스트 버튼 과목 직접 고르기(카드 폭, 글 가운데, 위 8). 텍스트 버튼이 끝이면 그 안 여백(아래 14)이 있어 카드 아래 안쪽을 8 로 */
 .gr-next { margin-top: var(--space-4); padding: var(--space-4) var(--space-4) var(--space-5); }
 .gr-next-t { margin: 0; font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; color: var(--heading); }
 .gr-next-m { margin: var(--space-1) 0 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); word-break: keep-all; }
 .gr-next-go { width: 100%; margin-top: var(--space-4); }
+.gr-next .btn-text.gr-next-go { justify-content: center; margin-top: var(--space-2); }
+.gr-next:has(> .btn-text.gr-next-go) { padding-bottom: var(--space-2); }
 /* 자료가 없을 때: 가운데 학사모 32, 글, 주요 버튼(학과와 학번 넣기) */
 .gr-empty { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); padding: var(--space-8) var(--space-5) var(--space-6); text-align: center; }
 .gr-empty svg { color: var(--on-bg-text3); }

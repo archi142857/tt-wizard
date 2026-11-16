@@ -5530,7 +5530,8 @@ async function recommendNext(sem) {
   changed();
   renderPicked();
   const undo = before.picks.length ? () => { state.picks = before.picks; state.overrides = before.overrides; changed(); renderPicked(); if (screen === "result") back(); } : null;
-  const done = () => showSnackbar(`남은 요건 과목 ${chosen.length}개 · ${credits}학점으로 만들었어요`, undo ? "되돌리기" : undefined, undo || undefined);
+  // 스낵바는 한 일(디자인 145판. 동선 확인하기의 '담은 과목을 이 시간표로 바꿨어요'와 같은 꼴, 학점은 담은 과목 머리 '총 19학점'이 말한다)
+  const done = () => (undo ? showSnackbar(`담은 과목을 남은 요건 과목 ${chosen.length}개로 바꿨어요`, "되돌리기", undo) : showSnackbar(`남은 요건 과목 ${chosen.length}개를 담았어요`));
   switchTab("explore", async () => {
     afterResult = done;
     await run();
@@ -7587,7 +7588,8 @@ function gradReqView() {
     const n = b.rows.filter((r) => grKind(r) === "met").length, full = b.rows.length > 0 && n === b.rows.length;
     const prog = !b.rows.length ? null : full ? h("span", { class: "gr-prog is-done" }, icon(I.check, 16), "모두 충족")
       : [h("span", { class: "gr-prog", "aria-hidden": "true" }, `${n}/${b.rows.length}`), h("span", { class: "sr-only" }, `요건 ${b.rows.length}개 중 ${n}개 충족`)];
-    out.push(h("h2", { class: "section-title" }, b.title, ver, prog));
+    // 제목 글과 판은 한 덩이 .gr-gt(144판): 한 줄에 들지 않으면 판이 다음 줄로 가고 '1/5'는 첫 줄 오른쪽에 남는다(폭 320 에서 '0/5'만 홀로 넘어가던 것)
+    out.push(h("h2", { class: "section-title" }, h("span", { class: "gr-gt" }, b.title, ver), prog));
     if (b.rows.length) out.push(h("div", { class: "card info-list" }, h("ul", { class: "list" }, b.rows.map((r) => grRow({ b, r })))));
   }
   out.push(h("p", { class: "gr-foot" }, "학교가 공개한 문서를 바탕으로 계산한 추정이에요. 학번·학과와 개별 인정(동일·대체 과목, 학점 인정)에 따라 다를 수 있어요. 졸업 사정은 학과와 마이스누에서 최종 확인해 주세요."));
@@ -7669,10 +7671,10 @@ function gradNextView() {
   const { cur } = gradNow;
   const next = R.nextRegularTerm(cur), ready = R.hasCoursebook({ list: state.semesters }, next);
   const lent = (state.semesters.find(([x]) => x === next) || [])[2]; // 미리 보기: 빌려 온 작년 같은 학기(update124)
-  const say = "남은 졸업 요건 과목으로 걷는 시간이 짧은 시간표부터 보여 드려요";
+  const say = "남은 졸업 요건 과목으로 걷는 시간이 짧은 시간표부터 보여 줘요"; // 디자인 145판: '보여 드려요'는 쓰지 않는 표현, 두 문장이면 끝에도 마침표
   return [h("div", { class: "card gr-next" },
     h("p", { class: "gr-next-t" }, R.termName(next)),
-    h("p", { class: "gr-next-m" }, ready ? (lent ? `${R.termName(lent)} 편람으로 미리 봐요. ${say}` : say) : "수강편람이 없어요"), // 11/16 사용자 '그냥 수강편람이 없어요만 남겨 이 학기는 빼'(카드 제목이 학기)
+    h("p", { class: "gr-next-m" }, ready ? (lent ? `${R.termName(lent)} 편람으로 미리 봐요. ${say}.` : say) : "수강편람이 없어요"), // 11/16 사용자 '그냥 수강편람이 없어요만 남겨 이 학기는 빼'(카드 제목이 학기)
     ready ? h("button", { type: "button", class: "btn-primary gr-next-go", "data-rec": next, "data-gk": "rec" }, "추천 시간표 보기") : null,
     ready ? h("button", { type: "button", class: "btn-text gr-next-go", "data-next": next, "data-gk": "next" }, "과목 직접 고르기") : null)];
 }
@@ -8352,13 +8354,14 @@ $("login-skip-ok").addEventListener("click", () => {
 // 이전·다음 단추와 ←→ 로도 넘긴다(미는 몸짓 없이도 다 된다). 웹 개발자 메뉴 '처음 안내'로 다시 본다
 const TOUR = "tour";
 // 문구는 '~수 있어요'로 맞춘다(11/16 사용자 "문구도 수정 좀 해줘. ~~수 있어요로 맞춰줘". 그 전 디자인 142판). '동선 확인하기'와 '볼 수 있어요' 같은 끝말은 줄바꿈 없는 칸
-// U+00A0 으로 묶는다('수 있어요.'만 다음 줄에 홀로 남지 않게)
+// U+00A0 으로 묶는다('수 있어요.'만 다음 줄에 홀로 남지 않게). 가운뎃점 앞뒤는 U+2060(144판: Chromium 은 '·' 앞뒤에서 줄을 바꿔 폭 360~390 에서
+// '보이기 싫은 과목·' / '일정은'으로 끊겼다. 뒤에만 두면 앞에서 끊긴다)
 const TOUR_TEXT = {
   mine: "수업과 일정을 넣어 한 주 시간표를 만들\u00a0수\u00a0있어요. 동선\u00a0확인하기로 그날 걷는 길도 볼\u00a0수\u00a0있어요.",
   explore: "들을 과목을 담으면 걷는 시간이 짧은 분반 조합부터 볼\u00a0수\u00a0있어요. 공강 요일과 점심시간도 정할\u00a0수\u00a0있어요.",
   grad: "학과와 학번에 맞춘 졸업 요건과 남은 학점을 볼\u00a0수\u00a0있어요. 학교가 공개한 문서로 계산한 추정이라 실제와 다를\u00a0수\u00a0있어요.",
-  friends: "로그인하고 닉네임으로 친구를 맺으면 서로의 시간표를 볼\u00a0수\u00a0있어요. 보이기 싫은 과목·일정은 숨길\u00a0수\u00a0있어요.",
-  theme: "앱 색을 기본·라이트·다크 가운데 고를\u00a0수\u00a0있어요. 12월에는 크리스마스 테마도 쓸\u00a0수\u00a0있어요.",
+  friends: "로그인하고 닉네임으로 친구를 맺으면 서로의 시간표를 볼\u00a0수\u00a0있어요. 보이기 싫은 과목\u2060·\u2060일정은 숨길\u00a0수\u00a0있어요.",
+  theme: "앱 색을 기본\u2060·\u2060라이트\u2060·\u2060다크 가운데 고를\u00a0수\u00a0있어요. 12월에는 크리스마스 테마도 쓸\u00a0수\u00a0있어요.",
 };
 const tourAtLaunch = () => (FRESH || store.get(TOUR, null) === "open") && !launchLink && !launchNav && !launchInvite;
 /** 처음 화면(처음 안내, 로그인, 학과와 학번): 탭 막대·사이드바 없이 한 칸이고, 링크·바로가기로 켜면 거둔다 */
