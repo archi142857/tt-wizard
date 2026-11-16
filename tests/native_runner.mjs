@@ -2,7 +2,7 @@
 // 자료 받기(네트워크 → 받아 둔 것 → 앱에 넣은 것, 늦은 응답 저장), 바탕 지도(앱에 넣은 것만), 자료가 아닌 요청, 안드로이드 뒤로 가기,
 // 안드로이드 상태 바 글자색(기기 테마가 바뀔 때), 기기 브라우저로 여는 링크(에브리타임), 시간표 이미지(공유·저장·거절 code),
 // 앱으로 연 주소(launchUrl·'ttw:open-url'), 링크 공유·앱 설정(TTWShell), 공유 카드의 바로 보내기(TTWShare), 홈 화면 위젯 자료(TTWWidget, 기기에 둔 값으로),
-// 웹에서는 아무것도 안 함.
+// 앱 안 업데이트(TTWUpdate·'ttw:app-update', update118), 웹에서는 아무것도 안 함.
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
@@ -42,8 +42,8 @@ function fakeIndexedDB() {
 
 function setup({ native = true, http = null, online = true, platform = "android", bars = true, image = true, oldImage = false, sdk = 34, imageInfo = null,
   saveError = null, shell = true, shellError = null, share = platform === "android", shareError = null, targets = null, launch, launchFails = false, appUrl = true, widget = platform === "android", widgetError = null,
-  store = {}, campus = null } = {}) {
-  const calls = { local: [], remote: [], back: 0, minimized: 0, bars: [], image: [], shell: [], share: [], opened: [], widget: [] };
+  store = {}, campus = null, update = platform === "android" ? { status: "none", versionCode: 0, staleDays: -1, progress: -1 } : null, updateError = null } = {}) {
+  const calls = { local: [], remote: [], back: 0, minimized: 0, bars: [], image: [], shell: [], share: [], opened: [], widget: [], update: [] };
   const scheme = []; // 기기 테마(prefers-color-scheme)가 바뀔 때 부를 것들
   const visible = []; // 앱으로 돌아올 때(visibilitychange) 부를 것들
   const clicks = []; // 문서의 click 을 듣는 것들 [{fn, capture}]
@@ -85,6 +85,12 @@ function setup({ native = true, http = null, online = true, platform = "android"
         ...(shell ? { TTWShell: {
           shareText: (opts) => { calls.shell.push(["shareText", opts]); return shellError ? reject(shellError) : Promise.resolve(); },
           openSettings: (opts) => { calls.shell.push(["openSettings", opts]); return shellError ? reject(shellError) : Promise.resolve(); },
+        } } : {}),
+        ...(update ? { TTWUpdate: {
+          state: () => { calls.update.push("state"); return Promise.resolve({ ...update }); },
+          start: () => { calls.update.push("start"); return Promise.resolve({ ...update, status: "pending", result: "accepted" }); },
+          complete: () => { calls.update.push("complete"); return updateError ? reject(updateError) : Promise.resolve(); },
+          addListener: (ev, fn) => { if (ev === "state") listeners.updateState = fn; return Promise.resolve({ remove() {} }); },
         } } : {}),
         ...(share ? { TTWShare: {
           targets: () => (shareError ? reject(shareError) : Promise.resolve(targets === null ? { targets: [] } : targets)),
@@ -431,6 +437,26 @@ const out = {};
     same, flat, afterScreen: [before + 1, s.calls.widget.length], theme: [first.scheme, first.themeOff, themed.scheme, themed.themeOff],
     empty: JSON.parse(empty.calls.widget[0]), noCampus: JSON.parse(noCampus.calls.widget[0]).terms[0].days[0].map((l) => l.walk),
     listening: [s.visible.length, setup({ platform: "ios" }).visible.length], // 안드로이드: 상태 바 + 위젯, iOS: 위젯 없음
+  };
+}
+
+// 앱 안 업데이트(TTWUpdate, update118): 상태를 고르게 넘기고, 바뀔 때만 'ttw:app-update', start 의 result, complete 는 참·거짓. iOS·웹에는 없다
+{
+  const s = setup({ update: { status: "available", versionCode: 119, staleDays: 0, progress: -1, extra: "x" } });
+  const events = [];
+  s.win.addEventListener("ttw:app-update", (e) => events.push([e.detail.status, e.detail.progress]));
+  const st = await s.win.TTW_APP.appUpdate.state();
+  await s.win.TTW_APP.appUpdate.state(); // 같은 상태: 이벤트는 한 번
+  s.listeners.updateState({ status: "downloading", versionCode: 119, staleDays: 0, progress: 0.42 });
+  s.listeners.updateState({ status: "downloaded", versionCode: 119, staleDays: 0, progress: 1 });
+  s.listeners.updateState({ bad: true }); // 모양이 다르면 버린다
+  const last = s.win.TTW_APP.appUpdate.last;
+  const started = await s.win.TTW_APP.appUpdate.start();
+  const done = await s.win.TTW_APP.appUpdate.complete();
+  const notReady = await setup({ updateError: "NOT_READY" }).win.TTW_APP.appUpdate.complete();
+  out.appUpdate = {
+    st, events, last, started, done, notReady, calls: s.calls.update,
+    ios: setup({ platform: "ios" }).win.TTW_APP.appUpdate === undefined, old: setup({ update: null }).win.TTW_APP.appUpdate === undefined,
   };
 }
 

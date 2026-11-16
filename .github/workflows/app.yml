@@ -57,10 +57,10 @@ jobs:
         run: npx cap sync android
       - name: Build debug APK
         working-directory: app/android
-        # Windows 에서 올린 파일은 실행 권한이 빠질 수 있다
+        # Windows 에서 올린 파일은 실행 권한이 빠질 수 있다. JUnit(app/src/test: 앱 안 업데이트를 묻는 규칙, update118)도 같이 돌린다
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          ./gradlew assembleDebug testDebugUnitTest --no-daemon --stacktrace
       - uses: actions/upload-artifact@v6
         with:
           name: tt-wizard-android-debug

@@ -78,8 +78,9 @@ final class LauncherIcon {
         }
     }
 
-    /** 화면이 꺼졌거나 잠겼으면, 또는 우리 작업 맨 위가 다른 앱 화면이면(앱 안 브라우저·사진 고르기·공유 창) 사용자가 곧 이 작업으로 돌아올 수 있다 */
-    private static boolean mayComeBack(Context c) {
+    /** 화면이 꺼졌거나 잠겼으면, 또는 우리 작업 맨 위가 다른 앱 화면이면(앱 안 브라우저·사진 고르기·공유 창) 사용자가 곧 이 작업으로 돌아올 수 있다.
+     *  받은 앱 업데이트를 조용히 깔 때도 이것으로 본다(UpdatePlugin, update118) */
+    static boolean mayComeBack(Context c) {
         PowerManager power = (PowerManager) c.getSystemService(Context.POWER_SERVICE);
         KeyguardManager keyguard = (KeyguardManager) c.getSystemService(Context.KEYGUARD_SERVICE);
         if (power != null && !power.isInteractive()) return true;

@@ -21,6 +21,8 @@
 // 10) 폰 알림(안드로이드): TTW_APP.notify(앱 안 플러그인 TTWNotify. 아래 '폰 알림', update109).
 // 10) 공유 카드의 바로 보내기(안드로이드): TTW_APP.shareTargets·shareTo(앱 안 플러그인 TTWShare. 아래 '바로 보내기').
 // 11) 앱 안 구글 로그인(안드로이드): TTW_APP.googleSignIn·googleSignOut(앱 안 플러그인 TTWAuth. 아래 '구글 로그인', update111). web/js/account.js 가 부른다.
+// 12) 앱 안 업데이트(안드로이드): TTW_APP.appUpdate·'ttw:app-update' 이벤트(앱 안 플러그인 TTWUpdate. 아래 '앱 안 업데이트', update118).
+//     Play 의 업데이트 창은 앱이 스스로 띄운다. 화면은 아무것도 안 해도 된다.
 (function () {
   "use strict";
   var cap = window.Capacitor;
@@ -550,6 +552,61 @@
     app.googleSignOut = function () {
       return pluginCall("TTWAuth", "signOut", {}).then(function () { return true; }, function () { return true; });
     };
+  }
+
+  // ------------------------------------------------------------ 앱 안 업데이트 (안드로이드, TTWUpdate, update118)
+
+  // Play 스토어에 새 판이 있으면 앱이 스스로 Play 의 업데이트 창을 띄우고(같은 판은 하루 한 번, '나중에' 뒤 3일 쉼) 받는 동안 앱은 그대로 쓴다.
+  // 다 받으면 사용자가 앱을 내릴 때 Play 가 조용히 깐다(UpdatePlugin.java). 화면은 아무것도 안 해도 되고, 더 하려면:
+  //   TTW_APP.appUpdate.state()     Promise → { status, versionCode, staleDays, progress } · 플러그인이 답하지 않으면 null
+  //                                 status: none · available(새 판 있음, 아직 안 받음) · pending · downloading · downloaded · installing · failed
+  //                                 versionCode: Play 의 새 판(없으면 0) · staleDays: 새 판이 나온 지 며칠(모르면 -1) · progress: 받은 몫 0~1(모르면 -1)
+  //   TTW_APP.appUpdate.last        마지막으로 받은 상태(아직 없으면 null)
+  //   TTW_APP.appUpdate.start()     Promise → 상태 + { result: accepted | declined | failed | none }. 지금 Play 의 창을 띄운다(화면의 '업데이트' 단추. 물음 규칙을 타지 않는다)
+  //   TTW_APP.appUpdate.complete()  Promise → true · 받은 것이 없으면 false. 받은 업데이트를 지금 깐다(Play 가 화면을 덮고 깐 뒤 앱을 다시 연다)
+  //   'ttw:app-update'              상태가 바뀔 때마다 window 에 보내는 CustomEvent, detail = 상태.
+  //                                 detail.status === "downloaded" 이면 '업데이트를 받았어요 · 다시 시작' 같은 알림에서 complete() 를 부른다
+  // Play 스토어에서 받지 않은 앱(디버그·직접 깐 APK)은 늘 none 이다. 플러그인이 없는 곳(웹·iOS·옛 앱)에는 TTW_APP.appUpdate 가 없다.
+  if (plugins.TTWUpdate) {
+    var updateSent = "";
+    var updateSeen = function (s) {
+      if (!s || typeof s.status !== "string") return null;
+      var v = {
+        status: s.status,
+        versionCode: Number(s.versionCode) || 0,
+        staleDays: typeof s.staleDays === "number" ? s.staleDays : -1,
+        progress: typeof s.progress === "number" ? s.progress : -1,
+      };
+      var json = JSON.stringify(v);
+      app.appUpdate.last = v;
+      if (json !== updateSent) {
+        updateSent = json;
+        try {
+          window.dispatchEvent(new CustomEvent("ttw:app-update", { detail: { status: v.status, versionCode: v.versionCode, staleDays: v.staleDays, progress: v.progress } }));
+        } catch (e) {
+          // 옛 웹뷰: 이벤트 없이 last·state() 로만
+        }
+      }
+      return { status: v.status, versionCode: v.versionCode, staleDays: v.staleDays, progress: v.progress };
+    };
+    app.appUpdate = {
+      last: null,
+      state: function () { return pluginCall("TTWUpdate", "state", {}).then(updateSeen, function () { return null; }); },
+      start: function () {
+        return pluginCall("TTWUpdate", "start", {}).then(function (r) {
+          var v = updateSeen(r) || {};
+          v.result = r && typeof r.result === "string" ? r.result : "none";
+          return v;
+        }, function () { return { result: "failed" }; });
+      },
+      complete: function () { return pluginCall("TTWUpdate", "complete", {}).then(function () { return true; }, function () { return false; }); },
+    };
+    try {
+      var updateListening = plugins.TTWUpdate.addListener("state", updateSeen);
+      if (updateListening && typeof updateListening.catch === "function") updateListening.catch(function () {});
+    } catch (e) {
+      // 듣지 못해도 state() 로 읽는다
+    }
   }
 
   window.TTW_APP = app;

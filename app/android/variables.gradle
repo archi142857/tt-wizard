@@ -16,4 +16,6 @@ ext {
     // 앱 안 구글 로그인(update111, AuthPlugin): Credential Manager 와 Google ID. 판을 올리면 licenses/ 고지문도(tests/test_app.py)
     androidxCredentialsVersion = '1.6.0'
     googleIdVersion = '1.2.1'
+    // 앱 안 업데이트(update118, UpdatePlugin): Google Play 의 앱 내 업데이트. 판을 올리면 licenses/google.txt 도(scripts/google_notices.py)
+    playAppUpdateVersion = '2.1.0'
 }

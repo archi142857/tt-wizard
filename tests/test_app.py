@@ -147,6 +147,9 @@ def test_license_notices_match_app():
     assert f"com.google.android.libraries.identity.googleid:googleid {gradle['googleIdVersion']}" in google
     assert "Android Software Development Kit License" in google and "https://developer.android.com/studio/terms" in google
     assert "Kotlin coroutines" in google and "J2ObjC" in google and "AndroidX " not in google.split("AndroidX 는 androidx.txt")[1]
+    # 앱 안 업데이트(update118): Google Play 앱 내 업데이트(Play Core SDK 이용 약관, 약관 글은 라이브러리가 싣는 고지문 안에)
+    assert f"com.google.android.play:app-update {gradle['playAppUpdateVersion']}" in google and "com.google.android.play:core-common " in google
+    assert "Play Core Software Development Kit Terms of Service" in google and "https://developer.android.com/guide/playcore/license" in google
     cordova = (lic / "cordova.txt").read_text(encoding="utf-8")
     assert f"cordova-android {gradle['cordovaAndroidVersion']}" in cordova and "The Apache Software Foundation" in cordova
     apache = cordova[cordova.index("Apache License\n"):]  # 전문(파일 끝)
@@ -219,6 +222,14 @@ def test_native_shim():
     assert r["slow"]["first"] == "bundle" and r["slow"]["waitedMs"] == 3000 and '"late"' in r["slow"]["savedLate"]
     assert r["back"] == {"closed": True, "kept": True, "historyBack": 1, "minimized": 1}
     assert r["basemap"] == {"from": "bundle", "remoteCalls": 0}  # 바탕 지도는 앱에 넣은 것만
+    # 앱 안 업데이트(update118): 상태 네 칸만 넘기고, 같은 상태는 이벤트 한 번, 모양이 다른 것은 버린다. start 는 result 를 붙이고 complete 는 참·거짓
+    u = r["appUpdate"]
+    assert u["st"] == {"status": "available", "versionCode": 119, "staleDays": 0, "progress": -1}
+    assert u["events"] == [["available", -1], ["downloading", 0.42], ["downloaded", 1], ["pending", -1]]  # 마지막은 start() 의 답
+    assert u["last"] == {"status": "downloaded", "versionCode": 119, "staleDays": 0, "progress": 1}
+    assert u["started"]["result"] == "accepted" and u["started"]["status"] == "pending" and "extra" not in u["started"]
+    assert u["done"] is True and u["notReady"] is False and u["calls"] == ["state", "state", "start", "complete"]
+    assert u["ios"] and u["old"]
     # 안드로이드 상태 바 글자색: 기기 테마가 바뀌거나 앱으로 돌아오면 DEFAULT 를 다시 요청, 이벤트 테마 중에는 그대로, iOS·플러그인 없음은 듣지 않는다
     assert r["bars"] == {"listening": [1, 1], "start": 0, "afterChange": ["DEFAULT"], "withTheme": 1,
                          "afterThemeOff": ["DEFAULT", "DEFAULT"], "ios": 0, "noPlugin": 0, "threw": False}
@@ -286,6 +297,32 @@ def test_native_shim():
     # 대표 시간표가 없어도 출발·도착 지점은 넘긴다(자료의 첫 출발 후보. 동선 지도 위젯)
     assert ws["empty"] == {"v": 1, "colors": "item", "home": "HOME", "scheme": "system", "themeOff": "", "terms": []} and ws["noCampus"] == [None, None]
     assert ws["listening"] == [2, 0]  # 안드로이드: 상태 바와 위젯이 visibilitychange 를 듣는다, iOS 는 위젯이 없다
+
+
+def test_android_app_update():
+    """앱 안 업데이트(update118): Google Play 의 앱 내 업데이트(유연한 업데이트만). 권한을 더하지 않는다. 같은 판은 하루 한 번·'나중에' 뒤 3일 쉬고(UpdatePolicy,
+    JUnit UpdatePolicyTest), 받은 것은 사용자가 앱을 내릴 때 깐다(이 앱이 연 창에 가려진 것·화면 꺼짐은 빼고). 화면은 native.js 의 TTW_APP.appUpdate·'ttw:app-update'"""
+    java = APP / "android" / "app" / "src" / "main" / "java" / "com" / "ttwizard" / "app"
+    plugin = (java / "UpdatePlugin.java").read_text(encoding="utf-8")
+    assert '@CapacitorPlugin(name = "TTWUpdate")' in plugin and "permissions" not in plugin.split("@CapacitorPlugin")[1].split(")")[0]
+    for m in ("state", "start", "complete"):
+        assert f"public void {m}(PluginCall call)" in plugin
+    assert "AppUpdateType.FLEXIBLE" in plugin and "AppUpdateType.IMMEDIATE" not in plugin  # 앱을 막는 업데이트(즉시)는 쓰지 않는다
+    assert "UpdatePolicy.shouldAsk(" in plugin and "manager.completeUpdate()" in plugin and "AppActivity.launchedOwnRecently(" in plugin
+    assert "LauncherIcon.mayComeBack(getContext())" in plugin  # 화면 꺼짐·잠김·우리 작업 위의 다른 앱 화면이면 깔지 않는다(계절 아이콘과 같은 잣대)
+    policy = (java / "UpdatePolicy.java").read_text(encoding="utf-8")
+    assert "ASK_AGAIN_MS = DAY_MS" in policy and "REST_AFTER_DECLINE_MS = 3 * DAY_MS" in policy
+    assert (APP / "android" / "app" / "src" / "test" / "java" / "com" / "ttwizard" / "app" / "UpdatePolicyTest.java").exists()
+    main = (java / "AppActivity.java").read_text(encoding="utf-8")
+    assert main.index("registerPlugin(UpdatePlugin.class)") < main.index("super.onCreate(savedInstanceState)")
+    assert "public void startActivityForResult(Intent intent, int requestCode, Bundle options)" in main and "public void startIntentSenderForResult(" in main
+    gradle = (APP / "android" / "app" / "build.gradle").read_text(encoding="utf-8")
+    assert 'implementation "com.google.android.play:app-update:$playAppUpdateVersion"' in gradle
+    native = (APP / "src" / "native.js").read_text(encoding="utf-8")
+    assert "app.appUpdate = {" in native and 'TTWUpdate.addListener("state"' in native and 'new CustomEvent("ttw:app-update"' in native
+    for m in ("state", "start", "complete"):
+        assert f'pluginCall("TTWUpdate", "{m}"' in native
+    assert "testDebugUnitTest" in (ROOT / ".github" / "workflows" / "app.yml").read_text(encoding="utf-8")
 
 
 def test_android_plugins_permissions_and_links():

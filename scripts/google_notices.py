@@ -1,7 +1,8 @@
-"""앱 안 구글 로그인(update111)이 들여오는 Google 라이브러리의 고지문 licenses/google.txt 를 만든다.
+"""앱 안 구글 로그인(update111)·앱 안 업데이트(update118)가 들여오는 Google 라이브러리의 고지문 licenses/google.txt 를 만든다.
 
-Google Play 서비스 클라이언트 라이브러리와 Google ID(googleid)는 Android SDK 라이선스를 따르고, 그 안에 든 다른 사람의 코드(오픈소스)
-고지문을 AAR 안의 third_party_licenses.json·.txt 로 함께 싣는다(Google 의 oss-licenses 플러그인이 보여 주는 것과 같은 글).
+Google Play 서비스 클라이언트 라이브러리와 Google ID(googleid)는 Android SDK 라이선스를, Google Play 앱 내 업데이트(com.google.android.play:
+app-update·core-common)는 Play Core SDK 이용 약관을 따른다. 모두 그 안에 든 다른 사람의 코드(오픈소스) 고지문을 AAR 안의
+third_party_licenses.json·.txt 로 함께 싣는다(Google 의 oss-licenses 플러그인이 보여 주는 것과 같은 글. Play Core 약관 글도 거기 든다).
 이 스크립트는 안드로이드 빌드 뒤 Gradle 캐시의 그 AAR 들에서 고지문을 모아, 같은 글은 한 번만 적고 이름을 묶어 쓴다.
 AndroidX 줄은 licenses/androidx.txt 가 맡아서 뺀다.
 
@@ -22,15 +23,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "licenses" / "google.txt"
 CACHE = Path.home() / ".gradle" / "caches" / "modules-2" / "files-2.1"
-GROUPS = ("com.google.android.gms", "com.google.android.libraries.identity.googleid")
+GROUPS = ("com.google.android.gms", "com.google.android.libraries.identity.googleid", "com.google.android.play")
 LINE = "-" * 72
 
-HEAD = """Google Play 서비스 클라이언트 라이브러리와 Google ID — https://developers.google.com/android/guides/overview
-안드로이드 앱에 들어갑니다. 앱 안 구글 로그인(폰의 구글 계정 고르기, AndroidX Credential Manager)에 씁니다:
+HEAD = """Google Play 서비스 클라이언트 라이브러리·Google ID·Google Play 앱 내 업데이트 — https://developers.google.com/android/guides/overview
+안드로이드 앱에 들어갑니다. 앱 안 구글 로그인(폰의 구글 계정 고르기, AndroidX Credential Manager)과
+앱 안 업데이트(Google Play 의 앱 내 업데이트: https://developer.android.com/guide/playcore/in-app-updates)에 씁니다:
 {libs}
 
 Copyright Google LLC
-Android Software Development Kit License 를 따릅니다: https://developer.android.com/studio/terms
+Google Play 서비스와 Google ID 는 Android Software Development Kit License 를 따릅니다: https://developer.android.com/studio/terms
+Google Play 앱 내 업데이트(com.google.android.play)는 Play Core Software Development Kit Terms of Service 를 따릅니다:
+https://developer.android.com/guide/playcore/license (약관 글은 아래 'Play Core Software Development Kit' 묶음에 있습니다)
 
 아래는 이 라이브러리들 안에 든 다른 사람의 코드와 그 고지문입니다(라이브러리가 함께 싣는 third_party_licenses 그대로,
 같은 글은 한 번만 적고 이름을 묶었습니다. AndroidX 는 androidx.txt 에 있습니다).
@@ -42,7 +46,7 @@ def resolved(deps: Path | None) -> dict[str, str]:
     out: dict[str, str] = {}
     if deps and deps.exists():
         for line in deps.read_text(encoding="utf-8").splitlines():
-            m = re.match(r"(com\.google\.android\.(?:gms|libraries\.identity\.googleid)):([\w.-]+):(?:[\w.-]+ -> )?([\w.-]+)$", line.strip())
+            m = re.match(r"(com\.google\.android\.(?:gms|play|libraries\.identity\.googleid)):([\w.-]+):(?:[\w.-]+ -> )?([\w.-]+)$", line.strip())
             if m:
                 out[f"{m.group(1)}:{m.group(2)}"] = m.group(3)
         return out

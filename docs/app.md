@@ -168,6 +168,8 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
 - **바로 보내기**(update80, 안드로이드. 아래 '공유 카드의 바로 보내기'): `TTW_APP.shareTargets()` 는 이 폰에서 바로 보낼 수 있는 곳
   `[{id, app, icon, text, image}]`(거절하지 않는다, 못 물으면 `[]`), `TTW_APP.shareTo({target, text})`·`({target, bytes, name})` 는 링크·시간표 이미지를 그 앱의
   공유 화면으로 바로 넘긴다. iOS·옛 앱에는 두 함수가 없다.
+- **앱 안 업데이트**(update118, 안드로이드. 아래 '앱 안 업데이트'): Play 의 업데이트 창은 앱이 스스로 띄운다. 화면은 `TTW_APP.appUpdate`
+  (`state()`·`last`·`start()`·`complete()`)와 `window` 의 `ttw:app-update` 이벤트로 받은 뒤의 '다시 시작'을 둘 수 있다. iOS·옛 앱에는 없다.
 
 화면 쪽(`web/js/app.js`, 프론트엔드)은 `window.Capacitor` 가 있으면 셸을 `ios` 로 판별해 서비스 워커·설치 안내·새 버전 알림을 끄고,
 외부 링크는 Capacitor Browser(안드로이드는 Custom Tab, iOS 는 인앱 Safari), 완료 때 햅틱을 쓴다. 에브리타임으로 나가는 `강의평`만
@@ -198,6 +200,7 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
   `com.ttwizard.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` 이고, 위치·카메라처럼 묻는 권한은 없다(묻는 것은 위의 9 이하 저장소 하나).
   폰 알림(update109)이 `POST_NOTIFICATIONS`(안드로이드 13 이상, 스위치를 켤 때 묻는다)를 더했다. 앱 안 구글 로그인(update111, `AuthPlugin`)은 권한을 더하지 않는다:
   Credential Manager 가 들여오는 지문 라이브러리의 `USE_BIOMETRIC`·`USE_FINGERPRINT` 는 매니페스트에서 `tools:node="remove"` 로 뺐다(11/14 로컬 빌드의 aapt2 로 확인).
+  앱 안 업데이트(update118, `UpdatePlugin`)도 권한을 더하지 않는다: Play 라이브러리가 Play 창을 띄우는 투명 화면(`PlayCoreDialogWrapperActivity`, 밖에서 못 연다) 하나를 더한다(11/15 aapt2).
   @capacitor/browser 는 권한이 아니라 Custom Tab 을 찾는 `<queries>` 를 더한다. 앱 매니페스트도 바로 보내기(update80)용 `<queries>` 를 둔다:
   카카오톡(`com.kakao.talk`)·인스타그램(`com.instagram.android`) 패키지와 `smsto:` 를 받는 문자 앱. 권한이 아니고 묻지도 않으며, 모든 앱을 보는
   `QUERY_ALL_PACKAGES` 는 쓰지 않는다(Play 의 패키지 공개 범위 정책에서 따로 신고할 것이 없는 길). 빌드한 APK 의 실제 목록은 `app` 워크플로 실행 화면의
@@ -210,7 +213,8 @@ Xcode 26 이상. 위와 같고 마지막 두 줄만 `npx cap sync ios`, `npx cap
   처리방침에 적을 사실: '기기 백업을 켜 두었다면 앱에 저장한 내용이 그 기기 백업(Google 계정·iCloud)에 함께 들어갈 수 있어요. 개발자는 볼 수 없어요.'
 - **오픈소스 고지**: 앱에만 들어가는 다른 사람 코드의 고지문은 저장소 `licenses/` 에 두고 `build_app.py` 가 앱 묶음의 `licenses/` 로 넣는다:
   `capacitor.txt`(MIT, 그 안의 Apache-2.0·BSD·MIT 파일), `androidx.txt`(Apache-2.0), `cordova.txt`(Apache-2.0 와 NOTICE),
-  `google.txt`(앱 안 구글 로그인 update111 의 Google Play 서비스·Google ID: Android SDK 라이선스와 그 안에 든 오픈소스 고지문, `scripts/google_notices.py` 로 만든다).
+  `google.txt`(앱 안 구글 로그인 update111 의 Google Play 서비스·Google ID: Android SDK 라이선스, 앱 안 업데이트 update118 의 Google Play 앱 내 업데이트:
+  Play Core SDK 이용 약관, 그리고 그 안에 든 오픈소스 고지문. `scripts/google_notices.py` 로 만든다).
   웹에도 쓰는 `snutt.txt`·`pretendard.txt`(SIL OFL 1.1)·`fredoka.txt`(로고 글꼴, OFL)와 지도 자료의 `odbl.txt`(OSM, ODbL 1.0 원문)·`kogl-type1.txt`(수치지형도 출처 표시와
   공공누리 제1유형 조건 요약·원문 링크, 법무 문안)는 `web/licenses/` 에 있어 웹은 그대로, 앱은 `web/` 을 옮길 때 같은 `licenses/` 로 들어간다(10/22·23).
   Apache-2.0 전문은 앞의 세 파일 끝에 각각 넣었다(파일 하나만 읽어도 되게. 10/22 밤부터 화면은 고지문 전문을 차례로 다 보여서 세 번 나온다).
@@ -433,6 +437,33 @@ iOS 위젯(WidgetKit)은 iOS 를 낼 때 붙인다(App Group 을 쓰면 개인�
   미리보기 화면도 '샤' 모양으로 만들어 줘", 디자인 108판이 그린 벡터)이다. 지어낸 지도에 경로 선과 핀으로만, 그림은 스크린리더에 읽히지 않고 글·파일 이름에서 학교의 장소
   이름으로 부르지 않는다. 광고·유료 테마 전에는 바꾸거나 허락을 받는다(법무 10/22 조건): 그때 쓸 지어낸 길 판(update71 그림)을 `widget_map_preview_art_plain` 으로 남겨 두었다.
 - 클라우드에서는 가짜 android 클래스로 `javac` 만 돌려 봤다. Actions `app` 의 APK 로 폰에서 본다(아래 '폰에서 볼 것' 8).
+
+## 앱 안 업데이트 (안드로이드, update118)
+
+사용자 11/15 16:36 '업데이트가 있다고 알려 주는 창, 지금 만들어'. 웹은 서비스 워커가 바뀌면 '새 버전이 있어요 · 새로고침'(프론트엔드)이고, 앱의 자료는 켤 때 웹에서
+새로 받는다(update105). 앱 자체(네이티브·묶은 화면 코드)의 새 판은 Google Play 의 앱 내 업데이트(Play In-App Updates, `com.google.android.play:app-update` 2.1.0)로 알린다.
+`UpdatePlugin.java`(TTWUpdate)·`UpdatePolicy.java`, 화면 연결은 `native.js` 의 `TTW_APP.appUpdate`.
+
+- **흐름(유연한 업데이트만)**: 앱이 앞에 올 때(켤 때 3초 뒤, 돌아올 때 1.5초 뒤) Play 에 새 판이 있는지 묻고, 있으면 Play 의 업데이트 창을 띄운다. 창과 글은 Play 의 것이다.
+  '업데이트'를 누르면 Play 가 뒤에서 받고 앱은 그대로 쓴다. 앱을 막는 즉시 업데이트(IMMEDIATE)는 쓰지 않는다.
+- **묻는 횟수**: 같은 판(versionCode)은 하루 한 번, '나중에'·닫기를 고르면 어느 판이든 3일 쉰다(`UpdatePolicy`, JUnit `UpdatePolicyTest`: `app` 워크플로가 같이 돌린다).
+  기기 시계가 거꾸로 가면 지난 기록은 없는 것으로 본다. 기록은 이 기기 SharedPreferences `ttw_update`(askedCode·askedAt·declinedAt)에만.
+- **깔기**: 다 받으면 화면에 알리고(`ttw:app-update`, status `downloaded`), 화면이 '다시 시작'을 부르면(`complete`) Play 가 화면을 덮고 깐 뒤 앱을 다시 연다.
+  화면이 묻지 않아도 사용자가 앱을 내리면(홈·다른 앱·뒤로 가기로 닫기) Play 가 조용히 깐다(Play 문서: 앱이 뒤에 있을 때 부르면 화면을 가리지 않고 깐다). 다음에 켜면 새 판이다.
+  이 앱이 연 창(사진 고르기·공유 시트·로그인·링크·설정)에 3초 안에 가려진 것과 화면이 꺼진 것은 내린 것으로 보지 않는다: 돌아왔을 때 앱이 처음부터 다시 뜨면
+  고르던 사진·로그인이 끊긴다. 앱이 창을 여는 길(`AppActivity` 의 `startActivityForResult`·`startIntentSenderForResult`, `startActivity` 도 여기로 온다)에서 때를 적는다.
+- **화면 연결**(`native.js` 머리 주석): `state()` → `{status, versionCode, staleDays, progress}`(status: none·available·pending·downloading·downloaded·installing·failed),
+  `last`, `start()`(물음 규칙을 타지 않는 '업데이트' 단추 → `result`: accepted·declined·failed·none), `complete()`, `window` 의 `ttw:app-update`(detail = 상태, 바뀔 때마다).
+  화면은 아무것도 안 해도 된다. 받은 뒤의 '다시 시작' 알림은 프론트엔드에 부탁했다(공유 폴더 `요청_프론트엔드.md` 11/15).
+- **안 되는 곳**: Play 스토어에서 받지 않은 앱(`app` 워크플로의 디버그 APK, 직접 깐 APK)이나 Play 스토어가 없는 기기는 Play 가 답하지 않아 늘 `none` 이다. iOS 에는 없다.
+  묻는 코드는 깔린 앱에 있어야 해서, 이 판을 깐 사람은 이 판 다음 판부터 창을 본다.
+- **자료**: 개발자에게 가는 것은 없다. Play 문서의 데이터 보안 표(in-app updates): Play 가 기기 정보·앱 판·깔린 모듈과 애셋 팩 목록을 새 판이 있는지와 크기를 셈하려고 받고,
+  암호화하며 제3자에게 넘기지 않고 정해진 보관 기간 뒤 지운다(https://developer.android.com/guide/playcore/in-app-updates '데이터 보안', 11/15 확인). 데이터 보안 신고는
+  개발자가 정한다고 적혀 있다(법무에 넘김, 공유 폴더 `요청_법무.md`).
+- **라이선스**: Play Core Software Development Kit Terms of Service(https://developer.android.com/guide/playcore/license, 2020-09-24 판: 라이브러리는 앱에 넣어서만 배포하고
+  고치지 않는다). 고지문은 `licenses/google.txt`(`scripts/google_notices.py` 가 `com.google.android.play` 도 모은다. 약관 글도 라이브러리가 싣는 고지문 안에 있다).
+- **폰에서 보기**: Play 내부 테스트에서 이 판(또는 뒤 판)을 깐 폰에서, 더 높은 versionCode 를 내부 테스트에 올린 뒤 Play 스토어 앱의 TT Wizard 페이지를 한 번 열고
+  (업데이트는 누르지 않는다) 앱을 켠다 → 3초 뒤 Play 의 업데이트 창. '나중에'를 고르면 3일 동안 다시 묻지 않는다(그 사이에는 화면의 '업데이트' 단추가 생기면 그것으로).
 
 ## 앞으로 기능을 만들 때 (법무 10/22)
 

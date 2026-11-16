@@ -1,6 +1,9 @@
 package com.ttwizard.app;
 
+import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.webkit.WebView;
 import androidx.core.content.ContextCompat;
 import com.getcapacitor.BridgeActivity;
@@ -19,6 +22,18 @@ public class AppActivity extends BridgeActivity {
         return started > 0;
     }
 
+    /** 이 앱이 다른 창(사진 고르기·공유 시트·로그인·링크·설정·Play 의 업데이트 창)을 마지막으로 연 때(elapsedRealtime, 0 이면 없음) */
+    private static long ownLaunchAt;
+
+    static void markOwnLaunch() {
+        ownLaunchAt = SystemClock.elapsedRealtime();
+    }
+
+    /** 앱이 가려진 것이 이 앱이 연 창 때문인가(UpdatePlugin: 그때는 받은 업데이트를 깔지 않는다. 돌아왔을 때 앱이 처음부터 다시 뜨면 안 된다) */
+    static boolean launchedOwnRecently(long ms) {
+        return ownLaunchAt > 0 && SystemClock.elapsedRealtime() - ownLaunchAt < ms;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // 이 앱 안의 플러그인(super.onCreate 보다 먼저 등록한다)
@@ -28,12 +43,29 @@ public class AppActivity extends BridgeActivity {
         registerPlugin(WidgetPlugin.class); // 홈 화면 위젯 자료(TTWWidget)
         registerPlugin(NotifyPlugin.class); // 폰 알림 설정(TTWNotify, update109)
         registerPlugin(AuthPlugin.class); // 앱 안 구글 로그인(TTWAuth, update111)
+        registerPlugin(UpdatePlugin.class); // 앱 안 업데이트: Google Play 의 앱 내 업데이트(TTWUpdate, update118)
         super.onCreate(savedInstanceState);
         // 첫 화면을 그리기 전 웹뷰 바탕을 시작 화면과 같은 색으로(라이트·다크). 흰 화면이 번쩍이지 않게
         WebView webView = getBridge() != null ? getBridge().getWebView() : null;
         if (webView != null) {
             webView.setBackgroundColor(ContextCompat.getColor(this, R.color.launch_background));
         }
+    }
+
+    // 앱이 여는 창은 모두 여기를 지난다(startActivity 도 이리로 온다. 사진 고르기·로그인의 결과 받기 창도). 그 뒤 가려지는 것은 사용자가 앱을 내린 것이 아니다
+    @SuppressWarnings("deprecation")
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
+        markOwnLaunch();
+        super.startActivityForResult(intent, requestCode, options);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void startIntentSenderForResult(IntentSender intent, int requestCode, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags,
+                                           Bundle options) throws IntentSender.SendIntentException {
+        markOwnLaunch();
+        super.startIntentSenderForResult(intent, requestCode, fillInIntent, flagsMask, flagsValues, extraFlags, options);
     }
 
     @Override
