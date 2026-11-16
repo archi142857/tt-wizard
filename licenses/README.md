@@ -20,8 +20,9 @@ Apache License 2.0 전문은 따로 두지 않고 그 라이선스가 걸리는 
 10/22 밤부터 앱 화면은 고지문 전문을 차례로 다 보여서 전문이 세 번 나온다. 그대로 둔다.
 
 웹에도 쓰는 것(SNUTT, Pretendard, Fredoka, OpenStreetMap, 공공누리, Leaflet)은 `web/licenses/` 에 둔다. 웹은 그대로 `licenses/…` 주소로 열고, `scripts/build_app.py` 가 `web/` 을 앱 묶음으로 옮길 때 같이 들어간다.
-앱에만 들어가는 것(이 폴더의 `*.txt`: Capacitor·AndroidX·Cordova)은 `build_app.py` 가 같은 묶음 `licenses/` 에 더한다(두 곳에 같은 이름이 있으면 멈춘다).
+앱에만 들어가는 것(이 폴더의 `*.txt`: Capacitor·AndroidX·Cordova·Google)은 `build_app.py` 가 같은 묶음 `licenses/` 에 더한다(두 곳에 같은 이름이 있으면 멈춘다).
 그래서 앱과 웹이 같은 주소 `licenses/<이름>.txt` 를 연다. 앱의 '오픈소스 라이선스' 화면이 이 파일들을 읽는다.
+웹 로그인에 쓰는 Firebase JS SDK(Apache-2.0)는 저장소와 앱 묶음에 넣지 않고 로그인할 때 gstatic 에서 받는다(`docs/account.md`).
 그 밖에 Leaflet 은 `web/vendor/leaflet/LICENSE`(화면은 같은 글의 `web/licenses/leaflet.txt` 를 읽는다), three.js 는 `web/vendor/three/LICENSE`, 앱에 넣는 글꼴 파일 옆에는 `vendor/pretendard/LICENSE.txt` 가 있다.
 화면이 읽는 고지문은 이름 끝에 확장자를 붙인다: 앱 안 서버(Capacitor)는 확장자 없는 주소에 `index.html` 을 준다(11/4, `LICENSE` 를 읽던 Leaflet 칸에 페이지 소스가 보였다. `docs/app.md` '오픈소스 고지').
 Pretendard 판을 올리면(`app/package.json`, `web/index.html` 의 CDN 주소) `web/licenses/pretendard.txt` 첫 줄의 판도 고친다(`tests/test_app.py` 가 본다).

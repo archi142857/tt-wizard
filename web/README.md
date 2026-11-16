@@ -977,13 +977,22 @@ python -m http.server 8000 -d web
 | `js/engine.js` | 이동시간 행렬 · 평가 · 탐색(백트래킹 + 분기 한정) · 경로 선 풀기. 파이썬과 같은 답을 내는지 `tests/test_web.py` 가 node 로 확인 |
 | `js/search-worker.js` | 탐색 워커: `engine.search` 를 화면 밖에서 돌리고 진행 정도·결과·겹치는 과목을 보낸다. `app.js` 가 `new Worker(new URL("./search-worker.js", import.meta.url), { type: "module" })` 로 부른다(배포 판이 붙는 모양) |
 | `js/dev.js` | 개발자 메뉴(웹만, 위 '개발자 메뉴'). `app.js` 가 열 때만 부르고 스토어 앱 묶음에는 넣지 않는다 |
-| `js/app.js` | 화면 동작(검색, 과목 시트, 추가 설정, 화면 이동과 뒤로 가기, 결과·지도, 정보 화면). 담은 과목·조건·추가 설정·직접 넣거나 바꾼 강의실과 시간·최근 검색어·끈 이벤트 테마·고른 라이트·다크는 브라우저(localStorage)에만 저장 |
-| `data/` | `scripts/export_web.py` 가 만든다. git 에는 올리지 않고, 배포 때 GitHub Actions 가 다시 만든다. `semesters.json`(학기 목록)과 `semesters/<학기>.json`(지난 학기) 포함 |
+| `js/app.js` | 화면 동작(검색, 과목 시트, 추가 설정, 화면 이동과 뒤로 가기, 결과·지도, 내 시간표, 졸업 요건, 친구, 로그인·학과와 학번·처음 안내, 정보 화면). 담은 과목·조건·추가 설정·직접 넣거나 바꾼 강의실과 시간·최근 검색어·끈 이벤트 테마·고른 라이트·다크·학과와 학번·졸업 요건의 성적과 체크는 브라우저(localStorage)에만 저장. 로그인하면 저장한 시간표의 사본(교수 이름·출발 지점 뺌)만 `account.js` 가 서버와 맞춘다 |
+| `js/search.js` | 과목 검색(`searchCourses`: 줄임말·초성·한/영 전환·학과 줄임, SNUTT 규칙. 레포 `docs/search.md`) |
+| `js/timetables.js` | 저장한 시간표의 자료 형식과 순수 함수(레포 `docs/timetables.md`) |
+| `js/requirements.js` | 졸업 요건·성적·학기 학점 상한·다음 학기 추천 계산. 폰 안에서만(레포 `docs/requirements.md`) |
+| `js/limits.js` | 수강 제한 태그 고르기. 폰 안에서만(레포 `docs/limits.md`) |
+| `js/ics.js` | 시간표 → 캘린더 파일(.ics, 레포 `docs/calendar.md`) |
+| `js/account.js` | 로그인·기기 간 동기화·친구(Firebase Authentication·Cloud Firestore). SDK 는 로그인할 때만 gstatic 에서 받는다(레포 `docs/account.md`) |
+| `js/sync.js` | 동기화·친구 사본·닉네임의 순수 함수(서버를 부르지 않는다) |
+| `js/firebase-config.js` | Firebase 웹 설정. 레포에는 `null`, 배포 때 `export_web.py` 가 저장소 변수 `FIREBASE_WEB_CONFIG` 로 채운다(비어 있으면 로그인할 수 없다) |
+| `data/` | `scripts/export_web.py` 가 만든다. git 에는 올리지 않고, 배포 때 GitHub Actions 가 다시 만든다. `semesters.json`(학기 목록)과 `semesters/<학기>.json`(지난 학기), `requirements/`(졸업 요건과 학과 목록), `calendar.json`(학기 기간), `limits.json`(수강 제한), `notify.json`(안드로이드 편람 알림) 포함 |
 | `vendor/leaflet/` | Leaflet 1.9.4 (npm 배포본 그대로) |
 | `licenses/` | 오픈소스 라이선스 화면의 고지문 전문(머리 `이름 — 주소`·한글 설명 한 줄, 그 아래 원문 그대로). 백엔드가 넣는다(update60 의 `snutt.txt`·`pretendard.txt`, update61 의 `fredoka.txt`·`odbl.txt`·`kogl-type1.txt`, update92 의 `leaflet.txt`). 넣으면 `sw.js` 의 `SHELL` 에도. 확장자를 붙인다(앱 안 서버는 확장자 없는 주소에 `index.html` 을 준다) |
 | `model/` | 없다. 서울대학교 관악캠퍼스 3D·2D 모형은 높이 정보라 11/3 레포·웹·앱에서 내렸고(백엔드 update82, 법무 '그대로 갈 때' 1) PC 에서만 만든다(`scripts/campus_model.py` → `data/local/model/`) |
 | `vendor/three/` | three.js r128 과 OrbitControls (npm 배포본 그대로. PC 에서 만드는 3D 모형이 파일 안에 담아 쓴다, 웹 화면은 쓰지 않는다) |
 | `field/` | 오르막 실측 페이지: 폰 GPS 기록(백엔드 몫, 앱에서 링크하지 않음). `../js/engine.js`·`../data/`·`../vendor/leaflet/`·`../icons/favicon.svg` 를 함께 쓴다 |
+| `privacy/`, `support/`, `terms/`, `delete-account/` | 처리방침(이전 판 `privacy/2026-11-01/`·`2026-11-11/` 포함)·문의·이용 규칙·계정 삭제 안내 페이지. `scripts/legal_pages.py` 가 레포 `docs/legal/` 원문으로 만든다. 앱 묶음에는 넣지 않고 앱은 웹 주소로 연다 |
 
 ## 배포
 
