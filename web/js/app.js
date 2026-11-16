@@ -130,6 +130,8 @@ const store = {
   set(k, v) { if (reopening) return; try { localStorage.setItem("ttw." + k, JSON.stringify(v)); } catch { /* 저장이 안 돼도 화면은 돈다(알리지 않는다) */ } },
   del(k) { if (reopening) return; try { localStorage.removeItem("ttw." + k); } catch { /* 무시 */ } },
 };
+// 이 기기에서 처음 켰다: 켤 때 ttw.* 기록이 하나도 없다(아래 '처음 안내'. 이 줄보다 앞에서는 기록을 쓰지 않는다)
+const FRESH = (() => { try { return !Object.keys(localStorage).some((k) => k.startsWith("ttw.")); } catch { return false; } })();
 // 담은 과목·직접 넣은 강의실과 시간은 학기마다 따로 둔다(같은 교과목번호·분반 번호라도 학기마다 다른 강좌다)
 const semKey = (k, sem = state.semester) => `${k}@${sem}`;
 
@@ -4009,9 +4011,22 @@ function placeItem(item) {
     const r = T.addItem(t, item, { force: true, byId: state.byId });
     const swapped = (x) => T.itemKey(x) === T.itemKey(item) || (!!item.course && x.course === item.course);
     out = { tid: t.id, added: T.itemKey(item), restore: r.removed, removed: r.removed.filter((x) => !swapped(x)).length };
-    return r.t;
+    return spreadColors(r.t);
   });
   return out;
+}
+/** 같은 색이 둘 이상인데 아무도 안 쓰는 색이 있으면, 같은 색의 나중에 넣은 항목부터 안 쓴 색으로 옮긴다(11/16 사용자 "과목 추가할 때 색은 최대한 안 겹치는
+ *  방향으로 해줘"). 새 항목은 T.addItem 이 이미 안 쓴 색(다 쓰면 가장 덜 쓴 색)을 준다. 겹친 색은 과목이 여덟 개를 넘었다가 빠지면 남는다(예: 0·1·…·7·0·1 에서 넷을 빼면 0·1 이 둘씩) */
+function spreadColors(t) {
+  const used = new Set(t.items.map((it) => it.color));
+  const free = range(0, T.COLORS - 1).filter((c) => !used.has(c));
+  if (!free.length || used.size === t.items.length) return t;
+  const seen = new Set();
+  const items = t.items.map((it) => {
+    if (!seen.has(it.color)) { seen.add(it.color); return it; }
+    return free.length ? { ...it, color: free.shift() } : it;
+  });
+  return { ...t, items };
 }
 
 $("tt-switch").addEventListener("click", (e) => openTtList(e.currentTarget));
@@ -4208,7 +4223,8 @@ function makeNewTt() {
 // ---- 시간표 메뉴 팝업(10/30 오후 사용자: "시간표 옵션은 그냥 창으로 띄우고". 그 전에는 목록의 행 아래에 펼쳤다): 목록 시트 행마다 ⋯ 가 연다. 묻는 팝업과 같은 가운데 팝업이고
 // 목록 시트 위에 뜬다(이어서 "첫번째 창이 두번째 창 위로 올라오게 만들어줘. 없애고 두번째 창 없애고 첫번째 창만 남기지 말고". 처음 넣은 것은 목록을 닫았다가 팝업을 닫으면
 // 다시 열었다). 이름·복사·대표를 바꾸면 밑의 목록도 바로 다시 그린다. 닫기·바깥 누르기·Esc·뒤로 가기는 팝업만 닫고 초점은 목록의 그 시간표 ⋯.
-// 지우기와 앱의 사진 저장은 목록까지 닫고 스낵바를 보인다(스낵바의 되돌리기·다시 시도를 누를 수 있게).
+// 앱의 사진 저장은 목록까지 닫고 스낵바를 보인다(스낵바의 다시 시도를 누를 수 있게). 지우기는 팝업만 닫고 목록에 남는다(11/16 사용자 "시간표 지우기 눌렀을 때
+// 아예 나가버리지 말고 시간표 목록으로 나가도록": 스낵바는 목록 시트 안으로 옮겨 되돌리기를 누를 수 있다, snackHome).
 // 머리는 태그(대표)·학기·메타와 이름 입력칸(이름이 곧 입력칸이다. 10/30 사용자: 행의 이름과 입력칸을 "하나로 합치는 게 좋을 것 같고, 이름 수정하는 란이라는 게 좀 더
 // 잘 드러났으면", "대표나 과목 수 같은 건 제목 위로". Enter·다른 곳을 누르면 바꾸고, Esc 는 고치던 것을 원래 이름으로), 그 아래 복사하기·대표 시간표로 설정하기(대표가
 // 아닌 시간표에만. 10/23 사용자: "'대표에서 빼기' 이거 없애고, 걍 대표 시간표가 아닌 시간표 메뉴에 '대표 시간표로 설정하기' 이거 넣어". 대표는 학기마다 늘 하나:
@@ -4242,7 +4258,7 @@ function openTtOpts(id, opener) {
   renderTtOpts();
   openSheet(ttOpts, opener, { over: true }); // 목록 시트 위에
 }
-/** 메뉴 줄의 일. 복사하기·대표는 팝업을 그대로 두고 팝업과 밑의 목록을 다시 그린다. 지우기는 목록까지 닫는다(스낵바의 되돌리기) */
+/** 메뉴 줄의 일. 복사하기·대표는 팝업을 그대로 두고 팝업과 밑의 목록을 다시 그린다. 지우기는 팝업만 닫고 다시 그린 목록으로(스낵바의 되돌리기) */
 function ttOptsAct(k) {
   const t = ttById(toId);
   if (!t) return;
@@ -4268,7 +4284,15 @@ function ttOptsAct(k) {
     renderTtList();
     renderTtOpts($("to-acts").querySelector('[data-tt-act="save-image"]') ? '[data-tt-act="save-image"]' : '[data-tt-act="delete"]');
     announce("대표 시간표로 설정했어요");
-  } else if (k === "delete") { closeSheet(ttOpts); closeSheet($("tt-list-sheet")); deleteTt(t); }
+  } else if (k === "delete") {
+    // 목록에 남는다(11/16 사용자). 초점은 그 자리에 온 시간표의 ⋯, 맨 끝이었으면 앞 것, 학기에 하나 남은 것을 지웠으면 빈 시간표 1 행의 ⋯
+    const at = mine.list.findIndex((x) => x.id === t.id);
+    deleteTt(t); // 목록을 다시 그린다(mineChanged)
+    const next = mine.list[Math.min(Math.max(at, 0), mine.list.length - 1)] || curTt();
+    toId = next.id || ""; // 팝업이 닫히면 목록을 다시 그리고 이 시간표의 ⋯ 에 초점(아래 ttOpts close)
+    ttOpts.returnTo = null;
+    closeSheet(ttOpts);
+  }
   else if (k === "save-image") { // 웹은 내려받고 팝업 그대로. 앱이 저장하거나 공유 시트를 띄워 팝업을 닫았으면 목록도 닫는다(스낵바)
     imageAct(k, t, ttOpts).then(() => { if (!ttOpts.open || ttOpts.closing) closeSheet($("tt-list-sheet")); });
   }
@@ -5227,7 +5251,7 @@ async function receiveLink(code) {
     // 어느 길로 왔든 받은 주소를 적어 둔다: 켤 때 주소가 이벤트보다 늦게 풀리거나 웹뷰를 새로 열어도 같은 시트를 다시 띄우지 않는다(닫았으면 그대로)
     try { sessionStorage.setItem(LAUNCH_DONE, code); } catch { /* 못 적으면 다음에 새로 열 때 한 번 더 띄울 수 있다 */ }
   }
-  if (screen === "setup" || screen === "login") showView(ROOT[tab], "init"); // 처음 화면 중에 링크로 켰다: 공유받은 시간표가 먼저, 그 화면은 다음에 켤 때(디자인 121판)
+  if (firstScreen(screen)) showView(ROOT[tab], "init"); // 처음 화면 중에 링크로 켰다: 공유받은 시간표가 먼저, 그 화면은 다음에 켤 때(디자인 121판)
   if (r.problem) { showSnackbar(LINK_PROBLEM[r.problem]); return; }
   openShared(await linkToPayload(r.link));
 }
@@ -5248,7 +5272,7 @@ function navOf(url) {
 let lastNav = null; // 앱: 켤 때 같은 위젯 주소가 launchUrl 과 'ttw:open-url' 로 거의 같이 두 번 온다. 동선 지도는 한 번만 연다
 async function goNav(nav) {
   await semReady;
-  if (screen === "setup" || screen === "login") showView(ROOT[tab], "init"); // 위젯·바로가기로 켰다: 그 화면이 먼저(처음 화면은 다음에 켤 때)
+  if (firstScreen(screen)) showView(ROOT[tab], "init"); // 위젯·바로가기로 켰다: 그 화면이 먼저(처음 화면은 다음에 켤 때)
   if (nav.sem && nav.sem !== state.semester && state.semesters.some(([x]) => x === nav.sem)) switchSemester(nav.sem);
   if (nav.item) { // 위젯에서 수업을 눌렀다: 그 수업의 항목 시트(아래 itemNav). 못 열면 그 탭으로
     const sig = `item|${nav.sem}|${nav.tt}|${nav.item}`;
@@ -5378,6 +5402,8 @@ function deleteTt(t) {
     saveMine();
     mineChanged();
     syncSaves();
+    // 시간표 목록에서 지우고 되돌렸다(스낵바가 목록 시트 안): 초점은 되살린 시간표의 ⋯
+    if ($("tt-list-sheet").open) $("tl-rows").querySelector(`[data-tt-more="${CSS.escape(t.id)}"]`)?.focus({ preventScroll: true });
   });
 }
 
@@ -5436,6 +5462,7 @@ const devApi = () => ({
     showView("setup", "tab");
   },
   update() { showSnackbar("새 버전이 있어요", "새로고침", () => location.reload()); announce("새 버전이 있어요"); },
+  tour() { tourAt = 0; showView("tour", "tab"); }, // 처음 안내를 처음 장부터(끝내면 지금 탭으로. 이 기기에 '봤다'를 다시 적는다)
   image: () => timetablePng(curTt()), // 지금 보는 시간표의 그림(PNG 바이트, 자료 조각까지)
   info() {
     let keys = [];
@@ -6154,7 +6181,7 @@ async function reqCompute(sig) {
   const tidy = R.tidyRecords(own, same);
   const sugg = R.suggestCourses(counted.map((p) => ({ program: p.program, rows: R.evaluateProgram(p.program, p.version, tidy.courses, { role: p.role, sameCourse: same }) })),
     courses.filter((c) => c.program === "학사" && c.sections.length), { sameCourse: same });
-  const grades = own.some((r) => r.grade) ? R.gpa(own, { sameCourse: same }) : null;
+  const grades = own.some((r) => r.grade) ? R.gpa(finalRecords(own, same), { sameCourse: same }) : null; // 재수강해서 빠진 과목은 평점에서 뺀다(11/16)
   const main = counted[0];
   const who = { college: cat.programs[main.id].college || "", unit: main.program.unit || "", program: main.program.program || "", entryYear: v.year,
     gpaLastTwo: grades && grades.lastTwoRegular ? grades.lastTwoRegular.gpa : null };
@@ -6627,7 +6654,8 @@ function isSafariTab() {
 // [값, 이름, 시작 MM-DD, 끝 MM-DD(그날까지, 기기 날짜), 상태 바 색 = style.css 의 그 테마 --bg, 스토어 앱의 시스템 바 글자("DARK" = 짙은 바탕 위 밝은 글자, "LIGHT" = 그 반대),
 // 테마 탭 카드의 고를 수 있는 때]. 크리스마스는 12월 한 달(10/23 사용자: "12월 한 달". 그전에는 25일까지).
 // 기간은 한 해 안에 두고(해를 넘기지 않는다) 서로 겹치지 않게 한다. index.html 머리의 스크립트가 같은 판단으로 그리기 전에 먼저 건다(테마를 더하면 거기도 고친다)
-const THEMES = [["xmas", "크리스마스", "12-01", "12-31", "#103924", "DARK", "12월 한 달"]];
+// 카드 아랫줄은 11/16 사용자: '12월 한 달' → '12월에 이용 가능한 테마예요'(이 줄은 한 줄 그대로: tests/test_widgets.py 가 정규식으로 읽는다)
+const THEMES = [["xmas", "크리스마스", "12-01", "12-31", "#103924", "DARK", "12월에 이용 가능한 테마예요"]];
 const BASE_BAR = ["#eef0ff", "#16171b"]; // 기본 테마의 상태 바 색(라이트, 다크)
 /** 개발 서버: http 의 내 컴퓨터(localhost·127.x·[::1]·*.localhost)나 같은 와이파이의 사설 주소(192.168.x·10.x·172.16~31.x. 실제 폰으로 시험할 때).
  *  배포한 웹(https)과 스토어 앱(https://localhost, capacitor://localhost)은 아니다 */
@@ -7267,7 +7295,8 @@ $("da-ok").addEventListener("click", () => {
 // 127판(요건 시트 맨 위 자료 글, 확인 필요 시트의 고지와 출처 알려 주기, 자료 출처의 성적 계산 줄)·128판(출처 여러 줄).
 // 계산과 글은 백엔드 requirements.js(update100·101·106·107·108, 레포 docs/requirements.md 2·2-1절): 화면은 받은 글을 그대로 그린다(글을 짓지 않는다).
 // 학과·학번·성적을 받는 기능이라 학과·학번과 같이 켠다(deptOn, DEPT_FROM. 그전에는 탭이 셋이고 웹 개발자 메뉴로만 미리 본다).
-// 기기 안(ttw.grad): { v, view(마지막 보기), dropped{'학기|과목'}, grades{'학기|과목': 성적}, manual[다른 곳에서 들은 과목], versions{과정: 고른 판}, target(목표 평점) }.
+// 기기 안(ttw.grad): { v, view(마지막 보기), dropped{'학기|과목'}, grades{'학기|과목': 성적}, manual[다른 곳에서 들은 과목], versions{과정: 고른 판}, target(목표 평점),
+//   checks{과목 번호: {name, credits}}(요건 시트에서 체크한 과목. 11/16 사용자 "졸업요건은 설명으로 써두지 말고 체크박스로 구성하자") }.
 // 밖으로 보내지 않는다(출처 알려 주기가 미리 채우는 것은 과정·줄 이름과 앱 정보뿐, 법무 11/14)
 const GRAD = "grad";
 const GRADE_OPTS = ["A+", "A0", "A-", "B+", "B0", "B-", "C+", "C0", "C-", "D+", "D0", "D-", "F", "S", "U"];
@@ -7275,6 +7304,7 @@ const GM_CLS = ["교양", "전필", "전선", "일선", "교직"]; // 다른 곳
 // 11/15 사용자: "'요건' 탭은 '졸업 요건'으로", "'들은 과목'은 '수강한 과목'으로 바꾸고, 수강한 과목 탭이랑 성적 탭이랑 합치자", "세번째 탭으로 다음 학기 시간표 추천"
 const GRAD_VIEWS = [["req", "졸업 요건"], ["taken", "수강한 과목"], ["next", "다음 학기"]]; // 셋째는 다음 학기 추천(폰 폭에서 한 줄로 서게 짧게)
 const gradObj = (o) => !!o && typeof o === "object" && !Array.isArray(o);
+const CHECK_CODE = /^[A-Za-z0-9.]{1,32}$/; // 체크한 과목의 번호(편람 교과목번호 꼴)
 function gradStore() {
   const v = store.get(GRAD, null), ok = gradObj(v);
   return {
@@ -7284,6 +7314,8 @@ function gradStore() {
     manual: ok && Array.isArray(v.manual) ? v.manual.filter((m) => gradObj(m) && typeof m.id === "string" && typeof m.name === "string" && SEM_ID.test(m.term)) : [],
     versions: ok && gradObj(v.versions) ? v.versions : {},
     target: ok && Number.isFinite(v.target) ? v.target : null,
+    checks: ok && gradObj(v.checks) ? Object.fromEntries(Object.entries(v.checks).filter(([k, c]) => CHECK_CODE.test(k) && gradObj(c))) : {},
+    gpaOk: { all: ok && gradObj(v.gpaOk) && v.gpaOk.all === true, major: ok && gradObj(v.gpaOk) && v.gpaOk.major === true }, // 졸업 평점 시트의 두 체크(성적을 다 넣지 않았을 때)
   };
 }
 const setGrad = (patch) => store.set(GRAD, { v: 1, ...gradStore(), ...patch });
@@ -7352,6 +7384,11 @@ async function gradPicks(v, base) {
 }
 /** 들은 과목 기록(requirements.js tidyRecords 꼴): 지금 학기까지 학기마다 대표 시간표의 과목(직접 넣은 일정은 빼고. 학점·이수 구분·개설 학과·이수과정은 그 학기 편람,
  *  편람에 없으면 시간표에 적어 둔 값)과 다른 곳에서 들은 과목. 드랍·성적은 기기에 둔 값. rk 는 드랍·성적을 두는 열쇠('학기|과목'), prim 은 학기마다 대표 시간표가 있는지 */
+/** 재수강해서 빠진 과목(같은 과목을 나중 학기에 다시 들었다)을 뺀 기록: 평점에 넘긴다(학기 평점에도 넣지 않는다. 11/16 사용자) */
+function finalRecords(records, same) {
+  const gone = new Set(R.tidyRecords(records, same).replaced.map((x) => x.index));
+  return records.filter((r, i) => !gone.has(i));
+}
 async function gradRecords(cur) {
   await semReady;
   const g = gradStore(), records = [], prim = new Map();
@@ -7373,10 +7410,16 @@ async function gradRecords(cur) {
     records.push({ code: `manual:${m.id}`, name: m.name, credits: Number(m.credits) || 0, cls: GM_CLS.includes(m.cls) ? m.cls : "", dept: "", level: "학사", term: m.term,
       manual: true, source: "domestic", rk: `manual|${m.id}`, mid: m.id });
   }
+  // 요건 시트에서 체크한 과목(11/16): 학기·성적을 모른다(term null 은 가장 앞 학기로 쳐서, 같은 과목이 시간표에도 있으면 시간표 쪽이 남는다).
+  // 요건과 들은 학점에는 세고 평점·학기 목록에는 넣지 않는다(renderGrad)
+  for (const [code, c] of Object.entries(g.checks)) {
+    records.push({ code, name: String(c.name || code), credits: Number(c.credits) || 0, cls: "", dept: "", level: "학사", term: null, checked: true, rk: `check|${code}` });
+  }
   return { records, prim };
 }
 
 let gradSeq = 0, gradNow = null; // 늦게 끝난 계산은 버린다. gradNow: 지금 그린 값(요건 시트·팝업이 쓴다)
+let gradTip = null; // 수강한 과목에서 평점 옆 ? 를 눌러 편 학기(다시 그려도 그대로)
 let gradSrc = null; // 자료 출처의 졸업 요건·성적 계산 줄 { req, gpa }(디자인 124·127판 InfoList. 받기 전 null, 받는 중 false)
 /** 자료 출처 줄 글: 요건 자료의 해와 기준일(index.json), 성적 계산의 학사 안내·수강편람과 그 기준일(common.json) */
 function gradSources(base) {
@@ -7414,17 +7457,24 @@ async function renderGrad() {
   const counted = picks.filter((p) => p.version);
   const same = R.buildSameCourse(base.courseMap, counted.map((p) => p.program));
   const majorOf = (p) => (c) => R.isMajorCourse(c, p.program, p.version, same);
-  const anyGrade = records.some((r) => r.grade);
-  const grades = anyGrade ? R.gpa(records, { sameCourse: same, isMajor: majorOf(counted[0]) }) : null;
+  // 체크한 과목(학기·성적 모름)은 요건과 들은 학점에만 센다: 평점·학기 목록은 시간표와 직접 넣은 과목으로(recs)
+  const recs = records.filter((r) => !r.checked);
+  const anyGrade = recs.some((r) => r.grade);
+  // 평점은 재수강해서 빠진 과목을 빼고 센다(11/16 사용자 "평점 계산도 재수강한 과목은 반영하지 말고": 학기 평점·직전 두 학기도. 전체·전공 평점은 원래 나중 성적만)
+  const gpaRecs = finalRecords(recs, same);
+  const grades = anyGrade ? R.gpa(gpaRecs, { sameCourse: same, isMajor: majorOf(counted[0]) }) : null;
   const view = R.gradView({ picks: counted.map((p) => ({ program: p.program, version: p.version, role: p.role, title: p.title, entryYear: p.entryYear,
-    selectionTerm: p.selectionTerm || null, newer: p.newer })), records, grades, common: base.common, sameCourse: same });
-  const taken = R.takenTerms(records, { sameCourse: same, currentTerm: cur });
-  const others = anyGrade ? counted.slice(1).map((p) => ({ short: progShort(p.id), gpa: R.gpa(records, { sameCourse: same, isMajor: majorOf(p) }).major })) : [];
-  gradNow = { v, base, picks: counted, records, view, taken, grades, others, cur, prim };
+    selectionTerm: p.selectionTerm || null, newer: p.newer })), records, grades, common: base.common, sameCourse: same, gpaChecks: gradStore().gpaOk });
+  gpaByChecks(view, grades);
+  const taken = R.takenTerms(recs, { sameCourse: same, currentTerm: cur });
+  const others = anyGrade ? counted.slice(1).map((p) => ({ short: progShort(p.id), gpa: R.gpa(gpaRecs, { sameCourse: same, isMajor: majorOf(p) }).major })) : [];
+  // 요건 시트의 체크박스: 시간표·직접 넣은 과목으로 들은 것(끌 수 없음, 그 학기)과 체크로만 들은 것
+  const fixed = new Map(R.tidyRecords(recs, same).courses.filter((c) => !c.failed).map((c) => [c.key, c]));
+  gradNow = { v, base, picks: counted, records: recs, all: records, view, taken, grades, others, cur, prim, same, fixed };
   const g = gradStore();
   const had = body.contains(document.activeElement) ? document.activeElement.dataset.gk : null;
   body.replaceChildren(
-    h("div", { class: "gr-head" }, h("span", { class: "sem" }, deptLabel(v)), h("span", { class: "nm" }, `들은 학점 ${taken.total}`)),
+    h("div", { class: "gr-head" }, h("span", { class: "sem" }, deptLabel(v)), h("span", { class: "nm" }, `들은 학점 ${view.total}`)),
     h("fieldset", { class: "gr-seg" }, h("legend", { class: "sr-only" }, "졸업 요건 보기"),
       h("div", { class: "seg" }, GRAD_VIEWS.map(([k, t]) => h("label", {},
         h("input", { type: "radio", name: "gr-view", value: k, checked: g.view === k, "data-gk": `seg:${k}` }), t)))),
@@ -7438,7 +7488,9 @@ async function renderGrad() {
 function gradReqView() {
   const { view, picks, base } = gradNow;
   const mainLabel = (view.bundles.find((b) => b.kind === "program") || {}).label || null; // 공통 줄도 주전공 판으로 센다
-  const out = [];
+  // 맨 위 한 줄(11/16 사용자: 다 채우면 색을 다르게): '요건 14개 중 9개 충족', 다 채우면 '모든 요건 충족'(accent)
+  const rows = view.bundles.flatMap((b) => b.rows), met = rows.filter((r) => r.value.kind === "met").length, all = rows.length > 0 && met === rows.length;
+  const out = [h("p", { class: `gr-sum${all ? " is-all" : ""}` }, all ? icon(I.check, 18) : null, all ? "모든 요건 충족" : `요건 ${rows.length}개 중 ${met}개 충족`)];
   for (const b of view.bundles) {
     const p = b.kind === "program" ? picks.find((x) => x.program.id === b.id) : null;
     const label = b.kind === "common" ? mainLabel : b.label;
@@ -7448,7 +7500,8 @@ function gradReqView() {
       : label ? h("span", { class: "count" }, label) : null;
     out.push(h("h2", { class: "section-title" }, b.title, count));
     if (!b.rows.length) continue;
-    out.push(h("div", { class: "card info-list" }, h("ul", { class: "list" }, b.rows.map((r) => h("li", {},
+    // 줄의 색(11/16 사용자: 채운 요건과 못 채운 요건을 다른 색으로): 충족 accent, 남음 warning, 확인 필요는 태그 그대로. 왼쪽 띠도 같은 색
+    out.push(h("div", { class: "card info-list" }, h("ul", { class: "list" }, b.rows.map((r) => h("li", { class: `rq-${r.value.kind}` },
       h("button", { type: "button", class: "info-row", "aria-label": r.aria, "data-rq": `${b.id}|${r.id}`, "data-gk": `rq:${b.id}|${r.id}` },
         h("span", {}, r.name),
         r.value.kind === "left" ? h("span", { class: "v is-left" }, r.value.text)
@@ -7471,9 +7524,14 @@ function gradTakenView(g) {
   const terms = [...new Set([...taken.terms.map((t) => t.term), ...regularTerms(v.year, cur).filter((t) => !prim.get(t))])]
     .sort((a, b) => R.termOrder(b) - R.termOrder(a));
   const out = [gpaCard(g), h("p", { class: "gr-lead" }, "학기마다 대표 시간표에서 모았어요")];
+  const by = new Map(taken.tidy.replaced.map((x) => [x.index, x.by])); // 재수강해서 빠진 기록 → 다시 들은 학기
   for (const term of terms) {
     const t = byTerm.get(term), tg = grades && grades.byTerm[term];
-    out.push(h("h2", { class: "section-title" }, R.termName(term), t ? h("span", { class: "count" }, `${t.text}${tg && tg.gpa != null ? ` · 평점 ${tg.gpa.toFixed(2)}` : ""}`) : null));
+    // 학기 평점에서 뺀 재수강 과목이 있으면 평점 옆 ?(11/16 사용자): 누르면 바로 아래 한 줄 '재수강한 과목은 반영하지 않았어요'(다시 누르면 접는다)
+    const why = t && tg && tg.gpa != null && t.rows.some((r) => by.has(r.index)), tip = `gr-tip-${term}`, open = gradTip === term;
+    out.push(h("h2", { class: "section-title" }, R.termName(term), t ? h("span", { class: "count" }, `${t.text}${tg && tg.gpa != null ? ` · 평점 ${tg.gpa.toFixed(2)}` : ""}`,
+      why ? h("button", { type: "button", class: "gr-why", "aria-label": "평점 계산 안내", "aria-expanded": String(open), "aria-controls": tip, "data-tip": term, "data-gk": `tip:${term}` }, "?") : null) : null));
+    if (why) out.push(h("p", { class: "gr-tip", id: tip, hidden: !open }, "재수강한 과목은 반영하지 않았어요"));
     if (!t) {
       const can = state.semesters.some(([x]) => x === term);
       out.push(h("div", { class: "card gr-none" }, h("p", { class: "empty" }, "대표 시간표가 없어요"),
@@ -7481,14 +7539,26 @@ function gradTakenView(g) {
       continue;
     }
     out.push(h("div", { class: "card" }, h("ul", { class: "list" }, t.rows.map((r) => {
-      const rec = records[r.index];
-      return h("li", { class: "tk" }, h("span", { class: "b" }, h("span", { class: "t" }, r.name), h("span", { class: "m" }, r.meta)),
+      const rec = records[r.index], again = by.get(r.index);
+      // 재수강해서 빠진 과목: 이름 옆 빨간 '(2025년 겨울학기 재수강)', 메타는 '교양 · 2학점'만(11/16 사용자 "재수강은 저런식으로 빨간 글씨로 써줘. 문장형으로 하지 말고")
+      const meta = again ? `${rec.cls ? `${rec.cls} · ` : ""}${r.credits}학점` : r.meta;
+      return h("li", { class: "tk" }, h("span", { class: "b" }, h("span", { class: "t" }, r.name, again ? h("span", { class: "rt" }, `(${R.termName(again)} 재수강)`) : null),
+        h("span", { class: "m" }, meta)),
         rec.manual
           ? h("button", { type: "button", class: "icon-btn remove", "aria-label": `${r.name} 빼기`, "data-del": rec.mid, "data-gk": `del:${rec.mid}` }, icon(I.x, 20))
           : h("select", { class: "browse-select", "aria-label": `${r.name} 성적`, "data-mark": rec.rk, "data-gk": `mark:${rec.rk}` },
             h("option", { value: "", selected: !rec.dropped && !rec.grade }, "성적"), GRADE_OPTS.map((x) => h("option", { value: x, selected: !rec.dropped && rec.grade === x }, x)),
             h("option", { value: "drop", selected: !!rec.dropped }, "드랍")));
     }))));
+  }
+  // 졸업 요건에서 체크한 과목(11/16): 학기를 모르니 학기 목록 밖에 따로. 시간표에도 있는 과목은 거기서 센다(여기 넣지 않는다). × 로 체크를 푼다
+  const { same, fixed } = gradNow, cks = Object.entries(gradStore().checks).filter(([code]) => !fixed.has(same(code)));
+  if (cks.length) {
+    const sum = cks.reduce((n, [, c]) => n + (Number(c.credits) || 0), 0);
+    out.push(h("h2", { class: "section-title" }, "체크한 과목", h("span", { class: "count" }, `${sum}학점`)));
+    out.push(h("div", { class: "card" }, h("ul", { class: "list" }, cks.map(([code, c]) => h("li", { class: "tk" },
+      h("span", { class: "b" }, h("span", { class: "t" }, c.name || code), h("span", { class: "m" }, c.credits != null ? `졸업 요건에서 체크 · ${c.credits}학점` : "졸업 요건에서 체크")),
+      h("button", { type: "button", class: "icon-btn remove", "aria-label": `${c.name || code} 체크 풀기`, "data-unck": code, "data-gk": `unck:${code}` }, icon(I.x, 20)))))));
   }
   out.push(h("div", { class: "card info-list" }, h("ul", { class: "list" }, h("li", {},
     h("button", { type: "button", class: "add-row", "data-gm": "1", "data-gk": "gm" }, icon(I.plus, 20), "다른 곳에서 들은 과목")))));
@@ -7504,7 +7574,7 @@ function gradNextView() {
   const next = R.nextRegularTerm(cur), ready = R.hasCoursebook({ list: state.semesters }, next);
   return [h("div", { class: "card gr-next" },
     h("p", { class: "gr-next-t" }, R.termName(next)),
-    h("p", { class: "gr-next-m" }, ready ? "남은 졸업 요건을 채우는 과목부터 보여 드려요" : "이 학기 수강편람이 아직 없어요"),
+    h("p", { class: "gr-next-m" }, ready ? "남은 졸업 요건을 채우는 과목부터 보여 드려요" : "수강편람이 없어요"), // 11/16 사용자 '그냥 수강편람이 없어요만 남겨 이 학기는 빼'(카드 제목이 학기)
     ready ? h("button", { type: "button", class: "btn-primary gr-next-go", "data-next": next, "data-gk": "next" }, "시간표 짜기") : null)];
 }
 
@@ -7512,7 +7582,7 @@ function gradNextView() {
 const josaGa = (s) => ("2459".includes(String(s).slice(-1)) ? "가" : "이");
 /** 수강한 과목 맨 위 평점 카드(성적 계산기, 11/15 수강한 과목에 합침): 전체·전공 평점, 직전 두 학기와 다음 학기 학점 상한, 목표 평점과 남은 학점에서 필요한 평균 */
 function gpaCard(g) {
-  const { grades, others, taken, picks, base, v, cur } = gradNow;
+  const { grades, others, picks, base, v, cur } = gradNow;
   const fmt = (x) => (x && x.gpa != null ? x.gpa.toFixed(2) : "–");
   const all = grades && grades.all, last = grades && grades.lastTwoRegular;
   // 직전 두 학기(계절 빼고 재이수 조정 전): 기본 상한이 낮은 곳은 3.3 이상이면 다음 학기 21학점까지(학사 공통 규정, termCreditLimit)
@@ -7528,7 +7598,7 @@ function gpaCard(g) {
   const steps = range(300, 430, 5).map((x) => x / 100);
   const target = steps.find((x) => Math.abs(x - g.target) < 1e-9) ?? (all && all.gpa != null ? steps.find((x) => x > all.gpa + 1e-9) ?? 4.3 : 3.5);
   const gradCredits = (main.version.credits && main.version.credits.grad) || (base.common.graduation && base.common.graduation.credits_min) || 130;
-  const left = Math.max(0, gradCredits - taken.total);
+  const left = Math.max(0, gradCredits - gradNow.view.total); // 체크한 과목까지 센 들은 학점
   let need = null;
   if (left > 0) {
     const r = R.gradeNeeded(all || { credits: 0, points: 0 }, left, target), n = Math.max(0, r.need ?? 0).toFixed(2);
@@ -7546,25 +7616,124 @@ function gpaCard(g) {
         steps.map((x) => h("option", { value: x.toFixed(2), selected: Math.abs(x - target) < 1e-9 }, x.toFixed(2)))), need)));
 }
 
-/** 요건 시트(줄을 누르면): 제목은 줄 이름, 메타 '동물생명공학전공 · 2021~2026학번 규정'. 맨 위 자료 글. 남음·충족은 합과 과목 목록·출처,
- *  확인 필요는 태그·까닭·학과 졸업요건(바깥 브라우저)·고지·출처 알려 주기(GitHub 양식을 인앱 브라우저로). 맨 아래 자료 기준일 */
-const RQ_DONE = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="currentColor"/><path d="M7.5 12.3l3 3 6-6.3" fill="none" stroke="var(--card)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-const RQ_LEFT = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
+/** 요건 시트(줄을 누르면): 제목은 줄 이름, 메타 '동물생명공학전공 · 2021~2026학번 규정'. 맨 위 자료 글, 그 아래 상태(남음·충족은 합, 확인 필요는 태그·까닭).
+ *  11/16 사용자 "졸업요건은 설명으로 써두지 말고 체크박스로 구성하자", "분야별로 과목 목록을 만들어 두고, 과목마다 체크박스가 있어서 체크하고, 이 여부로 졸업 요건
+ *  확인할 수 있게", 졸업 평점은 "☐ 전체 평점 2.0 이상 ☐ 전공 평점 2.0 이상": 과목 목록이 있으면 과목마다 체크박스(시간표·직접 넣은 과목으로 들었으면 체크된 채 꺼짐과
+ *  그 학기, 아니면 눌러서 들음·안 들음), 분야(extra.groups)·갈래(extra.paths)가 있으면 그 묶음마다 소제목·조건·값(분야는 충족·남음, 갈래는 다 들었을 때 충족)과 목록.
+ *  졸업 평점은 성적을 다 넣었으면 계산한 체크(누르지 않음), 덜 넣었으면 학생이 체크하고 둘 다 켜면 줄이 충족(gpaByChecks).
+ *  체크하면 바로 다시 센다(renderGrad → 이 시트 다시 그리기). 확인 필요는 아래에 학과 졸업요건(바깥 브라우저)·고지·출처 알려 주기(GitHub 양식을 인앱 브라우저로).
+ *  맨 아래 출처·자료 기준일. 분야·갈래 줄 전체의 충족 계산은 백엔드에 부탁했다(지금은 엔진이 그 줄을 '확인 필요'로 둔다) */
+let rqKey = null; // 열린 요건 시트의 줄(체크하면 그 줄로 다시 그린다)
 function openRq(key, opener) {
-  if (!gradNow) return;
+  if (!gradNow || !paintRq(key)) return;
+  $("rq-body").scrollTop = 0;
+  openSheet($("rq-sheet"), opener);
+}
+/** 요건 줄의 자료(과정 파일의 요건 하나): 과목 목록의 옛 번호(alt_codes)·분야·길. 공통 묶음은 주전공 판의 교양 줄 */
+function rqRaw(bid, rid) {
+  const p = bid === "common" ? gradNow.picks[0] : gradNow.picks.find((x) => x.program.id === bid);
+  return (p && (p.version.requirements || []).find((x) => String(x.id) === rid)) || null;
+}
+/** 과목 체크 줄: 시간표·직접 넣은 과목으로 들었으면 체크된 채 꺼짐(학점·그 학기), 체크로만 들었으면 끌 수 있고, 안 들었으면 빈 칸(학점). c: { code, name, credits, alt_codes? } */
+function rqCheckRow(c) {
+  const { same, fixed } = gradNow, checks = gradStore().checks;
+  const keys = [c.code, ...(c.alt_codes || [])].map(same);
+  const f = keys.map((k) => fixed.get(k)).find(Boolean);
+  const ck = !f && Object.keys(checks).some((k) => keys.includes(same(k)));
+  const meta = f ? `${Number(f.credits) || 0}학점 · ${R.termName(f.term)}` : c.credits != null ? `${c.credits}학점` : null;
+  return h("li", { class: f || ck ? "done" : null }, h("label", { class: "rq-ck" },
+    h("input", { type: "checkbox", checked: !!(f || ck), disabled: !!f, "data-ck": c.code, "data-ckn": c.name || c.code, "data-ckc": c.credits ?? "" }),
+    h("span", { class: "t" }, c.name || c.code), meta ? h("span", { class: "m" }, meta) : null));
+}
+/** 분야의 조건: '1과목 이상', '3학점 이상' */
+const rqNeed = (g) => [g.min_count != null ? `${g.min_count}과목 이상` : "", g.min_credits != null ? `${g.min_credits}학점 이상` : ""].filter(Boolean).join(" · ");
+/** 성적을 다 넣었는가(엔진 gradView 의 졸업 평점 줄과 같은 기준) */
+const gpaComplete = (grades) => !!(grades && grades.all && grades.all.gpa != null && grades.graduation && grades.graduation.complete);
+/** 졸업 평점 줄(11/16 사용자 "☐ 전체 평점 2.0 이상 ☐ 전공 평점 2.0 이상"): 성적을 다 넣지 않아 엔진이 '확인 필요'로 둔 줄인데 요건 시트의 두 체크를 다 켰으면 충족.
+ *  엔진이 gpaChecks 를 받아 같은 일을 하게 되면(백엔드에 부탁) 이미 충족이라 여기서는 할 일이 없다 */
+function gpaByChecks(view, grades) {
+  const ok = gradStore().gpaOk, row = view.bundles[0] && view.bundles[0].rows.find((r) => r.id === "grad-gpa");
+  if (!row || row.value.kind !== "check" || gpaComplete(grades) || !(ok.all && ok.major)) return;
+  row.value = { kind: "met", text: "충족" };
+  row.aria = `${row.name}, 충족`;
+  Object.assign(row.sheet, { because: null, summary: null, strong: null });
+}
+/** 졸업 평점 시트의 조건 둘: 성적을 다 넣었으면 계산한 값이라 누르지 않는다(넘었으면 체크). 덜 넣었으면 학생이 체크한다(이 기기에만). 오른쪽은 넣은 성적의 평점(없으면 '성적 없음') */
+function rqGpaChecks() {
+  const { grades, base } = gradNow, min = (base.common.graduation && base.common.graduation.gpa_min) || 2.0;
+  const done = gpaComplete(grades), mine = gradStore().gpaOk;
+  const row = (k, label, x) => {
+    const has = !!(x && x.gpa != null), on = done ? has && x.gpa >= min : mine[k];
+    return h("li", { class: on ? "done" : null }, h("label", { class: "rq-ck" },
+      h("input", { type: "checkbox", checked: on, disabled: done, "data-gpa": done ? null : k }),
+      h("span", { class: "t" }, `${label} ${min.toFixed(1)} 이상`), h("span", { class: "m" }, has ? x.gpa.toFixed(2) : "성적 없음")));
+  };
+  return h("ul", { class: "list rq-list" }, row("all", "전체 평점", grades && grades.all), row("major", "전공 평점", grades && grades.major));
+}
+/** 분야·갈래 목록에서 들은 정도(이 시트 체크박스 그대로: 시간표·직접 넣은 과목으로 들었거나 체크한 과목) */
+function rqHave(list) {
+  const { same, fixed } = gradNow, ck = new Map(Object.entries(gradStore().checks).map(([k, c]) => [same(k), c]));
+  let count = 0, credits = 0;
+  for (const c of list) {
+    const keys = [c.code, ...(c.alt_codes || [])].map(same);
+    const f = keys.map((k) => fixed.get(k)).find(Boolean), m = f ? null : keys.map((k) => ck.get(k)).find(Boolean);
+    if (!f && !m) continue;
+    count += 1;
+    credits += f ? Number(f.credits) || 0 : Number(m.credits ?? c.credits) || 0;
+  }
+  return { count, credits };
+}
+/** 분야(다 채울 것)·갈래(하나만) 소제목 오른쪽 값: 분야는 조건을 채웠으면 '충족', 아니면 'n학점 남음'·'n과목 남음'(엔진 줄 값과 같은 차례).
+ *  갈래는 목록을 다 들었을 때만 '충족'(안 고른 갈래에 남음을 달지 않는다). 조건이 없으면 null */
+function rqGroupState(kind, g) {
+  const have = rqHave(g.courses);
+  if (kind === "path") return have.count >= g.courses.length ? { ok: true, text: "충족" } : null;
+  if (g.min_count == null && g.min_credits == null) return null;
+  const nk = g.min_credits != null ? g.min_credits - have.credits : 0, nc = g.min_count != null ? g.min_count - have.count : 0;
+  if (nk > 0) return { ok: false, text: `${nk}학점 남음` };
+  if (nc > 0) return { ok: false, text: `${nc}과목 남음` };
+  return { ok: true, text: "충족" };
+}
+/** 요건 시트 내용을 그린다(열 때, 체크한 뒤). 줄이 없으면 false */
+function paintRq(key) {
   const cut = key.indexOf("|"), bid = key.slice(0, cut), rid = key.slice(cut + 1);
   const b = gradNow.view.bundles.find((x) => x.id === bid), r = b && b.rows.find((x) => String(x.id) === rid);
-  if (!r) return;
-  const s = r.sheet, body = [];
+  if (!r) return false;
+  rqKey = key;
+  const s = r.sheet, body = [], raw = rqRaw(bid, rid), ex = (raw && raw.extra) || {};
   $("rq-title").textContent = s.title;
   $("rq-meta").textContent = s.meta || "";
   $("rq-meta").hidden = !s.meta;
   const ext = (href, text, label, system) => h("div", { class: "rq-acts" }, h("a", { class: "btn-text small cs-review", href, target: "_blank", rel: "noopener",
     "data-browser": system ? "system" : null, "aria-label": label }, text, icon(I.out, 16)));
   if (s.detail) body.push(h("p", { class: "rq-detail" }, s.detail));
+  const lists = [["group", ex.groups], ["path", ex.paths]].map(([kind, l]) => [kind, (l || []).filter((x) => (x.courses || []).length)]);
+  let because = s.because;
+  // 과목 목록이 분야·갈래에만 있는 줄: 엔진의 '정해진 과목 목록이 없는 요건' 대신 체크로 확인하라는 말(분야·갈래 충족 계산은 백엔드에 부탁)
+  if (because && because === R.reasonText({ reason: "과목 목록이 없는 조건" }) && lists.some(([, l]) => l.length)) {
+    because = lists[0][1].length ? "분야별 조건이라 앱이 아직 충족을 세지 못해요. 분야마다 체크해서 확인해 주세요."
+      : "여러 갈래 가운데 하나를 고르는 요건이라 앱이 아직 충족을 세지 못해요. 들은 갈래를 체크해서 확인해 주세요.";
+  }
   if (r.value.kind === "check") {
     body.push(h("p", { class: "rq-state" }, h("span", { class: "tag" }, "확인 필요")));
-    if (s.because) body.push(h("p", { class: "rq-why" }, s.because));
+    if (because) body.push(h("p", { class: "rq-why" }, because));
+  } else if (s.summary) {
+    const at = s.strong ? s.summary.lastIndexOf(s.strong) : -1;
+    body.push(h("p", { class: "rq-sum" }, at < 0 ? s.summary : [s.summary.slice(0, at), h("b", {}, s.strong), s.summary.slice(at + s.strong.length)]));
+  }
+  // 체크박스: 졸업 평점은 조건 둘, 과목 목록(자료의 옛 번호까지), 분야·갈래마다 소제목과 목록
+  if (rid === "grad-gpa") body.push(rqGpaChecks());
+  const flat = raw && (raw.courses || []).length ? raw.courses : s.courses || [];
+  if (flat.length) body.push(h("ul", { class: "list rq-list" }, flat.map(rqCheckRow)));
+  for (const [kind, list] of lists) {
+    for (const g of list) {
+      const need = kind === "group" ? rqNeed(g) : g.credits != null ? `${g.credits}학점` : "", st = rqGroupState(kind, g);
+      body.push(h("h3", { class: "rq-group" }, h("span", { class: "n" }, String(g.name || g.field || "")), need ? h("span", { class: "m" }, need) : null,
+        st ? h("span", { class: `v ${st.ok ? "is-ok" : "is-left"}` }, st.text) : null));
+      body.push(h("ul", { class: "list rq-list" }, g.courses.map(rqCheckRow)));
+    }
+  }
+  if (r.value.kind === "check") {
     if (s.link) body.push(ext(s.link, "학과 졸업요건", "학과 졸업요건 페이지", true));
     body.push(h("p", { class: "rq-note" }, "공개된 학교 문서 주소만 적어 주세요. 이름·학번·성적·이수 내역은 적지 마세요. 누구나 볼 수 있어요."));
     // 미리 채우는 것은 과정(catalog short)·줄 이름과 앱 정보뿐(학과·학번·판 이름·성적·들은 과목은 넣지 않는다. 법무 11/14, 백엔드 update107). 의견 보내기를 거치지 않는다
@@ -7573,24 +7742,39 @@ function openRq(key, opener) {
     body.push(ext(`${FEEDBACK_URL}?${Object.entries(q).map(([k, x]) => `${k}=${encodeURIComponent(x.toWellFormed ? x.toWellFormed() : x)}`).join("&")}`,
       "출처 알려 주기", "출처 알려 주기, GitHub 양식", false));
   } else {
-    if (s.summary) {
-      const at = s.strong ? s.summary.lastIndexOf(s.strong) : -1;
-      body.push(h("p", { class: "rq-sum" }, at < 0 ? s.summary : [s.summary.slice(0, at), h("b", {}, s.strong), s.summary.slice(at + s.strong.length)]));
-    }
-    if (s.courses && s.courses.length) {
-      body.push(h("ul", { class: "list rq-list" }, s.courses.map((c) => h("li", { class: c.taken ? "done" : null },
-        h("span", { class: "ic" }, svg(c.taken ? RQ_DONE : RQ_LEFT)),
-        h("span", { class: "t" }, c.name || c.code, h("span", { class: "sr-only" }, c.taken ? ", 들음" : ", 아직")),
-        c.meta ? h("span", { class: "m" }, c.meta) : null))));
-    }
     for (const src of s.sources || []) body.push(h("p", { class: "rq-src" }, src.text));
   }
   const basis = R.basisText(gradNow.base.index);
   if (basis) body.push(h("p", { class: "rq-src" }, basis));
   $("rq-body").replaceChildren(...body);
-  $("rq-body").scrollTop = 0;
-  openSheet($("rq-sheet"), opener);
+  return true;
 }
+// 과목 체크: 체크한 과목(ttw.grad.checks, 이 기기에만)을 바꾸고 다시 센다. 시트는 그 줄로 다시 그리고 초점·스크롤 자리는 그대로, 바뀐 줄 값을 읽어 준다
+$("rq-body").addEventListener("change", async (e) => {
+  const el = e.target.closest("[data-ck], [data-gpa]");
+  if (!el || !gradNow) return;
+  let sel;
+  if (el.dataset.gpa) { // 졸업 평점의 조건 둘(성적을 다 넣지 않았을 때)
+    const k = el.dataset.gpa;
+    if (k !== "all" && k !== "major") return;
+    setGrad({ gpaOk: { ...gradStore().gpaOk, [k]: el.checked } });
+    sel = `[data-gpa="${k}"]`;
+  } else {
+    const code = el.dataset.ck, checks = { ...gradStore().checks }, same = gradNow.same;
+    if (el.checked) checks[code] = { name: el.dataset.ckn, credits: el.dataset.ckc === "" ? null : Number(el.dataset.ckc) };
+    else for (const k of Object.keys(checks)) if (same(k) === same(code)) delete checks[k];
+    setGrad({ checks });
+    sel = `[data-ck="${CSS.escape(code)}"]`;
+  }
+  const key = rqKey, top = $("rq-body").scrollTop, d = $("rq-sheet");
+  await renderGrad();
+  if (!d.open || rqKey !== key || !gradNow || !paintRq(key)) return;
+  $("rq-body").scrollTop = top;
+  d.returnTo = $("grad-body").querySelector(`[data-gk="${CSS.escape(`rq:${key}`)}"]`) || d.returnTo; // 다시 그린 요건 줄로
+  $("rq-body").querySelector(sel)?.focus({ preventScroll: true });
+  const cut = key.indexOf("|"), b = gradNow.view.bundles.find((x) => x.id === key.slice(0, cut)), r = b && b.rows.find((x) => String(x.id) === key.slice(cut + 1));
+  if (r) announce(`${r.name}, ${r.value.text}`);
+});
 
 /** 다른 곳에서 들은 과목 팝업(새 시간표 팝업 꼴): 과목 이름·학점·이수 구분·학기. 추가는 이름을 넣으면 켜진다 */
 const gmSheet = $("gm-add");
@@ -7621,10 +7805,23 @@ $("gm-ok").addEventListener("click", () => {
 
 // 탭 안의 누름과 바꿈(다시 그려도 그대로인 바깥 요소에 한 번)
 $("grad-body").addEventListener("click", (e) => {
-  const el = e.target.closest("[data-rq], [data-next], [data-make], [data-del], [data-gm], [data-go], [data-retry]");
+  const el = e.target.closest("[data-rq], [data-next], [data-make], [data-del], [data-gm], [data-go], [data-retry], [data-tip], [data-unck]");
   if (!el) return;
   const d = el.dataset;
-  if (d.rq) openRq(d.rq, el);
+  if (d.unck) { // 체크한 과목 풀기: 그 줄이 없어지니 초점은 다른 곳에서 들은 과목 넣기로
+    const checks = { ...gradStore().checks }, name = (checks[d.unck] || {}).name || d.unck;
+    delete checks[d.unck];
+    setGrad({ checks });
+    renderGrad().then(() => { $("grad-body").querySelector('[data-gk="gm"]')?.focus({ preventScroll: true }); announce(`${name} 체크를 풀었어요`); });
+    return;
+  }
+  if (d.tip) { // 평점 옆 ?: 바로 아래 한 줄을 펴고 접는다(다시 그리지 않는다)
+    const open = el.getAttribute("aria-expanded") !== "true", tip = $(el.getAttribute("aria-controls"));
+    gradTip = open ? d.tip : null;
+    el.setAttribute("aria-expanded", String(open));
+    if (tip) tip.hidden = !open;
+    if (open && tip) announce(tip.textContent);
+  } else if (d.rq) openRq(d.rq, el);
   else if (d.gm) openGm(el);
   else if (d.retry) renderGrad();
   else if (d.go === "dept") go("dept");
@@ -7994,6 +8191,97 @@ $("login-skip-ok").addEventListener("click", () => {
   store.set(LOGIN_ASKED, true);
   afterLogin();
 });
+
+// ---------------------------------------------------------------- 처음 안내
+// 11/16 사용자: "앱 처음 다운받았을 때는 각 탭마다 뭐하는 역할인지 튜토리얼이 있어야 할 것 같고, 탭마다 넘기는 건 스와이프가 가능하게 해줘. 튜토리얼도 스와이프가 가능하게".
+// 이 기기에서 처음 켤 때(FRESH: 켤 때 ttw.* 기록이 없다) 한 번, 로그인·학과와 학번 처음 화면보다 먼저. 링크·바로가기·초대 링크로 켜면 그것이 먼저이고 다음에 켤 때 보인다.
+// 끝내기 전에 앱을 닫아도 다음에 켤 때 다시(ttw.tour "open"), 시작하기·건너뛰기로 끝(ttw.tour "done"). 이미 쓰던 기기에는 띄우지 않는다(처음 내려받았을 때만).
+// 지금 있는 탭마다 한 장(그 탭의 채운 아이콘·이름·두 문장). 옆으로 밀면 장이 손가락을 따라 움직이고(장 너비의 20%를 넘기거나 빠르게 밀면 넘어간다. 양 끝은 1/3 만 따라온다),
+// 이전·다음 단추와 ←→ 로도 넘긴다(미는 몸짓 없이도 다 된다). 웹 개발자 메뉴 '처음 안내'로 다시 본다
+const TOUR = "tour";
+const TOUR_TEXT = {
+  mine: "들을 수업과 일정을 넣은 한 주 시간표예요. 동선 확인하기로 그날 걷는 길을 보고, 링크나 이미지로 보내요.",
+  explore: "들을 과목을 담으면 걷는 시간이 짧은 분반 조합부터 보여 줘요. 추가 설정에서 공강 요일과 점심시간도 정해요.",
+  grad: "학과와 학번에 맞춘 졸업 요건과 남은 학점을 봐요. 학교가 공개한 문서로 계산한 추정이에요.",
+  friends: "로그인하고 닉네임으로 친구를 맺으면 서로의 시간표를 봐요. 보이기 싫은 과목·일정은 숨겨요.",
+  theme: "앱 색을 기본·라이트·다크 테마 가운데 골라요. 정해 둔 기간에는 크리스마스 같은 테마도 켜져요.",
+};
+const tourAtLaunch = () => (FRESH || store.get(TOUR, null) === "open") && !launchLink && !launchNav && !launchInvite;
+/** 처음 화면(처음 안내, 로그인, 학과와 학번): 탭 막대·사이드바 없이 한 칸이고, 링크·바로가기로 켜면 거둔다 */
+const firstScreen = (name) => name === "tour" || name === "login" || name === "setup";
+let tourAt = 0, tourDrag = null;
+function renderTour() {
+  const keys = tabList(), n = keys.length;
+  $("tour-track").replaceChildren(...keys.map((k, i) => h("div", { class: "tour-slide", role: "group", "aria-label": `${TAB_NAME[k]}, ${n}개 중 ${i + 1}번째` },
+    h("div", { class: "tour-art", "aria-hidden": "true" }, icon(TAB_ICON[k][1], 48)),
+    h("h2", { class: "tour-h" }, TAB_NAME[k]),
+    h("p", { class: "tour-p" }, TOUR_TEXT[k]))));
+  $("tour-dots").replaceChildren(...keys.map(() => h("span", {})));
+  tourGo(tourAt, false);
+}
+/** i 번째 장으로(say: 읽어 준다). 보이지 않는 장은 inert. 첫 장은 이전을 숨기고(자리는 남긴다) 마지막 장은 시작하기·건너뛰기 없음 */
+function tourGo(i, say = true) {
+  const keys = tabList(), slides = [...$("tour-track").children], n = slides.length;
+  if (!n) return;
+  tourAt = Math.max(0, Math.min(n - 1, i));
+  $("tour-track").style.transform = `translateX(${-tourAt * 100}%)`;
+  slides.forEach((el, j) => { el.inert = j !== tourAt; });
+  [...$("tour-dots").children].forEach((d, j) => d.classList.toggle("is-on", j === tourAt));
+  const first = tourAt === 0, last = tourAt === n - 1, next = $("tour-next");
+  if ((first && document.activeElement === $("tour-prev")) || (last && document.activeElement === $("tour-skip"))) next.focus({ preventScroll: true }); // 숨는 단추의 초점은 다음으로
+  $("tour-prev").classList.toggle("is-off", first);
+  $("tour-skip").hidden = last;
+  next.textContent = last ? "시작하기" : "다음";
+  if (say) announce(`${TAB_NAME[keys[tourAt]]}, ${n}개 중 ${tourAt + 1}번째. ${TOUR_TEXT[keys[tourAt]]}`);
+}
+/** 처음 안내를 끝낸다(시작하기, 건너뛰기): 다음 처음 화면(로그인 → 학과와 학번), 다 물었으면 켤 때의 탭 */
+function endTour() {
+  store.set(TOUR, "done");
+  tourAt = 0;
+  showView(loginAtLaunch() ? "login" : setupAtLaunch() ? "setup" : ROOT[tab], "tab");
+}
+$("tour-next").addEventListener("click", () => { if (tourAt >= $("tour-track").children.length - 1) endTour(); else tourGo(tourAt + 1); });
+$("tour-prev").addEventListener("click", () => tourGo(tourAt - 1));
+$("tour-skip").addEventListener("click", endTour);
+$("view-tour").addEventListener("keydown", (e) => {
+  if ((e.key !== "ArrowLeft" && e.key !== "ArrowRight") || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+  e.preventDefault();
+  tourGo(tourAt + (e.key === "ArrowRight" ? 1 : -1));
+});
+// 밀어 넘기기: 세로로 먼저 움직이면 놓아 둔다(긴 장의 세로 스크롤. .tour-viewport 는 touch-action: pan-y)
+const tourView = $("tour-viewport");
+tourView.addEventListener("pointerdown", (e) => {
+  if (!e.isPrimary || (e.pointerType === "mouse" && e.button !== 0)) return;
+  tourDrag = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now(), on: false, dx: 0 };
+});
+tourView.addEventListener("pointermove", (e) => {
+  const d = tourDrag;
+  if (!d || e.pointerId !== d.id) return;
+  const dx = e.clientX - d.x, dy = e.clientY - d.y, n = $("tour-track").children.length;
+  if (!d.on) {
+    if (Math.abs(dy) > 10 && Math.abs(dy) >= Math.abs(dx)) { tourDrag = null; return; }
+    if (Math.abs(dx) < 8) return;
+    d.on = true;
+    try { tourView.setPointerCapture(e.pointerId); } catch { /* 이미 놓았다 */ }
+    $("tour-track").classList.add("is-drag");
+  }
+  d.dx = (tourAt === 0 && dx > 0) || (tourAt === n - 1 && dx < 0) ? dx / 3 : dx;
+  d.v = dx / Math.max(1, performance.now() - d.t);
+  $("tour-track").style.transform = `translateX(calc(${-tourAt * 100}% + ${d.dx}px))`;
+});
+const tourUp = (e) => {
+  const d = tourDrag;
+  if (!d || e.pointerId !== d.id) return;
+  tourDrag = null;
+  if (!d.on) return;
+  $("tour-track").classList.remove("is-drag");
+  const w = tourView.clientWidth || 1, n = $("tour-track").children.length;
+  const go = e.type === "pointerup" && (Math.abs(d.dx) > w * 0.2 || (Math.abs(d.dx) > 24 && Math.abs(d.v || 0) > 0.4));
+  const to = go ? Math.max(0, Math.min(n - 1, tourAt + (d.dx < 0 ? 1 : -1))) : tourAt;
+  tourGo(to, to !== tourAt);
+};
+tourView.addEventListener("pointerup", tourUp);
+tourView.addEventListener("pointercancel", tourUp);
 /** 계정 화면: 로그인 전은 로그인 카드, 로그인하면 카드 셋(메일과 학교 계정 태그, 동기화(누르면 지금 맞춤), 로그아웃·계정 삭제) */
 function renderAccount() {
   const box = $("account-list"), u = acctUser, foot = $("account-foot");
@@ -8874,11 +9162,11 @@ function renderFeedback() {
 // 과목 추가(add)는 내 시간표 화면이다: 넓은 화면은 그 오른쪽 칸, 폰 폭은 그 위의 시트(넓은 화면에서 연 기록을 폰 폭에서 보일 때. 폰에서 연 시트는 화면이 아니다)
 const VIEW_EL = { input: "view-input", mine: "view-mine", add: "view-mine", result: "view-result", map: "view-map", info: "view-info", page: "view-page",
   feedback: "view-feedback", theme: "view-theme", dept: "view-dept", setup: "view-dept", grad: "view-grad", notify: "view-notify", account: "view-account", friends: "view-friends",
-  friend: "view-friend", frpv: "view-frpv", login: "view-login" };
+  friend: "view-friend", frpv: "view-frpv", login: "view-login", tour: "view-tour" };
 const VIEW_ELS = [...new Set(Object.values(VIEW_EL))];
 const H1 = { input: "input-title", mine: "mine-title", add: "add-panel-title", result: "result-title", map: "map-title", info: "info-title", page: "page-title",
   feedback: "feedback-title", theme: "theme-title", dept: "dept-title", setup: "setup-title", grad: "grad-title", notify: "notify-title", account: "account-title", friends: "friends-title",
-  friend: "friend-title", frpv: "frpv-title", login: "login-title" };
+  friend: "friend-title", frpv: "frpv-title", login: "login-title", tour: "tour-title" };
 const ROOT = { mine: "mine", explore: "input", theme: "theme", info: "info", grad: "grad", friends: "friends" };
 const TABS = ["mine", "explore", "theme"]; // 막대·사이드바의 탭 단추(정보는 폰은 탭 첫 화면 상단 바의 ⓘ, 컴퓨터는 사이드바 맨 아래 '정보')
 // 학과·학번을 켠 뒤(deptOn)에는 셋째에 졸업 요건(디자인 124판 TabBar: 시간표 · 동선 탐색 · 졸업 요건 · 테마), 로그인을 연 뒤(accountWanted)에는 테마 앞에 친구
@@ -8999,6 +9287,61 @@ function renderTabs() {
 for (const nav of document.querySelectorAll(".tabbar, .sidebar nav")) {
   nav.addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (b) switchTab(b.dataset.tab); });
 }
+// ---- 탭 사이 밀어 넘기기(11/16 사용자: "탭마다 넘기는 건 스와이프가 가능하게 해줘"). 디자인 규칙은 지도 끌기·iOS 뒤로 가기와 겹친다고 빼 두었던 것이라 겹치는 곳은 넘기지 않는다.
+// 아래 탭 막대가 보일 때(폰·태블릿) 탭의 첫 화면을 손가락으로 옆으로 밀면 옆 탭으로: 왼쪽으로 밀면 막대의 오른쪽 탭, 오른쪽으로 밀면 왼쪽 탭(양 끝에서는 그대로).
+// 화면은 손가락을 따라오지 않고, 다 밀면 새 화면이 민 쪽에서 들어온다(swipeDir). 가로로 56px(폭의 18%가 더 크면 그만큼) 넘게, 세로보다 두 배 가까이 길게 밀어야 한다.
+// 넘기지 않는 것: 화면 양 가장자리 24px 에서 시작한 몸짓(기기의 뒤로 가기), 지도, 옆으로 스크롤되는 것, 입력칸·선택칸, 시트·팝업이 열렸을 때, 처음 화면, 하위 화면,
+// 세로 스크롤로 시작했거나 그새 화면이 스크롤된 몸짓, 손가락 둘, 글자를 고르는 중. 탭 단추로도 다 된다(밀기로만 되는 것은 없다)
+const SWIPE_EDGE = 24;
+let tabSwipe = null;
+/** 지금 탭을 밀어 넘길 수 있다: 탭의 첫 화면이고 탭 막대가 보이며 시트·팝업이 없다 */
+function swipeOk() {
+  if (!tabList().includes(tab) || screen !== ROOT[tab] || firstScreen(screen) || document.querySelector("dialog[open]")) return false;
+  return getComputedStyle($("tabbar")).display !== "none" && !document.body.classList.contains("tabbar-off") && !document.body.classList.contains("is-typing");
+}
+/** 그 자리에서 시작한 몸짓을 탭 넘기기로 본다: 입력칸·지도·옆으로 스크롤되는 것이 아니다 */
+function swipeFrom(t) {
+  if (!swipeOk()) return false;
+  if (!(t instanceof Element) || t.closest("input, textarea, select, [contenteditable], .leaflet-container, .map, [data-noswipe]")) return false;
+  for (let el = t; el && el !== document.body; el = el.parentElement) { // 옆으로 스크롤되는 것 안이면 그것이 먼저
+    if (el.scrollWidth > el.clientWidth + 1 && /auto|scroll/.test(getComputedStyle(el).overflowX)) return false;
+  }
+  return true;
+}
+document.addEventListener("touchstart", (e) => {
+  tabSwipe = null;
+  if (e.touches.length !== 1) return;
+  const p = e.touches[0];
+  if (p.clientX < SWIPE_EDGE || p.clientX > innerWidth - SWIPE_EDGE || !swipeFrom(e.target)) return;
+  tabSwipe = { x: p.clientX, y: p.clientY, sy: window.scrollY, side: false };
+}, { passive: true });
+document.addEventListener("touchmove", (e) => {
+  const s = tabSwipe;
+  if (!s) return;
+  if (e.touches.length !== 1) { tabSwipe = null; return; }
+  const p = e.touches[0], dx = p.clientX - s.x, dy = p.clientY - s.y;
+  if (!s.side) {
+    if (Math.abs(dy) > 10 && Math.abs(dy) >= Math.abs(dx)) { tabSwipe = null; return; } // 세로 스크롤
+    if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.2) s.side = true;
+  }
+  s.dx = dx;
+  s.dy = dy;
+}, { passive: true });
+document.addEventListener("touchend", () => {
+  const s = tabSwipe;
+  tabSwipe = null;
+  if (!s || !s.side || Math.abs(window.scrollY - s.sy) > 4) return;
+  const dx = s.dx || 0, dy = s.dy || 0;
+  if (Math.abs(dx) < Math.max(56, innerWidth * 0.18) || Math.abs(dy) > Math.abs(dx) * 0.6) return;
+  if (String(getSelection && getSelection()).length) return; // 글자를 고르던 몸짓
+  if (!swipeOk()) return; // 그새 시트가 열렸거나 화면이 바뀌었다
+  const keys = tabList(), next = keys[keys.indexOf(tab) + (dx < 0 ? 1 : -1)];
+  if (!next) return;
+  swipeDir = dx < 0 ? 1 : -1;
+  setTimeout(() => { swipeDir = 0; }, 1000); // 탭을 못 바꿨으면(되감는 중 등) 다음 전환에 남지 않게
+  switchTab(next);
+});
+document.addEventListener("touchcancel", () => { tabSwipe = null; });
 // 워드마크(탭 첫 화면의 상단 바, 컴퓨터의 사이드바)를 누르면 시간표 탭의 첫 화면으로(10/23 밤 사용자: "여기서 워드마크 누르면 메인화면(시간표 탭)으로 가도록 해줘").
 // 시간표 탭을 다시 누를 때와 같다(이미 시간표 탭이면 그 첫 화면, 첫 화면이면 맨 위로). <a href="./"> 라 Ctrl·Cmd·가운데 누르기는 브라우저대로 새 탭에 연다.
 // 키보드 차례에는 넣지 않는다(index.html tabindex=-1: 같은 일을 하는 시간표 탭 버튼이 있어 Tab 이 두 번 서지 않게)
@@ -9018,15 +9361,20 @@ let tabFit = () => {};
 {
   const bar = $("tabbar"), ul = bar.querySelector("ul");
   const ruler = document.createElement("canvas").getContext("2d");
+  // 칸의 좌우 여백은 아이콘 옆 배치의 값(style.css .tabbar .tab, space-1 둘)으로 잰다. 지금 모양의 여백(이름 위 배치는 2px 둘)으로 재면 경계 폭에서
+  // 이름 위 → 칸이 4px 넓어 보여 아이콘 옆 → 다시 좁아 이름 위 … 로 끝없이 바뀌었다(11/16 사용자 태블릿 분할 화면 '탭에서 저게 계속 바뀜'). 이름 위에서 돌아갈 때는
+  // 4px 더 넉넉해야 한다(모양이 바뀌며 막대 높이가 달라져 세로 스크롤 막대가 생기고 없어지면 칸 폭이 3px 남짓 달라진다)
+  const TAB_PAD = 8;
   const fit = () => {
     const cell = ul.querySelector(".tab"), name = ul.querySelector(".tab-name");
     if (!cell || !name || !ruler) return;
-    const cs = getComputedStyle(name), ccs = getComputedStyle(cell);
+    const cs = getComputedStyle(name);
     ruler.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
     const keys = tabList();
     const word = Math.max(...keys.flatMap((k) => TAB_NAME[k].split(" ")).map((w) => ruler.measureText(w).width));
-    const room = cell.clientWidth - parseFloat(ccs.paddingLeft) - parseFloat(ccs.paddingRight);
-    bar.classList.toggle("is-tight", (keys.length > 3 && phoneWide.matches) || (room > 0 && room + 0.5 < 12 + 20 + 6 + word + 16)); // 알약 여백·아이콘·사이(style.css .tabbar .tab .ind)
+    const room = cell.clientWidth - TAB_PAD, need = 12 + 20 + 6 + word + 16; // 알약 여백·아이콘·사이(style.css .tabbar .tab .ind)
+    const slack = bar.classList.contains("is-tight") ? 4 : 0;
+    bar.classList.toggle("is-tight", (keys.length > 3 && phoneWide.matches) || (room > 0 && room + 0.5 < need + slack));
   };
   // 모양을 정한 뒤 늘어난 높이를 잰다. 한 번에 한다: 모양이 바뀌었다 같은 프레임에 되돌아오면 크기 관찰은 알리지 않는다
   const update = () => {
@@ -9080,10 +9428,14 @@ function jumpVeil(on) {
 /** View Transitions 가 되면 결과 화면(지도, 결과 화면에서 연 자료 출처)이 24px 옆에서 밀려 들어오고(300ms), 뒤로 갈 때는 반대로(200ms),
  *  탭을 바꾸면(정보 묶음 안도) 교차 페이드(150ms). 안 되면 바로 바뀐다. */
 let snapUntil = 0; // 이때(ms)까지 화면 바꾸기를 움직이지 않는다: 홈 화면 위젯에서 그 요일 지도로 가는 동안(routeDay. 내 시간표 → 탐색 → 결과 → 지도)
+let swipeDir = 0; // 탭 사이 밀어 넘기기로 바꾸는 중: 1 다음 탭, -1 앞 탭(아래 '탭 사이 밀어 넘기기'. 다음 탭 전환이 쓰고 비운다)
 let viewDone = Promise.resolve(); // 마지막 화면 전환의 화면 바꾸기(apply)가 끝나면 풀린다. routeDay 가 기다린다(늦게 도는 apply 가 바로 바꾼 화면을 덮지 않게)
 function transition(apply, dir) {
+  const swiped = dir === "tab" ? swipeDir : 0; // 탭 사이 밀어 넘기기면 새 화면이 민 쪽에서 들어온다(style.css swipe-next·swipe-prev)
+  swipeDir = 0;
   if (dir === "init" || Date.now() < snapUntil || !document.startViewTransition || reduceMotion.matches || document.visibilityState !== "visible") { apply(); return; }
   const root = document.documentElement;
+  if (swiped) dir = swiped > 0 ? "swipe-next" : "swipe-prev";
   root.dataset.nav = dir;
   const t = document.startViewTransition(apply);
   viewDone = t.updateCallbackDone.catch(() => null);
@@ -9110,7 +9462,7 @@ function showView(name, dir, extra = {}) {
     layoutViews(name);
     document.body.classList.toggle("tabbar-off", name === "map"); // 전체 화면 지도는 탭 막대를 덮는다
     document.body.classList.toggle("no-cta", name !== "input" && name !== "mine" && name !== "dept" && name !== "setup"); // 스낵바는 주요 버튼이 없는 화면에서 탭 막대 바로 위
-    document.documentElement.classList.toggle("setup-on", name === "setup" || name === "login"); // 처음 화면(로그인, 학과와 학번): 탭 막대·사이드바 없이 한 칸
+    document.documentElement.classList.toggle("setup-on", firstScreen(name)); // 처음 화면(처음 안내, 로그인, 학과와 학번): 탭 막대·사이드바 없이 한 칸
     renderTabs();
     if (name === "result") { $("result-title").textContent = "추천 시간표"; renderResult(); }
     if (name === "add") renderAdd();
@@ -9129,6 +9481,7 @@ function showView(name, dir, extra = {}) {
     if (name === "frpv") renderFrPreview();
     if (name === "dept" || name === "setup") renderDept(name);
     if (name === "login") renderLogin();
+    if (name === "tour") renderTour();
     document.title = titleOf(name);
     if (from !== name) hideSnackbar();
     if (name === "result" && afterResult) { const f = afterResult; afterResult = null; f(); }
@@ -9192,13 +9545,15 @@ window.addEventListener("popstate", (e) => {
 // 한 번에 하나, 5초. 초점이 들어가 있거나 누르고 있는 동안에는 사라지지 않는다
 
 let snackTimer = null, snackFn = null;
-// 폰의 과목 추가 시트가 열려 있는 동안 스낵바는 시트 안에 둔다(모달 밖은 inert 라 되돌리기를 누를 수 없고, 시트가 위에 덮인다). 닫히면 제자리(뷰들 뒤)로
+// 폰의 과목 추가 시트·시간표 목록 시트가 열려 있는 동안 스낵바는 그 시트 안에 둔다(모달 밖은 inert 라 되돌리기를 누를 수 없고, 시트가 위에 덮인다). 닫히면 제자리(뷰들 뒤)로
 const snackSpot = [$("snackbar").parentNode, $("snackbar").nextSibling];
 function snackHome() {
-  const bar = $("snackbar");
+  const bar = $("snackbar"), list = $("tt-list-sheet");
   if (addSheet.open) { if (bar.parentNode !== addSheet) addSheet.append(bar); }
+  else if (list.open) { if (bar.parentNode !== list) list.append(bar); } // 시간표 목록에서 지웠다(11/16): 목록에 남아 되돌리기를 누른다
   else if (bar.parentNode !== snackSpot[0]) snackSpot[0].insertBefore(bar, snackSpot[1]);
 }
+$("tt-list-sheet").addEventListener("close", () => snackHome()); // 목록 시트 안에 옮겨 둔 스낵바를 제자리로(보이던 것은 그대로 보인다)
 function showSnackbar(text, action = "", fn = null) {
   const bar = $("snackbar");
   snackHome();
@@ -9556,8 +9911,11 @@ for (const id of ["cls-legend", "picked-legend", "tt-legend", "sd-legend"]) {
 renderInfo();
 renderOnline();
 renderResults(); // 검색창 지우기 단추와 결과 카드(자료를 받기 전에는 두지 않는다)
-// 처음 화면: 로그인(11/15 사용자)을 아직 묻지 않았으면 그것부터, 학과와 학번을 아직 묻지 않았으면 그다음(디자인 121판), 그 뒤 시간표
-showView(loginAtLaunch() ? "login" : setupAtLaunch() ? "setup" : ROOT[tab], "init");
+// 처음 화면: 이 기기에서 처음 켰으면 처음 안내(11/16 사용자), 로그인(11/15 사용자)을 아직 묻지 않았으면 그다음, 학과와 학번을 아직 묻지 않았으면 그다음(디자인 121판),
+// 그 뒤 시간표
+showView(tourAtLaunch() ? "tour" : loginAtLaunch() ? "login" : setupAtLaunch() ? "setup" : ROOT[tab], "init");
+// 처음 켠 기기: 처음 안내를 끝내기 전에 닫거나 링크로 켜 지나쳐도 다음에 켤 때 보이게 적어 둔다(스토어 앱이 기기 저장소에서 기록을 되살려 새로 여는 중이면 적지 않는다)
+if (FRESH) Promise.resolve(window.TTW_APP?.restored).then((r) => { if (!(r && r.keys && r.keys.length) && store.get(TOUR, null) === null) store.set(TOUR, "open"); }, () => null);
 delete document.documentElement.dataset.launch;
 startApp();
 loadLimits(); // 학과·학번을 넣었으면 수강 제한 알림(지금 학기 자료와 학과 목록을 받는다)

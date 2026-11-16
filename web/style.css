@@ -324,6 +324,12 @@ html[data-nav="back"]::view-transition-new(root) { animation: none; }
 html[data-nav="tab"]::view-transition-old(root) { animation: tt-fade-out var(--dur-fade) var(--ease-standard) both; }
 html[data-nav="tab"]::view-transition-new(root) { animation: tt-fade-in var(--dur-fade) var(--ease-standard) both; }
 @keyframes tt-fade-in { from { opacity: 0; } }
+/* 탭 사이 밀어 넘기기(11/16 사용자 "탭마다 넘기는 건 스와이프가 가능하게"): 새 화면이 민 쪽에서 들어온다(app.js swipeDir. 다음 탭은 오른쪽에서, 앞 탭은 왼쪽에서).
+   탭 단추를 누르면 위 교차 페이드 그대로 */
+html[data-nav="swipe-next"]::view-transition-old(root), html[data-nav="swipe-prev"]::view-transition-old(root) { animation: tt-fade-out var(--dur-fade) var(--ease-standard) both; }
+html[data-nav="swipe-next"]::view-transition-new(root) { animation: tt-enter var(--dur-enter) var(--ease-enter) both; }
+html[data-nav="swipe-prev"]::view-transition-new(root) { animation: tt-enter-back var(--dur-enter) var(--ease-enter) both; }
+@keyframes tt-enter-back { from { opacity: 0; transform: translateX(-24px); } }
 
 /* ---------------------------------------------------------------- 카드와 목록 */
 .card { background: var(--card); border-radius: var(--radius-lg); }
@@ -702,7 +708,7 @@ dialog.sheet.add-sheet.is-kb { top: calc(var(--kb-top, 0px) + var(--safe-top)); 
 #as-body .searchbox { background: var(--raised); }
 #as-body .results { background: transparent; }
 /* 시트가 열려 있는 동안 스낵바(되돌리기)는 시트 안으로 옮긴다(app.js. 모달 밖은 누를 수 없고 시트에 가린다): 시트 아래 끝 위 */
-#add-sheet > .snackbar { bottom: calc(var(--space-3) + var(--safe-bottom)); }
+#add-sheet > .snackbar, #tt-list-sheet > .snackbar { bottom: calc(var(--space-3) + var(--safe-bottom)); } /* 시트 안의 스낵바(되돌리기를 누를 수 있게): 화면 아래 */
 /* 열려 있는 동안 내 시간표 끝에 시트 높이만큼 자리를 둔다: 격자의 늦은 시각도 시트 위로 올려 볼 수 있게(넣은 자리로 스크롤, app.js revealAdded) */
 html:has(#add-sheet[open]) #view-mine { padding-bottom: calc(55vh + var(--space-6)); padding-bottom: calc(55dvh + var(--space-6)); }
 .sheet-meta { margin: 2px 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
@@ -1819,6 +1825,45 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
   padding-bottom: max(calc(var(--topbar-h) + var(--safe-top)), calc(var(--space-8) + var(--tabbar-space))); }
 #view-login > main:not([hidden]) { display: flex; flex: 1 0 auto; flex-direction: column; justify-content: center; }
 #view-login .setup { width: 100%; }
+/* ---------- 처음 안내(11/16 사용자: 처음 켤 때 탭마다 하는 일, 옆으로 밀어 넘기기). 처음 화면 꼴(html.setup-on). 장·이전·점 덩이는 상단 바와 하단 버튼 사이 세로 가운데,
+   폭 width-sheet 가운데. 장은 덩이의 좌우 여백까지 밀려 나간다(.tour-viewport). 손가락을 따라 움직이고(.is-drag 동안 전환 없음) 놓으면 dur-move 로 붙는다(동작 줄이기면 바로).
+   그림은 그 탭의 채운 아이콘 48(accent-text)을 card 칸 96(radius-xl)에, 이름 20/28 700, 글 16/24 on-bg-text2 가운데. 점은 8, 지금 장은 20 폭 on-bg-link(모양으로도 갈린다) */
+#view-tour:not([hidden]) { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+#view-tour > main:not([hidden]) { display: flex; flex: 1 0 auto; flex-direction: column; justify-content: center; }
+.tour-skip { margin-left: auto; margin-right: calc(var(--space-2) * -1); }
+.tour { width: 100%; max-width: var(--width-sheet); margin: 0 auto; }
+.tour-viewport { overflow: hidden; touch-action: pan-y; margin: 0 calc(var(--gutter-right) * -1) 0 calc(var(--gutter-left) * -1); }
+.tour-track { display: flex; transition: transform var(--dur-move) var(--ease-standard); }
+.tour-track.is-drag { transition: none; }
+.tour-slide { display: flex; flex: 0 0 100%; flex-direction: column; align-items: center; box-sizing: border-box; min-width: 0;
+  padding: var(--space-2) var(--gutter-right) var(--space-2) var(--gutter-left); text-align: center; -webkit-user-select: none; user-select: none; }
+.tour-art { --tab-ind: var(--card); display: flex; align-items: center; justify-content: center; width: 96px; height: 96px; border-radius: var(--radius-xl);
+  background: var(--card); color: var(--accent-text); }
+.tour-art svg { width: 48px; height: 48px; } /* 그림은 글자 크기를 따라 커지지 않는다(글자 200% 에서 글이 먼저 보이게) */
+.tour-h { margin: var(--space-6) 0 var(--space-2); font-size: 1.25rem; line-height: 1.75rem; font-weight: 700; letter-spacing: -0.01em; color: var(--on-bg-heading); word-break: keep-all; }
+.tour-p { max-width: 20rem; margin: 0; font-size: 1rem; line-height: 1.5rem; color: var(--on-bg-text2); word-break: keep-all; overflow-wrap: anywhere; }
+.tour-h, .tour-p { text-shadow: var(--on-bg-halo, none); }
+.tour-nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; margin-top: var(--space-6); padding: 0 var(--space-1); }
+.tour-prev { justify-self: start; margin-left: calc(var(--space-3) * -1); }
+.tour-prev.is-off { visibility: hidden; } /* 첫 장: 자리는 남겨 점이 가운데에 그대로 */
+.tour .btn-text { color: var(--on-bg-link); text-shadow: var(--on-bg-halo, none); }
+.tour .btn-text:active { background: var(--bg-hover); text-shadow: none; }
+@media (hover: hover) { .tour .btn-text:hover { background: var(--bg-hover); text-shadow: none; } }
+.tour-dots { display: flex; align-items: center; gap: var(--space-2); }
+.tour-dots span { width: 8px; height: 8px; border-radius: 4px; background: var(--on-bg-text3); transition: width var(--dur-move) var(--ease-standard); }
+.tour-dots span.is-on { width: 20px; background: var(--on-bg-link); }
+@media (prefers-reduced-motion: reduce) { .tour-track, .tour-dots span { transition: none; } }
+@media (forced-colors: active) { .tour-art { border: 2px solid CanvasText; } .tour-dots span { background: CanvasText; } .tour-dots span.is-on { background: Highlight; } }
+/* 600px 부터(태블릿·컴퓨터. 11/16 사용자 '태블릿인데 워드마크 위치가 좀 애매함': 덩이는 화면 가운데인데 워드마크만 맨 위에 떨어져 있었다): 상단 바(워드마크)를
+   덩이와 한데 묶어 같이 세로 가운데에 둔다. 워드마크 왼쪽 끝은 제목 글자에 맞추고(카드 폭 width-sheet 안, space-1 들임) 제목과 space-6. 폰은 그대로(상단 바는 위, 덩이만 가운데).
+   처음 안내(#view-tour)도 같은 꼴이고 하단 버튼까지 덩이에 넣는다 */
+@media (min-width: 37.5em) {
+  #view-login:not([hidden]), #view-tour:not([hidden]) { justify-content: center; padding-top: max(var(--safe-top), var(--space-8)); padding-bottom: var(--space-8); }
+  #view-login > main:not([hidden]), #view-tour > main:not([hidden]) { flex: 0 0 auto; }
+  #view-login > .topbar, #view-tour > .topbar { position: static; width: 100%; max-width: var(--width-sheet); min-height: 0; margin: 0 auto var(--space-6);
+    padding: 0 var(--space-1); background: none; }
+  #view-tour .bottom-bar { position: static; width: 100%; max-width: var(--width-sheet); margin: var(--space-8) auto 0; padding: 0; border-top: 0; background: none; }
+}
 /* 전공 추가 팝업: 새 시간표 팝업(.tt-new)과 같은 짜임. 세그먼트 아래 space-4, 칸 사이 space-3. 선택칸은 .tn-body 의 raised 바탕 */
 .dept-add fieldset { margin: 0 0 var(--space-4); padding: 0; border: 0; min-width: 0; }
 .dept-add .tn-field + .tn-field { margin-top: var(--space-3); }
@@ -1880,7 +1925,18 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 .gr-view h2.section-title .gr-ver { align-self: center; margin: -12px 0 -12px calc(var(--space-2) * -1); font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400;
   letter-spacing: 0; color: var(--on-bg-text3); }
 .gr-view > .card { margin-top: var(--space-6); }
-.gr-view h2.section-title + .card { margin-top: 0; }
+.gr-view h2.section-title + .card, .gr-view h2.section-title + .gr-tip + .card { margin-top: 0; }
+/* 요건 줄의 색(11/16 사용자 "졸업 요건 다 만족하면 색을 다르게 해주고, 만족 못 한 요건들도 색을 다르게"): 왼쪽 띠 4px 와 값 글자. 충족 accent(값 accent-text 500),
+   남음 warning, 확인 필요는 line-strong 띠에 태그 그대로. 맨 위 한 줄 '요건 14개 중 9개 충족'(14/20 500 on-bg-text2), 다 채우면 '모든 요건 충족'(on-bg-link, 체크 18) */
+.gr-view li.rq-met > .info-row { box-shadow: inset 4px 0 var(--accent); }
+.gr-view li.rq-left > .info-row { box-shadow: inset 4px 0 var(--warning); }
+.gr-view li.rq-check > .info-row { box-shadow: inset 4px 0 var(--line-strong); }
+.gr-view li.rq-met .v.is-ok, .gr-view li.rq-met .v.is-ok svg { color: var(--accent-text); font-weight: 500; }
+.gr-view li.rq-left .v.is-left { color: var(--warning); }
+.gr-view p.gr-sum { display: flex; align-items: center; gap: var(--space-1); margin: var(--space-4) var(--space-1) 0; font-size: 0.875rem; line-height: 1.25rem; font-weight: 500;
+  color: var(--on-bg-text2); text-shadow: var(--on-bg-halo, none); }
+.gr-view p.gr-sum.is-all { color: var(--on-bg-link); }
+@media (forced-colors: active) { .gr-view li.rq-met > .info-row, .gr-view li.rq-left > .info-row, .gr-view li.rq-check > .info-row { box-shadow: none; border-left: 4px solid CanvasText; } } /* 평점 옆 ? 의 한 줄(접혀 있어도)을 사이에 둔 카드도 */
 /* 요건 줄: 정보 화면의 행(.info-row) 그대로. 남음은 text 500, 충족은 체크 16 + text3, 확인 필요는 중립 태그. 값 뒤 꺾쇠는 값에 붙는다(값이 오른쪽 끝으로 민다) */
 .info-row .v.is-left { color: var(--text); font-weight: 500; }
 .info-row .v.is-ok { display: inline-flex; align-items: center; gap: 2px; }
@@ -1897,6 +1953,18 @@ div.info-row { cursor: default; }
 .sheet-body p.rq-sum { margin: 0 0 var(--space-2); color: var(--text); }
 .rq-sum b { font-weight: 700; }
 .rq-list > li { display: flex; align-items: center; gap: var(--space-3); min-height: 52px; }
+/* 과목 체크 줄(11/16 사용자: 요건 시트를 체크박스로): 줄 전체가 라벨(누르는 영역 52), 체크 22 accent, 이름 16/24, 오른쪽 메타 13/18 text3.
+   시간표로 들은 과목은 체크된 채 꺼짐(라벨은 기본 커서). 분야·길은 소제목 15/22 600 heading 과 조건 13/18 text3 */
+.rq-list > li > .rq-ck { display: flex; flex: 1; align-items: center; gap: var(--space-3); min-width: 0; min-height: 52px; cursor: pointer; }
+.rq-ck input { flex: none; width: 22px; height: 22px; margin: 0; accent-color: var(--accent); }
+.rq-ck:has(input:disabled) { cursor: default; }
+.sheet-body h3.rq-group { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--space-2); margin: var(--space-5) 0 0; font-size: 0.9375rem; line-height: 1.375rem;
+  font-weight: 600; color: var(--heading); }
+.sheet-body h3.rq-group .m { font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400; color: var(--text3); }
+/* 분야 소제목 오른쪽 값: 충족 accent-text, 남음 warning(요건 줄 값과 같은 색). 14/20 500 */
+.sheet-body h3.rq-group .v { margin-left: auto; font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; }
+.sheet-body h3.rq-group .v.is-ok { color: var(--accent-text); }
+.sheet-body h3.rq-group .v.is-left { color: var(--warning); }
 .rq-list .ic { flex: none; display: flex; color: var(--line-strong); }
 .rq-list .done .ic { color: var(--accent-text); }
 .rq-list .t { flex: 1; min-width: 0; font-size: 1rem; line-height: 1.5rem; color: var(--text); word-break: keep-all; }
@@ -1913,6 +1981,18 @@ div.info-row { cursor: default; }
 .tk .b { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .tk .t { font-size: 1rem; line-height: 1.5rem; color: var(--text); word-break: keep-all; overflow-wrap: anywhere; }
 .tk .m { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
+/* 재수강해서 빠진 과목: 이름 옆 빨간 '(2025년 겨울학기 재수강)'(11/16 사용자 "재수강은 저런식으로 빨간 글씨로 써줘. 문장형으로 하지 말고") */
+.tk .t .rt { margin-left: 0.375em; font-size: 0.875rem; font-weight: 500; color: var(--danger); white-space: nowrap; }
+/* 학기 평점 옆 ?(11/16 사용자: 재수강해서 빠진 과목을 평점에서 뺐으면). 보이는 원 20(line-strong 테두리, 12/16 700 text2), 누르는 영역 48(옆 글자를 덮지 않게 오른쪽으로).
+   누르면 제목 바로 아래 한 줄 '재수강한 과목은 반영하지 않았어요'(13/18 on-bg-text2) */
+.gr-why { position: relative; display: inline-flex; flex: none; align-items: center; justify-content: center; width: 20px; height: 20px; margin-left: var(--space-1);
+  padding: 0; border: 1px solid var(--line-strong); border-radius: 50%; background: var(--card); color: var(--text2); font-size: 0.75rem; line-height: 1rem; font-weight: 700;
+  vertical-align: 1px; cursor: pointer; }
+.gr-why::before { content: ""; position: absolute; top: 50%; left: -4px; width: var(--touch); height: var(--touch); transform: translateY(-50%); }
+.gr-why[aria-expanded="true"] { border-color: var(--accent-text); color: var(--accent-text); }
+.gr-view p.gr-tip { margin: calc(var(--space-1) * -1) var(--space-1) var(--space-2); font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text2); word-break: keep-all;
+  text-shadow: var(--on-bg-halo, none); }
+@media (forced-colors: active) { .gr-why { border-color: ButtonText; color: ButtonText; } }
 .tk .check { flex: none; padding: 0 var(--space-2); font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
 .tk:has(.check input:checked) .t { color: var(--text3); }
 .tk:has(.browse-select option[value="drop"]:checked) .t { color: var(--text3); } /* 수강한 과목에서 드랍을 고른 과목(11/15) */
