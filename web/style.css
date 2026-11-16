@@ -2078,14 +2078,12 @@ label.gr-ck { cursor: pointer; }
 .gpa .gr-why { align-self: center; margin-left: calc(var(--space-1) - var(--space-3)); } /* 직전 두 학기 평점 옆 ?(재수강 전 성적도 넣었을 때): 수 바로 뒤 4(줄 사이 12 를 당긴다. 144판) */
 .gpa p.gpa-tip { flex-basis: 100%; margin: var(--space-1) 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text2); word-break: keep-all; }
 .gr-view > .card.gpa:first-child { margin-top: var(--space-4); }
-/* 다음 학기 추천(11/15 사용자: 졸업 요건 탭 셋째 보기. 디자인 145판, 백엔드 update125): 다음 정규 학기와 한 줄, 추천 시간표 보기(주요 버튼, 카드 폭)와
- *  그 아래 텍스트 버튼 과목 직접 고르기(카드 폭, 글 가운데, 위 8). 텍스트 버튼이 끝이면 그 안 여백(아래 14)이 있어 카드 아래 안쪽을 8 로 */
+/* 다음 학기 추천(11/15 사용자: 졸업 요건 탭 셋째 보기): 다음 정규 학기와 한 줄, 시간표 짜기(주요 버튼, 카드 폭).
+ *  11/16 데모 때 붙였던 추천 시간표 보기·과목 직접 고르기(텍스트 버튼)는 뺐다(백엔드 update126, 사용자 '데모 끝나서 빼줘') */
 .gr-next { margin-top: var(--space-4); padding: var(--space-4) var(--space-4) var(--space-5); }
 .gr-next-t { margin: 0; font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; color: var(--heading); }
 .gr-next-m { margin: var(--space-1) 0 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); word-break: keep-all; }
 .gr-next-go { width: 100%; margin-top: var(--space-4); }
-.gr-next .btn-text.gr-next-go { justify-content: center; margin-top: var(--space-2); }
-.gr-next:has(> .btn-text.gr-next-go) { padding-bottom: var(--space-2); }
 /* 자료가 없을 때: 가운데 학사모 32, 글, 주요 버튼(학과와 학번 넣기) */
 .gr-empty { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); padding: var(--space-8) var(--space-5) var(--space-6); text-align: center; }
 .gr-empty svg { color: var(--on-bg-text3); }
