@@ -1874,7 +1874,7 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 .tour-dots, .gr-dots { display: flex; align-items: center; gap: var(--space-2); }
 .tour-dots span, .gr-dots span { width: 8px; height: 8px; border-radius: 4px; background: var(--on-bg-text3); transition: width var(--dur-move) var(--ease-standard); }
 .tour-dots span.is-on, .gr-dots span.is-on { width: 20px; background: var(--on-bg-link); }
-@media (prefers-reduced-motion: reduce) { .tour-track, .gr-track, .tour-dots span, .gr-dots span { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .tour-track, .tour-dots span, .gr-dots span { transition: none; } }
 @media (forced-colors: active) { .gr-pbtn.is-off { opacity: 1; color: GrayText; } }
 @media (forced-colors: active) { .tour-art { border: 2px solid CanvasText; } .tour-dots span, .gr-dots span { background: CanvasText; } .tour-dots span.is-on, .gr-dots span.is-on { background: Highlight; } }
 /* 600px 부터(태블릿·컴퓨터. 11/16 사용자 '태블릿인데 워드마크 위치가 좀 애매함': 덩이는 화면 가운데인데 워드마크만 맨 위에 떨어져 있었다): 상단 바(워드마크)를
@@ -2007,17 +2007,15 @@ div.info-row { cursor: default; }
 .gr-foot + .gr-foot { margin-top: var(--space-2); }
 .gr-foot a { color: var(--on-bg-text); text-decoration-line: underline; text-decoration-color: var(--line-strong); }
 .gr-lead { margin: var(--space-4) var(--space-1) 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); word-break: keep-all; }
-/* 수강한 과목의 학기 넘기기(11/16 사용자 '학기마다 성적 입력하는 건 좌우로 넘길 수 있도록'): 이끄는 글, 창 .gr-port(본문 폭: 장이 카드 양끝 선을 넘어 지나가지 않는다.
-   11/16 사용자 그림 '저 빨간 라인 넘어가지 않았으면') 안의 가로 칸 .gr-track 을 한 장씩 옮긴다(처음 안내와 같은 translateX 200ms, 손가락을 따라 끌다 놓으면 넘김.
-   11/17 사용자 '넘기는 속도가 너무 느림. 답답해'로 scroll-snap 대신), 높이는 가장 긴 학기(flex 칸이라 알아서: 넘겨도 아래 점과 그 밑이 들썩이지 않고 짧은 학기는 아래가 빈다. 11/16 사용자 '가장 긴 목록 기준으로 칸 크기를 정해줘.
+/* 수강한 과목의 학기 넘기기(11/16 사용자 '학기마다 성적 입력하는 건 좌우로 넘길 수 있도록'): 이끄는 글, 가로 칸 .gr-track(본문 폭: 장이 카드 양끝 선을 넘어 지나가지 않는다.
+   11/16 사용자 그림 '저 빨간 라인 넘어가지 않았으면'. scroll-snap 한 장 = 칸 폭, 한 번에 한 장, 끝에서 더 밀어도 화면이 따라가지 않게 overscroll contain, 스크롤 막대 없음,
+   높이는 가장 긴 학기(flex 칸이라 알아서: 넘겨도 아래 점과 그 밑이 들썩이지 않고 짧은 학기는 아래가 빈다. 11/16 사용자 '가장 긴 목록 기준으로 칸 크기를 정해줘.
    남는 만큼은 여백으로'). app.js gradPager), 아래 점 .gr-dots(처음 안내와 같은 꼴, 가운데).
    이전·다음(누르는 영역 48)은 장마다 학기 제목 줄 양끝(11/16 사용자 그림 '화살표 위치 저렇게'): 꺾쇠 아이콘 칸(24)이 본문 양끝 안쪽에 붙고(뒤로 단추처럼 12 를 바깥으로, 바깥은 칸이 자른다),
-   제목 줄 가운데 높이. 장 안이라 위에서 밀어도 넘어간다('물론 스와이프도 되어야 함'). 제목 글은 왼쪽 24 를, 센 학점은 다음 단추의 누르는 영역(본문 끝 36)을 비킨다(넘치면 다음 줄로) */
-.gr-port { overflow: hidden; touch-action: pan-y; } /* 학기 넘기기의 창: 장 하나 폭, 가로 밀기는 app.js(처음 안내와 같다), 세로는 페이지 스크롤 */
-.gr-track { display: flex; align-items: flex-start; transition: transform var(--dur-move) var(--ease-standard); } /* 11/17 사용자 '넘기는 속도가 너무 느림': scroll-snap 대신 200ms */
-.gr-track.is-drag, .gr-track.is-still { transition: none; }
-.gr-track.is-drag { user-select: none; }
-.gr-slide { position: relative; flex: 0 0 100%; min-width: 0; }
+   제목 줄 가운데 높이. 장 안이라 위에서 밀어도 넘어간다('물론 스와이프도 되어야 함'). 제목 글은 왼쪽 24 를, 센 학점·? 는 다음 단추의 누르는 영역(본문 끝 36)을 비킨다(넘치면 다음 줄로) */
+.gr-track { display: flex; align-items: flex-start; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
+.gr-track::-webkit-scrollbar { display: none; }
+.gr-slide { position: relative; flex: 0 0 100%; min-width: 0; scroll-snap-align: start; scroll-snap-stop: always; }
 .gr-slide > h2.section-title { margin-top: var(--space-2); padding: 0 var(--space-8) 0 var(--space-6); }
 .gr-pbtn { position: absolute; top: -2px; z-index: 1; color: var(--on-bg-text2); }
 .gr-pbtn.is-prev { left: calc(var(--space-3) * -1); }
@@ -2032,14 +2030,6 @@ div.info-row { cursor: default; }
 .gr-dots { justify-content: center; margin-top: var(--space-3); }
 /* 요건 시트(남음·충족 줄과 확인 필요 줄을 누르면) */
 .sheet-body p.rq-detail { margin: 0 0 var(--space-1); font-size: 0.875rem; line-height: 1.3125rem; color: var(--text2); word-break: keep-all; }
-.sheet-body p.rq-detail small { display: block; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
-/* 자료 글의 틀(11/17 사용자 '이것도 글로 줄줄 쓰지 말고 틀로 짜 보'): 머리 줄 아래 테두리 칸에 항목마다 한 줄(이름 · 오른쪽 양, 괄호는 이름 아래 작은 글) */
-.sheet-body ul.rq-parts { margin: var(--space-2) 0 var(--space-1); padding: 0 var(--space-4); list-style: none; border: 1px solid var(--line); border-radius: var(--radius-md); }
-.rq-parts li { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-3); padding: var(--space-2) 0; }
-.rq-parts li + li { border-top: 1px solid var(--line); }
-.rq-parts .n { font-size: 0.875rem; line-height: 1.3125rem; color: var(--text); word-break: keep-all; }
-.rq-parts .a { font-size: 0.875rem; line-height: 1.3125rem; font-weight: 500; color: var(--text); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.rq-parts small { grid-column: 1 / -1; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; }
 /* 요건 시트(141판): 상태 칸, 분야, 과목 줄(앱이 센 과목은 동그라미, 그 밖은 체크 칸), 갈래 */
 .gr-sstat { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--inset); }
 .sheet-body > .gr-sstat:first-child { margin-top: 0; } /* 자료 글이 없을 때 */
