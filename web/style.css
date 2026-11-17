@@ -585,11 +585,11 @@ button.btn-text[aria-disabled="true"], button.btn-text[aria-disabled="true"]:hov
    차례 선택칸은 줄지 않고 왼쪽이 준다. 꺾쇠를 행 버튼의 오른쪽 끝(카드 끝에서 12)에 맞춘다(폰 시트의 .list-head 는 그대로 맞는다) */
 .browse-head > .head-count { padding-left: var(--space-2); font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
 .browse-select.order-select { flex: none; }
-/* 차례 칸은 아이콘 하나(11/17 사용자 '조건들도 너무 난잡함', 시안 '다'): 48×48, 글은 숨기고 ⇅. 열면 시스템 선택 창 그대로('기본 순'·'덜 걷는 순'). 고대비는 글을 보인다 */
-.browse-select.order-select { width: var(--touch); min-width: var(--touch); padding: 0; color: transparent; text-shadow: none; background-position: center;
+/* 차례 칸(11/17 사용자 '조건들도 너무 난잡함' → 시안 '다'의 ⇅, 같은 날 '저거 그냥 위아래 순서 바꾸는 버튼인 줄 알았는데 … 저 버튼 옆에 현재 무슨 순인지 써두자'):
+   지금 차례 글(목록 선택칸과 같은 t-body-sm 500 text) + 꺾쇠 자리에 ⇅ 20(muted, 글과 사이 4). 폭은 글자에 맞추고(app.js fitSelect) 누르면 시스템 선택 창. 고대비는 그림 없이 글만 */
+.browse-select.order-select { padding-right: calc(var(--space-2) + 24px); background-position: right var(--space-2) center;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%238a92a6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4'/%3E%3C/svg%3E"); }
-.browse-select.order-select option { color: var(--text); background: var(--card); } /* 컴퓨터 크롬은 열린 목록이 칸 글자색을 따른다 */
-@media (forced-colors: active) { .browse-select.order-select { width: auto; padding: 0 var(--space-2); background-image: none; } }
+@media (forced-colors: active) { .browse-select.order-select { padding-right: var(--space-2); background-image: none; } }
 .browse-head > .order-select { margin-right: calc(var(--space-2) * -1); }
 /* 과목 추가 분반 행의 넷째 줄 빈 자리(124판 .r-fit, '들어감 · 걷기 주 +4분'): t-caption text2 */
 .result .r-fit { color: var(--text2); }

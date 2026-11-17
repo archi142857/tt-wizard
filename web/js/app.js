@@ -707,7 +707,7 @@ const termInYear = (y, from) => {
 /** 선택칸 폭을 고른 항목 글자에 맞춘다(화살표가 글자 바로 뒤에 오게). CSS field-sizing 은 글자 폭을 모자라게 잡아서 직접 잰다. */
 const canvas = document.createElement("canvas").getContext("2d");
 function fitSelect(sel) {
-  if (sel.hidden || sel.classList.contains("order-select")) return; // 차례 칸은 아이콘 하나(폭 48, CSS)
+  if (sel.hidden) return;
   const cs = getComputedStyle(sel);
   canvas.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
   const text = sel.selectedIndex >= 0 ? sel.options[sel.selectedIndex].text : "";
@@ -924,18 +924,23 @@ function stopFeed(list) {
 }
 
 // 넓은 화면 검색 전 왼쪽: 과목 둘러보기(10/2 디자인, 최근 검색어로 카드를 채우던 것 대신). 목록 머리의 선택칸(교양 전체·학과)이 곧 목록
-// 제목이고, 행은 검색 결과 행과 같다(강조 없이 학과 · 교과구분 · 학점). 학사 과목만(대학원 과목은 검색으로). 교양 전체는 가나다,
-// 학과는 전필 → 전선 → 교양 → 그 밖이고 같은 묶음은 가나다. 고른 목록은 이 기기에 기억하고, 그 학기에 없는 학과면 교양 전체
+// 제목이고, 행은 검색 결과 행과 같다(강조 없이 학과 · 교과구분 · 학점). 학사 과목만(대학원 과목은 검색으로). 전체 과목·교양 전체는 가나다,
+// 학과는 전필 → 전선 → 교양 → 그 밖이고 같은 묶음은 가나다. 고른 목록은 이 기기에 기억하고, 처음과 그 학기에 없는 학과면 전체 과목
+// (11/17 사용자 '남은 요건 과목 / 교양 전체면 전체 과목이 뜨는 게 없잖아. 기본을 거기다 넣고': 선택칸의 '전체 과목' 값 '*', 전에는 처음이 교양 전체)
 const collator = new Intl.Collator("ko");
 const CLS_ORDER = { 전필: 0, 전선: 1, 교양: 2 };
 const clsRank = (c) => CLS_ORDER[c.cls] ?? 3;
 const NO_MARKS = {};
 // 넓은 화면 과목 추가 칸의 검색 전 자리에도 같은 둘러보기를 둔다(10/23 사용자가 시안 가를 골랐다. 아래 renderAddBrowse): 선택칸과 고른 목록(browseKey)은 탐색과 같고
 // 행은 분반 행이다
-let browseKey = String(store.get("browse", "교양") || "교양"), browseData = null, browseDepts = [], browseDeptsOf = null, browseDrawn = "";
+const ALL_COURSES = "*"; // 둘러보기 '전체 과목'
+let browseKey = String(store.get("browse", ALL_COURSES) || ALL_COURSES), browseData = null, browseDepts = [], browseDeptsOf = null, browseDrawn = "";
 function browseCourses() {
-  const list = state.courses.filter((c) => c.program === "학사" && (browseKey === "교양" ? c.cls === "교양" : c.dept === browseKey));
-  return list.sort((a, b) => (browseKey === "교양" ? 0 : clsRank(a) - clsRank(b)) || collator.compare(a.name, b.name) || collator.compare(a.id, b.id));
+  const flat = browseKey === "교양" || browseKey === ALL_COURSES; // 가나다만
+  const list = state.courses.filter((c) => c.program === "학사" && (browseKey === ALL_COURSES || (browseKey === "교양" ? c.cls === "교양" : c.dept === browseKey)));
+  // 가나다는 이름 앞 괄호 머리('(공유)경제동물과 반려동물학')를 빼고 견준다(전체 과목 맨 위가 '(공유)…'로 차지 않게)
+  const key = (c) => String(c.name || "").replace(/^\s*\([^)]*\)\s*/, "");
+  return list.sort((a, b) => (flat ? 0 : clsRank(a) - clsRank(b)) || collator.compare(key(a), key(b)) || collator.compare(a.name, b.name) || collator.compare(a.id, b.id));
 }
 /** 둘러보기 선택칸(탐색, 넓은 화면 과목 추가 칸): fresh 면(그 칸이 이 학기 자료로 처음 그린다) 목록을 새로 만들고, 고른 값을 맞춘다 */
 function fillBrowseSelect(sel, fresh) {
@@ -943,8 +948,11 @@ function fillBrowseSelect(sel, fresh) {
     browseDeptsOf = state.courses;
     browseDepts = [...new Set(state.courses.filter((c) => c.program === "학사").map((c) => c.dept).filter(Boolean))].sort(collator.compare);
   }
-  if (fresh) sel.replaceChildren(h("option", { value: "교양" }, "교양 전체"), h("optgroup", { label: "학과" }, browseDepts.map((d) => h("option", { value: d }, d))));
-  if (browseKey !== "교양" && !browseDepts.includes(browseKey)) browseKey = "교양"; // 학기를 바꿔 그 학과가 없으면(기억은 그대로 둔다)
+  if (fresh) {
+    sel.replaceChildren(h("option", { value: ALL_COURSES }, "전체 과목"), h("option", { value: "교양" }, "교양 전체"),
+      h("optgroup", { label: "학과" }, browseDepts.map((d) => h("option", { value: d }, d))));
+  }
+  if (browseKey !== ALL_COURSES && browseKey !== "교양" && !browseDepts.includes(browseKey)) browseKey = ALL_COURSES; // 학기를 바꿔 그 학과가 없으면(기억은 그대로 둔다)
   sel.value = browseKey;
   fitSelect(sel);
 }
@@ -6528,14 +6536,16 @@ function renderAddBrowse(show) {
   fitSelect(sel);
   $("add-req-count").hidden = wide || !useReq;
   $("add-browse-head").className = wide ? "list-head browse-head" : "list-head add-head";
-  // 차례(아이콘 하나, 11/17 사용자 시안 '다'): 남은 요건 과목은 기본 순(요건 순) | 덜 걷는 순(따로 기억. 같은 날 사용자 '기본순 만들어주고'),
-  // 둘러보기는 기본 순 | 덜 걷는 순(검색 결과와 한 값). 학기 학점 줄은 없앴다(같은 날 '학점 상한은 그냥 빼버려')
+  // 차례(11/17 사용자 시안 '다'의 ⇅ 칸에 같은 날 '저거 그냥 위아래 순서 바꾸는 버튼인 줄 알았는데 … 저 버튼 옆에 현재 무슨 순인지 써두자'로 글을 붙임):
+  // 남은 요건 과목은 기본 순(요건 순) | 덜 걷는 순(따로 기억. 같은 날 '기본순 만들어주고'), 둘러보기는 기본 순 | 덜 걷는 순(검색 결과와 한 값).
+  // 학기 학점 줄은 없앴다(같은 날 '학점 상한은 그냥 빼버려')
   const kind = useReq ? "req" : "browse";
   if (ord.dataset.kind !== kind) {
     ord.dataset.kind = kind;
     ord.replaceChildren(...(useReq ? [["req", "기본 순"], ["walk", "덜 걷는 순"]] : [["rel", "기본 순"], ["walk", "덜 걷는 순"]]).map(([v, t]) => h("option", { value: v }, t)));
   }
   ord.value = useReq ? reqOrder : addOrder;
+  fitSelect(ord); // 지금 차례 글 + ⇅(11/17 사용자 '저 버튼 옆에 현재 무슨 순인지 써두자')
   const key = useReq ? `@req|${reqOrder}|${req.sig}|${mine.sem}|${curTt().id}` : `${browseKey}|${addOrder}`;
   if (addBrowseDrawn === key) return false;
   addBrowseDrawn = key;
@@ -7947,6 +7957,13 @@ async function renderGrad() {
     const drop = sameAs.get(b.kind === "common" ? counted[0].program.id : b.id);
     if (drop && drop.size) b.rows = b.rows.filter((r) => !drop.has(String(r.id)));
   }
+  // 과정 묶음의 줄 차례(11/17 사용자 '전공마다 학점, 전공필수, … 이런 순서가 통일되도록'): 자료 차례 대신 종류 차례 rqRank, 같은 차례 안에서는 자료 차례
+  for (const b of view.bundles) {
+    const p = b.kind === "program" && counted.find((x) => x.program.id === b.id);
+    if (!p) continue;
+    const raw = new Map((p.version.requirements || []).map((x) => [String(x.id), x]));
+    b.rows = b.rows.map((r, i) => ({ r, i, k: rqRank(raw.get(String(r.id)) || {}, r.name) })).sort((a, z) => a.k - z.k || a.i - z.i).map((x) => x.r);
+  }
   const taken = R.takenTerms(recs, { sameCourse: same, currentTerm: cur });
   const others = anyGrade ? counted.slice(1).map((p) => ({ short: progShort(p.id), gpa: R.gpa(recs, { sameCourse: same, isMajor: majorOf(p), finalTerms: true }).major })) : [];
   // 요건 시트의 체크박스: 시간표·직접 넣은 과목으로 들은 것(끌 수 없음, 그 학기)과 체크로만 들은 것
@@ -8100,6 +8117,21 @@ function gradReqView() {
   const basis = R.basisText(base.index);
   out.push(h("p", { class: "gr-foot" }, basis ? `${basis} · ` : "", h("a", { href: "#sources", "data-go": "sources", "data-gk": "sources" }, "자료 출처")));
   return out;
+}
+
+/** 과정 묶음의 줄 차례(11/17 사용자 '전공마다 학점, 전공필수, … 순서가 통일되도록'). x = 자료의 요건 줄(type·sum·목록), name = 줄 이름.
+ *  0 전체 학점(복수·부전공 줄, 전공 전체 학점 합) → 1 전공필수 → 2 선택필수·분야 → 3 전공선택 → 4 그 밖의 과목 요건(목록·학점 합) → 5 졸업논문
+ *  → 6 과목이 아닌 조건(외국어진행강좌·생명존중 같은 것). 종류가 '그 밖'인 줄은 이름에 전공필수·전공선택이 있으면 그 차례(단일전공 전공필수 46학점 같은 합 글) */
+function rqRank(x, name = "") {
+  const t = x.type, s = x.sum || null, ex = x.extra || {};
+  if (t === "double" || t === "minor" || (s && s.of === "major" && !(s.cls || []).length)) return 0;
+  if (t === "major_required") return 1;
+  if (t === "major_choose" || t === "distribution") return 2;
+  if (t === "major_elective") return 3;
+  if (t === "thesis") return 5;
+  if (/전공필수/.test(name)) return 1;
+  if (/전공선택/.test(name)) return 3;
+  return !x.foreign && (s || (x.courses || []).length || (ex.groups || []).length || (ex.paths || []).length) ? 4 : 6;
 }
 
 /** 공통 묶음의 교양 줄(주전공 판의 type ge): { name: '교양 36학점 이상'(교양 전체 합 줄의 기준 학점, 없으면 '교양'), sum: 그 합 줄,
