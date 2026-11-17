@@ -549,9 +549,11 @@ def test_grad_view(tmp_path):
     assert "cbe-ge-total" in common["rows"] and "cbe-ge-total" not in main["rows"]  # 교양 줄은 공통으로
     row = main["rows"]["cbe-core12"]
     have = sum(c["credits"] for c in core[:4])
-    assert main["label"] == "2025~2026학번 규정" and row["name"] == "전공필수" and row["value"] == f"{33 - have}학점 남음"  # 학점이 남으면 학점으로
-    assert row["aria"] == f"전공필수, {33 - have}학점 남음" and row["meta"] == "화학생물공학부 · 2025~2026학번 규정"
-    assert row["summary"] == f"33학점 중 {have}학점 · {33 - have}학점 남음" and row["progress"] == {"have": have, "need": 33, "unit": "학점"}
+    # 12과목 33학점 가운데 4과목: 남은 8과목이 남은 학점을 채우니 과목으로(update129, 사용자 11/17 '3학점이면 강의 하나로 착각할 수 있으니까')
+    assert main["label"] == "2025~2026학번 규정" and row["name"] == "전공필수" and row["value"] == "8과목 남음"
+    assert row["aria"] == "전공필수, 8과목 남음" and row["meta"] == "화학생물공학부 · 2025~2026학번 규정"
+    assert row["summary"] == "12과목 중 4과목 · 8과목 남음" and row["progress"] == {"have": 4, "need": 12, "unit": "과목"}
+    assert have == 12  # 남은 학점(21)은 8과목으로 채워진다
     assert [x[1] for x in row["courses"]].count(True) == 4 and row["courses"][0][2] == f"{core[0]['credits']}학점 · 2025년 1학기"
     assert row["checked"] == "11월 12일 기준" and row["sources"]
     check = main["rows"]["cbe-core46-sum"]
@@ -679,7 +681,7 @@ def test_row_checks_and_final_terms(tmp_path):
     assert ge["value"] == "53학점 남음" and ge["byChecks"] is False  # 교양 학점은 이제 앱이 센다(update127) → 옛 체크는 쓰지 않는다
     assert sum46["value"] == "충족" and sum46["byChecks"] is True and sum46["aria"].endswith(", 충족")
     assert main["rows"]["cbe-core12"]["value"] != "충족" and main["rows"]["cbe-core12"]["byChecks"] is False  # 목록이 있는 줄은 과목 체크로
-    assert common["rows"]["cbe-ge-keys"]["value"] == "9학점 남음"  # false 는 그대로(지성의 열쇠는 이제 영역으로 센다)
+    assert common["rows"]["cbe-ge-keys"]["value"] == "3영역 남음"  # false 는 그대로(지성의 열쇠는 이제 영역으로 센다. 영역마다 3학점 = 1과목이라 '9학점' 말고 영역, update129)
     assert common["rows"]["grad-gpa"]["value"] == "확인 필요"  # 졸업 평점은 gpaChecks 로만
     assert plain["byTerm"]["2025-1"]["gpa"] == 3.3 and final["byTerm"]["2025-1"]["gpa"] == 4.3  # 학기 평점: 재수강으로 빠진 C+ 를 뺌
     assert final["byTerm"]["2025-2"] == plain["byTerm"]["2025-2"] and final["all"] == plain["all"]
@@ -809,12 +811,40 @@ def test_ge_areas_sums_and_conditions(tmp_path):
     assert c2["ge-cals-natural-foreign"]["value"] == "충족"  # 대학영어 1 을 들으면 조건부 영어도 채움
     assert c1["ge-cals-natural-math"]["value"] == "충족"  # 생명과학을 위한 수학 1·2 짝
     assert c1["ge-cals-natural-science"]["value"] == "2과목 남음" and c2["ge-cals-natural-science"]["value"] == "충족"
-    assert c1["ge-cals-natural-keys"]["value"] == "3학점 남음" and c2["ge-cals-natural-keys"]["value"] == "충족"
+    keys = c1["ge-cals-natural-keys"]  # 네 영역 중 셋: 둘을 들었으면 학점(3) 말고 영역(update129)
+    assert keys["value"] == "1영역 남음" and keys["summary"] == "3영역 중 2영역 · 1영역 남음" and keys["progress"] == {"have": 2, "need": 3, "unit": "영역"}
+    assert c2["ge-cals-natural-keys"]["value"] == "충족"
     assert c1["ge-cals-natural-veritas"]["value"] == "충족"
     bio = one["life-sciences"]["rows"]
     assert bio["bio-elective"]["value"] == "26학점 남음" and bio["bio-double"]["value"] == "39학점 남음"  # 복수전공: 전선 26·전체 39
     cbe = one["chem-bio-eng"]["rows"]
     assert cbe["cbe-gpa"]["value"] == "확인 필요" and cbe["cbe-gpa"]["because"] == "성적을 다 넣지 않았어요."  # 공통 졸업 평점과 같은 값
+
+
+@node
+def test_remaining_shows_binding_condition(tmp_path):
+    """update129(사용자 11/17 '4분야 중 3분야를 수강해야 하는데 1분야만 수강했잖아… 3학점이면 강의 하나로 착각할 수 있으니까', '다른 것도 검토해봐'):
+    학점만 보면 과목 수를 적게 짐작하는 조건(영역 수·분야마다 기준·덧붙은 조건)이 남으면 그 조건을, 학점이 더 많은 과목을 요구하면 둘 다 보인다."""
+    g = lambda code, cr=3: {"code": code, "name": code, "credits": cr, "cls": "교양", "term": "2025-1", "status": "taken"}
+    bio = [{"program": "animal-biotech", "role": "single", "entryYear": 2025, "title": "동물생명공학전공"}]
+    hum = [{"program": "p-8af8eacd", "role": "single", "entryYear": 2025, "title": "t"}]
+    got = _run(tmp_path, [
+        {"kind": "view", "picks": bio, "records": [g("C40.101"), g("C40.102")]},  # 지성의 열쇠: 한 영역에서만 두 과목(사용자 그림)
+        {"kind": "view", "picks": bio, "records": [g("C10.101", 2), g("C20.101", 2)]},  # 두 영역이지만 2학점짜리
+        {"kind": "view", "picks": bio, "records": []},
+        {"kind": "view", "picks": hum, "records": [g("F22.901"), g("F22.902")]},  # 제2외국어 초급 둘: 한 과목 더, 그것이 중급 이상
+    ])
+    one, two, none, lang = (dict((b["id"], b) for b in v["bundles"])["common"]["rows"] for v in got)
+    k = one["ge-cals-natural-keys"]
+    assert k["value"] == "2영역 남음" and k["summary"] == "3영역 중 1영역 · 2영역 남음" and k["strong"] == "2영역 남음"
+    assert k["progress"] == {"have": 1, "need": 3, "unit": "영역"} and k["aria"].endswith(", 2영역 남음")
+    assert [x[1] for x in k["groups"]] == ["0과목", "0과목", "0과목", "2과목"]
+    k2 = two["ge-cals-natural-keys"]  # 영역은 하나만 남았지만 학점(5)은 그 한 과목으로 못 채운다
+    assert k2["value"] == "1영역 · 5학점 남음" and k2["summary"] == "3영역 중 2영역 · 1영역 남음 · 9학점 중 4학점"
+    assert k2["progress"] == {"have": 4, "need": 9, "unit": "학점"}
+    assert none["ge-cals-natural-keys"]["value"] == "3영역 남음" and none["ge-cals-natural-keys"]["progress"] == {"have": 0, "need": 3, "unit": "영역"}
+    s = lang["hum-ge25-2ndlang"]
+    assert s["value"] == "1과목 남음" and s["summary"] == "제2외국어 · 1과목 남음 · 중급 이상 1과목 포함"
 
 
 @node

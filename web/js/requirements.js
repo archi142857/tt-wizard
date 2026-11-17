@@ -290,7 +290,11 @@ export function evaluateProgram(program, version, courses, { role = "single", sa
       }
     }
     row.have = { count: matched.length, credits: matched.reduce((s, x) => s + x.credits, 0), codes: matched.map((x) => x.code) };
-    row.need = { count: r.min_count, credits: r.min_credits };
+    // 학점으로만 적었지만 목록을 다 들어야 하는 줄('필수전선 6학점: 이론 1·2, 국악분석')은 과목 수도 기준으로: '2과목 남음'(update129)
+    const list = r.courses || [];
+    const allOf = r.min_count == null && r.min_credits != null && list.length > 0 && list.every((c) => c.credits != null)
+      && list.reduce((s, c) => s + Number(c.credits), 0) === r.min_credits;
+    row.need = { count: allOf ? list.length : r.min_count, credits: r.min_credits };
     row.taken = matched;
     row.all = (r.courses || []).map((c) => ({ code: c.code, name: c.name, credits: c.credits ?? null }));
     keysOf.set(row, new Set((r.courses || []).flatMap((c) => [c.code, ...(c.alt_codes || [])].map(sameCourse))));
@@ -437,10 +441,26 @@ function needText(g) {
 }
 
 /** 기준(min_count·min_credits)에 모자란 것: 학점 먼저. 다 찼으면 null */
-function shortOf(min, xs) {
-  if (min.min_credits != null && sumCredits(xs) < min.min_credits) return { unit: "학점", left: min.min_credits - sumCredits(xs) };
-  if (min.min_count != null && xs.length < min.min_count) return { unit: "과목", left: min.min_count - xs.length };
+function shortOf(min, xs, per = 3) {
+  return leftOf({ credits: min.min_credits ?? null, count: min.min_count ?? null }, { credits: sumCredits(xs), count: xs.length }, per);
+}
+
+/**
+ * 기준 need {credits, count}에 모자란 것 {unit, left}. 다 찼으면 null. 둘 다 모자라면 남은 과목 수가 남은 학점을 채우는 데 드는 과목 수
+ * (한 과목 per 학점으로 쳐서 올림)보다 적지 않을 때 과목으로 센다(update129, 사용자 11/17 '3학점이면 강의 하나로 착각할 수 있으니까': '6학점 남음'보다 '2과목 남음')
+ */
+function leftOf(need, have, per = 3) {
+  const credits = need.credits != null ? Math.max(0, need.credits - have.credits) : 0;
+  const count = need.count != null ? Math.max(0, need.count - have.count) : 0;
+  if (count > 0 && count >= Math.ceil(credits / per)) return { unit: "과목", left: count };
+  if (credits > 0) return { unit: "학점", left: credits };
   return null;
+}
+
+/** 아직 안 들은 과목 한 과목의 학점(가장 큰 것, 모르면 3). 남은 학점이 적어도 몇 과목인지 셀 때 */
+function perCourse(list) {
+  const xs = (list || []).map((c) => Number(c.credits) || 0).filter((x) => x > 0);
+  return xs.length ? Math.max(...xs) : 3;
 }
 
 /**
@@ -483,6 +503,9 @@ function evaluateGroups(r, row, got, shared, sameCourse, areas = null) {
   });
   const groups = every.filter((G) => !G.g.cond && !G.g.also), conds = every.filter((G) => G.g.cond), alsos = every.filter((G) => G.g.also);
   const wide = (G) => Boolean(G.g.area) || (G.g.prefixes || []).length > 0; // 교양 영역: 추천에 안 넣고 목록 끝을 따지지 않는다
+  // 교양 영역을 세는 줄(min_areas, 분야가 모두 교양 영역)은 '영역'으로 센다: '1영역 남음'·'1 / 3영역'·'3영역 중 2영역'(프론트엔드 11/17, 디자인 s1-screens)
+  const word = e.min_areas != null || (groups.length > 0 && groups.every((G) => G.g.area)) ? "영역" : "분야";
+  const perOf = (G) => perCourse(notTaken(G.list, G.taken)); // 그 분야에서 아직 안 들은 과목 한 과목의 학점
   const union = (pick) => {
     const m = new Map();
     for (const G of groups) for (const x of pick(G)) m.set(x.key, x);
@@ -512,7 +535,7 @@ function evaluateGroups(r, row, got, shared, sameCourse, areas = null) {
   if (row.state === "met" && condMiss) Object.assign(row, { state: "check", reason: COND, because: condMiss.g.cond });
   const alsoMiss = alsos.filter((G) => G.list && !G.okLoose);
   if (alsoMiss.length && row.state !== "remaining") { // 덧붙은 조건을 못 채우면 나머지가 다 찼어도 남음
-    const sh = shortOf(alsoMiss[0].g, alsoMiss[0].taken) || { unit: "과목", left: 1 };
+    const sh = shortOf(alsoMiss[0].g, alsoMiss[0].taken, perOf(alsoMiss[0])) || { unit: "과목", left: 1 };
     Object.assign(row, { state: "remaining", alsoShort: { ...sh, name: alsoMiss[0].g.name || "" } });
     delete row.reason;
     delete row.because;
@@ -530,7 +553,7 @@ function evaluateGroups(r, row, got, shared, sameCourse, areas = null) {
     else if (!G.hasMin) value = { kind: "count", text: `${G.taken.length}과목` };
     else if (G.okStrict) value = { kind: "met", text: "충족" };
     else if (!G.okLoose) {
-      const sh = shortOf(G.g, G.taken);
+      const sh = shortOf(G.g, G.taken, perOf(G));
       value = { kind: "left", unit: sh.unit, left: sh.left, text: `${sh.left}${sh.unit} 남음` };
     } else value = { kind: "check", text: "확인 필요" };
     // 시트의 분야(update128, 사용자 11/16 '영역이 나뉘면 영역 다 나눠줘야지… 최대한 정보를 다 넣어'): 영역 과목 목록(들은 것 먼저), 조건부·덧붙은 조건 글
@@ -556,7 +579,7 @@ function evaluateGroups(r, row, got, shared, sameCourse, areas = null) {
   };
   // 분야마다 기준: 모두 과목 수뿐(또는 모두 학점뿐)이면 분야마다 기준까지만 더하고(생물다양성 1과목 남음 → 2 / 3과목), 아니면 채운 분야 수
   const byFields = () => {
-    if (minGroups != null) return { have: fields(okG), need: minGroups, unit: "분야" };
+    if (minGroups != null) return { have: fields(okG), need: minGroups, unit: word };
     if (!counted.length) return null;
     const only = (a, b) => counted.every((G) => G.list && G.g[a] != null && G.g[b] == null);
     if (only("min_count", "min_credits")) {
@@ -565,38 +588,69 @@ function evaluateGroups(r, row, got, shared, sameCourse, areas = null) {
     if (only("min_credits", "min_count")) {
       return { have: counted.reduce((s, G) => s + Math.min(sumCredits(inG(G)), G.g.min_credits), 0), need: counted.reduce((s, G) => s + G.g.min_credits, 0), unit: "학점" };
     }
-    return { have: counted.filter(okG).length, need: counted.length, unit: "분야" };
+    return { have: counted.filter(okG).length, need: counted.length, unit: word };
   };
   const inOne = () => (oneGroup != null ? { have: most(inG), need: oneGroup, unit: "과목" } : null);
-  if (row.state === "remaining" && row.alsoShort) {
-    const { unit, left: k, name } = row.alsoShort;
+  if (row.state === "remaining") {
+    // 남은 것(update129, 사용자 11/17 '4분야 중 3분야를 수강해야 하는데 1분야만 수강했잖아… 3학점이면 강의 하나로 착각할 수 있으니까').
+    // 줄 학점·과목 수만 보면 과목 수를 적게 짐작하는 조건(영역·분야 수, 분야마다 기준, 덧붙은 조건, 한 분야에서 몇 과목)이 남았으면 그 조건을 보인다.
+    // 그 조건을 채우는 데 드는 과목 수보다 줄 학점·과목 수가 더 많은 과목을 요구하면 둘 다 보인다('1영역 · 5학점 남음')
+    const onlyAlso = Boolean(row.alsoShort);
+    row.missing = onlyAlso ? [] : left;
     delete row.alsoShort;
-    row.missing = [];
-    row.short = { unit, left: k };
-    row.summaryText = `${name} · ${k}${unit} 남음`;
-    row.progress = totals(r.min_credits != null ? "학점" : "과목") || byFields();
-  } else if (row.state === "remaining") {
-    row.missing = left;
+    const per = perCourse(groups.flatMap((G) => notTaken(G.list, G.taken)));
+    const courses = (sh) => (sh.unit === "학점" ? Math.ceil(sh.left / per) : sh.left); // 적어도 몇 과목
+    const tot = totalUnknown ? null : shortOf(r, loose, per);
+    const totCourses = tot ? Math.max(r.min_count != null ? Math.max(0, r.min_count - loose.length) : 0,
+      r.min_credits != null ? Math.ceil(Math.max(0, r.min_credits - sumCredits(loose)) / per) : 0) : 0;
     const lacking = counted.filter((G) => G.list && !G.okLoose);
-    const shorts = lacking.map((G) => shortOf(G.g, G.taken)).filter(Boolean);
-    if (rowShort) {
-      row.short = rowShort;
-      row.progress = totals(rowShort.unit);
-    } else if (minGroups != null && fields((G) => G.okLoose) < minGroups) {
-      row.short = { unit: "분야", left: minGroups - fields((G) => G.okLoose) };
-      row.summaryText = `${minGroups}분야 중 ${fields((G) => G.okLoose)}분야 · ${row.short.left}분야 남음`;
-      row.progress = byFields();
+    const shorts = lacking.map((G) => shortOf(G.g, G.taken, perOf(G))).filter(Boolean);
+    const also = alsos.find((G) => G.list && !G.okLoose);
+    const done = fields((G) => G.okLoose);
+    let s = null; // 남은 조건 {unit, left, text?, courses(적어도 몇 과목), summary, progress}
+    if (minGroups != null && done < minGroups) {
+      const k = minGroups - done;
+      s = { unit: word, left: k, courses: k, summary: `${minGroups}${word} 중 ${done}${word} · ${k}${word} 남음`, progress: byFields() };
     } else if (minGroups == null && shorts.length) {
       // 분야마다 모자란 것: 단위가 같으면 더하고(생물다양성 1과목 → '1과목 남음'), 다르면 분야 수로
-      const unit = shorts.every((x) => x.unit === shorts[0].unit) ? shorts[0].unit : null;
-      row.short = unit ? { unit, left: shorts.reduce((t, x) => t + x.left, 0) } : { unit: "분야", left: lacking.length };
-      row.summaryText = `${lacking.map((G) => G.g.name || G.g.field).filter(Boolean).join(" · ")} · ${row.short.left}${row.short.unit} 남음`;
-      row.progress = byFields();
+      // 교양 영역마다 한 과목씩 남았으면 영역 수로('문화 해석과 상상 3 · 역사적 탐구 3'에서 하나만 들으면 '6학점' 말고 '2영역 남음')
+      const oneEach = word === "영역" && lacking.every((G) => !G.taken.length) && shorts.every((x) => courses(x) === 1);
+      const unit = oneEach ? word : shorts.every((x) => x.unit === shorts[0].unit) ? shorts[0].unit : null;
+      const k = unit && !oneEach ? shorts.reduce((t, x) => t + x.left, 0) : lacking.length, u = unit || word;
+      s = { unit: u, left: k, courses: shorts.reduce((t, x) => t + courses(x), 0),
+        summary: `${lacking.map((G) => G.g.name || G.g.field).filter(Boolean).join(" · ")} · ${k}${u} 남음`, progress: byFields() };
+    } else if (also) {
+      const sh = shortOf(also.g, also.taken, perOf(also)) || { unit: "과목", left: 1 };
+      s = { ...sh, courses: courses(sh), summary: `${also.g.name || ""} · ${sh.left}${sh.unit} 남음`, progress: null };
+    } else if (oneGroup != null && most((G) => G.taken) < oneGroup) {
+      const k = oneGroup - most((G) => G.taken);
+      s = { unit: "과목", left: k, text: `한 분야에서 ${k}과목 남음`, courses: k, summary: null, progress: inOne() };
+    }
+    if (s && also && !s.summary?.startsWith(`${also.g.name || ""} · `)) { // 덧붙은 조건도 남았으면 합 글에(전에는 빠졌다): '… · 중급 이상 1과목 포함'
+      const sh = shortOf(also.g, also.taken, perOf(also)) || { unit: "과목", left: 1 };
+      s.summary = `${s.summary || s.text || `${s.left}${s.unit} 남음`} · ${also.g.name || "덧붙은 조건"} ${sh.left}${sh.unit} 포함`;
+    }
+    if (s && (!tot || s.courses >= totCourses)) {
+      row.short = { unit: s.unit, left: s.left, ...(s.text ? { text: s.text } : {}) };
+      if (s.summary) row.summaryText = s.summary;
+      row.progress = s.progress || totals(r.min_credits != null ? "학점" : "과목") || byFields();
+    } else if (s) { // 줄 학점(과목 수)이 더 많은 과목을 요구: 값은 그것으로, 남은 조건은 합 글에
+      const head = s.text ? s.text.replace(/ 남음$/, "") : `${s.left}${s.unit}`;
+      const [need, have] = tot.unit === "학점" ? [r.min_credits, sumCredits(loose)] : [r.min_count, loose.length];
+      // 어느 영역·분야에서 들을지가 남았으면 값에도 함께('1영역 · 5학점 남음'). 분야 과목 수·덧붙은 조건은 줄 학점을 채우다 같이 채워져 값에서는 뺀다('1과목 · 4학점' 말고 '4학점')
+      const spread = s.unit === "영역" || s.unit === "분야";
+      row.short = { unit: tot.unit, left: tot.left, ...(spread ? { text: `${head} · ${tot.left}${tot.unit} 남음` } : {}) };
+      row.summaryText = `${s.summary || head} · ${need}${tot.unit} 중 ${have}${tot.unit}`;
+      row.progress = totals(tot.unit);
+    } else if (tot) {
+      row.short = tot;
+      row.progress = totals(tot.unit);
     } else {
       const k = Math.max(1, (oneGroup || 1) - most((G) => G.taken));
       row.short = { unit: "과목", left: k, text: `한 분야에서 ${k}과목 남음` };
       row.progress = inOne();
     }
+    if (onlyAlso && !row.progress) row.progress = byFields();
   } else {
     if (row.state === "check" && left.length) row.left = left;
     row.progress = totals(r.min_credits != null ? "학점" : "과목") || byFields() || inOne();
@@ -1028,9 +1082,9 @@ function rowValue(row) {
     return { kind: "left", unit, left, text: text || `${left}${unit} 남음` };
   }
   if (row.state === "remaining") {
-    const { need, have } = row;
-    if (need.credits != null && have.credits < need.credits) return { kind: "left", unit: "학점", left: need.credits - have.credits, text: `${need.credits - have.credits}학점 남음` };
-    if (need.count != null && have.count < need.count) return { kind: "left", unit: "과목", left: need.count - have.count, text: `${need.count - have.count}과목 남음` };
+    // 학점과 과목 수가 다 모자라면 과목 수로 채워지는 줄은 과목으로('미대 공통 전필 2과목(6학점)'에서 1과목 들으면 '1과목 남음', update129)
+    const sh = leftOf(row.need, row.have, perCourse(row.missing));
+    if (sh) return { kind: "left", unit: sh.unit, left: sh.left, text: `${sh.left}${sh.unit} 남음` };
   }
   return { kind: "check", text: "확인 필요" };
 }
