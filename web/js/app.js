@@ -8085,12 +8085,29 @@ function gradReqView() {
       : [h("span", { class: "gr-prog", "aria-hidden": "true" }, `${n}/${b.rows.length}`), h("span", { class: "sr-only" }, `요건 ${b.rows.length}개 중 ${n}개 충족`)];
     // 제목 글과 판은 한 덩이 .gr-gt(144판): 한 줄에 들지 않으면 판이 다음 줄로 가고 '1/5'는 첫 줄 오른쪽에 남는다(폭 320 에서 '0/5'만 홀로 넘어가던 것)
     out.push(h("h2", { class: "section-title" }, h("span", { class: "gr-gt" }, b.title, ver), prog));
-    if (b.rows.length) out.push(h("div", { class: "card info-list" }, h("ul", { class: "list" }, b.rows.map((r) => grRow({ b, r })))));
+    if (!b.rows.length) continue;
+    const card = (rows) => h("div", { class: "card info-list" }, h("ul", { class: "list" }, rows.map((r) => grRow({ b, r }))));
+    // 공통 묶음의 교양 줄은 목록 이름 '교양 36학점 이상' 아래 따로 된 카드(11/17 사용자: 교양 학점 시트의 틀을 보고 '두 번째 사진이 첫 번째 내용을 풀어쓴 거 아닌가',
+    // '두번째 사진의 목록 이름으로 교양~~~ 을 달면'. 시안 셋 가운데 '나': 교양 학점 줄도 그 목록의 첫 줄). 졸업 학점·졸업 평점은 위 카드
+    const ge = b.kind === "common" ? geGroup(b.rows) : null;
+    if (ge) out.push(card(b.rows.filter((r) => !ge.rows.includes(r))), h("h3", { class: "gr-sub" }, ge.name), card(ge.rows));
+    else out.push(card(b.rows));
   }
   out.push(h("p", { class: "gr-foot" }, "학교가 공개한 문서를 바탕으로 계산한 추정이에요. 학번·학과와 개별 인정(동일·대체 과목, 학점 인정)에 따라 다를 수 있어요. 졸업 사정은 학과와 마이스누에서 최종 확인해 주세요."));
   const basis = R.basisText(base.index);
   out.push(h("p", { class: "gr-foot" }, basis ? `${basis} · ` : "", h("a", { href: "#sources", "data-go": "sources", "data-gk": "sources" }, "자료 출처")));
   return out;
+}
+
+/** 공통 묶음의 교양 줄(주전공 판의 type ge): { name: '교양 36학점 이상'(교양 전체 합 줄의 기준 학점, 없으면 '교양'), sum: 그 합 줄,
+ *  rows: [합 줄, 나머지는 자료 차례] }. 합 줄은 sum.of = ge 이고 after 가 없는 것('자유 선택 교양'은 after 가 있다). 교양 줄이 둘보다 적으면 null */
+function geGroup(rows) {
+  const raw = (r) => rqRaw("common", String(r.id)) || {};
+  const ge = rows.filter((r) => raw(r).type === "ge");
+  if (ge.length < 2) return null;
+  const sum = ge.find((r) => { const s = raw(r).sum; return !!s && s.of === "ge" && s.after == null; }) || null;
+  const n = sum ? Number(raw(sum).min_credits) : 0;
+  return { name: n > 0 ? `교양 ${n}학점 이상` : "교양", sum, rows: sum ? [sum, ...ge.filter((r) => r !== sum)] : ge };
 }
 
 /** 체크한 과목이 든 요건 '동물생명공학전공 전공필수'(요건 차례로 처음 것: 과목 목록·분야·갈래). 없으면 '졸업 요건에서 체크' */
@@ -8426,10 +8443,14 @@ function paintRq(key) {
     "data-browser": system ? "system" : null, "aria-label": label }, text, icon(I.out, 16)));
   const detail = s.detail || (gpa ? `전체 평점과 전공 평점이 모두 ${gpaMin().toFixed(1)} 이상` : null);
   const parts = rqParts(detail), names = new Set((ex.groups || []).map((g) => String(g.name || g.field || "")));
+  // 교양 전체 합 줄(교양 학점)의 항목은 졸업 요건 보기에서 '교양 36학점 이상' 목록의 줄들이라 틀이 겹친다(11/17 사용자 '두 번째 사진이 첫 번째 내용을 풀어쓴 거 아닌가',
+  // 틀은 '빼기'): 머리와 끝 괄호만
+  const geHead = !!parts && bid === "common" && (geGroup(b.rows) || {}).sum === r;
   // 항목이 모두 아래 분야 칸이면(지성의 열쇠 '문화 해석과 상상 3, … (과학적 사고와 응용은 요건 없음)': 영역마다 칸과 '3학점 이상') 틀은 겹친다.
   // 머리와 끝 괄호만 둔다(끝 괄호는 마지막 항목이 아니라 글 전체 이야기). 끝 아닌 항목에 괄호가 있으면 틀 그대로
   const dup = parts && parts.items.every((x, j) => names.has(x.name) && (!x.note || j === parts.items.length - 1));
-  if (dup) body.push(h("p", { class: "rq-detail" }, parts.head, [parts.sub, parts.items[parts.items.length - 1].note].filter(Boolean).map((x) => h("small", {}, x))));
+  if (geHead) body.push(h("p", { class: "rq-detail" }, parts.head, parts.sub ? h("small", {}, parts.sub) : null));
+  else if (dup) body.push(h("p", { class: "rq-detail" }, parts.head, [parts.sub, parts.items[parts.items.length - 1].note].filter(Boolean).map((x) => h("small", {}, x))));
   else if (parts) { // 자료 글이 '머리: 가 4, 나 6, …' 꼴이면 틀로(11/17 사용자 '이것도 글로 줄줄 쓰지 말고 틀로 짜 보')
     body.push(h("p", { class: "rq-detail" }, parts.head, parts.sub ? h("small", {}, parts.sub) : null),
       h("ul", { class: "rq-parts" }, parts.items.map((x) => h("li", {}, h("span", { class: "n" }, x.name), h("span", { class: "a" }, x.amt), x.note ? h("small", {}, x.note) : null))));
@@ -10233,6 +10254,7 @@ function transition(apply, dir) {
   root.dataset.nav = dir;
   const t = document.startViewTransition(apply);
   viewDone = t.updateCallbackDone.catch(() => null);
+  t.ready.catch(() => null); // 바로 다음 전환이 이 전환을 건너뛰면 ready 가 거부된다('Transition was skipped'). 화면은 같고 콘솔만 조용히(백엔드 update134 참고)
   const done = () => { if (root.dataset.nav === dir) delete root.dataset.nav; };
   t.finished.then(done, done);
 }

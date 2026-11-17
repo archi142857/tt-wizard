@@ -1964,6 +1964,9 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 .gr-view h2.section-title .gr-prog.is-done { font-weight: 500; color: var(--on-bg-success, var(--success)); }
 .gr-prog.is-done svg { width: 16px; height: 16px; margin-right: 2px; vertical-align: -3px; }
 .gr-view > .card { margin-top: var(--space-6); }
+/* 공통 묶음의 교양 목록 이름 '교양 36학점 이상'(11/17 사용자 '목록 이름으로 교양~~~ 을 달면', 시안 나): 15/22 700 on-bg-heading, 위 24·아래 8, 묶음 제목과 같은 4 들여쓰기 */
+.gr-view .gr-sub { margin: var(--space-6) var(--space-1) var(--space-2); font-size: 0.9375rem; line-height: 1.375rem; font-weight: 700; color: var(--on-bg-heading); }
+.gr-view .gr-sub + .card { margin-top: 0; }
 .gr-view h2.section-title + .card, .gr-view h2.section-title + .gr-tip + .card { margin-top: 0; } /* 제목 아래 재수강 안내 한 줄을 사이에 둔 카드도 */
 /* 요건 줄 값(141판): 남음 warning 500, 충족 success 500(옆에 체크 없음, 사용자 11/16), 확인 필요 text3(태그 없이) */
 .info-row .v.is-left { color: var(--warning); font-weight: 500; }
@@ -2310,7 +2313,7 @@ button.fr-row:active { background: var(--surface-hover); }
 .fra-links { display: flex; flex-wrap: wrap; column-gap: var(--space-2); margin: var(--space-3) 0 0 calc(var(--space-2) * -1); } /* 초대 링크 보내기 · QR 코드(11/17), 글이 칸 왼쪽 선 */
 .fr-wk-empty { margin: 0; padding: var(--space-8) var(--space-4); text-align: center; font-size: 0.875rem; line-height: 1.25rem; color: var(--text3); }
 /* 바탕 위 글자·버튼(졸업 요건 탭·친구): 크리스마스 눈 위에서 둘레(위 '바탕 위 글자'와 같은 까닭), 바탕 위 텍스트 버튼을 누르거나 올리면 bg-hover 면(카드 위 버튼의 surface-hover 가 아니라)이고 그동안 둘레를 뺀다 */
-.gr-head, .gr-foot, .gr-lead, .gr-empty p, .gr-empty .btn-text, .fr-me, .fr-ttl, .fr-sem .m, .pv-note, .fr-head .btn-text { text-shadow: var(--on-bg-halo, none); }
+.gr-head, .gr-foot, .gr-lead, .gr-sub, .gr-empty p, .gr-empty .btn-text, .fr-me, .fr-ttl, .fr-sem .m, .pv-note, .fr-head .btn-text { text-shadow: var(--on-bg-halo, none); }
 .gr-empty svg { filter: var(--on-bg-halo-icon, none); }
 .gr-empty .btn-text:active, .fr-head .btn-text:active { background: var(--bg-hover); text-shadow: none; }
 @media (hover: hover) { .gr-empty .btn-text:hover, .fr-head .btn-text:hover { background: var(--bg-hover); text-shadow: none; } }
