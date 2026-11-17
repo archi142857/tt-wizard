@@ -1188,6 +1188,28 @@
      "note": "2023학년도 입학생 규정의 '주전공 이수규정과 동일'을 고를 수도 있다."
     },
     {
+     "id": "ge-cals-natural-old-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2019~2022학번, 학부대학 교양 이수규정의 단과대·학과 교양 학점)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "old_total"
+    },
+    {
      "id": "ge-cals-natural",
      "type": "ge",
      "applies_to": [
@@ -1198,12 +1220,12 @@
      "min_count": null,
      "min_credits": 36,
      "courses": [],
-     "status": "확인",
+     "status": "부분",
      "src": [
       "s6",
       "s7"
      ],
-     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36)."
+     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36). 이 판(2019~2022학번)에는 2025학번 교양 글이 들어 있다: 그 학번 교양 영역 규정은 조사 자료에 없음(update127)"
     },
     {
      "id": "cals-foreign-lang-lectures",

@@ -15,7 +15,7 @@ const SHELL = [
   "icons/wordmark.svg", "icons/wordmark-dark.svg", "icons/wordmark-white.svg", "icons/xmas-sleigh.svg", "licenses/snutt.txt", "licenses/pretendard.txt",
   "licenses/fredoka.txt", "licenses/odbl.txt", "licenses/kogl-type1.txt", "licenses/leaflet.txt",
   "data/campus.json", "data/courses.json", "data/semesters.json", "data/basemap.json", "data/calendar.json", "data/requirements/catalog.json", "data/limits.json",
-  "data/requirements/index.json", "data/requirements/common.json", "data/requirements/course_map.json",
+  "data/requirements/index.json", "data/requirements/common.json", "data/requirements/course_map.json", "data/requirements/ge_areas.json",
 ];
 const WAIT_MS = 3000;
 const FONT_CACHE = "ttw-font-v1";

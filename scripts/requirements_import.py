@@ -78,10 +78,15 @@ def term_rank(stem: str) -> int:
     return int(m.group(1)) * 4 + {"1": 0, "S": 1, "2": 2, "W": 3}[m.group(2)] if m else -1
 
 
+def history_files(history: Path) -> list[Path]:
+    """요건 자료가 덮는 학번(LO~)이 들을 수 있었던 학기의 지난 편람만, 옛 학기부터. data/history/ 에는 편람에 올라 있는 모든 학기(2013~)가 있다(update128)"""
+    return [f for f in sorted(history.glob("*.json"), key=lambda f: term_rank(f.stem)) if term_rank(f.stem) >= LO * 4]
+
+
 def history_courses(history: Path) -> dict[str, tuple[str, float, str]]:
     """지난 편람 → 교과목번호마다 (이름, 학점, 학기)(가장 최근 학기 것)"""
     out: dict[str, tuple[str, float, str]] = {}
-    for f in sorted(history.glob("*.json"), key=lambda f: term_rank(f.stem)):
+    for f in history_files(history):
         for c in json.loads(f.read_text(encoding="utf-8")).get("courses", []):
             out[c[0]] = (c[1], c[3], f.stem)
     return out
@@ -208,7 +213,7 @@ def ge_key_for(agent: str, unit: str | None, program: str | None) -> str | None:
 def course_depts(history: Path) -> dict[str, list[str]]:
     """지난 편람 → 교과목번호마다 개설 학과 이름들(옛 이름부터, 같은 이름은 한 번)."""
     out: dict[str, list[str]] = {}
-    for f in sorted(history.glob("*.json"), key=lambda f: f.stem):
+    for f in history_files(history):
         for c in json.loads(f.read_text(encoding="utf-8")).get("courses", []):
             names = out.setdefault(c[0], [])
             if c[2] and c[2] not in names:
@@ -660,6 +665,8 @@ def main(argv: list[str] | None = None) -> int:
                                                ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     (out / "ge_credits.json").write_text(json.dumps(ge_table, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     (out / "course_map.json").write_text(json.dumps(course_map, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    areas = requirements_lists.build_areas(course_map, history_files(Path(args.history)))  # update128: 요건 시트의 교양 영역별 과목 목록
+    (out / "ge_areas.json").write_text(json.dumps(areas, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     common = common_rules(Path(args.common))
     (out / "common.json").write_text(json.dumps(common, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"과정 파일 {len(built)}개, 목록 {len(index)}개 → {out}")

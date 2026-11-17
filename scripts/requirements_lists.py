@@ -660,6 +660,60 @@ def rule_gpa(r, prog):
     return [{"same_as": "grad-gpa", "extra": None}]
 
 
+# ---------------------------------------------------------------- 교양 영역 과목 표(ge_areas.json, update128)
+
+def area_names() -> dict[str, str]:
+    """번호 앞자리 → 영역 이름(가장 좁은 이름: 'C10.' → '문화 해석과 상상', 'F21.' → '영어')"""
+    out: dict[str, str] = {}
+    for table in (OLD_AREAS, NEW_AREAS):
+        for name, pres in sorted(table.items(), key=lambda kv: len(kv[1]), reverse=True):  # 넓은 묶음 먼저, 좁은 이름이 덮는다
+            for pre in pres:
+                out[pre] = name
+    return out
+
+
+def build_areas(course_map: dict, history: "Path | list") -> dict:
+    """교양 영역마다 과목 목록(요건 시트의 영역 목록, 사용자 11/16 '영역이 나뉘면 영역 다 나눠줘야지… 최대한 정보를 다 넣어').
+    학교 교양 영역·과목 대응표(2024·2025·2026 번호)와 지난 편람(data/history/)의 교양 과목 가운데 영역 번호 앞자리로 시작하는 것. 이름·학점은 가장 최근 학기 편람"""
+    import json as _json
+    names = area_names()
+    seen: dict[str, dict] = {}
+    # 학기 파일 목록(requirements_import.history_files: 요건 학번이 들을 수 있었던 학기만) 또는 폴더
+    files = list(history) if isinstance(history, list) else sorted(history.glob("*.json"), key=lambda f: _term_rank(f.stem))
+    latest: dict[str, tuple] = {}
+    for f in files:
+        for c in _json.loads(f.read_text(encoding="utf-8")).get("courses", []):
+            if c[4] == "교양":
+                latest[c[0]] = (c[1], c[3])
+    def add(code: str, name: str | None):
+        pre = code.split(".")[0] + "."
+        if pre not in names or code in seen:
+            return
+        nm, cr = latest.get(code, (name, None))
+        cr = int(cr) if cr is not None and float(cr).is_integer() else cr
+        seen[code] = {"code": code, "name": nm or name or code, **({"credits": cr} if cr is not None else {})}
+    for row in (course_map or {}).get("rows") or []:
+        for y in ("2026", "2025", "2024"):
+            if row.get(y):
+                add(row[y]["code"], row[y].get("name"))
+    for code, (nm, _) in latest.items():
+        add(code, nm)
+    areas: dict[str, dict] = {}
+    for c in seen.values():
+        pre = c["code"].split(".")[0] + "."
+        areas.setdefault(pre, {"name": names[pre], "courses": []})["courses"].append(c)
+    for a in areas.values():
+        a["courses"].sort(key=lambda c: (c["name"], c["code"]))
+    return {"source": "학교 교양 영역·과목 대응표(2024-2026, course_map.json)와 지난 편람(data/history/)의 교양 과목",
+            "note": "교양 과목 번호의 앞자리가 곧 영역이다(docs/requirements.md 1-1절). 요건 시트가 영역마다 과목 목록을 보이는 데 쓴다. 이름·학점은 가장 최근 학기 편람",
+            "areas": dict(sorted(areas.items()))}
+
+
+def _term_rank(stem: str) -> int:
+    m = re.match(r"^(\d{4})-(1|S|2|W)$", stem)
+    return int(m.group(1)) * 4 + {"1": 0, "S": 1, "2": 2, "W": 3}[m.group(2)] if m else -1
+
+
 # ---------------------------------------------------------------- 인문대학 공통(college_common 참조 줄)
 
 HUM_GROUPS = [(2025, 2026), (2024, 2024), (2021, 2023), (2019, 2020)]  # 인문대 공통 교양이 같은 학번 묶음(조사 2차 college_common.ge_by_cohort)
@@ -824,10 +878,38 @@ def old_ge(v: dict, ge_table: dict | None, ge_key: str | None) -> None:
     v["requirements"] = reqs
 
 
+FIRST_COHORT, LAST_COHORT = 2019, 2026  # 요건 자료가 덮는 학번(requirements_import LO, HI)
+
+
+def ge_by_entry(v: dict, ge_table: dict | None, ge_key: str | None) -> int:
+    """전공 진입 연도·교과 개편 학기·졸업 시기로 고르는 판(by_entry 가 아님)에 2025학번 교양 글이 든 것(update128, 사용자 11/16 '최대한 정보를 다 넣어'):
+    교양은 늘 입학 연도 규정이라 판은 그대로 두고 교양 줄만 입학 연도로 나눈다. 새 줄은 줄의 entry_years [2025, 끝](apply 가 영역별로 나눈다),
+    옛 학번 줄(id 끝 '-old')은 [2019, 2024](old_ge 와 같게 '부분' + 학부대학 교양 학점이 하나로 같으면 합 줄). 화면 계산(requirements.js rowsForEntry)이
+    학생 입학 연도로 거른다. 나눈 줄 수"""
+    hi = max(v["entry_years"][1], LAST_COHORT)
+    hit = [r for r in v.get("requirements") or [] if r.get("type") == "ge" and any(c in r["text"] for c in NEW_CUES)]
+    if not hit:
+        return 0
+    old = {"entry_years": [FIRST_COHORT, SPLIT_YEAR - 1], "requirements": [dict(copy.deepcopy(r), id=f"{r['id']}-old") for r in hit]}
+    old_ge(old, ge_table, ge_key)
+    for r in old["requirements"]:
+        if r["id"].endswith("-old-old-total"):
+            r["id"] = r["id"][: -len("-old-old-total")] + "-old-total"
+        r["entry_years"] = [FIRST_COHORT, SPLIT_YEAR - 1]
+    reqs = []
+    for r in v["requirements"]:
+        if r is hit[0]:
+            reqs += [dict(x, entry_years=[SPLIT_YEAR, hi]) for x in hit] + old["requirements"]
+        elif r not in hit:
+            reqs.append(r)
+    v["requirements"] = reqs
+    return len(hit)
+
+
 def split_new_ge(prog: dict, ge_table: dict | None = None) -> int:
     """판이 2024·2025학번에 걸치고 그 판의 교양 줄이 2025 새 교양(학문의 토대·지성의 열쇠 …)이면 판을 [2025, hi]·[lo, 2024]로 나눈다
     (2025학번 교양 개편. 조사 자료는 학과 규정이 같으면 판을 나누지 않았다). 옛 쪽은 줄을 그대로 둔다(그 학번 교양 규정은 조사 자료에 없어 확인 필요 그대로).
-    입학 연도로 고르는 판만. 나눈 판 수"""
+    입학 연도로 고르는 판만. 다른 것으로 고르는 판은 판 대신 교양 줄을 입학 연도로 나눈다(ge_by_entry, update128). 나눈 판 수"""
     out, n = [], 0
     for v in prog.get("versions") or []:
         lo, hi = v["entry_years"]
@@ -841,8 +923,14 @@ def split_new_ge(prog: dict, ge_table: dict | None = None) -> int:
             out += [a, b]
             n += 1
         else:
-            if hi < SPLIT_YEAR and newish and by_entry(v):
-                old_ge(v, ge_table, prog.get("ge_key"))  # 옛 학번만 걸린 판에 2025학번 교양 글이 든 것도 같게
+            if hi < SPLIT_YEAR and newish:
+                # 옛 학번만 걸린 판에 2025학번 교양 글이 든 것도 같게. 전공 진입·졸업 같은 다른 기준으로 고르는 판도 그 끝이 2024 이하면
+                # 입학은 그보다 앞이라 옛 교양이다(update128)
+                old_ge(v, ge_table, prog.get("ge_key"))
+            elif hi >= SPLIT_YEAR and newish and not by_entry(v) and (lo < SPLIT_YEAR or str(v.get("basis") or "").startswith("전공 진입")):
+                # 2025 앞뒤 학번이 같이 걸리는 판만(교과 개편·졸업 시기 판은 화면이 입학 연도로 고르므로 2025 부터인 판엔 옛 학번이 없다.
+                # 전공 진입 판은 2025 진입이라도 2024 입학이 있다)
+                ge_by_entry(v, ge_table, prog.get("ge_key"))
             out.append(v)
     prog["versions"] = out
     return n
@@ -911,7 +999,8 @@ def apply(prog: dict, tables: Tables, star: list[dict] | None = None) -> dict:
             work["extra_research"] = r.get("extra")
             specs, name = None, None
             if r["type"] == "ge" or (r["type"] == "distribution" and r["text"].startswith("지성의 열쇠")):
-                ctx = {"cur": curriculum(r["text"], v["entry_years"]), "years": v["entry_years"], "ge_total": ge_total,
+                years = r.get("entry_years") or v["entry_years"]  # 입학 연도로 나눈 교양 줄(ge_by_entry)은 줄의 학번으로
+                ctx = {"cur": curriculum(r["text"], years), "years": years, "ge_total": ge_total,
                        "tables": tables, "star": star or []}
                 for rule in GE_RULES:
                     specs = rule(work, ctx)

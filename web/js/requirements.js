@@ -26,6 +26,8 @@ export function termOrder(term) {
 export const isRegularTerm = (term) => /-(1|2)$/.test(String(term || ""));
 
 /** 입학 연도에 맞는 판. 없으면 { version: null, reason } */
+const dist = (v, y) => (y < v.entry_years[0] ? v.entry_years[0] - y : y > v.entry_years[1] ? y - v.entry_years[1] : 0);
+
 export function pickVersion(program, entryYear) {
   const y = Number(entryYear);
   const [lo, hi] = program.exists_for || [2019, 2026];
@@ -39,7 +41,15 @@ export function pickVersion(program, entryYear) {
  * 전공 진입 연도로 갈리는 판(basis '전공 진입 …')이면 전공 진입 연도로, 그 밖은 입학 연도로. 모르는 값은 입학 연도로 대신한다.
  */
 export function pickVersionFor(program, { entryYear, majorEntryYear = null, selectionYear = null } = {}) {
-  if (program.version_key === "selection") return pickVersion(program, selectionYear ?? entryYear);
+  if (program.version_key === "selection") {
+    // 연합·연계전공은 조사 자료에 2025~2026 선발 판뿐이라(1차 조사) 그 전 선발 학생은 판이 없었다(사용자 11/16 '아예 없는 것도 있냐'). 있던 학번을 모르는 과정(exists_for null)만
+    // 가장 가까운 판으로 보고 reason "nearest"(판 이름이 '… 선발 · 2025~2026년 선발 규정'으로 알린다, update128)
+    const got = pickVersion(program, selectionYear ?? entryYear);
+    if (got.version || program.exists_for || !(program.versions || []).length) return got;
+    const y = Number(selectionYear ?? entryYear);
+    const near = (program.versions || []).slice().sort((a, b) => dist(a, y) - dist(b, y) || b.entry_years[0] - a.entry_years[0])[0];
+    return near && Number.isFinite(y) ? { version: near, reason: "nearest" } : got;
+  }
   if (majorEntryYear != null) {
     // 전공 진입 칸을 없애서(프론트엔드 ui121b) 화면은 학번+1 을 준다. 본과 진입(예과 2년 뒤)으로 갈리는 과정(수의학과 본과)은 학번+2 로 고친다(백엔드 update117)
     const y = Number(entryYear), m = Number(majorEntryYear);
@@ -48,6 +58,20 @@ export function pickVersionFor(program, { entryYear, majorEntryYear = null, sele
     if (byMajor.version && /^전공 진입/.test(byMajor.version.basis || "")) return byMajor;
   }
   return pickVersion(program, entryYear);
+}
+
+/**
+ * 판의 요건 줄 가운데 이 학번에 걸리는 것만 둔 판(update128). 전공 진입·교과 개편·졸업 시기로 고르는 판은 2025 앞뒤 학번이 같이 걸려서
+ * 교양 줄을 입학 연도로 나눠 둔다(줄의 entry_years: 새 교양 [2025, …] · 옛 학번 [2019, 2024], 교양은 늘 입학 연도 규정).
+ * 학번을 모르면 가장 새 학번 줄. 나눈 줄이 없으면 그 판 그대로
+ */
+export function rowsForEntry(version, entryYear) {
+  const rows = (version && version.requirements) || [];
+  if (!rows.some((r) => r.entry_years)) return version;
+  const y = Number(entryYear);
+  const top = Math.max(...rows.filter((r) => r.entry_years).map((r) => r.entry_years[1]));
+  const ok = (r) => !r.entry_years || (Number.isFinite(y) && y > 0 ? r.entry_years[0] <= y && y <= r.entry_years[1] : r.entry_years[1] === top);
+  return { ...version, requirements: rows.filter(ok) };
 }
 
 // ---------------------------------------------------------------- 같은 과목
@@ -231,7 +255,8 @@ export function rowName(req) {
  * 디자인 124판: 대체 관계 과목을 둘 다 들었거나(tidyRecords 의 substituted) 들은 과목 하나가 셀 수 있는 줄 여럿에 걸리면 그 줄은 확인 필요.
  * 다만 한 줄의 과목 목록이 다른 줄 목록 안에 다 들면(큰 요건 안의 작은 요건: '과학 16학점' 안의 '생물학 1·2') 두 줄에 같이 세는 것이 규정이라 그대로 둔다.
  */
-export function evaluateProgram(program, version, courses, { role = "single", sameCourse = (c) => c } = {}) {
+export function evaluateProgram(program, version, courses, { role = "single", sameCourse = (c) => c, areas = null, entryYear = null } = {}) {
+  version = rowsForEntry(version, entryYear); // 입학 연도로 나눈 교양 줄(update128)
   const got = new Map(); // 대표 번호 → 과목
   for (const c of courses) if (!c.failed) got.set(c.key || sameCourse(c.code), c);
   const rows = [], hitsOf = new Map(); // 대표 번호 → 그 과목을 센 줄들(셀 수 있는 줄만)
@@ -305,7 +330,7 @@ export function evaluateProgram(program, version, courses, { role = "single", sa
     // bio-dist 'note: 전필로 쓴 4과목은 다시 세지 않는다')이나, 한쪽 목록이 다른 쪽을 다 품지 않는 줄이 센 과목
     const apart = (o) => KIND[o.type] !== KIND[r.type] || (!inside(mine, keysOf.get(o)) && !inside(keysOf.get(o), mine));
     const shared = new Set([...hitsOf].filter(([, list]) => list.some(apart)).map(([k]) => k));
-    if (kind === "groups") evaluateGroups(r, row, got, shared, sameCourse);
+    if (kind === "groups") evaluateGroups(r, row, got, shared, sameCourse, areas);
     else if (kind === "sum") evaluateSum(r, row, courses, { program, version, role, sameCourse });
     else evaluatePaths(r, row, got, sameCourse, version);
     if (row.state !== "check" && (row.taken || []).some((m) => m.substituted)) {
@@ -340,11 +365,29 @@ function structuredKind(r) {
 }
 
 /** 분야·갈래의 과목: courses, 없으면 codes(줄의 과목에서 이름·학점을 찾고 없으면 번호만). 목록이 없으면(번호 앞자리·이름만) null */
-function listOf(g, own) {
+function listOf(g, own, areas = null) {
   if (Array.isArray(g.courses)) return g.courses;
-  if (Array.isArray(g.codes)) return g.codes.map((code) => own.get(code) || { code, name: null, credits: null });
-  if (Array.isArray(g.prefixes) && g.prefixes.length) return []; // 번호 앞자리가 곧 영역인 교양(update127): 목록 대신 앞자리로 센다(prefixHits)
+  if (Array.isArray(g.codes)) return g.codes.map((code) => own.get(code) || areaCourse(areas, code) || { code, name: null, credits: null });
+  // 번호 앞자리가 곧 영역인 교양(update127): 앞자리로 센다(prefixHits). 영역 과목 표(ge_areas.json, update128)가 있으면 그 영역의 과목을 목록으로(시트에 영역마다 과목)
+  if (Array.isArray(g.prefixes) && g.prefixes.length) return areaList(areas, g.prefixes);
   return null;
+}
+
+/** 영역 과목 표(data/requirements/ge_areas.json `{areas: {'C10.': {name, courses}}}`)에서 앞자리들의 과목(번호 한 번씩). 표가 없으면 빈 목록 */
+export function areaList(areas, prefixes) {
+  const out = [], seen = new Set();
+  for (const p of prefixes || []) {
+    for (const c of ((areas && areas.areas && areas.areas[p]) || {}).courses || []) {
+      if (seen.has(c.code)) continue;
+      seen.add(c.code);
+      out.push(c);
+    }
+  }
+  return out;
+}
+function areaCourse(areas, code) {
+  const a = areas && areas.areas && areas.areas[`${String(code).split(".")[0]}.`];
+  return (a && (a.courses || []).find((c) => c.code === code)) || null;
 }
 
 /**
@@ -413,13 +456,13 @@ function shortOf(min, xs) {
  * also(덧붙은 조건 분야: '그중 중급 이상 1과목'·'권장과목(★) 1과목')는 다른 분야와 겹쳐도 되는 부분 조건이라 겹침·합에 넣지 않고, 못 채우면 남음
  * row.groups = [{name, need, value: {kind: met|left|check|count, text}, codes}](시트의 분야 소제목 값. count 는 기준 없는 분야의 들은 수)
  */
-function evaluateGroups(r, row, got, shared, sameCourse) {
+function evaluateGroups(r, row, got, shared, sameCourse, areas = null) {
   const e = r.extra;
   const own = new Map((r.courses || []).map((c) => [c.code, c]));
   const skip = new Set((e.not_counted || []).flatMap((c) => [c.code, ...(c.alt_codes || [])].map(sameCourse)));
   const minGroups = e.min_groups ?? e.min_areas ?? null;
   const oneGroup = e.min_in_one_group ?? null;
-  const lists = e.groups.map((g) => listOf(g, own));
+  const lists = e.groups.map((g) => listOf(g, own, areas));
   const hits = e.groups.map((g, i) => {
     const listed = lists[i] ? takenIn(lists[i], got, sameCourse, skip) : [];
     return listed.concat(prefixHits(g, got, skip, new Set(listed.map((x) => x.key))));
@@ -490,7 +533,12 @@ function evaluateGroups(r, row, got, shared, sameCourse) {
       const sh = shortOf(G.g, G.taken);
       value = { kind: "left", unit: sh.unit, left: sh.left, text: `${sh.left}${sh.unit} 남음` };
     } else value = { kind: "check", text: "확인 필요" };
-    return { name: G.g.name || G.g.field || "", need: needText(G.g), value, codes: G.taken.map((x) => x.code) };
+    // 시트의 분야(update128, 사용자 11/16 '영역이 나뉘면 영역 다 나눠줘야지… 최대한 정보를 다 넣어'): 영역 과목 목록(들은 것 먼저), 조건부·덧붙은 조건 글
+    const took = new Set(G.taken.map((x) => x.key));
+    const list = (G.list || []).slice().sort((a, b) => Number(took.has(sameCourse(b.code))) - Number(took.has(sameCourse(a.code))));
+    const extra = G.taken.filter((x) => !list.some((c) => sameCourse(c.code) === x.key)).map((x) => ({ code: x.code, name: x.name, credits: x.credits }));
+    return { name: G.g.name || G.g.field || "", need: needText(G.g), value, codes: G.taken.map((x) => x.code), courses: [...extra, ...list],
+      ...(G.g.cond ? { cond: G.g.cond } : {}), ...(G.g.also ? { also: true } : {}), ...(G.g.area ? { area: true } : {}) };
   });
   // 남은 과목(추천): 줄 기준이 모자라면 모든 분야의, 아니면 못 채운 분야의 안 들은 과목(교양 영역 분야는 빼고)
   const rowShort = totalUnknown ? null : shortOf(r, loose);
@@ -575,8 +623,11 @@ function evaluateSum(r, row, courses, { program, version, role, sameCourse }) {
   const need = s.by_role && s.by_role[role] != null ? s.by_role[role] : r.min_credits;
   row.have = { count: xs.length, credits: have, codes: [] };
   row.need = { count: null, credits: need ?? null };
-  row.taken = [];
-  row.all = [];
+  // 센 과목을 시트에 보인다(update128 '최대한 정보를'): 교양 학점·전공 학점의 과목들. 자유 선택(after)은 영역 몫을 뺀 나머지라 과목을 가르지 않는다
+  const shown = s.after ? [] : xs.map((c) => ({ code: c.code, name: c.name || c.code, credits: Number(c.earned) || 0, term: c.term ?? null, key: c.key || sameCourse(c.code),
+    checked: Boolean(c.checked) }));
+  row.taken = shown;
+  row.all = shown.map((c) => ({ code: c.code, name: c.name, credits: c.credits }));
   if (need == null) {
     Object.assign(row, { state: "check", reason: "기준 수가 없는 조건", progress: null });
     return;
@@ -852,9 +903,14 @@ export function nthRegularTerm(entryYear, term) {
 export function versionLabel(program, version, { role = "single", selectionTerm = null } = {}) {
   if (!version) return null;
   const selected = role === "double" || role === "minor" || (program && program.version_key === "selection");
-  if (selected && selectionTerm) return `${termName(selectionTerm)} 선발`;
   const [a, b] = version.entry_years || [];
   const range = a === b ? `${a}` : `${a}~${b}`;
+  if (selected && selectionTerm) {
+    // 선발 연도의 판이 없어 가까운 판으로 본 것(pickVersionFor reason nearest)은 그 판을 붙인다: '2023년 1학기 선발 · 2025~2026년 선발 규정'
+    const y = Number(String(selectionTerm).slice(0, 4));
+    const off = program && program.version_key === "selection" && Number.isFinite(y) && (y < a || y > b);
+    return off ? `${termName(selectionTerm)} 선발 · ${range}년 선발 규정` : `${termName(selectionTerm)} 선발`;
+  }
   if (program && program.version_key === "selection") return `${range}년 선발 규정`;
   return /진입/.test(version.basis || "") ? `${range}년 진입 규정` : `${range}학번 규정`;
 }
@@ -1037,14 +1093,15 @@ export function rowView(row, { program, title = null, label = null, entryYear = 
     ...(row.byChecks ? { byChecks: true } : {}),
     sheet: { title: row.name || rowName(row), meta: [title || (program && program.program), label].filter(Boolean).join(" · "),
       summary, strong, courses, groups: row.groups || null, paths: row.paths || null,
-      because: value.kind === "check" ? reasonText(row, { entryYear }) : null,
+      because: value.kind === "check" ? reasonText(row, { entryYear }) : null, ...(row.reason === COND ? { cond: true } : {}),
       link: deptLink(program), sources: sourceTexts(program, row.src), checked, detail: row.text || null },
   };
 }
 
 /**
  * 요건 보기 전체(디자인 124판 '졸업 요건 탭').
- * picks: [{program, version, role, title?, entryYear?, selectionTerm?, newer?}](첫째가 주전공. version 은 화면이 고른 판, 없으면 pickVersionFor)
+ * picks: [{program, version, role, title?, entryYear?, selectionTerm?, newer?, own?, geOnly?}](첫째가 주전공. version 은 화면이 고른 판, 없으면 pickVersionFor.
+ *   own 은 학번으로 고른 자기 판: 더 새 판을 고른 주전공의 교양 줄은 own 에서(update128). geOnly 는 전공을 아직 안 정함: 공통 묶음만)
  * records: 들은 과목 기록(tidyRecords 꼴. 요건 시트에서 체크한 과목은 checked: true, 교양 줄 과목이면 이수 구분을 교양으로 본다),
  * grades: gpa(records, {isMajor}) 결과(성적을 안 넣었으면 null), common: common.json,
  * gpaChecks: {all, major}(시트에서 켠 '전체·전공 평점 2.0 이상'. 성적을 다 넣지 않았을 때 둘 다 켜면 졸업 평점 충족, byChecks)
@@ -1053,8 +1110,10 @@ export function rowView(row, { program, title = null, label = null, entryYear = 
  * → {total, bundles: [{kind: "common"|"program", id, title, label, choices, rows: [rowView]}], missing: [자료가 없는 과정 id]}.
  * 공통: 졸업 학점 · 졸업 평점 · 주전공 판의 교양 줄. 주전공 묶음에는 교양 줄을 다시 넣지 않는다
  */
-export function gradView({ picks = [], records = [], grades = null, common = null, sameCourse = (c) => c, gpaChecks = null, rowChecks = null } = {}) {
-  const geCodes = new Set(picks.flatMap((p) => [...requirementCodes(p.version || pickVersionFor(p.program, { entryYear: p.entryYear }).version, true)]));
+export function gradView({ picks = [], records = [], grades = null, common = null, sameCourse = (c) => c, gpaChecks = null, rowChecks = null, areas = null } = {}) {
+  const geCodes = new Set(picks.flatMap((p) => [...requirementCodes(p.version || pickVersionFor(p.program, { entryYear: p.entryYear }).version, true),
+    ...requirementCodes(p.own || null, true)]));
+  for (const a of Object.values((areas && areas.areas) || {})) for (const c of a.courses || []) geCodes.add(c.code); // 영역 목록에서 체크한 교양 과목(update128)
   const geKeys = new Set([...geCodes].map(sameCourse));
   const marked = (records || []).map((r) => (r.checked && !r.cls && geKeys.has(sameCourse(r.code)) ? { ...r, cls: "교양" } : r));
   const tidy = tidyRecords(marked, sameCourse);
@@ -1094,14 +1153,23 @@ export function gradView({ picks = [], records = [], grades = null, common = nul
     const role = p.role || "single";
     const label = versionLabel(p.program, p.version, { role, selectionTerm: p.selectionTerm });
     const title = p.title || p.program.program;
-    const rows = evaluateProgram(p.program, p.version, tidy.courses, { role, sameCourse });
+    let rows = evaluateProgram(p.program, p.version, tidy.courses, { role, sameCourse, areas, entryYear: p.entryYear });
+    // 더 새 판을 고른 주전공(versionChoices. 화면이 own 으로 자기 판을 준다): 교양은 늘 입학 연도 규정이라 교양 줄은 자기 판에서 센다(update128)
+    const own = i === 0 && p.own && p.own !== p.version ? p.own : null;
+    const ownGe = own ? (own.requirements || []).filter((x) => x.type === "ge") : [];
+    if (own) {
+      const ge = evaluateProgram(p.program, { ...own, requirements: ownGe }, tidy.courses, { role, sameCourse, areas, entryYear: p.entryYear });
+      rows = [...rows.filter((r) => r.type !== "ge"), ...ge];
+    }
     const opts = { program: p.program, title, label, entryYear: p.entryYear };
-    const raw = new Map((p.version.requirements || []).map((x) => [x.id, x]));
+    const raw = new Map([...(p.version.requirements || []), ...ownGe].map((x) => [x.id, x]));
     const mine = [];
     for (const r of rows) {
       const toCommon = i === 0 && r.type === "ge";
       // '이 요건을 채웠어요'(rowChecks): 과목 목록이 없어 앱이 셀 수 없는 확인 필요 줄만(목록이 생긴 줄의 옛 체크는 쓰지 않는다)
-      if (rowChecks && rowChecks[`${toCommon ? "common" : p.program.id}|${r.id}`] === true && r.state === "check" && !rowCourses(raw.get(r.id) || {}).length) {
+      // 조건부 요건(COND: 입학 TEPS 같은 학생이 아는 조건)은 목록이 있어도 학생이 채웠다고 할 수 있다(update128)
+      if (rowChecks && rowChecks[`${toCommon ? "common" : p.program.id}|${r.id}`] === true && r.state === "check"
+        && (r.reason === COND || !rowCourses(raw.get(r.id) || {}).length)) {
         Object.assign(r, { state: "met", byChecks: true });
       }
       if (r.sameAs === "grad-gpa") { // 학과의 '전체·전공 평점 2.0 이상' 줄은 공통 졸업 평점 값을 그대로(update127)
@@ -1113,7 +1181,7 @@ export function gradView({ picks = [], records = [], grades = null, common = nul
     }
     const choices = versionChoices(p.program, p.version, { newer: p.newer, entryYear: p.entryYear, role, selectionTerm: p.selectionTerm })
       .map((c) => ({ label: c.label, entry_years: c.version.entry_years }));
-    bundles.push({ kind: "program", id: p.program.id, title, label, choices, rows: mine });
+    if (!p.geOnly) bundles.push({ kind: "program", id: p.program.id, title, label, choices, rows: mine }); // 전공을 아직 안 정했으면(geOnly) 공통만(update128)
   });
   return { total, bundles, missing, credits: sums };
 }

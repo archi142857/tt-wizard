@@ -308,7 +308,8 @@ scripts/
   sugang_client.py           수강신청 시스템 접근 (학기 확인, 엑셀, 일정표)
   sync.py                    갱신 규칙과 바뀐 강좌 찾기
   fetch_history.py           지난 학기 편람에서 강의가 열렸던 건물 목록 → buildings_history.csv
-  build_history.py           지난 학기 편람 엑셀 → data/history/<학기>.json
+  build_history.py           지난 학기 편람 엑셀 → data/history/<학기>.json (편람에 올라 있는 모든 학기 2013-1~)
+  lecture_lang.py            지난 학기 편람 엑셀의 강의언어 → data/requirements/lecture_lang.json (외국어진행강좌)
   fetch_buildings.py         캠퍼스맵 → buildings.csv
   fetch_campus_buildings.py  캠퍼스맵의 동 번호 있는 건물 전체 → campus_buildings.csv
   fetch_osm_footprints.py    OpenStreetMap 건물 윤곽·출입구·보행로 → osm_*.geojson

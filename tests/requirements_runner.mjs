@@ -2,7 +2,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
-  pickVersion, pickVersionFor, buildSameCourse, tidyRecords, evaluateProgram, creditSummary, gpa, gradeNeeded,
+  pickVersion, pickVersionFor, rowsForEntry, buildSameCourse, tidyRecords, evaluateProgram, creditSummary, gpa, gradeNeeded,
   termCreditLimit, withinLimit, isMajorCourse, suggestCourses, rankSuggestions,
   suggestionTag, rowName, termName, nextRegularTerm, nthRegularTerm, hasCoursebook, versionLabel, versionChoices,
   takenTerms, gradView, basisText, limitLine, deptLink, sourceTexts, shortLocator, rowView,
@@ -13,6 +13,8 @@ const [, , dataDir, casesPath] = process.argv;
 const read = (p) => JSON.parse(readFileSync(p, "utf8"));
 const common = read(join(dataDir, "common.json"));
 const courseMap = read(join(dataDir, "course_map.json"));
+let geAreas = null; // 교양 영역 과목 표(update128)
+try { geAreas = read(join(dataDir, "ge_areas.json")); } catch { geAreas = null; }
 const program = (p) => (typeof p === "string" ? read(join(dataDir, "programs", `${p}.json`)) : p);
 
 const matrix = (c) => new TravelMatrix({ table: new Map(Object.entries(c.table || {})), buildings: {}, defaultMinutes: c.defaultMinutes ?? 10 });
@@ -23,6 +25,10 @@ const out = read(casesPath).map((c) => {
     case "pick": {
       const { version, reason } = pickVersion(program(c.program), c.entryYear);
       return version ? version.entry_years : reason;
+    }
+    case "rowsfor": {
+      const p = program(c.program);
+      return rowsForEntry(p.versions[c.version], c.entryYear ?? null).requirements.map((r) => r.id);
     }
     case "pickfor": {
       const { version, reason } = pickVersionFor(program(c.program), c.who);
@@ -132,14 +138,22 @@ const out = read(casesPath).map((c) => {
       return { total: v.total, terms: v.terms.map((t) => [t.term, t.label, t.text, t.rows.map((r) => [r.code, r.counted, r.why, r.meta])]) };
     }
     case "view": {
-      const picks = c.picks.map((x) => ({ ...x, program: program(x.program), newer: x.newer || null }));
+      // version·own 은 과정 판의 차례(고른 더 새 판·학번으로 고른 자기 판, update128)
+      const picks = c.picks.map((x) => {
+        const prog = program(x.program), pick = { ...x, program: prog, newer: x.newer || null };
+        if (x.version != null) pick.version = prog.versions[x.version]; else delete pick.version;
+        if (x.own != null) pick.own = prog.versions[x.own]; else delete pick.own;
+        return pick;
+      });
       const same = buildSameCourse(courseMap, picks.map((x) => x.program));
       const grades = c.grades ? gpa(c.records, { sameCourse: same }) : null;
-      const v = gradView({ picks, records: c.records, grades, common, sameCourse: same, gpaChecks: c.gpaChecks || null, rowChecks: c.rowChecks || null });
+      const v = gradView({ picks, records: c.records, grades, common, sameCourse: same, gpaChecks: c.gpaChecks || null, rowChecks: c.rowChecks || null,
+        areas: c.areas === false ? null : geAreas });
       return { total: v.total, missing: v.missing, ge: v.credits.ge, general: v.credits.general, byChecks: v.bundles[0].rows.find((r) => r.id === "grad-gpa").byChecks,
         bundles: v.bundles.map((b) => ({ kind: b.kind, id: b.id, title: b.title, label: b.label, choices: b.choices.map((x) => x.label),
           rows: Object.fromEntries(b.rows.map((r) => [r.id, { name: r.name, value: r.value.text, aria: r.aria, summary: r.sheet.summary, progress: r.progress,
-            byChecks: Boolean(r.byChecks), groups: r.sheet.groups ? r.sheet.groups.map((g) => [g.name, g.value.text]) : null,
+            byChecks: Boolean(r.byChecks), groups: r.sheet.groups ? r.sheet.groups.map((g) => [g.name, g.value.text]) : null, cond: Boolean(r.sheet.cond),
+            groupCourses: r.sheet.groups ? r.sheet.groups.map((g) => (g.courses || []).map((x) => x.code)) : null,
             strong: r.sheet.strong, because: r.sheet.because, meta: r.sheet.meta, link: r.sheet.link, checked: r.sheet.checked,
             courses: r.sheet.courses.map((x) => [x.code, x.taken, x.meta]), sources: r.sheet.sources.map((x) => x.text) }])) })) };
     }

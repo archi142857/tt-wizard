@@ -4,8 +4,12 @@
  "unit": "국악과",
  "program": "국악과 지휘전공",
  "kind": "major",
- "depts": [],
- "code_prefixes": [],
+ "depts": [
+  "국악과"
+ ],
+ "code_prefixes": [
+  "6543."
+ ],
  "ge_key": "음악대학",
  "exists_for": [
   2019,

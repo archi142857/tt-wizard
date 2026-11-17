@@ -210,12 +210,12 @@ STAMP_FILES = ("style.css", "js/app.js", "js/engine.js", "js/search-worker.js", 
 
 
 def export_requirements(src: Path, out: Path) -> tuple[int, int] | None:
-    """졸업 요건 자료를 줄 바꿈 없이 옮긴다: index.json, common.json, course_map.json, ge_credits.json, programs/<id>.json"""
+    """졸업 요건 자료를 줄 바꿈 없이 옮긴다: index.json, common.json, course_map.json, ge_credits.json, ge_areas.json(교양 영역 과목 표, update128), programs/<id>.json"""
     if not (src / "index.json").exists():
         return None
     compact = {"ensure_ascii": False, "separators": (",", ":")}
     (out / "programs").mkdir(parents=True, exist_ok=True)
-    for name in ("index.json", "catalog.json", "common.json", "course_map.json", "ge_credits.json"):
+    for name in ("index.json", "catalog.json", "common.json", "course_map.json", "ge_credits.json", "ge_areas.json"):
         if (src / name).exists():
             data = json.loads((src / name).read_text(encoding="utf-8"))
             (out / name).write_text(json.dumps(data, **compact), encoding="utf-8")

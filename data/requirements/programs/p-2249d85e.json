@@ -64,6 +64,10 @@
       "s1",
       "s2"
      ],
+     "entry_years": [
+      2025,
+      2026
+     ],
      "sum": {
       "of": "ge"
      },
@@ -106,6 +110,311 @@
      "src": [
       "s1",
       "s2"
+     ],
+     "entry_years": [
+      2025,
+      2026
+     ]
+    },
+    {
+     "id": "edu-lsci-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학·과학·컴퓨팅 6학점(과목 지정 없음)",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "entry_years": [
+      2025,
+      2026
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "수학·과학·컴퓨팅",
+        "prefixes": [
+         "F31.",
+         "F32.",
+         "F33.",
+         "F34.",
+         "F35.",
+         "F36.",
+         "F37."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "수학·과학·컴퓨팅",
+     "auto": "rule_msc"
+    },
+    {
+     "id": "edu-lsci-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 4개 영역 중 3개 영역에서 9학점",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "entry_years": [
+      2025,
+      2026
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "prefixes": [
+         "C10."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "prefixes": [
+         "C20."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "prefixes": [
+         "C30."
+        ],
+        "area": true
+       },
+       {
+        "name": "과학적 사고와 응용",
+        "prefixes": [
+         "C40."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 3
+     },
+     "name": "지성의 열쇠",
+     "auto": "rule_keys"
+    },
+    {
+     "id": "edu-lsci-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1"
+     ],
+     "entry_years": [
+      2025,
+      2026
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "베리타스",
+        "prefixes": [
+         "V10.",
+         "V20.",
+         "V30."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "베리타스",
+     "auto": "rule_veritas"
+    },
+    {
+     "id": "edu-lsci-ge-pe",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 확장 > 예술과 체육: 표의 학점 칸 2, 비고 '체육 영역 1학점'",
+     "min_count": null,
+     "min_credits": 1,
+     "courses": [],
+     "status": "충돌",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "학점 칸(2)과 비고(1학점)가 다름. 학점 칸 2로 더해야 총 36이 맞음.",
+     "entry_years": [
+      2025,
+      2026
+     ]
+    },
+    {
+     "id": "edu-lsci-ge-total-old",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2026학년도 시행 이수규정 '□ 사범대학 (융합학습과학 전공)')",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "이 판(2019~2024학번)에는 2025학번 교양 글이 들어 있다: 그 학번 교양 영역 규정은 조사 자료에 없음(update127)",
+     "entry_years": [
+      2019,
+      2024
+     ]
+    },
+    {
+     "id": "edu-lsci-ge-writing-old",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 택1)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "이 판(2019~2024학번)에는 2025학번 교양 글이 들어 있다: 그 학번 교양 영역 규정은 조사 자료에 없음(update127)",
+     "entry_years": [
+      2019,
+      2024
+     ]
+    },
+    {
+     "id": "edu-lsci-ge-msc-old",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학·과학·컴퓨팅 6학점(과목 지정 없음)",
+     "min_count": null,
+     "min_credits": 6,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "이 판(2019~2024학번)에는 2025학번 교양 글이 들어 있다: 그 학번 교양 영역 규정은 조사 자료에 없음(update127)",
+     "entry_years": [
+      2019,
+      2024
+     ]
+    },
+    {
+     "id": "edu-lsci-ge-keys-old",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 4개 영역 중 3개 영역에서 9학점",
+     "min_count": 3,
+     "min_credits": 9,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "이 판(2019~2024학번)에는 2025학번 교양 글이 들어 있다: 그 학번 교양 영역 규정은 조사 자료에 없음(update127)",
+     "entry_years": [
+      2019,
+      2024
+     ]
+    },
+    {
+     "id": "edu-lsci-ge-veritas-old",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "이 판(2019~2024학번)에는 2025학번 교양 글이 들어 있다: 그 학번 교양 영역 규정은 조사 자료에 없음(update127)",
+     "entry_years": [
+      2019,
+      2024
+     ]
+    },
+    {
+     "id": "edu-lsci-ge-pe-old",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 확장 > 예술과 체육: 표의 학점 칸 2, 비고 '체육 영역 1학점'",
+     "min_count": null,
+     "min_credits": 1,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s2"
+     ],
+     "note": "학점 칸(2)과 비고(1학점)가 다름. 학점 칸 2로 더해야 총 36이 맞음. 이 판(2019~2024학번)에는 2025학번 교양 글이 들어 있다: 그 학번 교양 영역 규정은 조사 자료에 없음(update127)",
+     "entry_years": [
+      2019,
+      2024
      ]
     },
     {
@@ -156,72 +465,6 @@
      },
      "name": "외국어",
      "auto": "rule_foreign"
-    },
-    {
-     "id": "edu-lsci-ge-msc",
-     "type": "ge",
-     "applies_to": [
-      "single",
-      "parallel"
-     ],
-     "text": "수학·과학·컴퓨팅 6학점(과목 지정 없음)",
-     "min_count": null,
-     "min_credits": 6,
-     "courses": [],
-     "status": "확인",
-     "src": [
-      "s1"
-     ]
-    },
-    {
-     "id": "edu-lsci-ge-keys",
-     "type": "ge",
-     "applies_to": [
-      "single",
-      "parallel"
-     ],
-     "text": "지성의 열쇠 4개 영역 중 3개 영역에서 9학점",
-     "min_count": 3,
-     "min_credits": 9,
-     "courses": [],
-     "status": "확인",
-     "src": [
-      "s1"
-     ]
-    },
-    {
-     "id": "edu-lsci-ge-veritas",
-     "type": "ge",
-     "applies_to": [
-      "single",
-      "parallel"
-     ],
-     "text": "베리타스 3학점",
-     "min_count": null,
-     "min_credits": 3,
-     "courses": [],
-     "status": "확인",
-     "src": [
-      "s1"
-     ]
-    },
-    {
-     "id": "edu-lsci-ge-pe",
-     "type": "ge",
-     "applies_to": [
-      "single",
-      "parallel"
-     ],
-     "text": "지성의 확장 > 예술과 체육: 표의 학점 칸 2, 비고 '체육 영역 1학점'",
-     "min_count": null,
-     "min_credits": 1,
-     "courses": [],
-     "status": "충돌",
-     "src": [
-      "s1",
-      "s2"
-     ],
-     "note": "학점 칸(2)과 비고(1학점)가 다름. 학점 칸 2로 더해야 총 36이 맞음."
     },
     {
      "id": "edu-lsci-ge-free",

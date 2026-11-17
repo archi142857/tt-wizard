@@ -166,7 +166,7 @@ def test_export_requirements(tmp_path):
     n = ew.export_requirements(REQ, tmp_path / "requirements")
     assert n == (len(load("index.json")["programs"]), len(programs()))
     assert json.loads((tmp_path / "requirements" / "catalog.json").read_text(encoding="utf-8"))["depts"]
-    for name in ("index.json", "common.json", "course_map.json", "ge_credits.json", "programs/life-sciences.json"):
+    for name in ("index.json", "common.json", "course_map.json", "ge_credits.json", "ge_areas.json", "programs/life-sciences.json"):
         text = (tmp_path / "requirements" / name).read_text(encoding="utf-8")
         assert "\n" not in text.strip() and json.loads(text)
     assert ew.export_requirements(tmp_path / "없음", tmp_path / "x") is None
@@ -871,3 +871,98 @@ def test_converted_rows_are_countable():
                 if r["type"] == "ge" and v["entry_years"][0] <= 2025 <= v["entry_years"][1] and r["status"] == "확인" and not rl.countable(r):
                     no_list_ge_2025 += 1
     assert n >= 1500 and no_list_ge_2025 <= 80, (n, no_list_ge_2025)
+
+
+@node
+def test_area_lists_undecided_and_nearest(tmp_path):
+    """update128(사용자 11/16 '영역이 나뉘면 영역 다 나눠줘야지… 최대한 정보를 다 넣어', '아예 없는 것도 있냐'):
+    교양 영역 분야는 영역 과목 표(ge_areas.json)로 과목 목록을 시트에 주고(들은 것 먼저), 교양 학점 줄은 센 과목을 보이고,
+    전공을 아직 안 정함(geOnly)은 공통만, 연합·연계전공은 선발 연도 판이 없으면 가까운 판(판 이름에 그 판)."""
+    areas = json.loads((REQ / "ge_areas.json").read_text(encoding="utf-8"))["areas"]
+    assert {"C10.", "C40.", "F21.", "V10.", "041.", "L0545.", "051."} <= set(areas) and sum(len(a["courses"]) for a in areas.values()) > 1000
+    assert areas["C10."]["name"] == "문화 해석과 상상" and areas["F21."]["name"] == "영어"
+    g = lambda code, cr=3: {"code": code, "name": code, "credits": cr, "cls": "교양", "term": "2025-1", "status": "taken"}
+    picks = [{"program": "animal-biotech", "role": "single", "entryYear": 2025, "title": "동물생명공학전공"}]
+    ai = next(pid for pid, p in programs().items() if p["unit"] == "연합전공" and p["program"] == "인공지능")
+    got = _run(tmp_path, [
+        {"kind": "view", "picks": picks, "records": [g("C20.101"), g("F11.101", 2)]},
+        {"kind": "view", "picks": [{**picks[0], "geOnly": True}], "records": []},
+        {"kind": "pickfor", "program": ai, "who": {"entryYear": 2021, "selectionYear": 2023}},
+        {"kind": "labels", "program": ai, "entryYear": 2025, "opts": {"role": "double", "selectionTerm": "2023-1"}},
+    ])
+    view, ge_only, near, label = got
+    keys = view["bundles"][0]["rows"]["ge-cals-natural-keys"]
+    names = [x[0] for x in keys["groups"]]
+    assert names == ["문화 해석과 상상", "역사적 탐구와 철학적 사유", "인간의 이해와 사회 분석", "과학적 사고와 응용"]
+    lists = keys["groupCourses"]
+    assert all(len(x) > 20 for x in lists) and lists[1][0] == "C20.101"  # 들은 과목이 그 영역 목록 맨 앞
+    total = view["bundles"][0]["rows"]["ge-cals-natural"]
+    assert [c[0] for c in total["courses"]] == ["C20.101", "F11.101"] or sorted(c[0] for c in total["courses"]) == ["C20.101", "F11.101"]
+    assert [b["id"] for b in ge_only["bundles"]] == ["common"] and "ge-cals-natural" in ge_only["bundles"][0]["rows"]
+    assert near == [2025, 2026]
+    assert label["version"] == "2023년 1학기 선발 · 2025~2026년 선발 규정"
+
+
+def test_ge_rows_split_by_entry_in_other_basis_versions():
+    """update128: 전공 진입·교과 개편·졸업 시기로 고르는 판은 2025 앞뒤 학번이 같이 걸려 교양 줄을 입학 연도로 나눈다(줄의 entry_years).
+    새 교양 줄 [2025, …]은 영역별로 셀 수 있게, 옛 학번 줄은 id 끝 '-old' · [2019, 2024] · 부분. 판 안 요건 id 는 겹치지 않는다"""
+    tagged = 0
+    for pid, p in programs().items():
+        for v in p["versions"]:
+            ids = [r["id"] for r in v["requirements"]]
+            assert len(ids) == len(set(ids)), (pid, v["entry_years"])
+            spans = {tuple(r["entry_years"]) for r in v["requirements"] if r.get("entry_years")}
+            if not spans:
+                continue
+            tagged += 1
+            assert spans == {(2025, max(v["entry_years"][1], 2026)), (2019, 2024)}, (pid, spans)
+            assert not v["basis"].startswith("입학 연도"), pid  # 입학 연도 판은 판을 나눈다(split_new_ge)
+            for r in v["requirements"]:
+                if r.get("entry_years") == [2019, 2024] and r.get("auto") != "old_total":
+                    assert r["id"].endswith("-old") and r["status"] == "부분", (pid, r["id"])
+    assert tagged >= 4
+    fd = programs()["p-e202bbef"]  # 식품생명공학전공(교과 개편 학기 판 2021~2026)
+    ids = [r["id"] for r in fd["versions"][0]["requirements"] if r.get("entry_years") == [2025, 2026]]
+    assert {"ge-cals-natural", "ge-cals-natural-keys", "ge-cals-natural-veritas"} <= set(ids)
+
+
+@node
+def test_ge_rows_follow_entry_year(tmp_path):
+    """update128: 교양은 늘 입학 연도 규정. 교양 줄을 입학 연도로 나눈 판은 학번으로 거르고(rowsForEntry, 모르면 가장 새 학번 줄),
+    더 새 판을 고른 주전공(응용생물학전공 2022학번이 현행 판)도 교양 줄은 학번으로 고른 자기 판(own)에서"""
+    got = _run(tmp_path, [
+        {"kind": "view", "picks": [{"program": "p-e202bbef", "role": "single", "entryYear": 2025}], "records": []},
+        {"kind": "view", "picks": [{"program": "p-e202bbef", "role": "single", "entryYear": 2021}], "records": []},
+        {"kind": "view", "picks": [{"program": "p-d65d42a1", "role": "single", "entryYear": 2022, "version": 0, "own": 2,
+                                    "newer": {"mode": "latest", "entry_max": 2023, "roles": ["single", "parallel"]}}], "records": []},
+        {"kind": "view", "picks": [{"program": "p-d65d42a1", "role": "single", "entryYear": 2022, "version": 0}], "records": []},
+        {"kind": "rowsfor", "program": "p-e202bbef", "version": 0},
+        {"kind": "rowsfor", "program": "p-e202bbef", "version": 0, "entryYear": 2023},
+    ])
+    new, old, chose, chose_no_own, unknown, y2023 = got
+    rows = new["bundles"][0]["rows"]
+    assert "ge-cals-natural-keys" in rows and not any(k.endswith("-old") or k.endswith("-old-total") for k in rows)
+    assert [g[0] for g in rows["ge-cals-natural-keys"]["groups"]][:3] == ["문화 해석과 상상", "역사적 탐구와 철학적 사유", "인간의 이해와 사회 분석"]
+    rows = old["bundles"][0]["rows"]
+    assert "ge-cals-natural-keys" not in rows and rows["ge-cals-natural-old-total"]["value"] == "36학점 남음" and "ge-cals-natural-old" in rows
+    rows = chose["bundles"][0]["rows"]
+    assert "ge-cals-natural-keys" not in rows and "ge-cals-natural-old-total" in rows
+    assert chose["bundles"][1]["label"] == "2025~2026학번 규정"  # 전공은 고른 판 그대로
+    assert "ge-cals-natural-keys" in chose_no_own["bundles"][0]["rows"]  # own 을 안 주면 옛 동작(고른 판의 교양)
+    assert "ge-cals-natural-keys" in unknown and "ge-cals-natural-old" not in unknown
+    assert "ge-cals-natural-old" in y2023 and "ge-cals-natural-keys" not in y2023
+
+
+def test_lecture_lang_and_history_range():
+    """update128(사용자 11/16 '수강편람 올라가있는 모든 학기 자료 다 업데이트'): 지난 편람은 편람에 올라 있는 모든 학기(2013-1~),
+    외국어 강좌 표는 요건 학번이 들을 수 있었던 학기(2019-1~)마다. 강좌번호는 세 자리, 영어가 아니면 ':언어'"""
+    import re
+    hist = sorted(p.stem for p in (ROOT / "data" / "history").glob("*.json"))
+    assert "2013-1" in hist and "2019-S" in hist and "2026-2" in hist and len(hist) >= 55
+    lang = json.loads((REQ / "lecture_lang.json").read_text(encoding="utf-8"))["terms"]
+    assert list(lang)[0] == "2019-1" and "2026-2" in lang and len(lang) >= 31
+    for term, codes in lang.items():
+        for code, secs in codes.items():
+            for one in secs.split(" "):
+                assert re.fullmatch(r"\d{3}(:[가-힣]+어)?", one), (term, code, one)
+    assert all(len(lang[t]) > 300 for t in ("2019-1", "2025-2"))  # 정규 학기마다 외국어 강좌가 수백 과목
