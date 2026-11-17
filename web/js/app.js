@@ -7491,7 +7491,6 @@ function gradRefresh(cur, cachedOnly) {
 
 let gradSeq = 0, gradNow = null; // 늦게 끝난 계산은 버린다. gradNow: 지금 그린 값(요건 시트·팝업이 쓴다)
 let gradTermAt = null; // 수강한 과목에서 가로로 넘겨 보던 학기(다시 그려도 그대로. 처음은 가장 새 학기)
-let gradPagerRO = null;
 let gradSrc = null; // 자료 출처의 졸업 요건·성적 계산 줄 { req, gpa }(디자인 124·127판 InfoList. 받기 전 null, 받는 중 false)
 /** 자료 출처 줄 글: 요건 자료의 해와 기준일(index.json), 성적 계산의 학사 안내·수강편람과 그 기준일(common.json) */
 function gradSources(base) {
@@ -7573,48 +7572,70 @@ async function renderGrad() {
   if (had) body.querySelector(`[data-gk="${CSS.escape(had)}"]`)?.focus({ preventScroll: true });
 }
 
-/** 수강한 과목의 학기 넘기기(11/16 사용자 '학기마다 성적 입력하는 건 좌우로 넘길 수 있도록'): 가로 스크롤 칸 .gr-track(scroll-snap, 한 번에 한 장)에 학기마다 한 장
- *  (옛 학기 → 새 학기). 처음은 보던 학기(gradTermAt, 없으면 가장 새 학기). 손가락으로 밀거나 학기 제목 줄 양끝의 이전·다음(첫·끝 장에서는 그쪽을 흐리게, disabled), 아래 점.
- *  멈춘 장 밖은 inert(Tab·스크린리더는 보이는 장만). 칸 높이는 가장 긴 학기(style.css 의 flex 칸이 알아서, 11/16 사용자 '가장 긴 목록 기준으로 칸 크기를 정해줘.
- *  남는 만큼은 여백으로'): 넘겨도 아래 점과 그 밑이 들썩이지 않고, 짧은 학기는 아래가 빈다. 탭 사이 밀어 넘기기는 이 안에서 하지 않는다(data-noswipe) */
+/** 수강한 과목의 학기 넘기기(11/16 사용자 '학기마다 성적 입력하는 건 좌우로 넘길 수 있도록'): 학기마다 한 장(옛 학기 → 새 학기)을 가로로 늘어놓은 칸 .gr-track 을
+ *  창 .gr-port 안에서 옮겨 한 장씩 보인다. 처음 안내와 같은 꼴(translateX, dur-move 200ms, 손가락을 따라 끌다가 놓으면 넘김): 11/17 사용자 '넘기는 속도가 너무 느림. 답답해'로
+ *  브라우저 scroll-snap(멈추는 움직임이 느리다) 대신. 처음은 보던 학기(gradTermAt, 없으면 가장 새 학기). 손가락으로 밀거나(세로로 먼저 움직이면 놓아 둔다: 페이지 세로 스크롤,
+ *  .gr-port 는 touch-action: pan-y) 학기 제목 줄 양끝의 이전·다음(첫·끝 장에서는 그쪽을 흐리게, disabled), 아래 점. 보이는 장 밖은 inert(Tab·스크린리더는 보이는 장만).
+ *  칸 높이는 가장 긴 학기(flex 칸이라 알아서, 11/16 사용자 '가장 긴 목록 기준으로 칸 크기를 정해줘. 남는 만큼은 여백으로'). 탭 사이 밀어 넘기기는 이 안에서 하지 않는다(data-noswipe) */
 function gradPager() {
-  gradPagerRO?.disconnect();
-  gradPagerRO = null;
   const pg = $("grad-body").querySelector(".gr-pager");
   if (!pg) return;
-  const track = pg.querySelector(".gr-track"), slides = [...track.children], n = slides.length, dots = [...pg.querySelectorAll(".gr-dots > span")];
-  const clamp = (i) => Math.max(0, Math.min(n - 1, i)), near = () => clamp(Math.round(track.scrollLeft / Math.max(1, track.clientWidth)));
-  let at = slides.findIndex((s) => s.dataset.term === gradTermAt), width = 0, settle = 0;
+  const port = pg.querySelector(".gr-port"), track = port.firstElementChild, slides = [...track.children], n = slides.length, dots = [...pg.querySelectorAll(".gr-dots > span")];
+  let at = slides.findIndex((s) => s.dataset.term === gradTermAt), drag = null;
   if (at < 0) at = n - 1;
-  const mark = (i) => dots.forEach((d, j) => d.classList.toggle("is-on", j === i)); // 점은 미는 중에도 바로
-  const show = (i) => { // 멈춘 뒤: 보던 학기, 다른 장은 inert(그 안에 있던 초점은 새 장의 같은 쪽 단추로, 없으면 다른 쪽). 장 사이에 멈춰 있으면 그 장 자리로
+  // 그 장으로: 보던 학기, 다른 장은 inert, 점. 옛 장 안에 있던 초점은 새 장의 같은 쪽 단추로(흐린 쪽이면 다른 쪽). 단추·밀기로 넘기면 읽어 준다
+  const go = (i, say) => {
+    i = Math.max(0, Math.min(n - 1, i));
+    const a = document.activeElement, from = slides[at] && slides[at].contains(a) && i !== at;
     at = i;
     gradTermAt = slides[i].dataset.term;
-    if (Math.abs(track.scrollLeft - i * track.clientWidth) > 1) track.scrollLeft = i * track.clientWidth;
-    const a = document.activeElement, moved = slides.some((s, j) => j !== i && s.contains(a));
+    track.style.transform = `translateX(${-i * 100}%)`;
     slides.forEach((s, j) => { s.inert = j !== i; });
-    if (moved) (slides[i].querySelector(`[data-pg="${a.dataset.pg || 1}"]:not(.is-off)`) || slides[i].querySelector("[data-pg]:not(.is-off)"))?.focus({ preventScroll: true });
-    mark(i);
+    dots.forEach((d, j) => d.classList.toggle("is-on", j === i));
+    if (from) (slides[i].querySelector(`[data-pg="${a.dataset.pg || 1}"]:not(:disabled)`) || slides[i].querySelector("[data-pg]:not(:disabled)"))?.focus({ preventScroll: true });
+    if (say) announce(slides[i].getAttribute("aria-label"));
   };
-  const place = () => { width = track.clientWidth; track.scrollLeft = at * width; };
-  place();
-  show(at);
-  track.addEventListener("scroll", () => {
-    mark(near());
-    clearTimeout(settle);
-    settle = setTimeout(() => show(near()), 120);
-  }, { passive: true });
+  track.classList.add("is-still"); // 처음 자리는 옮기는 모습 없이
+  go(at, false);
+  track.getBoundingClientRect();
+  track.classList.remove("is-still");
   track.addEventListener("click", (e) => {
     const b = e.target.closest("[data-pg]");
-    if (!b) return;
-    const i = clamp(at + Number(b.dataset.pg));
-    if (i === at) return;
-    track.scrollTo({ left: i * track.clientWidth, behavior: reduceMotion.matches ? "auto" : "smooth" });
-    announce(slides[i].getAttribute("aria-label"));
+    if (b && !b.disabled && at + Number(b.dataset.pg) !== at) go(at + Number(b.dataset.pg), true);
   });
-  // 폭이 바뀌면(폰 돌리기, 창 크기, 숨어 있다 보임) 그 장 자리로
-  gradPagerRO = new ResizeObserver(() => { if (track.clientWidth !== width) place(); });
-  gradPagerRO.observe(track);
+  // 밀어 넘기기(처음 안내와 같다): 8 넘게 가로로 움직이면 끌고, 놓을 때 폭의 20% 넘게 또는 24 넘게 빠르게(0.4/ms) 밀었으면 넘긴다. 첫·끝 장 바깥으로는 1/3 만 끌린다
+  port.addEventListener("pointerdown", (e) => {
+    if (!e.isPrimary || (e.pointerType === "mouse" && e.button !== 0)) return;
+    drag = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now(), on: false, dx: 0, v: 0 };
+  });
+  port.addEventListener("pointermove", (e) => {
+    const d = drag;
+    if (!d || e.pointerId !== d.id) return;
+    const dx = e.clientX - d.x, dy = e.clientY - d.y;
+    if (!d.on) {
+      if (Math.abs(dy) > 10 && Math.abs(dy) >= Math.abs(dx)) { drag = null; return; }
+      if (Math.abs(dx) < 8) return;
+      d.on = true;
+      try { port.setPointerCapture(e.pointerId); } catch { /* 이미 놓았다 */ }
+      track.classList.add("is-drag");
+      window.getSelection()?.removeAllRanges();
+    }
+    d.dx = (at === 0 && dx > 0) || (at === n - 1 && dx < 0) ? dx / 3 : dx;
+    d.v = dx / Math.max(1, performance.now() - d.t);
+    track.style.transform = `translateX(calc(${-at * 100}% + ${d.dx}px))`;
+  });
+  const up = (e) => {
+    const d = drag;
+    if (!d || e.pointerId !== d.id) return;
+    drag = null;
+    if (!d.on) return;
+    track.classList.remove("is-drag");
+    const w = port.clientWidth || 1, fling = e.type === "pointerup" && (Math.abs(d.dx) > w * 0.2 || (Math.abs(d.dx) > 24 && Math.abs(d.v) > 0.4));
+    const to = fling ? at + (d.dx < 0 ? 1 : -1) : at;
+    go(to, Math.max(0, Math.min(n - 1, to)) !== at);
+  };
+  port.addEventListener("pointerup", up);
+  port.addEventListener("pointercancel", up);
 }
 
 const GRV = { met: "is-ok", left: "is-left", check: "is-ask" }; // 값 글자(141판): 충족 success 500, 남음 warning 500, 확인 필요 text3(태그 없이)
@@ -7745,8 +7766,8 @@ function gradTakenView(g) {
     const n = terms.length, arrow = (term, d, on) => h("button", { type: "button", class: `icon-btn gr-pbtn ${d < 0 ? "is-prev" : "is-next"}${on ? "" : " is-off"}`, disabled: !on,
       "data-pg": String(d), "aria-label": d < 0 ? "이전 학기" : "다음 학기", "data-gk": `pg:${term}:${d}` }, icon(d < 0 ? I.left : I.right, 24));
     out.push(h("div", { class: "gr-pager", "data-noswipe": "" }, lead,
-      h("div", { class: "gr-track" }, terms.map((term, i) => h("div", { class: "gr-slide", role: "group", "aria-label": `${R.termName(term)}, ${n}개 중 ${i + 1}번째`, "data-term": term },
-        arrow(term, -1, i > 0), arrow(term, 1, i < n - 1), pages[i]))), // 단추는 제목 앞(제목 + 카드가 붙어 있어야 하는 style.css 규칙 그대로)
+      h("div", { class: "gr-port" }, h("div", { class: "gr-track" }, terms.map((term, i) => h("div", { class: "gr-slide", role: "group", "aria-label": `${R.termName(term)}, ${n}개 중 ${i + 1}번째`, "data-term": term },
+        arrow(term, -1, i > 0), arrow(term, 1, i < n - 1), pages[i])))), // 단추는 제목 앞(제목 + 카드가 붙어 있어야 하는 style.css 규칙 그대로)
       h("div", { class: "gr-dots", "aria-hidden": "true" }, terms.map(() => h("span", {})))));
   } else out.push(lead, ...pages.flat());
   // 졸업 요건에서 체크한 과목(141판): 학기 묶음 뒤, 머리 'n과목', 줄 메타는 그 과목이 든 요건과 학점 '동물생명공학전공 전공필수 · 3학점', × '유기화학 체크 풀기'.
@@ -7969,6 +7990,33 @@ function rqStat(r) {
   const t = p ? [h("b", {}, String(p.have)), ` / ${p.need}${p.unit}`] : k === "met" ? "요건을 채웠어요" : pre || r.name;
   return h("div", { class: "gr-sstat" }, grSt(k, p ? p.have / p.need : 0), h("span", { class: "t" }, t), h("span", { class: `v ${GRV[k]}` }, r.value.text));
 }
+/** 자료 글을 틀로 나눈다(11/17 사용자 '이것도 글로 줄줄 쓰지 말고 틀로 짜 보', 교양 학점의 '교양 36학점 이상(…): 글쓰기와 말하기 4(…), 외국어 2과목 6, …'):
+ *  괄호 밖 첫 ': ' 앞이 머리(끝 괄호는 그 아래 작은 글), 뒤를 괄호 밖 쉼표로 나눈 항목이 셋 이상이고 항목마다 끝에 학점('4', '2과목 6')이 붙어 그 합이 머리의 학점과 같을 때만
+ *  {head, sub, items: [{name, amt, note}]}(양에 '학점'을 붙이고, 항목 끝 괄호는 note). '수학 1+수학연습 1, …' 처럼 끝 수가 과목 번호인 글은 글 그대로(null) */
+function rqParts(text) {
+  const t = String(text || "").trim(), outer = (str, at) => { // 괄호 밖에서 at(i) 가 참인 자리들
+    const out = [];
+    let depth = 0;
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] === "(") depth++;
+      else if (str[i] === ")") depth = Math.max(0, depth - 1);
+      else if (!depth && at(str, i)) out.push(i);
+    }
+    return out;
+  };
+  const cut = outer(t, (x, i) => x[i] === ":" && x[i + 1] === " ")[0];
+  if (cut == null) return null;
+  const rest = t.slice(cut + 2), commas = outer(rest, (x, i) => x[i] === ",");
+  const items = [...commas, rest.length].map((end, j) => rest.slice(j ? commas[j - 1] + 1 : 0, end).trim());
+  const tail = (str) => { const m = /^(.*?)\s*\(((?:[^()]|\([^()]*\))*)\)$/.exec(str); return m ? [m[1], m[2]] : [str, null]; }; // 끝 괄호(한 겹 속 괄호까지)
+  const [head, sub] = tail(t.slice(0, cut).trim()), total = Number((/(\d+)\s*학점/.exec(head) || [])[1]);
+  const rows = items.map((x) => {
+    const [a, note] = tail(x), m = /^(.+?)\s+((?:\d+과목\s+)?(\d+))$/.exec(a);
+    return m && !/\d/.test(m[1]) ? { name: m[1], amt: `${m[2]}학점`, cr: Number(m[3]), note } : null; // 이름에 수가 있으면('수학 1+수학연습 1') 과목 번호
+  });
+  return total > 0 && rows.length >= 3 && rows.every(Boolean) && rows.reduce((n, x) => n + x.cr, 0) === total
+    ? { head, sub, items: rows.map(({ name, amt, note }) => ({ name, amt, note })) } : null;
+}
 /** 요건 시트 내용을 그린다(열 때, 체크한 뒤). 줄이 없으면 false */
 function paintRq(key) {
   const cut = key.indexOf("|"), bid = key.slice(0, cut), rid = key.slice(cut + 1);
@@ -7982,7 +8030,15 @@ function paintRq(key) {
   const ext = (href, text, label, system) => h("div", { class: "rq-acts" }, h("a", { class: "btn-text small cs-review", href, target: "_blank", rel: "noopener",
     "data-browser": system ? "system" : null, "aria-label": label }, text, icon(I.out, 16)));
   const detail = s.detail || (gpa ? `전체 평점과 전공 평점이 모두 ${gpaMin().toFixed(1)} 이상` : null);
-  if (detail) body.push(h("p", { class: "rq-detail" }, detail));
+  const parts = rqParts(detail), names = new Set((ex.groups || []).map((g) => String(g.name || g.field || "")));
+  // 항목이 모두 아래 분야 칸이면(지성의 열쇠 '문화 해석과 상상 3, … (과학적 사고와 응용은 요건 없음)': 영역마다 칸과 '3학점 이상') 틀은 겹친다.
+  // 머리와 끝 괄호만 둔다(끝 괄호는 마지막 항목이 아니라 글 전체 이야기). 끝 아닌 항목에 괄호가 있으면 틀 그대로
+  const dup = parts && parts.items.every((x, j) => names.has(x.name) && (!x.note || j === parts.items.length - 1));
+  if (dup) body.push(h("p", { class: "rq-detail" }, parts.head, [parts.sub, parts.items[parts.items.length - 1].note].filter(Boolean).map((x) => h("small", {}, x))));
+  else if (parts) { // 자료 글이 '머리: 가 4, 나 6, …' 꼴이면 틀로(11/17 사용자 '이것도 글로 줄줄 쓰지 말고 틀로 짜 보')
+    body.push(h("p", { class: "rq-detail" }, parts.head, parts.sub ? h("small", {}, parts.sub) : null),
+      h("ul", { class: "rq-parts" }, parts.items.map((x) => h("li", {}, h("span", { class: "n" }, x.name), h("span", { class: "a" }, x.amt), x.note ? h("small", {}, x.note) : null))));
+  } else if (detail) body.push(h("p", { class: "rq-detail" }, detail));
   const flat = raw && (raw.courses || []).length ? raw.courses : s.courses || [];
   // 분야(update127, 디자인 148판): 과목 목록이 있는 분야는 머리와 체크 목록. 교양 영역 분야는 엔진 시트의 영역 과목 목록(sheet.groups[].courses, 들은 것 먼저)으로
   // 체크 목록을 편다(백엔드 update128, 사용자 11/16 '영역이 나뉘면 영역 다 나눠줘야지… 최대한 정보를 다 넣어'). 조건부 분야(cond)는 머리 아래 조건 글, 목록이 있으면 목록도.
@@ -8016,12 +8072,15 @@ function paintRq(key) {
   // 분야가 하나뿐인 목록(143판 .gr-field.is-solo): 머리 없이 과목 줄만(이름·조건·값이 시트 제목·자료 글·상태 칸과 겹친다)
   if (flat.length) body.push(h("section", { class: "gr-field is-solo" }, ...rqList("flat", r.name, flat)));
   if (!mixed && fields.length > 1) body.push(h("div", { class: "gr-field is-solo" }, h("ul", { class: "gr-checks" }, fields.map(({ g, i }) => rqArea(g, gv(g, i))))));
+  // 분야가 하나뿐인 목록(143판, 베리타스 같은 영역 목록도 150판): 머리 없이 .gr-field.is-solo(이름·조건·값이 시트 제목·자료 글·상태 칸과 겹친다), '모두 보기'는 상태 칸 바로 아래
+  const solo = fields.length === 1 && fields[0].list && !flat.length && !paths.length;
   for (const { g, i, list } of mixed ? fields : []) {
     const name = String(g.name || g.field || ""), sg = gv(g, i);
     const st = sg && sg.value ? { kind: sg.value.kind, text: sg.value.text } : list ? rqListState(g.courses, g.min_count, g.min_credits) : null;
     const cond = sg ? sg.need : list ? rqCond(g.courses.length, g.min_count, g.min_credits) : null;
     const note = g.cond ? h("p", { class: "gr-fnote" }, g.cond) : null;
-    body.push(list ? rqField(`rqf-${i}`, name, cond, st, note, ...rqList(`rqf-${i}`, name, g.courses))
+    if (solo) body.push(h("section", { class: "gr-field is-solo" }, note, ...rqList(`rqf-${i}`, name, g.courses)));
+    else body.push(list ? rqField(`rqf-${i}`, name, cond, st, note, ...rqList(`rqf-${i}`, name, g.courses))
       : h("div", { class: "gr-field is-head" }, rqHead(`rqf-${i}`, name, cond, st), note));
   }
   if (paths.length) {
