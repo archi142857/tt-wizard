@@ -405,6 +405,8 @@ async function startApp() {
     state.current = (index && index.current) || (campus.meta || {}).semester || "";
     state.semesters = index && index.list && index.list.length ? index.list : [[state.current, "courses.json"]];
     semKnown(); // 받은 시간표 링크가 그 학기 편람을 받을 수 있다(coursesFor)
+    // 졸업 요건 기본 자료·고른 과정 파일은 조금 뒤 미리 받아 둔다(탭을 열 때 바로 그리게, 사용자 11/17 '졸업 요건 로딩이 너무 오래걸림'). 학과·학번을 넣은 기기만
+    setTimeout(() => { const v = deptOn() ? deptSaved() : null; if (v) gradWarm(v); }, 2000);
     migrateStore(state.current);
     // 출발·도착: 지난번 값, 처음에는 자료의 첫 출발 후보(homes 차례가 곧 세그먼트 차례다: 정문 · 기숙사. 차례와 처음 값을 여기에 따로 적지 않는다)
     const homes = (campus.homes || []).map(([b]) => b);
@@ -7346,14 +7348,33 @@ function programJson(id) {
   if (!progP.has(id)) progP.set(id, getJson(`data/requirements/programs/${id}.json`).catch((e) => { progP.delete(id); throw e; }));
   return progP.get(id);
 }
-async function gradCoursesFor(sem) {
-  if (gradCourses.has(sem)) return gradCourses.get(sem);
-  const byId = await coursesFor(sem).catch(() => null);
-  if (!byId) return null; // 못 받았으면 다음에 다시
-  const slim = new Map();
-  for (const [id, c] of byId) slim.set(id, { name: c.name, credit: c.credit, cls: c.cls, dept: c.dept, level: c.program });
-  gradCourses.set(sem, slim);
-  return slim;
+const gradCourseP = new Map(); // 받는 중인 학기(같은 학기를 두 번 받지 않게)
+/** 그 학기 편람에서 이 탭이 쓰는 칸만: 분반·시간은 만들지 않고 줄([번호, 이름, 학과, 학점, 구분, 과정, 분반])에서 바로 읽는다(백엔드 11/17, 사용자 '졸업 요건 로딩이 너무 오래걸림').
+ *  받은 편람은 state.cache 에 두어 시간표 탭과 같이 쓴다. 못 받았으면 null(다음에 다시) */
+function gradCoursesFor(sem) {
+  if (gradCourses.has(sem)) return Promise.resolve(gradCourses.get(sem));
+  if (!gradCourseP.has(sem)) {
+    gradCourseP.set(sem, (async () => {
+      await semReady;
+      const entry = state.semesters.find(([x]) => x === sem);
+      if (!entry) return null;
+      let cj = state.cache.get(sem);
+      if (!cj) { cj = await getJson(`data/${entry[1]}`); state.cache.set(sem, cj); }
+      const slim = new Map();
+      for (const c of cj.courses || []) slim.set(c[0], { name: c[1], credit: c[3], cls: c[4], dept: c[2], level: c[5] });
+      gradCourses.set(sem, slim);
+      return slim;
+    })().catch(() => null).finally(() => gradCourseP.delete(sem)));
+  }
+  return gradCourseP.get(sem);
+}
+/** 졸업 요건 기본 자료와 고른 과정 파일을 받기 시작한다(기다리지 않음). 탭을 열 때, 그리고 앱을 켜고 조금 뒤 미리(학과·학번을 넣은 기기만) */
+function gradWarm(v) {
+  gradBase().catch(() => null);
+  catalogData().catch(() => null);
+  for (const id of [v.major && v.major.id, ...(v.others || []).map((o) => o.id)]) {
+    if (id && !/^u-/.test(String(id)) && (!cat || cat.programs[id])) programJson(id).catch(() => null);
+  }
 }
 
 /** 지금 듣는 학기: 학사일정에 그 기간이 있으면 그것(보강 기간까지), 없으면 달로(3월~6월 20일 1학기, 9월~12월 21일 2학기, 그 사이는 계절학기).
@@ -7409,18 +7430,30 @@ async function gradPicks(v, base) {
 }
 /** 들은 과목 기록(requirements.js tidyRecords 꼴): 지금 학기까지 학기마다 대표 시간표의 과목(직접 넣은 일정은 빼고. 학점·이수 구분·개설 학과·이수과정은 그 학기 편람,
  *  편람에 없으면 시간표에 적어 둔 값)과 다른 곳에서 들은 과목. 드랍·성적은 기기에 둔 값. rk 는 드랍·성적을 두는 열쇠('학기|과목'), prim 은 학기마다 대표 시간표가 있는지 */
-async function gradRecords(cur) {
+// 들은 과목의 편람 칸 {'학기|과목': [이름, 학점, 구분, 학과, 과정]}: 다음부터는 학기 편람(학기마다 모든 학과 과목)을 받지 않고 이것으로 바로 그린다
+// (사용자 11/17 '졸업 요건 로딩이 너무 오래걸림', '해당하는 학과만 쓰면 되니까'). 편람과 맞춰 보기는 그린 뒤 하루 한 번 뒤에서(gradRefresh)
+const GRAD_INFO = "gradInfo", GRAD_INFO_AT = "gradInfoAt";
+async function gradRecords(cur, { refresh = null } = {}) { // refresh: 편람과 다시 맞춰 볼 학기(Set)
   await semReady;
   const g = gradStore(), records = [], prim = new Map();
   const sems = state.semesters.map(([id]) => id).filter((id) => SEM_ID.test(id) && R.termOrder(id) <= R.termOrder(cur));
-  for (const sem of sems) {
+  const lists = sems.map((sem) => {
     const t = T.parseList(store.get(semKey(T.STORE_KEYS.list, sem), []), sem).find((x) => x.primary && !x._newer);
     prim.set(sem, !!t);
-    const items = t ? t.items.filter((it) => !it.custom && it.course) : [];
-    if (!items.length) continue;
-    const byId = await gradCoursesFor(sem);
+    return [sem, t ? t.items.filter((it) => !it.custom && it.course) : []];
+  });
+  const saved = store.get(GRAD_INFO, {}), info = {};
+  const known = (sem, it) => Array.isArray(saved && saved[`${sem}|${it.course}`]);
+  // 편람을 받을 학기: 기기에 둔 칸이 모자라거나 이미 받아 둔 학기(시간표 탭에서 연 학기), 맞춰 보기. 받을 것은 한꺼번에(차례로 기다리면 학기 수만큼 느려진다)
+  const want = lists.map(([sem, items]) => items.length > 0 && ((refresh && refresh.has(sem)) || gradCourses.has(sem) || state.cache.has(sem) || !items.every((it) => known(sem, it))));
+  const maps = await Promise.all(lists.map(([sem], i) => (want[i] ? gradCoursesFor(sem) : null)));
+  for (const [i, [sem, items]] of lists.entries()) {
+    const byId = maps[i];
     for (const it of items) {
-      const c = (byId && byId.get(it.course)) || null, rk = `${sem}|${it.course}`;
+      const k = `${sem}|${it.course}`, got = byId && byId.get(it.course);
+      const row = got ? [got.name, got.credit, got.cls, got.dept, got.level] : known(sem, it) ? saved[k] : null;
+      if (row) info[k] = row;
+      const c = row ? { name: row[0], credit: row[1], cls: row[2], dept: row[3], level: row[4] } : null, rk = k;
       records.push({ code: it.course, name: (c && c.name) || it.name || it.course, credits: Number(c ? c.credit : it.credit) || 0, cls: (c && c.cls) || it.cls || "",
         dept: (c && c.dept) || "", level: (c && c.level) || "학사", term: sem, dropped: !!g.dropped[rk], grade: GRADE_OPTS.includes(g.grades[rk]) ? g.grades[rk] : undefined, rk });
     }
@@ -7435,7 +7468,25 @@ async function gradRecords(cur) {
   for (const [code, c] of Object.entries(g.checks)) {
     records.push({ code, name: String(c.name || code), credits: Number(c.credits) || 0, cls: "", dept: "", level: "학사", term: null, checked: true, rk: `check|${code}` });
   }
-  return { records, prim };
+  const changed = JSON.stringify(info) !== JSON.stringify(saved || {});
+  if (changed) store.set(GRAD_INFO, info);
+  // 기기에 둔 칸만으로 그린 학기(편람과 아직 안 맞춰 봄)
+  const cachedOnly = lists.filter(([, items], i) => items.length > 0 && !maps[i]).map(([sem]) => sem);
+  return { records, prim, changed, cachedOnly };
+}
+/** 기기에 둔 칸으로 그린 뒤, 하루 한 번 올해·지난해 학기만 그 학기 편람과 맞춰 본다(뒤에서, 3초 뒤). 바뀐 칸이 있으면 다시 그린다.
+ *  그보다 앞 학기는 칸이 모자랄 때만 받는다(지난 편람은 거의 안 바뀐다). 편람으로 다 그렸으면 오늘은 맞춘 것으로 친다 */
+function gradRefresh(cur, cachedOnly) {
+  const today = kstToday(), y = Number(String(cur).slice(0, 4));
+  if (!cachedOnly.length) { store.set(GRAD_INFO_AT, today); return; }
+  const recent = new Set(cachedOnly.filter((s) => Number(s.slice(0, 4)) >= y - 1));
+  if (!recent.size || store.get(GRAD_INFO_AT, "") === today) return;
+  setTimeout(async () => {
+    const r = await gradRecords(cur, { refresh: recent }).catch(() => null);
+    if (!r) return;
+    if (!r.cachedOnly.some((s) => recent.has(s))) store.set(GRAD_INFO_AT, today);
+    if (r.changed && $("grad-body") && gradNow) renderGrad();
+  }, 3000);
 }
 
 let gradSeq = 0, gradNow = null; // 늦게 끝난 계산은 버린다. gradNow: 지금 그린 값(요건 시트·팝업이 쓴다)
@@ -7454,8 +7505,14 @@ function gradSources(base) {
 async function renderGrad() {
   const seq = ++gradSeq, body = $("grad-body");
   askOsHint(); // 출처 알려 주기의 앱 정보(운영체제 판)
+  // 처음 그릴 때 자료를 받는 동안은 '불러오는 중'(0.2초 안에 끝나면 안 보인다, 사용자 11/17 '무리면 로딩 화면을 넣는 게 좋을 듯')
+  const loading = !gradNow && !body.querySelector(".gr-head") ? setTimeout(() => {
+    if (seq !== gradSeq || gradNow) return;
+    body.replaceChildren(h("div", { class: "gr-empty gr-loading", role: "status" }, h("span", { class: "spinner", "aria-hidden": "true" }), h("p", {}, "졸업 요건을 불러오는 중이에요")));
+  }, 200) : null;
   const empty = (text, button = null) => {
     if (seq !== gradSeq) return;
+    clearTimeout(loading);
     gradNow = null;
     body.replaceChildren(h("div", { class: "gr-empty" }, icon(TAB_ICON.grad[0], 32), h("p", {}, text), button));
   };
@@ -7463,6 +7520,10 @@ async function renderGrad() {
   if (!v) { empty("학과와 학번을 아직 넣지 않았어요", h("button", { type: "button", class: "btn-primary", "data-go": "dept", "data-gk": "dept" }, "학과와 학번 넣기")); return; }
   const failed = () => empty(navigator.onLine === false ? "오프라인이라 요건 자료를 받지 못했어요" : "요건 자료를 받지 못했어요",
     h("button", { type: "button", class: "btn-text", "data-retry": "1", "data-gk": "retry" }, "다시 시도"));
+  // 한꺼번에 받기 시작한다: 요건 기본 자료·학과 목록·고른 과정 파일과, 학사일정 → 들은 과목의 학기 편람(전에는 하나씩 차례로 기다렸다, 사용자 11/17)
+  gradWarm(v);
+  const recP = calendarData().catch(() => null).then((cal) => { const cur = termNow(cal); return gradRecords(cur).then((x) => ({ cur, ...x })); });
+  recP.catch(() => null); // 아래에서 기다린다(그 전에 끝나 실패해도 처리되지 않은 거부로 남지 않게)
   let base, picks;
   try {
     [base] = await Promise.all([gradBase(), catalogData()]);
@@ -7472,9 +7533,10 @@ async function renderGrad() {
   } catch { failed(); return; }
   if (seq !== gradSeq) return;
   if (!picks || !picks[0].version) { empty("아직 이 학과·학번은 요건 자료가 없어요"); return; }
-  const cur = termNow(await calendarData().catch(() => null));
-  const { records, prim } = await gradRecords(cur);
+  const { cur, records, prim, cachedOnly } = await recP;
   if (seq !== gradSeq) return;
+  clearTimeout(loading);
+  gradRefresh(cur, cachedOnly);
   const counted = picks.filter((p) => p.version);
   const same = R.buildSameCourse(base.courseMap, counted.map((p) => p.program));
   const majorOf = (p) => (c) => R.isMajorCourse(c, p.program, p.version, same);
@@ -8572,6 +8634,7 @@ function wipeDeviceTimetables() {
   let keys = [];
   try { keys = Object.keys(localStorage).filter((k) => /^ttw\.timetables?@/.test(k)); } catch { keys = []; }
   for (const k of keys) store.del(k.slice(4));
+  store.del(GRAD_INFO); store.del(GRAD_INFO_AT); // 졸업 요건 탭이 둔 들은 과목의 편람 칸(시간표에서 나온 것이라 같이 지운다)
   // 맞추기 기록(syncKnown·syncLast)도 지운다: 남으면 다시 로그인할 때 서버 시간표를 '이 기기에서 지운 것'으로 본다(update112 forget. 옛 account.js 면 직접)
   if (acct && acct.forget) acct.forget(syncStore); else store.del("syncKnown");
   readMine(mine.sem);

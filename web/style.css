@@ -2115,6 +2115,7 @@ label.gr-ck { cursor: pointer; }
 .gr-empty p { margin: 0; font-size: 1rem; line-height: 1.5rem; color: var(--on-bg-text2); word-break: keep-all; }
 .gr-empty .btn-primary { margin-top: var(--space-2); }
 .gr-empty .btn-text { color: var(--on-bg-link); }
+.gr-loading .spinner { width: 28px; height: 28px; color: var(--on-bg-text3); } /* 졸업 요건 처음 받는 동안(백엔드 11/17, 사용자 '로딩 화면') */
 /* 과목 추가의 남은 요건 과목(124판 ⑦): 학기 학점 줄(.lim-line, '18학점까지 ▾ · 12학점 남음'. 넘으면 '3학점 넘음' warning). 폰 시트는 머리 아래 그대로,
    넓은 화면 칸은 둘러보기 머리 아래에서 선택칸 글자와 같은 줄에 선다. 행의 요건 태그는 수강 제한 태그 자리(.r-limit, 중립) */
 .lim-line { display: flex; align-items: center; gap: var(--space-1); margin: 0 0 var(--space-1); font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
