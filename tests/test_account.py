@@ -33,6 +33,16 @@ def test_nick_and_handle(r):
     assert r["key"] == "ttwizard#0042"
 
 
+def test_account_numbers(r):
+    """계정 번호(사용자 11/17 '계정마다 고유 번호 부여하고, 번호만 입력해도 친구 되도록'): 여섯 자리(첫 자리 1~9), 번호만 넣어도 되고
+    같은 번호면 닉네임이 달라도 같은 사람. 옛 '닉네임#네 자리'는 닉네임이 있어야 읽는다(예전 초대 링크)"""
+    assert r["number"] == [{"nick": "영표", "tag": "482193"}, {"nick": "", "tag": "482193"}, {"nick": "", "tag": "482193"}, {"nick": "", "tag": "482193"},
+                           None, None, None, {"nick": "영표", "tag": "482193"}]
+    assert r["numberKey"] == ["#482193"] * 3
+    assert r["random"] == ["100000", "999999", "550000"]
+    assert r["isNumber"] == [True, True, False, False, False, True]
+
+
 def test_server_copy_drops_instructor_and_home(r):
     """서버에는 교수 이름·출발 지점을 올리지 않고(설계안 5절), 받을 때 기기 값을 이어 쓴다. 메모는 내 사본에만 남는다"""
     s = r["server"]
@@ -74,8 +84,12 @@ def test_account_module_surface():
     assert 'throw err("APP_LOGIN")' in js and '"NO_ACCOUNT"' in js and "NOT_FRIEND" in js
     assert 'const mine = await F.getDoc(F.doc(db, "requests", reqId(uid, other)));' in js
     assert 'throw err("ALREADY", { uid: other })' in js and "[신고] 닉네임 " in js  # 디자인 130판(update112)
+    # 번호 바꾸기 부탁 메일 본문 두 줄(법무 11/17 ③), 옛 번호·지운 계정의 번호는 지우지 않고 '안 씀'으로(법무 11/17 ⓓ)
+    assert "바꾸고 싶은 번호(여섯 자리):" in js and "&body=${encodeURIComponent(TAG_MAIL_BODY)}" in js
+    assert 'tx.set(F.doc(db, "numbers", p.tag), { retired: true })' in js and 'last.set(F.doc(db, "numbers", p.tag), { retired: true })' in js
     for name in ("available", "ready", "onUser", "signIn", "signOut", "deleteAccount", "sync", "profile", "setNick", "friends",
-                 "request", "accept", "decline", "cancel", "unfriend", "block", "unblock", "friendTimetables", "publish", "inviteLink", "reportLink",
+                 "find", "request", "accept", "decline", "cancel", "unfriend", "block", "unblock", "friendTimetables", "publish", "inviteLink", "reportLink",
+                 "tagLink", "isAdmin", "adminSetTag",
                  "syncStatus", "onSyncStatus", "forget"):
         assert re.search(rf"export (?:async function|function|const) {name}\b", js), name
     assert re.search(r'SDK_URL = "https://www\.gstatic\.com/firebasejs/\d+\.\d+\.\d+"', js)  # 판을 고정
@@ -91,7 +105,14 @@ def test_firestore_rules():
     assert "!exists(/databases/$(database)/documents/blocks/$(request.resource.data.to)/list/$(request.auth.uid))" in rules  # 막은 사람은 요청 못 함
     assert "resource.data.to == request.auth.uid && resource.data.state == 'pending'" in rules  # 받은 사람만 수락
     # 학교 계정 표시는 본인이 보이게 둔 확인된 snu.ac.kr 메일만(update112)
-    assert "request.auth.token.get('email', '').lower().matches('^[^@]+@snu[.]ac[.]kr$')" in rules and "schoolOk(request.resource.data)" in rules
+    assert "request.auth.token.get('email', '').lower().matches('^[^@]+@snu[.]ac[.]kr$')" in rules and "schoolOk(d)" in rules
+    assert rules.count("validProfile(request.resource.data)") == 2  # 지금 방식·옛 판 앱 둘 다
+    # 계정 번호(2026-11-17): 여섯 자리, 번호 표는 하나씩만 읽고, 내 번호는 내 프로필이 가리킬 때만 만들고, 한번 받은 번호는 내가 못 바꾼다
+    assert "n.matches('^[1-9][0-9]{5}$')" in rules and "match /numbers/{n} {\n      allow get: if signedIn();" in rules
+    assert "profileAfter(request.resource.data.uid).data.tag == n" in rules
+    assert "resource.data.tag == request.resource.data.tag" in rules and "isOldTag(resource.data.tag))" in rules
+    assert "update" + "134" not in rules and "법무" not in rules  # 사람이 읽는 설명만(세션·판 번호 없이)
+    assert "match /numbers/{n}" in rules and "allow delete" not in rules[rules.index("match /numbers/{n}"):rules.index("// ===== 예전 열쇠")]  # 번호는 못 지운다(거두기만)
     assert "allow get: if signedIn() && (id.split('_')[0] == request.auth.uid || id.split('_')[1] == request.auth.uid);" in rules
     assert json.loads((ROOT / "firebase" / "firebase.json").read_text(encoding="utf-8"))["firestore"]["rules"] == "firestore.rules"
 

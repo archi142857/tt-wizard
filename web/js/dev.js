@@ -7,7 +7,7 @@
 //   이동시간: 경사 반영 · 평지(이 탭만. 11/16 사용자: 동선 탐색 조건에서 빼고 평지는 내부 시험으로만: app.js pickDevMode)
 //   시험: 묻는 팝업, 새 버전 알림, 시간표 이미지(지금 보는 시간표를 그려 시트 안에 보인다), 테마 기억 지우기(묻는 팝업을 처음부터), 처음 안내(처음 장부터)
 //   이 기기: 버전·실행 환경·화면·글자 크기·기기 설정·기기 날짜·편람·서비스 워커·저장한 기록, 기록 모두 지우기(두 번 눌러야 지운다)
-//   번호 바꿔 주기(update134, 로그인한 계정이 관리자일 때만: 콘솔에서 만든 admins/{uid}): '닉네임#1234'와 새 번호 → account.adminSetTag.
+//   번호 바꿔 주기(update134, 로그인한 계정이 관리자일 때만: 콘솔에서 만든 admins/{uid}): 지금 번호(또는 닉네임#번호)와 새 여섯 자리 번호 → account.adminSetTag.
 //   11/17 사용자 '태그 번호는 아무나 원하는 걸 할 수 없고 원하는 사람에 한해서 내가 바꿔줄 수 있는 번호로'. 부탁은 메일(account.tagLink)로 받는다
 
 let api = null, sheet = null, body = null, opener0 = null, imageUrl = "", wipeTimer = 0;
@@ -32,8 +32,8 @@ const CSS = `
 
 const SHELL_NAME = { web: "브라우저", pwa: "설치한 웹 앱", android: "안드로이드 앱", ios: "iOS 앱" };
 // 번호 바꿔 주기가 못 했을 때(account.adminSetTag 의 code)
-const RETAG_ERR = { BAD_HANDLE: "닉네임#번호 꼴로 넣어 주세요", BAD_TAG: "새 번호는 숫자 네 자리예요", NOT_FOUND: "그런 닉네임이 없어요",
-  TAKEN: "그 닉네임에 이미 있는 번호예요", NOT_ADMIN: "관리자 계정이 아니에요", SIGNED_OUT: "로그인해 주세요", OFFLINE: "연결되면 다시 해 주세요" };
+const RETAG_ERR = { BAD_HANDLE: "번호나 닉네임#번호로 넣어 주세요", BAD_TAG: "새 번호는 1~9로 시작하는 숫자 여섯 자리예요", NOT_FOUND: "그 번호를 쓰는 계정이 없어요",
+  TAKEN: "다른 사람이 쓰는 번호예요", NOT_ADMIN: "관리자 계정이 아니에요", SIGNED_OUT: "로그인해 주세요", OFFLINE: "연결되면 다시 해 주세요" };
 const ROWS = [["ask", "묻는 팝업"], ["update", "새 버전 알림"], ["image", "시간표 이미지"], ["forget", "테마 기억 지우기"], ["tour", "처음 안내"], ["dept", "학과와 학번"], ["account", "로그인"]];
 
 /** 개발자 메뉴를 연다. a: app.js 의 devApi(), opener: 연 버튼(닫으면 초점이 돌아간다) */
@@ -125,10 +125,10 @@ async function paintAdmin() {
   const { h } = api;
   box.replaceChildren(h("h3", { class: "field-label dev-label" }, "번호 바꿔 주기"),
     h("form", { class: "dev-retag", novalidate: true },
-      h("label", { class: "field-label", for: "dev-retag-from" }, "닉네임#번호"),
-      h("input", { class: "text-input", id: "dev-retag-from", type: "text", autocomplete: "off", spellcheck: "false", placeholder: "닉네임#1234", enterkeyhint: "next" }),
+      h("label", { class: "field-label", for: "dev-retag-from" }, "지금 번호"),
+      h("input", { class: "text-input", id: "dev-retag-from", type: "text", autocomplete: "off", spellcheck: "false", placeholder: "482193", enterkeyhint: "next" }),
       h("label", { class: "field-label", for: "dev-retag-to" }, "새 번호"),
-      h("input", { class: "text-input", id: "dev-retag-to", type: "text", inputmode: "numeric", maxlength: "4", autocomplete: "off", placeholder: "0001", enterkeyhint: "done" }),
+      h("input", { class: "text-input", id: "dev-retag-to", type: "text", inputmode: "numeric", maxlength: "6", autocomplete: "off", placeholder: "100001", enterkeyhint: "done" }),
       h("button", { type: "submit", class: "btn-secondary" }, "바꾸기"),
       h("p", { class: "dev-retag-msg", role: "status" })));
   box.hidden = false;

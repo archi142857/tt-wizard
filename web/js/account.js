@@ -17,23 +17,26 @@
 //   onSyncStatus(cb)               → 끊기 함수. cb(syncStatus()) 를 바로 한 번, 바뀔 때마다
 //   forget(store)                  이 기기의 맞추기 기록(지난번 서버에 있던 id·마지막 시각)을 지운다. 로그아웃·계정 삭제 때 기기 시간표를 지우면 같이 부른다
 //                                  (안 지우면 다시 로그인할 때 '이 기기에서 지운 시간표'로 보고 서버 것을 지운다)
-//   profile()                      → { nick, tag, showSchool } | null(친구 기능을 아직 안 켬)
-//   setNick(nick, { showSchool }?) → { nick, tag, showSchool }   2~12자 한글·영문·숫자·밑줄, #네 자리는 저절로. 거르는 말이면 BAD_NICK(problem).
-//                                  같은 닉네임이면 태그 그대로(학교 계정 보이기만 바꿀 때도 이것). showSchool 은 처음 true
+//   profile()                      → { nick, tag, showSchool } | null(친구 기능을 아직 안 켬). tag 는 계정 번호(여섯 자리).
+//                                  옛 네 자리 번호면 이때 새 번호를 받는다(못 받으면 이번엔 옛 번호 그대로)
+//   setNick(nick, { showSchool }?) → { nick, tag, showSchool }   2~12자 한글·영문·숫자·밑줄. 거르는 말이면 BAD_NICK(problem).
+//                                  번호는 처음 정할 때 한 번 받고, 닉네임을 바꿔도 그대로다. showSchool 은 처음 true
 //   friends()                      → { friends, incoming, outgoing, blocked } 각 [{ uid, nick, tag, school }](school: 그 사람이 보이게 둔 snu.ac.kr 계정)
-//   request('닉네임#1234')          → { uid, accepted }. 상대가 먼저 보낸 요청이 있으면 그걸 수락한다(accepted: true). 이미 보냈으면 그대로, 이미 친구면 ALREADY
+//   find('482193')                 → { uid, nick, tag, school }   번호(또는 닉네임#번호)로 찾은 사람. 요청을 보내기 전에 누구인지 보일 때. 없으면 NOT_FOUND
+//   request('482193')              → { uid, accepted }. '#482193'·'닉네임#482193'·옛 초대 링크의 '닉네임#0420' 도 된다(닉네임이 달라도 번호로 찾는다).
+//                                  상대가 먼저 보낸 요청이 있으면 그걸 수락한다(accepted: true). 이미 보냈으면 그대로, 이미 친구면 ALREADY
 //   accept(uid) · decline(uid) · cancel(uid) · unfriend(uid) · block(uid) · unblock(uid)
 //   friendTimetables(uid)          → [{ sem, title, items, updated }](새 학기가 앞). items 는 sync.js friendItems 꼴. 친구가 아니면 NOT_FRIEND
 //   publish(store)                 친구 사본만 다시 올린다(sync 가 같이 한다)
-//   inviteLink({ nick, tag })      → 'https://archi142857.github.io/tt-wizard/#friend=닉네임%231234'
+//   inviteLink({ nick, tag })      → 'https://archi142857.github.io/tt-wizard/#friend=닉네임%23482193'
 //   reportLink({ nick, tag })      → 닉네임 신고 메일 주소(mailto)
-//   tagLink({ nick, tag })         → 번호 바꾸기 부탁 메일 주소(mailto). 번호는 고를 수 없고 부탁한 사람만 관리자가 바꿔 준다(update134)
+//   tagLink({ nick, tag })         → 번호 바꾸기 부탁 메일 주소(mailto, 본문 두 줄 TAG_MAIL_BODY). 번호는 고를 수 없고 부탁한 사람만 관리자가 바꿔 준다
 //   isAdmin()                      → true | false   콘솔에서 admins/{uid} 를 만든 계정인가(웹 개발자 메뉴의 '번호 바꿔 주기')
-//   adminSetTag('닉네임#1234', '0001') → { nick, tag, from }   관리자가 그 사람 번호를 바꾼다(닉네임은 그대로). 없으면 NOT_FOUND,
-//                                  새 번호가 그 닉네임에 이미 있으면 TAKEN, 관리자가 아니면 NOT_ADMIN, 형식이 틀리면 BAD_HANDLE·BAD_TAG
+//   adminSetTag('482193', '100001') → { nick, tag, from }   관리자가 그 사람 번호를 바꾼다(닉네임은 그대로). 첫 칸은 번호·닉네임#번호·옛 닉네임#네 자리.
+//                                  없으면 NOT_FOUND, 새 번호를 다른 사람이 쓰면 TAKEN, 관리자가 아니면 NOT_ADMIN, 꼴이 틀리면 BAD_HANDLE·BAD_TAG
 
 import FIREBASE from "./firebase-config.js";
-import { mergeTimetables, friendCopies, nickProblem, parseHandle, handleKey, randomTag } from "./sync.js";
+import { mergeTimetables, friendCopies, nickProblem, parseHandle, handleKey, randomNumber, isNumber } from "./sync.js";
 import { parseList, serialize, STORE_KEYS } from "./timetables.js";
 
 export const SDK_URL = "https://www.gstatic.com/firebasejs/12.19.0"; // Firebase JS SDK(Apache-2.0). 판을 올리면 docs/account.md 도
@@ -341,8 +344,44 @@ async function readProfile(id) {
   return s.exists() ? s.data() : null;
 }
 
+// ---------------------------------------------------------------- 닉네임과 계정 번호
+// profiles/{uid} = { nick, tag(계정 번호), updated, showSchool, school, handle?(옛 열쇠) }, numbers/{번호} = { uid }.
+// 번호는 처음 닉네임을 정할 때 한 번 받고 닉네임을 바꿔도 그대로다(사용자 11/17 '계정마다 고유 번호 부여하고, 번호만 입력해도 친구 되도록').
+// 그 전의 네 자리 번호(handles/{닉네임#네 자리})로 만든 프로필은 profile()·setNick() 이 처음 부를 때 새 번호로 옮긴다.
+// 옛 열쇠는 지우지 않고 둬서 예전에 보낸 초대 링크도 그 사람에게 간다(계정을 지울 때 같이 지운다).
+
+/** 번호를 하나 받아 프로필에 붙인다(처음이거나 옛 네 자리 번호일 때). 이미 번호가 있으면(다른 기기가 먼저 받음) 그 프로필 그대로 */
+async function claimNumber(uid, fields) {
+  const { db, F } = await load();
+  for (let i = 0; i < 8; i++) {
+    const n = randomNumber();
+    try {
+      return await F.runTransaction(db, async (tx) => {
+        const ps = await tx.get(F.doc(db, "profiles", uid));
+        const old = ps.exists() ? ps.data() : null;
+        if (old && isNumber(old.tag)) return old;
+        if ((await tx.get(F.doc(db, "numbers", n))).exists()) throw err("TAKEN");
+        const next = { nick: fields.nick, tag: n, showSchool: fields.showSchool, school: fields.school, updated: F.serverTimestamp() };
+        if (old && old.handle) next.handle = old.handle;
+        tx.set(F.doc(db, "numbers", n), { uid });
+        tx.set(F.doc(db, "profiles", uid), next);
+        return next;
+      });
+    } catch (e) {
+      if (e && e.code === "TAKEN") continue;
+      throw err("FAILED", { cause: e });
+    }
+  }
+  throw err("FAILED");
+}
+
 export async function profile() {
-  const p = await readProfile(await me());
+  const uid = await me();
+  let p = await readProfile(uid);
+  if (p && !isNumber(p.tag)) {
+    // 옛 네 자리 번호: 새 번호로 옮긴다. 못 옮기면(연결이 끊김 등) 이번엔 옛 번호를 보이고 다음에 다시
+    p = await claimNumber(uid, { nick: p.nick, showSchool: p.showSchool !== false, school: p.school === true }).catch(() => p);
+  }
   return p ? { nick: p.nick, tag: p.tag, showSchool: p.showSchool !== false } : null;
 }
 
@@ -352,37 +391,22 @@ export async function setNick(nick, opts = {}) {
   if (problem) throw err("BAD_NICK", { problem });
   const uid = await me();
   const { db, F, auth } = await load();
-  const old = await profile();
-  const showSchool = typeof opts.showSchool === "boolean" ? opts.showSchool : old ? old.showSchool : true;
+  const cur = await readProfile(uid);
+  const showSchool = typeof opts.showSchool === "boolean" ? opts.showSchool : cur ? cur.showSchool !== false : true;
   // 학교 계정 표시는 본인이 보이게 둔 snu.ac.kr 계정만(규칙이 로그인 토큰의 메일로 다시 본다)
-  const school = showSchool && schoolMail(auth.currentUser);
-  const sameName = old && handleKey(old.nick, "0") === handleKey(name, "0");
-  if (sameName) { // 태그·열쇠는 그대로, 글자 모양(대소문자)과 학교 계정 보이기만
+  const school = !!(showSchool && schoolMail(auth.currentUser));
+  const p = cur && isNumber(cur.tag) ? cur : await claimNumber(uid, { nick: name, showSchool, school });
+  if (p.nick !== name || (p.showSchool !== false) !== showSchool || (p.school === true) !== school) {
+    // 번호는 그대로, 닉네임과 학교 계정 보이기만
+    const next = { nick: name, tag: p.tag, showSchool, school, updated: F.serverTimestamp() };
+    if (p.handle) next.handle = p.handle;
     try {
-      await F.setDoc(F.doc(db, "profiles", uid), { nick: name, tag: old.tag, handle: handleKey(name, old.tag), updated: F.serverTimestamp(), showSchool, school });
+      await F.setDoc(F.doc(db, "profiles", uid), next);
     } catch (e) {
       throw err("FAILED", { cause: e });
     }
-    return { nick: name, tag: old.tag, showSchool };
   }
-  for (let i = 0; i < 8; i++) {
-    const tag = randomTag();
-    const key = handleKey(name, tag);
-    try {
-      await F.runTransaction(db, async (tx) => {
-        const h = await tx.get(F.doc(db, "handles", key));
-        if (h.exists()) throw err("TAKEN");
-        if (old) tx.delete(F.doc(db, "handles", handleKey(old.nick, old.tag)));
-        tx.set(F.doc(db, "handles", key), { uid });
-        tx.set(F.doc(db, "profiles", uid), { nick: name, tag, handle: key, updated: F.serverTimestamp(), showSchool, school });
-      });
-      return { nick: name, tag, showSchool };
-    } catch (e) {
-      if (e && e.code === "TAKEN") continue;
-      throw err("FAILED", { cause: e });
-    }
-  }
-  throw err("FAILED");
+  return { nick: name, tag: p.tag, showSchool };
 }
 
 const reqId = (from, to) => `${from}_${to}`;
@@ -422,14 +446,29 @@ export async function friends() {
   return out;
 }
 
-export async function request(text) {
+/** 친구 찾기 칸의 글 → 그 사람 uid. 여섯 자리 번호는 numbers, 옛 '닉네임#네 자리'는 handles 에서 찾는다(닉네임이 달라도 번호로) */
+async function lookup(text) {
   const h = parseHandle(text);
   if (!h) throw err("NOT_FOUND");
+  await me();
+  const { db, F } = await load();
+  const ref = isNumber(h.tag) ? F.doc(db, "numbers", h.tag) : F.doc(db, "handles", handleKey(h.nick, h.tag));
+  const s = await F.getDoc(ref);
+  if (!s.exists() || !s.data().uid) throw err("NOT_FOUND"); // 거둔 번호·열쇠({ retired: true })는 없는 사람
+  return s.data().uid;
+}
+
+export async function find(text) {
+  const other = await lookup(text);
+  const p = await readProfile(other).catch(() => null);
+  if (!p) throw err("NOT_FOUND");
+  return { uid: other, nick: p.nick, tag: p.tag, school: p.school === true };
+}
+
+export async function request(text) {
+  const other = await lookup(text);
   const uid = await me();
   const { db, F } = await load();
-  const s = await F.getDoc(F.doc(db, "handles", handleKey(h.nick, h.tag)));
-  if (!s.exists()) throw err("NOT_FOUND");
-  const other = s.data().uid;
   if (other === uid) throw err("SELF");
   const theirs = await F.getDoc(F.doc(db, "requests", reqId(other, uid)));
   if (theirs.exists()) {
@@ -500,12 +539,16 @@ export async function friendTimetables(other) {
 
 export const inviteLink = (p) => `${APP_URL}#friend=${encodeURIComponent(`${p.nick}#${p.tag}`)}`;
 export const reportLink = (p) => `mailto:${REPORT_MAIL}?subject=${encodeURIComponent(`[신고] 닉네임 ${p.nick}#${p.tag}`)}`; // 디자인 130판
-export const tagLink = (p) => `mailto:${REPORT_MAIL}?subject=${encodeURIComponent(`[번호 바꾸기] 닉네임 ${p.nick}#${p.tag}`)}`;
+// 번호 바꾸기 부탁(법무 11/17 ③): 본문에 두 줄을 미리 채운다
+export const TAG_MAIL_BODY = "바꾸고 싶은 번호(여섯 자리):\n\n이 계정에 로그인한 Google 메일 주소로 보내 주세요. 다른 사람과 헷갈리거나 규칙에 어긋나는 번호는 바꿔 드리지 않을 수 있어요.";
+export const tagLink = (p) => `mailto:${REPORT_MAIL}?subject=${encodeURIComponent(`[번호 바꾸기] 닉네임 ${p.nick}#${p.tag}`)}&body=${encodeURIComponent(TAG_MAIL_BODY)}`;
 
-// ---------------------------------------------------------------- 번호 바꿔 주기(관리자, update134)
-// 11/17 사용자 '태그 번호는 아무나 원하는 걸 할 수 없고 원하는 사람에 한해서 내가 바꿔줄 수 있는 번호로 바꿔주는 방식'. 관리자는 콘솔에서
-// admins/{uid} 문서를 만든 계정이다(저장소에는 누구인지 적지 않는다). 규칙(firestore.rules)이 번호·열쇠만 바꾸게 하고 닉네임은 못 바꾼다.
-// 바뀐 사람의 앱은 프로필을 서버에서 다시 읽을 때(profile(): 친구 화면) 새 번호를 본다. 닉네임을 바꾸면 번호는 지금처럼 새로 뽑힌다
+// ---------------------------------------------------------------- 번호 바꿔 주기(관리자)
+// 사용자 11/17 '태그 번호는 아무나 원하는 걸 할 수 없고 원하는 사람에 한해서 내가 바꿔줄 수 있는 번호로 바꿔주는 방식'. 관리자는 콘솔에서
+// admins/{uid} 문서를 만든 계정이다(저장소에는 누구인지 적지 않는다). 규칙(firestore.rules)이 번호만 바꾸게 하고 닉네임은 못 바꾼다.
+// 바뀐 사람의 앱은 프로필을 서버에서 다시 읽을 때(profile(): 친구 화면) 새 번호를 본다. 친구 관계는 uid 로 이어져 그대로다.
+// 법무 11/17: 옛 번호는 적어도 1년 남에게 주지 않는다(옛 초대 링크·QR 이 엉뚱한 사람에게 가지 않게) → 지우지 않고 { retired: true } 로 남긴다(다시 주지 않음).
+// 부탁은 그 계정에 로그인한 Google 메일에서 온 것만, 무료로만, 남과 헷갈리거나 운영자처럼 보이거나 나쁜 뜻으로 읽히는 번호는 거절(사람이 판단)
 
 export async function isAdmin() {
   const uid = await me();
@@ -520,23 +563,23 @@ export async function isAdmin() {
 export async function adminSetTag(text, tag) {
   const h = parseHandle(text), next = String(tag ?? "").trim();
   if (!h) throw err("BAD_HANDLE");
-  if (!/^[0-9]{4}$/.test(next)) throw err("BAD_TAG");
+  if (!isNumber(next)) throw err("BAD_TAG");
   await me();
   const { db, F } = await load();
-  const from = handleKey(h.nick, h.tag);
+  const from = isNumber(h.tag) ? F.doc(db, "numbers", h.tag) : F.doc(db, "handles", handleKey(h.nick, h.tag));
   try {
     return await F.runTransaction(db, async (tx) => {
-      const hs = await tx.get(F.doc(db, "handles", from));
-      if (!hs.exists()) throw err("NOT_FOUND");
+      const hs = await tx.get(from);
+      if (!hs.exists() || !hs.data().uid) throw err("NOT_FOUND");
       const uid = hs.data().uid, ps = await tx.get(F.doc(db, "profiles", uid));
       if (!ps.exists()) throw err("NOT_FOUND");
-      const p = ps.data(), to = handleKey(p.nick, next);
-      if (to === from) return { nick: p.nick, tag: next, from: h.tag };
-      if ((await tx.get(F.doc(db, "handles", to))).exists()) throw err("TAKEN");
-      tx.delete(F.doc(db, "handles", from));
-      tx.set(F.doc(db, "handles", to), { uid });
-      tx.update(F.doc(db, "profiles", uid), { tag: next, handle: to, updated: F.serverTimestamp() });
-      return { nick: p.nick, tag: next, from: h.tag };
+      const p = ps.data();
+      if (p.tag === next) return { nick: p.nick, tag: next, from: p.tag };
+      if ((await tx.get(F.doc(db, "numbers", next))).exists()) throw err("TAKEN"); // 거둔 번호도 다시 주지 않는다
+      if (isNumber(p.tag)) tx.set(F.doc(db, "numbers", p.tag), { retired: true }); // 옛 번호는 '안 씀'으로(옛 초대 링크가 남에게 가지 않게)
+      tx.set(F.doc(db, "numbers", next), { uid });
+      tx.update(F.doc(db, "profiles", uid), { tag: next, updated: F.serverTimestamp() });
+      return { nick: p.nick, tag: next, from: p.tag };
     });
   } catch (e) {
     if (e && ["NOT_FOUND", "TAKEN"].includes(e.code)) throw e;
@@ -549,20 +592,28 @@ export async function adminSetTag(text, tag) {
 export async function deleteAccount() {
   const uid = await me();
   const { db, F, auth, A } = await load();
-  const p = await profile();
+  const p = await readProfile(uid);
   const refs = [];
   for (const sub of [["users", uid, "timetables"], ["shared", uid, "terms"], ["blocks", uid, "list"]]) {
     refs.push(...(await F.getDocs(F.collection(db, ...sub))).docs.map((d) => d.ref));
   }
   const reqs = F.collection(db, "requests");
   for (const field of ["from", "to"]) refs.push(...(await F.getDocs(F.query(reqs, F.where(field, "==", uid)))).docs.map((d) => d.ref));
-  if (p) refs.push(F.doc(db, "handles", handleKey(p.nick, p.tag)));
-  refs.push(F.doc(db, "profiles", uid), F.doc(db, "users", uid));
   for (let i = 0; i < refs.length; i += 400) {
     const batch = F.writeBatch(db);
     for (const ref of refs.slice(i, i + 400)) batch.delete(ref);
     await batch.commit();
   }
+  // 번호·옛 열쇠·프로필은 마지막에 한 번에. 번호와 옛 열쇠는 지우지 않고 누구 것이었는지만 지워 '안 씀'으로 남긴다
+  // (다시 남에게 주지 않아 옛 초대 링크가 엉뚱한 사람에게 가지 않는다. 규칙은 프로필을 같이 지울 때만 거두게 한다)
+  const last = F.writeBatch(db);
+  const mine = async (ref) => { const s = await F.getDoc(ref).catch(() => null); return !!(s && s.exists() && s.data().uid === uid); };
+  if (p && isNumber(p.tag) && (await mine(F.doc(db, "numbers", p.tag)))) last.set(F.doc(db, "numbers", p.tag), { retired: true });
+  const oldKey = p && (p.handle || (p.tag && !isNumber(p.tag) ? handleKey(p.nick, p.tag) : null));
+  if (oldKey && (await mine(F.doc(db, "handles", oldKey)))) last.set(F.doc(db, "handles", oldKey), { retired: true });
+  last.delete(F.doc(db, "profiles", uid));
+  last.delete(F.doc(db, "users", uid));
+  await last.commit();
   try {
     await A.deleteUser(auth.currentUser);
   } catch (e) {

@@ -1,5 +1,5 @@
 // tests/test_account.py 가 부른다: web/js/sync.js(로그인·동기화·친구의 순수 함수, update110)를 정한 경우마다 돌려 JSON 으로 찍는다.
-import { nickProblem, parseHandle, handleKey, toServer, fromServer, mergeTimetables, friendItems, friendCopies } from "../web/js/sync.js";
+import { nickProblem, parseHandle, handleKey, randomNumber, isNumber, toServer, fromServer, mergeTimetables, friendItems, friendCopies } from "../web/js/sync.js";
 
 const item = (course, no, extra = {}) => ({ course, no, name: course + " 과목", instructor: "김교수", credit: 3, cls: "전필", base: [[0, 540, 615, "83", "201"]], ...extra });
 const tt = (id, sem, title, updated, extra = {}) => ({ v: 1, id, sem, title, created: "2026-11-01T00:00:00.000Z", updated, source: "manual", items: [], ...extra });
@@ -8,6 +8,11 @@ const out = {};
 out.nick = ["가", "영표", "TT Wizard", "a_b", "한글영문12자까지인닉네임이", "관리자님", "hi!", " 공백 "].map((n) => nickProblem(n));
 out.handle = [parseHandle("영표#0420"), parseHandle(" TT Wizard # 0042 "), parseHandle("영표#42"), parseHandle("#0420")];
 out.key = handleKey("TT Wizard", "0042");
+// 계정 번호(여섯 자리, 2026-11-17): 번호만·#번호·닉네임#번호, 0 으로 시작하거나 다섯 자리면 아님. 번호는 닉네임과 상관없이 같은 열쇠
+out.number = ["영표#482193", "482193", " #482193 ", "# 482193", "012345", "영표#012345", "48219", "영표 #482193"].map((t) => parseHandle(t));
+out.numberKey = [handleKey("영표", "482193"), handleKey("다른이름", "482193"), handleKey("", "482193")];
+out.random = [randomNumber(() => 0), randomNumber(() => 0.9999999), randomNumber(() => 0.5)];
+out.isNumber = ["100000", "999999", "099999", "1000000", "0420", 482193].map(isNumber);
 
 const mine = tt("t1", "2026-2", "시간표 1", "2026-11-10T00:00:00.000Z", { primary: true, from: { home: "919", mode: "slope" },
   items: [item("881.007", "001"), { custom: "c1", title: "동아리", meetings: [[2, 1080, 1200, "63", ""]], memo: "회비", color: 3 }] });

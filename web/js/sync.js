@@ -29,21 +29,48 @@ export function nickProblem(nick) {
   return null;
 }
 
-/** '닉네임#1234' → { nick, tag } (뒤 공백 무시). 꼴이 아니면 null */
+// ---------------------------------------------------------------- 계정 번호
+// 계정마다 여섯 자리 번호(100000~999999) 하나. 닉네임을 바꿔도 번호는 그대로이고, 번호만 알면 친구 요청을 보낼 수 있다.
+// 2026-11-17 전에는 '닉네임#네 자리'였다. 그때 만든 초대 링크가 계속 열리도록 네 자리는 닉네임과 함께 적었을 때만 읽는다.
+
+/** 번호 꼴: 여섯 자리, 첫 자리는 1~9 */
+export const NUMBER_RE = /^[1-9][0-9]{5}$/;
+export const isNumber = (tag) => NUMBER_RE.test(String(tag ?? ""));
+
+/**
+ * 친구 찾기 칸·초대 링크의 글 → { nick, tag }. 꼴이 아니면 null.
+ *   '영표#482193', ' 영표 # 482193 ' → { nick: '영표', tag: '482193' }
+ *   '482193', '#482193'           → { nick: '', tag: '482193' }(번호만)
+ *   '영표#0420'                    → { nick: '영표', tag: '0420' }(옛 초대 링크. 네 자리는 닉네임이 있어야 한다)
+ */
 export function parseHandle(text) {
-  const m = /^\s*(.+?)\s*#\s*(\d{4})\s*$/.exec(String(text ?? ""));
-  if (!m || nickProblem(m[1]) === "chars" || nickProblem(m[1]) === "short" || nickProblem(m[1]) === "long") return null;
+  const s = String(text ?? "").trim();
+  const only = /^#?\s*([0-9]{6})$/.exec(s);
+  if (only) return isNumber(only[1]) ? { nick: "", tag: only[1] } : null;
+  const m = /^(.+?)\s*#\s*([0-9]{6}|[0-9]{4})$/.exec(s);
+  if (!m) return null;
+  const bad = nickProblem(m[1]);
+  if (bad === "chars" || bad === "short" || bad === "long") return null;
+  if (m[2].length === 6 && !isNumber(m[2])) return null;
   return { nick: m[1], tag: m[2] };
 }
 
-/** 찾는 열쇠(대소문자·공백 차이 없이): 'tt wizard#0420' → 'ttwizard#0420' */
+/**
+ * 같은 사람인지 견주는 열쇠. 여섯 자리 번호는 번호만으로('#482193', 닉네임과 상관없이),
+ * 옛 네 자리는 닉네임(소문자, 띄어쓰기 없이)과 함께('tt wizard#0420' → 'ttwizard#0420': 서버의 옛 열쇠 handles 의 문서 이름)
+ */
 export function handleKey(nick, tag) {
+  if (isNumber(tag)) return `#${tag}`;
   return `${String(nick).toLowerCase().replace(/\s/g, "")}#${tag}`;
 }
 
-/** 새 태그 네 자리(0000~9999) */
-export function randomTag(rand = Math.random) {
-  return String(Math.floor(rand() * 10000)).padStart(4, "0");
+/** 새 번호 하나(겹치는지는 서버가 본다). 기기의 암호 난수가 있으면 그것으로 */
+export function randomNumber(rand = null) {
+  let x;
+  if (rand) x = rand();
+  else if (globalThis.crypto && globalThis.crypto.getRandomValues) x = globalThis.crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32;
+  else x = Math.random();
+  return String(100000 + Math.floor(x * 900000));
 }
 
 // ---------------------------------------------------------------- 서버에 올릴 꼴
