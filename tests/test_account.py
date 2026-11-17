@@ -34,12 +34,12 @@ def test_nick_and_handle(r):
 
 
 def test_account_numbers(r):
-    """계정 번호(사용자 11/17 '계정마다 고유 번호 부여하고'): 여섯 자리(첫 자리 1~9), 닉네임을 바꿔도 그대로. 친구는 지금 닉네임#번호로만 찾는다
+    """계정 번호(사용자 11/17 '계정마다 고유 번호 부여하고'): 숫자 여섯 자리(11/18 '0도 처음에 쓸 수 있게'), 닉네임을 바꿔도 그대로. 친구는 지금 닉네임#번호로만 찾는다
     (사용자 11/17 법무 채팅 '닉네임 + 번호로 친구추가 되게 하고, 현재 닉네임과 다르면 초대 발송이 안되는 걸로', update138). 번호만은 읽지 않는다"""
-    assert r["number"] == [{"nick": "영표", "tag": "482193"}, None, None, None, None, None, None, {"nick": "영표", "tag": "482193"}]
+    assert r["number"] == [{"nick": "영표", "tag": "482193"}, None, None, None, None, {"nick": "영표", "tag": "012345"}, None, {"nick": "영표", "tag": "482193"}]
     assert r["numberKey"] == ["영표#482193", "tt_wizard#482193", "다른이름#482193"]
-    assert r["random"] == ["100000", "999999", "550000"]
-    assert r["isNumber"] == [True, True, False, False, False, True]
+    assert r["random"] == ["000000", "999999", "500000"]
+    assert r["isNumber"] == [True, True, True, True, False, False, False, True]
 
 
 def test_server_copy_drops_instructor_and_home(r):
@@ -89,12 +89,12 @@ def test_account_module_surface():
     # 지운 계정의 열쇠(닉네임이 든 이름)는 '안 씀'으로 남기지 않고 지우고, 하루 요청 수도 지운다(법무 11/17, update138)
     assert 'last.delete(F.doc(db, "handles", key))' in js and '"handles", oldKey), { retired: true }' not in js
     assert 'last.delete(F.doc(db, "limits", uid))' in js
-    # 하루 요청 수 20개(LIMIT), 신고 까닭 네 가지(법무 11/17)
-    assert "export const REQUEST_DAY_LIMIT = 20;" in js and 'throw err("LIMIT")' in js
+    # 하루 요청 수는 없앴다(update138 에 넣었다가 사용자 11/17 22:54, update139). 신고 까닭 네 가지(법무 11/17)
+    assert "REQUEST_DAY_LIMIT" not in js and '"LIMIT"' not in js and 'F.doc(db, "limits"' not in js.replace('last.delete(F.doc(db, "limits", uid))', "")
     assert 'export const REPORT_REASONS = ["nick", "impersonation", "stranger", "other"];' in js and ".slice(0, 200)" in js
     for name in ("available", "ready", "onUser", "signIn", "signOut", "deleteAccount", "sync", "profile", "setNick", "friends",
                  "find", "request", "accept", "decline", "cancel", "unfriend", "block", "unblock", "friendTimetables", "publish", "inviteLink", "reportLink",
-                 "tagLink", "isAdmin", "adminSetTag", "report", "listReports", "closeReport",
+                 "tagLink", "isAdmin", "adminSetTag", "report", "listReports", "closeReport", "adminOrphans", "adminCleanOrphans",
                  "syncStatus", "onSyncStatus", "forget"):
         assert re.search(rf"export (?:async function|function|const) {name}\b", js), name
     assert re.search(r'SDK_URL = "https://www\.gstatic\.com/firebasejs/\d+\.\d+\.\d+"', js)  # 판을 고정
@@ -113,7 +113,7 @@ def test_firestore_rules():
     assert "request.auth.token.get('email', '').lower().matches('^[^@]+@snu[.]ac[.]kr$')" in rules and "schoolOk(d)" in rules
     assert rules.count("validProfile(request.resource.data)") == 2  # 지금 방식·옛 판 앱 둘 다
     # 계정 번호(2026-11-17): 여섯 자리, 내 번호는 내 프로필이 가리킬 때만 만들고, 한번 받은 번호는 내가 못 바꾼다
-    assert "n.matches('^[1-9][0-9]{5}$')" in rules
+    assert "n.matches('^[0-9]{6}$')" in rules
     assert "profileAfter(request.resource.data.uid).data.tag == n" in rules
     assert "resource.data.tag == request.resource.data.tag" in rules and "isOldTag(resource.data.tag))" in rules
     assert "update" + "134" not in rules and "법무" not in rules  # 사람이 읽는 설명만(세션·판 번호 없이)
@@ -123,9 +123,11 @@ def test_firestore_rules():
     assert "allow delete" not in numbers
     assert "return nick.lower().replace(' ', '') + '#' + tag;" in rules
     assert "request.resource.data.get('handle', '') == keyOf(request.resource.data.nick, request.resource.data.tag)" in rules
-    # 하루 요청 수: 요청을 만들 때 같은 쓰기에서 하나 올리고 20개까지, 지우기는 계정을 지울 때만
-    assert "&& countsOne();" in rules and "request.resource.data.sent <= 20;" in rules
-    assert "allow delete: if isMe(uid) && !existsAfter(profilePath(uid));" in rules
+    # 하루 요청 수는 없앴다(update139): 요청은 limits 없이, 그때 남은 문서는 본인이 지우기만
+    assert "countsOne" not in rules and "sent <= 20" not in rules
+    assert "match /limits/{uid} {\n      allow delete: if isMe(uid);\n    }" in rules
+    # 지운 계정이 남긴 번호·열쇠를 찾는 목록은 관리자만(법무 11/17)
+    assert rules.count("allow list: if isAdmin();") == 2
     # 신고: 본인 이름으로 만들기만, 읽기·처리 표시·지우기는 관리자만
     reports = rules[rules.index("match /reports/{id}"):]
     assert "allow read: if isAdmin();" in reports and "allow delete: if isAdmin();" in reports

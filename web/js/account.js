@@ -3,7 +3,7 @@
 // 설정 값은 web/js/firebase-config.js(배포 때 GitHub 변수 FIREBASE_WEB_CONFIG 로 채운다. 저장소에는 null). 없으면 available() 이 false.
 // 서버 규칙은 firebase/firestore.rules(남의 시간표는 못 읽고, 친구 사본은 친구만). 순수 셈(합치기·사본·닉네임)은 sync.js. 자세한 건 docs/account.md.
 //
-// 화면이 부르는 것(모두 Promise. 실패는 Error 에 code: NO_CONFIG·OFFLINE·SIGNED_OUT·NOT_FOUND·SELF·BLOCKED·NOT_FRIEND·ALREADY(이미 친구)·BAD_NICK·LIMIT(하루 요청 수)·
+// 화면이 부르는 것(모두 Promise. 실패는 Error 에 code: NO_CONFIG·OFFLINE·SIGNED_OUT·NOT_FOUND·SELF·BLOCKED·NOT_FRIEND·ALREADY(이미 친구)·BAD_NICK·
 //   APP_LOGIN(앱이 옛 판이라 앱 안 로그인이 없음)·NO_ACCOUNT(폰에 구글 계정이 없거나 이 앱 서명이 Firebase 에 없음)·CANCELLED·FAILED):
 //   available()                    로그인을 쓸 수 있나(설정이 있나). 동기
 //   ready()                        → user | null   지금 로그인 상태(앱을 켤 때 이어진다)
@@ -26,7 +26,8 @@
 //   find('영표#482193')             → { uid, nick, tag, school }   닉네임#번호로 찾은 사람. 닉네임이 지금 닉네임과 다르거나 번호만이면 NOT_FOUND
 //                                  (화면은 '닉네임이나 번호가 맞지 않아요'만 보이고 지금 닉네임은 보이지 않는다, 법무 11/17)
 //   request('영표#482193')          → { uid, accepted }. 예전 초대 링크의 '닉네임#0420' 도 된다. 상대가 먼저 보낸 요청이 있으면 그걸 수락한다(accepted: true).
-//                                  이미 보냈으면 그대로, 이미 친구면 ALREADY. 새로 보내는 요청은 하루 20개까지(넘으면 LIMIT, REQUEST_DAY_LIMIT)
+//                                  이미 보냈으면 그대로, 이미 친구면 ALREADY. 하루 요청 수 제한은 없다(update138 에 넣었다가 사용자 11/17 22:54 '20개 제한 없애기로 했음
+//                                  이름이랑 같이 식별하는 걸로 바꿔서', update139)
 //   accept(uid) · decline(uid) · cancel(uid) · unfriend(uid) · block(uid) · unblock(uid)
 //   friendTimetables(uid)          → [{ sem, title, items, updated }](새 학기가 앞). items 는 sync.js friendItems 꼴. 친구가 아니면 NOT_FRIEND
 //   publish(store)                 친구 사본만 다시 올린다(sync 가 같이 한다)
@@ -40,6 +41,8 @@
 //                                  'other'. note 는 200자까지. 같은 사람은 하루 한 번(넘으면 ALREADY). 켜는 날은 처리방침 다음 판 시행일(그때까지 메일 신고)
 //   listReports({ all }?)          → [{ id, reporter, target, handle, reason, note, state, created, closed }](관리자. 새것 먼저, 처음엔 처리 안 한 것만)
 //   closeReport(id)                관리자가 처리 표시(state 'closed', closed 때). 처리하고 1년 지나면 콘솔에서 지운다
+//   adminOrphans()                 → { numbers: [번호], handles: [열쇠] }   관리자. 프로필이 없는 uid 를 단 번호·찾는 열쇠(옛 판 앱으로 계정을 지우면 남는다)
+//   adminCleanOrphans(found)       → { numbers, handles }(정리한 수)   그 번호는 '안 씀'으로 거두고 열쇠는 지운다. 법무 11/17: 지운 계정의 것이라 늦어도 5일 안에
 
 import FIREBASE from "./firebase-config.js";
 import { mergeTimetables, friendCopies, nickProblem, parseHandle, handleKey, randomNumber, isNumber } from "./sync.js";
@@ -513,29 +516,14 @@ export async function request(text) {
     if (mine.data().state === "accepted") throw err("ALREADY", { uid: other });
     return { uid: other, accepted: false };
   }
-  // 새 요청은 하루 요청 수(limits/{나})를 같은 쓰기에서 하나 올린다. 날은 서버 시각의 세계 표준시 날짜라, 기기 시계가 날을 넘나들면 앞뒤 날로 한 번씩 더
-  const limRef = F.doc(db, "limits", uid);
-  const lim = await F.getDoc(limRef).then((s) => (s.exists() ? s.data() : null), () => null);
-  const today = Math.floor(Date.now() / 86400000);
-  if (lim && lim.day === today && lim.sent >= REQUEST_DAY_LIMIT) throw err("LIMIT");
-  for (const day of [today, today + 1, today - 1]) {
-    const sent = lim && lim.day === day ? lim.sent : 0;
-    if (sent >= REQUEST_DAY_LIMIT) throw err("LIMIT");
-    const b = F.writeBatch(db);
-    b.set(F.doc(db, "requests", reqId(uid, other)), { from: uid, to: other, state: "pending", created: F.serverTimestamp(), updated: F.serverTimestamp() });
-    b.set(limRef, { day, sent: sent + 1 });
-    try {
-      await b.commit();
-      return { uid: other, accepted: false };
-    } catch (e) {
-      if (!e || e.code !== "permission-denied") throw err("FAILED", { cause: e });
-    }
+  try {
+    await F.setDoc(F.doc(db, "requests", reqId(uid, other)), { from: uid, to: other, state: "pending", created: F.serverTimestamp(), updated: F.serverTimestamp() });
+  } catch (e) {
+    if (e && e.code === "permission-denied") throw err("BLOCKED"); // 나를 막아 둔 사람이거나 그 사람 계정이 없다
+    throw err("FAILED", { cause: e });
   }
-  throw err("BLOCKED"); // 나를 막아 둔 사람이거나 그 사람 계정이 없다
+  return { uid: other, accepted: false };
 }
-
-/** 하루에 새로 보낼 수 있는 친구 요청 수(규칙 limits 와 같다. 법무 11/17: 아무 번호나 넣어 무더기로 보내는 것 막기) */
-export const REQUEST_DAY_LIMIT = 20;
 
 export async function accept(other) {
   const uid = await me();
@@ -689,6 +677,44 @@ export async function closeReport(id) {
   }
 }
 
+/**
+ * 관리자: 프로필이 없는 uid 를 단 번호·찾는 열쇠. 옛 판 앱(번호를 받기 전 판)으로 계정을 지우면 그 앱이 모르는 번호 문서와 예전 열쇠가 남는다.
+ * 지운 계정의 것이라 늦어도 5일 안에 지운다(법무 11/17, 개인정보 보호법 제21조). 옛 판이 남아 있는 동안 며칠에 한 번 본다
+ */
+export async function adminOrphans() {
+  await me();
+  const { db, F } = await load();
+  let nums, keys;
+  try {
+    [nums, keys] = await Promise.all([F.getDocs(F.collection(db, "numbers")), F.getDocs(F.collection(db, "handles"))]);
+  } catch (e) {
+    throw err(e && e.code === "permission-denied" ? "NOT_ADMIN" : "FAILED", { cause: e });
+  }
+  const owner = (d) => String((d.data() || {}).uid || "");
+  const uids = [...new Set([...nums.docs, ...keys.docs].map(owner).filter(Boolean))];
+  const gone = new Set();
+  for (const u of uids) if (!(await readProfile(u))) gone.add(u);
+  return { numbers: nums.docs.filter((d) => gone.has(owner(d))).map((d) => d.id), handles: keys.docs.filter((d) => gone.has(owner(d))).map((d) => d.id) };
+}
+
+/** 관리자: adminOrphans 로 찾은 번호는 '안 씀'으로 거두고(다시 주지 않음) 열쇠는 지운다. 규칙은 프로필이 없을 때만 받는다 */
+export async function adminCleanOrphans(found) {
+  await me();
+  const { db, F } = await load();
+  const numbers = [...((found && found.numbers) || [])], handles = [...((found && found.handles) || [])];
+  const writes = [...numbers.map((n) => (b) => b.set(F.doc(db, "numbers", n), { retired: true })), ...handles.map((k) => (b) => b.delete(F.doc(db, "handles", k)))];
+  try {
+    for (let i = 0; i < writes.length; i += 400) {
+      const b = F.writeBatch(db);
+      for (const w of writes.slice(i, i + 400)) w(b);
+      await b.commit();
+    }
+  } catch (e) {
+    throw err(e && e.code === "permission-denied" ? "NOT_ADMIN" : "FAILED", { cause: e });
+  }
+  return { numbers: numbers.length, handles: handles.length };
+}
+
 // ---------------------------------------------------------------- 계정 지우기
 
 export async function deleteAccount() {
@@ -706,7 +732,7 @@ export async function deleteAccount() {
     for (const ref of refs.slice(i, i + 400)) batch.delete(ref);
     await batch.commit();
   }
-  // 번호·열쇠·하루 요청 수·프로필은 마지막에 한 번에. 번호는 누구 것이었는지만 지워 '안 씀'으로 남기고(다시 남에게 주지 않는다),
+  // 번호·열쇠·프로필(과 update138 때 남은 하루 요청 수)은 마지막에 한 번에. 번호는 누구 것이었는지만 지워 '안 씀'으로 남기고(다시 남에게 주지 않는다),
   // 닉네임이 든 열쇠는 지운다(법무 11/17). 규칙은 프로필을 같이 지울 때만 거두고 지우게 한다
   const last = F.writeBatch(db);
   const mine = async (ref) => { const s = await F.getDoc(ref).catch(() => null); return !!(s && s.exists() && s.data().uid === uid); };

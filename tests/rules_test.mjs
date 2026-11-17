@@ -34,13 +34,8 @@ const legacy = (uid, nick, tag) => {
   return b.commit();
 };
 const prof = (nick, tag, extra) => ({ nick, tag, handle: key(nick, tag), updated: new Date(), ...extra });
-// 친구 요청: 하루 요청 수(limits)를 같은 쓰기에서 하나 올린다(account.js request)
-const send = (from, to, sent = 1, day = today) => {
-  const d = db(from), b = writeBatch(d);
-  b.set(doc(d, "requests", `${from}_${to}`), { from, to, state: "pending", created: new Date(), updated: new Date() });
-  b.set(doc(d, "limits", from), { day, sent });
-  return b.commit();
-};
+// 친구 요청(account.js request). 하루 요청 수는 update139 에서 없앴다
+const send = (from, to) => setDoc(doc(db(from), "requests", `${from}_${to}`), { from, to, state: "pending", created: new Date(), updated: new Date() });
 const tt = { id: "t1", sem: "2026-2", title: "시간표", updated: "2026-11-14T00:00:00.000Z", items: [] };
 
 // 내 시간표
@@ -55,7 +50,9 @@ await check("번호 받기 B", assertSucceeds(claim("B", "친구", "123456")));
 await check("번호 받기 C", assertSucceeds(claim("C", "남남", "300000")));
 await check("한 글자 닉네임 막음", assertFails(claim("D", "남", "200000")));
 await check("남의 번호 뺏기 막음", assertFails(claim("D", "도둑", "482193")));
-await check("0으로 시작하는 번호 막음", assertFails(claim("D", "도둑", "012345")));
+await check("0으로 시작하는 번호도 받기", assertSucceeds(claim("Z", "영번", "012345")));
+await check("다섯 자리 번호 막음", assertFails(claim("D", "도둑", "12345")));
+await check("일곱 자리 번호 막음", assertFails(claim("D", "도둑", "1234567")));
 await check("닉네임과 다른 열쇠 막음", assertFails((async () => {
   const d = db("D"), b = writeBatch(d);
   b.set(doc(d, "numbers", "400002"), { uid: "D" });
@@ -149,19 +146,15 @@ await check("update136 꼴 프로필 고치기", assertSucceeds((async () => {
   await b.commit();
 })()));
 
-// 친구 요청·하루 요청 수·사본·차단
-await check("A→B 요청(하루 요청 수 하나 올림)", assertSucceeds(send("A", "B")));
-await check("하루 요청 수 안 올린 요청 막음", assertFails(setDoc(doc(db("C"), "requests", "C_A"), { from: "C", to: "A", state: "pending", created: new Date(), updated: new Date() })));
-await check("하루 요청 수 건너뛰기 막음", assertFails(send("C", "A", 5)));
-await check("하루 요청 수 줄이기 막음", assertFails(setDoc(doc(db("A"), "limits", "A"), { day: today, sent: 0 })));
-await check("다른 날로 적기 막음", assertFails(send("C", "A", 1, today + 1)));
-await owner((d) => setDoc(doc(d, "limits", "C"), { day: today, sent: 20 }));
-await check("하루 20개 넘기 막음", assertFails(send("C", "A", 21)));
-await owner((d) => setDoc(doc(d, "limits", "C"), { day: today - 1, sent: 20 }));
-await check("날이 바뀌면 1부터", assertSucceeds(send("C", "A", 1)));
-await check("남의 하루 요청 수 읽기 막음", assertFails(getDoc(doc(db("B"), "limits", "C"))));
-await check("하루 요청 수 그냥 지우기 막음(다시 1부터 세지 못하게)", assertFails(deleteDoc(doc(db("C"), "limits", "C"))));
+// 친구 요청·사본·차단
+await check("A→B 요청", assertSucceeds(send("A", "B")));
+await check("C→A 요청(하루 요청 수 없이)", assertSucceeds(send("C", "A")));
+// update138 때 잠깐 센 하루 요청 수: 새로 쓰지 못하고 본인이 지우기만
+await check("하루 요청 수 새로 쓰기 막음", assertFails(setDoc(doc(db("C"), "limits", "C"), { day: today, sent: 1 })));
+await owner((d) => setDoc(doc(d, "limits", "C"), { day: today, sent: 3 }));
+await check("남은 하루 요청 수 읽기 막음(본인도)", assertFails(getDoc(doc(db("C"), "limits", "C"))));
 await check("남의 하루 요청 수 지우기 막음", assertFails(deleteDoc(doc(db("B"), "limits", "C"))));
+await check("남은 하루 요청 수 본인이 지우기", assertSucceeds(deleteDoc(doc(db("C"), "limits", "C"))));
 await check("남 이름으로 요청 막음", assertFails(setDoc(doc(db("C"), "requests", "B_C"), { from: "B", to: "C", state: "pending", created: new Date(), updated: new Date() })));
 await check("보낸 사람이 수락 막음", assertFails(updateDoc(doc(db("A"), "requests", "A_B"), { state: "accepted", updated: new Date() })));
 await check("남의 요청 읽기 막음", assertFails(getDoc(doc(db("C"), "requests", "A_B"))));
@@ -175,7 +168,7 @@ await check("친구는 사본 읽음", assertSucceeds(getDocs(collection(db("A")
 await check("친구 아니면 사본 막음", assertFails(getDocs(collection(db("C"), "shared", "B", "terms"))));
 await check("남의 사본 쓰기 막음", assertFails(setDoc(doc(db("A"), "shared", "B", "terms", "2026-2"), { sem: "2026-2", title: "x", items: [], updated: "x" })));
 await check("C 를 B 가 막음", assertSucceeds(setDoc(doc(db("B"), "blocks", "B", "list", "C"), { at: new Date() })));
-await check("막힌 사람의 요청 막음", assertFails(send("C", "B", 2)));
+await check("막힌 사람의 요청 막음", assertFails(send("C", "B")));
 await check("남의 차단 목록 읽기 막음", assertFails(getDocs(collection(db("C"), "blocks", "B", "list"))));
 await check("끊기(지우기)", assertSucceeds(deleteDoc(doc(db("A"), "requests", "A_B"))));
 await check("끊은 뒤 사본 막음", assertFails(getDocs(collection(db("A"), "shared", "B", "terms"))));
@@ -195,6 +188,27 @@ await check("관리자 문서 만들기 막음", assertFails(setDoc(doc(db("A"),
 await check("내 관리자 문서 읽기", assertSucceeds(getDoc(doc(db("ADM"), "admins", "ADM"))));
 await check("남의 관리자 문서 읽기 막음", assertFails(getDoc(doc(db("A"), "admins", "ADM"))));
 await check("관리자는 번호 문서 읽음", assertSucceeds(getDoc(doc(db("ADM"), "numbers", "123456"))));
+// 지운 계정이 남긴 번호·열쇠 정리(옛 판 앱으로 계정을 지우면 남는다, 법무 11/17): 목록은 관리자만, 프로필 없는 uid 의 것만 거두고 지운다
+await check("번호 목록 막음(관리자 아님)", assertFails(getDocs(collection(db("B"), "numbers"))));
+await check("열쇠 목록 막음(관리자 아님)", assertFails(getDocs(collection(db("B"), "handles"))));
+await check("관리자 번호·열쇠 목록", assertSucceeds(Promise.all([getDocs(collection(db("ADM"), "numbers")), getDocs(collection(db("ADM"), "handles"))])));
+await owner(async (d) => {
+  await setDoc(doc(d, "numbers", "777777"), { uid: "GONE" });
+  await setDoc(doc(d, "handles", "유령#0777"), { uid: "GONE" });
+});
+await check("남은 번호·열쇠 남이 정리 막음", assertFails((async () => {
+  const d = db("B"), b = writeBatch(d);
+  b.set(doc(d, "numbers", "777777"), { retired: true });
+  b.delete(doc(d, "handles", "유령#0777"));
+  await b.commit();
+})()));
+await check("관리자도 쓰는 열쇠 지우기 막음", assertFails(deleteDoc(doc(db("ADM"), "handles", "친구#123456"))));
+await check("관리자가 지운 계정의 번호·열쇠 정리", assertSucceeds((async () => {
+  const d = db("ADM"), b = writeBatch(d);
+  b.set(doc(d, "numbers", "777777"), { retired: true });
+  b.delete(doc(d, "handles", "유령#0777"));
+  await b.commit();
+})()));
 await check("관리자 아니면 남의 번호 바꾸기 막음", assertFails(retag("C", "B", "친구", "123456", "100007")));
 await check("관리자도 닉네임은 못 바꿈", assertFails(retag("ADM", "B", "친구", "123456", "100007", { nick: "딴이름" })));
 await check("관리자도 번호 표만 바꾸기 막음", assertFails(setDoc(doc(db("ADM"), "numbers", "100008"), { uid: "B" })));
@@ -255,11 +269,10 @@ await check("계정 지울 때 번호 거두고 열쇠·하루 요청 수·프�
   b.delete(doc(d, "profiles", "A"));
   await b.commit();
 })()));
-await check("지운 계정: 번호는 '안 씀', 열쇠·하루 요청 수는 없음", (async () => {
+await check("지운 계정: 번호는 '안 씀', 열쇠는 없음", (async () => {
   const n = await getDoc(doc(db("ADM"), "numbers", "482193"));
   if (!n.exists() || n.data().uid || n.data().retired !== true) throw new Error("거둔 번호");
   if ((await getDoc(doc(db("B"), "handles", "영표#482193"))).exists()) throw new Error("열쇠 남음");
-  if ((await getDoc(doc(db("A"), "limits", "A"))).exists()) throw new Error("하루 요청 수 남음");
 })());
 await check("거둔 번호 남이 받기 막음", assertFails(claim("D", "도둑", "482193")));
 await check("예전 열쇠 있는 사람 지우기(예전 열쇠도 지움)", assertSucceeds((async () => {

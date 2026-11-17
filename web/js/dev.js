@@ -10,6 +10,8 @@
 //   번호 바꿔 주기(update134, 로그인한 계정이 관리자일 때만: 콘솔에서 만든 admins/{uid}): 닉네임#번호(또는 번호)와 새 여섯 자리 번호 → account.adminSetTag.
 //   11/17 사용자 '태그 번호는 아무나 원하는 걸 할 수 없고 원하는 사람에 한해서 내가 바꿔줄 수 있는 번호로'. 부탁은 메일(account.tagLink)로 받는다
 //   닉네임 신고(update138, 관리자만): 처리 안 한 신고를 새것 먼저(그때 닉네임#번호·까닭·덧붙임 글·보낸 때, 신고한 사람은 안 보임) → [처리](account.closeReport)
+//   지운 계정이 남긴 번호·열쇠(update139, 관리자만): [찾기] → 수만 보이고 [정리](번호는 '안 씀', 열쇠는 지움). 옛 판 앱으로 계정을 지우면 남는다.
+//   법무 11/17: 지운 계정의 것이라 늦어도 5일 안에, 옛 판이 남아 있는 동안 며칠에 한 번(account.adminOrphans·adminCleanOrphans)
 
 let api = null, sheet = null, body = null, opener0 = null, imageUrl = "", wipeTimer = 0;
 
@@ -29,8 +31,8 @@ const CSS = `
 .dev-sheet .dev-retag .field-label { margin: var(--space-2) 0 0; }
 .dev-sheet .dev-retag button { justify-self: start; margin-top: var(--space-2); }
 .dev-sheet .dev-retag-msg { margin: 0; min-height: 1.25rem; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
-.dev-sheet .dev-reports { display: grid; gap: var(--space-2); }
-.dev-sheet .dev-reports > button { justify-self: start; }
+.dev-sheet .dev-reports, .dev-sheet .dev-orphans { display: grid; gap: var(--space-2); }
+.dev-sheet .dev-reports > button, .dev-sheet .dev-orphans > button { justify-self: start; }
 .dev-sheet .dev-report { padding-top: var(--space-2); padding-bottom: var(--space-2); font-size: 0.9375rem; line-height: 1.375rem; }
 .dev-sheet .dev-report > span { display: grid; min-width: 0; overflow-wrap: anywhere; }
 .dev-sheet .dev-report > button { flex-shrink: 0; margin-left: auto; }
@@ -39,7 +41,7 @@ const CSS = `
 
 const SHELL_NAME = { web: "브라우저", pwa: "설치한 웹 앱", android: "안드로이드 앱", ios: "iOS 앱" };
 // 번호 바꿔 주기가 못 했을 때(account.adminSetTag 의 code)
-const RETAG_ERR = { BAD_HANDLE: "닉네임#번호나 번호로 넣어 주세요", BAD_TAG: "새 번호는 1~9로 시작하는 숫자 여섯 자리예요", NOT_FOUND: "그 번호를 쓰는 계정이 없어요",
+const RETAG_ERR = { BAD_HANDLE: "닉네임#번호나 번호로 넣어 주세요", BAD_TAG: "새 번호는 숫자 여섯 자리예요", NOT_FOUND: "그 번호를 쓰는 계정이 없어요",
   TAKEN: "다른 사람이 쓰는 번호예요", NOT_ADMIN: "관리자 계정이 아니에요", SIGNED_OUT: "로그인해 주세요", OFFLINE: "연결되면 다시 해 주세요" };
 // 신고 까닭(account.REPORT_REASONS)
 const REASON = { nick: "부적절한 닉네임", impersonation: "사칭", stranger: "모르는 사람의 친구 요청", other: "기타" };
@@ -144,6 +146,11 @@ async function paintAdmin() {
     h("div", { class: "dev-reports" },
       h("button", { type: "button", class: "btn-secondary", "data-dev": "reports" }, "처리 안 한 신고 보기"),
       h("ul", { class: "sheet-list", hidden: true }),
+      h("p", { class: "dev-retag-msg", role: "status" })),
+    h("h3", { class: "field-label dev-label" }, "지운 계정이 남긴 번호·열쇠"),
+    h("div", { class: "dev-orphans" },
+      h("button", { type: "button", class: "btn-secondary", "data-dev": "orphans" }, "찾기"),
+      h("button", { type: "button", class: "btn-secondary", "data-dev": "clean-orphans", hidden: true }, "정리"),
       h("p", { class: "dev-retag-msg", role: "status" })));
   box.hidden = false;
 }
@@ -165,6 +172,44 @@ async function showReports(b) {
     msg.textContent = rows.length ? `${rows.length}건` : "처리 안 한 신고가 없어요";
   } catch (e) {
     msg.textContent = RETAG_ERR[e && e.code] || "불러오지 못했어요";
+  } finally {
+    b.removeAttribute("aria-busy");
+  }
+}
+
+/** 지운 계정이 남긴 번호·열쇠: 수만 보인다(닉네임이 든 열쇠 이름은 보이지 않는다) */
+let orphans = null;
+async function findOrphans(b) {
+  if (b.getAttribute("aria-busy") === "true") return;
+  const box = sheet.querySelector(".dev-orphans"), clean = box.querySelector('[data-dev="clean-orphans"]'), msg = box.querySelector("p");
+  b.setAttribute("aria-busy", "true");
+  clean.hidden = true;
+  msg.textContent = "찾는 중";
+  try {
+    const acct = await import("./account.js");
+    orphans = await acct.adminOrphans();
+    const n = orphans.numbers.length, k = orphans.handles.length;
+    msg.textContent = n + k ? `번호 ${n}개 · 열쇠 ${k}개` : "남은 것이 없어요";
+    clean.hidden = !(n + k);
+  } catch (e) {
+    msg.textContent = RETAG_ERR[e && e.code] || "찾지 못했어요";
+  } finally {
+    b.removeAttribute("aria-busy");
+  }
+}
+
+async function cleanOrphans(b) {
+  if (b.getAttribute("aria-busy") === "true" || !orphans) return;
+  const msg = sheet.querySelector(".dev-orphans p");
+  b.setAttribute("aria-busy", "true");
+  try {
+    const acct = await import("./account.js");
+    const done = await acct.adminCleanOrphans(orphans);
+    orphans = null;
+    b.hidden = true;
+    msg.textContent = `정리했어요 · 번호 ${done.numbers}개 · 열쇠 ${done.handles}개`;
+  } catch (e) {
+    msg.textContent = RETAG_ERR[e && e.code] || "정리하지 못했어요";
   } finally {
     b.removeAttribute("aria-busy");
   }
@@ -214,6 +259,8 @@ async function act(k, b) {
   if (k === "image") { await showImage(b); return; }
   if (k === "reports") { await showReports(b); return; }
   if (k === "close-report") { await closeOne(b); return; }
+  if (k === "orphans") { await findOrphans(b); return; }
+  if (k === "clean-orphans") { await cleanOrphans(b); return; }
   if (k === "wipe") {
     if (b.dataset.armed) { clearTimeout(wipeTimer); api.wipe(); return; }
     b.dataset.armed = "1";

@@ -60,7 +60,7 @@ out.nickB = await account.setNick("친구");
 const tagB = out.nickB.tag;
 out.found = await account.find(`영표#${tagA}`); // 닉네임#번호로 누구인지(요청 전 확인)
 out.request = await account.request(`영표#${tagA}`);
-out.again = await account.request(` 영표 # ${tagA} `); // 이미 보낸 요청: 다시 써서 막히지 않고 그대로(update111). 하루 요청 수도 그대로
+out.again = await account.request(` 영표 # ${tagA} `); // 이미 보낸 요청: 다시 써서 막히지 않고 그대로(update111)
 out.limitB = await peek(`limits/${B}`);
 out.notFriendYet = await account.friendTimetables(A).then(() => "read", (e) => e.code);
 out.self = await account.request(`친구#${tagB}`).catch((e) => e.code);
@@ -119,6 +119,13 @@ as("google-b", "friend@gmail.com");
 out.oldLink = await account.request("옛사람#0420"); // 예전 초대 링크
 out.newKeyD = await account.find(`옛사람#${tagD}`);
 out.numberOnlyD = await no(account.find(tagD));
+// 옮긴 사람이 닉네임을 바꾸면 네 자리 예전 열쇠도 같이 지운다(법무 11/17: 바꾸기 전 초대 링크·QR 은 열리지 않는다)
+as("google-d", "old@gmail.com");
+out.renamedD = await account.setNick("옛사람2");
+out.renamedDKeys = [await peek("handles/옛사람#0420"), await peek(`handles/옛사람#${tagD}`), await peek(`handles/옛사람2#${tagD}`)];
+out.renamedDDoc = await peek(`profiles/${D}`);
+as("google-b", "friend@gmail.com");
+out.oldLinkAfterRename = await no(account.request("옛사람#0420"));
 // update136 판 앱이 만든 프로필: 번호는 있는데 찾는 열쇠가 없다(S) / 열쇠 칸에 네 자리 열쇠가 있다(R). 새 앱이 처음 읽을 때 고친다
 const known = () => [tagA, tagB, tagD, unused];
 as("google-r", "r@gmail.com");
@@ -140,18 +147,14 @@ as("google-b", "friend@gmail.com");
 out.foundR = [(await account.find(`옛판#${tagR}`)).uid, (await account.request("옛판#0101")).uid];
 out.foundS = (await account.find(`새판#${tagS}`)).uid;
 
-// 하루 요청 수(20개): E 는 오늘 19개를 보낸 것으로 두고 시작한다
+// 하루 요청 수는 없앴다(update139, 사용자 11/17 22:54): update138 때 다 쓴 것으로 남아 있어도 보내고, 그 문서는 새로 쓰지 않는다
 as("google-e", "e@gmail.com");
 const E = (await account.ready()).uid;
 out.nickE = await account.setNick("Tt_Lim");
 const tagE = out.nickE.tag;
-await owner(`limits/${E}`, { day: int(today), sent: int(19) });
-out.twentieth = await account.request(`영표#${tagA}`);
-out.limited = await no(account.request(`친구#${tagB}`));
+await owner(`limits/${E}`, { day: int(today), sent: int(20) });
+out.afterCap = [await account.request(`영표#${tagA}`), await account.request(`친구#${tagB}`)];
 out.limitE = await peek(`limits/${E}`);
-await owner(`limits/${E}`, { day: int(today - 1), sent: int(20) }); // 어제 다 썼어도 오늘은 다시 1부터
-out.nextDay = await account.request(`친구#${tagB}`);
-out.limitE2 = await peek(`limits/${E}`);
 as("google-b", "friend@gmail.com");
 out.caseFree = await account.find(`tt_lim#${tagE}`); // 열쇠는 대소문자 차이 없이
 
@@ -168,7 +171,8 @@ as("google-b", "friend@gmail.com");
 out.isAdminB = await account.isAdmin();
 out.taken = await no(account.adminSetTag(`영표#${tagA}`, tagC)); // C 가 쓰는 번호
 const used = new Set([...known(), tagR, tagS, tagE, tagC]);
-const fresh = () => { for (let n = 100004; ; n++) if (!used.has(String(n))) { used.add(String(n)); return String(n); } };
+// 0으로 시작하는 번호(11/18)로 바꿔 줘 본다
+const fresh = () => { for (let n = 4; ; n++) { const s = String(n).padStart(6, "0"); if (!used.has(s)) { used.add(s); return s; } } };
 const newTag = fresh(), newTagC = fresh();
 out.retag = await account.adminSetTag(` 영표 #${tagA}`, newTag);
 out.retagByNumber = await account.adminSetTag(tagC, newTagC); // 관리자는 번호만으로도 찾는다
@@ -176,7 +180,7 @@ out.retagServer = [await peek(`numbers/${tagA}`), await peek(`numbers/${newTag}`
 const nobody = fresh();
 out.retagMissing = [await no(account.adminSetTag(`영표#${nobody}`, fresh())), await no(account.adminSetTag(nobody, fresh()))];
 out.retagBad = [await no(account.adminSetTag("영표", "100008")), await no(account.adminSetTag(`영표#${newTag}`, "12a4")),
-  await no(account.adminSetTag(`영표#${newTag}`, "012345"))];
+  await no(account.adminSetTag(`영표#${newTag}`, "1234567"))];
 out.oldHandle = await no(account.request(`영표#${tagA}`)); // 옛 번호의 열쇠는 지웠다
 out.reuseRetired = await no(account.adminSetTag(`영표#${newTagC}`, tagA)); // 거둔 번호는 다시 주지 않는다
 as("google-a", "yp@snu.ac.kr");
@@ -202,7 +206,7 @@ out.all = await account.listReports({ all: true });
 as("google-a", "yp@snu.ac.kr");
 out.closeNotAdmin = await no(account.closeReport(out.report2.id));
 
-// 막기: B 가 A 를 막으면 친구가 끊기고 A 는 다시 요청 못 한다(막힌 요청은 하루 요청 수에 들지 않는다)
+// 막기: B 가 A 를 막으면 친구가 끊기고 A 는 다시 요청 못 한다
 as("google-b", "friend@gmail.com");
 await account.block(A);
 out.blockedB = await account.friends();
@@ -220,18 +224,29 @@ out.leftA = [await peek(`numbers/${newTag}`), await peek(`handles/영표#${newTa
 as("google-d", "old@gmail.com");
 await account.deleteAccount();
 as("google-b", "friend@gmail.com");
-out.oldLinkGone = [await no(account.request("옛사람#0420")), await no(account.request(`옛사람#${tagD}`))];
-out.leftD = [await peek(`numbers/${tagD}`), await peek("handles/옛사람#0420"), await peek(`handles/옛사람#${tagD}`)];
-// 하루 요청 수도 계정과 같이 지운다
+out.oldLinkGone = [await no(account.request("옛사람#0420")), await no(account.request(`옛사람2#${tagD}`))];
+out.leftD = [await peek(`numbers/${tagD}`), await peek("handles/옛사람#0420"), await peek(`handles/옛사람#${tagD}`), await peek(`handles/옛사람2#${tagD}`)];
+// update138 때 남은 하루 요청 수도 계정과 같이 지운다
 as("google-e", "e@gmail.com");
 await account.deleteAccount();
 out.leftE = [await peek(`limits/${E}`), await peek(`profiles/${E}`), await peek(`handles/tt_lim#${tagE}`)];
+// 지운 계정이 남긴 번호·열쇠(옛 판 앱으로 계정을 지우면 남는다): 관리자가 찾아 정리한다(법무 11/17: 늦어도 5일 안에)
+const ghostNum = fresh();
+await owner(`numbers/${ghostNum}`, { uid: str("ghost-uid") });
+await owner("handles/유령#0777", { uid: str("ghost-uid") });
+as("google-c", "other@gmail.com");
+out.orphanNotAdmin = await no(account.adminOrphans());
+as("google-b", "friend@gmail.com");
+out.orphans = await account.adminOrphans();
+out.cleaned = await account.adminCleanOrphans(out.orphans);
+out.orphanLeft = [await peek(`numbers/${ghostNum}`), await peek("handles/유령#0777")];
+out.orphansAfter = await account.adminOrphans();
 process.stdout.write(JSON.stringify(out) + "\n");
 
 // 결과 확인(CI 가 여기서 멈추면 실패)
 assert.equal(out.userA.school, true);
 assert.equal(out.syncA.uploaded, 1);
-assert.match(tagA, /^[1-9]\d{5}$/);
+assert.match(tagA, /^\d{6}$/);
 assert.notEqual(tagA, tagB);
 assert.deepEqual(out.serverA.slice(0, 2), [{ uid: A }, { uid: A }]);
 assert.equal(out.serverA[2].handle, `영표#${tagA}`);
@@ -239,7 +254,7 @@ assert.ok(!("oldHandle" in out.serverA[2]));
 assert.deepEqual(out.found, { uid: A, nick: "영표", tag: tagA, school: true });
 assert.deepEqual(out.request, { uid: A, accepted: false });
 assert.deepEqual(out.again, { uid: A, accepted: false });
-assert.deepEqual(out.limitB, { day: today, sent: 1 });
+assert.equal(out.limitB, null); // 하루 요청 수는 쓰지 않는다(update139)
 assert.equal(out.notFriendYet, "NOT_FRIEND");
 assert.equal(out.self, "SELF");
 assert.deepEqual(out.missing, Array(6).fill("NOT_FOUND"));
@@ -269,7 +284,7 @@ assert.deepEqual(out.afterForgetList, ["t1"]); // 지움 표시를 올리지 않
 assert.equal(out.laptopList.length, 1);
 assert.equal(out.laptopList[0].from, undefined); // 출발 지점은 서버에 없다
 assert.deepEqual(out.laptopAfter, []);
-assert.match(tagD, /^[1-9]\d{5}$/);
+assert.match(tagD, /^\d{6}$/);
 assert.deepEqual(out.migrated, { nick: "옛사람", tag: tagD, showSchool: true });
 assert.deepEqual(out.migratedAgain, out.migrated);
 assert.equal(out.migratedDoc.handle, `옛사람#${tagD}`);
@@ -277,6 +292,11 @@ assert.equal(out.migratedDoc.oldHandle, "옛사람#0420");
 assert.deepEqual(out.oldLink, { uid: D, accepted: false });
 assert.deepEqual(out.newKeyD, { uid: D, nick: "옛사람", tag: tagD, school: false });
 assert.equal(out.numberOnlyD, "NOT_FOUND");
+assert.deepEqual(out.renamedD, { nick: "옛사람2", tag: tagD, showSchool: true });
+assert.deepEqual(out.renamedDKeys, [null, null, { uid: D }]);
+assert.equal(out.renamedDDoc.handle, `옛사람2#${tagD}`);
+assert.ok(!("oldHandle" in out.renamedDDoc));
+assert.equal(out.oldLinkAfterRename, "NOT_FOUND");
 assert.deepEqual(out.fixedR, { nick: "옛판", tag: tagR, showSchool: true });
 assert.equal(out.fixedDocR.handle, `옛판#${tagR}`);
 assert.equal(out.fixedDocR.oldHandle, "옛판#0101");
@@ -285,17 +305,15 @@ assert.equal(out.fixedDocS.handle, `새판#${tagS}`);
 assert.ok(!("oldHandle" in out.fixedDocS));
 assert.deepEqual(out.foundR, [R, R]);
 assert.equal(out.foundS, S);
-assert.deepEqual(out.twentieth, { uid: A, accepted: false });
-assert.equal(out.limited, "LIMIT");
+assert.deepEqual(out.afterCap, [{ uid: A, accepted: false }, { uid: B, accepted: false }]);
 assert.deepEqual(out.limitE, { day: today, sent: 20 });
-assert.deepEqual(out.nextDay, { uid: B, accepted: false });
-assert.deepEqual(out.limitE2, { day: today, sent: 1 });
 assert.deepEqual(out.caseFree, { uid: E, nick: "Tt_Lim", tag: tagE, school: false });
 assert.deepEqual(out.notAdmin, [false, "NOT_ADMIN", "NOT_ADMIN"]);
 assert.notEqual(tagC, tagA);
 assert.equal(out.isAdminB, true);
 assert.equal(out.taken, "TAKEN");
 assert.deepEqual(out.retag, { nick: "영표", tag: newTag, from: tagA });
+assert.match(newTag, /^0/);
 assert.deepEqual(out.retagByNumber, { nick: "영표", tag: newTagC, from: tagC });
 assert.deepEqual(out.retagServer, [{ retired: true }, { uid: A }, null, { uid: A }]);
 assert.deepEqual(out.retagMissing, ["NOT_FOUND", "NOT_FOUND"]);
@@ -327,7 +345,12 @@ assert.equal(out.afterDelete, "denied");
 assert.equal(out.handleGone, "NOT_FOUND");
 assert.deepEqual(out.leftA, [{ retired: true }, null, null]);
 assert.deepEqual(out.oldLinkGone, ["NOT_FOUND", "NOT_FOUND"]);
-assert.deepEqual(out.leftD, [{ retired: true }, null, null]);
+assert.deepEqual(out.leftD, [{ retired: true }, null, null, null]);
 assert.deepEqual(out.leftE, [null, null, null]);
+assert.equal(out.orphanNotAdmin, "NOT_ADMIN");
+assert.deepEqual(out.orphans, { numbers: [ghostNum], handles: ["유령#0777"] });
+assert.deepEqual(out.cleaned, { numbers: 1, handles: 1 });
+assert.deepEqual(out.orphanLeft, [{ retired: true }, null]);
+assert.deepEqual(out.orphansAfter, { numbers: [], handles: [] });
 process.stdout.write("account e2e ok\n");
 process.exit(0);

@@ -30,12 +30,12 @@ export function nickProblem(nick) {
 }
 
 // ---------------------------------------------------------------- 계정 번호
-// 계정마다 여섯 자리 번호(100000~999999) 하나. 닉네임을 바꿔도 번호는 그대로다.
+// 계정마다 숫자 여섯 자리 번호(000000~999999, 0으로 시작해도 된다. 사용자 11/18) 하나. 닉네임을 바꿔도 번호는 그대로다.
 // 친구는 '닉네임#번호'로 찾는다. 닉네임이 지금 닉네임과 같아야 하고 번호만으로는 찾지 못한다(사용자 11/17 법무 채팅 '닉네임 + 번호로 친구추가
 // 되게 하고, 현재 닉네임과 다르면 초대 발송이 안되는 걸로'). 2026-11-17 전의 '닉네임#네 자리'도 그때 만든 초대 링크가 열리도록 읽는다.
 
-/** 번호 꼴: 여섯 자리, 첫 자리는 1~9 */
-export const NUMBER_RE = /^[1-9][0-9]{5}$/;
+/** 번호 꼴: 숫자 여섯 자리(예전 네 자리와는 길이로 가른다) */
+export const NUMBER_RE = /^[0-9]{6}$/;
 export const isNumber = (tag) => NUMBER_RE.test(String(tag ?? ""));
 
 /**
@@ -64,7 +64,7 @@ export function randomNumber(rand = null) {
   if (rand) x = rand();
   else if (globalThis.crypto && globalThis.crypto.getRandomValues) x = globalThis.crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32;
   else x = Math.random();
-  return String(100000 + Math.floor(x * 900000));
+  return String(Math.min(999999, Math.floor(x * 1000000))).padStart(6, "0");
 }
 
 // ---------------------------------------------------------------- 서버에 올릴 꼴
