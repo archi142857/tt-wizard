@@ -7842,17 +7842,29 @@ function rqRaw(bid, rid) {
 }
 /** 과목 줄(141판 .gr-ck 52): 시간표·직접 넣은 과목으로 들었으면 충족 동그라미와 '3학점 · 2025년 1학기'(누르지 않음), 아니면 체크 칸 22·이름·오른쪽 학점,
  *  체크했으면 이름 아래 '직접 체크'. c: { code, name, credits, alt_codes? } */
+/** 이름·번호가 바뀐 과목(백엔드 update131, 사용자 11/17 '통계 인공지능 개론 및 실습은 통계학개론 및 실습에서 이름이 바뀐 거라'):
+ *  목록 과목을 다른 이름의 같은 과목으로 들었으면 그 이름, 안 들은 과목이 지금 다른 이름으로 열리면 '지금은 …', 더 안 열리면 '마지막 개설 …' */
+const rqPlain = (s) => String(s || "").replace(/[\s·:()\-]/g, "");
+function rqTook(c, f) {
+  return f.code !== c.code && f.name && rqPlain(f.name) !== rqPlain(c.name) ? `${f.name}${R.josaRo(f.name)} 들음` : null;
+}
+function rqHint(c) {
+  const { same } = gradNow, n = same.now && same.now.get(c.code);
+  if (n && same(n.code) === same(c.code)) return `지금은 ${n.name}`;
+  const last = same.ended && same.ended.get(c.code);
+  return last ? `마지막 개설 ${R.termName(last)}` : null;
+}
 function rqCk(c) {
   const { same, fixed } = gradNow, checks = gradStore().checks, name = c.name || c.code;
   const keys = [c.code, ...(c.alt_codes || [])].map(same);
   const f = keys.map((k) => fixed.get(k)).find(Boolean);
   if (f) {
     return h("li", {}, h("div", { class: "gr-ck" }, grSt("met"), h("span", { class: "t" }, h("span", { class: "sr-only" }, "들음, "), name,
-      h("small", {}, `${Number(f.credits) || 0}학점 · ${R.termName(f.term)}`))));
+      h("small", {}, [`${Number(f.credits) || 0}학점 · ${R.termName(f.term)}`, rqTook(c, f)].filter(Boolean).join(" · ")))));
   }
-  const ck = Object.keys(checks).some((k) => keys.includes(same(k)));
+  const ck = Object.keys(checks).some((k) => keys.includes(same(k))), hint = ck ? null : rqHint(c);
   return h("li", {}, h("label", { class: "gr-ck" }, h("input", { type: "checkbox", checked: ck, "data-ck": c.code, "data-ckn": name, "data-ckc": c.credits ?? "" }),
-    h("span", { class: "t" }, name, ck ? h("small", {}, "직접 체크") : null), c.credits != null ? h("span", { class: "cr" }, `${c.credits}학점`) : null));
+    h("span", { class: "t" }, name, ck ? h("small", {}, "직접 체크") : hint ? h("small", {}, hint) : null), c.credits != null ? h("span", { class: "cr" }, `${c.credits}학점`) : null));
 }
 /** 목록에서 들은 정도(이 시트의 줄 그대로: 시간표·직접 넣은 과목으로 들었거나 체크한 과목) */
 function rqHave(list) {
