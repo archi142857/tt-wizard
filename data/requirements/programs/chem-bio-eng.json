@@ -725,7 +725,12 @@
       "s1",
       "s8"
      ],
-     "note": "학부 2025학번 글은 '2008학번부터 … 의무화'라고 적지만, 공과대학 수업 편성 지침(기계·항공 2025 규정 인용)은 2024학번부터 '권장'이다. 학부 확인 필요."
+     "note": "학부 2025학번 글은 '2008학번부터 … 의무화'라고 적지만, 공과대학 수업 편성 지침(기계·항공 2025 규정 인용)은 2024학번부터 '권장'이다. 학부 확인 필요.",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     },
     {
      "id": "cbe-gpa",
@@ -901,7 +906,7 @@
     },
     {
      "id": "cbe-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -1598,7 +1603,12 @@
       "s1",
       "s8"
      ],
-     "note": "학부 2025학번 글은 '2008학번부터 … 의무화'라고 적지만, 공과대학 수업 편성 지침(기계·항공 2025 규정 인용)은 2024학번부터 '권장'이다. 학부 확인 필요."
+     "note": "학부 2025학번 글은 '2008학번부터 … 의무화'라고 적지만, 공과대학 수업 편성 지침(기계·항공 2025 규정 인용)은 2024학번부터 '권장'이다. 학부 확인 필요.",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     },
     {
      "id": "cbe-gpa",
@@ -1774,7 +1784,7 @@
     },
     {
      "id": "cbe-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -2488,7 +2498,12 @@
       "s35",
       "s36"
      ],
-     "note": "2023학번까지는 학부 글과 공대 지침이 같다."
+     "note": "2023학번까지는 학부 글과 공대 지침이 같다.",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     },
     {
      "id": "cbe-gpa",
@@ -2660,7 +2675,7 @@
     },
     {
      "id": "cbe-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -3370,7 +3385,12 @@
       "s35",
       "s36"
      ],
-     "note": "2023학번까지는 학부 글과 공대 지침이 같다."
+     "note": "2023학번까지는 학부 글과 공대 지침이 같다.",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     },
     {
      "id": "cbe-gpa",
@@ -3542,7 +3562,7 @@
     },
     {
      "id": "cbe-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -4243,7 +4263,12 @@
       "s35",
       "s36"
      ],
-     "note": "2023학번까지는 학부 글과 공대 지침이 같다."
+     "note": "2023학번까지는 학부 글과 공대 지침이 같다.",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     },
     {
      "id": "cbe-gpa",
@@ -4415,7 +4440,7 @@
     },
     {
      "id": "cbe-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"

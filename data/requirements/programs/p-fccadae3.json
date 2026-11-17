@@ -47,6 +47,30 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 148학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s4"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 148
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "med-main-required",
      "type": "major_required",
      "applies_to": [
@@ -519,7 +543,7 @@
     },
     {
      "id": "med-elective-scope",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"

@@ -353,7 +353,11 @@
      "src": [
       "s6",
       "s7"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "hum-life-seminar",
@@ -864,7 +868,11 @@
      "src": [
       "s6",
       "s7"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "hum-life-seminar",
@@ -1585,7 +1593,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -1816,7 +1824,11 @@
       "s6",
       "s7"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "fre-core-2024",
@@ -2325,7 +2337,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -2556,7 +2568,11 @@
       "s6",
       "s7"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "fre-core-2024",
@@ -3065,7 +3081,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -3296,7 +3312,11 @@
       "s6",
       "s7"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "fre-core-2024",

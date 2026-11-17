@@ -655,7 +655,7 @@
     },
     {
      "id": "mse-foreign-lang-lectures",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -860,7 +860,7 @@
     },
     {
      "id": "mse-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -1569,7 +1569,7 @@
     },
     {
      "id": "mse-foreign-lang-lectures",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1774,7 +1774,7 @@
     },
     {
      "id": "mse-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -2486,7 +2486,15 @@
      "src": [
       "s32"
      ],
-     "note": "2008학번부터 의무, 2024학번부터 권장으로 바뀜."
+     "note": "2008학번부터 의무, 2024학번부터 권장으로 바뀜.",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어"
+      ]
+     }
     },
     {
      "id": "mse-gpa",
@@ -2679,7 +2687,7 @@
     },
     {
      "id": "mse-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -3387,7 +3395,15 @@
      "src": [
       "s32"
      ],
-     "note": "2008학번부터 의무, 2024학번부터 권장으로 바뀜."
+     "note": "2008학번부터 의무, 2024학번부터 권장으로 바뀜.",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어"
+      ]
+     }
     },
     {
      "id": "mse-gpa",
@@ -3580,7 +3596,7 @@
     },
     {
      "id": "mse-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -4288,7 +4304,15 @@
      "src": [
       "s32"
      ],
-     "note": "2008학번부터 의무, 2024학번부터 권장으로 바뀜."
+     "note": "2008학번부터 의무, 2024학번부터 권장으로 바뀜.",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어"
+      ]
+     }
     },
     {
      "id": "mse-gpa",
@@ -4480,7 +4504,7 @@
     },
     {
      "id": "mse-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"

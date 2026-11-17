@@ -874,7 +874,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -1392,7 +1392,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -1619,6 +1619,33 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 23학점 이상(다른 전공과 함께 이수해도 23학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s33",
+      "s38",
+      "s34"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 23,
+       "parallel": 23
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "vetpre-major-required",
      "type": "major_required",
      "applies_to": [
@@ -1670,9 +1697,10 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
-      "s36"
+      "s36",
+      "s45"
      ],
      "note": "2020 판 학과 규정 원문을 못 봐서 2022 판 과목표로 대신함."
     },
@@ -1949,7 +1977,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -2448,7 +2476,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -2937,6 +2965,12 @@
    "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/01/Explanation_kor_2018.pdf",
    "locator": "<표 6> 대학별 교양 필수과목 표 — p.33",
    "accessed": "2026-11-12"
+  },
+  "s45": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2020학년도, 2026-11-17 확인)",
+   "locator": "2020학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
   }
  },
  "checked_on": "2026-11-12"

@@ -326,15 +326,15 @@ def rule_pe(r, ctx):
     return None
 
 
-STAR_COND = "언어와 문학·문화와 예술·역사와 철학 영역의 권장과목(★) 1과목이 필요해요."
+STAR_COND = "언어와 문학·문화와 예술·역사와 철학 영역의 권장과목 1과목이 필요해요."
 
 
 def star_group(ctx) -> dict:
     """옛 학문의 세계 권장과목(★ 44과목, 조사 2차 인문대 college_common). 목록이 없으면 학생 확인"""
     star = ctx.get("star") or []
     if not star:
-        return {"name": "권장과목(★)", "area": True, "cond": STAR_COND}
-    return {"name": "권장과목(★)", "codes": [c["code"] for c in star], "area": True, "min_count": 1, "also": True}
+        return {"name": "권장과목", "area": True, "cond": STAR_COND}
+    return {"name": "권장과목", "codes": [c["code"] for c in star], "area": True, "min_count": 1, "also": True}
 
 
 def rule_world(r, ctx):
@@ -549,7 +549,7 @@ GROUP_KEYS = {"groups", "not_counted", "min_groups", "min_areas", "min_in_one_gr
 def countable(r: dict) -> bool:
     if r.get("status") != "확인":
         return False
-    if r.get("sum") or r.get("same_as"):
+    if r.get("sum") or r.get("same_as") or r.get("foreign"):  # 외국어진행강좌(update135 requirement_rules)
         return True
     e = r.get("extra")
     if e:
@@ -786,7 +786,7 @@ def humanities_rows(lo: int, hi: int, base: dict, r1_rows: list[dict], tables: T
                                            "cond": "입학 때 TEPS 점수에 따라 영어 2과목이 필요할 수 있어요."}]}))
     world = [area_group(a, "old") for a in WORLD]
     if star:
-        world.append({"name": "권장과목(★)", "codes": [c["code"] for c in star], "area": True, "min_count": 1, "also": True})
+        world.append({"name": "권장과목", "codes": [c["code"] for c in star], "area": True, "min_count": 1, "also": True})
     out.append(_hum_row("hum-ge-world", base, text="학문의 세계 15학점: 4개 영역 이상, 언어와 문학·문화와 예술·역사와 철학 영역 권장과목(★) 1과목",
                         min_credits=15, name="학문의 세계", auto="humanities", extra={"groups": world, "min_areas": 4}))
     out.append(_hum_row("hum-ge-world-split", base,
@@ -858,7 +858,8 @@ def by_entry(v: dict) -> bool:
 
 def old_ge(v: dict, ge_table: dict | None, ge_key: str | None) -> None:
     """나뉜 옛 학번 판: 2025학번 교양 글이 든 줄은 그 학번 규정이 아니라 '부분'(학과·학부대학 자료로 확인)으로 두고,
-    학부대학 교양 학점 표(ge_credits.json)에서 그 학번들의 교양 학점이 하나로 같으면 '교양 학점' 합 줄을 더한다"""
+    학부대학 교양 학점 표(ge_credits.json)에서 그 학번들의 교양 학점이 하나로 같으면 '교양 학점' 합 줄을 더한다.
+    합 줄을 더했으면 2025학번 교양 글 줄은 뺀다(update135, 프론트엔드 11/17: 22학번 판에 '교양, 확인 필요' 줄이 하나 더 서고 그 시트에 2025학번 교양 틀)"""
     lo, hi = v["entry_years"]
     reqs = []
     first = None
@@ -875,6 +876,7 @@ def old_ge(v: dict, ge_table: dict | None, ge_key: str | None) -> None:
                                         "text": f"교양 {n}학점 이상({lo}~{hi}학번, 학부대학 교양 이수규정의 단과대·학과 교양 학점)", "min_count": None,
                                         "min_credits": n, "courses": [], "status": "확인", "src": list(first.get("src") or []),
                                         "sum": {"of": "ge"}, "name": "교양 학점", "auto": "old_total"})
+        reqs = [r for r in reqs if not (r.get("type") == "ge" and r.get("auto") != "old_total" and any(c in r["text"] for c in NEW_CUES))]
     v["requirements"] = reqs
 
 
@@ -992,7 +994,7 @@ def apply(prog: dict, tables: Tables, star: list[dict] | None = None) -> dict:
         ge_total = (v.get("credits") or {}).get("ge")
         reqs = []
         for r in v.get("requirements") or []:
-            if r.get("auto") or r.get("status") != "확인" or countable(r):
+            if r.get("auto") or r.get("status") != "확인" or countable(r) or r.get("type") == "rule":
                 reqs.append(r)
                 continue
             work = dict(r)
@@ -1024,3 +1026,38 @@ def apply(prog: dict, tables: Tables, star: list[dict] | None = None) -> dict:
             done[name] = done.get(name, 0) + 1
         v["requirements"] = reqs
     return done
+
+
+# ---------------------------------------------------------------- 전공 학점 줄(update135)
+
+def _major_total(r: dict) -> bool:
+    """이미 전공 전체 학점을 세는 줄인가(교과구분을 가리지 않는 전공 합, 단일전공에 걸린 것)"""
+    s = r.get("sum")
+    if not isinstance(s, dict) or s.get("of") != "major" or s.get("cls"):
+        return False
+    roles = s.get("by_role") or {}
+    return "single" in roles or (r.get("min_credits") is not None and "single" in (r.get("applies_to") or ["single"]))
+
+
+def add_major_totals(prog: dict) -> int:
+    """판 학점(credits)이 '확인'이고 단일전공 학점이 있는데 전공 전체 학점을 세는 줄이 없으면 '전공 학점' 줄을 맨 앞에 더한다
+    (사용자 11/17 '졸업 요건 모르는 건 … 알아내라': 동물생명공학 '단일전공 이수 48'이 요건 목록에 없었다). 단일·병행만(복수·부전공은 그 줄이 따로 있다).
+    전공 과목은 학과(depts)·번호 앞자리로 가리니(requirements.js isMajorCourse) 학과를 못 정한 과정은 뺀다. 더한 줄 수"""
+    if not prog.get("depts"):
+        return 0
+    n = 0
+    for v in prog.get("versions") or []:
+        cr = v.get("credits") or {}
+        if cr.get("status") != "확인" or not cr.get("single") or any(_major_total(r) for r in v.get("requirements") or []):
+            continue
+        roles = {k: cr[k] for k in ("single", "parallel") if cr.get(k)}
+        par = roles.get("parallel")
+        text = (f"전공 {roles['single']}학점 이상" + ("" if par is None else f"(다른 전공과 함께 이수해도 {par}학점)" if par == roles["single"]
+                                                      else f"(단일전공). 다른 전공과 함께 이수하면 주전공 {par}학점 이상"))
+        row = {"id": "major-total", "type": "other", "applies_to": list(roles), "text": text, "min_count": None, "min_credits": None,
+               "courses": [], "status": "확인", "src": list(cr.get("src") or []), "sum": {"of": "major", "by_role": roles},
+               "name": "전공 학점", "auto": "major_total"}
+        v["requirements"] = [row] + list(v.get("requirements") or [])
+        n += 1
+    return n
+

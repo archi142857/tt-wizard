@@ -1094,6 +1094,36 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 71학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 61학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s8",
+      "s9",
+      "s24",
+      "s25",
+      "s26"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 71,
+       "parallel": 61
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "art-common-core",
      "type": "major_required",
      "applies_to": [

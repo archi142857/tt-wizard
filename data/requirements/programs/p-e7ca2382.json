@@ -164,6 +164,36 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 174학점 이상(다른 전공과 함께 이수해도 174학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13",
+      "s14",
+      "s15",
+      "s16",
+      "s17",
+      "s18"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 174,
+       "parallel": 174
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "pharm-major-required",
      "type": "major_required",
      "applies_to": [
@@ -1231,6 +1261,36 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 174학점 이상(다른 전공과 함께 이수해도 174학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13",
+      "s14",
+      "s15",
+      "s16",
+      "s21",
+      "s22"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 174,
+       "parallel": 174
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "pharm-major-required",
      "type": "major_required",
      "applies_to": [
@@ -2248,7 +2308,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -2336,6 +2396,35 @@
     "s28"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 174학점 이상(다른 전공과 함께 이수해도 174학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13",
+      "s14",
+      "s15",
+      "s16",
+      "s26"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 174,
+       "parallel": 174
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "pharm-major-required",
      "type": "major_required",
@@ -3384,7 +3473,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -3474,6 +3563,35 @@
     "s34"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 174학점 이상(다른 전공과 함께 이수해도 174학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13",
+      "s14",
+      "s15",
+      "s16",
+      "s31"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 174,
+       "parallel": 174
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "pharm-major-required",
      "type": "major_required",
@@ -4517,7 +4635,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",

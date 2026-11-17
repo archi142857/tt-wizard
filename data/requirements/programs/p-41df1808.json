@@ -553,7 +553,7 @@
     },
     {
      "id": "cls-pre-cap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -571,7 +571,7 @@
     },
     {
      "id": "cls-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -603,7 +603,7 @@
     },
     {
      "id": "cls-second",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1202,7 +1202,7 @@
     },
     {
      "id": "cls-pre-cap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1220,7 +1220,7 @@
     },
     {
      "id": "cls-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1252,7 +1252,7 @@
     },
     {
      "id": "cls-second",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1313,7 +1313,7 @@
     },
     {
      "id": "cls-substitute",
-     "type": "major_elective",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1897,7 +1897,7 @@
     },
     {
      "id": "cls-pre-cap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1915,7 +1915,7 @@
     },
     {
      "id": "cls-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1947,7 +1947,7 @@
     },
     {
      "id": "cls-second",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -2008,7 +2008,7 @@
     },
     {
      "id": "cls-substitute",
-     "type": "major_elective",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"

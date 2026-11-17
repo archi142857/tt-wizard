@@ -210,7 +210,8 @@ STAMP_FILES = ("style.css", "js/app.js", "js/engine.js", "js/search-worker.js", 
 
 
 def export_requirements(src: Path, out: Path) -> tuple[int, int] | None:
-    """졸업 요건 자료를 줄 바꿈 없이 옮긴다: index.json, common.json, course_map.json, ge_credits.json, ge_areas.json(교양 영역 과목 표, update128), programs/<id>.json.
+    """졸업 요건 자료를 줄 바꿈 없이 옮긴다: index.json, common.json, course_map.json, ge_credits.json, ge_areas.json(교양 영역 과목 표, update128),
+    lecture_lang.json(학기마다 외국어로 진행된 분반: 외국어진행강좌 줄, update135), programs/<id>.json.
     course_map.json 에는 이름·번호가 바뀐 과목(same)·지금 이름(now)·더 안 열리는 과목(ended)을 지난 편람(src 옆 history/)으로 그때그때 붙인다(update131 same_courses.py)"""
     import same_courses  # 표준 라이브러리만
 
@@ -218,7 +219,7 @@ def export_requirements(src: Path, out: Path) -> tuple[int, int] | None:
         return None
     compact = {"ensure_ascii": False, "separators": (",", ":")}
     (out / "programs").mkdir(parents=True, exist_ok=True)
-    for name in ("index.json", "catalog.json", "common.json", "course_map.json", "ge_credits.json", "ge_areas.json"):
+    for name in ("index.json", "catalog.json", "common.json", "course_map.json", "ge_credits.json", "ge_areas.json", "lecture_lang.json"):
         if (src / name).exists():
             data = json.loads((src / name).read_text(encoding="utf-8"))
             if name == "course_map.json":

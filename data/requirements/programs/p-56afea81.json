@@ -703,7 +703,7 @@
     },
     {
      "id": "edu-eth-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -821,6 +821,33 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 52학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s15",
+      "s17"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 52
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-eth-core",
      "type": "major_required",
      "applies_to": [
@@ -857,11 +884,12 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s18",
       "s15",
-      "s17"
+      "s17",
+      "s29"
      ],
      "note": "통합사회교육론(M1865.003300)은 2025-1 신설 전필 → 2024학번 이전 필수 아님으로 봄(지리교육과가 '2025학번부터'로 명시)."
     },
@@ -1175,7 +1203,7 @@
     },
     {
      "id": "edu-eth-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1812,11 +1840,12 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s18",
       "s15",
-      "s17"
+      "s17",
+      "s30"
      ],
      "note": "통합사회교육론(M1865.003300)은 2025-1 신설 전필 → 2024학번 이전 필수 아님으로 봄(지리교육과가 '2025학번부터'로 명시)."
     },
@@ -2123,7 +2152,7 @@
     },
     {
      "id": "edu-eth-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -2729,6 +2758,34 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 52학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s25",
+      "s24",
+      "s18"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 52
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-eth-core",
      "type": "major_required",
      "applies_to": [
@@ -2765,11 +2822,12 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s18",
       "s15",
-      "s17"
+      "s17",
+      "s31"
      ],
      "note": "통합사회교육론(M1865.003300)은 2025-1 신설 전필 → 2024학번 이전 필수 아님으로 봄(지리교육과가 '2025학번부터'로 명시)."
     },
@@ -3076,7 +3134,7 @@
     },
     {
      "id": "edu-eth-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -3608,6 +3666,34 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 52학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s20",
+      "s28",
+      "s24",
+      "s18"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 52
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-eth-core",
      "type": "major_required",
      "applies_to": [
@@ -3644,11 +3730,12 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s18",
       "s15",
-      "s17"
+      "s17",
+      "s32"
      ],
      "note": "통합사회교육론(M1865.003300)은 2025-1 신설 전필 → 2024학번 이전 필수 아님으로 봄(지리교육과가 '2025학번부터'로 명시)."
     },
@@ -3986,7 +4073,7 @@
     },
     {
      "id": "edu-eth-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -4690,6 +4777,30 @@
    "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
    "locator": "표 1 p.9 사범대학 행('19학년도부터 수학 38·과학교육계 39), 표 2 p.11",
    "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2024학년도, 2026-11-17 확인)",
+   "locator": "2024학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s30": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2023학년도, 2026-11-17 확인)",
+   "locator": "2023학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s31": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2021~2022학년도, 2026-11-17 확인)",
+   "locator": "2021~2022학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s32": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2019~2020학년도, 2026-11-17 확인)",
+   "locator": "2019~2020학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
   }
  },
  "checked_on": "2026-11-12"

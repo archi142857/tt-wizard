@@ -51,6 +51,36 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11",
+      "s12",
+      "s13",
+      "s14",
+      "s15"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "kor-core",
      "type": "major_required",
      "applies_to": [
@@ -445,7 +475,11 @@
      "src": [
       "s8",
       "s9"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "hum-life-seminar",
@@ -694,6 +728,36 @@
     "s19"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11",
+      "s12",
+      "s13",
+      "s14",
+      "s15"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "kor-core",
      "type": "major_required",
@@ -1261,7 +1325,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -1492,7 +1556,11 @@
       "s8",
       "s9"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "note": "학과 전공 규정에 학번 구분이 없다(국문판 2026-02). 2022·2024 목록의 전필 4과목도 같다. 교양·인문대 의무의 학번 차이(14~18 글쓰기의 기초/19~ 대학 글쓰기, 14~24 학문의 세계/25~ 새 체계, 10~24 삶과 인문학/25~ 세미나, 2024~ 기초영어 기준)는 학과 페이지도 같은 경계로 적으며 college_common 에 있다.",
@@ -1529,6 +1597,36 @@
     "s19"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11",
+      "s12",
+      "s13",
+      "s14",
+      "s15"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "kor-core",
      "type": "major_required",
@@ -2096,7 +2194,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -2327,7 +2425,11 @@
       "s8",
       "s9"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "note": "학과 전공 규정에 학번 구분이 없다(국문판 2026-02). 2022·2024 목록의 전필 4과목도 같다. 교양·인문대 의무의 학번 차이(14~18 글쓰기의 기초/19~ 대학 글쓰기, 14~24 학문의 세계/25~ 새 체계, 10~24 삶과 인문학/25~ 세미나, 2024~ 기초영어 기준)는 학과 페이지도 같은 경계로 적으며 college_common 에 있다.",
@@ -2364,6 +2466,36 @@
     "s19"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s11",
+      "s12",
+      "s13",
+      "s14",
+      "s15"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "kor-core",
      "type": "major_required",
@@ -2931,7 +3063,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -3162,7 +3294,11 @@
       "s8",
       "s9"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "note": "학과 전공 규정에 학번 구분이 없다(국문판 2026-02). 2022·2024 목록의 전필 4과목도 같다. 교양·인문대 의무의 학번 차이(14~18 글쓰기의 기초/19~ 대학 글쓰기, 14~24 학문의 세계/25~ 새 체계, 10~24 삶과 인문학/25~ 세미나, 2024~ 기초영어 기준)는 학과 페이지도 같은 경계로 적으며 college_common 에 있다.",

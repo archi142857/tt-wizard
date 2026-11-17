@@ -698,7 +698,7 @@
     },
     {
      "id": "socio-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "parallel",
       "double"
@@ -1154,7 +1154,7 @@
     },
     {
      "id": "socio-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "parallel",
       "double"
@@ -1767,7 +1767,7 @@
     },
     {
      "id": "socio-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "parallel",
       "double"

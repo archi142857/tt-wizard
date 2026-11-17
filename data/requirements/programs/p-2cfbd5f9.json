@@ -96,7 +96,7 @@
     },
     {
      "id": "sdmd-limits",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double"
      ],
@@ -147,7 +147,7 @@
    "requirements": [
     {
      "id": "sdmd-limits",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double"
      ],

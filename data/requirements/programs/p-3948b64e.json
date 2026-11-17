@@ -288,7 +288,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -831,7 +831,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -1352,7 +1352,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -1899,7 +1899,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"

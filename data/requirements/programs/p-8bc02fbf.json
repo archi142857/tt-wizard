@@ -55,6 +55,34 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 46학점 이상(다른 전공과 함께 이수해도 46학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s7",
+      "s4",
+      "s6"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 46,
+       "parallel": 46
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "musicology-core",
      "type": "major_required",
      "applies_to": [
@@ -484,7 +512,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -795,6 +823,33 @@
     "s11"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 46학점 이상(다른 전공과 함께 이수해도 46학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11",
+      "s17",
+      "s18"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 46,
+       "parallel": 46
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "musicology-core",
      "type": "major_required",
@@ -1224,7 +1279,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -1508,6 +1563,34 @@
     "s17"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 52학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 46학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s11",
+      "s17",
+      "s18"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 52,
+       "parallel": 46
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "musicology-core",
      "type": "major_required",
@@ -1919,7 +2002,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -2206,6 +2289,37 @@
     "s29"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 62학점 이상(다른 전공과 함께 이수해도 62학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22",
+      "s23",
+      "s24",
+      "s26",
+      "s27",
+      "s28"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 62,
+       "parallel": 62
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "musicology-core",
      "type": "major_required",
@@ -2667,7 +2781,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"

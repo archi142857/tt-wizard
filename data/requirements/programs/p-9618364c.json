@@ -50,6 +50,36 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17",
+      "s18",
+      "s1"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "eng-formation-26",
      "type": "major_required",
      "applies_to": [
@@ -208,7 +238,12 @@
      "src": [
       "s1",
       "s8"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     },
     {
      "id": "eng-explore",
@@ -496,7 +531,11 @@
      "src": [
       "s12",
       "s13"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "hum-life-seminar",
@@ -745,6 +784,36 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17",
+      "s18",
+      "s1"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "eng-ling",
      "type": "major_choose",
      "applies_to": [
@@ -883,7 +952,12 @@
      "src": [
       "s1",
       "s8"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     },
     {
      "id": "eng-explore",
@@ -1171,7 +1245,11 @@
      "src": [
       "s12",
       "s13"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "hum-life-seminar",
@@ -1458,6 +1536,36 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17",
+      "s18",
+      "s1"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "eng-ling",
      "type": "major_choose",
      "applies_to": [
@@ -1596,7 +1704,12 @@
      "src": [
       "s1",
       "s8"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     },
     {
      "id": "eng-explore",
@@ -2056,7 +2169,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -2287,7 +2400,11 @@
       "s12",
       "s13"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "eng-survey-19",
@@ -2361,6 +2478,36 @@
     "s26"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17",
+      "s18",
+      "s1"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "eng-ling",
      "type": "major_choose",
@@ -2500,7 +2647,12 @@
      "src": [
       "s1",
       "s8"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     },
     {
      "id": "eng-explore",
@@ -2960,7 +3112,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -3191,7 +3343,11 @@
       "s12",
       "s13"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "eng-survey-19",
@@ -3265,6 +3421,36 @@
     "s26"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s15",
+      "s16",
+      "s17",
+      "s18",
+      "s1"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "eng-ling",
      "type": "major_choose",
@@ -3404,7 +3590,12 @@
      "src": [
       "s1",
       "s8"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     },
     {
      "id": "eng-explore",
@@ -3864,7 +4055,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -4095,7 +4286,11 @@
       "s12",
       "s13"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "eng-survey-19",

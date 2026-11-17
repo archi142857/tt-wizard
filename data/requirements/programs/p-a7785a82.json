@@ -139,16 +139,17 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s1",
-      "s2"
+      "s2",
+      "s16"
      ],
      "note": "학과 표엔 학점이 없어 편람으로 채움."
     },
     {
      "id": "bm-prereq",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -726,12 +727,18 @@
      "min_count": 3,
      "min_credits": null,
      "courses": [],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s6",
-      "s7"
+      "s7",
+      "s15"
      ],
-     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터.",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     }
    ],
    "note": "학과 '2025학년도 개정되는 이수표준형태(2025학번 이후 적용됨)'. 1차 요건 그대로. 2026학번도 이 표가 최신이라 같게 둔다."
@@ -749,12 +756,13 @@
     "parallel": 48,
     "double": 48,
     "minor": 24,
-    "status": "부분",
+    "status": "확인",
     "src": [
      "s8",
      "s9",
      "s10",
-     "s11"
+     "s11",
+     "s17"
     ]
    },
    "status": "확인",
@@ -763,6 +771,35 @@
     "s13"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 48학점 이상(다른 전공과 함께 이수해도 48학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9",
+      "s10",
+      "s11",
+      "s17"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 48,
+       "parallel": 48
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "bm-core",
      "type": "major_required",
@@ -863,7 +900,7 @@
     },
     {
      "id": "bm-prereq",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -918,24 +955,6 @@
      "auto": "old_total"
     },
     {
-     "id": "ge-cals-natural",
-     "type": "ge",
-     "applies_to": [
-      "single",
-      "parallel"
-     ],
-     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
-     "min_count": null,
-     "min_credits": 36,
-     "courses": [],
-     "status": "부분",
-     "src": [
-      "s4",
-      "s5"
-     ],
-     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36). 이 판(2021~2024학번)에는 2025학번 교양 글이 들어 있다: 그 학번 교양 영역 규정은 조사 자료에 없음(update127)"
-    },
-    {
      "id": "cals-foreign-lang-lectures",
      "type": "other",
      "applies_to": [
@@ -946,12 +965,18 @@
      "min_count": 3,
      "min_credits": null,
      "courses": [],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s6",
-      "s7"
+      "s7",
+      "s15"
      ],
-     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터.",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     }
    ],
    "changed": "전필에 물리화학 1(519.301) 추가 — 16과목 47학점",
@@ -970,12 +995,13 @@
     "parallel": 48,
     "double": 48,
     "minor": 24,
-    "status": "부분",
+    "status": "확인",
     "src": [
      "s8",
      "s9",
      "s10",
-     "s11"
+     "s11",
+     "s18"
     ]
    },
    "status": "확인",
@@ -984,6 +1010,35 @@
     "s14"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 48학점 이상(다른 전공과 함께 이수해도 48학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9",
+      "s10",
+      "s11",
+      "s18"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 48,
+       "parallel": 48
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "bm-core",
      "type": "major_required",
@@ -1084,7 +1139,7 @@
     },
     {
      "id": "bm-prereq",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -1139,24 +1194,6 @@
      "auto": "old_total"
     },
     {
-     "id": "ge-cals-natural",
-     "type": "ge",
-     "applies_to": [
-      "single",
-      "parallel"
-     ],
-     "text": "교양 36학점 이상(2025학번, 농생대 자연계·스마트시스템과학과 제외): 글쓰기와 말하기 4(대학 글쓰기 1 + 대학 글쓰기 2 인문학·사회과학·과학기술 중 1), 외국어 2과목 6, 수학·과학·컴퓨팅 14(수학 6 = 생명과학을 위한 수학 1·2 / 수학 1·2와 연습 / 고급수학 1·2와 연습 중 한 짝, 과학 8 = 물리학·화학(또는 고급화학)·생물학·대기과학·지구시스템과학 중 2과목, 실험 같은 학기), 지성의 열쇠 9(4영역 중 3영역), 베리타스 3",
-     "min_count": null,
-     "min_credits": 36,
-     "courses": [],
-     "status": "부분",
-     "src": [
-      "s4",
-      "s5"
-     ],
-     "note": "입학 시 TEPS 900(New TEPS 525) 이하는 영어 1과목 필수. 전체 교양 칸은 학점이 적혀 있지 않다(4+6+14+9+3=36). 이 판(2019~2020학번)에는 2025학번 교양 글이 들어 있다: 그 학번 교양 영역 규정은 조사 자료에 없음(update127)"
-    },
-    {
      "id": "cals-foreign-lang-lectures",
      "type": "other",
      "applies_to": [
@@ -1167,12 +1204,18 @@
      "min_count": 3,
      "min_credits": null,
      "courses": [],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s6",
-      "s7"
+      "s7",
+      "s15"
      ],
-     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터."
+     "note": "농생대 규정으로 학과 페이지들이 안내(바이오시스템공학 2025 교과과정, 동물생명 2022). 2008학년도 신입생부터.",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     }
    ],
    "changed": "물리화학 1(519.301) 대신 물리화학(519.001)이 전필 — 16과목 47학점",
@@ -1283,6 +1326,30 @@
    "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
    "locator": "바이오소재공학 이수표준형태 *(p.78)",
    "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "동물생명공학전공 — 졸업요건 학부과정(2022년도)",
+   "url": "https://anibiotech.snu.ac.kr/index.php?hCode=EDU_03_03_08",
+   "locator": "1. 기본 이수 요건 마(농업생명과학대학 공통: 2008학년도 신입생부터 외국어진행강좌 3과목, 그중 전공 1과목 이상, 대학영어 포함)",
+   "accessed": "2026-11-17"
+  },
+  "s16": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2025~2026학년도, 2026-11-17 확인)",
+   "locator": "2025~2026학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s17": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2021~2024학년도, 2026-11-17 확인)",
+   "locator": "2021~2024학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s18": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2019~2020학년도, 2026-11-17 확인)",
+   "locator": "2019~2020학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
   }
  },
  "checked_on": "2026-11-12"

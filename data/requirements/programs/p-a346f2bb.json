@@ -831,6 +831,32 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 49학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s4",
+      "s5",
+      "s6",
+      "s12"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 49
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "dent-required",
      "type": "major_required",
      "applies_to": [
@@ -1518,6 +1544,30 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 49학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s25",
+      "s26"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 49
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "dent-required",
      "type": "major_required",
      "applies_to": [
@@ -1751,7 +1801,7 @@
     },
     {
      "id": "dent-prereq",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"

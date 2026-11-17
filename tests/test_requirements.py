@@ -108,9 +108,9 @@ def test_animal_biotech_cohorts():
     """동물생명공학전공: 2019~2020학번은 생화학 1·2(300.312·300.313), 2021학번부터 동물생화학 1·2.
     update127: 2021~2026 판은 2025학번 교양 개편으로 [2025, 2026]·[2021, 2024]로 나뉘고, 2025~ 쪽 교양 묶음 줄은 영역마다 줄로 나뉜다"""
     p = programs()["animal-biotech"]
-    new, mid, old = p["versions"]
-    assert new["entry_years"] == [2025, 2026] and mid["entry_years"] == [2021, 2024] and old["entry_years"] == [2019, 2020]
-    assert new["split"] and mid["split"] and "split" not in old
+    new, y26, mid, old = p["versions"]  # update135: 2026학년도 스누지니 전필 목록이 비어 2025·2026 을 나눔
+    assert new["entry_years"] == [2025, 2025] and y26["entry_years"] == [2026, 2026] and mid["entry_years"] == [2021, 2024]
+    assert old["entry_years"] == [2019, 2020] and new["split"] and y26["split"] and mid["split"] and "split" not in old
     codes = lambda v: {c["code"] for r in v["requirements"] if r["id"] == "animal-main-core" for c in r["courses"]}
     assert {"M1702.001000", "M1702.001100"} <= codes(new) == codes(mid) and not {"300.312", "300.313"} & codes(new)
     assert {"300.312", "300.313"} <= codes(old)
@@ -118,9 +118,10 @@ def test_animal_biotech_cohorts():
     assert [r["id"] for r in ge] == ["ge-cals-natural", "ge-cals-natural-writing", "ge-cals-natural-foreign", "ge-cals-natural-math",
                                      "ge-cals-natural-science", "ge-cals-natural-keys", "ge-cals-natural-veritas"]
     assert all(r["auto"] == "rule_composite" for r in ge) and ge[0]["sum"] == {"of": "ge"} and ge[0]["min_credits"] == 36
-    total, old_row = [r for r in mid["requirements"] if r["type"] == "ge"][:2]  # 옛 학번 쪽: 교양 학점 합(학부대학 표 36)과 2025 글 줄은 '부분'
-    assert total["id"] == "ge-cals-natural-old-total" and total["sum"] == {"of": "ge"} and total["min_credits"] == 36
-    assert old_row["id"] == "ge-cals-natural" and old_row["status"] == "부분" and old_row.get("auto") is None
+    # 옛 학번 쪽: 교양 학점 합(학부대학 표 36)만. 2025학번 교양 글 줄은 뺀다(update135, 프론트엔드 11/17 '옛 판의 2025 교양 줄')
+    assert [r["id"] for r in mid["requirements"] if r["type"] == "ge"] == ["ge-cals-natural-old-total"]
+    total = next(r for r in mid["requirements"] if r["type"] == "ge")
+    assert total["sum"] == {"of": "ge"} and total["min_credits"] == 36
     assert p["depts"] == ["식품·동물생명공학부"] and p["code_prefixes"] == ["5252.", "M1702."]
 
 
@@ -167,7 +168,7 @@ def test_export_requirements(tmp_path):
     n = ew.export_requirements(REQ, tmp_path / "requirements")
     assert n == (len(load("index.json")["programs"]), len(programs()))
     assert json.loads((tmp_path / "requirements" / "catalog.json").read_text(encoding="utf-8"))["depts"]
-    for name in ("index.json", "common.json", "course_map.json", "ge_credits.json", "ge_areas.json", "programs/life-sciences.json"):
+    for name in ("index.json", "common.json", "course_map.json", "ge_credits.json", "ge_areas.json", "lecture_lang.json", "programs/life-sciences.json"):
         text = (tmp_path / "requirements" / name).read_text(encoding="utf-8")
         assert "\n" not in text.strip() and json.loads(text)
     assert ew.export_requirements(tmp_path / "없음", tmp_path / "x") is None
@@ -204,7 +205,7 @@ def test_pick_version_and_same_course(tmp_path):
         {"kind": "pick", "program": "life-sciences", "entryYear": 2025},
         {"kind": "same", "codes": ["L0440.000600", "F11.101", "458.201"]},
     ])
-    assert got[0] == [2019, 2020] and got[1] == [2025, 2026] and got[2] == "no_data" and got[3] == [2025, 2025]
+    assert got[0] == [2019, 2020] and got[1] == [2026, 2026] and got[2] == "no_data" and got[3] == [2025, 2025]
     a, b, c = got[4]
     assert a == b and c == "458.201"  # 대학 글쓰기 1 옛 번호와 새 번호는 같은 과목
 
@@ -249,7 +250,8 @@ def test_evaluate_chem_bio(tmp_path):
     assert one["cbe-core46-sum"]["state"] == "check" and one["cbe-core46-sum"]["reason"] == "자료 부분"
     assert one["cbe-ge-total"] == {"state": "remaining", "reason": None, "have": 2, "missing": []}  # 교양 학점 합(update127): 글쓰기 두 과목
     assert "cbe-double" not in one and "cbe-minor" not in one  # 단일전공에는 복수·부전공 줄이 없다
-    assert animal["animal-main-core"]["state"] == "check" and animal["animal-main-core"]["reason"] == "자료 부분"
+    # update135: 스누지니 2025학년도 전필 목록과 같아 '확인'(남음), 2026학번은 그 해 목록이 비어 '부분' 그대로
+    assert animal["animal-main-core"]["state"] == "remaining"
 
 
 @node
@@ -543,7 +545,7 @@ def test_taken_terms_and_labels(tmp_path):
     assert rows["B1"][1:3] == [False, "dropped"] and rows["M2"] == ["M", True, None, "직접 추가 · 교양 · 1학점"]
     assert animal["terms"] == [["2026년 2학기", "2027-1", 4], ["2026년 여름학기", "2026-2", 3], ["2026년 겨울학기", "2027-1", 4],
                                ["2027년 1학기", "2027-2", 5]]
-    assert animal["version"] == "2025~2026학번 규정" and animal["choices"] == ["2025~2026학번 규정"]  # 2025학번 교양 개편으로 나뉜 판(update127)
+    assert animal["version"] == "2025학번 규정" and animal["choices"] == ["2025학번 규정"]  # 교양 개편(update127)·스누지니 목록(update135)으로 나뉜 판
     assert animal["link"].startswith("https://anibiotech.snu.ac.kr/")
     assert animal["sources"] == ["출처: 동물생명공학전공 졸업요건 학부과정(2022년도)",  # 쪽·표를 모르면 문서 이름만(디자인 127판)
                                  "출처: 서울대학교 2024 전공별 교과목(학사과정) · 79–80쪽"]
@@ -589,6 +591,12 @@ def test_grad_view(tmp_path):
     assert check["progress"] is None  # 과목 목록이 없는 확인 필요 줄은 센 값이 없다
     _, animal, bio = two["bundles"]
     assert animal["title"] == "동물생명공학전공" and bio["label"] == "2026년 1학기 선발" and bio["title"] == "생명과학부"
+    # update135: 규칙 설명 줄은 요건 줄이 아니라 묶음의 rules 로. 스누지니로 확인한 판 학점은 '전공 학점' 줄로 센다
+    assert [x[0] for x in animal["rules"]] == ["animal-stat-once", "animal-rename"] and not {"animal-stat-once", "animal-rename"} & set(animal["rows"])
+    assert list(animal["rows"])[:3] == ["major-total", "animal-main-core", "animal-thesis"]
+    assert animal["rows"]["major-total"]["name"] == "전공 학점" and animal["rows"]["major-total"]["value"] == "48학점 남음"
+    assert animal["rows"]["cals-foreign-lang-lectures"]["value"] == "확인 필요"  # 강의 언어 자료를 안 넘기면
+    assert animal["rows"]["cals-foreign-lang-lectures"]["because"] == "강의 언어 자료를 받지 못해 외국어진행강좌를 세지 못했어요."
     assert all(b["kind"] == "program" for b in (animal, bio)) and two["missing"] == []
     assert old["missing"] == ["animal-biotech"] and len(old["bundles"]) == 1  # 2018학번은 자료 없음: 공통만
 
@@ -909,7 +917,7 @@ def test_old_curriculum_areas_and_star(tmp_path):
     ])
     a = got[0]["bundles"][0]["rows"][row["id"]]
     b = got[1]["bundles"][0]["rows"][row["id"]]
-    assert a["value"] == "1과목 남음" and a["summary"].startswith("권장과목(★)")
+    assert a["value"] == "1과목 남음" and a["summary"].startswith("권장과목 ")  # 분야 이름에 ★ 를 안 붙인다(디자인 update127 ⑧, update135)
     assert b["value"] == "충족"
 
 
@@ -1002,13 +1010,14 @@ def test_ge_rows_follow_entry_year(tmp_path):
     assert "ge-cals-natural-keys" in rows and not any(k.endswith("-old") or k.endswith("-old-total") for k in rows)
     assert [g[0] for g in rows["ge-cals-natural-keys"]["groups"]][:3] == ["문화 해석과 상상", "역사적 탐구와 철학적 사유", "인간의 이해와 사회 분석"]
     rows = old["bundles"][0]["rows"]
-    assert "ge-cals-natural-keys" not in rows and rows["ge-cals-natural-old-total"]["value"] == "36학점 남음" and "ge-cals-natural-old" in rows
+    # 옛 학번에는 교양 학점 합 줄만(2025학번 교양 글 줄 '-old' 는 update135 부터 뺀다)
+    assert "ge-cals-natural-keys" not in rows and rows["ge-cals-natural-old-total"]["value"] == "36학점 남음" and "ge-cals-natural-old" not in rows
     rows = chose["bundles"][0]["rows"]
     assert "ge-cals-natural-keys" not in rows and "ge-cals-natural-old-total" in rows
     assert chose["bundles"][1]["label"] == "2025~2026학번 규정"  # 전공은 고른 판 그대로
     assert "ge-cals-natural-keys" in chose_no_own["bundles"][0]["rows"]  # own 을 안 주면 옛 동작(고른 판의 교양)
     assert "ge-cals-natural-keys" in unknown and "ge-cals-natural-old" not in unknown
-    assert "ge-cals-natural-old" in y2023 and "ge-cals-natural-keys" not in y2023
+    assert "ge-cals-natural-old-total" in y2023 and "ge-cals-natural-old" not in y2023 and "ge-cals-natural-keys" not in y2023
 
 
 def test_lecture_lang_and_history_range():
@@ -1107,3 +1116,140 @@ def test_sheet_shows_renamed_and_ended_courses(tmp_path):
     assert got[2][crop_r]["courses"] == [["5171.310", False, f"3학점 · 마지막 개설 2025년 1학기"]] and ended["5171.310"] == "2025-1"
     assert got[3] == ["으로", "으로", "로", "으로", "으로", "로"]
 
+
+# ---------------------------------------------------------------- 스누지니·규칙 설명·외국어진행강좌·전공 학점(update135)
+
+import requirement_rules as rr  # noqa: E402
+import requirements_lists as rl  # noqa: E402
+import snugenie as sgn  # noqa: E402
+
+
+def test_rule_rows_and_foreign_specs():
+    """규칙 설명 줄(type 'rule')과 외국어진행강좌 글 읽기: 기준 수·전공 과목 수·뺄 과목·영어만, '권장'은 규칙 설명, 못 읽는 조건이 남으면 그대로"""
+    spec = rr.foreign_spec
+    assert spec("외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목") == {"lang": "any", "min_count": 3, "major_count": 1}
+    assert spec("영어 진행 강좌 3과목 이상(주전공 과목 1과목 포함). 대학영어·고급영어 등 외국어 영역 영어 과목은 불인정") == {
+        "lang": "영어", "min_count": 3, "major_count": 1, "exclude": ["대학영어", "고급영어"]}
+    assert spec("외국어 진행 강좌 9학점 이상(전공 3학점 이상 포함; 전공 영어 진행 3 + 기타 외국어 진행 6)") == {
+        "lang": "any", "min_credits": 9, "major_credits": 3}
+    assert spec("외국어진행강좌 3과목 이상(서울대 개설 과목, 대학영어 같은 외국어 진행 교양 포함, 국외수학 불인정)") == {"lang": "any", "min_count": 3}
+    assert spec("외국어 진행 강좌: 2024학번부터 주전공 1강좌 이상 포함 3과목 이상 '권장'(필수 아님)") == {"recommended": True}
+    assert spec("외국어진행 3과목 이상, 그중 1과목은 기초러시아어회화·중급러시아어회화·고급러시아어 중 하나") is None
+    assert spec("생명존중(자살예방) 교육 이수증 제출. 외국어 진행강좌 3과목(전공 1 포함) 수강 의무") is None
+    rule = lambda rid, **kw: {"id": rid, "type": "other", "text": kw.pop("text", "설명"), "min_count": None, "min_credits": None, "courses": [], **kw}
+    assert rr.is_rule("animal-biotech", rule("animal-stat-once")) and rr.is_rule("x", rule("cbe-overlap", text="다전공 겹쳐 인정(본부): 복수 9학점"))
+    assert not rr.is_rule("p-76162784", rule("phys-elective", sum={"of": "major"}))  # 목록에서 갈랐어도 셀 수 있게 된 줄은 요건
+    assert not rr.is_rule("x", rule("x-req", text="졸업논문 제출"))
+    prog = {"id": "animal-biotech", "college": "농업생명과학대학", "sources": {"s1": {"title": "a", "locator": "b"}}, "versions": [{"entry_years": [2025, 2025], "requirements": [
+        rule("animal-thesis", type="thesis", status="미확인", courses=[{"code": "M1702.000400", "name": "동물생명공학논문연구", "credits": 3}], src=["s1"]),
+        rule("cals-foreign-lang-lectures", status="부분", min_count=3, text="외국어진행강좌(대학영어 포함) 3과목 이상, 그중 1과목 이상은 전공 교과목"),
+        rule("animal-rename")]}]}
+    done = rr.refine(prog)
+    thesis, foreign, rename = prog["versions"][0]["requirements"]
+    assert done == {"사실": 2, "외국어진행강좌": 1} and thesis["status"] == "확인" and thesis["min_count"] == 1 and "학칙" in thesis["text"]
+    assert thesis["src"][0] == "s1" and prog["sources"][thesis["src"][1]]["title"].startswith("바이오시스템공학전공")
+    assert foreign["status"] == "확인" and foreign["foreign"] == {"lang": "any", "min_count": 3, "major_count": 1}
+    assert rr.mark_rules(prog) == 1 and rename["type"] == "rule" and thesis["type"] == "thesis"
+
+
+def test_snugenie_confirms_and_splits():
+    """스누지니 전필 목록과 같으면 '확인'(다른 학과 내규 전필은 견주지 않음), 목록이 빈 끝 학년도는 판을 나눠 '부분' 그대로, 다르면 보고서로"""
+    c = lambda code, cr=3: {"code": code, "name": code, "credits": cr}
+    core = {"id": "core", "type": "major_required", "applies_to": [], "text": "전공필수 3과목", "min_count": 3, "min_credits": None,
+            "courses": [c("5252.201A"), c("5252.301"), c("500.301A", 4)], "status": "부분", "src": ["s1"]}
+    prog = {"id": "animal-biotech", "program": "동물생명공학전공", "sources": {"s1": {"title": "학과", "locator": "x"}},
+            "versions": [{"entry_years": [2025, 2026], "basis": "입학 연도", "credits": {"grad": 130, "ge": 36, "single": 48, "parallel": 48, "status": "부분"},
+                          "requirements": [core]}]}
+    sg = {"codes": {"animal-biotech": ["525B"]}, "log": [],
+          "rules": {"525B": {"groups": [{"years": [2025], "text": "[이수규정]\n졸업(수료)학점- 130, 교양학점-36, 단일전공 이수-48, 다른 전공 병행이수-48"},
+                                        {"years": [2026], "text": sgn.NONE}]}},
+          "subjects": {"525B": {"jp": {"2025": ["5252.201A", "5252.301"], "2026": []}}}}
+    own = lambda code: code.startswith("5252.")
+    done = sgn.apply(prog, sg, sgn.Same(), own)
+    y25, y26 = prog["versions"]
+    assert done == {"판 나눔": 1, "전필 줄 확인": 1, "학점 확인": 1}
+    assert y25["entry_years"] == [2025, 2025] and y26["entry_years"] == [2026, 2026]
+    assert y25["requirements"][0]["status"] == "확인" and y26["requirements"][0]["status"] == "부분"
+    key = y25["requirements"][0]["src"][-1]
+    assert prog["sources"][key]["title"] == "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2025학년도, 2026-11-17 확인)"
+    assert y25["credits"]["status"] == "확인" and y26["credits"]["status"] == "부분"
+    # 스누지니 전필에 앱 줄에 없는 과목이 있으면 그대로 두고 보고서에
+    prog2 = {"id": "animal-biotech", "program": "동물생명공학전공", "sources": {},
+             "versions": [{"entry_years": [2025, 2025], "basis": "입학 연도", "credits": {}, "requirements": [dict(core, courses=core["courses"][:2], min_count=2)]}]}
+    sg["subjects"]["525B"]["jp"]["2025"] = ["5252.201A", "5252.301", "5252.410"]
+    assert sgn.apply(prog2, sg, sgn.Same(), own) == {} and prog2["versions"][0]["requirements"][0]["status"] == "부분"
+    assert "5252.410" in sgn.report(sg) and "전필 목록이 달라 그대로 둔 줄" in sgn.report(sg)
+
+
+def test_major_totals_and_old_ge():
+    """판 학점이 '확인'인데 전공 전체 학점 줄이 없으면 '전공 학점' 줄(단일·병행). 옛 학번 판의 2025학번 교양 글 줄은 교양 학점 합 줄이 서면 뺀다"""
+    v = lambda reqs, status="확인": {"entry_years": [2025, 2025], "credits": {"single": 48, "parallel": 39, "status": status, "src": ["s1"]}, "requirements": reqs}
+    prog = {"id": "x", "depts": ["가"], "versions": [v([]), v([], "부분"), v([{"id": "s", "sum": {"of": "major", "by_role": {"single": 60}}}])]}
+    assert rl.add_major_totals(prog) == 1
+    row = prog["versions"][0]["requirements"][0]
+    assert row["name"] == "전공 학점" and row["sum"] == {"of": "major", "by_role": {"single": 48, "parallel": 39}} and row["applies_to"] == ["single", "parallel"]
+    assert row["text"] == "전공 48학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상" and row["status"] == "확인"
+    assert rl.add_major_totals({"id": "y", "depts": [], "versions": [v([])]}) == 0  # 학과를 모르면 전공 과목을 못 가린다
+    old = {"entry_years": [2021, 2024], "requirements": [{"id": "ge-x", "type": "ge", "text": "교양: 학문의 토대 … 지성의 열쇠 9학점", "src": []}]}
+    rl.old_ge(old, {"table": {"k": {str(y): 36 for y in range(2019, 2027)}}}, "k")
+    assert [r["id"] for r in old["requirements"]] == ["ge-x-old-total"]
+
+
+@node
+def test_foreign_taught_and_rule_rows(tmp_path):
+    """외국어진행강좌: 그 학기 그 분반이 외국어로 진행됐으면 센다(전공 과목 수 따로, 대학영어 같은 뺄 과목은 빼고, 분반을 모르는 체크 과목이 있으면 확인 필요).
+    규칙 설명 줄은 요건 줄에서 빠지고 묶음의 rules 로"""
+    c = lambda code, cr=3: {"code": code, "name": code, "credits": cr}
+    prog = {"id": "t", "program": "가", "depts": ["가"], "code_prefixes": ["T."], "exists_for": [2019, 2026], "sources": {"s1": {"title": "학과 내규", "locator": "1쪽"}},
+            "versions": [{"entry_years": [2019, 2026], "basis": "입학 연도", "status": "확인", "src": [],
+                          "credits": {"grad": 130, "ge": 36, "single": 48, "parallel": 48, "double": 39, "minor": 21, "status": "확인", "src": []},
+                          "requirements": [
+                              {"id": "fl", "type": "other", "applies_to": [], "text": "외국어진행강좌 3과목 이상, 그중 1과목 이상은 전공", "min_count": 3, "min_credits": None,
+                               "courses": [], "status": "확인", "src": [], "foreign": {"lang": "any", "min_count": 3, "major_count": 1, "exclude": ["대학영어"]}},
+                              {"id": "rule1", "type": "rule", "applies_to": [], "text": "다전공 겹쳐 인정: 복수 9학점", "min_count": None, "min_credits": None,
+                               "courses": [], "status": "확인", "src": ["s1"]}]}]}
+    lang = {"terms": {"2025-1": {"T.101": "001", "G.200": "002:중국어", "E.100": "001 002"}, "2025-2": {"T.102": "001"}}}
+    rec = lambda code, no, term="2025-1", **kw: {"code": code, "name": kw.pop("name", code), "credits": 3, "cls": kw.pop("cls", "전선"), "dept": kw.pop("dept", "가"),
+                                                 "term": term, "no": no, **kw}
+    base = [rec("T.101", "001"), rec("G.200", "002", cls="교양", dept="나"), rec("E.100", "001", cls="교양", dept="나", name="대학영어 2")]
+    cases = [base, base + [rec("X.1", "001", cls="교양", dept="나"), rec("G.300", "001", term="2025-2", cls="교양", dept="나")],
+             base + [rec("H.1", "003", cls="교양", dept="나")] + [{"code": "Q.9", "name": "Q", "credits": 3, "cls": "", "term": None, "checked": True}],
+             [rec("G.200", "002", cls="교양", dept="나"), rec("T.101", "002"), rec("T.102", "001", term="2025-2", cls="교양", dept="나")],
+             [rec("G.200", "002", cls="교양", dept="나"), rec("E.100", "002", cls="교양", dept="나"), rec("T.101", "002"),
+              rec("T.102", "001", term="2025-2", cls="교양", dept="나")]]
+    got = _run(tmp_path, [{"kind": "view", "picks": [{"program": prog, "role": "single", "entryYear": 2025}], "records": r, "lectureLang": lang} for r in cases]
+               + [{"kind": "view", "picks": [{"program": prog, "role": "single", "entryYear": 2025}], "records": base}])
+    two, still_two, unknown, short_major, no_major, no_data = (g["bundles"][1] for g in got)
+    assert two["rows"]["fl"]["value"] == "1과목 남음" and two["rows"]["fl"]["progress"] == {"have": 2, "need": 3, "unit": "과목"}  # 대학영어는 뺀다
+    assert [x[0] for x in two["rows"]["fl"]["courses"]] == ["T.101", "G.200"]
+    assert still_two["rows"]["fl"]["value"] == "1과목 남음"  # 한국어 강좌·외국어 강좌가 아닌 분반은 안 센다
+    assert unknown["rows"]["fl"]["value"] == "확인 필요" and "분반을 모르는 과목 1개" in unknown["rows"]["fl"]["because"]
+    assert short_major["rows"]["fl"]["value"] == "1과목 남음(전공 1과목 포함)"  # T.101 002 분반은 한국어, T.102 는 교양으로 들음
+    assert no_major["rows"]["fl"]["value"] == "전공 1과목 남음"  # 3과목이지만 전공 외국어 강좌가 없다
+    assert no_data["rows"]["fl"]["value"] == "확인 필요"  # 강의 언어 자료가 없으면
+    assert "rule1" not in two["rows"] and two["rules"] == [["rule1", "다전공 겹쳐 인정", ["출처: 학과 내규 · 1쪽"]]]
+
+
+
+
+def test_animal_biotech_2025_from_snugenie():
+    """사용자 11/17 '우리 과처럼 졸업 요건 모르는 건 스누지니든 뭐든 활용해서 알아내라': 2025학번 판은 스누지니 전필 목록·졸업 학점이 학과 자료와 같아
+    전공필수·판 학점을 확인으로, 졸업논문(학칙·단과대 지침)·외국어진행강좌(단과대 공통)도 확인. 2026학년도는 스누지니 전필 목록이 비어 '부분' 그대로"""
+    p = programs()["animal-biotech"]
+    new, y26 = p["versions"][:2]
+    rows = {r["id"]: r for r in new["requirements"]}
+    title = lambda r: [p["sources"][k]["title"] for k in r["src"]]
+    assert new["credits"]["status"] == "확인" and y26["credits"]["status"] == "부분"
+    for rid in ("animal-main-core", "animal-thesis", "cals-foreign-lang-lectures", "major-total"):
+        assert rows[rid]["status"] == "확인", rid
+    assert "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2025학년도, 2026-11-17 확인)" in title(rows["animal-main-core"])
+    assert rows["major-total"]["sum"] == {"of": "major", "by_role": {"single": 48, "parallel": 48}}
+    assert rows["animal-thesis"]["min_count"] == 1 and "M1702.000400" in rows["animal-thesis"]["text"]
+    assert rows["cals-foreign-lang-lectures"]["foreign"] == {"lang": "any", "min_count": 3, "major_count": 1}
+    assert rows["animal-rename"]["type"] == rows["animal-stat-once"]["type"] == "rule"
+    assert next(r for r in y26["requirements"] if r["id"] == "animal-main-core")["status"] == "부분" and "major-total" not in {r["id"] for r in y26["requirements"]}
+    # 스누지니 출처는 학교 자료 이름과 확인한 날만(원문·연락처는 앱에 안 넣는다)
+    for pid, q in programs().items():
+        for s in q["sources"].values():
+            if "스누지니" in s["title"]:
+                assert s["url"] == "https://snugenie.snu.ac.kr" and set(s) <= {"title", "url", "locator", "accessed"}, pid

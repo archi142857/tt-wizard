@@ -47,6 +47,32 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s22",
+      "s1"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "stat-ge-total",
      "type": "ge",
      "applies_to": [
@@ -983,7 +1009,7 @@
     },
     {
      "id": "stat-no-mathstat",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -1007,7 +1033,7 @@
     },
     {
      "id": "stat-transfer",
-     "type": "major_elective",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -1068,7 +1094,7 @@
     },
     {
      "id": "stat-ge-exempt",
-     "type": "ge",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1111,6 +1137,31 @@
     "s25"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s24"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "stat-ge-total",
      "type": "ge",
@@ -2028,7 +2079,7 @@
     },
     {
      "id": "stat-no-mathstat",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -2052,7 +2103,7 @@
     },
     {
      "id": "stat-transfer",
-     "type": "major_elective",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -2141,6 +2192,31 @@
     "s29"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s35"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "stat-ge-stat",
      "type": "ge",
@@ -2380,7 +2456,7 @@
     },
     {
      "id": "stat-no-mathstat",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -2404,7 +2480,7 @@
     },
     {
      "id": "stat-transfer",
-     "type": "major_elective",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -3161,7 +3237,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -3338,6 +3414,31 @@
     "s26"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s44"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "stat-ge-stat",
      "type": "ge",
@@ -3578,7 +3679,7 @@
     },
     {
      "id": "stat-transfer",
-     "type": "major_elective",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -4353,7 +4454,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -4533,6 +4634,31 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s44"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "stat-ge-stat",
      "type": "ge",
      "applies_to": [
@@ -4570,7 +4696,7 @@
     },
     {
      "id": "stat-ge-calc",
-     "type": "ge",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -4770,7 +4896,7 @@
     },
     {
      "id": "stat-transfer",
-     "type": "major_elective",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -5543,7 +5669,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -5724,6 +5850,31 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s55"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "stat-ge-stat",
      "type": "ge",
      "applies_to": [
@@ -5762,7 +5913,7 @@
     },
     {
      "id": "stat-ge-calc",
-     "type": "ge",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -5962,7 +6113,7 @@
     },
     {
      "id": "stat-transfer",
-     "type": "major_elective",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -6737,7 +6888,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",

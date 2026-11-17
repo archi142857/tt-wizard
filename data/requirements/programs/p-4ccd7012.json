@@ -162,7 +162,7 @@
     },
     {
      "id": "korean-practice-rules",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -311,7 +311,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -753,7 +753,7 @@
     },
     {
      "id": "korean-practice-rules",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -902,7 +902,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -1322,7 +1322,7 @@
     },
     {
      "id": "korean-practice-rules",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1471,7 +1471,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -1875,7 +1875,7 @@
     },
     {
      "id": "korean-practice-rules",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -2024,7 +2024,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -2448,7 +2448,7 @@
     },
     {
      "id": "korean-practice-rules",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -2597,7 +2597,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -3021,7 +3021,7 @@
     },
     {
      "id": "korean-practice-rules",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -3170,7 +3170,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"

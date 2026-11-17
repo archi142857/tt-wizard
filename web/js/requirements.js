@@ -241,7 +241,7 @@ function autoReason(r) {
 export const SUBSTITUTED = "대체 과목을 둘 다 들음";
 export const SHARED_COURSE = "여러 요건에 걸린 과목";
 const TYPE_NAME = { major_required: "전공필수", major_elective: "전공선택", major_choose: "지정 과목", double: "복수전공", minor: "부전공",
-  thesis: "졸업 논문", distribution: "분배 이수", ge: "교양", other: "기타 조건" };
+  thesis: "졸업 논문", distribution: "분배 이수", ge: "교양", other: "기타 조건", rule: "이수 규칙" };
 
 const ROW_STOP = new Set(["표", "총", "합"]); // 줄 이름이 될 수 없는 앞말 → 종류 이름
 const ROW_MAP = { "등록": "등록 학기", "학기당": "학기당 수강 학점", "유형별": "유형별 과목군" }; // 너무 짧은 앞말
@@ -274,7 +274,7 @@ export function rowName(req) {
  * 디자인 124판: 대체 관계 과목을 둘 다 들었거나(tidyRecords 의 substituted) 들은 과목 하나가 셀 수 있는 줄 여럿에 걸리면 그 줄은 확인 필요.
  * 다만 한 줄의 과목 목록이 다른 줄 목록 안에 다 들면(큰 요건 안의 작은 요건: '과학 16학점' 안의 '생물학 1·2') 두 줄에 같이 세는 것이 규정이라 그대로 둔다.
  */
-export function evaluateProgram(program, version, courses, { role = "single", sameCourse = (c) => c, areas = null, entryYear = null } = {}) {
+export function evaluateProgram(program, version, courses, { role = "single", sameCourse = (c) => c, areas = null, entryYear = null, lectureLang = null } = {}) {
   version = rowsForEntry(version, entryYear); // 입학 연도로 나눈 교양 줄(update128)
   const got = new Map(); // 대표 번호 → 과목
   for (const c of courses) if (!c.failed) got.set(c.key || sameCourse(c.code), c);
@@ -283,6 +283,7 @@ export function evaluateProgram(program, version, courses, { role = "single", sa
   const later = []; // 분야·갈래 줄: 다른 줄을 다 센 뒤 센다(다른 줄이 센 과목을 알아야 해서)
   for (const r of version.requirements || []) {
     if ((r.applies_to || []).length && !r.applies_to.includes(role)) continue;
+    if (r.type === "rule") continue; // 규칙 설명(요건 아님, update135): gradView 의 rules 로 따로
     const row = { id: r.id, type: r.type, name: rowName(r), text: r.text, status: r.status, note: r.note || null, src: r.src || [] };
     if (r.same_as) { // 공통 '졸업 평점'과 같은 줄(update127, 학과의 '전체·전공 평점 2.0 이상'): gradView 가 그 줄 값을 그대로 쓴다
       Object.assign(row, { state: "check", reason: SAME_GPA, sameAs: r.same_as, have: { count: 0, credits: 0, codes: [] }, need: { count: null, credits: null },
@@ -355,6 +356,7 @@ export function evaluateProgram(program, version, courses, { role = "single", sa
     const shared = new Set([...hitsOf].filter(([, list]) => list.some(apart)).map(([k]) => k));
     if (kind === "groups") evaluateGroups(r, row, got, shared, sameCourse, areas);
     else if (kind === "sum") evaluateSum(r, row, courses, { program, version, role, sameCourse });
+    else if (kind === "foreign") evaluateForeign(r, row, courses, { program, version, sameCourse, lectureLang });
     else evaluatePaths(r, row, got, sameCourse, version);
     if (row.state !== "check" && (row.taken || []).some((m) => m.substituted)) {
       row.left = row.missing || [];
@@ -379,6 +381,7 @@ export const SAME_GPA = "졸업 평점과 같은 조건";
 function structuredKind(r) {
   if (r.status !== "확인") return null;
   if (r.sum && typeof r.sum === "object" && (r.min_credits != null || Object.keys(r.sum.by_role || {}).length)) return "sum"; // 학점 합 줄(update127)
+  if (r.foreign && typeof r.foreign === "object" && (r.foreign.min_count != null || r.foreign.min_credits != null)) return "foreign"; // 외국어진행강좌(update135)
   const e = r.extra;
   if (!e) return null;
   const keys = Object.keys(e);
@@ -709,6 +712,63 @@ function evaluateSum(r, row, courses, { program, version, role, sameCourse }) {
   if (have >= need) row.state = "met";
   else if (s.floor != null && have >= s.floor) Object.assign(row, { state: "check", reason: COND, because: s.cond || null });
   else Object.assign(row, { state: "remaining", short: { unit: "학점", left: need - have } });
+}
+
+export const FOREIGN_DATA = "강의 언어 자료가 없는 조건";
+export const FOREIGN_UNKNOWN = "강의 언어를 모르는 과목";
+
+/** 그 학기 그 분반이 외국어(lang '영어'면 영어)로 진행됐나. lecture_lang.json terms: {학기: {번호: '001 002' | '003:중국어'}}(한국어가 아닌 분반만) */
+function foreignTaught(lectureLang, c, lang = "any") {
+  const t = lectureLang.terms[c.term];
+  const secs = t && t[c.code];
+  if (!secs) return false;
+  const no = String(c.no).padStart(3, "0");
+  const hit = String(secs).split(" ").find((s) => s.split(":")[0] === no);
+  return Boolean(hit) && (lang !== "영어" || !hit.includes(":"));
+}
+
+/**
+ * 외국어진행강좌 줄(update135, r.foreign = {min_count | min_credits, major_count | major_credits, lang, exclude}): 들은 분반이 그 학기에
+ * 외국어로 진행됐는지(lecture_lang.json, 지난 편람의 강의언어 칸)로 센다. 서울대 개설 과목만(다른 곳에서 들은 과목은 빼고), exclude 이름(대학영어 등)은 뺀다.
+ * 분반을 모르는 기록(시트에서 체크한 과목)은 셀 수 없어, 기준에 모자라고 그런 과목이 있으면 확인 필요
+ */
+function evaluateForeign(r, row, courses, { program, version, sameCourse, lectureLang }) {
+  const f = r.foreign;
+  const need = f.min_credits != null ? { credits: Number(f.min_credits), count: null } : { count: Number(f.min_count), credits: null };
+  const majorNeed = f.major_credits != null ? { credits: Number(f.major_credits) } : f.major_count != null ? { count: Number(f.major_count) } : null;
+  row.need = need;
+  if (!lectureLang || !lectureLang.terms) {
+    Object.assign(row, { state: "check", reason: FOREIGN_DATA, have: { count: 0, credits: 0, codes: [] }, taken: [], all: [], progress: null });
+    return;
+  }
+  const skip = (c) => (f.exclude || []).some((w) => String(c.name || "").includes(w));
+  const xs = [], unknown = [];
+  for (const c of courses) {
+    if (c.failed || c.manual || skip(c)) continue;
+    if (c.no == null || !c.term) { if (c.checked) unknown.push(c); continue; }
+    if (foreignTaught(lectureLang, c, f.lang)) xs.push(c);
+  }
+  const sum = (list) => list.reduce((t, c) => t + (Number(c.earned) || 0), 0);
+  const majors = xs.filter((c) => isMajorCourse(c, program, version, sameCourse));
+  const have = need.credits != null ? sum(xs) : xs.length;
+  const want = need.credits != null ? need.credits : need.count;
+  const unit = need.credits != null ? "학점" : "과목";
+  const majorHave = majorNeed ? (majorNeed.credits != null ? sum(majors) : majors.length) : 0;
+  const majorWant = majorNeed ? (majorNeed.credits != null ? majorNeed.credits : majorNeed.count) : 0;
+  const majorUnit = majorNeed && majorNeed.credits != null ? "학점" : "과목";
+  row.have = { count: xs.length, credits: sum(xs), codes: xs.map((c) => c.code) };
+  row.taken = xs.map((c) => ({ code: c.code, name: c.name || c.code, credits: Number(c.earned) || 0, term: c.term ?? null, key: c.key || sameCourse(c.code), checked: false }));
+  row.all = row.taken.map((c) => ({ code: c.code, name: c.name, credits: c.credits }));
+  row.progress = { have: Math.min(have, want), need: want, unit };
+  if (have >= want && majorHave >= majorWant) { row.state = "met"; return; }
+  if (unknown.length) {
+    Object.assign(row, { state: "check", reason: FOREIGN_UNKNOWN, because: `분반을 모르는 과목 ${unknown.length}개는 외국어로 진행됐는지 알 수 없어요.` });
+    return;
+  }
+  const left = Math.max(0, want - have), majorLeft = Math.max(0, majorWant - majorHave);
+  row.state = "remaining";
+  row.short = left > 0 ? { unit, left, ...(majorLeft > 0 ? { text: `${left}${unit} 남음(전공 ${majorLeft}${majorUnit} 포함)` } : {}) }
+    : { unit: majorUnit, left: majorLeft, text: `전공 ${majorLeft}${majorUnit} 남음` };
 }
 
 /**
@@ -1086,6 +1146,8 @@ export function reasonText(row, { entryYear = null } = {}) {
     case SUBSTITUTED: return "대체 관계인 과목을 둘 다 들었어요. 어느 쪽으로 셀지 학과에 확인해 주세요.";
     case SHARED_COURSE: return "들은 과목 하나가 여러 요건에 걸려 있어요. 어느 요건으로 셀지 학과에 확인해 주세요.";
     case COND: return (row && row.because) || "조건에 따라 더 들어야 할 수 있어요.";
+    case FOREIGN_DATA: return "강의 언어 자료를 받지 못해 외국어진행강좌를 세지 못했어요.";
+    case FOREIGN_UNKNOWN: return (row && row.because) || "외국어로 진행됐는지 모르는 과목이 있어요.";
     case SAME_GPA: return "공통의 졸업 평점과 같은 조건이에요.";
     default: return (row && row.because) || null;
   }
@@ -1237,7 +1299,7 @@ export function rowView(row, { program, title = null, label = null, entryYear = 
  * → {total, bundles: [{kind: "common"|"program", id, title, label, choices, rows: [rowView]}], missing: [자료가 없는 과정 id]}.
  * 공통: 졸업 학점 · 졸업 평점 · 주전공 판의 교양 줄. 주전공 묶음에는 교양 줄을 다시 넣지 않는다
  */
-export function gradView({ picks = [], records = [], grades = null, common = null, sameCourse = (c) => c, gpaChecks = null, rowChecks = null, areas = null } = {}) {
+export function gradView({ picks = [], records = [], grades = null, common = null, sameCourse = (c) => c, gpaChecks = null, rowChecks = null, areas = null, lectureLang = null } = {}) {
   const geCodes = new Set(picks.flatMap((p) => [...requirementCodes(p.version || pickVersionFor(p.program, { entryYear: p.entryYear }).version, true),
     ...requirementCodes(p.own || null, true)]));
   for (const a of Object.values((areas && areas.areas) || {})) for (const c of a.courses || []) geCodes.add(c.code); // 영역 목록에서 체크한 교양 과목(update128)
@@ -1280,12 +1342,12 @@ export function gradView({ picks = [], records = [], grades = null, common = nul
     const role = p.role || "single";
     const label = versionLabel(p.program, p.version, { role, selectionTerm: p.selectionTerm });
     const title = p.title || p.program.program;
-    let rows = evaluateProgram(p.program, p.version, tidy.courses, { role, sameCourse, areas, entryYear: p.entryYear });
+    let rows = evaluateProgram(p.program, p.version, tidy.courses, { role, sameCourse, areas, entryYear: p.entryYear, lectureLang });
     // 더 새 판을 고른 주전공(versionChoices. 화면이 own 으로 자기 판을 준다): 교양은 늘 입학 연도 규정이라 교양 줄은 자기 판에서 센다(update128)
     const own = i === 0 && p.own && p.own !== p.version ? p.own : null;
     const ownGe = own ? (own.requirements || []).filter((x) => x.type === "ge") : [];
     if (own) {
-      const ge = evaluateProgram(p.program, { ...own, requirements: ownGe }, tidy.courses, { role, sameCourse, areas, entryYear: p.entryYear });
+      const ge = evaluateProgram(p.program, { ...own, requirements: ownGe }, tidy.courses, { role, sameCourse, areas, entryYear: p.entryYear, lectureLang });
       rows = [...rows.filter((r) => r.type !== "ge"), ...ge];
     }
     const opts = { program: p.program, title, label, entryYear: p.entryYear, sameCourse };
@@ -1308,7 +1370,10 @@ export function gradView({ picks = [], records = [], grades = null, common = nul
     }
     const choices = versionChoices(p.program, p.version, { newer: p.newer, entryYear: p.entryYear, role, selectionTerm: p.selectionTerm })
       .map((c) => ({ label: c.label, entry_years: c.version.entry_years }));
-    if (!p.geOnly) bundles.push({ kind: "program", id: p.program.id, title, label, choices, rows: mine }); // 전공을 아직 안 정했으면(geOnly) 공통만(update128)
+    // 규칙 설명(요건 아님, type 'rule', update135): 요건 줄·요건 수·확인 필요에 넣지 않고 '이수 규칙 N개' 시트용으로 자료 글·출처를 그대로(디자인 update127 ⑧)
+    const rules = (p.version.requirements || []).filter((x) => x.type === "rule" && (!(x.applies_to || []).length || x.applies_to.includes(role)))
+      .map((x) => ({ id: x.id, name: rowName(x), text: x.text, status: x.status, sources: sourceTexts(p.program, x.src || []) }));
+    if (!p.geOnly) bundles.push({ kind: "program", id: p.program.id, title, label, choices, rows: mine, rules }); // 전공을 아직 안 정했으면(geOnly) 공통만(update128)
   });
   return { total, bundles, missing, credits: sums };
 }

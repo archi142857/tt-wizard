@@ -1,7 +1,8 @@
 """졸업 요건 조사 자료(공유 폴더) → data/requirements/ (앱이 쓰는 꼴).
 
   python scripts/requirements_import.py --round1 <졸업_요건_2025학번.json> --round2 <졸업_요건_학번별.json> \
-      --ge-table <교양_학점_학번별.json> --course-map <교양_과목_대응표_2024-2026.csv> --common <학사_공통_규정.json>
+      --ge-table <교양_학점_학번별.json> --course-map <교양_과목_대응표_2024-2026.csv> --common <학사_공통_규정.json> \
+      --snugenie <조사_스누지니_20261117/data> [--report <졸업_요건_스누지니_반영.md>]
 
 조사 자료는 레포 밖(공유 폴더)에 둔다. 1차(2025학번)는 과정마다 요건 전체, 2차(2019~2026학번)는 같은 규정이 걸리는
 학번끼리 묶은 판과 '바로 위 판과 다른 것'(replace·remove·add)만 담는다. 이 스크립트는
@@ -27,6 +28,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import requirements_lists  # noqa: E402  (update127: 셀 수 없던 줄을 셀 수 있는 꼴로)
+import requirement_rules  # noqa: E402  (update135: 규칙 설명 줄·외국어진행강좌 셈 꼴·백엔드가 찾은 사실)
+import snugenie  # noqa: E402  (update135: 스누지니 전공 탐색 조사 자료로 확인)
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "requirements"
@@ -655,6 +658,17 @@ def from_round1(p1: dict, rule: dict | None) -> dict:
                           "sources": (rv.get("sources") or [])}]}
 
 
+def owner(prog: dict, depts_of: dict[str, list[str]]):
+    """번호 → 이 과정 학과의 과목인가(번호 앞자리가 정해진 과정은 그것, 아니면 지난 편람의 개설 학과). 스누지니 전필 목록과 견줄 때(update135)"""
+    pre, depts = prog.get("code_prefixes") or [], set(prog.get("depts") or [])
+
+    def own(code: str) -> bool:
+        if pre:
+            return any(code.startswith(p) for p in pre)
+        return bool(depts) and bool(depts & set(depts_of.get(code) or []))
+    return own
+
+
 def fix(key: tuple, p2: dict) -> dict:
     vs = []
     for v in p2.get("versions") or []:
@@ -672,6 +686,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--common", required=True)
     ap.add_argument("--programs", default="all", help="all(기본) 또는 pilots(시범 셋만)")
     ap.add_argument("--history", default=str(HISTORY), help="지난 편람 폴더(전공 과목 학과 정하기)")
+    ap.add_argument("--snugenie", default=None, help="스누지니 조사 자료 폴더(공유 폴더 조사_스누지니_20261117/data, update135). 없으면 그 확인을 건너뛴다")
+    ap.add_argument("--report", default=None, help="스누지니 반영 보고서(마크다운)를 쓸 곳")
     ap.add_argument("-o", "--output", default=str(OUT))
     args = ap.parse_args(argv)
     out = Path(args.output)
@@ -709,6 +725,11 @@ def main(argv: list[str] | None = None) -> int:
     ge_table = read_ge_table(Path(args.ge_table))
     counted: dict[str, int] = {}
     old_codes = survey_old_codes(r1, r2)
+    sg = snugenie.load(args.snugenie)
+    if args.snugenie and not sg:
+        print(f"  ! 스누지니 조사 자료가 없다: {args.snugenie}")
+    pairs = json.loads((OUT / "same_courses.json").read_text(encoding="utf-8")).get("pairs") if (OUT / "same_courses.json").exists() else []
+    same = snugenie.Same(pairs)
     pilot_ids = {m["id"] for m in PILOTS.values()}
     for i, (ds, pre) in derive_depts(list(built.values()), depts_of).items():
         if i not in pilot_ids:
@@ -718,8 +739,14 @@ def main(argv: list[str] | None = None) -> int:
         fill_code_lists(prog, hist)
         counted["인문대 공통 판 나눔"] = counted.get("인문대 공통 판 나눔", 0) + requirements_lists.expand_humanities(prog, hum1, tables, star)
         counted["판 나눔"] = counted.get("판 나눔", 0) + requirements_lists.split_new_ge(prog, ge_table)  # update127: 셀 수 있는 꼴로(requirements_lists.py)
+        for k, n in requirement_rules.refine(prog).items():  # update135
+            counted[k] = counted.get(k, 0) + n
+        for k, n in snugenie.apply(prog, sg, same, owner(prog, depts_of)).items():  # update135
+            counted[f"스누지니 {k}"] = counted.get(f"스누지니 {k}", 0) + n
         for k, n in requirements_lists.apply(prog, tables, star).items():
             counted[k] = counted.get(k, 0) + n
+        counted["규칙 설명"] = counted.get("규칙 설명", 0) + requirement_rules.mark_rules(prog)  # update135
+        counted["전공 학점 줄"] = counted.get("전공 학점 줄", 0) + requirements_lists.add_major_totals(prog)  # update135
         counted["대체 번호 정리"] = counted.get("대체 번호 정리", 0) + clean_alts(prog, old_codes)  # 11/17: '번호(설명)' → 번호, 조사 자료의 옛 번호
         (out / "programs" / f"{prog['id']}.json").write_text(json.dumps(prog, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     index = [index_entry(one.get(k), two.get(k), k[0], built) for k in keys]
@@ -731,6 +758,8 @@ def main(argv: list[str] | None = None) -> int:
     (out / "ge_areas.json").write_text(json.dumps(areas, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     common = common_rules(Path(args.common))
     (out / "common.json").write_text(json.dumps(common, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    if args.report and sg:
+        Path(args.report).write_text(snugenie.report(sg), encoding="utf-8")
     print(f"과정 파일 {len(built)}개, 목록 {len(index)}개 → {out}")
     print("셀 수 있게 바꾼 줄: " + ", ".join(f"{k} {n}" for k, n in sorted(counted.items(), key=lambda kv: -kv[1])))
     for k, w in warns.items():

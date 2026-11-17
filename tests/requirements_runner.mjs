@@ -164,9 +164,10 @@ const out = read(casesPath).map((c) => {
       const same = buildSameCourse(courseMap, picks.map((x) => x.program));
       const grades = c.grades ? gpa(c.records, { sameCourse: same }) : null;
       const v = gradView({ picks, records: c.records, grades, common, sameCourse: same, gpaChecks: c.gpaChecks || null, rowChecks: c.rowChecks || null,
-        areas: c.areas === false ? null : geAreas });
+        areas: c.areas === false ? null : geAreas, lectureLang: c.lectureLang || null });
       return { total: v.total, missing: v.missing, ge: v.credits.ge, general: v.credits.general, byChecks: v.bundles[0].rows.find((r) => r.id === "grad-gpa").byChecks,
         bundles: v.bundles.map((b) => ({ kind: b.kind, id: b.id, title: b.title, label: b.label, choices: b.choices.map((x) => x.label),
+          rules: (b.rules || []).map((x) => [x.id, x.name, x.sources.map((y) => y.text)]),
           rows: Object.fromEntries(b.rows.map((r) => [r.id, { name: r.name, value: r.value.text, aria: r.aria, summary: r.sheet.summary, progress: r.progress,
             byChecks: Boolean(r.byChecks), groups: r.sheet.groups ? r.sheet.groups.map((g) => [g.name, g.value.text]) : null, cond: Boolean(r.sheet.cond),
             groupCourses: r.sheet.groups ? r.sheet.groups.map((g) => (g.courses || []).map((x) => x.code)) : null,

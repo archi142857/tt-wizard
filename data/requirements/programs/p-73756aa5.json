@@ -86,7 +86,7 @@
     },
     {
      "id": "asia-must-pair",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "parallel"
      ],
@@ -234,7 +234,11 @@
      "src": [
       "s1",
       "s2"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "asia-thesis",
@@ -513,7 +517,11 @@
      "src": [
       "s10",
       "s11"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "hum-life-seminar",
@@ -793,7 +801,7 @@
     },
     {
      "id": "asia-must-pair",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "parallel"
      ],
@@ -941,7 +949,11 @@
      "src": [
       "s1",
       "s2"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "asia-thesis",
@@ -1392,7 +1404,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -1623,7 +1635,11 @@
       "s10",
       "s11"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "note": "2026학번도 같음(학부 규정에 2025·2026 변경 없음, 상세본은 25학번 교양 변화만 적음).",
@@ -1686,7 +1702,7 @@
     },
     {
      "id": "asia-must-pair",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "parallel"
      ],
@@ -1817,7 +1833,11 @@
      "src": [
       "s1",
       "s2"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "asia-thesis",
@@ -2268,7 +2288,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -2499,7 +2519,11 @@
       "s10",
       "s11"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "changed": "타 세부전공 과목 1과목 필수 규정 없음(2024학번·2024년 진입부터).",
@@ -2563,7 +2587,7 @@
     },
     {
      "id": "asia-must-pair",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "parallel"
      ],
@@ -2694,7 +2718,11 @@
      "src": [
       "s1",
       "s2"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "asia-thesis",
@@ -3145,7 +3173,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -3376,7 +3404,11 @@
       "s10",
       "s11"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "changed": "타 세부전공 과목 1과목 필수 규정 없음(2024학번·2024년 진입부터).",

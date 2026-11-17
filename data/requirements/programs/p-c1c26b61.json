@@ -58,6 +58,33 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 48학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s27",
+      "s36"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 48
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "ips-core",
      "type": "major_required",
      "applies_to": [
@@ -389,7 +416,7 @@
     },
     {
      "id": "sti-track-ilseon",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -424,7 +451,7 @@
     },
     {
      "id": "sti-elective-cap",
-     "type": "major_elective",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1466,7 +1493,7 @@
     },
     {
      "id": "sti-track-ilseon",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1501,7 +1528,7 @@
     },
     {
      "id": "sti-elective-cap",
-     "type": "major_elective",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -2518,7 +2545,7 @@
     },
     {
      "id": "sti-track-ilseon",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -2553,7 +2580,7 @@
     },
     {
      "id": "sti-elective-cap",
-     "type": "major_elective",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"

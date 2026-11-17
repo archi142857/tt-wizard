@@ -169,6 +169,11 @@
      ],
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_credits": 9,
+      "major_credits": 3
      }
     },
     {
@@ -842,6 +847,32 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 52학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s15"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 52
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-geo-core",
      "type": "major_required",
      "applies_to": [
@@ -957,6 +988,11 @@
      ],
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_credits": 9,
+      "major_credits": 3
      }
     },
     {
@@ -1959,6 +1995,11 @@
      ],
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_credits": 9,
+      "major_credits": 3
      }
     },
     {
@@ -2840,6 +2881,34 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 52학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s23",
+      "s22",
+      "s15"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 52
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-geo-core",
      "type": "major_required",
      "applies_to": [
@@ -2955,6 +3024,11 @@
      ],
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_credits": 9,
+      "major_credits": 3
      }
     },
     {
@@ -3762,6 +3836,34 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 52학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s25",
+      "s22",
+      "s15"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 52
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-geo-core",
      "type": "major_required",
      "applies_to": [
@@ -3877,6 +3979,11 @@
      ],
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_credits": 9,
+      "major_credits": 3
      }
     },
     {

@@ -49,6 +49,35 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 65학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 59학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s3",
+      "s15",
+      "s13",
+      "s16"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 65,
+       "parallel": 59
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-his-logic",
      "type": "major_required",
      "applies_to": [
@@ -379,6 +408,11 @@
      ],
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_count": 2,
+      "major_credits": 3
      }
     },
     {
@@ -1188,6 +1222,32 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 65학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 59학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s19"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 65,
+       "parallel": 59
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-his-logic",
      "type": "major_required",
      "applies_to": [
@@ -1518,6 +1578,11 @@
      ],
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_count": 2,
+      "major_credits": 3
      }
     },
     {
@@ -2524,6 +2589,31 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 65학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 59학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s20"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 65,
+       "parallel": 59
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-his-logic",
      "type": "major_required",
      "applies_to": [
@@ -2854,6 +2944,11 @@
      ],
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_count": 2,
+      "major_credits": 3
      }
     },
     {
@@ -3853,6 +3948,32 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 65학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 59학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s26",
+      "s23"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 65,
+       "parallel": 59
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-his-logic",
      "type": "major_required",
      "applies_to": [
@@ -4207,6 +4328,11 @@
      ],
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_count": 2,
+      "major_credits": 3
      }
     },
     {
@@ -5130,6 +5256,32 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 65학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 59학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s26",
+      "s22"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 65,
+       "parallel": 59
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-his-logic",
      "type": "major_required",
      "applies_to": [
@@ -5484,6 +5636,10 @@
      "note": "2021학년도 입학자부터 '3학점 이상 전공 과목 포함 2과목 이상'으로 바뀜.",
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
      }
     },
     {

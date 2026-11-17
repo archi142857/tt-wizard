@@ -109,7 +109,7 @@
     },
     {
      "id": "cs-elective",
-     "type": "major_elective",
+     "type": "rule",
      "applies_to": [
       "double"
      ],

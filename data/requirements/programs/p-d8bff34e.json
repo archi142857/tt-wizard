@@ -740,7 +740,7 @@
     },
     {
      "id": "me-foreign-lang-lectures",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1588,7 +1588,7 @@
     },
     {
      "id": "me-foreign-lang-lectures",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -2465,7 +2465,15 @@
      "status": "확인",
      "src": [
       "s24"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어"
+      ]
+     }
     },
     {
      "id": "me-gpa",
@@ -3355,7 +3363,15 @@
      "status": "확인",
      "src": [
       "s24"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어"
+      ]
+     }
     },
     {
      "id": "me-gpa",
@@ -4286,7 +4302,15 @@
      "status": "확인",
      "src": [
       "s24"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어"
+      ]
+     }
     },
     {
      "id": "me-gpa",
@@ -5197,7 +5221,15 @@
      "status": "확인",
      "src": [
       "s24"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어"
+      ]
+     }
     },
     {
      "id": "me-gpa",

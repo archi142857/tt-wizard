@@ -637,24 +637,38 @@ function renderTerm() {
 }
 /** 연도 선택칸에 보일 해(149판): 지난 편람이 2013년부터 늘어(백엔드 update128) 학번을 넣었으면 그 해부터, 아니면 2019년부터.
  *  그보다 앞이라도 시간표가 있는 해와 지금 고른 해는 남긴다(학기 목록 semesters.json 은 그대로). 접은 해는 칸 맨 아래 '이전 해 보기'로 편다
- *  (11/17 사용자 '25년부터 띄우되, 접어둔 걸 펼칠 수 있는 방식'. 편 것은 이 세션 동안 두 칸 다). → { years, more: 접은 해가 있다 } */
-let termMore = false;
-function termYears(ids, sem) {
+ *  (11/17 사용자 '25년부터 띄우되, 접어둔 걸 펼칠 수 있는 방식'). 편 것은 그 칸을 쓰는 동안만: 해를 고르거나 칸을 떠나면 다시 접어 다음에 누를 때 또 '이전 해 보기'가 있다
+ *  (같은 날 사용자 '이전 해 보기 이건 항상 다시 연도를 누를 때마다 뜨게'). → { years, more: 접은 해가 있다 } */
+let termMore = null, termMoreAt = 0; // 편 연도 칸(그 칸만 편다)과 편 때
+function termYears(ids, sem, ySel = null) {
   const v = deptSaved(), from = v ? v.year : 2019, cur = String(sem).slice(0, 4);
   const kept = new Set(ids.filter((id) => Number(id.slice(0, 4)) < from && T.hasTimetables(store.get(semKey(T.STORE_KEYS.list, id), []))).map((id) => id.slice(0, 4)));
-  const all = [...new Set(ids.map((id) => id.slice(0, 4)))], years = termMore ? all : all.filter((y) => Number(y) >= from || y === cur || kept.has(y));
+  const all = [...new Set(ids.map((id) => id.slice(0, 4)))];
+  const years = ySel && termMore === ySel ? all : all.filter((y) => Number(y) >= from || y === cur || kept.has(y));
   return { years, more: years.length < all.length };
 }
 const MORE_YEARS = "more"; // 연도 칸의 '이전 해 보기' 값
+const termSem = (ySel, tSel) => (ySel === $("year") ? state.semester : `${ySel.dataset.y}-${tSel.value}`); // 칸이 보이는 학기(고른 해 그대로)
 /** 연도 칸에서 '이전 해 보기'를 골랐으면 접은 해를 다 펴고(고른 해·학기는 그대로) 선택 창을 다시 연다. 골랐으면 true */
 function moreYears(ySel, tSel) {
   if (ySel.value !== MORE_YEARS) return false;
-  termMore = true;
-  fillTerm(ySel, tSel, `${ySel.dataset.y}-${tSel.value}`);
-  if (ySel !== $("year")) fillTerm($("year"), $("term")); // 탐색 학기 줄도 같이 편다
+  termMore = ySel;
+  termMoreAt = performance.now();
+  fillTerm(ySel, tSel, termSem(ySel, tSel));
   try { ySel.showPicker(); } catch { /* 안 되는 브라우저(사용자 활성 없음 포함)는 다시 누르면 다 보인다 */ }
   return true;
 }
+/** 편 연도 칸을 다시 접는다(해를 고른 뒤, 칸 밖을 누르거나 키보드로 떠날 때) */
+function foldYears() {
+  const ySel = termMore;
+  if (!ySel) return;
+  termMore = null;
+  fillTerm(ySel, ySel === $("year") ? $("term") : $("tn-term"), termSem(ySel, ySel === $("year") ? $("term") : $("tn-term")));
+}
+// 칸 밖을 누르면 접는다(편 칸을 다시 누르는 것은 그대로: iOS 처럼 선택 창을 다시 열 수 없는 곳은 다시 눌러 편 목록을 본다)
+document.addEventListener("pointerdown", (e) => { if (termMore && e.target !== termMore) foldYears(); }, true);
+// 키보드로 떠나면 접는다. '이전 해 보기'를 고른 바로 뒤의 blur(iOS 는 선택 창의 '완료'와 함께 온다)는 두고, 그 뒤에 떠날 때
+for (const id of ["year", "tn-year"]) $(id).addEventListener("blur", (e) => { if (termMore === e.target && performance.now() - termMoreAt > 1000) foldYears(); });
 /** 연도·학기 선택칸 둘(탐색 학기 줄, 내 시간표의 시간표 목록 시트)을 지금 학기로 채운다. 고를 수 없는 학기(자료를 받기 전)면 숨긴다. */
 function fillTerm(ySel, tSel, sem = state.semester) {
   const ids = state.semesters.map(([id]) => id).filter((id) => /^\d{4}-[12SW]$/.test(id));
@@ -662,7 +676,7 @@ function fillTerm(ySel, tSel, sem = state.semester) {
   ySel.hidden = tSel.hidden = !ok;
   if (ok) {
     const [y, t] = sem.split("-");
-    const { years, more } = termYears(ids, sem), key = `${years.join()}${more ? "+" : ""}`;
+    const { years, more } = termYears(ids, sem, ySel), key = `${years.join()}${more ? "+" : ""}`;
     if (ySel.dataset.key !== key) {
       ySel.replaceChildren(...years.map((v) => h("option", { value: v }, `${v}년`)), ...(more ? [h("hr"), h("option", { value: MORE_YEARS }, "이전 해 보기")] : []));
       ySel.dataset.key = key;
@@ -4300,8 +4314,9 @@ function openNewTt(opener) {
 }
 $("tn-year").addEventListener("change", () => {
   if (moreYears($("tn-year"), $("tn-term"))) return;
+  if (termMore === $("tn-year")) termMore = null; // 해를 골랐으면 다시 접는다(고른 해는 남는다)
   const term = termInYear($("tn-year").value, tnSem());
-  if (term) fillTerm($("tn-year"), $("tn-term"), `${$("tn-year").value}-${term}`);
+  fillTerm($("tn-year"), $("tn-term"), `${$("tn-year").value}-${term || $("tn-term").value}`);
   tnSemChanged();
 });
 $("tn-term").addEventListener("change", tnSemChanged);
@@ -7727,8 +7742,9 @@ const setGrad = (patch) => store.set(GRAD, { v: 1, ...gradStore(), ...patch });
 let gradP = null;
 const progP = new Map(), gradCourses = new Map();
 const gradBase = () => (gradP ||= Promise.all(["index", "common", "course_map"].map((n) => getJson(`data/requirements/${n}.json`))
-  .concat(getJson("data/requirements/ge_areas.json").catch(() => null))) // 영역 표가 없으면 영역 목록 없이(옛 묶음)
-  .then(([index, common, courseMap, geAreas]) => ({ index, common, courseMap, geAreas })).catch((e) => { gradP = null; throw e; }));
+  .concat(getJson("data/requirements/ge_areas.json").catch(() => null)) // 영역 표가 없으면 영역 목록 없이(옛 묶음)
+  .concat(getJson("data/requirements/lecture_lang.json").catch(() => null))) // 학기마다 외국어로 진행된 분반(외국어진행강좌 줄, 백엔드 update135). 없으면 그 줄은 확인 필요
+  .then(([index, common, courseMap, geAreas, lectureLang]) => ({ index, common, courseMap, geAreas, lectureLang })).catch((e) => { gradP = null; throw e; }));
 function programJson(id) {
   if (!progP.has(id)) progP.set(id, getJson(`data/requirements/programs/${id}.json`).catch((e) => { progP.delete(id); throw e; }));
   return progP.get(id);
@@ -7840,7 +7856,8 @@ async function gradRecords(cur, { refresh = null } = {}) { // refresh: 편람과
       if (row) info[k] = row;
       const c = row ? { name: row[0], credit: row[1], cls: row[2], dept: row[3], level: row[4] } : null, rk = k;
       records.push({ code: it.course, name: (c && c.name) || it.name || it.course, credits: Number(c ? c.credit : it.credit) || 0, cls: (c && c.cls) || it.cls || "",
-        dept: (c && c.dept) || "", level: (c && c.level) || "학사", term: sem, dropped: !!g.dropped[rk], grade: GRADE_OPTS.includes(g.grades[rk]) ? g.grades[rk] : undefined, rk });
+        dept: (c && c.dept) || "", level: (c && c.level) || "학사", term: sem, dropped: !!g.dropped[rk], grade: GRADE_OPTS.includes(g.grades[rk]) ? g.grades[rk] : undefined, rk,
+        no: it.no || null }); // 분반: 외국어진행강좌는 그 학기 그 분반의 강의 언어로 센다(백엔드 update135)
     }
   }
   // 다른 곳에서 들은 과목(학점 교류·교환·대학원): 다른 학교 학점이라 평점에는 넣지 않는다(성적 보기의 계산 기준)
@@ -7952,7 +7969,7 @@ async function renderGrad() {
   const grades = anyGrade ? R.gpa(recs, { sameCourse: same, isMajor: majorOf(counted[0]), finalTerms: true }) : null;
   const view = R.gradView({ picks: counted.map((p) => ({ program: p.program, version: p.version, role: p.role, title: p.title, entryYear: p.entryYear,
     selectionTerm: p.selectionTerm || null, newer: p.newer, geOnly: !!p.geOnly, own: p.own || null })), records, grades, common: base.common, sameCourse: same, gpaChecks: gradStore().gpaOk,
-    rowChecks: gradStore().rowOk, areas: base.geAreas });
+    rowChecks: gradStore().rowOk, areas: base.geAreas, lectureLang: base.lectureLang });
   // 학과의 '전체·전공 평점 2.0 이상' 줄(자료 same_as: "grad-gpa", update127)은 공통 '졸업 평점'과 같은 사실이라 과정 묶음에서 뺀다(요건 수·띠에도 안 센다. 디자인 148판 ④)
   const sameAs = new Map(counted.map((p) => [p.program.id, new Set((p.version.requirements || []).filter((x) => x.same_as).map((x) => String(x.id)))]));
   for (const b of view.bundles) {
@@ -10538,7 +10555,11 @@ function openOut(url) {
 
 // ---------------------------------------------------------------- 시작
 
-$("year").addEventListener("change", () => { if (!moreYears($("year"), $("term"))) onYearChange($("year")); });
+$("year").addEventListener("change", () => {
+  if (moreYears($("year"), $("term"))) return;
+  if (termMore === $("year")) termMore = null; // 해를 골랐으면 다시 접는다(고른 해는 지금 학기라 남는다)
+  onYearChange($("year"));
+});
 $("term").addEventListener("change", () => switchSemester(`${$("year").value}-${$("term").value}`));
 $("banner-retry").addEventListener("click", () => {
   const f = bannerRetry;

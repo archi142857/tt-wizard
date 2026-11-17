@@ -409,6 +409,11 @@
      ],
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_credits": 10,
+      "major_credits": 3
      }
     },
     {
@@ -965,7 +970,7 @@
     },
     {
      "id": "edu-pe-ge-pe",
-     "type": "ge",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1122,6 +1127,33 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 52학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s16",
+      "s17"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 52
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-pe-practical-core",
      "type": "major_required",
      "applies_to": [
@@ -1158,11 +1190,12 @@
        "credits": 1
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s1",
       "s2",
-      "s3"
+      "s3",
+      "s31"
      ],
      "note": "편람에서 기계체조 2(722.207B)는 교과구분 전선."
     },
@@ -1330,10 +1363,11 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s1",
-      "s2"
+      "s2",
+      "s31"
      ],
      "note": "편람에서 스포츠학입문은 교과구분 전선."
     },
@@ -1481,6 +1515,11 @@
      ],
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_credits": 10,
+      "major_credits": 3
      }
     },
     {
@@ -2305,7 +2344,7 @@
     },
     {
      "id": "edu-pe-geold-pe",
-     "type": "ge",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -2414,11 +2453,12 @@
        "credits": 1
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s1",
       "s2",
-      "s3"
+      "s3",
+      "s32"
      ],
      "note": "편람에서 기계체조 2(722.207B)는 교과구분 전선."
     },
@@ -2586,10 +2626,11 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s1",
-      "s2"
+      "s2",
+      "s32"
      ],
      "note": "편람에서 스포츠학입문은 교과구분 전선."
     },
@@ -2737,6 +2778,11 @@
      ],
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_credits": 10,
+      "major_credits": 3
      }
     },
     {
@@ -3550,7 +3596,7 @@
     },
     {
      "id": "edu-pe-geold-pe",
-     "type": "ge",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -3626,6 +3672,35 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 52학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s26",
+      "s25",
+      "s16",
+      "s24"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 52
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-pe-practical-core",
      "type": "major_required",
      "applies_to": [
@@ -3662,11 +3737,12 @@
        "credits": 1
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s1",
       "s2",
-      "s3"
+      "s3",
+      "s33"
      ],
      "note": "편람에서 기계체조 2(722.207B)는 교과구분 전선."
     },
@@ -3834,10 +3910,11 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s1",
-      "s2"
+      "s2",
+      "s33"
      ],
      "note": "편람에서 스포츠학입문은 교과구분 전선."
     },
@@ -3985,6 +4062,11 @@
      ],
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_credits": 10,
+      "major_credits": 3
      }
     },
     {
@@ -4724,7 +4806,7 @@
     },
     {
      "id": "edu-pe-geold-pe",
-     "type": "ge",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -4799,6 +4881,35 @@
     "s27"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 52학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s20",
+      "s30",
+      "s25",
+      "s16",
+      "s27"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 52
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "edu-pe-practical-core",
      "type": "major_required",
@@ -5178,6 +5289,11 @@
      "note": "2020학번 내규 PDF·본문은 전공 2학점, 학과 페이지 표는 3학점 → PDF를 따름.",
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_credits": 10,
+      "major_credits": 2
      }
     },
     {
@@ -5946,7 +6062,7 @@
     },
     {
      "id": "edu-pe-geold-pe",
-     "type": "ge",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -6238,6 +6354,24 @@
    "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
    "locator": "표 1 p.9 사범대학 행('19학년도부터 수학 38·과학교육계 39), 표 2 p.11",
    "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2024학년도, 2026-11-17 확인)",
+   "locator": "2024학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s32": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2023학년도, 2026-11-17 확인)",
+   "locator": "2023학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s33": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2021~2022학년도, 2026-11-17 확인)",
+   "locator": "2021~2022학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
   }
  },
  "checked_on": "2026-11-12"

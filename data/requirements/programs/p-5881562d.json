@@ -85,10 +85,11 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s1",
-      "s2"
+      "s2",
+      "s34"
      ],
      "note": "기초의학통계학 및 실험의 전필 여부와 의학입문·의학연구의 이해의 개설 번호가 엇갈려 '부분'. 이수표준형태에서 <학문의 기초> 교양 과목에 붙은 * 는 교양 필수 표시라 전필로 세지 않는다."
     },
@@ -621,6 +622,32 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 26학점 이상(다른 전공과 함께 이수해도 26학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s19"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 26,
+       "parallel": 26
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "premed-major-required",
      "type": "major_required",
      "applies_to": [
@@ -657,10 +684,11 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s1",
-      "s2"
+      "s2",
+      "s35"
      ],
      "note": "기초의학통계학 및 실험의 전필 여부와 의학입문·의학연구의 이해의 개설 번호가 엇갈려 '부분'. 이수표준형태에서 <학문의 기초> 교양 과목에 붙은 * 는 교양 필수 표시라 전필로 세지 않는다."
     },
@@ -1193,6 +1221,32 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 23학점 이상(다른 전공과 함께 이수해도 23학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s22"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 23,
+       "parallel": 23
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "premed-major-required",
      "type": "major_required",
      "applies_to": [
@@ -1642,6 +1696,35 @@
     "s33"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 23학점 이상(다른 전공과 함께 이수해도 23학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s30",
+      "s31",
+      "s32",
+      "s24",
+      "s25"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 23,
+       "parallel": 23
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "premed-major-required",
      "type": "major_required",
@@ -2284,6 +2367,18 @@
    "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Undergraduate_Course_List_2022.pdf",
    "locator": "p.127 ⑧",
    "accessed": "2026-11-12"
+  },
+  "s34": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2025~2026학년도, 2026-11-17 확인)",
+   "locator": "2025~2026학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s35": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2024학년도, 2026-11-17 확인)",
+   "locator": "2024학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
   }
  },
  "checked_on": "2026-11-12"

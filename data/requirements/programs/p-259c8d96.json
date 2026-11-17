@@ -294,11 +294,12 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s3",
       "s4",
-      "s2"
+      "s2",
+      "s15"
      ],
      "note": "2024 목록 교과목 이수규정: '2008년 입학자부터는 전공필수과목[M0000.029300, 208.421A] 6학점 … 2024년 입학자부터는 전공필수과목 [208.219] 3학점을 포함하여 39학점 이상'. 바뀐 것으로 읽은 근거: 편람에서 208.219 는 2024-1 부터 전필, M0000.029300·208.421A 는 2024 년부터 전선. 2024 교과목 목록은 아직 세 과목 모두 * 표시."
     },
@@ -395,6 +396,31 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "geog-core",
      "type": "major_required",
      "applies_to": [
@@ -411,11 +437,12 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s3",
       "s4",
-      "s2"
+      "s2",
+      "s16"
      ],
      "note": "2024 목록 교과목 이수규정: '2008년 입학자부터는 전공필수과목[M0000.029300, 208.421A] 6학점 … 2024년 입학자부터는 전공필수과목 [208.219] 3학점을 포함하여 39학점 이상'. 바뀐 것으로 읽은 근거: 편람에서 208.219 는 2024-1 부터 전필, M0000.029300·208.421A 는 2024 년부터 전선. 2024 교과목 목록은 아직 세 과목 모두 * 표시."
     },
@@ -517,6 +544,34 @@
     "s9"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s12",
+      "s13",
+      "s14",
+      "s6"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "geog-core",
      "type": "major_required",
@@ -730,6 +785,18 @@
    "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
    "locator": "표 1 사회과학대학 줄 PDF 1쪽(인쇄 8쪽), 표 2 PDF 3쪽(인쇄 10쪽)",
    "accessed": "2026-11-12"
+  },
+  "s15": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2025~2026학년도, 2026-11-17 확인)",
+   "locator": "2025~2026학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s16": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2024학년도, 2026-11-17 확인)",
+   "locator": "2024학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
   }
  },
  "checked_on": "2026-11-12"

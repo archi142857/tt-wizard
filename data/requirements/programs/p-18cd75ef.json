@@ -1049,7 +1049,7 @@
     },
     {
      "id": "cse-similar",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -2393,7 +2393,7 @@
     },
     {
      "id": "cse-similar",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -3751,7 +3751,7 @@
     },
     {
      "id": "cse-similar",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -5112,7 +5112,7 @@
     },
     {
      "id": "cse-similar",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -6264,7 +6264,7 @@
     },
     {
      "id": "cse-similar",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",

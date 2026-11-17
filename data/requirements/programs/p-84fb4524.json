@@ -756,7 +756,7 @@
     },
     {
      "id": "ae-foreign-lang-lectures",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -975,7 +975,7 @@
     },
     {
      "id": "ae-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -1716,7 +1716,7 @@
     },
     {
      "id": "ae-foreign-lang-lectures",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1935,7 +1935,7 @@
     },
     {
      "id": "ae-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -2688,7 +2688,15 @@
      "status": "확인",
      "src": [
       "s23"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어"
+      ]
+     }
     },
     {
      "id": "ae-gpa",
@@ -2894,7 +2902,7 @@
     },
     {
      "id": "ae-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -3864,7 +3872,15 @@
      "status": "확인",
      "src": [
       "s23"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어"
+      ]
+     }
     },
     {
      "id": "ae-gpa",
@@ -4068,7 +4084,7 @@
     },
     {
      "id": "ae-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -5043,7 +5059,15 @@
      "status": "확인",
      "src": [
       "s23"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어"
+      ]
+     }
     },
     {
      "id": "ae-gpa",
@@ -5349,7 +5373,7 @@
     },
     {
      "id": "ae-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"

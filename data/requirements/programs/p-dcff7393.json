@@ -22,6 +22,832 @@
   {
    "entry_years": [
     2025,
+    2025
+   ],
+   "basis": "입학 연도",
+   "credits": {
+    "grad": 130,
+    "ge": 36,
+    "single": 60,
+    "parallel": 52,
+    "double": 52,
+    "minor": 21,
+    "status": "부분",
+    "src": [
+     "s1",
+     "s13",
+     "s11",
+     "s12",
+     "s14"
+    ]
+   },
+   "status": "부분",
+   "src": [
+    "s15",
+    "s14",
+    "s16",
+    "s17"
+   ],
+   "requirements": [
+    {
+     "id": "edu-ger-core",
+     "type": "major_required",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공필수(2024 목록 문장: '전공필수과목 12학점'). * 표·편람 전필은 6과목 18학점",
+     "min_count": 6,
+     "min_credits": 18,
+     "courses": [
+      {
+       "code": "709.203A",
+       "name": "기초독어회화실습",
+       "credits": 3
+      },
+      {
+       "code": "M0000.007200",
+       "name": "독일문학사",
+       "credits": 3
+      },
+      {
+       "code": "709.304B",
+       "name": "독어학입문",
+       "credits": 3
+      },
+      {
+       "code": "709.317B",
+       "name": "독어교육세미나-논리 및 논술",
+       "credits": 3
+      },
+      {
+       "code": "709.427",
+       "name": "독문학교수법",
+       "credits": 3
+      },
+      {
+       "code": "M1853.000500",
+       "name": "독어교육론",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s2",
+      "s29"
+     ],
+     "note": "문장(12학점)과 * 표·편람(6과목 18학점)이 다름."
+    },
+    {
+     "id": "edu-ger-basic",
+     "type": "distribution",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "기본이수과목(분야) 7과목 21학점 이상(교원자격, 교육부 고시 분야)",
+     "min_count": 7,
+     "min_credits": 21,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s3",
+      "s4"
+     ],
+     "note": "2024 목록: '교원자격검정 관련 기본이수 21학점 이상'. 과목 목록 없음.",
+     "extra": {
+      "group": "교직"
+     }
+    },
+    {
+     "id": "edu-ger-subjedu",
+     "type": "major_choose",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교과교육과목 4과목 필수(2024 목록 문장). 후보: 독어교육론, 독어교육세미나-논리 및 논술, 독어교재연구 및 지도법, 독문학교수법",
+     "min_count": 4,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "M1853.000500",
+       "name": "독어교육론",
+       "credits": 3
+      },
+      {
+       "code": "709.317B",
+       "name": "독어교육세미나-논리 및 논술",
+       "credits": 3
+      },
+      {
+       "code": "M1853.000400",
+       "name": "독어교재연구 및 지도법",
+       "credits": 3
+      },
+      {
+       "code": "709.427",
+       "name": "독문학교수법",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1",
+      "s3",
+      "s4"
+     ],
+     "note": "네 과목이 어느 것인지 원문에 없음(이름으로 추정). 교과교육 과목은 전공 학점으로도 셈.",
+     "extra": {
+      "group": "교직"
+     }
+    },
+    {
+     "id": "edu-ger-teach-theory",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교직이론 6과목 12학점 이상(교육학개론 포함)",
+     "min_count": 6,
+     "min_credits": 12,
+     "courses": [
+      {
+       "code": "701.101A",
+       "name": "교육학개론",
+       "credits": 2
+      },
+      {
+       "code": "T1831.000300",
+       "name": "생활지도 및 상담",
+       "credits": 2
+      },
+      {
+       "code": "700.002",
+       "name": "교육심리",
+       "credits": 2
+      },
+      {
+       "code": "700.003",
+       "name": "교육철학 및 교육사",
+       "credits": 2
+      },
+      {
+       "code": "700.004",
+       "name": "교육사회",
+       "credits": 2
+      },
+      {
+       "code": "700.006",
+       "name": "교육행정 및 교육경영",
+       "credits": 2
+      },
+      {
+       "code": "700.007",
+       "name": "교육방법 및 교육공학",
+       "credits": 2
+      },
+      {
+       "code": "700.022",
+       "name": "교육과정",
+       "credits": 2
+      },
+      {
+       "code": "700.023",
+       "name": "교육평가",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s5",
+      "s6"
+     ],
+     "note": "'기타 교직이론에 관한 과목'도 인정될 수 있음(국어교육과 자료). ",
+     "extra": {
+      "group": "교직"
+     }
+    },
+    {
+     "id": "edu-ger-teach-intro",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교육학개론(701.101A, 2학점) 필수",
+     "min_count": 1,
+     "min_credits": 2,
+     "courses": [
+      {
+       "code": "701.101A",
+       "name": "교육학개론",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s5"
+     ],
+     "note": "교육학과 전공필수 교육학개론(700.109, 3학점)과 다른 과목.",
+     "extra": {
+      "group": "교직"
+     }
+    },
+    {
+     "id": "edu-ger-teach-literacy",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교직소양 4과목 7학점 모두: 특수교육학개론·교직실무·학교폭력예방 및 학생의 이해·디지털 교육(2024학번부터 필수)",
+     "min_count": 4,
+     "min_credits": 7,
+     "courses": [
+      {
+       "code": "700.020A",
+       "name": "특수교육학개론",
+       "credits": 2
+      },
+      {
+       "code": "700.021",
+       "name": "교직실무",
+       "credits": 2
+      },
+      {
+       "code": "T2184.000200",
+       "name": "학교폭력예방 및 학생의 이해",
+       "credits": 2
+      },
+      {
+       "code": "T2184.002400",
+       "name": "디지털 교육",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s7",
+      "s6"
+     ],
+     "note": "교직소양 최저는 6학점으로 적힌 곳도 있으나 2024학번 이후는 네 과목(7학점) 필수. 선택 교직소양(다문화교육의 이해 700.025, 인공지능 교과 융합 교육론 기초 T2184.002200, 중급 교과-소프트웨어 융합교육론 T1831.001200)은 교직 학점으로 셈.",
+     "extra": {
+      "group": "교직",
+      "optional_courses": [
+       {
+        "code": "700.025",
+        "name": "다문화교육의 이해",
+        "credits": 2,
+        "credits_from": "편람 2023-2",
+        "catalog_class": "교직 (사회교육과, 2023-2)"
+       },
+       {
+        "code": "T2184.002200",
+        "name": "인공지능 교과 융합 교육론 기초",
+        "credits": 2,
+        "credits_from": "편람 2026-1",
+        "catalog_class": "교직 (사범대학, 2026-1)"
+       },
+       {
+        "code": "T1831.001200",
+        "name": "중급 교과-소프트웨어 융합교육론",
+        "credits": 2,
+        "credits_from": "편람 2026-2",
+        "catalog_class": "교직 (사범대학, 2026-2)"
+       }
+      ]
+     }
+    },
+    {
+     "id": "edu-ger-teach-practice",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교육실습 4학점: 학교현장실습(2) + 교육봉사활동1(1) + 교육봉사활동2(1)",
+     "min_count": 3,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "T2184.001200",
+       "name": "학교현장실습",
+       "credits": 2
+      },
+      {
+       "code": "T2184.001300",
+       "name": "교육봉사활동1",
+       "credits": 1
+      },
+      {
+       "code": "T2184.001400",
+       "name": "교육봉사활동2",
+       "credits": 1
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s3",
+      "s8"
+     ],
+     "note": "학교현장실습은 4학년 1학기 4주, 7학기 이상 등록·98학점 이상 취득 뒤(국어·지리·역사·체육 자료). 선수 조건은 앱이 학기·학점으로 일부 확인 가능.",
+     "extra": {
+      "group": "교직"
+     }
+    },
+    {
+     "id": "edu-ger-teach-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교직 22학점 이상(교직이론 12 + 교직소양 7 + 교육실습 4 = 실질 23)",
+     "min_count": null,
+     "min_credits": 22,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s3",
+      "s6"
+     ],
+     "note": "해설 3.가: 교직과정 이수자는 전공과 별도로 교직 22학점 이상. 사범대 학과 자료는 이를 졸업 요건으로 적음(물리·수학은 23으로 적음).",
+     "extra_research": {
+      "group": "교직"
+     },
+     "sum": {
+      "of": "cls",
+      "cls": [
+       "교직"
+      ]
+     },
+     "name": "교직",
+     "auto": "rule_teaching"
+    },
+    {
+     "id": "edu-ger-teach-checks",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교원자격 무시험검정: 교직 적성·인성검사 적격 2회 이상, 응급처치 및 심폐소생술 실습 2회 이상, 성인지 교육 4회 이상(각각 연속 학기·같은 학년도 중복 불가)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s10"
+     ],
+     "note": "과목이 아니라 앱 기록으로 못 봄 → '확인 필요'로 보일 것. 성적 기준(학과 자료: 전체 2.0·전공 2.0·교직 2.4 / 교원자격: 전공 75점·교직 80점)은 안내만.",
+     "extra": {
+      "group": "교직",
+      "app_checkable": false
+     }
+    },
+    {
+     "id": "edu-ger-ge-total",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "교양 36학점 이상(2025학년도 입학생 이수규정)",
+     "min_count": null,
+     "min_credits": 36,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "sum": {
+      "of": "ge"
+     },
+     "name": "교양 학점",
+     "auto": "rule_total"
+    },
+    {
+     "id": "edu-ger-ge-writing",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "글쓰기와 말하기 4학점: 대학 글쓰기 1 + 대학 글쓰기 2(인문학·사회과학·과학기술글쓰기 중 택1)",
+     "min_count": 2,
+     "min_credits": 4,
+     "courses": [
+      {
+       "code": "F11.101",
+       "name": "대학 글쓰기 1",
+       "credits": 2
+      },
+      {
+       "code": "F11.201",
+       "name": "대학 글쓰기 2: 인문학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.202",
+       "name": "대학 글쓰기 2: 사회과학글쓰기",
+       "credits": 2
+      },
+      {
+       "code": "F11.203",
+       "name": "대학 글쓰기 2: 과학기술글쓰기",
+       "credits": 2
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "note": "'대학 글쓰기 2'는 학과 '교과 논리 및 논술'로 대체 가능. 대체해도 교양 최저 학점은 채워야 함."
+    },
+    {
+     "id": "edu-ger-ge-lang",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 2개 교과목 6학점. 입학 때 TEPS 900점(New TEPS 525점) 이하이면 영어 1과목 필수(기초영어는 외국어 학점에 안 듦)",
+     "min_count": 2,
+     "min_credits": 6,
+     "courses": [
+      {
+       "code": "F21.101",
+       "name": "대학영어 1",
+       "credits": 3
+      },
+      {
+       "code": "F21.201",
+       "name": "대학영어 2: 글쓰기",
+       "credits": 3
+      },
+      {
+       "code": "F21.202",
+       "name": "대학영어 2: 말하기",
+       "credits": 3
+      },
+      {
+       "code": "F21.301",
+       "name": "고급영어: 문학",
+       "credits": 3
+      },
+      {
+       "code": "F21.302",
+       "name": "고급영어: 문화와 사회",
+       "credits": 3
+      },
+      {
+       "code": "F21.303",
+       "name": "고급영어: 발표",
+       "credits": 3
+      },
+      {
+       "code": "F21.304",
+       "name": "고급영어: 산문",
+       "credits": 3
+      },
+      {
+       "code": "F21.305",
+       "name": "고급영어: 연극",
+       "credits": 3
+      },
+      {
+       "code": "F21.306",
+       "name": "고급영어: 영화",
+       "credits": 3
+      },
+      {
+       "code": "F21.307",
+       "name": "고급영어: 학술작문",
+       "credits": 3
+      }
+     ],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "note": "courses 는 영어 필수 대상 과목(대학영어·고급영어). 영어 필수 여부는 입학 성적이라 앱이 모름 → 확인 필요."
+    },
+    {
+     "id": "edu-ger-ge-keys",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 열쇠 4개 영역(문화 해석과 상상 / 역사적 탐구와 철학적 사유 / 인간의 이해와 사회 분석 / 과학적 사고와 응용) 중 3개 영역에서 9학점 이상",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "문화 해석과 상상",
+        "prefixes": [
+         "C10."
+        ],
+        "area": true
+       },
+       {
+        "name": "역사적 탐구와 철학적 사유",
+        "prefixes": [
+         "C20."
+        ],
+        "area": true
+       },
+       {
+        "name": "인간의 이해와 사회 분석",
+        "prefixes": [
+         "C30."
+        ],
+        "area": true
+       },
+       {
+        "name": "과학적 사고와 응용",
+        "prefixes": [
+         "C40."
+        ],
+        "area": true
+       }
+      ],
+      "min_areas": 3
+     },
+     "name": "지성의 열쇠",
+     "auto": "rule_keys"
+    },
+    {
+     "id": "edu-ger-ge-veritas",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "베리타스(강좌 1·강좌 2·실천) 3학점",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "베리타스",
+        "prefixes": [
+         "V10.",
+         "V20.",
+         "V30."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "베리타스",
+     "auto": "rule_veritas"
+    },
+    {
+     "id": "edu-ger-ge-pe",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "지성의 확장 > 예술과 체육: 체육 영역 2학점",
+     "min_count": null,
+     "min_credits": 2,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "체육",
+        "prefixes": [
+         "E43."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "체육",
+     "auto": "rule_pe"
+    },
+    {
+     "id": "edu-ger-ge-free",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전체 교양 교과목 중 자유 선택 9학점",
+     "min_count": null,
+     "min_credits": 9,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "sum": {
+      "of": "ge",
+      "after": 27
+     },
+     "name": "자유 선택 교양",
+     "auto": "rule_free"
+    },
+    {
+     "id": "edu-ger-ge-msc",
+     "type": "ge",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "수학·과학·컴퓨팅 3학점(지정 과목 없음)",
+     "min_count": null,
+     "min_credits": 3,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11"
+     ],
+     "extra": {
+      "groups": [
+       {
+        "name": "수학·과학·컴퓨팅",
+        "prefixes": [
+         "F31.",
+         "F32.",
+         "F33.",
+         "F34.",
+         "F35.",
+         "F36.",
+         "F37."
+        ],
+        "area": true
+       }
+      ]
+     },
+     "name": "수학·과학·컴퓨팅",
+     "auto": "rule_msc"
+    },
+    {
+     "id": "edu-ger-double",
+     "type": "double",
+     "applies_to": [
+      "double"
+     ],
+     "text": "복수전공: 전공필수 11과목 33학점 + 전공선택 19학점 이상(독어교재연구 및 지도법 포함) = 52",
+     "min_count": null,
+     "min_credits": 52,
+     "courses": [
+      {
+       "code": "700.123",
+       "name": "독일문화와생활",
+       "credits": 3
+      },
+      {
+       "code": "700.124",
+       "name": "기초독문법",
+       "credits": 3
+      },
+      {
+       "code": "709.203A",
+       "name": "기초독어회화실습",
+       "credits": 3
+      },
+      {
+       "code": "709.232",
+       "name": "독일문학의 이해",
+       "credits": 3
+      },
+      {
+       "code": "M1853.000500",
+       "name": "독어교육론",
+       "credits": 3
+      },
+      {
+       "code": "709.429B",
+       "name": "독어텍스트강독",
+       "credits": 3
+      },
+      {
+       "code": "709.304B",
+       "name": "독어학입문",
+       "credits": 3
+      },
+      {
+       "code": "M0000.007200",
+       "name": "독일문학사",
+       "credits": 3
+      },
+      {
+       "code": "709.222A",
+       "name": "학습독작문",
+       "credits": 3
+      },
+      {
+       "code": "709.317B",
+       "name": "독어교육세미나-논리 및 논술",
+       "credits": 3
+      },
+      {
+       "code": "709.427",
+       "name": "독문학교수법",
+       "credits": 3
+      },
+      {
+       "code": "M1853.000400",
+       "name": "독어교재연구 및 지도법",
+       "credits": 3
+      }
+     ],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "courses 의 마지막 M1853.000400 은 전공선택 중 필수. 2024 목록 기준."
+    },
+    {
+     "id": "edu-ger-minor",
+     "type": "minor",
+     "applies_to": [
+      "minor"
+     ],
+     "text": "부전공: 전공필수 15학점 + 전공선택 6학점 = 21",
+     "min_count": null,
+     "min_credits": 21,
+     "courses": [],
+     "status": "부분",
+     "src": [
+      "s1"
+     ],
+     "note": "전필 15학점이 어느 과목인지 원문에 없음."
+    },
+    {
+     "id": "edu-ger-thesis-unknown",
+     "type": "thesis",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "졸업논문·졸업시험 요건: 공개 자료에서 못 찾음",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s12",
+      "s1"
+     ],
+     "note": "학과 문의 목록에 넣음.",
+     "extra": {
+      "app_checkable": false
+     }
+    },
+    {
+     "id": "edu-ger-foreign-unknown",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "외국어 진행 강좌 요건: 공개 자료에서 못 찾음(사범대 다른 학과는 9~10학점·전공 3학점 포함 등)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "미확인",
+     "src": [
+      "s12"
+     ],
+     "extra": {
+      "app_checkable": false
+     }
+    }
+   ],
+   "note": "1차 2025학번 요건 그대로. 학과 누리집 robots 차단 → 2026 전공 규정 미확인, 교양은 2026 같음.",
+   "split": "스누지니 전필 목록이 2026학년도부터 비어 나눔(update135)"
+  },
+  {
+   "entry_years": [
+    2026,
     2026
    ],
    "basis": "입학 연도",
@@ -841,7 +1667,8 @@
      }
     }
    ],
-   "note": "1차 2025학번 요건 그대로. 학과 누리집 robots 차단 → 2026 전공 규정 미확인, 교양은 2026 같음."
+   "note": "1차 2025학번 요건 그대로. 학과 누리집 robots 차단 → 2026 전공 규정 미확인, 교양은 2026 같음.",
+   "split": "스누지니 전필 목록이 2026학년도부터 비어 나눔(update135)"
   },
   {
    "entry_years": [
@@ -871,6 +1698,33 @@
     "s17"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 52학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s18",
+      "s15",
+      "s17"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 52
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "edu-ger-core",
      "type": "major_required",
@@ -913,10 +1767,11 @@
        "credits": 3
       }
      ],
-     "status": "충돌",
+     "status": "확인",
      "src": [
       "s1",
-      "s2"
+      "s2",
+      "s30"
      ],
      "note": "문장(12학점)과 * 표·편람(6과목 18학점)이 다름."
     },
@@ -1945,10 +2800,11 @@
        "credits": 3
       }
      ],
-     "status": "충돌",
+     "status": "확인",
      "src": [
       "s1",
-      "s2"
+      "s2",
+      "s31"
      ],
      "note": "문장(12학점)과 * 표·편람(6과목 18학점)이 다름."
     },
@@ -2936,6 +3792,35 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 52학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s20",
+      "s24",
+      "s23",
+      "s25",
+      "s17"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 52
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-ger-core",
      "type": "major_required",
      "applies_to": [
@@ -2977,10 +3862,11 @@
        "credits": 3
       }
      ],
-     "status": "충돌",
+     "status": "확인",
      "src": [
       "s1",
-      "s2"
+      "s2",
+      "s32"
      ],
      "note": "문장(12학점)과 * 표·편람(6과목 18학점)이 다름."
     },
@@ -3892,6 +4778,34 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 52학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s28",
+      "s23",
+      "s25"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 52
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-ger-core",
      "type": "major_required",
      "applies_to": [
@@ -3933,10 +4847,11 @@
        "credits": 3
       }
      ],
-     "status": "충돌",
+     "status": "확인",
      "src": [
       "s1",
-      "s2"
+      "s2",
+      "s33"
      ],
      "note": "문장(12학점)과 * 표·편람(6과목 18학점)이 다름."
     },
@@ -5045,6 +5960,36 @@
    "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
    "locator": "표 1 p.9 사범대학 행('19학년도부터 수학 38·과학교육계 39), 표 2 p.11",
    "accessed": "2026-11-12"
+  },
+  "s29": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2025학년도, 2026-11-17 확인)",
+   "locator": "2025학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s30": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2024학년도, 2026-11-17 확인)",
+   "locator": "2024학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s31": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2023학년도, 2026-11-17 확인)",
+   "locator": "2023학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s32": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2021~2022학년도, 2026-11-17 확인)",
+   "locator": "2021~2022학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s33": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2019~2020학년도, 2026-11-17 확인)",
+   "locator": "2019~2020학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
   }
  },
  "checked_on": "2026-11-12"

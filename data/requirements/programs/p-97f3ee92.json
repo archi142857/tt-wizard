@@ -352,7 +352,7 @@
     },
     {
      "id": "gw-freshman-seminar",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"

@@ -122,10 +122,11 @@
        "credits": 2
       }
      ],
-     "status": "충돌",
+     "status": "확인",
      "src": [
       "s1",
-      "s2"
+      "s2",
+      "s30"
      ],
      "note": "2024 목록은 영어독해(M1848.000500, 3학점)에도 * 를 붙였으나 편람은 전선 → 영어독해 포함 시 13과목 36학점. 2025 학과 내규 미확인.",
      "extra": {
@@ -864,6 +865,33 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 52학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s16",
+      "s18"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 52
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-eng-core",
      "type": "major_required",
      "applies_to": [
@@ -935,10 +963,11 @@
        "credits": 2
       }
      ],
-     "status": "충돌",
+     "status": "확인",
      "src": [
       "s1",
-      "s2"
+      "s2",
+      "s31"
      ],
      "note": "2024 목록은 영어독해(M1848.000500, 3학점)에도 * 를 붙였으나 편람은 전선 → 영어독해 포함 시 13과목 36학점. 2025 학과 내규 미확인.",
      "extra": {
@@ -1940,10 +1969,11 @@
        "credits": 2
       }
      ],
-     "status": "충돌",
+     "status": "확인",
      "src": [
       "s1",
-      "s2"
+      "s2",
+      "s32"
      ],
      "note": "2024 목록은 영어독해(M1848.000500, 3학점)에도 * 를 붙였으나 편람은 전선 → 영어독해 포함 시 13과목 36학점. 2025 학과 내규 미확인.",
      "extra": {
@@ -2874,6 +2904,35 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 52학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s21",
+      "s25",
+      "s24",
+      "s26",
+      "s18"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 52
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-eng-core",
      "type": "major_required",
      "applies_to": [
@@ -2945,10 +3004,11 @@
        "credits": 2
       }
      ],
-     "status": "충돌",
+     "status": "확인",
      "src": [
       "s1",
-      "s2"
+      "s2",
+      "s33"
      ],
      "note": "2024 목록은 영어독해(M1848.000500, 3학점)에도 * 를 붙였으나 편람은 전선 → 영어독해 포함 시 13과목 36학점. 2025 학과 내규 미확인.",
      "extra": {
@@ -3803,6 +3863,34 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 52학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s20",
+      "s29",
+      "s24",
+      "s26"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 52
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-eng-core",
      "type": "major_required",
      "applies_to": [
@@ -3874,10 +3962,11 @@
        "credits": 2
       }
      ],
-     "status": "충돌",
+     "status": "확인",
      "src": [
       "s1",
-      "s2"
+      "s2",
+      "s34"
      ],
      "note": "2024 목록은 영어독해(M1848.000500, 3학점)에도 * 를 붙였으나 편람은 전선 → 영어독해 포함 시 13과목 36학점. 2025 학과 내규 미확인.",
      "extra": {
@@ -4934,6 +5023,36 @@
    "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2020/12/Explanation_kor_2020.pdf",
    "locator": "표 1 p.9 사범대학 행('19학년도부터 수학 38·과학교육계 39), 표 2 p.11",
    "accessed": "2026-11-12"
+  },
+  "s30": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2025~2026학년도, 2026-11-17 확인)",
+   "locator": "2025~2026학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s31": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2024학년도, 2026-11-17 확인)",
+   "locator": "2024학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s32": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2023학년도, 2026-11-17 확인)",
+   "locator": "2023학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s33": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2021~2022학년도, 2026-11-17 확인)",
+   "locator": "2021~2022학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s34": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2019~2020학년도, 2026-11-17 확인)",
+   "locator": "2019~2020학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
   }
  },
  "checked_on": "2026-11-12"

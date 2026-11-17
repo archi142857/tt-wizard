@@ -50,6 +50,32 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "econ-ge-soc-total",
      "type": "ge",
      "applies_to": [
@@ -329,7 +355,7 @@
     },
     {
      "id": "econ-prereq",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -821,6 +847,35 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s17",
+      "s18",
+      "s19",
+      "s10",
+      "s9"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "econ-core",
      "type": "major_required",
      "applies_to": [
@@ -867,7 +922,7 @@
     },
     {
      "id": "econ-prereq",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",

@@ -46,6 +46,32 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 85학점 이상(다른 전공과 함께 이수해도 85학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s6",
+      "s7"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 85,
+       "parallel": 85
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "nur-ge-writing",
      "type": "ge",
      "applies_to": [
@@ -791,7 +817,7 @@
     },
     {
      "id": "nur-double-minor",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -839,6 +865,33 @@
     "s10"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 85학점 이상(다른 전공과 함께 이수해도 85학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s11",
+      "s14",
+      "s15"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 85,
+       "parallel": 85
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "nur-ge-writing",
      "type": "ge",
@@ -1490,7 +1543,7 @@
     },
     {
      "id": "nur-double-minor",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -1591,6 +1644,32 @@
     "s18"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 85학점 이상(다른 전공과 함께 이수해도 85학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s19",
+      "s20"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 85,
+       "parallel": 85
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "nur-ge-writing",
      "type": "ge",
@@ -2250,7 +2329,7 @@
     },
     {
      "id": "nur-double-minor",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -3043,7 +3122,7 @@
     },
     {
      "id": "nur-double-minor",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"

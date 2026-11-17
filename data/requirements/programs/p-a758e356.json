@@ -564,7 +564,7 @@
     },
     {
      "id": "sdm-cls-courses",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -617,7 +617,7 @@
     },
     {
      "id": "sdm-limits",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1111,7 +1111,7 @@
     },
     {
      "id": "sdm-cls-courses",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1164,7 +1164,7 @@
     },
     {
      "id": "sdm-limits",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1704,7 +1704,7 @@
     },
     {
      "id": "sdm-cls-courses",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1757,7 +1757,7 @@
     },
     {
      "id": "sdm-limits",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"

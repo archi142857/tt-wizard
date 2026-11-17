@@ -940,7 +940,7 @@
     },
     {
      "id": "ece-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -957,7 +957,7 @@
     },
     {
      "id": "ece-prereq",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -2146,7 +2146,7 @@
     },
     {
      "id": "ece-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -2163,7 +2163,7 @@
     },
     {
      "id": "ece-prereq",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -3374,7 +3374,7 @@
     },
     {
      "id": "ece-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -3391,7 +3391,7 @@
     },
     {
      "id": "ece-prereq",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -4597,7 +4597,7 @@
     },
     {
      "id": "ece-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -4614,7 +4614,7 @@
     },
     {
      "id": "ece-prereq",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -5835,7 +5835,7 @@
     },
     {
      "id": "ece-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"

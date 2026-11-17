@@ -137,6 +137,11 @@
      "note": "수업 언어 정보가 편람 자료에 없으면 앱이 못 셈 → 확인 필요.",
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_credits": 9,
+      "major_credits": 3
      }
     },
     {
@@ -178,7 +183,7 @@
     },
     {
      "id": "edu-ed-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -754,6 +759,32 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 62학점 이상(다른 전공과 함께 이수해도 62학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23",
+      "s20"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 62,
+       "parallel": 62
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "edu-ed-core",
      "type": "major_required",
      "applies_to": [
@@ -841,6 +872,11 @@
      "note": "수업 언어 정보가 편람 자료에 없으면 앱이 못 셈 → 확인 필요.",
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_credits": 9,
+      "major_credits": 3
      }
     },
     {
@@ -882,7 +918,7 @@
     },
     {
      "id": "edu-ed-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1664,6 +1700,11 @@
      "note": "수업 언어 정보가 편람 자료에 없으면 앱이 못 셈 → 확인 필요.",
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_credits": 9,
+      "major_credits": 3
      }
     },
     {
@@ -1705,7 +1746,7 @@
     },
     {
      "id": "edu-ed-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -2481,6 +2522,11 @@
      "note": "수업 언어 정보가 편람 자료에 없으면 앱이 못 셈 → 확인 필요.",
      "extra": {
       "app_checkable": false
+     },
+     "foreign": {
+      "lang": "any",
+      "min_credits": 9,
+      "major_credits": 3
      }
     },
     {
@@ -2522,7 +2568,7 @@
     },
     {
      "id": "edu-ed-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"

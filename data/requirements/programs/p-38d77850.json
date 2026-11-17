@@ -47,6 +47,32 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23",
+      "s24"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "chem-ge-total",
      "type": "ge",
      "applies_to": [
@@ -1008,7 +1034,7 @@
     },
     {
      "id": "chem-elective",
-     "type": "major_elective",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -1108,7 +1134,7 @@
     },
     {
      "id": "chem-ge-exempt",
-     "type": "ge",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1151,6 +1177,31 @@
     "s27"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s26"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "chem-ge-total",
      "type": "ge",
@@ -2093,7 +2144,7 @@
     },
     {
      "id": "chem-elective",
-     "type": "major_elective",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -2224,6 +2275,33 @@
     "s35"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s39",
+      "s40",
+      "s41"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "chem-ge-chem",
      "type": "ge",
@@ -2517,7 +2595,7 @@
     },
     {
      "id": "chem-elective",
-     "type": "major_elective",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -3313,7 +3391,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -3404,6 +3482,33 @@
     "s54"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s56",
+      "s57",
+      "s58"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "chem-ge-chem",
      "type": "ge",
@@ -3649,7 +3754,7 @@
     },
     {
      "id": "chem-elective",
-     "type": "major_elective",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -4457,7 +4562,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",

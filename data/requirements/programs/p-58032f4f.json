@@ -299,10 +299,11 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s3",
-      "s2"
+      "s2",
+      "s13"
      ],
      "note": "2024 목록 교과목 이수규정 ②. 편람 2021~2026 두 과목 전필. 복수전공 적용은 '학과내규에 의함'(미확인)."
     },
@@ -452,6 +453,34 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10",
+      "s11",
+      "s5"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "anth-core",
      "type": "major_required",
      "applies_to": [
@@ -473,10 +502,11 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s3",
-      "s2"
+      "s2",
+      "s14"
      ],
      "note": "2024 목록 교과목 이수규정 ②. 편람 2021~2026 두 과목 전필. 복수전공 적용은 '학과내규에 의함'(미확인)."
     },
@@ -693,6 +723,18 @@
    "url": "https://en.snu.ac.kr/webdata/uploads/eng/file/2020/02/Anthropology.pdf",
    "locator": "206.224* 인류학사, 206.322A* 인류학연구방법실습",
    "accessed": "2026-11-12"
+  },
+  "s13": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2025~2026학년도, 2026-11-17 확인)",
+   "locator": "2025~2026학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s14": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2019~2024학년도, 2026-11-17 확인)",
+   "locator": "2019~2024학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
   }
  },
  "checked_on": "2026-11-12"

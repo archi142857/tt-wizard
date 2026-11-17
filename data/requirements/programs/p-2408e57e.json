@@ -252,7 +252,7 @@
     },
     {
      "id": "rus-native",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -501,7 +501,11 @@
      "src": [
       "s9",
       "s10"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "hum-life-seminar",
@@ -934,7 +938,7 @@
     },
     {
      "id": "rus-native",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -1183,7 +1187,11 @@
      "src": [
       "s9",
       "s10"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "hum-life-seminar",
@@ -1617,7 +1625,7 @@
     },
     {
      "id": "rus-native",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -2038,7 +2046,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -2269,7 +2277,11 @@
       "s9",
       "s10"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "changed": "초급폴란드어 의무 없음. 문학사 선수과목이 러시아어 듣기와 쓰기(옛 러시아어로 읽는 문화와 예술).",
@@ -2491,7 +2503,7 @@
     },
     {
      "id": "rus-native",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -2912,7 +2924,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -3143,7 +3155,11 @@
       "s9",
       "s10"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "changed": "초급폴란드어 의무 없음. 문학사 선수과목이 러시아어 듣기와 쓰기(옛 러시아어로 읽는 문화와 예술).",
@@ -3365,7 +3381,7 @@
     },
     {
      "id": "rus-native",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -3786,7 +3802,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -4017,7 +4033,11 @@
       "s9",
       "s10"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "changed": "초급폴란드어 의무 없음. 문학사 선수과목이 러시아어 듣기와 쓰기(옛 러시아어로 읽는 문화와 예술).",
@@ -4235,7 +4255,7 @@
     },
     {
      "id": "rus-native",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -4656,7 +4676,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -4887,7 +4907,11 @@
       "s9",
       "s10"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "changed": "어학성적은 SNULT 55점만(토르플 2단계 대안은 2020학번~). 언어프로그램 2회 의무는 2019학번~ 이라 같음."

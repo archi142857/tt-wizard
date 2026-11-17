@@ -147,7 +147,7 @@
     },
     {
      "id": "hist-no-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -164,7 +164,7 @@
     },
     {
      "id": "hist-classification",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -398,7 +398,11 @@
      "src": [
       "s7",
       "s8"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "hum-life-seminar",
@@ -802,7 +806,7 @@
     },
     {
      "id": "hist-no-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -819,7 +823,7 @@
     },
     {
      "id": "hist-classification",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -1225,7 +1229,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -1456,7 +1460,11 @@
       "s7",
       "s8"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "wh-euro",
@@ -1648,7 +1656,7 @@
     },
     {
      "id": "hist-no-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -1665,7 +1673,7 @@
     },
     {
      "id": "hist-classification",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel",
@@ -2071,7 +2079,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -2302,7 +2310,11 @@
       "s7",
       "s8"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "wh-euro",

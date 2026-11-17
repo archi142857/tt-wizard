@@ -709,7 +709,7 @@
     },
     {
      "id": "ere-foreign-lang-lectures",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -794,7 +794,7 @@
     },
     {
      "id": "ere-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -835,6 +835,31 @@
     "s22"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 62학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 47학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s20"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 62,
+       "parallel": 47
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "ere-major-required",
      "type": "major_required",
@@ -1509,7 +1534,7 @@
     },
     {
      "id": "ere-foreign-lang-lectures",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1594,7 +1619,7 @@
     },
     {
      "id": "ere-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -2271,7 +2296,15 @@
      "src": [
       "s26"
      ],
-     "note": "공대 지침 기준(학과 자료 없음)."
+     "note": "공대 지침 기준(학과 자료 없음).",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어"
+      ]
+     }
     },
     {
      "id": "ere-gpa",
@@ -2343,7 +2376,7 @@
     },
     {
      "id": "ere-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -2960,7 +2993,15 @@
      "src": [
       "s26"
      ],
-     "note": "공대 지침 기준(학과 자료 없음)."
+     "note": "공대 지침 기준(학과 자료 없음).",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어"
+      ]
+     }
     },
     {
      "id": "ere-gpa",
@@ -3032,7 +3073,7 @@
     },
     {
      "id": "ere-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -3090,6 +3131,31 @@
     "s39"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 62학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 47학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s38"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 62,
+       "parallel": 47
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "ere-major-required",
      "type": "major_required",
@@ -3630,7 +3696,15 @@
      "src": [
       "s26"
      ],
-     "note": "공대 지침 기준(학과 자료 없음)."
+     "note": "공대 지침 기준(학과 자료 없음).",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어"
+      ]
+     }
     },
     {
      "id": "ere-gpa",
@@ -3702,7 +3776,7 @@
     },
     {
      "id": "ere-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -4299,7 +4373,15 @@
      "src": [
       "s26"
      ],
-     "note": "공대 지침 기준(학과 자료 없음)."
+     "note": "공대 지침 기준(학과 자료 없음).",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어"
+      ]
+     }
     },
     {
      "id": "ere-gpa",
@@ -4371,7 +4453,7 @@
     },
     {
      "id": "ere-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"

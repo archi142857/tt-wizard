@@ -300,10 +300,11 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s3",
-      "s2"
+      "s2",
+      "s12"
      ],
      "note": "2024 목록 교과목·복수전공 이수규정 ①. 두 과목 3-2-2. 편람 전필."
     },
@@ -423,6 +424,34 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9",
+      "s10",
+      "s4"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "psy-core",
      "type": "major_required",
      "applies_to": [
@@ -445,10 +474,11 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s3",
-      "s2"
+      "s2",
+      "s13"
      ],
      "note": "2024 목록 교과목·복수전공 이수규정 ①. 두 과목 3-2-2. 편람 전필."
     },
@@ -628,6 +658,18 @@
    "url": "https://en.snu.ac.kr/webdata/uploads/eng/file/2020/02/Psychology.pdf",
    "locator": "1쪽 207.202* 심리통계학, 207.214* 실험심리입문 및 실험",
    "accessed": "2026-11-12"
+  },
+  "s12": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2025~2026학년도, 2026-11-17 확인)",
+   "locator": "2025~2026학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
+  },
+  "s13": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2019~2024학년도, 2026-11-17 확인)",
+   "locator": "2019~2024학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
   }
  },
  "checked_on": "2026-11-12"

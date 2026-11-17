@@ -990,7 +990,7 @@
     },
     {
      "id": "jo-y2-practice-2024",
-     "type": "major_choose",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1670,7 +1670,7 @@
     },
     {
      "id": "jo-y2-practice-2024",
-     "type": "major_choose",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -1976,9 +1976,10 @@
        "credits": 3
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
-      "s1"
+      "s1",
+      "s31"
      ],
      "note": "2024 목록의 교과목 이수규정 ①. 2025 학과 내규는 못 봄(미술대학 누리집 접근 실패)."
     },
@@ -2072,10 +2073,11 @@
        "credits": 2
       }
      ],
-     "status": "부분",
+     "status": "확인",
      "src": [
       "s1",
-      "s2"
+      "s2",
+      "s31"
      ]
     },
     {
@@ -2360,7 +2362,7 @@
     },
     {
      "id": "jo-y2-practice-2024",
-     "type": "major_choose",
+     "type": "rule",
      "applies_to": [
       "single",
       "parallel"
@@ -2795,6 +2797,12 @@
    "locator": "603 조소과 2021-1~2025-2",
    "accessed": "2026-11-12",
    "repo": "data/history/"
+  },
+  "s31": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2019~2022학년도, 2026-11-17 확인)",
+   "locator": "2019~2022학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
   }
  },
  "checked_on": "2026-11-12"

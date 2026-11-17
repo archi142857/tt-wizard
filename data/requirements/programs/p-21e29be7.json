@@ -275,7 +275,7 @@
     },
     {
      "id": "ai-other-dept",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double"
      ],

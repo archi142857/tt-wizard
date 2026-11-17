@@ -56,6 +56,34 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 57학점 이상(다른 전공과 함께 이수해도 57학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s1",
+      "s9",
+      "s6",
+      "s8"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 57,
+       "parallel": 57
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "piano-core",
      "type": "major_required",
      "applies_to": [
@@ -408,7 +436,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -722,6 +750,34 @@
     "s22"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(다른 전공과 함께 이수해도 60학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s14",
+      "s11",
+      "s20",
+      "s21"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 60
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "piano-core",
      "type": "major_required",
@@ -1074,7 +1130,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -1361,6 +1417,34 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(다른 전공과 함께 이수해도 60학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s23",
+      "s11",
+      "s28",
+      "s25"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 60
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "piano-core",
      "type": "major_required",
      "applies_to": [
@@ -1603,7 +1687,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -2129,7 +2213,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"

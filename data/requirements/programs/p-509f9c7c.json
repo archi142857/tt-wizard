@@ -55,6 +55,33 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 48학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10",
+      "s11"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 48
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "cs-ge-writing",
      "type": "ge",
      "applies_to": [
@@ -407,7 +434,16 @@
      "status": "확인",
      "src": [
       "s4"
-     ]
+     ],
+     "foreign": {
+      "lang": "영어",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어",
+       "고급영어"
+      ]
+     }
     },
     {
      "id": "cs-elective",
@@ -566,6 +602,32 @@
     "s18"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 48학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s15"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 48
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "cs-ge-writing",
      "type": "ge",
@@ -899,7 +961,16 @@
      "status": "확인",
      "src": [
       "s4"
-     ]
+     ],
+     "foreign": {
+      "lang": "영어",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어",
+       "고급영어"
+      ]
+     }
     },
     {
      "id": "cs-elective",
@@ -1063,6 +1134,34 @@
     "s22"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 48학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s19",
+      "s11",
+      "s23"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 48
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "cs-ge-writing",
      "type": "ge",
@@ -1310,7 +1409,16 @@
      "status": "확인",
      "src": [
       "s4"
-     ]
+     ],
+     "foreign": {
+      "lang": "영어",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어",
+       "고급영어"
+      ]
+     }
     },
     {
      "id": "cs-elective",
@@ -1491,6 +1599,33 @@
     "s29"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 48학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s10",
+      "s19",
+      "s28"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 48
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "cs-ge-writing",
      "type": "ge",
@@ -1754,7 +1889,16 @@
      "status": "확인",
      "src": [
       "s4"
-     ]
+     ],
+     "foreign": {
+      "lang": "영어",
+      "min_count": 3,
+      "major_count": 1,
+      "exclude": [
+       "대학영어",
+       "고급영어"
+      ]
+     }
     },
     {
      "id": "cs-elective",

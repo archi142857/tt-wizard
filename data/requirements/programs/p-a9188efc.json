@@ -50,6 +50,36 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 42학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10",
+      "s11",
+      "s12",
+      "s13",
+      "s14"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 42
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "spa-core",
      "type": "major_required",
      "applies_to": [
@@ -176,7 +206,12 @@
      "src": [
       "s1",
       "s2"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     },
     {
      "id": "spa-2ndlang",
@@ -504,7 +539,11 @@
      "src": [
       "s7",
       "s8"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "hum-life-seminar",
@@ -753,6 +792,36 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 42학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10",
+      "s11",
+      "s12",
+      "s13",
+      "s14"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 42
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "spa-core",
      "type": "major_required",
      "applies_to": [
@@ -879,7 +948,12 @@
      "src": [
       "s1",
       "s2"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     },
     {
      "id": "spa-2ndlang",
@@ -1379,7 +1453,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -1610,7 +1684,11 @@
       "s7",
       "s8"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "note": "학과 학번별 표에서 2019~2026학번은 모두 '2017학번~' 한 줄이다.",
@@ -1646,6 +1724,36 @@
     "s16"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 42학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10",
+      "s11",
+      "s12",
+      "s13",
+      "s14"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 42
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "spa-core",
      "type": "major_required",
@@ -1773,7 +1881,12 @@
      "src": [
       "s1",
       "s2"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     },
     {
      "id": "spa-2ndlang",
@@ -2273,7 +2386,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -2504,7 +2617,11 @@
       "s7",
       "s8"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "note": "학과 학번별 표에서 2019~2026학번은 모두 '2017학번~' 한 줄이다.",
@@ -2540,6 +2657,36 @@
     "s16"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 42학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s9",
+      "s10",
+      "s11",
+      "s12",
+      "s13",
+      "s14"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 42
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "spa-core",
      "type": "major_required",
@@ -2667,7 +2814,12 @@
      "src": [
       "s1",
       "s2"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3,
+      "major_count": 1
+     }
     },
     {
      "id": "spa-2ndlang",
@@ -3167,7 +3319,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -3398,7 +3550,11 @@
       "s7",
       "s8"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "note": "학과 학번별 표에서 2019~2026학번은 모두 '2017학번~' 한 줄이다.",

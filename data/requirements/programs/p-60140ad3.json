@@ -48,6 +48,36 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9",
+      "s10",
+      "s11",
+      "s12",
+      "s13"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "aes-core",
      "type": "major_choose",
      "applies_to": [
@@ -174,7 +204,7 @@
     },
     {
      "id": "aes-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double"
      ],
@@ -406,7 +436,11 @@
      "src": [
       "s6",
       "s7"
-     ]
+     ],
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     },
     {
      "id": "hum-life-seminar",
@@ -652,6 +686,36 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9",
+      "s10",
+      "s11",
+      "s12",
+      "s13"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "aes-core",
      "type": "major_choose",
      "applies_to": [
@@ -778,7 +842,7 @@
     },
     {
      "id": "aes-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double"
      ],
@@ -1182,7 +1246,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -1413,7 +1477,11 @@
       "s6",
       "s7"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "split": "인문대학 공통 교양이 학번마다 달라 나눔(update127)"
@@ -1446,6 +1514,36 @@
     "s14"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s8",
+      "s9",
+      "s10",
+      "s11",
+      "s12",
+      "s13"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "aes-core",
      "type": "major_choose",
@@ -1573,7 +1671,7 @@
     },
     {
      "id": "aes-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double"
      ],
@@ -1977,7 +2075,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -2208,7 +2306,11 @@
       "s6",
       "s7"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "split": "인문대학 공통 교양이 학번마다 달라 나눔(update127)"
@@ -2236,6 +2338,31 @@
     "s16"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "aes-core",
      "type": "major_choose",
@@ -2363,7 +2490,7 @@
     },
     {
      "id": "aes-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double"
      ],
@@ -2767,7 +2894,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -2998,7 +3125,11 @@
       "s6",
       "s7"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "changed": "심화(단일) 전공의 전선 인정과목 산입 한도 없음(22학번부터 30학점까지). 전필(19학번~ 4중 3)·전선(18학번~ 30 = 미학과 18 이상·인정 12까지)·부전공(18학번~)은 같음.",
@@ -3027,6 +3158,31 @@
     "s16"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 60학점 이상(단일전공). 다른 전공과 함께 이수하면 주전공 39학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 60,
+       "parallel": 39
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "aes-core",
      "type": "major_choose",
@@ -3154,7 +3310,7 @@
     },
     {
      "id": "aes-overlap",
-     "type": "other",
+     "type": "rule",
      "applies_to": [
       "double"
      ],
@@ -3558,7 +3714,7 @@
         "area": true
        },
        {
-        "name": "권장과목(★)",
+        "name": "권장과목",
         "codes": [
          "043.074",
          "043.075",
@@ -3789,7 +3945,11 @@
       "s6",
       "s7"
      ],
-     "name": "외국어진행강좌"
+     "name": "외국어진행강좌",
+     "foreign": {
+      "lang": "any",
+      "min_count": 3
+     }
     }
    ],
    "changed": "심화(단일) 전공의 전선 인정과목 산입 한도 없음(22학번부터 30학점까지). 전필(19학번~ 4중 3)·전선(18학번~ 30 = 미학과 18 이상·인정 12까지)·부전공(18학번~)은 같음.",

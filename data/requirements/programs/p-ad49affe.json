@@ -47,6 +47,31 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 148학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s5",
+      "s6",
+      "s7"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 148
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "vet-main-required",
      "type": "major_required",
      "applies_to": [
@@ -687,6 +712,30 @@
     "s15"
    ],
    "requirements": [
+    {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single"
+     ],
+     "text": "전공 148학점 이상",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s13",
+      "s14"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 148
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
     {
      "id": "vet-main-required",
      "type": "major_required",

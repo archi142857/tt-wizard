@@ -305,7 +305,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -619,6 +619,33 @@
    ],
    "requirements": [
     {
+     "id": "major-total",
+     "type": "other",
+     "applies_to": [
+      "single",
+      "parallel"
+     ],
+     "text": "전공 68학점 이상(다른 전공과 함께 이수해도 68학점)",
+     "min_count": null,
+     "min_credits": null,
+     "courses": [],
+     "status": "확인",
+     "src": [
+      "s20",
+      "s21",
+      "s22"
+     ],
+     "sum": {
+      "of": "major",
+      "by_role": {
+       "single": 68,
+       "parallel": 68
+      }
+     },
+     "name": "전공 학점",
+     "auto": "major_total"
+    },
+    {
      "id": "vocal-core",
      "type": "major_required",
      "applies_to": [
@@ -875,7 +902,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -1310,13 +1337,14 @@
        "credits": 2
       }
      ],
-     "status": "충돌",
+     "status": "확인",
      "src": [
       "s13",
       "s14",
       "s24",
       "s25",
-      "s26"
+      "s26",
+      "s31"
      ],
      "note": "지금 내규는 \"2024학번 이전 전필 68\"이라 적지만 2018·2020·2022 판 해설 표 1은 성악과 72이고 2024 판에서야 68에 \"2023학년도 신입생부터 적용\"을 붙였다. 72일 때의 과목 구성(4학점 차이)은 공개 자료에 없다."
     },
@@ -1423,7 +1451,7 @@
     },
     {
      "id": "music-double-overlap",
-     "type": "double",
+     "type": "rule",
      "applies_to": [
       "double",
       "minor"
@@ -1886,6 +1914,12 @@
    "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2023/02/Explanation_kor_2022.pdf",
    "locator": "<표 2> 복수·부전공 이수학점 기준, 10–11쪽(PDF 3–4쪽) 미술대학·음악대학 줄",
    "accessed": "2026-11-12"
+  },
+  "s31": {
+   "title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2019~2022학년도, 2026-11-17 확인)",
+   "locator": "2019~2022학년도 졸업이수규정·전공 교과목(전필) 목록",
+   "accessed": "2026-11-17",
+   "url": "https://snugenie.snu.ac.kr"
   }
  },
  "checked_on": "2026-11-12"
