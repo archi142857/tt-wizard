@@ -498,7 +498,7 @@ function previewExplore(sem) {
       const replaced = before.length > 0 && !same;
       if (!same) { state.picks = picks; changed(); renderPicked(); }
       const undo = () => { state.picks = before; changed(); renderPicked(); if (screen === "result") back(); };
-      afterResult = replaced ? () => showSnackbar(`담은 과목을 남은 요건 과목 ${picks.length}개로 바꿨어요`, "되돌리기", undo)
+      afterResult = replaced ? () => showSnackbar(`남은 요건 과목 ${picks.length}개로 바꿨어요`, "되돌리기", undo)
         : same ? null : () => showSnackbar(`남은 요건 과목 ${picks.length}개를 담았어요`);
       await run();
       if (afterResult && !state.result) { const f = afterResult; afterResult = null; f(); } // 조합이 없거나 못 만들었다: 입력 화면에서
@@ -507,11 +507,11 @@ function previewExplore(sem) {
     }
   });
 }
-/** 미리 짜기에 담을 과목(백엔드 R.planTerm): 남은 요건 과목을 요건 순으로 줄마다 남은 만큼, 학기 학점 상한(그 학기에 고른 상한, 없으면 기본) 안에서,
- *  추가 설정(공강 요일·점심시간)을 지키는 시간표가 하나라도 나오게. 상한 밖 과목(term_limit.exempt_codes)은 학점을 세지 않는다(학기 학점 줄 paintLim 과 같게) */
+/** 미리 짜기에 담을 과목(백엔드 R.planTerm): 남은 요건 과목을 요건 순으로 줄마다 남은 만큼, 학기 학점 상한(성적 기준대로의 기본. 고르는 칸은 11/17 사용자
+ *  '학점 상한은 그냥 빼버려'로 없앴다) 안에서, 추가 설정(공강 요일·점심시간)을 지키는 시간표가 하나라도 나오게. 상한 밖 과목(term_limit.exempt_codes)은 학점을 세지 않는다 */
 function previewPicks(req) {
-  const caps = store.get("creditCap", {}), rules = activeRules();
-  const cap = R.limitLine({ common: req.common, who: req.who, term: req.sem, chosen: caps && caps[req.sem] != null ? caps[req.sem] : null }).value;
+  const rules = activeRules();
+  const cap = R.limitLine({ common: req.common, who: req.who, term: req.sem, chosen: null }).value;
   const fits = (cs) => countFeasible(cs, { limit: 1, budgetMs: 80, rules }).count > 0;
   return R.planTerm(req.sugg, req.evald, { cap, exempt: (req.common.term_limit && req.common.term_limit.exempt_codes) || [], fits })
     .map((c) => ({ id: c.id, excluded: new Set(), ...snapshot(c) }));
@@ -707,7 +707,7 @@ const termInYear = (y, from) => {
 /** 선택칸 폭을 고른 항목 글자에 맞춘다(화살표가 글자 바로 뒤에 오게). CSS field-sizing 은 글자 폭을 모자라게 잡아서 직접 잰다. */
 const canvas = document.createElement("canvas").getContext("2d");
 function fitSelect(sel) {
-  if (sel.hidden) return;
+  if (sel.hidden || sel.classList.contains("order-select")) return; // 차례 칸은 아이콘 하나(폭 48, CSS)
   const cs = getComputedStyle(sel);
   canvas.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
   const text = sel.selectedIndex >= 0 ? sel.options[sel.selectedIndex].text : "";
@@ -5471,7 +5471,7 @@ function qrFit(pic) {
 function openQr(opener, url, meta, label) {
   $("qr-meta").textContent = meta;
   const pic = qrSvg(url, label);
-  $("qr-box").replaceChildren(pic || h("p", { class: "qr-none" }, "링크가 너무 길어 QR 코드로 만들 수 없어요"));
+  $("qr-box").replaceChildren(pic || h("p", { class: "qr-none" }, "링크가 길어 QR 코드를 만들지 못했어요")); // 실패 글 꼴(152판)
   openSheet($("qr-pop"), opener, { over: true });
   if (pic) qrFit(pic);
 }
@@ -6500,7 +6500,6 @@ function paintAddRow(li, d, t = curTt()) {
 /** 넣은 표시·바꾸기·시간 겹침만 고친다(검색 결과와 둘러보기). 목록을 다시 그리면 이어 붙인 결과(넓은 화면)가 처음으로 돌아가 읽던 자리를 잃는다 */
 function markAddRows() {
   const t = curTt();
-  if (reqMemo.data && !$("add-lim").hidden) paintLim(reqMemo.data, t); // 학기 학점 줄(넣고 빼면 남은 학점이 바뀐다)
   rowFits([...addData.values(), ...addBrowse.values()], t); // 빈 자리는 한 번에 잰다
   for (const [list, data] of [[$("add-list"), addData], [$("add-browse-list"), addBrowse]]) {
     for (const li of list.querySelectorAll(".add-sec")) {
@@ -6529,16 +6528,14 @@ function renderAddBrowse(show) {
   fitSelect(sel);
   $("add-req-count").hidden = wide || !useReq;
   $("add-browse-head").className = wide ? "list-head browse-head" : "list-head add-head";
-  // 차례: 남은 요건 과목은 덜 걷는 순 | 요건 순(따로 기억), 둘러보기는 기본 순 | 덜 걷는 순(검색 결과와 한 값)
+  // 차례(아이콘 하나, 11/17 사용자 시안 '다'): 남은 요건 과목은 기본 순(요건 순) | 덜 걷는 순(따로 기억. 같은 날 사용자 '기본순 만들어주고'),
+  // 둘러보기는 기본 순 | 덜 걷는 순(검색 결과와 한 값). 학기 학점 줄은 없앴다(같은 날 '학점 상한은 그냥 빼버려')
   const kind = useReq ? "req" : "browse";
   if (ord.dataset.kind !== kind) {
     ord.dataset.kind = kind;
-    ord.replaceChildren(...(useReq ? [["walk", "덜 걷는 순"], ["req", "요건 순"]] : [["rel", "기본 순"], ["walk", "덜 걷는 순"]]).map(([v, t]) => h("option", { value: v }, t)));
+    ord.replaceChildren(...(useReq ? [["req", "기본 순"], ["walk", "덜 걷는 순"]] : [["rel", "기본 순"], ["walk", "덜 걷는 순"]]).map(([v, t]) => h("option", { value: v }, t)));
   }
   ord.value = useReq ? reqOrder : addOrder;
-  fitSelect(ord);
-  $("add-lim").hidden = !useReq;
-  if (useReq) paintLim(req);
   const key = useReq ? `@req|${reqOrder}|${req.sig}|${mine.sem}|${curTt().id}` : `${browseKey}|${addOrder}`;
   if (addBrowseDrawn === key) return false;
   addBrowseDrawn = key;
@@ -6561,10 +6558,10 @@ function renderAddBrowse(show) {
 // 남은 요건 과목(디자인 124판 ⑦, 11/13 사용자 "그림대로". 백엔드 update101·106 suggestCourses·rankSuggestions·suggestionTag·limitLine): 학과·학번과 요건 자료가 있으면
 // 과목 추가의 검색 전 자리에 이 학기 편람에서 남은 요건을 채우는 과목을 과목마다 한 행(이 시간표에 가장 덜 느는 분반, 이미 넣었으면 그 분반). 행의 태그 자리에 채우는
 // 요건 이름(확인 필요 요건의 과목이면 '아마 필요', 목록 아래쪽). 시간 겹침·수강 제한 태그가 먼저다. 계산은 졸업 요건 탭과 같은 기록이되 고치는 학기의 시간표는 계획이라
-// 들은 과목에서 뺀다(넣어도 행이 그대로 남아 넣음이 된다). 그 아래 학기 학점 줄(limitLine. 고른 상한은 학기마다 ttw.creditCap). 학과·학번과 같이 켠다(deptOn)
+// 들은 과목에서 뺀다(넣어도 행이 그대로 남아 넣음이 된다). 학기 학점 줄(limitLine '18학점까지 ▾ · 12학점 남음')은 11/17 사용자 '학점 상한은 그냥 빼버려'로 없앴다. 학과·학번과 같이 켠다(deptOn)
 let reqMemo = { sig: "", data: null }, reqBusy = "";
 let reqOn = store.get("addReq", true) !== false; // 넓은 화면 둘러보기 선택칸에서 남은 요건 과목을 골랐다(처음은 고름. 다른 목록을 고르면 끔)
-let reqOrder = store.get("reqOrder", "walk") === "req" ? "req" : "walk"; // 남은 요건 과목의 차례(덜 걷는 순이 처음, 따로 기억)
+let reqOrder = store.get("reqOrder", "req") === "walk" ? "walk" : "req"; // 남은 요건 과목의 차례(기본 순 = 요건 순이 처음, 따로 기억. 11/17 사용자 '기본순 만들어주고')
 const reqSig = () => [state.semester, state.courses.length, state.semesterMeta.updated || "", JSON.stringify(store.get(DEPT, null)), JSON.stringify(store.get(GRAD, null))].join("|");
 /** 이 학기의 남은 요건 과목 자료(과목 목록·학기 학점 줄에 쓰는 값). 다 받았으면 바로, 아니면 받기 시작하고 null(받으면 과목 추가를 다시 그린다) */
 function reqReady() {
@@ -6602,7 +6599,7 @@ async function reqCompute(sig) {
     gpaLastTwo: grades && grades.lastTwoRegular ? grades.lastTwoRegular.gpa : null };
   return { sig, sem, sugg, evald, common: base.common, who }; // evald: 줄 계산(작년 편람으로 짜기 previewPicks 가 줄마다 남은 양을 본다)
 }
-/** 남은 요건 과목 행: 차례는 rankSuggestions(덜 걷는 순 | 요건 순, 이 시간표의 빈 자리 gapFit). 과목마다 이 시간표에 넣은 분반, 없으면 가장 덜 느는 분반, 없으면 첫 분반 */
+/** 남은 요건 과목 행: 차례는 rankSuggestions(기본 순(요건 순) | 덜 걷는 순, 이 시간표의 빈 자리 gapFit). 과목마다 이 시간표에 넣은 분반, 없으면 가장 덜 느는 분반, 없으면 첫 분반 */
 function reqRows(req, t = curTt()) {
   const fit = state.campus ? gapFit(fitBase(t), req.sugg.map((x) => x.course), travelFor(state.mode), state.home, { levels: null }) : null;
   return R.rankSuggestions(req.sugg, fit, { order: reqOrder }).map((x) => {
@@ -6611,31 +6608,6 @@ function reqRows(req, t = curTt()) {
     return { c, s, marks: NO_MARKS, sugg: x };
   });
 }
-/** 학기 학점 줄(124판 .lim-line): '18학점까지 ▾ · 12학점 남음'(고를 값이 하나면 글자만, 계절학기 '9학점까지'). 넘으면 '3학점 넘음' warning. 학점은 이 시간표(상한 밖 과목은 빼고) */
-function paintLim(req, t = curTt()) {
-  const exempt = new Set(req.common.term_limit.exempt_codes || []);
-  const credits = t.items.filter((it) => !it.custom && it.course && !exempt.has(it.course)).reduce((n, it) => n + (Number(it.credit) || 0), 0);
-  const caps = store.get("creditCap", {});
-  const line = R.limitLine({ common: req.common, who: req.who, term: req.sem, credits, chosen: caps && caps[req.sem] != null ? caps[req.sem] : null });
-  const box = $("add-lim"), sig = line.choices.map((c) => c.value).join(",");
-  let sel = box.querySelector("select"), rest = box.querySelector(".lim-rest");
-  if (box.dataset.choices !== sig || !rest) {
-    box.dataset.choices = sig;
-    sel = line.choices.length > 1 ? h("select", { class: "browse-select", id: "add-lim-cap", "aria-label": "학기 학점" },
-      line.choices.map((c) => h("option", { value: String(c.value) }, c.label))) : null;
-    rest = h("span", { class: "lim-rest" });
-    box.replaceChildren(sel || h("span", { class: "lim-cap" }), rest);
-  }
-  if (sel) { sel.value = String(line.value); fitSelect(sel); } else box.querySelector(".lim-cap").textContent = line.label;
-  rest.textContent = `· ${line.rest}`;
-  rest.classList.toggle("over", line.over);
-}
-$("add-lim").addEventListener("change", (e) => {
-  if (e.target.id !== "add-lim-cap" || !reqMemo.data) return;
-  const caps = store.get("creditCap", {}) || {};
-  store.set("creditCap", { ...caps, [reqMemo.data.sem]: Number(e.target.value) });
-  paintLim(reqMemo.data);
-});
 /** 최근 검색어 칩. 목록이 그대로면 다시 만들지 않는다(키보드 초점이 칩에 있을 때 다시 그려 초점을 잃지 않게) */
 function renderAddRecent(show) {
   $("add-recent").hidden = !show;
@@ -6757,19 +6729,18 @@ $("add-browse-select").addEventListener("change", (e) => {
   const box = $("add-results"), top = $("add-browse").getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop;
   if (box.scrollTop > top) box.scrollTop = top;
   setAddPreview(null, { hover: true });
-  announce(reqOn && !$("add-lim").hidden ? `남은 요건 과목 ${addBrowse.size.toLocaleString("ko-KR")}개` : `분반 ${addBrowse.size.toLocaleString("ko-KR")}개`);
+  announce($("add-browse-order").dataset.kind === "req" ? `남은 요건 과목 ${addBrowse.size.toLocaleString("ko-KR")}개` : `분반 ${addBrowse.size.toLocaleString("ko-KR")}개`);
 });
 // 차례 선택칸(128판): 검색 결과와 둘러보기가 한 값. 바꾸면 그 목록을 처음부터 그 차례로
 for (const id of ["add-order", "add-browse-order"]) {
   $(id).addEventListener("change", (e) => {
-    fitSelect(e.target);
-    if (e.target.dataset.kind === "req") { // 남은 요건 과목의 차례(덜 걷는 순 | 요건 순, 따로 기억)
-      reqOrder = e.target.value === "req" ? "req" : "walk";
+    if (e.target.dataset.kind === "req") { // 남은 요건 과목의 차례(기본 순 | 덜 걷는 순, 따로 기억)
+      reqOrder = e.target.value === "walk" ? "walk" : "req";
       store.set("reqOrder", reqOrder);
       renderAddBrowse(true);
       const box = $("add-results"), top = $("add-browse").getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop;
       if (box.scrollTop > top) box.scrollTop = top;
-      announce(reqOrder === "walk" ? "덜 걷는 순" : "요건 순");
+      announce(reqOrder === "walk" ? "덜 걷는 순" : "기본 순");
       setAddPreview(null, { hover: true });
       return;
     }
@@ -7913,7 +7884,7 @@ async function renderGrad() {
   const loading = !gradNow && !body.querySelector(".gr-head, .gr-loading") ? setTimeout(() => {
     if (seq !== gradSeq || gradNow) return;
     gradLoadAt = performance.now();
-    body.replaceChildren(h("div", { class: "fr-load gr-loading" }, h("span", { class: "spinner", "aria-hidden": "true" }), h("span", {}, "불러오는 중")));
+    body.replaceChildren(h("div", { class: "fr-load gr-loading" }, h("span", { class: "spinner small", "aria-hidden": "true" }), h("span", {}, "불러오는 중"))); // 스피너 16(152판, 친구 줄과 같게)
     announce("불러오는 중");
   }, 500) : null;
   // 그 자리를 다른 그림으로 바꾸기 전: '불러오는 중'이 떠 있으면 뜬 지 0.2초가 될 때까지 기다린다. 그새 다시 그리기 시작했으면 false
@@ -10244,7 +10215,7 @@ document.addEventListener("focusin", (e) => {
 });
 
 function titleOf(name) {
-  const t = name === "input" ? "" : $(h1Of(name)).textContent;
+  const t = name === "input" ? "" : [...$(h1Of(name)).childNodes].filter((n) => !(n.classList && n.classList.contains("tag"))).map((n) => n.textContent).join("").trim(); // 태그('미리 보기')는 창 제목에 넣지 않는다
   return t ? `${t} · TT Wizard` : "TT Wizard";
 }
 /** 그 화면을 보이는 요소와 제목. 과목 추가는 내 시간표 화면과 그 오른쪽 칸의 제목(h2), 폰 폭이면 그 위 시트의 제목이다 */
@@ -10315,7 +10286,10 @@ function showView(name, dir, extra = {}) {
     document.body.classList.toggle("no-cta", name !== "input" && name !== "mine" && name !== "dept" && name !== "setup"); // 스낵바는 주요 버튼이 없는 화면에서 탭 막대 바로 위
     document.documentElement.classList.toggle("setup-on", firstScreen(name)); // 처음 화면(처음 안내, 로그인, 학과와 학번): 탭 막대·사이드바 없이 한 칸
     renderTabs();
-    if (name === "result") { $("result-title").textContent = "추천 시간표"; renderResult(); }
+    if (name === "result") { // 미리 보는 학기면 제목 뒤 중립 태그 '미리 보기'(152판: 졸업 요건에서 바로 오면 학기 줄을 안 거친다)
+      $("result-title").replaceChildren("추천 시간표", ...(previewBase(state.semester) ? [h("span", { class: "tag" }, "미리 보기")] : []));
+      renderResult();
+    }
     if (name === "add") renderAdd();
     if (mineShown()) renderMine();
     if (name === "info") renderInfo();

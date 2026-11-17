@@ -818,11 +818,10 @@
         <div class="list-head browse-head" id="add-browse-head">
           <span id="add-req-count" hidden></span>
           <select id="add-browse-select" class="browse-select" aria-label="과목 목록"></select>
-          <!-- 차례(128판): 기본 순(지금 차례) | 덜 걷는 순(빈 자리 줄). 검색 결과의 차례와 한 값. 남은 요건 과목이면 덜 걷는 순 | 요건 순(따로) -->
+          <!-- 차례(128판): 기본 순(지금 차례) | 덜 걷는 순(빈 자리 줄). 검색 결과의 차례와 한 값. 남은 요건 과목이면 기본 순(요건 순) | 덜 걷는 순(따로).
+               아이콘 하나로 보인다(11/17 사용자 시안 '다', style.css .order-select). 학기 학점 줄(124판 .lim-line)은 같은 날 '학점 상한은 그냥 빼버려'로 없앴다 -->
           <select id="add-browse-order" class="browse-select order-select" aria-label="차례"><option value="rel">기본 순</option><option value="walk">덜 걷는 순</option></select>
         </div>
-        <!-- 남은 요건 과목의 학기 학점 줄(124판 .lim-line): '18학점까지 ▾ · 12학점 남음' -->
-        <div class="lim-line" id="add-lim" hidden></div>
         <ul class="list" id="add-browse-list" aria-label="과목 목록"></ul>
       </div>
       <!-- 검색 결과의 목록 머리(128판): 왼쪽 '분반 23'(더 보기로 아직 안 보인 행까지), 오른쪽 차례. 폰은 카드 밖 .list-head(목록과 함께 스크롤),

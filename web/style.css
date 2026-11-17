@@ -375,6 +375,7 @@ html[data-scheme="dark"] .wm-dark { display: block; }
 .topbar .title { flex: 1; min-width: 0; margin: 0; font-size: 1.0625rem; line-height: 1.5rem; font-weight: 700; color: var(--on-bg-heading);
   overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .topbar .title:focus { outline: none; }
+.topbar .title .tag { margin-left: var(--space-2); vertical-align: 0.125em; text-shadow: none; } /* 결과 화면 '미리 보기'(152판). 태그는 제 면 위라 눈 둘레 없음 */
 .topbar .title:focus-visible { outline: 2px solid var(--focus); }
 .topbar .spacer { flex: 1; }
 .topbar > .icon-btn:last-child { margin-right: calc(var(--space-3) * -1); }
@@ -584,6 +585,11 @@ button.btn-text[aria-disabled="true"], button.btn-text[aria-disabled="true"]:hov
    차례 선택칸은 줄지 않고 왼쪽이 준다. 꺾쇠를 행 버튼의 오른쪽 끝(카드 끝에서 12)에 맞춘다(폰 시트의 .list-head 는 그대로 맞는다) */
 .browse-head > .head-count { padding-left: var(--space-2); font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
 .browse-select.order-select { flex: none; }
+/* 차례 칸은 아이콘 하나(11/17 사용자 '조건들도 너무 난잡함', 시안 '다'): 48×48, 글은 숨기고 ⇅. 열면 시스템 선택 창 그대로('기본 순'·'덜 걷는 순'). 고대비는 글을 보인다 */
+.browse-select.order-select { width: var(--touch); min-width: var(--touch); padding: 0; color: transparent; text-shadow: none; background-position: center;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%238a92a6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4'/%3E%3C/svg%3E"); }
+.browse-select.order-select option { color: var(--text); background: var(--card); } /* 컴퓨터 크롬은 열린 목록이 칸 글자색을 따른다 */
+@media (forced-colors: active) { .browse-select.order-select { width: auto; padding: 0 var(--space-2); background-image: none; } }
 .browse-head > .order-select { margin-right: calc(var(--space-2) * -1); }
 /* 과목 추가 분반 행의 넷째 줄 빈 자리(124판 .r-fit, '들어감 · 걷기 주 +4분'): t-caption text2 */
 .result .r-fit { color: var(--text2); }
@@ -1491,7 +1497,7 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 dialog.sheet.ask.qr-pop { max-width: min(23.5rem, calc(100% - var(--space-5) * 2)); }
 .qr-box { display: grid; place-items: center; min-height: 12rem; margin-top: var(--space-2); }
 .qr-box svg { display: block; width: min(100%, 18rem); height: auto; border-radius: var(--radius-md); box-shadow: 0 0 0 1px var(--line); forced-color-adjust: none; }
-.qr-box .qr-none { margin: 0; text-align: center; font-size: 0.875rem; line-height: 1.25rem; color: var(--text3); }
+.qr-box .qr-none { margin: 0; text-align: center; font-size: 0.875rem; line-height: 1.25rem; color: var(--danger); } /* '링크가 길어 QR 코드를 만들지 못했어요'(152판 실패 글 꼴) */
 @media (min-width: 37.5em) { dialog.sheet.ask.qr-pop { max-width: 27.5rem; } .qr-box svg { width: min(100%, 22.5rem); } } /* 넓은 화면은 360 까지(폰으로 화면을 찍는다) */
 /* 공유받은 시간표(웹에서 연 시간표 링크): 시간표 이미지처럼 격자(카드 바탕 없이 시트 바탕 위), 교과구분별이면 색 풀이, 시간 미정 줄.
    '내 시간표에 넣기'는 시트 아래 끝에 붙여 격자가 길어도 늘 보인다(안전 영역은 그 줄이 맡는다) */
@@ -1639,6 +1645,7 @@ html[data-theme="xmas"] dialog.sheet::backdrop { background: var(--scrim, #03140
   html[data-theme="xmas"] .wm-white { display: block; }
   html[data-theme="xmas"] .select, html[data-theme="xmas"] .term-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23525e56' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); }
   html[data-theme="xmas"] .browse-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2389968d' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); }
+  html[data-theme="xmas"] .browse-select.order-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2389968d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4'/%3E%3C/svg%3E"); }
 }
 /* 대비를 높인 기기와 강제 색에서는 무늬를 끈다 */
 @media (prefers-contrast: more), (forced-colors: active) { html[data-theme] { --bg-pattern: none; } }
@@ -1765,6 +1772,7 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
 html[data-scheme="dark"]:not([data-theme]) body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; } /* 밝은 글자가 굵어 보이지 않게 */
 html[data-scheme="dark"]:not([data-theme]) .select, html[data-scheme="dark"]:not([data-theme]) .term-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23afb2bb' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); }
 html[data-scheme="dark"]:not([data-theme]) .browse-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23898c96' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); }
+html[data-scheme="dark"]:not([data-theme]) .browse-select.order-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23898c96' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4'/%3E%3C/svg%3E"); }
 html[data-scheme="dark"]:not([data-theme]) dialog.sheet::backdrop { background: var(--scrim, #000000a6); }
 
 /* ---------------------------------------------------------------- 고대비(강제 색) */
@@ -1992,6 +2000,10 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 .gr-key i.left { background: var(--warning); }
 .info-row.gr-row { min-height: 64px; padding-top: var(--space-2); padding-bottom: var(--space-2); }
 .gr-name { min-width: 0; word-break: keep-all; }
+/* 값이 아주 길면(update135 '2과목 남음(전공 1과목 포함)') 이름이 한 글자씩 세로로 서지 않게: 이름은 5em 까지만 줄고(두 줄이 되는 건 그대로),
+   그래도 모자라면 값이 말줄임(136판 긴 값과 같다. 다 쓴 값은 시트 상태 칸과 줄 이름표에). 보통 값은 이름이 먼저 줄어 그대로 */
+.info-row.gr-row .gr-name { min-width: 5em; flex-shrink: 1000; }
+.info-row.gr-row .v { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .gr-name small { display: block; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
 .info-row svg.gr-st, svg.gr-st { flex: none; width: 22px; height: 22px; margin-left: 0; color: inherit; } /* 줄 앞이라 .info-row svg 의 margin-left: auto 를 지운다 */
 /* 동그라미의 색(앱이 그리는 svg 의 클래스): 충족 채움 success·체크 on-success, 남음 둘레 fill·호 warning, 확인 필요 점선 muted */
@@ -2135,16 +2147,7 @@ label.gr-ck { cursor: pointer; }
 .gr-empty p { margin: 0; font-size: 1rem; line-height: 1.5rem; color: var(--on-bg-text2); word-break: keep-all; }
 .gr-empty .btn-primary { margin-top: var(--space-2); }
 .gr-empty .btn-text { color: var(--on-bg-link); }
-/* 과목 추가의 남은 요건 과목(124판 ⑦): 학기 학점 줄(.lim-line, '18학점까지 ▾ · 12학점 남음'. 넘으면 '3학점 넘음' warning). 폰 시트는 머리 아래 그대로,
-   넓은 화면 칸은 둘러보기 머리 아래에서 선택칸 글자와 같은 줄에 선다. 행의 요건 태그는 수강 제한 태그 자리(.r-limit, 중립) */
-.lim-line { display: flex; align-items: center; gap: var(--space-1); margin: 0 0 var(--space-1); font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
-.lim-line .browse-select { min-height: 36px; font-size: 0.8125rem; color: var(--text2); }
-.lim-line .over { color: var(--warning); }
-.browse-head + .lim-line { margin: 0; padding: 0 var(--space-2) var(--space-1); border-bottom: 1px solid var(--line); }
-.browse-head:has(+ .lim-line:not([hidden])) { border-bottom: 0; } /* 머리와 학기 학점 줄을 한 덩어리로(아래 줄 하나) */
-.browse-head + .lim-line > .lim-cap { padding-left: var(--space-2); }
-.list-head > #add-req-count { min-width: 0; }
-.add-head + .lim-line > .browse-select { margin-left: calc(var(--space-2) * -1); } /* 폰 시트: 선택칸 글자를 머리 글자 줄에 */
+.list-head > #add-req-count { min-width: 0; } /* 폰 시트의 머리 글 '남은 요건 과목 25' */
 /* ---------- 폰 알림(디자인 129판 Notifications, 안드로이드 앱. bundle.css '폰 알림'): 알림 화면의 스위치 줄(.switch-row)과 스위치(.switch, 머티리얼 3 크기),
    알림 시각 줄(정보의 선택칸 줄 .pick-row: 보이는 값과 꺾쇠는 그림이고 투명한 select 를 줄 전체에 덮는다. 글자 16px 이라 iPhone 이 누를 때 확대하지 않는다).
    막대 52×32, 꺼짐은 line-strong 테두리 2와 card 바탕에 손잡이 16(line-strong), 켜짐은 accent 막대에 손잡이 24(on-color), 누르는 동안 28.
@@ -2310,7 +2313,7 @@ button.fr-row:active { background: var(--surface-hover); }
 .sheet-body .fr-hide .info-row.switch-row, .tn-body .fr-hide .info-row.switch-row { width: calc(100% + var(--space-5) * 2); margin: 0 calc(var(--space-5) * -1); padding: var(--space-2) var(--space-5); }
 .sheet-body .sheet-field + .fr-hide { margin-top: 0; border-top: 0; border-bottom: 1px solid var(--line); }
 .tn-body .nick-help + .error-line { margin: var(--space-2) 0 0; }
-.fra-links { display: flex; flex-wrap: wrap; column-gap: var(--space-2); margin: var(--space-3) 0 0 calc(var(--space-2) * -1); } /* 초대 링크 보내기 · QR 코드(11/17), 글이 칸 왼쪽 선 */
+.fra-links { display: flex; flex-wrap: wrap; column-gap: var(--space-2); margin: var(--space-3) 0 0 calc(var(--space-3) * -1); } /* 초대 링크 보내기 · QR 코드(11/17), 아이콘이 칸 왼쪽 선(152판: .btn-text 안 여백 12) */
 .fr-wk-empty { margin: 0; padding: var(--space-8) var(--space-4); text-align: center; font-size: 0.875rem; line-height: 1.25rem; color: var(--text3); }
 /* 바탕 위 글자·버튼(졸업 요건 탭·친구): 크리스마스 눈 위에서 둘레(위 '바탕 위 글자'와 같은 까닭), 바탕 위 텍스트 버튼을 누르거나 올리면 bg-hover 면(카드 위 버튼의 surface-hover 가 아니라)이고 그동안 둘레를 뺀다 */
 .gr-head, .gr-foot, .gr-lead, .gr-sub, .gr-empty p, .gr-empty .btn-text, .fr-me, .fr-ttl, .fr-sem .m, .pv-note, .fr-head .btn-text { text-shadow: var(--on-bg-halo, none); }
@@ -2325,7 +2328,7 @@ button.fr-row:active { background: var(--surface-hover); }
   font-size: 0.875rem; line-height: 1.25rem; color: var(--on-bg-text3); }
 .fr-load .spinner { color: currentColor; }
 .ranks-more.fr-fail { padding: var(--space-6) var(--space-4) var(--space-4); text-align: center; }
-/* 졸업 요건을 처음 받는 동안도 이 한 줄(151판, 사용자 11/17 '무리면 로딩 화면'. .fr-load.gr-loading)에 스피너 20(.spinner, 친구 화면은 작은 16):
+/* 졸업 요건을 처음 받는 동안도 이 한 줄(151판, 사용자 11/17 '무리면 로딩 화면'. .fr-load.gr-loading)에 친구 화면과 같은 스피너 16(.spinner.small, 152판):
    0.5초 넘으면 뜨고 뜨면 0.2초 이상(app.js renderGrad). 오프라인(.gr-off)·못 받음(.fr-fail)도 친구 화면 꼴. 바탕 위라 눈 둘레 */
 #friends-body .fr-load, #friends-body .fr-fail .error-line, #grad-body .fr-load { text-shadow: var(--on-bg-halo, none); }
 #friend-wk .fr-load { color: var(--text3); }
