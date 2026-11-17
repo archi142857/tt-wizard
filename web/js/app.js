@@ -7816,6 +7816,7 @@ function gradRefresh(cur, cachedOnly) {
 }
 
 let gradSeq = 0, gradNow = null; // 늦게 끝난 계산은 버린다. gradNow: 지금 그린 값(요건 시트·팝업이 쓴다)
+let gradLoadAt = 0; // '불러오는 중' 줄이 뜬 때(performance.now, 151판: 뜨면 0.2초 이상 둔다)
 let gradTermAt = null; // 수강한 과목에서 가로로 넘겨 보던 학기(다시 그려도 그대로. 처음은 가장 새 학기)
 let gradSrc = null; // 자료 출처의 졸업 요건·성적 계산 줄 { req, gpa }(디자인 124·127판 InfoList. 받기 전 null, 받는 중 false)
 /** 자료 출처 줄 글: 요건 자료의 해와 기준일(index.json), 성적 계산의 학사 안내·수강편람과 그 기준일(common.json) */
@@ -7830,21 +7831,41 @@ function gradSources(base) {
 async function renderGrad() {
   const seq = ++gradSeq, body = $("grad-body");
   askOsHint(); // 출처 알려 주기의 앱 정보(운영체제 판)
-  // 처음 그릴 때 자료를 받는 동안은 '불러오는 중'(0.2초 안에 끝나면 안 보인다, 사용자 11/17 '무리면 로딩 화면을 넣는 게 좋을 듯')
-  const loading = !gradNow && !body.querySelector(".gr-head") ? setTimeout(() => {
+  const retried = body.contains(document.activeElement) && document.activeElement.dataset.gk === "retry"; // 다시 시도로 왔다(또 못 받으면 그 단추로 초점)
+  // 처음 그릴 때 자료를 받는 동안은 친구 화면과 같은 한 줄 '불러오는 중'(151판, 사용자 11/17 '무리면 로딩 화면을 넣는 게 좋을 듯'): 0.5초가 넘으면 뜨고
+  // 뜨면 0.2초 이상 둔다(점검표 17). 앞서 부른 것이 띄워 둔 줄은 그대로 두고 그 뜬 때부터 센다
+  const loading = !gradNow && !body.querySelector(".gr-head, .gr-loading") ? setTimeout(() => {
     if (seq !== gradSeq || gradNow) return;
-    body.replaceChildren(h("div", { class: "gr-empty gr-loading", role: "status" }, h("span", { class: "spinner", "aria-hidden": "true" }), h("p", {}, "졸업 요건을 불러오는 중이에요")));
-  }, 200) : null;
-  const empty = (text, button = null) => {
-    if (seq !== gradSeq) return;
+    gradLoadAt = performance.now();
+    body.replaceChildren(h("div", { class: "fr-load gr-loading" }, h("span", { class: "spinner", "aria-hidden": "true" }), h("span", {}, "불러오는 중")));
+    announce("불러오는 중");
+  }, 500) : null;
+  // 그 자리를 다른 그림으로 바꾸기 전: '불러오는 중'이 떠 있으면 뜬 지 0.2초가 될 때까지 기다린다. 그새 다시 그리기 시작했으면 false
+  const settle = async () => {
     clearTimeout(loading);
+    const wait = body.querySelector(".gr-loading") ? gradLoadAt + 200 - performance.now() : 0;
+    if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+    return seq === gradSeq;
+  };
+  const empty = async (text, button = null) => {
+    if (!(await settle())) return;
     gradNow = null;
     body.replaceChildren(h("div", { class: "gr-empty" }, icon(TAB_ICON.grad[0], 32), h("p", {}, text), button));
   };
   const v = deptOn() ? deptSaved() : null;
-  if (!v) { empty("학과와 학번을 아직 넣지 않았어요", h("button", { type: "button", class: "btn-primary", "data-go": "dept", "data-gk": "dept" }, "학과와 학번 넣기")); return; }
-  const failed = () => empty(navigator.onLine === false ? "오프라인이라 요건 자료를 받지 못했어요" : "요건 자료를 받지 못했어요",
-    h("button", { type: "button", class: "btn-text", "data-retry": "1", "data-gk": "retry" }, "다시 시도"));
+  if (!v) return empty("학과와 학번을 아직 넣지 않았어요", h("button", { type: "button", class: "btn-primary", "data-go": "dept", "data-gk": "dept" }, "학과와 학번 넣기"));
+  // 받지 못했다(151판, 친구 화면과 같은 꼴): 오프라인이면 같은 한 줄 '연결되면 불러와요'(연결되면 저절로 다시 그린다, 아래 online),
+  // 그 밖은 '졸업 요건을 불러오지 못했어요'(on-bg-danger)와 작은 텍스트 버튼 '다시 시도'
+  const failed = async () => {
+    if (!(await settle())) return;
+    gradNow = null;
+    const off = navigator.onLine === false;
+    body.replaceChildren(off ? h("div", { class: "fr-load gr-off" }, h("span", {}, "연결되면 불러와요"))
+      : h("div", { class: "ranks-more fr-fail" }, h("p", { class: "error-line" }, "졸업 요건을 불러오지 못했어요"),
+        h("button", { type: "button", class: "btn-text", "data-retry": "1", "data-gk": "retry" }, "다시 시도")));
+    if (retried) body.querySelector('[data-gk="retry"]')?.focus({ preventScroll: true });
+    announce(off ? "연결되면 불러와요" : "졸업 요건을 불러오지 못했어요", off ? "status" : "alert");
+  };
   // 한꺼번에 받기 시작한다: 요건 기본 자료·학과 목록·고른 과정 파일과, 학사일정 → 들은 과목의 학기 편람(전에는 하나씩 차례로 기다렸다, 사용자 11/17)
   gradWarm(v);
   const recP = calendarData().catch(() => null).then((cal) => { const cur = termNow(cal); return gradRecords(cur).then((x) => ({ cur, ...x })); });
@@ -7853,14 +7874,13 @@ async function renderGrad() {
   try {
     [base] = await Promise.all([gradBase(), catalogData()]);
     const [lo, hi] = base.index.cohorts || [2019, 2026];
-    if (v.year < lo || v.year > hi) { empty("아직 이 학번은 요건 자료가 없어요"); return; }
+    if (v.year < lo || v.year > hi) return empty("아직 이 학번은 요건 자료가 없어요");
     picks = await gradPicks(v, base);
-  } catch { failed(); return; }
+  } catch { return failed(); }
   if (seq !== gradSeq) return;
-  if (!picks || !picks[0].version) { empty("아직 이 학과·학번은 요건 자료가 없어요"); return; }
+  if (!picks || !picks[0].version) return empty("아직 이 학과·학번은 요건 자료가 없어요");
   const { cur, records, prim, cachedOnly } = await recP;
-  if (seq !== gradSeq) return;
-  clearTimeout(loading);
+  if (seq !== gradSeq || !(await settle())) return;
   gradRefresh(cur, cachedOnly);
   const counted = picks.filter((p) => p.version);
   const same = R.buildSameCourse(base.courseMap, counted.map((p) => p.program));
@@ -8121,9 +8141,10 @@ function gradNextView() {
   const base = previewBase(next), last = lastYearTerm(next), canPreview = !ready && state.semesters.some(([x, , b]) => x === last && !b);
   return [h("div", { class: "card gr-next" },
     h("p", { class: "gr-next-t" }, R.termName(next)),
-    h("p", { class: "gr-next-m" }, base ? `작년 편람(${R.termName(base)})으로 미리 짜요` : ready ? "남은 졸업 요건을 채우는 과목부터 보여 줘요" : "수강편람이 없어요"), // 11/16 사용자 '그냥 수강편람이 없어요만 남겨 이 학기는 빼'(카드 제목이 학기). '보여 드려요'는 쓰지 않는다(디자인 145판)
+    // 11/16 사용자 '그냥 수강편람이 없어요만 남겨 이 학기는 빼'(카드 제목이 학기). '보여 드려요'는 쓰지 않는다(디자인 145판). 미리 보는 동안은 '2026년 1학기 편람으로 미리 짜요'(151판: 괄호와 '작년'이 겹친다)
+    h("p", { class: "gr-next-m" }, base ? `${R.termName(base)} 편람으로 미리 짜요` : ready ? "남은 졸업 요건을 채우는 과목부터 보여 줘요" : "수강편람이 없어요"),
     ready ? h("button", { type: "button", class: "btn-primary gr-next-go", "data-next": next, "data-gk": "next" }, "시간표 짜기") : null,
-    canPreview ? h("button", { type: "button", class: "btn-secondary gr-next-go", "data-pre": next, "data-gk": "pre" }, "작년 편람으로 미리 짜 보기") : null)];
+    canPreview ? h("button", { type: "button", class: "btn-secondary gr-next-go", "data-pre": next, "data-gk": "pre" }, "작년 편람으로 짜기") : null)]; // 10자(151판, 점검표 6의 예외)
 }
 
 /** 숫자 뒤 조사 이/가: 마지막 자리를 읽는 소리로(2·4·5·9 는 받침 없음) */
@@ -10410,6 +10431,7 @@ window.addEventListener("offline", renderOnline);
 window.addEventListener("online", () => {
   renderOnline();
   if (!basemap && (maps.small || maps.full)) loadBasemap(); // 처음 받다 끊겼으면 다시
+  if (screen === "grad" && $("grad-body").querySelector(".gr-off")) renderGrad(); // 졸업 요건 '연결되면 불러와요'(151판)
 });
 
 // 외부 링크(처리방침·문의·출처)는 앱 밖으로. 스토어 앱은 Capacitor Browser(iOS 인앱 Safari, 안드로이드 Custom Tab), 웹은 새 탭.
