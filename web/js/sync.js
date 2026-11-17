@@ -30,8 +30,9 @@ export function nickProblem(nick) {
 }
 
 // ---------------------------------------------------------------- 계정 번호
-// 계정마다 여섯 자리 번호(100000~999999) 하나. 닉네임을 바꿔도 번호는 그대로이고, 번호만 알면 친구 요청을 보낼 수 있다.
-// 2026-11-17 전에는 '닉네임#네 자리'였다. 그때 만든 초대 링크가 계속 열리도록 네 자리는 닉네임과 함께 적었을 때만 읽는다.
+// 계정마다 여섯 자리 번호(100000~999999) 하나. 닉네임을 바꿔도 번호는 그대로다.
+// 친구는 '닉네임#번호'로 찾는다. 닉네임이 지금 닉네임과 같아야 하고 번호만으로는 찾지 못한다(사용자 11/17 법무 채팅 '닉네임 + 번호로 친구추가
+// 되게 하고, 현재 닉네임과 다르면 초대 발송이 안되는 걸로'). 2026-11-17 전의 '닉네임#네 자리'도 그때 만든 초대 링크가 열리도록 읽는다.
 
 /** 번호 꼴: 여섯 자리, 첫 자리는 1~9 */
 export const NUMBER_RE = /^[1-9][0-9]{5}$/;
@@ -40,14 +41,11 @@ export const isNumber = (tag) => NUMBER_RE.test(String(tag ?? ""));
 /**
  * 친구 찾기 칸·초대 링크의 글 → { nick, tag }. 꼴이 아니면 null.
  *   '영표#482193', ' 영표 # 482193 ' → { nick: '영표', tag: '482193' }
- *   '482193', '#482193'           → { nick: '', tag: '482193' }(번호만)
- *   '영표#0420'                    → { nick: '영표', tag: '0420' }(옛 초대 링크. 네 자리는 닉네임이 있어야 한다)
+ *   '영표#0420'                    → { nick: '영표', tag: '0420' }(예전 초대 링크)
+ *   '482193'·'#482193'(닉네임 없음) → null
  */
 export function parseHandle(text) {
-  const s = String(text ?? "").trim();
-  const only = /^#?\s*([0-9]{6})$/.exec(s);
-  if (only) return isNumber(only[1]) ? { nick: "", tag: only[1] } : null;
-  const m = /^(.+?)\s*#\s*([0-9]{6}|[0-9]{4})$/.exec(s);
+  const m = /^\s*(.+?)\s*#\s*([0-9]{6}|[0-9]{4})\s*$/.exec(String(text ?? ""));
   if (!m) return null;
   const bad = nickProblem(m[1]);
   if (bad === "chars" || bad === "short" || bad === "long") return null;
@@ -55,12 +53,8 @@ export function parseHandle(text) {
   return { nick: m[1], tag: m[2] };
 }
 
-/**
- * 같은 사람인지 견주는 열쇠. 여섯 자리 번호는 번호만으로('#482193', 닉네임과 상관없이),
- * 옛 네 자리는 닉네임(소문자, 띄어쓰기 없이)과 함께('tt wizard#0420' → 'ttwizard#0420': 서버의 옛 열쇠 handles 의 문서 이름)
- */
+/** 찾는 열쇠(대소문자·공백 차이 없이): 'TT Wizard#482193' → 'ttwizard#482193'. 서버 handles 문서 이름이고 규칙의 keyOf 와 같다 */
 export function handleKey(nick, tag) {
-  if (isNumber(tag)) return `#${tag}`;
   return `${String(nick).toLowerCase().replace(/\s/g, "")}#${tag}`;
 }
 

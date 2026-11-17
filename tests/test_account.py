@@ -34,11 +34,10 @@ def test_nick_and_handle(r):
 
 
 def test_account_numbers(r):
-    """계정 번호(사용자 11/17 '계정마다 고유 번호 부여하고, 번호만 입력해도 친구 되도록'): 여섯 자리(첫 자리 1~9), 번호만 넣어도 되고
-    같은 번호면 닉네임이 달라도 같은 사람. 옛 '닉네임#네 자리'는 닉네임이 있어야 읽는다(예전 초대 링크)"""
-    assert r["number"] == [{"nick": "영표", "tag": "482193"}, {"nick": "", "tag": "482193"}, {"nick": "", "tag": "482193"}, {"nick": "", "tag": "482193"},
-                           None, None, None, {"nick": "영표", "tag": "482193"}]
-    assert r["numberKey"] == ["#482193"] * 3
+    """계정 번호(사용자 11/17 '계정마다 고유 번호 부여하고'): 여섯 자리(첫 자리 1~9), 닉네임을 바꿔도 그대로. 친구는 지금 닉네임#번호로만 찾는다
+    (사용자 11/17 법무 채팅 '닉네임 + 번호로 친구추가 되게 하고, 현재 닉네임과 다르면 초대 발송이 안되는 걸로', update138). 번호만은 읽지 않는다"""
+    assert r["number"] == [{"nick": "영표", "tag": "482193"}, None, None, None, None, None, None, {"nick": "영표", "tag": "482193"}]
+    assert r["numberKey"] == ["영표#482193", "tt_wizard#482193", "다른이름#482193"]
     assert r["random"] == ["100000", "999999", "550000"]
     assert r["isNumber"] == [True, True, False, False, False, True]
 
@@ -87,9 +86,15 @@ def test_account_module_surface():
     # 번호 바꾸기 부탁 메일 본문 두 줄(법무 11/17 ③), 옛 번호·지운 계정의 번호는 지우지 않고 '안 씀'으로(법무 11/17 ⓓ)
     assert "바꾸고 싶은 번호(여섯 자리):" in js and "&body=${encodeURIComponent(TAG_MAIL_BODY)}" in js
     assert 'tx.set(F.doc(db, "numbers", p.tag), { retired: true })' in js and 'last.set(F.doc(db, "numbers", p.tag), { retired: true })' in js
+    # 지운 계정의 열쇠(닉네임이 든 이름)는 '안 씀'으로 남기지 않고 지우고, 하루 요청 수도 지운다(법무 11/17, update138)
+    assert 'last.delete(F.doc(db, "handles", key))' in js and '"handles", oldKey), { retired: true }' not in js
+    assert 'last.delete(F.doc(db, "limits", uid))' in js
+    # 하루 요청 수 20개(LIMIT), 신고 까닭 네 가지(법무 11/17)
+    assert "export const REQUEST_DAY_LIMIT = 20;" in js and 'throw err("LIMIT")' in js
+    assert 'export const REPORT_REASONS = ["nick", "impersonation", "stranger", "other"];' in js and ".slice(0, 200)" in js
     for name in ("available", "ready", "onUser", "signIn", "signOut", "deleteAccount", "sync", "profile", "setNick", "friends",
                  "find", "request", "accept", "decline", "cancel", "unfriend", "block", "unblock", "friendTimetables", "publish", "inviteLink", "reportLink",
-                 "tagLink", "isAdmin", "adminSetTag",
+                 "tagLink", "isAdmin", "adminSetTag", "report", "listReports", "closeReport",
                  "syncStatus", "onSyncStatus", "forget"):
         assert re.search(rf"export (?:async function|function|const) {name}\b", js), name
     assert re.search(r'SDK_URL = "https://www\.gstatic\.com/firebasejs/\d+\.\d+\.\d+"', js)  # 판을 고정
@@ -107,12 +112,24 @@ def test_firestore_rules():
     # 학교 계정 표시는 본인이 보이게 둔 확인된 snu.ac.kr 메일만(update112)
     assert "request.auth.token.get('email', '').lower().matches('^[^@]+@snu[.]ac[.]kr$')" in rules and "schoolOk(d)" in rules
     assert rules.count("validProfile(request.resource.data)") == 2  # 지금 방식·옛 판 앱 둘 다
-    # 계정 번호(2026-11-17): 여섯 자리, 번호 표는 하나씩만 읽고, 내 번호는 내 프로필이 가리킬 때만 만들고, 한번 받은 번호는 내가 못 바꾼다
-    assert "n.matches('^[1-9][0-9]{5}$')" in rules and "match /numbers/{n} {\n      allow get: if signedIn();" in rules
+    # 계정 번호(2026-11-17): 여섯 자리, 내 번호는 내 프로필이 가리킬 때만 만들고, 한번 받은 번호는 내가 못 바꾼다
+    assert "n.matches('^[1-9][0-9]{5}$')" in rules
     assert "profileAfter(request.resource.data.uid).data.tag == n" in rules
     assert "resource.data.tag == request.resource.data.tag" in rules and "isOldTag(resource.data.tag))" in rules
     assert "update" + "134" not in rules and "법무" not in rules  # 사람이 읽는 설명만(세션·판 번호 없이)
-    assert "match /numbers/{n}" in rules and "allow delete" not in rules[rules.index("match /numbers/{n}"):rules.index("// ===== 예전 열쇠")]  # 번호는 못 지운다(거두기만)
+    # 번호 문서는 남이 못 읽고(번호만으로 누구인지 모르게), 지우지 못한다(거두기만). 찾기는 닉네임#번호 열쇠로만(update138)
+    numbers = rules[rules.index("match /numbers/{n}"):rules.index("// ===== 찾는 열쇠")]
+    assert "allow get: if signedIn() && (resource == null || resource.data.get('uid', '') == request.auth.uid || isAdmin());" in numbers
+    assert "allow delete" not in numbers
+    assert "return nick.lower().replace(' ', '') + '#' + tag;" in rules
+    assert "request.resource.data.get('handle', '') == keyOf(request.resource.data.nick, request.resource.data.tag)" in rules
+    # 하루 요청 수: 요청을 만들 때 같은 쓰기에서 하나 올리고 20개까지, 지우기는 계정을 지울 때만
+    assert "&& countsOne();" in rules and "request.resource.data.sent <= 20;" in rules
+    assert "allow delete: if isMe(uid) && !existsAfter(profilePath(uid));" in rules
+    # 신고: 본인 이름으로 만들기만, 읽기·처리 표시·지우기는 관리자만
+    reports = rules[rules.index("match /reports/{id}"):]
+    assert "allow read: if isAdmin();" in reports and "allow delete: if isAdmin();" in reports
+    assert "request.resource.data.reason in ['nick', 'impersonation', 'stranger', 'other']" in reports and "note.size() <= 200" in reports
     assert "allow get: if signedIn() && (id.split('_')[0] == request.auth.uid || id.split('_')[1] == request.auth.uid);" in rules
     assert json.loads((ROOT / "firebase" / "firebase.json").read_text(encoding="utf-8"))["firestore"]["rules"] == "firestore.rules"
 

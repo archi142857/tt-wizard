@@ -8,7 +8,8 @@ rules_version = '2';
 // 큰 원칙은 세 가지다.
 //   1. 내 자료는 나만 읽고 쓴다.
 //   2. 남에게 보이는 건 친구를 찾을 때 쓰는 닉네임과 번호, 그리고 친구에게만 열어 둔 시간표 사본뿐이다.
-//   3. 남의 자료를 고칠 수 있는 사람은 관리자뿐이고, 관리자도 번호를 바꿔 주는 일만 할 수 있다.
+//      친구는 '닉네임#번호'를 정확히 알아야 찾을 수 있다. 번호만으로는 누구인지 알 수 없다.
+//   3. 남의 자료를 고칠 수 있는 사람은 관리자뿐이고, 관리자도 번호를 바꿔 주고 신고를 처리하는 일만 할 수 있다.
 
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -38,9 +39,18 @@ service cloud.firestore {
       return t is string && t.matches('^[0-9]{4}$');
     }
 
-    // 이번 쓰기가 끝난 뒤의 모습. 프로필과 번호처럼 한 번에 같이 쓰는 문서끼리 서로 맞는지 볼 때 쓴다.
+    // 찾는 열쇠: 닉네임을 소문자로, 띄어쓰기 없이 쓰고 '#번호'를 붙인다(앱의 sync.js handleKey 와 같다).
+    function keyOf(nick, tag) {
+      return nick.lower().replace(' ', '') + '#' + tag;
+    }
+
+    function profilePath(uid) {
+      return /databases/$(database)/documents/profiles/$(uid);
+    }
+
+    // 이번 쓰기가 끝난 뒤의 모습. 프로필·번호·열쇠처럼 한 번에 같이 쓰는 문서끼리 서로 맞는지 볼 때 쓴다.
     function profileAfter(uid) {
-      return getAfter(/databases/$(database)/documents/profiles/$(uid));
+      return getAfter(profilePath(uid));
     }
 
     function numberAfter(n) {
@@ -53,13 +63,23 @@ service cloud.firestore {
 
     // 쓰기가 끝난 뒤에도 그 사람 프로필이 이 번호를 쓰고 있는지
     function stillUses(uid, n) {
-      return existsAfter(/databases/$(database)/documents/profiles/$(uid))
-        && profileAfter(uid).data.tag == n;
+      return existsAfter(profilePath(uid)) && profileAfter(uid).data.tag == n;
     }
 
-    // 번호나 예전 열쇠를 거둘 때 남기는 모습: 누구 것이었는지(uid)는 지우고 '안 씀' 표시만 남긴다.
+    // 쓰기가 끝난 뒤에도 그 사람 프로필이 이 열쇠(지금 열쇠나 예전 열쇠)를 쓰고 있는지
+    function stillHolds(uid, key) {
+      return existsAfter(profilePath(uid))
+        && (profileAfter(uid).data.get('handle', '') == key || profileAfter(uid).data.get('oldHandle', '') == key);
+    }
+
+    // 번호를 거둘 때 남기는 모습: 누구 것이었는지(uid)는 지우고 '안 씀' 표시만 남긴다.
     function retiring() {
       return request.resource.data.keys().hasOnly(['retired']) && request.resource.data.retired == true;
+    }
+
+    // 오늘이 며칠째인지(세계 표준시 날짜). 친구 요청·신고를 하루에 몇 번까지 받을지 셀 때 쓴다.
+    function today() {
+      return int(math.floor(request.time.toMillis() / 86400000));
     }
 
     // 두 사람이 친구인지: 어느 쪽이 보냈든 수락된 요청이 하나 있으면 친구다.
@@ -94,7 +114,7 @@ service cloud.firestore {
 
 
     // ===== 관리자 표시 =====
-    // 앱은 '내가 관리자인지'만 확인한다(웹 개발자 메뉴에 번호 바꿔 주기를 보일지). 쓰기는 콘솔에서만 한다.
+    // 앱은 '내가 관리자인지'만 확인한다(웹 개발자 메뉴에 관리 도구를 보일지). 쓰기는 콘솔에서만 한다.
 
     match /admins/{uid} {
       allow get: if isMe(uid);
@@ -102,13 +122,12 @@ service cloud.firestore {
 
 
     // ===== 계정 번호 =====
-    // numbers/{번호} = { uid }. 친구 추가 칸에 번호만 넣어도 그 사람을 찾을 수 있게 한다.
-    // 번호 하나씩 찾는 것만 되고, 목록을 통째로 읽어 갈 수는 없다.
+    // numbers/{번호} = { uid }. 번호가 겹치지 않게 하려고만 둔다.
+    // 남은 읽지 못한다(번호만으로 누구인지 알아내지 못하게). 비어 있는 번호인지 보는 것과 내 번호, 관리자만 읽는다.
     // 쓰지 않게 된 번호는 지우지 않고 { retired: true } 로 남겨 다시는 남에게 주지 않는다.
-    // 옛 초대 링크나 QR 코드가 엉뚱한 사람에게 가지 않게 하려는 것이다.
 
     match /numbers/{n} {
-      allow get: if signedIn();
+      allow get: if signedIn() && (resource == null || resource.data.get('uid', '') == request.auth.uid || isAdmin());
 
       // 내 번호는 같은 쓰기에서 내 프로필이 그 번호를 가리킬 때만 만든다.
       // 관리자는 번호를 바꿔 줄 때 그 사람 몫으로 새 번호를 만든다.
@@ -127,36 +146,35 @@ service cloud.firestore {
     }
 
 
-    // ===== 예전 열쇠 =====
-    // handles/{닉네임#네 자리} = { uid }. 계정 번호가 생기기 전에 쓰던 방식이다.
-    // 예전에 보낸 초대 링크가 계속 열리도록 남겨 둔다. 새로 만드는 건 아직 옛 판 앱을 쓰는 사람이 닉네임을 정할 때뿐이다.
-    // 계정을 지우면 번호처럼 '안 씀'으로 남긴다.
+    // ===== 찾는 열쇠 =====
+    // handles/{닉네임#번호} = { uid }. 친구 추가 칸에 넣은 '닉네임#번호'로 사람을 찾는다.
+    // 하나씩 찾는 것만 되고 목록은 못 읽는다. 닉네임이 지금 닉네임과 다르면 열쇠가 없어 찾지 못한다.
+    // 예전 '닉네임#네 자리' 열쇠도 여기 있다. 그때 보낸 초대 링크가 열리도록, 닉네임을 바꾸거나 계정을 지울 때까지 남긴다.
 
     match /handles/{key} {
       allow get: if signedIn();
 
-      // 옛 판 앱이 닉네임을 정할 때: 같은 쓰기에서 아직 번호가 없는(네 자리) 내 프로필이 이 열쇠를 가리켜야 한다.
+      // 같은 쓰기에서 그 사람 프로필이 이 열쇠를 가리켜야 만든다. 관리자는 번호를 바꿔 줄 때 그 사람 몫으로 만든다.
+      // 네 자리 열쇠는 아직 번호를 받지 않은 옛 판 앱이 닉네임을 정할 때만 새로 생긴다.
       allow create: if signedIn()
-        && key.matches('^[0-9a-z가-힣_]{2,12}#[0-9]{4}$')
         && request.resource.data.keys().hasOnly(['uid'])
-        && request.resource.data.uid == request.auth.uid
-        && profileAfter(request.auth.uid).data.handle == key
-        && isOldTag(profileAfter(request.auth.uid).data.tag);
+        && (request.resource.data.uid == request.auth.uid || isAdmin())
+        && profileAfter(request.resource.data.uid).data.get('handle', '') == key
+        && (isNumber(profileAfter(request.resource.data.uid).data.tag)
+            || (request.resource.data.uid == request.auth.uid
+                && isOldTag(profileAfter(request.auth.uid).data.tag)
+                && key.matches('^[0-9a-z가-힣_]{2,12}#[0-9]{4}$')));
 
-      // 내 예전 열쇠를 '안 씀'으로 거둔다(계정을 지울 때).
-      allow update: if signedIn() && retiring() && resource.data.get('uid', '') == request.auth.uid;
-
-      // 지우는 건 옛 판 앱이 계정을 지울 때(프로필도 같이 지우는 쓰기)뿐이다.
-      // 닉네임을 바꾸며 열쇠를 푸는 건 막는다. 풀린 열쇠를 남이 받으면 옛 초대 링크가 그 사람에게 가기 때문이다.
+      // 지우기: 그 사람 프로필이 더는 이 열쇠를 쓰지 않을 때(닉네임을 바꿈, 번호를 바꿔 줌, 계정을 지움).
+      // 열쇠에는 닉네임이 들어 있어서 계정을 지우면 남기지 않고 지운다.
       allow delete: if signedIn()
         && (resource == null
-            || (resource.data.uid == request.auth.uid
-                && !existsAfter(/databases/$(database)/documents/profiles/$(request.auth.uid))));
+            || ((resource.data.get('uid', '') == request.auth.uid || isAdmin()) && !stillHolds(resource.data.uid, key)));
     }
 
 
     // ===== 프로필 =====
-    // profiles/{uid} = { nick, tag(번호), updated, showSchool, school, handle(예전 열쇠, 있는 사람만) }
+    // profiles/{uid} = { nick, tag(번호), handle(지금 열쇠), oldHandle(예전 열쇠, 있는 사람만), updated, showSchool, school }
     // 친구 목록과 친구 찾기가 uid 로 하나씩 읽는다. 목록을 통째로 읽거나 닉네임으로 검색할 수는 없다.
 
     // '학교 계정' 표시는 본인이 보이게 두었고, 로그인한 메일이 확인된 snu.ac.kr 일 때만 켤 수 있다.
@@ -169,24 +187,30 @@ service cloud.firestore {
 
     // 본인이 쓰는 프로필이면 늘 지킬 것: 아는 칸만, 닉네임 2~12자, 학교 계정 표시 규칙
     function validProfile(d) {
-      return d.keys().hasOnly(['nick', 'tag', 'handle', 'updated', 'showSchool', 'school'])
+      return d.keys().hasOnly(['nick', 'tag', 'handle', 'oldHandle', 'updated', 'showSchool', 'school'])
         && d.nick is string && d.nick.size() >= 2 && d.nick.size() <= 12
         && d.get('showSchool', true) is bool
         && d.get('school', false) is bool
         && schoolOk(d);
     }
 
-    // 예전 열쇠(handle)는 처음 있던 그대로 두거나 아예 없어야 한다. 새로 달 수는 없다.
-    function keepsOldKey() {
-      return !('handle' in request.resource.data)
-        || (resource != null && request.resource.data.handle == resource.data.get('handle', ''));
+    // 예전 열쇠(oldHandle): 그대로 두거나, 네 자리에서 넘어올 때 그때 열쇠(handle)를 옮겨 두기만 한다.
+    // 떼어 낼 때는 그 열쇠 문서도 같은 쓰기에서 지워야 한다(닉네임이 든 열쇠가 주인 없이 남지 않게).
+    function oldKeyOk(d) {
+      let before = resource == null ? {} : resource.data;
+      let old = before.get('oldHandle', '');
+      return ('oldHandle' in d
+              && (d.oldHandle == old
+                  || (d.oldHandle == before.get('handle', '') && before.get('handle', '').matches('^.+#[0-9]{4}$'))))
+        || (!('oldHandle' in d)
+            && (old == '' || !existsAfter(/databases/$(database)/documents/handles/$(old))));
     }
 
     match /profiles/{uid} {
       allow get: if signedIn();
 
-      // 지금 방식: 번호는 numbers 에 내 것으로 있어야 하고, 한번 받은 번호는 내가 바꿀 수 없다.
-      // 예전 네 자리 번호에서 넘어올 때 딱 한 번만 새 번호를 받는다.
+      // 지금 방식: 번호는 numbers 에, 열쇠 '닉네임#번호'는 handles 에 내 것으로 있어야 한다.
+      // 한번 받은 번호는 내가 바꿀 수 없다. 예전 네 자리 번호에서 넘어올 때 딱 한 번만 새 번호를 받는다.
       allow create, update: if isMe(uid)
         && validProfile(request.resource.data)
         && isNumber(request.resource.data.tag)
@@ -194,22 +218,27 @@ service cloud.firestore {
         && (resource == null
             || resource.data.tag == request.resource.data.tag
             || isOldTag(resource.data.tag))
-        && keepsOldKey();
+        && request.resource.data.get('handle', '') == keyOf(request.resource.data.nick, request.resource.data.tag)
+        && handleAfter(request.resource.data.handle).data.uid == uid
+        && oldKeyOk(request.resource.data);
 
       // 옛 판 앱이 쓰는 방식(닉네임#네 자리). 아직 번호를 받지 않은 프로필만 예전처럼 고칠 수 있다.
       // 한번 번호를 받은 프로필을 네 자리로 되돌릴 수는 없다.
       allow create, update: if isMe(uid)
         && validProfile(request.resource.data)
         && isOldTag(request.resource.data.tag)
+        && !('oldHandle' in request.resource.data)
         && handleAfter(request.resource.data.handle).data.uid == uid
         && (resource == null || isOldTag(resource.data.tag));
 
-      // 관리자가 번호를 바꿔 줄 때: 번호(tag)와 고친 때(updated)만 바뀐다. 닉네임은 건드리지 못한다.
-      // 새 번호는 같은 쓰기에서 이 사람 몫으로 만든 것이어야 한다.
+      // 관리자가 번호를 바꿔 줄 때: 번호(tag)·열쇠(handle)·고친 때(updated)만 바뀐다. 닉네임은 건드리지 못한다.
+      // 새 번호와 새 열쇠는 같은 쓰기에서 이 사람 몫으로 만든 것이어야 한다.
       allow update: if isAdmin()
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['tag', 'updated'])
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['tag', 'handle', 'updated'])
         && isNumber(request.resource.data.tag)
-        && numberAfter(request.resource.data.tag).data.uid == uid;
+        && numberAfter(request.resource.data.tag).data.uid == uid
+        && request.resource.data.handle == keyOf(resource.data.nick, request.resource.data.tag)
+        && handleAfter(request.resource.data.handle).data.uid == uid;
 
       allow delete: if isMe(uid);
     }
@@ -219,12 +248,20 @@ service cloud.firestore {
     // requests/{보낸 사람 uid}_{받은 사람 uid} = { from, to, state: 'pending' | 'accepted', created, updated }
     // 보낸 사람이 만들고, 받은 사람만 수락한다. 거절·취소·끊기는 둘 중 누구나 지울 수 있다.
 
+    // 하루에 보낸 요청 수(limits)를 같은 쓰기에서 하나 올렸는지
+    function countsOne() {
+      let path = /databases/$(database)/documents/limits/$(request.auth.uid);
+      let sent = exists(path) && get(path).data.day == today() ? get(path).data.sent : 0;
+      return getAfter(path).data.day == today() && getAfter(path).data.sent == sent + 1;
+    }
+
     match /requests/{id} {
       // 하나 읽기는 문서 이름에 내 uid 가 들었을 때만. 없는 요청도 '없다'고 읽혀야 상대가 먼저 보냈는지 알 수 있다.
       allow get: if signedIn() && (id.split('_')[0] == request.auth.uid || id.split('_')[1] == request.auth.uid);
       allow list: if signedIn() && (resource.data.from == request.auth.uid || resource.data.to == request.auth.uid);
 
       // 나를 막아 둔 사람에게는 보낼 수 없고, 상대가 이미 보낸 요청이 있으면 새로 만들지 않고 그걸 수락한다.
+      // 보낼 때마다 하루 요청 수를 하나 올려야 한다(아래 limits).
       allow create: if signedIn()
         && request.resource.data.keys().hasOnly(['from', 'to', 'state', 'created', 'updated'])
         && request.resource.data.from == request.auth.uid
@@ -234,13 +271,30 @@ service cloud.firestore {
         && request.resource.data.state == 'pending'
         && exists(/databases/$(database)/documents/profiles/$(request.resource.data.to))
         && !exists(/databases/$(database)/documents/blocks/$(request.resource.data.to)/list/$(request.auth.uid))
-        && !exists(req(request.resource.data.to + '_' + request.auth.uid));
+        && !exists(req(request.resource.data.to + '_' + request.auth.uid))
+        && countsOne();
 
       allow update: if signedIn() && resource.data.to == request.auth.uid && resource.data.state == 'pending'
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['state', 'updated'])
         && request.resource.data.state == 'accepted';
 
       allow delete: if signedIn() && (resource.data.from == request.auth.uid || resource.data.to == request.auth.uid);
+    }
+
+
+    // ===== 하루 요청 수 =====
+    // limits/{uid} = { day, sent }. 친구 요청은 하루(세계 표준시 날짜)에 20개까지 보낸다.
+    // 아무 닉네임#번호나 넣어 무더기로 보내는 걸 막으려는 것이다. 날이 바뀌면 1부터 다시 센다.
+    // 지우는 건 계정을 지울 때(같은 쓰기에서 프로필도 지울 때)만 된다. 아무 때나 지우면 처음부터 다시 셀 수 있으니까.
+
+    match /limits/{uid} {
+      allow get: if isMe(uid);
+      allow create, update: if isMe(uid)
+        && request.resource.data.keys().hasOnly(['day', 'sent'])
+        && request.resource.data.day == today()
+        && request.resource.data.sent == (resource != null && resource.data.day == today() ? resource.data.sent + 1 : 1)
+        && request.resource.data.sent <= 20;
+      allow delete: if isMe(uid) && !existsAfter(profilePath(uid));
     }
 
 
@@ -258,6 +312,35 @@ service cloud.firestore {
     match /shared/{uid}/terms/{sem} {
       allow read: if isMe(uid) || (signedIn() && friends(request.auth.uid, uid));
       allow write: if isMe(uid) && (request.resource == null || request.resource.data.sem == sem);
+    }
+
+
+    // ===== 닉네임 신고 =====
+    // reports/{신고한 사람 uid}_{신고된 사람 uid}_{날} = { reporter, target, handle, reason, note, created, state }
+    // 신고는 본인 이름으로 만들기만 한다. 같은 사람은 하루에 한 번만 신고할 수 있다(문서 이름에 날이 들어 있다).
+    // 읽고 처리 표시를 하는 건 관리자뿐이다. 신고한 사람이 누구인지는 신고된 사람에게 알리지 않는다.
+    // 처리를 마치고 1년이 지나면 관리자가 지운다.
+
+    match /reports/{id} {
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['reporter', 'target', 'handle', 'reason', 'note', 'created', 'state'])
+        && request.resource.data.reporter == request.auth.uid
+        && request.resource.data.target is string
+        && request.resource.data.target != request.auth.uid
+        && id == request.auth.uid + '_' + request.resource.data.target + '_' + string(today())
+        && request.resource.data.handle is string && request.resource.data.handle.size() <= 24
+        && request.resource.data.reason in ['nick', 'impersonation', 'stranger', 'other']
+        && request.resource.data.note is string && request.resource.data.note.size() <= 200
+        && request.resource.data.state == 'open';
+
+      allow read: if isAdmin();
+
+      // 관리자는 처리 표시만 한다(처리한 때를 같이 적는다).
+      allow update: if isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['state', 'closed'])
+        && request.resource.data.state == 'closed';
+
+      allow delete: if isAdmin();
     }
   }
 }

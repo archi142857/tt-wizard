@@ -8,9 +8,9 @@ const out = {};
 out.nick = ["가", "영표", "TT Wizard", "a_b", "한글영문12자까지인닉네임이", "관리자님", "hi!", " 공백 "].map((n) => nickProblem(n));
 out.handle = [parseHandle("영표#0420"), parseHandle(" TT Wizard # 0042 "), parseHandle("영표#42"), parseHandle("#0420")];
 out.key = handleKey("TT Wizard", "0042");
-// 계정 번호(여섯 자리, 2026-11-17): 번호만·#번호·닉네임#번호, 0 으로 시작하거나 다섯 자리면 아님. 번호는 닉네임과 상관없이 같은 열쇠
+// 계정 번호(여섯 자리, 2026-11-17): 닉네임#번호만 읽는다. 번호만·#번호, 0 으로 시작하거나 다섯 자리면 아님. 열쇠는 닉네임(소문자, 띄어쓰기 없이)#번호
 out.number = ["영표#482193", "482193", " #482193 ", "# 482193", "012345", "영표#012345", "48219", "영표 #482193"].map((t) => parseHandle(t));
-out.numberKey = [handleKey("영표", "482193"), handleKey("다른이름", "482193"), handleKey("", "482193")];
+out.numberKey = [handleKey("영표", "482193"), handleKey("TT_Wizard", "482193"), handleKey("다른이름", "482193")];
 out.random = [randomNumber(() => 0), randomNumber(() => 0.9999999), randomNumber(() => 0.5)];
 out.isNumber = ["100000", "999999", "099999", "1000000", "0420", 482193].map(isNumber);
 
