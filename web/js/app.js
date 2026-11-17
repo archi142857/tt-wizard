@@ -4412,10 +4412,11 @@ function ttOptsAct(k) {
     renderTtOpts($("to-acts").querySelector('[data-tt-act="save-image"]') ? '[data-tt-act="save-image"]' : '[data-tt-act="delete"]');
     announce("대표 시간표로 설정했어요");
   } else if (k === "delete") {
-    // 목록에 남는다(11/16 사용자). 초점은 그 자리에 온 시간표의 ⋯, 맨 끝이었으면 앞 것, 학기에 하나 남은 것을 지웠으면 빈 시간표 1 행의 ⋯
-    const at = mine.list.findIndex((x) => x.id === t.id);
-    deleteTt(t); // 목록을 다시 그린다(mineChanged)
-    const next = mine.list[Math.min(Math.max(at, 0), mine.list.length - 1)] || curTt();
+    // 목록에 남는다(11/16 사용자). 초점은 그 자리에 온 시간표의 ⋯, 맨 끝이었으면 앞 것. 학기에 하나 남은 것을 지워 다른 학기로 옮겼으면(deleteTt leave)
+    // 그 학기에서 보는 시간표의 ⋯(그 학기 묶음을 편다), 옮길 학기가 없으면 빈 시간표 1 행의 ⋯
+    const at = mine.list.findIndex((x) => x.id === t.id), sem = mine.sem;
+    deleteTt(t, { leave: true }); // 목록을 다시 그린다(mineChanged, 옮기면 loadSemester)
+    const next = (mine.sem === sem && mine.list[Math.min(Math.max(at, 0), mine.list.length - 1)]) || curTt();
     toId = next.id || ""; // 팝업이 닫히면 목록을 다시 그리고 이 시간표의 ⋯ 에 초점(아래 ttOpts close)
     ttOpts.returnTo = null;
     closeSheet(ttOpts);
@@ -5800,25 +5801,52 @@ for (const r of document.querySelectorAll('input[name="tt-color"]')) {
   });
 }
 
-/** 지우기: 확인 없이 지우고 학기의 다른 시간표(대표, 없으면 맨 위)로 바꾼 뒤 스낵바 '시간표를 지웠어요' [되돌리기]. 마지막 하나를 지우면 빈 시간표 1 모습이 된다 */
-function deleteTt(t) {
+/** 학기의 마지막 시간표를 지웠을 때 옮겨 갈 학기: 시간표가 남은 가장 최근 학기(목록 맨 위), 없으면 지금 학기. 지금 학기의 마지막 하나였고 다른 학기에도 없으면 '' */
+function semAfterEmpty(sem) {
+  const ids = state.semesters.map(([id]) => id).filter((id) => id !== sem && /^\d{4}-[12SW]$/.test(id));
+  return ids.find((id) => T.hasTimetables(store.get(semKey(T.STORE_KEYS.list, id), [])))
+    || (state.current && ids.includes(state.current) ? state.current : "");
+}
+/** 지우기: 확인 없이 지우고 학기의 다른 시간표(대표, 없으면 맨 위)로 바꾼 뒤 스낵바 '시간표를 지웠어요' [되돌리기]. 마지막 하나를 지우면 빈 시간표 1 모습이 된다.
+ *  leave(시간표 메뉴의 지우기): 학기의 마지막 하나를 지우면 그 학기가 목록에 남지 않게 시간표가 남은 가장 최근 학기(없으면 지금 학기)로 옮긴다(11/18 사용자
+ *  '해당 학기에 하나 남아있던 시간표를 지우면 저렇게 남겨두지 말고 바로 학기까지 다 지워줘'). 옮길 학기가 없으면(지금 학기의 마지막 하나) 빈 시간표 1 그대로.
+ *  되돌리면 그 학기로 돌아온다. 후보 카드의 저장됨을 다시 누른 것은 그 학기의 결과 화면이라 옮기지 않는다 */
+function deleteTt(t, { leave = false } = {}) {
   const at = mine.list.findIndex((x) => x.id === t.id), sem = mine.sem, was = mine.id;
   mine.list = T.deleteTimetable(mine.list, t.id);
   if (curTt().id !== mine.id || was === t.id) mine.id = curTt().id;
   saveMine();
   if (tab !== "mine") stacks.mine.length = 1;
-  mineChanged();
+  const to = leave && !shownTts().length ? semAfterEmpty(sem) : "", opened = !!to && !tlSems.has(to);
+  if (to) { // 옮긴 학기 묶음을 펴 둔다(초점이 갈 자리). 다시 그리기는 loadSemester 가 한다
+    tlSems.delete(sem);
+    tlSems.add(to);
+    switchSemester(to);
+  } else mineChanged();
   syncSaves();
-  announce("시간표를 지웠어요");
+  announce(to ? `시간표를 지웠어요. ${semesterLabel(to)}로 이동했어요` : "시간표를 지웠어요");
   showSnackbar("시간표를 지웠어요", "되돌리기", () => {
-    if (mine.sem !== sem || mine.list.some((x) => x.id === t.id)) return;
-    const list = mine.list.slice();
-    list.splice(Math.min(at, list.length), 0, t);
-    mine.list = t.primary ? T.setPrimary(list, t.id) : list;
-    mine.id = was;
-    saveMine();
-    mineChanged();
-    syncSaves();
+    if (to) {
+      if (mine.sem !== to) return; // 그사이 다른 학기로 갔다
+      const key = semKey(T.STORE_KEYS.list, sem), list = T.parseList(store.get(key, []), sem);
+      if (list.some((x) => x.id === t.id)) return;
+      list.splice(Math.min(at, list.length), 0, t);
+      store.set(key, T.serialize(t.primary ? T.setPrimary(list, t.id) : list));
+      store.set(semKey(T.STORE_KEYS.current, sem), t.id);
+      syncSoon();
+      if (opened) tlSems.delete(to);
+      tlSems.add(sem);
+      switchSemester(sem); // 그 학기의 목록을 읽어 다시 그린다(loadSemester → readMine)
+    } else {
+      if (mine.sem !== sem || mine.list.some((x) => x.id === t.id)) return;
+      const list = mine.list.slice();
+      list.splice(Math.min(at, list.length), 0, t);
+      mine.list = t.primary ? T.setPrimary(list, t.id) : list;
+      mine.id = was;
+      saveMine();
+      mineChanged();
+      syncSaves();
+    }
     // 시간표 목록에서 지우고 되돌렸다(스낵바가 목록 시트 안): 초점은 되살린 시간표의 ⋯
     if ($("tt-list-sheet").open) $("tl-rows").querySelector(`[data-tt-more="${CSS.escape(t.id)}"]`)?.focus({ preventScroll: true });
   });
