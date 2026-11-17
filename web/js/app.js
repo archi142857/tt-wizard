@@ -9233,7 +9233,8 @@ let frErr = ""; // 친구 목록을 못 받았다: OFFLINE(연결되면 저절�
 let syncLib = null; // sync.js(nickProblem·parseHandle)
 const NICK_MAX = 12;
 // 친구 추가의 오류 줄(130판): 까닭은 말하지 않는다(차단 등)
-const FR_ADD_ERR = { NOT_FOUND: "없는 닉네임이에요", SELF: "내 닉네임이에요", ALREADY: "이미 친구예요", OFFLINE: "인터넷에 연결되지 않았어요" };
+const FR_ADD_ERR = { NOT_FOUND: "닉네임이나 번호가 맞지 않아요", // 153판(11/17 사용자 '닉네임 + 번호로 친구추가 되게 하고, 현재 닉네임과 다르면 초대 발송이 안되는 걸로', 법무: 지금 닉네임은 보이지 않기)
+   SELF: "내 닉네임이에요", ALREADY: "이미 친구예요", OFFLINE: "인터넷에 연결되지 않았어요" };
 const FR_ERR = { OFFLINE: "인터넷에 연결되지 않았어요", SIGNED_OUT: "로그인해 주세요" };
 const handleText = (p) => (p && p.nick ? `${p.nick}#${p.tag}` : "");
 /** 닉네임#번호(번호는 400 text3, 닉네임과 0.25em·0.875em: .t i·.n i·.title i). 줄이 모자라면 번호 앞에서 먼저 바뀐다(<wbr>) */
@@ -9342,23 +9343,22 @@ function paintFriends() {
     return;
   }
   if (!fr.profile) {
-    // 처음 한 번(130판): 제목, 닉네임(2~12자, #네 자리는 저절로, 글자 수), 친구에게 보이는 것, 학교 계정이면 학교 계정 보이기(처음 켜짐), 시작하기(2자 이상이면 켜짐)
+    // 처음 한 번(130판·153판): 제목, 닉네임(2~12자, #번호는 저절로, 글자 수), 친구에게 보이는 것(학교 계정이면 숨긴 과목 줄 다음 '학교 계정(snu.ac.kr) 표시'),
+    // 시작하기(2자 이상이면 켜짐). '학교 계정 보이기' 스위치는 11/17 사용자 '학교계정보이기 삭제. 학교 계정이면 그냥 자동으로 뜨도록'으로 뺐다
     const ok = (t) => h("li", { class: "ok" }, icon(I.check, 16), h("span", {}, t)), no = (t) => h("li", { class: "no" }, icon(I.x, 16), h("span", {}, t));
-    const keep = $("fr-nick") ? $("fr-nick").value : "", school = $("fr-school") ? $("fr-school").checked : true;
+    const keep = $("fr-nick") ? $("fr-nick").value : "";
     box.replaceChildren(
       h("h2", { class: "fr-ttl" }, "친구 시간표"),
       h("div", { class: "card fr-nick-card" },
         h("label", { class: "field-label", for: "fr-nick" }, "닉네임"),
         h("input", { class: "text-input", id: "fr-nick", type: "text", maxlength: String(NICK_MAX), autocomplete: "off", enterkeyhint: "done", value: keep,
           "aria-describedby": "fr-nick-help fr-nick-err" }),
-        h("p", { class: "nick-help", id: "fr-nick-help" }, h("span", {}, "#네 자리 번호는 저절로 붙어요"), h("span", { id: "fr-nick-count" }, `${keep.length}/${NICK_MAX}`)),
+        h("p", { class: "nick-help", id: "fr-nick-help" }, h("span", {}, "#번호는 저절로 붙어요"), h("span", { id: "fr-nick-count" }, `${keep.length}/${NICK_MAX}`)),
         h("p", { class: "error-line", id: "fr-nick-err", hidden: true }, "쓸 수 없는 닉네임이에요")),
       h("div", { class: "card fr-vis-card" }, h("p", { class: "vis-head" }, "친구에게 보이는 것"),
         h("ul", { class: "vis" }, ok("학기마다 대표 시간표의 과목명·시간·강의실"), ok("직접 넣은 일정의 이름·시간"), ok("숨긴 과목·일정은 시간만(회색 칸)"),
-          no("일정의 장소·메모, 학과·학번, 성적, 로그인 메일")),
+          u.school ? ok(`${SCHOOL_TAG} 표시`) : null, no("일정의 장소·메모, 학과·학번, 성적, 로그인 메일")),
         h("p", { class: "vis-foot" }, "과목·일정마다 숨기고, 학기마다 끌 수 있어요")),
-      u.school ? h("div", { class: "card info-list fr-school-card" }, h("ul", { class: "list" }, h("li", {},
-        frSwitch("fr-school", "학교 계정 보이기", "친구에게 학교 계정(snu.ac.kr)이라고 보여요", school, { id: "fr-school" })))) : null,
       h("button", { type: "button", class: "btn-primary fr-start", id: "fr-start", "data-fr": "start", disabled: keep.trim().length < 2 }, "시작하기"));
     if (had) $(had)?.focus({ preventScroll: true });
     return;
@@ -9427,11 +9427,12 @@ async function frDo(fn, done, fail) {
   frBusy = false;
   return ok;
 }
-/** 닉네임 정하기(처음·바꾸기): 서버가 거르면(BAD_NICK) 칸 아래 오류 줄. 학교 계정 보이기는 백엔드가 받는 대로(showSchool) */
-function saveNick(input, err, school, done) {
+/** 닉네임 정하기(처음·바꾸기): 서버가 거르면(BAD_NICK) 칸 아래 오류 줄. 학교 계정 보이기(showSchool)는 넘기지 않는다: 새 프로필은 백엔드가 켜 두고(학교 계정이면 늘 표시,
+ *  153판), 전에 끈 값은 그대로 둔다(화면에서 고르는 칸을 뺐다) */
+function saveNick(input, err, done) {
   const nick = input.value.trim();
   if (syncLib && syncLib.nickProblem(nick)) { nickError(input, err); return Promise.resolve(false); }
-  return frDo(async () => { const p = await acct.setNick(nick, { showSchool: school }); syncNow(); return p; }, done,
+  return frDo(async () => { const p = await acct.setNick(nick, {}); syncNow(); return p; }, done,
     (e) => { if (e && e.code === "BAD_NICK") nickError(input, err); else showSnackbar(FR_ERR[e && e.code] || "닉네임을 정하지 못했어요"); });
 }
 $("friends-body").addEventListener("click", (e) => {
@@ -9447,7 +9448,7 @@ $("friends-body").addEventListener("click", (e) => {
     // 초점은 친구 추가, 초대 링크로 열었으면 여기서 묻는 팝업
     if (b.disabled || frStarting) return;
     frStarting = true;
-    saveNick($("fr-nick"), $("fr-nick-err"), $("fr-school") ? $("fr-school").checked : false, (p) => {
+    saveNick($("fr-nick"), $("fr-nick-err"), (p) => {
       frStarting = false;
       announce(`닉네임 ${handleText(p)}`);
       if (screen !== "friends") return;
@@ -9519,9 +9520,8 @@ $("fri-send").addEventListener("click", () => {
   closeSheet(d);
   frRequest(text, (code) => showSnackbar(FR_ADD_ERR[code] || "요청을 보낼 수 없어요"), (r) => showSnackbar(r && r.accepted ? "친구가 됐어요" : "요청을 보냈어요"));
 });
-// 내 닉네임 팝업: 닉네임 칸(글자 수), 그 아래 작은 텍스트 버튼 '번호 바꾸기 부탁'(디자인 152판 ⑥, 법무 11/17: 이 팝업 안에만, 화면 고지 줄 없음. 누르면 메일 앱
-// account.tagLink: 받는 사람 개발자 메일, 제목 '[번호 바꾸기] 닉네임 영표#482193', 본문 두 줄은 백엔드 update136. 친구 메뉴 '닉네임 신고'와 같은 꼴),
-// 학교 계정이면 학교 계정 보이기, [닫기] [저장]. 바꾸는 횟수는 백엔드가 막는다
+// 내 닉네임 팝업(153판, 11/17 사용자 '닉네임을 바꿔도 번호는 그대로 문구 삭제', '번호바꾸기 부탁 삭제 -> 개인적으로 아는 사람만 바꿔줄 거임', '학교계정보이기 삭제'):
+// 닉네임 칸과 오른쪽 글자 수 '2/12'만, [닫기] [저장]. 바꾸는 횟수는 백엔드가 막는다
 function openNickPop(opener) {
   const p = fr && fr.profile;
   if (!p) return;
@@ -9529,19 +9529,12 @@ function openNickPop(opener) {
     h("div", { class: "tn-field" }, h("label", { class: "field-label", for: "frn-nick" }, "닉네임"),
       h("input", { class: "text-input", id: "frn-nick", type: "text", maxlength: String(NICK_MAX), autocomplete: "off", enterkeyhint: "done", value: p.nick,
         "aria-describedby": "frn-help frn-err" }),
-      h("p", { class: "nick-help", id: "frn-help" }, h("span", {}, "#네 자리 번호는 저절로 붙어요"), h("span", { id: "frn-count" }, `${p.nick.length}/${NICK_MAX}`)),
-      h("p", { class: "error-line", id: "frn-err", hidden: true }, "쓸 수 없는 닉네임이에요"),
-      h("button", { type: "button", class: "btn-text small frn-tag", id: "frn-tag" }, "번호 바꾸기 부탁")),
-    acctUser && acctUser.school ? h("div", { class: "card info-list fr-hide" }, h("ul", { class: "list" }, h("li", {},
-      frSwitch("frn-school", "학교 계정 보이기", "친구에게 학교 계정(snu.ac.kr)이라고 보여요", p.showSchool !== false, { id: "frn-school" })))) : null);
+      h("p", { class: "nick-help", id: "frn-help" }, h("span", { id: "frn-count" }, `${p.nick.length}/${NICK_MAX}`)),
+      h("p", { class: "error-line", id: "frn-err", hidden: true }, "쓸 수 없는 닉네임이에요")));
   $("frn-save").disabled = false;
   openSheet($("fr-nick-pop"), opener);
 }
 $("frn-body").addEventListener("input", (e) => { if (e.target.id === "frn-nick") nickInput(e.target, $("frn-count"), $("frn-err"), $("frn-save")); });
-$("frn-body").addEventListener("click", (e) => {
-  const p = fr && fr.profile;
-  if (e.target.closest("#frn-tag") && p && acct) location.href = acct.tagLink(p); // 메일 앱(mailto)
-});
 $("frn-body").addEventListener("keydown", (e) => {
   if (e.key !== "Enter" || e.isComposing || e.keyCode === 229 || e.target.id !== "frn-nick") return;
   e.preventDefault();
@@ -9550,9 +9543,8 @@ $("frn-body").addEventListener("keydown", (e) => {
 $("frn-save").addEventListener("click", () => {
   const input = $("frn-nick"), p = fr && fr.profile;
   if (!input || !p) return;
-  const school = $("frn-school") ? $("frn-school").checked : p.showSchool !== false;
-  if (input.value.trim() === p.nick && school === (p.showSchool !== false)) { closeSheet($("fr-nick-pop")); return; } // 바꾼 것이 없다
-  saveNick(input, $("frn-err"), school, (q) => { closeSheet($("fr-nick-pop")); announce(`닉네임 ${handleText(q)}`); });
+  if (input.value.trim() === p.nick) { closeSheet($("fr-nick-pop")); return; } // 바꾼 것이 없다
+  saveNick(input, $("frn-err"), (q) => { closeSheet($("fr-nick-pop")); announce(`닉네임 ${handleText(q)}`); });
 });
 
 // 친구 시간표(하위 화면 'friend', 130판 FriendTimetable): 상단 바 '민지#0420'·⋯, 학기(친구가 대표 시간표를 둔 학기만. 처음은 앱의 학기, 없으면 가장 가까운 학기)와 '대표 시간표',
