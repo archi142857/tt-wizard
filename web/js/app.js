@@ -636,11 +636,24 @@ function renderTerm() {
   if ($("tt-list-sheet").open) refillTtList();
 }
 /** 연도 선택칸에 보일 해(149판): 지난 편람이 2013년부터 늘어(백엔드 update128) 학번을 넣었으면 그 해부터, 아니면 2019년부터.
- *  그보다 앞이라도 시간표가 있는 해와 지금 고른 해는 남긴다(학기 목록 semesters.json 은 그대로) */
+ *  그보다 앞이라도 시간표가 있는 해와 지금 고른 해는 남긴다(학기 목록 semesters.json 은 그대로). 접은 해는 칸 맨 아래 '이전 해 보기'로 편다
+ *  (11/17 사용자 '25년부터 띄우되, 접어둔 걸 펼칠 수 있는 방식'. 편 것은 이 세션 동안 두 칸 다). → { years, more: 접은 해가 있다 } */
+let termMore = false;
 function termYears(ids, sem) {
   const v = deptSaved(), from = v ? v.year : 2019, cur = String(sem).slice(0, 4);
   const kept = new Set(ids.filter((id) => Number(id.slice(0, 4)) < from && T.hasTimetables(store.get(semKey(T.STORE_KEYS.list, id), []))).map((id) => id.slice(0, 4)));
-  return [...new Set(ids.map((id) => id.slice(0, 4)))].filter((y) => Number(y) >= from || y === cur || kept.has(y));
+  const all = [...new Set(ids.map((id) => id.slice(0, 4)))], years = termMore ? all : all.filter((y) => Number(y) >= from || y === cur || kept.has(y));
+  return { years, more: years.length < all.length };
+}
+const MORE_YEARS = "more"; // 연도 칸의 '이전 해 보기' 값
+/** 연도 칸에서 '이전 해 보기'를 골랐으면 접은 해를 다 펴고(고른 해·학기는 그대로) 선택 창을 다시 연다. 골랐으면 true */
+function moreYears(ySel, tSel) {
+  if (ySel.value !== MORE_YEARS) return false;
+  termMore = true;
+  fillTerm(ySel, tSel, `${ySel.dataset.y}-${tSel.value}`);
+  if (ySel !== $("year")) fillTerm($("year"), $("term")); // 탐색 학기 줄도 같이 편다
+  try { ySel.showPicker(); } catch { /* 안 되는 브라우저(사용자 활성 없음 포함)는 다시 누르면 다 보인다 */ }
+  return true;
 }
 /** 연도·학기 선택칸 둘(탐색 학기 줄, 내 시간표의 시간표 목록 시트)을 지금 학기로 채운다. 고를 수 없는 학기(자료를 받기 전)면 숨긴다. */
 function fillTerm(ySel, tSel, sem = state.semester) {
@@ -649,11 +662,12 @@ function fillTerm(ySel, tSel, sem = state.semester) {
   ySel.hidden = tSel.hidden = !ok;
   if (ok) {
     const [y, t] = sem.split("-");
-    const years = termYears(ids, sem);
-    if (ySel.dataset.key !== years.join()) {
-      ySel.replaceChildren(...years.map((v) => h("option", { value: v }, `${v}년`)));
-      ySel.dataset.key = years.join();
+    const { years, more } = termYears(ids, sem), key = `${years.join()}${more ? "+" : ""}`;
+    if (ySel.dataset.key !== key) {
+      ySel.replaceChildren(...years.map((v) => h("option", { value: v }, `${v}년`)), ...(more ? [h("hr"), h("option", { value: MORE_YEARS }, "이전 해 보기")] : []));
+      ySel.dataset.key = key;
     }
+    ySel.dataset.y = y; // '이전 해 보기'를 고른 뒤 돌아올 해
     const terms = TERM_ORDER.filter((k) => ids.includes(`${y}-${k}`));
     if (tSel.dataset.key !== `${y}:${terms.join()}`) {
       tSel.replaceChildren(...terms.map((k) => h("option", { value: k }, TERMS[k])));
@@ -4285,6 +4299,7 @@ function openNewTt(opener) {
   openSheet($("tt-new"), opener, { over: true });
 }
 $("tn-year").addEventListener("change", () => {
+  if (moreYears($("tn-year"), $("tn-term"))) return;
   const term = termInYear($("tn-year").value, tnSem());
   if (term) fillTerm($("tn-year"), $("tn-term"), `${$("tn-year").value}-${term}`);
   tnSemChanged();
@@ -8343,7 +8358,10 @@ function rqList(id, name, courses) {
   const keys = (c) => [c.code, ...(c.alt_codes || [])].map(same), took = (c) => keys(c).some((x) => fixed.has(x)), ck = (c) => keys(c).some((x) => checked.has(x));
   const all = [...courses].sort((a, b) => Number(took(b)) - Number(took(a)) || String(a.name || a.code).localeCompare(String(b.name || b.code), "ko"));
   for (const c of all) if (ck(c)) rqKeep.add(c.code);
-  const open = rqOpen.has(id), rows = open ? all : all.filter((c) => took(c) || ck(c) || rqKeep.has(c.code));
+  const kept = all.filter((c) => took(c) || ck(c) || rqKeep.has(c.code));
+  // 접어도 숨는 줄이 없으면(교양 학점처럼 목록이 다 들은 과목) 접지 않는다: '모두 보기'·'접기'를 눌러도 같은 목록이었다(11/17 사용자 '펼치고 접는 거 차이 없는 것')
+  if (kept.length === all.length) return [h("ul", { class: "gr-checks" }, all.map(rqCk))];
+  const open = rqOpen.has(id), rows = open ? all : kept;
   return [rows.length ? h("ul", { class: "gr-checks" }, rows.map(rqCk)) : null,
     h("button", { type: "button", class: "btn-text small gr-more", "aria-expanded": String(open), "aria-label": `${name} 과목 ${open ? "접기" : "모두 보기"}`, "data-more": id },
       open ? "접기" : "모두 보기", icon(open ? I.up : I.down, 16))];
@@ -10520,7 +10538,7 @@ function openOut(url) {
 
 // ---------------------------------------------------------------- 시작
 
-$("year").addEventListener("change", () => onYearChange($("year")));
+$("year").addEventListener("change", () => { if (!moreYears($("year"), $("term"))) onYearChange($("year")); });
 $("term").addEventListener("change", () => switchSemester(`${$("year").value}-${$("term").value}`));
 $("banner-retry").addEventListener("click", () => {
   const f = bannerRetry;
