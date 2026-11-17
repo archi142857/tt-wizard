@@ -3,11 +3,11 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   pickVersion, pickVersionFor, rowsForEntry, buildSameCourse, tidyRecords, evaluateProgram, creditSummary, gpa, gradeNeeded,
-  termCreditLimit, withinLimit, isMajorCourse, suggestCourses, rankSuggestions,
+  termCreditLimit, withinLimit, isMajorCourse, suggestCourses, rankSuggestions, planTerm,
   suggestionTag, rowName, termName, nextRegularTerm, nthRegularTerm, hasCoursebook, versionLabel, versionChoices,
   takenTerms, gradView, basisText, limitLine, deptLink, sourceTexts, shortLocator, rowView, josaRo,
 } from "../web/js/requirements.js";
-import { gapFit, parseCourses, TravelMatrix, fitLabel } from "../web/js/engine.js";
+import { gapFit, parseCourses, TravelMatrix, fitLabel, countFeasible } from "../web/js/engine.js";
 
 const [, , dataDir, casesPath] = process.argv;
 const read = (p) => JSON.parse(readFileSync(p, "utf8"));
@@ -125,7 +125,9 @@ const out = read(casesPath).map((c) => {
       return { suggestions: sug.map((x) => [x.course.id, x.strength, x.reasons.map((r) => r.row)]),
         ranked: rankSuggestions(sug, fit).map((x) => [x.course.id, x.strength, x.fit ? x.fit.add.cost : null]),
         walk: rankSuggestions(sug, fit, { order: "walk" }).map((x) => x.course.id),
-        tags: Object.fromEntries(sug.map((x) => [x.course.id, suggestionTag(x)])) };
+        tags: Object.fromEntries(sug.map((x) => [x.course.id, suggestionTag(x)])),
+        ...(c.plan ? { plan: planTerm(sug, [{ program: p, rows }], { cap: c.plan.cap, exempt: c.plan.exempt || [],
+          fits: (cs) => countFeasible(cs, { limit: 1 }).count > 0 }).map((x) => x.id) } : {}) };
     }
     case "rank":
       return { req: rankSuggestions(c.suggestions, c.fit).map((x) => x.course.id),

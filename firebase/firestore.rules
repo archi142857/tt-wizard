@@ -1,6 +1,7 @@
 rules_version = '2';
 // TT Wizard Firestore 규칙 — 백엔드 update110(로그인·동기화·친구, docs/account.md). 콘솔 Firestore > 규칙에 이 글을 그대로 붙여 게시한다.
 // 원칙: 내 것만 읽고 쓴다. 남이 읽는 것은 친구 사본(친구만)과 닉네임(로그인한 사람: 친구 찾기). 요청은 보낸 사람이 만들고 받은 사람이 수락한다.
+// 남의 것을 바꾸는 것은 관리자(콘솔에서 만든 admins/{uid})가 닉네임 번호를 바꿔 주는 것 하나뿐이다(update134).
 service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn() { return request.auth != null; }
@@ -19,12 +20,23 @@ service cloud.firestore {
       }
     }
 
+    // 관리자(update134, 사용자 11/17 '태그 번호는 아무나 원하는 걸 할 수 없고 원하는 사람에 한해서 내가 바꿔줄 수 있는 번호로'):
+    // 콘솔에서 admins/{uid} 문서를 만든 계정만. 앱은 자기 문서만 읽고(웹 개발자 메뉴에 '번호 바꿔 주기'를 보일지) 아무도 쓰지 못한다(콘솔만)
+    function isAdmin() { return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)); }
+    function profileAfter(uid) { return getAfter(/databases/$(database)/documents/profiles/$(uid)); }
+    match /admins/{uid} {
+      allow get: if isMe(uid);
+    }
+
     // 닉네임#태그 → uid(겹치지 않게). 로그인한 사람은 친구 찾기로 하나씩 읽는다(목록째 읽기는 막는다: 보안 마무리, 법무 11/15 ⑦·update116)
+    // 관리자는 남의 열쇠를 바꿔 준다: 새 열쇠는 같은 쓰기에서 그 사람 프로필이 가리키는 것만 만들고, 옛 열쇠는 프로필이 더는 안 가리킬 때만 지운다
     match /handles/{key} {
       allow get: if signedIn();
-      allow create: if signedIn() && request.resource.data.keys().hasOnly(['uid']) && request.resource.data.uid == request.auth.uid
-        && key.matches('^[0-9a-z가-힣_]{2,12}#[0-9]{4}$');
-      allow delete: if signedIn() && resource.data.uid == request.auth.uid;
+      allow create: if signedIn() && request.resource.data.keys().hasOnly(['uid']) && key.matches('^[0-9a-z가-힣_]{2,12}#[0-9]{4}$')
+        && (request.resource.data.uid == request.auth.uid
+            || (isAdmin() && profileAfter(request.resource.data.uid).data.handle == key));
+      allow delete: if signedIn() && (resource.data.uid == request.auth.uid
+        || (isAdmin() && profileAfter(resource.data.uid).data.handle != key));
     }
 
     // 학교 계정 표시(update112, 디자인 130판·법무 11/11 ①): 본인이 보이게 두었고(showSchool) 로그인 토큰의 메일이 확인된 snu.ac.kr 일 때만 school: true
@@ -42,6 +54,11 @@ service cloud.firestore {
         && request.resource.data.tag.matches('^[0-9]{4}$')
         && request.resource.data.get('showSchool', true) is bool && request.resource.data.get('school', false) is bool
         && schoolOk(request.resource.data)
+        && getAfter(/databases/$(database)/documents/handles/$(request.resource.data.handle)).data.uid == uid;
+      // 관리자가 번호 바꿔 주기(update134): 번호(tag)·열쇠(handle)·때(updated)만. 닉네임은 그대로이고 새 열쇠는 '닉네임(소문자, 띄어쓰기 없이)#번호'로 그 사람 것
+      allow update: if isAdmin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['tag', 'handle', 'updated'])
+        && request.resource.data.tag is string && request.resource.data.tag.matches('^[0-9]{4}$')
+        && request.resource.data.handle == resource.data.nick.lower().replace(' ', '') + '#' + request.resource.data.tag
         && getAfter(/databases/$(database)/documents/handles/$(request.resource.data.handle)).data.uid == uid;
       allow delete: if isMe(uid);
     }

@@ -7,6 +7,8 @@
 //   이동시간: 경사 반영 · 평지(이 탭만. 11/16 사용자: 동선 탐색 조건에서 빼고 평지는 내부 시험으로만: app.js pickDevMode)
 //   시험: 묻는 팝업, 새 버전 알림, 시간표 이미지(지금 보는 시간표를 그려 시트 안에 보인다), 테마 기억 지우기(묻는 팝업을 처음부터), 처음 안내(처음 장부터)
 //   이 기기: 버전·실행 환경·화면·글자 크기·기기 설정·기기 날짜·편람·서비스 워커·저장한 기록, 기록 모두 지우기(두 번 눌러야 지운다)
+//   번호 바꿔 주기(update134, 로그인한 계정이 관리자일 때만: 콘솔에서 만든 admins/{uid}): '닉네임#1234'와 새 번호 → account.adminSetTag.
+//   11/17 사용자 '태그 번호는 아무나 원하는 걸 할 수 없고 원하는 사람에 한해서 내가 바꿔줄 수 있는 번호로'. 부탁은 메일(account.tagLink)로 받는다
 
 let api = null, sheet = null, body = null, opener0 = null, imageUrl = "", wipeTimer = 0;
 
@@ -22,9 +24,16 @@ const CSS = `
 .dev-sheet .dev-image { margin: var(--space-3) 0 0; text-align: center; }
 .dev-sheet .dev-image img { display: block; width: min(100%, 15rem); height: auto; margin: 0 auto; border-radius: var(--radius-md); box-shadow: 0 0 0 1px var(--line); }
 .dev-sheet .dev-image p { margin: var(--space-2) 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); font-variant-numeric: tabular-nums; }
+.dev-sheet .dev-retag { display: grid; gap: var(--space-2); }
+.dev-sheet .dev-retag .field-label { margin: var(--space-2) 0 0; }
+.dev-sheet .dev-retag button { justify-self: start; margin-top: var(--space-2); }
+.dev-sheet .dev-retag-msg { margin: 0; min-height: 1.25rem; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
 `;
 
 const SHELL_NAME = { web: "브라우저", pwa: "설치한 웹 앱", android: "안드로이드 앱", ios: "iOS 앱" };
+// 번호 바꿔 주기가 못 했을 때(account.adminSetTag 의 code)
+const RETAG_ERR = { BAD_HANDLE: "닉네임#번호 꼴로 넣어 주세요", BAD_TAG: "새 번호는 숫자 네 자리예요", NOT_FOUND: "그런 닉네임이 없어요",
+  TAKEN: "그 닉네임에 이미 있는 번호예요", NOT_ADMIN: "관리자 계정이 아니에요", SIGNED_OUT: "로그인해 주세요", OFFLINE: "연결되면 다시 해 주세요" };
 const ROWS = [["ask", "묻는 팝업"], ["update", "새 버전 알림"], ["image", "시간표 이미지"], ["forget", "테마 기억 지우기"], ["tour", "처음 안내"], ["dept", "학과와 학번"], ["account", "로그인"]];
 
 /** 개발자 메뉴를 연다. a: app.js 의 devApi(), opener: 연 버튼(닫으면 초점이 돌아간다) */
@@ -56,6 +65,11 @@ function build() {
   sheet.addEventListener("click", (e) => {
     const b = e.target.closest("[data-dev]");
     if (b) act(b.dataset.dev, b);
+  });
+  sheet.addEventListener("submit", (e) => {
+    if (!e.target.matches(".dev-retag")) return;
+    e.preventDefault();
+    retag(e.target);
   });
   sheet.addEventListener("close", () => {
     clearTimeout(wipeTimer);
@@ -92,9 +106,48 @@ function render() {
     h("h3", { class: "field-label dev-label" }, "시험"),
     h("ul", { class: "sheet-list" }, ROWS.map(([k, text]) => h("li", {}, h("button", { type: "button", class: "menu-row", "data-dev": k }, text)))),
     h("div", { class: "dev-image", id: "dev-image", hidden: true }),
+    h("div", { id: "dev-admin", hidden: true }),
     h("h3", { class: "field-label dev-label" }, "이 기기"),
     h("ul", { class: "sheet-list dev-info" }, rows.map(([k, v]) => h("li", { class: "info-row" }, h("span", {}, k), h("span", { class: "v" }, v)))),
     h("ul", { class: "sheet-list dev-wipe" }, h("li", {}, h("button", { type: "button", class: "menu-row danger", "data-dev": "wipe" }, "기록 모두 지우기"))));
+  paintAdmin();
+}
+
+/** 로그인한 계정이 관리자면 '번호 바꿔 주기' 칸을 보인다(로그인 안 했으면 서버에 묻지 않는다: account.isAdmin 이 먼저 SIGNED_OUT) */
+async function paintAdmin() {
+  let on = false;
+  try {
+    const acct = await import("./account.js");
+    on = acct.available() && (await acct.isAdmin().catch(() => false));
+  } catch { on = false; }
+  const box = sheet.querySelector("#dev-admin");
+  if (!on || !box || !box.hidden) return;
+  const { h } = api;
+  box.replaceChildren(h("h3", { class: "field-label dev-label" }, "번호 바꿔 주기"),
+    h("form", { class: "dev-retag", novalidate: true },
+      h("label", { class: "field-label", for: "dev-retag-from" }, "닉네임#번호"),
+      h("input", { class: "text-input", id: "dev-retag-from", type: "text", autocomplete: "off", spellcheck: "false", placeholder: "닉네임#1234", enterkeyhint: "next" }),
+      h("label", { class: "field-label", for: "dev-retag-to" }, "새 번호"),
+      h("input", { class: "text-input", id: "dev-retag-to", type: "text", inputmode: "numeric", maxlength: "4", autocomplete: "off", placeholder: "0001", enterkeyhint: "done" }),
+      h("button", { type: "submit", class: "btn-secondary" }, "바꾸기"),
+      h("p", { class: "dev-retag-msg", role: "status" })));
+  box.hidden = false;
+}
+
+async function retag(form) {
+  const btn = form.querySelector("button"), msg = form.querySelector(".dev-retag-msg");
+  if (btn.getAttribute("aria-busy") === "true") return;
+  btn.setAttribute("aria-busy", "true");
+  msg.textContent = "바꾸는 중";
+  try {
+    const acct = await import("./account.js");
+    const r = await acct.adminSetTag(form.querySelector("#dev-retag-from").value, form.querySelector("#dev-retag-to").value);
+    msg.textContent = r.from === r.tag ? "이미 그 번호예요" : `바꿨어요: ${r.nick}#${r.from} → ${r.nick}#${r.tag}`;
+  } catch (e) {
+    msg.textContent = RETAG_ERR[e && e.code] || "바꾸지 못했어요";
+  } finally {
+    btn.removeAttribute("aria-busy");
+  }
 }
 
 async function act(k, b) {

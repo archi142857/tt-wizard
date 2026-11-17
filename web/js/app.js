@@ -443,10 +443,11 @@ async function startApp() {
   loadRoutes();
 }
 
-// 작년 편람으로 미리 짜 보기(11/17 사용자: 졸업 요건 '다음 학기'의 '수강편람이 없어요' 밑에 '작년 기준으로 미리짜보기 뭐 이런 옵션'):
+// 작년 편람으로 짜기(11/17 사용자: 졸업 요건 '다음 학기'의 '수강편람이 없어요' 밑에 '작년 기준으로 미리짜보기 뭐 이런 옵션'):
 // 다음 학기 편람이 아직 없을 때 그 학기 시간표를 작년 같은 학기 편람으로 짠다. 기기에 {학기: 작년 학기}(ttw.preview)를 두고 학기 목록 맨 앞에
 // [학기, 작년 편람 파일, 작년 학기]로 넣는다(셋째 칸이 있으면 미리 보기). 짠 시간표는 그 학기 열쇠(timetables@학기)라 새 편람이 올라오면
-// 진짜 학기 목록에 있는 그 학기로 그대로 보이고(분반·시간은 새 편람과 견줘 '편람 바뀜'·'없는 과목'), 그때 기록은 지운다
+// 진짜 학기 목록에 있는 그 학기로 그대로 보이고(분반·시간은 새 편람과 견줘 '편람 바뀜'·'없는 과목'), 그때 기록은 지운다.
+// 버튼은 동선 탐색 결과 화면으로 간다(previewExplore. 같은 날 사용자 '시간표로 넘어가면 … 같은 창에서 서로 다른 역할 … 헷갈림. 걍 동선 탐색의 결과화면으로')
 const PREVIEW = "preview";
 const lastYearTerm = (sem) => { const [y, k] = String(sem).split("-"); return `${Number(y) - 1}-${k}`; };
 /** 미리 보는 학기면 그 편람의 학기(작년 같은 학기), 아니면 null */
@@ -471,6 +472,49 @@ function startPreview(sem) {
   store.set(PREVIEW, { ...(store.get(PREVIEW, {}) || {}), [sem]: base });
   addPreviews();
   return true;
+}
+/** 작년 편람으로 짜기: 그 학기를 작년 같은 학기 편람으로 열고(startPreview), 남은 요건 과목(previewPicks)을 동선 탐색에 담아
+ *  시간표 만들기를 돌린다(결과 화면. 동선 확인하기 routeTt 와 같은 길). 결과 화면에 '남은 요건 과목 N개를 담았어요', 전에 담아 둔 과목이 달랐으면
+ *  '담은 과목을 남은 요건 과목 N개로 바꿨어요' + 되돌리기. 담을 과목이 없으면 탐색 입력 화면에서 그 학기를 연 채로 알린다(직접 찾아 담는다) */
+let previewing = false;
+function previewExplore(sem) {
+  if (previewing || busy) return;
+  if (!startPreview(sem)) { renderGrad(); return; }
+  renderTerm();
+  if (state.semester !== sem) dropExplore(); // 쌓인 결과·지도 화면은 다른 학기 것이라 탐색 탭으로 가기 전에 거둔다
+  switchTab("explore", async () => {
+    if (previewing) return;
+    previewing = true;
+    try {
+      if (state.semester !== sem || !(state.loaded || state.loading)) await switchSemester(sem);
+      if (state.semester !== sem || !state.loaded) return; // 못 불러왔으면 배너(다시 시도), 그사이 다른 학기를 골랐으면 그대로
+      const req = deptOn() && deptSaved() ? await reqCompute(reqSig()).catch(() => null) : null;
+      if (state.semester !== sem || busy) return;
+      const picks = req ? previewPicks(req) : [];
+      if (!picks.length) { showSnackbar("담을 남은 요건 과목이 이 편람에 없어요"); return; }
+      const sig = (ps) => ps.map((p) => p.id).sort().join("|");
+      const before = state.picks.map((p) => ({ ...p, excluded: new Set(p.excluded) }));
+      const same = before.length > 0 && sig(before) === sig(picks); // 이미 그 과목들이면 끈 분반까지 그대로
+      const replaced = before.length > 0 && !same;
+      if (!same) { state.picks = picks; changed(); renderPicked(); }
+      const undo = () => { state.picks = before; changed(); renderPicked(); if (screen === "result") back(); };
+      afterResult = replaced ? () => showSnackbar(`담은 과목을 남은 요건 과목 ${picks.length}개로 바꿨어요`, "되돌리기", undo)
+        : same ? null : () => showSnackbar(`남은 요건 과목 ${picks.length}개를 담았어요`);
+      await run();
+      if (afterResult && !state.result) { const f = afterResult; afterResult = null; f(); } // 조합이 없거나 못 만들었다: 입력 화면에서
+    } finally {
+      previewing = false;
+    }
+  });
+}
+/** 미리 짜기에 담을 과목(백엔드 R.planTerm): 남은 요건 과목을 요건 순으로 줄마다 남은 만큼, 학기 학점 상한(그 학기에 고른 상한, 없으면 기본) 안에서,
+ *  추가 설정(공강 요일·점심시간)을 지키는 시간표가 하나라도 나오게. 상한 밖 과목(term_limit.exempt_codes)은 학점을 세지 않는다(학기 학점 줄 paintLim 과 같게) */
+function previewPicks(req) {
+  const caps = store.get("creditCap", {}), rules = activeRules();
+  const cap = R.limitLine({ common: req.common, who: req.who, term: req.sem, chosen: caps && caps[req.sem] != null ? caps[req.sem] : null }).value;
+  const fits = (cs) => countFeasible(cs, { limit: 1, budgetMs: 80, rules }).count > 0;
+  return R.planTerm(req.sugg, req.evald, { cap, exempt: (req.common.term_limit && req.common.term_limit.exempt_codes) || [], fits })
+    .map((c) => ({ id: c.id, excluded: new Set(), ...snapshot(c) }));
 }
 
 /** 학기 선택 전에 저장한 담은 과목·직접 입력을 지금 학기 몫으로 옮긴다. */
@@ -6520,13 +6564,13 @@ async function reqCompute(sig) {
   const counted = picks.filter((p) => p.version);
   const same = R.buildSameCourse(base.courseMap, counted.map((p) => p.program));
   const tidy = R.tidyRecords(own, same);
-  const sugg = R.suggestCourses(counted.map((p) => ({ program: p.program, rows: R.evaluateProgram(p.program, p.version, tidy.courses, { role: p.role, sameCourse: same, entryYear: p.entryYear }) })),
-    courses.filter((c) => c.program === "학사" && c.sections.length), { sameCourse: same });
+  const evald = counted.map((p) => ({ program: p.program, rows: R.evaluateProgram(p.program, p.version, tidy.courses, { role: p.role, sameCourse: same, entryYear: p.entryYear }) }));
+  const sugg = R.suggestCourses(evald, courses.filter((c) => c.program === "학사" && c.sections.length), { sameCourse: same });
   const grades = own.some((r) => r.grade) ? R.gpa(own, { sameCourse: same, finalTerms: true }) : null; // 직전 두 학기는 학사 규정대로 재수강 전 성적도(update121)
   const main = counted[0];
   const who = { college: cat.programs[main.id].college || "", unit: main.program.unit || "", program: main.program.program || "", entryYear: v.year,
     gpaLastTwo: grades && grades.lastTwoRegular ? grades.lastTwoRegular.gpa : null };
-  return { sig, sem, sugg, common: base.common, who };
+  return { sig, sem, sugg, evald, common: base.common, who }; // evald: 줄 계산(작년 편람으로 짜기 previewPicks 가 줄마다 남은 양을 본다)
 }
 /** 남은 요건 과목 행: 차례는 rankSuggestions(덜 걷는 순 | 요건 순, 이 시간표의 빈 자리 gapFit). 과목마다 이 시간표에 넣은 분반, 없으면 가장 덜 느는 분반, 없으면 첫 분반 */
 function reqRows(req, t = curTt()) {
@@ -8136,8 +8180,9 @@ function gradTakenView(g) {
  *  검색 전 자리에 남은 요건 과목이 먼저 뜬다). 그 학기 편람이 아직 없으면 글만. 11/16 데모 때 붙였던 미리 보기·추천 시간표(update124·125)는 뺐다(update126, 사용자 '데모 끝나서 빼줘') */
 function gradNextView() {
   const { cur } = gradNow;
-  const next = R.nextRegularTerm(cur), ready = R.hasCoursebook({ list: state.semesters }, next);
-  // 편람이 없으면 작년 같은 학기 편람으로 미리 짜 보기(백엔드 11/17, 사용자 '작년 기준으로 미리짜보기 뭐 이런 옵션'). 미리 보는 중이면 그 편람을 적는다
+  const next = R.nextRegularTerm(cur), ready = R.hasCoursebook({ list: state.semesters }, next); // 진짜 편람만(미리 보기 칸은 hasCoursebook 이 뺀다)
+  // 편람이 없으면 작년 같은 학기 편람으로 짜기(백엔드 11/17, 사용자 '작년 기준으로 미리짜보기 뭐 이런 옵션'): 동선 탐색 결과 화면으로(previewExplore).
+  // 미리 보는 중이면 그 편람을 적는다(디자인 151판 '2026년 1학기 편람으로 미리 짜요', 버튼 '작년 편람으로 짜기')
   const base = previewBase(next), last = lastYearTerm(next), canPreview = !ready && state.semesters.some(([x, , b]) => x === last && !b);
   return [h("div", { class: "card gr-next" },
     h("p", { class: "gr-next-t" }, R.termName(next)),
@@ -8565,12 +8610,10 @@ $("grad-body").addEventListener("click", (e) => {
     setGrad({ manual: g.manual.filter((x) => x.id !== d.del) });
     // 빼면 그 줄이 없어지니 초점은 다른 곳에서 들은 과목 넣기로
     renderGrad().then(() => { $("grad-body").querySelector('[data-gk="gm"]')?.focus({ preventScroll: true }); if (m) announce(`${m.name} 뺐어요`); });
-  } else if (d.make || d.next || d.pre) {
-    // 시간표 탭의 그 학기, 그 학기의 대표 시간표(없으면 빈 시간표 1). 다음 학기 추천이면 과목 추가를 연다(검색창이 비어 남은 요건 과목).
-    // 작년 편람으로 미리 짜 보기(d.pre)는 그 학기를 학기 목록에 작년 편람으로 넣은 뒤 같은 길로
-    if (d.pre && !startPreview(d.pre)) { renderGrad(); return; }
-    if (d.pre) renderTerm();
-    const sem = d.make || d.next || d.pre, add = !!(d.next || d.pre);
+  } else if (d.pre) previewExplore(d.pre); // 작년 편람으로 짜기: 동선 탐색 결과 화면으로
+  else if (d.make || d.next) {
+    // 시간표 탭의 그 학기, 그 학기의 대표 시간표(없으면 빈 시간표 1). 다음 학기 추천이면 과목 추가를 연다(검색창이 비어 남은 요건 과목)
+    const sem = d.make || d.next, add = !!d.next;
     const prim = T.parseList(store.get(semKey(T.STORE_KEYS.list, sem), []), sem).find((x) => x.primary && !x._newer);
     if (prim) store.set(semKey(T.STORE_KEYS.current, sem), prim.id);
     goMine(() => {

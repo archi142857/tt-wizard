@@ -409,6 +409,32 @@ def test_suggest_next_courses(tmp_path):
     assert s == {core[0]["code"]: "need", sel1[0]["code"]: "choose"}  # 들은 전필(core[1])은 없다
 
 
+@node
+def test_plan_term_for_preview(tmp_path):
+    """작년 편람으로 짜기(update134)에 담을 과목: 요건 순으로, 줄마다 남은 만큼만(몇 중 몇·몇 학점), 학기 학점 상한 안에서,
+    시간이 겹쳐 시간표가 안 나오는 과목은 건너뛴다. 상한 밖 과목은 학점을 세지 않는다."""
+    c = lambda code, cr=3: {"code": code, "name": code, "credits": cr}
+    req = lambda rid, typ, courses, n=None, cr=None, status="확인": {
+        "id": rid, "type": typ, "applies_to": [], "text": rid, "min_count": n, "min_credits": cr, "courses": courses, "status": status, "src": []}
+    prog = {"id": "t", "depts": ["가"], "code_prefixes": [], "exists_for": [2019, 2026], "versions": [{
+        "entry_years": [2019, 2026], "basis": "입학 연도", "status": "확인", "src": [],
+        "credits": {"grad": 130, "ge": 36, "single": 60, "parallel": 40, "double": 39, "minor": 21, "status": "확인", "src": []},
+        "requirements": [req("core", "major_required", [c("A"), c("B"), c("C")], n=3),
+                         req("pick", "major_choose", [c("P1"), c("P2"), c("P3")], n=1),
+                         req("cred", "major_choose", [c("Q1"), c("Q2"), c("Q3")], cr=6),
+                         req("unsure", "other", [c("M1")], cr=3, status="부분")]}]}
+    at = lambda day, h: [[day, h * 60, h * 60 + 75, "301", ""]]
+    nxt = [_course("A", [("001", "", at(0, 9))]), _course("B", [("001", "", at(0, 9))]),  # B 는 A 와 같은 때(분반 하나)
+           _course("C", [("001", "", at(1, 9))]), _course("P1", [("001", "", at(2, 9))]), _course("P2", [("001", "", at(2, 11))]),
+           _course("Q1", [("001", "", at(3, 9))]), _course("Q2", [("001", "", at(3, 11))]), _course("Q3", [("001", "", at(3, 13))]),
+           _course("M1", [("001", "", at(4, 9))])]
+    case = lambda **plan: {"kind": "suggest", "program": prog, "entryYear": 2025, "role": "single", "records": [], "courses": nxt, "plan": plan}
+    full, capped, free = (x["plan"] for x in _run(tmp_path, [case(cap=30), case(cap=12), case(cap=12, exempt=["A", "C"])]))
+    assert full == ["A", "C", "P1", "Q1", "Q2", "M1"]  # B 는 겹치고, P2 는 1과목·Q3 는 6학점이 이미 찼다. 아마 필요(M1)는 맨 뒤
+    assert capped == ["A", "C", "P1", "Q1"]
+    assert free == ["A", "C", "P1", "Q1", "Q2", "M1"]  # A·C 는 상한 밖이라 학점을 세지 않는다
+
+
 # ---------------------------------------------------------------- 학과 목록 (update103, 디자인 121판)
 
 def test_dept_catalog():
@@ -502,7 +528,8 @@ def test_taken_terms_and_labels(tmp_path):
             {"code": "M", "name": "교류 과목", "credits": 1, "cls": "교양", "term": "2025-1", "manual": True}]},
         {"kind": "labels", "program": "animal-biotech", "entryYear": 2025, "terms": ["2026-2", "2026-S", "2026-W", "2027-1"],
          "src": ["s1", "s3", "s1"], "index": {"checked_on": "2026-11-12", "data_year": 2025},
-         "semesters": {"list": [["2026-W", "courses.json"], ["2026-2", "semesters/2026-2.json"]]}, "ask": ["2026-2", "2027-1"]},
+         "semesters": {"list": [["2027-1", "semesters/2026-1.json", "2026-1"], ["2026-W", "courses.json"], ["2026-2", "semesters/2026-2.json"]]},
+         "ask": ["2026-2", "2027-1"]},  # 2027-1 은 앱이 작년 편람으로 미리 짜려고 넣은 칸(셋째 칸): 편람이 아니다
         {"kind": "labels", "program": "life-sciences", "entryYear": 2025, "opts": {"role": "double", "selectionTerm": "2026-1"}},
         {"kind": "labels", "program": cs, "entryYear": 2022, "opts": {"newer": catalog["programs"][cs]["newer"], "role": "single"}},
         {"kind": "labels", "program": cs, "entryYear": 2022, "opts": {"role": "single"}},
@@ -1075,7 +1102,7 @@ def test_sheet_shows_renamed_and_ended_courses(tmp_path):
         {"kind": "sheet", "program": crop["id"], "entryYear": year, "records": [], "ids": [crop_r], "codes": ["5171.310"]},
         {"kind": "josa", "words": ["통계 인공지능 개론 및 실습", "물리학", "회화 1", "약품분석학(핵심)", "생화학 3", "Python"]},
     ], data=data)
-    assert got[0]["animal-main-core"]["courses"] == [["500.301A", True, "3학점 · 2026년 2학기 · 통계 인공지능 개론 및 실습으로 들음"]]
+    assert got[0]["animal-main-core"]["courses"] == [["500.301A", True, "3학점 · 2026년 2학기 · 통계 인공지능 개론 및 실습으로 수강"]]
     assert got[1]["animal-main-core"]["courses"] == [["500.301A", False, "3학점 · 지금은 통계 인공지능 개론 및 실습"]]
     assert got[2][crop_r]["courses"] == [["5171.310", False, f"3학점 · 마지막 개설 2025년 1학기"]] and ended["5171.310"] == "2025-1"
     assert got[3] == ["으로", "으로", "로", "으로", "으로", "로"]

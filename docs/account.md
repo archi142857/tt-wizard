@@ -21,18 +21,31 @@
 | --- | --- | --- |
 | `users/{uid}`, `users/{uid}/timetables/{id}` | 내 시간표 사본(기기 꼴, 교수 이름·출발 지점 뺌, 수업은 `{day,start,end,building,room}`), 지운 것은 `{id, sem, deleted, updated}` | 나만 |
 | `profiles/{uid}` | 닉네임·태그(친구 기능을 켤 때), `showSchool`(학교 계정 보이기, 처음 true)·`school`(보이게 두었고 확인된 snu.ac.kr 메일일 때만 true, 규칙이 토큰으로 본다, update112) | 로그인한 사람이 uid 로 하나씩 읽음(목록째는 막음, update116), 나만 씀 |
-| `handles/{닉네임#태그}` | uid(겹치지 않게) | 로그인한 사람이 열쇠로 하나씩 읽음(목록째는 막음, update116), 내 것만 만들고 지움 |
+| `handles/{닉네임#태그}` | uid(겹치지 않게) | 로그인한 사람이 열쇠로 하나씩 읽음(목록째는 막음, update116), 내 것만 만들고 지움(관리자는 번호 바꿔 주기만, update134) |
 | `requests/{보낸_받은}` | 친구 요청 `pending` → 받은 사람이 `accepted` | 보낸·받은 사람. 받은 사람이 막았으면 못 만든다 |
 | `blocks/{uid}/list/{상대}` | 막은 사람 | 나만 |
 | `shared/{uid}/terms/{학기}` | 친구에게 보이는 사본(대표 시간표의 강좌, 일정은 제목·시간만, 숨긴 항목은 `{hidden: true, meetings: [{day,start,end}]}` 시간만) | 나와 친구만 읽음 |
+| `admins/{uid}` | 관리자 표시(update134, 개발자가 콘솔에서 만든다. 필드는 아무것이나, 예: `on: true`) | 본인만 읽음(웹 개발자 메뉴가 도구를 보일지), 아무도 못 씀 |
 
-규칙은 콘솔 Firestore > 규칙에 그대로 붙여 게시한다(백엔드가 사용자 크롬에서. 규칙 파일이 바뀌면 다시 게시). 시험: `.github/workflows/firebase.yml`(에뮬레이터, `tests/rules_test.mjs` 37가지,
-`tests/account_e2e.mjs` 두 사람으로 로그인·맞추기·닉네임·요청·수락·친구 사본·다른 기기·지우기·막기·계정 삭제).
+규칙은 콘솔 Firestore > 규칙에 그대로 붙여 게시한다(백엔드가 사용자 크롬에서. 규칙 파일이 바뀌면 다시 게시). 시험: `.github/workflows/firebase.yml`(에뮬레이터, `tests/rules_test.mjs` 48가지,
+`tests/account_e2e.mjs` 세 사람으로 로그인·맞추기·닉네임·요청·수락·친구 사본·다른 기기·지우기·번호 바꿔 주기·막기·계정 삭제).
+
+### 번호 바꿔 주기(관리자, update134)
+
+11/17 사용자 '태그 번호는 아무나 원하는 걸 할 수 없고 원하는 사람에 한해서 내가 바꿔줄 수 있는 번호로 바꿔주는 방식'. 번호는 지금처럼 저절로 뽑히고(고르는 칸 없음),
+바꾸고 싶은 사람은 메일로 부탁한다(`tagLink(p)`: 제목 `[번호 바꾸기] 닉네임 민지#0420`, 화면에 둘지는 디자인·프론트엔드). 개발자가 웹에서 바꿔 준다.
+- 관리자 만들기(한 번): 콘솔 Authentication > Users 에서 내 계정의 사용자 UID 를 복사 → Firestore > 데이터 > 컬렉션 시작 `admins` → 문서 ID 에 그 UID,
+  필드 `on`(boolean) `true` → 저장. 누가 관리자인지는 저장소에 적지 않는다. 그만두려면 그 문서를 지운다.
+- 쓰기: 웹(archi142857.github.io/tt-wizard)에서 그 계정으로 로그인 → 개발자 메뉴 → `번호 바꿔 주기`에 `닉네임#1234` 와 새 번호 → 바꾸기(`adminSetTag`).
+  그 닉네임에 이미 있는 번호면 `TAKEN`, 없는 닉네임이면 `NOT_FOUND`. 앱 묶음에는 개발자 메뉴가 없다(웹만).
+- 규칙: 관리자는 남의 프로필에서 `tag`·`handle`·`updated` 만 바꾸고 닉네임은 못 바꾼다. 새 열쇠는 `닉네임(소문자, 띄어쓰기 없이)#번호`로 그 사람 것이어야 하고
+  (같은 쓰기에서 프로필이 가리키는 것만 만든다), 옛 열쇠는 프로필이 더는 안 가리킬 때만 지운다. 남의 시간표·친구·요청은 관리자도 못 본다.
+- 바뀐 사람의 앱은 프로필을 서버에서 다시 읽을 때(`profile()`, 친구 화면) 새 번호를 본다. 친구 관계는 uid 로 이어져 그대로다. 닉네임을 바꾸면 번호는 지금처럼 새로 뽑힌다.
 
 ## 화면이 부르는 것
 
 `web/js/account.js` 머리 주석(available·ready·onUser·signIn·signOut·deleteAccount·sync(store)·syncStatus·onSyncStatus·forget·profile·setNick·friends·request·accept·
-decline·cancel·unfriend·block·unblock·friendTimetables·publish·inviteLink·reportLink). 순수 셈은 `web/js/sync.js`(node 시험 `tests/sync_runner.mjs`).
+decline·cancel·unfriend·block·unblock·friendTimetables·publish·inviteLink·reportLink·tagLink·isAdmin·adminSetTag). 순수 셈은 `web/js/sync.js`(node 시험 `tests/sync_runner.mjs`).
 - 디자인 130판(update112): 숨긴 항목은 친구에게 시간만(회색 칸), 학교 계정 표시는 `setNick(nick, { showSchool })`·`profile().showSchool`·`friends()` 사람마다 `school`
   (화면 글 `학교 계정(snu.ac.kr)`, 법무 11/11 ①), 동기화 줄은 `syncStatus(store)`·`onSyncStatus(cb)`(`idle`·`syncing`·`offline`·`error`·`signedOut`와 마지막으로 맞춘 때 `last`,
   기기 `syncLast`), 이미 친구에게 `request` 는 `ALREADY`, 신고 메일 제목 `[신고] 닉네임 민지#0420`. 같은 닉네임으로 다시 저장하면 태그를 그대로 둔다.

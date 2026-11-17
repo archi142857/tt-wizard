@@ -123,7 +123,7 @@ update127(11/16, 사용자 '이런 조사 안 된 것들 다 최대한 조사해
 - `requirements_import.py` 는 조사 자료의 `alt_codes` 가 '번호(설명)'·'번호 이름(학기~)'처럼 적힌 것을 번호만 남기고(그대로면 짝이 안 맞았다, 221개),
   과목의 alias('251.209 조직행위론(구, …)')·note('구 M1312.000900')에 적힌 옛 번호를 `alt_codes` 로 옮긴다(`clean_alts`).
 - 계산: `buildSameCourse` 가 `same` 도 같은 과목으로 잇는다(둘 다 들었으면 그 줄은 확인 필요 '대체 과목을 둘 다 들음'). 돌려주는 함수에 `now`·`ended` 지도가 붙는다.
-  요건 시트 과목 목록(`rowView` 의 `courses`, 앱 `rqCk`): 다른 이름으로 들었으면 `3학점 · 2026년 2학기 · 통계 인공지능 개론 및 실습으로 들음`,
+  요건 시트 과목 목록(`rowView` 의 `courses`, 앱 `rqCk`): 다른 이름으로 들었으면 `3학점 · 2026년 2학기 · 통계 인공지능 개론 및 실습으로 수강`,
   안 들었으면 `지금은 통계 인공지능 개론 및 실습` 또는 `마지막 개설 2025년 1학기`. 추천(`suggestCourses`)은 같은 과목으로 이어진 새 번호를 다음 학기 편람에서 찾는다.
 
 ### 고치는 법
@@ -176,6 +176,7 @@ update127(11/16, 사용자 '이런 조사 안 된 것들 다 최대한 조사해
 | `termCreditLimit(limits, who)` · `withinLimit(courses, lim)` | 학기당 수강 학점 상한과 고른 과목이 그 안인지(상한 밖 과목은 뺀다) |
 | `suggestCourses(picks, courses, {sameCourse})` | 다음 학기 추천: 과정마다 `{program, rows}`(evaluateProgram 결과)와 다음 학기 편람(`engine.parseCourses`)에서 남은 요건 과목. 강도 need(남은 과목을 다 들어야 하는 줄) · choose(몇 중 몇) · maybe('확인 필요' 줄의 목록 과목, `row.left`) |
 | `rankSuggestions(suggestions, fit, {order})` | 추천 차례(엔진 점수). `order` "req"(요건 순, 기본): 강도 → 대표 시간표에 들어가는지 → 늘어나는 비용, "walk"(덜 걷는 순): 들어가는지 → 비용 → 강도. '아마 필요'는 늘 맨 아래. `fit` 은 아래 `gapFit` 결과 |
+| `planTerm(suggestions, picks, {cap, exempt, fits})` | 작년 편람으로 짜기(update134, 앱 `previewExplore`)에 담을 과목: 요건 순으로, 줄마다 남은 만큼(기준 `need` − 들은 것 `have` 의 과목 수·학점, 없으면 `short`), 학기 학점 상한 `cap`(상한 밖 과목 `exempt` 는 세지 않음) 안에서, `fits(과목들)`(앱은 `engine.countFeasible`)로 시간표가 나오는 것만. 담을 과목을 차례대로 |
 | `suggestionTag(s)` | 과목 추가 행의 요건 태그: 채우는 요건 이름(`전공필수`), 확인 필요 줄의 과목이면 `아마 필요` |
 | `engine.gapFit(base, courses, travel, home, {rules, levels, skip})` | 빈 자리 강의 추천: 대표 시간표(분반 목록)에 겹치지 않고 들어가는 과목마다 비용이 가장 덜 느는 분반과 `add = {cost, travel, late, days}`(걷는 분·지각 분·학교 오는 요일, 줄어든 것은 0), `unknownRoom`(강의실 미정)·`atRisk`(폐강 대상). 공강·점심 조건을 주면 지키는 것만, 기본은 학사 과목만. 2026-2 편람 전체를 훑어도 가볍다 |
 
@@ -204,7 +205,7 @@ update127(11/16, 사용자 '이런 조사 안 된 것들 다 최대한 조사해
 | `versionLabel(program, version, {role, selectionTerm})` · `versionChoices(…, {newer, entryYear})` | 판 이름 `2025~2026학번 규정`(전공 진입 연도로 고르는 판 `2024~2026년 진입 규정`), 복수·부전공과 선발 연도로 고르는 과정은 `2026년 1학기 선발`. 학과가 더 새 학번 규정을 허락하면(catalog `programs[id].newer`: 식품영양학과·응용생물학전공·컴퓨터공학부, `졸업_요건_학번별.md` 4절) 고를 수 있는 판이 둘 이상이라 판 이름이 선택칸 |
 | `deptLink(program)` · `sourceTexts(program, src)` · `shortLocator(locator)` | `학과 졸업요건` 링크(과정 출처 가운데 학과 누리집의 졸업요건·내규 페이지), 출처 줄 `출처: 〈문서 이름〉 · 〈쪽·표〉`(디자인 127판. 위치는 조사 메모에서 쪽과 표만 뽑은 `3쪽`·`표 2`·`9쪽 표 1`, 모르면 문서 이름만. 메모 그대로는 `detail`) |
 | `basisText(index)` | 맨 아래 기준 줄 `2025학년도 자료 · 11월 12일 기준`(index.json 의 `data_year`·`checked_on`) |
-| `termName(term)` · `nextRegularTerm(term)` · `hasCoursebook(semesters, term)` | `다음 학기 추천` 줄의 값 `2027년 1학기`, 그 학기 편람이 없으면 화면이 `편람이 아직 없어요` |
+| `termName(term)` · `nextRegularTerm(term)` · `hasCoursebook(semesters, term)` | `다음 학기 추천` 줄의 값 `2027년 1학기`, 그 학기 편람이 없으면 화면이 `수강편람이 없어요`(작년 편람으로 미리 짜려고 앱이 넣은 `[학기, 파일, 작년 학기]` 칸은 편람으로 치지 않는다, update134) |
 | `limitLine({common, who, term, credits, chosen})` | 과목 추가의 학기 학점 줄: `label` `18학점까지`·`choices`(기본, 학기 예외, 직전 두 학기 3.3 이상 21)·`rest` `12학점 남음`(넘으면 `3학점 넘음`, `over`). 처음 값은 `termCreditLimit`(입학 뒤 몇 번째 학기는 `nthRegularTerm`), 계절학기는 9·6 글자만 |
 
 ### 학교 규칙 (common.json, 근거는 `학사_공통_규정.md`)

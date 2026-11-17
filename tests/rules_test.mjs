@@ -66,6 +66,42 @@ await check("막힌 사람의 요청 막음", assertFails(setDoc(doc(db("C"), "r
 await check("남의 차단 목록 읽기 막음", assertFails(getDocs(collection(db("C"), "blocks", "B", "list"))));
 await check("끊기(지우기)", assertSucceeds(deleteDoc(doc(db("A"), "requests", "A_B"))));
 await check("끊은 뒤 사본 막음", assertFails(getDocs(collection(db("A"), "shared", "B", "terms"))));
+
+// 관리자가 번호 바꿔 주기(update134): 콘솔에서 만든 admins/{uid} 만. 번호·열쇠만 바꾸고 닉네임은 그대로, 새 열쇠는 '닉네임#번호'
+await env.withSecurityRulesDisabled((ctx) => setDoc(doc(ctx.firestore(), "admins", "ADM"), { on: true }));
+const retag = (uid, from, to, tag, extra = {}) => {
+  const d = db(uid), b = writeBatch(d);
+  b.delete(doc(d, "handles", from));
+  b.set(doc(d, "handles", to), { uid: "B" });
+  b.update(doc(d, "profiles", "B"), { tag, handle: to, updated: new Date(), ...extra });
+  return b.commit();
+};
+await check("관리자 문서 만들기 막음", assertFails(setDoc(doc(db("A"), "admins", "A"), { on: true })));
+await check("내 관리자 문서 읽기", assertSucceeds(getDoc(doc(db("ADM"), "admins", "ADM"))));
+await check("남의 관리자 문서 읽기 막음", assertFails(getDoc(doc(db("A"), "admins", "ADM"))));
+await check("관리자 아니면 남의 번호 바꾸기 막음", assertFails(retag("C", "친구#1234", "친구#0007", "0007")));
+await check("관리자도 닉네임은 못 바꿈", assertFails(retag("ADM", "친구#1234", "딴이름#0007", "0007", { nick: "딴이름" })));
+await check("관리자도 닉네임과 다른 열쇠 막음", assertFails(retag("ADM", "친구#1234", "남남#0007", "0007")));
+await check("관리자도 열쇠만 바꾸기 막음", assertFails(setDoc(doc(db("ADM"), "handles", "친구#0008"), { uid: "B" })));
+await check("관리자가 번호 바꿔 주기", assertSucceeds(retag("ADM", "친구#1234", "친구#0007", "0007")));
+await check("바뀐 번호로 찾기", (async () => {
+  const s = await getDoc(doc(db("A"), "handles", "친구#0007"));
+  if (!s.exists() || s.data().uid !== "B") throw new Error("새 열쇠 없음");
+  if ((await getDoc(doc(db("A"), "handles", "친구#1234"))).exists()) throw new Error("옛 열쇠 남음");
+  if ((await getDoc(doc(db("A"), "profiles", "B"))).data().tag !== "0007") throw new Error("프로필 번호 그대로");
+})());
+await check("바뀐 뒤 본인은 그대로 쓴다", assertSucceeds(setDoc(doc(db("B"), "profiles", "B"), prof("친구", "0007", { showSchool: false, school: false }))));
+await check("대문자·띄어 쓴 닉네임도 번호 바꿔 주기", assertSucceeds((async () => { // 열쇠는 소문자, 띄어쓰기 없이(sync.js handleKey)
+  const d = db("D"), b = writeBatch(d);
+  b.set(doc(d, "handles", "ttwizard#1111"), { uid: "D" });
+  b.set(doc(d, "profiles", "D"), { nick: "TT Wizard", tag: "1111", handle: "ttwizard#1111", updated: new Date() });
+  await b.commit();
+  const a = db("ADM"), c = writeBatch(a);
+  c.delete(doc(a, "handles", "ttwizard#1111"));
+  c.set(doc(a, "handles", "ttwizard#2222"), { uid: "D" });
+  c.update(doc(a, "profiles", "D"), { tag: "2222", handle: "ttwizard#2222", updated: new Date() });
+  await c.commit();
+})()));
 await env.cleanup();
 process.stdout.write(JSON.stringify(results));
 process.exitCode = results.every(([, r]) => r === "ok") ? 0 : 1;

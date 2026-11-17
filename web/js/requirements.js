@@ -830,6 +830,46 @@ export function rankSuggestions(suggestions, fit = null, { order = "req" } = {})
       || String(a.course.id).localeCompare(String(b.course.id)));
 }
 
+/**
+ * 작년 편람으로 짜기(앱 previewExplore, 11/17 사용자 '동선 탐색의 결과화면으로')에 담을 과목. suggestions = suggestCourses 결과, picks = 거기 준 [{ program, rows }].
+ * 요건 순(rankSuggestions: need → choose → maybe)으로 보며 담는다:
+ *  - 그 과목이 채우는 줄 가운데 아직 남은 줄이 있을 때만(줄의 기준 need 에서 들은 것 have 를 뺀 과목 수·학점을 담을 때마다 줄인다.
+ *    기준이 없으면 줄의 남은 양 row.short, 그것도 없으면 목록을 다)
+ *  - 학기 학점 상한(cap)을 넘지 않게(exempt: 상한 밖 과목 번호 term_limit.exempt_codes 는 학점을 세지 않는다)
+ *  - 담은 과목끼리 시간표가 하나라도 나오게(fits(courses): 앱은 engine.countFeasible. 겹쳐서 안 되는 과목은 건너뛴다)
+ * 돌려주는 것: 담을 과목(편람 과목 그대로) 차례대로
+ */
+export function planTerm(suggestions, picks, { cap = 18, exempt = [], fits = () => true } = {}) {
+  const left = new Map(); // 'program|row' → { count, credits }(null 은 그 단위의 기준 없음)
+  for (const { program, rows } of picks || []) {
+    for (const r of rows || []) {
+      const n = r.need || {}, h = r.have || {};
+      let a = n.count != null || n.credits != null
+        ? { count: n.count != null ? n.count - (h.count || 0) : null, credits: n.credits != null ? n.credits - (h.credits || 0) : null } : null;
+      if (!a && r.short && r.short.left > 0) a = r.short.unit === "학점" ? { count: null, credits: r.short.left } : { count: r.short.left, credits: null };
+      if (a) left.set(`${program.id}|${r.id}`, a);
+    }
+  }
+  const open = (k) => { const a = left.get(k); return !a || (a.count != null && a.count > 0) || (a.credits != null && a.credits > 0); };
+  const free = new Set(exempt || []), out = [];
+  let credits = 0;
+  for (const s of rankSuggestions(suggestions)) {
+    const c = s.course, cr = Number(c.credit) || 0, counted = free.has(c.id) ? 0 : cr;
+    const keys = [...new Set((s.reasons || []).map((r) => `${r.program}|${r.row}`))];
+    if (!keys.some(open)) continue; // 채우는 줄이 다 찼다
+    if (credits + counted > cap || !fits([...out, c])) continue;
+    out.push(c);
+    credits += counted;
+    for (const k of keys) {
+      const a = left.get(k);
+      if (!a) continue;
+      if (a.count != null) a.count -= 1;
+      if (a.credits != null) a.credits -= cr;
+    }
+  }
+  return out;
+}
+
 /** 과목 추가 행의 요건 태그: 채우는 요건 이름(가장 센 줄), 확인 필요 줄의 과목이면 '아마 필요'(디자인 124판) */
 export function suggestionTag(s) {
   if (!s) return null;
@@ -959,7 +999,8 @@ export function nextRegularTerm(term) {
 }
 
 /** 그 학기 편람이 웹 자료에 있는지(semesters.json 의 list) */
-export const hasCoursebook = (semesters, term) => Boolean(semesters && (semesters.list || []).some((x) => x[0] === term));
+/** 그 학기 편람이 있나(semesters.json 의 list). 앱이 작년 편람으로 미리 짜려고 넣은 [학기, 파일, 작년 학기] 칸(셋째 칸)은 편람이 아니다 */
+export const hasCoursebook = (semesters, term) => Boolean(semesters && (semesters.list || []).some((x) => x[0] === term && !x[2]));
 
 /** 입학 뒤 몇 번째 정규 학기인가(봄 입학으로 본다): 2025학번의 2027-1 은 5. termCreditLimit 의 who.term */
 export function nthRegularTerm(entryYear, term) {
@@ -1125,7 +1166,7 @@ function rowSummary(row, value) {
 /** 들은 과목 줄의 메타: '3학점 · 2025년 1학기', 학기를 모르면(요건 시트에서 체크한 과목) '3학점 · 체크' */
 function takenMeta(t) {
   const base = t.term ? `${t.credits}학점 · ${termName(t.term)}` : t.checked ? `${t.credits}학점 · 체크` : `${t.credits}학점`;
-  return t.took ? `${base} · ${t.took}${josaRo(t.took)} 들음` : base; // 이름이 바뀐 과목으로 들었으면(update131)
+  return t.took ? `${base} · ${t.took}${josaRo(t.took)} 수강` : base; // 이름이 바뀐 과목으로 들었으면(update131. 11/17 사용자 '들음 말고 수강으로')
 }
 
 /** 안 들은 목록 과목의 메타: 학점, 지금 다른 이름으로 열리면 '지금은 …', 더 안 열리면 '마지막 개설 …'(update131, sameCourse.now·ended).
@@ -1159,7 +1200,7 @@ function rowProgress(row, value) {
 /**
  * 요건 줄 하나 → 화면 값. {id, name, value: {kind: left|met|check, text}, aria, progress, byChecks?, sheet: {title, meta, summary, strong,
  * courses: [{code, name, credits, taken, meta, took?, now?, ended?}], groups, paths, because, link, sources, checked, detail}}.
- * took: 다른 이름의 같은 과목으로 들었으면 그 이름(메타 '… · 통계 인공지능 개론 및 실습으로 들음'), now: 안 들은 과목이 지금은 다른 이름으로 열리면 {code, name}
+ * took: 다른 이름의 같은 과목으로 들었으면 그 이름(메타 '… · 통계 인공지능 개론 및 실습으로 수강'), now: 안 들은 과목이 지금은 다른 이름으로 열리면 {code, name}
  * (메타 '3학점 · 지금은 …'), ended: 더 안 열리면 마지막 개설 학기(메타 '3학점 · 마지막 개설 2025년 1학기'). 지금 이름·안 열림은 opts.sameCourse 가 있을 때만(update131)
  * 남음·충족은 summary·courses·sources, 확인 필요는 because·link(학과 졸업요건)·checked 를 쓴다.
  * groups: 분야 줄(extra.groups)의 분야마다 [{name, need, value, codes}], paths: 갈래 줄(extra.paths)의 갈래마다 [{name, value, codes}](아니면 null)

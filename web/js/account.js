@@ -27,6 +27,10 @@
 //   publish(store)                 친구 사본만 다시 올린다(sync 가 같이 한다)
 //   inviteLink({ nick, tag })      → 'https://archi142857.github.io/tt-wizard/#friend=닉네임%231234'
 //   reportLink({ nick, tag })      → 닉네임 신고 메일 주소(mailto)
+//   tagLink({ nick, tag })         → 번호 바꾸기 부탁 메일 주소(mailto). 번호는 고를 수 없고 부탁한 사람만 관리자가 바꿔 준다(update134)
+//   isAdmin()                      → true | false   콘솔에서 admins/{uid} 를 만든 계정인가(웹 개발자 메뉴의 '번호 바꿔 주기')
+//   adminSetTag('닉네임#1234', '0001') → { nick, tag, from }   관리자가 그 사람 번호를 바꾼다(닉네임은 그대로). 없으면 NOT_FOUND,
+//                                  새 번호가 그 닉네임에 이미 있으면 TAKEN, 관리자가 아니면 NOT_ADMIN, 형식이 틀리면 BAD_HANDLE·BAD_TAG
 
 import FIREBASE from "./firebase-config.js";
 import { mergeTimetables, friendCopies, nickProblem, parseHandle, handleKey, randomTag } from "./sync.js";
@@ -496,6 +500,49 @@ export async function friendTimetables(other) {
 
 export const inviteLink = (p) => `${APP_URL}#friend=${encodeURIComponent(`${p.nick}#${p.tag}`)}`;
 export const reportLink = (p) => `mailto:${REPORT_MAIL}?subject=${encodeURIComponent(`[신고] 닉네임 ${p.nick}#${p.tag}`)}`; // 디자인 130판
+export const tagLink = (p) => `mailto:${REPORT_MAIL}?subject=${encodeURIComponent(`[번호 바꾸기] 닉네임 ${p.nick}#${p.tag}`)}`;
+
+// ---------------------------------------------------------------- 번호 바꿔 주기(관리자, update134)
+// 11/17 사용자 '태그 번호는 아무나 원하는 걸 할 수 없고 원하는 사람에 한해서 내가 바꿔줄 수 있는 번호로 바꿔주는 방식'. 관리자는 콘솔에서
+// admins/{uid} 문서를 만든 계정이다(저장소에는 누구인지 적지 않는다). 규칙(firestore.rules)이 번호·열쇠만 바꾸게 하고 닉네임은 못 바꾼다.
+// 바뀐 사람의 앱은 프로필을 서버에서 다시 읽을 때(profile(): 친구 화면) 새 번호를 본다. 닉네임을 바꾸면 번호는 지금처럼 새로 뽑힌다
+
+export async function isAdmin() {
+  const uid = await me();
+  const { db, F } = await load();
+  try {
+    return (await F.getDoc(F.doc(db, "admins", uid))).exists();
+  } catch {
+    return false;
+  }
+}
+
+export async function adminSetTag(text, tag) {
+  const h = parseHandle(text), next = String(tag ?? "").trim();
+  if (!h) throw err("BAD_HANDLE");
+  if (!/^[0-9]{4}$/.test(next)) throw err("BAD_TAG");
+  await me();
+  const { db, F } = await load();
+  const from = handleKey(h.nick, h.tag);
+  try {
+    return await F.runTransaction(db, async (tx) => {
+      const hs = await tx.get(F.doc(db, "handles", from));
+      if (!hs.exists()) throw err("NOT_FOUND");
+      const uid = hs.data().uid, ps = await tx.get(F.doc(db, "profiles", uid));
+      if (!ps.exists()) throw err("NOT_FOUND");
+      const p = ps.data(), to = handleKey(p.nick, next);
+      if (to === from) return { nick: p.nick, tag: next, from: h.tag };
+      if ((await tx.get(F.doc(db, "handles", to))).exists()) throw err("TAKEN");
+      tx.delete(F.doc(db, "handles", from));
+      tx.set(F.doc(db, "handles", to), { uid });
+      tx.update(F.doc(db, "profiles", uid), { tag: next, handle: to, updated: F.serverTimestamp() });
+      return { nick: p.nick, tag: next, from: h.tag };
+    });
+  } catch (e) {
+    if (e && ["NOT_FOUND", "TAKEN"].includes(e.code)) throw e;
+    throw err(e && e.code === "permission-denied" ? "NOT_ADMIN" : "FAILED", { cause: e });
+  }
+}
 
 // ---------------------------------------------------------------- 계정 지우기
 

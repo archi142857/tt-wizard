@@ -75,6 +75,25 @@ phoneA.set("timetables@2026-2", []);
 out.deleteSync = await account.sync(phoneA);
 out.laptop2 = await account.sync(laptopA);
 out.laptopAfter = laptopA.get("timetables@2026-2");
+// 관리자가 번호 바꿔 주기(update134): 관리자는 콘솔에서 만든 admins/{uid}(에뮬레이터에서는 owner 로 쓴다). B 가 관리자
+const makeAdmin = (uid) => fetch(`http://127.0.0.1:8085/v1/projects/demo-ttw/databases/(default)/documents/admins/${uid}`, {
+  method: "PATCH", headers: { Authorization: "Bearer owner", "Content-Type": "application/json" }, body: JSON.stringify({ fields: { on: { booleanValue: true } } }) });
+as("google-a", "yp@snu.ac.kr");
+out.notAdmin = [await account.isAdmin(), await account.adminSetTag(`친구#${out.nickB.tag}`, "0001").catch((e) => e.code)];
+as("google-c", "other@gmail.com");
+out.nickC = await account.setNick("영표"); // 같은 닉네임의 다른 사람(번호가 겹치면 TAKEN)
+await makeAdmin(B);
+as("google-b", "friend@gmail.com");
+out.isAdminB = await account.isAdmin();
+out.taken = out.nickC.tag === out.nickA.tag ? "TAKEN" : await account.adminSetTag(`영표#${out.nickA.tag}`, out.nickC.tag).catch((e) => e.code);
+const newTag = ["0420", "0421", "0422"].find((t) => t !== out.nickA.tag && t !== out.nickC.tag);
+out.retag = await account.adminSetTag(` 영표 #${out.nickA.tag}`, newTag);
+out.retagMissing = await account.adminSetTag("없는사람#0000", "0001").catch((e) => e.code);
+out.retagBad = [await account.adminSetTag("영표", "0001").catch((e) => e.code), await account.adminSetTag(`영표#${newTag}`, "12a4").catch((e) => e.code)];
+out.oldHandle = await account.request(`영표#${out.nickA.tag}`).catch((e) => e.code);
+as("google-a", "yp@snu.ac.kr");
+out.profileRetag = await account.profile();
+out.keepTag = await account.setNick("영표", { showSchool: true }); // 바뀐 번호 그대로 쓴다
 // 막기: B 가 A 를 막으면 친구가 끊기고 A 는 다시 요청 못 한다
 as("google-b", "friend@gmail.com");
 await account.block(A);
@@ -86,7 +105,7 @@ out.cantSee = await account.friendTimetables(B).then(() => "read", (e) => e.code
 await account.deleteAccount();
 as("google-b", "friend@gmail.com");
 out.afterDelete = await account.friendTimetables(A).then((r) => r.length, () => "denied");
-out.handleGone = await account.request(`영표#${out.nickA.tag}`).catch((e) => e.code);
+out.handleGone = await account.request(`영표#${newTag}`).catch((e) => e.code);
 process.stdout.write(JSON.stringify(out) + "\n");
 
 // 결과 확인(CI 가 여기서 멈추면 실패)
@@ -126,5 +145,14 @@ assert.equal(out.blockedRequest, "BLOCKED");
 assert.equal(out.cantSee, "NOT_FRIEND");
 assert.equal(out.afterDelete, "denied");
 assert.equal(out.handleGone, "NOT_FOUND");
+assert.deepEqual(out.notAdmin, [false, "NOT_ADMIN"]);
+assert.equal(out.isAdminB, true);
+assert.equal(out.taken, "TAKEN");
+assert.deepEqual(out.retag, { nick: "영표", tag: newTag, from: out.nickA.tag });
+assert.equal(out.retagMissing, "NOT_FOUND");
+assert.deepEqual(out.retagBad, ["BAD_HANDLE", "BAD_TAG"]);
+assert.equal(out.oldHandle, "NOT_FOUND");
+assert.deepEqual(out.profileRetag, { nick: "영표", tag: newTag, showSchool: false });
+assert.deepEqual(out.keepTag, { nick: "영표", tag: newTag, showSchool: true });
 process.stdout.write("account e2e ok\n");
 process.exit(0);
