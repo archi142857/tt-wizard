@@ -6,6 +6,7 @@
 2. 외국어진행강좌(영어 진행 강좌) 줄 → r['foreign'] = {min_count|min_credits, major_count|major_credits, lang, exclude}:
    학기마다 외국어로 진행된 강좌(lecture_lang.json)와 들은 분반으로 센다(requirements.js evaluateForeign). '권장(필수 아님)'은 규칙 설명.
 3. FACTS: 공개 자료로 백엔드가 확인한 것(출처는 과정의 sources 에 더한다).
+4. 복수전공 줄에 묶인 졸업논문(update137): 그 역할(double)에 졸업논문 줄이 따로 없으면 따로 줄로 뺀다(DOUBLE_THESIS).
 표준 라이브러리만.
 """
 
@@ -178,6 +179,64 @@ COLLEGE_FACTS = {  # 단과대 공통 줄: (대학, 줄 id) → 바꿀 값
 }
 
 
+# ---------------------------------------------------------------- 복수전공 줄의 졸업논문(update137)
+# 사용자 11/17 '화생공은 졸업논문 작성 이게 과목이 따로 없던데, 이런 건 체크박스로 두면 좋을 듯'(프론트엔드 요청): 복수전공 줄이 과목 목록·학점과
+# 졸업논문을 한 줄에 묶어 졸업논문을 따로 셀 수 없던 과정. 복수전공(double)에 걸린 졸업논문 줄이 따로 없는 것만(나머지는 이미 thesis 줄이 double 에도 걸려 있다).
+# 졸업논문 쪽은 type 'thesis', applies_to ['double'] 줄로: 과목이 없으면 목록 없이(앱이 확인 필요와 시트의 '이 요건을 채웠어요' 체크), 과목이 있으면 그 목록.
+# cut: 복수전공 줄 글에서 뺄 부분(그 줄은 과목·학점만 남는다), move: 복수전공 줄의 과목을 졸업논문 줄로 옮긴다, from: 이 학번부터 걸린다
+DOUBLE_THESIS = {
+    ("chem-bio-eng", "cbe-double"): {
+        "id": "cbe-double-thesis", "name": "졸업논문", "cut": r"\s*\+\s*졸업논문 작성",
+        "text": "졸업논문 작성(복수전공). 학부에 논문 과목이 따로 없다",
+        "note": "과목이 없어 앱에서는 '이 요건을 채웠어요'로 표시한다."},
+    ("p-db64f2a8", "cf-double"): {
+        "id": "cf-double-thesis", "name": "졸업논문", "cut": r"\s*\+\s*졸업논문, 아동가족학논문작성 필수", "move": True,
+        "text": "졸업논문(복수전공): 아동가족학논문작성 필수",
+        "note": "논문작성 필수는 '18학번부터 적용'(학과 자료)."},
+    ("p-8bc02fbf", "musicology-double"): {
+        "id": "musicology-double-thesis", "name": "학사논문", "cut": r"\s*\+\s*학사논문 제출·발표", "src_from": "musicology-thesis",
+        "text": "학사논문 제출·발표(복수전공): 전공이론 2개 학기 이수 뒤 논문을 내고 학기말 논문발표회에서 발표·심사 통과"},
+    ("p-085d9249", "piano-double"): {
+        "id": "piano-double-recitals", "name": "졸업연주", "from": 2021,
+        "cut": r"\s*2021학번부터 학사과정 연주회·콘체르토·졸업연주와 과제곡\([^)]*\) 필수\.?",
+        "text": "학사과정 연주회·콘체르토·졸업연주와 과제곡(Bach·고전·낭만·근현대 각 1곡)(복수전공, 2021학번부터)"},
+}
+
+
+def split_double_thesis(prog: dict) -> int:
+    """복수전공 줄에 묶인 졸업논문을 따로 줄로 뺀다(DOUBLE_THESIS). 그 판에 double 에 걸린 thesis 줄이 이미 있으면 그대로. 뺀 줄 수"""
+    n = 0
+    for v in prog.get("versions") or []:
+        reqs, out = v.get("requirements") or [], []
+        has = any(r.get("type") == "thesis" and (not r.get("applies_to") or "double" in r["applies_to"]) for r in reqs)
+        for r in reqs:
+            out.append(r)
+            spec = DOUBLE_THESIS.get((prog["id"], r["id"]))
+            if not spec or has:
+                continue
+            r["text"] = re.sub(spec["cut"], "", r["text"]).strip()
+            if spec.get("from") and v["entry_years"][1] < spec["from"]:
+                continue  # 그 학번들에는 걸리지 않는다(줄 글에서 그 말만 뺀다)
+            courses = []
+            if spec.get("move"):
+                courses, r["courses"] = r.get("courses") or [], []
+            src = list(r.get("src") or [])
+            if spec.get("src_from"):
+                for x in reqs:
+                    if x["id"] == spec["src_from"]:
+                        src += [s for s in x.get("src") or [] if s not in src]
+            row = {"id": spec["id"], "type": "thesis", "applies_to": ["double"], "text": spec["text"],
+                   "min_count": len(courses) or None, "min_credits": None, "courses": courses, "status": "확인", "src": src, "name": spec["name"]}
+            if spec.get("note"):
+                row["note"] = spec["note"]
+            if r.get("note") and "졸업논문은 과목이 아니라" in r["note"]:
+                r["note"] = "졸업논문은 따로 줄(졸업논문)로 뺐다."
+            out.append(row)
+            n += 1
+        v["requirements"] = out
+    return n
+
+
 def add_source(prog: dict, s: dict) -> str:
     """과정 sources 에 출처를 더하고 그 열쇠(같은 것이 있으면 그것)"""
     srcs = prog.setdefault("sources", {})
@@ -195,6 +254,10 @@ def refine(prog: dict) -> dict[str, int]:
 
     def hit(k):
         done[k] = done.get(k, 0) + 1
+
+    split = split_double_thesis(prog)
+    if split:
+        done["복수전공 졸업논문 줄"] = split
 
     for v in prog.get("versions") or []:
         for r in v.get("requirements") or []:

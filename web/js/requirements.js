@@ -249,9 +249,15 @@ const ROW_MAP = { "등록": "등록 학기", "학기당": "학기당 수강 학�
  * 요건 줄 이름(짧게). 자료에 이름(name)이 있으면 그것(requirements_import.py ROW_NAMES), 없으면 자료 글의 앞부분
  * ('전공필수 15과목 46학점' → '전공필수', '외국어진행강좌(…) 3과목' → '외국어진행강좌'), 길거나 숫자로 시작하면 종류 이름.
  * update117(프론트엔드 11/15 '줄 이름 정리'): '표 1 …'의 표 번호, 낱말에 붙은 숫자('제2외국어')는 살리고 띄어 쓴 숫자부터 자름, 따옴표·끝 마침표·물음표,
- * 끝 토씨(' 중'·'…에서'·'전공은'), 줄임말(전선 → 전공선택, 전필 → 전공필수), 졸업 논문 줄의 학과 이름 앞말, 복수전공·부전공 전체 줄은 '… 전체 학점'
+ * 끝 토씨(' 중'·'…에서'·'전공은'), 줄임말(전선 → 전공선택, 전필 → 전공필수), 졸업 논문 줄의 학과 이름 앞말, 복수전공·부전공 전체 줄은 '… 전체 학점'.
+ * 외국어진행강좌는 과정마다 띄어 쓴 한 이름 '외국어 진행 강좌'(영어만이면 '영어 진행 강좌', 디자인 153판, update137)
  */
 export function rowName(req) {
+  const name = rowNameRaw(req), m = /^(외국어|영어)\s*진행(?:\s*강좌)?$/.exec(name);
+  return m ? `${m[1]} 진행 강좌` : name;
+}
+
+function rowNameRaw(req) {
   if (req && typeof req.name === "string" && req.name.trim()) return req.name.trim();
   const text = String((req && req.text) || ""), type = req && req.type;
   const head = text.replace(/^\[\d-\d\]\s*/, "").replace(/^표\s*\d+\s*/, "").replace(/^\[([^\]]{1,8})\]\s*/, "$1 ").split(/[:：(（—]/)[0];
@@ -767,8 +773,16 @@ function evaluateForeign(r, row, courses, { program, version, sameCourse, lectur
   }
   const left = Math.max(0, want - have), majorLeft = Math.max(0, majorWant - majorHave);
   row.state = "remaining";
-  row.short = left > 0 ? { unit, left, ...(majorLeft > 0 ? { text: `${left}${unit} 남음(전공 ${majorLeft}${majorUnit} 포함)` } : {}) }
-    : { unit: majorUnit, left: majorLeft, text: `전공 ${majorLeft}${majorUnit} 남음` };
+  // 값은 과목 수가 남으면 'N과목 남음'(전공 조건이 같이 남아도), 과목 수는 찼고 전공만 남으면 '전공 N과목 남음'. 같이 남은 전공 조건은
+  // 시트 상태 칸 끝에 '· 전공 N과목 포함'(디자인 153판, update137. '· 중급 이상 1과목 포함'과 같은 자리)
+  const of = `${want}${unit} 중 ${have}${unit}`;
+  if (left > 0) {
+    row.short = { unit, left };
+    if (majorLeft > 0) row.summaryText = `${of} · ${left}${unit} 남음 · 전공 ${majorLeft}${majorUnit} 포함`;
+  } else {
+    row.short = { unit: majorUnit, left: majorLeft, text: `전공 ${majorLeft}${majorUnit} 남음` };
+    row.summaryText = `${of} · 전공 ${majorLeft}${majorUnit} 남음`;
+  }
 }
 
 /**
@@ -1146,7 +1160,7 @@ export function reasonText(row, { entryYear = null } = {}) {
     case SUBSTITUTED: return "대체 관계인 과목을 둘 다 들었어요. 어느 쪽으로 셀지 학과에 확인해 주세요.";
     case SHARED_COURSE: return "들은 과목 하나가 여러 요건에 걸려 있어요. 어느 요건으로 셀지 학과에 확인해 주세요.";
     case COND: return (row && row.because) || "조건에 따라 더 들어야 할 수 있어요.";
-    case FOREIGN_DATA: return "강의 언어 자료를 받지 못해 외국어진행강좌를 세지 못했어요.";
+    case FOREIGN_DATA: return "강의 언어 자료를 받지 못해 외국어 진행 강좌를 세지 못했어요.";
     case FOREIGN_UNKNOWN: return (row && row.because) || "외국어로 진행됐는지 모르는 과목이 있어요.";
     case SAME_GPA: return "공통의 졸업 평점과 같은 조건이에요.";
     default: return (row && row.because) || null;

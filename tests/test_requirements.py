@@ -596,7 +596,7 @@ def test_grad_view(tmp_path):
     assert list(animal["rows"])[:3] == ["major-total", "animal-main-core", "animal-thesis"]
     assert animal["rows"]["major-total"]["name"] == "전공 학점" and animal["rows"]["major-total"]["value"] == "48학점 남음"
     assert animal["rows"]["cals-foreign-lang-lectures"]["value"] == "확인 필요"  # 강의 언어 자료를 안 넘기면
-    assert animal["rows"]["cals-foreign-lang-lectures"]["because"] == "강의 언어 자료를 받지 못해 외국어진행강좌를 세지 못했어요."
+    assert animal["rows"]["cals-foreign-lang-lectures"]["because"] == "강의 언어 자료를 받지 못해 외국어 진행 강좌를 세지 못했어요."
     assert all(b["kind"] == "program" for b in (animal, bio)) and two["missing"] == []
     assert old["missing"] == ["animal-biotech"] and len(old["bundles"]) == 1  # 2018학번은 자료 없음: 공통만
 
@@ -764,8 +764,9 @@ def test_row_names(tmp_path):
         ["전공필수 15과목 46학점", "major_required"], ["동물생명공학논문연구 M1702.000400(3학점, 전선) — 졸업학기 이수 원칙", "thesis"],
         ["통계학개론 및 실습 500.301A 는 1·2학기 모두 열리며 한 번만 이수", "other"], ["1학년은 미대 공통 전선 10과목 중", "major_choose"],
         ["[2-1] 공학수학 1, [2-2] 공학수학 2", "major_required"], ["[과학] 물리학 영역(물리학·물리학 1·물리학 2)", "ge"],
-        ["외국어진행강좌(대학영어 포함) 3과목 이상", "other"], ["", "double"]]}])[0]
-    assert got == ["전공필수", "동물생명공학논문연구", "통계학개론 및 실습", "지정 과목", "공학수학", "과학 물리학 영역", "외국어진행강좌", "복수전공"]
+        ["외국어진행강좌(대학영어 포함) 3과목 이상", "other"], ["", "double"], ["외국어진행 3과목(교양·전공·일선 무관)", "other"], ["영어진행강좌 2과목", "other"]]}])[0]
+    assert got == ["전공필수", "동물생명공학논문연구", "통계학개론 및 실습", "지정 과목", "공학수학", "과학 물리학 영역", "외국어 진행 강좌", "복수전공",
+                   "외국어 진행 강좌", "영어 진행 강좌"]  # 외국어진행강좌는 과정마다 띄어 쓴 한 이름(디자인 153판, update137)
 
 
 @node
@@ -1224,8 +1225,10 @@ def test_foreign_taught_and_rule_rows(tmp_path):
     assert [x[0] for x in two["rows"]["fl"]["courses"]] == ["T.101", "G.200"]
     assert still_two["rows"]["fl"]["value"] == "1과목 남음"  # 한국어 강좌·외국어 강좌가 아닌 분반은 안 센다
     assert unknown["rows"]["fl"]["value"] == "확인 필요" and "분반을 모르는 과목 1개" in unknown["rows"]["fl"]["because"]
-    assert short_major["rows"]["fl"]["value"] == "1과목 남음(전공 1과목 포함)"  # T.101 002 분반은 한국어, T.102 는 교양으로 들음
-    assert no_major["rows"]["fl"]["value"] == "전공 1과목 남음"  # 3과목이지만 전공 외국어 강좌가 없다
+    # T.101 002 분반은 한국어, T.102 는 교양으로 들음: 값은 과목 수만, 전공 조건은 시트 상태 칸 끝에(디자인 153판, update137)
+    assert short_major["rows"]["fl"]["value"] == "1과목 남음" and short_major["rows"]["fl"]["summary"] == "3과목 중 2과목 · 1과목 남음 · 전공 1과목 포함"
+    assert no_major["rows"]["fl"]["value"] == "전공 1과목 남음" and no_major["rows"]["fl"]["summary"] == "3과목 중 3과목 · 전공 1과목 남음"  # 3과목이지만 전공 외국어 강좌가 없다
+    assert two["rows"]["fl"]["summary"] == "3과목 중 2과목 · 1과목 남음" and two["rows"]["fl"]["name"] == "외국어 진행 강좌"
     assert no_data["rows"]["fl"]["value"] == "확인 필요"  # 강의 언어 자료가 없으면
     assert "rule1" not in two["rows"] and two["rules"] == [["rule1", "다전공 겹쳐 인정", ["출처: 학과 내규 · 1쪽"]]]
 
@@ -1253,3 +1256,37 @@ def test_animal_biotech_2025_from_snugenie():
         for s in q["sources"].values():
             if "스누지니" in s["title"]:
                 assert s["url"] == "https://snugenie.snu.ac.kr" and set(s) <= {"title", "url", "locator", "accessed"}, pid
+
+
+# ---------------------------------------------------------------- 복수전공 줄의 졸업논문(update137)
+
+def test_double_thesis_rows():
+    """사용자 11/17 '화생공은 졸업논문 작성 이게 과목이 따로 없던데, 이런 건 체크박스로 두면 좋을 듯'(프론트엔드 요청): 복수전공 줄에 묶인 졸업논문은
+    따로 졸업논문 줄(type thesis, applies_to double)로. 과목이 없으면 목록 없이, 과목이 있으면 그 목록. 복수전공 줄은 과목·학점만 남는다"""
+    ps = programs()
+    for v in ps["chem-bio-eng"]["versions"]:
+        rows = {r["id"]: r for r in v["requirements"]}
+        t = rows["cbe-double-thesis"]
+        assert (t["type"], t["applies_to"], t["courses"], t["status"], t["name"]) == ("thesis", ["double"], [], "확인", "졸업논문")
+        assert "졸업논문" not in rows["cbe-double"]["text"] and rows["cbe-double"]["min_count"] in (13, 14)
+    cf = {r["id"]: r for r in ps["p-db64f2a8"]["versions"][0]["requirements"]}
+    assert [c["code"] for c in cf["cf-double-thesis"]["courses"]] == ["M2808.003100"] and cf["cf-double-thesis"]["min_count"] == 1
+    assert cf["cf-double"]["courses"] == [] and cf["cf-double"]["sum"] == {"of": "major"} and cf["cf-double"]["min_credits"] == 39
+    assert all("musicology-double-thesis" in {r["id"] for r in v["requirements"]} for v in ps["p-8bc02fbf"]["versions"])
+    piano = {tuple(v["entry_years"]): {r["id"] for r in v["requirements"]} for v in ps["p-085d9249"]["versions"]}
+    assert "piano-double-recitals" in piano[(2021, 2022)] and "piano-double-recitals" not in piano[(2019, 2020)]  # 2021학번부터
+    # 복수전공에 걸린 졸업논문 줄이 이미 있는 과정은 그대로(생명과학부 bio-thesis 는 double 에도 걸린다)
+    assert not any(r["id"].endswith("-double-thesis") for v in ps["life-sciences"]["versions"] for r in v["requirements"])
+
+
+@node
+def test_double_thesis_check_box(tmp_path):
+    """졸업논문 줄은 과목 목록이 없어 확인 필요이고, 시트의 '이 요건을 채웠어요'(rowChecks)를 켜면 충족"""
+    pick = [{"program": "animal-biotech", "role": "parallel", "entryYear": 2025, "title": "동물생명공학전공"},
+            {"program": "chem-bio-eng", "role": "double", "entryYear": 2025, "selectionTerm": "2026-2", "title": "화학생물공학부"}]
+    got = _run(tmp_path, [{"kind": "view", "records": [], "picks": pick},
+                          {"kind": "view", "records": [], "picks": pick, "rowChecks": {"chem-bio-eng|cbe-double-thesis": True}}])
+    before, after = (g["bundles"][2]["rows"]["cbe-double-thesis"] for g in got)
+    assert before["name"] == "졸업논문" and before["value"] == "확인 필요" and before["progress"] is None
+    assert after["value"] == "충족" and after["byChecks"] is True
+    assert got[0]["bundles"][2]["rows"]["cbe-double"]["value"] == "14과목 남음"
