@@ -1736,7 +1736,7 @@ h2.section-title, .asof, .picked-error, .footnote, .day-summary, .result-head, .
   .tl-tts .tl-more:hover { color: var(--text2); }
   .share-act:hover { box-shadow: var(--shadow-press), var(--shadow-sm); }
   .share-app:hover .ic { background: color-mix(in srgb, var(--inset), var(--text) 6%); }
-  .tt-switch:hover, .add-head .icon-btn:hover, .tt-share:hover, .gr-pbtn:hover::before { background: var(--bg-hover); }
+  .tt-switch:hover, .add-head .icon-btn:hover, .tt-share:hover, .gr-pbtn:not(:disabled):hover::before { background: var(--bg-hover); }
   .topbar .icon-btn:hover, .topbar .btn-text:hover, .bottom-bar .btn-text:hover, .picked-error .btn-text:hover, .ranks-more .btn-text:hover, .footnote .btn-text:hover { background: var(--bg-hover); }
   .result.is-picked:hover { background: var(--row-picked); } /* 담은 행은 어두운 그대로, 버튼만 빨갛게(빼기) */
   .course-hit:hover .c-title { background: none; text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
@@ -1875,6 +1875,7 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 .tour-dots span, .gr-dots span { width: 8px; height: 8px; border-radius: 4px; background: var(--on-bg-text3); transition: width var(--dur-move) var(--ease-standard); }
 .tour-dots span.is-on, .gr-dots span.is-on { width: 20px; background: var(--on-bg-link); }
 @media (prefers-reduced-motion: reduce) { .tour-track, .tour-dots span, .gr-dots span { transition: none; } }
+@media (forced-colors: active) { .gr-pbtn.is-off { opacity: 1; color: GrayText; } }
 @media (forced-colors: active) { .tour-art { border: 2px solid CanvasText; } .tour-dots span, .gr-dots span { background: CanvasText; } .tour-dots span.is-on, .gr-dots span.is-on { background: Highlight; } }
 /* 600px 부터(태블릿·컴퓨터. 11/16 사용자 '태블릿인데 워드마크 위치가 좀 애매함': 덩이는 화면 가운데인데 워드마크만 맨 위에 떨어져 있었다): 상단 바(워드마크)를
    덩이와 한데 묶어 같이 세로 가운데에 둔다. 워드마크 왼쪽 끝은 제목 글자에 맞추고(카드 폭 width-sheet 안, space-1 들임) 제목과 space-6. 폰은 그대로(상단 바는 위, 덩이만 가운데).
@@ -1956,7 +1957,7 @@ html.is-still *, html.is-still *::before, html.is-still *::after { transition: n
 .gr-view h2.section-title .gr-prog.is-done { font-weight: 500; color: var(--on-bg-success, var(--success)); }
 .gr-prog.is-done svg { width: 16px; height: 16px; margin-right: 2px; vertical-align: -3px; }
 .gr-view > .card { margin-top: var(--space-6); }
-.gr-view h2.section-title + .card, .gr-view h2.section-title + .gr-tip + .card { margin-top: 0; } /* 평점 옆 ? 의 한 줄(접혀 있어도)을 사이에 둔 카드도 */
+.gr-view h2.section-title + .card, .gr-view h2.section-title + .gr-tip + .card { margin-top: 0; } /* 제목 아래 재수강 안내 한 줄을 사이에 둔 카드도 */
 /* 요건 줄 값(141판): 남음 warning 500, 충족 success 500(옆에 체크 없음, 사용자 11/16), 확인 필요 text3(태그 없이) */
 .info-row .v.is-left { color: var(--warning); font-weight: 500; }
 .info-row .v.is-ok { color: var(--success); font-weight: 500; }
@@ -2019,11 +2020,11 @@ div.info-row { cursor: default; }
 .gr-pbtn { position: absolute; top: -2px; z-index: 1; color: var(--on-bg-text2); }
 .gr-pbtn.is-prev { left: calc(var(--space-3) * -1); }
 .gr-pbtn.is-next { right: calc(var(--space-3) * -1); }
-.gr-pbtn.is-off { visibility: hidden; }
+.gr-pbtn.is-off { opacity: 0.38; cursor: default; } /* 첫 장의 이전·끝 장의 다음은 흐리게(disabled, 누르지 않음. 11/16 사용자 '맨 끝 학기여도 화살표는 없애진 마. 차라리 색을 옅게') */
 /* 누름·올림 바탕과 초점 테두리는 아이콘 칸(24) 동그라미 안: 본문 양끝 선 안에 머물고 제목 글을 덮지 않는다(누르는 영역은 48 그대로) */
 .gr-pbtn:active, .gr-pbtn:hover { background: transparent; }
 .gr-pbtn::before { content: ""; position: absolute; z-index: -1; top: 12px; left: 12px; width: 24px; height: 24px; border-radius: 50%; }
-.gr-pbtn:active::before { background: var(--bg-hover); }
+.gr-pbtn:not(:disabled):active::before { background: var(--bg-hover); }
 .gr-pbtn:focus-visible { outline: none; }
 .gr-pbtn:focus-visible::before { outline: 2px solid var(--focus); outline-offset: -2px; }
 .gr-dots { justify-content: center; margin-top: var(--space-3); }
@@ -2040,6 +2041,7 @@ div.info-row { cursor: default; }
 .gr-sstat .v.is-ask { color: var(--text3); font-weight: 400; }
 .gr-field { margin-top: var(--space-6); }
 .gr-field.is-solo { margin-top: var(--space-4); } /* 분야가 하나뿐인 목록(143판): 머리 없이 과목 줄만. 이름·조건·값이 시트 제목·자료 글·상태 칸과 겹친다 */
+.gr-more { margin: var(--space-1) 0 0 calc(var(--space-2) * -1); } /* 20줄 넘는 목록의 '모두 보기'·'접기'(149판): 위 4, 글이 목록 왼쪽 끝과 같은 자리 */
 .gr-fh { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--space-2); padding-bottom: var(--space-1); }
 .gr-fh .n { font-size: 0.9375rem; line-height: 1.375rem; font-weight: 700; color: var(--heading); }
 .gr-fh .c { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
@@ -2057,6 +2059,8 @@ label.gr-ck { cursor: pointer; }
 .gr-ck .t small { display: block; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
 .gr-ck .cr { flex: none; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); font-variant-numeric: tabular-nums; }
 .gr-ck .cr.is-left { color: var(--warning); font-weight: 500; }
+.gr-ck .cr.is-ok { color: var(--success); font-weight: 500; } /* 목록 없는 분야 줄의 '충족'(update127, 디자인 148판) */
+.gr-field .gr-fnote { margin: 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; } /* 목록과 섞인 목록 없는 분야: 머리 아래 조건부 글 */
 .gr-path { margin-top: var(--space-2); padding: var(--space-1) var(--space-3) 0; border: 1px solid var(--line); border-radius: var(--radius-md); }
 .gr-path.is-ok { border-color: var(--success); }
 .gr-path .pn { display: block; padding-top: var(--space-2); font-size: 0.8125rem; line-height: 1.125rem; font-weight: 500; color: var(--text2); }
@@ -2072,16 +2076,10 @@ label.gr-ck { cursor: pointer; }
 .tk .m { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); }
 /* 재수강해서 빠진 과목: 이름 옆 빨간 '(2025년 겨울학기 재수강)'(11/16 사용자 "재수강은 저런식으로 빨간 글씨로 써줘. 문장형으로 하지 말고") */
 .tk .t .rt { margin-left: 0.375em; font-size: 0.875rem; font-weight: 500; color: var(--danger); white-space: nowrap; }
-/* 학기 평점 옆 ?(11/16 사용자: 재수강해서 빠진 과목을 평점에서 뺐으면). 보이는 원 20(line-strong 테두리, 12/16 700 text2), 누르는 영역 48(옆 글자를 덮지 않게 오른쪽으로).
-   누르면 제목 바로 아래 한 줄 '재수강한 과목은 반영하지 않았어요'(13/18 on-bg-text2) */
-.gr-why { position: relative; display: inline-flex; flex: none; align-items: center; justify-content: center; width: 20px; height: 20px; margin-left: var(--space-1);
-  padding: 0; border: 1px solid var(--line-strong); border-radius: 50%; background: var(--card); color: var(--text2); font-size: 0.75rem; line-height: 1rem; font-weight: 700;
-  vertical-align: 1px; cursor: pointer; }
-.gr-why::before { content: ""; position: absolute; top: 50%; left: -4px; width: var(--touch); height: var(--touch); transform: translateY(-50%); }
-.gr-why[aria-expanded="true"] { border-color: var(--accent-text); color: var(--accent-text); }
+/* 학기 평점에서 재수강해서 빠진 과목을 뺐으면 제목 바로 아래 한 줄 '재수강한 과목은 반영하지 않았어요'(13/18 on-bg-text2, 늘 보인다.
+   11/16 사용자: 처음엔 평점 옆 ? 를 눌러 폈는데 '물음표 저런식으로 하지 말고 저 문장은 띄워줘') */
 .gr-view p.gr-tip { margin: calc(var(--space-1) * -1) var(--space-1) var(--space-2); font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text2); word-break: keep-all;
   text-shadow: var(--on-bg-halo, none); }
-@media (forced-colors: active) { .gr-why { border-color: ButtonText; color: ButtonText; } }
 .tk .check { flex: none; padding: 0 var(--space-2); font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
 .tk:has(.check input:checked) .t { color: var(--text3); }
 .tk:has(.browse-select option[value="drop"]:checked) .t { color: var(--text3); } /* 수강한 과목에서 드랍을 고른 과목(11/15) */
@@ -2102,7 +2100,7 @@ label.gr-ck { cursor: pointer; }
 .gpa .browse-select { margin: -12px -8px -12px 0; font-size: 1.0625rem; font-weight: 700; color: var(--heading); }
 .gpa .need { flex-basis: 100%; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
 .gpa .need b { color: var(--text); font-weight: 700; }
-.gpa .gr-why { align-self: center; margin-left: calc(var(--space-1) - var(--space-3)); } /* 직전 두 학기 평점 옆 ?(재수강 전 성적도 넣었을 때): 수 바로 뒤 4(줄 사이 12 를 당긴다. 144판) */
+/* 직전 두 학기에 재수강 전 성적도 넣었으면 그 줄 아래 한 줄(늘 보인다. 144판의 평점 옆 ? 는 11/16 사용자 '물음표 저런식으로 하지 말고 저 문장은 띄워줘'로 뺐다) */
 .gpa p.gpa-tip { flex-basis: 100%; margin: var(--space-1) 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text2); word-break: keep-all; }
 .gr-view > .card.gpa:first-child { margin-top: var(--space-4); }
 /* 다음 학기 추천(11/15 사용자: 졸업 요건 탭 셋째 보기): 다음 정규 학기와 한 줄, 시간표 짜기(주요 버튼, 카드 폭).

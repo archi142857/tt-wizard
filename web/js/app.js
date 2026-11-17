@@ -108,6 +108,7 @@ const I = {
   left: '<path d="M15 6l-6 6 6 6"/>',
   out: '<path d="M8 16L16 8M9.5 8H16v6.5"/>',
   down: '<path d="M6 9l6 6 6-6"/>',
+  up: '<path d="M6 15l6-6 6 6"/>',
   more: '<path d="M5.5 12h.01M12 12h.01M18.5 12h.01" stroke-width="3.2"/>',
   msg: '<path d="M20.5 11.5c0 4.1-3.8 7.4-8.5 7.4-1.2 0-2.3-.2-3.3-.6L4 19.5l1.2-3.6c-1.1-1.2-1.7-2.8-1.7-4.4 0-4.1 3.8-7.4 8.5-7.4s8.5 3.3 8.5 7.4z"/>', // 말풍선(공유 카드의 메시지: 웹·iOS)
   edit: '<path d="M4.5 19.5l.9-4.1L15.7 5.1a2 2 0 0 1 2.8 0l.4.4a2 2 0 0 1 0 2.8L8.6 18.6z"/><path d="M13.6 7.2l3.2 3.2"/>', // 연필(시간표 목록 시트의 이름 입력칸. 누르는 것이 아니라 고칠 수 있다는 표시)
@@ -555,6 +556,13 @@ function renderTerm() {
   $("asof").textContent = state.loaded ? asofShort(state.semesterMeta.updated) : "";
   if ($("tt-list-sheet").open) refillTtList();
 }
+/** 연도 선택칸에 보일 해(149판): 지난 편람이 2013년부터 늘어(백엔드 update128) 학번을 넣었으면 그 해부터, 아니면 2019년부터.
+ *  그보다 앞이라도 시간표가 있는 해와 지금 고른 해는 남긴다(학기 목록 semesters.json 은 그대로) */
+function termYears(ids, sem) {
+  const v = deptSaved(), from = v ? v.year : 2019, cur = String(sem).slice(0, 4);
+  const kept = new Set(ids.filter((id) => Number(id.slice(0, 4)) < from && T.hasTimetables(store.get(semKey(T.STORE_KEYS.list, id), []))).map((id) => id.slice(0, 4)));
+  return [...new Set(ids.map((id) => id.slice(0, 4)))].filter((y) => Number(y) >= from || y === cur || kept.has(y));
+}
 /** 연도·학기 선택칸 둘(탐색 학기 줄, 내 시간표의 시간표 목록 시트)을 지금 학기로 채운다. 고를 수 없는 학기(자료를 받기 전)면 숨긴다. */
 function fillTerm(ySel, tSel, sem = state.semester) {
   const ids = state.semesters.map(([id]) => id).filter((id) => /^\d{4}-[12SW]$/.test(id));
@@ -562,7 +570,7 @@ function fillTerm(ySel, tSel, sem = state.semester) {
   ySel.hidden = tSel.hidden = !ok;
   if (ok) {
     const [y, t] = sem.split("-");
-    const years = [...new Set(ids.map((id) => id.split("-")[0]))];
+    const years = termYears(ids, sem);
     if (ySel.dataset.key !== years.join()) {
       ySel.replaceChildren(...years.map((v) => h("option", { value: v }, `${v}년`)));
       ySel.dataset.key = years.join();
@@ -7237,6 +7245,7 @@ $("dept-done").addEventListener("click", () => {
   store.set(DEPT, deptValue());
   store.set(DEPT_ASKED, true);
   loadLimits(); // 수강 제한 알림을 새 값으로
+  renderTerm(); // 연도 선택칸은 학번 해부터(149판)
   if (deptMode === "setup") leaveSetup(); else back();
 });
 $("dept-later").addEventListener("click", () => { store.set(DEPT_ASKED, true); leaveSetup(); });
@@ -7756,6 +7765,8 @@ function gpaCard(g) {
  *  확인 필요는 학과 졸업요건 ↗(바깥 브라우저)·고지·출처 알려 주기 ↗(GitHub 양식을 인앱 브라우저로), 남음·충족은 출처 줄. 맨 아래 자료 기준일 */
 let rqKey = null; // 열린 요건 시트의 줄(체크하면 그 줄로 다시 그린다)
 function openRq(key, opener) {
+  rqOpen = new Set();
+  rqKeep = new Set();
   if (!gradNow || !paintRq(key)) return;
   $("rq-body").scrollTop = 0;
   openSheet($("rq-sheet"), opener);
@@ -7808,10 +7819,27 @@ function rqListState(list, minCount, minCredits) {
   if (nk > 0) return { kind: "left", text: `${nk}학점 남음` };
   return { kind: "met", text: "충족" };
 }
-/** 분야 머리 .gr-fh(141판: 이름 15/22 700, 조건 13/18 text3, 오른쪽 값) */
+/** 분야 머리 .gr-fh(141판: 이름 15/22 700, 조건 13/18 text3, 오른쪽 값). 기준 없는 영역의 값이 0 이면 비우고 읽기만 '0과목'(149판, 분야 줄과 같게) */
 function rqHead(id, name, cond, st) {
+  const quiet = st && st.kind === "count" && /^0/.test(st.text);
   return h("div", { class: "gr-fh" }, h("span", { class: "n", id }, name), cond ? h("span", { class: "c" }, cond) : null,
-    st ? h("span", { class: `v ${GRV[st.kind] || ""}` }, st.text) : null);
+    st ? h("span", { class: quiet ? "sr-only" : `v ${GRV[st.kind] || ""}` }, st.text) : null);
+}
+/** 과목 목록(ul.gr-checks). 20줄을 넘으면(149판: 교양 영역 목록 지성의 열쇠 76·58·49·38, 외국어 85, 베리타스 57) 들은 과목(앱이 센 줄)과 체크한 줄만 두고 접는다:
+ *  그 아래 '모두 보기' + 아래 꺾쇠 16(.btn-text.small.gr-more, aria-expanded, 이름 '문화 해석과 상상 과목 모두 보기'), 펴면 들은 것 먼저 그다음 가나다로 다 보이고 끝에 '접기' + 위 꺾쇠.
+ *  들은 줄이 없으면 머리 바로 아래 '모두 보기'. 체크했다 푼 줄은 시트를 닫기 전까지 접어도 남긴다(그 자리에서 사라지지 않게). id: 이 시트에서 목록을 가리는 이름, name: 분야 이름 */
+const RQ_FOLD = 20;
+let rqOpen = new Set(), rqKeep = new Set(); // 이 시트에서 편 목록, 접어도 남길 과목 번호(openRq 가 비운다)
+function rqList(id, name, courses) {
+  if (courses.length <= RQ_FOLD) return [h("ul", { class: "gr-checks" }, courses.map(rqCk))];
+  const { same, fixed } = gradNow, checked = new Set(Object.keys(gradStore().checks).map(same));
+  const keys = (c) => [c.code, ...(c.alt_codes || [])].map(same), took = (c) => keys(c).some((x) => fixed.has(x)), ck = (c) => keys(c).some((x) => checked.has(x));
+  const all = [...courses].sort((a, b) => Number(took(b)) - Number(took(a)) || String(a.name || a.code).localeCompare(String(b.name || b.code), "ko"));
+  for (const c of all) if (ck(c)) rqKeep.add(c.code);
+  const open = rqOpen.has(id), rows = open ? all : all.filter((c) => took(c) || ck(c) || rqKeep.has(c.code));
+  return [rows.length ? h("ul", { class: "gr-checks" }, rows.map(rqCk)) : null,
+    h("button", { type: "button", class: "btn-text small gr-more", "aria-expanded": String(open), "aria-label": `${name} 과목 ${open ? "접기" : "모두 보기"}`, "data-more": id },
+      open ? "접기" : "모두 보기", icon(open ? I.up : I.down, 16))];
 }
 /** 분야 하나(141판 section.gr-field): 머리와 그 아래 것들 */
 function rqField(id, name, cond, st, ...items) {
@@ -7912,21 +7940,21 @@ function paintRq(key) {
   }
   // 과목 목록: 한 줄 목록은 줄 이름의 분야 하나, 분야 줄은 분야마다(엔진의 sheet.groups 값), 갈래 줄은 분야 하나 안에 갈래마다
   // 분야가 하나뿐인 목록(143판 .gr-field.is-solo): 머리 없이 과목 줄만(이름·조건·값이 시트 제목·자료 글·상태 칸과 겹친다)
-  if (flat.length) body.push(h("section", { class: "gr-field is-solo" }, h("ul", { class: "gr-checks" }, flat.map(rqCk))));
+  if (flat.length) body.push(h("section", { class: "gr-field is-solo" }, ...rqList("flat", r.name, flat)));
   if (!mixed && fields.length > 1) body.push(h("div", { class: "gr-field is-solo" }, h("ul", { class: "gr-checks" }, fields.map(({ g, i }) => rqArea(g, gv(g, i))))));
   for (const { g, i, list } of mixed ? fields : []) {
     const name = String(g.name || g.field || ""), sg = gv(g, i);
     const st = sg && sg.value ? { kind: sg.value.kind, text: sg.value.text } : list ? rqListState(g.courses, g.min_count, g.min_credits) : null;
     const cond = sg ? sg.need : list ? rqCond(g.courses.length, g.min_count, g.min_credits) : null;
     const note = g.cond ? h("p", { class: "gr-fnote" }, g.cond) : null;
-    body.push(list ? rqField(`rqf-${i}`, name, cond, st, note, h("ul", { class: "gr-checks" }, g.courses.map(rqCk)))
+    body.push(list ? rqField(`rqf-${i}`, name, cond, st, note, ...rqList(`rqf-${i}`, name, g.courses))
       : h("div", { class: "gr-field is-head" }, rqHead(`rqf-${i}`, name, cond, st), note));
   }
   if (paths.length) {
     body.push(rqField("rqf-path", r.name, rqPathCond(paths, raw && raw.min_count), { kind: k, text: r.value.text }, paths.map((p, i) => {
       const sp = (s.paths || []).find((x) => x.name === p.name) || (s.paths || [])[i] || null;
       const ok = sp && sp.value ? sp.value.kind === "met" : rqHave(p.courses).count >= p.courses.length;
-      return h("div", { class: `gr-path${ok ? " is-ok" : ""}` }, h("span", { class: "pn" }, p.name), h("ul", { class: "gr-checks" }, p.courses.map(rqCk)));
+      return h("div", { class: `gr-path${ok ? " is-ok" : ""}` }, h("span", { class: "pn" }, p.name), ...rqList(`path-${i}`, p.name, p.courses));
     })));
   }
   // 과목 목록이 없는 확인 필요 요건(141판 ⑥): '이 요건을 채웠어요'를 체크하면 그 요건을 충족으로 본다(이 기기 ttw.grad.rowOk)
@@ -7953,6 +7981,26 @@ function paintRq(key) {
   return true;
 }
 // 체크: 과목(ttw.grad.checks)·졸업 평점 조건(gpaOk)·목록 없는 요건(rowOk)을 바꾸고(이 기기에만) 다시 센다. 시트는 그 줄로 다시 그리고 초점·스크롤 자리는 그대로, 바뀐 줄 값을 읽어 준다
+// 긴 목록의 '모두 보기'·'접기'(149판): 시트를 그 자리에서 다시 그린다. 펴면 초점은 새로 보인 첫 줄, 접으면 그 분야 머리가 보이게 두고 초점은 '모두 보기'
+$("rq-body").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-more]");
+  if (!b || !rqKey || !gradNow) return;
+  const id = b.dataset.more, open = !rqOpen.has(id), body = $("rq-body"), top = body.scrollTop;
+  const seen = new Set([...(b.parentElement.querySelectorAll("[data-ck]"))].map((x) => x.dataset.ck));
+  if (open) rqOpen.add(id); else rqOpen.delete(id);
+  if (!paintRq(rqKey)) return;
+  body.scrollTop = top;
+  const nb = body.querySelector(`[data-more="${CSS.escape(id)}"]`);
+  if (!nb) return;
+  if (open) {
+    const first = [...nb.parentElement.querySelectorAll("[data-ck]")].find((x) => !seen.has(x.dataset.ck));
+    (first || nb).focus({ preventScroll: true });
+  } else {
+    const head = nb.closest(".gr-field, .gr-path"), r = (head || nb).getBoundingClientRect(), box = body.getBoundingClientRect();
+    if (r.top < box.top) body.scrollTop += r.top - box.top - 8;
+    nb.focus({ preventScroll: true });
+  }
+});
 $("rq-body").addEventListener("change", async (e) => {
   const el = e.target.closest("[data-ck], [data-gpa], [data-rowok]");
   if (!el || !gradNow) return;
