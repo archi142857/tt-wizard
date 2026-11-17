@@ -328,6 +328,7 @@ scripts/
   restrictions.py            수강편람 비고의 수강 제한(®) 읽기(실험용 첫 단계)
   course_limits.py           수강편람 비고 → 수강 제한 알림의 분반 규칙 data/limits/, 수강신청 일정표 모으기 (docs/limits.md)
   requirements_import.py     졸업 요건 조사 자료 → data/requirements/ (docs/requirements.md)
+  same_courses.py            이름·번호가 바뀐 과목 짝·더 안 열리는 과목(웹으로 옮길 때 course_map.json 에 붙임, docs/requirements.md 1-3절)
   dept_catalog.py            학과 목록(처음 화면의 대학 → 학과 → 전공, 편람 학과 → 과정) → data/requirements/catalog.json
   field_validation.py        실측 구간 고르기, 실측과 모형 견주기, GPS 기록 분석
   legal_pages.py             docs/legal/ → 처리방침·문의·이용 규칙·계정 삭제 안내 페이지(web/privacy/ 등)

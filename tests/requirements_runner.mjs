@@ -5,7 +5,7 @@ import {
   pickVersion, pickVersionFor, rowsForEntry, buildSameCourse, tidyRecords, evaluateProgram, creditSummary, gpa, gradeNeeded,
   termCreditLimit, withinLimit, isMajorCourse, suggestCourses, rankSuggestions,
   suggestionTag, rowName, termName, nextRegularTerm, nthRegularTerm, hasCoursebook, versionLabel, versionChoices,
-  takenTerms, gradView, basisText, limitLine, deptLink, sourceTexts, shortLocator, rowView,
+  takenTerms, gradView, basisText, limitLine, deptLink, sourceTexts, shortLocator, rowView, josaRo,
 } from "../web/js/requirements.js";
 import { gapFit, parseCourses, TravelMatrix, fitLabel } from "../web/js/engine.js";
 
@@ -67,6 +67,20 @@ const out = read(casesPath).map((c) => {
           courses: v.sheet.courses.filter((x) => x.taken).map((x) => [x.code, x.meta]), missing: (r.missing || r.left || []).map((m) => m.code) }];
       }));
     }
+    case "sheet": {
+      // 요건 시트의 과목 목록(update131): 이름·번호가 바뀐 과목으로 들었는지, 안 들은 과목의 지금 이름·마지막 개설
+      const p = program(c.program);
+      const { version } = pickVersion(p, c.entryYear);
+      const same = buildSameCourse(courseMap, [p]);
+      const t = tidyRecords(c.records, same);
+      const rows = evaluateProgram(p, version, t.courses, { role: c.role || "single", sameCourse: same });
+      return Object.fromEntries(rows.filter((r) => c.ids.includes(r.id)).map((r) => {
+        const v = rowView(r, { program: p, sameCourse: same });
+        return [r.id, { state: r.state, courses: v.sheet.courses.filter((x) => !c.codes || c.codes.includes(x.code)).map((x) => [x.code, x.taken, x.meta]) }];
+      }));
+    }
+    case "josa":
+      return c.words.map((w) => josaRo(w));
     case "credits": {
       const picks = c.picks.map((x) => {
         const p = program(x.program);

@@ -83,6 +83,66 @@ def history_files(history: Path) -> list[Path]:
     return [f for f in sorted(history.glob("*.json"), key=lambda f: term_rank(f.stem)) if term_rank(f.stem) >= LO * 4]
 
 
+# 교과목번호(M1234.000100·L0440.000600·F11.101·E11.146·500.301A·6542.2261 꼴)
+CODE_RE = re.compile(r"M\d{4}\.\d{6}|[A-Z]\d{4}\.\d{6}|[A-Z]\d{2}\.\d{3}[A-Z]?|\d{3,4}[A-Z]?\.\d{3,4}[A-Z]?")
+OLD_NOTE = re.compile(r"(?:^|[\s(,])(?:구|옛 번호|이전 번호)\s*(" + CODE_RE.pattern + ")")
+
+
+def survey_old_codes(*rounds) -> dict[str, set[str]]:
+    """조사 자료가 과목에 적어 둔 옛 번호: alias('251.209 조직행위론(구, …)')와 note('구 M1312.000900', '옛 번호 211.301 …') → {번호: {옛 번호}}.
+    과정 파일에는 이 칸들이 안 남아서 alt_codes 로 옮긴다(clean_alts, 사용자 11/17 '이름이 바뀐 거라 … 이런 과목들도 다 확인')"""
+    out: dict[str, set[str]] = {}
+
+    def walk(x):
+        if isinstance(x, dict):
+            code = x.get("code")
+            if isinstance(code, str) and "name" in x:
+                for a in x.get("alias") or []:
+                    m = CODE_RE.search(str(a))
+                    if m and ("구" in str(a) or "옛" in str(a)):
+                        out.setdefault(code, set()).add(m.group(0))
+                if isinstance(x.get("note"), str):
+                    for m in OLD_NOTE.finditer(x["note"]):
+                        out.setdefault(code, set()).add(m.group(1))
+            for v in x.values():
+                walk(v)
+        elif isinstance(x, list):
+            for v in x:
+                walk(v)
+
+    for r in rounds:
+        walk(r)
+    return {c: s - {c} for c, s in out.items() if s - {c}}
+
+
+def clean_alts(prog: dict, old_codes: dict[str, set[str]] | None = None) -> int:
+    """과목의 alt_codes 를 번호만으로: 조사 자료가 '번호(설명)'·'번호 이름(학기~)'처럼 적은 것은 번호만 남기고(그대로면 짝이 안 맞는다),
+    old_codes(survey_old_codes)의 옛 번호를 더한다. 고친 과목 수"""
+    n = 0
+
+    def walk(x):
+        nonlocal n
+        if isinstance(x, dict):
+            code = x.get("code")
+            if isinstance(code, str) and "name" in x and ("alt_codes" in x or code in (old_codes or {})):
+                got = [m for a in x.get("alt_codes") or [] for m in CODE_RE.findall(str(a))] + sorted((old_codes or {}).get(code, ()))
+                got = [a for a in dict.fromkeys(got) if a != code]
+                if got != x.get("alt_codes"):
+                    n += 1
+                if got:
+                    x["alt_codes"] = got
+                else:
+                    x.pop("alt_codes", None)
+            for v in x.values():
+                walk(v)
+        elif isinstance(x, list):
+            for v in x:
+                walk(v)
+
+    walk(prog)
+    return n
+
+
 def history_courses(history: Path) -> dict[str, tuple[str, float, str]]:
     """지난 편람 → 교과목번호마다 (이름, 학점, 학기)(가장 최근 학기 것)"""
     out: dict[str, tuple[str, float, str]] = {}
@@ -648,6 +708,7 @@ def main(argv: list[str] | None = None) -> int:
     requirements_lists.ENG_COMMON.update(requirements_lists.eng_common_from(r1))
     ge_table = read_ge_table(Path(args.ge_table))
     counted: dict[str, int] = {}
+    old_codes = survey_old_codes(r1, r2)
     pilot_ids = {m["id"] for m in PILOTS.values()}
     for i, (ds, pre) in derive_depts(list(built.values()), depts_of).items():
         if i not in pilot_ids:
@@ -659,6 +720,7 @@ def main(argv: list[str] | None = None) -> int:
         counted["판 나눔"] = counted.get("판 나눔", 0) + requirements_lists.split_new_ge(prog, ge_table)  # update127: 셀 수 있는 꼴로(requirements_lists.py)
         for k, n in requirements_lists.apply(prog, tables, star).items():
             counted[k] = counted.get(k, 0) + n
+        counted["대체 번호 정리"] = counted.get("대체 번호 정리", 0) + clean_alts(prog, old_codes)  # 11/17: '번호(설명)' → 번호, 조사 자료의 옛 번호
         (out / "programs" / f"{prog['id']}.json").write_text(json.dumps(prog, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     index = [index_entry(one.get(k), two.get(k), k[0], built) for k in keys]
     (out / "index.json").write_text(json.dumps({"checked_on": checked, "data_year": DATA_YEAR, "cohorts": [LO, HI], "programs": index},

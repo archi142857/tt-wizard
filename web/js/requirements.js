@@ -76,7 +76,8 @@ export function rowsForEntry(version, entryYear) {
 
 // ---------------------------------------------------------------- 같은 과목
 
-/** 같은 과목으로 볼 번호 묶음: 학교 교양 대응표(2024 → 2025 → 2026)와 요건의 alt_codes. 번호 → 대표 번호 */
+/** 같은 과목으로 볼 번호 묶음: 학교 교양 대응표(2024 → 2025 → 2026), 이름·번호가 바뀐 과목(course_map.same, 백엔드 update131 scripts/same_courses.py)과
+ *  요건의 alt_codes. 번호 → 대표 번호. 돌려주는 함수에 now(번호 → 지금 열리는 {code, name})·ended(번호 → 마지막 개설 학기) 지도를 붙인다(rowView 의 과목 메타) */
 export function buildSameCourse(courseMap, programs = []) {
   const parent = new Map();
   const find = (a) => {
@@ -93,6 +94,8 @@ export function buildSameCourse(courseMap, programs = []) {
     const codes = ["2024", "2025", "2026"].map((y) => row[y] && row[y].code).filter(Boolean);
     for (let i = 1; i < codes.length; i++) join(codes[0], codes[i]);
   }
+  // 이름·번호가 바뀐 과목(사용자 11/17 '통계 인공지능 개론 및 실습은 통계학개론 및 실습에서 이름이 바뀐 거라'): 학과 자료의 짝 + 편람에서 번호만 바뀐 짝
+  for (const x of (courseMap && courseMap.same) || []) for (let i = 1; i < (x.codes || []).length; i++) join(x.codes[0], x.codes[i]);
   for (const p of programs) {
     for (const v of p.versions || []) {
       for (const r of v.requirements || []) {
@@ -100,7 +103,23 @@ export function buildSameCourse(courseMap, programs = []) {
       }
     }
   }
-  return (code) => (parent.has(code) ? find(code) : code);
+  const same = (code) => (parent.has(code) ? find(code) : code);
+  same.now = new Map(Object.entries((courseMap && courseMap.now) || {}));
+  same.ended = new Map(Object.entries((courseMap && courseMap.ended) || {}));
+  return same;
+}
+
+/** 이름 맞대기(띄어쓰기·가운뎃점·쌍점·괄호는 빼고) */
+const plainName = (s) => String(s || "").replace(/[\s·:()\-]/g, "");
+/** 목록 과목 c 를 다른 이름의 과목(hit, 이름·번호가 바뀐 과목·대체 번호)으로 들었으면 그 이름 */
+const tookName = (c, hit) => (hit && hit.code !== c.code && hit.name && plainName(hit.name) !== plainName(c.name) ? hit.name : null);
+/** '…으로'·'…로': 끝 글자 받침(ㄹ 받침과 받침 없음은 '로'). 숫자는 읽는 소리로(0·3·6 '으로') */
+export function josaRo(word) {
+  const s = String(word || "").replace(/[\s)\]>」』"'.]+$/u, "");
+  const ch = s.charAt(s.length - 1);
+  const k = ch.charCodeAt(0) - 0xac00;
+  if (k >= 0 && k < 11172) return k % 28 === 0 || k % 28 === 8 ? "로" : "으로";
+  return /[036]/.test(ch) ? "으로" : "로";
 }
 
 // ---------------------------------------------------------------- 들은 과목 정리
@@ -284,7 +303,7 @@ export function evaluateProgram(program, version, courses, { role = "single", sa
       const hit = keys.map((k) => got.get(k)).find(Boolean);
       if (hit) {
         matched.push({ code: c.code, name: c.name, credits: Number(hit.earned) || 0, term: hit.term, key: hit.key || sameCourse(hit.code),
-          substituted: Boolean(hit.substituted), checked: Boolean(hit.checked) });
+          substituted: Boolean(hit.substituted), checked: Boolean(hit.checked), took: tookName(c, hit) });
       } else {
         missing.push({ code: c.code, name: c.name, credits: c.credits ?? null });
       }
@@ -425,7 +444,7 @@ function takenIn(list, got, sameCourse, skip = null) {
     if (seen.has(key)) continue;
     seen.add(key);
     out.push({ code: c.code, name: c.name, credits: Number(hit.earned) || 0, term: hit.term ?? null, key,
-      substituted: Boolean(hit.substituted), checked: Boolean(hit.checked) });
+      substituted: Boolean(hit.substituted), checked: Boolean(hit.checked), took: tookName(c, hit) });
   }
   return out;
 }
@@ -1105,8 +1124,19 @@ function rowSummary(row, value) {
 
 /** 들은 과목 줄의 메타: '3학점 · 2025년 1학기', 학기를 모르면(요건 시트에서 체크한 과목) '3학점 · 체크' */
 function takenMeta(t) {
-  if (t.term) return `${t.credits}학점 · ${termName(t.term)}`;
-  return t.checked ? `${t.credits}학점 · 체크` : `${t.credits}학점`;
+  const base = t.term ? `${t.credits}학점 · ${termName(t.term)}` : t.checked ? `${t.credits}학점 · 체크` : `${t.credits}학점`;
+  return t.took ? `${base} · ${t.took}${josaRo(t.took)} 들음` : base; // 이름이 바뀐 과목으로 들었으면(update131)
+}
+
+/** 안 들은 목록 과목의 메타: 학점, 지금 다른 이름으로 열리면 '지금은 …', 더 안 열리면 '마지막 개설 …'(update131, sameCourse.now·ended).
+ *  지금 이름은 이 학생의 셈에서 두 번호가 정말 이어질 때만(과정의 alt_codes 로만 이어진 짝은 그 과정을 골랐을 때) */
+function courseMeta(c, same) {
+  const credits = c.credits != null ? `${c.credits}학점` : null;
+  const n = same && same.now && same.now.get(c.code);
+  if (n && same(n.code) === same(c.code)) return { meta: [credits, `지금은 ${n.name}`].filter(Boolean).join(" · "), now: n };
+  const last = same && same.ended && same.ended.get(c.code);
+  if (last) return { meta: [credits, `마지막 개설 ${termName(last)}`].filter(Boolean).join(" · "), ended: last };
+  return { meta: credits };
 }
 
 /**
@@ -1128,18 +1158,20 @@ function rowProgress(row, value) {
 
 /**
  * 요건 줄 하나 → 화면 값. {id, name, value: {kind: left|met|check, text}, aria, progress, byChecks?, sheet: {title, meta, summary, strong,
- * courses: [{code, name, credits, taken, meta}], groups, paths, because, link, sources, checked, detail}}.
+ * courses: [{code, name, credits, taken, meta, took?, now?, ended?}], groups, paths, because, link, sources, checked, detail}}.
+ * took: 다른 이름의 같은 과목으로 들었으면 그 이름(메타 '… · 통계 인공지능 개론 및 실습으로 들음'), now: 안 들은 과목이 지금은 다른 이름으로 열리면 {code, name}
+ * (메타 '3학점 · 지금은 …'), ended: 더 안 열리면 마지막 개설 학기(메타 '3학점 · 마지막 개설 2025년 1학기'). 지금 이름·안 열림은 opts.sameCourse 가 있을 때만(update131)
  * 남음·충족은 summary·courses·sources, 확인 필요는 because·link(학과 졸업요건)·checked 를 쓴다.
  * groups: 분야 줄(extra.groups)의 분야마다 [{name, need, value, codes}], paths: 갈래 줄(extra.paths)의 갈래마다 [{name, value, codes}](아니면 null)
  * progress: rowProgress. byChecks: 과목 목록이 없는 확인 필요 줄을 학생이 체크해서 충족으로 본 줄(gradView rowChecks)
  */
-export function rowView(row, { program, title = null, label = null, entryYear = null } = {}) {
+export function rowView(row, { program, title = null, label = null, entryYear = null, sameCourse = null } = {}) {
   const value = rowValue(row);
   const { summary, strong } = row.byChecks ? { summary: null, strong: null } : rowSummary(row, value);
   const courses = (row.all || []).map((c) => {
     const t = (row.taken || []).find((x) => x.code === c.code);
-    return t ? { code: c.code, name: c.name, credits: t.credits, taken: true, meta: takenMeta(t) }
-      : { code: c.code, name: c.name, credits: c.credits, taken: false, meta: c.credits != null ? `${c.credits}학점` : null };
+    return t ? { code: c.code, name: c.name, credits: t.credits, taken: true, meta: takenMeta(t), ...(t.took ? { took: t.took } : {}) }
+      : { code: c.code, name: c.name, credits: c.credits, taken: false, ...courseMeta(c, sameCourse) };
   });
   const checked = program && program.checked_on ? `${monthDay(program.checked_on)} 기준` : null;
   return {
@@ -1215,7 +1247,7 @@ export function gradView({ picks = [], records = [], grades = null, common = nul
       const ge = evaluateProgram(p.program, { ...own, requirements: ownGe }, tidy.courses, { role, sameCourse, areas, entryYear: p.entryYear });
       rows = [...rows.filter((r) => r.type !== "ge"), ...ge];
     }
-    const opts = { program: p.program, title, label, entryYear: p.entryYear };
+    const opts = { program: p.program, title, label, entryYear: p.entryYear, sameCourse };
     const raw = new Map([...(p.version.requirements || []), ...ownGe].map((x) => [x.id, x]));
     const mine = [];
     for (const r of rows) {

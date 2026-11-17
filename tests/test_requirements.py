@@ -13,6 +13,7 @@ REQ = ROOT / "data" / "requirements"
 sys.path.insert(0, str(ROOT / "scripts"))
 import export_web as ew  # noqa: E402
 import requirements_import as ri  # noqa: E402
+import same_courses as sc  # noqa: E402
 
 STATUS = {"확인", "부분", "미확인", "충돌"}
 PILOTS = ("animal-biotech", "life-sciences", "chem-bio-eng")
@@ -174,9 +175,9 @@ def test_export_requirements(tmp_path):
 
 # ---------------------------------------------------------------- 계산 (node)
 
-def _run(tmp_path, cases):
+def _run(tmp_path, cases, data=REQ):
     (tmp_path / "cases.json").write_text(json.dumps(cases, ensure_ascii=False), encoding="utf-8")
-    run = subprocess.run(["node", str(ROOT / "tests" / "requirements_runner.mjs"), str(REQ), str(tmp_path / "cases.json")],
+    run = subprocess.run(["node", str(ROOT / "tests" / "requirements_runner.mjs"), str(data), str(tmp_path / "cases.json")],
                          capture_output=True, text=True, encoding="utf-8", check=True)
     return json.loads(run.stdout)
 
@@ -996,3 +997,86 @@ def test_lecture_lang_and_history_range():
             for one in secs.split(" "):
                 assert re.fullmatch(r"\d{3}(:[가-힣]+어)?", one), (term, code, one)
     assert all(len(lang[t]) > 300 for t in ("2019-1", "2025-2"))  # 정규 학기마다 외국어 강좌가 수백 과목
+
+
+# ---------------------------------------------------------------- 이름·번호가 바뀐 과목(update131)
+
+CODE = r"M\d{4}\.\d{6}|[A-Z]\d{4}\.\d{6}|[A-Z]\d{2}\.\d{3}[A-Z]?|\d{3,4}[A-Z]?\.\d{3,4}[A-Z]?"
+WHY = {"이름 변경", "번호 변경", "대체 지정", "개편 대응"}
+
+
+def test_same_course_pairs_are_one_to_one():
+    """사용자 11/17 '통계 인공지능 개론 및 실습은 통계학개론 및 실습에서 이름이 바뀐 거라 … 이런 과목들도 다 확인': 학과 자료의 짝 + 편람에서 번호만 바뀐 짝.
+    한 번호가 두 과목으로 나뉘거나 두 과목이 하나로 합쳐지면 넣지 않는다(합치면 따로 들은 두 과목이 재수강으로 보인다)"""
+    import re
+    hand = load("same_courses.json")["pairs"]
+    assert all(re.fullmatch(CODE, x["old"]) and re.fullmatch(CODE, x["new"]) and x["why"] in WHY and all(x["names"]) and x["src"] for x in hand)
+    got = sc.build()
+    pairs = [tuple(r["codes"]) for r in got["same"]]
+    assert ("500.301A", "M2179.007700") in pairs and ("5252.312", "M1702.000800") in pairs and ("300.313", "M2173.004700") in pairs
+    assert ("370.1106", "M2175.012900") in pairs  # 약화학 1: 이름 그대로 번호만(편람)
+    olds, news = [o for o, _ in pairs], [n for _, n in pairs]
+    assert len(olds) == len(set(olds)) and len(news) == len(set(news)), "한 번호가 둘로 나뉘거나 둘이 하나로"
+    assert all(r["why"] in WHY and len(r["codes"]) == 2 and all(r["names"]) for r in got["same"])
+    # 지금 이름·마지막 개설
+    assert got["now"]["500.301A"] == {"code": "M2179.007700", "name": "통계 인공지능 개론 및 실습"}
+    assert "500.301A" not in got["ended"] and got["ended"]["5171.310"] == "2025-1"  # 공예·사료작물학: 대체 관계를 학과가 안 밝힘
+    assert all(v["code"] != k and v["name"] for k, v in got["now"].items())
+    # 교양 대응표와 이름이 같은 번호 변경(통계학 → F32.102)은 지금 이름에 안 나온다
+    assert "033.019" not in got["now"]
+
+
+def test_import_cleans_alt_codes():
+    """조사 자료의 alt_codes '번호(설명)'·'번호 이름(학기~)'은 번호만, alias·note 의 옛 번호('구 …')는 alt_codes 로(11/17)"""
+    import re
+    prog = {"versions": [{"requirements": [{"id": "r", "courses": [
+        {"code": "L0440.000600", "name": "대학 글쓰기 1", "alt_codes": ["F11.101(2025-1부터 개설 번호)", "F11.101"]},
+        {"code": "M1774.001400", "name": "디자인요소와원리", "alt_codes": ["M3389.003500 디자인요소와원리(2024-1~)"]},
+        {"code": "M1338.004000", "name": "조직행동론"},
+        {"code": "X1", "name": "설명만", "alt_codes": ["내규 표기"]}]}]}]}
+    old = ri.survey_old_codes({"courses": [{"code": "M1338.004000", "name": "조직행동론", "alias": ["251.209 조직행위론(구, 편람 2023-1까지)"]},
+                                           {"code": "M1312.004100", "name": "커뮤니케이션 양적연구방법론", "note": "구 M1312.000900"},
+                                           {"code": "M1312.003000", "name": "커뮤니케이션 이론", "note": "옛 번호 211.301 커뮤니케이션이론"}]})
+    assert old == {"M1338.004000": {"251.209"}, "M1312.004100": {"M1312.000900"}, "M1312.003000": {"211.301"}}
+    assert ri.clean_alts(prog, old) == 4
+    cs = prog["versions"][0]["requirements"][0]["courses"]
+    assert [c.get("alt_codes") for c in cs] == [["F11.101"], ["M3389.003500"], ["251.209"], None]
+    for p in programs().values():  # 과정 파일의 alt_codes 는 모두 번호만
+        for v in p["versions"]:
+            for a in re.findall(r'"alt_codes": \[([^\]]*)\]', json.dumps(v, ensure_ascii=False)):
+                assert all(re.fullmatch(CODE, x.strip().strip('"')) for x in a.split(",") if x.strip()), (p["id"], a)
+
+
+def test_export_adds_same_courses(tmp_path):
+    ew.export_requirements(REQ, tmp_path / "requirements")
+    cm = json.loads((tmp_path / "requirements" / "course_map.json").read_text(encoding="utf-8"))
+    assert cm["rows"] and cm["same"] and cm["now"] and cm["ended"] and cm["same_basis"]
+    assert {"codes": ["500.301A", "M2179.007700"]}.items() <= next(r for r in cm["same"] if r["codes"][0] == "500.301A").items()
+    assert "same" not in load("course_map.json")  # 레포 자료에는 안 쓴다(편람이 바뀔 때마다 웹으로 옮길 때 다시 센다)
+    assert not (tmp_path / "requirements" / "same_courses.json").exists()
+
+
+@node
+def test_sheet_shows_renamed_and_ended_courses(tmp_path):
+    """동물생명공학 2025학번: 전필 '통계학개론 및 실습'(500.301A)을 이름이 바뀐 '통계 인공지능 개론 및 실습'(M2179.007700)으로 들으면 체크되고,
+    안 들었으면 지금 이름을 적는다. 더 안 열리는 과목은 마지막 개설 학기"""
+    ew.export_requirements(REQ, tmp_path / "requirements")
+    data = tmp_path / "requirements"
+    ended = json.loads((data / "course_map.json").read_text(encoding="utf-8"))["ended"]
+    # 마지막 개설만 붙는 과목이 있는 과정·줄 하나(작물생명과학 공예·사료작물학)
+    crop = next(p for p in programs().values() if any(c["code"] == "5171.310" for v in p["versions"] for r in v["requirements"] for c in r["courses"]))
+    crop_v = next(i for i, v in enumerate(crop["versions"]) if any(c["code"] == "5171.310" for r in v["requirements"] for c in r["courses"]))
+    crop_r = next(r["id"] for r in crop["versions"][crop_v]["requirements"] if any(c["code"] == "5171.310" for c in r["courses"]))
+    year = crop["versions"][crop_v]["entry_years"][0]
+    took = {"code": "M2179.007700", "name": "통계 인공지능 개론 및 실습", "credits": 3, "cls": "전선", "dept": "농업생명과학대학", "term": "2026-2"}
+    got = _run(tmp_path, [
+        {"kind": "sheet", "program": "animal-biotech", "entryYear": 2025, "records": [took], "ids": ["animal-main-core"], "codes": ["500.301A"]},
+        {"kind": "sheet", "program": "animal-biotech", "entryYear": 2025, "records": [], "ids": ["animal-main-core"], "codes": ["500.301A"]},
+        {"kind": "sheet", "program": crop["id"], "entryYear": year, "records": [], "ids": [crop_r], "codes": ["5171.310"]},
+        {"kind": "josa", "words": ["통계 인공지능 개론 및 실습", "물리학", "회화 1", "약품분석학(핵심)", "생화학 3", "Python"]},
+    ], data=data)
+    assert got[0]["animal-main-core"]["courses"] == [["500.301A", True, "3학점 · 2026년 2학기 · 통계 인공지능 개론 및 실습으로 들음"]]
+    assert got[1]["animal-main-core"]["courses"] == [["500.301A", False, "3학점 · 지금은 통계 인공지능 개론 및 실습"]]
+    assert got[2][crop_r]["courses"] == [["5171.310", False, f"3학점 · 마지막 개설 2025년 1학기"]] and ended["5171.310"] == "2025-1"
+    assert got[3] == ["으로", "으로", "로", "으로", "으로", "로"]
+
