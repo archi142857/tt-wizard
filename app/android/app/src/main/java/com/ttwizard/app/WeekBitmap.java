@@ -24,7 +24,7 @@ import java.util.Locale;
  * (item-N-fg·fg2, 교과구분이면 cls-*-fg·fg2: 기본 테마는 text·text2, 크리스마스의 짙은 칸은 흰 글자. 앱 화면 격자와 같다).
  * 칸 글은 낱말(어절) 가운데서 끊지 않고(안드로이드 13 이상) 과목명 끝 번호를 앞 낱말에 붙인다(디자인 89판, 앱 화면 격자와 같게).
  * 화면처럼 기기 글자 크기를 따르되 칸이 작아 1.3배에서 멈춘다.
- * 오늘 열에는 지금 시각에 가로 줄을 긋는다(update98, WidgetData.nowLine): 그림이라 줄을 옮기려면 다시 그려야 해서 줄이 보이는 동안 10분마다 다시 그린다(WidgetUpdater).
+ * 오늘 열에는 지금 시각에 가로 줄을 긋는다(update98, WidgetData.nowLine): 그림이라 줄을 옮기려면 다시 그려야 해서 줄이 보이는 동안 5분마다 다시 그리고(WidgetUpdater), 줄은 다음에 다시 그릴 때까지의 가운데에 둔다(WidgetData.nowLineTime).
  */
 final class WeekBitmap {
 
@@ -172,9 +172,9 @@ final class WeekBitmap {
         }
 
         // 지금 줄(update98, 사용자 11/12 "현재 시간이 해당하는 날에 가로 막대로", 같은 날 "빨간색(처럼 보색)으로 통일", "모양도 걍 평평하게"):
-        // 오늘 열 너비의 빨간(테마의 danger) 2 굵기 평평한 줄을 수업 칸 위에. 다시 그리는 때는 WidgetData.nextNowLine.
+        // 오늘 열 너비의 빨간(테마의 danger) 2 굵기 평평한 줄을 수업 칸 위에. 다시 그리는 때는 WidgetData.nextNowLine, 줄 자리는 다음에 다시 그릴 때까지의 가운데(nowLineTime).
         // 위아래 1dp 씩 테마의 card 띠(합 4dp, 빨강이 가운데. update104, 디자인 122판): 빈 격자에서는 바탕과 같아 안 보이고 칸 위에서는 줄이 칸에서 떨어진다
-        int nowMin = WidgetData.nowLine(t, now);
+        int nowMin = WidgetData.nowLine(t, WidgetData.nowLineTime(now));
         if (nowMin >= 0) {
             float y = g.y(nowMin), x0 = gutter + today * colW;
             fill.setColor(ink.card);

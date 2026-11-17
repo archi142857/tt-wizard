@@ -15,9 +15,9 @@ import java.util.Calendar;
  * 홈 화면 위젯 넷(다음 수업·오늘 수업·주간 시간표, update71 의 동선 지도)을 다시 그리고 다음 때를 잡는다 — 백엔드 세션(10/30).
  *   자료: 화면이 넘긴 위젯 자료(WidgetData, JSON)를 이 앱의 SharedPreferences("ttw_widgets")에 둔다. 기기 밖으로 보내지 않는다.
  *   다시 그리는 때: 오늘 남은 수업의 시작·끝과 다음 날 0시(WidgetData.nextChange). 부정확 알람(AlarmManager.setWindow, RTC: 기기를 깨우지 않고
- *   화면이 켜질 때 온다)이라 정확한 알람 권한이 없다(법무: USE_EXACT_ALARM 은 쓰지 않는다). 창은 10분(안드로이드 12 이상의 가장 짧은 창)이라
- *   늦으면 10분쯤 늦게 바뀐다. 위젯 정보의 updatePeriodMillis(3시간)와 시각·시간대 바뀜·앱 업데이트(이 받는 곳의 intent-filter)가 받침이다.
- *   주간 시간표 위젯이 놓였으면 오늘 열의 지금 줄(update98)이 보이는 동안 10분마다도 울리고, 그때는 주간 시간표만 다시 그린다(WidgetData.nextTick, EXTRA_FULL_AT).
+ *   화면이 켜질 때 온다)이라 정확한 알람 권한이 없다(법무: USE_EXACT_ALARM 은 쓰지 않는다). 창은 5분(11/17, 지금 줄을 5분마다 옮기려고.
+ *   안드로이드 12 이상은 10분보다 짧은 창을 곧 울릴 알람이면 되도록 지키고, 못 지키면 10분까지 늘린다)이라 늦으면 그만큼 늦게 바뀐다. 위젯 정보의 updatePeriodMillis(3시간)와 시각·시간대 바뀜·앱 업데이트(이 받는 곳의 intent-filter)가 받침이다.
+ *   주간 시간표 위젯이 놓였으면 오늘 열의 지금 줄(update98)이 보이는 동안 5분마다도 울리고(WidgetData.NOW_STEP), 그때는 주간 시간표만 다시 그린다(WidgetData.nextTick, EXTRA_FULL_AT).
  * 이 클래스는 알람과 시각 바뀜을 받는 BroadcastReceiver 이기도 하다(AndroidManifest.xml). 받을 때마다 계절 앱 아이콘도 맞춘다(LauncherIcon).
  */
 public class WidgetUpdater extends BroadcastReceiver {
@@ -33,7 +33,7 @@ public class WidgetUpdater extends BroadcastReceiver {
     private static final String TAG = "TTWWidget";
     private static final String PREFS = "ttw_widgets";
     private static final String KEY_DATA = "data";
-    private static final long WINDOW_MS = 10 * 60 * 1000L;
+    private static final long WINDOW_MS = WidgetData.NOW_STEP * 60 * 1000L;
     private static final Class<?>[] PROVIDERS = { NextClassWidget.class, TodayWidget.class, WeekWidget.class, DayMapWidget.class };
 
     @Override

@@ -302,8 +302,9 @@ final class WidgetData {
 
     // ------------------------------------------------------------ 주간 시간표의 지금 줄(update98, 사용자 11/12 "현재 시간이 해당하는 날에 가로 막대로")
 
-    /** 지금 줄을 옮겨 그리는 간격(분). 부정확 알람이라 실제로는 10~20분마다 옮긴다(화면이 꺼져 있던 동안 지난 때는 켜자마자) */
-    static final int NOW_STEP = 10;
+    /** 지금 줄을 옮겨 그리는 간격(분). 부정확 알람이라 조금씩 늦게 옮긴다(화면이 꺼져 있던 동안 지난 때는 켜자마자).
+     *  사용자 11/17 '지금 29분인데 딱 중간이 아닌 것 같음'으로 10분에서 5분으로(줄은 그 사이 가운데에, nowLineTime) */
+    static final int NOW_STEP = 5;
 
     /**
      * 주간 격자 오늘 열에 지금 줄을 그릴 분(자정부터). 오늘이 그 학기 안(오늘 열을 칠하는 때와 같다)이고 보이는 요일이며
@@ -319,7 +320,19 @@ final class WidgetData {
     }
 
     /**
-     * 지금 줄을 다시 그릴 때(밀리초): 보이기 전이면 보이기 시작할 때, 보이는 동안 다음 10분(끝 시각에 지운다).
+     * 지금 줄을 그릴 시각: 그린 줄은 다음 칸(NOW_STEP 의 배수, nextNowLine)에 다시 그릴 때까지 남으므로 지금과 다음 칸 사이의 가운데.
+     * 그린 시각에 세우면 다음 그릴 때까지 줄이 늘 늦었다(사용자 11/17 '지금 29분인데 딱 중간이 아닌 것 같음'). 다음 칸은 자정을 넘지 않아 날은 그대로다
+     */
+    static Calendar nowLineTime(Calendar now) {
+        int sec = minuteOfDay(now) * 60 + now.get(Calendar.SECOND);
+        int next = (minuteOfDay(now) / NOW_STEP + 1) * NOW_STEP * 60;
+        Calendar c = (Calendar) now.clone();
+        c.add(Calendar.SECOND, (next - sec) / 2);
+        return c;
+    }
+
+    /**
+     * 지금 줄을 다시 그릴 때(밀리초): 보이기 전이면 보이기 시작할 때, 보이는 동안 다음 칸(NOW_STEP 분, 끝 시각에 지운다).
      * 오늘 더 그릴 줄이 없으면 Long.MAX_VALUE(그 뒤는 nextChange 의 다음 날 0시)
      */
     long nextNowLine(Calendar now) {
@@ -337,7 +350,7 @@ final class WidgetData {
 
     /**
      * 다음 알람 {울릴 때, 위젯 넷을 다 그릴 때}(밀리초, WidgetUpdater.schedule). week = 주간 시간표 위젯이 놓였는지:
-     * 그러면 지금 줄을 옮길 때에도 울리고, 그때가 다 그릴 때보다 이르면 주간 시간표만 그린다(동선 지도 그림까지 10분마다 다시 그리지 않게)
+     * 그러면 지금 줄을 옮길 때에도 울리고, 그때가 다 그릴 때보다 이르면 주간 시간표만 그린다(동선 지도 그림까지 5분마다 다시 그리지 않게)
      */
     long[] nextTick(Calendar now, boolean week) {
         long full = nextChange(now);

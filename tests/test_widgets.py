@@ -130,7 +130,9 @@ def test_app_reads_widget_data(made, tmp_path):
     assert r["grid"] == {"days": 5, "hours": [9, 15], "lane": [0, 1, 2, 0], "lanes": [3, 3, 3, 1]}
     # 오늘 열의 지금 줄(update98, 사용자 11/12): 보이는 시각 [9시, 15시) 안, 학기 안의 보이는 요일만(수업이 없는 화요일도). 토요일·학기 뒤·개강 전은 없다
     assert r["nowLine"] == [-1, 540, 575, 899, -1, -1, -1, -1]
-    # 다음 알람: 주간 시간표가 놓였으면 줄이 보이기 시작할 때(9시)와 보이는 동안 10분마다(끝 15시에 지운다), 다 그릴 때는 nextChange 그대로.
+    # 줄 자리(11/17 사용자 '지금 29분인데 딱 중간이 아닌 것 같음'): 그린 줄은 다음 칸(5분)에 다시 그릴 때까지 남으므로 그 사이 가운데에 긋는다
+    assert r["nowShift"] == ["09:02:30", "09:04:00", "14:59:00", "08:59:30", "23:59:00"]
+    # 다음 알람: 주간 시간표가 놓였으면 줄이 보이기 시작할 때(9시)와 보이는 동안 5분마다(끝 15시에 지운다), 다 그릴 때는 nextChange 그대로.
     # 놓이지 않았으면 nextChange 에만 울린다
     assert r["tick"] == [["2026-10-26 09:00", "2026-10-26 09:30", "2026-10-26 09:30", True],
                          ["2026-10-26 09:30", "2026-10-26 09:30", "2026-10-26 09:30", True],
@@ -500,11 +502,12 @@ def test_week_layouts_pick_light_or_dark_picture():
 def test_week_now_line():
     """주간 시간표 오늘 열의 지금 줄(update98, 사용자 11/12 "현재 시간이 해당하는 날에 가로 막대로", "빨간색(처럼 보색)으로 통일", "모양도 걍 평평하게"):
     칸 위에 테마의 빨강(danger) 2 굵기 평평한 줄(점·테두리 없음).
-    줄이 보이는 동안 10분마다 부정확 알람으로 다시 그리되 그때는 주간 시간표만(위젯 넷은 nextChange 에). 언제 무엇을 그릴지는 test_app_reads_widget_data 가 본다"""
+    줄이 보이는 동안 5분마다(11/17, 전에는 10분) 부정확 알람으로 다시 그리되 그때는 주간 시간표만(위젯 넷은 nextChange 에), 줄은 다음에 다시 그릴 때까지의 가운데 시각에.
+    언제 무엇을 그릴지는 test_app_reads_widget_data 가 본다"""
     week = (JAVA / "WeekBitmap.java").read_text(encoding="utf-8")
     body = re.search(r"static Bitmap draw\(.*?\n    }\n", week, re.S).group(0)
-    line = body[body.index("WidgetData.nowLine(t, now)"):]
-    assert body.index("drawText(canvas, box") < body.index("WidgetData.nowLine(t, now)")  # 칸 위에
+    line = body[body.index("WidgetData.nowLine(t, WidgetData.nowLineTime(now))"):]
+    assert body.index("drawText(canvas, box") < body.index("WidgetData.nowLine(t, WidgetData.nowLineTime(now))")  # 칸 위에, 줄 자리는 가운데 시각
     line = line[:line.index("return bmp;")]
     assert "fill.setColor(ink.danger);" in line and "g.y(nowMin)" in line and "canvas.drawRect(x0, y - dp, x0 + colW, y + dp, fill);" in line
     # 위아래 1dp 씩 card 띠를 먼저 그리고 빨간 줄을 가운데에(합 4dp, update104 디자인 122판)
@@ -512,7 +515,8 @@ def test_week_now_line():
     assert band in line and line.index(band) < line.index("fill.setColor(ink.danger);")
     assert "drawCircle" not in line and "accent" not in line  # 평평하게(점·둘레 없이), 빨강으로 통일
     data = (JAVA / "WidgetData.java").read_text(encoding="utf-8")
-    assert "static final int NOW_STEP = 10;" in data
+    assert "static final int NOW_STEP = 5;" in data
+    assert "private static final long WINDOW_MS = WidgetData.NOW_STEP * 60 * 1000L;" in (JAVA / "WidgetUpdater.java").read_text(encoding="utf-8")
     updater = (JAVA / "WidgetUpdater.java").read_text(encoding="utf-8")
     assert "d.nextTick(now, ids(c, WEEK).length > 0)" in updater and "tick.putExtra(EXTRA_FULL_AT, at[1])" in updater
     assert "alarms.setWindow(AlarmManager.RTC, at[0], WINDOW_MS, pi)" in updater

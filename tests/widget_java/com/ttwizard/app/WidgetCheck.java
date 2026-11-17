@@ -183,6 +183,13 @@ public final class WidgetCheck {
             Calendar now = when(nowAt[i]);
             out.append(i == 0 ? "" : ",").append(WidgetData.nowLine(d.termOn(now), now));
         }
+        // 줄 자리 시각(11/17): 지금과 다음 칸(5분) 사이의 가운데
+        String[] shiftAt = { "2026-10-26 09:00", "2026-10-26 09:03", "2026-10-26 14:58", "2026-10-26 08:59", "2026-10-26 23:58" };
+        out.append("],\"nowShift\":[");
+        for (int i = 0; i < shiftAt.length; i++) {
+            Calendar c = WidgetData.nowLineTime(when(shiftAt[i]));
+            out.append(i == 0 ? "" : ",").append(q(String.format("%02d:%02d:%02d", c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND))));
+        }
         String[] tickAt = { "2026-10-26 08:00", "2026-10-26 09:25", "2026-10-26 09:35", "2026-10-26 10:40", "2026-10-26 14:55", "2026-10-26 15:00",
             "2026-10-31 10:00", "2026-12-25 10:00" };
         out.append("],\"tick\":[");
