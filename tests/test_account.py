@@ -120,6 +120,10 @@ def test_admin_core_surface():
     app = (ROOT / "web" / "js" / "app.js").read_text(encoding="utf-8")
     assert 'adminMod = adminMod || await import("./admin.js");' in app
     assert '!IN_APP && acctAdmin ? [card(h("button", { type: "button", class: "info-row", "data-acct": "admin"' in app  # 웹에서 관리자 문서가 있는 계정만
+    # 개발자 메뉴는 열린 관리자 화면에서만 연다. 시간표에 과목 하나 + 동선 확인하기로 열던 옛 길(개발자 루트)은 없앴다(사용자 11/18)
+    assert "DEV_KEY" not in app and "devKey" not in app and "806.508A" not in app and 'import("./dev.js")' not in app
+    assert '$("route-run").addEventListener("click", () => routeTt(curTt()));' in app
+    assert 'if (k === "dev") return await openDev(b);' in ui and 'try { dev = await import("./dev.js"); }' in ui and "if (!now.until) { await refresh();" in ui
 
 
 def test_firestore_rules():

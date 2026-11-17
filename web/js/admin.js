@@ -3,7 +3,8 @@
 // 이 파일을 불러 open(api, opener) 를 부른다. 서버 일은 admin-core.js, 지키는 것은 서버 규칙(firebase/firestore.rules '관리자')이 한다.
 // 스토어 앱 묶음에는 넣지 않는다(scripts/build_app.py). 디자인 규칙 밖의 도구라 있는 모양(시트, 입력 칸, 버튼, 정보 행)만 쓴다.
 //   잠금: 처음이면 비밀번호 정하기(두 번), 그다음부터 비밀번호 넣기 → 30분 열림(잠그기·로그아웃하면 바로 잠김)
-//   열리면: 번호 바꿔 주기 · 닉네임 신고 · 지운 계정이 남긴 번호·열쇠 · 관리자(주인만: 더하기·비밀번호 처음으로·빼기) · 내 비밀번호 바꾸기
+//   열리면: 개발자 메뉴(js/dev.js) · 번호 바꿔 주기 · 닉네임 신고 · 지운 계정이 남긴 번호·열쇠 · 관리자(주인만: 더하기·비밀번호 처음으로·빼기) · 내 비밀번호 바꾸기
+//   개발자 메뉴는 update140 부터 여기로만 연다(11/18 사용자 '원래 있던 개발자 루트는 지워야겠지?': 시간표에 과목 하나 + 동선 확인하기로 열던 길은 없앰)
 
 let api = null, sheet = null, body = null, core = null, st = null, timer = 0, found = null;
 
@@ -92,6 +93,11 @@ function paintTools() {
   const owner = st.role === "owner";
   body.replaceChildren(
     h("div", { class: "adm-open" }, h("span", { role: "status" }, `${clock(st.until)}까지 열려 있어요`), h("button", { type: "button", class: "btn-text", "data-adm": "lock" }, "잠그기")),
+    h("h3", { class: "field-label adm-label" }, "개발자 메뉴"),
+    h("div", { class: "adm-box", "data-box": "dev" },
+      h("p", { class: "adm-help" }, "테마·시험·이 기기 정보예요. 이 기기에서만 바뀌어요."),
+      h("button", { type: "button", class: "btn-secondary", "data-adm": "dev" }, "열기"),
+      h("p", { class: "adm-msg", role: "status" })),
     h("h3", { class: "field-label adm-label" }, "번호 바꿔 주기"),
     h("form", { class: "adm-form", "data-form": "retag", novalidate: true },
       h("label", { class: "field-label", for: "adm-retag-from" }, "닉네임#번호"),
@@ -200,6 +206,7 @@ async function act(k, b) {
   if (busy(b)) return;
   try {
     if (k === "lock") { await core.lock(); await refresh(); api.showSnackbar("잠갔어요"); return; }
+    if (k === "dev") return await openDev(b);
     if (k === "reports") return await showReports(b);
     if (k === "close") {
       const box = body.querySelector('[data-box="reports"]'), msg = box.querySelector(".adm-msg");
@@ -232,6 +239,18 @@ async function act(k, b) {
   } finally {
     done(b);
   }
+}
+
+/** 개발자 메뉴(js/dev.js, 이 기기 도구): 열린 동안만. 서버에 한 번 더 물어 잠겼으면 잠금 화면으로 간다.
+ *  관리자 화면은 닫히고(시트 위에 시트를 띄우지 않는다) 개발자 메뉴를 닫으면 계정 화면의 '관리자 화면' 줄로 초점이 돌아간다 */
+async function openDev(b) {
+  const msg = b.parentElement.querySelector(".adm-msg");
+  let now;
+  try { now = await core.state(); } catch (e) { msg.textContent = say(e, "확인하지 못했어요"); return; }
+  if (!now.until) { await refresh(); api.showSnackbar(ERR.LOCKED); return; }
+  let dev;
+  try { dev = await import("./dev.js"); } catch { msg.textContent = "개발자 메뉴를 불러오지 못했어요"; return; }
+  dev.open(api, sheet.returnTo);
 }
 
 /** 처리 안 한 신고(새것 먼저): 그때 닉네임#번호 · 까닭 / 덧붙임 글 / 보낸 때, [처리]. 신고한 사람은 보이지 않는다(법무 11/17) */

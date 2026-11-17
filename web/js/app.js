@@ -4158,10 +4158,7 @@ function spreadColors(t) {
 }
 
 $("tt-switch").addEventListener("click", (e) => openTtList(e.currentTarget));
-$("route-run").addEventListener("click", () => {
-  const t = curTt();
-  if (devKey(t)) openDev($("route-run")); else routeTt(t);
-});
+$("route-run").addEventListener("click", () => routeTt(curTt()));
 $("items").addEventListener("click", (e) => {
   const drop = e.target.closest("[data-drop]");
   if (drop) { dropItem(drop.dataset.drop, { fromList: true }); return; }
@@ -5827,23 +5824,10 @@ function deleteTt(t) {
   });
 }
 
-// ---- 개발자 메뉴(웹만. 10/24 사용자: "차라리 개발자 루트 같은 걸 만들어놓자", "21년도 1학기에서 저 과목 하나만을 시간표에 추가하고 동선 확인하기를 눌렀을 때
-// 개발자 메뉴로 들어갈 수 있게 만들어줘. 테마라던지 이런 거 제한 없고 기능 같은 거 테스트 해볼 수 있는 메뉴로"): 2021년 1학기 시간표에 '신경계질환의 병인기작 및 약물 개발 전략'
-// 001(806.508A) 하나만 넣고 동선 확인하기를 누르면 동선 탐색 대신 연다. 메뉴는 따로 된 파일 js/dev.js 이고 열 때만 불러온다(그리기·스타일 모두 그 파일 안).
-// 스토어 앱에서는 열지 않는다(법무: 바이너리에 숨긴 기능은 Apple 2.5.19 의 앱 삭제·계정 해지 사유. dev.js 는 앱 묶음에서 빼게 백엔드에 요청했다)
-const DEV_KEY = { sem: "2021-1", course: "806.508A", no: "001" };
-const devKey = (t) => !IN_APP && mine.sem === DEV_KEY.sem && t.items.length === 1 && !t.items[0].custom
-  && t.items[0].course === DEV_KEY.course && t.items[0].no === DEV_KEY.no;
-let devMenu = null;
-async function openDev(opener) {
-  try {
-    devMenu = devMenu || await import("./dev.js");
-  } catch {
-    showSnackbar("개발자 메뉴를 열지 못했어요", "다시 시도", () => openDev(opener));
-    return;
-  }
-  devMenu.open(devApi(), opener);
-}
+// ---- 개발자 메뉴(웹만. 10/24 사용자: "차라리 개발자 루트 같은 걸 만들어놓자 … 테마라던지 이런 거 제한 없고 기능 같은 거 테스트 해볼 수 있는 메뉴로").
+// 메뉴는 따로 된 파일 js/dev.js 이고 열 때만 불러온다(그리기·스타일 모두 그 파일 안). 처음에는 시간표에 과목 하나를 넣고 동선 확인하기를 누르는 길로 열었는데,
+// 백엔드 update140 부터 그 길은 없앴고(11/18 사용자 '원래 있던 개발자 루트는 지워야겠지?') 비밀번호로 연 관리자 화면(js/admin.js)의 '개발자 메뉴'로만 연다.
+// 두 파일 다 아래 devApi() 만 본다. 스토어 앱에는 없다(법무: 바이너리에 숨긴 기능은 Apple 2.5.19 의 앱 삭제·계정 해지 사유. 앱 묶음에서 뺀다)
 /** 개발자 메뉴의 테마: 기간과 상관없이 고른다. 이벤트 테마는 시험으로 켜고(ttw.devTheme, 고른 것은 'xmas-test' 로 따로 기억해 실제 기간에 남지 않는다),
  *  기본·라이트·다크는 시험을 끄고 테마 탭에서 고를 때와 같다(실제 기간이면 돌아가기와 같다) */
 function pickDevTheme(v) {
