@@ -8105,13 +8105,19 @@ function gradReqView() {
       : [h("span", { class: "gr-prog", "aria-hidden": "true" }, `${n}/${b.rows.length}`), h("span", { class: "sr-only" }, `요건 ${b.rows.length}개 중 ${n}개 충족`)];
     // 제목 글과 판은 한 덩이 .gr-gt(144판): 한 줄에 들지 않으면 판이 다음 줄로 가고 '1/5'는 첫 줄 오른쪽에 남는다(폭 320 에서 '0/5'만 홀로 넘어가던 것)
     out.push(h("h2", { class: "section-title" }, h("span", { class: "gr-gt" }, b.title, ver), prog));
-    if (!b.rows.length) continue;
+    // 규칙 설명(요건이 아닌 학과 규칙: 한 번만 이수·이름 바뀜·겹쳐 인정 같은 것, 백엔드 update135 bundle.rules): 줄·요건 수·띠에 넣지 않고 과정 카드 아래
+    // 텍스트 버튼 '이수 규칙 N개' + 꺾쇠 16(디자인 148판, 작업 자료 '졸업 요건 영역과 규칙\02' 가운데), 누르면 이수 규칙 시트(paintRules)
+    const rules = b.kind === "program" ? b.rules || [] : [];
+    const rulesBtn = rules.length ? h("button", { type: "button", class: "btn-text gr-rules", "data-rules": b.id, "data-gk": `rules:${b.id}` },
+      `이수 규칙 ${rules.length}개`, icon(I.right, 16)) : null;
+    if (!b.rows.length) { if (rulesBtn) out.push(rulesBtn); continue; }
     const card = (rows) => h("div", { class: "card info-list" }, h("ul", { class: "list" }, rows.map((r) => grRow({ b, r }))));
     // 공통 묶음의 교양 줄은 목록 이름 '교양 36학점 이상' 아래 따로 된 카드(11/17 사용자: 교양 학점 시트의 틀을 보고 '두 번째 사진이 첫 번째 내용을 풀어쓴 거 아닌가',
     // '두번째 사진의 목록 이름으로 교양~~~ 을 달면'. 시안 셋 가운데 '나': 교양 학점 줄도 그 목록의 첫 줄). 졸업 학점·졸업 평점은 위 카드
     const ge = b.kind === "common" ? geGroup(b.rows) : null;
     if (ge) out.push(card(b.rows.filter((r) => !ge.rows.includes(r))), h("h3", { class: "gr-sub" }, ge.name), card(ge.rows));
     else out.push(card(b.rows));
+    if (rulesBtn) out.push(rulesBtn);
   }
   out.push(h("p", { class: "gr-foot" }, "학교가 공개한 문서를 바탕으로 계산한 추정이에요. 학번·학과와 개별 인정(동일·대체 과목, 학점 인정)에 따라 다를 수 있어요. 졸업 사정은 학과와 마이스누에서 최종 확인해 주세요."));
   const basis = R.basisText(base.index);
@@ -8468,8 +8474,31 @@ function rqParts(text) {
     ? { head, sub, items: rows.map(({ name, amt, note }) => ({ name, amt, note })) } : null;
 }
 /** 요건 시트 내용을 그린다(열 때, 체크한 뒤). 줄이 없으면 false */
+/** 이수 규칙 시트(디자인 148판): 제목 '이수 규칙', 메타는 요건 시트와 같다(과정 · 판). 규칙마다 자료 글 그대로(t-body text, 사이 line), 그 아래 출처 줄(규칙들의 출처를
+ *  한 번씩, 자료 차례)과 자료 기준일. 상태 칸·확인 필요·출처 알려 주기는 없다. 열쇠는 '과정 id|@rules' */
+const RULES_ROW = "@rules";
+function paintRules(bid, key) {
+  const b = gradNow.view.bundles.find((x) => x.id === bid), rules = (b && b.kind === "program" && b.rules) || [];
+  if (!rules.length) return false;
+  rqKey = key;
+  const meta = [b.title, b.label].filter(Boolean).join(" · "), seen = new Set();
+  $("rq-title").textContent = "이수 규칙";
+  $("rq-meta").textContent = meta;
+  $("rq-meta").hidden = !meta;
+  const body = [h("ul", { class: "rq-rules" }, rules.map((x) => h("li", {}, String(x.text || x.name || ""))))];
+  for (const src of rules.flatMap((x) => x.sources || [])) {
+    if (!src || !src.text || seen.has(src.text)) continue;
+    seen.add(src.text);
+    body.push(h("p", { class: "rq-src" }, src.text));
+  }
+  const basis = R.basisText(gradNow.base.index);
+  if (basis) body.push(h("p", { class: "rq-src" }, basis));
+  $("rq-body").replaceChildren(...body);
+  return true;
+}
 function paintRq(key) {
   const cut = key.indexOf("|"), bid = key.slice(0, cut), rid = key.slice(cut + 1);
+  if (rid === RULES_ROW) return paintRules(bid, key);
   const b = gradNow.view.bundles.find((x) => x.id === bid), r = b && b.rows.find((x) => String(x.id) === rid);
   if (!r) return false;
   rqKey = key;
@@ -8649,7 +8678,7 @@ $("gm-ok").addEventListener("click", () => {
 
 // 탭 안의 누름과 바꿈(다시 그려도 그대로인 바깥 요소에 한 번)
 $("grad-body").addEventListener("click", (e) => {
-  const el = e.target.closest("[data-rq], [data-next], [data-pre], [data-make], [data-del], [data-gm], [data-go], [data-retry], [data-unck]");
+  const el = e.target.closest("[data-rq], [data-rules], [data-next], [data-pre], [data-make], [data-del], [data-gm], [data-go], [data-retry], [data-unck]");
   if (!el) return;
   const d = el.dataset;
   if (d.unck) { // 체크한 과목 풀기: 그 줄이 없어지니 초점은 다른 곳에서 들은 과목 넣기로
@@ -8660,6 +8689,7 @@ $("grad-body").addEventListener("click", (e) => {
     return;
   }
   if (d.rq) openRq(d.rq, el);
+  else if (d.rules) openRq(`${d.rules}|${RULES_ROW}`, el);
   else if (d.gm) openGm(el);
   else if (d.retry) renderGrad();
   else if (d.go === "dept") go("dept");
@@ -9489,7 +9519,9 @@ $("fri-send").addEventListener("click", () => {
   closeSheet(d);
   frRequest(text, (code) => showSnackbar(FR_ADD_ERR[code] || "요청을 보낼 수 없어요"), (r) => showSnackbar(r && r.accepted ? "친구가 됐어요" : "요청을 보냈어요"));
 });
-// 내 닉네임 팝업: 닉네임 칸(글자 수), 학교 계정이면 학교 계정 보이기, [닫기] [저장]. 바꾸는 횟수는 백엔드가 막는다
+// 내 닉네임 팝업: 닉네임 칸(글자 수), 그 아래 작은 텍스트 버튼 '번호 바꾸기 부탁'(디자인 152판 ⑥, 법무 11/17: 이 팝업 안에만, 화면 고지 줄 없음. 누르면 메일 앱
+// account.tagLink: 받는 사람 개발자 메일, 제목 '[번호 바꾸기] 닉네임 영표#482193', 본문 두 줄은 백엔드 update136. 친구 메뉴 '닉네임 신고'와 같은 꼴),
+// 학교 계정이면 학교 계정 보이기, [닫기] [저장]. 바꾸는 횟수는 백엔드가 막는다
 function openNickPop(opener) {
   const p = fr && fr.profile;
   if (!p) return;
@@ -9498,13 +9530,18 @@ function openNickPop(opener) {
       h("input", { class: "text-input", id: "frn-nick", type: "text", maxlength: String(NICK_MAX), autocomplete: "off", enterkeyhint: "done", value: p.nick,
         "aria-describedby": "frn-help frn-err" }),
       h("p", { class: "nick-help", id: "frn-help" }, h("span", {}, "#네 자리 번호는 저절로 붙어요"), h("span", { id: "frn-count" }, `${p.nick.length}/${NICK_MAX}`)),
-      h("p", { class: "error-line", id: "frn-err", hidden: true }, "쓸 수 없는 닉네임이에요")),
+      h("p", { class: "error-line", id: "frn-err", hidden: true }, "쓸 수 없는 닉네임이에요"),
+      h("button", { type: "button", class: "btn-text small frn-tag", id: "frn-tag" }, "번호 바꾸기 부탁")),
     acctUser && acctUser.school ? h("div", { class: "card info-list fr-hide" }, h("ul", { class: "list" }, h("li", {},
       frSwitch("frn-school", "학교 계정 보이기", "친구에게 학교 계정(snu.ac.kr)이라고 보여요", p.showSchool !== false, { id: "frn-school" })))) : null);
   $("frn-save").disabled = false;
   openSheet($("fr-nick-pop"), opener);
 }
 $("frn-body").addEventListener("input", (e) => { if (e.target.id === "frn-nick") nickInput(e.target, $("frn-count"), $("frn-err"), $("frn-save")); });
+$("frn-body").addEventListener("click", (e) => {
+  const p = fr && fr.profile;
+  if (e.target.closest("#frn-tag") && p && acct) location.href = acct.tagLink(p); // 메일 앱(mailto)
+});
 $("frn-body").addEventListener("keydown", (e) => {
   if (e.key !== "Enter" || e.isComposing || e.keyCode === 229 || e.target.id !== "frn-nick") return;
   e.preventDefault();
