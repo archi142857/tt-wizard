@@ -97,6 +97,8 @@ def test_build_app_bundle(tmp_path, monkeypatch):
     assert not [f for f in files if f == "sw.js" or f.startswith(("model/", "field/", "vendor/three/", "privacy/", "support/", "terms/", "delete-account/"))
                 or f.endswith("package.json")]
     assert (web / "js" / "dev.js").exists() and "js/dev.js" not in files  # 웹에만 둔 개발자 메뉴는 앱 묶음에 넣지 않는다(법무 10/24)
+    for name in ("admin.js", "admin-core.js"):  # 웹에만 둔 관리자 화면도(update140)
+        assert (web / "js" / name).exists() and f"js/{name}" not in files
     pending = tuple(build_app.UNTIL_USED)  # 화면이 아직 부르지 않는 모듈·자료는 묶음의 다른 HTML·JS 가 부를 때만 넣는다
     calls = "\n".join(p.read_text(encoding="utf-8") for p in out.rglob("*")
                       if p.suffix in (".html", ".js", ".mjs") and not p.relative_to(out).as_posix().startswith(pending))

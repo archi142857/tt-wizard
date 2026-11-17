@@ -2,8 +2,9 @@
 //   cd firebase && npx firebase emulators:exec --only firestore --project demo-ttw "node ../tests/rules_test.mjs"
 // (@firebase/rules-unit-testing, firebase 가 깔린 곳에서. 저장소의 시험(pytest)은 이 둘이 없으면 건너뛴다)
 import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { initializeTestEnvironment, assertSucceeds, assertFails } from "@firebase/rules-unit-testing";
-import { doc, getDoc, setDoc, updateDoc, deleteDoc, getDocs, collection, query, where, writeBatch } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc, deleteDoc, getDocs, collection, query, where, writeBatch, Timestamp, serverTimestamp } from "firebase/firestore";
 
 const env = await initializeTestEnvironment({
   projectId: "demo-ttw",
@@ -173,8 +174,70 @@ await check("남의 차단 목록 읽기 막음", assertFails(getDocs(collection
 await check("끊기(지우기)", assertSucceeds(deleteDoc(doc(db("A"), "requests", "A_B"))));
 await check("끊은 뒤 사본 막음", assertFails(getDocs(collection(db("A"), "shared", "B", "terms"))));
 
-// 관리자가 번호 바꿔 주기: 콘솔에서 만든 admins/{uid} 만. 번호와 열쇠만 바꾸고 닉네임은 그대로, 옛 번호는 거두고 옛 열쇠는 지운다
-await owner((d) => setDoc(doc(d, "admins", "ADM"), { on: true }));
+// 관리자 화면(update140): admins/{uid} 문서가 있고 비밀번호로 잠금을 푼 동안만 관리자. 비밀번호는 기기에서 섞은 값 h 만 adminKeys 에(아무도 못 읽음),
+// 잠금 풀기는 sha256(h|끝나는 때|차례) 증명(admin-core.js unlock 과 같은 셈)
+const sha = (t) => createHash("sha256").update(t, "utf8").digest("hex");
+const H1 = "a".repeat(64), H2 = "b".repeat(64);
+const session = (uid, h, n, minutes = 30, proof = null) => {
+  const until = Timestamp.fromMillis(Date.now() + minutes * 60000);
+  return setDoc(doc(db(uid), "adminSessions", uid), { until, proof: proof ?? sha(`${h}|${until.toMillis()}|${n}`), n });
+};
+await owner(async (d) => {
+  await setDoc(doc(d, "admins", "OWN"), { on: true }); // 콘솔에서 만든 주인(role 칸 없음)
+  await setDoc(doc(d, "admins", "AD2"), { role: "admin", added: new Date(), by: "OWN" }); // 주인이 더한 관리자
+});
+await check("관리자 아닌 사람 비밀번호 정하기 막음", assertFails(setDoc(doc(db("B"), "adminKeys", "B"), { h: H1 })));
+await check("남의 비밀번호 정하기 막음", assertFails(setDoc(doc(db("B"), "adminKeys", "OWN"), { h: H1 })));
+await check("비밀번호 꼴 아님 막음", assertFails(setDoc(doc(db("OWN"), "adminKeys", "OWN"), { h: "1234" })));
+await check("아직 없는 비밀번호는 본인이 '없음'으로 읽음", assertSucceeds(getDoc(doc(db("OWN"), "adminKeys", "OWN"))));
+await check("주인 비밀번호 처음 정하기", assertSucceeds(setDoc(doc(db("OWN"), "adminKeys", "OWN"), { h: H1 })));
+await check("관리자 비밀번호 처음 정하기", assertSucceeds(setDoc(doc(db("AD2"), "adminKeys", "AD2"), { h: H2 })));
+await check("정한 비밀번호 읽기 막음(본인도)", assertFails(getDoc(doc(db("OWN"), "adminKeys", "OWN"))));
+await check("잠긴 동안 비밀번호 바꾸기 막음", assertFails(setDoc(doc(db("OWN"), "adminKeys", "OWN"), { h: H2 })));
+await check("잠긴 관리자는 번호 문서 못 읽음", assertFails(getDoc(doc(db("OWN"), "numbers", "123456"))));
+await check("틀린 증명 막음", assertFails(session("OWN", H2, 1)));
+await check("차례 건너뛰기 막음", assertFails(session("OWN", H1, 2)));
+await check("60분 넘게 열기 막음", assertFails(session("OWN", H1, 1, 90)));
+await check("지난 때로 열기 막음", assertFails(session("OWN", H1, 1, -1)));
+await check("관리자 아닌 사람 열기 막음", assertFails(session("B", H1, 1)));
+const first = Timestamp.fromMillis(Date.now() + 20 * 60000), firstProof = sha(`${H1}|${first.toMillis()}|1`);
+await check("맞는 비밀번호로 열기", assertSucceeds(setDoc(doc(db("OWN"), "adminSessions", "OWN"), { until: first, proof: firstProof, n: 1 })));
+await check("열린 관리자는 번호 문서 읽음", assertSucceeds(getDoc(doc(db("OWN"), "numbers", "123456"))));
+await check("잠그기", assertSucceeds(setDoc(doc(db("OWN"), "adminSessions", "OWN"), { until: serverTimestamp(), proof: "", n: 2 })));
+await check("잠근 뒤 번호 문서 막음", assertFails(getDoc(doc(db("OWN"), "numbers", "123456"))));
+await check("지난 증명 다시 쓰기 막음", assertFails(setDoc(doc(db("OWN"), "adminSessions", "OWN"), { until: first, proof: firstProof, n: 1 })));
+await check("다시 열기", assertSucceeds(session("OWN", H1, 3)));
+await check("열린 동안 비밀번호 바꾸기", assertSucceeds(setDoc(doc(db("OWN"), "adminKeys", "OWN"), { h: H1 })));
+await check("남의 열린 시간 읽기 막음", assertFails(getDoc(doc(db("B"), "adminSessions", "OWN"))));
+await check("관리자(주인 아님) 열기", assertSucceeds(session("AD2", H2, 1)));
+await check("주인 아닌 관리자는 관리자 목록 막음", assertFails(getDocs(collection(db("AD2"), "admins"))));
+await check("주인은 관리자 목록", assertSucceeds(getDocs(collection(db("OWN"), "admins"))));
+await check("주인 아닌 관리자는 관리자 더하기 막음", assertFails(setDoc(doc(db("AD2"), "admins", "C"), { role: "admin", added: serverTimestamp(), by: "AD2" })));
+await check("주인으로 더하기 막음", assertFails(setDoc(doc(db("OWN"), "admins", "C"), { role: "owner", added: serverTimestamp(), by: "OWN" })));
+await check("닉네임 없는 계정 더하기 막음", assertFails(setDoc(doc(db("OWN"), "admins", "NOPROFILE"), { role: "admin", added: serverTimestamp(), by: "OWN" })));
+await check("주인이 관리자 더하기", assertSucceeds(setDoc(doc(db("OWN"), "admins", "C"), { role: "admin", added: serverTimestamp(), by: "OWN" })));
+await check("관리자 문서 고치기 막음", assertFails(setDoc(doc(db("OWN"), "admins", "C"), { role: "owner", added: serverTimestamp(), by: "OWN" })));
+await check("주인 아닌 관리자는 남의 비밀번호 처음으로 막음", assertFails(deleteDoc(doc(db("AD2"), "adminKeys", "OWN"))));
+await check("나를 빼기 막음", assertFails(deleteDoc(doc(db("OWN"), "admins", "OWN"))));
+await check("주인이 비밀번호 처음으로 돌리고 잠금", assertSucceeds((async () => {
+  const d = db("OWN"), b = writeBatch(d);
+  b.delete(doc(d, "adminSessions", "AD2"));
+  b.delete(doc(d, "adminKeys", "AD2"));
+  await b.commit();
+})()));
+await check("처음으로 돌린 관리자는 못 읽음", assertFails(getDocs(query(collection(db("AD2"), "reports"), where("state", "==", "open")))));
+await check("주인이 관리자 빼기", assertSucceeds((async () => {
+  const d = db("OWN"), b = writeBatch(d);
+  for (const c of ["adminSessions", "adminKeys", "admins"]) b.delete(doc(d, c, "C"));
+  await b.commit();
+})()));
+
+// 관리자가 번호 바꿔 주기: 번호와 열쇠만 바꾸고 닉네임은 그대로, 옛 번호는 거두고 옛 열쇠는 지운다(아래 ADM 은 열린 주인)
+await owner(async (d) => {
+  await setDoc(doc(d, "admins", "ADM"), { on: true });
+  await setDoc(doc(d, "adminKeys", "ADM"), { h: H1 });
+  await setDoc(doc(d, "adminSessions", "ADM"), { until: Timestamp.fromMillis(Date.now() + 30 * 60000), proof: "x", n: 1 });
+});
 const retag = (by, uid, nick, from, to, extra = {}) => {
   const d = db(by), b = writeBatch(d);
   if (from) b.set(doc(d, "numbers", from), { retired: true });
@@ -184,7 +247,7 @@ const retag = (by, uid, nick, from, to, extra = {}) => {
   b.update(doc(d, "profiles", uid), { tag: to, handle: key(nick, to), updated: new Date(), ...extra });
   return b.commit();
 };
-await check("관리자 문서 만들기 막음", assertFails(setDoc(doc(db("A"), "admins", "A"), { on: true })));
+await check("관리자 문서 스스로 만들기 막음", assertFails(setDoc(doc(db("A"), "admins", "A"), { role: "admin", added: serverTimestamp(), by: "A" })));
 await check("내 관리자 문서 읽기", assertSucceeds(getDoc(doc(db("ADM"), "admins", "ADM"))));
 await check("남의 관리자 문서 읽기 막음", assertFails(getDoc(doc(db("A"), "admins", "ADM"))));
 await check("관리자는 번호 문서 읽음", assertSucceeds(getDoc(doc(db("ADM"), "numbers", "123456"))));

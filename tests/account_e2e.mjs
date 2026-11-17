@@ -1,9 +1,10 @@
-// 로그인·동기화·친구 끝까지 시험: Firebase 에뮬레이터(Auth 9099, Firestore 8085)에서 web/js/account.js 를 여러 사람(A·B·C·D·E·R·S)으로 돌린다.
+// 로그인·동기화·친구·관리자 화면 끝까지 시험: Firebase 에뮬레이터(Auth 9099, Firestore 8085)에서 web/js/account.js·admin-core.js 를 여러 사람(A·B·C·D·E·R·S)으로 돌린다.
 //   cd firebase && npx firebase emulators:exec --only auth,firestore --project demo-ttw "node ../tests/account_e2e.mjs"
 import * as appM from "firebase/app";
 import * as authM from "firebase/auth";
 import * as fsM from "firebase/firestore";
 import * as account from "../web/js/account.js";
+import * as core from "../web/js/admin-core.js";
 import assert from "node:assert/strict";
 
 const store = (init = {}) => {
@@ -158,10 +159,12 @@ out.limitE = await peek(`limits/${E}`);
 as("google-b", "friend@gmail.com");
 out.caseFree = await account.find(`tt_lim#${tagE}`); // 열쇠는 대소문자 차이 없이
 
-// 관리자가 번호 바꿔 주기: 관리자는 콘솔에서 만든 admins/{uid}(에뮬레이터에서는 owner 로 쓴다). B 가 관리자
+// 관리자 화면(update140): 관리자 문서(콘솔에서 만든 주인 = B, 에뮬레이터에서는 owner 로 쓴다)가 있어도 비밀번호로 잠금을 풀어야 관리자 일이 된다
 const makeAdmin = (uid) => owner(`admins/${uid}`, { on: { booleanValue: true } });
+const PW = "시간표 마법사 관리자 비밀번호", PW2 = "두 번째 관리자의 긴 비밀번호", PW3 = "주인이 새로 바꾼 비밀번호 문장";
 as("google-a", "yp@snu.ac.kr");
-out.notAdmin = [await account.isAdmin(), await no(account.adminSetTag(`친구#${tagB}`, "100003")), await no(account.listReports())];
+out.notAdmin = [await account.isAdmin(), (await core.state()).role, await no(core.retag(`친구#${tagB}`, "100003")), await no(core.reports()),
+  await no(core.setPassword(PW))];
 as("google-c", "other@gmail.com");
 const C = (await account.ready()).uid;
 out.nickC = await account.setNick("영표"); // 같은 닉네임의 다른 사람: 번호가 달라 서로 다른 사람이다
@@ -169,42 +172,79 @@ const tagC = out.nickC.tag;
 await makeAdmin(B);
 as("google-b", "friend@gmail.com");
 out.isAdminB = await account.isAdmin();
-out.taken = await no(account.adminSetTag(`영표#${tagA}`, tagC)); // C 가 쓰는 번호
+out.stateB0 = await core.state();
+out.lockedRetag = await no(core.retag(`영표#${tagA}`, tagC)); // 비밀번호를 정하기 전(잠김)
+out.shortPw = await no(core.setPassword("짧은 말"));
+out.setPw = typeof (await core.setPassword(PW)).until;
+out.stateB1 = await core.state();
+out.setAgain = await no(core.setPassword(PW3)); // 처음 한 번만(바꾸기는 changePassword)
+await core.lock();
+out.stateB2 = (await core.state()).until;
+out.lockedReports = await no(core.reports());
+out.wrongPw = await no(core.unlock("틀린 비밀번호를 넣어 봄"));
+out.unlocked = typeof (await core.unlock(PW)).until;
+out.taken = await no(core.retag(`영표#${tagA}`, tagC)); // C 가 쓰는 번호
 const used = new Set([...known(), tagR, tagS, tagE, tagC]);
 // 0으로 시작하는 번호(11/18)로 바꿔 줘 본다
 const fresh = () => { for (let n = 4; ; n++) { const s = String(n).padStart(6, "0"); if (!used.has(s)) { used.add(s); return s; } } };
 const newTag = fresh(), newTagC = fresh();
-out.retag = await account.adminSetTag(` 영표 #${tagA}`, newTag);
-out.retagByNumber = await account.adminSetTag(tagC, newTagC); // 관리자는 번호만으로도 찾는다
+out.retag = await core.retag(` 영표 #${tagA}`, newTag);
+out.retagByNumber = await core.retag(tagC, newTagC); // 관리자는 번호만으로도 찾는다
 out.retagServer = [await peek(`numbers/${tagA}`), await peek(`numbers/${newTag}`), await peek(`handles/영표#${tagA}`), await peek(`handles/영표#${newTag}`)];
 const nobody = fresh();
-out.retagMissing = [await no(account.adminSetTag(`영표#${nobody}`, fresh())), await no(account.adminSetTag(nobody, fresh()))];
-out.retagBad = [await no(account.adminSetTag("영표", "100008")), await no(account.adminSetTag(`영표#${newTag}`, "12a4")),
-  await no(account.adminSetTag(`영표#${newTag}`, "1234567"))];
+out.retagMissing = [await no(core.retag(`영표#${nobody}`, fresh())), await no(core.retag(nobody, fresh()))];
+out.retagBad = [await no(core.retag("영표", "100008")), await no(core.retag(`영표#${newTag}`, "12a4")), await no(core.retag(`영표#${newTag}`, "1234567"))];
 out.oldHandle = await no(account.request(`영표#${tagA}`)); // 옛 번호의 열쇠는 지웠다
-out.reuseRetired = await no(account.adminSetTag(`영표#${newTagC}`, tagA)); // 거둔 번호는 다시 주지 않는다
+out.reuseRetired = await no(core.retag(`영표#${newTagC}`, tagA)); // 거둔 번호는 다시 주지 않는다
 as("google-a", "yp@snu.ac.kr");
 out.profileRetag = await account.profile();
 out.keepTag = await account.setNick("영표", { showSchool: true }); // 바뀐 번호 그대로 쓴다
 as("google-c", "other@gmail.com");
 out.profileC = await account.profile();
 
-// 닉네임 신고(앱 안 목록): 신고는 누구나, 읽고 처리 표시는 관리자(B)만
+// 닉네임 신고(앱 안 목록): 신고는 누구나, 읽고 처리 표시는 열린 관리자(B)만
 as("google-a", "yp@snu.ac.kr");
 const pC = await account.find(`영표#${newTagC}`);
 out.report = await account.report(pC, "impersonation", "  저랑 같은 닉네임이에요  ");
 out.reportAgain = await no(account.report(pC, "nick")); // 같은 사람은 하루 한 번
 out.reportBad = [await no(account.report(pC, "spam")), await no(account.report({ uid: A, nick: "영표", tag: newTag }, "nick")), await no(account.report(null, "nick"))];
-out.reportList = await no(account.listReports());
+out.reportList = await no(core.reports());
 as("google-d", "old@gmail.com");
 out.report2 = await account.report(pC, "stranger", "가".repeat(250)); // 덧붙임 글은 200자까지
 as("google-b", "friend@gmail.com");
-out.open = await account.listReports();
-await account.closeReport(out.report.id);
-out.openAfter = (await account.listReports()).map((r) => r.id);
-out.all = await account.listReports({ all: true });
+out.open = await core.reports();
+await core.closeReport(out.report.id);
+out.openAfter = (await core.reports()).map((r) => r.id);
+out.all = await core.reports({ all: true });
 as("google-a", "yp@snu.ac.kr");
-out.closeNotAdmin = await no(account.closeReport(out.report2.id));
+out.closeNotAdmin = await no(core.closeReport(out.report2.id));
+
+// 관리자 더하기·빼기(주인 B 만): C 를 더하면 C 는 자기 비밀번호를 정하고 연다. 주인이 아니라 관리자를 더하지는 못한다
+as("google-b", "friend@gmail.com");
+out.addBad = [await no(core.addAdmin("영표")), await no(core.addAdmin(`없는사람#${fresh()}`)), await no(core.addAdmin(`친구#${tagB}`))];
+out.addC = await core.addAdmin(`영표#${newTagC}`);
+out.addAgain = await no(core.addAdmin(`영표#${newTagC}`));
+out.adminList = (await core.admins()).map((r) => [r.uid, r.role, r.nick, r.tag, r.me]);
+as("google-c", "other@gmail.com");
+out.stateC0 = await core.state();
+out.setC = typeof (await core.setPassword(PW2)).until;
+out.cReports = (await core.reports({ all: true })).length;
+out.cNotOwner = [await no(core.admins()), await no(core.addAdmin(`친구#${tagB}`)), await no(core.resetPassword(B))];
+as("google-b", "friend@gmail.com");
+await core.resetPassword(C);
+as("google-c", "other@gmail.com");
+out.stateC1 = await core.state();
+as("google-b", "friend@gmail.com");
+await core.removeAdmin(C);
+out.removeSelf = await no(core.removeAdmin(B));
+as("google-c", "other@gmail.com");
+out.stateC2 = [await account.isAdmin(), (await core.state()).role];
+// 내 비밀번호 바꾸기(열린 동안)
+as("google-b", "friend@gmail.com");
+await core.changePassword(PW3);
+await core.lock();
+out.oldPw = await no(core.unlock(PW));
+out.newPw = typeof (await core.unlock(PW3)).until;
 
 // 막기: B 가 A 를 막으면 친구가 끊기고 A 는 다시 요청 못 한다
 as("google-b", "friend@gmail.com");
@@ -235,12 +275,16 @@ const ghostNum = fresh();
 await owner(`numbers/${ghostNum}`, { uid: str("ghost-uid") });
 await owner("handles/유령#0777", { uid: str("ghost-uid") });
 as("google-c", "other@gmail.com");
-out.orphanNotAdmin = await no(account.adminOrphans());
+out.orphanNotAdmin = await no(core.orphans());
 as("google-b", "friend@gmail.com");
-out.orphans = await account.adminOrphans();
-out.cleaned = await account.adminCleanOrphans(out.orphans);
+out.orphans = await core.orphans();
+out.cleaned = await core.cleanOrphans(out.orphans);
 out.orphanLeft = [await peek(`numbers/${ghostNum}`), await peek("handles/유령#0777")];
-out.orphansAfter = await account.adminOrphans();
+out.orphansAfter = await core.orphans();
+// 로그아웃하면 관리자 시간도 닫힌다(같은 기기의 다음 사람이 쓰지 못하게)
+await account.signOut();
+as("google-b", "friend@gmail.com");
+out.afterSignOut = [(await core.state()).until, await no(core.reports())];
 process.stdout.write(JSON.stringify(out) + "\n");
 
 // 결과 확인(CI 가 여기서 멈추면 실패)
@@ -308,9 +352,20 @@ assert.equal(out.foundS, S);
 assert.deepEqual(out.afterCap, [{ uid: A, accepted: false }, { uid: B, accepted: false }]);
 assert.deepEqual(out.limitE, { day: today, sent: 20 });
 assert.deepEqual(out.caseFree, { uid: E, nick: "Tt_Lim", tag: tagE, school: false });
-assert.deepEqual(out.notAdmin, [false, "NOT_ADMIN", "NOT_ADMIN"]);
+assert.deepEqual(out.notAdmin, [false, null, "LOCKED", "LOCKED", "NOT_ALLOWED"]);
 assert.notEqual(tagC, tagA);
 assert.equal(out.isAdminB, true);
+assert.deepEqual(out.stateB0, { role: "owner", key: "none", until: null });
+assert.equal(out.lockedRetag, "LOCKED");
+assert.equal(out.shortPw, "SHORT");
+assert.equal(out.setPw, "string");
+assert.equal(out.stateB1.key, "set");
+assert.ok(out.stateB1.until && new Date(out.stateB1.until) > new Date());
+assert.equal(out.setAgain, "NOT_ALLOWED");
+assert.equal(out.stateB2, null);
+assert.equal(out.lockedReports, "LOCKED");
+assert.equal(out.wrongPw, "WRONG_PASSWORD");
+assert.equal(out.unlocked, "string");
 assert.equal(out.taken, "TAKEN");
 assert.deepEqual(out.retag, { nick: "영표", tag: newTag, from: tagA });
 assert.match(newTag, /^0/);
@@ -326,7 +381,7 @@ assert.deepEqual(out.profileC, { nick: "영표", tag: newTagC, showSchool: true 
 assert.deepEqual(out.report, { id: `${A}_${C}_${today}` });
 assert.equal(out.reportAgain, "ALREADY");
 assert.deepEqual(out.reportBad, ["BAD_REASON", "SELF", "NOT_FOUND"]);
-assert.equal(out.reportList, "NOT_ADMIN");
+assert.equal(out.reportList, "LOCKED");
 assert.deepEqual(out.report2, { id: `${D}_${C}_${today}` });
 assert.deepEqual(out.open.map((r) => r.id), [out.report2.id, out.report.id]); // 새것 먼저
 const r1 = out.open[1];
@@ -335,7 +390,20 @@ assert.deepEqual({ ...r1, created: typeof r1.created }, { id: out.report.id, rep
 assert.equal(out.open[0].note, "가".repeat(200));
 assert.deepEqual(out.openAfter, [out.report2.id]);
 assert.deepEqual(out.all.map((r) => [r.id, r.state, typeof r.closed]), [[out.report2.id, "open", "object"], [out.report.id, "closed", "string"]]);
-assert.equal(out.closeNotAdmin, "NOT_ADMIN");
+assert.equal(out.closeNotAdmin, "LOCKED");
+assert.deepEqual(out.addBad, ["BAD_HANDLE", "NOT_FOUND", "SELF"]);
+assert.deepEqual(out.addC, { uid: C, nick: "영표", tag: newTagC });
+assert.equal(out.addAgain, "ALREADY");
+assert.deepEqual(out.adminList, [[B, "owner", "친구", tagB, true], [C, "admin", "영표", newTagC, false]]);
+assert.deepEqual(out.stateC0, { role: "admin", key: "none", until: null });
+assert.equal(out.setC, "string");
+assert.equal(out.cReports, 2);
+assert.deepEqual(out.cNotOwner, ["LOCKED", "LOCKED", "LOCKED"]);
+assert.deepEqual(out.stateC1, { role: "admin", key: "none", until: null });
+assert.equal(out.removeSelf, "SELF");
+assert.deepEqual(out.stateC2, [false, null]);
+assert.equal(out.oldPw, "WRONG_PASSWORD");
+assert.equal(out.newPw, "string");
 assert.equal(out.blockedB.friends.length, 0);
 assert.equal(out.blockedB.blocked.length, 1);
 assert.equal(out.blockedRequest, "BLOCKED");
@@ -347,10 +415,11 @@ assert.deepEqual(out.leftA, [{ retired: true }, null, null]);
 assert.deepEqual(out.oldLinkGone, ["NOT_FOUND", "NOT_FOUND"]);
 assert.deepEqual(out.leftD, [{ retired: true }, null, null, null]);
 assert.deepEqual(out.leftE, [null, null, null]);
-assert.equal(out.orphanNotAdmin, "NOT_ADMIN");
+assert.equal(out.orphanNotAdmin, "LOCKED");
 assert.deepEqual(out.orphans, { numbers: [ghostNum], handles: ["유령#0777"] });
 assert.deepEqual(out.cleaned, { numbers: 1, handles: 1 });
 assert.deepEqual(out.orphanLeft, [{ retired: true }, null]);
 assert.deepEqual(out.orphansAfter, { numbers: [], handles: [] });
+assert.deepEqual(out.afterSignOut, [null, "LOCKED"]);
 process.stdout.write("account e2e ok\n");
 process.exit(0);

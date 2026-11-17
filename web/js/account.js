@@ -34,15 +34,12 @@
 //   inviteLink({ nick, tag })      → 'https://archi142857.github.io/tt-wizard/#friend=닉네임%23482193'
 //   reportLink({ nick, tag })      → 닉네임 신고 메일 주소(mailto)
 //   tagLink({ nick, tag })         → 번호 바꾸기 부탁 메일 주소(mailto, 본문 두 줄 TAG_MAIL_BODY). 번호는 고를 수 없고 부탁한 사람만 관리자가 바꿔 준다
-//   isAdmin()                      → true | false   콘솔에서 admins/{uid} 를 만든 계정인가(웹 개발자 메뉴의 '번호 바꿔 주기')
-//   adminSetTag('영표#482193', '100001') → { nick, tag, from }   관리자가 그 사람 번호를 바꾼다(닉네임은 그대로). 첫 칸은 닉네임#번호·번호(관리자만)·옛 닉네임#네 자리.
-//                                  없으면 NOT_FOUND, 새 번호를 다른 사람이 쓰거나 거둔 번호면 TAKEN, 관리자가 아니면 NOT_ADMIN, 꼴이 틀리면 BAD_HANDLE·BAD_TAG
+//   isAdmin()                      → true | false   관리자 문서(admins/{uid})가 있는 계정인가: 웹 계정 화면에 '관리자 화면' 버튼을 띄울지(update140).
+//                                  관리자 일(번호 바꿔 주기·신고·정리·관리자 더하기)은 비밀번호로 잠금을 푼 동안만 되고 web/js/admin-core.js 에 있다(앱 묶음에는 없다)
+//   firestore()                    → { uid, db, F }   같은 로그인으로 Firestore 를 쓴다(웹 관리자 화면 admin-core.js 만 쓴다)
 //   report({ uid, nick, tag }, reason, note?) → { id }   닉네임 신고(앱 안 목록). reason: 'nick'(부적절한 닉네임)·'impersonation'(사칭)·'stranger'(모르는 사람의 친구 요청)·
 //                                  'other'. note 는 200자까지. 같은 사람은 하루 한 번(넘으면 ALREADY). 켜는 날은 처리방침 다음 판 시행일(그때까지 메일 신고)
-//   listReports({ all }?)          → [{ id, reporter, target, handle, reason, note, state, created, closed }](관리자. 새것 먼저, 처음엔 처리 안 한 것만)
-//   closeReport(id)                관리자가 처리 표시(state 'closed', closed 때). 처리하고 1년 지나면 콘솔에서 지운다
-//   adminOrphans()                 → { numbers: [번호], handles: [열쇠] }   관리자. 프로필이 없는 uid 를 단 번호·찾는 열쇠(옛 판 앱으로 계정을 지우면 남는다)
-//   adminCleanOrphans(found)       → { numbers, handles }(정리한 수)   그 번호는 '안 씀'으로 거두고 열쇠는 지운다. 법무 11/17: 지운 계정의 것이라 늦어도 5일 안에
+//                                  신고를 읽고 처리하는 것은 관리자 화면(admin-core.js reports·closeReport). 처리하고 1년 지나면 콘솔에서 지운다
 
 import FIREBASE from "./firebase-config.js";
 import { mergeTimetables, friendCopies, nickProblem, parseHandle, handleKey, randomNumber, isNumber } from "./sync.js";
@@ -218,9 +215,18 @@ export async function signIn() {
 export async function signOut() {
   setMark(false);
   if (!fb) return; // SDK 를 받은 적이 없다: 로그인한 적도 없다
-  const { auth, A } = await load();
+  const { auth, A, db, F } = await load();
+  // 웹 관리자 화면을 열어 둔 채 로그아웃하면 같은 기기의 다음 사람이 쓰지 못하게 관리자 시간을 먼저 닫는다(update140, 규칙의 '잠그기')
+  if (!inApp() && auth.currentUser) await lockAdmin(auth.currentUser.uid, db, F).catch(() => {});
   await A.signOut(auth);
   if (inApp() && globalThis.TTW_APP && typeof globalThis.TTW_APP.googleSignOut === "function") globalThis.TTW_APP.googleSignOut();
+}
+
+async function lockAdmin(uid, db, F) {
+  const s = await F.getDoc(F.doc(db, "adminSessions", uid));
+  const d = s.exists() ? s.data() : null;
+  if (!d || !d.until || d.until.toMillis() <= Date.now()) return;
+  await F.setDoc(F.doc(db, "adminSessions", uid), { until: F.serverTimestamp(), proof: "", n: (d.n || 0) + 1 });
 }
 
 // ---------------------------------------------------------------- 시간표 맞추기
@@ -578,12 +584,9 @@ export const reportLink = (p) => `mailto:${REPORT_MAIL}?subject=${encodeURICompo
 export const TAG_MAIL_BODY = "바꾸고 싶은 번호(여섯 자리):\n\n이 계정에 로그인한 Google 메일 주소로 보내 주세요. 다른 사람과 헷갈리거나 규칙에 어긋나는 번호는 바꿔 드리지 않을 수 있어요.";
 export const tagLink = (p) => `mailto:${REPORT_MAIL}?subject=${encodeURIComponent(`[번호 바꾸기] 닉네임 ${p.nick}#${p.tag}`)}&body=${encodeURIComponent(TAG_MAIL_BODY)}`;
 
-// ---------------------------------------------------------------- 번호 바꿔 주기(관리자)
-// 사용자 11/17 '태그 번호는 아무나 원하는 걸 할 수 없고 원하는 사람에 한해서 내가 바꿔줄 수 있는 번호로 바꿔주는 방식'. 관리자는 콘솔에서
-// admins/{uid} 문서를 만든 계정이다(저장소에는 누구인지 적지 않는다). 규칙(firestore.rules)이 번호만 바꾸게 하고 닉네임은 못 바꾼다.
-// 바뀐 사람의 앱은 프로필을 서버에서 다시 읽을 때(profile(): 친구 화면) 새 번호를 본다. 친구 관계는 uid 로 이어져 그대로다.
-// 법무 11/17: 옛 번호는 적어도 1년 남에게 주지 않는다(옛 초대 링크·QR 이 엉뚱한 사람에게 가지 않게) → 지우지 않고 { retired: true } 로 남긴다(다시 주지 않음).
-// 부탁은 그 계정에 로그인한 Google 메일에서 온 것만, 무료로만, 남과 헷갈리거나 운영자처럼 보이거나 나쁜 뜻으로 읽히는 번호는 거절(사람이 판단)
+// ---------------------------------------------------------------- 관리자(웹 관리자 화면 admin.js·admin-core.js, update140)
+// 관리자는 admins/{uid} 문서가 있는 계정이다(콘솔에서 만든 주인, 주인이 관리자 화면에서 더한 사람). 저장소에는 누구인지 적지 않는다.
+// 관리자 일은 비밀번호로 잠금을 푼 동안만 된다(규칙 firestore.rules '관리자'). 그 일의 코드는 웹에만 있는 admin-core.js 에 두어 앱 묶음에 들어가지 않는다
 
 export async function isAdmin() {
   const uid = await me();
@@ -595,35 +598,10 @@ export async function isAdmin() {
   }
 }
 
-export async function adminSetTag(text, tag) {
-  const only = /^\s*#?\s*([0-9]{6})\s*$/.exec(String(text ?? "")); // 관리자는 번호만으로도 찾는다(번호 문서를 읽을 수 있다)
-  const h = only ? null : parseHandle(text), next = String(tag ?? "").trim();
-  if (!only && !h) throw err("BAD_HANDLE");
-  if (!isNumber(next)) throw err("BAD_TAG");
-  await me();
+export async function firestore() {
+  const uid = await me();
   const { db, F } = await load();
-  const from = only ? F.doc(db, "numbers", only[1]) : F.doc(db, "handles", handleKey(h.nick, h.tag));
-  try {
-    return await F.runTransaction(db, async (tx) => {
-      const hs = await tx.get(from);
-      if (!hs.exists() || !hs.data().uid) throw err("NOT_FOUND");
-      const uid = hs.data().uid, ps = await tx.get(F.doc(db, "profiles", uid));
-      if (!ps.exists()) throw err("NOT_FOUND");
-      const p = ps.data();
-      if (p.tag === next) return { nick: p.nick, tag: next, from: p.tag };
-      if ((await tx.get(F.doc(db, "numbers", next))).exists()) throw err("TAKEN"); // 거둔 번호도 다시 주지 않는다
-      const key = handleKey(p.nick, next);
-      if (isNumber(p.tag)) tx.set(F.doc(db, "numbers", p.tag), { retired: true }); // 옛 번호는 '안 씀'으로(옛 초대 링크가 남에게 가지 않게)
-      tx.set(F.doc(db, "numbers", next), { uid });
-      tx.set(F.doc(db, "handles", key), { uid });
-      if (p.handle && p.handle !== key && p.handle !== p.oldHandle) tx.delete(F.doc(db, "handles", p.handle)); // 옛 번호의 열쇠는 지운다
-      tx.update(F.doc(db, "profiles", uid), { tag: next, handle: key, updated: F.serverTimestamp() });
-      return { nick: p.nick, tag: next, from: p.tag };
-    });
-  } catch (e) {
-    if (e && ["NOT_FOUND", "TAKEN"].includes(e.code)) throw e;
-    throw err(e && e.code === "permission-denied" ? "NOT_ADMIN" : "FAILED", { cause: e });
-  }
+  return { uid, db, F };
 }
 
 // ---------------------------------------------------------------- 닉네임 신고(앱 안 목록)
@@ -632,7 +610,6 @@ export async function adminSetTag(text, tag) {
 // 같은 사람은 하루 한 번(문서 이름에 날). 켜는 날은 처리방침 다음 판 시행일, 그때까지 화면은 메일 신고(reportLink)
 
 export const REPORT_REASONS = ["nick", "impersonation", "stranger", "other"];
-const isoOf = (t) => (t && typeof t.toDate === "function" ? t.toDate().toISOString() : null);
 
 export async function report(p, reason, note = "") {
   if (!p || !p.uid) throw err("NOT_FOUND");
@@ -652,67 +629,6 @@ export async function report(p, reason, note = "") {
     }
   }
   throw err("ALREADY"); // 오늘 이미 그 사람을 신고했다
-}
-
-export async function listReports({ all = false } = {}) {
-  await me();
-  const { db, F } = await load();
-  const col = F.collection(db, "reports");
-  try {
-    const snap = await F.getDocs(all ? col : F.query(col, F.where("state", "==", "open")));
-    return snap.docs.map((d) => { const x = d.data(); return { id: d.id, ...x, created: isoOf(x.created), closed: isoOf(x.closed) }; })
-      .sort((a, b) => String(b.created || "").localeCompare(String(a.created || "")));
-  } catch (e) {
-    throw err(e && e.code === "permission-denied" ? "NOT_ADMIN" : "FAILED", { cause: e });
-  }
-}
-
-export async function closeReport(id) {
-  await me();
-  const { db, F } = await load();
-  try {
-    await F.updateDoc(F.doc(db, "reports", String(id)), { state: "closed", closed: F.serverTimestamp() });
-  } catch (e) {
-    throw err(e && e.code === "permission-denied" ? "NOT_ADMIN" : e && e.code === "not-found" ? "NOT_FOUND" : "FAILED", { cause: e });
-  }
-}
-
-/**
- * 관리자: 프로필이 없는 uid 를 단 번호·찾는 열쇠. 옛 판 앱(번호를 받기 전 판)으로 계정을 지우면 그 앱이 모르는 번호 문서와 예전 열쇠가 남는다.
- * 지운 계정의 것이라 늦어도 5일 안에 지운다(법무 11/17, 개인정보 보호법 제21조). 옛 판이 남아 있는 동안 며칠에 한 번 본다
- */
-export async function adminOrphans() {
-  await me();
-  const { db, F } = await load();
-  let nums, keys;
-  try {
-    [nums, keys] = await Promise.all([F.getDocs(F.collection(db, "numbers")), F.getDocs(F.collection(db, "handles"))]);
-  } catch (e) {
-    throw err(e && e.code === "permission-denied" ? "NOT_ADMIN" : "FAILED", { cause: e });
-  }
-  const owner = (d) => String((d.data() || {}).uid || "");
-  const uids = [...new Set([...nums.docs, ...keys.docs].map(owner).filter(Boolean))];
-  const gone = new Set();
-  for (const u of uids) if (!(await readProfile(u))) gone.add(u);
-  return { numbers: nums.docs.filter((d) => gone.has(owner(d))).map((d) => d.id), handles: keys.docs.filter((d) => gone.has(owner(d))).map((d) => d.id) };
-}
-
-/** 관리자: adminOrphans 로 찾은 번호는 '안 씀'으로 거두고(다시 주지 않음) 열쇠는 지운다. 규칙은 프로필이 없을 때만 받는다 */
-export async function adminCleanOrphans(found) {
-  await me();
-  const { db, F } = await load();
-  const numbers = [...((found && found.numbers) || [])], handles = [...((found && found.handles) || [])];
-  const writes = [...numbers.map((n) => (b) => b.set(F.doc(db, "numbers", n), { retired: true })), ...handles.map((k) => (b) => b.delete(F.doc(db, "handles", k)))];
-  try {
-    for (let i = 0; i < writes.length; i += 400) {
-      const b = F.writeBatch(db);
-      for (const w of writes.slice(i, i + 400)) w(b);
-      await b.commit();
-    }
-  } catch (e) {
-    throw err(e && e.code === "permission-denied" ? "NOT_ADMIN" : "FAILED", { cause: e });
-  }
-  return { numbers: numbers.length, handles: handles.length };
 }
 
 // ---------------------------------------------------------------- 계정 지우기

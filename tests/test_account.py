@@ -85,7 +85,7 @@ def test_account_module_surface():
     assert 'throw err("ALREADY", { uid: other })' in js and "[신고] 닉네임 " in js  # 디자인 130판(update112)
     # 번호 바꾸기 부탁 메일 본문 두 줄(법무 11/17 ③), 옛 번호·지운 계정의 번호는 지우지 않고 '안 씀'으로(법무 11/17 ⓓ)
     assert "바꾸고 싶은 번호(여섯 자리):" in js and "&body=${encodeURIComponent(TAG_MAIL_BODY)}" in js
-    assert 'tx.set(F.doc(db, "numbers", p.tag), { retired: true })' in js and 'last.set(F.doc(db, "numbers", p.tag), { retired: true })' in js
+    assert 'last.set(F.doc(db, "numbers", p.tag), { retired: true })' in js
     # 지운 계정의 열쇠(닉네임이 든 이름)는 '안 씀'으로 남기지 않고 지우고, 하루 요청 수도 지운다(법무 11/17, update138)
     assert 'last.delete(F.doc(db, "handles", key))' in js and '"handles", oldKey), { retired: true }' not in js
     assert 'last.delete(F.doc(db, "limits", uid))' in js
@@ -94,12 +94,32 @@ def test_account_module_surface():
     assert 'export const REPORT_REASONS = ["nick", "impersonation", "stranger", "other"];' in js and ".slice(0, 200)" in js
     for name in ("available", "ready", "onUser", "signIn", "signOut", "deleteAccount", "sync", "profile", "setNick", "friends",
                  "find", "request", "accept", "decline", "cancel", "unfriend", "block", "unblock", "friendTimetables", "publish", "inviteLink", "reportLink",
-                 "tagLink", "isAdmin", "adminSetTag", "report", "listReports", "closeReport", "adminOrphans", "adminCleanOrphans",
-                 "syncStatus", "onSyncStatus", "forget"):
+                 "tagLink", "isAdmin", "firestore", "report", "syncStatus", "onSyncStatus", "forget"):
         assert re.search(rf"export (?:async function|function|const) {name}\b", js), name
+    # 관리자 일은 웹에만 있는 admin-core.js 로 옮겼다(앱 묶음에 들어가지 않게, update140). 로그아웃하면 관리자 시간을 먼저 닫는다
+    for name in ("adminSetTag", "listReports", "closeReport", "adminOrphans", "adminCleanOrphans"):
+        assert f"export async function {name}" not in js, name
+    assert "if (!inApp() && auth.currentUser) await lockAdmin(auth.currentUser.uid, db, F)" in js
     assert re.search(r'SDK_URL = "https://www\.gstatic\.com/firebasejs/\d+\.\d+\.\d+"', js)  # 판을 고정
     assert 'import FIREBASE from "./firebase-config.js"' in js
     assert (ROOT / "web" / "js" / "firebase-config.js").read_text(encoding="utf-8").rstrip().endswith("export default null;")  # 저장소에는 값이 없다
+
+
+def test_admin_core_surface():
+    """관리자 화면(사용자 11/18): 비밀번호는 기기에서 PBKDF2 로 섞은 값만 서버에 두고, 잠금 풀기는 sha256(h|끝나는 때|차례) 증명. 코드에 비밀번호·섞은 값이 없다"""
+    core = (ROOT / "web" / "js" / "admin-core.js").read_text(encoding="utf-8")
+    ui = (ROOT / "web" / "js" / "admin.js").read_text(encoding="utf-8")
+    for name in ("state", "setPassword", "unlock", "lock", "reconnect", "changePassword", "retag", "reports", "closeReport", "orphans", "cleanOrphans",
+                 "admins", "addAdmin", "removeAdmin", "resetPassword"):
+        assert re.search(rf"export (?:async function|function|const) {name}\b", core), name
+    assert 'name: "PBKDF2", hash: "SHA-256", salt: enc.encode(`ttw-admin:${uid}`), iterations: ROUNDS' in core and "const ROUNDS = 210000;" in core
+    assert "const proof = await sha256(`${h}|${until}|${n}`);" in core
+    assert "export const SESSION_MINUTES = 30;" in core and "export const MIN_PASSWORD = 10;" in core
+    assert not re.search(r"[0-9a-f]{64}", core + ui)  # 섞은 값이나 비밀번호를 코드에 두지 않는다
+    assert 'import("./admin-core.js")' in ui and 'id: "admin-sheet"' in ui and '"관리자 화면"' in ui
+    app = (ROOT / "web" / "js" / "app.js").read_text(encoding="utf-8")
+    assert 'adminMod = adminMod || await import("./admin.js");' in app
+    assert '!IN_APP && acctAdmin ? [card(h("button", { type: "button", class: "info-row", "data-acct": "admin"' in app  # 웹에서 관리자 문서가 있는 계정만
 
 
 def test_firestore_rules():
@@ -128,6 +148,16 @@ def test_firestore_rules():
     assert "match /limits/{uid} {\n      allow delete: if isMe(uid);\n    }" in rules
     # 지운 계정이 남긴 번호·열쇠를 찾는 목록은 관리자만(법무 11/17)
     assert rules.count("allow list: if isAdmin();") == 2
+    # 관리자 화면(update140): 관리자 문서가 있고 비밀번호로 연 시간 안에만. 비밀번호를 섞은 값은 아무도 못 읽고, 증명은 규칙이 같은 셈으로 본다
+    assert "get(/databases/$(database)/documents/adminSessions/$(request.auth.uid)).data.until > request.time;" in rules
+    assert "get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.get('role', 'owner') == 'owner';" in rules
+    keys = rules[rules.index("match /adminKeys/{uid}"):rules.index("function unlocks()")]
+    assert "allow get: if isMe(uid) && resource == null;" in keys and "allow read" not in keys and "allow list" not in keys
+    assert "d.proof == hashing.sha256(get(key).data.h + '|' + string(d.until.toMillis()) + '|' + string(d.n)).toHexString().lower();" in rules
+    assert "d.until <= request.time + duration.value(60, 'm')" in rules
+    assert "request.resource.data.n == (resource == null ? 1 : resource.data.n + 1)" in rules
+    admins = rules[rules.index("match /admins/{uid}"):rules.index("function keyShape()")]
+    assert "request.resource.data.role == 'admin'" in admins and "allow update" not in admins and "allow delete: if isOwner() && uid != request.auth.uid;" in admins
     # 신고: 본인 이름으로 만들기만, 읽기·처리 표시·지우기는 관리자만
     reports = rules[rules.index("match /reports/{id}"):]
     assert "allow read: if isAdmin();" in reports and "allow delete: if isAdmin();" in reports

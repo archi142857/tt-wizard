@@ -8850,6 +8850,19 @@ $("nt-ask-ok").addEventListener("click", async () => {
 // 맞추고(account.sync), 보는 학기의 목록이 바뀌었으면 다시 그린다. 처음 켤 때 로그인을 묻지 않는다(로그인은 정보의 계정과 친구 화면에서만)
 let acct = null, acctP = null, acctOff = null;
 let acctUser; // undefined: 아직 모름, null: 로그인 안 함, { uid, email, name, school }
+// 관리자 화면(백엔드 update140, 사용자 11/18 '웹에서 내 구글계정으로 로그인한 상황이면 개발자 화면으로 진입하는 버튼을 띄우고, 비밀번호를 입력했을 때만'):
+// 웹에서 관리자 문서가 있는 계정이면 계정 화면에 '관리자 화면' 줄. 화면·잠금·서버 일은 js/admin.js·admin-core.js(앱 묶음에 없다), 지키는 것은 서버 규칙
+let acctAdmin = false;
+let adminMod = null;
+async function openAdmin(opener) {
+  try {
+    adminMod = adminMod || await import("./admin.js");
+  } catch {
+    showSnackbar("관리자 화면을 열지 못했어요", "다시 시도", () => openAdmin(opener));
+    return;
+  }
+  adminMod.open(devApi(), opener);
+}
 const ACCOUNT_FROM = "2026-11-15"; // 한국 시각 날짜. 처리방침 11/15 판·이용 규칙·계정 삭제 안내가 시행되는 날(백엔드 update116, 프론트엔드 11/15: 페이지와 한 푸시). 날을 넘겨 올리면 그날로
 // 웹 개발자 메뉴 '로그인'(이 탭만): ACCOUNT_FROM 전 날짜에 로그인을 미리 본다. 웹 데모 주소 '?demo'(update115)와 앱 데모 빌드는 11/15 에 모두에게 열어
 // 쓸 일이 없어 뺐다(백엔드 update117: 사용자 11/15 15:00 '데모 빌드 굳이 필요 없지 않냐')
@@ -8895,6 +8908,8 @@ async function startAccount() {
     if (u && screen === "login") { store.set(LOGIN_ASKED, true); afterLogin(); showSnackbar("로그인했어요"); } // 로그인 처음 화면에서 로그인했다: 다음으로
     else if (screen === "login") renderLogin(); // 로그인 모듈이 왔다(구글 단추가 바로 일한다)
     if (u && u.uid !== was) {
+      acctAdmin = false;
+      if (!IN_APP && acct.isAdmin) acct.isAdmin().then((on) => { acctAdmin = on && acctUser === u; if (on && screen === "account") renderAccount(); }, () => null);
       syncNow();
       if (screen !== "friends") frLoad().catch(() => null); // 친구 기능을 켰는지(숨기기 줄)·받은 요청(빨간 점)도 받아 둔다(친구 화면은 renderFriends 가 받는다)
     }
@@ -9169,7 +9184,8 @@ function renderAccount() {
       card(h("button", { type: "button", class: "info-row", "data-acct": "sync" }, h("span", {}, "동기화"),
         h("span", { class: syncView().state === "error" ? "v is-error" : "v" }, acctSyncText()))),
       card(h("button", { type: "button", class: "info-row", "data-acct": "signout", "aria-haspopup": "dialog" }, h("span", {}, "로그아웃")),
-        h("button", { type: "button", class: "info-row danger", "data-acct": "delete", "aria-haspopup": "dialog" }, h("span", {}, "계정 삭제"))));
+        h("button", { type: "button", class: "info-row danger", "data-acct": "delete", "aria-haspopup": "dialog" }, h("span", {}, "계정 삭제"))),
+      ...(!IN_APP && acctAdmin ? [card(h("button", { type: "button", class: "info-row", "data-acct": "admin", "aria-haspopup": "dialog" }, h("span", {}, "관리자 화면")))] : []));
     foot.textContent = "로그아웃해도 이 기기의 시간표는 남아요";
   }
   foot.hidden = false;
@@ -9180,6 +9196,7 @@ $("account-list").addEventListener("click", (e) => {
   if (!b || !acct) return;
   const k = b.dataset.acct;
   if (k === "sync") { syncNow().then(() => announce(acctSyncText())); return; } // 누른 뒤 바뀐 값(방금·맞추지 못했어요)을 읽는다(131판)
+  if (k === "admin") { openAdmin(b); return; } // 관리자 화면(웹만, 백엔드 update140)
   if (k !== "delete" && k !== "signout") return;
   $(k === "delete" ? "ad-wipe" : "ao-wipe").checked = false; // 처음 꺼짐
   openSheet($(k === "delete" ? "acct-del" : "acct-out"), b);

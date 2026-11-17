@@ -7,11 +7,7 @@
 //   이동시간: 경사 반영 · 평지(이 탭만. 11/16 사용자: 동선 탐색 조건에서 빼고 평지는 내부 시험으로만: app.js pickDevMode)
 //   시험: 묻는 팝업, 새 버전 알림, 시간표 이미지(지금 보는 시간표를 그려 시트 안에 보인다), 테마 기억 지우기(묻는 팝업을 처음부터), 처음 안내(처음 장부터)
 //   이 기기: 버전·실행 환경·화면·글자 크기·기기 설정·기기 날짜·편람·서비스 워커·저장한 기록, 기록 모두 지우기(두 번 눌러야 지운다)
-//   번호 바꿔 주기(update134, 로그인한 계정이 관리자일 때만: 콘솔에서 만든 admins/{uid}): 닉네임#번호(또는 번호)와 새 여섯 자리 번호 → account.adminSetTag.
-//   11/17 사용자 '태그 번호는 아무나 원하는 걸 할 수 없고 원하는 사람에 한해서 내가 바꿔줄 수 있는 번호로'. 부탁은 메일(account.tagLink)로 받는다
-//   닉네임 신고(update138, 관리자만): 처리 안 한 신고를 새것 먼저(그때 닉네임#번호·까닭·덧붙임 글·보낸 때, 신고한 사람은 안 보임) → [처리](account.closeReport)
-//   지운 계정이 남긴 번호·열쇠(update139, 관리자만): [찾기] → 수만 보이고 [정리](번호는 '안 씀', 열쇠는 지움). 옛 판 앱으로 계정을 지우면 남는다.
-//   법무 11/17: 지운 계정의 것이라 늦어도 5일 안에, 옛 판이 남아 있는 동안 며칠에 한 번(account.adminOrphans·adminCleanOrphans)
+//   관리자 일(번호 바꿔 주기·닉네임 신고·지운 계정이 남긴 번호·열쇠)은 update140 에서 비밀번호로 여는 관리자 화면(admin.js)으로 옮겼다
 
 let api = null, sheet = null, body = null, opener0 = null, imageUrl = "", wipeTimer = 0;
 
@@ -27,24 +23,9 @@ const CSS = `
 .dev-sheet .dev-image { margin: var(--space-3) 0 0; text-align: center; }
 .dev-sheet .dev-image img { display: block; width: min(100%, 15rem); height: auto; margin: 0 auto; border-radius: var(--radius-md); box-shadow: 0 0 0 1px var(--line); }
 .dev-sheet .dev-image p { margin: var(--space-2) 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); font-variant-numeric: tabular-nums; }
-.dev-sheet .dev-retag { display: grid; gap: var(--space-2); }
-.dev-sheet .dev-retag .field-label { margin: var(--space-2) 0 0; }
-.dev-sheet .dev-retag button { justify-self: start; margin-top: var(--space-2); }
-.dev-sheet .dev-retag-msg { margin: 0; min-height: 1.25rem; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
-.dev-sheet .dev-reports, .dev-sheet .dev-orphans { display: grid; gap: var(--space-2); }
-.dev-sheet .dev-reports > button, .dev-sheet .dev-orphans > button { justify-self: start; }
-.dev-sheet .dev-report { padding-top: var(--space-2); padding-bottom: var(--space-2); font-size: 0.9375rem; line-height: 1.375rem; }
-.dev-sheet .dev-report > span { display: grid; min-width: 0; overflow-wrap: anywhere; }
-.dev-sheet .dev-report > button { flex-shrink: 0; margin-left: auto; }
-.dev-sheet .dev-report small { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); font-variant-numeric: tabular-nums; }
 `;
 
 const SHELL_NAME = { web: "브라우저", pwa: "설치한 웹 앱", android: "안드로이드 앱", ios: "iOS 앱" };
-// 번호 바꿔 주기가 못 했을 때(account.adminSetTag 의 code)
-const RETAG_ERR = { BAD_HANDLE: "닉네임#번호나 번호로 넣어 주세요", BAD_TAG: "새 번호는 숫자 여섯 자리예요", NOT_FOUND: "그 번호를 쓰는 계정이 없어요",
-  TAKEN: "다른 사람이 쓰는 번호예요", NOT_ADMIN: "관리자 계정이 아니에요", SIGNED_OUT: "로그인해 주세요", OFFLINE: "연결되면 다시 해 주세요" };
-// 신고 까닭(account.REPORT_REASONS)
-const REASON = { nick: "부적절한 닉네임", impersonation: "사칭", stranger: "모르는 사람의 친구 요청", other: "기타" };
 const ROWS = [["ask", "묻는 팝업"], ["update", "새 버전 알림"], ["image", "시간표 이미지"], ["forget", "테마 기억 지우기"], ["tour", "처음 안내"], ["dept", "학과와 학번"], ["account", "로그인"]];
 
 /** 개발자 메뉴를 연다. a: app.js 의 devApi(), opener: 연 버튼(닫으면 초점이 돌아간다) */
@@ -76,11 +57,6 @@ function build() {
   sheet.addEventListener("click", (e) => {
     const b = e.target.closest("[data-dev]");
     if (b) act(b.dataset.dev, b);
-  });
-  sheet.addEventListener("submit", (e) => {
-    if (!e.target.matches(".dev-retag")) return;
-    e.preventDefault();
-    retag(e.target);
   });
   sheet.addEventListener("close", () => {
     clearTimeout(wipeTimer);
@@ -117,136 +93,9 @@ function render() {
     h("h3", { class: "field-label dev-label" }, "시험"),
     h("ul", { class: "sheet-list" }, ROWS.map(([k, text]) => h("li", {}, h("button", { type: "button", class: "menu-row", "data-dev": k }, text)))),
     h("div", { class: "dev-image", id: "dev-image", hidden: true }),
-    h("div", { id: "dev-admin", hidden: true }),
     h("h3", { class: "field-label dev-label" }, "이 기기"),
     h("ul", { class: "sheet-list dev-info" }, rows.map(([k, v]) => h("li", { class: "info-row" }, h("span", {}, k), h("span", { class: "v" }, v)))),
     h("ul", { class: "sheet-list dev-wipe" }, h("li", {}, h("button", { type: "button", class: "menu-row danger", "data-dev": "wipe" }, "기록 모두 지우기"))));
-  paintAdmin();
-}
-
-/** 로그인한 계정이 관리자면 '번호 바꿔 주기' 칸을 보인다(로그인 안 했으면 서버에 묻지 않는다: account.isAdmin 이 먼저 SIGNED_OUT) */
-async function paintAdmin() {
-  let on = false;
-  try {
-    const acct = await import("./account.js");
-    on = acct.available() && (await acct.isAdmin().catch(() => false));
-  } catch { on = false; }
-  const box = sheet.querySelector("#dev-admin");
-  if (!on || !box || !box.hidden) return;
-  const { h } = api;
-  box.replaceChildren(h("h3", { class: "field-label dev-label" }, "번호 바꿔 주기"),
-    h("form", { class: "dev-retag", novalidate: true },
-      h("label", { class: "field-label", for: "dev-retag-from" }, "닉네임#번호"),
-      h("input", { class: "text-input", id: "dev-retag-from", type: "text", autocomplete: "off", spellcheck: "false", placeholder: "닉네임#482193", enterkeyhint: "next" }),
-      h("label", { class: "field-label", for: "dev-retag-to" }, "새 번호"),
-      h("input", { class: "text-input", id: "dev-retag-to", type: "text", inputmode: "numeric", maxlength: "6", autocomplete: "off", placeholder: "100001", enterkeyhint: "done" }),
-      h("button", { type: "submit", class: "btn-secondary" }, "바꾸기"),
-      h("p", { class: "dev-retag-msg", role: "status" })),
-    h("h3", { class: "field-label dev-label" }, "닉네임 신고"),
-    h("div", { class: "dev-reports" },
-      h("button", { type: "button", class: "btn-secondary", "data-dev": "reports" }, "처리 안 한 신고 보기"),
-      h("ul", { class: "sheet-list", hidden: true }),
-      h("p", { class: "dev-retag-msg", role: "status" })),
-    h("h3", { class: "field-label dev-label" }, "지운 계정이 남긴 번호·열쇠"),
-    h("div", { class: "dev-orphans" },
-      h("button", { type: "button", class: "btn-secondary", "data-dev": "orphans" }, "찾기"),
-      h("button", { type: "button", class: "btn-secondary", "data-dev": "clean-orphans", hidden: true }, "정리"),
-      h("p", { class: "dev-retag-msg", role: "status" })));
-  box.hidden = false;
-}
-
-/** 처리 안 한 신고(새것 먼저). 신고한 사람은 보이지 않는다(법무 11/17) */
-async function showReports(b) {
-  if (b.getAttribute("aria-busy") === "true") return;
-  const { h } = api, box = sheet.querySelector(".dev-reports"), list = box.querySelector("ul"), msg = box.querySelector("p");
-  const when = (iso) => { const d = new Date(iso || 0), two = (n) => String(n).padStart(2, "0"); return iso ? `${d.getMonth() + 1}월 ${d.getDate()}일 ${two(d.getHours())}:${two(d.getMinutes())}` : ""; };
-  b.setAttribute("aria-busy", "true");
-  msg.textContent = "불러오는 중";
-  try {
-    const acct = await import("./account.js");
-    const rows = await acct.listReports();
-    list.replaceChildren(...rows.map((r) => h("li", { class: "info-row dev-report" },
-      h("span", {}, `${r.handle} · ${REASON[r.reason] || r.reason}`, r.note ? h("small", {}, r.note) : null, h("small", {}, when(r.created))),
-      h("button", { type: "button", class: "btn-text", "data-dev": "close-report", "data-id": r.id }, "처리"))));
-    list.hidden = !rows.length;
-    msg.textContent = rows.length ? `${rows.length}건` : "처리 안 한 신고가 없어요";
-  } catch (e) {
-    msg.textContent = RETAG_ERR[e && e.code] || "불러오지 못했어요";
-  } finally {
-    b.removeAttribute("aria-busy");
-  }
-}
-
-/** 지운 계정이 남긴 번호·열쇠: 수만 보인다(닉네임이 든 열쇠 이름은 보이지 않는다) */
-let orphans = null;
-async function findOrphans(b) {
-  if (b.getAttribute("aria-busy") === "true") return;
-  const box = sheet.querySelector(".dev-orphans"), clean = box.querySelector('[data-dev="clean-orphans"]'), msg = box.querySelector("p");
-  b.setAttribute("aria-busy", "true");
-  clean.hidden = true;
-  msg.textContent = "찾는 중";
-  try {
-    const acct = await import("./account.js");
-    orphans = await acct.adminOrphans();
-    const n = orphans.numbers.length, k = orphans.handles.length;
-    msg.textContent = n + k ? `번호 ${n}개 · 열쇠 ${k}개` : "남은 것이 없어요";
-    clean.hidden = !(n + k);
-  } catch (e) {
-    msg.textContent = RETAG_ERR[e && e.code] || "찾지 못했어요";
-  } finally {
-    b.removeAttribute("aria-busy");
-  }
-}
-
-async function cleanOrphans(b) {
-  if (b.getAttribute("aria-busy") === "true" || !orphans) return;
-  const msg = sheet.querySelector(".dev-orphans p");
-  b.setAttribute("aria-busy", "true");
-  try {
-    const acct = await import("./account.js");
-    const done = await acct.adminCleanOrphans(orphans);
-    orphans = null;
-    b.hidden = true;
-    msg.textContent = `정리했어요 · 번호 ${done.numbers}개 · 열쇠 ${done.handles}개`;
-  } catch (e) {
-    msg.textContent = RETAG_ERR[e && e.code] || "정리하지 못했어요";
-  } finally {
-    b.removeAttribute("aria-busy");
-  }
-}
-
-/** 신고 하나를 처리 표시한다(처리하고 1년 지나면 콘솔에서 지운다) */
-async function closeOne(b) {
-  if (b.getAttribute("aria-busy") === "true") return;
-  const msg = sheet.querySelector(".dev-reports p");
-  b.setAttribute("aria-busy", "true");
-  try {
-    const acct = await import("./account.js");
-    await acct.closeReport(b.dataset.id);
-    const li = b.closest("li"), list = li.parentElement;
-    li.remove();
-    list.hidden = !list.children.length;
-    msg.textContent = list.children.length ? `처리했어요 · 남은 것 ${list.children.length}건` : "처리했어요 · 남은 신고가 없어요";
-  } catch (e) {
-    b.removeAttribute("aria-busy");
-    msg.textContent = RETAG_ERR[e && e.code] || "처리하지 못했어요";
-  }
-}
-
-async function retag(form) {
-  const btn = form.querySelector("button"), msg = form.querySelector(".dev-retag-msg");
-  if (btn.getAttribute("aria-busy") === "true") return;
-  btn.setAttribute("aria-busy", "true");
-  msg.textContent = "바꾸는 중";
-  try {
-    const acct = await import("./account.js");
-    const r = await acct.adminSetTag(form.querySelector("#dev-retag-from").value, form.querySelector("#dev-retag-to").value);
-    msg.textContent = r.from === r.tag ? "이미 그 번호예요" : `바꿨어요: ${r.nick}#${r.from} → ${r.nick}#${r.tag}`;
-  } catch (e) {
-    msg.textContent = RETAG_ERR[e && e.code] || "바꾸지 못했어요";
-  } finally {
-    btn.removeAttribute("aria-busy");
-  }
 }
 
 async function act(k, b) {
@@ -257,10 +106,6 @@ async function act(k, b) {
   if (k === "dept") { api.closeSheet(sheet); api.dept(); return; } // 학과와 학번 처음 화면(처리방침 11/27 시행 전 미리 보기. 정보 줄도 이 세션만 켠다)
   if (k === "forget") { api.forgetTheme(); api.closeSheet(sheet); api.showSnackbar("테마 기억을 지웠어요"); return; }
   if (k === "image") { await showImage(b); return; }
-  if (k === "reports") { await showReports(b); return; }
-  if (k === "close-report") { await closeOne(b); return; }
-  if (k === "orphans") { await findOrphans(b); return; }
-  if (k === "clean-orphans") { await cleanOrphans(b); return; }
   if (k === "wipe") {
     if (b.dataset.armed) { clearTimeout(wipeTimer); api.wipe(); return; }
     b.dataset.armed = "1";

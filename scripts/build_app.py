@@ -7,7 +7,7 @@
 
 하는 일
   - web/ 의 화면·엔진·지도·아이콘·자료(지난 학기 포함)를 복사한다. 앱이 첫 실행부터 오프라인으로 돈다(디자인 규칙 '스토어 출시').
-    서비스 워커(sw.js, 앱은 파일을 품고 있다), 3D·2D 모델(model/, vendor/three/), 실측 페이지(field/), 웹에만 둔 개발자 메뉴(js/dev.js), 개발용 파일은 뺀다.
+    서비스 워커(sw.js, 앱은 파일을 품고 있다), 3D·2D 모델(model/, vendor/three/), 실측 페이지(field/), 웹에만 둔 개발자 메뉴(js/dev.js)·관리자 화면(js/admin.js·admin-core.js), 개발용 파일은 뺀다.
   - 글꼴 Pretendard 를 CDN 대신 앱에 넣는다(app/node_modules/pretendard, npm ci 뒤). 없으면 CDN 그대로 두고 알린다.
   - 앱에만 들어가는 다른 사람 코드의 고지문(licenses/*.txt: Capacitor, AndroidX, Cordova)을 묶음의 licenses/ 로 넣는다.
     웹에도 쓰는 고지문(web/licenses/: SNUTT, Pretendard)은 web/ 을 복사할 때 같은 licenses/ 로 들어간다.
@@ -40,8 +40,9 @@ REMOTE = "https://archi142857.github.io/tt-wizard/"  # 앱이 자료를 새로 �
 
 SKIP_DIRS = {"model", "field", "three", "privacy", "support", "terms", "delete-account"}  # 3D·2D 모델과 three.js, 실측 페이지,
 # 개인정보 처리방침·문의·이용 규칙·계정 삭제 안내 페이지(앱은 웹 주소를 바깥 링크로 연다. 앱에 옛 판이 남지 않게. scripts/legal_pages.py, update116)
-SKIP_FILES = {"sw.js", "README.md", "package.json", "dev.js"}  # 서비스 워커, 설명, node 테스트용 모듈 표시,
-# 웹에만 둔 개발자 메뉴(js/dev.js: 스토어 앱은 열지 않는다. 숨긴 기능을 앱에 넣지 않는다, 법무 10/24)
+SKIP_FILES = {"sw.js", "README.md", "package.json", "dev.js", "admin.js", "admin-core.js"}  # 서비스 워커, 설명, node 테스트용 모듈 표시,
+# 웹에만 둔 개발자 메뉴(js/dev.js: 스토어 앱은 열지 않는다. 숨긴 기능을 앱에 넣지 않는다, 법무 10/24),
+# 웹에만 둔 관리자 화면(js/admin.js·admin-core.js, update140: 사용자 11/18 '앱에까지 넣으면 앱이 나 하나 때문에 무거워질테니 웹에서만')
 UNTIL_USED = {"js/requirements.js": "requirements.js", "data/requirements": "data/requirements",  # 화면이 아직 부르지 않는 모듈·자료:
               "js/ics.js": "ics.js", "data/calendar.json": "data/calendar.json",
               "js/limits.js": "limits.js", "data/limits.json": "data/limits.json"}

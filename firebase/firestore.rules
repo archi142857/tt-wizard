@@ -10,6 +10,7 @@ rules_version = '2';
 //   2. 남에게 보이는 건 친구를 찾을 때 쓰는 닉네임과 번호, 그리고 친구에게만 열어 둔 시간표 사본뿐이다.
 //      친구는 '닉네임#번호'를 정확히 알아야 찾을 수 있다. 번호만으로는 누구인지 알 수 없다.
 //   3. 남의 자료를 고칠 수 있는 사람은 관리자뿐이고, 관리자도 번호를 바꿔 주고 신고를 처리하고 지운 계정이 남긴 번호·열쇠를 정리하는 일만 할 수 있다.
+//      관리자는 구글 계정만으로는 안 되고, 비밀번호로 잠금을 푼 동안(30분)만 관리자다. 비밀번호는 이 파일에도 앱에도 없다(아래 '관리자').
 
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -24,9 +25,17 @@ service cloud.firestore {
       return signedIn() && request.auth.uid == uid;
     }
 
-    // 관리자는 콘솔에서 admins/{uid} 문서를 직접 만들어 준 계정이다. 앱으로는 아무도 관리자가 될 수 없다.
+    // 관리자: admins/{uid} 문서가 있고, 비밀번호로 잠금을 푼 시간(adminSessions)이 아직 남아 있을 때만.
     function isAdmin() {
-      return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+      return signedIn()
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        && exists(/databases/$(database)/documents/adminSessions/$(request.auth.uid))
+        && get(/databases/$(database)/documents/adminSessions/$(request.auth.uid)).data.until > request.time;
+    }
+
+    // 주인: 콘솔에서 만든 관리자(role 칸이 없거나 'owner'). 관리자를 더하고 빼고, 비밀번호를 처음으로 돌린다.
+    function isOwner() {
+      return isAdmin() && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.get('role', 'owner') == 'owner';
     }
 
     // 계정 번호: 숫자 여섯 자리(0으로 시작해도 된다). 계정마다 하나이고 닉네임을 바꿔도 그대로다.
@@ -116,8 +125,68 @@ service cloud.firestore {
     // ===== 관리자 표시 =====
     // 앱은 '내가 관리자인지'만 확인한다(웹 개발자 메뉴에 관리 도구를 보일지). 쓰기는 콘솔에서만 한다.
 
+    // ===== 관리자 =====
+    // admins/{uid}: 콘솔에서 만든 사람이 주인이고, 주인이 관리자 화면에서 다른 사람을 더한다(role 'admin'). 남은 누가 관리자인지 못 읽는다.
+    // 비밀번호는 어디에도 두지 않는다. adminKeys/{uid} 에는 비밀번호를 그 사람 기기에서 여러 번 섞은 값 h 만 있고, 아무 앱도 이 문서를 읽지 못한다
+    // (이 규칙 안에서만 읽힌다). 잠금을 풀 때는 끝나는 때와 차례 n 으로 sha256(h|끝나는 때|n) 을 만들어 보내고, 여기서 같은 셈으로 맞춰 본다.
+    // 끝나는 때는 60분 안이고, n 은 하나씩만 올라서 지난 증명을 다시 보내도 열리지 않는다.
+    // 규칙은 틀린 비밀번호를 몇 번 넣었는지 셀 수 없다. 그래서 비밀번호는 길게 정한다(관리자 구글 계정을 가진 사람만 넣어 볼 수 있다).
+
     match /admins/{uid} {
+      // 내 것(관리자 화면 버튼을 띄울지)과, 주인은 다른 관리자 것과 목록까지
+      allow get: if isMe(uid) || isOwner();
+      allow list: if isOwner();
+      // 주인이 닉네임이 있는 계정을 관리자로 더한다. 고치지는 못하고 빼기만 한다. 나를 빼지는 못한다
+      allow create: if isOwner() && uid != request.auth.uid
+        && request.resource.data.keys().hasOnly(['role', 'added', 'by'])
+        && request.resource.data.role == 'admin'
+        && request.resource.data.added == request.time
+        && request.resource.data.by == request.auth.uid
+        && exists(/databases/$(database)/documents/profiles/$(uid));
+      allow delete: if isOwner() && uid != request.auth.uid;
+    }
+
+    function keyShape() {
+      return request.resource.data.keys().hasOnly(['h'])
+        && request.resource.data.h is string
+        && request.resource.data.h.matches('^[0-9a-f]{64}$');
+    }
+
+    match /adminKeys/{uid} {
+      // 아무도 못 읽는다. 아직 없는지만 본인이 안다(처음 비밀번호 정하기를 띄울지)
+      allow get: if isMe(uid) && resource == null;
+      // 처음 한 번은 관리자 본인이 정한다. 바꾸기는 잠금을 푼 동안 본인만
+      allow create: if isMe(uid) && exists(/databases/$(database)/documents/admins/$(uid)) && keyShape();
+      allow update: if isMe(uid) && isAdmin() && keyShape();
+      // 주인은 다른 관리자의 비밀번호를 처음으로 돌린다(관리자에서 뺄 때도 같이 지운다)
+      allow delete: if isOwner() && uid != request.auth.uid;
+    }
+
+    function unlocks() {
+      let d = request.resource.data;
+      let key = /databases/$(database)/documents/adminKeys/$(request.auth.uid);
+      return d.until > request.time
+        && d.until <= request.time + duration.value(60, 'm')
+        && exists(key)
+        && d.proof == hashing.sha256(get(key).data.h + '|' + string(d.until.toMillis()) + '|' + string(d.n)).toHexString().lower();
+    }
+
+    function locks() {
+      return request.resource.data.until == request.time && request.resource.data.proof == '';
+    }
+
+    match /adminSessions/{uid} {
       allow get: if isMe(uid);
+      // 잠금 풀기는 비밀번호를 아는 사람만 만들 수 있는 증명으로, 잠그기는 끝나는 때를 지금(서버 시각)으로 하고 증명을 비운다
+      allow create, update: if isMe(uid)
+        && exists(/databases/$(database)/documents/admins/$(uid))
+        && request.resource.data.keys().hasOnly(['until', 'proof', 'n'])
+        && request.resource.data.n == (resource == null ? 1 : resource.data.n + 1)
+        && request.resource.data.until is timestamp
+        && request.resource.data.proof is string
+        && (unlocks() || locks());
+      // 주인은 다른 관리자를 바로 잠근다(관리자에서 빼거나 비밀번호를 처음으로 돌릴 때)
+      allow delete: if isOwner() && uid != request.auth.uid;
     }
 
 
