@@ -737,7 +737,8 @@
     <button type="button" class="btn-text" id="fa-ask-ok"></button>
   </div>
 </dialog>
-<!-- 친구 추가(디자인 130판: 새 시간표 팝업 꼴): 친구의 닉네임#번호, 초대 링크 보내기(기기 공유 창), [닫기] [요청 보내기]. 오류 줄은 칸 아래 -->
+<!-- 친구 추가(디자인 130판: 새 시간표 팝업 꼴): 친구의 닉네임#번호, 초대 링크 보내기(공유 시트)·QR 코드(11/17 사용자 'QR 기능은 시간표에서 빼고 친구 추가에 넣어줘'.
+     이 팝업 위에 내 초대 링크 QR), [닫기] [요청 보내기]. 오류 줄은 칸 아래 -->
 <dialog class="sheet ask tt-new" id="fr-add" aria-labelledby="fra-title">
   <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="fra-title" tabindex="-1" autofocus>친구 추가</h2></div></div>
   <div class="tn-body">
@@ -746,7 +747,10 @@
       <input class="text-input" id="fra-handle" type="text" maxlength="20" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="send">
       <p class="error-line" id="fra-err" hidden></p>
     </div>
-    <button type="button" class="btn-text with-ic fra-invite" id="fra-invite"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l2.6-2.6a4.5 4.5 0 0 0-6.4-6.4L11.4 6.2"></path><path d="M14 10a4.5 4.5 0 0 0-6.4 0L5 12.6a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"></path></svg>초대 링크 보내기</button>
+    <div class="fra-links">
+      <button type="button" class="btn-text with-ic fra-invite" id="fra-invite"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l2.6-2.6a4.5 4.5 0 0 0-6.4-6.4L11.4 6.2"></path><path d="M14 10a4.5 4.5 0 0 0-6.4 0L5 12.6a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"></path></svg>초대 링크 보내기</button>
+      <button type="button" class="btn-text with-ic fra-qr" id="fra-qr" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1.5"></rect><rect x="14" y="4" width="6" height="6" rx="1.5"></rect><rect x="4" y="14" width="6" height="6" rx="1.5"></rect><path d="M14.5 14.5h.01M19.5 14.5h.01M17 17h.01M14.5 19.5h.01M19.5 19.5h.01" stroke-width="2.8"></path></svg>QR 코드</button>
+    </div>
   </div>
   <div class="sheet-actions">
     <button type="button" class="btn-text" data-close>닫기</button>
@@ -849,9 +853,8 @@
 <!-- 이벤트 테마가 저절로 켜진 뒤 처음 들어왔을 때 한 번 묻는다(묻는 팝업: 어느 폭에서나 화면 가운데. 10/23 사용자 "팝업". 제목은 질문, 버튼은 닫기와 동사) -->
 <!-- Tachyon 처음 누를 때 한 줄(디자인 123판, 법무 11/13 '단추나 처음 누를 때 같은 개발자의 다른 앱으로 보낸다는 한 줄'): 공유 시트 위 묻는 팝업(시트 위 팝업 예외).
      보내기 → Tachyon 을 열고 두 창을 닫고 이 기기에 물었다는 것을 둔다(ttw.tachyonAsked). 닫기 → 공유 시트로, 다음에 다시 묻는다 -->
-<!-- QR 코드(11/17 사용자 '모든 공유 기능에 QR 코드 기능 넣어줘', 'qr은 중간에 우리 앱 로고 넣어줘', '로고는 누끼로', '설명은 달지 마'): 공유 시트의 링크(시간표 링크·친구 초대)
-     앱 단추 줄 'QR 코드'(링크·이미지·캘린더 어디서나)가 시트 위에 띄운다(Tachyon 묻는 팝업과 같은 시트 위 팝업). 흰 칸에 검은 칸(테마와 상관없이), 가운데 누끼 앱 심볼.
-     글은 제목·메타뿐(링크 고지는 공유 시트의 링크 칸에, 법무 10/30) -->
+<!-- QR 코드(11/17 사용자 '모든 공유 기능에 QR 코드 기능 넣어줘', 'qr은 중간에 우리 앱 로고 넣어줘', '로고는 누끼로', '설명은 달지 마', 'QR 기능은 시간표에서 빼고 친구 추가에 넣어줘'):
+     친구 추가 팝업의 'QR 코드'가 그 위에 띄운다(시트 위 팝업). 내 초대 링크, 흰 칸에 검은 칸(테마와 상관없이), 가운데 누끼 앱 심볼. 글은 제목·메타(내 닉네임#번호)뿐 -->
 <dialog class="sheet ask qr-pop" id="qr-pop" aria-labelledby="qr-title">
   <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="qr-title" tabindex="-1" autofocus>QR 코드</h2><p class="sheet-meta" id="qr-meta"></p></div></div>
   <div class="sheet-body">

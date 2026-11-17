@@ -1486,7 +1486,7 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 .share-app:active .ic { background: color-mix(in srgb, var(--inset), var(--text) 6%); }
 .share-app:focus-visible { outline: none; }
 .share-app:focus-visible .ic { outline: 2px solid var(--focus); outline-offset: 2px; }
-/* QR 코드 팝업(공유 시트 위, 11/17 사용자): QR 은 흰 바탕에 검은 칸 그대로(다크·고대비에서도. 뒤집힌 QR 을 못 읽는 카메라가 있다), 둘레 line 1 과 radius-md,
+/* QR 코드 팝업(친구 추가 팝업 위, 11/17 사용자): QR 은 흰 바탕에 검은 칸 그대로(다크·고대비에서도. 뒤집힌 QR 을 못 읽는 카메라가 있다), 둘레 line 1 과 radius-md,
    폭은 팝업 안 가득 288(넓은 화면 360) 까지에서 칸이 기기 화소로 떨어지게(app.js qrFit, 폰 카메라가 칸을 가르게). 글은 제목·메타뿐('설명은 달지 마') */
 dialog.sheet.ask.qr-pop { max-width: min(23.5rem, calc(100% - var(--space-5) * 2)); }
 .qr-box { display: grid; place-items: center; min-height: 12rem; margin-top: var(--space-2); }
@@ -2308,7 +2308,7 @@ button.fr-row:active { background: var(--surface-hover); }
 .sheet-body .fr-hide .info-row.switch-row, .tn-body .fr-hide .info-row.switch-row { width: calc(100% + var(--space-5) * 2); margin: 0 calc(var(--space-5) * -1); padding: var(--space-2) var(--space-5); }
 .sheet-body .sheet-field + .fr-hide { margin-top: 0; border-top: 0; border-bottom: 1px solid var(--line); }
 .tn-body .nick-help + .error-line { margin: var(--space-2) 0 0; }
-.btn-text.fra-invite { margin: var(--space-3) 0 0 calc(var(--space-2) * -1); }
+.fra-links { display: flex; flex-wrap: wrap; column-gap: var(--space-2); margin: var(--space-3) 0 0 calc(var(--space-2) * -1); } /* 초대 링크 보내기 · QR 코드(11/17), 글이 칸 왼쪽 선 */
 .fr-wk-empty { margin: 0; padding: var(--space-8) var(--space-4); text-align: center; font-size: 0.875rem; line-height: 1.25rem; color: var(--text3); }
 /* 바탕 위 글자·버튼(졸업 요건 탭·친구): 크리스마스 눈 위에서 둘레(위 '바탕 위 글자'와 같은 까닭), 바탕 위 텍스트 버튼을 누르거나 올리면 bg-hover 면(카드 위 버튼의 surface-hover 가 아니라)이고 그동안 둘레를 뺀다 */
 .gr-head, .gr-foot, .gr-lead, .gr-empty p, .gr-empty .btn-text, .fr-me, .fr-ttl, .fr-sem .m, .pv-note, .fr-head .btn-text { text-shadow: var(--on-bg-halo, none); }

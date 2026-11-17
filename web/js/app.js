@@ -113,7 +113,6 @@ const I = {
   msg: '<path d="M20.5 11.5c0 4.1-3.8 7.4-8.5 7.4-1.2 0-2.3-.2-3.3-.6L4 19.5l1.2-3.6c-1.1-1.2-1.7-2.8-1.7-4.4 0-4.1 3.8-7.4 8.5-7.4s8.5 3.3 8.5 7.4z"/>', // 말풍선(공유 카드의 메시지: 웹·iOS)
   edit: '<path d="M4.5 19.5l.9-4.1L15.7 5.1a2 2 0 0 1 2.8 0l.4.4a2 2 0 0 1 0 2.8L8.6 18.6z"/><path d="M13.6 7.2l3.2 3.2"/>', // 연필(시간표 목록 시트의 이름 입력칸. 누르는 것이 아니라 고칠 수 있다는 표시)
   calOut: '<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M10 13.5l3 2.25-3 2.25"/>', // 달력에 오른쪽 화살표(공유 카드 캘린더의 Tachyon, 디자인 122판)
-  qr: '<rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><path d="M14.5 14.5h.01M19.5 14.5h.01M17 17h.01M14.5 19.5h.01M19.5 19.5h.01" stroke-width="2.8"/>', // 찾기 무늬 셋과 점(공유 카드의 QR 코드)
 };
 const icon = (paths, size = 24) => svg(`<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`);
 const HOME_PIN = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"></path></svg>';
@@ -5046,7 +5045,7 @@ function moreOk(link) {
   try { return !!navigator.canShare && navigator.canShare({ files: [new File([new Uint8Array(1)], "a.png", { type: "image/png" })] }); } catch { return false; }
 }
 /** 앱 단추 줄(다섯 칸 격자에 왼쪽부터, 맨 끝은 더 보기). 안드로이드 앱은 깔린 앱 가운데 고른 것을 받는 것(스토리는 링크일 때도 둔다: 이미지를 보낸다),
- *  웹·iOS 는 메시지(링크일 때)·더 보기, 어디서나 그 앞에 QR 코드 */
+ *  웹·iOS 는 메시지(링크일 때)·더 보기. 단추가 없으면 줄을 두지 않는다(링크 복사·이미지로 저장만) */
 function renderShareApps() {
   const list = $("sh-apps"), kind = shareInvite ? "link" : shareKind(), link = kind === "link", app = IN_APP && window.TTW_APP;
   const had = list.contains(document.activeElement) ? document.activeElement : null; // 다시 그려도 초점은 같은 단추에
@@ -5072,10 +5071,6 @@ function renderShareApps() {
   }
   if (link && smsOk()) rows.push(ours("sms", I.msg, "메시지"));
   if (kind !== "cal" && moreOk(link)) rows.push(ours("more", I.more, "더 보기"));
-  // QR 코드(11/17 사용자 '모든 공유 기능에 QR 코드 기능 넣어줘'): 링크·이미지·캘린더·친구 초대 어디서나 더 보기 바로 앞(없으면 끝). 늘 그 시간표(초대) 링크라
-  // 공유 창이 없는 컴퓨터에도 줄이 생기고, 고르는 칸을 바꿔도 줄이 있다 없다 하지 않는다(세그먼트가 움직이지 않게)
-  const more = rows.findIndex((b) => b.dataset.share === "more");
-  rows.splice(more < 0 ? rows.length : more, 0, ours("qr", I.qr, "QR 코드"));
   list.replaceChildren(...rows.map((b) => h("li", {}, b)));
   list.hidden = !rows.length;
   const same = had && (had.dataset.target ? `[data-target="${CSS.escape(had.dataset.target)}"]` : had.dataset.cal ? `[data-cal="${CSS.escape(had.dataset.cal)}"]` : `[data-share="${CSS.escape(had.dataset.share || "")}"]`);
@@ -5115,7 +5110,6 @@ $("share-sheet").addEventListener("click", (e) => {
   else if (b.dataset.share === "tachyon") tachyonSend();
   else if (b.dataset.share === "sms") smsShare();
   else if (b.dataset.share === "more") moreShare();
-  else if (b.dataset.share === "qr") openQr(b);
 });
 /** QR 코드(ISO/IEC 18004) 만들기: 바이트 모드(UTF-8 글), 판 1~40. 바깥 라이브러리 없이(11/17 사용자 '모든 공유 기능에 QR 코드 기능 넣어줘').
  *  QR.make(글, { ecl, mask, boost }) → { size, ver, ecl, mask, dark(x, y) } 또는 null(판 40 에도 안 들어간다).
@@ -5398,18 +5392,13 @@ function qrFit(pic) {
   const room = Math.min(box.clientWidth || cap, cap), fit = (Math.floor((room * dpr) / cells) * cells) / dpr;
   pic.style.width = `${fit >= room * 0.85 ? fit : room}px`;
 }
-/** QR 코드 팝업(공유 시트 위, 11/17 사용자 '모든 공유 기능에 QR 코드 기능 넣어줘'): 지금 공유 시트의 링크(시간표 링크·친구 초대)를 QR 로.
- *  다른 폰 카메라로 찍으면 그 링크가 열린다(앱이 깔렸으면 앱). 글은 제목·메타뿐(11/17 사용자 '설명은 달지 마') */
-async function openQr(opener) {
-  const invite = !!shareInvite, t = shareTt, box = $("qr-box");
-  $("qr-meta").textContent = $("sh-meta").textContent;
-  box.replaceChildren();
+/** QR 코드 팝업(11/17 사용자 '모든 공유 기능에 QR 코드 기능 넣어줘' → 'QR 기능은 시간표에서 빼고 친구 추가에 넣어줘'): 친구 추가 팝업의 `QR 코드`가
+ *  그 위에 내 초대 링크를 QR 로 띄운다. 친구가 폰 카메라로 찍으면 초대 링크가 열린다(앱이 깔렸으면 앱). 글은 제목·메타(내 닉네임#번호)뿐('설명은 달지 마') */
+function openQr(opener, url, meta, label) {
+  $("qr-meta").textContent = meta;
+  const pic = qrSvg(url, label);
+  $("qr-box").replaceChildren(pic || h("p", { class: "qr-none" }, "링크가 너무 길어 QR 코드로 만들 수 없어요"));
   openSheet($("qr-pop"), opener, { over: true });
-  let url = null;
-  try { url = await shareUrl; } catch { url = null; }
-  if (!$("qr-pop").open || shareTt !== t || !!shareInvite !== invite) return; // 그사이 닫았거나 다른 공유
-  const pic = url ? qrSvg(url, invite ? "친구 초대 링크 QR 코드" : "시간표 링크 QR 코드") : null;
-  box.replaceChildren(pic || h("p", { class: "qr-none" }, url ? "링크가 너무 길어 QR 코드로 만들 수 없어요" : "링크를 만들지 못했어요"));
   if (pic) qrFit(pic);
 }
 /** 만들어 둔 링크. 못 만들었으면 시트 안 알림 '링크를 만들지 못했어요' 하고 null */
@@ -9340,6 +9329,11 @@ function openFrAdd(opener) {
   openSheet($("fr-add"), opener);
 }
 $("fra-handle").addEventListener("input", () => { frAddError(null); $("fra-send").disabled = !$("fra-handle").value.trim(); });
+// QR 코드(11/17 사용자 'QR 기능은 시간표에서 빼고 친구 추가에 넣어줘'): 친구 추가 팝업 위에 내 초대 링크 QR. 닫으면 친구 추가 팝업 그대로
+$("fra-qr").addEventListener("click", (e) => {
+  if (!acct || !fr || !fr.profile) return;
+  openQr(e.currentTarget, acct.inviteLink(fr.profile), handleText(fr.profile), "친구 초대 링크 QR 코드");
+});
 $("fra-handle").addEventListener("keydown", (e) => {
   if (e.key !== "Enter" || e.isComposing || e.keyCode === 229) return;
   e.preventDefault();
