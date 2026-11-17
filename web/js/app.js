@@ -113,6 +113,7 @@ const I = {
   msg: '<path d="M20.5 11.5c0 4.1-3.8 7.4-8.5 7.4-1.2 0-2.3-.2-3.3-.6L4 19.5l1.2-3.6c-1.1-1.2-1.7-2.8-1.7-4.4 0-4.1 3.8-7.4 8.5-7.4s8.5 3.3 8.5 7.4z"/>', // 말풍선(공유 카드의 메시지: 웹·iOS)
   edit: '<path d="M4.5 19.5l.9-4.1L15.7 5.1a2 2 0 0 1 2.8 0l.4.4a2 2 0 0 1 0 2.8L8.6 18.6z"/><path d="M13.6 7.2l3.2 3.2"/>', // 연필(시간표 목록 시트의 이름 입력칸. 누르는 것이 아니라 고칠 수 있다는 표시)
   calOut: '<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M10 13.5l3 2.25-3 2.25"/>', // 달력에 오른쪽 화살표(공유 카드 캘린더의 Tachyon, 디자인 122판)
+  qr: '<rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><path d="M14.5 14.5h.01M19.5 14.5h.01M17 17h.01M14.5 19.5h.01M19.5 19.5h.01" stroke-width="2.8"/>', // 찾기 무늬 셋과 점(공유 카드의 QR 코드)
 };
 const icon = (paths, size = 24) => svg(`<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`);
 const HOME_PIN = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"></path></svg>';
@@ -5045,7 +5046,7 @@ function moreOk(link) {
   try { return !!navigator.canShare && navigator.canShare({ files: [new File([new Uint8Array(1)], "a.png", { type: "image/png" })] }); } catch { return false; }
 }
 /** 앱 단추 줄(다섯 칸 격자에 왼쪽부터, 맨 끝은 더 보기). 안드로이드 앱은 깔린 앱 가운데 고른 것을 받는 것(스토리는 링크일 때도 둔다: 이미지를 보낸다),
- *  웹·iOS 는 메시지(링크일 때)·더 보기. 단추가 없으면 줄을 두지 않는다(링크 복사·이미지로 저장만) */
+ *  웹·iOS 는 메시지(링크일 때)·더 보기, 어디서나 그 앞에 QR 코드 */
 function renderShareApps() {
   const list = $("sh-apps"), kind = shareInvite ? "link" : shareKind(), link = kind === "link", app = IN_APP && window.TTW_APP;
   const had = list.contains(document.activeElement) ? document.activeElement : null; // 다시 그려도 초점은 같은 단추에
@@ -5071,6 +5072,10 @@ function renderShareApps() {
   }
   if (link && smsOk()) rows.push(ours("sms", I.msg, "메시지"));
   if (kind !== "cal" && moreOk(link)) rows.push(ours("more", I.more, "더 보기"));
+  // QR 코드(11/17 사용자 '모든 공유 기능에 QR 코드 기능 넣어줘'): 링크·이미지·캘린더·친구 초대 어디서나 더 보기 바로 앞(없으면 끝). 늘 그 시간표(초대) 링크라
+  // 공유 창이 없는 컴퓨터에도 줄이 생기고, 고르는 칸을 바꿔도 줄이 있다 없다 하지 않는다(세그먼트가 움직이지 않게)
+  const more = rows.findIndex((b) => b.dataset.share === "more");
+  rows.splice(more < 0 ? rows.length : more, 0, ours("qr", I.qr, "QR 코드"));
   list.replaceChildren(...rows.map((b) => h("li", {}, b)));
   list.hidden = !rows.length;
   const same = had && (had.dataset.target ? `[data-target="${CSS.escape(had.dataset.target)}"]` : had.dataset.cal ? `[data-cal="${CSS.escape(had.dataset.cal)}"]` : `[data-share="${CSS.escape(had.dataset.share || "")}"]`);
@@ -5110,7 +5115,303 @@ $("share-sheet").addEventListener("click", (e) => {
   else if (b.dataset.share === "tachyon") tachyonSend();
   else if (b.dataset.share === "sms") smsShare();
   else if (b.dataset.share === "more") moreShare();
+  else if (b.dataset.share === "qr") openQr(b);
 });
+/** QR 코드(ISO/IEC 18004) 만들기: 바이트 모드(UTF-8 글), 판 1~40. 바깥 라이브러리 없이(11/17 사용자 '모든 공유 기능에 QR 코드 기능 넣어줘').
+ *  QR.make(글, { ecl, mask, boost }) → { size, ver, ecl, mask, dark(x, y) } 또는 null(판 40 에도 안 들어간다).
+ *  ecl 은 0~3(L·M·Q·H, 처음 L), boost 면 가장 작은 판 그대로 오류 정정을 올릴 수 있는 만큼 올린다(처음 켬), mask 를 주지 않으면 여덟 가운데 벌점이 가장 낮은 것 */
+const QR = (() => {
+  // 판마다 블록 하나의 오류 정정 글자 수와 블록 수(표준의 표 9, L·M·Q·H 차례. 0번 칸은 비움)
+  const ECC = [
+    [0, 7, 10, 15, 20, 26, 18, 20, 24, 30, 18, 20, 24, 26, 30, 22, 24, 28, 30, 28, 28, 28, 28, 30, 30, 26, 28, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
+    [0, 10, 16, 26, 18, 24, 16, 18, 22, 22, 26, 30, 22, 22, 24, 24, 28, 28, 26, 26, 26, 26, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28],
+    [0, 13, 22, 18, 26, 18, 24, 18, 22, 20, 24, 28, 26, 24, 20, 30, 24, 28, 28, 26, 30, 28, 30, 30, 30, 30, 28, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
+    [0, 17, 28, 22, 16, 22, 28, 26, 26, 24, 28, 24, 28, 22, 24, 24, 30, 28, 28, 26, 28, 30, 24, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
+  ];
+  const BLOCKS = [
+    [0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 4, 4, 4, 4, 4, 6, 6, 6, 6, 7, 8, 8, 9, 9, 10, 12, 12, 12, 13, 14, 15, 16, 17, 18, 19, 19, 20, 21, 22, 24, 25],
+    [0, 1, 1, 1, 2, 2, 4, 4, 4, 5, 5, 5, 8, 9, 9, 10, 10, 11, 13, 14, 16, 17, 17, 18, 20, 21, 23, 25, 26, 28, 29, 31, 33, 35, 37, 38, 40, 43, 45, 47, 49],
+    [0, 1, 1, 2, 2, 4, 4, 6, 6, 8, 8, 8, 10, 12, 16, 12, 17, 16, 18, 21, 20, 23, 23, 25, 27, 29, 34, 34, 35, 38, 40, 43, 45, 48, 51, 53, 56, 59, 62, 65, 68],
+    [0, 1, 1, 2, 4, 4, 4, 5, 6, 8, 8, 11, 11, 16, 16, 18, 16, 19, 21, 25, 25, 25, 34, 30, 32, 35, 37, 40, 42, 45, 48, 51, 54, 57, 60, 63, 66, 70, 74, 77, 81],
+  ];
+  const ECL_BITS = [1, 0, 3, 2]; // 형식 정보의 오류 정정 두 비트: L 01, M 00, Q 11, H 10
+  // GF(256): 원시 다항식 x⁸+x⁴+x³+x²+1(0x11D), 지수·로그 표
+  const EXP = new Uint8Array(512), LOG = new Uint8Array(256);
+  for (let i = 0, x = 1; i < 255; i++) {
+    EXP[i] = x;
+    LOG[x] = i;
+    x <<= 1;
+    if (x & 0x100) x ^= 0x11d;
+  }
+  for (let i = 255; i < 512; i++) EXP[i] = EXP[i - 255];
+  const mul = (a, b) => (a && b ? EXP[LOG[a] + LOG[b]] : 0);
+  const gens = new Map(); // 오류 정정 글자 수 → 생성 다항식 (x−α⁰)…(x−α^(n−1)) 의 계수(맨 앞 1 을 뺀, 높은 차수부터)
+  const gen = (n) => {
+    if (gens.has(n)) return gens.get(n);
+    let g = [1];
+    for (let i = 0; i < n; i++) {
+      const next = new Array(g.length + 1).fill(0);
+      for (let j = 0; j < g.length; j++) {
+        next[j] ^= g[j];
+        next[j + 1] ^= mul(g[j], EXP[i]);
+      }
+      g = next;
+    }
+    gens.set(n, g.slice(1));
+    return gens.get(n);
+  };
+  /** 리드-솔로몬 나머지(데이터 글자 × x^n 을 생성 다항식으로 나눈 나머지 n 글자) */
+  const remainder = (data, n) => {
+    const g = gen(n), r = new Array(n).fill(0);
+    for (const b of data) {
+      const f = b ^ r.shift();
+      r.push(0);
+      if (f) for (let i = 0; i < n; i++) r[i] ^= mul(g[i], f);
+    }
+    return r;
+  };
+  /** 정렬 무늬 가운데 자리(판 2 부터: 6 과 끝에서 7, 그 사이를 같은 짝수 간격으로. 판 32 만 간격 26) */
+  const alignAt = (ver) => {
+    if (ver < 2) return [];
+    const size = ver * 4 + 17, n = Math.floor(ver / 7) + 2;
+    const step = ver === 32 ? 26 : Math.ceil((size - 13) / (n * 2 - 2)) * 2, out = [6];
+    for (let p = size - 7; out.length < n; p -= step) out.splice(1, 0, p);
+    return out;
+  };
+  const bch = (value, poly, deg) => { // value 뒤에 붙는 BCH 나머지(deg 비트)
+    let r = value << deg;
+    const top = Math.floor(Math.log2(poly));
+    for (let b = Math.floor(Math.log2(r || 1)); b >= top; b--) if (r >> b & 1) r ^= poly << (b - top);
+    return (value << deg) | r;
+  };
+  /** 판의 고정 무늬: 칸 값(dark)과 고정 칸 표시(fn). 형식·판 정보 자리는 고정 칸으로 비워 둔다 */
+  const base = (ver) => {
+    const size = ver * 4 + 17, dark = new Uint8Array(size * size), fn = new Uint8Array(size * size);
+    const set = (x, y, v) => { dark[y * size + x] = v ? 1 : 0; fn[y * size + x] = 1; };
+    for (let i = 0; i < size; i++) { set(6, i, i % 2 === 0); set(i, 6, i % 2 === 0); } // 타이밍
+    for (const [cx, cy] of [[3, 3], [size - 4, 3], [3, size - 4]]) { // 찾기 무늬 7×7 과 둘레의 흰 띠
+      for (let dy = -4; dy <= 4; dy++) for (let dx = -4; dx <= 4; dx++) {
+        const x = cx + dx, y = cy + dy, d = Math.max(Math.abs(dx), Math.abs(dy));
+        if (x >= 0 && x < size && y >= 0 && y < size) set(x, y, d !== 2 && d !== 4);
+      }
+    }
+    const al = alignAt(ver), last = al.length - 1;
+    al.forEach((cy, i) => al.forEach((cx, j) => { // 정렬 무늬 5×5(찾기 무늬와 겹치는 세 모서리는 뺀다)
+      if ((i === 0 && j === 0) || (i === 0 && j === last) || (i === last && j === 0)) return;
+      for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) set(cx + dx, cy + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1);
+    }));
+    for (let i = 0; i < 9; i++) { // 형식 정보 자리(값은 마스크를 고른 뒤)
+      if (!fn[8 * size + i]) set(i, 8, 0);
+      if (!fn[i * size + 8]) set(8, i, 0);
+    }
+    for (let i = 0; i < 8; i++) { set(size - 1 - i, 8, 0); set(8, size - 1 - i, 0); }
+    set(8, size - 8, 1); // 늘 검은 칸
+    if (ver >= 7) { // 판 정보 18비트(두 자리)
+      const bits = bch(ver, 0x1f25, 12);
+      for (let i = 0; i < 18; i++) {
+        const v = bits >> i & 1, a = size - 11 + i % 3, b = Math.floor(i / 3);
+        set(a, b, v);
+        set(b, a, v);
+      }
+    }
+    let free = 0;
+    for (const f of fn) if (!f) free++;
+    return { size, dark, fn, codewords: free >> 3 };
+  };
+  const bases = new Map();
+  const baseOf = (ver) => { if (!bases.has(ver)) bases.set(ver, base(ver)); return bases.get(ver); };
+  const dataBytes = (ver, ecl) => baseOf(ver).codewords - ECC[ecl][ver] * BLOCKS[ecl][ver];
+  const bitsNeeded = (len, ver) => 4 + (ver < 10 ? 8 : 16) + len * 8;
+  const fits = (len, ver, ecl) => bitsNeeded(len, ver) <= dataBytes(ver, ecl) * 8 && len < (ver < 10 ? 256 : 65536);
+  /** 데이터 글자: 모드 0100, 글자 수, 바이트, 끝 표시, 0xEC·0x11 채움 */
+  const dataCodewords = (bytes, ver, ecl) => {
+    const cap = dataBytes(ver, ecl) * 8, bits = [];
+    const put = (v, n) => { for (let i = n - 1; i >= 0; i--) bits.push(v >> i & 1); };
+    put(4, 4);
+    put(bytes.length, ver < 10 ? 8 : 16);
+    for (const b of bytes) put(b, 8);
+    put(0, Math.min(4, cap - bits.length));
+    put(0, (8 - bits.length % 8) % 8);
+    for (let pad = 0xec; bits.length < cap; pad ^= 0xec ^ 0x11) put(pad, 8);
+    const out = [];
+    for (let i = 0; i < bits.length; i += 8) out.push(bits.slice(i, i + 8).reduce((a, b) => a << 1 | b, 0));
+    return out;
+  };
+  /** 블록으로 나눠 오류 정정을 붙이고 엇갈려 늘어놓는다 */
+  const interleave = (data, ver, ecl) => {
+    const nb = BLOCKS[ecl][ver], n = ECC[ecl][ver], total = baseOf(ver).codewords;
+    const shortLen = Math.floor(total / nb) - n, shorts = nb - total % nb, blocks = [];
+    for (let i = 0, at = 0; i < nb; i++) {
+      const len = shortLen + (i < shorts ? 0 : 1), d = data.slice(at, at + len);
+      at += len;
+      blocks.push({ d, e: remainder(d, n) });
+    }
+    const out = [];
+    for (let i = 0; i <= shortLen; i++) for (const b of blocks) if (i < b.d.length) out.push(b.d[i]);
+    for (let i = 0; i < n; i++) for (const b of blocks) out.push(b.e[i]);
+    return out;
+  };
+  const MASKS = [
+    (x, y) => (x + y) % 2 === 0, (x, y) => y % 2 === 0, (x) => x % 3 === 0, (x, y) => (x + y) % 3 === 0,
+    (x, y) => (Math.floor(y / 2) + Math.floor(x / 3)) % 2 === 0, (x, y) => (x * y) % 2 + (x * y) % 3 === 0,
+    (x, y) => ((x * y) % 2 + (x * y) % 3) % 2 === 0, (x, y) => ((x + y) % 2 + (x * y) % 3) % 2 === 0,
+  ];
+  /** 형식 정보 15비트를 두 자리에 */
+  const drawFormat = (m, size, ecl, mask) => {
+    const bits = bch(ECL_BITS[ecl] << 3 | mask, 0x537, 10) ^ 0x5412, bit = (i) => bits >> i & 1;
+    for (let i = 0; i <= 5; i++) m[i * size + 8] = bit(i);
+    m[7 * size + 8] = bit(6);
+    m[8 * size + 8] = bit(7);
+    m[8 * size + 7] = bit(8);
+    for (let i = 9; i < 15; i++) m[8 * size + 14 - i] = bit(i);
+    for (let i = 0; i < 8; i++) m[8 * size + size - 1 - i] = bit(i);
+    for (let i = 8; i < 15; i++) m[(size - 15 + i) * size + 8] = bit(i);
+  };
+  /** 마스크 벌점(표준 8.8.2): 같은 색 줄 5칸 넘게, 2×2 같은 색, 찾기 무늬 꼴 1:1:3:1:1 과 흰 4칸, 검은 칸 비율 */
+  const penalty = (m, size) => {
+    let p = 0, dark = 0;
+    const line = (get) => {
+      let run = 1;
+      for (let i = 1; i <= size; i++) {
+        if (i < size && get(i) === get(i - 1)) { run++; continue; }
+        if (run >= 5) p += run - 2;
+        run = 1;
+      }
+      const s = new Array(size + 8).fill(0); // 둘레 흰 4칸을 붙인 줄
+      for (let i = 0; i < size; i++) s[i + 4] = get(i);
+      for (let i = 0; i + 7 <= s.length; i++) {
+        if (!(s[i] && !s[i + 1] && s[i + 2] && s[i + 3] && s[i + 4] && !s[i + 5] && s[i + 6])) continue;
+        if (i >= 4 && !s[i - 1] && !s[i - 2] && !s[i - 3] && !s[i - 4]) p += 40;
+        if (i + 11 <= s.length && !s[i + 7] && !s[i + 8] && !s[i + 9] && !s[i + 10]) p += 40;
+      }
+    };
+    for (let y = 0; y < size; y++) line((x) => m[y * size + x]);
+    for (let x = 0; x < size; x++) line((y) => m[y * size + x]);
+    for (let y = 0; y < size - 1; y++) for (let x = 0; x < size - 1; x++) {
+      const c = m[y * size + x];
+      if (c === m[y * size + x + 1] && c === m[(y + 1) * size + x] && c === m[(y + 1) * size + x + 1]) p += 3;
+    }
+    for (const v of m) dark += v;
+    const total = size * size;
+    return p + (Math.ceil(Math.abs(dark * 20 - total * 10) / total) - 1) * 10;
+  };
+  function make(text, { ecl = 0, mask = null, boost = true } = {}) {
+    const bytes = new TextEncoder().encode(String(text));
+    let ver = 1;
+    while (ver <= 40 && !fits(bytes.length, ver, ecl)) ver++;
+    if (ver > 40) return null;
+    if (boost) while (ecl < 3 && fits(bytes.length, ver, ecl + 1)) ecl++;
+    const b = baseOf(ver), size = b.size, words = interleave(dataCodewords(bytes, ver, ecl), ver, ecl);
+    const raw = b.dark.slice();
+    // 지그재그: 오른쪽 아래부터 두 칸 폭으로 위·아래를 번갈아(세로 타이밍 줄 6 은 건너뛴다)
+    let k = 0;
+    for (let right = size - 1; right >= 1; right -= 2) {
+      if (right === 6) right = 5;
+      const up = ((right + 1) & 2) === 0;
+      for (let v = 0; v < size; v++) {
+        const y = up ? size - 1 - v : v;
+        for (let j = 0; j < 2; j++) {
+          const i = y * size + right - j;
+          if (b.fn[i]) continue;
+          raw[i] = k < words.length * 8 ? words[k >> 3] >> (7 - (k & 7)) & 1 : 0;
+          k++;
+        }
+      }
+    }
+    const masked = (mk) => {
+      const m = raw.slice(), f = MASKS[mk];
+      for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) if (!b.fn[y * size + x] && f(x, y)) m[y * size + x] ^= 1;
+      drawFormat(m, size, ecl, mk);
+      return m;
+    };
+    let best = null;
+    for (const mk of mask == null ? [0, 1, 2, 3, 4, 5, 6, 7] : [mask]) {
+      const m = masked(mk), p = mask == null ? penalty(m, size) : 0;
+      if (!best || p < best.p) best = { m, p, mk };
+    }
+    const m = best.m;
+    return { size, ver, ecl, mask: best.mk, dark: (x, y) => m[y * size + x] === 1 };
+  }
+  return { make };
+})();
+/** 가운데 앱 심볼(icons/favicon.svg 와 같은 모양, 186×156)을 누끼로(11/17 사용자 'qr은 중간에 우리 앱 로고 넣어줘', 흰 네모 칸을 보고 '로고는 누끼로 해야지',
+ *  칸 단위로 비운 테를 보고 '외곽선 라인 그냥 둥글게 따 봐. 해상도도 낮아보이긴 함', 굵기 넷을 보고 '외곽선을 더 두껍게'·2칸): QR 칸은 다 그리고, 심볼 모양을 흰 선(둥근 이음·끝, 반지름 QR_HALO 칸)으로
+ *  한 번 그려 매끈한 흰 테를 두르고 그 위에 심볼. 그림 파일이 아니라 같은 모양의 벡터라 어느 해상도에서나 또렷하다. 폭은 QR 칸 수의 27%,
+ *  오류 정정 Q(글자의 25% 남짓을 되살린다)부터 써서 심볼과 테가 가리는 칸(10% 아래)을 되살린다 */
+const QR_LOGO = 0.27, QR_HALO = 2;
+const QR_MARK = {
+  w: 186, h: 156, at: [-58.5, -432.5], dot: [227.22, 488.49, 17.25],
+  hat: "M65.841 505.975C76.604 499.423 87.446 493.644 98.422 487.484C112.534 474.044 128.214 450.524 146.582 437.756C153.526 432.94 162.486 431.932 170.326 433.724C183.99 437.756 194.966 451.868 199.894 468.22C193.846 461.948 181.75 459.484 175.03 465.084C172.79 472.476 181.078 495.548 194.294 505.404C195.19 507.42 193.846 509.1 191.382 508.988C162.217 506.356 108.166 506.468 67.689 511.071C64.721 511.407 63.288 507.521 65.841 505.975Z",
+  tt: "M86.564 519.4H136.244A12.695 12.695 0 0 1 136.244 544.792H128.7A2.944 2.944 0 0 0 125.756 547.736V574.14A14.35 14.35 0 0 1 97.052 574.14V547.736A2.944 2.944 0 0 0 94.108 544.792H86.564A12.695 12.695 0 0 1 86.564 519.4ZM167.156 519.4H216.836A12.695 12.695 0 0 1 216.836 544.792H209.292A2.944 2.944 0 0 0 206.348 547.736V574.14A14.351 14.351 0 0 1 177.644 574.14V547.736A2.944 2.944 0 0 0 174.7 544.792H167.156A12.695 12.695 0 0 1 167.156 519.4Z",
+  grad: { // 심볼의 두 그러데이션(userSpaceOnUse 좌표)
+    hat: [71.51, 528.11, 183.46, 416.17, [[0, "#3C62F2"], [0.6, "#4F70FF"], [1, "#7E95FF"]]],
+    tt: [95.51, 610.13, 207.89, 497.76, [[0, "#4F70FF"], [0.2, "#4F70FF"], [0.8, "#A98BFF"], [1, "#A98BFF"]]],
+  },
+};
+let qrSeq = 0; // 그러데이션 id 를 겹치지 않게
+/** 링크 → QR 그림(svg): 흰 바탕·검은 칸(테마와 상관없이. 뒤집힌 QR 을 못 읽는 카메라가 있다), 둘레 흰 4칸, 가운데 누끼 심볼과 둥근 흰 테.
+ *  Q 로 판 40 에도 안 들어가면 심볼 없이 L, 그래도 안 되면 null. 칸 그림은 숫자로 만든 path 하나, 심볼은 고정된 모양(글을 마크업으로 넣지 않는다) */
+function qrSvg(text, label) {
+  let q = QR.make(text, { ecl: 2 });
+  const logo = !!q;
+  if (!q) q = QR.make(text, { ecl: 0 });
+  if (!q) return null;
+  const n = q.size, pad = 4, w = n + pad * 2;
+  let d = "";
+  for (let y = 0; y < n; y++) {
+    for (let x = 0; x < n;) {
+      if (!q.dark(x, y)) { x++; continue; }
+      let e = x + 1;
+      while (e < n && q.dark(e, y)) e++;
+      d += `M${x + pad} ${y + pad}h${e - x}v1h${x - e}z`;
+      x = e;
+    }
+  }
+  const ns = "http://www.w3.org/2000/svg", el = (tag, attrs = {}, ...kids) => {
+    const node = document.createElementNS(ns, tag);
+    for (const [key, v] of Object.entries(attrs)) node.setAttribute(key, String(v));
+    node.append(...kids);
+    return node;
+  };
+  const out = el("svg", { viewBox: `0 0 ${w} ${w}`, width: w * 4, height: w * 4, role: "img", "aria-label": label },
+    el("rect", { width: w, height: w, fill: "#fff" }), el("path", { d, fill: "#000", "shape-rendering": "crispEdges" }));
+  if (logo) {
+    const M = QR_MARK, s = (n * QR_LOGO) / M.w, id = `qr${++qrSeq}`;
+    const at = `translate(${pad + (n - M.w * s) / 2} ${pad + (n - M.h * s) / 2}) scale(${s}) translate(${M.at[0]} ${M.at[1]})`;
+    const shapes = (fills) => [el("path", { d: M.hat, fill: fills[0] }), el("path", { d: M.tt, fill: fills[1] }),
+      el("circle", { cx: M.dot[0], cy: M.dot[1], r: M.dot[2], fill: fills[2] })];
+    out.append(
+      el("defs", {}, ...Object.entries(M.grad).map(([k, [x1, y1, x2, y2, stops]]) => el("linearGradient", { id: `${id}-${k}`, gradientUnits: "userSpaceOnUse", x1, y1, x2, y2 },
+        ...stops.map(([o, c]) => el("stop", { offset: o, "stop-color": c }))))),
+      el("g", { class: "qr-halo", transform: at, stroke: "#fff", "stroke-width": (QR_HALO * 2) / s, "stroke-linejoin": "round", "stroke-linecap": "round" }, ...shapes(["#fff", "#fff", "#fff"])),
+      el("g", { class: "qr-mark", transform: at }, ...shapes([`url(#${id}-hat)`, `url(#${id}-tt)`, "#FDD27E"])));
+  }
+  out.dataset.ver = String(q.ver); // 시험이 판·오류 정정·심볼을 본다
+  out.dataset.ecl = "LMQH"[q.ecl];
+  out.dataset.logo = logo ? "1" : "";
+  return out;
+}
+/** QR 그림의 화면 폭: 칸 안 가득(폰 288, 넓은 화면 360 까지)에서 칸 하나가 기기 화소로 딱 떨어지게 내린다(흐리거나 칸 폭이 들쭉날쭉하지 않게).
+ *  그러면 15% 넘게 작아지는 화면(기기 화소 1 의 컴퓨터 등)은 내리지 않는다: 찍을 때는 크기가 먼저다 */
+function qrFit(pic) {
+  const box = pic.parentNode, dpr = window.devicePixelRatio || 1, cells = pic.viewBox.baseVal.width, cap = twoPane.matches || matchMedia("(min-width: 37.5em)").matches ? 360 : 288;
+  const room = Math.min(box.clientWidth || cap, cap), fit = (Math.floor((room * dpr) / cells) * cells) / dpr;
+  pic.style.width = `${fit >= room * 0.85 ? fit : room}px`;
+}
+/** QR 코드 팝업(공유 시트 위, 11/17 사용자 '모든 공유 기능에 QR 코드 기능 넣어줘'): 지금 공유 시트의 링크(시간표 링크·친구 초대)를 QR 로.
+ *  다른 폰 카메라로 찍으면 그 링크가 열린다(앱이 깔렸으면 앱). 글은 제목·메타뿐(11/17 사용자 '설명은 달지 마') */
+async function openQr(opener) {
+  const invite = !!shareInvite, t = shareTt, box = $("qr-box");
+  $("qr-meta").textContent = $("sh-meta").textContent;
+  box.replaceChildren();
+  openSheet($("qr-pop"), opener, { over: true });
+  let url = null;
+  try { url = await shareUrl; } catch { url = null; }
+  if (!$("qr-pop").open || shareTt !== t || !!shareInvite !== invite) return; // 그사이 닫았거나 다른 공유
+  const pic = url ? qrSvg(url, invite ? "친구 초대 링크 QR 코드" : "시간표 링크 QR 코드") : null;
+  box.replaceChildren(pic || h("p", { class: "qr-none" }, url ? "링크가 너무 길어 QR 코드로 만들 수 없어요" : "링크를 만들지 못했어요"));
+  if (pic) qrFit(pic);
+}
 /** 만들어 둔 링크. 못 만들었으면 시트 안 알림 '링크를 만들지 못했어요' 하고 null */
 async function shareLinkNow() {
   let url = null;
@@ -7906,7 +8207,7 @@ function rqRaw(bid, rid) {
  *  목록 과목을 다른 이름의 같은 과목으로 들었으면 그 이름, 안 들은 과목이 지금 다른 이름으로 열리면 '지금은 …', 더 안 열리면 '마지막 개설 …' */
 const rqPlain = (s) => String(s || "").replace(/[\s·:()\-]/g, "");
 function rqTook(c, f) {
-  return f.code !== c.code && f.name && rqPlain(f.name) !== rqPlain(c.name) ? `${f.name}${R.josaRo(f.name)} 들음` : null;
+  return f.code !== c.code && f.name && rqPlain(f.name) !== rqPlain(c.name) ? `${f.name}${R.josaRo(f.name)} 수강` : null; // 11/17 사용자 '들음 말고 수강으로 써 줘'
 }
 function rqHint(c) {
   const { same } = gradNow, n = same.now && same.now.get(c.code);
@@ -7919,7 +8220,7 @@ function rqCk(c) {
   const keys = [c.code, ...(c.alt_codes || [])].map(same);
   const f = keys.map((k) => fixed.get(k)).find(Boolean);
   if (f) {
-    return h("li", {}, h("div", { class: "gr-ck" }, grSt("met"), h("span", { class: "t" }, h("span", { class: "sr-only" }, "들음, "), name,
+    return h("li", {}, h("div", { class: "gr-ck" }, grSt("met"), h("span", { class: "t" }, h("span", { class: "sr-only" }, "수강, "), name,
       h("small", {}, [`${Number(f.credits) || 0}학점 · ${R.termName(f.term)}`, rqTook(c, f)].filter(Boolean).join(" · ")))));
   }
   const ck = Object.keys(checks).some((k) => keys.includes(same(k))), hint = ck ? null : rqHint(c);
@@ -8785,7 +9086,7 @@ let fr = null; // { profile: {nick, tag, showSchool?}|null, list: friends() } �
 let frFor = ""; // fr 을 받은 사람(uid)
 let frBusy = false;
 let frPending = ""; // 초대 링크로 연 닉네임#태그(로그인·닉네임 뒤 묻는 팝업)
-let frStarting = false; // 처음 한 번의 시작하기를 보내는 중(그동안 초대 링크의 묻는 팝업을 미룬다: 미리보기를 먼저 보이고 돌아오면 묻는다, 134판)
+let frStarting = false; // 처음 한 번의 시작하기를 보내는 중(그동안 초대 링크의 묻는 팝업을 미룬다: 닉네임이 정해진 친구 화면에서 묻는다)
 let frErr = ""; // 친구 목록을 못 받았다: OFFLINE(연결되면 저절로 다시) | FAILED(다시 시도)
 let syncLib = null; // sync.js(nickProblem·parseHandle)
 const NICK_MAX = 12;
@@ -8998,13 +9299,18 @@ $("friends-body").addEventListener("click", (e) => {
   const k = b.dataset.fr, uid = b.dataset.uid;
   const person = () => (fr ? Object.values(fr.list).flat() : []).find((p) => p.uid === uid);
   if (k === "retry") { renderFriends(); return; }
-  if (k === "start") { // 처음 한 번: 닉네임을 정하면 미리보기 '친구에게 보이는 내 시간표'를 한 번 열고, 뒤로 가면 친구 화면(134판, 법무 11/15)
+  if (k === "start") {
+    // 처음 한 번: 닉네임을 정하면 그대로 친구 화면(11/17 사용자 '닉네임 입력하고 나서 바로 친구에게 보일 시간표 띄우지 말고 그냥 친구 탭이 기본으로 나오게'.
+    // 134판은 미리보기를 한 번 열었다. 친구에게 보이는 것은 이 처음 화면의 '친구에게 보이는 것' 카드가 알리고, 미리보기는 '친구에게 보이는 내 시간표' ›).
+    // 초점은 친구 추가, 초대 링크로 열었으면 여기서 묻는 팝업
     if (b.disabled || frStarting) return;
     frStarting = true;
     saveNick($("fr-nick"), $("fr-nick-err"), $("fr-school") ? $("fr-school").checked : false, (p) => {
       frStarting = false;
       announce(`닉네임 ${handleText(p)}`);
-      if (screen === "friends") { frpvSem = ""; go("frpv"); }
+      if (screen !== "friends") return;
+      $("friends-body").querySelector('[data-frk="add"]')?.focus({ preventScroll: true });
+      if (frPending) paintFriends();
     }).finally(() => { frStarting = false; });
     return;
   }

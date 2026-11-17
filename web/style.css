@@ -1486,6 +1486,13 @@ html[data-theme] .tt-export .ex-legend { background: var(--bg); box-shadow: 0 0 
 .share-app:active .ic { background: color-mix(in srgb, var(--inset), var(--text) 6%); }
 .share-app:focus-visible { outline: none; }
 .share-app:focus-visible .ic { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* QR 코드 팝업(공유 시트 위, 11/17 사용자): QR 은 흰 바탕에 검은 칸 그대로(다크·고대비에서도. 뒤집힌 QR 을 못 읽는 카메라가 있다), 둘레 line 1 과 radius-md,
+   폭은 팝업 안 가득 288(넓은 화면 360) 까지에서 칸이 기기 화소로 떨어지게(app.js qrFit, 폰 카메라가 칸을 가르게). 글은 제목·메타뿐('설명은 달지 마') */
+dialog.sheet.ask.qr-pop { max-width: min(23.5rem, calc(100% - var(--space-5) * 2)); }
+.qr-box { display: grid; place-items: center; min-height: 12rem; margin-top: var(--space-2); }
+.qr-box svg { display: block; width: min(100%, 18rem); height: auto; border-radius: var(--radius-md); box-shadow: 0 0 0 1px var(--line); forced-color-adjust: none; }
+.qr-box .qr-none { margin: 0; text-align: center; font-size: 0.875rem; line-height: 1.25rem; color: var(--text3); }
+@media (min-width: 37.5em) { dialog.sheet.ask.qr-pop { max-width: 27.5rem; } .qr-box svg { width: min(100%, 22.5rem); } } /* 넓은 화면은 360 까지(폰으로 화면을 찍는다) */
 /* 공유받은 시간표(웹에서 연 시간표 링크): 시간표 이미지처럼 격자(카드 바탕 없이 시트 바탕 위), 교과구분별이면 색 풀이, 시간 미정 줄.
    '내 시간표에 넣기'는 시트 아래 끝에 붙여 격자가 길어도 늘 보인다(안전 영역은 그 줄이 맡는다) */
 dialog.sheet.shared-sheet { padding-bottom: 0; }

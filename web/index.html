@@ -20,14 +20,15 @@
 <!-- 첫 탭은 늘 내 시간표(11/11 사용자: "시간표 화면이 메인으로 가게 해 둬야 할 듯". 그 전에는 지난번에 연 학기에 저장한 시간표가 있을 때만). js/app.js 가 그리기 전에
      탐색 입력 화면을 가려 둔다(번쩍 보이지 않게). 판단은 app.js 시작 부분과 같다: 바로가기 주소의 탭이 explore·theme 이면 그 탭이라 가리지 않는다 -->
 <script>(function(){var m=/[#&]tab=([a-z]+)/.exec(location.hash);if(!m||!/^(explore|theme)$/.test(m[1]))document.documentElement.dataset.launch="mine"})()</script>
-<!-- 카카오톡 인앱 브라우저에서 연 시간표 링크(#t=…)는 카톡 밖에서 다시 연다(11/4 백엔드 요청. 사용자 11/4: 카톡에서 링크를 누르면 앱이 있어도 카톡 웹뷰에 공유받은 시간표가 뜨고,
+<!-- 카카오톡 인앱 브라우저에서 연 시간표 링크(#t=…)와 친구 초대 링크(#friend=…, 11/17 사용자: 카톡의 친구 초대 링크가 앱이 아니라 웹으로 열렸다. 카톡 웹뷰에서는
+     Google 로그인도 막힌다)는 카톡 밖에서 다시 연다(11/4 백엔드 요청. 사용자 11/4: 카톡에서 링크를 누르면 앱이 있어도 카톡 웹뷰에 공유받은 시간표가 뜨고,
      '다른 브라우저로 열기'로 크롬에서 열면 앱이 열린다. 인앱 브라우저는 링크를 안드로이드에 넘기지 않아 앱 링크가 걸리지 않는다). 그 메뉴와 같은 kakaotalk://web/openExternal
      (카카오 공식 문서에 없는 관례): 안드로이드는 앱이 있으면 앱이, 없으면 기본 브라우저가 열고 아이폰은 Safari. 폰의 카톡(사용자 에이전트에 kakaotalk 과 android·iphone·ipad·ipod)에서만,
      같은 주소는 이 창에서 한 번만(sessionStorage 의 ttw.kakaoOut 에 그 # 뒤를 둔다. 저장 공간을 못 쓰면 하지 않는다).
      주소는 js/app.js 가 # 을 지우기 전에 여기서 읽어 두고, 이동은 페이지를 다 읽은 뒤(load)에 한다: 읽는 도중에 다른 주소로 가기 시작하면 크로미움은 그 자리에서 문서 읽기를 멈춰서
      (모르는 주소 꼴이라 이동이 안 되어도 빈 화면이 남았다) 안 먹히는 카톡에서 지금처럼 공유받은 시간표 시트가 보이게. 실패해도 돌아올 수 있게 replace 가 아니라 이동(href)으로.
      시간표가 든 주소는 이미 카톡 대화에 있던 것을 카톡 앱에 다시 넘기는 것이다 -->
-<script>(function(){try{var u=navigator.userAgent.toLowerCase(),h=location.hash,a=location.href,k="ttw.kakaoOut";if(!/^#(?:.*&)?t=[A-Za-z0-9_-]/.test(h)||u.indexOf("kakaotalk")<0||!/android|iphone|ipad|ipod/.test(u)||sessionStorage.getItem(k)===h)return;sessionStorage.setItem(k,h);addEventListener("load",function(){setTimeout(function(){try{location.href="kakaotalk://web/openExternal?url="+encodeURIComponent(a)}catch(e){}},0)})}catch(e){}})()</script>
+<script>(function(){try{var u=navigator.userAgent.toLowerCase(),h=location.hash,a=location.href,k="ttw.kakaoOut";if(!/^#(?:.*&)?(?:t=[A-Za-z0-9_-]|friend=[^&])/.test(h)||u.indexOf("kakaotalk")<0||!/android|iphone|ipad|ipod/.test(u)||sessionStorage.getItem(k)===h)return;sessionStorage.setItem(k,h);addEventListener("load",function(){setTimeout(function(){try{location.href="kakaotalk://web/openExternal?url="+encodeURIComponent(a)}catch(e){}},0)})}catch(e){}})()</script>
 <meta name="text-scale" content="scale">
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.webmanifest">
@@ -848,6 +849,17 @@
 <!-- 이벤트 테마가 저절로 켜진 뒤 처음 들어왔을 때 한 번 묻는다(묻는 팝업: 어느 폭에서나 화면 가운데. 10/23 사용자 "팝업". 제목은 질문, 버튼은 닫기와 동사) -->
 <!-- Tachyon 처음 누를 때 한 줄(디자인 123판, 법무 11/13 '단추나 처음 누를 때 같은 개발자의 다른 앱으로 보낸다는 한 줄'): 공유 시트 위 묻는 팝업(시트 위 팝업 예외).
      보내기 → Tachyon 을 열고 두 창을 닫고 이 기기에 물었다는 것을 둔다(ttw.tachyonAsked). 닫기 → 공유 시트로, 다음에 다시 묻는다 -->
+<!-- QR 코드(11/17 사용자 '모든 공유 기능에 QR 코드 기능 넣어줘', 'qr은 중간에 우리 앱 로고 넣어줘', '로고는 누끼로', '설명은 달지 마'): 공유 시트의 링크(시간표 링크·친구 초대)
+     앱 단추 줄 'QR 코드'(링크·이미지·캘린더 어디서나)가 시트 위에 띄운다(Tachyon 묻는 팝업과 같은 시트 위 팝업). 흰 칸에 검은 칸(테마와 상관없이), 가운데 누끼 앱 심볼.
+     글은 제목·메타뿐(링크 고지는 공유 시트의 링크 칸에, 법무 10/30) -->
+<dialog class="sheet ask qr-pop" id="qr-pop" aria-labelledby="qr-title">
+  <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="qr-title" tabindex="-1" autofocus>QR 코드</h2><p class="sheet-meta" id="qr-meta"></p></div></div>
+  <div class="sheet-body">
+    <div class="qr-box" id="qr-box"></div>
+  </div>
+  <div class="sheet-actions"><button type="button" class="btn-text" data-close>닫기</button></div>
+</dialog>
+
 <dialog class="sheet ask" id="tachyon-ask" aria-labelledby="ty-title">
   <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="ty-title" tabindex="-1" autofocus>Tachyon(같은 개발자의 다른 앱)으로 시간표를 보낼까요?</h2></div></div>
   <div class="sheet-actions">
