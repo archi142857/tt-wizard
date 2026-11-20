@@ -528,7 +528,8 @@ export function timetableFromImage(payload, list, { now = new Date() } = {}) {
 //          days: 월~일 일곱 칸 [[수업, ...], ...](시작 시각 차례), untimed: 시간이 정해지지 않은 항목 수 }
 //   수업 { name, k: 항목 열쇠(itemKey: '교과목번호-강좌번호' 또는 직접 넣은 일정의 id), place: "301동 118호"(강의실 미정이면 ""),
 //          b: 건물 id(이동시간 지점 "301", 강의실 미정이면 ""), start, end: 자정부터 분,
-//          color: 0~7, cls: "req"|"elec"|"gen"|"etc", walk: 앞 자리에서 걷는 분(반올림. 모르면 null),
+//          color: 0~7, cls: "req"|"elec"|"gen"|"etc", tree: 크리스마스 트리 자리("star"|"leaf-1"…"leaf-6"|"trunk", treeSlots. update142),
+//          walk: 앞 자리에서 걷는 분(반올림. 모르면 null),
 //          from: "home"(그날 첫 위치 확정 수업 = 출발 지점에서) | "class"(앞 수업에서), late: 앞 수업에서 오면 늦는 분(반올림. 늦지 않으면 0),
 //          back: 그날 마지막 위치 확정 수업에만, 출발·도착 지점으로 돌아가는 분(반올림. 모르면 없음) }
 //   b·home 은 동선 지도 위젯이 길을 그리고, back 은 그날 걷기 합을 세는 데 쓴다(10/30 update70·71)
@@ -559,6 +560,52 @@ export function termLabel(sem) {
   return TERM_NAMES[k] ? `${y}년 ${TERM_NAMES[k]}` : "";
 }
 
+// ---------------------------------------------------------------- 크리스마스 트리 칸 색(디자인 157판, 백엔드 update142)
+// 11/20 사용자 '크리스마스 테마에서 시간표 색 칠하는 규칙을 좀 바꾸자. 맨 밑의 강의를 갈색, 맨 위의 강의를 노란색, 나머지를 여러 초록색을 이용해서 칠하자'
+// (시안 나와 '일정도 센다'). 크리스마스 테마의 과목별 칸 색은 색 번호 대신 칸 자리로 칠한다. 자리를 정하는 것은 이 함수 하나다: 화면(app.js 격자·항목 점·
+// 시간표 이미지·공유받은·친구·테마 카드)과 위젯 자료(widgetData. 앱 연결 native.js 가 화면 없이 만든다)가 같이 쓴다.
+// 색은 web/style.css 크리스마스 블록의 --tree-<자리>(칸)·-dot(목록 점)·-fg·-fg2(칸 위 과목명·강의실)
+
+/** 트리 자리 이름: 별(맨 위) · 잎 1~6(위는 옅고 아래는 짙다) · 줄기(맨 아래). 위젯(WidgetData.TREE)도 이 차례 */
+export const TREE_SLOTS = ["star", "leaf-1", "leaf-2", "leaf-3", "leaf-4", "leaf-5", "leaf-6", "trunk"];
+
+/**
+ * 트리 자리: entries(화면이 그리는 항목 [{ key, meetings }]. reconcile·ttEntries 꼴, 넣은 차례 그대로) → Map(열쇠 → 'star' | 'leaf-1'…'leaf-6' | 'trunk').
+ * 칸(요일 0~6, 끝이 시작보다 늦은 수업)이 있는 과목·일정만 센다. 칸이 없는 항목은 Map 에 없다(화면의 목록 점은 leaf-6).
+ *   별: 시작이 가장 이른 칸(같으면 앞 요일, 그래도 같으면 먼저 넣은 것)의 항목
+ *   줄기: 끝이 가장 늦은 칸(같으면 뒤 요일, 그래도 같으면 나중에 넣은 것)의 항목. 별과 같으면 그 밖에서 끝이 가장 늦은 것
+ *   잎: 나머지를 가장 이른 칸의 시작 차례(같으면 앞 요일, 그다음 넣은 차례)로 늘어놓고, n개면 i번째(0부터)는 leaf-(⌊i × 6 ÷ n⌋ + 1)
+ * 항목이 하나면 별만, 둘이면 별과 줄기. 한 항목의 칸은 요일이 달라도 한 자리다(같은 열쇠가 둘이면 칸을 합쳐 하나로 센다).
+ * 친구 시간표는 숨긴 회색 칸을 빼고 넘긴다(그 칸은 세지 않는다. 디자인 157판 ③). key·meetings 로 다른 꼴의 항목도 읽는다.
+ */
+export function treeSlots(entries, { key = (e) => String(e.key || itemKey(e.item)), meetings = (e) => e.meetings } = {}) {
+  const seen = new Map(); // 열쇠 → { k, first: [시작, 요일], last: [끝, 요일], at: 넣은 차례 }
+  for (const e of entries || []) {
+    const ms = (meetings(e) || []).filter((m) => m && Number.isInteger(m.day) && m.day >= 0 && m.day < 7 && Number.isFinite(m.start) && Number.isFinite(m.end) && m.end > m.start);
+    if (!ms.length) continue;
+    const k = key(e);
+    let x = seen.get(k);
+    if (!x) seen.set(k, (x = { k, first: null, last: null, at: seen.size }));
+    for (const m of ms) {
+      if (!x.first || m.start < x.first[0] || (m.start === x.first[0] && m.day < x.first[1])) x.first = [m.start, m.day];
+      if (!x.last || m.end > x.last[0] || (m.end === x.last[0] && m.day > x.last[1])) x.last = [m.end, m.day];
+    }
+  }
+  const all = [...seen.values()], out = new Map();
+  if (!all.length) return out;
+  const top = (a, b) => a.first[0] - b.first[0] || a.first[1] - b.first[1] || a.at - b.at; // 위에서 아래로
+  const bottom = (a, b) => b.last[0] - a.last[0] || b.last[1] - a.last[1] || b.at - a.at; // 아래에서 위로
+  const star = [...all].sort(top)[0];
+  out.set(star.k, "star");
+  const rest = all.filter((x) => x !== star);
+  if (!rest.length) return out;
+  const trunk = [...rest].sort(bottom)[0];
+  out.set(trunk.k, "trunk");
+  const leaves = rest.filter((x) => x !== trunk).sort(top);
+  leaves.forEach((x, i) => out.set(x.k, `leaf-${Math.floor((i * 6) / leaves.length) + 1}`));
+  return out;
+}
+
 /** 위젯에 넘길 학기들: 끝나지 않은 학기(to 가 오늘 이후)를 시작 차례로 셋까지. 화면은 이 학기들의 대표 시간표를 widgetData 에 넘긴다 */
 export function widgetSemesters(sems, now = new Date()) {
   const today = ymd(now);
@@ -574,14 +621,14 @@ function placeOf(m) {
 }
 
 /** 하루 수업들(시작 차례) → 위젯의 수업. 걷는 시간·늦음은 engine.evaluate 와 같은 차례로 잰다 */
-function widgetDay(list, { name, place, minutes, home }) {
+function widgetDay(list, { name, place, minutes, home, slots }) {
   list.sort((x, y) => x.m.start - y.m.start || x.m.end - y.m.end);
   let prevLoc = home || "", prevEnd = null, placed = false, spare = 0, last = null;
   const day = list.map(({ e, m }) => {
-    const it = e.item;
-    const x = { name: String(name(e) || ""), k: String(e.key || itemKey(it)), place: m.building ? String(place(m) || "") : "", b: String(m.building || ""), start: m.start, end: m.end,
+    const it = e.item, k = String(e.key || itemKey(it));
+    const x = { name: String(name(e) || ""), k, place: m.building ? String(place(m) || "") : "", b: String(m.building || ""), start: m.start, end: m.end,
       color: Number.isInteger(it.color) && it.color >= 0 ? it.color % COLORS : 0, cls: it.custom ? "etc" : CLS_KEYS[it.cls] || "etc",
-      walk: null, from: placed ? "class" : "home", late: 0 };
+      tree: slots.get(k) || "leaf-6", walk: null, from: placed ? "class" : "home", late: 0 };
     if (!m.building) { // 강의실 미정: 자리를 옮기지 않고 쉬는 시간만 다음 이동에 보탠다
       if (placed) spare += m.start - prevEnd;
       prevEnd = m.end;
@@ -632,8 +679,9 @@ export function widgetData(terms, { name = (e) => (e.item.custom ? e.item.title 
       if (!ms.length) { untimed += 1; continue; }
       for (const m of ms) days[m.day].push({ e, m });
     }
+    const slots = treeSlots(entries); // 크리스마스 트리 자리(디자인 157판): 앱 테마가 크리스마스이고 과목별이면 위젯이 이 자리 색으로 칠한다
     out.push({ sem: t.sem, id: String(t.id || ""), label: termLabel(t.sem), title: String(t.title || ""), from: dates.from, to: dates.to,
-      days: days.map((list) => widgetDay(list, { name, place, minutes, home })), untimed });
+      days: days.map((list) => widgetDay(list, { name, place, minutes, home, slots })), untimed });
   }
   return { v: WIDGET_VERSION, colors: colorMode(colors), home: String(home || ""), scheme: schemeOf(scheme), themeOff: themeOffOf(themeOff), terms: out };
 }

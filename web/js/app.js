@@ -23,7 +23,7 @@ document.documentElement.dataset.shell = SHELL;
 
 // ---------------------------------------------------------------- 설정
 
-const APP_VERSION = "0.12.1";
+const APP_VERSION = "0.12.2";
 // 정보 화면 링크. 주소가 정해지면 넣는다(비어 있으면 그 행을 보이지 않는다)
 // 개인정보 처리방침 공개 페이지(스토어에 적는 주소와 같게). 백엔드 update74 가 docs/legal/privacy.md 로 만든 web/privacy/(GitHub Pages). 앱 묶음에는 넣지 않아 늘 이 주소를 연다
 const PRIVACY_URL = "https://archi142857.github.io/tt-wizard/privacy/";
@@ -9211,9 +9211,9 @@ tourView.addEventListener("pointercancel", tourUp);
 /** 계정 화면: 로그인 전은 로그인 카드, 로그인하면 카드 셋(메일과 학교 계정 태그, 동기화(누르면 지금 맞춤), 로그아웃·계정 삭제) */
 function renderAccount() {
   const box = $("account-list"), u = acctUser, foot = $("account-foot");
-  const had = box.contains(document.activeElement) ? document.activeElement.dataset.acct : null;
+  const had = box.contains(document.activeElement) || acctAdminSlot().contains(document.activeElement) ? document.activeElement.dataset.acct : null;
   const card = (...rows) => h("div", { class: "card info-list" }, h("ul", { class: "list" }, rows.map((r) => h("li", {}, r))));
-  if (!accountOn() || u === undefined) { box.replaceChildren(); foot.hidden = true; return; }
+  if (!accountOn() || u === undefined) { box.replaceChildren(); foot.hidden = true; acctAdminSlot().replaceChildren(); acctAdminSlot().hidden = true; return; }
   if (!u) {
     box.replaceChildren(loginCard(null));
     foot.replaceChildren(...loginFoot());
@@ -9223,14 +9223,27 @@ function renderAccount() {
       card(h("button", { type: "button", class: "info-row", "data-acct": "sync" }, h("span", {}, "동기화"),
         h("span", { class: syncView().state === "error" ? "v is-error" : "v" }, acctSyncText()))),
       card(h("button", { type: "button", class: "info-row", "data-acct": "signout", "aria-haspopup": "dialog" }, h("span", {}, "로그아웃")),
-        h("button", { type: "button", class: "info-row danger", "data-acct": "delete", "aria-haspopup": "dialog" }, h("span", {}, "계정 삭제"))),
-      ...(!IN_APP && acctAdmin ? [card(h("button", { type: "button", class: "info-row", "data-acct": "admin", "aria-haspopup": "dialog" }, h("span", {}, "관리자 화면")))] : []));
+        h("button", { type: "button", class: "info-row danger", "data-acct": "delete", "aria-haspopup": "dialog" }, h("span", {}, "계정 삭제"))));
     foot.textContent = "로그아웃해도 이 기기의 시간표는 남아요";
   }
   foot.hidden = false;
-  if (had) box.querySelector(`[data-acct="${had}"]`)?.focus({ preventScroll: true });
+  // 관리자 화면 카드(웹만, 백엔드 update140)는 로그아웃 글 아래(디자인 156판 ㉢, 백엔드 update142: 카드 넷째에 두면 그 글이 관리자 카드 글처럼 보였다)
+  const admin = !!u && !IN_APP && acctAdmin, slot = acctAdminSlot();
+  slot.replaceChildren(...(admin ? [card(h("button", { type: "button", class: "info-row", "data-acct": "admin", "aria-haspopup": "dialog" }, h("span", {}, "관리자 화면")))] : []));
+  slot.hidden = !admin;
+  if (had) (box.querySelector(`[data-acct="${had}"]`) || slot.querySelector(`[data-acct="${had}"]`))?.focus({ preventScroll: true });
 }
-$("account-list").addEventListener("click", (e) => {
+/** 계정 화면 맨 아래 관리자 화면 카드 자리(#account-foot 바로 뒤, 위 space-5: style.css .acct-admin). 처음 쓸 때 만든다 */
+function acctAdminSlot() {
+  let el = $("account-admin");
+  if (!el) {
+    el = h("div", { class: "acct-admin", id: "account-admin", hidden: true });
+    $("account-foot").after(el);
+    el.addEventListener("click", onAcctClick);
+  }
+  return el;
+}
+function onAcctClick(e) {
   const b = e.target.closest("[data-acct]");
   if (!b || !acct) return;
   const k = b.dataset.acct;
@@ -9239,7 +9252,8 @@ $("account-list").addEventListener("click", (e) => {
   if (k !== "delete" && k !== "signout") return;
   $(k === "delete" ? "ad-wipe" : "ao-wipe").checked = false; // 처음 꺼짐
   openSheet($(k === "delete" ? "acct-del" : "acct-out"), b);
-});
+}
+$("account-list").addEventListener("click", onAcctClick); // 관리자 화면 카드(로그아웃 글 아래)는 acctAdminSlot 이 같은 것을 단다
 /** 이 기기의 시간표도 지우기(로그아웃·계정 삭제 팝업의 체크). 로그아웃한 뒤에 지운다(로그인돼 있으면 지운 것이 서버에도 간다). 학기마다 시간표 목록·보던 시간표 */
 function wipeDeviceTimetables() {
   clearTimeout(syncTimer);

@@ -43,7 +43,7 @@
 //                                  신고를 읽고 처리하는 것은 관리자 화면(admin-core.js reports·closeReport). 처리하고 1년 지나면 콘솔에서 지운다
 
 import FIREBASE from "./firebase-config.js";
-import { mergeTimetables, friendCopies, nickProblem, parseHandle, handleKey, randomNumber, isNumber } from "./sync.js";
+import { mergeTimetables, friendCopies, nickProblem, parseHandle, handleKey, randomNumber, isNumber, newerSemFirst } from "./sync.js";
 import { parseList, serialize, STORE_KEYS } from "./timetables.js";
 
 export const SDK_URL = "https://www.gstatic.com/firebasejs/12.19.0"; // Firebase JS SDK(Apache-2.0). 판을 올리면 docs/account.md 도
@@ -584,7 +584,7 @@ export async function friendTimetables(other) {
     if (e && e.code === "unavailable") throw err("OFFLINE");
     throw err("FAILED", { cause: e });
   }
-  return snap.docs.map((d) => d.data()).sort((a, b) => String(b.sem).localeCompare(String(a.sem)));
+  return snap.docs.map((d) => d.data()).sort(newerSemFirst); // 새 학기가 앞(겨울 > 2학기 > 여름 > 1학기, update142. 전에는 글자 차례라 2026-S 가 2026-2 앞)
 }
 
 export const inviteLink = (p) => `${APP_URL}#friend=${encodeURIComponent(`${p.nick}#${p.tag}`)}`;

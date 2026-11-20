@@ -101,4 +101,34 @@ out.data = {
     nothing: T.widgetDataFromStore({ get: () => undefined, keys: [] }), theme: [got.scheme, got.themeOff] };
 }
 
+// 5) 크리스마스 트리 자리(디자인 157판, update142): 별 = 시작이 가장 이른 칸, 줄기 = 끝이 가장 늦은 칸, 잎 = 나머지를 위에서 아래로 여섯 칸에 나눔
+{
+  const e = (key, ...ms) => ({ key, meetings: ms.map(([day, start, end]) => ({ day, start, end })) });
+  const slots = (list, opts) => Object.fromEntries(T.treeSlots(list, opts));
+  out.tree = {
+    names: T.TREE_SLOTS,
+    // 위젯 자료: 생명과학 1(월·수 9:30)이 별, 통계학(금 14:15에 끝남)이 줄기, 대학 글쓰기 1 이 잎 하나 → leaf-1. 시간 미정은 칸이 없어 세지 않는다
+    widget: data.terms[0].days.map((d) => d.map((l) => [l.name, l.tree])),
+    spring: data.terms[1].days.flat().map((l) => l.tree), // 항목 하나면 별만
+    none: slots([]), untimed: slots([e("a"), e("b", [7, 600, 650]), e("c", [1, 600, 600])]),
+    one: slots([e("a", [0, 540, 600])]),
+    two: slots([e("late", [2, 900, 990]), e("early", [0, 540, 600])]),
+    // 같은 시작이면 앞 요일이 별, 같은 끝이면 뒤 요일이 줄기. 요일까지 같으면 별은 먼저 넣은 것, 줄기는 나중에 넣은 것
+    tieDay: slots([e("tue", [1, 540, 600]), e("mon", [0, 540, 600]), e("thu", [3, 900, 960]), e("fri", [4, 900, 960])]),
+    tieSame: slots([e("a", [0, 540, 600]), e("b", [0, 540, 600]), e("c", [2, 900, 960]), e("d", [2, 900, 960])]),
+    // 별이 가장 늦게도 끝나면 줄기는 그 밖에서 가장 늦게 끝나는 것
+    starLast: slots([e("long", [0, 540, 1200]), e("mid", [1, 600, 700]), e("end", [2, 700, 1000])]),
+    // 한 항목은 요일이 달라도 한 자리, 같은 열쇠는 하나로 센다
+    merged: slots([e("x", [0, 600, 650]), e("y", [1, 540, 590]), e("x", [4, 1000, 1100])]),
+    // 잎이 n개면 i번째는 ⌊i × 6 ÷ n⌋ + 1번 잎(위는 옅고 아래는 짙다)
+    leaves: [1, 2, 3, 4, 5, 6, 7, 8].map((n) => {
+      const list = [e("s", [0, 400, 450]), ...Array.from({ length: n }, (_, i) => e(`l${i}`, [i % 5, 500 + i * 10, 540 + i * 10])), e("t", [4, 1300, 1400])];
+      const got = T.treeSlots(list);
+      return Array.from({ length: n }, (_, i) => got.get(`l${i}`));
+    }),
+    // 다른 꼴의 항목(친구 사본 등)은 key·meetings 로 읽는다
+    custom: slots([{ id: "p", ms: [{ day: 0, start: 600, end: 700 }] }, { id: "q", ms: [{ day: 0, start: 500, end: 550 }] }], { key: (x) => x.id, meetings: (x) => x.ms }),
+  };
+}
+
 console.log(JSON.stringify(out));

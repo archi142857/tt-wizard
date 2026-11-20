@@ -24,6 +24,7 @@ import java.util.Locale;
  * (item-N-fg·fg2, 교과구분이면 cls-*-fg·fg2: 기본 테마는 text·text2, 크리스마스의 짙은 칸은 흰 글자. 앱 화면 격자와 같다).
  * 칸 글은 낱말(어절) 가운데서 끊지 않고(안드로이드 13 이상) 과목명 끝 번호를 앞 낱말에 붙인다(디자인 89판, 앱 화면 격자와 같게).
  * 화면처럼 기기 글자 크기를 따르되 칸이 작아 1.3배에서 멈춘다.
+ * 크리스마스 한 벌이고 과목별이면 칸을 색 번호 대신 트리 자리(WidgetData.Lesson.tree: 별·잎 1~6·줄기)로 칠한다(디자인 157판, update142. 앱 화면 격자와 같다).
  * 오늘 열에는 지금 시각에 가로 줄을 긋는다(update98, WidgetData.nowLine): 그림이라 줄을 옮기려면 다시 그려야 해서 줄이 보이는 동안 5분마다 다시 그리고(WidgetUpdater), 줄은 다음에 다시 그릴 때까지의 가운데에 둔다(WidgetData.nowLineTime).
  */
 final class WeekBitmap {
@@ -42,8 +43,19 @@ final class WeekBitmap {
         final int[] itemFg2; // item-N-fg2: 칸 위 강의실
         final int[] clsFg; // cls-*-fg
         final int[] clsFg2; // cls-*-fg2
+        final int[] tree; // 트리 자리 칸(tree-star, tree-leaf-1~6, tree-trunk: WidgetData.TREE 차례). 크리스마스 한 벌에만, 그 밖은 null
+        final int[] treeFg; // tree-*-fg: 칸 위 과목명
+        final int[] treeFg2; // tree-*-fg2: 칸 위 강의실
 
         Ink(int text3, int line, int accent, int accentWeak, int danger, int card, int[] items, int[] cls, int[] itemFg, int[] itemFg2, int[] clsFg, int[] clsFg2) {
+            this(text3, line, accent, accentWeak, danger, card, items, cls, itemFg, itemFg2, clsFg, clsFg2, null, null, null);
+        }
+
+        Ink(int text3, int line, int accent, int accentWeak, int danger, int card, int[] items, int[] cls, int[] itemFg, int[] itemFg2, int[] clsFg, int[] clsFg2,
+            int[] tree, int[] treeFg, int[] treeFg2) {
+            this.tree = tree;
+            this.treeFg = treeFg;
+            this.treeFg2 = treeFg2;
             this.text3 = text3;
             this.line = line;
             this.accent = accent;
@@ -83,7 +95,12 @@ final class WeekBitmap {
         new int[] { 0xFFFFFFFF, 0xFF17211B, 0xFF17211B, 0xFFFFFFFF, 0xFFFFFFFF, 0xFF17211B, 0xFF17211B, 0xFF17211B },
         new int[] { 0xFFCEE4D6, 0xFF45524A, 0xFF45524A, 0xFFDFFCFD, 0xFFD1B6B6, 0xFF45524A, 0xFF45524A, 0xFF45524A },
         new int[] { 0xFFFFFFFF, 0xFFFFFFFF, 0xFF17211B, 0xFF17211B },
-        new int[] { 0xFFCEE4D6, 0xFFDFFCFD, 0xFF45524A, 0xFF45524A });
+        new int[] { 0xFFCEE4D6, 0xFFDFFCFD, 0xFF45524A, 0xFF45524A },
+        // 트리(디자인 157판 tokens.json, 11/20 사용자 '맨 밑의 강의를 갈색, 맨 위의 강의를 노란색, 나머지를 여러 초록색'): 별 노랑, 잎 연두·민트·연초록·청록·이끼·솔잎, 줄기 갈색.
+        // 짙은 칸(청록·이끼·솔잎·줄기)은 흰 과목명과 옅은 같은 색 강의실, 옅은 칸은 text·text2
+        new int[] { 0xFFFAD65A, 0xFFD6E69D, 0xFFB5E3D6, 0xFFA1D6B2, 0xFF227A7E, 0xFF4A6B2A, 0xFF1C6E47, 0xFF6B4426 },
+        new int[] { 0xFF17211B, 0xFF17211B, 0xFF17211B, 0xFF17211B, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF },
+        new int[] { 0xFF45524A, 0xFF45524A, 0xFF45524A, 0xFF45524A, 0xFFDFFCFD, 0xFFE0EBD3, 0xFFCEE4D6, 0xFFEAD9CA });
 
     /** 고른 한 벌(WidgetData.LIGHT·DARK·XMAS)의 색. 기본(DEVICE)은 부르는 쪽이 LIGHT·DARK 두 장을 그린다 */
     static Ink ink(int theme) {
@@ -161,12 +178,12 @@ final class WeekBitmap {
                 WidgetData.Lesson l = list.get(i);
                 float[] b = g.box(d, l, lane[i], lanes[i]);
                 box.set(b[0], b[1], b[2], b[3]);
-                boolean byCls = "cls".equals(colors);
-                int k = byCls ? clsIndex(l.cls) : Math.floorMod(l.color, ink.items.length);
-                fill.setColor(byCls ? ink.cls[k] : ink.items[k]);
+                boolean byCls = "cls".equals(colors), byTree = !byCls && ink.tree != null && l.tree >= 0; // 크리스마스 과목별은 트리 자리(157판)
+                int k = byCls ? clsIndex(l.cls) : byTree ? l.tree : Math.floorMod(l.color, ink.items.length);
+                fill.setColor(byCls ? ink.cls[k] : byTree ? ink.tree[k] : ink.items[k]);
                 canvas.drawRoundRect(box, radius, radius, fill);
-                name.setColor(byCls ? ink.clsFg[k] : ink.itemFg[k]); // 칸마다의 글자색(크리스마스의 짙은 칸은 흰 글자)
-                place.setColor(byCls ? ink.clsFg2[k] : ink.itemFg2[k]);
+                name.setColor(byCls ? ink.clsFg[k] : byTree ? ink.treeFg[k] : ink.itemFg[k]); // 칸마다의 글자색(크리스마스의 짙은 칸은 흰 글자)
+                place.setColor(byCls ? ink.clsFg2[k] : byTree ? ink.treeFg2[k] : ink.itemFg2[k]);
                 drawText(canvas, box, pad, l, name, place);
             }
         }

@@ -76,6 +76,24 @@ def test_widget_data_shape(made):
     assert d["themes"] == [["light", "xmas-2026"], ["dark", "xmas-test"], ["system", ""], ["system", ""], ["system", ""], ["system", ""], ["dark", ""]]
 
 
+def test_christmas_tree_slots(made):
+    """크리스마스 트리 칸 색(디자인 157판, 11/20 사용자 '맨 밑의 강의를 갈색, 맨 위의 강의를 노란색, 나머지를 여러 초록색', '일정도 센다', update142):
+    자리는 timetables.js treeSlots 하나(화면과 위젯 자료가 같이 쓴다). 별 = 시작이 가장 이른 칸, 줄기 = 끝이 가장 늦은 칸, 잎 = 나머지를 위에서 아래로"""
+    t = made[0]["tree"]
+    assert t["names"] == ["star", "leaf-1", "leaf-2", "leaf-3", "leaf-4", "leaf-5", "leaf-6", "trunk"]
+    assert t["widget"] == [[["생명과학 1", "star"], ["대학 글쓰기 1", "leaf-1"]], [], [["생명과학 1", "star"], ["대학 글쓰기 1", "leaf-1"]], [],
+                           [["통계학", "trunk"]], [], []]  # 한 과목은 요일이 달라도 한 자리, 시간 미정 과목은 세지 않는다
+    assert t["spring"] == ["star"] and t["none"] == {} and t["untimed"] == {} and t["one"] == {"a": "star"}
+    assert t["two"] == {"early": "star", "late": "trunk"}
+    assert t["tieDay"] == {"mon": "star", "fri": "trunk", "tue": "leaf-1", "thu": "leaf-4"}  # 같은 시작은 앞 요일이 별, 같은 끝은 뒤 요일이 줄기
+    assert t["tieSame"] == {"a": "star", "d": "trunk", "b": "leaf-1", "c": "leaf-4"}  # 요일까지 같으면 별은 먼저 넣은 것, 줄기는 나중에 넣은 것
+    assert t["starLast"] == {"long": "star", "end": "trunk", "mid": "leaf-1"}  # 별이 가장 늦게 끝나도 별, 줄기는 그 밖에서
+    assert t["merged"] == {"y": "star", "x": "trunk"} and t["custom"] == {"q": "star", "p": "trunk"}
+    want = [[1], [1, 4], [1, 3, 5], [1, 2, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5, 6], [1, 1, 2, 3, 4, 5, 6], [1, 1, 2, 3, 4, 4, 5, 6]]
+    assert t["leaves"] == [[f"leaf-{k}" for k in row] for row in want]  # ⌊i × 6 ÷ n⌋ + 1
+    assert all(n * 6 // len(row) + 1 == k for row in want for n, k in enumerate(row))
+
+
 def test_walking_matches_route_check(made):
     """위젯의 걷는 분·늦음 = 동선 확인(engine.checkRoute)의 경로(반올림). 강의실 미정 수업은 자리를 옮기지 않고 쉬는 시간을 보탠다"""
     e = made[0]["engine"]
@@ -106,6 +124,7 @@ def test_app_reads_widget_data(made, tmp_path):
                           *(str(real / f) for f in ("basemap.json", "campus.json", "routes.json"))], check=True, capture_output=True)
     r = json.loads(run.stdout.decode("utf-8"))
     assert r["terms"] == 2 and r["colors"] == "item"
+    assert r["tree"] == [0, 1, 7] and r["treeNames"] == [0, 6, 7, -1, -1]  # 트리 자리(update142): 별·잎 1·줄기, 모르면 -1
     assert r["first"] == {"sem": "2026-2", "label": "2026년 2학기", "title": "시간표 1", "from": 20260901, "to": 20261221,
                           "untimed": 1, "monday": 2, "place": "A동 104호"}
     n = r["next"]
@@ -301,9 +320,13 @@ def test_widget_colors_follow_web_tokens():
     for theme, tokens, base in (("light", light, None), ("dark", dark, light), ("xmas", xmas, light)):
         mine = {k[: -len(theme) - 1]: v for k, v in made.items() if k.endswith(f"_{theme}")}
         assert {"bg", "text", "text2", "text3", "accent", "accent_weak", "danger", "band", "on_band", "on_band3", "attr_bg"} <= mine.keys(), theme
+        # 크리스마스 트리 자리 점(디자인 157판, update142)은 크리스마스 한 벌에만, 색은 그 블록의 --tree-<자리>-dot
+        assert (wt.TREE_TOKENS.keys() <= mine.keys()) == (theme == "xmas"), theme
+        table = {**names, **(wt.TREE_TOKENS if theme == "xmas" else {})}
         for res, value in mine.items():
-            want = "#E6" + _resolve(tokens, "card", base)[1:] if res == "attr_bg" else _resolve(tokens, names[res], base)
+            want = "#E6" + _resolve(tokens, "card", base)[1:] if res == "attr_bg" else _resolve(tokens, table[res], base)
             assert value.upper() == want, (theme, res)
+    assert [made[f"mark_tree_{s}_xmas"].upper() for s in ("star", "leaf_1", "leaf_6", "trunk")] == ["#B58A00", "#879B00", "#1C6E47", "#6B4426"]  # 157판 tokens.json
     assert made["band_xmas"] == "#103924" and made["on_band_xmas"] == "#FFFFFF" and made["accent_xmas"] == "#0D6F44"  # 디자인 106판 '크리스마스 한 벌'
     java = (JAVA / "WeekBitmap.java").read_text(encoding="utf-8")
     for name, tokens, base in (("LIGHT", light, None), ("DARK", dark, light), ("XMAS", xmas, light)):
@@ -314,6 +337,10 @@ def test_widget_colors_follow_web_tokens():
         want += [_resolve(tokens, f"item-{i}-fg", base) for i in range(8)] + [_resolve(tokens, f"item-{i}-fg2", base) for i in range(8)]
         want += [_resolve(tokens, f"cls-{k}-fg", base) for k in ("req", "elec", "gen", "etc")]
         want += [_resolve(tokens, f"cls-{k}-fg2", base) for k in ("req", "elec", "gen", "etc")]
+        if name == "XMAS":  # 크리스마스 트리 자리(디자인 157판, update142): 칸·과목명·강의실 색, WidgetData.TREE 차례
+            slots = wt.TREE_SLOTS
+            want += [_resolve(tokens, f"tree-{s}", base) for s in slots] + [_resolve(tokens, f"tree-{s}-fg", base) for s in slots]
+            want += [_resolve(tokens, f"tree-{s}-fg2", base) for s in slots]
         assert _java_colors(body) == want, name
     # 동선 지도 그림(DayMapBitmap)의 색: TOKENS 차례의 웹 토큰 값(라이트·다크·크리스마스), 출처 글 바탕은 card 90%
     java = (JAVA / "DayMapBitmap.java").read_text(encoding="utf-8")

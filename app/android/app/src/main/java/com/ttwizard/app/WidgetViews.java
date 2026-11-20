@@ -77,6 +77,12 @@ final class WidgetViews {
         { R.drawable.widget_mark_req_xmas, R.drawable.widget_mark_elec_xmas, R.drawable.widget_mark_gen_xmas, R.drawable.widget_mark_etc_xmas },
     };
 
+    // 크리스마스 트리 자리의 점(디자인 157판, update142): 별·잎 1~6·줄기(WidgetData.TREE 차례). 크리스마스 한 벌에만 있다(scripts/widget_themes.py 가 만든다)
+    private static final int[] TREE_MARKS = {
+        R.drawable.widget_mark_tree_star_xmas, R.drawable.widget_mark_tree_leaf_1_xmas, R.drawable.widget_mark_tree_leaf_2_xmas, R.drawable.widget_mark_tree_leaf_3_xmas,
+        R.drawable.widget_mark_tree_leaf_4_xmas, R.drawable.widget_mark_tree_leaf_5_xmas, R.drawable.widget_mark_tree_leaf_6_xmas, R.drawable.widget_mark_tree_trunk_xmas,
+    };
+
     private WidgetViews() {}
 
     static RemoteViews build(Context c, int kind, WidgetData d, Calendar now, Bundle options) {
@@ -557,9 +563,10 @@ final class WidgetViews {
         return null;
     }
 
-    /** 항목 표시 색(그 한 벌의 그림): 칸 색 설정이 교과구분이면 교과구분, 아니면 항목 색 */
+    /** 항목 표시 색(그 한 벌의 그림): 칸 색 설정이 교과구분이면 교과구분, 크리스마스 과목별이면 트리 자리(157판), 아니면 항목 색 */
     static int mark(WidgetData d, WidgetData.Lesson l, int theme) {
         if ("cls".equals(d.colors)) return CLS_MARKS[theme][WeekBitmap.clsIndex(l.cls)];
+        if (theme == WidgetData.XMAS && l.tree >= 0) return TREE_MARKS[l.tree];
         return ITEM_MARKS[theme][Math.floorMod(l.color, ITEM_MARKS[theme].length)];
     }
 

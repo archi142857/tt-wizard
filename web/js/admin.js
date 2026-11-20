@@ -7,6 +7,8 @@
 //   개발자 메뉴는 update140 부터 여기로만 연다(11/18 사용자 '원래 있던 개발자 루트는 지워야겠지?': 시간표에 과목 하나 + 동선 확인하기로 열던 길은 없앰)
 //   글과 꼴은 디자인 154판(update141): 칸마다 머리(15/22 700 heading)와 칸 사이 선, 칸 오류는 칸 아래 .error-line(alert), 진행은 버튼 안(aria-busy),
 //   화면 글 규칙의 '처리' 대신 '남은 신고 보기'·'끝내기', '→' 대신 '…으로 바꿨어요', 도움말 끝 마침표·'님' 빼기
+//   디자인 156판(update142): 빈 결과 줄은 자리를 차지하지 않고(:empty, 칸 사이 선 위아래 16), 신고·관리자 줄은 칸 폭 안(글은 칸 머리와 같은 선, 줄 사이 선은 칸 폭,
+//   텍스트 버튼 글 끝은 칸 끝), 계정 화면의 '관리자 화면' 카드는 '로그아웃해도 …' 글 아래(app.js renderAccount)
 
 let api = null, sheet = null, body = null, core = null, st = null, timer = 0, found = null;
 
@@ -20,15 +22,17 @@ const CSS = `
 .adm-sheet .adm-form .field-label { margin: var(--space-2) 0 0; }
 .adm-sheet .adm-form > .field-label:first-child { margin-top: 0; }
 .adm-sheet .adm-form > button, .adm-sheet .adm-box > button { justify-self: start; }
-.adm-sheet .adm-msg { margin: 0; min-height: 1.25rem; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
+.adm-sheet .adm-msg { margin: 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
+.adm-sheet .adm-msg:empty { display: none; }
 .adm-sheet .adm-help { margin: 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--text3); }
 .adm-sheet .error-line { margin: 0; }
 .adm-sheet .btn-secondary .spinner { margin-right: var(--space-2); }
-.adm-sheet .adm-row { padding-top: var(--space-2); padding-bottom: var(--space-2); }
+.adm-sheet .adm-box .sheet-list { margin: 0; }
+.adm-sheet .adm-row { padding: var(--space-2) 0; }
 .adm-sheet .adm-row > .adm-who { display: grid; min-width: 0; overflow-wrap: anywhere; }
 .adm-sheet .adm-row small { font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); font-variant-numeric: tabular-nums; }
 .adm-sheet .adm-row .adm-note { font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
-.adm-sheet .adm-row > .adm-acts { display: flex; flex-shrink: 0; gap: var(--space-1); margin-left: auto; }
+.adm-sheet .adm-row > .adm-acts { display: flex; flex-shrink: 0; gap: var(--space-1); margin-left: auto; margin-right: calc(var(--space-3) * -1); }
 `;
 
 const ERR = { BAD_HANDLE: "닉네임#번호로 넣어 주세요", BAD_TAG: "새 번호는 숫자 여섯 자리예요", NOT_FOUND: "그 닉네임#번호를 쓰는 계정이 없어요",
@@ -106,8 +110,12 @@ function clear(scope) {
   for (const i of scope.querySelectorAll("[aria-invalid]")) i.removeAttribute("aria-invalid");
   note(scope, "");
 }
-/** 결과 한 줄(.adm-msg, role=status) */
-function note(scope, text) { const m = scope.querySelector(".adm-msg"); if (m) m.textContent = text; }
+/** 결과 한 줄(.adm-msg). 비면 자리를 차지하지 않아서(디자인 156판 ㉠, :empty) 읽어 주는 것은 시트의 알림 영역(status)이 한다 */
+function note(scope, text) {
+  const m = scope.querySelector(".adm-msg");
+  if (m) m.textContent = text;
+  if (text) tell("status", text);
+}
 
 /** 버튼 안 진행(디자인 규칙 '상태와 피드백'): aria-busy 를 걸고, text 가 있으면 500ms 뒤 작은 스피너와 그 글(한번 뜨면 200ms 이상).
  *  이미 하는 중이면 null, 아니면 끝낼 때 부를 함수 */
@@ -164,7 +172,7 @@ function paintTools() {
   const owner = st.role === "owner";
   const sec = (title, ...kids) => h("div", { class: "adm-sec" }, h("h3", { class: "adm-label" }, ...[title].flat()), ...kids);
   const err = (id) => h("p", { class: "error-line", id, hidden: true });
-  const msg = () => h("p", { class: "adm-msg", role: "status" });
+  const msg = () => h("p", { class: "adm-msg" }); // 알림은 note() 가 시트의 status 영역으로(빈 줄은 숨어서 그 자리에 role=status 를 두지 않는다)
   const input = (id, attrs) => h("input", { class: "text-input", id, autocomplete: "off", spellcheck: "false", ...attrs });
   body.replaceChildren(
     h("div", { class: "adm-open" }, h("span", { role: "status" }, `${clock(st.until)}까지 열려 있어요`), h("button", { type: "button", class: "btn-text", "data-adm": "lock" }, "잠그기")),

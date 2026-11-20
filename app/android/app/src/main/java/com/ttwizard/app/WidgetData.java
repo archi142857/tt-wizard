@@ -16,16 +16,26 @@ import org.json.JSONObject;
  * 홈 화면 위젯이 읽는 자료와 '지금 무엇을 보일지' — 백엔드 세션(10/30).
  * 자료는 app/src/native.js 가 기기 저장소의 대표 시간표로 web/js/timetables.js 의 widgetDataFromStore 를 돌려 TTWWidget.update 로 넘기고
  * WidgetPlugin 이 기기 안(SharedPreferences)에 둔 JSON 이다(update68):
- *   { v, colors: "item"|"cls", home, scheme, themeOff, terms: [{ sem, id, label, title, from, to, days: [[{ name, k, place, b, start, end, color, cls, walk, from, late }] × 7], untimed }] }
+ *   { v, colors: "item"|"cls", home, scheme, themeOff, terms: [{ sem, id, label, title, from, to, days: [[{ name, k, place, b, start, end, color, cls, tree, walk, from, late }] × 7], untimed }] }
  * (b = 건물 id, home = 출발·도착 지점 id: 동선 지도 위젯이 길을 그린다. update70 에서 더함, 없으면 "".
  *  back = 그날 마지막 위치 확정 수업에만, 출발·도착 지점으로 돌아가는 분: 동선 지도 위젯의 걷기 합. update71.
  *  id = 대표 시간표 id, k = 항목 열쇠: 수업을 누르면 앱이 그 항목 시트를 연다(itemUrl). update77, 옛 자료면 "".
- *  scheme = 테마 탭에서 고른 "light"|"dark"(그 밖은 기본 = 기기 설정), themeOff = 그 해에 끈 이벤트 테마 "xmas-2026": 위젯이 앱 테마로 그린다(theme). update78)
+ *  scheme = 테마 탭에서 고른 "light"|"dark"(그 밖은 기본 = 기기 설정), themeOff = 그 해에 끈 이벤트 테마 "xmas-2026": 위젯이 앱 테마로 그린다(theme). update78.
+ *  tree = 크리스마스 트리 자리 "star"|"leaf-1"…"leaf-6"|"trunk"(timetables.js treeSlots): 크리스마스이고 과목별이면 칸·점을 이 자리 색으로. update142, 옛 자료면 없음)
  * 위젯은 앱이 꺼져 있어도 이 자료와 기기 시각만으로 그린다. 이 클래스는 안드로이드 화면 코드를 쓰지 않는다(org.json 과 Calendar 만).
  */
 final class WidgetData {
 
     static final int MAX_CHARS = 256 * 1024; // 이보다 긴 자료는 읽지 않는다
+
+    /** 크리스마스 트리 자리 이름(timetables.js TREE_SLOTS 와 같은 차례): 별(맨 위) · 잎 1~6(위는 옅고 아래는 짙다) · 줄기(맨 아래) */
+    static final String[] TREE = { "star", "leaf-1", "leaf-2", "leaf-3", "leaf-4", "leaf-5", "leaf-6", "trunk" };
+
+    /** 자리 이름 → TREE 의 차례, 모르면 -1 */
+    static int treeIndex(String s) {
+        for (int i = 0; i < TREE.length; i++) if (TREE[i].equals(s)) return i;
+        return -1;
+    }
 
     /** 수업 하나(그날 시작 차례) */
     static final class Lesson {
@@ -35,6 +45,7 @@ final class WidgetData {
         final int start;
         final int end; // 자정부터 분
         final int color; // 0~7
+        final int tree; // 크리스마스 트리 자리(TREE 차례: 0 별, 1~6 잎, 7 줄기. 디자인 157판, update142). 옛 자료면 -1(색 번호로 칠한다)
         final int walk; // 앞 자리에서 걷는 분, 모르면 -1
         final boolean fromHome; // 그날 첫 위치 확정 수업(출발 지점에서 걷는다)
         final int late; // 앞 수업에서 오면 늦는 분
@@ -52,6 +63,12 @@ final class WidgetData {
 
         Lesson(String name, String place, String cls, int start, int end, int color, int walk, boolean fromHome, int late, String b, int back,
                String key) {
+            this(name, place, cls, start, end, color, walk, fromHome, late, b, back, key, -1);
+        }
+
+        Lesson(String name, String place, String cls, int start, int end, int color, int walk, boolean fromHome, int late, String b, int back,
+               String key, int tree) {
+            this.tree = tree >= 0 && tree < TREE.length ? tree : -1;
             this.key = key == null ? "" : key;
             this.b = b == null ? "" : b;
             this.back = back;
@@ -161,7 +178,7 @@ final class WidgetData {
                 int walk = x.isNull("walk") ? -1 : x.optInt("walk", -1);
                 list.add(new Lesson(x.optString("name", ""), x.optString("place", ""), x.optString("cls", "etc"), start, end,
                     Math.floorMod(x.optInt("color", 0), 8), walk, !"class".equals(x.optString("from")), Math.max(0, x.optInt("late", 0)),
-                    x.optString("b", ""), x.isNull("back") ? -1 : x.optInt("back", -1), x.optString("k", "")));
+                    x.optString("b", ""), x.isNull("back") ? -1 : x.optInt("back", -1), x.optString("k", ""), treeIndex(x.optString("tree", ""))));
             }
             Collections.sort(list, (a, b) -> a.start != b.start ? Integer.compare(a.start, b.start) : Integer.compare(a.end, b.end));
             days.add(list);

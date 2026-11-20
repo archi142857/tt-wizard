@@ -195,6 +195,16 @@ export function friendItems(t) {
   return out;
 }
 
+/** 학기 차례 값(새 학기일수록 크다): 해 × 4 + 1학기 0 · 여름학기 1 · 2학기 2 · 겨울학기 3(app.js semRank 와 같다). 모르는 꼴은 -1 */
+export function semOrder(sem) {
+  const m = /^(\d{4})-([12SW])$/.exec(String(sem ?? ""));
+  return m ? Number(m[1]) * 4 + { 1: 0, S: 1, 2: 2, W: 3 }[m[2]] : -1;
+}
+
+/** 친구 시간표 차례(account.friendTimetables): 새 학기가 앞(2026-W > 2026-2 > 2026-S > 2026-1 > 2025-W …), 모르는 꼴은 뒤.
+ *  11/20 사용자 '이거 순서 왜 이럼'(글자 차례라 2026-S 가 2026-2 앞에 왔다, 프론트엔드 ui153 이 화면에서 먼저 맞춤) */
+export const newerSemFirst = (a, b) => semOrder(b && b.sem) - semOrder(a && a.sem) || String(b && b.sem).localeCompare(String(a && a.sem));
+
 /** 학기마다 올릴 친구 사본: { sem: { sem, title, items, updated, look? } 또는 null(지운다) }. lists = { sem: [시간표] }.
  *  look: 올리는 기기에서 보이는 테마('light'·'dark'·이벤트 테마 id 'xmas' 등, update141. 11/20 사용자 '친구 시간표는 친구의 테마로 보여줘야 함. 내 테마로 적용하지 말고').
  *  친구 화면이 이 테마의 칸 색으로 격자를 그린다. 낱말이 아니면 넣지 않는다(옛 판 사본처럼 보는 사람의 테마) */

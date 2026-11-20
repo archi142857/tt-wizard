@@ -157,6 +157,14 @@
     <color name="widget_mark_item6_xmas">#879B00</color>
     <color name="widget_mark_item7_xmas">#878787</color>
     <color name="widget_mark_req_xmas">#3B9863</color>
+    <color name="widget_mark_tree_leaf_1_xmas">#879B00</color>
+    <color name="widget_mark_tree_leaf_2_xmas">#2E9E86</color>
+    <color name="widget_mark_tree_leaf_3_xmas">#31A465</color>
+    <color name="widget_mark_tree_leaf_4_xmas">#227A7E</color>
+    <color name="widget_mark_tree_leaf_5_xmas">#4A6B2A</color>
+    <color name="widget_mark_tree_leaf_6_xmas">#1C6E47</color>
+    <color name="widget_mark_tree_star_xmas">#B58A00</color>
+    <color name="widget_mark_tree_trunk_xmas">#6B4426</color>
     <color name="widget_on_band_xmas">#FFFFFF</color>
     <color name="widget_on_band3_xmas">#BBD1C3</color>
     <color name="widget_text_xmas">#17211B</color>

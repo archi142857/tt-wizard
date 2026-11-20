@@ -147,6 +147,10 @@ public final class WidgetCheck {
         out.append(",\"first\":{\"sem\":").append(q(a.sem)).append(",\"label\":").append(q(a.label)).append(",\"title\":").append(q(a.title))
             .append(",\"from\":").append(a.from).append(",\"to\":").append(a.to).append(",\"untimed\":").append(a.untimed)
             .append(",\"monday\":").append(a.days.get(0).size()).append(",\"place\":").append(q(a.days.get(0).get(0).place)).append("}");
+        // 크리스마스 트리 자리(update142): 화면이 준 이름을 TREE 차례로 읽는다(월요일 둘, 금요일 하나). 모르는 이름은 -1(색 번호로 칠한다)
+        out.append(",\"tree\":[").append(a.days.get(0).get(0).tree).append(",").append(a.days.get(0).get(1).tree).append(",").append(a.days.get(4).get(0).tree)
+            .append("],\"treeNames\":[").append(WidgetData.treeIndex("star")).append(",").append(WidgetData.treeIndex("leaf-6")).append(",")
+            .append(WidgetData.treeIndex("trunk")).append(",").append(WidgetData.treeIndex("leaf-7")).append(",").append(WidgetData.treeIndex("")).append("]");
         // 정한 시각마다 다음 수업(2026-10-26 은 월요일)
         String[][] cases = {
             { "monMorning", "2026-10-26 08:00" }, { "monFirst", "2026-10-26 10:00" }, { "monLast", "2026-10-26 11:30" },

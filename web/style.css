@@ -1059,6 +1059,7 @@ html[data-jump] .view, html[data-jump] .tabbar, html[data-jump] .sidebar, html[d
 .info-list { overflow: hidden; margin: 0; padding: 0; list-style: none; }
 .info-groups { margin-top: var(--space-2); }
 .info-groups > .card + .card { margin-top: var(--space-5); } /* 카드 넷, 묶음 제목 없음(10/22 디자인) */
+.acct-admin { margin-top: var(--space-5); } /* 계정 화면의 관리자 화면 카드(웹만): 로그아웃 글(.info-foot) 아래(디자인 156판 ㉢, 백엔드 update142) */
 .page-foot { margin: var(--space-3) var(--space-1) 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); }
 .info-row { display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: 56px; padding: 0 var(--space-3) 0 var(--space-4); border: 0;
   background: transparent; text-align: left; color: var(--text); font-size: 1rem; line-height: 1.5rem; text-decoration: none; }
@@ -1636,6 +1637,18 @@ html[data-theme="xmas"], .mini.is-xmas, .look-xmas {
   --cls-elec: #3393a2; --cls-elec-bg: #227a7e; --cls-elec-fg: #ffffff; --cls-elec-fg2: #dffcfd;
   --cls-gen: #b47d00; --cls-gen-bg: #f7cd6c;
   --cls-etc: #878787; --cls-etc-bg: #d5d4d1;
+  /* 크리스마스 트리 칸 색(디자인 157판 tokens.json, 11/20 사용자 '크리스마스 테마에서 시간표 색 칠하는 규칙을 좀 바꾸자. 맨 밑의 강의를 갈색, 맨 위의 강의를 노란색,
+     나머지를 여러 초록색을 이용해서 칠하자', 시안 나와 '일정도 센다'): 과목별 칸을 색 번호 대신 칸 자리로 칠한다(자리는 timetables.js treeSlots 하나: 화면과 위젯이 같이 쓴다).
+     별 노랑(맨 위) · 잎 여섯(위에서 아래로 연두·민트·연초록·청록·이끼·솔잎) · 줄기 갈색(맨 아래). 짙은 칸(청록·이끼·솔잎·줄기)은 흰 과목명과 옅은 같은 색 강의실,
+     옅은 칸은 text·text2. 점(-dot)은 card 위 3.1:1 이상. 토큰은 백엔드 update142 가 넣었다(scripts/widget_themes.py 가 위젯 색을 만든다) */
+  --tree-star: #fad65a; --tree-star-dot: #b58a00; --tree-star-fg: var(--text); --tree-star-fg2: var(--text2);
+  --tree-leaf-1: #d6e69d; --tree-leaf-1-dot: #879b00; --tree-leaf-1-fg: var(--text); --tree-leaf-1-fg2: var(--text2);
+  --tree-leaf-2: #b5e3d6; --tree-leaf-2-dot: #2e9e86; --tree-leaf-2-fg: var(--text); --tree-leaf-2-fg2: var(--text2);
+  --tree-leaf-3: #a1d6b2; --tree-leaf-3-dot: #31a465; --tree-leaf-3-fg: var(--text); --tree-leaf-3-fg2: var(--text2);
+  --tree-leaf-4: #227a7e; --tree-leaf-4-dot: #227a7e; --tree-leaf-4-fg: #ffffff; --tree-leaf-4-fg2: #dffcfd;
+  --tree-leaf-5: #4a6b2a; --tree-leaf-5-dot: #4a6b2a; --tree-leaf-5-fg: #ffffff; --tree-leaf-5-fg2: #e0ebd3;
+  --tree-leaf-6: #1c6e47; --tree-leaf-6-dot: #1c6e47; --tree-leaf-6-fg: #ffffff; --tree-leaf-6-fg2: #cee4d6;
+  --tree-trunk: #6b4426; --tree-trunk-dot: #6b4426; --tree-trunk-fg: #ffffff; --tree-trunk-fg2: #ead9ca;
   --bg-pattern: radial-gradient(circle, var(--bg-tone) 0 2.25px, transparent 2.75px) 0 0 / 16px 28px,
     radial-gradient(circle, var(--bg-tone) 0 2.25px, transparent 2.75px) 8px 14px / 16px 28px;
 }

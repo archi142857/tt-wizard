@@ -1,5 +1,5 @@
 // tests/test_account.py 가 부른다: web/js/sync.js(로그인·동기화·친구의 순수 함수, update110)를 정한 경우마다 돌려 JSON 으로 찍는다.
-import { nickProblem, parseHandle, handleKey, randomNumber, isNumber, toServer, fromServer, mergeTimetables, friendItems, friendCopies } from "../web/js/sync.js";
+import { nickProblem, parseHandle, handleKey, randomNumber, isNumber, toServer, fromServer, mergeTimetables, friendItems, friendCopies, semOrder, newerSemFirst } from "../web/js/sync.js";
 
 const item = (course, no, extra = {}) => ({ course, no, name: course + " 과목", instructor: "김교수", credit: 3, cls: "전필", base: [[0, 540, 615, "83", "201"]], ...extra });
 const tt = (id, sem, title, updated, extra = {}) => ({ v: 1, id, sem, title, created: "2026-11-01T00:00:00.000Z", updated, source: "manual", items: [], ...extra });
@@ -39,4 +39,7 @@ out.items = friendItems(shown);
 out.copies = friendCopies({ "2026-2": [shown], "2027-1": [tt("t6", "2027-1", "끔", "2026-11-10T00:00:00.000Z", { primary: true, shareOff: true })], "2026-W": [] });
 // 친구 사본의 테마(update141): 낱말이면 학기마다 같은 look, 아니면 넣지 않는다
 out.looks = ["xmas", "dark", "", "Dark!", 3].map((lk) => friendCopies({ "2026-2": [shown] }, "2026-11-20T00:00:00.000Z", lk)["2026-2"].look ?? null);
+// 친구 시간표 학기 차례(update142): 새 학기가 앞, 같은 해는 겨울 > 2학기 > 여름 > 1학기, 모르는 꼴은 뒤
+out.semOrder = ["2026-1", "2026-S", "2026-2", "2026-W", "2025-W", "2026-3", "", null].map((s) => semOrder(s));
+out.friendOrder = ["2026-1", "2026-S", "x", "2025-W", "2026-2", "2026-W", "2027-1"].map((sem) => ({ sem })).sort(newerSemFirst).map((t) => t.sem);
 process.stdout.write(JSON.stringify(out));

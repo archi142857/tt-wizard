@@ -7,6 +7,8 @@
                          (values/widget_themes.xml). 기기 다크 모드와 상관없이 같은 색이다(그래서 values-night 에 두지 않는다)
 색 값은 web/style.css 의 테마 토큰에서 읽는다: 라이트 :root, 다크 :root[data-scheme="dark"], 크리스마스 html[data-theme="xmas"](없는 토큰은 라이트 값).
 WidgetViews 가 한 벌마다 다른 레이아웃을 고른다(런처는 같은 레이아웃이면 전에 펼친 화면 위에 바꿈만 얹어서, 색을 코드로 넣으면 테마를 바꿀 때 남는다).
+크리스마스 한 벌에는 트리 자리 점(drawable/widget_mark_tree_<자리>_xmas, 색은 크리스마스 블록의 --tree-<자리>-dot)도 만든다(디자인 157판, update142):
+과목별일 때 다음·오늘 수업의 점이 색 번호 대신 트리 자리(timetables.js treeSlots) 색이다. 주간 격자 칸은 WeekBitmap.XMAS 의 트리 색(tests/test_widgets.py 가 견준다).
 
     python scripts/widget_themes.py          # 다시 만든다
     python scripts/widget_themes.py --check  # 지금 파일과 같은지 본다(다르면 1)
@@ -35,6 +37,10 @@ COLOR_TOKENS = {
     "route": "route", "pin": "accent", "on_pin": "on-color", "home": "home", "on_home": "on-home",
 }
 ATTR_BG = "attr_bg"  # 지도 출처 글 바탕: card 90%(앱 지도의 .map-attr)
+# 크리스마스 트리 자리(timetables.js TREE_SLOTS 차례, 디자인 157판): 점 색 이름(widget_mark_tree_<자리>) → 크리스마스 블록의 토큰. 크리스마스 한 벌에만 쓴다
+TREE_SLOTS = ("star", "leaf-1", "leaf-2", "leaf-3", "leaf-4", "leaf-5", "leaf-6", "trunk")
+TREE_TOKENS = {f"mark_tree_{s.replace('-', '_')}": f"tree-{s}-dot" for s in TREE_SLOTS}
+TREE_THEME = "xmas"
 
 # 한 벌: (이름, 스타일 꼬리, web/style.css 의 블록 머리). 라이트 블록이 바탕이고 다른 블록이 그 위에 덮는다
 THEMES = (
@@ -75,6 +81,8 @@ def palettes() -> dict[str, dict[str, str]]:
         top = light if name == "light" else tokens(css, start)
         colors = {res: resolve(top, light, token) for res, token in COLOR_TOKENS.items()}
         colors[ATTR_BG] = "#E6" + colors["bg"][1:]
+        if name == TREE_THEME:
+            colors.update({res: resolve(top, light, token) for res, token in TREE_TOKENS.items()})
         out[name] = colors
     return out
 
@@ -93,7 +101,7 @@ def styles() -> dict[str, list[tuple[str, str]]]:
 def themed(text: str, theme: str, suffix: str, styled: set[str]) -> str:
     """판 하나를 한 벌로: 위젯 색·그림·스타일·넣는 레이아웃의 이름에 꼬리를 단다"""
     def color(m: re.Match) -> str:
-        if m.group(1) not in COLOR_TOKENS and m.group(1) != ATTR_BG:
+        if m.group(1) not in COLOR_TOKENS and m.group(1) != ATTR_BG and not (theme == TREE_THEME and m.group(1) in TREE_TOKENS):
             raise SystemExit(f"모르는 위젯 색 @color/widget_{m.group(1)}: COLOR_TOKENS 에 더한다")
         return f"@color/widget_{m.group(1)}_{theme}"
 
@@ -113,6 +121,16 @@ def copy(src: Path, theme: str, suffix: str, styled: set[str]) -> str:
             f"여기를 고치지 말고 원본을 고친 뒤 다시 만든다 -->\n" + themed(rest, theme, suffix, styled))
 
 
+def tree_mark(name: str) -> str:
+    """트리 자리 점 하나(크리스마스 한 벌에만): drawable/widget_mark_item0.xml 과 같은 꼴에 그 자리 색"""
+    text = re.sub(r"\s*<!--.*?-->", "", (RES / "drawable" / "widget_mark_item0.xml").read_text(encoding="utf-8"), flags=re.S)
+    head, rest = text.split("\n", 1)
+    if rest.count("@color/widget_mark_item0") != 1:
+        raise SystemExit("drawable/widget_mark_item0.xml: 색 하나를 쓰는 꼴이 아니다(트리 자리 점을 만들 수 없다)")
+    return (f"{head}\n<!-- {MADE} drawable/widget_mark_item0.xml 꼴로 만든 크리스마스 트리 자리 점이다(update142, 디자인 157판). "
+            f"여기를 고치지 말고 스크립트·원본을 고친 뒤 다시 만든다 -->\n" + themed(rest.replace("@color/widget_mark_item0", f"@color/widget_{name}"), TREE_THEME, "Xmas", set()))
+
+
 def values(pal: dict[str, dict[str, str]], style: dict[str, list[tuple[str, str]]], used: set[str]) -> str:
     lines = ['<?xml version="1.0" encoding="utf-8"?>',
              f"<!-- {MADE} web/style.css 의 테마 토큰과 values/widget_styles.xml 로 만든 파일이다(update78). 여기를 고치지 말고 스크립트·원본을 고친 뒤 다시 만든다.",
@@ -120,7 +138,7 @@ def values(pal: dict[str, dict[str, str]], style: dict[str, list[tuple[str, str]
              "<resources>"]
     for theme, suffix, _ in THEMES:
         lines.append(f"    <!-- {theme} -->")
-        for name in sorted(used):
+        for name in sorted(used | (set(TREE_TOKENS) if theme == TREE_THEME else set())):
             lines.append(f'    <color name="widget_{name}_{theme}">{pal[theme][name]}</color>')
         for name, items in style.items():
             lines.append(f'    <style name="{name}.{suffix}">')
@@ -144,6 +162,8 @@ def build() -> dict[Path, str]:
     for theme, suffix, _ in THEMES:
         for src in sources:
             files[src.with_name(f"{src.stem}_{theme}.xml")] = copy(src, theme, suffix, set(style))
+    for name in TREE_TOKENS:  # 크리스마스 트리 자리 점(157판)
+        files[RES / "drawable" / f"widget_{name}_{TREE_THEME}.xml"] = tree_mark(name)
     files[OUT] = values(pal, style, used)
     return files
 

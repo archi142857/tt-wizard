@@ -76,6 +76,11 @@ def test_friend_copy(r):
     assert r["copies"]["2027-1"] is None and r["copies"]["2026-W"] is None
     assert r["copies"]["2026-2"]["title"] == "대표" and "memo" not in json.dumps(r["copies"], ensure_ascii=False)
     assert r["looks"] == ["xmas", "dark", None, None, None] and "look" not in r["copies"]["2026-2"]  # 친구 사본의 테마(update141)
+    # 친구 시간표 학기 차례(update142, 사용자 11/20 '이거 순서 왜 이럼'): 새 학기가 앞, 글자 차례가 아니다(2026-S 가 2026-2 앞에 오지 않는다)
+    assert r["semOrder"] == [8104, 8105, 8106, 8107, 8103, -1, -1, -1]
+    assert r["friendOrder"] == ["2027-1", "2026-W", "2026-2", "2026-S", "2026-1", "2025-W", "x"]
+    acc = (ROOT / "web" / "js" / "account.js").read_text(encoding="utf-8")
+    assert ".sort(newerSemFirst)" in acc and "String(b.sem).localeCompare(String(a.sem))" not in acc
 
 
 def test_account_module_surface():
@@ -120,7 +125,12 @@ def test_admin_core_surface():
     assert 'import("./admin-core.js")' in ui and 'id: "admin-sheet"' in ui and '"관리자 화면"' in ui
     app = (ROOT / "web" / "js" / "app.js").read_text(encoding="utf-8")
     assert 'adminMod = adminMod || await import("./admin.js");' in app
-    assert '!IN_APP && acctAdmin ? [card(h("button", { type: "button", class: "info-row", "data-acct": "admin"' in app  # 웹에서 관리자 문서가 있는 계정만
+    # 웹에서 관리자 문서가 있는 계정만. 카드는 로그아웃 글(#account-foot) 아래 따로 둔 자리(디자인 156판 ㉢, update142)
+    assert 'const admin = !!u && !IN_APP && acctAdmin, slot = acctAdminSlot();' in app
+    assert 'slot.replaceChildren(...(admin ? [card(h("button", { type: "button", class: "info-row", "data-acct": "admin"' in app
+    assert '$("account-foot").after(el);' in app and 'el.addEventListener("click", onAcctClick);' in app
+    css = (ROOT / "web" / "style.css").read_text(encoding="utf-8")
+    assert ".acct-admin { margin-top: var(--space-5); }" in css
     # 개발자 메뉴는 열린 관리자 화면에서만 연다. 시간표에 과목 하나 + 동선 확인하기로 열던 옛 길(개발자 루트)은 없앴다(사용자 11/18)
     assert "DEV_KEY" not in app and "devKey" not in app and "806.508A" not in app and 'import("./dev.js")' not in app
     assert '$("route-run").addEventListener("click", () => routeTt(curTt()));' in app
@@ -136,6 +146,10 @@ def test_admin_core_surface():
         assert text in ui, text
     assert 'h("p", { class: "error-line", id: "adm-gate-err", hidden: true })' in ui and 'b.setAttribute("aria-busy", "true")' in ui
     assert '.adm-sheet .adm-label { margin: 0; font-size: 0.9375rem; line-height: 1.375rem; font-weight: 700; color: var(--heading); }' in ui
+    # 디자인 156판(update142): 빈 결과 줄은 자리를 차지하지 않고(알림은 시트의 status 영역), 신고·관리자 줄은 칸 폭 안, 텍스트 버튼 글 끝은 칸 끝
+    assert ".adm-sheet .adm-msg:empty { display: none; }" in ui and "min-height: 1.25rem" not in ui and 'if (text) tell("status", text);' in ui
+    assert '.adm-sheet .adm-box .sheet-list { margin: 0; }' in ui and '.adm-sheet .adm-row { padding: var(--space-2) 0; }' in ui
+    assert "margin-left: auto; margin-right: calc(var(--space-3) * -1); }" in ui
     # 넓은 화면 과목 추가 둘러보기 선택칸: 전체 과목 → 남은 요건 과목 → 교양 전체 → 학과(사용자 11/20)
     assert 'all = sel.querySelector(`option[value="${ALL_COURSES}"]`);' in app and "if (all) all.after(opt); else sel.prepend(opt);" in app
 

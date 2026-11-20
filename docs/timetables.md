@@ -59,6 +59,7 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
 | `widgetData(terms, {name, place, minutes, home, colors, scheme, themeOff})` | 홈 화면 위젯 자료(아래 '홈 화면 위젯'). `terms = [{t: 대표 시간표, entries}]`, 결과를 `TTW_APP.updateWidgets` 에 넘긴다 |
 | `widgetSemesters(sems, now)`, `termDates(sem)`, `termLabel(sem)` | 위젯에 넘길 학기(끝나지 않은 학기를 시작 차례로 셋까지), 위젯이 학기를 보이는 날들, `2026년 2학기` |
 | `widgetDataFromStore({get, keys, campus, travel})` | 기기에 둔 값(대표 시간표·출발 지점·이동 기준·칸 색)만으로 위젯 자료. 앱 연결(`native.js`)이 앱을 켤 때·내릴 때 부른다 |
+| `treeSlots(entries, {key, meetings})`, `TREE_SLOTS` | 크리스마스 트리 칸 색 자리(디자인 157판, update142): 항목들(`[{key, meetings}]`, 넣은 차례) → `Map(열쇠 → "star" \| "leaf-1"…"leaf-6" \| "trunk")`. 아래 '크리스마스 트리 자리' |
 
 `checkRoute(sections, travel, home, {weights})`(`engine.js`)는 `evaluate` 와 같은 모양(요일별 경로 `legs`, `cost` 등)에
 `overlaps: [[i, j], ...]`(시간이 겹치는 분반 쌍)을 더해 돌려준다. 탐색 결과를 저장한 시간표는 `checkRoute(toSections(t, byId), …)` 가 탐색 때와 같은 비용·경로를 낸다(시험이 본다).
@@ -132,7 +133,8 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
   `xmas-test`), 없거나 다른 꼴이면 `""`: 위젯이 앱 테마로 그린다, update78. 이벤트 테마의 기간은 위젯이 그릴 때 날짜로 정한다).
   학기 `{sem, id, label, title, from, to, days, untimed}`: `id` 는 대표 시간표 id, `days` 는 월~일 일곱 칸의 수업(시작 차례),
   `from`·`to` 는 위젯이 그 학기를 보이는 날들(`termDates`), `untimed` 는 시간이 정해지지 않은 항목 수.
-  수업 `{name, k, place, b, start, end, color, cls, walk, from, late}`: `k` 는 항목 열쇠(`itemKey`. 위젯에서 수업을 누르면 앱이 `id`·`k` 로 그 항목 시트를 연다, update77),
+  수업 `{name, k, place, b, start, end, color, cls, tree, walk, from, late}`: `k` 는 항목 열쇠(`itemKey`. 위젯에서 수업을 누르면 앱이 `id`·`k` 로 그 항목 시트를 연다, update77),
+  `tree` 는 그 학기 대표 시간표에서의 크리스마스 트리 자리(`treeSlots`, update142: 앱 테마가 크리스마스이고 과목별이면 위젯이 이 자리 색으로 칠한다),
   `place` 는 화면의 강의실 표기(미정이면 `""`), `b` 는 건물 id(이동시간 지점, 미정이면 `""`.
   `b`·`home` 은 동선 지도 위젯이 길을 그릴 때 쓴다, update70), 그날 마지막 위치 확정 수업에만 `back`(출발·도착 지점으로 돌아가는 분. 동선 지도 위젯의
   걷기 합, update71), `cls` 는 `req`·`elec`·`gen`·`etc`(칸 색 설정이
@@ -146,6 +148,20 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
   출발 지점 `home`·이동 기준 `mode`·칸 색 `timetableColor`, 테마 `scheme`·`themeOff`, 걷는 분은 `engine.js` 의 이동 행렬). 화면이 편람과 맞춘 값을 넘기고 싶으면
   `TTW_APP.updateWidgets(widgetData(terms, {name, place, minutes, home, colors, scheme, themeOff}))` 를 부르면 되고(테마 둘을 빼면 위젯이 기기 설정을 따른다),
   그 뒤로는 앱 연결이 넘기지 않는다. 웹·iOS 에는 위젯이 없다(iOS 는 나중).
+
+## 크리스마스 트리 자리 (update142, 디자인 157판)
+
+11/20 사용자 '크리스마스 테마에서 시간표 색 칠하는 규칙을 좀 바꾸자. 맨 밑의 강의를 갈색, 맨 위의 강의를 노란색, 나머지를 여러 초록색을 이용해서 칠하자'(시안 나와 '일정도 센다').
+크리스마스 테마의 과목별 칸 색은 색 번호 대신 칸 자리로 칠한다. 자리를 정하는 것은 `treeSlots` 하나이고 화면(격자·항목 점·시간표 이미지·공유받은 시간표·친구 시간표·테마 카드)과
+위젯 자료가 같이 쓴다(위젯 자료는 앱 연결이 화면 없이 만들어서 이 모듈에 둔다).
+
+- 칸(요일 0~6, 끝이 시작보다 늦은 수업)이 있는 과목·일정만 센다. 칸이 없는 항목은 결과에 없다(화면의 목록 점은 `leaf-6`).
+- 별 `star`: 시작이 가장 이른 칸(같으면 앞 요일, 그래도 같으면 먼저 넣은 것)의 항목.
+- 줄기 `trunk`: 끝이 가장 늦은 칸(같으면 뒤 요일, 그래도 같으면 나중에 넣은 것)의 항목. 별과 같으면 그 밖에서 끝이 가장 늦은 것.
+- 잎 `leaf-1`~`leaf-6`: 나머지를 가장 이른 칸의 시작 차례(같으면 앞 요일, 그다음 넣은 차례)로 늘어놓고, n개면 i번째(0부터)는 `leaf-(⌊i × 6 ÷ n⌋ + 1)`(위는 옅고 아래는 짙다).
+- 항목이 하나면 별만, 둘이면 별과 줄기. 한 항목의 칸은 요일이 달라도 한 자리(같은 열쇠는 칸을 합쳐 하나로 센다). 넣고 빼고 시간을 바꿀 때마다 다시 정한다.
+- 친구 시간표는 숨긴 회색 칸을 빼고 넘긴다(`key`·`meetings` 로 다른 꼴의 항목도 읽는다).
+- 색은 `web/style.css` 크리스마스 블록의 `--tree-<자리>`(칸)·`-dot`(목록 점)·`-fg`·`-fg2`(칸 위 과목명·강의실). 위젯은 `docs/app.md` '홈 화면 위젯'의 '크리스마스 트리 칸 색'.
 
 ## 기기에 두기 (프론트엔드)
 
