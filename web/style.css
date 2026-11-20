@@ -1319,6 +1319,13 @@ button.wk-block:active { filter: brightness(0.96); } /* 공유받은 시간표 �
    '200-' / '421' / '3'이 됐다). 덩이가 줄보다 길면 칸 안 여백까지 쓰고 칸 끝(.wk-block 의 overflow)에서 잘린다 */
 .wk.is-dense .b-room { overflow: visible; overflow-wrap: normal; }
 .wk.is-dense .b-room .r-part { white-space: nowrap; }
+/* 낮은 칸(디자인 156판): 과목명 한 줄 + 강의실 한 줄이 들어가지 않는 칸(좁은 격자 34px, 넓은 격자 38px 아래. 친구 시간표의 한 시간이 1.5rem 가까울 때).
+   앱이 칸 높이를 재어 .short 를 단다(renderWeek). 한 줄에 과목명과 강의실을 나란히, 위아래 여백 없이 세로 가운데. 과목명이 먼저 세 글자 + … 까지 줄고,
+   강의실은 앱이 폭을 재어 들어가는 것만 넣는다('26-B102' → '26동' → 없음). 한 줄 높이보다 낮은 칸은 글 없이(칸 이름은 그대로).
+   과목명 줄이 눌려 글자 위아래가 잘리지 않게(update141 은 75분 칸 28px 에서 '통계학'이 '토계하'처럼 보였다) */
+.wk-block.short { flex-direction: row; align-items: center; gap: var(--space-1); padding-top: 0; padding-bottom: 0; }
+.wk-block.short .b-title { display: block; flex: 0 100 auto; min-width: 0; white-space: nowrap; text-overflow: ellipsis; }
+.wk-block.short .b-room { flex: none; white-space: nowrap; }
 /* 폰 내 시간표는 격자 카드를 화면 끝 4px 까지 넓힌다(본문 여백 20 → 4. 폭 360 에서 요일 칸 55 → 63px) */
 @media (max-width: 37.4375em) { #view-mine #wk { margin-inline: calc(var(--space-1) - var(--space-5)); } }
 .tt-legend { margin: var(--space-2) var(--space-1) 0; }

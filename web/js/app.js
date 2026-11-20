@@ -3868,6 +3868,16 @@ const itemInk = (it, mode = ttColor) => {
   const k = mode === "cls" ? `cls-${clsKey(it.custom ? "" : it.cls)}` : `item-${colorNo(it)}`;
   return { "--block-fg": `var(--${k}-fg)`, "--block-fg2": `var(--${k}-fg2)` };
 };
+// 크리스마스 트리 자리(디자인 157판 '크리스마스의 트리'. 11/20 사용자 '크리스마스 테마에서 시간표 색 칠하는 규칙을 좀 바꾸자. 맨 밑의 강의를 갈색, 맨 위의 강의를
+// 노란색, 나머지를 여러 초록색을 이용해서 칠하자', 시안 나와 '일정도 센다'): 크리스마스 테마의 과목별은 색 번호 대신 칸 자리로 칠한다. 자리는 위젯 자료와 한곳인
+// T.treeSlots(timetables.js, 백엔드 update142): entries [{ key, meetings }](넣은 차례) → Map(key → 'star' | 'leaf-1'…'leaf-6' | 'trunk'), 칸이 없는 것은 Map 에 없다(점은 leaf-6).
+// 화면은 격자·목록 점·시간표 이미지·공유받은 시간표·친구 시간표·테마 미리보기에서 그 자리를 --tree-* 토큰으로 칠한다
+/** 지금 화면이 크리스마스 테마다(문서의 테마. 친구 격자는 그 카드의 테마 .look-* 를 본다) */
+const xmasShown = () => document.documentElement.dataset.theme === "xmas";
+/** 트리 자리의 칸 색·글자색·점 색(style.css 크리스마스 토큰 블록의 --tree-*) */
+const treeFill = (slot) => `var(--tree-${slot})`;
+const treeInk = (slot) => ({ "--block-fg": `var(--tree-${slot}-fg)`, "--block-fg2": `var(--tree-${slot}-fg2)` });
+const treeDot = (slot) => `var(--tree-${slot || "leaf-6"}-dot)`;
 /** 일정의 메타·칸: '금 16:00~18:00 · 63동'(장소가 없으면 시각까지) */
 const customWhen = (meetings) => meetingGroups(meetings).map((g) => `${daysLabel(g.days)} ${hm(g.start)}~${hm(g.end)}${g.building ? ` · ${buildingLabel(g.building)}` : ""}`).join(", ");
 
@@ -4044,6 +4054,9 @@ function renderWeek(t, entries, clash, opts = {}) {
   const list = h("ol", { class: "wk-blocks" });
   body.append(list);
   const colW = (list.clientWidth + 2) / n - 2;
+  // 크리스마스(그 격자의 테마: 친구 격자는 친구 테마 .look-*, 그 밖은 화면 테마)의 과목별은 트리 자리로 칠한다(157판). 친구가 숨긴 회색 칸은 세지 않는다
+  const xmasGrid = box.classList.contains("look-xmas") || (!box.classList.contains("look-light") && !box.classList.contains("look-dark") && xmasShown());
+  const tree = (opts.colors || ttColor) === "item" && xmasGrid ? T.treeSlots(entries.filter((e) => !(opts.grayHidden && e.item.hidden))) : null;
   for (const { e, m, half } of blocks) {
     const top = ((m.start - h0 * 60) / 60) * hourPx, height = ((m.end - m.start) / 60) * hourPx - 2;
     const textW = (half ? (colW - 2) / 2 : colW) - padX;
@@ -4059,7 +4072,18 @@ function renderWeek(t, entries, clash, opts = {}) {
       else { roomKids = [text]; roomLines = textLines(text, font, textW); }
     };
     setRoom(full);
-    if (room && height - 6 - roomLines * lh < lh && m.building && room !== buildingLabel(m.building)) setRoom(buildingLabel(m.building));
+    // 낮은 칸(156판 .short): 과목명 한 줄 + 강의실 한 줄(강의실이 없으면 과목명 한 줄)이 위아래 여백 3·3 안에 들어가지 않으면 한 줄에 나란히(사이 space-1).
+    // 강의실은 과목명이 세 글자 + … 까지 줄어도 들어가는 것만(그대로 → 건물만 '26동' → 없음). 한 줄 높이보다 낮은 칸은 글 없이(칸 이름·읽는 글은 그대로)
+    const bare = height < lh, short = !bare && height - 6 < (room ? 2 : 1) * lh;
+    let oneLine = "";
+    if (short) {
+      const w = canvasWidth(font);
+      oneLine = e.item.custom ? e.item.title : shortName(courseName(e));
+      const chars = [...oneLine], least = w(chars.length > 3 ? `${chars.slice(0, 3).join("")}…` : oneLine);
+      const bld = m.building ? buildingLabel(m.building) : "";
+      room = [full, bld].find((s) => s && least + 4 + w(s) <= textW) || "";
+      roomKids = room ? [room] : [];
+    } else if (room && height - 6 - roomLines * lh < lh && m.building && room !== buildingLabel(m.building)) setRoom(buildingLabel(m.building));
     const lines = Math.max(1, Math.floor((height - 6 - roomLines * lh) / lh));
     const said = [`${DAY_KO[m.day]} ${hm(m.start)}~${hm(m.end)} ${e.item.custom ? e.item.title : courseName(e)}`, spoken, clash.has(e.key) ? "시간 겹침" : ""].filter(Boolean).join(", ");
     const place = { top: `${top}px`, height: `${height}px`, left: `calc(${days.indexOf(m.day)} * (100% + 2px) / ${n})`, width: `calc((100% + 2px) / ${n} - 2px)` };
@@ -4069,8 +4093,10 @@ function renderWeek(t, entries, clash, opts = {}) {
       continue;
     }
     const mark = pv && pv.out.has(e.key) ? " is-out" : pv && pv.own === e.key ? " is-hl" : ""; // 미리 보기: 빠질 항목은 흐리게, 이미 넣은 분반은 테두리
-    const cls = `wk-block${half ? ` ${half}` : ""}${mark}`, style = { background: itemFill(e.item, opts.colors), ...itemInk(e.item, opts.colors), "--lines": String(lines) };
-    const parts = [h("span", { class: "b-title", "aria-hidden": "true" }, name), room ? h("span", { class: "b-room", "aria-hidden": "true" }, ...roomKids) : null];
+    const slot = tree && tree.get(e.key);
+    const cls = `wk-block${half ? ` ${half}` : ""}${short ? " short" : ""}${mark}`;
+    const style = { background: slot ? treeFill(slot) : itemFill(e.item, opts.colors), ...(slot ? treeInk(slot) : itemInk(e.item, opts.colors)), "--lines": String(short ? 1 : lines) };
+    const parts = bare ? [] : [h("span", { class: "b-title", "aria-hidden": "true" }, short ? oneLine : name), room ? h("span", { class: "b-room", "aria-hidden": "true" }, ...roomKids) : null];
     list.append(h("li", { style: place },
       // 누르지 않는 격자(공유받은 시간표 미리 보기): 칸은 글이고 스크린리더는 목록의 글로 읽는다
       opts.still ? h("span", { class: cls, style }, ...parts, h("span", { class: "sr-only" }, said))
@@ -4086,20 +4112,21 @@ function renderItems(entries, clash) {
   const sorted = [...entries].sort((a, b) => first(a) - first(b));
   const add = (kind, paths, text) => h("button", { type: "button", class: "add-row", "data-add": kind,
     "aria-describedby": kind === "image" && !$("items-error").hidden ? "items-error" : null }, icon(paths, 20), h("span", {}, text));
-  $("items").replaceChildren(...sorted.map((e) => itemRow(e, clash)),
+  const tree = ttColor === "item" && xmasShown() ? T.treeSlots(entries) : null; // 크리스마스의 점은 격자 칸과 같은 트리 자리(157판, 칸이 없으면 leaf-6)
+  $("items").replaceChildren(...sorted.map((e) => itemRow(e, clash, tree)),
     h("li", { class: "add-trio" }, add("course", I.plus, "과목 추가"), add("custom", I.plus, "직접 추가"), add("image", IMAGE_ICON, "이미지로 추가")));
   $("tt-legend").hidden = ttColor !== "cls" || !entries.length;
 }
 
 /** 행: 색 점, 이름, 메타('001(홍승윤) · 전선 · 3학점', 일정은 '금 16:00~18:00 · 63동'), 태그, 빼기 ×. 행 어디든 눌린다(×만 따로) */
-function itemRow(e, clash) {
+function itemRow(e, clash, tree = null) {
   const it = e.item;
   const name = courseName(e);
   const meta = it.custom ? customWhen(e.meetings) : [sectionLabel({ no: it.no, instructor: it.instructor }), it.cls, fmtCredit(it.credit)].filter(Boolean).join(" · ");
   const tags = itemTags(e, clash);
   return h("li", { class: "course", "data-key": e.key },
     h("button", { type: "button", class: "course-hit", "data-item": e.key, "aria-haspopup": "dialog", "aria-label": [name, meta, ...tags.map(([, x]) => x)].join(", ") },
-      h("span", { class: "dot", "aria-hidden": "true", style: { background: itemDot(it) } }),
+      h("span", { class: "dot", "aria-hidden": "true", style: { background: tree ? treeDot(tree.get(e.key)) : itemDot(it) } }),
       h("span", { class: "c-body" }, h("span", { class: "c-title" }, name), h("span", { class: "c-meta" }, meta))),
     tags.length ? h("span", { class: "tags", "aria-hidden": "true" }, tags.map(([k, x]) => h("span", { class: k ? `tag ${k}` : "tag" }, x))) : null,
     h("button", { type: "button", class: "icon-btn remove", "data-drop": e.key, "aria-label": `${name} 빼기` }, icon(I.x, 20)));
@@ -4583,13 +4610,16 @@ function layoutExport(root, entries, { name, card, legend, late }) {
       if (a.e !== b.e && meetsOverlap(a.m, b.m)) { if (!a.half) a.half = "left"; b.half = "right"; }
     }
   }
+  const tree = ttColor === "item" && xmasShown() ? T.treeSlots(entries) : null; // 크리스마스의 과목별은 격자와 같은 트리 자리(157판)
   for (const { e, m, half } of blocks) {
     const w = half ? (cw - EX.gap) / 2 : cw;
     const x = EX.axis + days.indexOf(m.day) * (cw + EX.gap) + (half === "right" ? w + EX.gap : 0);
     const room = e.item.custom ? (m.building ? buildingLabel(m.building) : "") : roomLabel(m);
     const bld = m.building ? buildingLabel(m.building) : room;
+    const slot = tree && tree.get(e.key);
     body.append(h("div", { class: "ex-block", "data-min": String(m.end - m.start), style: {
-      left: `${x}px`, top: `${((m.start - h0 * 60) / 60) * hp + EX.gap / 2}px`, width: `${w}px`, height: `${((m.end - m.start) / 60) * hp - EX.gap}px`, background: itemFill(e.item), ...itemInk(e.item) } },
+      left: `${x}px`, top: `${((m.start - h0 * 60) / 60) * hp + EX.gap / 2}px`, width: `${w}px`, height: `${((m.end - m.start) / 60) * hp - EX.gap}px`,
+      background: slot ? treeFill(slot) : itemFill(e.item), ...(slot ? treeInk(slot) : itemInk(e.item)) } },
     h("b", { "data-raw": e.item.custom ? e.item.title : shortName(courseName(e)) }), // 글은 단계마다 fitExportBlock 이 넣는다(끝 번호 붙이기가 글자 크기를 따른다)
     room ? h("i", { "data-full": room, "data-bld": bld }, room) : null));
   }
@@ -6023,7 +6053,8 @@ function renderItemSheet() {
   // 수강 제한 안내(123판): 분반 목록(넣은 분반·다른 분반) 위, 보이는 분반 행에 태그나 비고 원문이 있을 때만
   const note = limitNote([secLimit(it.course, it.no, mine.sem), ...others.map((s) => secLimit(s.courseId, s.no, mine.sem))]);
   $("is-body").replaceChildren(...[
-    ttColor === "item" ? h("fieldset", { class: "sheet-field" }, h("legend", { class: "field-label" }, "색"),
+    // 색: 과목별일 때만. 크리스마스는 자리가 색을 정해(트리, 157판) 두지 않는다(고른 번호는 남아 테마를 끄면 그대로)
+    ttColor === "item" && !xmasShown() ? h("fieldset", { class: "sheet-field" }, h("legend", { class: "field-label" }, "색"),
       h("div", { class: "swatches" }, colorNames().map((name, i) => h("label", {},
         h("input", { type: "radio", name: "is-color", value: String(i), checked: colorNo(it) === i, "aria-label": name }),
         // 체크는 그 색의 글자색(크리스마스의 짙은 원 위에서는 흰색)
@@ -7114,7 +7145,10 @@ const darkNow = () => scheme === "dark" || (scheme === "system" && SYSTEM_DARK.m
 let themedBars = false; // 스토어 앱의 시스템 바 글자색을 테마·고른 라이트·다크에 맞춰 바꿔 두었는지
 function applyTheme(on) {
   const t = on ? season : null, root = document.documentElement, dark = darkNow(), forced = scheme !== "system";
+  const wasXmas = root.dataset.theme === "xmas";
   if (t) root.dataset.theme = t.id; else delete root.dataset.theme;
+  // 크리스마스가 켜지고 꺼지면 칸 색을 정하는 법이 바뀐다(트리 자리, 157판): 내 시간표·친구 시간표를 다시 그린다(켜는 중에는 다음 차례에)
+  if (wasXmas !== (root.dataset.theme === "xmas")) setTimeout(treeRedraw, 0);
   root.dataset.scheme = dark ? "dark" : "light";
   // 상태 바 색: 이벤트 테마는 그 색, 라이트·다크를 골랐으면 그 색(meta 의 media 와 상관없이 둘 다), 기본이면 meta 의 media(기기 설정)대로
   const metas = document.querySelectorAll('meta[name="theme-color"]');
@@ -7137,6 +7171,11 @@ function applyTheme(on) {
   if (look !== lookShown) { const first = !lookShown; lookShown = look; if (!first) setTimeout(() => syncSoon(2000), 0); }
 }
 let lookShown = ""; // 친구 사본에 든 테마와 견줄 지금 테마(처음 켤 때는 로그인 뒤 맞추기가 이 값으로 올린다)
+/** 크리스마스를 켜고 끈 뒤: 트리 자리를 쓰는 곳을 다시 그린다(내 시간표 격자·목록 점, 친구 시간표. 테마를 모르는 친구 사본은 내 테마) */
+function treeRedraw() {
+  mineChanged();
+  if (screen === "friend" && frView.terms) paintFriendTt();
+}
 /** 라이트·다크 고르기(테마 탭). 기간에 켜진 이벤트 테마는 끈다(돌아가기와 같다: 그 해에는 저절로 다시 켜지지 않는다) */
 function setScheme(v) {
   scheme = v;
@@ -7255,10 +7294,20 @@ if (document.fonts) document.fonts.addEventListener("loadingdone", sleighSoon);
 // 크리스마스는 그 바탕과 흰 워드마크
 const MINI_BLOCKS = [[14, 10, 15, 22, 0], [48, 10, 15, 22, 0], [31, 6, 15, 20, 1], [65, 6, 15, 20, 1], [14, 38, 15, 20, 2], [48, 38, 15, 20, 2], [31, 58, 15, 30, 3], [82, 62, 14, 24, 7], [65, 45, 15, 22, 5]];
 const MINI_WORDMARK = { light: "icons/wordmark.svg", dark: "icons/wordmark-dark.svg", xmas: "icons/wordmark-white.svg" };
+/** 미리보기 칸의 트리 자리(157판: 크리스마스 카드의 칸도 트리. 칸의 c 가 한 과목, 왼쪽 자리 차례가 요일, 위·아래 끝이 시작·끝) */
+const MINI_TREE = (() => {
+  const cols = [...new Set(MINI_BLOCKS.map(([l]) => l))].sort((a, b) => a - b), by = new Map();
+  for (const [l, t, , hh, c] of MINI_BLOCKS) {
+    if (!by.has(c)) by.set(c, { key: String(c), meetings: [] });
+    by.get(c).meetings.push({ day: cols.indexOf(l), start: t, end: t + hh });
+  }
+  return T.treeSlots([...by.values()]);
+})();
 function miniScreen(kind) {
+  const fill = (c) => (kind === "xmas" ? treeFill(MINI_TREE.get(String(c))) : `var(--item-${c})`);
   return h("span", { class: `mini is-${kind}` }, h("img", { class: "mw", src: MINI_WORDMARK[kind] || MINI_WORDMARK.light, alt: "" }),
     h("span", { class: "mh" }), h("span", { class: "mh2" }),
-    h("span", { class: "mc" }, MINI_BLOCKS.map(([l, t, w, hh, c]) => h("i", { style: { left: `${l}%`, top: `${t}%`, width: `${w}%`, height: `${hh}%`, background: `var(--item-${c})` } }))),
+    h("span", { class: "mc" }, MINI_BLOCKS.map(([l, t, w, hh, c]) => h("i", { style: { left: `${l}%`, top: `${t}%`, width: `${w}%`, height: `${hh}%`, background: fill(c) } }))),
     h("span", { class: "mb" }));
 }
 function renderThemes() {
