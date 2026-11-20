@@ -75,6 +75,7 @@ def test_friend_copy(r):
                           {"title": "알바", "meetings": [{"day": 4, "start": 1080, "end": 1200, "building": "", "room": ""}]}]
     assert r["copies"]["2027-1"] is None and r["copies"]["2026-W"] is None
     assert r["copies"]["2026-2"]["title"] == "대표" and "memo" not in json.dumps(r["copies"], ensure_ascii=False)
+    assert r["looks"] == ["xmas", "dark", None, None, None] and "look" not in r["copies"]["2026-2"]  # 친구 사본의 테마(update141)
 
 
 def test_account_module_surface():
@@ -124,6 +125,19 @@ def test_admin_core_surface():
     assert "DEV_KEY" not in app and "devKey" not in app and "806.508A" not in app and 'import("./dev.js")' not in app
     assert '$("route-run").addEventListener("click", () => routeTt(curTt()));' in app
     assert 'if (k === "dev") return await openDev(b);' in ui and 'try { dev = await import("./dev.js"); }' in ui and "if (!now.until) { await refresh();" in ui
+    # 디자인 154판(update141): 화면 글 규칙('처리' 대신 '남은 신고 보기'·'끝내기', '→' 대신 '…으로 바꿨어요', 도움말 끝 마침표·'님' 빼기),
+    # 칸 오류는 칸 아래 오류 줄, 진행은 버튼 안(aria-busy)
+    code = "\n".join(l for l in ui.splitlines() if not l.lstrip().startswith(("//", "*", "/**")))
+    assert not re.search(r"처리|→|님", code)
+    for text in ('"남은 신고 보기"', '"끝내기"', '`끝냈어요 · 남은 신고 ${n.toLocaleString("ko-KR")}건`', '"남은 신고가 없어요"', '"끝내지 못했어요"',
+                 '`${r.nick}#${r.tag}${ro(r.tag)} 바꿨어요`', '`관리자로 더했어요 · ${r.nick}#${r.tag}`',
+                 '"옛 판 앱으로 계정을 지우면 남아요. 5일 안에 한 번씩 찾아 정리해 주세요"', '"테마·시험·이 기기 정보예요. 이 기기에서만 바뀌어요"',
+                 '"더한 사람은 처음 들어올 때 자기 비밀번호를 정해요"', "잊으면 주인이 처음으로 돌려야 해요`"):
+        assert text in ui, text
+    assert 'h("p", { class: "error-line", id: "adm-gate-err", hidden: true })' in ui and 'b.setAttribute("aria-busy", "true")' in ui
+    assert '.adm-sheet .adm-label { margin: 0; font-size: 0.9375rem; line-height: 1.375rem; font-weight: 700; color: var(--heading); }' in ui
+    # 넓은 화면 과목 추가 둘러보기 선택칸: 전체 과목 → 남은 요건 과목 → 교양 전체 → 학과(사용자 11/20)
+    assert 'all = sel.querySelector(`option[value="${ALL_COURSES}"]`);' in app and "if (all) all.after(opt); else sel.prepend(opt);" in app
 
 
 def test_firestore_rules():

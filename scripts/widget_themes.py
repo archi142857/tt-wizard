@@ -38,10 +38,10 @@ ATTR_BG = "attr_bg"  # 지도 출처 글 바탕: card 90%(앱 지도의 .map-att
 
 # 한 벌: (이름, 스타일 꼬리, web/style.css 의 블록 머리). 라이트 블록이 바탕이고 다른 블록이 그 위에 덮는다
 THEMES = (
-    ("light", "Light", ":root, .mini.is-light, .mini.is-xmas {"),
-    ("dark", "Dark", ':root[data-scheme="dark"]:not([data-theme]) {'),
-    ("xmas", "Xmas", 'html[data-theme="xmas"], .mini.is-xmas {'),
-)
+    ("light", "Light", ":root, .mini.is-light, .mini.is-xmas, .look-light, .look-dark, .look-xmas {"),
+    ("dark", "Dark", ':root[data-scheme="dark"]:not([data-theme]), .look-dark {'),
+    ("xmas", "Xmas", 'html[data-theme="xmas"], .mini.is-xmas, .look-xmas {'),
+)  # 블록 머리(style.css 그대로. update141 에 친구 시간표 카드 .look-* 를 더했다)
 # 옮기는 판(손으로 쓴 기본 판). 미리 보기(widget_*_preview)는 앱 테마를 모르니 옮기지 않는다. widget_week_hit 은 색이 없다
 LAYOUTS = ("widget_next", "widget_today", "widget_today_row", "widget_today_row_past", "widget_week", "widget_map", "widget_empty")
 DRAWABLES = ("widget_bg", "widget_band", "widget_block", "widget_dot_ring", "widget_tag_now", "widget_attr_bg", "widget_ic_route", "widget_ic_timetable",

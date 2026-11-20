@@ -4,8 +4,10 @@
    연도·학기 선택칸, 시간표 칸, 지도 번호표, 후보 카드는 사용자 요청(2026-10-01)으로 v2 모양을 v3 토큰으로 옮겼다.
    입력 화면 로고는 사용자 요청으로 워드마크만, 검색 결과는 행 전체가 담기·빼기(담은 행은 어두운 바탕). */
 /* 라이트 토큰. 테마 탭 미리보기(.mini, 디자인 75판 ThemeTab)의 라이트와 크리스마스(그 바탕 값)도 여기서 받는다: 기기가 다크이거나 테마가 켜져 있어도
-   미리보기는 그 테마의 값이다(크리스마스 값은 아래 크리스마스 블록이 덮는다, 다크 미리보기는 다크 블록 뒤 .mini.is-dark) */
-:root, .mini.is-light, .mini.is-xmas {
+   미리보기는 그 테마의 값이다(크리스마스 값은 아래 크리스마스 블록이 덮는다, 다크 미리보기는 다크 블록 뒤 .mini.is-dark).
+   친구 시간표 격자 카드(.look-*)도 같다: 친구 기기의 테마로 칠한다(백엔드 update141, 11/20 사용자 '친구 시간표는 친구의 테마로 보여줘야 함. 내 테마로 적용하지 말고').
+   .look-dark 도 여기서 받고 아래 다크 블록이 덮는다(html 의 다크처럼. 칸 글자색 item-*-fg: var(--text) 가 그 카드의 text 로 풀린다) */
+:root, .mini.is-light, .mini.is-xmas, .look-light, .look-dark, .look-xmas {
   --tt-deep-navy: #1d2a78;
   --tt-primary: #4f70ff;
   --tt-periwinkle: #7b7cff;
@@ -193,7 +195,7 @@
    고른다(10/23 밤 사용자: "테마에서 기본(기기설정), 라이트, 다크 모두 따로 만들어줘"). 기본이면 기기 설정대로 index.html 머리의 스크립트와 app.js(applyTheme)가 light·dark 를 둔다.
    그래서 이 블록은 미디어 쿼리 안에 두지 않는다(라이트를 고른 다크 기기에서 다크 값이 걸리지 않게, 다크를 고른 라이트 기기에서 걸리게).
    라이트를 뒤집은 것이 아니라 따로 맞춘 한 벌이고, 글자 크기·굵기·간격·배치는 같고 색만 바뀐다 */
-:root[data-scheme="dark"]:not([data-theme]) {
+:root[data-scheme="dark"]:not([data-theme]), .look-dark {
   --bg: #16171b;
   --card: #1e2026;
   --raised: #26272d;
@@ -1607,7 +1609,7 @@ html[data-theme] .cls-legend { width: fit-content; border-radius: var(--radius-2
 /* 크리스마스(12월 한 달): 짙은 솔잎 초록 바탕에 같은 크기 점을 육각 격자로 깐 땡땡이(점 5px, 간격 16px), 흰 카드,
    빨강은 주요 버튼과 고른 요일 탭에만. 넓은 초록은 어둡고 탁하게, 좁은 빨강은 선명하게(면적 하양 5 : 초록 4 : 빨강 0.5).
    무늬와 바탕의 밝기 차는 1.36배이고 바탕 위 글자는 두 색 모두에서 4.5:1 을 넘는다. 워드마크는 흰 단색 */
-html[data-theme="xmas"], .mini.is-xmas {
+html[data-theme="xmas"], .mini.is-xmas, .look-xmas {
   --bg: #103924; --bg-tone: #165032; --bg-hover: #165032; --card: #ffffff; --raised: #ffffff; --surface-hover: #f1f9f4; --inset: #e5f2ea;
   --row-picked: #dbebe0; --row-picked-btn: #ffffff; --heading: #0b3a23; --text: #17211b; --text2: #45524a; --text3: #525e56; --muted: #89968d;
   --on-bg-heading: #ffffff; --on-bg-text: #ffffff; --on-bg-text2: #deece3; --on-bg-text3: #bbd1c3; --on-bg-link: #f8d788; --on-bg-danger: #ffc3c1;
@@ -1638,6 +1640,8 @@ html[data-theme="xmas"], .mini.is-xmas {
     radial-gradient(circle, var(--bg-tone) 0 2.25px, transparent 2.75px) 8px 14px / 16px 28px;
 }
 html[data-theme="xmas"] dialog.sheet::backdrop { background: var(--scrim, #03140b80); } /* ::backdrop 이 :root 변수를 물려받지 않는 브라우저용 값 */
+/* 친구 테마로 칠한 격자 카드(.look-*): 글자색도 그 테마 값으로(물려받는 color 는 보는 사람의 테마로 이미 풀린 값이다) */
+.look-light, .look-dark, .look-xmas { color: var(--text); }
 /* 그림으로 넣은 색은 우리가 색을 칠할 때만 바꾼다(강제 색에서는 바탕이 기기 색으로 바뀌므로 기본 그대로): 흰 워드마크,
    선택칸 화살표(그림이라 변수를 못 쓴다. 이 테마의 text3, 둘러보기는 muted) */
 @media not (forced-colors: active) {

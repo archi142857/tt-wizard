@@ -195,12 +195,14 @@ export function friendItems(t) {
   return out;
 }
 
-/** 학기마다 올릴 친구 사본: { sem: { sem, title, items, updated } 또는 null(지운다) }. lists = { sem: [시간표] } */
-export function friendCopies(lists, now = new Date().toISOString()) {
-  const out = {};
+/** 학기마다 올릴 친구 사본: { sem: { sem, title, items, updated, look? } 또는 null(지운다) }. lists = { sem: [시간표] }.
+ *  look: 올리는 기기에서 보이는 테마('light'·'dark'·이벤트 테마 id 'xmas' 등, update141. 11/20 사용자 '친구 시간표는 친구의 테마로 보여줘야 함. 내 테마로 적용하지 말고').
+ *  친구 화면이 이 테마의 칸 색으로 격자를 그린다. 낱말이 아니면 넣지 않는다(옛 판 사본처럼 보는 사람의 테마) */
+export function friendCopies(lists, now = new Date().toISOString(), look = "") {
+  const out = {}, lk = typeof look === "string" && /^[a-z]{1,16}$/.test(look) ? { look } : {};
   for (const [sem, list] of Object.entries(lists || {})) {
     const t = (list || []).find((x) => x.primary && !x._newer);
-    out[sem] = t && !t.shareOff ? { sem, title: t.title, items: friendItems(t), updated: t.updated || now } : null;
+    out[sem] = t && !t.shareOff ? { sem, title: t.title, items: friendItems(t), updated: t.updated || now, ...lk } : null;
   }
   return out;
 }

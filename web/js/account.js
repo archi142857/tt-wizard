@@ -29,7 +29,8 @@
 //                                  이미 보냈으면 그대로, 이미 친구면 ALREADY. 하루 요청 수 제한은 없다(update138 에 넣었다가 사용자 11/17 22:54 '20개 제한 없애기로 했음
 //                                  이름이랑 같이 식별하는 걸로 바꿔서', update139)
 //   accept(uid) · decline(uid) · cancel(uid) · unfriend(uid) · block(uid) · unblock(uid)
-//   friendTimetables(uid)          → [{ sem, title, items, updated }](새 학기가 앞). items 는 sync.js friendItems 꼴. 친구가 아니면 NOT_FRIEND
+//   friendTimetables(uid)          → [{ sem, title, items, updated, look? }](새 학기가 앞). items 는 sync.js friendItems 꼴, look 은 친구 기기의 테마
+//                                  ('light'·'dark'·'xmas', update141. 옛 판 사본에는 없다). 친구가 아니면 NOT_FRIEND
 //   publish(store)                 친구 사본만 다시 올린다(sync 가 같이 한다)
 //   inviteLink({ nick, tag })      → 'https://archi142857.github.io/tt-wizard/#friend=닉네임%23482193'
 //   reportLink({ nick, tag })      → 닉네임 신고 메일 주소(mailto)
@@ -329,11 +330,19 @@ async function syncNow(uid, store) {
   return { changed: Object.keys(r.local), uploaded: r.upload.length, downloaded: Object.keys(r.local).length };
 }
 
+/** 친구 사본에 넣을 이 기기의 테마(update141, 11/20 사용자 '친구 시간표는 친구의 테마로 보여줘야 함'): 화면에 켠 이벤트 테마 id, 아니면 라이트·다크.
+ *  화면(app.js applyTheme)이 html 의 data-theme·data-scheme 에 둔 값 그대로라 지금 보이는 모습이다. 테마가 바뀌면 화면이 다시 맞춘다(syncSoon) */
+function friendLook() {
+  if (typeof document === "undefined") return "";
+  const d = document.documentElement.dataset;
+  return d.theme || (d.scheme === "dark" ? "dark" : "light");
+}
+
 async function publishLists(uid, lists) {
   const { db, F } = await load();
   const col = F.collection(db, "shared", uid, "terms");
   const have = (await F.getDocs(col)).docs.map((d) => d.id);
-  const copies = friendCopies(lists);
+  const copies = friendCopies(lists, undefined, friendLook());
   const batch = F.writeBatch(db);
   let n = 0;
   for (const [sem, copy] of Object.entries(copies)) {

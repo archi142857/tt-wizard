@@ -37,4 +37,6 @@ const shown = tt("t5", "2026-2", "대표", "2026-11-10T00:00:00.000Z", { primary
   item("034.001", "002", { hidden: true }), { custom: "c2", title: "알바", meetings: [[4, 1080, 1200, "63", "1층"]], memo: "사장님 번호" }] });
 out.items = friendItems(shown);
 out.copies = friendCopies({ "2026-2": [shown], "2027-1": [tt("t6", "2027-1", "끔", "2026-11-10T00:00:00.000Z", { primary: true, shareOff: true })], "2026-W": [] });
+// 친구 사본의 테마(update141): 낱말이면 학기마다 같은 look, 아니면 넣지 않는다
+out.looks = ["xmas", "dark", "", "Dark!", 3].map((lk) => friendCopies({ "2026-2": [shown] }, "2026-11-20T00:00:00.000Z", lk)["2026-2"].look ?? null);
 process.stdout.write(JSON.stringify(out));

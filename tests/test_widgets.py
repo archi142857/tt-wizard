@@ -271,7 +271,7 @@ def _resolve(tokens: dict, name: str, base: dict | None = None) -> str:
     return value.upper()
 
 
-XMAS = 'html[data-theme="xmas"], .mini.is-xmas {'  # 크리스마스 블록(없는 토큰은 라이트 값)
+XMAS = 'html[data-theme="xmas"], .mini.is-xmas, .look-xmas {'  # 크리스마스 블록(없는 토큰은 라이트 값. update141 에 친구 시간표 카드 .look-* 를 더했다)
 
 
 def _java_colors(body: str) -> list[str]:
@@ -286,8 +286,8 @@ def test_widget_colors_follow_web_tokens():
     """위젯 색이 웹 화면의 테마 토큰과 같다: 기본(기기 설정) 판의 values·values-night 의 widget_*, 앱 테마 한 벌(update78)의 widget_*_light·_dark·_xmas,
     주간 격자·동선 지도 그림의 색(LIGHT·DARK·XMAS). 크리스마스는 그 블록에 없는 토큰이 라이트 값이다(바탕 지도 등)"""
     css = (ROOT / "web" / "style.css").read_text(encoding="utf-8")
-    light = _tokens(css, ":root, .mini.is-light, .mini.is-xmas {")
-    dark = _tokens(css, ':root[data-scheme="dark"]:not([data-theme]) {')
+    light = _tokens(css, ":root, .mini.is-light, .mini.is-xmas, .look-light, .look-dark, .look-xmas {")
+    dark = _tokens(css, ':root[data-scheme="dark"]:not([data-theme]), .look-dark {')
     xmas = _tokens(css, XMAS)
     names = wt.COLOR_TOKENS
     assert {"band", "on_band", "on_band3"} <= names.keys()  # 머리 띠(update78): bg, on-bg-heading, on-bg-text3

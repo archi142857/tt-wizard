@@ -3861,11 +3861,11 @@ function clashKeys(entries) {
 const courseName = (e) => (e.item.custom ? e.item.title : (state.loaded && state.byId.get(e.item.course)?.name) || e.item.name);
 const colorNo = (it) => (Number.isInteger(it.color) ? it.color : 0) % COLOR_NAMES.length;
 /** 칸 색과 점 색: 과목별이면 item-N, 교과구분별이면 탐색과 같은 교과구분 색(일정은 기타). 칸 색은 테마마다 따로다(디자인 80판) */
-const itemFill = (it) => (ttColor === "cls" ? clsFill(it.custom ? "" : it.cls) : `var(--item-${colorNo(it)})`);
+const itemFill = (it, mode = ttColor) => (mode === "cls" ? clsFill(it.custom ? "" : it.cls) : `var(--item-${colorNo(it)})`);
 const itemDot = (it) => (ttColor === "cls" ? clsColor(it.custom ? "" : it.cls) : `var(--item-${colorNo(it)}-dot)`);
 /** 칸 위 글자색: 그 칸 색의 글자색(--block-fg 과목명·--block-fg2 강의실. 내 시간표·공유받은 시간표 격자·시간표 이미지. 크리스마스의 짙은 칸은 흰 과목명과 옅은 같은 색 강의실) */
-const itemInk = (it) => {
-  const k = ttColor === "cls" ? `cls-${clsKey(it.custom ? "" : it.cls)}` : `item-${colorNo(it)}`;
+const itemInk = (it, mode = ttColor) => {
+  const k = mode === "cls" ? `cls-${clsKey(it.custom ? "" : it.cls)}` : `item-${colorNo(it)}`;
   return { "--block-fg": `var(--${k}-fg)`, "--block-fg2": `var(--${k}-fg2)` };
 };
 /** 일정의 메타·칸: '금 16:00~18:00 · 63동'(장소가 없으면 시각까지) */
@@ -3965,6 +3965,18 @@ function wkFillHour(box, body, hours, rem) {
   const room = window.innerHeight - top - chrome - below - 24; // 24 = space-6(사이드바 아래 여백과 같다)
   return Math.min(MINE_HOUR_MAX * rem, Math.floor((room / hours) * 10) / 10);
 }
+// 친구 시간표(친구 탭의 친구 화면)는 스크롤 없이 한 화면에 들어오게 한 시간 높이를 창에 맞춘다(11/20 사용자 '친구 시간표들도 스크롤 안해도 한 화면에 보이게').
+// 위 끝은 카드 자리, 아래 끝은 화면 아래 여백(친구 화면의 padding-bottom: 폰은 탭 막대 + space-8, 컴퓨터는 space-8)까지 와서 페이지 높이가 창과 같다.
+// 한 시간은 FR_HOUR_MIN(1.5rem: 50분 칸 20px 에 과목명 한 줄)부터 mine-hour-max(8rem)까지이고 그보다 낮아야 하는 창만 페이지가 스크롤한다.
+// 아직 그려지지 않았으면(숨은 화면) 0(mine-hour-min 으로 그리고, 보이면 다시 그린다)
+const FR_HOUR_MIN = 1.5; // rem
+function frFillHour(box, body, hours, rem) {
+  const card = box.getBoundingClientRect(), chrome = card.height - body.getBoundingClientRect().height; // 카드 위아래 여백 + 요일 줄
+  if (!card.height) return 0;
+  const pad = parseFloat(getComputedStyle($("view-friend")).paddingBottom) || 0;
+  const room = window.innerHeight - (card.top + window.scrollY) - chrome - pad;
+  return Math.max(FR_HOUR_MIN * rem, Math.min(MINE_HOUR_MAX * rem, Math.floor((room / hours) * 10) / 10));
+}
 // 창 높이가 바뀌면(컴퓨터) 격자를 다시 채운다
 let wkFillRaf = 0;
 window.addEventListener("resize", () => {
@@ -3997,8 +4009,9 @@ function renderWeek(t, entries, clash, opts = {}) {
   box.style.setProperty("--hours", String(hours));
   const body = h("div", { class: "wk-body" });
   box.replaceChildren(h("div", { class: "wk-head", "aria-hidden": "true" }, h("span"), days.map((d) => h("span", {}, DAY_KO[d]))), body);
-  const fill = opts.hourPx ? 0 : wkFillHour(box, body, hours, rem);
-  const hourPx = opts.hourPx || (fill ? Math.max(MINE_HOUR_FIT * rem, fill) : Math.max(MINE_HOUR_MIN * rem, (30 * rem) / hours));
+  const fill = opts.fit ? frFillHour(box, body, hours, rem) : opts.hourPx ? 0 : wkFillHour(box, body, hours, rem);
+  const hourPx = opts.fit ? fill || MINE_HOUR_MIN * rem
+    : opts.hourPx || (fill ? Math.max(MINE_HOUR_FIT * rem, fill) : Math.max(MINE_HOUR_MIN * rem, (30 * rem) / hours));
   box.style.setProperty("--hour-h", `${hourPx}px`);
   for (let i = 0; i <= hours; i++) {
     body.append(h("div", { class: "wk-line", "aria-hidden": "true", style: { top: `${i * hourPx}px` } }));
@@ -4056,7 +4069,7 @@ function renderWeek(t, entries, clash, opts = {}) {
       continue;
     }
     const mark = pv && pv.out.has(e.key) ? " is-out" : pv && pv.own === e.key ? " is-hl" : ""; // 미리 보기: 빠질 항목은 흐리게, 이미 넣은 분반은 테두리
-    const cls = `wk-block${half ? ` ${half}` : ""}${mark}`, style = { background: itemFill(e.item), ...itemInk(e.item), "--lines": String(lines) };
+    const cls = `wk-block${half ? ` ${half}` : ""}${mark}`, style = { background: itemFill(e.item, opts.colors), ...itemInk(e.item, opts.colors), "--lines": String(lines) };
     const parts = [h("span", { class: "b-title", "aria-hidden": "true" }, name), room ? h("span", { class: "b-room", "aria-hidden": "true" }, ...roomKids) : null];
     list.append(h("li", { style: place },
       // 누르지 않는 격자(공유받은 시간표 미리 보기): 칸은 글이고 스크린리더는 목록의 글로 읽는다
@@ -6539,9 +6552,13 @@ function renderAddBrowse(show) {
   if (fresh) { addBrowseFor = state.courses; addBrowseDrawn = ""; }
   const sel = $("add-browse-select"), ord = $("add-browse-order");
   fillBrowseSelect(sel, fresh);
-  // 남은 요건 과목(124판): 넓은 화면은 둘러보기 선택칸 맨 위 '남은 요건 과목', 폰은 선택칸 없이 머리 글 '남은 요건 과목 7'
+  // 남은 요건 과목(124판): 넓은 화면은 둘러보기 선택칸의 '전체 과목' 바로 아래 '남은 요건 과목'(차례 전체 과목 → 남은 요건 과목 → 교양 전체 → 학과,
+  // 11/20 사용자 '저기서 순서도 전체 과목 -> 남은 요건 과목 -> 교양 전체 이걸로 바꿔줘'. 전에는 맨 위), 폰은 선택칸 없이 머리 글 '남은 요건 과목 7'
   const reqOpt = sel.querySelector('option[value="@req"]');
-  if (req && !reqOpt) sel.prepend(h("option", { value: "@req" }, "남은 요건 과목"));
+  if (req && !reqOpt) {
+    const opt = h("option", { value: "@req" }, "남은 요건 과목"), all = sel.querySelector(`option[value="${ALL_COURSES}"]`);
+    if (all) all.after(opt); else sel.prepend(opt);
+  }
   else if (!req && reqOpt) reqOpt.remove();
   if (useReq) sel.value = "@req";
   sel.hidden = !wide;
@@ -6657,7 +6674,7 @@ function renderAdd({ more = false } = {}) {
     setAddPreview(null, { hover: true });
     $("add-empty").hidden = $("add-more").hidden = true;
     $("add-head").hidden = true;
-    // 검색 전: 넓은 화면은 최근 검색어(있을 때만)와 과목 둘러보기(맨 위 남은 요건 과목), 폰은 빈 검색창에 초점이 있을 때 최근 검색어와 그 아래 남은 요건 과목
+    // 검색 전: 넓은 화면은 최근 검색어(있을 때만)와 과목 둘러보기(선택칸의 남은 요건 과목), 폰은 빈 검색창에 초점이 있을 때 최근 검색어와 그 아래 남은 요건 과목
     // (요건 자료가 있으면 초점이 없어도). 불러오는 중에는 두지 않는다
     const recentOn = state.loaded && recent.length > 0 && (wide || addFocused());
     const reqOnPhone = !wide && state.loaded && !!reqReady();
@@ -6714,6 +6731,11 @@ for (const el of [addQ, $("add-results")]) {
   el.addEventListener("focusout", () => setTimeout(() => { if (addSheet.open && !twoPane.matches && !addQ.value.trim() && !addFocused()) renderAdd(); }, 250));
 }
 $("add-clear").addEventListener("click", () => { addQ.value = ""; renderAdd(); addQ.focus(); });
+// 검색창에 초점이 있는 동안 결과의 버튼(추가·바꾸기·최근 검색어·지우기·더 보기)을 눌러도 초점은 검색창에 둔다: 폰에서 화상 키보드가 내려가며 시트가 움직여
+// 첫 누름이 버튼에 닿지 않고 키보드만 닫혔다(11/20 사용자 '담기 눌러도 키보드 안 내려가게 유지되고 한번에 담기도록'. 탐색 검색 결과와 같은 방법)
+for (const el of [$("add-results"), $("add-clear")]) {
+  el.addEventListener("mousedown", (e) => { if (document.activeElement === addQ && e.target.closest("button")) e.preventDefault(); });
+}
 $("add-more").addEventListener("click", () => { addShown += RESULTS_STEP; renderAdd({ more: true }); });
 // 최근 검색어 모두 지우기(디자인 78판: 탐색 입력 화면과 같은 모양·자리. 탐색과 같이 쓰는 목록이라 둘 다 빈다). 키보드로 눌렀으면 초점은 검색창으로
 $("add-recent-clear").addEventListener("click", (e) => {
@@ -7109,7 +7131,12 @@ function applyTheme(on) {
   mapColorCache = null; // 테마를 켜고 끄거나 라이트·다크가 바뀌면 지도 색도 바뀐다
   for (const mp of [maps.small, maps.full]) if (mp) mp.base.redraw();
   sleighSoon(); // 크리스마스 썰매 그림
+  // 친구 사본에는 이 기기의 테마가 든다(update141 account.js friendLook): 보이는 테마가 바뀌면 조금 뒤에 다시 맞춰 올린다(로그인했을 때만. 켜는 중에는
+  // 아래 let 들이 아직이라 다음 차례에 부른다)
+  const look = t ? t.id : dark ? "dark" : "light";
+  if (look !== lookShown) { const first = !lookShown; lookShown = look; if (!first) setTimeout(() => syncSoon(2000), 0); }
 }
+let lookShown = ""; // 친구 사본에 든 테마와 견줄 지금 테마(처음 켤 때는 로그인 뒤 맞추기가 이 값으로 올린다)
 /** 라이트·다크 고르기(테마 탭). 기간에 켜진 이벤트 테마는 끈다(돌아가기와 같다: 그 해에는 저절로 다시 켜지지 않는다) */
 function setScheme(v) {
   scheme = v;
@@ -9609,20 +9636,28 @@ function myFriendCopy(t) {
   return { sem: t.sem, title: t.title, items, updated: t.updated };
 }
 /** 읽기만 하는 격자(친구 시간표·미리보기). 없으면 격자 자리에 한 줄 */
-function frGrid(box, t, empty) {
+function frGrid(box, t, empty, fit = false) {
   if (!t) {
     box.style.removeProperty("--hour-h");
     box.replaceChildren(h("p", { class: "fr-wk-empty" }, empty));
     return;
   }
   const entries = ttEntries(t);
-  renderWeek(t, entries, clashKeys(entries), { box, hourPx: MINE_HOUR_MIN * remPx(), still: true, grayHidden: true });
+  // 칸 색은 늘 과목별(친구 사본의 칸 색 번호. 사본에는 교과구분이 없어 교과구분별로 칠하면 모두 기타 색이었다), 친구 화면은 창에 맞춘 높이(fit)
+  renderWeek(t, entries, clashKeys(entries), { box, ...(fit ? { fit: true } : { hourPx: MINE_HOUR_MIN * remPx() }), still: true, grayHidden: true, colors: "item" });
 }
-/** 학기 선택칸: 학기 목록(새 학기가 앞)과 고른 학기 */
+// 친구 사본의 테마(update141 account.js friendLook): 격자 카드를 그 테마의 토큰으로 칠한다(style.css .look-*. 11/20 사용자 '친구 시간표는 친구의 테마로 보여줘야 함.
+// 내 테마로 적용하지 말고'). 모르는 값·옛 판 사본(look 없음)은 보는 사람의 테마
+const FRIEND_LOOKS = ["light", "dark", "xmas"];
+function setFriendLook(box, look) {
+  for (const l of FRIEND_LOOKS) box.classList.toggle(`look-${l}`, l === look);
+}
+/** 학기 선택칸: 학기 목록(새 학기가 앞)과 고른 학기. 학기가 하나여도 끄지 않고 펼치면 그 하나가 뜬다(11/20 사용자 '2026년 2학기를 눌러도 펼쳐지는 게 안 뜸.
+ *  아예 안 띄우지 말고 대신에 펼쳐지도록 바꿔주고, 목록에 하나만 뜨는 방식으로') */
 function frSemSelect(sel, sems, cur) {
   sel.replaceChildren(...sems.map((s) => h("option", { value: s }, semesterLabel(s))));
   sel.value = cur;
-  sel.disabled = sems.length < 2;
+  sel.disabled = false;
   fitSelect(sel);
 }
 /** 학기의 차례(1학기 < 여름 < 2학기 < 겨울) */
@@ -9664,6 +9699,7 @@ function paintFriendTt() {
   $("friend-semrow").hidden = !terms || !terms.length;
   if (!terms) { // 격자 카드 안 가운데(131·132판): 받는 동안 스피너, 오프라인 한 줄, 못 받으면 danger 한 줄과 다시 시도
     box.style.removeProperty("--hour-h");
+    setFriendLook(box, ""); // 받는 동안은 보는 사람의 테마(앞서 본 친구의 테마를 남기지 않는다)
     const focus = box.contains(document.activeElement);
     box.replaceChildren(frView.failed === "FAILED" ? failLine("시간표를 불러오지 못했어요", { "data-fr-retry": "1" })
       : loadLine(frView.failed === "OFFLINE" ? "연결되면 불러와요" : "불러오는 중", !frView.failed));
@@ -9672,8 +9708,15 @@ function paintFriendTt() {
   }
   frSemSelect($("friend-sem"), terms.map((x) => x.sem), frView.sem);
   const copy = terms.find((x) => x.sem === frView.sem);
-  frGrid(box, copy && copy.items ? friendTt(copy) : null, "이 학기 시간표가 없어요");
+  setFriendLook(box, copy && copy.items ? copy.look : "");
+  frGrid(box, copy && copy.items ? friendTt(copy) : null, "이 학기 시간표가 없어요", true);
 }
+// 창 크기가 바뀌면 친구 시간표를 다시 맞춘다(한 화면)
+let frFitRaf = 0;
+window.addEventListener("resize", () => {
+  cancelAnimationFrame(frFitRaf);
+  frFitRaf = requestAnimationFrame(() => { if (screen === "friend" && frView.terms) paintFriendTt(); });
+});
 $("friend-sem").addEventListener("change", (e) => { frView.sem = e.target.value; paintFriendTt(); });
 $("friend-wk").addEventListener("click", (e) => {
   if (!e.target.closest("[data-fr-retry]")) return;
