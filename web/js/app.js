@@ -9652,10 +9652,12 @@ const FRIEND_LOOKS = ["light", "dark", "xmas"];
 function setFriendLook(box, look) {
   for (const l of FRIEND_LOOKS) box.classList.toggle(`look-${l}`, l === look);
 }
-/** 학기 선택칸: 학기 목록(새 학기가 앞)과 고른 학기. 학기가 하나여도 끄지 않고 펼치면 그 하나가 뜬다(11/20 사용자 '2026년 2학기를 눌러도 펼쳐지는 게 안 뜸.
- *  아예 안 띄우지 말고 대신에 펼쳐지도록 바꿔주고, 목록에 하나만 뜨는 방식으로') */
+/** 학기 선택칸: 학기 목록과 고른 학기. 학기가 하나여도 끄지 않고 펼치면 그 하나가 뜬다(11/20 사용자 '2026년 2학기를 눌러도 펼쳐지는 게 안 뜸.
+ *  아예 안 띄우지 말고 대신에 펼쳐지도록 바꿔주고, 목록에 하나만 뜨는 방식으로'). 차례는 여기서 새 학기가 앞으로 맞춘다(semRank: 1학기 < 여름 < 2학기 < 겨울.
+ *  친구 사본은 학기 글자 차례로 와 여름학기가 2학기 앞에 섰다. 11/20 사용자 '이거 순서 왜 이럼') */
 function frSemSelect(sel, sems, cur) {
-  sel.replaceChildren(...sems.map((s) => h("option", { value: s }, semesterLabel(s))));
+  const list = [...sems].sort((a, b) => semRank(b) - semRank(a));
+  sel.replaceChildren(...list.map((s) => h("option", { value: s }, semesterLabel(s))));
   sel.value = cur;
   sel.disabled = false;
   fitSelect(sel);
