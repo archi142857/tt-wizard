@@ -369,6 +369,9 @@ def test_android_plugins_permissions_and_links():
     assert "android.permission.QUERY_ALL_PACKAGES" not in manifest and manifest.count("<queries>") == 1
     paths = (APP / "android" / "app" / "src" / "main" / "res" / "xml" / "file_paths.xml").read_text(encoding="utf-8")
     assert '<cache-path name="my_cache_images" path="." />' in paths and 'android:authorities="${applicationId}.fileprovider"' in manifest
+    # 보안 점검(update143): 바깥 저장소 전체(external-path)는 넘기지 않는다. 앱 전용 사진 폴더(Capacitor 의 사진 찍기)와 캐시뿐
+    assert "<external-path" not in paths and '<external-files-path name="my_images" path="Pictures/" />' in paths
+    assert re.findall(r"<([\w-]+-path) ", paths) == ["external-files-path", "cache-path"]
     # App Links: 웹 앱 첫 주소(path 하나)만. 같은 사이트의 다른 페이지(실측·고지문·처리방침)는 브라우저로 열려야 한다
     link = re.search(r'<intent-filter android:autoVerify="true">(.*?)</intent-filter>', manifest, re.S).group(1)
     assert 'android.intent.action.VIEW' in link and 'android.intent.category.BROWSABLE' in link and 'android.intent.category.DEFAULT' in link

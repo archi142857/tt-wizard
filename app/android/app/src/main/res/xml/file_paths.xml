@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- FileProvider 가 다른 앱에 넘길 수 있는 곳(보안 점검, update143): 공유할 PNG 를 쓰는 앱 캐시(cache/share/, ImagePlugin.cacheForShare)와
+     Capacitor 가 파일 고르기에서 사진을 찍을 때 쓰는 앱 전용 사진 폴더(getExternalFilesDir(Pictures))뿐이다. 전에는 바깥 저장소 전체(external-path ".")였다.
+     주소는 그때그때 받는 앱에 한 번만 넘긴다(AndroidManifest 의 FileProvider 는 exported="false", grantUriPermissions) -->
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <external-path name="my_images" path="." />
+    <external-files-path name="my_images" path="Pictures/" />
     <cache-path name="my_cache_images" path="." />
 </paths>

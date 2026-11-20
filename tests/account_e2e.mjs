@@ -245,6 +245,11 @@ await core.changePassword(PW3);
 await core.lock();
 out.oldPw = await no(core.unlock(PW));
 out.newPw = typeof (await core.unlock(PW3)).until;
+// 넣어 보기는 한 시간에 열 번까지(update143 보안 점검: 무차별 대입 막기). B 는 이 시간 칸에서 다섯 번 넣어 봤다(정하기·틀림·열기·옛 비밀번호·새 비밀번호).
+// 열려 있는 동안 틀려도 열린 시간은 그대로다(아래 정리하기를 그대로 한다)
+out.tries = [];
+for (let i = 0; i < 5; i++) out.tries.push(await no(core.unlock(`틀린 비밀번호를 ${i + 1}번 더 넣어 봄`)));
+out.tooMany = await core.unlock(PW3).then(() => "opened", (e) => [e.code, typeof e.retry === "string" && !Number.isNaN(Date.parse(e.retry))]);
 
 // 막기: B 가 A 를 막으면 친구가 끊기고 A 는 다시 요청 못 한다
 as("google-b", "friend@gmail.com");
@@ -404,6 +409,8 @@ assert.equal(out.removeSelf, "SELF");
 assert.deepEqual(out.stateC2, [false, null]);
 assert.equal(out.oldPw, "WRONG_PASSWORD");
 assert.equal(out.newPw, "string");
+assert.deepEqual(out.tries, ["WRONG_PASSWORD", "WRONG_PASSWORD", "WRONG_PASSWORD", "WRONG_PASSWORD", "WRONG_PASSWORD"]);
+assert.deepEqual(out.tooMany, ["TOO_MANY", true]); // 열한 번째는 맞는 비밀번호여도 넣어 보지 못한다
 assert.equal(out.blockedB.friends.length, 0);
 assert.equal(out.blockedB.blocked.length, 1);
 assert.equal(out.blockedRequest, "BLOCKED");

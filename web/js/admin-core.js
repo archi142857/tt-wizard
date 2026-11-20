@@ -9,12 +9,14 @@
 //      비밀번호도 h 도 코드·저장소·앱 어디에도 없다.
 //   3. 잠금 풀기: 끝나는 때 until(지금부터 SESSION_MINUTES 분)과 차례 n 으로 sha256(h|until|n) 을 만들어 adminSessions/{uid} 에 쓰면, 규칙이 같은 셈으로 맞춰 본다.
 //      until 은 60분 안이어야 하고 n 은 하나씩만 올라서, 지난 증명을 다시 보내도 열리지 않는다. 관리자 일은 모두 이 시간 안에만 된다.
-//   한계: 규칙은 틀린 비밀번호를 몇 번 넣었는지 셀 수 없다(틀린 쓰기는 아무것도 남기지 않는다). 관리자 구글 계정을 가진 사람만 넣어 볼 수 있지만,
-//   비밀번호는 길게 정한다(MIN_PASSWORD 자 이상, 문장처럼).
+//   4. 넣어 보기(update143 보안 점검: 무차별 대입 막기): 틀린 잠금 풀기는 아무것도 남기지 않아서, 풀기 전에 넣어 본 값 sha256(h|차례)를 adminTries/{uid} 에
+//      먼저 남긴다. 규칙은 맞든 틀리든 받되(맞는지 알려 주지 않는다) 한 시간에 TRIES_PER_HOUR 번까지만 받고, 잠금 풀기는 2분 안에 남긴 값이 맞을 때만 된다.
+//      그래서 관리자 구글 계정을 가진 사람도 한 시간에 열 번 넘게 넣어 보지 못한다. 그래도 비밀번호는 길게 정한다(MIN_PASSWORD 자 이상, 문장처럼).
 //
 //   state()                        → { role: 'owner'|'admin'|null, key: 'set'|'none', until: ISO|null }   관리자인가·비밀번호를 정했나·언제까지 열려 있나
 //   setPassword(pw)                → { until }   처음 한 번(비밀번호가 없을 때). 정하면 바로 연다. 짧으면 SHORT, 관리자가 아니거나 이미 정했으면 NOT_ALLOWED
-//   unlock(pw)                     → { until }   SESSION_MINUTES 분 동안 연다. 틀리면 WRONG_PASSWORD(기기 시계가 많이 틀려도 같다)
+//   unlock(pw)                     → { until }   SESSION_MINUTES 분 동안 연다. 틀리면 WRONG_PASSWORD(기기 시계가 많이 틀려도 같다),
+//                                  한 시간에 TRIES_PER_HOUR 번을 넘으면 TOO_MANY({ retry: 다시 넣을 수 있는 때 ISO })
 //   lock()                         바로 잠근다(로그아웃할 때 account.signOut 도 잠근다). 잠근 뒤 연결을 한 번 끊었다 잇는다(reconnect)
 //   reconnect()                    열린 시간이 끝났을 때 관리자 화면이 부른다
 //   changePassword(pw)             열려 있을 때 내 비밀번호를 바꾼다(지금 열린 시간은 그대로). 잠겼으면 LOCKED
@@ -34,7 +36,9 @@ import { parseHandle, handleKey, isNumber } from "./sync.js";
 
 export const SESSION_MINUTES = 30;
 export const MIN_PASSWORD = 10;
+export const TRIES_PER_HOUR = 10; // 서버 규칙(adminTries)과 같다
 const ROUNDS = 210000;
+const HOUR = 3600000;
 
 function err(code, extra = {}) {
   const e = new Error(code);
@@ -107,9 +111,41 @@ export async function setPassword(password) {
   return unlock(password);
 }
 
+/** 넣어 본 값을 먼저 남긴다(규칙 adminTries: 한 시간 칸에 TRIES_PER_HOUR 번까지, 맞는지는 알려 주지 않는다). 넘으면 TOO_MANY */
+async function leaveTry(db, F, uid, h) {
+  let t = null;
+  try {
+    const s = await F.getDoc(F.doc(db, "adminTries", uid));
+    t = s.exists() ? s.data() : null;
+  } catch (e) {
+    throw err(e && e.code === "unavailable" ? "OFFLINE" : "FAILED", { cause: e });
+  }
+  const n = ((t && Number.isInteger(t.n) && t.n) || 0) + 1, guess = await sha256(`${h}|${n}`);
+  const start = t && t.w && typeof t.w.toMillis === "function" ? t.w.toMillis() : null;
+  const retry = start === null ? null : new Date(start + HOUR).toISOString();
+  const same = start !== null ? { w: t.w, k: (Number.isInteger(t.k) ? t.k : 0) + 1 } : null, fresh = { w: F.serverTimestamp(), k: 1 };
+  const inWindow = start !== null && Date.now() < start + HOUR;
+  if (inWindow && same.k > TRIES_PER_HOUR) throw err("TOO_MANY", { retry });
+  const write = (win) => F.setDoc(F.doc(db, "adminTries", uid), { n, at: F.serverTimestamp(), guess, ...win });
+  try {
+    await write(inWindow ? same : fresh);
+  } catch (e) {
+    if (!(e && e.code === "permission-denied")) throw err(e && e.code === "unavailable" ? "OFFLINE" : "FAILED", { cause: e });
+    // 기기 시계가 서버와 달라 한 시간 칸을 잘못 골랐을 수 있다: 다른 쪽으로 한 번 더(서버가 다시 본다)
+    const other = inWindow ? fresh : same;
+    if (!other || other.k > TRIES_PER_HOUR) throw err("TOO_MANY", { retry, cause: e });
+    try {
+      await write(other);
+    } catch (e2) {
+      throw err(e2 && e2.code === "permission-denied" ? "TOO_MANY" : "FAILED", { retry, cause: e2 });
+    }
+  }
+}
+
 export async function unlock(password) {
   const { uid, db, F } = await firestore();
   const h = await derive(uid, String(password ?? ""));
+  await leaveTry(db, F, uid, h); // 넣어 보기를 먼저 남긴다(틀려도 남아서 한 시간에 열 번까지)
   const s = await sessionOf(db, F, uid), n = ((s && s.n) || 0) + 1;
   const until = Date.now() + SESSION_MINUTES * 60000;
   const proof = await sha256(`${h}|${until}|${n}`);
@@ -300,5 +336,5 @@ async function dropAdmin(other, collections) {
     throw denied(e);
   }
 }
-export const removeAdmin = (other) => dropAdmin(other, ["adminSessions", "adminKeys", "admins"]);
-export const resetPassword = (other) => dropAdmin(other, ["adminSessions", "adminKeys"]);
+export const removeAdmin = (other) => dropAdmin(other, ["adminSessions", "adminKeys", "adminTries", "admins"]);
+export const resetPassword = (other) => dropAdmin(other, ["adminSessions", "adminKeys", "adminTries"]);

@@ -11,6 +11,7 @@ rules_version = '2';
 //      친구는 '닉네임#번호'를 정확히 알아야 찾을 수 있다. 번호만으로는 누구인지 알 수 없다.
 //   3. 남의 자료를 고칠 수 있는 사람은 관리자뿐이고, 관리자도 번호를 바꿔 주고 신고를 처리하고 지운 계정이 남긴 번호·열쇠를 정리하는 일만 할 수 있다.
 //      관리자는 구글 계정만으로는 안 되고, 비밀번호로 잠금을 푼 동안(30분)만 관리자다. 비밀번호는 이 파일에도 앱에도 없다(아래 '관리자').
+//      비밀번호는 한 시간에 열 번까지만 넣어 볼 수 있다(아래 adminTries, 무차별 대입 막기).
 
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -130,7 +131,9 @@ service cloud.firestore {
     // 비밀번호는 어디에도 두지 않는다. adminKeys/{uid} 에는 비밀번호를 그 사람 기기에서 여러 번 섞은 값 h 만 있고, 아무 앱도 이 문서를 읽지 못한다
     // (이 규칙 안에서만 읽힌다). 잠금을 풀 때는 끝나는 때와 차례 n 으로 sha256(h|끝나는 때|n) 을 만들어 보내고, 여기서 같은 셈으로 맞춰 본다.
     // 끝나는 때는 60분 안이고, n 은 하나씩만 올라서 지난 증명을 다시 보내도 열리지 않는다.
-    // 규칙은 틀린 비밀번호를 몇 번 넣었는지 셀 수 없다. 그래서 비밀번호는 길게 정한다(관리자 구글 계정을 가진 사람만 넣어 볼 수 있다).
+    // 틀린 잠금 풀기는 아무것도 남기지 않아서, 잠금을 풀기 전에 넣어 본 값을 adminTries/{uid} 에 먼저 남긴다(무차별 대입 막기).
+    // 넣어 보기는 맞든 틀리든 받고(맞는지 알려 주지 않는다) 한 시간에 열 번까지만 남길 수 있다. 잠금 풀기는 2분 안에 남긴 값이 맞을 때만 된다.
+    // 그래서 관리자 구글 계정을 가진 사람도 비밀번호를 한 시간에 열 번 넘게 넣어 볼 수 없다. 비밀번호는 그래도 길게 정한다.
 
     match /admins/{uid} {
       // 내 것(관리자 화면 버튼을 띄울지)과, 주인은 다른 관리자 것과 목록까지
@@ -162,12 +165,44 @@ service cloud.firestore {
       allow delete: if isOwner() && uid != request.auth.uid;
     }
 
+    // 넣어 본 값: adminTries/{uid} = { n(하나씩 오름), at(서버 시각), guess(sha256(h|n)), w(한 시간 칸이 시작한 때), k(그 칸에서 넣어 본 수) }
+    function triesPath(uid) {
+      return /databases/$(database)/documents/adminTries/$(uid);
+    }
+
+    // 한 시간 칸: 칸이 시작하고 60분 안이면 같은 칸에서 하나 더(열 번까지), 지났으면 지금부터 새 칸
+    function tryWindowOk() {
+      let d = request.resource.data;
+      return (resource != null && request.time < resource.data.w + duration.value(60, 'm'))
+        ? (d.w == resource.data.w && d.k == resource.data.k + 1 && d.k <= 10)
+        : (d.w == request.time && d.k == 1);
+    }
+
+    match /adminTries/{uid} {
+      // 본인만 읽는다(언제 다시 넣을 수 있는지). 넣어 본 값이 맞았는지는 여기서 알 수 없다
+      allow get: if isMe(uid);
+      allow create, update: if isMe(uid)
+        && exists(/databases/$(database)/documents/admins/$(uid))
+        && request.resource.data.keys().hasOnly(['n', 'at', 'guess', 'w', 'k'])
+        && request.resource.data.n == (resource == null ? 1 : resource.data.n + 1)
+        && request.resource.data.at == request.time
+        && request.resource.data.guess is string
+        && request.resource.data.guess.matches('^[0-9a-f]{64}$')
+        && tryWindowOk();
+      // 주인은 다른 관리자의 것을 지운다(관리자에서 빼거나 비밀번호를 처음으로 돌릴 때)
+      allow delete: if isOwner() && uid != request.auth.uid;
+    }
+
     function unlocks() {
       let d = request.resource.data;
       let key = /databases/$(database)/documents/adminKeys/$(request.auth.uid);
+      let tries = triesPath(request.auth.uid);
       return d.until > request.time
         && d.until <= request.time + duration.value(60, 'm')
         && exists(key)
+        && exists(tries)
+        && get(tries).data.at > request.time - duration.value(2, 'm')
+        && get(tries).data.guess == hashing.sha256(get(key).data.h + '|' + string(get(tries).data.n)).toHexString().lower()
         && d.proof == hashing.sha256(get(key).data.h + '|' + string(d.until.toMillis()) + '|' + string(d.n)).toHexString().lower();
     }
 
@@ -258,10 +293,18 @@ service cloud.firestore {
             && request.auth.token.get('email', '').lower().matches('^[^@]+@snu[.]ac[.]kr$'));
     }
 
-    // 본인이 쓰는 프로필이면 늘 지킬 것: 아는 칸만, 닉네임 2~12자, 학교 계정 표시 규칙
+    // 닉네임 글자와 거르는 말(앱의 sync.js NICK_RE·BANNED 와 같다): 한글·영문·숫자·밑줄, 가운데 공백 하나까지.
+    // 거르는 말은 대소문자·띄어쓰기·밑줄 없이 본다. 앱을 고쳐 보내도 서버가 막는다('관리자'·'TT Wizard' 같은 이름으로 속이지 못하게)
+    function nickOk(nick) {
+      return nick.matches('^[0-9A-Za-z가-힣_]+( [0-9A-Za-z가-힣_]+)?$')
+        && !nick.lower().replace('[ _]', '').matches('.*(관리자|운영자|admin|서울대|snu|ttwizard|씨발|시발|병신|개새|좆|섹스|sex|fuck|shit).*');
+    }
+
+    // 본인이 쓰는 프로필이면 늘 지킬 것: 아는 칸만, 닉네임 2~12자(글자·거르는 말), 학교 계정 표시 규칙
     function validProfile(d) {
       return d.keys().hasOnly(['nick', 'tag', 'handle', 'oldHandle', 'updated', 'showSchool', 'school'])
         && d.nick is string && d.nick.size() >= 2 && d.nick.size() <= 12
+        && nickOk(d.nick)
         && d.get('showSchool', true) is bool
         && d.get('school', false) is bool
         && schoolOk(d);
@@ -320,6 +363,7 @@ service cloud.firestore {
     // ===== 친구 요청 =====
     // requests/{보낸 사람 uid}_{받은 사람 uid} = { from, to, state: 'pending' | 'accepted', created, updated }
     // 보낸 사람이 만들고, 받은 사람만 수락한다. 거절·취소·끊기는 둘 중 누구나 지울 수 있다.
+    // 때(created·updated)는 서버 시각만 받는다. 아무 값이나 넣어 목록 차례를 흔들거나 문서를 키우지 못하게.
 
     match /requests/{id} {
       // 하나 읽기는 문서 이름에 내 uid 가 들었을 때만. 없는 요청도 '없다'고 읽혀야 상대가 먼저 보냈는지 알 수 있다.
@@ -334,13 +378,16 @@ service cloud.firestore {
         && request.resource.data.to != request.auth.uid
         && id == request.auth.uid + '_' + request.resource.data.to
         && request.resource.data.state == 'pending'
+        && request.resource.data.created == request.time
+        && request.resource.data.updated == request.time
         && exists(/databases/$(database)/documents/profiles/$(request.resource.data.to))
         && !exists(/databases/$(database)/documents/blocks/$(request.resource.data.to)/list/$(request.auth.uid))
         && !exists(req(request.resource.data.to + '_' + request.auth.uid));
 
       allow update: if signedIn() && resource.data.to == request.auth.uid && resource.data.state == 'pending'
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['state', 'updated'])
-        && request.resource.data.state == 'accepted';
+        && request.resource.data.state == 'accepted'
+        && request.resource.data.updated == request.time;
 
       allow delete: if signedIn() && (resource.data.from == request.auth.uid || resource.data.to == request.auth.uid);
     }
@@ -375,6 +422,7 @@ service cloud.firestore {
     // ===== 닉네임 신고 =====
     // reports/{신고한 사람 uid}_{신고된 사람 uid}_{날} = { reporter, target, handle, reason, note, created, state }
     // 신고는 본인 이름으로 만들기만 한다. 같은 사람은 하루에 한 번만 신고할 수 있다(문서 이름에 날이 들어 있다).
+    // 때(created·closed)는 서버 시각만 받는다.
     // 읽고 처리 표시를 하는 건 관리자뿐이다. 신고한 사람이 누구인지는 신고된 사람에게 알리지 않는다.
     // 처리를 마치고 1년이 지나면 관리자가 지운다.
 
@@ -388,6 +436,7 @@ service cloud.firestore {
         && request.resource.data.handle is string && request.resource.data.handle.size() <= 24
         && request.resource.data.reason in ['nick', 'impersonation', 'stranger', 'other']
         && request.resource.data.note is string && request.resource.data.note.size() <= 200
+        && request.resource.data.created == request.time
         && request.resource.data.state == 'open';
 
       allow read: if isAdmin();
@@ -395,7 +444,8 @@ service cloud.firestore {
       // 관리자는 처리 표시만 한다(처리한 때를 같이 적는다).
       allow update: if isAdmin()
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['state', 'closed'])
-        && request.resource.data.state == 'closed';
+        && request.resource.data.state == 'closed'
+        && request.resource.data.closed == request.time;
 
       allow delete: if isAdmin();
     }

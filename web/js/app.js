@@ -9671,13 +9671,16 @@ $("frn-save").addEventListener("click", () => {
 let frView = { uid: "", terms: null, sem: "", failed: "" };
 /** 친구 사본 한 학기 → 격자에 그릴 시간표(T 꼴). 강좌는 친구가 보인 수업 그대로(own: 이 기기의 편람과 견주지 않는다), 숨긴 항목은 시간만(hidden, 회색 칸) */
 function friendTt(copy) {
-  const items = (copy.items || []).filter((x) => !x.hidden).map((x, i) => {
-    const ms = (x.meetings || []).map((m) => [m.day, m.start, m.end, m.building || "", m.room || ""]);
+  // 친구 사본은 남이 서버에 쓴 자료라 꼴부터 본다(보안 점검 update143: 고친 앱이 이상한 꼴을 올려도 친구 화면이 멈추지 않게. 나머지는 parseList 가 다듬는다)
+  const list = Array.isArray(copy.items) ? copy.items.filter((x) => x && typeof x === "object") : [];
+  const msOf = (x) => (Array.isArray(x.meetings) ? x.meetings.filter((m) => m && typeof m === "object") : []);
+  const items = list.filter((x) => !x.hidden).map((x, i) => {
+    const ms = msOf(x).map((m) => [m.day, m.start, m.end, m.building || "", m.room || ""]);
     const color = Number.isInteger(x.color) ? { color: x.color } : {};
     return x.course ? { course: x.course, no: x.no, name: x.name, base: ms, own: ms, ...color } : { custom: `f${i}`, title: x.title, meetings: ms, ...color };
   });
   // 숨긴 항목은 시간만: 같은 요일에 겹치는 것은 한 칸으로 합친다(이른 시작~늦은 끝, 몇 개가 겹쳤는지 보이지 않게. 131판). 보이는 칸과의 겹침은 반씩 그대로
-  const hid = (copy.items || []).filter((x) => x.hidden).flatMap((x) => x.meetings || []).map((m) => [m.day, m.start, m.end]).filter((m) => m[2] > m[1])
+  const hid = list.filter((x) => x.hidden).flatMap(msOf).map((m) => [m.day, m.start, m.end]).filter((m) => m[2] > m[1])
     .sort((a, b) => a[0] - b[0] || a[1] - b[1]);
   const merged = [];
   for (const m of hid) {

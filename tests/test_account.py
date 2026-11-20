@@ -168,7 +168,7 @@ def test_firestore_rules():
     assert "n.matches('^[0-9]{6}$')" in rules
     assert "profileAfter(request.resource.data.uid).data.tag == n" in rules
     assert "resource.data.tag == request.resource.data.tag" in rules and "isOldTag(resource.data.tag))" in rules
-    assert "update" + "134" not in rules and "법무" not in rules  # 사람이 읽는 설명만(세션·판 번호 없이)
+    assert not re.search(r"update ?\d", rules) and "법무" not in rules  # 사람이 읽는 설명만(세션·판 번호 없이, 콘솔에 그대로 올라간다)
     # 번호 문서는 남이 못 읽고(번호만으로 누구인지 모르게), 지우지 못한다(거두기만). 찾기는 닉네임#번호 열쇠로만(update138)
     numbers = rules[rules.index("match /numbers/{n}"):rules.index("// ===== 찾는 열쇠")]
     assert "allow get: if signedIn() && (resource == null || resource.data.get('uid', '') == request.auth.uid || isAdmin());" in numbers
@@ -190,11 +190,39 @@ def test_firestore_rules():
     assert "request.resource.data.n == (resource == null ? 1 : resource.data.n + 1)" in rules
     admins = rules[rules.index("match /admins/{uid}"):rules.index("function keyShape()")]
     assert "request.resource.data.role == 'admin'" in admins and "allow update" not in admins and "allow delete: if isOwner() && uid != request.auth.uid;" in admins
+    # 보안 점검(update143) 무차별 대입 막기: 넣어 본 값은 맞든 틀리든 adminTries 에 남고(맞는지 알리지 않는다) 한 시간 칸에 열 번까지,
+    # 잠금 풀기는 2분 안에 남긴 맞는 값이 있어야. 넣어 보기 규칙은 비밀번호 문서를 읽지 않는다(맞는지 알아보는 길이 되지 않게)
+    tries = rules[rules.index("match /adminTries/{uid}"):rules.index("function unlocks()")]
+    assert "allow get: if isMe(uid);" in tries and "allow list" not in tries and "adminKeys" not in tries and "hashing" not in tries
+    assert "&& request.resource.data.at == request.time" in tries and "&& tryWindowOk();" in tries
+    assert "? (d.w == resource.data.w && d.k == resource.data.k + 1 && d.k <= 10)\n        : (d.w == request.time && d.k == 1);" in rules
+    unl = rules[rules.index("function unlocks()"):rules.index("function locks()")]
+    assert "&& get(tries).data.at > request.time - duration.value(2, 'm')" in unl
+    assert "&& get(tries).data.guess == hashing.sha256(get(key).data.h + '|' + string(get(tries).data.n)).toHexString().lower()" in unl
+    core = (ROOT / "web" / "js" / "admin-core.js").read_text(encoding="utf-8")
+    assert "export const TRIES_PER_HOUR = 10;" in core and "await leaveTry(db, F, uid, h);" in core and "guess = await sha256(`${h}|${n}`)" in core
+    assert '["adminSessions", "adminKeys", "adminTries", "admins"]' in core and '["adminSessions", "adminKeys", "adminTries"]' in core
+    ui = (ROOT / "web" / "js" / "admin.js").read_text(encoding="utf-8")
+    assert 'e && e.code === "TOO_MANY" ? tooMany(e)' in ui and "부터 다시 넣을 수 있어요" in ui
+    # 보안 점검(update143) 닉네임: 앱의 글자·거르는 말을 서버도 본다(앱을 고쳐 보내도 '관리자' 같은 이름은 못 쓴다). 두 곳의 목록이 같아야 한다
+    sync = (ROOT / "web" / "js" / "sync.js").read_text(encoding="utf-8")
+    assert "const NICK_RE = /^[0-9A-Za-z가-힣_]+(?: [0-9A-Za-z가-힣_]+)?$/;" in sync
+    assert "return nick.matches('^[0-9A-Za-z가-힣_]+( [0-9A-Za-z가-힣_]+)?$')" in rules and "&& nickOk(d.nick)" in rules
+    banned = json.loads(re.search(r"export const BANNED = (\[.*?\]);", sync).group(1))
+    words = re.search(r"\.matches\('\.\*\((.*?)\)\.\*'\)", rules).group(1).split("|")
+    assert sorted(set(words)) == sorted({w.lower().replace(" ", "").replace("_", "") for w in banned})
     # 신고: 본인 이름으로 만들기만, 읽기·처리 표시·지우기는 관리자만
     reports = rules[rules.index("match /reports/{id}"):]
     assert "allow read: if isAdmin();" in reports and "allow delete: if isAdmin();" in reports
     assert "request.resource.data.reason in ['nick', 'impersonation', 'stranger', 'other']" in reports and "note.size() <= 200" in reports
     assert "allow get: if signedIn() && (id.split('_')[0] == request.auth.uid || id.split('_')[1] == request.auth.uid);" in rules
+    # 보안 점검(update143): 요청·신고의 때는 서버 시각만(아무 값으로 목록 차례를 흔들거나 문서를 키우지 못하게). 앱은 처음부터 serverTimestamp 를 쓴다
+    reqs = rules[rules.index("match /requests/{id}"):rules.index("// ===== 하루 요청 수")]
+    assert reqs.count("request.resource.data.updated == request.time") == 2 and "request.resource.data.created == request.time" in reqs
+    assert "request.resource.data.created == request.time" in reports and "request.resource.data.closed == request.time;" in reports
+    acct = (ROOT / "web" / "js" / "account.js").read_text(encoding="utf-8")
+    assert 'state: "pending", created: F.serverTimestamp(), updated: F.serverTimestamp() }' in acct and 'state: "accepted", updated: F.serverTimestamp() }' in acct
+    assert 'note: text, created: F.serverTimestamp(), state: "open" }' in acct and '{ state: "closed", closed: F.serverTimestamp() }' in core
     assert json.loads((ROOT / "firebase" / "firebase.json").read_text(encoding="utf-8"))["firestore"]["rules"] == "firestore.rules"
 
 
