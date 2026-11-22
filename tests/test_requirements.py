@@ -34,6 +34,10 @@ def test_index_lists_every_program_once():
     ids = [p["id"] for p in idx["programs"]]
     assert len(ids) == len(set(ids)) and len(ids) >= 150
     assert idx["cohorts"] == [2019, 2026]
+    # 정보 탭 출처 줄의 날짜(문서 11/23, update145): 교과과정 해설·학과 누리집 기준일, 학년도, 스누지니 확인일(snugenie.CHECKED 와 같다)
+    import snugenie
+    assert idx["checked_on"] == "2026-11-12" and idx["data_year"] == 2025 and idx["snugenie_checked_on"] == snugenie.CHECKED == "2026-11-17"
+    assert list(idx)[:4] == ["checked_on", "data_year", "snugenie_checked_on", "cohorts"]
     have = {p["id"] for p in idx["programs"] if p["data"]}
     assert have == set(programs()) == set(ids) and set(PILOTS) <= have  # update101: 모든 과정
     for p in idx["programs"]:

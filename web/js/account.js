@@ -39,7 +39,7 @@
 //                                  관리자 일(번호 바꿔 주기·신고·정리·관리자 더하기)은 비밀번호로 잠금을 푼 동안만 되고 web/js/admin-core.js 에 있다(앱 묶음에는 없다)
 //   firestore()                    → { uid, db, F }   같은 로그인으로 Firestore 를 쓴다(웹 관리자 화면 admin-core.js 만 쓴다)
 //   report({ uid, nick, tag }, reason, note?) → { id }   닉네임 신고(앱 안 목록). reason: 'nick'(부적절한 닉네임)·'impersonation'(사칭)·'stranger'(모르는 사람의 친구 요청)·
-//                                  'other'. note 는 200자까지. 같은 사람은 하루 한 번(넘으면 ALREADY). 켜는 날은 처리방침 다음 판 시행일(그때까지 메일 신고)
+//                                  'other'. note 는 200자까지. 같은 사람은 하루 한 번(넘으면 ALREADY). 켜는 날은 처리방침 11/30 판 시행일 2026-11-30(그때까지 메일 신고, update145)
 //                                  신고를 읽고 처리하는 것은 관리자 화면(admin-core.js reports·closeReport). 처리하고 1년 지나면 콘솔에서 지운다
 
 import FIREBASE from "./firebase-config.js";
@@ -616,7 +616,7 @@ export async function firestore() {
 // ---------------------------------------------------------------- 닉네임 신고(앱 안 목록)
 // 사용자 11/17 '목록으로 모아 보는 이 방식으로 가자', 법무 11/17: 받는 것은 신고한 사람·신고된 사람 uid, 그때 닉네임#번호, 까닭, 덧붙임 글(선택, 200자),
 // 보낸 때. 관리자만 읽고 처리 표시를 한다. 신고한 사람은 신고된 사람에게 알리지 않는다. 처리를 마치고 1년이 지나면 지운다(콘솔).
-// 같은 사람은 하루 한 번(문서 이름에 날). 켜는 날은 처리방침 다음 판 시행일, 그때까지 화면은 메일 신고(reportLink)
+// 같은 사람은 하루 한 번(문서 이름에 날). 켜는 날은 처리방침 11/30 판 시행일 2026-11-30(update145), 그때까지 화면은 메일 신고(reportLink)
 
 export const REPORT_REASONS = ["nick", "impersonation", "stranger", "other"];
 

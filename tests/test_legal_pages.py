@@ -1,7 +1,8 @@
 """개인정보 처리방침·문의 페이지(web/privacy/, web/support/, update74)와 이용 규칙·계정 삭제 안내(web/terms/, web/delete-account/, update116):
 원문(docs/legal/*.md)에서 만든 그대로인지, 문안의 【】 를 다 풀었는지, 링크(글 속 주소·메일·기관 누리집)와 개발자 메일 제목,
 앱에 들어가기 전의 기능 줄(의견 보내기, Tachyon으로 보내기)이 빠지는지, 처리방침을 바꾼 판의 시행일·바뀐 기록·이전 판
-(web/privacy/2026-11-01/ update81, 2026-11-11/ update99. 11/20 판은 시행하지 않고 11/15 판으로 갈음, update116)."""
+(web/privacy/2026-11-01/ update81, 2026-11-11/ update99. 11/20 판은 시행하지 않고 11/15 판으로 갈음, update116.
+11/30 판은 update145: 11/23 에 올려 7일 알림, 11/15 판은 privacy/2026-11-15/·terms/2026-11-15/ 이전 판)."""
 import re
 import sys
 from pathlib import Path
@@ -17,13 +18,14 @@ def test_pages_are_built_from_sources():
     assert lp.main(["--check"]) == 0  # 원문을 고쳤으면 python scripts/legal_pages.py
 
 
-@pytest.mark.parametrize("name", ["privacy", "support", "terms", "delete-account", "privacy-2026-11-01", "privacy-2026-11-11"])
+@pytest.mark.parametrize("name", ["privacy", "support", "terms", "delete-account", "privacy-2026-11-01", "privacy-2026-11-11",
+                                  "privacy-2026-11-15", "terms-2026-11-15"])
 def test_page_shape(name):
     folder, title, *_ = lp.PAGES[name]
     text = (ROOT / "web" / folder / "index.html").read_text(encoding="utf-8")
     up = "../" * (folder.count("/") + 1)  # 이전 판(privacy/2026-11-01/)은 두 칸 위가 웹 앱
     assert f'<a href="{up}"><picture><source srcset="{up}icons/wordmark-dark.svg"' in text and f'<a href="{up}">TT Wizard 열기</a>' in text
-    h1 = f"TT Wizard {title}" if name in ("terms", "delete-account") else title  # 이용 규칙·계정 삭제 안내의 ### 제목은 'TT Wizard …'
+    h1 = f"TT Wizard {title}" if name.split("-")[0] in ("terms", "delete") else title  # 이용 규칙·계정 삭제 안내의 ### 제목은 'TT Wizard …'
     assert '<html lang="ko">' in text and f"<h1>{h1}</h1>" in text and f"<title>{title} · TT Wizard</title>" in text
     assert "【" not in text and "】" not in text
     assert 'name="viewport"' in text and "prefers-color-scheme: dark" in text
@@ -44,9 +46,12 @@ def test_privacy_sections_and_dates():
     old = "https://archi142857.github.io/tt-wizard/privacy/2026-11-11/"
     assert "<li>2026년 11월 11일 비공개 테스트 신청" in text and "안드로이드 공유 화면의 앱 단추를 더하고" in text
     assert f'고쳤습니다(3·8절). 이전 판: <a href="{old}">{old}</a>' in text
-    # 11/15 판(지금 다 열기, 법무 11/15 오전): 이 판의 줄, 11/20 판(테스트용 구글 그룹)은 시행하지 않고 갈음, 새 기능은 켤 때 알리고 바로 시행
-    assert f"<li>{lp.REVISED} 로그인(계정과 친구)을 더하고, 베타 테스터 닉네임, 기기에만 두는 학과·학번·들은 과목·성적" in text
-    assert "11월 13일에 알린 11월 20일 판(테스트용 구글 그룹)은 그룹을 열지 않아 시행하지 않고 이 판으로 갈음했습니다.\n</li>" in text
+    # 11/15 판(지금 다 열기, 법무 11/15 오전): 그 판의 줄, 11/20 판(테스트용 구글 그룹)은 시행하지 않고 갈음, 새 기능은 켤 때 알리고 바로 시행
+    assert "<li>2026년 11월 15일 로그인(계정과 친구)을 더하고, 베타 테스터 닉네임, 기기에만 두는 학과·학번·들은 과목·성적" in text
+    old = "https://archi142857.github.io/tt-wizard/privacy/2026-11-15/"
+    assert f"11월 13일에 알린 11월 20일 판(테스트용 구글 그룹)은 그룹을 열지 않아 시행하지 않고 11월 15일 판으로 갈음했습니다. 이전 판: <a href=\"{old}\">{old}</a>" in text
+    # 11/30 판(update145, 사용자 11/23 '앞당겨', 법무 11/23): 이 판의 줄
+    assert f"<li>{lp.REVISED} 계정 번호, 앱 안 닉네임 신고, 친구에게 보이는 시간표 테마를 적고, 학교 계정 표시를 늘 보이게 했습니다." in text
     assert "다만 새 기능을 켜는 분에게만 해당하는 내용은 그 기능을 켜는 화면에 이 방침 링크를 두어 알리고 바로 시행합니다." in text
     assert "2026년 11월 20일" not in text
     # 공유 카드가 앱에 들어가서(프론트엔드 ui100a, update83) 1절 기기 안 줄이 이 판에 있다
@@ -78,14 +83,22 @@ def test_old_version_stays_as_published():
     """이전 판(17절 '이전 판도 볼 수 있게 둡니다'): 올렸던 글을 풀어 둔 채로 둔다. 【】 는 마지막 이전 판의 '…전날까지' 하나(지금 판 시행일)뿐이고
     그 앞 이전 판은 다음 판 시행일로 굳혔다(update99). 판마다 그때 들어 있던 줄이 있고, 지금 판으로 가는 링크가 있다"""
     for name, effective, until, ending in (("2026-11-01", "2026년 11월 1일", "2026년 11월 11일", "이전 판이에요"),
-                                           ("2026-11-11", "2026년 11월 11일", lp.REVISED, "이전 판입니다")):
+                                           ("2026-11-11", "2026년 11월 11일", "2026년 11월 15일", "이전 판입니다"),
+                                           ("2026-11-15", "2026년 11월 15일", lp.REVISED, "이전 판입니다")):
         src = re.sub(r"<!--.*?-->", "", (ROOT / "docs" / "legal" / f"privacy-{name}.md").read_text(encoding="utf-8"), flags=re.S)
-        assert re.findall(r"【[^】]*】", src) == ([] if name == "2026-11-01" else ["【이 판 시행일】"]), name
+        assert re.findall(r"【[^】]*】", src) == (["【이 판 시행일】"] if name == "2026-11-15" else []), name
         text = (ROOT / "web" / "privacy" / name / "index.html").read_text(encoding="utf-8")
         assert f'<p class="date">시행일: {effective}</p>' in text and f"{effective}부터 {until} 전날까지의 {ending}" in text
-        assert "정보 탭의 ‘의견 보내기’는" in text and "구글 그룹" not in text
+        assert "정보 탭의 ‘의견 보내기’는" in text and ("구글 그룹" in text) == (name == "2026-11-15")  # 11/15 판은 17절 갈음 줄에만
         assert '<a href="../../privacy/">지금 판 개인정보 처리방침</a>' in text
-        assert ("구글 설문지" in text) == (name == "2026-11-11")
+        assert ("구글 설문지" in text) == (name != "2026-11-01")
+        assert ("로그인(계정과 친구)" in text) == (name == "2026-11-15") and "닉네임 신고" not in text
+    # 이용 규칙도 11/15 판을 이전 판으로(새 판 9절 '이전 판', 문서 11/23). 신고는 그때 메일이었다
+    src = re.sub(r"<!--.*?-->", "", (ROOT / "docs" / "legal" / "terms-2026-11-15.md").read_text(encoding="utf-8"), flags=re.S)
+    assert re.findall(r"【[^】]*】", src) == ["【이 판 시행일】"]
+    text = (ROOT / "web" / "terms" / "2026-11-15" / "index.html").read_text(encoding="utf-8")
+    assert '<p class="date">시행일: 2026년 11월 15일</p>' in text and f"2026년 11월 15일부터 {lp.TERMS_REVISED} 전날까지의 이전 판입니다" in text
+    assert "규칙에 어긋나는 닉네임은 메일로 신고할 수 있습니다(5절)" in text and '<a href="../../terms/">지금 판 이용 규칙</a>' in text
 
 
 def test_login_version_lines():
@@ -99,8 +112,8 @@ def test_login_version_lines():
                   "교수 이름, 출발·도착 지점, 학과·학번, 성적은 올리지 않습니다.\n</li>",
                   "‘친구에게 숨기기’를 고른 과목·일정은 이름·강의실 없이 시간만 회색 칸으로 보입니다",
                   "(개인정보 보호법 제15조 제1항 제4호)", "Google LLC의 Firebase Authentication(미국.",
-                  "계정 이름·프로필 사진 주소, 닉네임#번호(자료 이름), 접속 기록(IP 주소, 기기·브라우저 정보)",
-                  "Google Cloud Firestore)은 서울(asia-northeast3)에 저장합니다. 다만 자료 이름으로 쓰는 고유 번호(uid)와 닉네임#번호, 서비스 운영 기록은 Google이 나라 밖에서",
+                  "계정 이름·프로필 사진 주소, 계정 번호와 닉네임#번호(자료 이름), 접속 기록(IP 주소, 기기·브라우저 정보)",
+                  "Google Cloud Firestore)는 서울(asia-northeast3)에 저장합니다. 다만 자료 이름으로 쓰는 고유 번호(uid)·계정 번호와 닉네임#번호, 서비스 운영 기록은 Google이 나라 밖에서",
                   "그 닉네임#번호로 찾는 로그인한 사람에게도 보입니다", "지운 계정과 서버 자료가 Google(Firebase)의 운영·백업 시스템에서",
                   "로그인 화면과 로그인 중계 페이지(tt-wizard.firebaseapp.com)는 Google(Firebase)이 띄우며",
                   "정보 화면 맨 위 ‘계정 삭제’(또는 ‘계정’ → ‘계정 삭제’)를 누르고 묻는 창에서 ‘지우기’를 누르면",
@@ -112,11 +125,30 @@ def test_login_version_lines():
     assert text.count("테스트용 구글 그룹") == 1 and "백엔드" not in text and "【" not in text
 
 
+def test_report_version_lines():
+    """11/30 판(공유 폴더 2-1절, 법무 11/17·11/23, update145): 계정 번호, 앱 안 닉네임 신고(항목·쓰임·1년·알리지 않음), 학교 계정 늘 보이기,
+    시간표 테마, 들은 과목과 졸업 요건 표시, 업데이트 확인, 관리자 권한(한 시간에 열 번 — 넣어 본 값은 섞은 h 의 sha256 이라 맨 비밀번호가 아니다)"""
+    text = (ROOT / "web" / "privacy" / "index.html").read_text(encoding="utf-8")
+    for words in ("닉네임과 계정 번호(여섯 자리, 닉네임을 바꿔도 그대로)",
+                  "닉네임 신고: 신고한 분과 신고된 분의 고유 번호(uid), 신고된 닉네임과 계정 번호, 고른 까닭, 덧붙인 글(쓴 경우), 보낸 때",
+                  "닉네임 신고는 이용 규칙에 어긋나는 닉네임과 요청을 살피고 조치하는 데만 씁니다.",
+                  "닉네임 신고: 처리를 마치고 1년 동안 둡니다. 신고한 분이 계정을 지워도 그동안 남습니다.",
+                  "신고된 분에게 누가 신고했는지는 알리지 않",
+                  "들은 과목과 졸업 요건 표시: 졸업 요건 미리 보기를 쓰면",
+                  "업데이트 확인(안드로이드 앱): 앱을 켜거나 다시 열 때 기기의 Play 스토어 앱에 새 판이 있는지 묻고",
+                  "관리자 비밀번호는 한 시간에 열 번까지만 넣어 볼 수 있습니다."):
+        assert text.count(words) == 1, words
+    assert "App Check" not in text and "Tachyon으로 보내기:" not in text  # 이 판에 넣지 않은 것(사용자 11/23, Tachyon 처리방침 전)
+
+
 def test_terms_and_delete_account_pages():
     """이용 규칙(로그인할 때 '이용 규칙에 동의해요'로 동의받는다)·계정 삭제 안내(Play 데이터 보안의 계정 삭제 주소)와, 문의 페이지의 두 주소 줄(update116)"""
     terms = (ROOT / "web" / "terms" / "index.html").read_text(encoding="utf-8")
     assert re.findall(r"<h2>(\d+)\. ", terms) == [str(i) for i in range(1, 10)]
-    assert f'<p class="date">시행일: {lp.TERMS_REVISED}</p>' in terms and f"<li>{lp.TERMS_REVISED} 처음 시행\n</li>" in terms
+    old = "https://archi142857.github.io/tt-wizard/terms/2026-11-15/"
+    assert f'<p class="date">시행일: {lp.TERMS_REVISED}</p>' in terms and f'<li>2026년 11월 15일 처음 시행(이전 판: <a href="{old}">{old}</a>)' in terms
+    assert f"<li>{lp.TERMS_REVISED} 계정 번호를 적고, 닉네임 신고를 앱 안에서 하게 했으며" in terms  # 11/30 판(update145)
+    assert "친구 메뉴의 ‘닉네임 신고’로 신고할 수 있습니다. 누가 신고했는지는 상대에게 알리지 않습니다." in terms and "메일로 신고" not in terms
     assert "Google 계정으로 로그인합니다. 만 14세 이상만 로그인할 수 있습니다." in terms and "서울대학교 공식 서비스가 아닙니다." in terms
     assert '<a href="../privacy/">개인정보 처리방침</a>' in terms
     page = (ROOT / "web" / "delete-account" / "index.html").read_text(encoding="utf-8")

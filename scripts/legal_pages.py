@@ -3,7 +3,8 @@
 원문은 docs/legal/privacy.md·support.md·terms.md·delete-account.md(문서·법무 세션이 공유 폴더 `개인정보_처리방침.md` 2-1·3·4·5절에 쓴 것을 그대로 옮김).
 나오는 곳: web/privacy/index.html(https://archi142857.github.io/tt-wizard/privacy/), web/support/index.html(…/support/),
 web/terms/index.html(…/terms/, 로그인할 때 동의받는 이용 규칙), web/delete-account/index.html(…/delete-account/, Play 데이터 보안의 계정 삭제 주소),
-처리방침의 이전 판 web/privacy/2026-11-01/·2026-11-11/index.html(원문 docs/legal/privacy-<시행일>.md. 17절 '이전 판도 볼 수 있게 둡니다', update81·99).
+처리방침의 이전 판 web/privacy/2026-11-01/·2026-11-11/·2026-11-15/index.html(원문 docs/legal/privacy-<시행일>.md. 17절 '이전 판도 볼 수 있게 둡니다', update81·99·145),
+이용 규칙의 이전 판 web/terms/2026-11-15/index.html(원문 docs/legal/terms-2026-11-15.md, update145).
 스토어(Play 처리방침·계정 삭제 칸, App Store 처리방침·지원 주소)와 앱 정보 탭·로그인 카드가 이 주소를 쓴다. 앱 묶음에는 넣지 않는다(scripts/build_app.py).
 
 원문에 쓰는 것은 문안에 나오는 만큼만 읽는다: ### 제목(h1), #### 제목(h2), 문단, 글머리표 목록(두 칸 들여 쓰면 안쪽 목록).
@@ -40,8 +41,11 @@ EFFECTIVE = "2026년 11월 1일"  # 처음 시행일(처음 올린 날. 문안�
 # 올리는 날 시행한다(법무 11/15 오전: 17절 '새 기능을 켜는 분에게만 해당하는 내용은 그 기능을 켤 때 화면에서 알리고 바로 시행'. 11/20·11/27 판 알림은 이 판으로 갈음).
 # 11/20 판은 시행되지 않아 이전 판으로 두지 않는다(11/10 판과 같다). 지금까지 시행 중이던 11/11 판(privacy-2026-11-11)의 '…전날까지'가 이 날로 채워진다.
 # 올리는 날을 넘기면 이 날짜와 TERMS_REVISED 를 그날로 고친다
-REVISED = "2026년 11월 15일"
-TERMS_REVISED = "2026년 11월 15일"  # 이용 규칙의 시행일(이용 규칙 원문의 【이 판 시행일】). 처음은 처리방침 새 판과 같은 날
+# 11/23(update145): 사용자 11/23 02:00 '앞당겨'(앱 안 닉네임 신고), 법무 11/23 '11/30 당김 돼'. 문서가 쓴 11/30 판(공유 폴더 2-1절 처리방침·4절 이용 규칙)을
+# 11/23 에 올려 17절 7일 알림을 지킨다(11/3 판과 같은 방식: 새 판을 시행일과 함께 바로 올리고 11/15 판은 이전 판 privacy-2026-11-15·terms-2026-11-15 로 남긴다.
+# 그때까지 시행 중인 것은 이전 판이다). 11/24 넘어 올리면 7일이 모자라니 이 두 날짜를 올리는 날 + 7일로 고치고 문서·프론트엔드에 알린다
+REVISED = "2026년 11월 30일"
+TERMS_REVISED = "2026년 11월 30일"  # 이용 규칙의 시행일(이용 규칙 원문의 【이 판 시행일】). 처음(11/15)도 이번(11/30)도 처리방침 새 판과 같은 날
 FEEDBACK_IN_APP = True  # 앱 정보 탭에 '의견 보내기'가 들어간 판에서 True. 프론트엔드 e9a70a9(11/1)에 들어가 켰다(update76)
 # 공유 화면의 앱 단추(update80 의 TTW_APP.shareTargets + 프론트엔드 공유 카드 ui100a eab3a92, 11/3 15:35 푸시)가 앱에 들어가 켰다(update83).
 # 11/3 에 올린 11/10 시행 판에 같이 넣어서 17절 7일 전 알림을 지킨다(11/3 안에 올려야 한다)
@@ -67,6 +71,9 @@ PAGES = {  # 원문 → (나오는 폴더, 문서 제목(원문의 ### 제목은
                            ("privacy", "지금 판 개인정보 처리방침")),
     "privacy-2026-11-11": ("privacy/2026-11-11", "개인정보 처리방침", "TT Wizard 개인정보 처리방침의 이전 판(2026년 11월 11일 시행)",
                            ("privacy", "지금 판 개인정보 처리방침")),
+    "privacy-2026-11-15": ("privacy/2026-11-15", "개인정보 처리방침", "TT Wizard 개인정보 처리방침의 이전 판(2026년 11월 15일 시행)",
+                           ("privacy", "지금 판 개인정보 처리방침")),
+    "terms-2026-11-15": ("terms/2026-11-15", "이용 규칙", "TT Wizard 이용 규칙의 이전 판(2026년 11월 15일 시행)", ("terms", "지금 판 이용 규칙")),
 }
 
 LATER = "【앱에 들어간 뒤에 넣음】"
@@ -224,7 +231,7 @@ def body(md: str, revised: str = "") -> tuple[str, str]:
 def page(name: str) -> str:
     folder, title, description, (other, other_title) = PAGES[name]
     up = "../" * (folder.count("/") + 1)  # 웹 앱 첫 주소(…/tt-wizard/)까지
-    revised = TERMS_REVISED if name == "terms" else REVISED
+    revised = TERMS_REVISED if name.split("-")[0] == "terms" else REVISED  # 이용 규칙의 이전 판도 '…전날까지'는 이용 규칙 시행일
     h1, content = body((SRC / f"{name}.md").read_text(encoding="utf-8"), revised)
     if h1 not in (title, f"TT Wizard {title}"):
         raise SystemExit(f"{name}.md: 맨 위 제목이 '{title}' 이 아니다: {h1!r}")

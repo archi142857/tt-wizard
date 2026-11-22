@@ -750,7 +750,9 @@ def main(argv: list[str] | None = None) -> int:
         counted["대체 번호 정리"] = counted.get("대체 번호 정리", 0) + clean_alts(prog, old_codes)  # 11/17: '번호(설명)' → 번호, 조사 자료의 옛 번호
         (out / "programs" / f"{prog['id']}.json").write_text(json.dumps(prog, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     index = [index_entry(one.get(k), two.get(k), k[0], built) for k in keys]
-    (out / "index.json").write_text(json.dumps({"checked_on": checked, "data_year": DATA_YEAR, "cohorts": [LO, HI], "programs": index},
+    # snugenie_checked_on: 스누지니로 확인한 날(문서 11/23: 정보 탭 출처 줄 '스누지니 … (2025학년도, 11월 17일 확인)'의 날짜를 화면이 박지 않고 채운다). 조사 자료 없이 돌리면 없다
+    head = {"checked_on": checked, "data_year": DATA_YEAR, **({"snugenie_checked_on": snugenie.CHECKED} if sg else {})}
+    (out / "index.json").write_text(json.dumps({**head, "cohorts": [LO, HI], "programs": index},
                                                ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     (out / "ge_credits.json").write_text(json.dumps(ge_table, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     (out / "course_map.json").write_text(json.dumps(course_map, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
