@@ -713,7 +713,8 @@
   <div class="sr-only" role="alert" data-live="alert"></div>
 </dialog>
 
-<!-- 친구 메뉴(친구 시간표의 ⋯, 디자인 130판: 시간표 메뉴 팝업 꼴): 머리 닉네임#번호와 학교 계정 태그, 친구 끊기 · 차단하기 · 닉네임 신고(메일 앱), [닫기] -->
+<!-- 친구 메뉴(친구 시간표의 ⋯, 디자인 130판: 시간표 메뉴 팝업 꼴): 머리 닉네임#번호와 학교 계정 태그, 친구 끊기 · 차단하기 · 닉네임 신고, [닫기].
+     닉네임 신고는 처리방침·이용 규칙 11/30 판 시행일부터 아래 신고 시트, 그전에는 메일 앱(app.js reportOn) -->
 <dialog class="sheet ask tt-opts fr-menu" id="fr-menu" aria-labelledby="fm-title">
   <div class="sheet-head">
     <h2 class="sheet-title to-meta-n" id="fm-title" tabindex="-1" autofocus></h2>
@@ -736,6 +737,33 @@
     <button type="button" class="btn-text" data-close>닫기</button>
     <button type="button" class="btn-text" id="fa-ask-ok"></button>
   </div>
+</dialog>
+<!-- 닉네임 신고(디자인 153판 ③·154판 ②, 법무 11/17, 사용자 11/17 '목록으로 모아 보는 이 방식으로 가자'): 친구 메뉴의 '닉네임 신고'가 메뉴를 닫고 연다.
+     머리는 요건 시트와 같다(제목·닫기·메타 그 사람의 닉네임#번호). 까닭 셋(처음 고른 것 없음), 덧붙일 말(200자, 비워도 된다), 법무 고지, 신고하기(까닭을 고르면 켜짐).
+     못 보내면 고지 줄 아래 오류 줄. 보내기·스낵바는 app.js(openReport) -->
+<dialog class="sheet" id="rp-sheet" aria-labelledby="rp-title">
+  <div class="sheet-head">
+    <div class="h"><h2 class="sheet-title" id="rp-title" tabindex="-1" autofocus>닉네임 신고</h2><p class="sheet-meta" id="rp-meta"></p></div>
+    <button type="button" class="btn-text" data-close>닫기</button>
+  </div>
+  <div class="sheet-body">
+    <fieldset class="rp-why" id="rp-why">
+      <legend class="sr-only">까닭</legend>
+      <label><input type="radio" name="rp-why" value="nick">부적절한 닉네임</label>
+      <label><input type="radio" name="rp-why" value="impersonation">다른 사람 사칭</label>
+      <label><input type="radio" name="rp-why" value="other">그 밖의 까닭</label>
+    </fieldset>
+    <div class="rp-more">
+      <label class="field-label" for="rp-text">덧붙일 말</label>
+      <textarea class="text-area" id="rp-text" maxlength="200" aria-describedby="rp-count"></textarea>
+      <p class="rp-count" id="rp-count">0/200</p>
+    </div>
+    <p class="rp-note" id="rp-note">다른 사람의 이름·연락처 같은 개인정보는 적지 마세요</p>
+    <p class="error-line" id="rp-err" hidden>신고를 보내지 못했어요</p>
+    <button type="button" class="btn-primary rp-send" id="rp-send" disabled aria-describedby="rp-note">신고하기</button>
+  </div>
+  <div class="sr-only" role="status" data-live="status"></div>
+  <div class="sr-only" role="alert" data-live="alert"></div>
 </dialog>
 <!-- 친구 추가(디자인 130판: 새 시간표 팝업 꼴): 친구의 닉네임#번호, 초대 링크 보내기(공유 시트)·QR 코드(11/17 사용자 'QR 기능은 시간표에서 빼고 친구 추가에 넣어줘'.
      이 팝업 위에 내 초대 링크 QR), [닫기] [요청 보내기]. 오류 줄은 칸 아래 -->
@@ -895,6 +923,25 @@
   <div class="sheet-actions">
     <button type="button" class="btn-text" data-close>닫기</button>
     <button type="button" class="btn-text danger" id="acct-del-ok">지우기</button>
+  </div>
+</dialog>
+
+<!-- 켤 때 한 번 뜨는 알림 둘(디자인 160판, app.js launchNotices). 처리방침·이용 규칙 바뀜 알림(법무 11/23 ②): 제목만, [닫기] [보기](처리방침 페이지를 앱 밖으로).
+     날짜 앞뒤는 줄바꿈 없는 공백(어느 폭에서나 '…이용 규칙이' / '11월 30일부터 바뀌어요' 두 줄). 글은 app.js 가 시행일(POLICY_NEXT)로 채운다 -->
+<dialog class="sheet ask" id="policy-ask" aria-labelledby="pa-title">
+  <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="pa-title" tabindex="-1" autofocus>개인정보 처리방침과 이용 규칙이 11월&nbsp;30일부터 바뀌어요</h2></div></div>
+  <div class="sheet-actions">
+    <button type="button" class="btn-text" data-close>닫기</button>
+    <button type="button" class="btn-text" id="pa-view">보기</button>
+  </div>
+</dialog>
+<!-- 학교 계정 표시 알림(디자인 154·155판 ①, 법무 11/18): 133~152판에 '학교 계정 보이기'를 끈 계정에만, 처리방침 바뀜 알림 뒤. [확인]이면 학교 계정 표시를 켠다.
+     글은 app.js 가 채운다(시행일 전 'M월 D일부터', 지나면 '이제'). 계정을 지울까요? 팝업 꼴(이름은 제목, 글은 설명) -->
+<dialog class="sheet ask" id="school-ask" aria-labelledby="sa-title" aria-describedby="sa-text">
+  <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="sa-title" tabindex="-1" autofocus>학교 계정 표시가 바뀌어요</h2></div></div>
+  <div class="sheet-body"><p id="sa-text"></p></div>
+  <div class="sheet-actions">
+    <button type="button" class="btn-text" id="sa-ok">확인</button>
   </div>
 </dialog>
 

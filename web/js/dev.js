@@ -26,7 +26,8 @@ const CSS = `
 `;
 
 const SHELL_NAME = { web: "브라우저", pwa: "설치한 웹 앱", android: "안드로이드 앱", ios: "iOS 앱" };
-const ROWS = [["ask", "묻는 팝업"], ["update", "새 버전 알림"], ["image", "시간표 이미지"], ["forget", "테마 기억 지우기"], ["tour", "처음 안내"], ["dept", "학과와 학번"], ["account", "로그인"]];
+const ROWS = [["ask", "묻는 팝업"], ["update", "새 버전 알림"], ["image", "시간표 이미지"], ["forget", "테마 기억 지우기"], ["tour", "처음 안내"], ["dept", "학과와 학번"], ["account", "로그인"],
+  ["policy", "처리방침 바뀜 알림"], ["school", "학교 계정 표시 알림"], ["report", "닉네임 신고 시트"]];
 
 /** 개발자 메뉴를 연다. a: app.js 의 devApi(), opener: 연 버튼(닫으면 초점이 돌아간다) */
 export function open(a, opener) {
@@ -104,6 +105,10 @@ async function act(k, b) {
   if (k === "account") { api.closeSheet(sheet); api.account(); return; } // 로그인·동기화(처리방침 전면 개정 전 데모. 이 탭만 정보에 계정 줄)
   if (k === "tour") { api.closeSheet(sheet); api.tour(); return; } // 처음 안내(11/16 사용자: 처음 켤 때만 보이므로 다시 보기)
   if (k === "dept") { api.closeSheet(sheet); api.dept(); return; } // 학과와 학번 처음 화면(처리방침 11/27 시행 전 미리 보기. 정보 줄도 이 세션만 켠다)
+  // 처리방침·이용 규칙 11/30 판(디자인 160판·153판): 켤 때 알림 둘을 지금 띄워 보고(학교 계정 표시 알림의 [확인]은 닫기만), 신고 시트는 시행일 전에도 이 탭만 켠다
+  if (k === "policy") { api.policyNotice(opener0); return; } // 시트를 바꿔 연다(묻는 팝업과 같다)
+  if (k === "school") { api.schoolNotice(opener0); return; }
+  if (k === "report") { api.closeSheet(sheet); api.report(); return; }
   if (k === "forget") { api.forgetTheme(); api.closeSheet(sheet); api.showSnackbar("테마 기억을 지웠어요"); return; }
   if (k === "image") { await showImage(b); return; }
   if (k === "wipe") {

@@ -2368,6 +2368,18 @@ button.fr-row:active { background: var(--surface-hover); }
 #friend-wk .fr-fail .btn-text { color: var(--accent-text); text-shadow: none; }
 #friend-wk .fr-fail .btn-text:active { background: var(--surface-hover); }
 @media (hover: hover) { #friend-wk .fr-fail .btn-text:hover { background: var(--surface-hover); } }
+/* 닉네임 신고 시트(153판, bundle.css 그대로. 사용자 11/17 '목록으로 모아 보는 이 방식으로 가자'): 요건 시트와 같은 머리, 까닭 라디오 셋(요건 시트 체크 칸과 같은 22 칸 accent,
+   줄 높이 48), 덧붙일 말(.text-area 세 줄 높이, 200자, 글자 수 오른쪽), 고지 한 줄(법무), 흐름 안 주요 버튼 */
+.rp-why { min-width: 0; margin: 0; padding: 0; border: 0; }
+.rp-why label { display: flex; align-items: center; gap: var(--space-3); min-height: var(--touch); font-size: 1rem; line-height: 1.5rem; color: var(--text); cursor: pointer; }
+.rp-why input { flex: none; width: 22px; height: 22px; margin: 0; accent-color: var(--accent); }
+.rp-more { margin-top: var(--space-4); }
+.rp-more .text-area { min-height: calc(1.5rem * 3 + var(--space-3) * 2); }
+.rp-count { margin: var(--space-1) 0 0; text-align: right; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); font-variant-numeric: tabular-nums; }
+/* 고지 줄과 그 아래 오류 줄은 시트 본문의 글(.sheet-body > p, text2 16px)보다 세게: t-caption text3, t-body-sm danger */
+.sheet-body > p.rp-note { margin: var(--space-3) 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; }
+.sheet-body > p.rp-note + .error-line { margin: var(--space-2) 0 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--danger); }
+.btn-primary.rp-send { width: 100%; margin-top: var(--space-3); }
 /* 꺼진 텍스트 버튼(133판, bundle.css 그대로: 친구 추가 칸이 비었을 때 [요청 보내기]가 켜진 것과 똑같아 보였다). 0.38 투명, 올림·눌림 바탕 없이. 바탕별 .btn-text 규칙보다 뒤(파일 끝)에 둔다 */
 .btn-text:disabled, .btn-text:disabled:active { opacity: 0.38; background: transparent; cursor: default; }
 @media (hover: hover) { .btn-text:disabled:hover { background: transparent; } }

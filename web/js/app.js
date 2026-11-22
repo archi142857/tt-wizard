@@ -29,6 +29,10 @@ const APP_VERSION = "0.12.2";
 const PRIVACY_URL = "https://archi142857.github.io/tt-wizard/privacy/";
 // 이용 규칙(134판, 법무 11/15 ②: 계정이 생겨 처리방침 새 판과 같은 날 올린다. 백엔드가 web/terms/ 로 올린다, 문서 11/15). 로그인을 열 때만 보인다(accountWanted)
 const TERMS_URL = "https://archi142857.github.io/tt-wizard/terms/";
+// 처리방침·이용 규칙 다음 판(앱 안 닉네임 신고, 학교 계정 늘 표시)의 시행일, 새 판을 사이트에 올린 날, 정보 두 줄 값을 둘 끝 날(한국 시각 날짜).
+// 사용자 11/23 02:00 '앞당겨'(12/4 → 11/30, 문서·백엔드 11/23). 디자인 160판: 바뀜 알림은 올린 날부터 시행일 전날까지, 값 '11월 30일 바뀜'은 시행일 뒤 7일까지.
+// 신고 시트(reportOn)는 시행일부터, 학교 계정 표시 알림의 날짜도 이것(launchNotices)
+const POLICY_NEXT = "2026-11-30", POLICY_POSTED = "2026-11-23", POLICY_MARK_TO = "2026-12-07";
 // 개발자 정보(10/23 사용자가 정한 글. 처리방침의 개인정보 보호책임자·스토어 연락처와 같다). 메일은 누르면 메일 앱이 제목을 채워 연다
 const DEV_NAME = "동물생명공학전공 25학번 이영표";
 const DEV_MAIL = "sanger.lee138@gmail.com";
@@ -5936,6 +5940,14 @@ const devApi = () => ({
     renderInfo();
     showView("setup", "tab");
   },
+  // 처리방침·이용 규칙 11/30 판(160판·153판): 켤 때 알림 둘을 지금 띄워 본다(바뀜 알림은 닫으면 본 것으로 둔다. 학교 계정 표시 알림의 [확인]은 닫기만)
+  policyNotice(opener) { showPolicyNotice(opener); },
+  schoolNotice(opener) { showSchoolNotice(true, opener); },
+  report() { // 닉네임 신고 시트(시행일 전 미리 보기, 이 탭만): 친구 메뉴의 '닉네임 신고'가 메일 앱 대신 시트를 연다(보내면 실제로 들어간다)
+    devReport = true;
+    try { sessionStorage.setItem("ttw.devReport", "1"); } catch { /* 이 세션만이라도 */ }
+    showSnackbar("친구 메뉴의 닉네임 신고가 시트를 열어요");
+  },
   update() { showSnackbar("새 버전이 있어요", "새로고침", () => location.reload()); announce("새 버전이 있어요"); },
   tour() { tourAt = 0; showView("tour", "tab"); }, // 처음 안내를 처음 장부터(끝내면 지금 탭으로. 이 기기에 '봤다'를 다시 적는다)
   image: () => timetablePng(curTt()), // 지금 보는 시간표의 그림(PNG 바이트, 자료 조각까지)
@@ -7339,7 +7351,9 @@ $("themes").addEventListener("change", (e) => {
  */
 function renderInfo() {
   const next = (key, text) => h("button", { type: "button", class: "info-row", "data-info": key }, h("span", {}, text), icon(I.right, 20));
-  const out = (href, text) => h("a", { class: "info-row", href, target: "_blank", rel: "noopener" }, h("span", {}, text), icon(I.out, 20));
+  const out = (href, text, v = null) => h("a", { class: "info-row", href, target: "_blank", rel: "noopener" }, h("span", {}, text), v, icon(I.out, 20));
+  // 처리방침·이용 규칙 줄의 값 '11월 30일 바뀜'(160판: 새 판을 사이트에 올린 날부터 시행일 뒤 7일까지, 주의 색 없이 text3)
+  const today = kstToday(), changed = () => (today >= POLICY_POSTED && today <= POLICY_MARK_TO ? h("span", { class: "v" }, `${monthDay(POLICY_NEXT)} 바뀜`) : null);
   // 카드 안 줄 사이는 line 1px(.list. 디자인 InfoList '.card.info-list 안 .list'. 10/22 카드를 나누며 빠졌던 것을 11/1 되돌렸다)
   const card = (rows) => (rows.some(Boolean) ? h("ul", { class: "card list info-list" }, rows.filter(Boolean).map((r) => h("li", {}, r))) : null);
   const dv = deptOn() ? deptSaved() : null; // 내 학과·학번(디자인 121판): 계정 카드 다음 카드. 넣지 않았으면 값이 없다
@@ -7357,7 +7371,7 @@ function renderInfo() {
     card([next("feedback", "의견 보내기"), next("developer", "개발자 정보"), REVIEW_URL[SHELL] ? out(REVIEW_URL[SHELL], "리뷰 남기기") : null,
       isSafariTab() ? next("a2hs", "홈 화면에 추가") : null]),
     // 법적 고지: 이용 규칙은 로그인을 열 때(로그인 카드의 '보기'와 같은 페이지, 134판)
-    card([PRIVACY_URL ? out(PRIVACY_URL, "개인정보 처리방침") : null, TERMS_URL && accountWanted() ? out(TERMS_URL, "이용 규칙") : null, next("licenses", "오픈소스 라이선스"),
+    card([PRIVACY_URL ? out(PRIVACY_URL, "개인정보 처리방침", changed()) : null, TERMS_URL && accountWanted() ? out(TERMS_URL, "이용 규칙", changed()) : null, next("licenses", "오픈소스 라이선스"),
       h("div", { class: "info-row" }, h("span", {}, "버전"), h("span", { class: "v" }, APP_VERSION))]),
   ].filter(Boolean));
   if (had) (list.querySelector(`[data-info="${had}"]`) || list.querySelector('[data-info="account"]'))?.focus({ preventScroll: true }); // 다시 그려도 초점은 그 줄(지운 계정 삭제 줄이면 계정)
@@ -7964,11 +7978,16 @@ let gradSeq = 0, gradNow = null; // 늦게 끝난 계산은 버린다. gradNow: 
 let gradLoadAt = 0; // '불러오는 중' 줄이 뜬 때(performance.now, 151판: 뜨면 0.2초 이상 둔다)
 let gradTermAt = null; // 수강한 과목에서 가로로 넘겨 보던 학기(다시 그려도 그대로. 처음은 가장 새 학기)
 let gradSrc = null; // 자료 출처의 졸업 요건·성적 계산 줄 { req, gpa }(디자인 124·127판 InfoList. 받기 전 null, 받는 중 false)
-/** 자료 출처 줄 글: 요건 자료의 해와 기준일(index.json), 성적 계산의 학사 안내·수강편람과 그 기준일(common.json) */
+/** 자료 출처 줄 글: 요건 자료의 해와 기준일(index.json), 성적 계산의 학사 안내·수강편람과 그 기준일(common.json).
+ *  요건 줄은 문서 11/23 글(법무 11/17 스누지니 출처 꼴, 백엔드 update131·135): 교과과정 해설·학과 누리집·학교 공지(해, 기준일)와 스누지니 전공 탐색(해, 확인한 날).
+ *  스누지니 확인일은 백엔드가 index.json 에 넣으면(snugenie_checked_on, 해는 snugenie_year) 그것, 아직이면 조사한 날 11월 17일(조사_스누지니_20261117) */
+const SNUGENIE_CHECKED = "2026-11-17";
 function gradSources(base) {
   const book = String(((base.common.sources || {}).pyeonram || {}).title || "").replace(/^[^,]*,\s*/, "");
+  const ix = base.index, year = (y) => (y ? `${y}학년도, ` : "");
   return {
-    req: `서울대학교 교과과정 해설과 학과 누리집(${base.index.data_year ? `${base.index.data_year}학년도, ` : ""}${monthDay(base.index.checked_on)} 기준)`,
+    req: `서울대학교 교과과정 해설, 학과 누리집과 학교 공지(${year(ix.data_year)}${monthDay(ix.checked_on)} 기준), `
+      + `스누지니 전공 탐색 졸업이수규정·전공 교과목(${year(ix.snugenie_year || ix.data_year)}${monthDay(ix.snugenie_checked_on || SNUGENIE_CHECKED)} 확인)`,
     gpa: `서울대학교 학사 안내(성적·학점)${book ? `와 ${book}` : ""}(${monthDay(base.common.checked_on)} 기준)`, // 괄호 안은 실제로 본 페이지 이름(134판, 법무 11/15)
   };
 }
@@ -9407,6 +9426,7 @@ async function frLoad() {
   frFor = uid;
   frShareCheck();
   paintFriendTab();
+  launchNotices(); // 학교 계정 표시를 끈 계정이면 알림(160판 차례)
   return fr;
 }
 /** 받지 못한 까닭: 오프라인이면 OFFLINE(연결되면 저절로 다시), 그 밖은 FAILED */
@@ -9791,7 +9811,8 @@ $("friend-wk").addEventListener("click", (e) => {
   frView = { uid: frView.uid, terms: null, sem: "", failed: "" };
   renderFriendTt({ uid: frView.uid });
 });
-// 친구 메뉴(⋯): 친구 끊기·차단하기는 묻는 팝업, 끝나면 친구 화면으로 돌아가 스낵바. 닉네임 신고는 메일 앱(받는 사람 개발자 메일)
+// 친구 메뉴(⋯): 친구 끊기·차단하기는 묻는 팝업, 끝나면 친구 화면으로 돌아가 스낵바. 닉네임 신고는 처리방침·이용 규칙 11/30 판 시행일부터 신고 시트(아래 openReport),
+// 그전에는 메일 앱(받는 사람 개발자 메일)
 $("friend-more").addEventListener("click", (e) => {
   const p = friendPerson(frView.uid);
   if (!p) return;
@@ -9805,7 +9826,10 @@ $("fr-menu").addEventListener("click", (e) => {
   if (!b) return;
   const k = b.dataset.fm, p = friendPerson(frView.uid);
   if (!p) return;
-  if (k === "report") { location.href = acct.reportLink(p); return; } // 메일 앱(mailto)
+  if (k === "report") { // 시행일 전에는 메일 앱(mailto)
+    if (reportOn()) openReport(p); else location.href = acct.reportLink(p);
+    return;
+  }
   const menu = $("fr-menu");
   menu.returnTo = null;
   closeSheet(menu);
@@ -9826,6 +9850,113 @@ $("fa-ask-ok").addEventListener("click", () => {
     if (screen === "friend") back(); // 친구 화면으로
     showSnackbar(k === "block" ? "차단했어요" : "친구를 끊었어요");
   });
+});
+
+// 닉네임 신고 시트(디자인 153판 ③·154판 ②, 법무 11/17, 백엔드 update138 acct.report. 사용자 11/17 '목록으로 모아 보는 이 방식으로 가자'):
+// 친구 메뉴의 '닉네임 신고'가 메뉴를 닫고 연다. 처리방침·이용 규칙 11/30 판 시행일(POLICY_NEXT, 한국 시각)부터이고 그전에는 메일 앱(reportLink. 사용자 11/23 '앞당겨').
+// 까닭 셋은 처음 고른 것 없이, 고르면 '신고하기'가 켜진다. 덧붙일 말은 비워도 된다(200자). 보내면 시트를 닫고 친구 시간표 위 스낵바 '신고했어요',
+// 같은 사람을 같은 날 또 보내면 서버가 이미 받아 두었으니(ALREADY) 시트를 닫고 '이미 신고했어요'(154판). 그 밖에 못 보내면 시트는 그대로 두고 고지 줄 아래 오류 줄.
+// 신고는 친구를 끊거나 차단하지 않는다. '모르는 사람의 친구 요청'(stranger)은 받은 요청에서 신고하는 길이 정해지면 그때 더한다(153판)
+// 웹 개발자 메뉴 '닉네임 신고'(이 탭만): 시행일 전에 시트를 미리 본다(보내면 실제로 신고가 들어간다)
+let devReport = (() => { try { return sessionStorage.getItem("ttw.devReport") === "1"; } catch { return false; } })();
+const reportOn = () => devReport || kstToday() >= POLICY_NEXT;
+let rpFor = null; // 신고할 사람 { uid, nick, tag }
+const rpWhy = () => document.querySelector('input[name="rp-why"]:checked');
+/** 글자 수(maxlength 와 같은 UTF-16 단위, 의견 보내기와 같다)와 '신고하기'(까닭을 골랐고 보내는 중이 아니면 켜짐) */
+function rpSync() {
+  const t = $("rp-text"), b = $("rp-send");
+  $("rp-count").textContent = `${Math.min(t.value.length, t.maxLength)}/${t.maxLength}`;
+  b.disabled = !rpWhy() || b.getAttribute("aria-busy") === "true";
+}
+function openReport(p) {
+  rpFor = { uid: p.uid, nick: p.nick, tag: p.tag };
+  $("rp-meta").textContent = `${p.nick}#${p.tag}`;
+  for (const r of document.querySelectorAll('input[name="rp-why"]')) r.checked = false;
+  $("rp-text").value = "";
+  $("rp-err").hidden = true;
+  $("rp-send").removeAttribute("aria-busy");
+  rpSync();
+  const menu = $("fr-menu");
+  menu.returnTo = null;
+  closeSheet(menu);
+  openSheet($("rp-sheet"), $("friend-more")); // 처음 초점은 제목(autofocus), 닫으면 친구 메뉴 단추로
+}
+$("rp-why").addEventListener("change", rpSync);
+$("rp-text").addEventListener("input", rpSync);
+$("rp-send").addEventListener("click", async () => {
+  const d = $("rp-sheet"), b = $("rp-send"), why = rpWhy(), who = rpFor;
+  if (!why || !who || !acct || b.getAttribute("aria-busy") === "true") return;
+  b.setAttribute("aria-busy", "true");
+  rpSync();
+  $("rp-err").hidden = true;
+  let said = "신고했어요";
+  try {
+    await acct.report(who, why.value, $("rp-text").value);
+  } catch (e) {
+    if (!e || e.code !== "ALREADY") {
+      b.removeAttribute("aria-busy");
+      rpSync();
+      if (d.open && rpFor === who) { $("rp-err").hidden = false; announce("신고를 보내지 못했어요", "alert"); }
+      return;
+    }
+    said = "이미 신고했어요";
+  }
+  b.removeAttribute("aria-busy");
+  rpSync();
+  // 스낵바는 시트가 다 닫힌 뒤에(열린 시트 밖은 읽히지 않는다)
+  if (d.open && rpFor === who) { d.addEventListener("close", () => showSnackbar(said), { once: true }); closeSheet(d); } else showSnackbar(said);
+});
+
+// ---- 켤 때 한 번 뜨는 알림 둘(디자인 160판). 탭의 첫 화면이 보이고 시트·팝업이 없을 때 ① 다음 ②. 처음 안내·로그인·학과와 학번 처음 화면, 링크로 연 시트,
+// 테마 묻는 팝업이 먼저 떴으면 그 뒤다(아직이면 조금 뒤 다시 본다)
+// ① 처리방침·이용 규칙 바뀜 알림(법무 11/23 ②: 이용 규칙이 '바꾸면 앱 안과 이 페이지에 알립니다'): 로그인과 상관없이 기기마다 한 번, 새 판을 사이트에 올린 날부터
+//    시행일 전날까지(POLICY_POSTED~POLICY_NEXT). 묻는 팝업에 제목만, [닫기] [보기](정보 화면의 처리방침 줄과 같은 페이지를 앱 밖으로 열고 닫는다).
+//    어느 쪽으로 닫든 본 것으로 이 기기에 둔다(ttw.policySeen = 시행일)
+// ② 학교 계정 표시 알림(154·155판, 법무 11/18): 133~152판에 '학교 계정 보이기'를 끈 학교 계정(profile().showSchool === false, 백엔드 update141)에만.
+//    끈 사람은 [확인]을 누를 때까지 숨긴 채로 두고(시행일이 지나도) 켤 때마다 한 번 알린다. [확인]이면 setNick(nick, { showSchool: true })로 바로 켠다.
+//    글의 날짜는 시행일, 지나서 처음 보면 '이제'. 친구 목록을 받은 뒤(frLoad)에 본다
+const POLICY_SEEN = "policySeen";
+let launchTimer = 0, schoolShown = false;
+const launchFree = () => tabList().includes(tab) && screen === ROOT[tab] && !firstScreen(screen) && !document.querySelector("dialog[open]");
+function policyDue() {
+  const d = kstToday();
+  return d >= POLICY_POSTED && d < POLICY_NEXT && store.get(POLICY_SEEN, "") !== POLICY_NEXT;
+}
+const schoolDue = () => !schoolShown && !!acct && !!acctUser && acctUser.school === true && !!fr && frFor === acctUser.uid && !!fr.profile && fr.profile.showSchool === false;
+function launchNotices() {
+  clearTimeout(launchTimer);
+  launchTimer = 0;
+  const policy = policyDue(), school = schoolDue();
+  if (!policy && !school) return;
+  if (!launchFree()) { launchTimer = setTimeout(launchNotices, 1500); return; }
+  if (policy) showPolicyNotice(); // ②는 ①을 닫은 뒤(닫힐 때 다시 부른다)
+  else showSchoolNotice();
+}
+function showPolicyNotice(opener) {
+  $("pa-title").textContent = `개인정보 처리방침과 이용 규칙이 ${monthDay(POLICY_NEXT).replace(" ", " ")}부터 바뀌어요`; // 날짜는 한 줄로(160판)
+  openSheet($("policy-ask"), opener);
+}
+$("policy-ask").addEventListener("close", () => {
+  store.set(POLICY_SEEN, POLICY_NEXT);
+  setTimeout(launchNotices, 400);
+});
+$("pa-view").addEventListener("click", () => { openOut(PRIVACY_URL); closeSheet($("policy-ask")); });
+/** 학교 계정 표시 알림. preview: 웹 개발자 메뉴에서 미리 보기([확인]은 닫기만) */
+function showSchoolNotice(preview = false, opener = null) {
+  if (!preview) schoolShown = true;
+  const d = $("school-ask");
+  d.dataset.preview = preview ? "1" : "";
+  $("sa-text").textContent = `${kstToday() < POLICY_NEXT ? `${monthDay(POLICY_NEXT)}부터` : "이제"} 친구에게 학교 계정(snu.ac.kr)이 늘 보여요. 원하지 않으면 다른 Google 계정으로 로그인하거나 계정을 지울 수 있어요`;
+  openSheet(d, opener);
+}
+$("sa-ok").addEventListener("click", async () => {
+  const d = $("school-ask"), p = fr && fr.profile;
+  closeSheet(d);
+  if (d.dataset.preview || !acct || !p || p.showSchool !== false) return;
+  try {
+    const np = await acct.setNick(p.nick, { showSchool: true });
+    if (fr && fr.profile === p) fr.profile = { ...p, ...np };
+  } catch { /* 못 켰으면 숨긴 채로 두고 다음에 켤 때 다시 알린다 */ }
 });
 
 // 친구에게 보이는 내 시간표(친구 탭의 하위 화면 'frpv', 130판 미리보기): 이 기기에 대표 시간표가 있는 학기, 메타 '영표#4821 · 시간표 1', 친구 시간표와 같은 격자.
@@ -10955,6 +11086,7 @@ if (launchLink) receiveLink(launchLink);
 if (launchInvite) openFriendInvite(launchInvite);
 if (launchNav && (launchNav.sem || launchNav.route !== null || launchNav.item)) goNav({ ...launchNav, tab: null });
 setTimeout(askTheme, 400); // 첫 화면이 그 테마로 보인 뒤에 묻는다
+setTimeout(launchNotices, 900); // 처리방침 바뀜 알림(160판): 테마 묻는 팝업이 먼저 뜨면 그 뒤
 // 이미 열어 둔 웹 앱의 주소 칸에 시간표 링크를 붙여 넣었다(주소의 # 만 바뀌면 새로 열리지 않는다)
 window.addEventListener("hashchange", () => {
   if (IN_APP) return;
