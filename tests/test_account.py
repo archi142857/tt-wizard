@@ -203,7 +203,11 @@ def test_firestore_rules():
     assert "export const TRIES_PER_HOUR = 10;" in core and "await leaveTry(db, F, uid, h);" in core and "guess = await sha256(`${h}|${n}`)" in core
     assert '["adminSessions", "adminKeys", "adminTries", "admins"]' in core and '["adminSessions", "adminKeys", "adminTries"]' in core
     ui = (ROOT / "web" / "js" / "admin.js").read_text(encoding="utf-8")
-    assert 'e && e.code === "TOO_MANY" ? tooMany(e)' in ui and "부터 다시 넣을 수 있어요" in ui
+    assert 'e && e.code === "TOO_MANY" ? tooMany(e)' in ui
+    # 글은 디자인 159판: '…한 시간에 열 번 넘게 넣었어요. 21:40부터 다시 넣어 주세요', 때를 모르면 '…한 시간 뒤에 다시 넣어 주세요'
+    assert 'const TOO_MANY_HEAD = "비밀번호를 한 시간에 열 번 넘게 넣었어요";' in ui
+    assert '`${TOO_MANY_HEAD}. ${two(d.getHours())}:${two(d.getMinutes())}부터 다시 넣어 주세요`' in ui and '`${TOO_MANY_HEAD}. 한 시간 뒤에 다시 넣어 주세요`' in ui
+    assert "넣을 수 있어요" not in ui and "여러 번 틀렸어요" not in ui
     # 보안 점검(update143) 닉네임: 앱의 글자·거르는 말을 서버도 본다(앱을 고쳐 보내도 '관리자' 같은 이름은 못 쓴다). 두 곳의 목록이 같아야 한다
     sync = (ROOT / "web" / "js" / "sync.js").read_text(encoding="utf-8")
     assert "const NICK_RE = /^[0-9A-Za-z가-힣_]+(?: [0-9A-Za-z가-힣_]+)?$/;" in sync

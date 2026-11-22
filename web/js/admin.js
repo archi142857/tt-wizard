@@ -48,10 +48,11 @@ const PROGRESS = { set: "여는 중", unlock: "여는 중", retag: "바꾸는 �
   dev: "여는 중", reports: "불러오는 중", orphans: "찾는 중", clean: "정리하는 중" };
 const REASON = { nick: "부적절한 닉네임", impersonation: "다른 사람 사칭", stranger: "모르는 사람의 친구 요청", other: "그 밖의 까닭" };
 const two = (n) => String(n).padStart(2, "0");
-/** 한 시간에 열 번을 넘게 넣어 보면(update143 보안 점검, admin-core TOO_MANY) 다시 넣을 수 있는 때를 알린다 */
+/** 한 시간에 열 번을 넘게 넣어 보면(update143 보안 점검, admin-core TOO_MANY) 다시 넣을 때를 알린다. 글은 디자인 159판(몇 번인지 적고, '~ㄹ 수 있어요' 꼴은 화면 글에 쓰지 않는다) */
+const TOO_MANY_HEAD = "비밀번호를 한 시간에 열 번 넘게 넣었어요";
 const tooMany = (e) => {
   const d = e && e.retry ? new Date(e.retry) : null;
-  return d && !Number.isNaN(d.getTime()) ? `비밀번호를 여러 번 틀렸어요. ${two(d.getHours())}:${two(d.getMinutes())}부터 다시 넣을 수 있어요` : "비밀번호를 여러 번 틀렸어요. 한 시간 뒤에 다시 넣어 주세요";
+  return d && !Number.isNaN(d.getTime()) ? `${TOO_MANY_HEAD}. ${two(d.getHours())}:${two(d.getMinutes())}부터 다시 넣어 주세요` : `${TOO_MANY_HEAD}. 한 시간 뒤에 다시 넣어 주세요`;
 };
 const say = (e, fallback) => (e && e.code === "SHORT" ? `${core.MIN_PASSWORD}자 이상 정해 주세요` : e && e.code === "TOO_MANY" ? tooMany(e) : ERR[e && e.code] || fallback);
 const at = (iso) => { const d = new Date(iso); return `${d.getMonth() + 1}월 ${d.getDate()}일 ${two(d.getHours())}:${two(d.getMinutes())}`; };
