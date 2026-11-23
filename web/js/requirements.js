@@ -280,17 +280,19 @@ function rowNameRaw(req) {
  * 디자인 124판: 대체 관계 과목을 둘 다 들었거나(tidyRecords 의 substituted) 들은 과목 하나가 셀 수 있는 줄 여럿에 걸리면 그 줄은 확인 필요.
  * 다만 한 줄의 과목 목록이 다른 줄 목록 안에 다 들면(큰 요건 안의 작은 요건: '과학 16학점' 안의 '생물학 1·2') 두 줄에 같이 세는 것이 규정이라 그대로 둔다.
  */
-export function evaluateProgram(program, version, courses, { role = "single", sameCourse = (c) => c, areas = null, entryYear = null, lectureLang = null } = {}) {
+export function evaluateProgram(program, version, courses, { role = "single", sameCourse = (c) => c, areas = null, entryYear = null, lectureLang = null, teps = null } = {}) {
   version = rowsForEntry(version, entryYear); // 입학 연도로 나눈 교양 줄(update128)
   const got = new Map(); // 대표 번호 → 과목
   for (const c of courses) if (!c.failed) got.set(c.key || sameCourse(c.code), c);
   const rows = [], hitsOf = new Map(); // 대표 번호 → 그 과목을 센 줄들(셀 수 있는 줄만)
   const keysOf = new Map(); // 줄 → 목록 과목의 대표 번호들
   const later = []; // 분야·갈래 줄: 다른 줄을 다 센 뒤 센다(다른 줄이 센 과목을 알아야 해서)
-  for (const r of version.requirements || []) {
-    if ((r.applies_to || []).length && !r.applies_to.includes(role)) continue;
-    if (r.type === "rule") continue; // 규칙 설명(요건 아님, update135): gradView 의 rules 로 따로
+  for (const r0 of version.requirements || []) {
+    if ((r0.applies_to || []).length && !r0.applies_to.includes(role)) continue;
+    if (r0.type === "rule") continue; // 규칙 설명(요건 아님, update135): gradView 의 rules 로 따로
+    const r = withTeps(r0, teps); // 입학 때 TEPS 구간(teps)으로 조건부 영어 분야를 푼 줄(update148)
     const row = { id: r.id, type: r.type, name: rowName(r), text: r.text, status: r.status, note: r.note || null, src: r.src || [] };
+    if (r !== r0) row.teps = tepsInfo(r, teps);
     if (r.same_as) { // 공통 '졸업 평점'과 같은 줄(update127, 학과의 '전체·전공 평점 2.0 이상'): gradView 가 그 줄 값을 그대로 쓴다
       Object.assign(row, { state: "check", reason: SAME_GPA, sameAs: r.same_as, have: { count: 0, credits: 0, codes: [] }, need: { count: null, credits: null },
         taken: [], all: [] });
@@ -381,6 +383,68 @@ const KIND = { major_required: "required", major_elective: "elective", distribut
   double: "double", minor: "minor", thesis: "thesis", other: "other" };
 const NO_LIST = "과목 목록이 없는 조건";
 export const COND = "조건부 요건"; // 기준은 채웠지만 학생이 아는 조건(입학 때 TEPS 점수, 진단평가 면제 등)에 따라 더 필요할 수 있다(update127)
+
+// ---------------------------------------------------------------- 입학 때 TEPS (update148, 사용자 11/23 '텝스 점수도 받아야 한다. 이거에 따라서 영어 들어야 하는 게 달라지네')
+//
+// 영어 수강 기준(2026학년도 학부 신입생 특별시험 안내, 2026학번 졸업 정보): New TEPS 267 이하는 기초영어를 이수한 뒤 대학영어 1, 268~386 대학영어 1,
+// 387~452 대학영어 2, 453~525 고급영어, 526 이상은 대부분 대학에서 영어 필수 이수 규정이 없다. 예전 TEPS(990점 만점)는 550·700·800·900 이 같은 경계.
+// 기준 점수는 입학일 전 2년의 정기 TEPS 와 신입생 특별시험 가운데 가장 높은 것(입학 때 성적이 없으면 마이스누 '수강자격검사'로 등록한 것).
+// 졸업 요건의 조건부 영어 분야(자료 teps_max: 이 New TEPS 이하이면 필요)를 점수로 푼다. 점수는 화면이 이 폰에만 두고 여기서는 셈만 한다.
+export const TEPS_EDGES = { new: [267, 386, 452, 525], old: [550, 700, 800, 900] }; // 구간 0~3 의 위 끝(구간 4 는 그 위)
+export const TEPS_RANGE = { new: [0, 600], old: [10, 990] };
+export const ENGLISH_LEVELS = ["대학영어 1", "대학영어 2", "고급영어"]; // 기초영어는 영어 요건에 세지 않는다(not_counted)
+
+/** TEPS 점수 → 구간 0~4(0: New TEPS 267 이하 … 4: 526 이상). scale "new"(New TEPS) | "old"(예전 TEPS). 정수가 아니거나 범위 밖이면 null */
+export function tepsBand(score, scale = "new") {
+  const edges = TEPS_EDGES[scale], range = TEPS_RANGE[scale];
+  const n = typeof score === "string" && /^\s*\d+\s*$/.test(score) ? Number(score) : score;
+  if (!edges || !Number.isInteger(n) || n < range[0] || n > range[1]) return null;
+  const i = edges.findIndex((e) => n <= e);
+  return i < 0 ? edges.length : i;
+}
+
+/**
+ * 구간과 들어야 하는 영어 과목 수 → { basic: 기초영어를 먼저 들어야 하는지(학점은 영어 요건에 안 셈), path: 차례대로 들을 과목 이름 }.
+ * 첫 과목은 구간대로(0·1 대학영어 1, 2 대학영어 2, 3·4 고급영어), 다음은 그 위 단계. 고급영어는 여러 과목이라 모자라면 고급영어를 되풀이한다
+ */
+export function englishPath(band, count = 1) {
+  if (!Number.isInteger(band) || band < 0 || band > 4) return null;
+  const from = [0, 0, 1, 2, 2][band], n = Math.max(0, Number(count) || 0);
+  const path = Array.from({ length: n }, (_, i) => ENGLISH_LEVELS[Math.min(from + i, ENGLISH_LEVELS.length - 1)]);
+  return { basic: band === 0 && n > 0, path };
+}
+
+/** 자료의 teps_max(New TEPS 경계) → 그 구간까지(이 구간 이하이면 조건이 걸린다). 경계 값이 아니면 null(셈하지 않고 조건부 그대로) */
+const bandMax = (max) => {
+  const i = TEPS_EDGES.new.indexOf(Number(max));
+  return i < 0 ? null : i;
+};
+
+/**
+ * 입학 때 TEPS 구간으로 조건부 영어 분야를 푼 줄(받은 줄은 고치지 않는다): teps_max 까지이면 덧붙은 조건(also: 다른 분야와 겹쳐 세고 못 채우면 남음),
+ * 넘으면 뺀다. 점수를 모르거나 경계가 자료에 없는 분야(인문대 2019~2024학번 '점수에 따라 1~2과목')는 그대로(확인 필요 · 조건부 요건)
+ */
+function withTeps(r, band) {
+  const groups = r.extra && r.extra.groups;
+  if (band == null || !Array.isArray(groups) || !groups.some((g) => g.cond && bandMax(g.teps_max) != null)) return r;
+  const out = [];
+  for (const g of groups) {
+    const max = g.cond ? bandMax(g.teps_max) : null;
+    if (max == null) out.push(g);
+    else if (band <= max) {
+      const { cond, ...rest } = g;
+      out.push({ ...rest, also: true, teps: true });
+    }
+  }
+  return { ...r, extra: { ...r.extra, groups: out } };
+}
+
+/** TEPS 로 푼 줄의 영어: { band, english: 들어야 하는 영어 과목 수(0 이면 필수 아님), basic, path }(시트에 '대학영어 1부터' 같은 글을 쓰려고) */
+function tepsInfo(r, band) {
+  const counts = r.extra.groups.filter((g) => /^영어/.test(g.name || "")).map((g) => Number(g.min_count) || 1);
+  const english = counts.length ? Math.max(...counts) : 0;
+  return { band, english, ...englishPath(band, english) };
+}
 export const SAME_GPA = "졸업 평점과 같은 조건";
 
 /** 분야(extra.groups)·갈래(extra.paths)로 셀 수 있는 줄인가: 자료가 '확인'이고 extra 에 그 둘과 셈에 쓰는 값만 있다(다른 문장형 조건이 섞이면 그대로 '확인 필요') */
@@ -1296,7 +1360,7 @@ export function rowView(row, { program, title = null, label = null, entryYear = 
     ...(row.byChecks ? { byChecks: true } : {}),
     sheet: { title: row.name || rowName(row), meta: [title || (program && program.program), label].filter(Boolean).join(" · "),
       summary, strong, courses, groups: row.groups || null, paths: row.paths || null,
-      because: value.kind === "check" ? reasonText(row, { entryYear }) : null, ...(row.reason === COND ? { cond: true } : {}),
+      because: value.kind === "check" ? reasonText(row, { entryYear }) : null, ...(row.reason === COND ? { cond: true } : {}), ...(row.teps ? { teps: row.teps } : {}),
       link: deptLink(program), sources: sourceTexts(program, row.src), checked, detail: row.text || null },
   };
 }
@@ -1310,10 +1374,12 @@ export function rowView(row, { program, title = null, label = null, entryYear = 
  * gpaChecks: {all, major}(시트에서 켠 '전체·전공 평점 2.0 이상'. 성적을 다 넣지 않았을 때 둘 다 켜면 졸업 평점 충족, byChecks)
  * rowChecks: {'묶음 id|요건 id': true}(시트의 '이 요건을 채웠어요', 141판 ⑥. 공통 묶음은 'common|…'). 과목 목록이 없어 확인 필요인 줄만 충족으로 보고 byChecks.
  *   목록이 있는 줄(분야·갈래 포함)은 과목 체크로 세니 그대로, 졸업 학점·졸업 평점 줄도 그대로
+ * teps: 입학 때 TEPS 구간(tepsBand 결과 0~4, 모르면 null. update148). 자료의 teps_max 가 있는 조건부 영어 분야를 풀고, 푼 줄의 시트에 teps({band, english, basic, path})
  * → {total, bundles: [{kind: "common"|"program", id, title, label, choices, rows: [rowView]}], missing: [자료가 없는 과정 id]}.
  * 공통: 졸업 학점 · 졸업 평점 · 주전공 판의 교양 줄. 주전공 묶음에는 교양 줄을 다시 넣지 않는다
  */
-export function gradView({ picks = [], records = [], grades = null, common = null, sameCourse = (c) => c, gpaChecks = null, rowChecks = null, areas = null, lectureLang = null } = {}) {
+export function gradView({ picks = [], records = [], grades = null, common = null, sameCourse = (c) => c, gpaChecks = null, rowChecks = null, areas = null, lectureLang = null,
+  teps = null } = {}) {
   const geCodes = new Set(picks.flatMap((p) => [...requirementCodes(p.version || pickVersionFor(p.program, { entryYear: p.entryYear }).version, true),
     ...requirementCodes(p.own || null, true)]));
   for (const a of Object.values((areas && areas.areas) || {})) for (const c of a.courses || []) geCodes.add(c.code); // 영역 목록에서 체크한 교양 과목(update128)
@@ -1356,12 +1422,12 @@ export function gradView({ picks = [], records = [], grades = null, common = nul
     const role = p.role || "single";
     const label = versionLabel(p.program, p.version, { role, selectionTerm: p.selectionTerm });
     const title = p.title || p.program.program;
-    let rows = evaluateProgram(p.program, p.version, tidy.courses, { role, sameCourse, areas, entryYear: p.entryYear, lectureLang });
+    let rows = evaluateProgram(p.program, p.version, tidy.courses, { role, sameCourse, areas, entryYear: p.entryYear, lectureLang, teps });
     // 더 새 판을 고른 주전공(versionChoices. 화면이 own 으로 자기 판을 준다): 교양은 늘 입학 연도 규정이라 교양 줄은 자기 판에서 센다(update128)
     const own = i === 0 && p.own && p.own !== p.version ? p.own : null;
     const ownGe = own ? (own.requirements || []).filter((x) => x.type === "ge") : [];
     if (own) {
-      const ge = evaluateProgram(p.program, { ...own, requirements: ownGe }, tidy.courses, { role, sameCourse, areas, entryYear: p.entryYear, lectureLang });
+      const ge = evaluateProgram(p.program, { ...own, requirements: ownGe }, tidy.courses, { role, sameCourse, areas, entryYear: p.entryYear, lectureLang, teps });
       rows = [...rows.filter((r) => r.type !== "ge"), ...ge];
     }
     const opts = { program: p.program, title, label, entryYear: p.entryYear, sameCourse };

@@ -277,4 +277,18 @@ const later = (c, mins) => ({ ...c, sections: c.sections.map((x) => ({ ...x, mee
   };
 }
 
+// 직접 넣은 일정의 장소 글(update148, 사용자 11/23 '직접 추가에 장소도 직접 입력 칸이 있어야 함'): 건물 없이 적은 곳을 남기고 다듬는다
+{
+  const free = T.customItem({ title: "과외", meetings: [{ day: 6, start: 1200, end: 1320, building: "", room: "  학생   집  " },
+    { day: 2, start: 600, end: 660, building: "71", room: "3층 라운지" }, [1, 600, 660, "", "가".repeat(40)], { day: 9, start: 1, end: 2, place: "x" }] });
+  const t = T.addItem(T.createTimetable([], "2026-2", { now: NOW }), free, { now: NOW }).t;
+  const [back] = T.parseList([JSON.parse(JSON.stringify(t))], "2026-2");
+  const fixed = T.updateItem(t, free.custom, { meetings: T.customMeetings([{ day: 0, start: 540, end: 600, place: " 카페 " }]) }, NOW);
+  const entries = T.reconcile(t, byId);
+  const wd = T.widgetData([{ t, entries }]);
+  const lessons = wd.terms.length ? wd.terms[0].days.flat().map((x) => [x.name, x.place, x.b]) : null;
+  out.place = { meetings: free.meetings, back: back.items[0].meetings, fixed: fixed.items[0].meetings, max: T.PLACE_MAX, clean: T.cleanPlace("  a \n b  "),
+    sections: T.toSections(t, byId).map((s) => s.meetings.map((m) => [m.building, m.room])), lessons };
+}
+
 console.log(JSON.stringify(out));

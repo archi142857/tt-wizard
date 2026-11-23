@@ -2794,7 +2794,8 @@
         ],
         "area": true,
         "min_count": 1,
-        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요.",
+        "teps_max": 525
        }
       ]
      },
@@ -3927,7 +3928,8 @@
         ],
         "area": true,
         "min_count": 1,
-        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요.",
+        "teps_max": 525
        }
       ]
      },
@@ -5067,7 +5069,8 @@
         ],
         "area": true,
         "min_count": 1,
-        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요.",
+        "teps_max": 525
        }
       ]
      },
@@ -6163,7 +6166,8 @@
         ],
         "area": true,
         "min_count": 1,
-        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요."
+        "cond": "입학 때 TEPS 900점(New TEPS 525점) 이하였다면 영어 1과목이 더 필요해요.",
+        "teps_max": 525
        }
       ]
      },

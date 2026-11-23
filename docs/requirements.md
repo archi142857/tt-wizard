@@ -78,7 +78,8 @@ update127(11/16, 사용자 '이런 조사 안 된 것들 다 최대한 조사해
   - `sum`: 학점 합 줄. `{of: "ge"}` 교과구분 교양, `{of: "major", cls?}` 이 과정의 전공 과목(`isMajorCourse`, cls 로 전필·전선), `{of: "cls", cls: ["교직"]}`.
     `after`(그만큼 뺀 나머지: 자유 선택 = 교양 합 − (교양 기준 − N)), `by_role`(단일·병행·복수 기준), `floor`·`cond`(진단평가 면제 46 → 최소 36 처럼 학생이 아는 조건: floor 이상은 확인 필요).
   - `extra.groups[]` 의 `prefixes`(번호 앞자리로 센다, 목록 없음), `area`(교양 영역: 추천 과목에 안 넣고 목록 끝을 따지지 않음. 체크박스로 펼치지 않는다),
-    `cond`(조건부 분야: 'TEPS 900점 이하이면 영어 1과목'. 기준·겹침에 안 넣고, 나머지를 다 채웠는데 못 채웠으면 확인 필요 `조건부 요건`, 까닭은 cond 글),
+    `cond`(조건부 분야: 'TEPS 900점 이하이면 영어 1과목'. 기준·겹침에 안 넣고, 나머지를 다 채웠는데 못 채웠으면 확인 필요 `조건부 요건`, 까닭은 cond 글.
+    영어 분야는 `teps_max`(이 New TEPS 이하이면 필요, 아래 2-2절)를 cond 바로 뒤에 단다. 경계가 글에 없는 인문대 2019~2024학번 '점수에 따라 1~2과목'은 달지 않는다),
     `also`(덧붙은 조건: '중급 이상 1과목'·'권장과목(★) 1과목'. 겹침·합에 안 넣고, 못 채우면 남음).
   - `same_as: "grad-gpa"`: 학과의 '전체·전공 평점 2.0 이상' 줄은 공통 졸업 평점 값을 그대로(gradView).
   - 갈래를 둘 이상 채우는 줄(과학 '이론+실험 중 2과목')은 모자란 갈래 수만큼 가까운 갈래의 과목을 더해 남음.
@@ -227,7 +228,7 @@ update127(11/16, 사용자 '이런 조사 안 된 것들 다 최대한 조사해
 | 함수 | 화면 |
 | --- | --- |
 | `takenTerms(records, {sameCourse, currentTerm})` | 들은 과목 보기: `total`(머리 `들은 학점 76`: 드랍·F·U·재수강 앞 것을 뺀 값), 학기마다(새 학기 먼저) `label`(`2026년 2학기`)·`text`(`18학점`, 이번 학기 `18학점 · 듣는 중`)과 줄(`counted`, `why` dropped·failed·retake·graduate, `meta` `전필 · 3학점`, 직접 넣은 것 `직접 추가 · 교양 · 1학점`, 재수강으로 빠진 앞 수강은 끝에 `2026년 2학기에 재수강해서 빠짐`) |
-| `gradView({picks, records, grades, common, sameCourse, gpaChecks, rowChecks, areas, lectureLang})` | 요건 보기. 과정 묶음마다 `rules`(규칙 설명 줄 `{id, name, text, status, sources}`, 프론트엔드의 '이수 규칙 N개' 시트, update135). `lectureLang` = `lecture_lang.json`(없으면 외국어진행강좌 줄은 확인 필요), 기록에 강좌번호 `no`. `picks` = `[{program, version?, role, title, entryYear, selectionTerm?, newer?, own?, geOnly?}]`(첫째가 주전공, `version` 이 없으면 `pickVersionFor`, `newer` 는 catalog 의 값, `own` 은 학번으로 고른 자기 판(더 새 판을 고른 주전공의 교양 줄), `geOnly` 는 전공을 아직 안 정한 학생: 공통 묶음만(update128)), `areas` = `ge_areas.json`(영역 분야의 과목 목록과 체크한 영역 과목을 교양으로 보기), `grades` = `gpa(records, {isMajor})`(성적을 안 넣었으면 null). → `{total, bundles, missing}`: `공통`(`졸업 학점`, `졸업 평점`: 성적을 다 넣고 전체·전공 2.0 이상이면 충족, 아니면 확인 필요와 까닭, 주전공 판의 교양 줄) → 과정마다 `{title, label, choices, rows}`. `missing` 은 그 학번 자료가 없는 과정. `records` 의 체크한 기록(`checked: true`, 이수 구분이 비면 교양 줄 과목은 교양으로 본다). `gpaChecks` = `{all, major}`(시트에서 켠 `전체 평점 2.0 이상`·`전공 평점 2.0 이상`): 성적을 다 넣지 않았어도 둘 다 켜면 졸업 평점 충족(그 줄 `byChecks: true`, update120). `rowChecks` = `{'묶음 id|요건 id': true}`(시트의 `이 요건을 채웠어요`, 공통 묶음은 `common|…`): 과목 목록이 없어 확인 필요인 줄만 충족으로 본다(그 줄 `byChecks: true`, 합 글·센 값 없음). 목록이 있는 줄(분야·갈래 포함)과 졸업 학점·졸업 평점 줄은 그대로(update121) |
+| `gradView({picks, records, grades, common, sameCourse, gpaChecks, rowChecks, areas, lectureLang, teps})` | 요건 보기. `teps` = 입학 때 TEPS 구간(`tepsBand`, 모르면 null. 2-2절). 과정 묶음마다 `rules`(규칙 설명 줄 `{id, name, text, status, sources}`, 프론트엔드의 '이수 규칙 N개' 시트, update135). `lectureLang` = `lecture_lang.json`(없으면 외국어진행강좌 줄은 확인 필요), 기록에 강좌번호 `no`. `picks` = `[{program, version?, role, title, entryYear, selectionTerm?, newer?, own?, geOnly?}]`(첫째가 주전공, `version` 이 없으면 `pickVersionFor`, `newer` 는 catalog 의 값, `own` 은 학번으로 고른 자기 판(더 새 판을 고른 주전공의 교양 줄), `geOnly` 는 전공을 아직 안 정한 학생: 공통 묶음만(update128)), `areas` = `ge_areas.json`(영역 분야의 과목 목록과 체크한 영역 과목을 교양으로 보기), `grades` = `gpa(records, {isMajor})`(성적을 안 넣었으면 null). → `{total, bundles, missing}`: `공통`(`졸업 학점`, `졸업 평점`: 성적을 다 넣고 전체·전공 2.0 이상이면 충족, 아니면 확인 필요와 까닭, 주전공 판의 교양 줄) → 과정마다 `{title, label, choices, rows}`. `missing` 은 그 학번 자료가 없는 과정. `records` 의 체크한 기록(`checked: true`, 이수 구분이 비면 교양 줄 과목은 교양으로 본다). `gpaChecks` = `{all, major}`(시트에서 켠 `전체 평점 2.0 이상`·`전공 평점 2.0 이상`): 성적을 다 넣지 않았어도 둘 다 켜면 졸업 평점 충족(그 줄 `byChecks: true`, update120). `rowChecks` = `{'묶음 id|요건 id': true}`(시트의 `이 요건을 채웠어요`, 공통 묶음은 `common|…`): 과목 목록이 없어 확인 필요인 줄만 충족으로 본다(그 줄 `byChecks: true`, 합 글·센 값 없음). 목록이 있는 줄(분야·갈래 포함)과 졸업 학점·졸업 평점 줄은 그대로(update121) |
 | 줄(`rowView`) | `name`(`전공필수`), `value`(`{kind: left·met·check, text: '6학점 남음'·'충족'·'확인 필요'}`. 학점과 과목 수가 다 모자라면 남은 과목 수가 남은 학점을 채우는 데 드는 과목 수보다 적지 않을 때 과목(`전공필수 12과목 33학점`에서 4과목 들으면 `8과목 남음`), 아니면 학점. 학점으로만 적었지만 목록을 다 들어야 하는 줄은 과목 수도 기준, update129), `aria`(`전공필수, 6학점 남음`), `progress`(`{have, need, unit}`, 줄 앞 동그라미의 호와 시트 상태 칸 `12 / 18학점`. 남은 줄은 값 글과 같은 단위, 아니면 학점 → 과목. 분야 줄은 값으로 보인 조건의 것: 영역·분야 수(`1 / 3영역`·`1 / 2분야`), 분야마다 기준까지 더한 과목·학점(`2 / 3과목`), 줄 학점·과목(`4 / 9학점`), 갈래 줄은 다 들은 갈래나 가장 가까운 갈래의 과목 수. 기준이 없는 줄, 목록이 없는 확인 필요 줄, `byChecks` 줄은 null, update121), `sheet`: `meta`(`동물생명공학전공 · 2021~2026학번 규정`), `summary`·`strong`(`18학점 중 12학점 · 6학점 남음`, 굵게 `6학점 남음`), `courses`(`taken` 과 `meta` `3학점 · 2025년 1학기`, 체크로만 들은 것은 `3학점 · 체크`, 안 들은 과목은 `3학점`), `groups`(분야 줄: 분야마다 `{name, need: '1과목 이상', value: {kind: met·left·check·count, text: '충족'·'1과목 남음'·'확인 필요'·'2과목'}, codes, courses, cond?, also?, area?}`, `count` 는 기준 없는 분야의 들은 수. `courses` 는 그 분야 과목 목록(들은 것 먼저, 영역 분야는 `ge_areas.json` 의 영역 과목 전부, update128), `cond` 는 조건부 요건 글), 교양 학점 같은 합 줄은 `courses` 에 센 과목(update128), 조건부 요건 줄은 `cond: true`(목록이 있어도 '이 요건을 채웠어요'), `paths`(갈래 줄: 갈래마다 `{name, value, codes}`), `because`(확인 필요의 까닭 한 줄), `link`(학과 졸업요건 페이지), `sources`(`출처: …`), `checked`(`11월 12일 기준`), `detail`(자료 글 그대로) |
 | `rowName(req)` | 줄 이름: 자료 글의 앞부분(`전공필수 15과목 46학점` → `전공필수`). 길거나 숫자로 시작하면 종류 이름(전공필수·전공선택·지정 과목·복수전공·부전공·졸업 논문·분배 이수·교양·기타 조건). 외국어진행강좌는 과정마다 띄어 쓴 `외국어 진행 강좌`(영어만이면 `영어 진행 강좌`, 디자인 153판, update137) |
 | `reasonText(row, {entryYear})` | 까닭: `2025학번 내규가 공개되지 않았어요.`(자료 미확인), `2025학번 세부 규정이 공개 자료에 다 나오지 않았어요.`(부분), `공개된 자료끼리 내용이 달라요.`(충돌), 과목 목록·기준 수가 없는 요건, 여러 갈래 조건, 대체 과목을 둘 다 들음, 여러 요건에 걸린 과목 |
@@ -236,6 +237,20 @@ update127(11/16, 사용자 '이런 조사 안 된 것들 다 최대한 조사해
 | `basisText(index)` | 맨 아래 기준 줄 `2025학년도 자료 · 11월 12일 기준`(index.json 의 `data_year`·`checked_on`) |
 | `termName(term)` · `nextRegularTerm(term)` · `hasCoursebook(semesters, term)` | `다음 학기 추천` 줄의 값 `2027년 1학기`, 그 학기 편람이 없으면 화면이 `수강편람이 없어요`(작년 편람으로 미리 짜려고 앱이 넣은 `[학기, 파일, 작년 학기]` 칸은 편람으로 치지 않는다, update134) |
 | `limitLine({common, who, term, credits, chosen})` | 과목 추가의 학기 학점 줄: `label` `18학점까지`·`choices`(기본, 학기 예외, 직전 두 학기 3.3 이상 21)·`rest` `12학점 남음`(넘으면 `3학점 넘음`, `over`). 처음 값은 `termCreditLimit`(입학 뒤 몇 번째 학기는 `nthRegularTerm`), 계절학기는 9·6 글자만 |
+
+### 2-2. 입학 때 TEPS (update148, 사용자 11/23 '텝스 점수도 받아야 한다. 이거에 따라서 영어 들어야 하는 게 달라지네')
+
+- **경계**(2026학년도 학부 신입생 특별시험 안내, 2026학번 졸업 정보, 2025학년도 시행 공통교육과정 대학별 이수규정): New TEPS 267 이하는 기초영어를 이수한 뒤
+  대학영어 1(기초영어는 영어 요건에 세지 않는다: `not_counted`), 268~386 대학영어 1, 387~452 대학영어 2, 453~525 고급영어, 526 이상은 대부분 대학에서 영어 필수 아님.
+  예전 TEPS(990점 만점)는 550·700·800·900 이 같은 경계. 기준 점수는 입학일 전 2년의 정기 TEPS 와 신입생 특별시험 가운데 가장 높은 것(성적이 없으면 마이스누 '수강자격검사'로 등록한 것).
+- **과정마다**: 대부분 대학 New TEPS 525(TEPS 900) 이하면 영어 1과목, 인문대 2025학번~ 452 이하 2과목·453 이상 1과목, 생활과학대 452 이하 1과목(`teps_max` 525·452).
+  인문대 2019~2024학번은 'TEPS 성적에 따라 대학영어 1·대학영어 2·고급영어 중 3학점 또는 6학점'뿐이라(2023학년도 대학별 교양 이수규정) 점수를 알아도 조건부 그대로.
+- **자료**: 조건부 영어 분야에 `teps_max`(New TEPS). `scripts/requirements_lists.py` `teps_max`·`with_teps` 가 cond 글에서 읽는다(예전 TEPS 만 적힌 글은 `TEPS_OLD_NEW` 로 같은 구간).
+- **계산**: `tepsBand(score, scale)` → 구간 0~4(`scale` `new` 0~600 · `old` 10~990, 범위 밖·정수가 아니면 `null`). `gradView({…, teps: 구간})` 이 `teps_max` 가 있는
+  조건부 영어 분야를 푼다: 구간이 경계 이하이면 덧붙은 조건(`also`: 외국어 분야와 겹쳐 세고 못 채우면 남음, '영어 · 1과목 남음'), 넘으면 뺀다. 점수를 모르면 지금처럼 `조건부 요건`.
+  푼 줄의 시트에 `teps` `{band, english(들어야 하는 영어 과목 수, 0 이면 필수 아님), basic(기초영어 먼저), path(['대학영어 1', '대학영어 2'] 처럼 들을 차례)}`.
+  `englishPath(band, count)` 는 같은 차례를 따로 준다(첫 과목은 구간 0·1 대학영어 1, 2 대학영어 2, 3·4 고급영어, 다음은 그 위 단계, 고급영어는 되풀이).
+- 점수는 화면이 이 폰에만 둔다(성적·학과·학번처럼 서버·친구·공유로 보내지 않는다. 처리방침 '기기에만' 줄은 법무·문서). 넣는 자리와 글은 디자인·라이팅.
 
 ### 학교 규칙 (common.json, 근거는 `학사_공통_규정.md`)
 

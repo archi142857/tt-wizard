@@ -5,7 +5,7 @@ import {
   pickVersion, pickVersionFor, rowsForEntry, buildSameCourse, tidyRecords, evaluateProgram, creditSummary, gpa, gradeNeeded,
   termCreditLimit, withinLimit, isMajorCourse, suggestCourses, rankSuggestions, planTerm,
   suggestionTag, rowName, termName, nextRegularTerm, nthRegularTerm, hasCoursebook, versionLabel, versionChoices,
-  takenTerms, gradView, basisText, limitLine, deptLink, sourceTexts, shortLocator, rowView, josaRo,
+  takenTerms, gradView, basisText, limitLine, deptLink, sourceTexts, shortLocator, rowView, josaRo, tepsBand, englishPath,
 } from "../web/js/requirements.js";
 import { gapFit, parseCourses, TravelMatrix, fitLabel, countFeasible } from "../web/js/engine.js";
 
@@ -164,16 +164,19 @@ const out = read(casesPath).map((c) => {
       const same = buildSameCourse(courseMap, picks.map((x) => x.program));
       const grades = c.grades ? gpa(c.records, { sameCourse: same }) : null;
       const v = gradView({ picks, records: c.records, grades, common, sameCourse: same, gpaChecks: c.gpaChecks || null, rowChecks: c.rowChecks || null,
-        areas: c.areas === false ? null : geAreas, lectureLang: c.lectureLang || null });
+        areas: c.areas === false ? null : geAreas, lectureLang: c.lectureLang || null, teps: c.teps ?? null });
       return { total: v.total, missing: v.missing, ge: v.credits.ge, general: v.credits.general, byChecks: v.bundles[0].rows.find((r) => r.id === "grad-gpa").byChecks,
         bundles: v.bundles.map((b) => ({ kind: b.kind, id: b.id, title: b.title, label: b.label, choices: b.choices.map((x) => x.label),
           rules: (b.rules || []).map((x) => [x.id, x.name, x.sources.map((y) => y.text)]),
           rows: Object.fromEntries(b.rows.map((r) => [r.id, { name: r.name, value: r.value.text, aria: r.aria, summary: r.sheet.summary, progress: r.progress,
             byChecks: Boolean(r.byChecks), groups: r.sheet.groups ? r.sheet.groups.map((g) => [g.name, g.value.text]) : null, cond: Boolean(r.sheet.cond),
+            teps: r.sheet.teps || null,
             groupCourses: r.sheet.groups ? r.sheet.groups.map((g) => (g.courses || []).map((x) => x.code)) : null,
             strong: r.sheet.strong, because: r.sheet.because, meta: r.sheet.meta, link: r.sheet.link, checked: r.sheet.checked,
             courses: r.sheet.courses.map((x) => [x.code, x.taken, x.meta]), sources: r.sheet.sources.map((x) => x.text) }])) })) };
     }
+    case "teps": // 입학 때 TEPS(update148): 점수 → 구간, 구간·과목 수 → 영어 차례
+      return { bands: c.scores.map(([s, scale]) => tepsBand(s, scale)), paths: c.paths.map(([b, n]) => englishPath(b, n)) };
     case "limitline":
       return limitLine({ common, who: c.who, term: c.term, credits: c.credits, chosen: c.chosen ?? null });
     case "fitlabel":

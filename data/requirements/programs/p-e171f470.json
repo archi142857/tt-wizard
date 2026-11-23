@@ -611,7 +611,8 @@
         ],
         "area": true,
         "min_count": 2,
-        "cond": "입학 때 TEPS 800점(New TEPS 452점) 이하였다면 영어 2과목이 필요해요."
+        "cond": "입학 때 TEPS 800점(New TEPS 452점) 이하였다면 영어 2과목이 필요해요.",
+        "teps_max": 452
        }
       ],
       "not_counted": [

@@ -161,10 +161,37 @@ def teps_cond(text: str) -> str | None:
     return f"입학 때 TEPS {m.group(1)}점{f'(New TEPS {new}점)' if new else ''} 이하였다면 영어 1과목이 더 필요해요."
 
 
+# 예전 TEPS 경계 → New TEPS(학교 영어 수강 기준표의 같은 구간: 2026학년도 학부 신입생 특별시험 안내, 2026학번 졸업 정보. update148)
+TEPS_OLD_NEW = {550: 267, 700: 386, 800: 452, 900: 525}
+
+
+def teps_max(cond: str) -> int | None:
+    """조건부 영어 글 → 그 조건이 걸리는 New TEPS 위 끝(이 점수 이하이면 필요. 앱 requirements.js 가 입학 때 TEPS 로 푼다, update148).
+    글에 경계가 없으면('입학 때 TEPS 점수에 따라 …', 인문대 2019~2024학번) None: 점수를 알아도 조건부 그대로"""
+    m = re.search(r"New TEPS (\d{3})점", cond or "")
+    if m:
+        return int(m.group(1))
+    m = re.search(r"TEPS (\d{3})점 이하", cond or "")
+    return TEPS_OLD_NEW.get(int(m.group(1))) if m else None
+
+
+def with_teps(group: dict) -> dict:
+    """조건부 영어 분야에 teps_max 를 cond 바로 뒤에 단다(경계를 읽을 수 있을 때만)"""
+    tm = teps_max(group.get("cond") or "") if "TEPS" in (group.get("cond") or "") else None
+    if tm is None or "teps_max" in group:
+        return group
+    out = {}
+    for k, v in group.items():
+        out[k] = v
+        if k == "cond":
+            out["teps_max"] = tm
+    return out
+
+
 def english_group(cur: str, tables: Tables, cond: str) -> dict:
     if cur == "new":
-        return {"name": "영어", "prefixes": ["F21."], "area": True, "min_count": 1, "cond": cond}
-    return {"name": "영어", "codes": list(OLD_ENGLISH), "area": True, "min_count": 1, "cond": cond}  # 새 번호는 앱의 같은 과목 표(대응표)로 이어진다
+        return with_teps({"name": "영어", "prefixes": ["F21."], "area": True, "min_count": 1, "cond": cond})
+    return with_teps({"name": "영어", "codes": list(OLD_ENGLISH), "area": True, "min_count": 1, "cond": cond})  # 새 번호는 앱의 같은 과목 표(대응표)로 이어진다
 
 
 # ---------------------------------------------------------------- 교양 줄 규칙
@@ -753,8 +780,8 @@ def humanities_rows(lo: int, hi: int, base: dict, r1_rows: list[dict], tables: T
         out.append(_hum_row("hum-ge25-english", base, text="영어 1~2과목, 3(6)학점: 입학 때 TEPS 801(New TEPS 453) 이상 1과목, 800(452) 이하 2과목",
                             min_count=1, min_credits=3, name="영어", auto="humanities",
                             extra={"groups": [{"name": "영어", "prefixes": ["F21."], "area": True, "min_count": 1},
-                                              {"name": "영어 2과목", "prefixes": ["F21."], "area": True, "min_count": 2,
-                                               "cond": "입학 때 TEPS 800점(New TEPS 452점) 이하였다면 영어 2과목이 필요해요."}],
+                                              with_teps({"name": "영어 2과목", "prefixes": ["F21."], "area": True, "min_count": 2,
+                                                         "cond": "입학 때 TEPS 800점(New TEPS 452점) 이하였다면 영어 2과목이 필요해요."})],
                                    "not_counted": [tables.course("F21.100")]}))
         out.append(_hum_row("hum-ge25-expansion", base, text="지성의 확장 2학점, 그 안에 소그룹 고전원전읽기 1 또는 2 를 1과목 이상(E52.103·E52.104)",
                             min_credits=2, name="지성의 확장", auto="humanities",

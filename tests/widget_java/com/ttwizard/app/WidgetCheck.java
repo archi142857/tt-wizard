@@ -342,6 +342,17 @@ public final class WidgetCheck {
             .append(floats(RouteMap.offset(new float[] { 0, 0, 10, 0, 0, 0 }, 7, 0.5f))).append(",")
             .append(floats(RouteMap.offset(new float[] { 0, 0, 0.2f, 0, 10, 0 }, 7, 0.5f))).append(",")
             .append(floats(RouteMap.offset(new float[] { 5, 5 }, 7, 0.5f))).append("]");
+        // 직접 넣은 일정의 장소 글(건물 없이 적은 곳, update148)은 걷기의 출발 자리가 아니다: A동 → '카페' → B동 이면 B동은 A동에서
+        List<WidgetData.Lesson> free = new ArrayList<>();
+        free.add(new WidgetData.Lesson("a", "A동 104호", "etc", 540, 600, 0, 5, true, 0, "A", -1));
+        free.add(new WidgetData.Lesson("카페 모임", "카페", "etc", 610, 640, 0, -1, false, 0, "", -1));
+        free.add(new WidgetData.Lesson("b", "B동 1호", "etc", 660, 720, 0, 8, false, 0, "B", -1));
+        List<WidgetData.Lesson> old = new ArrayList<>(); // b 를 넣기 전 옛 자료: 강의실 표기로 본다
+        old.add(new WidgetData.Lesson("a", "A동 104호", "etc", 540, 600, 0, 5, true, 0));
+        old.add(new WidgetData.Lesson("b", "B동 1호", "etc", 660, 720, 0, 8, false, 0));
+        out.append(",\"placedFree\":[").append(q(WidgetData.buildingPart(WidgetData.placedBefore(free, free.get(2)).place))).append(",")
+            .append(q(WidgetData.buildingPart(WidgetData.placedBefore(old, old.get(1)).place))).append(",")
+            .append(WidgetData.placedBefore(free, free.get(1)) == free.get(0)).append("]");
         if (args.length >= 4) out.append(",\"real\":").append(real(args[1], args[2], args[3]));
         // 깨진 자료는 읽지 않는다
         String[] bad = { "", "{}", "[]", "{\"v\":0,\"terms\":[]}", "{\"v\":1,\"terms\":[", "{\"v\":1,\"terms\":[{\"from\":\"2026-9-1\",\"to\":\"2026-12-21\",\"days\":[]}]}" };

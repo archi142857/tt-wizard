@@ -136,13 +136,15 @@ def test_build_ics_for_fall_2026(tmp_path):
 def test_text_helpers(tmp_path):
     long = "SUMMARY:" + "가" * 40
     got = _run(tmp_path, [{"kind": "text", "values": ["a,b;c\\d\ne"], "lines": [long, "SHORT:x"],
-                           "places": [{"building": "301", "room": "118"}, {"building": "83", "room": "강당"}, {"building": "500"}, {}],
+                           "places": [{"building": "301", "room": "118"}, {"building": "83", "room": "강당"}, {"building": "500"}, {},
+                                      {"building": "", "room": "  카페   2층 "}, {"room": "학원"}, {"building": "71", "room": "3층 라운지"},
+                                      {"building": "301", "room": "118호"}, {"building": "500", "room": "L302"}, {"building": "43", "room": "101-1"}],
                            "term": "2026-2", "title": "시간표/1"}])[0]
     assert got["esc"] == ["a\\,b\;c\\\\d\\ne"]
     parts = got["fold"][0].split("\r\n")
     assert all(len(p.encode("utf-8")) <= 75 for p in parts) and parts[1].startswith(" ") and "".join(p.lstrip(" ") if i else p for i, p in enumerate(parts)) == long
     assert got["fold"][1] == "SHORT:x"
-    assert got["place"] == ["301동 118호", "83동 강당", "500동", ""]
+    assert got["place"] == ["301동 118호", "83동 강당", "500동", "", "카페 2층", "학원", "71동 3층 라운지", "301동 118호", "500동 L302호", "43동 101-1호"]  # 건물 없이 적은 장소 글(직접 넣은 일정, update148)
     assert got["file"] == "2026년 2학기 시간표_1.ics" and got["plain"] == "2026년 2학기 시간표.ics"  # 디자인 122판 꼴
     assert got["labels"] == ["2026년 1학기", "2026년 여름학기", "2026년 겨울학기", "x"]
     assert got["range"] == "9월 1일~12월 14일" and got["none"] == ""

@@ -9,7 +9,9 @@
 //              base: 저장(또는 '편람대로')할 때의 편람 수업 [[요일, 시작, 끝, 건물, 강의실], ...],
 //              own?: 사용자가 정한 수업(강의실 미정에 고른 건물, 바꾼 시간·장소). 있으면 편람 대신 이것을 쓴다,
 //              alts?: 같은 시간·건물의 다른 분반 키들(탐색 결과는 이런 분반을 하나로 묶어 찾는다), color }
-//   직접 넣은 일정 { custom: id, title, meetings: [[요일, 시작, 끝, 건물, ""], ...], memo?, color }
+//   직접 넣은 일정 { custom: id, title, meetings: [[요일, 시작, 끝, 건물, 장소 글], ...], memo?, color }
+//     장소 글(update148, 사용자 11/23 '직접 추가에 장소도 직접 입력 칸이 있어야 함'): 건물 없이 적은 곳('카페'), 건물이 있으면 그 뒤에 붙는 글('3층 라운지').
+//     PLACE_MAX 자까지(cleanPlace). 걷는 시간은 건물로만 잰다. 친구 사본에는 넣지 않는다(sync.js friendItems: 이름·시간만)
 //   요일 0 = 월, 시각은 자정부터 센 분. 건물은 campus.json 의 지점 id(모르면 ""). color 는 0~7(COLORS 개. 화면의 item-0 ~ item-7)
 //
 // 편람과 맞추기: 강좌 항목은 편람을 따른다(SNUTT 와 같다). 편람은 하루 두 번에서 네 번 새로 받으니, 화면은 그릴 때 reconcile 로
@@ -27,6 +29,7 @@ export const TITLE_MAX = 30; // 시간표 이름 글자 수
 export const PER_SEMESTER_MAX = 50; // 학기마다 둘 수 있는 시간표 수(기기 저장 공간을 아끼려고)
 export const COLORS = 8; // 항목 색 수(디자인 규칙의 item-0 ~ item-7)
 export const DEFAULT_TITLE = "시간표"; // 새 시간표 이름은 '시간표 n'(디자인 규칙)
+export const PLACE_MAX = 30; // 직접 넣은 일정의 장소 글 글자 수(update148)
 
 // ---------------------------------------------------------------- 수업
 
@@ -38,6 +41,20 @@ const validTuple = (t) => Array.isArray(t) && Number.isInteger(t[0]) && t[0] >= 
   && Number.isFinite(t[1]) && Number.isFinite(t[2]) && t[1] >= 0 && t[2] > t[1] && t[2] <= 24 * 60;
 const tuples = (list) => (Array.isArray(list) ? list.filter(validTuple).map((t) => [t[0], t[1], t[2], String(t[3] || ""), t[3] ? String(t[4] || "") : ""]) : []);
 const overlaps = (a, b) => a.day === b.day && a.start < b.end && b.start < a.end;
+
+/** 장소 글 다듬기(직접 넣은 일정): 앞뒤 공백을 빼고 공백을 하나로, PLACE_MAX 자까지 */
+export function cleanPlace(text) {
+  return String(text ?? "").replace(/\s+/g, " ").trim().slice(0, PLACE_MAX);
+}
+
+/**
+ * 직접 넣은 일정의 수업 → 저장하는 꼴 [[요일, 시작, 끝, 건물, 장소 글], ...](update148). 받는 것은 {day, start, end, building, room(또는 place)} 나
+ * 저장한 꼴의 배열. 강좌의 수업과 달리 건물이 없어도 다섯째 칸(장소 글)을 남긴다. 화면이 일정을 고칠 때 updateItem(t, key, { meetings: customMeetings(…) })
+ */
+export function customMeetings(meetings) {
+  const raw = (Array.isArray(meetings) ? meetings : []).map((m) => (Array.isArray(m) ? m : m && [m.day, m.start, m.end, m.building, m.room ?? m.place]));
+  return raw.filter(validTuple).map((x) => [x[0], x[1], x[2], String(x[3] || ""), cleanPlace(x[4])]);
+}
 
 /** 항목의 열쇠: 강좌는 '교과목번호-강좌번호'(엔진의 분반 key 와 같다), 직접 넣은 일정은 그 id */
 export const itemKey = (it) => (it.custom ? it.custom : `${it.course}-${it.no}`);
@@ -153,7 +170,7 @@ export function sectionItem(course, section, { meetings = null, alts = null } = 
 
 /** 직접 넣은 일정 → 항목. meetings: [{day, start, end, building}] */
 export function customItem({ title, meetings, memo = "" }) {
-  const it = { custom: newId("c"), title: cleanTitle(title) || "일정", meetings: tuples(meetings.map(tuple)) };
+  const it = { custom: newId("c"), title: cleanTitle(title) || "일정", meetings: customMeetings(meetings) };
   if (memo) it.memo = String(memo);
   return it;
 }
@@ -338,7 +355,7 @@ export function parseList(raw, sem) {
       if (!it || typeof it !== "object") continue;
       const color = Number.isInteger(it.color) && it.color >= 0 ? it.color % COLORS : undefined;
       if (typeof it.custom === "string") {
-        const x = { custom: it.custom, title: cleanTitle(it.title) || "일정", meetings: tuples(it.meetings) };
+        const x = { custom: it.custom, title: cleanTitle(it.title) || "일정", meetings: customMeetings(it.meetings) };
         if (it.memo) x.memo = String(it.memo);
         if (color !== undefined) x.color = color;
         if (it.hidden === true) x.hidden = true; // 친구에게 숨기기(update110, 로그인·친구)
@@ -526,7 +543,7 @@ export function timetableFromImage(payload, list, { now = new Date() } = {}) {
 //   같은 시간표면 같은 글이 되게 만든 시각은 넣지 않는다(앱 연결·앱이 같은 자료를 거른다)
 //   학기 { sem, id: 대표 시간표 id, label: "2026년 2학기", title: 대표 시간표 이름, from, to: "YYYY-MM-DD"(위젯이 이 학기를 보이는 날들, termDates),
 //          days: 월~일 일곱 칸 [[수업, ...], ...](시작 시각 차례), untimed: 시간이 정해지지 않은 항목 수 }
-//   수업 { name, k: 항목 열쇠(itemKey: '교과목번호-강좌번호' 또는 직접 넣은 일정의 id), place: "301동 118호"(강의실 미정이면 ""),
+//   수업 { name, k: 항목 열쇠(itemKey: '교과목번호-강좌번호' 또는 직접 넣은 일정의 id), place: "301동 118호"(강의실 미정이면 "", 직접 넣은 일정은 건물 없이 적은 장소 글도. update148),
 //          b: 건물 id(이동시간 지점 "301", 강의실 미정이면 ""), start, end: 자정부터 분,
 //          color: 0~7, cls: "req"|"elec"|"gen"|"etc", tree: 크리스마스 트리 자리("star"|"leaf-1"…"leaf-6"|"trunk", treeSlots. update142),
 //          walk: 앞 자리에서 걷는 분(반올림. 모르면 null),
@@ -615,10 +632,13 @@ export function widgetSemesters(sems, now = new Date()) {
 
 /** 강의실 표기(app.js roomLabel 과 같은 꼴, 직접 입력 표시는 뺀다): 301동 118호, 호수가 글자면 301동 강당, 건물만 알면 301동 */
 function placeOf(m) {
-  if (!m.building) return "";
+  if (!m.building) return cleanPlace(m.room); // 건물 없이 적은 장소 글(직접 넣은 일정, update148). 강좌는 건물이 없으면 호실도 없다
   if (!m.room) return `${m.building}동`;
-  return /^[A-Za-z]?\d/.test(m.room) ? `${m.building}동 ${m.room}호` : `${m.building}동 ${m.room}`;
+  return ROOM_NO.test(m.room) ? `${m.building}동 ${m.room}호` : `${m.building}동 ${m.room}`;
 }
+// 호를 붙이는 강의실 번호: 118, B102, L302, 101-1, 301A. 편람 2013~2026 의 강의실 351개에서 전과 같고(update148),
+// '3층 라운지'·'118호'처럼 사람이 적은 글에는 호를 더 붙이지 않는다(app.js roomLabel 도 같은 규칙으로, 프론트엔드)
+export const ROOM_NO = /^[A-Za-z]?\d+[A-Za-z]?(?:-\d+)?[A-Za-z]?$/;
 
 /** 하루 수업들(시작 차례) → 위젯의 수업. 걷는 시간·늦음은 engine.evaluate 와 같은 차례로 잰다 */
 function widgetDay(list, { name, place, minutes, home, slots }) {
@@ -626,7 +646,7 @@ function widgetDay(list, { name, place, minutes, home, slots }) {
   let prevLoc = home || "", prevEnd = null, placed = false, spare = 0, last = null;
   const day = list.map(({ e, m }) => {
     const it = e.item, k = String(e.key || itemKey(it));
-    const x = { name: String(name(e) || ""), k, place: m.building ? String(place(m) || "") : "", b: String(m.building || ""), start: m.start, end: m.end,
+    const x = { name: String(name(e) || ""), k, place: String(place(m) || ""), b: String(m.building || ""), start: m.start, end: m.end,
       color: Number.isInteger(it.color) && it.color >= 0 ? it.color % COLORS : 0, cls: it.custom ? "etc" : CLS_KEYS[it.cls] || "etc",
       tree: slots.get(k) || "leaf-6", walk: null, from: placed ? "class" : "home", late: 0 };
     if (!m.building) { // 강의실 미정: 자리를 옮기지 않고 쉬는 시간만 다음 이동에 보탠다

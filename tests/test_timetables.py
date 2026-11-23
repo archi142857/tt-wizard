@@ -144,3 +144,17 @@ def test_image_file_opens_in_other_programs(out):
     assert payload["app"] == "ttwizard" and payload["v"] == 1 and payload["title"] == "내 시간표 ✓"
     assert im.text["Comment"] == "다른 프로그램이 넣은 글" and im.text["Software"] == "paint"
 
+
+
+def test_custom_place_text(out):
+    """update148(사용자 11/23 '시간표에서 직접 추가에 장소도 직접 입력 칸이 있어야 함'): 직접 넣은 일정은 건물 없이 적은 장소 글을 다섯째 칸에 남긴다.
+    공백은 하나로, PLACE_MAX(30)자까지. 건물이 있으면 그 뒤에 붙는 글. 기기에서 다시 읽어도(parseList) 그대로, 고칠 때는 customMeetings.
+    위젯의 강의실 칸에도 그대로 보이고(건물 id b 는 비어 걷기를 재지 않는다), 친구 사본에는 넣지 않는다(sync.js friendItems 가 건물·장소를 비운다)"""
+    p = out["place"]
+    assert p["max"] == 30 and p["clean"] == "a b"
+    assert p["meetings"] == [[6, 1200, 1320, "", "학생 집"], [2, 600, 660, "71", "3층 라운지"], [1, 600, 660, "", "가" * 30]]  # 요일이 어긋난 수업은 버린다
+    assert p["back"] == p["meetings"] and p["fixed"] == [[0, 540, 600, "", "카페"]]
+    assert p["sections"] == [[["", "학생 집"], ["71", "3층 라운지"], ["", "가" * 30]]]
+    assert p["lessons"] is not None and ["과외", "학생 집", ""] in p["lessons"] and ["과외", "71동 3층 라운지", "71"] in p["lessons"]
+    sync = (ROOT / "web" / "js" / "sync.js").read_text(encoding="utf-8")
+    assert 'if (it.custom) out.push({ title: it.title, meetings: plain(it.meetings).map((m) => ({ ...m, building: "", room: "" })), ...color });' in sync

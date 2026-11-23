@@ -411,12 +411,18 @@ final class WidgetData {
         return new Hero(Hero.WALK, -1, l.walk, prev == null ? "" : buildingPart(prev.place), l.late);
     }
 
-    /** 그날 l 앞의 강의실이 정해진 수업 가운데 마지막(걷기의 출발 자리). 없으면 null */
+    /**
+     * 그날 l 앞의 강의실이 정해진 수업 가운데 마지막(걷기의 출발 자리). 없으면 null.
+     * 건물 id(b)로 본다: 직접 넣은 일정의 장소 글(건물 없이 적은 곳, update148)은 걷는 시간을 재는 자리가 아니라 출발 자리가 아니다.
+     * 그날 b 가 하나도 없는 자료(b 를 넣기 전 옛 자료)만 강의실 표기로 본다
+     */
     static Lesson placedBefore(List<Lesson> day, Lesson l) {
+        boolean withB = false;
+        for (Lesson x : day) if (!x.b.isEmpty()) withB = true;
         Lesson prev = null;
         for (Lesson x : day) {
             if (x == l) break;
-            if (!x.b.isEmpty() || !x.place.isEmpty()) prev = x;
+            if (withB ? !x.b.isEmpty() : !x.place.isEmpty()) prev = x;
         }
         return prev;
     }

@@ -25,8 +25,14 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
            alts?: [분반 키, ...],                                           같은 시간·건물의 다른 분반(탐색은 이런 분반을 하나로 묶어 찾는다)
            color }                                                          색 번호 0~7(`COLORS` = 8. 화면의 `item-0`~`item-7`)
 
-직접 넣은 일정 { custom: id, title, meetings: [[요일, 시작, 끝, 건물, ""], ...], memo?, color }
+직접 넣은 일정 { custom: id, title, meetings: [[요일, 시작, 끝, 건물, 장소 글], ...], memo?, color }
 ```
+
+직접 넣은 일정의 다섯째 칸은 장소 글이다(update148, 사용자 11/23 '시간표에서 직접 추가에 장소도 직접 입력 칸이 있어야 함'): 건물을 고르지 않고 적은 곳(`카페`)이거나
+고른 건물 뒤에 붙는 글(`3층 라운지` → `71동 3층 라운지`). 공백을 하나로 줄이고 `PLACE_MAX`(30)자까지(`cleanPlace`). 걷는 시간은 건물로만 재서 장소 글만 있는 일정은
+강의실 미정과 같이 자리를 옮기지 않는다. 시간표 칸·위젯의 강의실 칸·캘린더 파일의 장소(LOCATION)·내보내는 이미지와 링크에는 들어가고, 친구 사본에는 넣지 않는다
+(`sync.js` `friendItems` 가 일정의 건물·장소를 비운다: 친구에게는 이름·시간만). 강좌의 수업은 그대로 건물이 없으면 호실도 없다.
+강의실 표기에 '호'는 번호만 있을 때 붙인다(`ROOM_NO`: 118, B102, L302, 101-1. 편람 2013~2026 강의실 351개에서 전과 같다. `118호`·`3층 라운지`처럼 적은 글에는 안 붙인다).
 
 요일 0 = 월, 시각은 자정부터 센 분, 건물은 `campus.json` 의 지점 id(모르면 `""`). 항목의 열쇠(`itemKey`)는 강좌면 `교과목번호-강좌번호`(엔진의 분반 `key` 와 같다),
 직접 넣은 일정이면 그 `custom` id 다. 한 시간표에 한 과목은 분반 하나만 둔다.
@@ -41,7 +47,8 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
 | `copyTimetable(t, list)` | 복사본 `이름 (2)`부터 비는 번호(디자인 규칙 `시간표 1 (2)`. 이름 끝의 ` (n)` 은 떼고 붙인다). 대표는 옮기지 않는다 |
 | `deleteTimetable(list, id)`, `setPrimary(list, id)` | 지우기(대표를 지우면 가장 최근에 고친 것이 대표), 대표 바꾸기 |
 | `sectionItem(course, section, {meetings, alts})` | 편람 분반 → 강좌 항목. `meetings` 가 편람과 다르면 `own` 으로 |
-| `customItem({title, meetings, memo})` | 직접 넣은 일정 항목 |
+| `customItem({title, meetings, memo})` | 직접 넣은 일정 항목. `meetings` 는 `{day, start, end, building, room(또는 place)}` 나 저장한 꼴의 배열 |
+| `customMeetings(meetings)`, `cleanPlace(text)` | 일정의 수업을 저장하는 꼴로(장소 글을 다듬어 남긴다). 일정을 고칠 때 `updateItem(t, key, {meetings: customMeetings(…)})` |
 | `addItem(t, item, {force, byId})` | 넣기 → `{t, overlaps, removed}`. 시간이 겹치는 항목이 있으면 넣지 않고 받은 `t` 그대로, `overlaps: [열쇠]`. `force` 면 겹친 것을 빼고 넣는다(SNUTT 와 같다). 같은 과목의 다른 분반은 바꿔 넣고 색은 그대로. `removed` 는 이번에 빠진 항목들(겹쳐서 뺀 것 + 바꿔 넣느라 뺀 것). 받은 `t` 는 고치지 않으니 되돌리기는 그것을 다시 쓰면 된다. `byId`(지금 편람)를 주면 겹침을 지금 편람 기준으로 본다 |
 | `overlapsWith(t, meetings, {except, course, byId})` | 이 수업들과 겹치는 항목 열쇠들(항목의 시간을 바꾸기 전에 물을 때) |
 | `removeItem(t, key)`, `updateItem(t, key, patch)` | 빼기, 고치기(`undefined` 인 칸은 지운다) |

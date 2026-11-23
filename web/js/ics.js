@@ -39,11 +39,12 @@ export function fold(line) {
   return out.join(CRLF + " ");
 }
 
-/** 화면의 강의실 이름과 같은 꼴(app.js roomLabel): 301동 118호, 강의실이 글이면 그대로, 강의실이 없으면 동만 */
+/** 화면의 강의실 이름과 같은 꼴(app.js roomLabel): 301동 118호, 강의실이 글이면 그대로, 강의실이 없으면 동만, 건물 없이 적은 장소 글(직접 넣은 일정, update148)은 그대로 */
 export function placeOf(m) {
-  if (!m || !m.building) return "";
+  if (!m) return "";
+  if (!m.building) return String(m.room || "").replace(/\s+/g, " ").trim();
   if (!m.room) return `${m.building}동`;
-  return /^[A-Za-z]?\d/.test(m.room) ? `${m.building}동 ${m.room}호` : `${m.building}동 ${m.room}`;
+  return /^[A-Za-z]?\d+[A-Za-z]?(?:-\d+)?[A-Za-z]?$/.test(m.room) ? `${m.building}동 ${m.room}호` : `${m.building}동 ${m.room}`; // timetables.js ROOM_NO
 }
 
 /** 엔진 분반(parseCourses 의 section) → 일정 항목 */
