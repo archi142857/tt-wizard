@@ -118,7 +118,7 @@
     <h2 class="section-title">조건</h2>
     <div class="card settings">
       <fieldset>
-        <legend class="field-label">출발·도착</legend>
+        <legend class="field-label">출발과 도착</legend>
         <div class="seg" id="home-seg" hidden></div>
         <select id="home-select" class="select" aria-label="건물" hidden></select>
       </fieldset>
@@ -293,7 +293,7 @@
 <div id="view-dept" class="view" hidden>
   <header class="topbar">
     <button type="button" class="icon-btn back" aria-label="뒤로" data-back id="dept-back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
-    <h1 class="title" id="dept-title" tabindex="-1">내 학과·학번</h1>
+    <h1 class="title" id="dept-title" tabindex="-1">내 학과와 학번</h1>
     <span class="brand" id="dept-brand" hidden><img class="wordmark wm-light" src="icons/wordmark.svg" alt="TT Wizard" width="124" height="29">
       <img class="wordmark wm-dark" src="icons/wordmark-dark.svg" alt="TT Wizard" width="124" height="29">
       <img class="wordmark wm-white" src="icons/wordmark-white.svg" alt="TT Wizard" width="124" height="29"></span>
@@ -461,7 +461,7 @@
   <main hidden>
     <div class="fr-sem"><select class="term-select" id="frpv-sem" aria-label="학기"></select><span class="m" id="frpv-meta"></span></div>
     <div class="pv-share" id="frpv-share"></div>
-    <p class="pv-note" id="frpv-note">친구에게 이렇게 보여요. 회색 칸은 숨긴 과목·일정이에요</p>
+    <p class="pv-note" id="frpv-note">친구에게 이렇게 보여요. 회색 칸은 숨긴 과목과 일정이에요</p>
     <div class="card wk" id="frpv-wk"></div>
     <div class="pv-items" id="frpv-items"></div>
   </main>
@@ -597,9 +597,9 @@
   <div class="tn-body">
     <fieldset><legend class="sr-only">종류</legend><div class="seg" id="da-kind"></div></fieldset>
     <div class="tn-field"><label class="field-label" for="da-college">단과대학</label><select class="term-select" id="da-college"></select></div>
-    <div class="tn-field"><label class="field-label" for="da-prog" id="da-prog-l">학과·전공</label><div class="combo"><input class="term-select combo-input" id="da-prog" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="da-prog-list" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="고르기"><ul class="combo-list" id="da-prog-list" role="listbox" aria-labelledby="da-prog-l" hidden></ul></div></div>
+    <div class="tn-field"><label class="field-label" for="da-prog" id="da-prog-l">학과 또는 전공</label><div class="combo"><input class="term-select combo-input" id="da-prog" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="da-prog-list" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="고르기"><ul class="combo-list" id="da-prog-list" role="listbox" aria-labelledby="da-prog-l" hidden></ul></div></div>
     <div class="tn-field"><label class="field-label" for="da-term">선발된 학기</label><select class="term-select" id="da-term" aria-describedby="da-term-help"></select>
-      <p class="field-help" id="da-term-help">신청·면접한 학기가 아니라 이 전공을 시작한 학기를 말해요</p></div>
+      <p class="field-help" id="da-term-help">신청하거나 면접한 학기가 아니라 전공을 시작한 학기예요</p></div>
   </div>
   <div class="sheet-actions">
     <button type="button" class="btn-text" data-close>닫기</button>
@@ -617,7 +617,7 @@
 </dialog>
 <!-- 다른 곳에서 들은 과목 팝업(디자인 124판, 새 시간표 팝업과 같은 짜임): 학점 교류·교환·대학원 과목. 과목 이름·학점·이수 구분·학기. 추가는 이름을 넣으면 켜진다 -->
 <dialog class="sheet ask tt-new" id="gm-add" aria-labelledby="gm-title">
-  <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="gm-title" tabindex="-1" autofocus>다른 곳에서 들은 과목</h2></div></div>
+  <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="gm-title" tabindex="-1" autofocus>다른 곳에서 수강한 과목</h2></div></div>
   <div class="tn-body">
     <div class="tn-field"><label class="field-label" for="gm-name">과목 이름</label><input class="text-input" id="gm-name" type="text" maxlength="40" autocomplete="off" enterkeyhint="done"></div>
     <div class="tn-field"><label class="field-label" for="gm-credit">학점</label><select class="term-select" id="gm-credit"></select></div>
@@ -748,18 +748,18 @@
   </div>
   <div class="sheet-body">
     <fieldset class="rp-why" id="rp-why">
-      <legend class="sr-only">까닭</legend>
+      <legend class="sr-only">신고 사유</legend>
       <label><input type="radio" name="rp-why" value="nick">부적절한 닉네임</label>
       <label><input type="radio" name="rp-why" value="impersonation">다른 사람 사칭</label>
-      <label><input type="radio" name="rp-why" value="other">그 밖의 까닭</label>
+      <label><input type="radio" name="rp-why" value="other">기타</label>
     </fieldset>
     <div class="rp-more">
-      <label class="field-label" for="rp-text">덧붙일 말</label>
+      <label class="field-label" for="rp-text">자세한 내용</label>
       <textarea class="text-area" id="rp-text" maxlength="200" aria-describedby="rp-count"></textarea>
       <p class="rp-count" id="rp-count">0/200</p>
     </div>
     <p class="rp-note" id="rp-note">다른 사람의 이름·연락처 같은 개인정보는 적지 마세요</p>
-    <p class="error-line" id="rp-err" hidden>신고를 보내지 못했어요</p>
+    <p class="error-line" id="rp-err" hidden>신고하지 못했어요</p>
     <button type="button" class="btn-primary rp-send" id="rp-send" disabled aria-describedby="rp-note">신고하기</button>
   </div>
   <div class="sr-only" role="status" data-live="status"></div>

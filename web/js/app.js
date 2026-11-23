@@ -439,7 +439,7 @@ async function startApp() {
   } catch {
     state.loading = false;
     renderLoadState();
-    showBanner("과목 자료를 불러오지 못했어요", startApp);
+    showBanner("과목 정보를 불러오지 못했어요", startApp);
     return;
   }
   const y = store.get("scroll", 0);
@@ -612,7 +612,7 @@ async function switchSemester(sem) {
   } catch {
     if (state.semester !== sem) return; // 그사이 다른 학기를 골랐다
     renderLoadState();
-    showBanner("이 학기 자료를 불러오지 못했어요", () => switchSemester(sem));
+    showBanner("이 학기 정보를 불러오지 못했어요", () => switchSemester(sem));
   }
 }
 
@@ -1315,7 +1315,7 @@ function renderCourseSheet() {
   setCatalogLink($("cs-catalog"), p.id, "");
   const body = $("cs-body");
   if (!c) {
-    body.replaceChildren(h("p", {}, "이번 자료에 없는 과목이에요"));
+    body.replaceChildren(h("p", {}, "이번 학기 수강편람에 없는 과목이에요"));
     return;
   }
   body.replaceChildren(
@@ -1387,7 +1387,7 @@ function fillSec(li, p, s) {
     h("input", { type: "checkbox", checked: on, "data-act": "toggle" }),
     h("span", { class: "sec-title" }, s.no, h("span", { class: "prof" }, `(${instructorOf(s)})`)))];
   if (hasCat) {
-    parts.push(h("button", { type: "button", class: "icon-btn sec-more", "data-act": "more", "aria-expanded": String(wide), "aria-label": `${sectionLabel(s)} 시간·장소 바꾸기` }, icon(I.down, 20)));
+    parts.push(h("button", { type: "button", class: "icon-btn sec-more", "data-act": "more", "aria-expanded": String(wide), "aria-label": `${sectionLabel(s)} 시간과 장소 바꾸기` }, icon(I.down, 20)));
   }
 
   // 태그는 둘까지: 추가 설정 때문에 쓰지 않는 까닭(흐린데 까닭이 안 보이면 안 되니 맨 앞) → 위험(수강 제한·학번 제한) → 주의(편람 바뀜은 시트를 닫으면 사라지니
@@ -2304,14 +2304,14 @@ function lateText(legs, withDays) {
     if (!mins.get(m).includes(l.day)) mins.get(m).push(l.day);
   }
   if (!mins.size) return "";
-  if (!withDays) return `${[...mins.keys()].map((m) => `${m}분`).join("·")} 지각`;
+  if (!withDays) return `${[...mins.keys()].map((m) => `${m}분`).join(", ")} 지각`;
   const byDays = new Map(); // '화목' → [11, 17]
   for (const [m, ds] of mins) {
     const k = ds.map((d) => DAY_KO[d]).join("");
     if (!byDays.has(k)) byDays.set(k, []);
     byDays.get(k).push(m);
   }
-  return `${[...byDays].map(([k, ms]) => `${k} ${ms.map((m) => `${m}분`).join("·")}`).join("·")} 지각`;
+  return `${[...byDays].map(([k, ms]) => `${k} ${ms.map((m) => `${m}분`).join(", ")}`).join(", ")} 지각`;
 }
 
 // 조합 수의 단위: 만 → 억 → 조 → 경(수는 Number 라 9천조쯤부터는 어림값이다)
@@ -2373,7 +2373,7 @@ function rankTitle(R) {
 /** 결과 화면의 조건 줄. 결과 화면에서 기숙사 동을 밝히는 곳은 이 줄뿐이다: '출발·도착 기숙사 906동'
  *  (번호표·파선 견본·핀 이름은 어느 동이든 '기숙사'). 이동시간은 늘 경사 반영이라 적지 않고, 개발자 메뉴로 평지로 잰 결과만 ' · 평지'(11/16 사용자).
  *  추가 설정을 걸었으면 끝에 붙인다: '… · 금 공강 · 점심 60분'(목록 제목의 두 수는 그 조건을 지키는 조합만 센 것이다) */
-const condText = (R) => dotted([`출발·도착 ${isDorm(R.home) ? `기숙사 ${buildingLabel(R.home)}` : placeLabel(R.home)}`,
+const condText = (R) => dotted([`출발과 도착 ${isDorm(R.home) ? `기숙사 ${buildingLabel(R.home)}` : placeLabel(R.home)}`,
   ...(R.mode === "flat" ? ["평지"] : []), ...rulesParts(R.rules)]);
 
 /** 한 주 요약: '걷기 주 187분 · 월화수목 등교'(늦으면 빨간 ' · 화목 3분 지각'). 덩이 사이(가운뎃점 앞)에서만 줄을 바꾼다. 시간이 모두 미정이면 등교 요일이 없다 */
@@ -3582,7 +3582,7 @@ function rankPicks(ev) {
       h("span", { class: "swatch", "aria-hidden": "true", style: { background: clsColor(c ? c.cls : "") } }),
       h("span", { class: "p-name" }, s.name), " ",
       h("span", { class: "p-sec" }, h("span", { class: "no" }, no), h("wbr"), h("span", { class: "pf" }, prof)),
-      twins ? [" ", h("span", { class: "p-twins" }, h("span", { class: "p-tl" }, "같은 시간·건물"), " ", h("span", { class: "p-tw" }, twinText(twins)))] : null);
+      twins ? [" ", h("span", { class: "p-twins" }, h("span", { class: "p-tl" }, "같은 시간과 건물"), " ", h("span", { class: "p-tw" }, twinText(twins)))] : null);
   }));
 }
 
@@ -4521,8 +4521,8 @@ const IMAGE_ICON = '<rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circ
 const FULL_TEXT = "시간표는 학기마다 50개까지 만들 수 있어요"; // 10/30 사용자: "50개까지 에요도 50개까지 만들 수 있어요로 바꿔줘"(그 전 "시간표는 학기마다 50개까지예요")
 // 못 불러올 때의 오류 줄(readTimetableImage 의 problem)
 const IMPORT_PROBLEM = {
-  jpeg: "사진으로 보내져 시간표 자료가 빠졌어요. 파일로 받은 이미지를 고르세요.",
-  "no-data": "시간표 자료가 없는 이미지예요",
+  jpeg: "사진으로 전송된 이미지에는 시간표 정보가 없어요. 파일로 받은 이미지를 선택해 주세요.",
+  "no-data": "시간표 정보가 없는 이미지예요",
   broken: "이미지 파일이 깨졌어요",
   "not-png": "PNG 이미지가 아니에요",
   newer: "새 버전 앱에서 만든 이미지예요",
@@ -6135,7 +6135,7 @@ function fillCurSec(li, e) {
   const addButton = () => h("button", { type: "button", class: "btn-text small", "data-act": "add-time", "aria-expanded": String(adding), "aria-controls": adding ? editId : null },
     icon(I.plus, 16), "시간 추가");
   const parts = [h("div", { class: "sec-line" }, h("span", { class: "sec-title" }, it.no, h("span", { class: "prof" }, `(${instructorOf(s)})`)))];
-  if (hasCat) parts.push(h("button", { type: "button", class: "icon-btn sec-more", "data-act": "more", "aria-expanded": String(wide), "aria-label": `${sectionLabel(s)} 시간·장소 바꾸기` }, icon(I.down, 20)));
+  if (hasCat) parts.push(h("button", { type: "button", class: "icon-btn sec-more", "data-act": "more", "aria-expanded": String(wide), "aria-label": `${sectionLabel(s)} 시간과 장소 바꾸기` }, icon(I.down, 20)));
   // 태그는 과목 시트의 분반 행 차례: 위험(수강 제한·학번 제한) → 주의(편람 바뀜, 날짜 태그, 폐강 대상) → 중립(직접 입력, 수강반 제한). 옆에 대상 글이나 비고 원문
   const lp = secLimitParts(secLimit(it.course, it.no, mine.sem));
   const tags = [];
@@ -6511,7 +6511,7 @@ const addWhen = (s) => (s.meetings.length ? meetingGroups(s.meetings).map(groupT
 const ADD_WORD = { add: "추가", on: "넣음", swap: "바꾸기" };
 
 // 빈 자리 줄(디자인 124·128판, 백엔드 update101 gapFit·update106 fitLabel): '추가' 행(겹치지 않고 아직 넣지 않은 과목, 시간이 있는 분반)의 넷째 줄에
-// 이 시간표에 넣었을 때 '들어감 · 걷기 주 +4분'(늦는 수업 포함)·'등교 +1일'·'강의실 미정'. gapFit 은 과목마다 가장 덜 느는 분반 하나라서 분반 하나짜리 과목으로 묶어
+// 이 시간표에 넣었을 때 '걷기 주 +4분'(늦는 수업 포함)·'등교 +1일'·'강의실 미정'(백엔드 update150, 라이팅 B11). gapFit 은 과목마다 가장 덜 느는 분반 하나라서 분반 하나짜리 과목으로 묶어
 // 분반마다 잰다. 걷기는 탐색의 이동 방식(state.mode)과 출발지(state.home). 동선 탐색의 검색·둘러보기에는 없다(넣을 시간표가 없다)
 const fitMemo = new Map(); // 분반 열쇠 → gapFit 의 fits 한 칸 또는 null
 let fitSig = "";
@@ -6556,7 +6556,7 @@ function paintAddRow(li, d, t = curTt()) {
   const { kind, clash } = addState(d, t), b = li.querySelector(".btn-add");
   // 버튼 앞 까닭 태그 하나: 시간 겹침이 먼저, 아니면 그 분반의 수강 제한·학번 제한·날짜 태그(디자인 121판)
   const lt = clash ? null : rowLimit(secLimit(d.s.courseId, d.s.no, mine.sem));
-  const rq = !clash && !lt && d.sugg ? R.suggestionTag(d.sugg) : null; // 남은 요건 과목의 요건 이름·'아마 필요'(124판, 중립 태그)
+  const rq = !clash && !lt && d.sugg ? R.suggestionTag(d.sugg) : null; // 남은 요건 과목의 요건 이름·'확인 필요'(124판, 중립 태그, 라이팅 B5)
   const why = clash ? ["danger r-clash", "시간 겹침"] : lt ? [`${lt[0]} r-limit`, lt[1]] : rq ? ["r-limit", rq] : null;
   li.classList.toggle("is-picked", kind === "on");
   b.classList.toggle("is-on", kind === "on");
@@ -6639,7 +6639,7 @@ function renderAddBrowse(show) {
 
 // 남은 요건 과목(디자인 124판 ⑦, 11/13 사용자 "그림대로". 백엔드 update101·106 suggestCourses·rankSuggestions·suggestionTag·limitLine): 학과·학번과 요건 자료가 있으면
 // 과목 추가의 검색 전 자리에 이 학기 편람에서 남은 요건을 채우는 과목을 과목마다 한 행(이 시간표에 가장 덜 느는 분반, 이미 넣었으면 그 분반). 행의 태그 자리에 채우는
-// 요건 이름(확인 필요 요건의 과목이면 '아마 필요', 목록 아래쪽). 시간 겹침·수강 제한 태그가 먼저다. 계산은 졸업 요건 탭과 같은 기록이되 고치는 학기의 시간표는 계획이라
+// 요건 이름(확인 필요 요건의 과목이면 '확인 필요', 목록 아래쪽). 시간 겹침·수강 제한 태그가 먼저다. 계산은 졸업 요건 탭과 같은 기록이되 고치는 학기의 시간표는 계획이라
 // 들은 과목에서 뺀다(넣어도 행이 그대로 남아 넣음이 된다). 학기 학점 줄(limitLine '18학점까지 ▾ · 12학점 남음')은 11/17 사용자 '학점 상한은 그냥 빼버려'로 없앴다. 학과·학번과 같이 켠다(deptOn)
 let reqMemo = { sig: "", data: null }, reqBusy = "";
 let reqOn = store.get("addReq", true) !== false; // 넓은 화면 둘러보기 선택칸에서 남은 요건 과목을 골랐다(처음은 고름. 다른 목록을 고르면 끔)
@@ -7363,7 +7363,7 @@ function renderInfo() {
     card([accountOn() ? h("button", { type: "button", class: "info-row", "data-info": "account" }, h("span", {}, "계정"),
       h("span", { class: "v v-dept" }, acctValue()), icon(I.right, 20)) : null,
     accountOn() && acctUser ? h("button", { type: "button", class: "info-row danger", "data-info": "acct-delete", "aria-haspopup": "dialog" }, h("span", {}, "계정 삭제")) : null]),
-    card([deptOn() ? h("button", { type: "button", class: "info-row", "data-info": "dept" }, h("span", {}, "내 학과·학번"),
+    card([deptOn() ? h("button", { type: "button", class: "info-row", "data-info": "dept" }, h("span", {}, "내 학과와 학번"),
       dv ? h("span", { class: "v v-dept" }, deptLabel(dv)) : null, icon(I.right, 20)) : null,
     // 알림(129판, 안드로이드 앱): 값은 켠 것(앱 연결에 물어 채운다)
     notifyOn() ? h("button", { type: "button", class: "info-row", "data-info": "notify" }, h("span", {}, "알림"), h("span", { class: "v" }, ntValue(ntState)), icon(I.right, 20)) : null]),
@@ -7528,7 +7528,7 @@ function renderDept(mode) {
     renderDeptForm();
     if (!deptSaved()) guessDept().then((g) => { if (deptShown() && g) { applyGuess(g); renderDeptForm(); } }, () => null);
   }, () => {
-    if (deptShown()) showSnackbar("학과 목록을 받지 못했어요", "다시 시도", () => { if (deptShown()) renderDept(deptMode); });
+    if (deptShown()) showSnackbar("학과 목록을 불러오지 못했어요", "다시 시도", () => { if (deptShown()) renderDept(deptMode); });
   });
 }
 const deptShown = () => screen === "setup" || screen === "dept";
@@ -7667,7 +7667,7 @@ function makeCombo(input, list, { browse, all, current, pick }) {
       .sort((a, b) => a[0] - b[0] || a[1].name.length - b[1].name.length || a[1].name.localeCompare(b[1].name, "ko")).slice(0, COMBO_FIND).map(([, x]) => x) : browse();
     list.replaceChildren(...(c.shown.length ? c.shown.map((x, i) => h("li", { role: "option", id: optId(i), class: "combo-opt", "aria-selected": "false", "data-i": String(i) },
       h("span", { class: "t" }, x.name), x.meta ? h("span", { class: "m" }, x.meta) : null))
-      : [h("li", { class: "combo-none", role: "presentation" }, q ? "찾는 학과·전공이 없어요" : "고를 것이 없어요")]));
+      : [h("li", { class: "combo-none", role: "presentation" }, q ? "찾는 학과나 전공이 없어요" : "선택할 항목이 없어요")]));
     list.hidden = false;
     input.setAttribute("aria-expanded", "true");
     setActive(q && c.shown.length ? 0 : -1); // 치면 첫 줄이 고르는 줄(Enter 로 바로)
@@ -7986,8 +7986,8 @@ function gradSources(base) {
   const book = String(((base.common.sources || {}).pyeonram || {}).title || "").replace(/^[^,]*,\s*/, "");
   const ix = base.index, year = (y) => (y ? `${y}학년도, ` : "");
   return {
-    req: `서울대학교 교과과정 해설, 학과 누리집과 학교 공지(${year(ix.data_year)}${monthDay(ix.checked_on)} 기준), `
-      + `스누지니 전공 탐색 졸업이수규정·전공 교과목(${year(ix.snugenie_year || ix.data_year)}${monthDay(ix.snugenie_checked_on || SNUGENIE_CHECKED)} 확인)`,
+    req: `서울대학교 교과과정 해설, 학과 홈페이지와 학교 공지(${year(ix.data_year)}${monthDay(ix.checked_on)} 기준), `
+      + `스누지니 전공 탐색 졸업이수규정, 전공 교과목(${year(ix.snugenie_year || ix.data_year)}${monthDay(ix.snugenie_checked_on || SNUGENIE_CHECKED)} 확인)`,
     gpa: `서울대학교 학사 안내(성적·학점)${book ? `와 ${book}` : ""}(${monthDay(base.common.checked_on)} 기준)`, // 괄호 안은 실제로 본 페이지 이름(134판, 법무 11/15)
   };
 }
@@ -8038,11 +8038,11 @@ async function renderGrad() {
   try {
     [base] = await Promise.all([gradBase(), catalogData()]);
     const [lo, hi] = base.index.cohorts || [2019, 2026];
-    if (v.year < lo || v.year > hi) return empty("아직 이 학번은 요건 자료가 없어요");
+    if (v.year < lo || v.year > hi) return empty("아직 이 학번의 졸업 요건 정보가 없어요");
     picks = await gradPicks(v, base);
   } catch { return failed(); }
   if (seq !== gradSeq) return;
-  if (!picks || !picks[0].version) return empty("아직 이 학과·학번은 요건 자료가 없어요");
+  if (!picks || !picks[0].version) return empty("아직 이 학과와 학번의 졸업 요건 정보가 없어요");
   const { cur, records, prim, cachedOnly } = await recP;
   if (seq !== gradSeq || !(await settle())) return;
   gradRefresh(cur, cachedOnly);
@@ -8079,7 +8079,7 @@ async function renderGrad() {
   const g = gradStore();
   const had = body.contains(document.activeElement) ? document.activeElement.dataset.gk : null;
   body.replaceChildren(
-    h("div", { class: "gr-head" }, h("span", { class: "sem" }, deptLabel(v)), h("span", { class: "nm" }, `들은 학점 ${view.total}`)),
+    h("div", { class: "gr-head" }, h("span", { class: "sem" }, deptLabel(v)), h("span", { class: "nm" }, `이수 학점 ${view.total}`)),
     h("fieldset", { class: "gr-seg" }, h("legend", { class: "sr-only" }, "졸업 요건 보기"),
       h("div", { class: "seg" }, GRAD_VIEWS.map(([k, t]) => h("label", {},
         h("input", { type: "radio", name: "gr-view", value: k, checked: g.view === k, "data-gk": `seg:${k}` }), t)))),
@@ -8312,7 +8312,7 @@ function gradTakenView(g) {
     }))));
     return page;
   });
-  const lead = h("p", { class: "gr-lead" }, "학기마다 대표 시간표에서 모았어요");
+  const lead = h("p", { class: "gr-lead" }, "학기별 대표 시간표 기준");
   if (terms.length > 1) {
     // 학기 넘기기(11/16 사용자 '학기마다 성적 입력하는 건 좌우로 넘길 수 있도록'): 이끄는 글, 가로 칸에 학기마다 한 장, 아래 점(gradPager).
     // 이전·다음은 장마다 학기 제목 줄 양끝(11/16 사용자 그림 '화살표 위치 저렇게', '물론 스와이프도 되어야 함': 장 안에 있어 화살표 위에서 밀어도 넘어간다. '저 빨간 라인 넘어가지 않았으면':
@@ -8335,9 +8335,9 @@ function gradTakenView(g) {
       h("button", { type: "button", class: "icon-btn remove", "aria-label": `${c.name || code} 체크 풀기`, "data-unck": code, "data-gk": `unck:${code}` }, icon(I.x, 20)))))));
   }
   out.push(h("div", { class: "card info-list" }, h("ul", { class: "list" }, h("li", {},
-    h("button", { type: "button", class: "add-row", "data-gm": "1", "data-gk": "gm" }, icon(I.plus, 20), "다른 곳에서 들은 과목")))));
-  out.push(h("p", { class: "gr-foot" }, "직접 넣은 성적으로 계산한 참고값이에요. 공식 성적과 평점은 마이스누(mySNU)에서 확인해 주세요. 성적은 이 폰에만 저장돼요."));
-  out.push(h("p", { class: "gr-foot" }, "A+ 4.3 ~ F 0 · S·U는 빼고, 재수강은 나중 성적만 · 다른 학교 학점은 넣지 않음"));
+    h("button", { type: "button", class: "add-row", "data-gm": "1", "data-gk": "gm" }, icon(I.plus, 20), "다른 곳에서 수강한 과목")))));
+  out.push(h("p", { class: "gr-foot" }, "직접 넣은 성적으로 계산한 참고값이에요. 공식 성적과 평점은 마이스누(mySNU)에서 확인해 주세요. 성적은 이 기기에만 저장돼요."));
+  out.push(h("p", { class: "gr-foot" }, "A+ 4.3 ~ F 0 · S와 U는 빼고, 재수강은 나중 성적만 · 다른 학교 학점은 넣지 않음"));
   return out;
 }
 
@@ -8352,7 +8352,7 @@ function gradNextView() {
   return [h("div", { class: "card gr-next" },
     h("p", { class: "gr-next-t" }, R.termName(next)),
     // 11/16 사용자 '그냥 수강편람이 없어요만 남겨 이 학기는 빼'(카드 제목이 학기). '보여 드려요'는 쓰지 않는다(디자인 145판). 미리 보는 동안은 '2026년 1학기 편람으로 미리 짜요'(151판: 괄호와 '작년'이 겹친다)
-    h("p", { class: "gr-next-m" }, base ? `${R.termName(base)} 편람으로 미리 짜요` : ready ? "남은 졸업 요건을 채우는 과목부터 보여 줘요" : "수강편람이 없어요"),
+    h("p", { class: "gr-next-m" }, base ? `${R.termName(base)} 편람으로 미리 짜요` : ready ? "남은 졸업 요건 과목 우선" : "수강편람이 없어요"),
     ready ? h("button", { type: "button", class: "btn-primary gr-next-go", "data-next": next, "data-gk": "next" }, "시간표 짜기") : null,
     canPreview ? h("button", { type: "button", class: "btn-secondary gr-next-go", "data-pre": next, "data-gk": "pre" }, "작년 편람으로 짜기") : null)]; // 10자(151판, 점검표 6의 예외)
 }
@@ -8385,7 +8385,7 @@ function gpaCard(g) {
   if (left > 0) {
     const r = R.gradeNeeded(all || { credits: 0, points: 0 }, left, target), n = Math.max(0, r.need ?? 0).toFixed(2);
     need = r.reachable ? h("span", { class: "need" }, `남은 ${left}학점에서 평균 `, h("b", {}, n), `${josaGa(n)} 필요해요`)
-      : h("span", { class: "need" }, "남은 학점으로는 닿을 수 없어요");
+      : h("span", { class: "need" }, "남은 학점으로는 달성할 수 없어요");
   }
   const more = others.filter((o) => o.gpa && o.gpa.gpa != null).map((o) => `${o.short} ${o.gpa.gpa.toFixed(2)}`);
   return h("div", { class: "card gpa" }, h("ul", { class: "list" },
@@ -8513,11 +8513,11 @@ function rqArea(g, sg) {
   return h("li", {}, h("div", { class: "gr-ck" }, grSt(st), h("span", { class: "t" }, String(g.name || g.field || ""), sub ? h("small", {}, sub) : null),
     val ? h("span", { class: `cr${kind === "left" ? " is-left" : kind === "met" ? " is-ok" : ""}` }, val) : kind === "count" ? h("span", { class: "sr-only" }, "0과목") : null));
 }
-/** 갈래 조건 글: 갈래 이름 앞 '(1)'·'A.' 를 모아 '(1)·(2)·(3) 중 하나', 없으면 '갈래 3개 중 하나' */
+/** 갈래 조건 글: 갈래 이름 앞 '(1)'·'A.' 를 모아 '(1), (2), (3) 중 하나', 없으면 '3가지 중 하나'(라이팅 F5·F53) */
 function rqPathCond(paths, need) {
   const tags = paths.map((p) => (/^\s*(\(\d+\)|[A-Z]\.)/.exec(p.name || "") || [])[1]);
   const n = !need || need === 1 ? "하나" : `${need}개`;
-  return tags.every(Boolean) ? `${tags.join("·")} 중 ${n}` : `갈래 ${paths.length}개 중 ${n}`;
+  return tags.every(Boolean) ? `${tags.join(", ")} 중 ${n}` : `${paths.length}가지 중 ${n}`;
 }
 /** 성적을 다 넣었는가(엔진 gradView 의 졸업 평점 줄과 같은 기준) */
 const gpaComplete = (grades) => !!(grades && grades.all && grades.all.gpa != null && grades.graduation && grades.graduation.complete);
@@ -8653,8 +8653,8 @@ function paintRq(key) {
     let because = s.because;
     // 과목 목록이 분야·갈래에만 있는데 엔진이 '정해진 과목 목록이 없는 요건'이라 할 때(목록 없는 분야가 섞임): 체크로 확인하라는 말
     if (because && because === R.reasonText({ reason: "과목 목록이 없는 조건" }) && (groups.length || paths.length)) {
-      because = groups.length ? "분야별 조건이라 앱이 아직 충족을 세지 못해요. 분야마다 체크해서 확인해 주세요."
-        : "여러 갈래 가운데 하나를 고르는 요건이라 앱이 아직 충족을 세지 못해요. 들은 갈래를 체크해서 확인해 주세요.";
+      because = groups.length ? "분야별 조건은 앱에서 계산하지 못해요. 분야마다 직접 체크해 주세요."
+        : "여러 방법 중 하나를 채우는 요건은 앱에서 계산하지 못해요. 수강한 쪽을 직접 체크해 주세요.";
     }
     if (k === "check" && because) body.push(h("p", { class: "rq-why" }, because));
   }
@@ -8979,7 +8979,7 @@ const accountMod = () => (acctP ||= import("./account.js").then((m) => (acct = m
 const accountWanted = () => devAccount || kstToday() >= ACCOUNT_FROM;
 const accountOn = () => !!acct && acct.available() && accountWanted();
 // 로그인·로그아웃·계정 삭제 실패 스낵바(132판). CANCELLED(사용자가 계정 고르기를 닫음)는 알리지 않는다
-const ACCT_ERR = { OFFLINE: "인터넷에 연결되지 않았어요", NO_ACCOUNT: "이 폰에서 Google 계정을 쓸 수 없어요", APP_LOGIN: "앱을 업데이트해 주세요", NO_CONFIG: "지금은 로그인을 쓸 수 없어요" };
+const ACCT_ERR = { OFFLINE: "인터넷에 연결되지 않았어요", NO_ACCOUNT: "이 기기에서 Google 계정을 사용할 수 없어요", APP_LOGIN: "앱을 업데이트해 주세요", NO_CONFIG: "지금은 로그인을 쓸 수 없어요" };
 const acctError = (e, what = "로그인하지 못했어요") => ACCT_ERR[e && e.code] || what;
 const SCHOOL_TAG = "학교 계정(snu.ac.kr)"; // 법무 11/11 ①: '재학생'·'인증'·학교 로고 없이 사실대로(졸업생·교직원 계정도 snu.ac.kr)
 // Google 로그인 브랜드 지침의 G 로고(Google 이 주는 파일: developers.google.com 의 signin-assets.zip 버튼 그림에서 배경만 걷었다. 색·모양은 그대로)
@@ -9074,9 +9074,9 @@ function syncView() {
  *  그 밖에 못 맞추면 맞추지 못했어요(danger. 저절로 다시 맞추지 않으므로) */
 function acctSyncText() {
   const { state, at } = syncView();
-  if (state === "syncing") return "맞추는 중";
-  if (state === "offline") return "연결되면 맞춰요";
-  if (state === "error") return "맞추지 못했어요";
+  if (state === "syncing") return "동기화 중";
+  if (state === "offline") return "연결되면 동기화해요";
+  if (state === "error") return "동기화하지 못했어요";
   if (!at) return "";
   const s = (Date.now() - at) / 1000;
   if (s < 60) return "방금";
@@ -9197,8 +9197,8 @@ const TOUR_TEXT = {
   mine: "수업과 일정을 넣어 한 주 시간표를 만들\u00a0수\u00a0있어요. 동선\u00a0확인하기로 그날 걷는 길도 볼\u00a0수\u00a0있어요.",
   explore: "들을 과목을 담으면 걷는 시간이 짧은 분반 조합부터 볼\u00a0수\u00a0있어요. 공강 요일과 점심시간도 정할\u00a0수\u00a0있어요.",
   grad: "학과와 학번에 맞춘 졸업 요건과 남은 학점을 볼\u00a0수\u00a0있어요. 학교가 공개한 문서로 계산한 추정이라 실제와 다를\u00a0수\u00a0있어요.",
-  friends: "로그인하고 닉네임으로 친구를 맺으면 서로의 시간표를 볼\u00a0수\u00a0있어요. 보이기 싫은 과목\u2060·\u2060일정은 숨길\u00a0수\u00a0있어요.",
-  theme: "앱 색을 기본\u2060·\u2060라이트\u2060·\u2060다크 가운데 고를\u00a0수\u00a0있어요. 12월에는 크리스마스 테마도 쓸\u00a0수\u00a0있어요.",
+  friends: "로그인하고 닉네임으로 친구를 맺으면 서로의 시간표를 볼\u00a0수\u00a0있어요. 보이기 싫은 과목과 일정은 숨길\u00a0수\u00a0있어요.",
+  theme: "앱 색을 기본, 라이트, 다크 가운데 고를\u00a0수\u00a0있어요. 12월에는 크리스마스 테마도 쓸\u00a0수\u00a0있어요.",
 };
 const tourAtLaunch = () => (FRESH || store.get(TOUR, null) === "open") && !launchLink && !launchNav && !launchInvite;
 /** 처음 화면(처음 안내, 로그인, 학과와 학번): 탭 막대·사이드바 없이 한 칸이고, 링크·바로가기로 켜면 거둔다 */
@@ -9376,7 +9376,7 @@ const FR_ADD_ERR = { NOT_FOUND: "닉네임이나 번호가 맞지 않아요", //
 const FR_ERR = { OFFLINE: "인터넷에 연결되지 않았어요", SIGNED_OUT: "로그인해 주세요" };
 const handleText = (p) => (p && p.nick ? `${p.nick}#${p.tag}` : "");
 /** 닉네임#번호(번호는 400 text3, 닉네임과 0.25em·0.875em: .t i·.n i·.title i). 줄이 모자라면 번호 앞에서 먼저 바뀐다(<wbr>) */
-const handleNodes = (p) => (p && p.nick ? [p.nick, h("wbr"), h("i", {}, `#${p.tag}`)] : ["알 수 없는 사람"]);
+const handleNodes = (p) => (p && p.nick ? [p.nick, h("wbr"), h("i", {}, `#${p.tag}`)] : ["알 수 없는 사용자"]);
 /** 초대 링크('…#friend=닉네임%231234')의 닉네임#태그 */
 const friendOf = (url) => { const m = /#(?:.*&)?friend=([^&]+)/.exec(String(url || "")); if (!m) return null; try { return decodeURIComponent(m[1]); } catch { return null; } };
 /** 친구 기능을 켰다(로그인하고 닉네임이 있다): 일정 시트에 '친구에게 이름과 시간이 보여요' 한 줄(11/15. 숨기기·보이기는 친구 탭의 미리보기에서) */
@@ -9492,12 +9492,12 @@ function paintFriends() {
         h("label", { class: "field-label", for: "fr-nick" }, "닉네임"),
         h("input", { class: "text-input", id: "fr-nick", type: "text", maxlength: String(NICK_MAX), autocomplete: "off", enterkeyhint: "done", value: keep,
           "aria-describedby": "fr-nick-help fr-nick-err" }),
-        h("p", { class: "nick-help", id: "fr-nick-help" }, h("span", {}, "#번호는 저절로 붙어요"), h("span", { id: "fr-nick-count" }, `${keep.length}/${NICK_MAX}`)),
-        h("p", { class: "error-line", id: "fr-nick-err", hidden: true }, "쓸 수 없는 닉네임이에요")),
+        h("p", { class: "nick-help", id: "fr-nick-help" }, h("span", {}, "#번호는 자동으로 붙어요"), h("span", { id: "fr-nick-count" }, `${keep.length}/${NICK_MAX}`)),
+        h("p", { class: "error-line", id: "fr-nick-err", hidden: true }, "사용할 수 없는 닉네임이에요")),
       h("div", { class: "card fr-vis-card" }, h("p", { class: "vis-head" }, "친구에게 보이는 것"),
-        h("ul", { class: "vis" }, ok("학기마다 대표 시간표의 과목명·시간·강의실"), ok("직접 넣은 일정의 이름·시간"), ok("숨긴 과목·일정은 시간만(회색 칸)"),
-          u.school ? ok(`${SCHOOL_TAG} 표시`) : null, no("일정의 장소·메모, 학과·학번, 성적, 로그인 메일")),
-        h("p", { class: "vis-foot" }, "과목·일정마다 숨기고, 학기마다 끌 수 있어요")),
+        h("ul", { class: "vis" }, ok("학기마다 대표 시간표의 과목명, 시간, 강의실"), ok("직접 넣은 일정의 이름과 시간"), ok("숨긴 과목과 일정은 시간만(회색 칸)"),
+          u.school ? ok(`${SCHOOL_TAG} 표시`) : null, no("일정의 장소와 메모, 학과와 학번, 성적, 로그인 메일")),
+        h("p", { class: "vis-foot" }, "과목과 일정마다 숨기고, 학기마다 끌 수 있어요")),
       h("button", { type: "button", class: "btn-primary fr-start", id: "fr-start", "data-fr": "start", disabled: keep.trim().length < 2 }, "시작하기"));
     if (had) $(had)?.focus({ preventScroll: true });
     return;
@@ -9669,7 +9669,7 @@ function openNickPop(opener) {
       h("input", { class: "text-input", id: "frn-nick", type: "text", maxlength: String(NICK_MAX), autocomplete: "off", enterkeyhint: "done", value: p.nick,
         "aria-describedby": "frn-help frn-err" }),
       h("p", { class: "nick-help", id: "frn-help" }, h("span", { id: "frn-count" }, `${p.nick.length}/${NICK_MAX}`)),
-      h("p", { class: "error-line", id: "frn-err", hidden: true }, "쓸 수 없는 닉네임이에요")));
+      h("p", { class: "error-line", id: "frn-err", hidden: true }, "사용할 수 없는 닉네임이에요")));
   $("frn-save").disabled = false;
   openSheet($("fr-nick-pop"), opener);
 }
@@ -9896,7 +9896,7 @@ $("rp-send").addEventListener("click", async () => {
     if (!e || e.code !== "ALREADY") {
       b.removeAttribute("aria-busy");
       rpSync();
-      if (d.open && rpFor === who) { $("rp-err").hidden = false; announce("신고를 보내지 못했어요", "alert"); }
+      if (d.open && rpFor === who) { $("rp-err").hidden = false; announce("신고하지 못했어요", "alert"); }
       return;
     }
     said = "이미 신고했어요";
@@ -9990,7 +9990,7 @@ function renderFrPreview() {
   frGrid($("frpv-wk"), t && !t.shareOff ? friendTt(myFriendCopy(t)) : null, t ? "친구에게 보이지 않는 학기예요" : "이 학기 시간표가 없어요");
   const items = t ? t.items : [], hidden = items.filter((it) => it.hidden).length;
   $("frpv-items").replaceChildren(...(items.length ? [
-    h("h2", { class: "section-title" }, "과목·일정", hidden ? h("span", { class: "count" }, `숨긴 항목 ${hidden}`) : null),
+    h("h2", { class: "section-title" }, "과목과 일정", hidden ? h("span", { class: "count" }, `숨긴 항목 ${hidden}`) : null),
     h("div", { class: "card info-list" }, h("ul", { class: "list" }, items.map((it, i) => {
       const name = it.custom ? it.title : it.name, key = T.itemKey(it);
       return h("li", {}, h("label", { class: "info-row switch-row" },
@@ -9998,7 +9998,7 @@ function renderFrPreview() {
         h("input", { type: "checkbox", role: "switch", class: "switch", name: "pv-show", value: key, "aria-label": `${name}, 친구에게 보이기`, "aria-describedby": `pv-m${i}`,
           checked: !it.hidden, disabled: !!t.shareOff, "data-pvk": `show:${key}` })));
     }))),
-    h("p", { class: "pv-note pv-foot" }, "끈 과목은 이름·강의실 없이, 끈 일정은 이름 없이 시간만 회색 칸으로 보여요. 일정의 장소와 메모는 늘 보이지 않아요"),
+    h("p", { class: "pv-note pv-foot" }, "숨긴 과목과 일정은 시간만 회색 칸으로 보여요. 일정의 장소와 메모는 친구에게 보이지 않아요"),
   ] : []));
   if (had) main.querySelector(`[data-pvk="${CSS.escape(had)}"]`)?.focus({ preventScroll: true });
 }
@@ -10060,8 +10060,8 @@ function ossRows() {
     // 아래 셋도 전문(10/23 사용자: "전문 말하는 거임"). 백엔드 update61 이 web/licenses/ 에 넣었다(Fredoka·ODbL 은 프론트엔드 초안, 공공누리 제1유형은 법무 문안.
     // web/licenses/ 와 그 파일 목록을 정한 시험은 백엔드 몫). 공공누리 고지문은 줄표 줄이 없어 한 칸이다
     { k: "로고 글꼴", name: "Fredoka", lic: "SIL OFL 1.1", href: "https://github.com/google/fonts/blob/main/ofl/fredoka/OFL.txt", file: "licenses/fredoka.txt" },
-    { k: "지도·길 자료", name: "OpenStreetMap", lic: "ODbL", href: "https://www.openstreetmap.org/copyright", file: "licenses/odbl.txt" },
-    { k: "지도·경사 자료", name: "국토지리정보원 수치지형도", lic: "공공누리 제1유형", href: "https://www.kogl.or.kr/info/licenseType1.do", file: "licenses/kogl-type1.txt" },
+    { k: "지도와 길 자료", name: "OpenStreetMap", lic: "ODbL", href: "https://www.openstreetmap.org/copyright", file: "licenses/odbl.txt" },
+    { k: "지도와 경사 자료", name: "국토지리정보원 수치지형도", lic: "공공누리 제1유형", href: "https://www.kogl.or.kr/info/licenseType1.do", file: "licenses/kogl-type1.txt" },
   ].filter(Boolean);
 }
 function renderPage() {
