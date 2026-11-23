@@ -543,7 +543,7 @@ def test_taken_terms_and_labels(tmp_path):
     taken, animal, second, newer, plain = got
     assert taken["total"] == 4  # A 다시 들은 것 3 + 직접 넣은 1(F 였던 앞 A·드랍 B 는 뺀다)
     t26, t25 = taken["terms"]
-    assert t26[:3] == ["2026-2", "2026년 2학기", "3학점 · 듣는 중"] and t25[:3] == ["2025-1", "2025년 1학기", "1학점"]
+    assert t26[:3] == ["2026-2", "2026년 2학기", "3학점 · 수강 중"] and t25[:3] == ["2025-1", "2025년 1학기", "1학점"]
     rows = {x[0] + str(i): x for i, x in enumerate(t25[3])}
     assert rows["A0"] == ["A", False, "retake", "전필 · 3학점 · 2026년 2학기에 재수강해서 빠짐"]
     assert rows["B1"][1:3] == [False, "dropped"] and rows["M2"] == ["M", True, None, "직접 추가 · 교양 · 1학점"]
@@ -600,7 +600,7 @@ def test_grad_view(tmp_path):
     assert list(animal["rows"])[:3] == ["major-total", "animal-main-core", "animal-thesis"]
     assert animal["rows"]["major-total"]["name"] == "전공 학점" and animal["rows"]["major-total"]["value"] == "48학점 남음"
     assert animal["rows"]["cals-foreign-lang-lectures"]["value"] == "확인 필요"  # 강의 언어 자료를 안 넘기면
-    assert animal["rows"]["cals-foreign-lang-lectures"]["because"] == "강의 언어 자료를 받지 못해 외국어 진행 강좌를 세지 못했어요."
+    assert animal["rows"]["cals-foreign-lang-lectures"]["because"] == "강의 언어 정보를 불러오지 못해 외국어 진행 강좌를 계산하지 못했어요."
     assert all(b["kind"] == "program" for b in (animal, bio)) and two["missing"] == []
     assert old["missing"] == ["animal-biotech"] and len(old["bundles"]) == 1  # 2018학번은 자료 없음: 공통만
 
@@ -751,9 +751,9 @@ def test_limit_line_fit_label_and_order(tmp_path):
          "term": "2026-1", "credits": 0},
     ])
     labels, rank, base, plus, chosen, summer, winter, first = got
-    assert labels == ["들어감 · 걷기 주 +4분", "들어감 · 등교 +1일", "들어감 · 강의실 미정", "들어감 · 걷기 주 +0분"]
+    assert labels == ["걷기 주 +4분", "등교 +1일", "강의실 미정", "걷기 주 +0분"]  # '들어감 · '은 뺐다(라이팅 11/23 B11)
     assert rank["req"] == ["A", "C", "B"] and rank["walk"] == ["C", "A", "B"]  # 아마 필요는 늘 아래
-    assert rank["tags"] == ["전공필수", "아마 필요", "지정 과목"]
+    assert rank["tags"] == ["전공필수", "확인 필요", "지정 과목"]  # 요건 줄 값과 같은 말(라이팅 11/23 B5)
     assert (base["value"], base["label"], base["rest"], base["over"]) == (18, "18학점까지", "3학점 남음", False)
     assert [c["label"] for c in base["choices"]] == ["18학점까지", "21학점까지"]
     assert (plus["value"], plus["rest"], plus["over"]) == (21, "3학점 넘음", True)
@@ -1356,3 +1356,24 @@ def test_teps_resolves_english(tmp_path):
     assert t["bands"] == [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, None, None, 3, None, 0, 1, 3, 4, 4, None, None]
     assert [p and p["path"] for p in t["paths"]] == [["대학영어 1"], ["대학영어 1", "대학영어 2"], ["대학영어 2", "고급영어"], ["고급영어"], [], None]
     assert t["paths"][0]["basic"] is True and t["paths"][4]["basic"] is False
+
+
+@node
+def test_screen_text_from_data(tmp_path):
+    """update150(라이팅 11/23 B15~B17): 자료에서 오는 화면 글. 줄 이름 '수학 짝'은 학교 문서에 없는 말이라 '수학',
+    출처 제목의 '누리집'은 '홈페이지', 조사하며 적은 메모(접근 실패·본문 못 엶·스캔본·1차 열람·WebFetch)는 제목에서 떼어 memo 로(앱은 쓰지 않는다)"""
+    got = _run(tmp_path, [{"kind": "rowname", "texts": [["수학 짝 (1)·(2)·(3) 중 택 1(연습 과목은 같은 학기에 함께)", "ge", None]]}])
+    assert got == [["수학"]]
+    memos = set()
+    for prog in programs().values():
+        for s in (prog.get("sources") or {}).values():
+            assert "누리집" not in s["title"] and not ri.MEMO_WORDS.search(s["title"]), s["title"]
+            if "memo" in s:
+                memos.add(s["memo"])
+                assert list(s).index("memo") == list(s).index("title") + 1
+    assert memos == {m for _, m in ri.SOURCE_MEMOS.values()}
+    prog = json.loads(json.dumps(programs()["animal-biotech"]))
+    assert ri.clean_sources(prog) == 0  # 이미 다듬은 자료는 그대로(다시 가져와도 같다)
+    raw = {"id": "x", "sources": {"s1": {"title": "윤리교육과 누리집(접근 실패: robots 차단)", "url": "u"}, "s2": {"title": "학과 누리집 졸업요건", "url": "v"}}}
+    assert ri.clean_sources(raw) == 2 and raw["sources"]["s1"] == {"title": "윤리교육과 홈페이지", "memo": "접근 실패: robots 차단", "url": "u"}
+    assert raw["sources"]["s2"]["title"] == "학과 홈페이지 졸업요건"

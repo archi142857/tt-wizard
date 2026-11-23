@@ -396,19 +396,19 @@
    "accessed": "2026-11-12"
   },
   "s5": {
-   "title": "스마트시스템과학과 누리집 — 교육체계",
+   "title": "스마트시스템과학과 홈페이지 — 교육체계",
    "url": "http://smsys.snu.ac.kr/s3/s3_2.php",
    "locator": "본문이 그림(temp_s302.jpg) 한 장뿐, 그림은 robots 로 막혀 못 읽음",
    "accessed": "2026-11-12"
   },
   "s6": {
-   "title": "농업생명과학대학 누리집 — 학부 소개: 스마트시스템과학과",
+   "title": "농업생명과학대학 홈페이지 — 학부 소개: 스마트시스템과학과",
    "url": "https://cals.snu.ac.kr/academics/undergraduate?deptidx=55",
    "locator": "학과 소개 문단(요건 없음)",
    "accessed": "2026-11-12"
   },
   "s7": {
-   "title": "바이오시스템공학전공 누리집 — 학부교과과정(2025)",
+   "title": "바이오시스템공학전공 홈페이지 — 학부교과과정(2025)",
    "url": "https://bse.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B5%90%EA%B3%BC%EA%B3%BC%EC%A0%952025/",
    "locator": "2026-06-10 수정, 트랙 A/B 표준 이수체계(* 전공필수, ▪ 트랙필수)",
    "accessed": "2026-11-12"

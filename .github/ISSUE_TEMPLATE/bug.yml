@@ -8,8 +8,8 @@ body:
   - type: markdown
     attributes:
       value: |
-        올린 글은 누구나 볼 수 있어요. 이름·학번·연락처 같은 개인정보는 적지 마세요.
-        개인정보 정정·삭제 요청은 메일(sanger.lee138@gmail.com)로 보내 주세요.
+        올린 글은 누구나 볼 수 있어요. 이름, 학번, 연락처 같은 개인정보는 적지 마세요.
+        개인정보 정정이나 삭제 요청은 메일(sanger.lee138@gmail.com)로 보내 주세요.
   - type: textarea
     id: what
     attributes:
@@ -20,11 +20,11 @@ body:
   - type: textarea
     id: steps
     attributes:
-      label: 다시 생기는 순서
+      label: 문제가 생기는 순서
       description: 같은 일이 또 생기는 순서가 있으면 적어 주세요.
   - type: input
     id: app
     attributes:
       label: 앱 정보
-      description: 앱에서 보내면 저절로 채워져요.
+      description: 앱에서 보내면 자동으로 채워져요.
       placeholder: 0.12.2 · Android 14 · 앱 · 2026년 2학기

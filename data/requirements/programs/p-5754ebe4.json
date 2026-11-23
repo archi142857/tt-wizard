@@ -4710,7 +4710,8 @@
    "repo": "data/history/"
   },
   "s3": {
-   "title": "에너지자원공학과, 전공 이수규정(내규)(2023-12-04) — 접근 실패",
+   "title": "에너지자원공학과, 전공 이수규정(내규)(2023-12-04)",
+   "memo": "접근 실패",
    "url": "https://oldere.snu.ac.kr/wp-content/uploads/sites/167/2023/12/★-에너지자원공학과-전공-이수규정내규_20231204.pdf",
    "locator": "옛 누리집 호스트 연결 불가(2회), WebFetch robots 차단",
    "accessed": "2026-11-12"

@@ -3217,7 +3217,8 @@
    "accessed": "2026-11-12"
   },
   "s25": {
-   "title": "건축학과 학과 자료(1차 eng1 조사 때 WebFetch 요약으로만 읽음: 전공 배정 지침 2017, 건축학전공 이수기준 2020~2022, 건축공학전공 이수기준 2021~2022, ABEEK 이수기준 ver.20240301)",
+   "title": "건축학과 학과 자료(전공 배정 지침 2017, 건축학전공 이수기준 2020~2022, 건축공학전공 이수기준 2021~2022, ABEEK 이수기준 ver.20240301)",
+   "memo": "1차 조사 때 WebFetch 요약으로만 읽음",
    "url": "https://architecture.snu.ac.kr/wp-content/uploads/2020/08/20260219_050506.pdf",
    "locator": "ABEEK 이수기준 학번별 표(1차 WebFetch 요약) — 이번엔 robots 로 열지 않음",
    "accessed": "2026-11-12"

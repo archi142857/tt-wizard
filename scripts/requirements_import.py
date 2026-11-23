@@ -75,6 +75,52 @@ def name_rows(prog: dict) -> int:
     return n
 
 
+# 출처 제목은 요건 시트에 '출처: …'로 그대로 보인다(라이팅 11/23 B16·B17, update150): '누리집'은 '홈페이지'로, 조사하며 적은 메모
+# (접근 실패, 본문 못 엶, 스캔본, 1차 열람 같은 것)는 제목에서 떼어 memo 로 둔다(앱은 memo 를 쓰지 않는다). 메모가 붙은 제목은 조사 자료의 글 그대로 적어 둔다
+SOURCE_MEMOS = {
+    "건축학과 학과 자료(1차 eng1 조사 때 WebFetch 요약으로만 읽음: 전공 배정 지침 2017, 건축학전공 이수기준 2020~2022, 건축공학전공 이수기준 2021~2022, ABEEK 이수기준 ver.20240301)":
+        ("건축학과 학과 자료(전공 배정 지침 2017, 건축학전공 이수기준 2020~2022, 건축공학전공 이수기준 2021~2022, ABEEK 이수기준 ver.20240301)", "1차 조사 때 WebFetch 요약으로만 읽음"),
+    "독어교육과 누리집(접근 실패: robots 차단)": ("독어교육과 누리집", "접근 실패: robots 차단"),
+    "불어교육과, 학부 공지('★필독★ 학부 교과과정 개편 안내 (2025~) + 학번별 졸업사정' — 본문 못 엶)":
+        ("불어교육과, 학부 공지('★필독★ 학부 교과과정 개편 안내 (2025~) + 학번별 졸업사정')", "본문 못 엶"),
+    "불어교육과, 학부 공지(‘학부 교과과정 개편 안내(2025~) + 학번별 졸업사정’ 2024-11-12, 본문 못 엶)":
+        ("불어교육과, 학부 공지(‘학부 교과과정 개편 안내(2025~) + 학번별 졸업사정’ 2024-11-12)", "본문 못 엶"),
+    "사회교육과 누리집(접근 실패: robots 차단)": ("사회교육과 누리집", "접근 실패: robots 차단"),
+    "사회복지학과(1차 열람), 입학 및 학사 안내": ("사회복지학과, 입학 및 학사 안내", "1차 조사 때 열람"),
+    "사회복지학과(1차 열람), 학부 커리큘럼": ("사회복지학과, 학부 커리큘럼", "1차 조사 때 열람"),
+    "에너지자원공학과, 전공 이수규정(내규)(2023-12-04) — 접근 실패": ("에너지자원공학과, 전공 이수규정(내규)(2023-12-04)", "접근 실패"),
+    "영어교육과 누리집(접근 실패: engedu.snu.ac.kr 연결 불가 — 사범대 학과소개에 적힌 주소도 같음)":
+        ("영어교육과 누리집", "접근 실패: engedu.snu.ac.kr 연결 불가 — 사범대 학과소개에 적힌 주소도 같음"),
+    "영어교육과 누리집(접근 실패: 서버 오류)": ("영어교육과 누리집", "접근 실패: 서버 오류"),
+    "윤리교육과 누리집(접근 실패: robots 차단)": ("윤리교육과 누리집", "접근 실패: robots 차단"),
+    "자연과학대학 2019 교양 이수기준(통계학과 누리집 게시, 스캔본)": ("자연과학대학 2019 교양 이수기준(통계학과 누리집 게시)", "스캔본"),
+    "자연과학대학 2021 교양 이수기준(통계학과 누리집 게시, 스캔본)": ("자연과학대학 2021 교양 이수기준(통계학과 누리집 게시)", "스캔본"),
+    "지구과학교육과, 이수규정 게시판(글 링크가 스크립트로만 열려 본문 못 엶)": ("지구과학교육과, 이수규정 게시판", "글 링크가 스크립트로만 열려 본문 못 엶"),
+    "지구과학교육과, 이수규정 게시판(글 목록이 스크립트로만 그려짐 → 접근 실패)": ("지구과학교육과, 이수규정 게시판", "글 목록이 스크립트로만 그려짐 → 접근 실패"),
+    "컴퓨터공학부, 졸업 규정 - 주전공(다전공 병행)(PDF) — 접근 실패": ("컴퓨터공학부, 졸업 규정 - 주전공(다전공 병행)(PDF)", "접근 실패"),
+}
+MEMO_WORDS = re.compile(r"접근 실패|못 엶|스캔본|WebFetch|1차 열람")  # 제목에 남으면 안 되는 말(tests/test_requirements.py)
+
+
+def clean_sources(prog: dict) -> int:
+    """과정의 출처 제목 다듬기(SOURCE_MEMOS·누리집). 메모는 title 바로 뒤 memo 에. 바꾼 출처 수"""
+    n = 0
+    for sid, s in list((prog.get("sources") or {}).items()):
+        title = s.get("title") or ""
+        new, memo = SOURCE_MEMOS.get(title, (title, None))
+        new = new.replace("누리집", "홈페이지")
+        if new == title and not memo:
+            continue
+        out = {}
+        for k, v in s.items():
+            out[k] = new if k == "title" else v
+            if k == "title" and memo:
+                out["memo"] = memo
+        prog["sources"][sid] = out
+        n += 1
+    return n
+
+
 def term_rank(stem: str) -> int:
     """'2025-1' < '2025-S' < '2025-2' < '2025-W' 차례의 수(학기 이름이 아니면 -1)"""
     m = re.match(r"^(\d{4})-(1|S|2|W)$", stem)
@@ -748,6 +794,7 @@ def main(argv: list[str] | None = None) -> int:
         counted["규칙 설명"] = counted.get("규칙 설명", 0) + requirement_rules.mark_rules(prog)  # update135
         counted["전공 학점 줄"] = counted.get("전공 학점 줄", 0) + requirements_lists.add_major_totals(prog)  # update135
         counted["대체 번호 정리"] = counted.get("대체 번호 정리", 0) + clean_alts(prog, old_codes)  # 11/17: '번호(설명)' → 번호, 조사 자료의 옛 번호
+        counted["출처 제목"] = counted.get("출처 제목", 0) + clean_sources(prog)  # update150: 누리집 → 홈페이지, 조사 메모는 memo 로
         (out / "programs" / f"{prog['id']}.json").write_text(json.dumps(prog, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     index = [index_entry(one.get(k), two.get(k), k[0], built) for k in keys]
     # snugenie_checked_on: 스누지니로 확인한 날(문서 11/23: 정보 탭 출처 줄 '스누지니 … (2025학년도, 11월 17일 확인)'의 날짜를 화면이 박지 않고 채운다). 조사 자료 없이 돌리면 없다

@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        올린 글은 누구나 볼 수 있어요. 이름·학번·연락처 같은 개인정보는 적지 마세요.
+        올린 글은 누구나 볼 수 있어요. 이름, 학번, 연락처 같은 개인정보는 적지 마세요.
   - type: textarea
     id: what
     attributes:
@@ -18,11 +18,11 @@ body:
   - type: textarea
     id: why
     attributes:
-      label: 쓰고 싶은 때
-      description: 어떤 때 필요한지 적어 주면 정하기 쉬워요.
+      label: 필요한 상황
+      description: 어떤 상황에서 필요한지 적어 주세요.
   - type: input
     id: app
     attributes:
       label: 앱 정보
-      description: 앱에서 보내면 저절로 채워져요.
+      description: 앱에서 보내면 자동으로 채워져요.
       placeholder: 0.12.2 · Android 14 · 앱 · 2026년 2학기

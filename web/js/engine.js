@@ -327,15 +327,15 @@ export function gapFit(base, courses, travel, home, { weights = WEIGHTS, rules =
 }
 
 /**
- * 분반 행 넷째 줄의 빈 자리 글(디자인 124판): '들어감 · ' + 바뀌는 것 하나. 강의실 미정이면 '들어감 · 강의실 미정',
- * 학교 오는 날이 늘면 '들어감 · 등교 +1일', 아니면 '들어감 · 걷기 주 +4분'(걷는 분 + 늦는 수업, 반올림). fit = gapFit 의 fits 한 칸
+ * 분반 행 넷째 줄의 빈 자리 글(디자인 124판): 바뀌는 것 하나. 강의실 미정이면 '강의실 미정', 학교 오는 날이 늘면 '등교 +1일',
+ * 아니면 '걷기 주 +4분'(걷는 분 + 늦는 수업, 반올림). fit = gapFit 의 fits 한 칸. 앞의 '들어감 · '은 뺐다(라이팅 11/23 B11: 겹치면 '시간 겹침'이 따로 붙는다)
  */
 export function fitLabel(fit) {
   if (!fit) return null;
-  if (fit.unknownRoom) return "들어감 · 강의실 미정";
-  if (fit.add && fit.add.days > 0) return `들어감 · 등교 +${fit.add.days}일`;
+  if (fit.unknownRoom) return "강의실 미정";
+  if (fit.add && fit.add.days > 0) return `등교 +${fit.add.days}일`;
   const min = Math.max(0, Math.round(((fit.add && fit.add.travel) || 0) + ((fit.add && fit.add.late) || 0)));
-  return `들어감 · 걷기 주 +${min}분`;
+  return `걷기 주 +${min}분`;
 }
 
 /**

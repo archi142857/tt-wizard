@@ -4929,7 +4929,8 @@
    "accessed": "2026-11-12"
   },
   "s13": {
-   "title": "영어교육과 누리집(접근 실패: 서버 오류)",
+   "title": "영어교육과 홈페이지",
+   "memo": "접근 실패: 서버 오류",
    "url": "https://engedu.snu.ac.kr/",
    "accessed": "2026-11-12"
   },
@@ -4940,7 +4941,8 @@
    "accessed": "2026-11-12"
   },
   "s15": {
-   "title": "영어교육과 누리집(접근 실패: engedu.snu.ac.kr 연결 불가 — 사범대 학과소개에 적힌 주소도 같음)",
+   "title": "영어교육과 홈페이지",
+   "memo": "접근 실패: engedu.snu.ac.kr 연결 불가 — 사범대 학과소개에 적힌 주소도 같음",
    "url": "https://edu.snu.ac.kr/%ED%95%99%EB%B6%80-%EB%8C%80%ED%95%99%EC%9B%90/%ED%95%99%EA%B3%BC%EC%86%8C%EA%B0%9C/%EC%98%81%EC%96%B4%EA%B5%90%EC%9C%A1%EA%B3%BC/",
    "accessed": "2026-11-12"
   },

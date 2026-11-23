@@ -6508,7 +6508,8 @@
    "accessed": "2026-11-12"
   },
   "s8": {
-   "title": "컴퓨터공학부, 졸업 규정 - 주전공(다전공 병행)(PDF) — 접근 실패",
+   "title": "컴퓨터공학부, 졸업 규정 - 주전공(다전공 병행)(PDF)",
+   "memo": "접근 실패",
    "url": "https://cse.snu.ac.kr/api/v1/file/1767846103578_%EC%A3%BC%EC%A0%84%EA%B3%B5(%EB%8B%A4%EC%A0%84%EA%B3%B5%20%EB%B3%91%ED%96%89).pdf",
    "locator": "열지 못함(curl 연결 끊김 2회, WebFetch 서버 오류 2회)",
    "accessed": "2026-11-12"

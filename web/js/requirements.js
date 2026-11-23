@@ -244,7 +244,8 @@ const TYPE_NAME = { major_required: "전공필수", major_elective: "전공선�
   thesis: "졸업 논문", distribution: "분배 이수", ge: "교양", other: "기타 조건", rule: "이수 규칙" };
 
 const ROW_STOP = new Set(["표", "총", "합"]); // 줄 이름이 될 수 없는 앞말 → 종류 이름
-const ROW_MAP = { "등록": "등록 학기", "학기당": "학기당 수강 학점", "유형별": "유형별 과목군" }; // 너무 짧은 앞말
+const ROW_MAP = { "등록": "등록 학기", "학기당": "학기당 수강 학점", "유형별": "유형별 과목군", // 너무 짧은 앞말
+  "수학 짝": "수학" }; // 학교 문서에 없는 말(라이팅 11/23 B15, 자연과학대학 공통 '수학 짝 (1)·(2)·(3) 중 택 1')
 /**
  * 요건 줄 이름(짧게). 자료에 이름(name)이 있으면 그것(requirements_import.py ROW_NAMES), 없으면 자료 글의 앞부분
  * ('전공필수 15과목 46학점' → '전공필수', '외국어진행강좌(…) 3과목' → '외국어진행강좌'), 길거나 숫자로 시작하면 종류 이름.
@@ -529,7 +530,7 @@ const notTaken = (list, taken) => (list || []).filter((c) => !taken.some((x) => 
 /** 분야 기준 글: '1과목 이상'·'3학점 이상'·'2과목·6학점 이상'. 기준이 없으면 null */
 function needText(g) {
   const parts = [g.min_count != null ? `${g.min_count}과목` : null, g.min_credits != null ? `${g.min_credits}학점` : null].filter(Boolean);
-  return parts.length ? `${parts.join("·")} 이상` : null;
+  return parts.length ? `${parts.join(", ")} 이상` : null; // '2과목, 6학점 이상'(라이팅 11/23 B9: 낱말을 잇는 가운뎃점은 쉼표로)
 }
 
 /** 기준(min_count·min_credits)에 모자란 것: 학점 먼저. 다 찼으면 null */
@@ -1008,10 +1009,10 @@ export function planTerm(suggestions, picks, { cap = 18, exempt = [], fits = () 
   return out;
 }
 
-/** 과목 추가 행의 요건 태그: 채우는 요건 이름(가장 센 줄), 확인 필요 줄의 과목이면 '아마 필요'(디자인 124판) */
+/** 과목 추가 행의 요건 태그: 채우는 요건 이름(가장 센 줄), 확인 필요 줄의 과목이면 '확인 필요'(디자인 124판, 라이팅 11/23 B5: 요건 줄 값과 같은 말) */
 export function suggestionTag(s) {
   if (!s) return null;
-  if (s.strength === "maybe") return "아마 필요";
+  if (s.strength === "maybe") return "확인 필요";
   const best = (s.reasons || []).filter((r) => r.strength === s.strength)[0] || (s.reasons || [])[0];
   return best ? best.name : null;
 }
@@ -1089,12 +1090,12 @@ export function termCreditLimit(limits, who) {
   let base = limits.default, why = "기본";
   for (const r of limits.units || []) {
     const y = r.year === "program" ? Number(who.programYear || entry + 2) : entry;
-    if (matches(r, names) && inYears(r, y)) { base = r.limit; why = r.match.join("·"); break; }
+    if (matches(r, names) && inYears(r, y)) { base = r.limit; why = r.match.join(", "); break; }
   }
   let limit = base;
   for (const r of limits.first_terms || []) {
     if (matches(r, names) && inYears(r, entry) && Number(who.term) >= 1 && Number(who.term) <= r.terms) {
-      if (r.limit > limit) { limit = r.limit; why = `${r.match.join("·")} 입학 뒤 첫 ${r.terms}학기`; }
+      if (r.limit > limit) { limit = r.limit; why = `${r.match.join(", ")} 입학 뒤 첫 ${r.terms}학기`; } // 라이팅 11/23 B10
       break;
     }
   }
@@ -1182,7 +1183,7 @@ export function versionChoices(program, version, { newer = null, entryYear = nul
 }
 
 /**
- * 들은 과목 보기: 학기마다(새 학기 먼저) 제목·센 학점('18학점', 이번 학기는 '18학점 · 듣는 중')과 과목 줄.
+ * 들은 과목 보기: 학기마다(새 학기 먼저) 제목·센 학점('18학점', 이번 학기는 '18학점 · 수강 중', 라이팅 11/23 B4)과 과목 줄.
  * 줄: {index(기록 차례), code, name, credits, counted, why(null|dropped|failed|retake|graduate), meta}.
  * meta 는 '전필 · 3학점', 직접 넣은 과목은 '직접 추가 · 교양 · 1학점', 재수강으로 빠진 앞 수강은 끝에 '2026년 2학기에 재수강해서 빠짐'.
  * total 은 머리의 '들은 학점'(드랍·F·U·재수강 앞 것을 뺀 값)
@@ -1206,7 +1207,7 @@ export function takenTerms(records, { sameCourse = (c) => c, currentTerm = null 
   const list = [...terms.entries()].sort((a, b) => termOrder(b[0]) - termOrder(a[0])).map(([term, rows]) => {
     const sum = rows.filter((x) => x.counted).reduce((s, x) => s + x.credits, 0);
     const current = term === currentTerm;
-    return { term, label: termName(term), credits: sum, current, text: `${sum}학점${current ? " · 듣는 중" : ""}`, rows };
+    return { term, label: termName(term), credits: sum, current, text: `${sum}학점${current ? " · 수강 중" : ""}`, rows };
   });
   return { total: tidy.courses.reduce((s, c) => s + (Number(c.earned) || 0), 0), terms: list, tidy };
 }
@@ -1219,12 +1220,12 @@ export function reasonText(row, { entryYear = null } = {}) {
     case "자료 부분": return `${y}세부 규정이 공개 자료에 다 나오지 않았어요.`;
     case "자료 충돌": return "공개된 자료끼리 내용이 달라요.";
     case "과목 목록이 없는 조건": return "정해진 과목 목록이 없는 요건이라 계산하지 않았어요.";
-    case "기준 수가 없는 조건": return "몇 과목·몇 학점인지 정해지지 않은 요건이에요.";
-    case "여러 갈래·문장형 조건": return "여러 갈래로 나뉘는 조건이라 계산하지 않았어요.";
-    case SUBSTITUTED: return "대체 관계인 과목을 둘 다 들었어요. 어느 쪽으로 셀지 학과에 확인해 주세요.";
-    case SHARED_COURSE: return "들은 과목 하나가 여러 요건에 걸려 있어요. 어느 요건으로 셀지 학과에 확인해 주세요.";
-    case COND: return (row && row.because) || "조건에 따라 더 들어야 할 수 있어요.";
-    case FOREIGN_DATA: return "강의 언어 자료를 받지 못해 외국어 진행 강좌를 세지 못했어요.";
+    case "기준 수가 없는 조건": return "과목 수나 학점이 정해지지 않은 요건이에요.";
+    case "여러 갈래·문장형 조건": return "채우는 방법이 여러 가지인 조건이라 계산하지 않았어요.";
+    case SUBSTITUTED: return "대체 관계인 과목을 둘 다 수강했어요. 어느 과목으로 인정되는지 학과에 확인해 주세요.";
+    case SHARED_COURSE: return "수강한 과목 하나가 여러 요건에 해당해요. 어느 요건으로 인정되는지 학과에 확인해 주세요.";
+    case COND: return (row && row.because) || "조건에 따라 더 수강해야 할 수 있어요.";
+    case FOREIGN_DATA: return "강의 언어 정보를 불러오지 못해 외국어 진행 강좌를 계산하지 못했어요.";
     case FOREIGN_UNKNOWN: return (row && row.because) || "외국어로 진행됐는지 모르는 과목이 있어요.";
     case SAME_GPA: return "공통의 졸업 평점과 같은 조건이에요.";
     default: return (row && row.because) || null;

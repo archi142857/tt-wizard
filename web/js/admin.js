@@ -46,7 +46,7 @@ const FIELD = { set: { SHORT: "adm-pw", WRONG_PASSWORD: "adm-pw" }, unlock: { SH
 // 버튼 안 진행 글(디자인 154판: '여는 중'·'바꾸는 중' 같은 진행은 버튼 aria-busy 로. 줄 안 텍스트 버튼은 글을 바꾸지 않는다)
 const PROGRESS = { set: "여는 중", unlock: "여는 중", retag: "바꾸는 중", add: "더하는 중", change: "바꾸는 중",
   dev: "여는 중", reports: "불러오는 중", orphans: "찾는 중", clean: "정리하는 중" };
-const REASON = { nick: "부적절한 닉네임", impersonation: "다른 사람 사칭", stranger: "모르는 사람의 친구 요청", other: "그 밖의 까닭" };
+const REASON = { nick: "부적절한 닉네임", impersonation: "다른 사람 사칭", stranger: "모르는 사람의 친구 요청", other: "기타" }; // 신고 시트와 같은 이름(라이팅 11/23 B14)
 const two = (n) => String(n).padStart(2, "0");
 /** 한 시간에 열 번을 넘게 넣어 보면(update143 보안 점검, admin-core TOO_MANY) 다시 넣을 때를 알린다. 글은 디자인 159판(몇 번인지 적고, '~ㄹ 수 있어요' 꼴은 화면 글에 쓰지 않는다) */
 const TOO_MANY_HEAD = "비밀번호를 한 시간에 열 번 넘게 넣었어요";

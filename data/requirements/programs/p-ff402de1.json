@@ -809,7 +809,7 @@
  ],
  "sources": {
   "s1": {
-   "title": "산업인력개발학전공 누리집 — 학부 교과과정",
+   "title": "산업인력개발학전공 홈페이지 — 학부 교과과정",
    "url": "https://vewd.snu.ac.kr/course/undergraduate/curriculum",
    "locator": "학년별 표(* 전필, 학점 칸)",
    "accessed": "2026-11-12"
@@ -827,7 +827,7 @@
    "accessed": "2026-11-12"
   },
   "s4": {
-   "title": "산업인력개발학전공 누리집 — 학부 졸업요건",
+   "title": "산업인력개발학전공 홈페이지 — 학부 졸업요건",
    "url": "https://vewd.snu.ac.kr/course/undergraduate/graduation-requirements",
    "locator": "'전공 48학점 이상', 졸업논문, 교직 22학점(교양 문구가 옛 체계라 오래된 판으로 보임)",
    "accessed": "2026-11-12"
@@ -851,7 +851,7 @@
    "accessed": "2026-11-12"
   },
   "s8": {
-   "title": "바이오시스템공학전공 누리집 — 학부교과과정(2025)",
+   "title": "바이오시스템공학전공 홈페이지 — 학부교과과정(2025)",
    "url": "https://bse.snu.ac.kr/%ED%95%99%EB%B6%80%EA%B5%90%EA%B3%BC%EA%B3%BC%EC%A0%952025/",
    "locator": "2026-06-10 수정, 트랙 A/B 표준 이수체계(* 전공필수, ▪ 트랙필수)",
    "accessed": "2026-11-12"
@@ -863,7 +863,7 @@
    "accessed": "2026-11-12"
   },
   "s10": {
-   "title": "산업인력개발학과 누리집 — 공지 '[필독]산업인력개발학전공 이수 규정 안내'(2020-06-23 게시, 2025학년도 내용 반영)",
+   "title": "산업인력개발학과 홈페이지 — 공지 '[필독]산업인력개발학전공 이수 규정 안내'(2020-06-23 게시, 2025학년도 내용 반영)",
    "url": "https://vewd.snu.ac.kr/community/notice?bm=v&bbsidx=8304",
    "locator": "본문",
    "accessed": "2026-11-12"
@@ -887,13 +887,13 @@
    "accessed": "2026-11-12"
   },
   "s14": {
-   "title": "산업인력개발학과 누리집 — 공지 '산업인력개발학전공 복수·부전공 이수학점 기준'(2017-07-27)",
+   "title": "산업인력개발학과 홈페이지 — 공지 '산업인력개발학전공 복수·부전공 이수학점 기준'(2017-07-27)",
    "url": "https://vewd.snu.ac.kr/community/notice?bm=v&bbsidx=8198",
    "locator": "본문",
    "accessed": "2026-11-12"
   },
   "s15": {
-   "title": "산업인력개발학과 누리집 — 학부 교과과정",
+   "title": "산업인력개발학과 홈페이지 — 학부 교과과정",
    "url": "https://vewd.snu.ac.kr/course/undergraduate/curriculum",
    "locator": "표의 비고(500.E304 '2016까지: 전선, 2017부터: 전필 또는 교직')",
    "accessed": "2026-11-12"
