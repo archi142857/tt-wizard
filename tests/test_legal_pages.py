@@ -181,7 +181,11 @@ def test_terms_and_delete_account_pages():
     ask = "mailto:sanger.lee138@gmail.com?subject=TT%20Wizard%20%EA%B3%84%EC%A0%95%20%EC%82%AD%EC%A0%9C%20%EC%9A%94%EC%B2%AD"  # 'TT Wizard 계정 삭제 요청'
     assert page.count(f'href="{ask}"') == 1 and "받은 날부터 10일 안에 지우고 알려 드립니다" in page
     assert '<p>문의: <a href="mailto:sanger.lee138@gmail.com?subject=TT%20Wizard%20%EB%AC%B8%EC%9D%98">' in page  # 끝의 문의 줄은 따로 문단, 제목은 문의
-    assert "지운 계정과 서버 자료는 Google(Firebase)의 운영·백업 시스템에서 180일 안에" in page and "몇 주" in page
+    assert "지운 계정과 서버 자료가 Google(Firebase)의 운영·백업 시스템에서 사라지기까지 180일까지 걸릴 수 있습니다." in page and "몇 주" in page  # 처리방침 4절과 같은 말(법무 11/23)
+    # 11/30(update146, 문서 11/23 5-1절): 앱 안 닉네임 신고가 켜지는 날 같이. 찾기 열쇠는 지우고, 계정 번호는 누구 것인지 없이, 신고는 처리 뒤 1년
+    assert "닉네임과 찾기 열쇠(닉네임#번호), 친구 요청·친구·차단 목록, 친구에게 보이던 사본" in page
+    assert "계정 번호(여섯 자리)는 다른 사람에게 다시 주지 않으려고 누구 것이었는지 알 수 없게 남깁니다." in page
+    assert "닉네임 신고는 처리를 마치고 1년 동안 남습니다. 신고한 분이나 신고된 분이 계정을 지워도 그동안 남습니다." in page
     assert "다른 사람이 나를 차단해 둔 기록(그 사람의 차단 목록에 든 고유 번호)은 그 사람의 자료라 남습니다" in page  # 법무 11/15 낮 (나)
     support = (ROOT / "web" / "support" / "index.html").read_text(encoding="utf-8")
     for path in ("delete-account", "terms"):
