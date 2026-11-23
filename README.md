@@ -14,7 +14,7 @@
   <img src="docs/screenshots/hero.png" alt="컴퓨터에서 본 추천 시간표 화면: 화요일 시간표와, 수업 사이를 걷는 길과 걸리는 분을 그린 지도" width="100%">
 </p>
 
-서울대학교 관악캠퍼스에서 들을 과목을 담으면, 분반마다 다른 시간과 강의실을 모두 견줘서 일주일 동안 강의실 사이를 걷는 시간이 가장 짧은 분반 조합을 찾아 주는 시간표 앱입니다. 학과와 학번을 넣으면 졸업 요건을 미리 보고 남은 요건을 채우는 과목을 찾을 수 있고, 로그인하면 여러 기기에서 같은 시간표를 쓰며 친구와 서로의 시간표를 봅니다.
+서울대학교 관악캠퍼스에서 들을 과목을 담으면, 분반마다 다른 시간과 강의실을 모두 비교해서 일주일 동안 강의실 사이를 걷는 시간이 가장 짧은 분반 조합을 찾아 주는 시간표 앱입니다. 학과와 학번을 넣으면 졸업 요건을 미리 보고 남은 요건을 채우는 과목을 찾을 수 있고, 로그인하면 여러 기기에서 같은 시간표를 쓰며 친구와 서로의 시간표를 봅니다.
 
 같은 과목이라도 분반마다 강의실이 다른 경우가 많습니다. 2026년 2학기 학부 과목 가운데 분반이 둘 이상이고 강의 건물이 나와 있는 과목을 보면, 절반이 넘는 54%는 분반들이 서로 다른 건물에 흩어져 있습니다. 관악캠퍼스는 넓은 데다 언덕이 많아서, 분반을 어떻게 고르느냐에 따라 한 학기 동안 걷는 시간이 꽤 달라집니다.
 
@@ -22,7 +22,7 @@
 
 ## 쓰는 법
 
-1. 처음 켜면 탭마다 한 장씩 처음 안내가 나오고, 이어서 로그인과 학과·학번을 묻습니다. 둘 다 건너뛰고 나중에 넣어도 됩니다.
+1. 처음 켜면 탭마다 한 장씩 처음 안내가 나오고, 이어서 로그인과 학과, 학번을 묻습니다. 둘 다 건너뛰고 나중에 넣어도 됩니다.
 2. `동선 탐색` 탭에서 학기를 고르고 들을 과목을 검색해 담습니다.
 3. 하루를 시작하고 끝낼 곳과 필요한 조건을 정하고 `시간표 만들기`를 누릅니다.
 4. 후보를 눌러 요일마다 동선을 보고, 마음에 들면 `저장하기`를 누릅니다. 저장한 시간표는 `시간표` 탭에 모입니다.
@@ -34,18 +34,18 @@
 ### 동선 탐색
 
 <p align="center">
-  <img src="docs/screenshots/explore.png" alt="과목 다섯 개를 담고 출발·도착을 기숙사 919A동으로 고른 화면" height="520">
+  <img src="docs/screenshots/explore.png" alt="과목 다섯 개를 담고 출발과 도착을 기숙사 919A동으로 고른 화면" height="520">
   &nbsp;
   <img src="docs/screenshots/result.png" alt="추천 시간표: 화요일 시간표와 하루 동선 지도, 걷기 42분, 1위 후보 카드" height="520">
 </p>
 
-- 들을 과목을 담으면 시간이 겹치지 않는 분반 조합을 모두 따져서, 한 주 동안 걷는 시간이 짧고 늦는 일이 적은 순서로 보여 줍니다.
-- 요일마다 수업 순서대로 걷는 길을 지도에 그리고 구간마다 몇 분 걷는지 적어 줍니다. 쉬는 시간 안에 가기 빠듯한 수업은 몇 분 늦는지도 알려 주고, 지도는 크게 펼치거나 확대해 볼 수 있습니다.
-- 후보마다 한 주에 걷는 시간과 학교 가는 요일, 늦는 수업이 한 줄로 나옵니다. 마음에 드는 후보는 바로 저장합니다.
+- 들을 과목을 담으면 시간이 겹치지 않는 분반 조합을 모두 비교해서, 한 주 동안 걷는 시간이 짧고 지각이 적은 순서로 보여 줍니다.
+- 요일마다 수업 순서대로 걷는 길을 지도에 그리고 구간마다 몇 분 걷는지 적어 줍니다. 쉬는 시간 안에 가기 빠듯한 수업은 몇 분 지각하는지도 알려 주고, 지도는 크게 펼치거나 확대해 볼 수 있습니다.
+- 후보마다 한 주에 걷는 시간과 학교 가는 요일, 지각하는 수업이 한 줄로 나옵니다. 마음에 드는 후보는 바로 저장합니다.
 - 하루를 시작하고 끝낼 곳(정문, 기숙사 동, 다른 건물)을 고릅니다. 걷는 시간은 늘 오르막과 계단을 반영해 계산합니다.
 - `추가 설정`에서 공강 요일과 점심시간을 정하면 그 조건을 지키는 조합만 찾습니다. 맞는 조합이 없으면 왜 없는지와 걸리는 과목을 알려 줍니다.
 - 과목마다 들을 분반만 켜 둘 수 있고, 강의실이나 시간이 아직 안 나왔거나 바뀐 분반은 직접 넣거나 고칩니다. 넣지 않은 수업은 걷는 시간 계산에서 빠지고, 결과 화면에 그렇다고 적어 줍니다.
-- 학과와 학번을 넣었으면, 지금 학기 수강편람의 비고를 읽어 내가 신청할 수 없을 것 같은 분반에 `수강 제한`·`학번 제한`·`8월 10일부터` 같은 태그를 붙입니다. 확실할 때만 태그를 붙이고 나머지는 비고 원문을 보여 주며, 조합에서 빼지는 않습니다.
+- 학과와 학번을 넣었으면, 지금 학기 수강편람의 비고를 읽어 내가 신청할 수 없을 것 같은 분반에 `수강 제한`, `학번 제한`, `8월 10일부터` 같은 태그를 붙입니다. 확실할 때만 태그를 붙이고 나머지는 비고 원문을 보여 주며, 조합에서 빼지는 않습니다.
 
 ### 시간표
 
@@ -64,7 +64,7 @@
 - 공유 버튼으로 시간표를 링크, 이미지, 캘린더 파일로 보냅니다.
   - 받은 링크를 열면 그 시간표를 미리 보고 내 시간표에 넣습니다.
   - 이미지 파일 안에는 시간표 정보가 같이 들어 있어서 `이미지로 추가`로 같은 시간표를 그대로 불러올 수 있습니다(메모는 뺍니다). 메신저에서 사진으로 보내면 다시 압축되면서 이 정보가 빠지므로 파일로 주고받아야 합니다.
-  - 캘린더 파일(.ics)은 학기 첫날부터 끝날까지 매주 되풀이하는 일정이라 폰이나 컴퓨터의 캘린더에 그대로 넣을 수 있습니다. 공휴일은 빼고, 학기 기간 자료가 있는 학기만 만듭니다.
+  - 캘린더 파일(.ics)은 학기 첫날부터 끝날까지 매주 반복되는 일정이라 폰이나 컴퓨터의 캘린더에 그대로 넣을 수 있습니다. 공휴일은 빼고, 학기 기간 정보가 있는 학기만 만듭니다.
 - 저장한 뒤 편람에서 강의 시간이나 강의실이 바뀌거나, 과목이 없어지거나, 폐강 대상이 되면 표시해 줍니다.
 - 칸 색은 과목마다 다르게 하거나 교과구분별로 맞출 수 있습니다.
 
@@ -74,22 +74,22 @@
   <img src="docs/screenshots/grad.png" alt="생명과학부 26학번으로 넣어 본 졸업 요건: 요건 20개 가운데 남은 것과 확인할 것을 띠로 보인 요약 카드와 공통 요건 목록" height="520">
 </p>
 
-- 학과·학번(복수전공·부전공도)을 넣으면 교과과정 해설, 학과 누리집, 스누지니 전공 탐색 같은 학교 자료로 조사한 157개 과정 가운데 내 과정의 졸업 요건을 학번에 맞는 규정으로 골라 보여 줍니다. 학과가 더 새 규정을 고르게 해 주면 그 판도 고를 수 있습니다.
-- 학기마다 대표 시간표의 과목을 들은 과목으로 셉니다. 맨 위 요약 카드에 충족·남음·확인 필요인 요건 수를 보이고, 요건마다 `6학점 남음`·`충족`·`확인 필요`와 까닭, 출처를 적습니다. 공개 자료만으로 셀 수 없는 요건은 단정하지 않고 `확인 필요`로 둡니다.
-- 요건을 누르면 그 요건에 드는 과목을 분야별 체크 목록으로 보여 줍니다. 시간표 밖에서 들은 과목은 체크해서 세고, 과목 목록이 없는 요건은 `이 요건을 채웠어요`로 표시합니다.
-- 교양은 영역마다 과목 목록과 남은 영역을 보여 주고, 이름이나 교과목번호가 바뀐 옛 과목도 새 과목으로 셉니다.
-- `수강한 과목`에서 과목마다 성적이나 드랍을 고르면 전체·전공 평점, 직전 두 학기 평점과 다음 학기 신청 학점 상한, 목표 평점을 맞추려면 남은 학점에서 받아야 할 평균을 계산합니다. 재수강한 과목은 따로 표시하고, 다른 곳에서 들은 과목도 넣을 수 있습니다.
+- 학과와 학번(복수전공, 부전공도)을 넣으면 교과과정 해설, 학과 홈페이지, 스누지니 전공 탐색 같은 학교 자료로 조사한 157개 과정 가운데 내 과정의 졸업 요건을 학번에 맞는 규정으로 골라 보여 줍니다. 학과가 더 새 규정을 고르게 해 주면 그 규정도 고를 수 있습니다.
+- 학기마다 대표 시간표의 과목을 수강한 과목으로 계산합니다. 맨 위 요약 카드에 충족, 남음, 확인 필요인 요건 수를 보이고, 요건마다 `6학점 남음`, `충족`, `확인 필요`와 이유, 출처를 적습니다. 공개 자료만으로 계산할 수 없는 요건은 단정하지 않고 `확인 필요`로 둡니다.
+- 요건을 누르면 그 요건에 드는 과목을 분야별 체크 목록으로 보여 줍니다. 시간표 밖에서 수강한 과목은 체크해서 계산에 넣고, 과목 목록이 없는 요건은 `이 요건을 채웠어요`로 표시합니다.
+- 교양은 영역마다 과목 목록과 남은 영역을 보여 주고, 이름이나 교과목번호가 바뀐 옛 과목도 새 과목으로 인정합니다.
+- `수강한 과목`에서 과목마다 성적이나 드랍을 고르면 전체 평점과 전공 평점, 직전 두 학기 평점과 다음 학기 신청 학점 상한, 목표 평점을 달성하려면 남은 학점에서 받아야 할 평균을 계산합니다. 재수강한 과목은 따로 표시하고, 다른 곳에서 수강한 과목도 넣을 수 있습니다.
 - `다음 학기`에서는 다음 정규 학기 편람이 나오면 `시간표 짜기`로 그 학기 시간표의 과목 추가를 열고, 남은 요건을 채우는 과목부터 보여 줍니다. 편람이 나오기 전에는 `작년 편람으로 짜기`로 작년 같은 학기 편람에 남은 요건 과목을 담아 시간표를 미리 짜 봅니다.
 - 학교의 졸업 사정을 대신하지 않는 추정입니다. 최종 확인은 학과와 마이스누에서 합니다. 출처가 틀렸으면 요건 화면의 `출처 알려 주기`로 알려 주세요.
-- 학과·학번과 성적은 이 기기에만 저장하고 서버로 보내지 않습니다.
+- 학과, 학번, 성적은 이 기기에만 저장하고 서버로 보내지 않습니다.
 
 ### 로그인과 친구
 
 - 로그인은 고를 수 있습니다. Google 계정으로 로그인하면 시간표를 서버에 두고 폰 앱과 웹에서 같은 시간표를 씁니다. 로그인하지 않아도 기기 간 동기화와 `친구` 탭 말고는 모두 쓸 수 있습니다.
-- 로그인할 때 만 14세 이상인지와 이용 규칙 동의를 확인합니다. 서버에 두는 것과 두는 기간은 [개인정보 처리방침](https://archi142857.github.io/tt-wizard/privacy/)에 있습니다. 교수 이름과 출발·도착 지점은 올리지 않습니다.
-- 정보 화면 맨 위 `계정`에서 로그아웃하거나 계정을 지웁니다. 지울 때 이 기기의 시간표도 지울지 고릅니다. 앱 없이 지우는 방법은 [계정 삭제 안내](https://archi142857.github.io/tt-wizard/delete-account/)에 있습니다.
-- `친구` 탭에서 닉네임을 정하면 바뀌지 않는 여섯 자리 번호가 붙고, 친구의 닉네임#번호를 넣거나 초대 링크·QR 코드로 친구를 맺습니다(서로 수락). 받은 요청은 탭 아이콘의 빨간 점으로 알려 줍니다.
-- 친구의 대표 시간표를 친구가 고른 테마로 봅니다. 내 시간표는 `친구에게 보이는 내 시간표`에서 학기마다 보이기를 켜고 끄고, 과목·일정마다 숨깁니다. 숨긴 것은 친구에게 시간만 회색 칸으로 보입니다. 친구에게는 과목의 시간·강의실과 직접 넣은 일정의 제목·시간만 가고, 일정의 장소와 메모, 교수 이름은 가지 않습니다.
+- 로그인할 때 만 14세 이상인지와 이용약관 동의를 확인합니다. 서버에 두는 것과 두는 기간은 [개인정보 처리방침](https://archi142857.github.io/tt-wizard/privacy/)에 있습니다. 교수 이름과 출발 지점, 도착 지점은 올리지 않습니다.
+- 정보 화면 맨 위 `계정`에서 로그아웃하거나 계정을 삭제합니다. 삭제할 때 이 기기의 시간표도 삭제할지 고릅니다. 앱 없이 삭제하는 방법은 [계정 삭제 안내](https://archi142857.github.io/tt-wizard/delete-account/)에 있습니다.
+- `친구` 탭에서 닉네임을 정하면 바뀌지 않는 여섯 자리 번호가 붙고, 친구의 닉네임#번호를 넣거나 초대 링크나 QR 코드로 친구를 맺습니다(서로 수락). 받은 요청은 탭 아이콘의 빨간 점으로 알려 줍니다.
+- 친구의 대표 시간표를 친구가 고른 테마로 봅니다. 내 시간표는 `친구에게 보이는 내 시간표`에서 학기마다 보이기를 켜고 끄고, 과목과 일정마다 숨깁니다. 숨긴 것은 친구에게 시간만 회색 칸으로 보입니다. 친구에게는 과목의 시간과 강의실, 직접 넣은 일정의 제목과 시간만 가고, 일정의 장소와 메모, 교수 이름은 가지 않습니다.
 - 학교 계정(snu.ac.kr)으로 로그인하면 친구에게 `학교 계정` 표시가 보입니다. 친구는 끊거나 차단할 수 있고, 규칙에 어긋나는 닉네임은 신고할 수 있습니다.
 
 ### 안드로이드 앱
@@ -97,10 +97,10 @@
 웹과 같은 화면에 폰에서만 되는 것을 더했습니다.
 
 - 홈 화면 위젯 넷: 다음 수업(출발 시각과 걷는 시간), 오늘 수업, 주간 시간표, 그날 동선 지도. 위젯 색은 앱에서 고른 테마를 따릅니다.
-- 폰 알림: `수업 알림`은 대표 시간표의 수업마다 출발할 때나 정한 분만큼 전에, `편람 알림`은 새 학기 수강편람이 나오거나 대표 시간표 과목의 시간·강의실이 바뀌거나 분반이 빠지면 알립니다. 편람 알림은 처음부터 켜져 있고 수업 알림은 켜야 울립니다. 알림 서버 없이 폰 안에서 셉니다(편람 알림은 하루 두 번 바뀐 편람 자료를 받아 봅니다).
-- 시간표 이미지를 사진에 저장하고, 공유 화면에서 카카오톡·인스타그램·문자로 바로 보냅니다. 캘린더 파일은 폰의 캘린더 앱으로 바로 엽니다.
+- 폰 알림: `수업 알림`은 대표 시간표의 수업마다 출발할 때나 정한 분만큼 전에, `편람 알림`은 새 학기 수강편람이 나오거나 대표 시간표 과목의 시간이나 강의실이 바뀌거나 분반이 빠지면 알립니다. 편람 알림은 처음부터 켜져 있고 수업 알림은 켜야 울립니다. 알림 서버 없이 폰 안에서 계산합니다(편람 알림은 하루 두 번 바뀐 편람 정보를 불러와 확인합니다).
+- 시간표 이미지를 사진에 저장하고, 공유 화면에서 카카오톡, 인스타그램, 문자로 바로 보냅니다. 캘린더 파일은 폰의 캘린더 앱으로 바로 엽니다.
 - 시간표 링크를 누르면 앱에서 열립니다.
-- 새 판이 나오면 Google Play 의 앱 내 업데이트 창으로 알리고, 받는 동안에도 앱을 그대로 씁니다.
+- 새 버전이 나오면 Google Play 의 앱 내 업데이트 창으로 알리고, 내려받는 동안에도 앱을 그대로 씁니다.
 - 12월에는 앱 아이콘이 크리스마스 아이콘으로 바뀝니다(안드로이드 11 이상).
 
 ### 테마와 그 밖에
@@ -128,15 +128,15 @@
 
 평지는 초속 1.1m로 걷는다고 봅니다. 경사는 30m 구간마다 재서 Tobler 보행 함수로, 계단은 계단 보행 실측(Fujiyama & Tyler, 2004)에 맞춘 식으로 계산합니다. 그래서 같은 두 건물 사이도 올라갈 때와 내려올 때 시간이 다르고, 방향마다 더 빠른 길을 고릅니다.
 
-조합은 과목마다 분반을 하나씩 고르는 문제로 풉니다. 시간이 겹치는 조합은 빼고, 나머지는 한 주 동안 걷는 시간에 늦는 시간의 두 배를 더한 값으로 줄을 세웁니다. 찾을 때는 백트래킹과 분기 한정으로 가망 없는 가지를 미리 쳐 냅니다.
+조합은 과목마다 분반을 하나씩 고르는 문제로 풉니다. 시간이 겹치는 조합은 빼고, 나머지는 한 주 동안 걷는 시간에 지각 시간의 두 배를 더한 값으로 줄을 세웁니다. 찾을 때는 백트래킹과 분기 한정으로 가망 없는 가지를 미리 쳐 냅니다.
 
 모두 추정값이라 실제로 걸리는 시간과 다를 수 있습니다. 방법과 한계는 [docs/travel_time_method.md](docs/travel_time_method.md)에 정리해 두었습니다.
 
 ## 얼마나 줄어드는지
 
-2026년 2학기 편람으로 학과와 학년마다 들을 법한 과목을 대여섯 개씩 묶은 가상 과목 묶음 1,000개를 만들고, 시간만 겹치지 않게 분반을 아무렇게나 고른 경우와 견주어 보았습니다.
+2026년 2학기 편람으로 학과와 학년마다 들을 법한 과목을 대여섯 개씩 고른 가상 수강 목록 1,000개를 만들고, 시간만 겹치지 않게 분반을 아무렇게나 고른 경우와 비교했습니다.
 
-기숙사(919A동)에서 출발하면 이 앱이 고른 1순위 조합이 한 주에 평균 14.8분 덜 걷는 것으로 계산되었습니다(95% 신뢰구간 13.9–15.7분). 한 학기(15주)로 치면 3.7시간쯤입니다. 묶음의 82%는 분반을 어떻게 고르느냐에 따라 걷는 시간이나 늦는 시간이 달라졌습니다.
+기숙사(919A동)에서 출발하면 이 앱이 고른 1순위 조합이 한 주에 평균 14.8분 덜 걷는 것으로 계산되었습니다(95% 신뢰구간 13.9–15.7분). 한 학기(15주)로 치면 3.7시간쯤입니다. 그중 82%는 분반을 어떻게 고르느냐에 따라 걷는 시간이나 지각 시간이 달라졌습니다.
 
 결과는 [results/experiments](results/experiments/README.md), 방법은 [docs/experiments.md](docs/experiments.md)에 있습니다.
 
@@ -150,7 +150,7 @@ python scripts/export_web.py         # data/ → web/data/*.json
 python -m http.server 8000 -d web    # http://localhost:8000 에서 웹 앱
 ```
 
-웹 앱은 정적 파일(GitHub Pages)로 돌아갑니다. 탐색 엔진을 자바스크립트로 옮긴 `web/js/engine.js`가 브라우저 안에서 조합을 찾고, 파이썬 엔진과 같은 답을 내는지는 테스트로 확인합니다. 졸업 요건과 성적 계산(`web/js/requirements.js`), 수강 제한 태그(`web/js/limits.js`), 캘린더 파일(`web/js/ics.js`)도 모두 브라우저 안에서 만듭니다. 서버는 로그인과 시간표 동기화, 친구 기능에만 씁니다(Firebase Authentication·Cloud Firestore, [docs/account.md](docs/account.md)). 로그인은 저장소 변수 `FIREBASE_WEB_CONFIG`의 Firebase 설정을 넣어 배포한 사이트와 앱에서만 되고, 위처럼 로컬에서 띄우면 설정이 비어 있어 로그인할 수 없습니다. 화면 쪽 자세한 내용은 [web/README.md](web/README.md)에 있습니다.
+웹 앱은 정적 파일(GitHub Pages)로 돌아갑니다. 탐색 엔진을 자바스크립트로 옮긴 `web/js/engine.js`가 브라우저 안에서 조합을 찾고, 파이썬 엔진과 같은 답을 내는지는 테스트로 확인합니다. 졸업 요건과 성적 계산(`web/js/requirements.js`), 수강 제한 태그(`web/js/limits.js`), 캘린더 파일(`web/js/ics.js`)도 모두 브라우저 안에서 만듭니다. 서버는 로그인과 시간표 동기화, 친구 기능에만 씁니다(Firebase Authentication과 Cloud Firestore, [docs/account.md](docs/account.md)). 로그인은 저장소 변수 `FIREBASE_WEB_CONFIG`의 Firebase 설정을 넣어 배포한 사이트와 앱에서만 되고, 위처럼 로컬에서 띄우면 설정이 비어 있어 로그인할 수 없습니다. 화면 쪽 자세한 내용은 [web/README.md](web/README.md)에 있습니다.
 
 <details>
 <summary>실제 편람으로 명령줄에서 찾기</summary>
@@ -163,17 +163,17 @@ python -m ttwizard find --lectures data/lectures.json 생화학
 python -m ttwizard search --lectures data/lectures.json --courses F11.101,4190.308,F32.102 --home 919A --top 5 --travel data/travel_slope.csv --json data/results.json
 ```
 
-1. 수강편람 엑셀을 `lectures.json`으로 바꿉니다. 엑셀은 sugang.snu.ac.kr 강좌검색에서 저장하거나 `scripts/sync.py`로 받습니다.
+1. 수강편람 엑셀을 `lectures.json`으로 바꿉니다. 엑셀은 sugang.snu.ac.kr 강좌검색에서 저장하거나 `scripts/sync.py`로 내려받습니다.
 2. 캠퍼스맵에서 건물 좌표를 받아 `data/buildings.csv`를 만듭니다.
 3. 이동시간 행렬을 만듭니다. 평지는 `data/travel.csv`, 경사를 반영한 것은 `data/travel_slope.csv`입니다.
-4. 과목을 찾고 탐색합니다. `--home`은 출발·도착 지점입니다. 기숙사는 `919A`, `906` 같은 동 번호, 정문은 `GATE`로 씁니다. `--travel`을 빼면 평지 행렬을 씁니다.
+4. 과목을 찾고 탐색합니다. `--home`은 출발 지점과 도착 지점입니다. 기숙사는 `919A`, `906` 같은 동 번호, 정문은 `GATE`로 씁니다. `--travel`을 빼면 평지 행렬을 씁니다.
 
 </details>
 
 <details>
-<summary>스토어 앱 (안드로이드·iOS)</summary>
+<summary>스토어 앱 (안드로이드, iOS)</summary>
 
-같은 웹 화면을 Capacitor 8로 감싼 앱입니다(`app/`). 화면 파일과 글꼴, 과목 자료를 앱에 넣어서 처음 켤 때부터 오프라인으로 돌고, 자료(JSON)만 웹에서 새로 받습니다. 위젯, 폰 알림, 앱 안 Google 로그인, 앱 내 업데이트처럼 안드로이드에서만 되는 것은 `app/android/`의 Java 플러그인이고, 화면과는 `app/src/native.js`로 잇습니다. GitHub Actions의 `app.yml`이 안드로이드 디버그 APK와 iOS 시뮬레이터 빌드를, `release.yml`이 업로드 키로 서명한 출시용 AAB를 만듭니다(키와 비밀번호는 GitHub Secrets에만 둡니다). 안드로이드 앱은 2026년 11월 지금 Google Play 비공개 테스트 중이고, iOS 앱은 아직 내지 않았습니다. 구조와 출시 전에 할 일은 [docs/app.md](docs/app.md)에 있습니다.
+같은 웹 화면을 Capacitor 8로 감싼 앱입니다(`app/`). 화면 파일과 글꼴, 과목 정보를 앱에 넣어서 처음 켤 때부터 오프라인으로 돌고, 정보(JSON)만 웹에서 새로 불러옵니다. 위젯, 폰 알림, 앱 안 Google 로그인, 앱 내 업데이트처럼 안드로이드에서만 되는 것은 `app/android/`의 Java 플러그인이고, 화면과는 `app/src/native.js`로 잇습니다. GitHub Actions의 `app.yml`이 안드로이드 디버그 APK와 iOS 시뮬레이터 빌드를, `release.yml`이 업로드 키로 서명한 출시용 AAB를 만듭니다(키와 비밀번호는 GitHub Secrets에만 둡니다). 안드로이드 앱은 2026년 11월 지금 Google Play 비공개 테스트 중이고, iOS 앱은 아직 내지 않았습니다. 구조와 출시 전에 할 일은 [docs/app.md](docs/app.md)에 있습니다.
 
 ```
 python scripts/export_web.py
@@ -183,28 +183,28 @@ cd app && npx cap sync && npx cap open android   # iOS 는 Mac 과 Xcode 26 이�
 python scripts/app_icons.py                      # 아이콘을 바꿀 때만
 ```
 
-`build_app.py`는 서비스 워커, 개발자 메뉴, three.js, 실측 페이지, 처리방침·문의·이용 규칙·계정 삭제 페이지(앱은 웹 주소로 엽니다)를 빼고 글꼴을 앱 안에 넣습니다.
+`build_app.py`는 서비스 워커, 개발자 메뉴, three.js, 실측 페이지, 처리방침, 문의, 이용약관, 계정 삭제 페이지(앱은 웹 주소로 엽니다)를 빼고 글꼴을 앱 안에 넣습니다.
 
 </details>
 
 <details>
 <summary>탐색 엔진 자세히</summary>
 
-과목을 묶음, 분반을 점으로 보면 '묶음마다 점을 하나씩 들르는 가장 짧은 길'을 찾는 일반화 외판원 문제(GTSP)입니다. 그런데 수업 시각이 정해져 있어 들르는 순서가 저절로 정해지므로, 결국 과목마다 분반을 하나 고르는 제약 만족 문제(CSP)가 됩니다.
+과목을 그룹, 분반을 점으로 보면 '그룹마다 점을 하나씩 들르는 가장 짧은 길'을 찾는 일반화 외판원 문제(GTSP)입니다. 그런데 수업 시각이 정해져 있어 들르는 순서가 자동으로 정해지므로, 결국 과목마다 분반을 하나 고르는 제약 만족 문제(CSP)가 됩니다.
 
-- 변수는 과목, 값은 분반, 제약은 시간 겹침입니다. 비용은 한 주 이동시간에 늦는 분의 두 배를 더한 값입니다.
+- 변수는 과목, 값은 분반, 제약은 시간 겹침입니다. 비용은 한 주 이동시간에 지각한 분의 두 배를 더한 값입니다.
 - 백트래킹과 분기 한정으로 풉니다. 출입구가 여러 곳인 건물을 거치면 더 빨라지는 쌍이 있어서 실제 이동시간 행렬은 삼각부등식을 어깁니다. 그래서 하한은 다른 건물을 거쳐 가는 경우까지 줄인 행렬(Floyd–Warshall)로 잽니다.
 - TSP 하한(Held–Karp)은 가지치기와 보고서 지표로만 쓰고 화면에는 보여 주지 않습니다.
-- 공강 요일과 점심시간은 웹 엔진(`web/js/engine.js`)만 받는 조건입니다. 어기는 조합은 순위를 내리지 않고 아예 빼고, 조합이 하나도 없으면 까닭과 막는 과목을 알려 줍니다. 실험용 파이썬 엔진에는 없습니다.
+- 공강 요일과 점심시간은 웹 엔진(`web/js/engine.js`)만 받는 조건입니다. 어기는 조합은 순위를 내리지 않고 아예 빼고, 조합이 하나도 없으면 이유와 막는 과목을 알려 줍니다. 실험용 파이썬 엔진에는 없습니다.
 - 강의실을 모르는 수업은 이동도 지각도 만들지 않습니다. 시간만 차지하고, 그 앞의 쉬는 시간은 다음 수업으로 가는 길에 보탭니다.
-- 과목 추가의 빈 자리 줄(`걷기 주 +5분`, `등교 +2일`)과 `덜 걷는 순`은 `engine.js`의 `gapFit`이 셉니다. 대표 시간표에 그 분반을 넣었을 때 늘어나는 한 주 걷는 시간과 지각, 등교일입니다.
+- 과목 추가의 빈 자리 줄(`걷기 주 +5분`, `등교 +2일`)과 `덜 걷는 순`은 `engine.js`의 `gapFit`이 계산합니다. 대표 시간표에 그 분반을 넣었을 때 늘어나는 한 주 걷는 시간과 지각, 등교일입니다.
 
 </details>
 
 <details>
 <summary>편람 자동 갱신</summary>
 
-SNUTT와 같은 방식입니다. 학기 전체 강좌 엑셀을 주기적으로 받아 이전 스냅샷과 (교과목번호, 강좌번호)로 견주고, 바뀐 강좌만 반영합니다. 편람이 처음 올라온 뒤에는 강의실이나 교수가 비어 있다가 차츰 채워지는 강좌가 있어서 한 번 받아서는 모자랍니다.
+SNUTT와 같은 방식입니다. 학기 전체 강좌 엑셀을 주기적으로 내려받아 이전 스냅샷과 (교과목번호, 강좌번호)로 비교하고, 바뀐 강좌만 반영합니다. 편람이 처음 올라온 뒤에는 강의실이나 교수가 비어 있다가 차츰 채워지는 강좌가 있어서 한 번 내려받아서는 모자랍니다.
 
 | 언제 | 주기 |
 | --- | --- |
@@ -214,48 +214,48 @@ SNUTT와 같은 방식입니다. 학기 전체 강좌 엑셀을 주기적으로 
 
 `scripts/sync.py`가 이 규칙대로 받고, `.github/workflows/sync.yml`이 6시간마다 이것을 부릅니다. 한 번 돌 때 요청은 엑셀 한 번과 첫 화면 한 번뿐이고, 강좌별 상세 팝업은 부르지 않습니다. 학기가 바뀌면 끝난 학기의 `lectures.json`을 `data/history/<학기>.json`에 남겨 지난 학기로 고를 수 있게 합니다(지난 학기 엑셀을 새로 받았을 때는 `python scripts/build_history.py`). 돌 때마다 강의실이 정해진 비율을 `data/stats.csv`에 쌓아서, 편람 정보가 얼마나 빨리 채워지는지도 볼 수 있습니다.
 
-같은 첫 화면에서 수강신청 일정표도 학기마다 `data/registration.json`에 모읍니다(수강 제한 태그의 날짜, [docs/limits.md](docs/limits.md)). 바뀐 강좌는 `data/changes/`에 남고, 그 가운데 최근 30일 것이 안드로이드 편람 알림이 받는 `web/data/notify.json`이 됩니다.
+같은 첫 화면에서 수강신청 일정표도 학기마다 `data/registration.json`에 모읍니다(수강 제한 태그의 날짜, [docs/limits.md](docs/limits.md)). 바뀐 강좌는 `data/changes/`에 남고, 그 가운데 최근 30일 것이 안드로이드 편람 알림이 불러오는 `web/data/notify.json`이 됩니다.
 
 </details>
 
 <details>
 <summary>자료 다시 만들기 (고도, 길 보강, 이동시간, 실측, 3D 모형, 실험)</summary>
 
-**높이 자료는 PC에만 둡니다.** 수치지형도로 만든 높이 정보(등고선, 건물·출입구·길 그래프의 고도, 높이차와 경사, 3D·2D 지형 모형)는 저장소·웹·앱에 올리지 않습니다(2026년 11월 3일부터). 아래 스크립트는 DEM이 있는 PC에서 돌고, 높이가 든 결과는 `data/local/`(git에 없음)에 쓰며, 저장소에는 그 열을 뺀 판을 씁니다. 앱과 웹이 쓰는 이동시간 표는 그대로입니다. 까닭과 규칙은 [docs/elevation_method.md](docs/elevation_method.md) '높이 자료는 PC에만'에 있습니다.
+**높이 자료는 PC에만 둡니다.** 수치지형도로 만든 높이 정보(등고선, 건물, 출입구, 길 그래프의 고도, 높이차와 경사, 3D와 2D 지형 모형)는 저장소, 웹, 앱에 올리지 않습니다(2026년 11월 3일부터). 아래 스크립트는 DEM이 있는 PC에서 돌고, 높이가 든 결과는 `data/local/`(git에 없음)에 쓰며, 저장소에는 그 열을 뺀 파일을 씁니다. 앱과 웹이 쓰는 이동시간 표는 그대로입니다. 이유와 규칙은 [docs/elevation_method.md](docs/elevation_method.md) '높이 자료는 PC에만'에 있습니다.
 
 **건물 고도.** 동 번호가 있는 모든 건물의 1층 기준면과 로비층 고도, 지상 출입구마다의 고도와 층을 추정합니다. 캠퍼스 마법 지도 개발자께 드리려고 만들었습니다. 방법과 열 설명은 [docs/elevation_method.md](docs/elevation_method.md)에 있습니다.
 
 ```
 # 캠퍼스맵에서 동 번호 1~999 건물 → data/campus_buildings.csv (10분 남짓, 한 번만)
 python scripts/fetch_campus_buildings.py
-# OpenStreetMap 건물 윤곽·출입구·보행로 → data/osm_*.geojson
+# OpenStreetMap 건물 윤곽, 출입구, 보행로 → data/osm_*.geojson
 python scripts/fetch_osm_footprints.py
-# 등고선·표고점 → data/dem/topo_dem.tif (2 m), 건물 윤곽 → data/topo_buildings.geojson
+# 등고선과 표고점 → data/dem/topo_dem.tif (2 m), 건물 윤곽 → data/topo_buildings.geojson
 python scripts/dem_from_contours.py
 # → data/local/buildings_elevation.csv, building_entrances.csv (+ .geojson, 고도 포함)
-#   data/buildings_elevation.csv, data/building_entrances.csv (+ .geojson, 고도 열을 뺀 공개 판)
+#   data/buildings_elevation.csv, data/building_entrances.csv (+ .geojson, 고도 열을 뺀 공개용)
 python scripts/building_elevation.py
 ```
 
-수치지형도(1:5,000 4장, 1:1,000 22장)는 저장소에 없습니다. 국토정보플랫폼에서 받아 `data/topo/`에 풉니다. 까닭과 받는 법은 [docs/topo.md](docs/topo.md)에 적어 두었습니다.
+수치지형도(1:5,000 4장, 1:1,000 22장)는 저장소에 없습니다. 국토정보플랫폼에서 내려받아 `data/topo/`에 풉니다. 이유와 내려받는 법은 [docs/topo.md](docs/topo.md)에 적어 두었습니다.
 
 **길 보강과 이동시간.**
 
 ```
 # 기숙사 둘레 OSM 길 → data/graph_patch/dorm.geojson
 python scripts/graph_patch.py
-# 출입구에서 길까지 건물·담장·옹벽을 피해 가는 접속선 → data/graph_patch/links.geojson
+# 출입구에서 길까지 건물, 담장, 옹벽을 피해 가는 접속선 → data/graph_patch/links.geojson
 python scripts/entrance_links.py
 # 그래프에 노드 고도와 구간별 경사 → data/local/magicmap/roads_graph_slope.json, *.csv
-#   공개 판(높이·경사 칸 없음) → data/magicmap/roads_graph_slope.json
+#   공개용(높이, 경사 칸 없음) → data/magicmap/roads_graph_slope.json
 python scripts/graph_slopes.py
 # 출입구 사이 경로 → data/travel.csv(평지), data/travel_slope.csv(경사, 방향별), data/route_paths.json,
-#   data/local/route_stats.csv(오르막·높이차 포함), data/route_stats.csv(그 열을 뺀 공개 판)
+#   data/local/route_stats.csv(오르막, 높이차 포함), data/route_stats.csv(그 열을 뺀 공개용)
 python scripts/slope_travel.py
 ```
 
 - 캠퍼스 마법 지도에서 받은 그래프(`data/magicmap/`)는 고치지 않고, 더할 길과 막을 엣지, 출입구는 `data/graph_patch/`에 따로 둡니다. 형식과 고치는 법은 그 폴더 README에 있습니다.
-- `campus.geojson`은 2026년 10월 2–3일에 캠퍼스 전체를 카카오 로드뷰·스카이뷰와 1:1,000 수치지형도로 점검한 결과입니다. `gwanaksa.geojson`은 관악학생생활관 둘레를 수치지형도로 그린 길이고, `dorm.geojson`과 `links.geojson`은 위 스크립트가 만듭니다.
+- `campus.geojson`은 2026년 10월 2–3일에 캠퍼스 전체를 카카오 로드뷰, 스카이뷰와 1:1,000 수치지형도로 점검한 결과입니다. `gwanaksa.geojson`은 관악학생생활관 둘레를 수치지형도로 그린 길이고, `dorm.geojson`과 `links.geojson`은 위 스크립트가 만듭니다.
 - 지점은 마법 지도 표의 109곳에서 기숙사 한 점(919)을 뺀 108곳에, 기숙사 27개 동(`data/dorm_buildings.csv`에서 travel = Y)을 더한 135곳입니다. 919동은 919A–D 네 동으로 나눠 따로 냅니다.
 - 2026년 10월 2일까지는 마법 지도 건물쌍 표 시간에 경사 계수를 곱했습니다. 그런데 표가 끊긴 그래프에서 계산되어 우리 경로와 1분 넘게 다른 쌍이 2,504개 나와서 우리 경로 시간으로 바꿨습니다. 예전 값은 `--base magicmap`으로 낼 수 있습니다. 계단도 Tobler로 계산하는 `--stairs tobler`, 최단거리 경로만 쓰는 `--choose shortest`도 있습니다.
 - 현장에서 확인한 출입구를 `data/entrances_manual.csv`(`building,lat,lon,floor,kind,note`)에 적으면 그 건물은 자동 후보 대신 그것을 씁니다.
@@ -267,13 +267,13 @@ python scripts/slope_travel.py
 python scripts/field_validation.py track data/field/tracks
 # 잴 만한 구간 후보
 python scripts/field_validation.py suggest
-# 모형 경로와 예측 → data/local/field/plan.* (경로 선·높이차가 들어서 PC 에만)
+# 모형 경로와 예측 → data/local/field/plan.* (경로 선과 높이차가 들어서 PC 에만)
 python scripts/field_validation.py plan --routes data/field/routes.csv
-# 실측과 모형 견주기 → results/field/
+# 실측과 모형 비교 → results/field/
 python scripts/field_validation.py check data/field/measurements.csv
 ```
 
-**관악캠퍼스 3D·2D 모형.** 도로 그래프를 수치지형도로 만든 지형 위에 올리고, 길마다 경사(길 방향 30m 구간)를 색으로 칠한 모형입니다. 높이는 2.5배 과장했습니다. 지형과 높이가 들어 있어 웹에 올리지 않고 PC에서만 엽니다(2026년 11월 3일까지는 웹에 있었습니다). 파일을 더블클릭하면 브라우저에서 열립니다. 왼쪽 버튼으로 끌면 옮겨지고, 오른쪽 버튼으로 끌면 회전하며(3D), 휠을 앞으로 굴리면 확대됩니다. 가운데 버튼을 두 번 누르면 처음 시점으로 돌아가고, 가운데 버튼으로 끌어도 옮겨집니다. 3D에서는 Shift를 같이 누르면 회전합니다.
+**관악캠퍼스 3D, 2D 모형.** 도로 그래프를 수치지형도로 만든 지형 위에 올리고, 길마다 경사(길 방향 30m 구간)를 색으로 칠한 모형입니다. 높이는 2.5배 과장했습니다. 지형과 높이가 들어 있어 웹에 올리지 않고 PC에서만 엽니다(2026년 11월 3일까지는 웹에 있었습니다). 파일을 더블클릭하면 브라우저에서 열립니다. 왼쪽 버튼으로 끌면 옮겨지고, 오른쪽 버튼으로 끌면 회전하며(3D), 휠을 앞으로 굴리면 확대됩니다. 가운데 버튼을 두 번 누르면 처음 시점으로 돌아가고, 가운데 버튼으로 끌어도 옮겨집니다. 3D에서는 Shift를 같이 누르면 회전합니다.
 
 ```
 # DEM(data/dem)이 있는 PC에서 → data/local/model/campus-3d.html, campus-2d.html (three.js 를 파일 안에 넣는다)
@@ -300,7 +300,7 @@ ttwizard/                    탐색 엔진(파이썬)
   parse_sugang.py            수강편람 엑셀 → Section (SNUTT 파서와 같은 규칙)
   travel.py                  건물 좌표, 이동시간 행렬(없는 쌍은 좌표로 추정), 삼각부등식 검사
   conflicts.py               분반 쌍 시간 겹침 행렬
-  evaluate.py                조합 → 요일별 경로 → 이동시간·지각·등교일
+  evaluate.py                조합 → 요일별 경로 → 이동시간, 지각, 등교일
   bound.py                   TSP 하한
   search.py                  백트래킹 + 분기 한정, 상위 K개
   export.py                  탐색 결과 → JSON (명령줄 --json 전용)
@@ -313,31 +313,31 @@ scripts/
   lecture_lang.py            지난 학기 편람 엑셀의 강의언어 → data/requirements/lecture_lang.json (외국어진행강좌)
   fetch_buildings.py         캠퍼스맵 → buildings.csv
   fetch_campus_buildings.py  캠퍼스맵의 동 번호 있는 건물 전체 → campus_buildings.csv
-  fetch_osm_footprints.py    OpenStreetMap 건물 윤곽·출입구·보행로 → osm_*.geojson
-  fetch_osm_basemap.py       OpenStreetMap 숲·잔디·길 → osm_basemap.geojson
-  dem_from_contours.py       수치지형도 등고선·표고점 → DEM, 건물 윤곽
-  building_elevation.py      건물별·출입구별 고도 (고도가 든 것은 PC 의 data/local/, 저장소에는 그 열을 뺀 판)
+  fetch_osm_footprints.py    OpenStreetMap 건물 윤곽, 출입구, 보행로 → osm_*.geojson
+  fetch_osm_basemap.py       OpenStreetMap 숲, 잔디, 길 → osm_basemap.geojson
+  dem_from_contours.py       수치지형도 등고선, 표고점 → DEM, 건물 윤곽
+  building_elevation.py      건물별, 출입구별 고도 (고도가 든 것은 PC 의 data/local/, 저장소에는 그 열을 뺀 파일)
   graph_patch.py             도로 그래프 보강 (끊긴 갈림목 잇기, 없는 엣지 막기, 기숙사 둘레 길)
   entrance_links.py          출입구 접속선
-  graph_slopes.py            그래프에 노드 고도와 구간별 경사 (같은 식으로 data/local/ 과 공개 판)
-  slope_travel.py            건물쌍 이동시간(평지·경사), 경로 통계, 지도용 경로
+  graph_slopes.py            그래프에 노드 고도와 구간별 경사 (같은 식으로 data/local/ 과 공개용)
+  slope_travel.py            건물쌍 이동시간(평지, 경사), 경로 통계, 지도용 경로
   basemap.py                 수치지형도 + OSM → data/basemap.json (앱과 웹이 직접 그리는 바탕 지도)
   export_web.py              data/ → web/data/*.json (편람 알림의 notify.json 포함. 배포 때는 firebase-config.js 도 채운다)
   export_magicmap.py         마법 지도 개발자께 보낼 건물 목록
-  campus_model.py            관악캠퍼스 3D·2D 모형 → data/local/model/ (템플릿 campus_model_3d.html, campus_model_2d.html)
+  campus_model.py            관악캠퍼스 3D, 2D 모형 → data/local/model/ (템플릿 campus_model_3d.html, campus_model_2d.html)
   experiments.py             비교 실험 (웹 엔진 시간은 engine_bench.mjs)
   restrictions.py            수강편람 비고의 수강 제한(®) 읽기(실험용 첫 단계)
   course_limits.py           수강편람 비고 → 수강 제한 알림의 분반 규칙 data/limits/, 수강신청 일정표 모으기 (docs/limits.md)
   requirements_import.py     졸업 요건 조사 자료 → data/requirements/ (docs/requirements.md)
   requirement_rules.py       졸업 요건 줄 다듬기: 규칙 설명 줄, 외국어진행강좌 셈 꼴, 백엔드가 찾은 사실 (import 가 부름, docs/requirements.md 1-4절)
-  snugenie.py                스누지니 전공 탐색 조사 자료(공유 폴더)로 전필 목록·판 학점 확인, 판 나누기, 다른 줄 보고서 (import 가 부름)
-  same_courses.py            이름·번호가 바뀐 과목 짝·더 안 열리는 과목(웹으로 옮길 때 course_map.json 에 붙임, docs/requirements.md 1-3절)
+  snugenie.py                스누지니 전공 탐색 조사 자료(공유 폴더)로 전필 목록, 규정별 학점 확인, 규정 나누기, 다른 줄 보고서 (import 가 부름)
+  same_courses.py            이름이나 번호가 바뀐 과목 짝, 더 안 열리는 과목(웹으로 옮길 때 course_map.json 에 붙임, docs/requirements.md 1-3절)
   dept_catalog.py            학과 목록(처음 화면의 대학 → 학과 → 전공, 편람 학과 → 과정) → data/requirements/catalog.json
-  field_validation.py        실측 구간 고르기, 실측과 모형 견주기, GPS 기록 분석
-  legal_pages.py             docs/legal/ → 처리방침·문의·이용 규칙·계정 삭제 안내 페이지(web/privacy/ 등)
-  build_app.py               web/ → app/www/ (스토어 앱 묶음)
+  field_validation.py        실측 구간 고르기, 실측과 모형 비교, GPS 기록 분석
+  legal_pages.py             docs/legal/ → 처리방침, 문의, 이용약관, 계정 삭제 안내 페이지(web/privacy/ 등)
+  build_app.py               web/ → app/www/ (스토어 앱에 넣는 파일)
   app_icons.py               아이콘 → 안드로이드 mipmap, iOS AppIcon
-  widget_themes.py           홈 화면 위젯의 테마별 판(라이트·다크·크리스마스)
+  widget_themes.py           홈 화면 위젯의 테마별 버전(라이트, 다크, 크리스마스)
   google_notices.py          앱에 든 Google 라이브러리 고지문 → licenses/google.txt
   local_data.py              높이 자료(PC 의 data/local/)와 공개 파일 나누기
   common.py                  스크립트들이 같이 쓰는 작은 도구
@@ -345,30 +345,30 @@ data/
   sample/                    데모용 가짜 자료
   raw/                       편람 엑셀 원본 (latest와 바뀐 날짜별, history/는 지난 학기)
   history/                   지난 학기 편람 (학기 선택용)
-  requirements/              졸업 요건: 과정 목록과 과정별 학번 판(157과정), 학교 공통 규칙, 교양 학점 표, 교양 과목 대응표 (docs/requirements.md)
-  calendar/                  학기 기간(개강·종강·보강)과 학기 안 공휴일: 캘린더 파일 내보내기용 (docs/calendar.md)
+  requirements/              졸업 요건: 과정 목록과 과정별, 학번별 규정(157과정), 학교 공통 규칙, 교양 학점 표, 교양 과목 대응표 (docs/requirements.md)
+  calendar/                  학기 기간(개강, 종강, 보강)과 학기 안 공휴일: 캘린더 파일 내보내기용 (docs/calendar.md)
   limits/                    수강 제한 알림: 학기마다 분반 규칙(편람 비고에서, 개인 메일 가림) (docs/limits.md)
   registration.json          수강신청 일정표: 학기마다 첫 화면에서 모은 줄과 모은 날 (docs/limits.md)
   topo/                      수치지형도 원본 자리. 저장소에는 없습니다 (docs/topo.md)
-  local/                     높이 자료(고도·높이차·경사, 3D·2D 모형) 자리. PC 에만 있고 저장소에는 없습니다 (docs/elevation_method.md)
-  magicmap/                  캠퍼스 마법 지도에서 받은 그래프·거리표와 패치를 더한 그래프(높이 칸을 뺀 공개 판)
+  local/                     높이 자료(고도, 높이차, 경사, 3D와 2D 모형) 자리. PC 에만 있고 저장소에는 없습니다 (docs/elevation_method.md)
+  magicmap/                  캠퍼스 마법 지도에서 받은 그래프, 거리표와 패치를 더한 그래프(높이 칸을 뺀 공개용)
   graph_patch/               그래프에 더할 길, 막을 엣지, 출입구, 접속선
   field/                     실측 구간과 기록 양식
-  README.md                  걷는 시간·경로 파일(travel*.csv, route_stats.csv, route_paths.json)의 자료 조건(ODbL)
+  README.md                  걷는 시간과 경로 파일(travel*.csv, route_stats.csv, route_paths.json)의 자료 조건(ODbL)
   lectures.json, buildings.csv, travel.csv, travel_slope.csv, route_stats.csv, route_paths.json, basemap.json, stats.csv, changes/
 web/                         웹 앱 (GitHub Pages)
-  js/                        app.js(화면), engine.js(탐색·동선·빈 자리 과목), search.js(과목 검색), search-worker.js(탐색 워커),
-                             timetables.js(저장한 시간표), requirements.js(졸업 요건·성적·학기 학점·다음 학기 추천 계산), limits.js(수강 제한 태그),
-                             ics.js(캘린더 파일), account.js(로그인·동기화·친구, Firebase SDK 는 로그인할 때만 받는다), sync.js(시간표 맞추기·친구 사본 셈),
+  js/                        app.js(화면), engine.js(탐색, 동선, 빈 자리 과목), search.js(과목 검색), search-worker.js(탐색 워커),
+                             timetables.js(저장한 시간표), requirements.js(졸업 요건, 성적, 학기 학점, 다음 학기 추천 계산), limits.js(수강 제한 태그),
+                             ics.js(캘린더 파일), account.js(로그인, 동기화, 친구. Firebase SDK 는 로그인할 때만 불러온다), sync.js(시간표 동기화, 친구 사본 계산),
                              firebase-config.js(배포 때 채우는 Firebase 웹 설정. 저장소에서는 비어 있다), dev.js(개발자 메뉴)
   licenses/                  고지문 (SNUTT, Pretendard, Fredoka, OpenStreetMap, 공공누리, Leaflet)
-  privacy/, support/, terms/, delete-account/   처리방침·문의·이용 규칙·계정 삭제 안내 페이지 (scripts/legal_pages.py 가 만든다)
+  privacy/, support/, terms/, delete-account/   처리방침, 문의, 이용약관, 계정 삭제 안내 페이지 (scripts/legal_pages.py 가 만든다)
   field/                     실측 기록 페이지 (앱 화면에서는 연결하지 않는 페이지)
-app/                         스토어 앱 (Capacitor 8): android/(위젯·폰 알림·로그인·앱 내 업데이트 플러그인), ios/, src/native.js(화면과 앱 잇기), assets/icons/
+app/                         스토어 앱 (Capacitor 8): android/(위젯, 폰 알림, 로그인, 앱 내 업데이트 플러그인), ios/, src/native.js(화면과 앱 잇기), assets/icons/
 firebase/                    Firestore 규칙(firestore.rules)과 에뮬레이터 설정(firebase.json)
 results/experiments/         비교 실험 결과
 docs/                        방법과 결정 (travel_time_method, experiments, elevation_method, basemap, search, timetables, app, account, topo, requirements, calendar, limits, feedback 등)
-  legal/                     처리방침·문의·이용 규칙·계정 삭제 안내 원문
+  legal/                     처리방침, 문의, 이용약관, 계정 삭제 안내 원문
   screenshots/               이 README 의 앱 화면 캡처
 licenses/                    앱에만 들어가는 다른 사람 코드의 고지문 (Capacitor, AndroidX, Cordova, Google)
 tests/                       pytest, node 시험(*_runner.mjs), Firestore 규칙 시험(rules_test.mjs)
@@ -379,7 +379,7 @@ tests/                       pytest, node 시험(*_runner.mjs), Firestore 규칙
 
 ## 고칠 때 알아 둘 것
 
-- 파이썬 엔진(`ttwizard/`)과 웹 엔진(`web/js/engine.js`)은 같은 답을 내야 합니다. 한쪽을 고치면 다른 쪽도 고치고, `tests/test_web.py`가 샘플 자료로 두 쪽을 견줍니다(node가 있어야 돌아갑니다).
+- 파이썬 엔진(`ttwizard/`)과 웹 엔진(`web/js/engine.js`)은 같은 답을 내야 합니다. 한쪽을 고치면 다른 쪽도 고치고, `tests/test_web.py`가 샘플 자료로 두 쪽을 비교합니다(node가 있어야 돌아갑니다).
 - `.env` 같은 키 파일은 커밋하지 않습니다. 자동 갱신에 키가 필요해지면 GitHub Secrets에 둡니다.
 - 로그인 설정(Firebase 웹 설정)은 저장소 변수 `FIREBASE_WEB_CONFIG`에 두고, 배포할 때 `web/js/firebase-config.js`를 채웁니다. 저장소의 그 파일은 비워 둡니다. Firestore 규칙(`firebase/firestore.rules`)을 고치면 `firebase.yml`의 에뮬레이터 시험을 돌리고 콘솔에 다시 게시합니다.
 - 서버나 바깥으로 보내는 것이 바뀌면 개인정보 처리방침(`docs/legal/privacy.md`)부터 고칩니다.
@@ -388,31 +388,31 @@ tests/                       pytest, node 시험(*_runner.mjs), Firestore 규칙
 
 ## 라이선스와 자료 조건
 
-`LICENSE`(MIT)는 이 저장소의 **코드에만** 걸립니다. 자료는 출처마다 조건이 따로 있고, 이름·로고·아이콘에는 라이선스를 주지 않습니다.
-웹 화면이 받는 `web/data/`(Actions가 아래 자료로 만듭니다)와 스토어 앱에 넣는 자료도 같은 조건을 따릅니다.
+`LICENSE`(MIT)는 이 저장소의 **코드에만** 걸립니다. 자료는 출처마다 조건이 따로 있고, 이름, 로고, 아이콘에는 라이선스를 주지 않습니다.
+웹 화면이 불러오는 `web/data/`(Actions가 아래 자료로 만듭니다)와 스토어 앱에 넣는 자료도 같은 조건을 따릅니다.
 
 | 무엇 | 출처 | 조건 |
 | --- | --- | --- |
-| 코드: `ttwizard/`, `scripts/`, `tests/`, `firebase/`, `web/` 의 HTML·CSS·JS(`web/vendor/` 빼고), `app/`(아이콘 빼고), 가짜 예시 자료 `data/sample/` | 이 저장소 | MIT (`LICENSE`) |
+| 코드: `ttwizard/`, `scripts/`, `tests/`, `firebase/`, `web/` 의 HTML, CSS, JS(`web/vendor/` 빼고), `app/`(아이콘 빼고), 가짜 예시 자료 `data/sample/` | 이 저장소 | MIT (`LICENSE`) |
 | `data/magicmap/` 의 받은 파일 셋(`roads_graph_updated.json`, `roads.geojson`, `building_pair_times.csv`) | [캠퍼스 마법 지도](https://moreadorecampus.com/) | [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). © [OpenStreetMap 기여자](https://www.openstreetmap.org/copyright), © [캠퍼스 마법 지도](https://moreadorecampus.com/). 보행 그래프가 OpenStreetMap 바탕이라 그 파생 데이터베이스이고, 다른 분이 이 자료를 쓸 때의 조건은 ODbL 입니다. TT Wizard 는 이 저장소에 싣는 것(2026-09-29)과 스토어 무료 배포(2026-11-05)를 제공자에게 허락받았고, 광고나 유료 기능에 쓰게 되면 제공자와 다시 협의하기로 했습니다. MIT 대상이 아닙니다(`data/magicmap/README.md`) |
-| 받은 그래프로 만든 것: `data/magicmap/` 의 나머지(`roads_graph_slope.json`), 그 위에서 계산한 `travel.csv`·`travel_slope.csv`·`route_stats.csv`·`route_paths.json` | 캠퍼스 마법 지도 + 이 저장소 | 받은 파일과 같이 [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/), © [OpenStreetMap 기여자](https://www.openstreetmap.org/copyright), © [캠퍼스 마법 지도](https://moreadorecampus.com/)(`data/README.md`). 경사를 반영한 값(`travel_slope.csv`, `route_stats.csv` 의 경사 칸)과 수치지형도로 그린 패치는 국토지리정보원 출처(공공누리 제1유형, 아래 줄)도 같이 따릅니다 |
-| OpenStreetMap 에서 온 것: `data/osm_*.geojson`, `building_entrances.*`(출입구 자리), `graph_patch/dorm.geojson`, `basemap.json` 의 초록·길 선·도로면(큰길 등급) 층 | © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors | [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). GeoJSON 은 파일 안 `meta`, `basemap.json` 은 층마다 `src_layers` 에도 적었습니다. 전문은 `web/licenses/odbl.txt` 에 있습니다 |
-| 국토지리정보원 수치지형도에서 온 것: `basemap.json` 의 건물·도로면 모양·인도·물, 경사를 반영한 이동시간(`travel_slope.csv`)과 층 추정(`building_entrances.*`의 `floor_est`), 1:1,000 으로 그린 길·접속선(`graph_patch/gwanaksa.geojson`·`links.geojson`, `campus.geojson` 의 일부). 등고선과 고도·높이차·경사, 지형 모형은 2026-11-03 부터 저장소에 두지 않습니다 | 국토지리정보원 수치지형도(1:5,000·1:1,000, [국토정보플랫폼](https://map.ngii.go.kr)) | 공공누리 제1유형(출처 표시). 원본은 저장소에 없습니다. 공간정보관리법의 절차가 따로 있습니다(`docs/topo.md`). 출처 문장과 조건은 `web/licenses/kogl-type1.txt` 에 있습니다 |
+| 받은 그래프로 만든 것: `data/magicmap/` 의 나머지(`roads_graph_slope.json`), 그 위에서 계산한 `travel.csv`, `travel_slope.csv`, `route_stats.csv`, `route_paths.json` | 캠퍼스 마법 지도 + 이 저장소 | 받은 파일과 같이 [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/), © [OpenStreetMap 기여자](https://www.openstreetmap.org/copyright), © [캠퍼스 마법 지도](https://moreadorecampus.com/)(`data/README.md`). 경사를 반영한 값(`travel_slope.csv`, `route_stats.csv` 의 경사 칸)과 수치지형도로 그린 패치는 국토지리정보원 출처(공공누리 제1유형, 아래 줄)도 같이 따릅니다 |
+| OpenStreetMap 에서 온 것: `data/osm_*.geojson`, `building_entrances.*`(출입구 자리), `graph_patch/dorm.geojson`, `basemap.json` 의 초록, 길 선, 도로면(큰길 등급) 층 | © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors | [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). GeoJSON 은 파일 안 `meta`, `basemap.json` 은 층마다 `src_layers` 에도 적었습니다. 전문은 `web/licenses/odbl.txt` 에 있습니다 |
+| 국토지리정보원 수치지형도에서 온 것: `basemap.json` 의 건물, 도로면 모양, 인도, 물, 경사를 반영한 이동시간(`travel_slope.csv`)과 층 추정(`building_entrances.*`의 `floor_est`), 1:1,000 으로 그린 길과 접속선(`graph_patch/gwanaksa.geojson`, `links.geojson`, `campus.geojson` 의 일부). 등고선과 고도, 높이차, 경사, 지형 모형은 2026-11-03 부터 저장소에 두지 않습니다 | 국토지리정보원 수치지형도(1:5,000, 1:1,000, [국토정보플랫폼](https://map.ngii.go.kr)) | 공공누리 제1유형(출처 표시). 원본은 저장소에 없습니다. 공간정보관리법의 절차가 따로 있습니다(`docs/topo.md`). 출처 문장과 조건은 `web/licenses/kogl-type1.txt` 에 있습니다 |
 | 수강편람: `data/raw/`, `lectures.json`, `data/history/`, `data/changes/`, `stats.csv`, `buildings_history.csv` | 서울대학교 수강신청 시스템 강좌검색 | 서울대학교 자료. MIT 대상이 아닙니다 |
-| 건물 번호·이름·좌표: `buildings.csv`, `campus_buildings.csv` | [서울대학교 캠퍼스맵](https://map.snu.ac.kr) | 서울대학교 자료. MIT 대상이 아닙니다 |
-| 졸업 요건: `data/requirements/`(과정별 요건과 학번 판, 교양 학점 표, 교양 과목 대응표, 학사 공통 규칙)와 웹이 받는 `web/data/requirements/` | 서울대학교 공개 문서(교과과정 해설, 학부대학 교양 이수규정·기초교양 수강편람, 단과대·학과 누리집, 학교 공지)와 스누지니 전공 탐색 졸업이수규정·전공 교과목(학년도마다, 2026-11-17 확인)을 이 저장소가 조사해 요약. 스누지니 원문은 저장소에 넣지 않았습니다. 요건마다 출처를 적었습니다. 성적 계산은 서울대학교 학사 안내(성적·학점)와 기초교양 수강편람 | 서울대학교 자료에서 온 사실과 요약. MIT 대상이 아닙니다. 학교의 공식 졸업 사정이 아니며 학번·개별 인정에 따라 다를 수 있습니다 |
+| 건물 번호, 이름, 좌표: `buildings.csv`, `campus_buildings.csv` | [서울대학교 캠퍼스맵](https://map.snu.ac.kr) | 서울대학교 자료. MIT 대상이 아닙니다 |
+| 졸업 요건: `data/requirements/`(과정별 요건과 학번별 규정, 교양 학점 표, 교양 과목 대응표, 학사 공통 규칙)와 웹이 불러오는 `web/data/requirements/` | 서울대학교 공개 문서(교과과정 해설, 학부대학 교양 이수규정, 기초교양 수강편람, 단과대와 학과 홈페이지, 학교 공지)와 스누지니 전공 탐색 졸업이수규정과 전공 교과목(학년도마다, 2026-11-17 확인)을 이 저장소가 조사해 요약. 스누지니 원문은 저장소에 넣지 않았습니다. 요건마다 출처를 적었습니다. 성적 계산은 서울대학교 학사 안내(성적, 학점)와 기초교양 수강편람 | 서울대학교 자료에서 온 사실과 요약. MIT 대상이 아닙니다. 학교의 공식 졸업 사정이 아니며 학번이나 개별 인정에 따라 다를 수 있습니다 |
 | 학기 기간과 공휴일: `data/calendar/`(웹 `web/data/calendar.json`) | 서울대학교 학사일정(기준일: `data/calendar/terms.json` 의 `checked_on`), 공휴일은 「관공서의 공휴일에 관한 규정」과 정부 발표 | 날짜만 옮긴 사실입니다. MIT 대상이 아닙니다 |
 | 수강 제한 알림: `data/limits/`(웹 `web/data/limits.json`) | 수강편람 비고(서울대학교 수강신청 시스템 강좌검색)를 이 저장소가 읽어 분반마다 단계 규칙과 대상 글로 바꾼 것. 개인 메일 주소는 가렸습니다 | 서울대학교 자료에서 온 것이라 MIT 대상이 아닙니다. 사람이 쓴 글을 읽어 낸 규칙이라 틀릴 수 있고, 학교의 수강 제한을 대신하지 않습니다(`docs/limits.md`) |
 | 수강신청 일정표: `data/registration.json`(웹 `web/data/limits.json` 의 `schedule`) | [서울대학교 수강신청 사이트](https://sugang.snu.ac.kr) 첫 화면의 일정표(모은 날을 같이 적습니다) | 날짜만 옮긴 사실입니다. 일정은 바뀔 수 있습니다. MIT 대상이 아닙니다 |
-| 이름 `TT Wizard`, 로고·아이콘(`web/icons/`, `app/assets/icons/` 와 거기서 만든 앱 아이콘) | 이 저장소 | 라이선스를 주지 않습니다(MIT 대상이 아닙니다) |
-| 앱 화면 캡처: `docs/screenshots/` | 이 저장소 | 라이선스를 주지 않습니다(MIT 대상이 아닙니다). 화면에 보이는 편람·지도·로고는 이 표의 조건을 따릅니다 |
-| 가져다 쓴 코드: Leaflet·three.js(`web/vendor/`), SNUTT 의 값·규칙, 앱에 넣는 Pretendard·Capacitor·AndroidX·Cordova·Google Play 서비스·Google ID·Play 앱 내 업데이트, 로그인할 때만 받는 Firebase JS SDK | 각 프로젝트 | 각자의 라이선스를 따릅니다. 고지문은 `web/vendor/` 는 그 폴더의 `LICENSE`, SNUTT·Pretendard·Fredoka(로고 글꼴)·Leaflet 은 `web/licenses/`, 앱에만 들어가는 것은 `licenses/` 에 있습니다. Firebase JS SDK(Apache-2.0)는 저장소와 앱 묶음에 넣지 않고 로그인할 때 gstatic 에서 받습니다 |
+| 이름 `TT Wizard`, 로고, 아이콘(`web/icons/`, `app/assets/icons/` 와 거기서 만든 앱 아이콘) | 이 저장소 | 라이선스를 주지 않습니다(MIT 대상이 아닙니다) |
+| 앱 화면 캡처: `docs/screenshots/` | 이 저장소 | 라이선스를 주지 않습니다(MIT 대상이 아닙니다). 화면에 보이는 편람, 지도, 로고는 이 표의 조건을 따릅니다 |
+| 가져다 쓴 코드: Leaflet, three.js(`web/vendor/`), SNUTT 의 값과 규칙, 앱에 넣는 Pretendard, Capacitor, AndroidX, Cordova, Google Play 서비스, Google ID, Play 앱 내 업데이트, 로그인할 때만 불러오는 Firebase JS SDK | 각 프로젝트 | 각자의 라이선스를 따릅니다. 고지문은 `web/vendor/` 는 그 폴더의 `LICENSE`, SNUTT, Pretendard, Fredoka(로고 글꼴), Leaflet 은 `web/licenses/`, 앱에만 들어가는 것은 `licenses/` 에 있습니다. Firebase JS SDK(Apache-2.0)는 저장소와 앱에 넣지 않고 로그인할 때 gstatic 에서 받습니다 |
 
 그 밖의 `data/` 파일은 위 자료로 계산한 것이라 그 자료의 조건을 따릅니다.
 
 ## 참고한 프로젝트
 
-- [wafflestudio/snutt](https://github.com/wafflestudio/snutt) (MIT, 예전 이름 snutt-timetable): 수강편람 엑셀을 받는 곳, 파싱 규칙, 캠퍼스맵 API 쓰는 법, 과목 검색 규칙(줄임말, 학과 줄임, 특별 낱말. `web/js/search.js`)을 참고했습니다. SNUTT에서 가져온 값과 규칙이 있는 파일 머리에 저작권 표시를 적었고, 고지 전문은 `web/licenses/snutt.txt`에 있습니다. 라이선스가 없는 SNUTT 저장소(snutt-v2, snutt-android, snutt-web, snutt-webclient-v2)에서는 가져오지 않습니다.
+- [wafflestudio/snutt](https://github.com/wafflestudio/snutt) (MIT, 예전 이름 snutt-timetable): 수강편람 엑셀을 내려받는 곳, 파싱 규칙, 캠퍼스맵 API 쓰는 법, 과목 검색 규칙(줄임말, 학과 줄임, 특별 낱말. `web/js/search.js`)을 참고했습니다. SNUTT에서 가져온 값과 규칙이 있는 파일 머리에 저작권 표시를 적었고, 고지 전문은 `web/licenses/snutt.txt`에 있습니다. 라이선스가 없는 SNUTT 저장소(snutt-v2, snutt-android, snutt-web, snutt-webclient-v2)에서는 가져오지 않습니다.
 - [Leaflet](https://leafletjs.com) 1.9.4 (BSD-2): 웹 화면 지도 (`web/vendor/leaflet`)
 - [three.js](https://threejs.org) r128 (MIT): 3D 모형 (`web/vendor/three`. 모형은 PC 에서만 만들어 엽니다)
 
@@ -420,6 +420,6 @@ tests/                       pytest, node 시험(*_runner.mjs), Firestore 규칙
 
 동물생명공학전공 25학번 이영표 · sanger.lee138@gmail.com
 
-버그 제보와 기능 제안은 [GitHub 이슈](https://github.com/Archi142857/tt-wizard/issues/new/choose)에 남겨 주세요(`버그 제보`·`기능 제안` 양식). 올린 글은 누구나 볼 수 있으니 개인정보는 적지 마세요. 개인정보 정정·삭제 요청은 메일로 보내 주세요. 양식과 앱이 여는 주소는 [docs/feedback.md](docs/feedback.md)에 있습니다.
+버그 제보와 기능 제안은 [GitHub 이슈](https://github.com/Archi142857/tt-wizard/issues/new/choose)에 남겨 주세요(`버그 제보`, `기능 제안` 양식). 올린 글은 누구나 볼 수 있으니 개인정보는 적지 마세요. 개인정보 정정이나 삭제 요청은 메일로 보내 주세요. 양식과 앱이 여는 주소는 [docs/feedback.md](docs/feedback.md)에 있습니다.
 
-[개인정보 처리방침](https://archi142857.github.io/tt-wizard/privacy/) · [문의](https://archi142857.github.io/tt-wizard/support/) · [이용 규칙](https://archi142857.github.io/tt-wizard/terms/) · [계정 삭제](https://archi142857.github.io/tt-wizard/delete-account/)(원문 `docs/legal/`, `python scripts/legal_pages.py` 로 `web/privacy/`·`web/support/`·`web/terms/`·`web/delete-account/` 를 다시 만듭니다)
+[개인정보 처리방침](https://archi142857.github.io/tt-wizard/privacy/) · [문의](https://archi142857.github.io/tt-wizard/support/) · [이용약관](https://archi142857.github.io/tt-wizard/terms/) · [계정 삭제](https://archi142857.github.io/tt-wizard/delete-account/)(원문 `docs/legal/`, `python scripts/legal_pages.py` 로 `web/privacy/`, `web/support/`, `web/terms/`, `web/delete-account/` 를 다시 만듭니다)
