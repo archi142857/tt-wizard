@@ -1002,7 +1002,7 @@ function renderIdle(show) {
   drawnRecent = key;
   $("recent-list").replaceChildren(...(has ? recent : []).map((text) => h("li", { class: "chip" },
     h("button", { type: "button", class: "chip-q", "data-q": text }, h("span", {}, text)),
-    h("button", { type: "button", class: "chip-x", "data-del": text, "aria-label": `${text} 지우기` }, icon(I.x, 16)))));
+    h("button", { type: "button", class: "chip-x", "data-del": text, "aria-label": `${text} 삭제` }, icon(I.x, 16)))));
 }
 /** 검색창이나 그 아래 카드(최근 검색어·결과)에 초점이 있다. */
 const searchFocused = () => document.activeElement === $("q") || $("results").contains(document.activeElement);
@@ -4242,7 +4242,7 @@ function openTtList(opener) {
 }
 // 이미지로 저장(10/23 디자인 75판): 사진 저장이 안 되는 앱(canSaveImage)과 비어 있는 시간표에는 없다. '이미지 보내기'는 10/23 저녁 사용자가 없애고
 // 머리 줄의 공유 버튼으로 옮겼다("'이미지 보내기' 이거 없애버리고 오른쪽 위에 공유 … 버튼")
-const TT_ACTS = [["copy", "복사하기"], ["primary", "대표 시간표로 설정하기"], ["save-image", "이미지로 저장"], ["delete", "지우기"]];
+const TT_ACTS = [["copy", "복사하기"], ["primary", "대표 시간표로 설정하기"], ["save-image", "이미지로 저장"], ["delete", "삭제"]];
 /** 목록의 학기(최근 먼저): 시간표가 있는 학기와 지금 보는 학기(비어 있으면 아직 만들지 않은 빈 시간표 1). 다른 학기에는 + 새 시간표 팝업에서 만든다 */
 function tlSemesters() {
   const ids = state.semesters.map(([id]) => id).filter((id) => /^\d{4}-[12SW]$/.test(id));
@@ -5854,7 +5854,7 @@ function semAfterEmpty(sem) {
   return ids.find((id) => T.hasTimetables(store.get(semKey(T.STORE_KEYS.list, id), [])))
     || (state.current && ids.includes(state.current) ? state.current : "");
 }
-/** 지우기: 확인 없이 지우고 학기의 다른 시간표(대표, 없으면 맨 위)로 바꾼 뒤 스낵바 '시간표를 지웠어요' [되돌리기]. 마지막 하나를 지우면 빈 시간표 1 모습이 된다.
+/** 지우기: 확인 없이 지우고 학기의 다른 시간표(대표, 없으면 맨 위)로 바꾼 뒤 스낵바 '시간표를 삭제했어요' [되돌리기]. 마지막 하나를 지우면 빈 시간표 1 모습이 된다.
  *  leave(시간표 메뉴의 지우기): 학기의 마지막 하나를 지우면 그 학기가 목록에 남지 않게 시간표가 남은 가장 최근 학기(없으면 지금 학기)로 옮긴다(11/18 사용자
  *  '해당 학기에 하나 남아있던 시간표를 지우면 저렇게 남겨두지 말고 바로 학기까지 다 지워줘'). 옮길 학기가 없으면(지금 학기의 마지막 하나) 빈 시간표 1 그대로.
  *  되돌리면 그 학기로 돌아온다. 후보 카드의 저장됨을 다시 누른 것은 그 학기의 결과 화면이라 옮기지 않는다 */
@@ -5871,8 +5871,8 @@ function deleteTt(t, { leave = false } = {}) {
     switchSemester(to);
   } else mineChanged();
   syncSaves();
-  announce(to ? `시간표를 지웠어요. ${semesterLabel(to)}로 이동했어요` : "시간표를 지웠어요");
-  showSnackbar("시간표를 지웠어요", "되돌리기", () => {
+  announce(to ? `시간표를 삭제했어요. ${semesterLabel(to)}로 이동했어요` : "시간표를 삭제했어요");
+  showSnackbar("시간표를 삭제했어요", "되돌리기", () => {
     if (to) {
       if (mine.sem !== to) return; // 그사이 다른 학기로 갔다
       const key = semKey(T.STORE_KEYS.list, sem), list = T.parseList(store.get(key, []), sem);
@@ -6698,7 +6698,7 @@ function renderAddRecent(show) {
   addRecentDrawn = key;
   $("add-recent-list").replaceChildren(...(show ? recent : []).map((text) => h("li", { class: "chip" },
     h("button", { type: "button", class: "chip-q", "data-q": text }, h("span", {}, text)),
-    h("button", { type: "button", class: "chip-x", "data-del": text, "aria-label": `${text} 지우기` }, icon(I.x, 16)))));
+    h("button", { type: "button", class: "chip-x", "data-del": text, "aria-label": `${text} 삭제` }, icon(I.x, 16)))));
 }
 const addFocused = () => document.activeElement === addQ || $("add-results").contains(document.activeElement);
 function renderAdd({ more = false } = {}) {
@@ -7371,7 +7371,7 @@ function renderInfo() {
     card([next("feedback", "의견 보내기"), next("developer", "개발자 정보"), REVIEW_URL[SHELL] ? out(REVIEW_URL[SHELL], "리뷰 남기기") : null,
       isSafariTab() ? next("a2hs", "홈 화면에 추가") : null]),
     // 법적 고지: 이용 규칙은 로그인을 열 때(로그인 카드의 '보기'와 같은 페이지, 134판)
-    card([PRIVACY_URL ? out(PRIVACY_URL, "개인정보 처리방침", changed()) : null, TERMS_URL && accountWanted() ? out(TERMS_URL, "이용 규칙", changed()) : null, next("licenses", "오픈소스 라이선스"),
+    card([PRIVACY_URL ? out(PRIVACY_URL, "개인정보 처리방침", changed()) : null, TERMS_URL && accountWanted() ? out(TERMS_URL, "이용약관", changed()) : null, next("licenses", "오픈소스 라이선스"),
       h("div", { class: "info-row" }, h("span", {}, "버전"), h("span", { class: "v" }, APP_VERSION))]),
   ].filter(Boolean));
   if (had) (list.querySelector(`[data-info="${had}"]`) || list.querySelector('[data-info="account"]'))?.focus({ preventScroll: true }); // 다시 그려도 초점은 그 줄(지운 계정 삭제 줄이면 계정)
@@ -9108,14 +9108,14 @@ function loginCard(lead, skip = false) {
   return h("div", { class: "card acct" },
     lead ? h("p", { class: "acct-lead" }, lead) : null,
     h("div", { class: "check-row" }, h("label", { class: "check" }, h("input", { type: "checkbox", "data-age": "1" }), "만 14세 이상이에요")),
-    h("div", { class: "check-row" }, h("label", { class: "check" }, h("input", { type: "checkbox", "data-terms": "1" }), "이용 규칙에 동의해요"),
-      h("a", { class: "btn-text small", href: TERMS_URL, target: "_blank", rel: "noopener", "aria-label": "이용 규칙 보기" }, "보기")),
+    h("div", { class: "check-row" }, h("label", { class: "check" }, h("input", { type: "checkbox", "data-terms": "1" }), "이용약관에 동의해요"),
+      h("a", { class: "btn-text small", href: TERMS_URL, target: "_blank", rel: "noopener", "aria-label": "이용약관 보기" }, "보기")),
     h("p", { class: "acct-err", role: "alert", hidden: true }),
     h("button", { type: "button", class: "g-btn", "data-signin": "1" }, h("img", { src: GOOGLE_G, alt: "", width: "20", height: "20" }), "Google 계정으로 계속"),
     skip ? h("button", { type: "button", class: "btn-secondary acct-skip", "data-login-skip": "1", "aria-haspopup": "dialog" }, "건너뛰기") : null);
 }
 // 확인 없이 누를 때의 오류 글(134판): 빈 것에 따라
-const ACCT_CHECK_ERR = { age: "만 14세 이상인지 확인해 주세요", terms: "이용 규칙에 동의해 주세요", both: "두 가지 모두 확인해 주세요" };
+const ACCT_CHECK_ERR = { age: "만 14세 이상인지 확인해 주세요", terms: "이용약관에 동의해 주세요", both: "두 가지 모두 확인해 주세요" };
 /** 로그인 카드에서 아직 켜지 않은 확인: "age" | "terms" | "both" | "" */
 function acctMissing(card) {
   const age = !card.querySelector("[data-age]")?.checked, terms = !card.querySelector("[data-terms]")?.checked;
@@ -9345,12 +9345,12 @@ async function acctLeave(kind) {
     if (wipe) wipeDeviceTimetables();
     d.returnTo = null;
     closeSheet(d);
-    showSnackbar(kind === "delete" ? "계정을 지웠어요" : "로그아웃했어요");
+    showSnackbar(kind === "delete" ? "계정을 삭제했어요" : "로그아웃했어요");
     if (screen === "account") { renderAccount(); $("account-title").focus({ preventScroll: true }); }
     else if (screen === "info") { renderInfo(); $("info-list").querySelector('[data-info="account"]')?.focus({ preventScroll: true }); } // 정보의 계정 삭제(134판)
   } catch (err) {
     closeSheet(d);
-    if (!err || err.code !== "CANCELLED") showSnackbar(acctError(err, kind === "delete" ? "계정을 지우지 못했어요" : "로그아웃하지 못했어요"));
+    if (!err || err.code !== "CANCELLED") showSnackbar(acctError(err, kind === "delete" ? "계정을 삭제하지 못했어요" : "로그아웃하지 못했어요"));
   }
   ok.disabled = false;
 }
@@ -9933,7 +9933,7 @@ function launchNotices() {
   else showSchoolNotice();
 }
 function showPolicyNotice(opener) {
-  $("pa-title").textContent = `개인정보 처리방침과 이용 규칙이 ${monthDay(POLICY_NEXT).replace(" ", " ")}부터 바뀌어요`; // 날짜는 한 줄로(160판)
+  $("pa-title").textContent = `개인정보 처리방침과 이용약관이 ${monthDay(POLICY_NEXT).replace(" ", " ")}부터 바뀌어요`; // 날짜는 한 줄로(160판)
   openSheet($("policy-ask"), opener);
 }
 $("policy-ask").addEventListener("close", () => {

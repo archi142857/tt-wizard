@@ -86,7 +86,7 @@
       <div class="recent" id="recent" hidden>
         <div class="list-head">
           <h2 class="recent-title" id="recent-title">최근 검색어</h2>
-          <button type="button" class="btn-text small" id="recent-clear">모두 지우기</button>
+          <button type="button" class="btn-text small" id="recent-clear">모두 삭제</button>
         </div>
         <ul class="recent-list" id="recent-list" aria-labelledby="recent-title"></ul>
       </div>
@@ -836,7 +836,7 @@
       <div class="recent" id="add-recent" hidden>
         <div class="list-head">
           <h2 class="recent-title" id="add-recent-title">최근 검색어</h2>
-          <button type="button" class="btn-text small" id="add-recent-clear">모두 지우기</button>
+          <button type="button" class="btn-text small" id="add-recent-clear">모두 삭제</button>
         </div>
         <ul class="recent-list" id="add-recent-list" aria-labelledby="add-recent-title"></ul>
       </div>
@@ -911,25 +911,25 @@
 </dialog>
 <dialog class="sheet ask" id="acct-out" aria-labelledby="ao-title">
   <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="ao-title" tabindex="-1" autofocus>로그아웃할까요?</h2></div></div>
-  <div class="sheet-body"><label class="check"><input type="checkbox" id="ao-wipe">이 기기의 시간표도 지우기</label></div>
+  <div class="sheet-body"><label class="check"><input type="checkbox" id="ao-wipe">이 기기의 시간표도 삭제</label></div>
   <div class="sheet-actions">
     <button type="button" class="btn-text" data-close>닫기</button>
     <button type="button" class="btn-text" id="acct-out-ok">로그아웃</button>
   </div>
 </dialog>
 <dialog class="sheet ask" id="acct-del" aria-labelledby="ad-title">
-  <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="ad-title" tabindex="-1" autofocus>계정을 지울까요?</h2></div></div>
-  <div class="sheet-body"><p>서버에 둔 시간표, 닉네임과 친구가 모두 지워지고 되돌릴 수 없어요</p><label class="check"><input type="checkbox" id="ad-wipe">이 기기의 시간표도 지우기</label></div>
+  <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="ad-title" tabindex="-1" autofocus>계정을 삭제할까요?</h2></div></div>
+  <div class="sheet-body"><p>서버에 둔 시간표, 닉네임과 친구가 모두 삭제되고 되돌릴 수 없어요</p><label class="check"><input type="checkbox" id="ad-wipe">이 기기의 시간표도 삭제</label></div>
   <div class="sheet-actions">
     <button type="button" class="btn-text" data-close>닫기</button>
-    <button type="button" class="btn-text danger" id="acct-del-ok">지우기</button>
+    <button type="button" class="btn-text danger" id="acct-del-ok">삭제</button>
   </div>
 </dialog>
 
 <!-- 켤 때 한 번 뜨는 알림 둘(디자인 160판, app.js launchNotices). 처리방침·이용 규칙 바뀜 알림(법무 11/23 ②): 제목만, [닫기] [보기](처리방침 페이지를 앱 밖으로).
      날짜 앞뒤는 줄바꿈 없는 공백(어느 폭에서나 '…이용 규칙이' / '11월 30일부터 바뀌어요' 두 줄). 글은 app.js 가 시행일(POLICY_NEXT)로 채운다 -->
 <dialog class="sheet ask" id="policy-ask" aria-labelledby="pa-title">
-  <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="pa-title" tabindex="-1" autofocus>개인정보 처리방침과 이용 규칙이 11월&nbsp;30일부터 바뀌어요</h2></div></div>
+  <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="pa-title" tabindex="-1" autofocus>개인정보 처리방침과 이용약관이 11월&nbsp;30일부터 바뀌어요</h2></div></div>
   <div class="sheet-actions">
     <button type="button" class="btn-text" data-close>닫기</button>
     <button type="button" class="btn-text" id="pa-view">보기</button>
