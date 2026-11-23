@@ -7,7 +7,8 @@ web/terms/index.html(…/terms/, 로그인할 때 동의받는 이용 규칙), w
 이용 규칙의 이전 판 web/terms/2026-11-15/index.html(원문 docs/legal/terms-2026-11-15.md, update145).
 스토어(Play 처리방침·계정 삭제 칸, App Store 처리방침·지원 주소)와 앱 정보 탭·로그인 카드가 이 주소를 쓴다. 앱 묶음에는 넣지 않는다(scripts/build_app.py).
 
-원문에 쓰는 것은 문안에 나오는 만큼만 읽는다: ### 제목(h1), #### 제목(h2), 문단, 글머리표 목록(두 칸 들여 쓰면 안쪽 목록).
+원문에 쓰는 것은 문안에 나오는 만큼만 읽는다: ### 제목(h1), #### 제목(h2), 문단, 글머리표 목록(두 칸 들여 쓰면 안쪽 목록),
+**굵게**(이용 규칙의 중요한 조항: 약관법 제3조, 법무 11/23).
 글 속 주소(https://…)·메일 주소·기관 누리집(아래 SITES)은 링크로, 개발자 메일은 앱처럼 제목 'TT Wizard 문의'를 채운다.
 【올리는 날】은 처음 시행일 EFFECTIVE, 【이 판 시행일】은 지금 판의 시행일 REVISED 로 채운다(처리방침을 바꾸면 시행일 7일 전에 알린다: 17절).
 【앱에 들어간 뒤에 넣음】이 붙은 줄과 【앱에 들어간 뒤에 넣음: …】 문장은 그 기능이 앱에 들어간 판에서만 넣는다(LATER_FEATURES: 글에 든 낱말로 기능을 찾는다).
@@ -142,9 +143,23 @@ def resolve(text: str, revised: str = "") -> str:
     return "\n".join(lines)
 
 
+BOLD = re.compile(r"\*\*(.+?)\*\*")  # **굵게**: 약관의 중요한 조항(약관법 제3조 '알아보기 쉽게', 법무 11/23, update147)
+
+
 def inline(text: str) -> str:
-    """글 한 덩이 → HTML(링크 넣기). 개발자 메일은 제목을 채운다(그 덩이에 MAIL_SUBJECTS 의 말이 있으면 그 제목, 없으면 MAIL_SUBJECT)"""
+    """글 한 덩이 → HTML(**…** 는 굵게, 링크 넣기). 개발자 메일은 제목을 채운다(그 덩이에 MAIL_SUBJECTS 의 말이 있으면 그 제목, 없으면 MAIL_SUBJECT)"""
     subject = next((s for word, s in MAIL_SUBJECTS.items() if word in text), MAIL_SUBJECT)
+    out, last = [], 0
+    for m in BOLD.finditer(text):
+        out.append(links(text[last:m.start()], subject))
+        out.append(f"<strong>{links(m.group(1), subject)}</strong>")
+        last = m.end()
+    out.append(links(text[last:], subject))
+    return "".join(out)
+
+
+def links(text: str, subject: str) -> str:
+    """글 조각 → HTML(글 속 주소·메일·기관 누리집을 링크로)"""
     out, last = [], 0
     for m in LINK.finditer(text):
         out.append(html.escape(text[last:m.start()], quote=False))

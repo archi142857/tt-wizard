@@ -132,13 +132,37 @@ def test_report_version_lines():
     for words in ("닉네임과 계정 번호(여섯 자리, 닉네임을 바꿔도 그대로)",
                   "닉네임 신고: 신고한 분과 신고된 분의 고유 번호(uid), 신고된 닉네임과 계정 번호, 고른 까닭, 덧붙인 글(쓴 경우), 보낸 때",
                   "닉네임 신고는 이용 규칙에 어긋나는 닉네임과 요청을 살피고 조치하는 데만 씁니다.",
-                  "닉네임 신고: 처리를 마치고 1년 동안 둡니다. 신고한 분이 계정을 지워도 그동안 남습니다.",
+                  "닉네임 신고: 처리를 마치고 1년 동안 둡니다. 신고한 분이나 신고된 분이 계정을 지워도 그동안 남습니다.",  # update147(법무 11/23)
                   "신고된 분에게 누가 신고했는지는 알리지 않",
                   "들은 과목과 졸업 요건 표시: 졸업 요건 미리 보기를 쓰면",
                   "업데이트 확인(안드로이드 앱): 앱을 켜거나 다시 열 때 기기의 Play 스토어 앱에 새 판이 있는지 묻고",
                   "관리자 비밀번호는 한 시간에 열 번까지만 넣어 볼 수 있습니다."):
         assert text.count(words) == 1, words
     assert "App Check" not in text and "Tachyon으로 보내기:" not in text  # 이 판에 넣지 않은 것(사용자 11/23, Tachyon 처리방침 전)
+
+
+def test_lawful_basis_and_bold_terms():
+    """update147(문서 11/23, 법무 11/23 셋): 11/30 판에 뜻을 또렷하게 한 줄과 '처리의 법적 근거' 단락(개인정보 보호법 제22조③: 동의 없이 처리하는 것과 근거를 나눠 공개),
+    9절 끝 두 줄, 17절 11/30 줄. 이용 규칙의 중요한 조항 셋(이용 제한·서비스 종료·책임 제한)은 굵게(약관법 제3조, 법무 11/23). 시행일은 11/30 그대로"""
+    text = (ROOT / "web" / "privacy" / "index.html").read_text(encoding="utf-8")
+    basis = re.findall(r"<p>처리의 법적 근거: (.*?)</p>", text, flags=re.S)
+    assert len(basis) == 1 and basis[0].startswith("동의를 받아 처리하는 것은 비공개 테스트 참가 신청(구글 설문지)과 베타 테스터 닉네임(닉네임 설문)입니다")
+    assert "(같은 항 제6호) 처리합니다." in basis[0] and basis[0].count("같은 항 제4호") == 3
+    assert text.index("처리의 법적 근거:") < text.index("<h2>3. ")  # 2절 끝(목록 다음 문단)
+    for words in ("로그인해 청한 서비스를 하고 이용 규칙대로 운영하려고 처리합니다(개인정보 보호법 제15조 제1항 제4호).",
+                  "시간표 사본·닉네임·친구 목록은 앱에서 올린 것이고, 닉네임 신고는 신고한 분이 앱에서 보낸 것입니다.",
+                  "만 14세 미만 아동의 개인정보는 받지 않으므로(15절) 법정대리인이 따로 요청할 일은 없습니다.",
+                  "다른 사람의 개인정보를 닉네임이나 일정 제목에 넣지 마십시오(이용 규칙 3절).",
+                  "안드로이드 앱의 업데이트 확인과 관리자 권한, 처리의 법적 근거를 적었습니다(1·2·3·4·5·7·8·9·12·14절)."):
+        assert text.count(words) == 1, words
+    assert "청한 서비스를 하려고 처리합니다" not in text and '<p class="date">시행일: 2026년 11월 30일</p>' in text
+    assert "<strong>" not in text  # 굵게는 이용 규칙만
+    terms = (ROOT / "web" / "terms" / "index.html").read_text(encoding="utf-8")
+    strong = re.findall(r"<li><strong>(.*?)</strong>\n?</li>", terms, flags=re.S)
+    assert [s.split(" ")[0] for s in strong] == ["규칙에", "서비스를", "개발자는"]  # 5·6·7절 둘째 줄
+    assert terms.count("<strong>") == 3 and "**" not in terms and "**" not in text
+    assert lp.inline("앞 **굵은 sanger.lee138@gmail.com 글** 뒤") == (
+        '앞 <strong>굵은 <a href="mailto:sanger.lee138@gmail.com?subject=TT%20Wizard%20%EB%AC%B8%EC%9D%98">sanger.lee138@gmail.com</a> 글</strong> 뒤')
 
 
 def test_terms_and_delete_account_pages():
