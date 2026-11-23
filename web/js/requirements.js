@@ -171,7 +171,7 @@ export const isGraduate = (r) => Boolean(r.level) && r.level !== "학사";
 /** 요건 줄 하나에 적힌 과목(줄의 courses, 분야 extra.groups·갈래 extra.paths 의 courses) */
 function rowCourses(r) {
   const e = r.extra || {};
-  return [...(r.courses || []), ...[...(e.groups || []), ...(e.paths || [])].flatMap((g) => g.courses || [])];
+  return [...(r.courses || []), ...[...(e.groups || []).filter((g) => !g.off), ...(e.paths || [])].flatMap((g) => g.courses || [])]; // off: TEPS 로 빠진 분야(withTeps)
 }
 
 /** 요건 줄(교양 줄이면 ge = true, 아니면 전공 쪽)에 적힌 과목 번호 */
@@ -421,28 +421,28 @@ const bandMax = (max) => {
   return i < 0 ? null : i;
 };
 
+/** 점수로 풀 수 있는 TEPS 조건 분야인가(자료의 cond + 경계 값 teps_max). 인문대 2019~2024학번 '점수에 따라 1~2과목'처럼 경계가 없으면 아니다 */
+const tepsGroup = (g) => Boolean(g && g.cond) && bandMax(g.teps_max) != null;
+
 /**
  * 입학 때 TEPS 구간으로 조건부 영어 분야를 푼 줄(받은 줄은 고치지 않는다): teps_max 까지이면 덧붙은 조건(also: 다른 분야와 겹쳐 세고 못 채우면 남음),
- * 넘으면 뺀다. 점수를 모르거나 경계가 자료에 없는 분야(인문대 2019~2024학번 '점수에 따라 1~2과목')는 그대로(확인 필요 · 조건부 요건)
+ * 넘으면 off(셈에서 빼되 시트에는 '필수 아님'으로 남긴다: 분야 차례가 자료와 같고 TEPS 칸이 그 분야 밑에 남게, update151).
+ * 점수를 모르거나 경계가 자료에 없는 분야(인문대 2019~2024학번 '점수에 따라 1~2과목')는 그대로(확인 필요 · 조건부 요건)
  */
 function withTeps(r, band) {
   const groups = r.extra && r.extra.groups;
-  if (band == null || !Array.isArray(groups) || !groups.some((g) => g.cond && bandMax(g.teps_max) != null)) return r;
-  const out = [];
-  for (const g of groups) {
-    const max = g.cond ? bandMax(g.teps_max) : null;
-    if (max == null) out.push(g);
-    else if (band <= max) {
-      const { cond, ...rest } = g;
-      out.push({ ...rest, also: true, teps: true });
-    }
-  }
+  if (band == null || !Array.isArray(groups) || !groups.some(tepsGroup)) return r;
+  const out = groups.map((g) => {
+    if (!tepsGroup(g)) return g;
+    const { cond, ...rest } = g;
+    return band <= bandMax(g.teps_max) ? { ...rest, also: true, teps: true } : { ...rest, teps: true, off: true };
+  });
   return { ...r, extra: { ...r.extra, groups: out } };
 }
 
 /** TEPS 로 푼 줄의 영어: { band, english: 들어야 하는 영어 과목 수(0 이면 필수 아님), basic, path }(시트에 '대학영어 1부터' 같은 글을 쓰려고) */
 function tepsInfo(r, band) {
-  const counts = r.extra.groups.filter((g) => /^영어/.test(g.name || "")).map((g) => Number(g.min_count) || 1);
+  const counts = r.extra.groups.filter((g) => !g.off && /^영어/.test(g.name || "")).map((g) => Number(g.min_count) || 1);
   const english = counts.length ? Math.max(...counts) : 0;
   return { band, english, ...englishPath(band, english) };
 }
@@ -567,7 +567,10 @@ function perCourse(list) {
  * area(교양 영역 분야)는 추천 과목에 넣지 않고(수백 과목) 줄 기준이 목록을 넘는지 보지 않는다. cond(조건부 분야: '입학 때 TEPS 900점 이하이면 영어 1과목')는
  * 기준·겹침에 넣지 않고, 다른 기준을 다 채웠는데 그 분야를 못 채웠으면 확인 필요(COND, because = cond 글).
  * also(덧붙은 조건 분야: '그중 중급 이상 1과목'·'권장과목(★) 1과목')는 다른 분야와 겹쳐도 되는 부분 조건이라 겹침·합에 넣지 않고, 못 채우면 남음
- * row.groups = [{name, need, value: {kind: met|left|check|count, text}, codes}](시트의 분야 소제목 값. count 는 기준 없는 분야의 들은 수)
+ * off(입학 때 TEPS 로 필요 없어진 영어 분야, withTeps)는 어디에도 세지 않고 시트에만 '필수 아님'으로 남긴다.
+ * row.groups = [{name, need, value: {kind: met|left|check|count|off, text}, codes}](시트의 분야 소제목 값. count 는 기준 없는 분야의 들은 수).
+ * 점수로 풀 수 있는 TEPS 조건 분야에는 teps: "ask"(점수 모름: 조건부 그대로) | "on"(점수로 필요: 덧붙은 조건) | "off"(점수로 필요 없음: need '필수 아님',
+ * 값 글 ""). 시트가 TEPS 칸을 그 분야 머리와 조건 글 아래 둔다(디자인 162판, update151). 경계가 없는 조건(인문대 2019~2024학번)에는 teps 가 없다
  */
 function evaluateGroups(r, row, got, shared, sameCourse, areas = null) {
   const e = r.extra;
@@ -582,7 +585,7 @@ function evaluateGroups(r, row, got, shared, sameCourse, areas = null) {
   });
   const inGroups = new Map(); // 대표 번호 → 그 과목이 든 분야 수(조건부 분야는 빼고)
   e.groups.forEach((g, i) => {
-    if (g.cond || g.also) return;
+    if (g.cond || g.also || g.off) return;
     for (const k of new Set(hits[i].map((x) => x.key))) inGroups.set(k, (inGroups.get(k) || 0) + 1);
   });
   const every = e.groups.map((g, i) => {
@@ -594,7 +597,7 @@ function evaluateGroups(r, row, got, shared, sameCourse, areas = null) {
     const okLoose = list ? (hasMin ? !shortOf(g, taken) : taken.length > 0) : true;
     return { g, list, taken, strict, hasMin, okStrict, okLoose };
   });
-  const groups = every.filter((G) => !G.g.cond && !G.g.also), conds = every.filter((G) => G.g.cond), alsos = every.filter((G) => G.g.also);
+  const groups = every.filter((G) => !G.g.cond && !G.g.also && !G.g.off), conds = every.filter((G) => G.g.cond), alsos = every.filter((G) => G.g.also);
   const wide = (G) => Boolean(G.g.area) || (G.g.prefixes || []).length > 0; // 교양 영역: 추천에 안 넣고 목록 끝을 따지지 않는다
   // 교양 영역을 세는 줄(min_areas, 분야가 모두 교양 영역)은 '영역'으로 센다: '1영역 남음'·'1 / 3영역'·'3영역 중 2영역'(프론트엔드 11/17, 디자인 s1-screens)
   const word = e.min_areas != null || (groups.length > 0 && groups.every((G) => G.g.area)) ? "영역" : "분야";
@@ -640,7 +643,8 @@ function evaluateGroups(r, row, got, shared, sameCourse, areas = null) {
   row.all = [];
   row.groups = every.map((G) => {
     let value;
-    if (G.g.cond) value = G.list && G.okLoose ? { kind: "met", text: "충족" } : { kind: "check", text: "확인 필요" };
+    if (G.g.off) value = { kind: "off", text: "" };
+    else if (G.g.cond) value = G.list && G.okLoose ? { kind: "met", text: "충족" } : { kind: "check", text: "확인 필요" };
     else if (G.g.also && !G.list) value = { kind: "check", text: "확인 필요" };
     else if (!G.list) value = { kind: "check", text: "확인 필요" };
     else if (!G.hasMin) value = { kind: "count", text: `${G.taken.length}과목` };
@@ -653,8 +657,9 @@ function evaluateGroups(r, row, got, shared, sameCourse, areas = null) {
     const took = new Set(G.taken.map((x) => x.key));
     const list = (G.list || []).slice().sort((a, b) => Number(took.has(sameCourse(b.code))) - Number(took.has(sameCourse(a.code))));
     const extra = G.taken.filter((x) => !list.some((c) => sameCourse(c.code) === x.key)).map((x) => ({ code: x.code, name: x.name, credits: x.credits }));
-    return { name: G.g.name || G.g.field || "", need: needText(G.g), value, codes: G.taken.map((x) => x.code), courses: [...extra, ...list],
-      ...(G.g.cond ? { cond: G.g.cond } : {}), ...(G.g.also ? { also: true } : {}), ...(G.g.area ? { area: true } : {}) };
+    const teps = G.g.off ? "off" : G.g.teps ? "on" : tepsGroup(G.g) ? "ask" : null; // TEPS 칸을 둘 분야(update151)
+    return { name: G.g.name || G.g.field || "", need: G.g.off ? "필수 아님" : needText(G.g), value, codes: G.taken.map((x) => x.code), courses: [...extra, ...list],
+      ...(G.g.cond ? { cond: G.g.cond } : {}), ...(G.g.also ? { also: true } : {}), ...(G.g.area ? { area: true } : {}), ...(teps ? { teps } : {}) };
   });
   // 남은 과목(추천): 줄 기준이 모자라면 모든 분야의, 아니면 못 채운 분야의 안 들은 과목(교양 영역 분야는 빼고)
   const rowShort = totalUnknown ? null : shortOf(r, loose);
@@ -684,6 +689,8 @@ function evaluateGroups(r, row, got, shared, sameCourse, areas = null) {
     return { have: counted.filter(okG).length, need: counted.length, unit: word };
   };
   const inOne = () => (oneGroup != null ? { have: most(inG), need: oneGroup, unit: "과목" } : null);
+  // TEPS 로 필요해진 영어 분야의 센 값(그 분야 과목 수. 줄 학점이 다 찼어도 '6 / 6학점 · 1과목 남음'이 되지 않게, update151)
+  const tepsProgress = (G) => (G.g.teps && G.g.min_count != null ? { have: Math.min(G.taken.length, G.g.min_count), need: G.g.min_count, unit: "과목" } : null);
   if (row.state === "remaining") {
     // 남은 것(update129, 사용자 11/17 '4분야 중 3분야를 수강해야 하는데 1분야만 수강했잖아… 3학점이면 강의 하나로 착각할 수 있으니까').
     // 줄 학점·과목 수만 보면 과목 수를 적게 짐작하는 조건(영역·분야 수, 분야마다 기준, 덧붙은 조건, 한 분야에서 몇 과목)이 남았으면 그 조건을 보인다.
@@ -707,17 +714,24 @@ function evaluateGroups(r, row, got, shared, sameCourse, areas = null) {
     } else if (minGroups == null && shorts.length) {
       // 분야마다 모자란 것: 단위가 같으면 더하고(생물다양성 1과목 → '1과목 남음'), 다르면 분야 수로
       // 교양 영역마다 한 과목씩 남았으면 영역 수로('문화 해석과 상상 3 · 역사적 탐구 3'에서 하나만 들으면 '6학점' 말고 '2영역 남음')
-      const oneEach = word === "영역" && lacking.every((G) => !G.taken.length) && shorts.every((x) => courses(x) === 1);
+      // 영역 하나만 남았으면 그 분야 값처럼 과목·학점으로(미술사학전공 '영어' 줄이 '1영역 남음'인데 센 값은 '0 / 1과목'이던 것, 프론트엔드 11/23. update151)
+      const oneEach = word === "영역" && lacking.length > 1 && lacking.every((G) => !G.taken.length) && shorts.every((x) => courses(x) === 1);
       const unit = oneEach ? word : shorts.every((x) => x.unit === shorts[0].unit) ? shorts[0].unit : null;
       const k = unit && !oneEach ? shorts.reduce((t, x) => t + x.left, 0) : lacking.length, u = unit || word;
       s = { unit: u, left: k, courses: shorts.reduce((t, x) => t + courses(x), 0),
         summary: `${lacking.map((G) => G.g.name || G.g.field).filter(Boolean).join(" · ")} · ${k}${u} 남음`, progress: byFields() };
     } else if (also) {
       const sh = shortOf(also.g, also.taken, perOf(also)) || { unit: "과목", left: 1 };
-      s = { ...sh, courses: courses(sh), summary: `${also.g.name || ""} · ${sh.left}${sh.unit} 남음`, progress: null };
+      s = { ...sh, courses: courses(sh), summary: `${also.g.name || ""} · ${sh.left}${sh.unit} 남음`, progress: tepsProgress(also) };
     } else if (oneGroup != null && most((G) => G.taken) < oneGroup) {
       const k = oneGroup - most((G) => G.taken);
       s = { unit: "과목", left: k, text: `한 분야에서 ${k}과목 남음`, courses: k, summary: null, progress: inOne() };
+    }
+    // 입학 때 TEPS 로 필요해진 영어 분야(withTeps 의 on)는 부분 조건이 아니라 늘어난 기준이라, 다른 조건보다 과목이 더 남으면 값과 센 값을 그 분야로
+    // (인문대 2025~ 452점 이하: '영어 1과목 남음 · 영어 2과목 2과목 포함' 말고 '영어 2과목 · 2과목 남음', 센 값 '0 / 2과목'. update151)
+    if (s && also && also.g.teps) {
+      const sh = shortOf(also.g, also.taken, perOf(also)) || { unit: "과목", left: 1 };
+      if (courses(sh) > s.courses) s = { ...sh, courses: courses(sh), summary: `${also.g.name || ""} · ${sh.left}${sh.unit} 남음`, progress: tepsProgress(also) };
     }
     if (s && also && !s.summary?.startsWith(`${also.g.name || ""} · `)) { // 덧붙은 조건도 남았으면 합 글에(전에는 빠졌다): '… · 중급 이상 1과목 포함'
       const sh = shortOf(also.g, also.taken, perOf(also)) || { unit: "과목", left: 1 };
@@ -1344,7 +1358,7 @@ function rowProgress(row, value) {
  * took: 다른 이름의 같은 과목으로 들었으면 그 이름(메타 '… · 통계 인공지능 개론 및 실습으로 수강'), now: 안 들은 과목이 지금은 다른 이름으로 열리면 {code, name}
  * (메타 '3학점 · 지금은 …'), ended: 더 안 열리면 마지막 개설 학기(메타 '3학점 · 마지막 개설 2025년 1학기'). 지금 이름·안 열림은 opts.sameCourse 가 있을 때만(update131)
  * 남음·충족은 summary·courses·sources, 확인 필요는 because·link(학과 졸업요건)·checked 를 쓴다.
- * groups: 분야 줄(extra.groups)의 분야마다 [{name, need, value, codes}], paths: 갈래 줄(extra.paths)의 갈래마다 [{name, value, codes}](아니면 null)
+ * groups: 분야 줄(extra.groups)의 분야마다 [{name, need, value, codes, teps?}](자료 분야와 같은 차례. teps 는 evaluateGroups), paths: 갈래 줄(extra.paths)의 갈래마다 [{name, value, codes}](아니면 null)
  * progress: rowProgress. byChecks: 과목 목록이 없는 확인 필요 줄을 학생이 체크해서 충족으로 본 줄(gradView rowChecks)
  */
 export function rowView(row, { program, title = null, label = null, entryYear = null, sameCourse = null } = {}) {
@@ -1375,7 +1389,8 @@ export function rowView(row, { program, title = null, label = null, entryYear = 
  * gpaChecks: {all, major}(시트에서 켠 '전체·전공 평점 2.0 이상'. 성적을 다 넣지 않았을 때 둘 다 켜면 졸업 평점 충족, byChecks)
  * rowChecks: {'묶음 id|요건 id': true}(시트의 '이 요건을 채웠어요', 141판 ⑥. 공통 묶음은 'common|…'). 과목 목록이 없어 확인 필요인 줄만 충족으로 보고 byChecks.
  *   목록이 있는 줄(분야·갈래 포함)은 과목 체크로 세니 그대로, 졸업 학점·졸업 평점 줄도 그대로
- * teps: 입학 때 TEPS 구간(tepsBand 결과 0~4, 모르면 null. update148). 자료의 teps_max 가 있는 조건부 영어 분야를 풀고, 푼 줄의 시트에 teps({band, english, basic, path})
+ * teps: 입학 때 TEPS 구간(tepsBand 결과 0~4, 모르면 null. update148). 자료의 teps_max 가 있는 조건부 영어 분야를 풀고, 푼 줄의 시트에 teps({band, english, basic, path}).
+ *   점수와 상관없이 그런 분야의 sheet.groups[i].teps 가 'ask'|'on'|'off'라 시트가 TEPS 칸을 그 분야 밑에 둔다(update151. 자료의 TEPS 조건 342개는 모두 분야 조건)
  * → {total, bundles: [{kind: "common"|"program", id, title, label, choices, rows: [rowView]}], missing: [자료가 없는 과정 id]}.
  * 공통: 졸업 학점 · 졸업 평점 · 주전공 판의 교양 줄. 주전공 묶음에는 교양 줄을 다시 넣지 않는다
  */

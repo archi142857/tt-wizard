@@ -47,9 +47,10 @@ SNUTT 처럼 분반을 직접 골라 시간표를 만들고 저장하는 '내 �
 | `copyTimetable(t, list)` | 복사본 `이름 (2)`부터 비는 번호(디자인 규칙 `시간표 1 (2)`. 이름 끝의 ` (n)` 은 떼고 붙인다). 대표는 옮기지 않는다 |
 | `deleteTimetable(list, id)`, `setPrimary(list, id)` | 지우기(대표를 지우면 가장 최근에 고친 것이 대표), 대표 바꾸기 |
 | `sectionItem(course, section, {meetings, alts})` | 편람 분반 → 강좌 항목. `meetings` 가 편람과 다르면 `own` 으로 |
-| `customItem({title, meetings, memo})` | 직접 넣은 일정 항목. `meetings` 는 `{day, start, end, building, room(또는 place)}` 나 저장한 꼴의 배열 |
+| `customItem({title, meetings, memo, color})` | 직접 넣은 일정 항목. `meetings` 는 `{day, start, end, building, room(또는 place)}` 나 저장한 꼴의 배열. `color` 는 시트에서 고른 색(0~7 정수만, 아니면 버린다. update151) |
+| `nextColor(t)` | 이 시간표에 새 항목을 넣으면 받을 색(0~7, `addItem` 이 주는 안 쓰는 가장 작은 번호). 직접 추가 시트의 색 줄이 처음 골라 둘 값(디자인 162판, update151) |
 | `customMeetings(meetings)`, `cleanPlace(text)` | 일정의 수업을 저장하는 꼴로(장소 글을 다듬어 남긴다). 일정을 고칠 때 `updateItem(t, key, {meetings: customMeetings(…)})` |
-| `addItem(t, item, {force, byId})` | 넣기 → `{t, overlaps, removed}`. 시간이 겹치는 항목이 있으면 넣지 않고 받은 `t` 그대로, `overlaps: [열쇠]`. `force` 면 겹친 것을 빼고 넣는다(SNUTT 와 같다). 같은 과목의 다른 분반은 바꿔 넣고 색은 그대로. `removed` 는 이번에 빠진 항목들(겹쳐서 뺀 것 + 바꿔 넣느라 뺀 것). 받은 `t` 는 고치지 않으니 되돌리기는 그것을 다시 쓰면 된다. `byId`(지금 편람)를 주면 겹침을 지금 편람 기준으로 본다 |
+| `addItem(t, item, {force, byId})` | 넣기 → `{t, overlaps, removed}`. 시간이 겹치는 항목이 있으면 넣지 않고 받은 `t` 그대로, `overlaps: [열쇠]`. `force` 면 겹친 것을 빼고 넣는다(SNUTT 와 같다). 같은 과목의 다른 분반은 바꿔 넣고 색은 그대로. 색은 `item.color`(시트에서 고른 색)가 있으면 그 색, 바꿔 넣는 분반이면 앞 분반의 색, 아니면 `nextColor` 와 같은 셈(겹쳐서 뺀 항목의 색은 빈 색으로 본다). `removed` 는 이번에 빠진 항목들(겹쳐서 뺀 것 + 바꿔 넣느라 뺀 것). 받은 `t` 는 고치지 않으니 되돌리기는 그것을 다시 쓰면 된다. `byId`(지금 편람)를 주면 겹침을 지금 편람 기준으로 본다 |
 | `overlapsWith(t, meetings, {except, course, byId})` | 이 수업들과 겹치는 항목 열쇠들(항목의 시간을 바꾸기 전에 물을 때) |
 | `removeItem(t, key)`, `updateItem(t, key, patch)` | 빼기, 고치기(`undefined` 인 칸은 지운다) |
 | `credits(t)` | 학점 합 |

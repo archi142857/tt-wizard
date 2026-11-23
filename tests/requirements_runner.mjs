@@ -170,7 +170,7 @@ const out = read(casesPath).map((c) => {
           rules: (b.rules || []).map((x) => [x.id, x.name, x.sources.map((y) => y.text)]),
           rows: Object.fromEntries(b.rows.map((r) => [r.id, { name: r.name, value: r.value.text, aria: r.aria, summary: r.sheet.summary, progress: r.progress,
             byChecks: Boolean(r.byChecks), groups: r.sheet.groups ? r.sheet.groups.map((g) => [g.name, g.value.text]) : null, cond: Boolean(r.sheet.cond),
-            teps: r.sheet.teps || null,
+            teps: r.sheet.teps || null, tepsGroups: r.sheet.groups ? r.sheet.groups.map((g) => [g.name, g.teps || null, g.need]) : null,
             groupCourses: r.sheet.groups ? r.sheet.groups.map((g) => (g.courses || []).map((x) => x.code)) : null,
             strong: r.sheet.strong, because: r.sheet.because, meta: r.sheet.meta, link: r.sheet.link, checked: r.sheet.checked,
             courses: r.sheet.courses.map((x) => [x.code, x.taken, x.meta]), sources: r.sheet.sources.map((x) => x.text) }])) })) };

@@ -146,6 +146,15 @@ def test_image_file_opens_in_other_programs(out):
 
 
 
+def test_new_item_color(out):
+    """update151(디자인 162판: 직접 추가 시트의 색 줄, '새 일정은 넣을 때 줄 색이 처음부터 골라져 있게'): nextColor 는 addItem 이 새 항목에 줄 색
+    (안 쓰는 가장 작은 번호)이라 시트가 미리 골라 둘 수 있고, 시트에서 고른 색(customItem 의 color)은 addItem 이 그대로 둔다. 0~7 정수가 아니면 버린다"""
+    c = out["colorPick"]
+    assert c["first"] == 0 and c["second"] == 1 and c["auto"] == c["second"]
+    assert c["picked"] == 0 and c["kept"] == 0  # 이미 쓰는 색이어도 고른 색 그대로(앞 항목도 그대로)
+    assert c["bad"] == [False] * 5 and c["empty"] == [0, 0, 0]
+
+
 def test_custom_place_text(out):
     """update148(사용자 11/23 '시간표에서 직접 추가에 장소도 직접 입력 칸이 있어야 함'): 직접 넣은 일정은 건물 없이 적은 장소 글을 다섯째 칸에 남긴다.
     공백은 하나로, PLACE_MAX(30)자까지. 건물이 있으면 그 뒤에 붙는 글. 기기에서 다시 읽어도(parseList) 그대로, 고칠 때는 customMeetings.

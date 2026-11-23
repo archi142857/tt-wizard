@@ -1324,7 +1324,7 @@ def test_teps_thresholds_in_data():
 def test_teps_resolves_english(tmp_path):
     """update148(사용자 11/23 '텝스 점수도 받아야 한다. 이거에 따라서 영어 들어야 하는 게 달라지네'): 입학 때 TEPS 구간으로 조건부 영어를 푼다.
     New TEPS 267·386·452·525(예전 TEPS 550·700·800·900)가 구간 경계(2026학년도 학부 신입생 특별시험 안내). 경계 이하이면 영어 분야가 덧붙은 조건(겹쳐 셈),
-    넘으면 빠진다. 시트에 teps {band, english, basic, path}. 점수를 모르거나 경계가 없는 판(인문대 2019~2024학번)은 그대로 조건부."""
+    넘으면 빠진다(update151 부터 시트에는 '필수 아님'으로 남는다). 시트에 teps {band, english, basic, path}. 점수를 모르거나 경계가 없는 판(인문대 2019~2024학번)은 그대로 조건부."""
     g = lambda code, cr=3: {"code": code, "name": code, "credits": cr, "cls": "교양", "term": "2025-1", "status": "taken"}
     bio = [{"program": "animal-biotech", "role": "parallel", "entryYear": 2025, "title": "동물생명공학전공"}]
     hum = [{"program": "p-0ec7f3f7", "role": "single", "entryYear": 2025, "title": "인문"}]
@@ -1342,7 +1342,7 @@ def test_teps_resolves_english(tmp_path):
     rows = [{k: x for b in v["bundles"] for k, x in b["rows"].items()} for v in got[:-1]]
     unknown, high, mid, took = (r["ge-cals-natural-foreign"] for r in rows[:4])
     assert unknown["value"] == "확인 필요" and unknown["cond"] and unknown["teps"] is None
-    assert high["value"] == "충족" and high["groups"] == [["외국어", "충족"]] and high["teps"] == {"band": 4, "english": 0, "basic": False, "path": []}
+    assert high["value"] == "충족" and high["groups"] == [["외국어", "충족"], ["영어", ""]] and high["teps"] == {"band": 4, "english": 0, "basic": False, "path": []}
     assert mid["value"] == "1과목 남음" and mid["summary"] == "영어 · 1과목 남음" and mid["groups"] == [["외국어", "충족"], ["영어", "1과목 남음"]]
     assert mid["teps"]["path"] == ["고급영어"] and not mid["cond"]
     assert took["value"] == "충족" and took["teps"]["path"] == ["대학영어 2"]  # 영어 과목은 외국어 2과목에도 같이 센다
@@ -1352,10 +1352,41 @@ def test_teps_resolves_english(tmp_path):
     assert basic["teps"] == {"band": 0, "english": 2, "basic": True, "path": ["대학영어 1", "대학영어 2"]}  # 기초영어를 먼저(영어 요건엔 안 셈)
     old = rows[7]["hum-ge-english"]
     assert old["value"] == "확인 필요" and old["cond"] and old["teps"] is None and "점수에 따라" in old["because"]
+    # update151(디자인 162판: TEPS 칸은 그 분야 머리와 조건 글 아래): 점수로 풀 수 있는 분야는 점수와 상관없이 teps 상태가 있고(모름 ask, 필요 on,
+    # 필요 없음 off), off 분야도 시트에 남아 분야 차례가 자료와 같다(머리 조건 '필수 아님', 값 글은 비움). 경계가 없는 인문대 2019~2024학번은 칸을 두지 않는다
+    assert unknown["tepsGroups"] == [["외국어", None, "2과목 이상"], ["영어", "ask", "1과목 이상"]]
+    assert high["tepsGroups"][1] == ["영어", "off", "필수 아님"] and mid["tepsGroups"][1] == ["영어", "on", "1과목 이상"]
+    assert one["tepsGroups"] == [["영어", None, "1과목 이상"], ["영어 2과목", "off", "필수 아님"]] and one["groups"][1] == ["영어 2과목", ""]
+    assert two_need["tepsGroups"][1] == ["영어 2과목", "on", "2과목 이상"] and basic["tepsGroups"][1][1] == "on"
+    assert old["tepsGroups"] == [["영어", None, "1과목 이상"], ["영어 2과목", None, "2과목 이상"]]
+    for row, (pid, rid) in ((high, ("animal-biotech", "ge-cals-natural-foreign")), (one, ("p-0ec7f3f7", "hum-ge25-english"))):
+        raw = [x for v in programs()[pid]["versions"] for x in v["requirements"] if x["id"] == rid][0]
+        assert [g[0] for g in row["tepsGroups"]] == [g["name"] for g in raw["extra"]["groups"]]
     t = got[-1]
     assert t["bands"] == [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, None, None, 3, None, 0, 1, 3, 4, 4, None, None]
     assert [p and p["path"] for p in t["paths"]] == [["대학영어 1"], ["대학영어 1", "대학영어 2"], ["대학영어 2", "고급영어"], ["고급영어"], [], None]
     assert t["paths"][0]["basic"] is True and t["paths"][4]["basic"] is False
+
+
+@node
+def test_teps_values_match_progress(tmp_path):
+    """update151(프론트엔드 11/23 '미술사학전공 2025 영어 줄 상태 칸이 0 / 1과목인데 값은 1영역 남음'): 영역 하나만 남으면 값도 과목·학점으로
+    (영역 둘 이상이 한 과목씩 남을 때만 '2영역 남음'). TEPS 로 필요해진 영어 분야는 늘어난 기준이라 다른 조건보다 더 남으면 값·센 값을 그 분야로"""
+    g = lambda code, cr=3: {"code": code, "name": code, "credits": cr, "cls": "교양", "term": "2025-1", "status": "taken"}
+    hum = [{"program": "p-0ec7f3f7", "role": "single", "entryYear": 2025, "title": "인문"}]
+    bio = [{"program": "animal-biotech", "role": "parallel", "entryYear": 2025, "title": "동물생명공학전공"}]
+    cases = ([{"kind": "view", "picks": hum, "records": [], "teps": t} for t in (None, 2)]
+             + [{"kind": "view", "picks": hum, "records": [g("F21.101")], "teps": 2}]
+             + [{"kind": "view", "picks": bio, "records": [g("F22.101"), g("F22.102")], "teps": 3}, {"kind": "view", "picks": bio, "records": [], "teps": 3}])
+    got = _run(tmp_path, cases)
+    rows = [{k: x for b in v["bundles"] for k, x in b["rows"].items()} for v in got]
+    unknown, low, one, mid, none = rows[0]["hum-ge25-english"], rows[1]["hum-ge25-english"], rows[2]["hum-ge25-english"], \
+        rows[3]["ge-cals-natural-foreign"], rows[4]["ge-cals-natural-foreign"]
+    assert unknown["value"] == "1과목 남음" and unknown["progress"] == {"have": 0, "need": 1, "unit": "과목"} and unknown["summary"] == "영어 · 1과목 남음"
+    assert low["value"] == "2과목 남음" and low["progress"] == {"have": 0, "need": 2, "unit": "과목"} and low["summary"] == "영어 2과목 · 2과목 남음"
+    assert one["value"] == "1과목 남음" and one["progress"] == {"have": 1, "need": 2, "unit": "과목"}
+    assert mid["value"] == "1과목 남음" and mid["progress"] == {"have": 0, "need": 1, "unit": "과목"}  # 전에는 '6 / 6학점'에 '1과목 남음'
+    assert none["value"] == "2과목 남음" and none["summary"] == "외국어 · 2과목 남음 · 영어 1과목 포함"  # 영어는 외국어 2과목에 같이 센다
 
 
 @node

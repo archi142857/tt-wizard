@@ -54,11 +54,13 @@ def test_app_feedback_url_uses_forms():
 
 
 def test_source_form_notice():
-    """출처 알려 주기 양식의 맨 위 알림(법무 11/14): 공개 문서 주소만, 개인정보 적지 않기, 누구나 볼 수 있음, 공개 문서인지 확인하고 사실만 옮김"""
+    """출처 알려 주기 양식의 맨 위 알림(법무 11/14): 공개 문서 주소만, 개인정보 적지 않기, 누구나 볼 수 있음, 공개 문서인지 확인하고 사실만 옮김.
+    가운뎃점은 쉼표와 '나'로(라이팅 L2·L7, 법무 11/23 '뜻 같음'. update151)"""
     text = (FORMS / "source.yml").read_text(encoding="utf-8")
-    for want in ("공개된 학교 문서 주소만 적어 주세요", "이름·학번·성적·이수 내역은 적지 마세요", "누구나 볼 수 있어요", "그 문서의 사실만",
-                 "로그인해야 보이는 파일"):
+    for want in ("공개된 학교 문서 주소만 적어 주세요", "이름, 학번, 성적, 이수 내역은 적지 마세요", "누구나 볼 수 있어요", "그 문서의 사실만",
+                 "학교나 학과 홈페이지의 공개 문서", "로그인해야 보이는 파일", "학생회나 개인이 공유한 파일"):
         assert want in text
+    assert "·" not in text.split("body:")[1].split("- type: input")[0]  # 맨 위 알림에 가운뎃점 없음
 
 
 def test_feedback_url_fits_without_length_error():

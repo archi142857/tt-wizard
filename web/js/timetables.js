@@ -13,6 +13,7 @@
 //     장소 글(update148, 사용자 11/23 '직접 추가에 장소도 직접 입력 칸이 있어야 함'): 건물 없이 적은 곳('카페'), 건물이 있으면 그 뒤에 붙는 글('3층 라운지').
 //     PLACE_MAX 자까지(cleanPlace). 걷는 시간은 건물로만 잰다. 친구 사본에는 넣지 않는다(sync.js friendItems: 이름·시간만)
 //   요일 0 = 월, 시각은 자정부터 센 분. 건물은 campus.json 의 지점 id(모르면 ""). color 는 0~7(COLORS 개. 화면의 item-0 ~ item-7)
+//   새 항목의 색은 addItem 이 정한다: 시트에서 고른 색(item.color, customItem 의 color)이 있으면 그 색, 아니면 안 쓰는 색(nextColor. update151)
 //
 // 편람과 맞추기: 강좌 항목은 편람을 따른다(SNUTT 와 같다). 편람은 하루 두 번에서 네 번 새로 받으니, 화면은 그릴 때 reconcile 로
 //   지금 편람과 견준다. 저장할 때 본 편람(base)과 달라졌으면 changed(새 편람 값을 쓰고 '편람 바뀜'), 편람에서 사라졌으면
@@ -154,6 +155,13 @@ function freeColor(items) {
   for (const it of items) if (Number.isInteger(it.color) && it.color >= 0 && it.color < COLORS) count[it.color]++;
   return count.indexOf(Math.min(...count));
 }
+const pickedColor = (c) => (Number.isInteger(c) && c >= 0 && c < COLORS ? c : null); // 사용자가 고른 색(0~7), 아니면 null
+
+/**
+ * 이 시간표에 새 항목을 넣으면 받을 색(0~7, addItem 이 주는 색과 같다. 겹치는 항목을 빼고 넣으면 그 항목의 색이 빌 수 있다).
+ * 직접 추가 시트가 색 줄에 처음 골라 둘 값(디자인 162판 '새 일정은 넣을 때 줄 색이 처음부터 골라져 있게', update151)
+ */
+export const nextColor = (t) => freeColor((t && Array.isArray(t.items) && t.items) || []);
 
 /** 항목의 지금 수업(편람을 견주지 않은 값: own, 없으면 base. 직접 넣은 일정은 meetings) */
 const savedMeetings = (it) => (it.custom ? it.meetings : it.own || it.base).map(meeting);
@@ -168,10 +176,11 @@ export function sectionItem(course, section, { meetings = null, alts = null } = 
   return it;
 }
 
-/** 직접 넣은 일정 → 항목. meetings: [{day, start, end, building}] */
-export function customItem({ title, meetings, memo = "" }) {
+/** 직접 넣은 일정 → 항목. meetings: [{day, start, end, building}], color: 시트에서 고른 색(0~7, 없으면 addItem 이 nextColor 로) */
+export function customItem({ title, meetings, memo = "", color = null }) {
   const it = { custom: newId("c"), title: cleanTitle(title) || "일정", meetings: customMeetings(meetings) };
   if (memo) it.memo = String(memo);
+  if (pickedColor(color) != null) it.color = color;
   return it;
 }
 
@@ -196,6 +205,7 @@ export function overlapsWith(t, meetings, { except = null, course = null, byId =
  *   시간이 겹치는 항목이 있으면 넣지 않는다: t 는 받은 그대로, overlaps 에 겹치는 항목 열쇠(넣었으면 늘 빈 배열).
  *   force 면 겹치는 항목을 빼고 넣는다(SNUTT 와 같다. 디자인 규칙은 묻지 않고 force 로 넣은 뒤 되돌리기를 보여 준다).
  *   같은 열쇠의 항목이 이미 있으면 바꿔 넣고, 같은 과목의 다른 분반이 있으면 그것과 바꾼다(한 과목에 분반 하나, 색은 그대로).
+ *   색: item.color(0~7, 직접 추가 시트에서 고른 색. update151)가 있으면 그 색, 바꿔 넣는 항목이면 그 색, 아니면 안 쓰는 색(nextColor 와 같은 셈).
  *   removed: 이번에 빠진 항목들(겹쳐서 뺀 것 + 바꿔 넣느라 뺀 것. 겹쳐서 뺀 것만 보려면 course 가 넣은 항목과 다른 것).
  *   되돌리기는 받기 전의 t 를 다시 쓰면 된다(함수는 받은 t 를 고치지 않는다).
  * byId(지금 편람)를 주면 겹침을 지금 편람 기준으로 본다
@@ -207,7 +217,8 @@ export function addItem(t, item, { force = false, byId = null, now = new Date() 
   const prev = t.items.find((it) => itemKey(it) === key || (item.course && it.course === item.course));
   const keep = t.items.filter((it) => it !== prev && !hit.includes(itemKey(it)));
   const removed = t.items.filter((it) => !keep.includes(it));
-  const added = { ...item, color: prev && prev.color !== undefined ? prev.color : freeColor(keep) };
+  const own = pickedColor(item.color);
+  const added = { ...item, color: own != null ? own : prev && prev.color !== undefined ? prev.color : freeColor(keep) };
   return { t: { ...t, items: [...keep, added], updated: now.toISOString() }, overlaps: [], removed };
 }
 

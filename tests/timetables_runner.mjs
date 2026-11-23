@@ -291,4 +291,18 @@ const later = (c, mins) => ({ ...c, sections: c.sections.map((x) => ({ ...x, mee
     sections: T.toSections(t, byId).map((s) => s.meetings.map((m) => [m.building, m.room])), lessons };
 }
 
+// 직접 추가 시트의 색(update151, 디자인 162판 '새 일정은 넣을 때 줄 색이 처음부터 골라져 있게'): 시트가 처음 골라 둘 색(nextColor)은 addItem 이 줄 색,
+// 시트에서 고른 색(customItem 의 color)은 그대로 넣는다. 0~7 이 아닌 값은 버린다
+{
+  let t = T.createTimetable([], "2026-2", { now: NOW });
+  const first = T.nextColor(t);
+  t = T.addItem(t, T.customItem({ title: "가", meetings: [{ day: 0, start: 600, end: 660, building: "" }] }), { now: NOW }).t;
+  const second = T.nextColor(t);
+  const auto = T.addItem(t, T.customItem({ title: "나", meetings: [{ day: 1, start: 600, end: 660, building: "" }] }), { now: NOW }).t;
+  const picked = T.addItem(t, T.customItem({ title: "다", meetings: [{ day: 1, start: 600, end: 660, building: "" }], color: 0 }), { now: NOW }).t;
+  const bad = [9, -1, 1.5, "2", null].map((color) => "color" in T.customItem({ title: "라", meetings: [], color }));
+  out.colorPick = { first, second, auto: auto.items.at(-1).color, picked: picked.items.at(-1).color, kept: picked.items[0].color, bad,
+    empty: [T.nextColor(null), T.nextColor({}), T.nextColor({ items: "x" })] };
+}
+
 console.log(JSON.stringify(out));
