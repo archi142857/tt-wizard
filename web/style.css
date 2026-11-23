@@ -1292,6 +1292,8 @@ html[data-launch="mine"] #view-input { visibility: hidden; } /* 내 시간표로
 .wk-block .b-title { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: var(--lines, 3); overflow: hidden;
   font-size: 0.75rem; line-height: 1rem; font-weight: 500; word-break: keep-all; overflow-wrap: anywhere; }
 .wk-block .b-room { flex: none; font-size: 0.75rem; line-height: 1rem; font-weight: 500; color: var(--block-fg2, var(--text2)); overflow: hidden; word-break: keep-all; overflow-wrap: anywhere; }
+/* 일정의 장소 글(162판, '301동 3층 라운지'): 과목 강의실처럼 늘 다 보이지 않고 이름 다음에 남는 줄(--place-lines, app.js)까지, 마지막 줄 말줄임 */
+.wk-block .b-room.b-place { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: var(--place-lines, 1); }
 .wk-block.half { right: auto; width: calc(50% - 1px); } /* 시간이 겹치는 칸: 반씩 나란히 */
 .wk-block.half.right { left: auto; right: 0; }
 button.wk-block:active { filter: brightness(0.96); } /* 공유받은 시간표 미리 보기의 칸(span)은 누르지 않는다 */
@@ -1319,6 +1321,7 @@ button.wk-block:active { filter: brightness(0.96); } /* 공유받은 시간표 �
    '200-' / '421' / '3'이 됐다). 덩이가 줄보다 길면 칸 안 여백까지 쓰고 칸 끝(.wk-block 의 overflow)에서 잘린다 */
 .wk.is-dense .b-room { overflow: visible; overflow-wrap: normal; }
 .wk.is-dense .b-room .r-part { white-space: nowrap; }
+.wk.is-dense .b-room.b-place { overflow: hidden; overflow-wrap: anywhere; } /* 장소 글은 줄 수까지 자른다(위 덩이 규칙은 호실 번호만) */
 /* 낮은 칸(디자인 156판): 과목명 한 줄 + 강의실 한 줄이 들어가지 않는 칸(좁은 격자 34px, 넓은 격자 38px 아래. 친구 시간표의 한 시간이 1.5rem 가까울 때).
    앱이 칸 높이를 재어 .short 를 단다(renderWeek). 한 줄에 과목명과 강의실을 나란히, 위아래 여백 없이 세로 가운데. 과목명이 먼저 세 글자 + … 까지 줄고,
    강의실은 앱이 폭을 재어 들어가는 것만 넣는다('26-B102' → '26동' → 없음). 한 줄 높이보다 낮은 칸은 글 없이(칸 이름은 그대로).
@@ -1380,6 +1383,7 @@ button.wk-block:active { filter: brightness(0.96); } /* 공유받은 시간표 �
 .tt-export .ex-block b, .tt-export .ex-block i { flex: none; font-style: normal; font-weight: 500; word-break: keep-all; overflow-wrap: anywhere; }
 .tt-export .ex-block b { font-size: var(--ns, 30px); line-height: var(--nlh, 38px); color: var(--block-fg, var(--text)); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
 .tt-export .ex-block i { font-size: var(--rs, 25px); line-height: var(--rlh, 33px); color: var(--block-fg2, var(--text2)); }
+.tt-export .ex-block i.is-place { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: var(--pl, 9); overflow: hidden; } /* 일정의 장소 글: 남는 줄만큼(fitExportBlock, 162판) */
 .tt-export .ex-notes { position: absolute; left: 56px; right: 44px; }
 .tt-export .ex-legend { display: flex; gap: 28px; width: fit-content; margin-top: 18px; font-size: 27px; line-height: 38px; color: var(--on-bg-text3); }
 .tt-export .ex-legend > span { display: inline-flex; align-items: center; gap: 10px; }
@@ -1531,9 +1535,10 @@ dialog.sheet.shared-sheet { padding-bottom: 0; }
 .btn-del:active { box-shadow: var(--shadow-press); }
 @media (forced-colors: active) { .btn-del { border: 1px solid ButtonText; } }
 .sheet-body:has(.swatches) { container-type: inline-size; }
-.swatches { display: grid; grid-template-columns: repeat(4, var(--touch)); margin: 0; padding: 0; border: 0; }
-@container (min-width: 24rem) { .swatches { grid-template-columns: repeat(8, var(--touch)); } }
-.swatches label { position: relative; display: flex; align-items: center; justify-content: center; width: var(--touch); height: var(--touch); cursor: pointer; }
+/* 163판: 칸이 본문 폭을 나눠 줄을 채운다(넷씩 두 줄, 본문 20rem 부터 여덟 칸 한 줄. 칸 40px 이상). 원의 차례는 무지개(SWATCH_ORDER) */
+.swatches { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; padding: 0; border: 0; }
+@container (min-width: 20rem) { .swatches { grid-template-columns: repeat(8, minmax(0, 1fr)); } }
+.swatches label { position: relative; display: flex; align-items: center; justify-content: center; min-width: 0; height: var(--touch); cursor: pointer; }
 .swatches input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
 .swatches .sw { display: flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 50%; color: var(--text);
   box-shadow: inset 0 0 0 1px #18203322; }
@@ -1561,6 +1566,7 @@ fieldset.cu-field { min-width: 0; margin: 0; border: 0; } /* 요일 칸 묶음: 
 .cu-field .field-label { margin-bottom: var(--space-2); }
 .cu-field .error-line { margin: var(--space-2) 0 0; }
 .cu-field .select { margin-top: 0; }
+.sheet-body .cu-field .text-input.cu-place-text { margin-top: var(--space-2); } /* 장소 글 칸(162판): 건물 선택칸 바로 아래. 보이는 라벨 없이 자리표시가 이름(장소 이름, 자세한 위치) */
 /* 과목 추가의 결과 행(10/23 사용자: SNUTT 처럼 분반마다): 탐색의 결과 행과 같은 모양(행 어디를 눌러도 오른쪽 버튼). 과목명 / 001(교수) · 학과 · 교과구분 · 학점 /
    요일·시각 · 강의실. 버튼은 추가·✓ 넣음(row-picked)·바꾸기(같은 과목의 다른 분반이 들어 있다), 다른 항목과 시간이 겹치면 그 앞에 '시간 겹침' */
 .add-sec .r-sec { color: var(--text); }
@@ -2119,6 +2125,16 @@ label.gr-ck { cursor: pointer; }
 .gr-ck .cr.is-left { color: var(--warning); font-weight: 500; }
 .gr-ck .cr.is-ok { color: var(--success); font-weight: 500; } /* 목록 없는 분야 줄의 '충족'(update127, 디자인 148판) */
 .gr-field .gr-fnote { margin: 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; } /* 목록과 섞인 목록 없는 분야: 머리 아래 조건부 글 */
+.gr-field p.gr-fnote.is-out { color: var(--text2); } /* TEPS 점수를 넣은 뒤 조건 글 자리의 첫 과목 줄 '대학영어 2부터 수강해요'(162판) */
+/* 요건 시트의 TEPS 칸(162판): 필드 라벨, 세그먼트 New TEPS | 이전 TEPS, 점수 칸(7.5rem) + 점, 범위 밖 오류 줄, 고지. 과목 목록은 그 아래 16 */
+fieldset.gr-teps { min-width: 0; margin: var(--space-3) 0 0; padding: 0; border: 0; }
+.gr-teps > legend.field-label { padding: 0; margin: 0 0 var(--space-2); }
+.gr-teps .teps-row { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-2); font-size: 0.9375rem; line-height: 1.375rem; color: var(--text2); }
+.gr-teps .teps-row .text-input { width: 7.5rem; font-variant-numeric: tabular-nums; }
+.gr-teps p.error-line { margin: var(--space-2) 0 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--danger); }
+.gr-teps p.teps-note { margin: var(--space-2) 0 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; }
+.gr-teps + .gr-checks { margin-top: var(--space-4); }
+.gr-teps + .gr-more { margin-top: var(--space-3); } /* 접힌 긴 목록(들은 과목이 없으면 '모두 보기'만)이 바로 아래일 때 */
 .gr-path { margin-top: var(--space-2); padding: var(--space-1) var(--space-3) 0; border: 1px solid var(--line); border-radius: var(--radius-md); }
 .gr-path.is-ok { border-color: var(--success); }
 .gr-path .pn { display: block; padding-top: var(--space-2); font-size: 0.8125rem; line-height: 1.125rem; font-weight: 500; color: var(--text2); }

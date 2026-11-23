@@ -614,6 +614,7 @@
   </div>
   <div class="sheet-body" id="rq-body"></div>
   <div class="sr-only" role="status" data-live="status"></div>
+  <div class="sr-only" role="alert" data-live="alert"></div>
 </dialog>
 <!-- 다른 곳에서 들은 과목 팝업(디자인 124판, 새 시간표 팝업과 같은 짜임): 학점 교류·교환·대학원 과목. 과목 이름·학점·이수 구분·학기. 추가는 이름을 넣으면 켜진다 -->
 <dialog class="sheet ask tt-new" id="gm-add" aria-labelledby="gm-title">
@@ -684,7 +685,7 @@
         <button type="button" class="share-act" data-share="cal-save" aria-label="캘린더 파일로 저장" aria-describedby="sh-cal-note"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5v11"></path><path d="M7.5 10l4.5 4.5 4.5-4.5"></path><path d="M4.5 15.5v2A2.5 2.5 0 0 0 7 20h10a2.5 2.5 0 0 0 2.5-2.5v-2"></path></svg>파일로 저장</button>
       </div>
       <!-- 캘린더 자료 고지(법무 11/13: 학기 기간·공휴일은 학교 학사일정과 공휴일 규정에서 옮긴 날짜라 빠지는 날이 있을 수 있다는 것을 단다. 출처는 정보 > 자료 출처 '학기 일정') -->
-      <p class="share-note" id="sh-cal-note" hidden>휴강·보강·임시공휴일은 빠질 수 있어요</p>
+      <p class="share-note" id="sh-cal-note" hidden>휴강, 보강, 임시공휴일은 빠질 수 있어요</p>
     </div>
     <ul class="share-apps" id="sh-apps" aria-label="공유할 앱" hidden></ul>
   </div>
@@ -758,7 +759,7 @@
       <textarea class="text-area" id="rp-text" maxlength="200" aria-describedby="rp-count"></textarea>
       <p class="rp-count" id="rp-count">0/200</p>
     </div>
-    <p class="rp-note" id="rp-note">다른 사람의 이름·연락처 같은 개인정보는 적지 마세요</p>
+    <p class="rp-note" id="rp-note">다른 사람의 이름이나 연락처 같은 개인정보는 적지 마세요</p>
     <p class="error-line" id="rp-err" hidden>신고하지 못했어요</p>
     <button type="button" class="btn-primary rp-send" id="rp-send" disabled aria-describedby="rp-note">신고하기</button>
   </div>
@@ -948,7 +949,7 @@
 <!-- 폰 알림 권한을 폰이 묻기 바로 앞(134판, 법무 11/15): [계속]이면 폰이 묻고, 뒤로 가기로 닫으면 묻지 않는다 -->
 <dialog class="sheet ask" id="nt-ask" aria-labelledby="nt-ask-title">
   <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="nt-ask-title" tabindex="-1" autofocus>폰 알림</h2></div></div>
-  <div class="sheet-body"><p>새 학기 수강편람이 나오거나 담은 과목의 시간·강의실이 바뀌면 알려요. 알림은 정보 화면에서 끌 수 있어요.</p></div>
+  <div class="sheet-body"><p>새 학기 수강편람이 나오거나 담은 과목의 시간이나 강의실이 바뀌면 알려요. 알림은 정보 화면에서 끌 수 있어요.</p></div>
   <div class="sheet-actions">
     <button type="button" class="btn-text" id="nt-ask-ok">계속</button>
   </div>

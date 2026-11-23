@@ -180,24 +180,31 @@ function placeLabel(b) {
   const home = (state.campus?.homes || []).find(([id]) => id === b);
   return home ? home[1] : buildingLabel(b);
 }
-/** 강의실: 301동 118호, 호수가 글자면 301동 강당, 건물만 알면 301동, 직접 넣은 건물은 301동 (직접 입력). */
+/** 강의실: 301동 118호, 호수가 글자면 301동 강당, 건물만 알면 301동, 직접 넣은 건물은 301동 (직접 입력).
+ *  '호'는 호실 번호(T.ROOM_NO: 118, B102, 101-1)에만 붙인다. 일정의 장소 글(백엔드 update148, 디자인 162판)은 건물 뒤에 이어 '301동 3층 라운지',
+ *  건물 없이 적은 글은 그대로('학생회관 4층 동아리방'). 강좌는 건물이 없으면 호실도 없어 '강의실 미정' */
 function roomLabel(m) {
-  if (!m.building) return "강의실 미정";
+  if (!m.building) return m.room ? T.cleanPlace(m.room) : "강의실 미정";
   if (m.manual) return `${m.building}동 (직접 입력)`;
   if (!m.room) return `${m.building}동`;
-  return /^[A-Za-z]?\d/.test(m.room) ? `${m.building}동 ${m.room}호` : `${m.building}동 ${m.room}`;
+  return T.ROOM_NO.test(m.room) ? `${m.building}동 ${m.room}호` : `${m.building}동 ${m.room}`;
 }
 /** 좁은 격자 칸의 강의실(폰 내 시간표, 11/15 사용자가 SNUTT 와 견줌): 수강편람 표기 '200-4213'. 호수가 글자면 '301동 강당', 건물만 알면 '301동' */
 function roomShort(m) {
   if (!m.building || m.manual || !m.room) return roomLabel(m).replace(" (직접 입력)", "");
-  return /^[A-Za-z]?\d/.test(m.room) ? `${m.building}-${m.room}` : `${m.building}동 ${m.room}`;
+  return T.ROOM_NO.test(m.room) ? `${m.building}-${m.room}` : `${m.building}동 ${m.room}`;
 }
+/** 일정의 장소(디자인 162판): 건물과 장소 글을 한 칸 띄어 잇는다('301동 3층 라운지', 건물만 '301동', 글만 '학생회관 4층 동아리방').
+ *  글이 호실 번호면 과목 강의실과 같은 꼴('301동 118호', 좁은 칸 '301-118'). 둘 다 없으면 "" */
+const customPlace = (m) => (m.building || m.room ? roomLabel(m) : "");
+/** 일정의 장소가 호실 번호 아닌 글인가(칸에서 과목 강의실처럼 늘 다 보이게 하지 않고 남는 줄만큼, 끝은 말줄임. 162판) */
+const freePlace = (m) => !!m.room && !(m.building && T.ROOM_NO.test(m.room));
 /** 좁은 격자 칸의 강의실 조각과 줄 수(디자인 140판): '200-4213'은 건물 '200-'과 호 '4213'을 줄을 바꾸지 않는 덩이(.r-part) 둘로 두고 그 사이(<wbr>)에서만
  *  줄을 바꾼다. 크롬은 붙임표 뒤마다 끊을 수 있어 덩이 없이는 겹친 반 칸에서 '200-' / '421' / '3', '43-' / '1-' / '304'가 됐다. 덩이가 줄보다 길면 칸 안
  *  여백까지 쓰고 칸 끝에서 잘린다(style.css .wk.is-dense .b-room). 그 밖의 글('강의실 미정', '43-1동')은 과목명처럼 줄보다 긴 낱말에만 글자 사이 줄바꿈 */
 function denseRoom(m, text, width, font) {
   const widthOf = canvasWidth(font);
-  if (text !== roomShort(m) || !m.building || !m.room || m.manual || !/^[A-Za-z]?\d/.test(m.room)) return { kids: [breakLong(text, width, widthOf)], lines: textLines(text, font, width) };
+  if (text !== roomShort(m) || !m.building || !m.room || m.manual || !T.ROOM_NO.test(m.room)) return { kids: [breakLong(text, width, widthOf)], lines: textLines(text, font, width) };
   const a = `${m.building}-`, b = String(m.room);
   return { kids: [h("span", { class: "r-part" }, a), h("wbr"), h("span", { class: "r-part" }, b)], lines: widthOf(a + b) <= width ? 1 : 2 };
 }
@@ -3784,6 +3791,20 @@ const COLOR_NAMES = ["파랑", "초록", "주황", "보라", "노랑", "분홍",
 // 이벤트 테마의 칸 색 이름: 테마마다 팔레트가 따로라 이름도 그 테마의 것이다(디자인 80판. 크리스마스 값은 81판 '선명하게')
 const THEME_COLOR_NAMES = { xmas: ["초록", "연초록", "금색", "청록", "빨강", "크림", "연두", "은색"] };
 const colorNames = () => THEME_COLOR_NAMES[document.documentElement.dataset.theme] || COLOR_NAMES;
+// 색 고르기의 원 차례(디자인 163판, 11/23 사용자 '무지개 순서로 배치하자. 회색은 가장 뒤에'): 분홍, 주황, 노랑, 초록, 청록, 파랑, 보라, 회색.
+// 보이는 차례만이다: 라디오 값과 이름은 그 색 그대로(item-N), 새 항목에 주는 색의 차례(T.addItem)도 그대로
+const SWATCH_ORDER = [5, 2, 4, 1, 6, 0, 3, 7];
+/** 색 고르기(과목의 항목 시트, 직접 추가 시트와 일정의 시트. 162·163판): fieldset + legend '색' + 라디오 여덟(이름 name, 고른 번호 cur). 원은 본문 폭을 나눠 줄을 채운다 */
+function colorField(name, cur, cls) {
+  const names = colorNames();
+  return h("fieldset", { class: cls }, h("legend", { class: "field-label" }, "색"),
+    h("div", { class: "swatches" }, SWATCH_ORDER.map((i) => h("label", {},
+      h("input", { type: "radio", name, value: String(i), checked: cur === i, "aria-label": names[i] }),
+      // 체크는 그 색의 글자색(크리스마스의 짙은 원 위에서는 흰색)
+      h("span", { class: "sw", style: { background: `var(--item-${i})`, color: `var(--item-${i}-fg)` } }, icon(I.check, 20))))));
+}
+/** 색 고르기를 두는가: 과목별 칸 색일 때만. 크리스마스는 자리가 색을 정해(트리, 157판) 두지 않는다(고른 번호는 남아 테마를 끄면 그대로) */
+const colorPickable = () => ttColor === "item" && !xmasShown();
 // 시간표 칸 색: 과목별(item) | 교과구분별(cls). 이 기기 하나, 학기와 상관없다. 기기에 두는 열쇠는 다 백엔드 timetables.js 의 STORE_KEYS
 let ttColor = T.colorMode(store.get(T.STORE_KEYS.color, "item"));
 const mine = { sem: "", list: [], id: "" }; // 보는 학기, 그 학기 시간표 목록(T.parseList), 지금 보는 시간표 id
@@ -3883,7 +3904,7 @@ const treeFill = (slot) => `var(--tree-${slot})`;
 const treeInk = (slot) => ({ "--block-fg": `var(--tree-${slot}-fg)`, "--block-fg2": `var(--tree-${slot}-fg2)` });
 const treeDot = (slot) => `var(--tree-${slot || "leaf-6"}-dot)`;
 /** 일정의 메타·칸: '금 16:00~18:00 · 63동'(장소가 없으면 시각까지) */
-const customWhen = (meetings) => meetingGroups(meetings).map((g) => `${daysLabel(g.days)} ${hm(g.start)}~${hm(g.end)}${g.building ? ` · ${buildingLabel(g.building)}` : ""}`).join(", ");
+const customWhen = (meetings) => meetingGroups(meetings).map((g) => [`${daysLabel(g.days)} ${hm(g.start)}~${hm(g.end)}`, customPlace(g)].filter(Boolean).join(" · ")).join(", ");
 
 /** 태그는 두 개까지, 위험 → 주의 → 중립. 없는 과목은 편람에서 과목이 사라진 것(탐색과 같은 말), 없는 분반은 과목은 있고 분반만 사라진 것 */
 function itemTags(e, clash) {
@@ -4065,9 +4086,11 @@ function renderWeek(t, entries, clash, opts = {}) {
     const top = ((m.start - h0 * 60) / 60) * hourPx, height = ((m.end - m.start) / 60) * hourPx - 2;
     const textW = (half ? (colW - 2) / 2 : colW) - padX;
     // 끝 번호는 앞 낱말에(glueTail), 줄보다 긴 낱말은 글자 사이에서도 줄을 바꾼다(breakLong)
-    const name = breakLong(glueTail(e.item.custom ? e.item.title : shortName(courseName(e)), textW, canvasWidth(font)), textW, canvasWidth(font));
-    const spoken = e.item.custom ? (m.building ? buildingLabel(m.building) : "") : roomLabel(m); // 스크린리더는 늘 '200동 4213호'
-    const full = dense && !e.item.custom ? roomShort(m) : spoken;
+    const glued = glueTail(e.item.custom ? e.item.title : shortName(courseName(e)), textW, canvasWidth(font));
+    const name = breakLong(glued, textW, canvasWidth(font));
+    const spoken = e.item.custom ? customPlace(m) : roomLabel(m); // 스크린리더는 늘 '200동 4213호'(일정은 건물과 장소 글 '301동 3층 라운지', 162판)
+    const free = e.item.custom && freePlace(m); // 일정의 장소 글(호실 번호가 아닌 글): 과목 강의실처럼 늘 다 보이게 하지 않는다(아래)
+    const full = dense && spoken && !free ? roomShort(m) : spoken;
     // 강의실 글과 줄 수(좁은 격자는 건물·호 덩이 또는 긴 낱말만 글자 사이, denseRoom). 낮아서 과목명 한 줄도 못 두면 건물만('43-1동')
     let room = "", roomKids = [], roomLines = 0;
     const setRoom = (text) => {
@@ -4087,6 +4110,9 @@ function renderWeek(t, entries, clash, opts = {}) {
       const bld = m.building ? buildingLabel(m.building) : "";
       room = [full, bld].find((s) => s && least + 4 + w(s) <= textW) || "";
       roomKids = room ? [room] : [];
+    } else if (free && room) { // 162판: 이름 줄이 먼저(칸에 한 줄은 장소에 남긴다), 장소는 낱말 사이에서 줄을 바꾸며 남는 줄만큼, 마지막 줄 말줄임
+      const total = Math.floor((height - 6) / lh);
+      roomLines = Math.max(1, Math.min(roomLines, total - Math.max(1, Math.min(textLines(glued, font, textW), total - 1))));
     } else if (room && height - 6 - roomLines * lh < lh && m.building && room !== buildingLabel(m.building)) setRoom(buildingLabel(m.building));
     const lines = Math.max(1, Math.floor((height - 6 - roomLines * lh) / lh));
     const said = [`${DAY_KO[m.day]} ${hm(m.start)}~${hm(m.end)} ${e.item.custom ? e.item.title : courseName(e)}`, spoken, clash.has(e.key) ? "시간 겹침" : ""].filter(Boolean).join(", ");
@@ -4100,7 +4126,9 @@ function renderWeek(t, entries, clash, opts = {}) {
     const slot = tree && tree.get(e.key);
     const cls = `wk-block${half ? ` ${half}` : ""}${short ? " short" : ""}${mark}`;
     const style = { background: slot ? treeFill(slot) : itemFill(e.item, opts.colors), ...(slot ? treeInk(slot) : itemInk(e.item, opts.colors)), "--lines": String(short ? 1 : lines) };
-    const parts = bare ? [] : [h("span", { class: "b-title", "aria-hidden": "true" }, short ? oneLine : name), room ? h("span", { class: "b-room", "aria-hidden": "true" }, ...roomKids) : null];
+    const clip = free && !short; // 장소 글은 남는 줄(roomLines)까지 그리고 끝을 말줄임(.b-place)
+    const parts = bare ? [] : [h("span", { class: "b-title", "aria-hidden": "true" }, short ? oneLine : name),
+      room ? h("span", { class: clip ? "b-room b-place" : "b-room", "aria-hidden": "true", style: clip ? { "--place-lines": String(roomLines) } : null }, ...roomKids) : null];
     list.append(h("li", { style: place },
       // 누르지 않는 격자(공유받은 시간표 미리 보기): 칸은 글이고 스크린리더는 목록의 글로 읽는다
       opts.still ? h("span", { class: cls, style }, ...parts, h("span", { class: "sr-only" }, said))
@@ -4177,13 +4205,14 @@ function undoReplace(tid, addedKey, restore) {
  * 시간이 겹치는 항목이 있으면 묻지 않고 빼고 넣는다(T.addItem force). → {tid, added: 넣은 항목 열쇠, restore: 되돌릴 때 돌려놓을 항목들(T.addItem 의 removed),
  * removed: 겹쳐서 뺀 항목 수(바꿔 넣느라 뺀 같은 과목의 분반은 세지 않는다)}
  */
-function placeItem(item) {
+function placeItem(item, color = null) {
   let out = null;
   editTt((t) => {
     const r = T.addItem(t, item, { force: true, byId: state.byId });
     const swapped = (x) => T.itemKey(x) === T.itemKey(item) || (!!item.course && x.course === item.course);
     out = { tid: t.id, added: T.itemKey(item), restore: r.removed, removed: r.removed.filter((x) => !swapped(x)).length };
-    return spreadColors(r.t);
+    const spread = spreadColors(r.t);
+    return color === null ? spread : T.updateItem(spread, T.itemKey(item), { color }); // 직접 추가 시트에서 고른 색(162판. 퍼뜨리기 뒤에)
   });
   return out;
 }
@@ -4618,14 +4647,15 @@ function layoutExport(root, entries, { name, card, legend, late }) {
   for (const { e, m, half } of blocks) {
     const w = half ? (cw - EX.gap) / 2 : cw;
     const x = EX.axis + days.indexOf(m.day) * (cw + EX.gap) + (half === "right" ? w + EX.gap : 0);
-    const room = e.item.custom ? (m.building ? buildingLabel(m.building) : "") : roomLabel(m);
+    const room = e.item.custom ? customPlace(m) : roomLabel(m); // 일정은 건물과 장소 글(162판)
     const bld = m.building ? buildingLabel(m.building) : room;
+    const free = e.item.custom && freePlace(m); // 장소 글은 이름 다음에 남는 줄만큼(fitExportBlock)
     const slot = tree && tree.get(e.key);
     body.append(h("div", { class: "ex-block", "data-min": String(m.end - m.start), style: {
       left: `${x}px`, top: `${((m.start - h0 * 60) / 60) * hp + EX.gap / 2}px`, width: `${w}px`, height: `${((m.end - m.start) / 60) * hp - EX.gap}px`,
       background: slot ? treeFill(slot) : itemFill(e.item), ...(slot ? treeInk(slot) : itemInk(e.item)) } },
     h("b", { "data-raw": e.item.custom ? e.item.title : shortName(courseName(e)) }), // 글은 단계마다 fitExportBlock 이 넣는다(끝 번호 붙이기가 글자 크기를 따른다)
-    room ? h("i", { "data-full": room, "data-bld": bld }, room) : null));
+    room ? h("i", { class: free ? "is-place" : null, "data-full": room, "data-bld": bld }, room) : null));
   }
 }
 /** 칸 글자 단계 고르기(디자인 79판): 큰 단계부터 그려 보고 한 칸이라도 걸리면 한 단계 줄인다(22 에서도 걸리면 22). 걸리는 것: 어느 칸이든 과목명의 낱말 하나가 한 줄보다 길다,
@@ -4656,7 +4686,7 @@ function fitExportBlock(bk, measure) {
   const fits = () => bk.scrollHeight <= bk.clientHeight + 0.5;
   const clamp = (n) => b.style.setProperty("-webkit-line-clamp", String(n));
   bk.classList.remove("is-tight");
-  if (i) { i.style.display = ""; i.textContent = i.dataset.full; }
+  if (i) { i.style.display = ""; i.textContent = i.dataset.full; i.style.removeProperty("--pl"); }
   b.style.setProperty("-webkit-line-clamp", "unset");
   b.style.display = "block";
   const bs = getComputedStyle(b), raw = b.dataset.raw ?? "";
@@ -4666,6 +4696,23 @@ function fitExportBlock(bk, measure) {
   const need = Math.max(1, Math.round(b.scrollHeight / parseFloat(bs.lineHeight)));
   b.style.display = "";
   const broken = raw.split(" ").some((w) => measure.measureText(w).width > b.clientWidth + 0.5);
+  if (i && i.classList.contains("is-place")) { // 일정의 장소 글(162판): 이름이 먼저 줄을 받고 장소는 남는 줄만큼(--pl, 끝 말줄임). 장소가 잘려도 단계를 낮추지 않는다
+    const want = Math.max(1, Math.round(i.getBoundingClientRect().height / parseFloat(getComputedStyle(i).lineHeight)));
+    const rooms = i.dataset.bld !== i.dataset.full ? ["full", "bld"] : ["full"];
+    for (const room of rooms) {
+      i.textContent = i.dataset[room];
+      for (let n = room === "full" ? need : 1; n >= 1; n--) for (const tight of [false, true]) for (let p = room === "full" ? want : 1; p >= 1; p--) {
+        bk.classList.toggle("is-tight", tight);
+        clamp(n);
+        i.style.setProperty("--pl", String(p));
+        if (fits()) return { full: n === need, broken };
+      }
+    }
+    bk.classList.add("is-tight");
+    clamp(1);
+    i.style.display = "none";
+    return { full: false, broken };
+  }
   const tries = [[false, "full", need], [true, "full", need]];
   for (let n = need - 1; n >= 1; n--) tries.push([false, "full", n], [true, "full", n]);
   if (i) tries.push([false, "bld", 1], [true, "bld", 1]);
@@ -5031,7 +5078,7 @@ async function linkToPayload(link) {
 // 웹·iOS 앱은 카카오톡·인스타그램 단추가 없고(SDK·앱 등록이 있어야 한다) 메시지(폰의 링크만, sms:)와 더 보기(기기 공유 창)
 // 셋째 종류 캘린더(디자인 122판, 11/13 사용자가 자리 그림을 보고 "그림대로"): 공유 시트를 연 그 시간표(대표가 아니어도)의 수업과 시간이 있는 일정을 학기 첫날~끝날 매주
 // 되풀이한 .ics(백엔드 update102 ics.js, 공휴일 뺌). 칸에 학기 기간 '9월 1일~12월 15일 매주'와 파일로 저장(웹은 내려받기. 앱은 다운로드에 넣을 수 있다고 앱 연결이 알릴 때만),
-// 칸 아래 고지 '휴강·보강·임시공휴일은 빠질 수 있어요'(법무 11/13. 출처는 자료 출처의 '학기 일정'), 단추 줄은 Tachyon(같은 사용자의 다른 앱. Tachyon 처리방침이 생기기
+// 칸 아래 고지 '휴강, 보강, 임시공휴일은 빠질 수 있어요'(법무 11/13. 출처는 자료 출처의 '학기 일정'), 단추 줄은 Tachyon(같은 사용자의 다른 앱. Tachyon 처리방침이 생기기
 // 전에는 없다, 법무 11/13) · 캘린더 앱(안드로이드 앱: 폰에서 .ics 를 여는 앱 셋까지, 백엔드 update104) · 더 보기(기기 공유 창에 파일). 학기 기간 자료가 없으면
 // '이 학기 기간이 아직 없어요'만
 let shareTt = null, shareUrl = null; // 공유 시트를 연 시간표, 그 링크(Promise. 열 때 만들어 둔다: 웹의 공유는 누른 바로 그때만 된다)
@@ -5057,12 +5104,12 @@ let calP = null, calChecked = ""; // 학기 기간·수업 없는 날(data/calen
 const calendarData = () => (calP ||= getJson("data/calendar.json").catch((e) => { calP = null; throw e; }));
 const icsFile = (t) => imageFile(t).replace(/\.png$/, ".ics"); // '2026년 2학기 시간표 1.ics'(이미지 파일 이름과 같은 꼴. 디자인 122판)
 const monthDay = (iso) => { const [, m, d] = String(iso).split("-").map(Number); return `${m}월 ${d}일`; };
-/** 캘린더 파일에 넣을 것: 화면과 같은 이름·장소(과목은 '28동 301호', 일정은 건물만)로, 시간이 있는 수업과 일정 */
+/** 캘린더 파일에 넣을 것: 화면과 같은 이름·장소(과목은 '28동 301호', 일정은 건물과 장소 글 '301동 3층 라운지')로, 시간이 있는 수업과 일정. 메모는 넣지 않는다 */
 function icsItems(t) {
   return ttEntries(t).filter((e) => e.meetings.length).map((e) => ({
     key: e.key, title: courseName(e),
     detail: e.item.custom ? "" : [`교과목번호 ${e.item.course}`, e.item.no ? `강좌번호 ${e.item.no}` : ""].filter(Boolean).join(" · "), // 편람의 말(분반 표기는 화면의 061(교수)만)
-    meetings: e.meetings.map((m) => ({ day: m.day, start: m.start, end: m.end, place: !m.building ? "" : e.item.custom ? buildingLabel(m.building) : roomLabel(m) })), // 강의실 미정이면 장소 없이
+    meetings: e.meetings.map((m) => ({ day: m.day, start: m.start, end: m.end, place: e.item.custom ? customPlace(m) : m.building ? roomLabel(m) : "" })), // 강의실 미정이면 장소 없이(일정은 장소 글까지, 162판)
   }));
 }
 async function makeIcs(t) {
@@ -6065,12 +6112,7 @@ function renderItemSheet() {
   // 수강 제한 안내(123판): 분반 목록(넣은 분반·다른 분반) 위, 보이는 분반 행에 태그나 비고 원문이 있을 때만
   const note = limitNote([secLimit(it.course, it.no, mine.sem), ...others.map((s) => secLimit(s.courseId, s.no, mine.sem))]);
   $("is-body").replaceChildren(...[
-    // 색: 과목별일 때만. 크리스마스는 자리가 색을 정해(트리, 157판) 두지 않는다(고른 번호는 남아 테마를 끄면 그대로)
-    ttColor === "item" && !xmasShown() ? h("fieldset", { class: "sheet-field" }, h("legend", { class: "field-label" }, "색"),
-      h("div", { class: "swatches" }, colorNames().map((name, i) => h("label", {},
-        h("input", { type: "radio", name: "is-color", value: String(i), checked: colorNo(it) === i, "aria-label": name }),
-        // 체크는 그 색의 글자색(크리스마스의 짙은 원 위에서는 흰색)
-        h("span", { class: "sw", style: { background: `var(--item-${i})`, color: `var(--item-${i}-fg)` } }, icon(I.check, 20)))))) : null,
+    colorPickable() ? colorField("is-color", colorNo(it), "sheet-field") : null, // 색: 과목별일 때만(colorPickable)
     note,
     h("div", { class: "sheet-field item-secs" }, h("span", { class: "field-label" }, "넣은 분반"), cur),
     others.length ? h("div", { class: "sheet-field item-secs" },
@@ -6308,18 +6350,26 @@ function itemSheetClosed() {
   renderMine();
 }
 
-// ---- 직접 추가 시트(일정): 이름(30자), 요일(월–일, 여럿), 시각(시·분 선택), 장소(건물 선택칸, 처음 미정, 강의 건물에 기숙사 동을 더한 목록), 메모.
-// 넣은 일정을 누르면 같은 시트에 값이 채워져 열린다(제목은 일정 이름, 오른쪽 완료, 맨 아래 오른쪽 삭제(과목 시트와 같다). 바꾼 것은 바로 저장된다)
-const custom = { key: null, title: "", days: [], sh: 9, sm: 0, eh: 10, em: 0, b: "", memo: "", hidden: false, errors: new Set() };
+// ---- 직접 추가 시트(일정): 이름(30자), 색(162판, 과목별 칸 색일 때만), 요일(월–일, 여럿), 시각(시·분 선택), 장소(건물 선택칸, 처음 미정, 강의 건물에 기숙사 동을
+// 더한 목록 + 바로 아래 장소 글 칸 30자, 162판), 메모. 넣은 일정을 누르면 같은 시트에 값이 채워져 열린다(제목은 일정 이름, 오른쪽 완료, 맨 아래 오른쪽 삭제(과목 시트와
+// 같다). 바꾼 것은 바로 저장된다). 장소 글(백엔드 update148)은 수업의 room 이고 걷는 시간은 건물로만 잰다. 친구 사본에는 가지 않는다(이름과 시간만)
+const custom = { key: null, title: "", color: 0, days: [], sh: 9, sm: 0, eh: 10, em: 0, b: "", place: "", memo: "", hidden: false, errors: new Set() };
+/** 새 일정에 줄 색(162판: 직접 추가 시트에 처음부터 골라 둔다): T.addItem 이 줄 색 그대로(안 쓴 가장 작은 번호, 다 쓰면 가장 덜 쓴 색) */
+function nextColor() {
+  const r = T.addItem(curTt(), T.customItem({ title: "x", meetings: [] }), { force: true });
+  return r.t.items[r.t.items.length - 1].color;
+}
+/** 장소 글 칸의 자리표시이자 이름(162판): 건물이 미정이면 '장소 이름', 고르면 '자세한 위치' */
+const placeHint = (b) => (b ? "자세한 위치" : "장소 이름");
 
 function openCustom(key, opener) {
   const it = key ? curTt().items.find((x) => T.itemKey(x) === key) : null;
   if (key && !it) return;
   if (it) {
-    const g = meetingGroups(it.meetings.map(meetOf))[0] || { days: [], start: 540, end: 600, building: "" };
-    Object.assign(custom, { key, title: it.title, days: [...new Set(it.meetings.map(([d]) => d))].sort((a, b) => a - b),
-      sh: Math.floor(g.start / 60), sm: g.start % 60, eh: Math.floor(g.end / 60), em: g.end % 60, b: g.building || "", memo: it.memo || "", hidden: !!it.hidden, errors: new Set() });
-  } else Object.assign(custom, { key: null, title: "", days: [], sh: 9, sm: 0, eh: 10, em: 0, b: "", memo: "", hidden: false, errors: new Set() });
+    const g = meetingGroups(it.meetings.map(meetOf))[0] || { days: [], start: 540, end: 600, building: "", room: "" };
+    Object.assign(custom, { key, title: it.title, color: colorNo(it), days: [...new Set(it.meetings.map(([d]) => d))].sort((a, b) => a - b),
+      sh: Math.floor(g.start / 60), sm: g.start % 60, eh: Math.floor(g.end / 60), em: g.end % 60, b: g.building || "", place: g.room || "", memo: it.memo || "", hidden: !!it.hidden, errors: new Set() });
+  } else Object.assign(custom, { key: null, title: "", color: nextColor(), days: [], sh: 9, sm: 0, eh: 10, em: 0, b: "", place: "", memo: "", hidden: false, errors: new Set() });
   $("cu-title").textContent = it ? it.title : "직접 추가";
   $("cu-done").textContent = it ? "완료" : "추가";
   renderCustom();
@@ -6345,6 +6395,8 @@ function renderCustom() {
     h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-name" }, "이름"),
       h("input", { class: "text-input", id: "cu-name", type: "text", maxlength: String(T.TITLE_MAX), autocomplete: "off", enterkeyhint: "done", value: c.title, "data-cu": "title" }),
       err("name", "이름이 없어요")),
+    // 색(162판): 이름 바로 아래(과목의 항목 시트에서 색이 머리 바로 아래 첫 칸이라서). 새 일정은 앱이 줄 색이 골라져 있고, 일정의 시트는 고르면 바로 바뀐다
+    colorPickable() ? colorField("cu-color", c.color, "cu-field") : null,
     h("fieldset", { class: "cu-field", id: "cu-days" }, h("legend", { class: "field-label" }, "요일"),
       h("div", { class: "days" }, range(0, 6).map((d) => h("label", {},
         h("input", { type: "checkbox", value: String(d), checked: c.days.includes(d), "data-cu": "day", "aria-label": `${DAY_KO[d]}요일` }), DAY_KO[d]))),
@@ -6357,7 +6409,10 @@ function renderCustom() {
     // 친구에게 숨기기는 친구 탭의 '친구에게 보이는 내 시간표'에서만 한다(11/15 사용자 "친구에게 숨기고 말고 하는 건 친구 탭에서 할 수 있도록. 메인 시간표 거기서 하지 말고").
     // 새 일정은 처음에 친구에게 보이므로 만드는 시트의 시각 바로 아래에 한 줄로 알린다(134판, 법무 11/15: 만드는 화면에서 눈에 띄게. 법무 11/15 오후: 그 시간표가 친구에게 보일 때만, frNoteOn)
     frNoteOn() ? h("p", { class: "hide-note cu-fr-note" }, frNoteText()) : null,
-    h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-place" }, "장소"), placeSelect(c.b, { class: "select", id: "cu-place", "data-cu": "b" })),
+    // 장소(162판): 건물 선택칸 + 바로 아래 장소 글 칸(보이는 라벨 없이 자리표시가 이름. 건물 목록에 없는 곳은 건물을 미정으로 두고 글만)
+    h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-place" }, "장소"), placeSelect(c.b, { class: "select", id: "cu-place", "data-cu": "b" }),
+      h("input", { class: "text-input cu-place-text", id: "cu-place-text", type: "text", maxlength: String(T.PLACE_MAX), autocomplete: "off", enterkeyhint: "done",
+        value: c.place, "data-cu": "place", placeholder: placeHint(c.b), "aria-label": placeHint(c.b) })),
     h("div", { class: "cu-field" }, h("label", { class: "field-label", for: "cu-memo" }, "메모"),
       h("input", { class: "text-input", id: "cu-memo", type: "text", maxlength: "100", autocomplete: "off", enterkeyhint: "done", value: c.memo, "data-cu": "memo" })),
     c.key ? h("div", { class: "sheet-foot" }, h("button", { type: "button", class: "btn-del", "data-act": "remove" }, "삭제")) : null].filter(Boolean));
@@ -6383,7 +6438,7 @@ function customProblems() {
   if (c.eh * 60 + c.em <= c.sh * 60 + c.sm) out.add("time");
   return out;
 }
-const customMeetings = () => custom.days.map((day) => ({ day, start: custom.sh * 60 + custom.sm, end: custom.eh * 60 + custom.em, building: custom.b }));
+const customMeetings = () => T.customMeetings(custom.days.map((day) => ({ day, start: custom.sh * 60 + custom.sm, end: custom.eh * 60 + custom.em, building: custom.b, room: custom.place })));
 /** 넣은 일정을 고치는 중이면 바로 저장한다(고칠 수 없는 칸은 그 칸만 두고). 오류 줄은 원인 아래에, 풀리면 사라진다 */
 function customChanged(field) {
   const bad = customProblems();
@@ -6394,7 +6449,8 @@ function customChanged(field) {
     if (it) {
       const patch = {};
       if (field === "title" && !bad.has("name")) patch.title = T.cleanTitle(custom.title);
-      if ((field === "day" || field === "time" || field === "b") && !bad.has("day") && !bad.has("time")) patch.meetings = T.customItem({ title: "x", meetings: customMeetings() }).meetings;
+      if ((field === "day" || field === "time" || field === "b" || field === "place") && !bad.has("day") && !bad.has("time")) patch.meetings = customMeetings(); // 장소 글은 앞뒤 빈칸을 떼고(T.cleanPlace)
+      if (field === "color") patch.color = custom.color;
       if (field === "memo") patch.memo = custom.memo.trim() || undefined;
       if (field === "hidden") patch.hidden = custom.hidden || undefined;
       if (Object.keys(patch).length) {
@@ -6408,16 +6464,22 @@ function customChanged(field) {
 }
 $("cu-body").addEventListener("input", (ev) => {
   const x = ev.target, k = x.dataset.cu;
-  if (k === "title" || k === "memo") { custom[k] = x.value; customChanged(k); }
+  if (k === "title" || k === "memo" || k === "place") { custom[k] = x.value; customChanged(k); }
 });
 $("cu-body").addEventListener("change", (ev) => {
   const x = ev.target, k = x.dataset.cu;
-  if (!k || k === "title" || k === "memo") return;
+  if (x.name === "cu-color") { custom.color = Number(x.value); if (custom.key) customChanged("color"); return; } // 일정의 시트는 고르면 바로 바뀐다
+  if (!k || k === "title" || k === "memo" || k === "place") return;
   if (k === "day") {
     const d = Number(x.value);
     custom.days = x.checked ? [...new Set([...custom.days, d])].sort((a, b) => a - b) : custom.days.filter((y) => y !== d);
     customChanged("day");
-  } else if (k === "b") { custom.b = x.value; customChanged("b"); }
+  } else if (k === "b") {
+    custom.b = x.value;
+    const t = $("cu-place-text"); // 자리표시이자 이름을 건물에 맞춘다(다시 그리지 않아 초점과 친 글이 그대로)
+    if (t) { t.placeholder = placeHint(custom.b); t.setAttribute("aria-label", placeHint(custom.b)); }
+    customChanged("b");
+  }
   else if (k === "hidden") { custom.hidden = x.checked; if (custom.key) customChanged("hidden"); }
   else { custom[k] = Number(x.value); customChanged("time"); }
 });
@@ -6446,7 +6508,7 @@ $("cu-done").addEventListener("click", () => {
   }
   const made = T.customItem({ title: custom.title, meetings: customMeetings(), memo: custom.memo.trim() });
   if (custom.hidden) made.hidden = true; // 친구에게 숨기기를 켜고 넣었다
-  const r = placeItem(made);
+  const r = placeItem(made, $("cu-body").querySelector('input[name="cu-color"]') ? custom.color : null); // 색 칸이 있었으면 고른 색으로(162판)
   closeSheet($("custom-sheet"));
   renderMine();
   if (!r) return;
@@ -7805,6 +7867,7 @@ const GRAD_VIEWS = [["req", "졸업 요건"], ["taken", "수강한 과목"], ["n
 const gradObj = (o) => !!o && typeof o === "object" && !Array.isArray(o);
 const CHECK_CODE = /^[A-Za-z0-9.]{1,32}$/; // 체크한 과목의 번호(편람 교과목번호 꼴)
 const ROW_KEY = /^[A-Za-z0-9._-]{1,64}\|[A-Za-z0-9._-]{1,96}$/; // 요건 줄 열쇠 '과정 id|요건 id'
+const TEPS_SCALES = ["new", "old"]; // 입학 때 TEPS 점수의 시험(New TEPS | 이전 TEPS, 아래 tepsScaleOf)
 function gradStore() {
   const v = store.get(GRAD, null), ok = gradObj(v);
   return {
@@ -7817,9 +7880,24 @@ function gradStore() {
     checks: ok && gradObj(v.checks) ? Object.fromEntries(Object.entries(v.checks).filter(([k, c]) => CHECK_CODE.test(k) && gradObj(c))) : {},
     gpaOk: { all: ok && gradObj(v.gpaOk) && v.gpaOk.all === true, major: ok && gradObj(v.gpaOk) && v.gpaOk.major === true }, // 졸업 평점 시트의 두 체크(성적을 다 넣지 않았을 때)
     rowOk: ok && gradObj(v.rowOk) ? Object.fromEntries(Object.entries(v.rowOk).filter(([k, x]) => ROW_KEY.test(k) && x === true)) : {}, // 목록 없는 요건 '이 요건을 채웠어요'(141판)
+    // 입학 때 TEPS 점수(162판): 고른 시험(new | old, 고르기 전에는 null 이라 학번으로)과 친 숫자(세 자리까지, 빈 글이 모름)
+    teps: { scale: ok && gradObj(v.teps) && TEPS_SCALES.includes(v.teps.scale) ? v.teps.scale : null,
+      score: ok && gradObj(v.teps) && typeof v.teps.score === "string" && /^\d{0,3}$/.test(v.teps.score) ? v.teps.score : "" },
   };
 }
 const setGrad = (patch) => store.set(GRAD, { v: 1, ...gradStore(), ...patch });
+// 입학 때 TEPS 점수(디자인 162판, 백엔드 update148, 11/23 사용자 '텝스 점수도 받아야 한다. 이거에 따라서 영어 들어야 하는 게 달라지네'): 졸업 요건의 조건부 영어 분야
+// (자료 teps_max)를 점수 구간(R.tepsBand)으로 푼다. 성적처럼 이 기기에만 둔다(ttw.grad.teps, 동기화 열쇠 timetables@ 밖. 법무 11/23: 시간표 이미지, 링크, 캘린더 파일,
+// 위젯, Tachyon, 의견 보내기와 출처 알려 주기 글에도 넣지 않는다). 빈 칸이 모름(지금처럼 조건 글과 확인 필요)이고, 범위를 넘으면 오류 줄과 함께 빈 칸처럼 센다
+/** 고른 시험: 고른 것, 고르기 전에는 학번으로(2019학번부터 New TEPS) */
+const tepsScaleOf = (v) => gradStore().teps.scale || (Number(v && v.year) >= 2019 ? "new" : "old");
+/** 점수 구간 0~4(모르거나 범위 밖이면 null) */
+const tepsBandOf = (v) => { const t = gradStore().teps; return t.score ? R.tepsBand(t.score, tepsScaleOf(v)) : null; };
+/** 범위 밖 오류 글('600점보다 높아요', '990점보다 높아요', '10점보다 낮아요'). 비었거나 맞으면 "" */
+function tepsError(score, scale) {
+  const [lo, hi] = R.TEPS_RANGE[scale], n = Number(score);
+  return !score ? "" : n > hi ? `${hi}점보다 높아요` : n < lo ? `${lo}점보다 낮아요` : "";
+}
 
 // 자료: index·common·course_map·ge_areas(교양 영역 과목 표, 백엔드 update128) 는 한 번, 과정 파일은 고른 과정만(programs/<id>.json). 학기 편람은 이 탭이 쓰는 칸만 학기마다 한 번 줄여 둔다
 let gradP = null;
@@ -8057,7 +8135,7 @@ async function renderGrad() {
   const grades = anyGrade ? R.gpa(recs, { sameCourse: same, isMajor: majorOf(counted[0]), finalTerms: true }) : null;
   const view = R.gradView({ picks: counted.map((p) => ({ program: p.program, version: p.version, role: p.role, title: p.title, entryYear: p.entryYear,
     selectionTerm: p.selectionTerm || null, newer: p.newer, geOnly: !!p.geOnly, own: p.own || null })), records, grades, common: base.common, sameCourse: same, gpaChecks: gradStore().gpaOk,
-    rowChecks: gradStore().rowOk, areas: base.geAreas, lectureLang: base.lectureLang });
+    rowChecks: gradStore().rowOk, areas: base.geAreas, lectureLang: base.lectureLang, teps: tepsBandOf(v) });
   // 학과의 '전체·전공 평점 2.0 이상' 줄(자료 same_as: "grad-gpa", update127)은 공통 '졸업 평점'과 같은 사실이라 과정 묶음에서 뺀다(요건 수·띠에도 안 센다. 디자인 148판 ④)
   const sameAs = new Map(counted.map((p) => [p.program.id, new Set((p.version.requirements || []).filter((x) => x.same_as).map((x) => String(x.id)))]));
   for (const b of view.bundles) {
@@ -8226,7 +8304,7 @@ function gradReqView() {
     else out.push(card(b.rows));
     if (rulesBtn) out.push(rulesBtn);
   }
-  out.push(h("p", { class: "gr-foot" }, "학교가 공개한 문서를 바탕으로 계산한 추정이에요. 학번·학과와 개별 인정(동일·대체 과목, 학점 인정)에 따라 다를 수 있어요. 졸업 사정은 학과와 마이스누에서 최종 확인해 주세요."));
+  out.push(h("p", { class: "gr-foot" }, "학교가 공개한 문서를 바탕으로 계산한 추정이에요. 학번과 학과, 개별 인정(동일 과목과 대체 과목, 학점 인정)에 따라 다를 수 있어요. 졸업 사정은 학과와 마이스누에서 최종 확인해 주세요."));
   const basis = R.basisText(base.index);
   out.push(h("p", { class: "gr-foot" }, basis ? `${basis} · ` : "", h("a", { href: "#sources", "data-go": "sources", "data-gk": "sources" }, "자료 출처")));
   return out;
@@ -8542,6 +8620,21 @@ function rqGpa() {
   const rows = [row("all", "전체 평점", grades && grades.all), row("major", "전공 평점", grades && grades.major)];
   return { rows, n };
 }
+/** TEPS 칸(162판 fieldset.gr-teps): legend '입학 때 TEPS 점수', 세그먼트 New TEPS | 이전 TEPS(처음은 학번으로), 점수 칸(세 자리 숫자, 이름 'New TEPS 점수')과 '점',
+ *  범위를 넘으면 칸 아래 오류 줄(칸에 잇는다), 고지 '점수는 이 기기에만 저장돼요'. 학생 하나에 점수 하나라 어느 시트에서 넣어도 같은 값이다 */
+function tepsField(v) {
+  const t = gradStore().teps, scale = tepsScaleOf(v), err = tepsError(t.score, scale);
+  return h("fieldset", { class: "gr-teps" }, h("legend", { class: "field-label" }, "입학 때 TEPS 점수"),
+    h("div", { class: "seg" }, [["new", "New TEPS"], ["old", "이전 TEPS"]].map(([x, text]) => h("label", {},
+      h("input", { type: "radio", name: "rq-teps-scale", value: x, checked: scale === x, "data-teps": "scale" }), text))),
+    h("div", { class: "teps-row" },
+      h("input", { class: "text-input", id: "rq-teps", type: "text", inputmode: "numeric", pattern: "[0-9]*", maxlength: "3", autocomplete: "off", enterkeyhint: "done",
+        value: t.score, "data-teps": "score", "aria-label": scale === "new" ? "New TEPS 점수" : "이전 TEPS 점수",
+        "aria-invalid": err ? "true" : null, "aria-describedby": err ? "rq-teps-err rq-teps-note" : "rq-teps-note" }),
+      h("span", { "aria-hidden": "true" }, "점")),
+    err ? h("p", { class: "error-line", id: "rq-teps-err" }, err) : null,
+    h("p", { class: "teps-note", id: "rq-teps-note" }, "점수는 이 기기에만 저장돼요"));
+}
 /** 상태 칸(141판 .gr-sstat): 동그라미, 센 값('<b>12</b> / 18학점', 모르면 합 글의 앞말이나 줄 이름), 오른쪽 값. 확인 필요는 점선과 '확인 필요'만 */
 function rqStat(r) {
   const k = grKind(r), s = r.sheet, p = grProgress(r);
@@ -8635,10 +8728,24 @@ function paintRq(key) {
   // 목록 없는 분야(목록 없는 덧붙은 조건 등)는 체크 칸으로 펴지 않는다: 다른 목록이 없으면 머리 없는 칸에 분야 줄(rqArea), 목록과 섞이면 머리만과 그 아래 조건부 글.
   // 목록 없는 분야가 하나뿐이고 다른 목록이 없으면(베리타스) 상태 칸과 같아 두지 않는다
   const gv = (g, i) => (s.groups || []).find((x) => x.name === String(g.name || g.field || "")) || (s.groups || [])[i] || null;
+  // 입학 때 TEPS 점수(162판): 자료 teps_max 가 경계 값인 조건부 분야(TEPS 분야)는 점수 구간으로 푼다(엔진 withTeps 와 같은 셈). 점수로 필요 없어진 분야는 엔진이 빼지만
+  // 시트에는 머리 '필수 아님'과 목록을 그대로 둔다(영어 과목도 외국어 과목이다: 목록은 같은 줄 다른 분야의 그 앞번호 과목)
+  const band = tepsBandOf(gradNow.v), edgeOf = (g) => (g.cond ? R.TEPS_EDGES.new.indexOf(Number(g.teps_max)) : -1);
+  const byPrefix = (pre) => {
+    const out = new Map();
+    for (const c of (s.groups || []).flatMap((x) => x.courses || [])) if ((pre || []).some((x) => String(c.code).startsWith(x)) && !out.has(c.code)) out.set(c.code, c);
+    return [...out.values()];
+  };
   const fields = (ex.groups || []).map((g, i) => {
-    const sg = gv(g, i), courses = (g.courses || []).length ? g.courses : (sg && sg.courses) || [];
-    return { g: { ...g, courses }, i, list: courses.length > 0 };
+    const e = edgeOf(g), drop = e >= 0 && band != null && band > e, sg = drop ? null : gv(g, i);
+    const courses = (g.courses || []).length ? g.courses : sg ? sg.courses || [] : drop ? byPrefix(g.prefixes) : [];
+    return { g: { ...g, courses }, i, sg, list: courses.length > 0, teps: e >= 0, drop };
   });
+  // TEPS 칸 자리: TEPS 분야의 머리와 조건 글 바로 아래. 줄 전체가 영어 조건이면(인문대 '영어' 줄) 상태 칸 아래. 점수를 넣었으면 그 분야의 조건 글 자리에 첫 과목
+  const tepsAt = fields.findIndex((f) => f.teps);
+  const first = s.teps && s.teps.english > 0 ? (s.teps.basic ? "기초영어" : (s.teps.path || [])[0]) : null;
+  const tepsNote = (f) => (!f.teps || band == null ? (f.g.cond ? h("p", { class: "gr-fnote" }, f.g.cond) : null)
+    : !f.drop && first ? h("p", { class: "gr-fnote is-out" }, `${first}부터 수강해요`) : null);
   const groups = fields.filter((f) => f.list);
   const paths = (ex.paths || []).filter((p) => (p.courses || []).length);
   const mixed = flat.length + groups.length + paths.length > 0;
@@ -8658,20 +8765,27 @@ function paintRq(key) {
     }
     if (k === "check" && because) body.push(h("p", { class: "rq-why" }, because));
   }
+  const tepsRow = tepsAt >= 0 && (!mixed || fields.every(({ g }) => /^영어/.test(String(g.name || g.field || ""))));
+  if (tepsRow) body.push(tepsField(gradNow.v));
   // 과목 목록: 한 줄 목록은 줄 이름의 분야 하나, 분야 줄은 분야마다(엔진의 sheet.groups 값), 갈래 줄은 분야 하나 안에 갈래마다
   // 분야가 하나뿐인 목록(143판 .gr-field.is-solo): 머리 없이 과목 줄만(이름·조건·값이 시트 제목·자료 글·상태 칸과 겹친다)
   if (flat.length) body.push(h("section", { class: "gr-field is-solo" }, ...rqList("flat", r.name, flat)));
-  if (!mixed && fields.length > 1) body.push(h("div", { class: "gr-field is-solo" }, h("ul", { class: "gr-checks" }, fields.map(({ g, i }) => rqArea(g, gv(g, i))))));
+  if (!mixed && fields.length > 1) {
+    body.push(h("div", { class: "gr-field is-solo" }, h("ul", { class: "gr-checks" }, fields.map((f) => rqArea(!f.teps || band == null ? f.g
+      : { ...f.g, cond: f.drop ? "필수 아님" : first ? `${first}부터 수강해요` : null }, f.sg)))));
+  }
   // 분야가 하나뿐인 목록(143판, 베리타스 같은 영역 목록도 150판): 머리 없이 .gr-field.is-solo(이름·조건·값이 시트 제목·자료 글·상태 칸과 겹친다), '모두 보기'는 상태 칸 바로 아래
   const solo = fields.length === 1 && fields[0].list && !flat.length && !paths.length;
-  for (const { g, i, list } of mixed ? fields : []) {
-    const name = String(g.name || g.field || ""), sg = gv(g, i);
-    const st = sg && sg.value ? { kind: sg.value.kind, text: sg.value.text } : list ? rqListState(g.courses, g.min_count, g.min_credits) : null;
-    const cond = sg ? sg.need : list ? rqCond(g.courses.length, g.min_count, g.min_credits) : null;
-    const note = g.cond ? h("p", { class: "gr-fnote" }, g.cond) : null;
-    if (solo) body.push(h("section", { class: "gr-field is-solo" }, note, ...rqList(`rqf-${i}`, name, g.courses)));
-    else body.push(list ? rqField(`rqf-${i}`, name, cond, st, note, ...rqList(`rqf-${i}`, name, g.courses))
-      : h("div", { class: "gr-field is-head" }, rqHead(`rqf-${i}`, name, cond, st), note));
+  for (const f of mixed ? fields : []) {
+    const { g, i, list, sg } = f, name = String(g.name || g.field || "");
+    let st = sg && sg.value ? { kind: sg.value.kind, text: sg.value.text } : list ? rqListState(g.courses, g.min_count, g.min_credits) : null;
+    let cond = sg ? sg.need : list ? rqCond(g.courses.length, g.min_count, g.min_credits) : null;
+    if (f.drop) { cond = "필수 아님"; st = null; } // 점수로 필요 없어진 TEPS 분야: 값은 비운다(목록은 그대로)
+    const note = tepsNote(f), teps = i === tepsAt && !tepsRow ? tepsField(gradNow.v) : null;
+    const cls = f.teps ? " is-teps" : ""; // 바뀐 값을 읽을 때 찾는다(tepsCommit)
+    if (solo) body.push(h("section", { class: `gr-field is-solo${cls}` }, note, teps, ...rqList(`rqf-${i}`, name, g.courses)));
+    else body.push(list ? h("section", { class: `gr-field${cls}`, "aria-labelledby": `rqf-${i}` }, rqHead(`rqf-${i}`, name, cond, st), note, teps, ...rqList(`rqf-${i}`, name, g.courses))
+      : h("div", { class: `gr-field is-head${cls}` }, rqHead(`rqf-${i}`, name, cond, st), note, teps));
   }
   if (paths.length) {
     body.push(rqField("rqf-path", r.name, rqPathCond(paths, raw && raw.min_count), { kind: k, text: r.value.text }, paths.map((p, i) => {
@@ -8689,7 +8803,7 @@ function paintRq(key) {
   }
   if (k === "check" && !gpa) {
     if (s.link) body.push(ext(s.link, "학과 졸업요건", "학과 졸업요건 페이지", true));
-    body.push(h("p", { class: "rq-note" }, "공개된 학교 문서 주소만 적어 주세요. 이름·학번·성적·이수 내역은 적지 마세요. 누구나 볼 수 있어요."));
+    body.push(h("p", { class: "rq-note" }, "공개된 학교 문서 주소만 적어 주세요. 이름, 학번, 성적, 이수 내역은 적지 마세요. 누구나 볼 수 있어요."));
     // 미리 채우는 것은 과정(catalog short)·줄 이름과 앱 정보뿐(학과·학번·판 이름·성적·들은 과목은 넣지 않는다. 법무 11/14, 백엔드 update107). 의견 보내기를 거치지 않는다
     const prog = b.kind === "program" ? (cat.programs[b.id] || {}).short || progShort(b.id) : b.title;
     const q = { template: "source.yml", title: `[출처] ${prog} · ${r.name}`, program: prog, row: r.name, app: appInfo() };
@@ -8755,6 +8869,57 @@ $("rq-body").addEventListener("change", async (e) => {
   const cut = key.indexOf("|"), b = gradNow.view.bundles.find((x) => x.id === key.slice(0, cut)), r = b && b.rows.find((x) => String(x.id) === key.slice(cut + 1));
   if (r) announce(`${r.name}, ${r.value.text}`);
 });
+
+// TEPS 칸(162판): 숫자만 받는다(세 자리). 세 자리를 다 쳤을 때, 칸을 떠날 때(change), 시험을 바꿀 때 다시 센다(renderGrad → 이 시트 다시 그리기).
+// 초점은 같은 일을 하는 요소로 돌려놓고(점수 칸은 글 끝에 커서), 바뀐 TEPS 분야 값을 읽는다('영어, 1과목 남음'. 범위 밖이면 오류 글)
+$("rq-body").addEventListener("input", (e) => {
+  const x = e.target;
+  if (x.dataset.teps !== "score") return;
+  const d = x.value.replace(/\D/g, "").slice(0, 3);
+  if (d !== x.value) x.value = d;
+  if (d.length === 3) tepsCommit({ score: d });
+});
+$("rq-body").addEventListener("change", (e) => {
+  const x = e.target;
+  if (x.dataset.teps === "score") tepsCommit({ score: x.value.replace(/\D/g, "").slice(0, 3) });
+  else if (x.dataset.teps === "scale" && x.checked && TEPS_SCALES.includes(x.value)) tepsCommit({ scale: x.value });
+});
+$("rq-body").addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" || e.isComposing || e.keyCode === 229 || e.target.dataset.teps !== "score") return;
+  e.preventDefault();
+  tepsCommit({ score: e.target.value.replace(/\D/g, "").slice(0, 3) }); // 키보드는 그대로 두고 바로 센다
+});
+/** 다시 그린 시트에서 같은 일을 하는 요소(점수 칸·시험·과목 체크·평점 체크·요건 체크·모두 보기) */
+function rqFocusSel(a) {
+  const d = a.dataset;
+  if (d.teps) return d.teps === "scale" ? `[data-teps="scale"][value="${CSS.escape(a.value)}"]` : '[data-teps="score"]';
+  if (d.ck) return `[data-ck="${CSS.escape(d.ck)}"]`;
+  if (d.gpa) return `[data-gpa="${CSS.escape(d.gpa)}"]`;
+  if (d.rowok) return `[data-rowok="${CSS.escape(d.rowok)}"]`;
+  return d.more ? `[data-more="${CSS.escape(d.more)}"]` : null;
+}
+async function tepsCommit(patch) {
+  if (!gradNow) return;
+  const now = gradStore().teps, next = { ...now, ...patch };
+  if (patch.scale) next.scale = patch.scale; // 고른 시험은 학번 기본값 대신 그대로 둔다
+  else if (!now.scale) next.scale = tepsScaleOf(gradNow.v);
+  if (next.score === now.score && next.scale === now.scale) return;
+  setGrad({ teps: next });
+  const key = rqKey, body = $("rq-body"), top = body.scrollTop, d = $("rq-sheet"), a = document.activeElement;
+  const sel = a && body.contains(a) ? rqFocusSel(a) : null;
+  await renderGrad();
+  if (!d.open || rqKey !== key || !gradNow || !paintRq(key)) return;
+  body.scrollTop = top;
+  d.returnTo = $("grad-body").querySelector(`[data-gk="${CSS.escape(`rq:${key}`)}"]`) || d.returnTo; // 다시 그린 요건 줄로
+  const f = sel && body.querySelector(sel);
+  if (f) {
+    f.focus({ preventScroll: true });
+    if (f.dataset.teps === "score") f.setSelectionRange(f.value.length, f.value.length);
+  }
+  const err = tepsError(next.score, tepsScaleOf(gradNow.v)), head = body.querySelector(".gr-field.is-teps .gr-fh");
+  if (err) announce(err, "alert");
+  else if (head) announce([".n", ".v", ".c"].map((x) => head.querySelector(x)).filter((x) => x && x.textContent).slice(0, 2).map((x) => x.textContent).join(", "));
+}
 
 /** 다른 곳에서 들은 과목 팝업(새 시간표 팝업 꼴): 과목 이름·학점·이수 구분·학기. 추가는 이름을 넣으면 켜진다 */
 const gmSheet = $("gm-add");
@@ -9946,7 +10111,7 @@ function showSchoolNotice(preview = false, opener = null) {
   if (!preview) schoolShown = true;
   const d = $("school-ask");
   d.dataset.preview = preview ? "1" : "";
-  $("sa-text").textContent = `${kstToday() < POLICY_NEXT ? `${monthDay(POLICY_NEXT)}부터` : "이제"} 친구에게 학교 계정(snu.ac.kr)이 늘 보여요. 원하지 않으면 다른 Google 계정으로 로그인하거나 계정을 지울 수 있어요`;
+  $("sa-text").textContent = `${kstToday() < POLICY_NEXT ? `${monthDay(POLICY_NEXT)}부터` : "이제"} 친구에게 학교 계정(snu.ac.kr)이 늘 보여요. 원하지 않으면 다른 Google 계정으로 로그인하거나 계정을 삭제할 수 있어요`;
   openSheet(d, opener);
 }
 $("sa-ok").addEventListener("click", async () => {
