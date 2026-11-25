@@ -191,6 +191,7 @@
         <div class="card mapcard">
           <div class="map-box">
             <button type="button" class="icon-btn map-expand" id="map-expand" aria-label="지도 크게 보기"><span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"></path></svg></span></button>
+            <button type="button" class="map-north" aria-label="북쪽 위로" hidden><span><svg class="needle" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path class="n" d="M10 2.5 13.2 10H6.8Z"></path><path class="s" d="M10 17.5 6.8 10H13.2Z"></path></svg></span></button>
             <div class="map" id="map"></div>
             <span class="map-attr"><span class="u">© 국토지리정보원</span><span class="sep"> · </span><span class="u">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a></span></span>
           </div>
@@ -223,6 +224,7 @@
   <main class="mapcard" hidden>
     <div class="map-box">
       <div class="map" id="map-full"></div>
+      <button type="button" class="map-north" aria-label="북쪽 위로" hidden><span><svg class="needle" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path class="n" d="M10 2.5 13.2 10H6.8Z"></path><path class="s" d="M10 17.5 6.8 10H13.2Z"></path></svg></span></button>
       <span class="map-attr"><span class="u">© 국토지리정보원</span><span class="sep"> · </span><span class="u">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a></span></span>
     </div>
     <ul class="legend" id="map-full-legend"></ul>

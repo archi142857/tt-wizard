@@ -2737,9 +2737,21 @@ function loadBasemap() {
 /** 빈 땅이 보이지 않게(사용자 결정): 캠퍼스가 다 들어오는 배율과, 화면이 자료 범위 안에 드는 배율 중 큰 쪽보다 덜 축소하지 않는다.
  *  캠퍼스는 가장자리 MIN_ZOOM_EDGE 를 비우고 들어와야 한다(핀 자리): 폰의 좁고 긴 지도에서 캠퍼스 끝에서 끝까지 걷는 날도 핀이 잘리지 않게 맞출 수 있다. */
 const MIN_ZOOM_EDGE = 20;
-function mapMinZoom(map) {
+/** 돌린 지도(167판)는 그 각도로 화면을 둘러싼 상자가 자료 범위 안에 들어야 한다(돌린 모서리에 빈 땅이 보이지 않게). deg 는 지도 각도(기본은 지금 각도) */
+function mapMinZoom(map, deg = map._rotDeg || 0) {
+  const keep = map.options.minZoom; // getBoundsZoom 은 지금 최소 배율보다 낮게 답하지 않는다(각도마다 따로 셈하려고 잠시 푼다)
+  map.options.minZoom = 0;
   const fit = map.getBoundsZoom(campusBounds, false, L.point(2 * MIN_ZOOM_EDGE, 2 * MIN_ZOOM_EDGE));
-  return dataBounds ? Math.max(fit, map.getBoundsZoom(dataBounds, true)) : Math.max(12, fit);
+  map.options.minZoom = keep;
+  return dataBounds ? Math.max(fit, insideZoom(map, dataBounds, deg ? spinHalf(map.getSize(), deg).multiplyBy(2) : map.getSize())) : Math.max(12, fit);
+}
+/** 크기 size 인 화면이 bounds 안에 드는 가장 낮은 배율(Leaflet getBoundsZoom(bounds, true)와 같은 셈에 화면 크기만 바꿔서) */
+function insideZoom(map, bounds, size) {
+  const z = map.getZoom() || 0, bs = L.bounds(map.project(bounds.getSouthEast(), z), map.project(bounds.getNorthWest(), z)).getSize();
+  let zoom = map.getScaleZoom(Math.max(size.x / bs.x, size.y / bs.y), z);
+  const snap = L.Browser.any3d ? map.options.zoomSnap : 1;
+  if (snap) zoom = Math.ceil(Math.round(zoom / (snap / 100)) * (snap / 100) / snap) * snap;
+  return Math.min(map.getMaxZoom(), zoom);
 }
 /** 최소 배율을 바꾼다. setMinZoom 은 지금 배율이 더 낮으면 애니메이션으로 확대하는데, 그사이 setView 로 옮겨도
  *  애니메이션이 끝나는 순간 그 자리로 되돌아간다(전체 화면 지도가 경로 대신 최소 배율로 열렸다). 그래서 애니메이션 없이 */
@@ -2866,8 +2878,9 @@ const BaseMap = typeof L === "undefined" ? null : L.Renderer.extend({
   _update() {
     if (this._map._animatingZoom && this._bounds) return;
     L.Renderer.prototype._update.call(this);
-    const b = this._bounds, c = this._container, size = b.getSize();
-    this._m = Math.min(2, window.devicePixelRatio || 1); // 3배 화면도 2배로(캔버스 메모리)
+    const b = this._bounds, c = this._container, size = b.getSize(), dpr = Math.min(2, window.devicePixelRatio || 1); // 3배 화면도 2배로(캔버스 메모리)
+    // 돌릴 수 있는 동안은 화면 대각선의 정사각형을 그린다(167판): 큰 태블릿의 전체 화면 지도에서 캔버스가 너무 커지지 않게 화소 수를 800만으로 묶는다
+    this._m = this._map._rotOn ? Math.min(dpr, Math.sqrt(8e6 / Math.max(1, size.x * size.y))) : dpr;
     L.DomUtil.setPosition(c, b.min);
     c.width = Math.round(this._m * size.x);
     c.height = Math.round(this._m * size.y);
@@ -2889,8 +2902,8 @@ const BaseMap = typeof L === "undefined" ? null : L.Renderer.extend({
       this._frame = 0;
       const map = this._map;
       if (!map || map._animatingZoom) return;
-      const a = map.containerPointToLayerPoint([0, 0]), b = map.containerPointToLayerPoint(map.getSize());
-      if (!this._bounds.contains(a) || !this._bounds.contains(b)) this._update();
+      const s = map.getSize(); // 화면 네 모서리(돌린 지도는 넷이 다 다르다, 167판)
+      if ([[0, 0], [s.x, 0], [0, s.y], [s.x, s.y]].some((p) => !this._bounds.contains(map.containerPointToLayerPoint(p)))) this._update();
     });
   },
   onRemove() {
@@ -2956,34 +2969,41 @@ function allOtherMarks() {
   return otherMarks;
 }
 
-/** 그날 경로선의 토막(layer 좌표): 구간 선(출발·도착 자리로 가는 길은 그려진 대로 비킨 선)과 선 끝과 핀을 잇는 점선. 다른 건물 이름이 피한다. */
+/** 그날 경로선의 토막(화면 좌표): 구간 선(출발·도착 자리로 가는 길은 그려진 대로 비킨 선)과 선 끝과 핀을 잇는 점선. 다른 건물 이름이 피한다. */
 function routeSegs(mp) {
   const { map, data } = mp, out = [];
   for (const lg of data.legs) {
-    const pts = lg.home ? offsetPoints(map, lg.line, RETURN_OFFSET) : lg.line.map((ll) => map.latLngToLayerPoint(ll));
+    const pts = legScreen(map, lg);
     for (let k = 1; k < pts.length; k++) out.push([pts[k - 1], pts[k]]);
   }
-  for (const st of dayStubs(mp)) for (const [a, b] of st) out.push([map.latLngToLayerPoint(a), map.latLngToLayerPoint(b)]);
+  for (const st of dayStubs(mp)) for (const [a, b] of st) out.push([map.latLngToContainerPoint(a), map.latLngToContainerPoint(b)]);
   return out;
 }
+/** 구간 선의 화면 좌표(지도 칸 왼쪽 위가 0, 0). 라벨과 건물 이름은 화면 기준으로 피한다: 지도를 돌려도(167판) 화면에서 겹치지 않게.
+ *  출발·도착 자리로 가는 길은 그려진 대로 옆으로 비킨 선(비키기는 layer 좌표에서 하고 화면으로 옮긴다. 돌리기는 거리와 직각을 그대로 둔다) */
+function legScreen(map, lg) {
+  return lg.home ? offsetPoints(map, lg.line, RETURN_OFFSET).map((p) => map.layerPointToContainerPoint(p)) : lg.line.map((ll) => map.latLngToContainerPoint(ll));
+}
 
-/** 지도 둘 다 확대·축소된다. 마우스: 확대·축소 버튼, 휠, 끌기. 터치: 두 손가락으로 확대·이동, 두 번 눌러 확대.
- *  시간표 옆 작은 지도는 터치에서 한 손가락 끌기를 끈다(페이지 스크롤이 지도에 걸리지 않게). 전체 화면 지도는 한 손가락으로 끈다. */
+/** 지도 둘 다 확대·축소된다. 마우스: 확대·축소 버튼, 휠, 끌기. 터치: 한 손가락 끌기, 두 손가락으로 확대·이동·돌리기(167판), 두 번 눌러 확대.
+ *  작은 지도도 전체 화면 지도처럼 한 손가락으로 끈다(11/24 사용자). 확대·축소 버튼은 전체 화면 지도와 마우스에서만(167판: 터치의 작은 지도에는 두지 않는다). */
 function makeMap(el, full) {
   if (typeof L === "undefined" || !state.campus) return null;
   if (!campusBounds) campusBounds = L.latLngBounds(state.campus.ids.map(coordOf).filter(Boolean)).pad(0.1);
+  turnPatch(); // Leaflet 을 돌린 지도를 알게 고친다(끌기 처리기가 만들어지기 전에)
   const still = reduceMotion.matches;
   const mouse = finePointer.matches;
   const map = L.map(el, {
     zoomControl: false, attributionControl: false, // 저작권 표기는 지도 밖 .map-attr(늘 보이고, 스크린리더가 읽는다)
     // 한 손가락 끌기는 작은 지도도 전체 화면 지도처럼 켠다(11/24 사용자 '모바일에서 동선 탐색 누르면 하루 일정, 지도, 시간표 목록 이렇게 나오잖아. 여기서 지도 움직일
     // 때도 지도 눌러서 들어갔을 때랑 동작 똑같이 맞춰줘. 한 손가락 드래그로 움직일 수 있고 등등'. 전에는 페이지 스크롤이 지도에 걸리지 않게 터치에서 껐다).
-    // 지도 위에서 시작한 밀기는 페이지 대신 지도를 옮기고, 페이지는 지도 밖에서 민다. 확대·축소 단추는 아직 마우스에서만(디자인에 물음)
-    dragging: true, touchZoom: true, doubleClickZoom: true, scrollWheelZoom: full || mouse, boxZoom: mouse,
+    // 지도 위에서 시작한 밀기는 페이지 대신 지도를 옮기고, 페이지는 지도 밖에서 민다. 두 손가락은 Leaflet touchZoom 대신 PinchTurn(확대·이동·돌리기)
+    dragging: true, touchZoom: false, pinchTurn: true, doubleClickZoom: true, scrollWheelZoom: full || mouse, boxZoom: mouse,
     keyboard: true, inertia: !still, zoomAnimation: !still, fadeAnimation: !still, markerZoomAnimation: !still,
     // 끌 수 있는 범위는 바탕 지도 자료 범위(loadBasemap 이 받으면 건다). 받기 전에 캠퍼스 범위로 묶으면 첫 요일을 맞출 때 가운데가 캠퍼스에 묶여 핀이 잘린다
     zoomSnap: 0.25, zoomDelta: 0.5, maxZoom: 19.5, maxBounds: dataBounds || undefined, maxBoundsViscosity: 1.0,
   });
+  map.addHandler("pinchTurn", PinchTurn);
   const buttons = full || mouse;
   if (buttons) L.control.zoom({ position: "topright", zoomInTitle: "확대", zoomOutTitle: "축소" }).addTo(map);
   el.setAttribute("role", "region");
@@ -3000,6 +3020,7 @@ function makeMap(el, full) {
   const legend = el.closest(".mapcard").querySelector(".legend");
   const mp = { map, el, base, full, buttons, legend, back: L.layerGroup().addTo(map), lines: L.layerGroup().addTo(map), stubs: L.layerGroup().addTo(map),
     marks: L.layerGroup().addTo(map), legLabels: L.layerGroup().addTo(map), names: L.layerGroup().addTo(map), data: null };
+  turnInit(mp);
   // 배율이 바뀌면 붙어 보이는 번호를 다시 묶고, 옆으로 비킨 선을 그 배율의 화소 간격으로 다시 그린다(선 끝과 핀을 잇는 점선도 그 자리로).
   // 구간 라벨과 건물 번호는 옮길 때마다(화면 가장자리·버튼에 걸리지 않게). 배율이 바뀌면 zoomend 다음에 moveend 가 온다
   map.on("zoomend", () => { if (mp.data) { placeMarks(mp); drawReturn(mp); drawStubs(mp); } });
@@ -3007,6 +3028,352 @@ function makeMap(el, full) {
   loadBasemap();
   return mp;
 }
+
+// ---------------------------------------------------------------- 지도 돌리기
+// 167판(11/24 사용자 '두 손가락으로 회전도 되게 해줘'): 작은 지도와 전체 화면 지도 모두 터치에서 두 손가락을 비틀어 돌린다. 마우스와 키보드로는 돌리지 않는다.
+// 법무 11/24: leaflet-rotate(GPL-3)는 넣지 않고 직접 만든다(그 코드를 옮기거나 옆에 펴 놓고 고쳐 쓰지 않는다). 아래는 Leaflet 1.9.4(BSD-2)의 짜임 위에 우리가 쓴 것이다.
+//  - 지도 칸(mapPane) 안에 도는 칸(.ttw-rot)을 두고 층(바탕 캔버스, 선 SVG, 핀과 라벨)을 그 안으로 옮겨 CSS rotate 로 돌린다. 도는 중심(transform-origin)은 layer 좌표
+//    map._rotO 이고 지도 칸과 함께 움직여서, 한 손가락 끌기와 관성은 Leaflet 그대로 손가락을 따른다. Leaflet 은 화면 가운데의 layer 좌표를 C - T(지도 칸 자리 T)로
+//    셈하므로 배율을 바꾸기 전(zoomstart)과 돌리기 전에는 중심을 화면 가운데로 다시 잡는다(rePivot: 지도 칸 자리를 같이 옮겨 그림은 그대로).
+//  - Leaflet 이 화면과 layer 좌표를 오가는 곳, 보이는 범위와 빈 땅 막기(_limitCenter, 끌기 범위, 관성), 바탕과 선을 그리는 범위를 각도를 알게 고친다(turnPatch).
+//    각도가 0 이면 모두 Leaflet 그대로다.
+//  - 핀, 번호, 구간 라벨, 건물 번호와 이름은 지도 요소의 --map-unrot 만큼 거꾸로 돌아 똑바로 선다(style.css). 도는 동안은 제자리에서 똑바로 따라가고, 돌기를 마치면
+//    화면 기준으로 다시 놓는다(placeLegLabels, placeLabels 는 화면 좌표로 셈한다). 겹치는 핀 묶음도 그때 다시 본다.
+//  - 두 손가락 처리기 PinchTurn 이 Leaflet 의 touchZoom 을 대신한다(확대·이동·돌리기. 빈 땅이 보이지 않게 배율과 가운데를 손가락을 따라가는 동안에도 묶는다).
+const ROT_START = 15, ROT_SNAP = 8, RAD = Math.PI / 180; // 각도가 15° 넘게 바뀌어야 돌기 시작(핀치하다가 돌지 않게), 놓을 때 북쪽 ±8°면 북쪽으로 붙인다
+/** 점(벡터) p 를 deg 만큼 돌린 것(화면 좌표, CSS rotate 와 같은 쪽: 양수면 시계 방향) */
+function spin(p, deg) {
+  const a = deg * RAD, c = Math.cos(a), s = Math.sin(a);
+  return L.point(p.x * c - p.y * s, p.x * s + p.y * c);
+}
+/** deg 만큼 돈 화면(size)을 둘러싼 상자의 반(돌지 않은 좌표) */
+function spinHalf(size, deg) {
+  const a = deg * RAD, c = Math.abs(Math.cos(a)), s = Math.abs(Math.sin(a));
+  return L.point((size.x * c + size.y * s) / 2, (size.x * s + size.y * c) / 2);
+}
+const norm180 = (d) => { const r = ((((d + 180) % 360) + 360) % 360) - 180; return r === -180 ? 180 : r; };
+const angleOf = (a, b) => Math.atan2(b.y - a.y, b.x - a.x) / RAD;
+/** CSS cubic-bezier(x1, y1, x2, y2) 의 값(움직임 토큰과 같은 곡선으로 JS 애니메이션을 돌린다) */
+function cubicBezier(x1, y1, x2, y2) {
+  const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx, cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+  const X = (t) => ((ax * t + bx) * t + cx) * t, dX = (t) => (3 * ax * t + 2 * bx) * t + cx, Y = (t) => ((ay * t + by) * t + cy) * t;
+  return (x) => {
+    let t = x;
+    for (let i = 0; i < 8; i++) { const e = X(t) - x, d = dX(t); if (Math.abs(e) < 1e-6 || !d) break; t -= e / d; }
+    return Y(Math.max(0, Math.min(1, t)));
+  };
+}
+const easeStandard = cubicBezier(0.2, 0, 0, 1); // --ease-standard
+
+let turnPatched = false;
+/** Leaflet 을 돌린 지도를 알게 고친다(한 번). 각도(map._rotDeg)가 0 이면 모두 Leaflet 그대로 */
+function turnPatch() {
+  if (turnPatched || typeof L === "undefined") return;
+  turnPatched = true;
+  const M = L.Map.prototype, D = L.Map.Drag.prototype, R = L.Renderer.prototype;
+  const was = { c2l: M.containerPointToLayerPoint, l2c: M.layerPointToContainerPoint, off: M._getCenterOffset, pb: M.getPixelBounds, lc: M._limitCenter,
+    lo: M._limitOffset, panBy: M.panBy, ds: D._onDragStart, dl: D._onPreDragLimit, ru: R._update, rt: R._updateTransform };
+  // 화면(container) ↔ layer: 화면 = T + O + R(layer - O). T 지도 칸 자리, O 도는 중심, R 각도만큼 돌리기
+  M.layerPointToContainerPoint = function (point) {
+    if (!this._rotDeg) return was.l2c.call(this, point);
+    const o = this._rotO;
+    return spin(L.point(point).subtract(o), this._rotDeg).add(o).add(this._getMapPanePos());
+  };
+  M.containerPointToLayerPoint = function (point) {
+    if (!this._rotDeg) return was.c2l.call(this, point);
+    const o = this._rotO;
+    return spin(L.point(point).subtract(this._getMapPanePos()).subtract(o), -this._rotDeg).add(o);
+  };
+  // 지금 가운데에서 그 자리까지(화면 화소): 옮기는 애니메이션(panBy)은 화면에서 옮긴다
+  M._getCenterOffset = function (latlng) {
+    const v = was.off.call(this, latlng);
+    return this._rotDeg ? spin(v, this._rotDeg) : v;
+  };
+  // 보이는 범위(projected 화소): 돈 화면을 둘러싼 상자
+  M.getPixelBounds = function (center, zoom) {
+    if (!this._rotDeg) return was.pb.call(this, center, zoom);
+    const c = this.project(center || this.getCenter(), zoom === undefined ? this._zoom : zoom), h = spinHalf(this.getSize(), this._rotDeg);
+    return L.bounds(c.subtract(h), c.add(h));
+  };
+  // 빈 땅 막기: 가운데를 옮겨 돈 화면을 둘러싼 상자가 자료 범위 안에 들게(setView, panInsideBounds)
+  M._limitCenter = function (center, zoom, bounds) {
+    if (!this._rotDeg || !bounds) return was.lc.call(this, center, zoom, bounds);
+    return limitAt(this, center, zoom, this._rotDeg, bounds);
+  };
+  // 관성·키보드로 옮기는 만큼(화면 화소)을 자료 범위 안으로
+  M._limitOffset = function (offset, bounds) {
+    if (!this._rotDeg || !bounds) return was.lo.call(this, offset, bounds);
+    const u = spin(offset, -this._rotDeg), vb = this.getPixelBounds();
+    return offset.add(spin(this._getBoundsOffset(L.bounds(vb.min.add(u), vb.max.add(u)), bounds), this._rotDeg));
+  };
+  // 한 화면보다 멀리 옮기면 Leaflet 은 그 만큼을 돌지 않은 좌표로 보고 다시 그린다: 돌린 지도는 화면에서 옮긴 만큼으로
+  M.panBy = function (offset, options) {
+    if (this._rotDeg && !(options && options.animate === true)) {
+      const o = L.point(offset).round();
+      if (!this.getSize().contains(o)) {
+        this._resetView(this.unproject(this.project(this.getCenter()).add(spin(o, -this._rotDeg))), this.getZoom());
+        return this;
+      }
+    }
+    return was.panBy.call(this, offset, options);
+  };
+  // 한 손가락 끌기의 범위(maxBoundsViscosity 1): 끈 만큼 o(화면) 옮기면 보이는 상자는 돌지 않은 좌표에서 -R(-각도)o 만큼 간다. 그 상자가 자료 범위 밖으로 나가지 않게
+  D._onDragStart = function () {
+    was.ds.call(this);
+    const map = this._map, deg = map._rotDeg;
+    this._turnLimit = null;
+    if (deg && this._offsetLimit) {
+      const vb = map.getPixelBounds(), b = L.latLngBounds(map.options.maxBounds);
+      const pb = L.bounds(map.project(b.getNorthWest()), map.project(b.getSouthEast()));
+      this._turnLimit = { deg, lo: pb.min.subtract(vb.min), hi: pb.max.subtract(vb.max) };
+    }
+  };
+  D._onPreDragLimit = function () {
+    const t = this._turnLimit;
+    if (!t) { was.dl.call(this); return; }
+    const dr = this._draggable, v = spin(dr._newPos.subtract(dr._startPos), -t.deg).multiplyBy(-1);
+    const fit = (x, lo, hi) => (lo > hi ? (lo + hi) / 2 : Math.min(hi, Math.max(lo, x)));
+    dr._newPos = dr._startPos.add(spin(L.point(-fit(v.x, t.lo.x, t.hi.x), -fit(v.y, t.lo.y, t.hi.y)), t.deg));
+  };
+  // 바탕(캔버스)과 선(SVG)을 그리는 범위: 돌 수 있는 동안(map._rotOn)은 화면 가운데를 둘러싼 원(대각선)을 덮는 정사각형. 어느 각도로 돌아도 모서리가 비지 않는다
+  R._update = function () {
+    const map = this._map, pt = map.pinchTurn;
+    // 두 손가락으로 배율과 자리를 바꾸는 중(PinchTurn)에 다시 그리면 선을 지금 배율과 자리로 다시 셈한 뒤 그린다. Leaflet 은 손을 뗀 뒤(zoomend)에야 다시 셈해서,
+    // 그사이 다시 그리면(돌기 시작할 때, 끌던 관성을 멈춘 moveend) 지난 배율로 셈한 선이 지금 범위에 그려져 손을 뗄 때까지 어긋났다
+    if (pt && pt._on && pt._moved) for (const id in this._layers) this._layers[id]._project();
+    if (!map._rotOn) { this._half = null; was.ru.call(this); return; }
+    const size = map.getSize(), r = Math.hypot(size.x, size.y) * (0.5 + this.options.padding), half = L.point(r, r);
+    const min = map.containerPointToLayerPoint(size.divideBy(2)).subtract(half).round();
+    this._bounds = L.bounds(min, min.add(half.multiplyBy(2)).round());
+    this._half = half;
+    this._center = map.getCenter();
+    this._zoom = map.getZoom();
+  };
+  // 확대·축소 애니메이션과 핀치 동안 그려 둔 그림을 늘이고 줄이는 자리(그린 범위의 반이 화면 반이 아니다)
+  R._updateTransform = function (center, zoom) {
+    if (!this._half) { was.rt.call(this, center, zoom); return; }
+    const map = this._map, scale = map.getZoomScale(zoom, this._zoom);
+    const tl = this._half.multiplyBy(-scale).add(map.project(this._center, zoom)).subtract(map._getNewPixelOrigin(center, zoom));
+    if (L.Browser.any3d) L.DomUtil.setTransform(this._container, tl, scale);
+    else L.DomUtil.setPosition(this._container, tl);
+  };
+}
+
+/** 가운데를 옮겨 각도 deg 로 돈 화면을 둘러싼 상자가 자료 범위(bounds) 안에 들게(Leaflet _limitCenter 의 셈에 화면 반만 바꿔서) */
+function limitAt(map, center, zoom, deg, bounds = map.options.maxBounds) {
+  if (!bounds) return center;
+  const cp = map.project(center, zoom), h = deg ? spinHalf(map.getSize(), deg) : map.getSize().divideBy(2);
+  const off = map._getBoundsOffset(L.bounds(cp.subtract(h), cp.add(h)), L.latLngBounds(bounds), zoom);
+  if (Math.abs(off.x) <= 1 && Math.abs(off.y) <= 1) return center;
+  return map.unproject(cp.add(off), zoom);
+}
+
+/** 지도 하나를 돌릴 수 있게(makeMap 에서 한 번): 도는 칸을 만들어 층을 옮기고, 북쪽 맞추기 버튼을 잇는다 */
+function turnInit(mp) {
+  const { map } = mp;
+  const pane = L.DomUtil.create("div", "leaflet-pane ttw-rot");
+  for (const el of [...map._mapPane.children]) if (!el.classList.contains("leaflet-proxy")) pane.appendChild(el); // proxy 는 확대 애니메이션 끝을 잡는 빈 요소
+  map._mapPane.appendChild(pane);
+  map._rotPane = pane;
+  map._rotDeg = 0;
+  map._rotO = map.getSize().divideBy(2).subtract(map._getMapPanePos());
+  map._mp = mp;
+  mp.north = mp.el.parentElement.querySelector(".map-north");
+  // setView 처럼 새로 그리면 지도 칸이 (0, 0)으로 돌아온다: 중심은 화면 가운데. 배율을 바꾸기 전에도 가운데로(Leaflet 이 새 배율의 가운데를 C - T 로 셈한다)
+  map.on("viewprereset", () => { map._rotO = map.getSize().divideBy(2); spinPane(map); });
+  map.on("zoomstart", () => rePivot(map));
+  if (mp.north) mp.north.addEventListener("click", () => northUp(mp));
+}
+
+/** 각도와 도는 중심을 그림에 옮긴다: 도는 칸, 핀과 라벨의 거꾸로 돌기(--map-unrot), 북쪽 맞추기 바늘 */
+function spinPane(map) {
+  const pane = map._rotPane, deg = map._rotDeg || 0;
+  if (!pane) return;
+  pane.style.transformOrigin = deg ? `${map._rotO.x}px ${map._rotO.y}px` : "";
+  pane.style.transform = deg ? `rotate(${deg}deg)` : "";
+  if (deg) map._container.style.setProperty("--map-unrot", `${-deg}deg`);
+  else map._container.style.removeProperty("--map-unrot");
+  const needle = map._mp && map._mp.north && map._mp.north.querySelector(".needle");
+  if (needle) needle.style.transform = deg ? `rotate(${deg}deg)` : ""; // 바늘은 지도의 북쪽을 가리킨다
+}
+
+/** 도는 중심을 화면 가운데(C - T)로 다시 잡는다. 돌린 지도는 지도 칸 자리 T 를 같이 옮겨 그림을 그대로 둔다:
+ *  T' + O' + R(p - O') = T + O + R(p - O) 이고 O' = C - T' 이면 T' = R⁻¹(T + (I - R)(O - C)) */
+function rePivot(map) {
+  if (!map._rotPane) return;
+  const C = map.getSize().divideBy(2), T = map._getMapPanePos(), deg = map._rotDeg || 0;
+  let Tn = T;
+  if (deg && map._rotO) {
+    const v = map._rotO.subtract(C);
+    Tn = spin(T.add(v).subtract(spin(v, deg)), -deg);
+    if (Tn.distanceTo(T) > 0.01) {
+      L.DomUtil.setPosition(map._mapPane, Tn);
+      map._lastCenter = null; // getCenter 가 지난 가운데를 돌려주지 않게(지도 칸이 우연히 (0, 0)에 와도)
+    }
+  }
+  map._rotO = C.subtract(Tn);
+  spinPane(map);
+}
+const pivotOff = (map) => map.getSize().divideBy(2).subtract(map._getMapPanePos()).distanceTo(map._rotO) > 0.01;
+
+/** 각도를 deg 로(ms 동안, 0 이면 바로). 화면 가운데를 중심으로 돈다. 끝나면 turnSettle */
+function turnTo(map, deg, ms) {
+  turnStop(map);
+  rePivot(map);
+  const from = map._rotDeg || 0, d = norm180(deg - from);
+  if (!ms || !d) { map._rotDeg = deg; spinPane(map); turnSettle(map); return; }
+  const t0 = performance.now();
+  const step = (now) => {
+    const t = Math.min(1, (now - t0) / ms);
+    map._rotDeg = t < 1 ? norm180(from + d * easeStandard(t)) : deg;
+    spinPane(map);
+    if (t < 1) map._rotAnim = requestAnimationFrame(step);
+    else { map._rotAnim = 0; turnSettle(map); }
+  };
+  map._rotAnim = requestAnimationFrame(step);
+}
+function turnStop(map) {
+  if (map._rotAnim) { cancelAnimationFrame(map._rotAnim); map._rotAnim = 0; }
+}
+
+/** 돌기를 마쳤다: 북쪽 맞추기 버튼(돌렸을 때만), 그 각도의 최소 배율, 화면 기준으로 핀 묶음과 라벨을 다시 놓기(확대 애니메이션 중이면 끝난 뒤 zoomend·moveend 가 놓는다) */
+function turnSettle(map) {
+  const mp = map._mp, deg = map._rotDeg || 0;
+  if (!deg) map._rotOn = false; // 다음에 다시 그릴 때부터 화면 크기 그대로 그린다
+  if (mp) northShow(mp, deg !== 0);
+  map.options.minZoom = mapMinZoom(map);
+  map.fire("zoomlevelschange");
+  if (mp && mp.data && !map._animatingZoom) { placeMarks(mp); drawStubs(mp); placeLegLabels(mp); placeLabels(mp); }
+}
+
+/** 요일이나 후보를 바꾸면 북쪽이 위(renderMap). 돌리던 손가락과 애니메이션도 멈춘다 */
+function turnReset(mp) {
+  const { map } = mp;
+  if (map.pinchTurn) map.pinchTurn.cancel();
+  turnStop(map);
+  map._rotDeg = 0;
+  map._rotOn = false;
+  rePivot(map);
+  if (mp.north) { clearTimeout(mp.northTimer); mp.north.hidden = true; mp.north.classList.remove("is-out"); }
+}
+
+/** 북쪽 맞추기 버튼: 보일 때는 바로, 숨길 때는 dur-fade 로 흐려진 뒤 */
+function northShow(mp, on) {
+  const btn = mp.north;
+  if (!btn) return;
+  clearTimeout(mp.northTimer);
+  if (on) { btn.hidden = false; btn.classList.remove("is-out"); return; }
+  if (btn.hidden) return;
+  if (btn.contains(document.activeElement)) mp.el.focus({ preventScroll: true }); // 사라지는 버튼에 있던 초점은 지도로(167판)
+  if (reduceMotion.matches) { btn.hidden = true; return; }
+  btn.classList.add("is-out");
+  mp.northTimer = setTimeout(() => { btn.hidden = true; btn.classList.remove("is-out"); }, 150);
+}
+
+/** '북쪽 위로': 북쪽이 위로 돌아온다(200ms, 동작 줄이기면 바로) */
+function northUp(mp) {
+  if (!mp.map._rotDeg) return;
+  turnTo(mp.map, 0, reduceMotion.matches ? 0 : 200);
+}
+
+/** 그 지도의 그림 층(바탕 캔버스, 칸마다의 선 SVG): 돌기 시작하면 어느 각도에도 모서리가 비지 않게 다시 그린다 */
+const turnRenderers = (map) => [map._renderer, ...Object.values(map._paneRenderers || {}), map._mp && map._mp.base].filter((r) => r && r._map);
+
+/** 두 손가락: 확대·이동, 각도가 ROT_START 넘게 바뀌면 돌기도(Leaflet touchZoom 을 대신한다. 손가락 사이 가운데 자리가 손가락을 따라간다).
+ *  빈 땅이 보이지 않게 따라가는 동안에도 그 각도의 최소 배율과 가운데 범위로 묶는다. 놓을 때 북쪽 ±ROT_SNAP 이면 북쪽으로 붙인다(150ms) */
+const PinchTurn = typeof L === "undefined" ? null : L.Handler.extend({
+  addHooks() {
+    L.DomUtil.addClass(this._map._container, "leaflet-touch-zoom"); // touch-action: none(브라우저가 페이지를 확대하지 않게)
+    L.DomEvent.on(this._map._container, "touchstart", this._start, this);
+  },
+  removeHooks() {
+    L.DomUtil.removeClass(this._map._container, "leaflet-touch-zoom");
+    L.DomEvent.off(this._map._container, "touchstart", this._start, this);
+    this.cancel();
+  },
+  cancel() {
+    if (!this._on) return;
+    this._on = false;
+    L.Util.cancelAnimFrame(this._raf);
+    L.DomEvent.off(document, "touchmove", this._move, this);
+    L.DomEvent.off(document, "touchend touchcancel", this._end, this);
+  },
+  /** 처음 두 손가락의 자리(identifier 로 따라간다: touches 의 차례가 바뀌어도 각도가 180° 튀지 않게) */
+  _pts(e) {
+    const map = this._map, t = [...e.touches], ids = this._ids || [];
+    const a = t.find((x) => x.identifier === ids[0]) || t[0], b = t.find((x) => x.identifier === ids[1] && x !== a) || t.find((x) => x !== a);
+    return [map.mouseEventToContainerPoint(a), map.mouseEventToContainerPoint(b)];
+  },
+  _start(e) {
+    const map = this._map;
+    if (!e.touches || e.touches.length !== 2 || map._animatingZoom || this._on) return;
+    this._ids = [e.touches[0].identifier, e.touches[1].identifier];
+    const [p1, p2] = this._pts(e);
+    map._stop();
+    turnStop(map); // 북쪽으로 돌아가던 중이면 그 자리에서 잡는다
+    rePivot(map);
+    this._mid = map.getSize().divideBy(2);
+    this._ll = map.containerPointToLatLng(p1.add(p2).divideBy(2)); // 손가락 사이 가운데의 자리
+    this._d0 = p1.distanceTo(p2) || 1;
+    this._a0 = angleOf(p1, p2);
+    this._z0 = this._zoom = map.getZoom();
+    this._deg = map._rotDeg || 0;
+    this._center = map.getCenter();
+    this._turning = this._moved = false;
+    this._on = true;
+    L.DomEvent.on(document, "touchmove", this._move, this);
+    L.DomEvent.on(document, "touchend touchcancel", this._end, this);
+    L.DomEvent.preventDefault(e);
+  },
+  _move(e) {
+    if (!this._on || !e.touches || e.touches.length !== 2) return;
+    const map = this._map, [p1, p2] = this._pts(e), a = angleOf(p1, p2);
+    if (!this._turning && Math.abs(norm180(a - this._a0)) > ROT_START) {
+      // 여기서부터 돈다(그때까지 비튼 15°는 버린다: 돌기 시작에 그림이 튀지 않게). 바탕과 선은 어느 각도에도 모서리가 비지 않게 다시 그린다
+      this._turning = true;
+      this._aRef = a;
+      this._degRef = this._deg;
+      map._rotOn = true;
+      for (const r of turnRenderers(map)) r._update();
+    }
+    const deg = this._turning ? norm180(this._degRef + norm180(a - this._aRef)) : this._deg;
+    const zoom = Math.min(map.getMaxZoom(), Math.max(mapMinZoom(map, deg), map.getScaleZoom(p1.distanceTo(p2) / this._d0, this._z0)));
+    // 손가락 사이 가운데(mid)에 처음 그 자리가 오게: 화면 = C + R(각도)(그 자리 - 가운데) 에서 가운데를 푼다
+    const c = map.unproject(map.project(this._ll, zoom).subtract(spin(p1.add(p2).divideBy(2).subtract(this._mid), -deg)), zoom);
+    this._center = limitAt(map, c, zoom, deg);
+    this._zoom = zoom;
+    this._deg = deg;
+    if (!this._moved) { map._moveStart(true, false); this._moved = true; }
+    L.Util.cancelAnimFrame(this._raf);
+    this._raf = L.Util.requestAnimFrame(this._frame, this, true);
+    L.DomEvent.preventDefault(e);
+  },
+  _frame() {
+    const map = this._map;
+    map._stop(); // 한 손가락 끌기의 관성이 두 손가락 사이에 시작됐으면 멈춘다
+    if (pivotOff(map)) rePivot(map); // 지난 각도로 중심을 가운데에(그림 그대로) 잡은 뒤 새 각도로
+    map._rotDeg = this._deg;
+    spinPane(map);
+    if (this._deg && map._mp) northShow(map._mp, true);
+    map._move(this._center, this._zoom, { pinch: true, round: false });
+  },
+  _end(e) {
+    if (!this._on || (e && e.touches && e.touches.length >= 2)) return;
+    if (!this._moved) { this.cancel(); return; }
+    const map = this._map;
+    L.Util.cancelAnimFrame(this._raf);
+    this._frame(); // 마지막 자리를 바로 그린다(그사이 다시 그리면 선을 다시 셈하게 아직 손가락을 따라가는 중으로 둔다)
+    this.cancel();
+    const deg = map._rotDeg || 0, snap = deg !== 0 && Math.abs(deg) <= ROT_SNAP;
+    map.options.minZoom = mapMinZoom(map, snap ? 0 : deg);
+    map.fire("zoomlevelschange");
+    const z = map._limitZoom(this._zoom);
+    if (map.options.zoomAnimation) map._animateZoom(this._center, z, true, map.options.zoomSnap);
+    else map._resetView(this._center, z);
+    if (snap) turnTo(map, 0, map.options.zoomAnimation ? 150 : 0); // 관성으로 더 돌지 않는다
+    else turnSettle(map);
+  },
+});
 
 // 수업 뒤 출발·도착 자리로 가는 길: ⌂ 핀과 같은 색(home) 파선 + 흰 테두리, 경로선 옆으로 7px 비켜서(같은 길을 되짚어도 경로선이 가려지지 않게)
 const RETURN_OFFSET = 7, RETURN_DASH = "8 6";
@@ -3126,6 +3493,7 @@ function renderLegend(mp, legs, hasReturn) {
 function renderMap(mp, ev, day, { reveal = false } = {}) {
   const { map } = mp;
   const R = state.result;
+  turnReset(mp); // 요일이나 후보를 바꾸면 북쪽이 위(167판). 전체 화면 지도도 북쪽이 위인 채 연다
   mp.data = null; // 아래에서 배율을 맞추는 동안(zoomend·moveend) 앞 요일의 핀·라벨을 다시 놓지 않게
   const legs = ev.days[day] ? ev.legs.filter((l) => l.day === day) : [];
   // 선: 수업 가는 길(번호가 붙은 수업으로)은 실선, 마지막 수업 뒤 출발·도착 자리로 가는 길은 점선
@@ -3268,17 +3636,17 @@ const mapTextW = (() => {
     return v;
   };
 })();
-/** 핀 옆 번호 상자(layer 좌표). p: 핀 가운데, t: pinTag. 구간 라벨과 다른 건물 이름이 피한다. */
+/** 핀 옆 번호 상자(화면 좌표). p: 핀 가운데, t: pinTag. 구간 라벨과 다른 건물 이름이 피한다. */
 const tagBox = (p, pin, t) => {
   const hw = pin.w / 2;
   return t.side === "below" ? [p.x + t.dx - t.lw / 2 - 2, p.y + 12, p.x + t.dx + t.lw / 2 + 2, p.y + 16 + 2 * t.hh]
     : t.side === "left" ? [p.x - hw - 5 - t.lw, p.y - t.hh, p.x - hw, p.y + t.hh] : [p.x + hw, p.y - t.hh, p.x + hw + 5 + t.lw, p.y + t.hh];
 };
 
-/** 지도 오른쪽 위 버튼(크게 보기, 마우스·전체 화면 지도의 확대·축소)의 상자, 지도 칸 좌표 [x0, y0, x1, y1]. */
+/** 지도 오른쪽 위 버튼(크게 보기, 마우스·전체 화면 지도의 확대·축소, 돌렸을 때의 북쪽 맞추기)의 상자, 지도 칸 좌표 [x0, y0, x1, y1]. */
 function mapButtonBoxes(mp) {
   const host = mp.el.getBoundingClientRect(), out = [];
-  for (const el of mp.el.parentElement.querySelectorAll(".map-expand > span, .leaflet-control-zoom")) {
+  for (const el of mp.el.parentElement.querySelectorAll(".map-expand > span, .leaflet-control-zoom, .map-north:not([hidden]) > span")) {
     const r = el.getBoundingClientRect();
     if (r.width) out.push([r.left - host.left - 2, r.top - host.top - 2, r.right - host.left + 2, r.bottom - host.top + 2]);
   }
@@ -3339,31 +3707,31 @@ function placeLegLabels(mp) {
   mp.legLabels.clearLayers();
   mp.boxes = [];
   if (!data) return;
-  const size = map.getSize(), o = map.containerPointToLayerPoint([0, 0]);
+  const size = map.getSize(), at = (ll) => map.latLngToContainerPoint(ll); // 화면 좌표(지도 칸 왼쪽 위가 0, 0. 돌린 지도도 화면 기준으로 피한다, 167판)
   const withName = map.getZoom() >= 17.25;
-  // 피할 상자(layer 좌표): 핀과 핀 옆 건물 번호, 지도 위 버튼(크게 보기, 확대·축소)과 저작권 표기
+  // 피할 상자(화면 좌표): 핀과 핀 옆 건물 번호, 지도 위 버튼(크게 보기, 확대·축소, 북쪽 맞추기)과 저작권 표기
   const pins = [], avoid = [];
-  if (data.homeAt) { const p = map.latLngToLayerPoint(data.homeAt); pins.push([p.x - 14, p.y - 14, p.x + 14, p.y + 14]); }
+  if (data.homeAt) { const p = at(data.homeAt); pins.push([p.x - 14, p.y - 14, p.x + 14, p.y + 14]); }
   for (const pin of mp.pins || []) {
-    const p = map.latLngToLayerPoint(pin.at), hw = pin.w / 2;
+    const p = at(pin.at), hw = pin.w / 2;
     pins.push([p.x - hw - 2, p.y - 14, p.x + hw + 2, p.y + 14]);
     avoid.push(tagBox(p, pin, pinTag(mp, pin, withName)));
   }
   const ui = [];
   const host = mp.el.getBoundingClientRect();
-  for (const el of mp.el.parentElement.querySelectorAll(".map-expand, .leaflet-control-zoom, .map-attr")) {
+  for (const el of mp.el.parentElement.querySelectorAll(".map-expand, .leaflet-control-zoom, .map-attr, .map-north:not([hidden])")) {
     const r = el.getBoundingClientRect();
-    if (r.width) ui.push([o.x + r.left - host.left - 4, o.y + r.top - host.top - 4, o.x + r.right - host.left + 4, o.y + r.bottom - host.top + 4]);
+    if (r.width) ui.push([r.left - host.left - 4, r.top - host.top - 4, r.right - host.left + 4, r.bottom - host.top + 4]);
   }
   avoid.push(...pins, ...ui);
-  const view = [o.x + 4, o.y + 4, o.x + size.x - 4, o.y + size.y - 4];
-  // 구간 선(layer 좌표). 출발·도착 자리로 가는 길은 그려진 대로 오른쪽으로 비킨 선
-  const lines = data.legs.map((lg) => (lg.home ? offsetPoints(map, lg.line, RETURN_OFFSET) : lg.line.map((ll) => map.latLngToLayerPoint(ll))));
+  const view = [4, 4, size.x - 4, size.y - 4];
+  // 구간 선(화면 좌표). 출발·도착 자리로 가는 길은 그려진 대로 오른쪽으로 비킨 선
+  const lines = data.legs.map((lg) => legScreen(map, lg));
   const seg = (a, b) => [a, b, Math.min(a.x, b.x), Math.min(a.y, b.y), Math.max(a.x, b.x), Math.max(a.y, b.y)];
   // 선 끝과 핀을 잇는 점선(그려진 것만)도 그 구간의 선으로 친다(다른 구간 라벨이 그 위에 서지 않게). 라벨 후보 자리는 길 위(lines)에서만 고른다
   const stubs = dayStubs(mp);
   const segs = lines.map((pts, i) => pts.slice(1).map((b, k) => seg(pts[k], b))
-    .concat(stubs[i].map(([a, b]) => seg(map.latLngToLayerPoint(a), map.latLngToLayerPoint(b)))));
+    .concat(stubs[i].map(([a, b]) => seg(at(a), at(b)))));
   const isHome = data.legs.map((lg) => lg.home);
   const CAP = 32; // 이보다 먼 선은 볼 필요가 없다
   /** 상자 r 에서 i 아닌 구간 선까지 가장 가까운 거리: [모든 선, 수업 가는 길(실선)만]. */
@@ -3445,7 +3813,7 @@ function placeLegLabels(mp) {
       || (it.anywhere ? it.cands.filter((x) => x.sep < LABEL_SEP && !x.cls).sort(loose).find((x) => free(x.box)) : null);
     if (!c) continue; // 둘 데가 없거나 어느 구간 것인지 헷갈리는 자리뿐이면 숨긴다(크게 보기에서 확대하면 보인다)
     placed.push([c.box[0] - 2, c.box[1] - 2, c.box[2] + 2, c.box[3] + 2]);
-    L.marker(map.layerPointToLatLng([c.x, c.y]), { interactive: false, keyboard: false,
+    L.marker(map.containerPointToLatLng([c.x, c.y]), { interactive: false, keyboard: false,
       icon: L.divIcon({ className: "", html: `<span class="leg-label${it.lg.home ? " to-home" : ""}" aria-hidden="true">${it.lg.home ? HOME_PIN.replace('width="12" height="12"', 'width="10" height="10"') : ""}${it.lg.tag ? `<span class="num">${it.lg.tag}</span>` : ""}${it.lg.text}</span>`, iconSize: [0, 0] }) }).addTo(mp.legLabels);
   }
   mp.boxes = pins.concat(ui, placed); // 수업이 없는 날 건물 번호가 피할 자리(placeLabels): 핀, 지도 버튼·저작권 표기, 구간 라벨
@@ -3466,16 +3834,15 @@ function placeLabels(mp) {
   if (!data || !state.campus) return;
   const z = map.getZoom(), withName = z >= 17.25;
   const labelIcon = (html) => L.divIcon({ className: "", html, iconSize: [0, 0] });
-  const size = map.getSize();
-  const o = map.containerPointToLayerPoint([0, 0]);
-  const inView = (box) => !(box[0] < o.x + 2 || box[1] < o.y + 2 || box[2] > o.x + size.x - 2 || box[3] > o.y + size.y - 2);
+  const size = map.getSize(), at = (ll) => map.latLngToContainerPoint(ll); // 화면 좌표(돌린 지도도 화면 기준으로, 167판)
+  const inView = (box) => !(box[0] < 2 || box[1] < 2 || box[2] > size.x - 2 || box[3] > size.y - 2);
   const spans = (lines) => lines.map((s) => `<span>${esc(s)}</span>`).join("");
   if (data.stops.length) {
     const placed = (mp.boxes || []).slice(), dayB = new Set();
     for (const pin of mp.pins || []) {
       pin.bs.forEach((b) => dayB.add(b));
       const t = pinTag(mp, pin, withName); // 오른쪽 가장자리·버튼에 걸리면 핀 왼쪽, 왼쪽도 걸리면 핀 아래
-      const box = tagBox(map.latLngToLayerPoint(pin.at), pin, t);
+      const box = tagBox(at(pin.at), pin, t);
       if (!inView(box)) continue;
       placed.push(box);
       L.marker(pin.at, { interactive: false, keyboard: false, zIndexOffset: 50,
@@ -3486,7 +3853,7 @@ function placeLabels(mp) {
     for (const lb of allOtherMarks()) {
       if (dayB.has(lb.id)) continue;
       const lines = nameLines(lb.id, lb.name);
-      const p = map.latLngToLayerPoint(lb.at);
+      const p = at(lb.at);
       const w = Math.max(...lines.map((s) => mapTextW(500, s))) + 4, hh = 14 * lines.length;
       const box = [p.x - w / 2 - 4, p.y - hh / 2 - 5, p.x + w / 2 + 4, p.y + hh / 2 + 5]; // 글자에서 옆 6·위아래 5(줄 상자에서): 이름끼리 옆 12·위아래 10
       if (!inView(box) || placed.some((q) => boxHit(box, q)) || segs.some(([a, b]) => boxSegDist(box, a, b) < 4)) continue;
@@ -3499,7 +3866,7 @@ function placeLabels(mp) {
   if (z < 15.5) return;
   const placed = (mp.boxes || []).slice();
   for (const lb of allBuildingMarks()) {
-    const p = map.latLngToLayerPoint(lb.at);
+    const p = at(lb.at);
     const lines = withName ? nameLines(lb.id, lb.name) : [];
     const w = Math.max(mapTextW(700, lb.text), ...lines.map((s) => mapTextW(500, s))) + 4, hh = 14 * (1 + lines.length) + 1;
     const box = [p.x - w / 2 - 2, p.y - hh / 2 - 1, p.x + w / 2 + 2, p.y + hh / 2 + 1];
