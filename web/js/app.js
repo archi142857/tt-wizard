@@ -11169,16 +11169,20 @@ $("picked-list").addEventListener("click", (e) => {
 $("picked-retry").addEventListener("click", run);
 // 조건이 화면 밖이면(담은 과목이 길어 아래로 밀렸을 때) 첫 누름은 맨 아래로 내려 조건을 보이기만 한다(11/24 사용자 '모바일에서 동선탐색에서 조건이 화면에 안 나와
 // 있는데 시간표 만들기 누르면 조건이 보이게 스크롤 끝까지 내려줘'). 조건 카드가 다 보이거나 더 내려갈 데가 없으면 바로 만든다. 키보드로 누른 것(detail 0)은
-// 조건을 지나 단추에 온 것이라 바로 만든다
+// 조건을 지나 단추에 온 것이라 바로 만든다. 내리기만 할 때 초점은 조건 제목으로(167판: 단추에 남으면 스크린리더로는 아무 일도 없는 것처럼 들린다)
 function condHidden() {
   const card = document.querySelector("#view-input .card.settings"), bar = $("run").closest(".bottom-bar");
   if (!card || !card.getClientRects().length) return false;
-  const limit = bar && getComputedStyle(bar).position === "fixed" ? bar.getBoundingClientRect().top : window.innerHeight;
+  // 아래 단추 위 끝까지가 보이는 곳이다. 폰은 화면 아래에 붙은 막대, 넓은 화면은 오른쪽 칸이 길 때 화면 아래에 붙는 막대(sticky. 제자리에 있으면 카드가 그 위다).
+  // 화상 키보드가 떠서 막대를 숨겼으면(높이 0) 화면 끝
+  const br = bar ? bar.getBoundingClientRect() : null;
+  const limit = br && br.height && br.top < window.innerHeight ? br.top : window.innerHeight;
   const more = document.documentElement.scrollHeight - window.innerHeight - window.scrollY > 1;
   return more && card.getBoundingClientRect().bottom > limit + 1;
 }
 $("run").addEventListener("click", (e) => {
   if (e.detail > 0 && !busy && state.loaded && state.picks.length && condHidden()) {
+    $("cond-title").focus({ preventScroll: true });
     window.scrollTo({ top: document.documentElement.scrollHeight, behavior: reduceMotion.matches ? "auto" : "smooth" });
     return;
   }
