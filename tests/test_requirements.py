@@ -1176,7 +1176,7 @@ def test_snugenie_confirms_and_splits():
     assert y25["entry_years"] == [2025, 2025] and y26["entry_years"] == [2026, 2026]
     assert y25["requirements"][0]["status"] == "확인" and y26["requirements"][0]["status"] == "부분"
     key = y25["requirements"][0]["src"][-1]
-    assert prog["sources"][key]["title"] == "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2025학년도, 2026-11-17 확인)"
+    assert prog["sources"][key]["title"] == "서울대학교 스누지니 전공 탐색 졸업이수규정, 전공 교과목(2025학년도, 2026-11-17 확인)"
     assert y25["credits"]["status"] == "확인" and y26["credits"]["status"] == "부분"
     # 스누지니 전필에 앱 줄에 없는 과목이 있으면 그대로 두고 보고서에
     prog2 = {"id": "animal-biotech", "program": "동물생명공학전공", "sources": {},
@@ -1249,7 +1249,7 @@ def test_animal_biotech_2025_from_snugenie():
     assert new["credits"]["status"] == "확인" and y26["credits"]["status"] == "부분"
     for rid in ("animal-main-core", "animal-thesis", "cals-foreign-lang-lectures", "major-total"):
         assert rows[rid]["status"] == "확인", rid
-    assert "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2025학년도, 2026-11-17 확인)" in title(rows["animal-main-core"])
+    assert "서울대학교 스누지니 전공 탐색 졸업이수규정, 전공 교과목(2025학년도, 2026-11-17 확인)" in title(rows["animal-main-core"])
     assert rows["major-total"]["sum"] == {"of": "major", "by_role": {"single": 48, "parallel": 48}}
     assert rows["animal-thesis"]["min_count"] == 1 and "M1702.000400" in rows["animal-thesis"]["text"]
     assert rows["cals-foreign-lang-lectures"]["foreign"] == {"lang": "any", "min_count": 3, "major_count": 1}
@@ -1408,3 +1408,19 @@ def test_screen_text_from_data(tmp_path):
     raw = {"id": "x", "sources": {"s1": {"title": "윤리교육과 누리집(접근 실패: robots 차단)", "url": "u"}, "s2": {"title": "학과 누리집 졸업요건", "url": "v"}}}
     assert ri.clean_sources(raw) == 2 and raw["sources"]["s1"] == {"title": "윤리교육과 홈페이지", "memo": "접근 실패: robots 차단", "url": "u"}
     assert raw["sources"]["s2"]["title"] == "학과 홈페이지 졸업요건"
+    # update152(라이팅 11/24 ②③): 수강편람에서 온 출처는 `서울대학교 수강편람`으로 시작하고 범위는 괄호에, `백엔드`·`수집`·`TT Wizard`·`data/history` 없이.
+    # 스누지니 출처의 '졸업이수규정, 전공 교과목'은 쉼표(정보 화면 F51 과 같게). 다시 가져와도 같은 제목이 되게 가져오기(clean_sources)에 넣었다
+    for prog in programs().values():
+        for s in (prog.get("sources") or {}).values():
+            t = s["title"]
+            assert not any(w in t for w in ("백엔드", "수집", "TT Wizard", "data/history", "졸업이수규정·전공 교과목")), t
+            assert "졸업이수규정·전공 교과목" not in (s.get("locator") or ""), s
+            if "수강편람" in t and "기초교양 수강편람" not in t:
+                assert t.startswith("서울대학교 수강편람"), t
+    assert set(ri.COURSEBOOK_TITLES.values()) <= {ri.clean_title(t) for t in ri.COURSEBOOK_TITLES}
+    raw = {"id": "y", "sources": {"s1": {"title": "수강편람 자료(백엔드 수집) 2025-1", "locator": "두 과목 전필"},
+                                  "s2": {"title": "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2024학년도, 2026-11-17 확인)",
+                                         "locator": "2024학년도 졸업이수규정·전공 교과목(전필) 목록"}}}
+    assert ri.clean_sources(raw) == 2 and raw["sources"]["s1"]["title"] == "서울대학교 수강편람(2025년 1학기)"
+    assert raw["sources"]["s2"] == {"title": "서울대학교 스누지니 전공 탐색 졸업이수규정, 전공 교과목(2024학년도, 2026-11-17 확인)",
+                                    "locator": "2024학년도 졸업이수규정, 전공 교과목(전필) 목록"}

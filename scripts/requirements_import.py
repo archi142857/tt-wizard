@@ -100,20 +100,49 @@ SOURCE_MEMOS = {
     "컴퓨터공학부, 졸업 규정 - 주전공(다전공 병행)(PDF) — 접근 실패": ("컴퓨터공학부, 졸업 규정 - 주전공(다전공 병행)(PDF)", "접근 실패"),
 }
 MEMO_WORDS = re.compile(r"접근 실패|못 엶|스캔본|WebFetch|1차 열람")  # 제목에 남으면 안 되는 말(tests/test_requirements.py)
+# 수강편람에서 온 출처 제목은 `서울대학교 수강편람`으로 시작하고 범위는 괄호에(라이팅 11/24 ②, update152). `백엔드`·`수집`·`TT Wizard`·`data/history`는 뺀다.
+# 학부대학이 낸 '2026학년도 2학기 기초교양 수강편람'은 학교 문서 이름 그대로 둔다
+COURSEBOOK_TITLES = {
+    "수강편람 자료(TT Wizard 백엔드 수집본, 학기별 개설 과목·교과구분)": "서울대학교 수강편람(학기별 개설 과목, 교과구분)",
+    "TT Wizard 수강편람 자료(서울대 수강편람에서 모음)": "서울대학교 수강편람",
+    "수강편람 자료(TT Wizard 백엔드 수집본)": "서울대학교 수강편람",
+    "TT Wizard 수강편람 자료 data/history(2021-1~2026-2) — 학교 수강편람에서 모은 것": "서울대학교 수강편람(2021년 1학기~2026년 2학기 개설 과목)",
+    "수강편람 자료(백엔드 수집본, 과목 번호·이름·학점·교과구분)": "서울대학교 수강편람(과목 번호, 이름, 학점, 교과구분)",
+    "수강편람 자료(백엔드 수집)": "서울대학교 수강편람",
+    "수강편람 자료(백엔드 수집) 2025-1": "서울대학교 수강편람(2025년 1학기)",
+    "수강편람 자료(백엔드 수집) 2026-1": "서울대학교 수강편람(2026년 1학기)",
+    "수강편람 자료(백엔드 수집) 2026-2": "서울대학교 수강편람(2026년 2학기)",
+    "수강편람 자료(백엔드 수집본, 학기별 교과구분)": "서울대학교 수강편람(학기별 교과구분)",
+    "TT Wizard 수강편람 자료(학기별 과목 번호·이름·학점·개설학과·교과구분)": "서울대학교 수강편람(학기별 과목 번호, 이름, 학점, 개설 학과, 교과구분)",
+    "TT Wizard 수강편람 자료(2021-1~2026-2 학기별 개설 과목)": "서울대학교 수강편람(2021년 1학기~2026년 2학기 개설 과목)",
+    "TT Wizard 수강편람 자료(과목 번호·이름·학점·교과구분)": "서울대학교 수강편람(과목 번호, 이름, 학점, 교과구분)",
+    "수강편람 자료(TT Wizard 백엔드, 과목 번호·학점·교과구분)": "서울대학교 수강편람(과목 번호, 학점, 교과구분)",
+    "수강편람 자료(학기별 과목 번호·이름·학점)": "서울대학교 수강편람(학기별 과목 번호, 이름, 학점)",
+    "수강편람 자료(학기별, TT Wizard 레포 data/history)": "서울대학교 수강편람(학기별)",
+    "TT Wizard 수강편람 자료(2021-1~2026-2)": "서울대학교 수강편람(2021년 1학기~2026년 2학기)",
+}
+
+
+def clean_title(title: str) -> str:
+    """출처 제목 하나 다듬기: 수강편람 제목(COURSEBOOK_TITLES), 누리집 → 홈페이지, 스누지니 '졸업이수규정·전공 교과목' → 쉼표(정보 화면 F51 과 같게, 라이팅 11/24 ③)"""
+    title = COURSEBOOK_TITLES.get(title, title).replace("누리집", "홈페이지")
+    return title.replace("졸업이수규정·전공 교과목", "졸업이수규정, 전공 교과목")
 
 
 def clean_sources(prog: dict) -> int:
-    """과정의 출처 제목 다듬기(SOURCE_MEMOS·누리집). 메모는 title 바로 뒤 memo 에. 바꾼 출처 수"""
+    """과정의 출처 제목 다듬기(SOURCE_MEMOS, clean_title). 메모는 title 바로 뒤 memo 에. 스누지니 출처의 locator 도 쉼표로. 바꾼 출처 수"""
     n = 0
     for sid, s in list((prog.get("sources") or {}).items()):
         title = s.get("title") or ""
         new, memo = SOURCE_MEMOS.get(title, (title, None))
-        new = new.replace("누리집", "홈페이지")
-        if new == title and not memo:
+        new = clean_title(new)
+        loc = s.get("locator")
+        new_loc = loc.replace("졸업이수규정·전공 교과목", "졸업이수규정, 전공 교과목") if isinstance(loc, str) else loc
+        if new == title and not memo and new_loc == loc:
             continue
         out = {}
         for k, v in s.items():
-            out[k] = new if k == "title" else v
+            out[k] = new if k == "title" else new_loc if k == "locator" else v
             if k == "title" and memo:
                 out["memo"] = memo
         prog["sources"][sid] = out
@@ -794,7 +823,7 @@ def main(argv: list[str] | None = None) -> int:
         counted["규칙 설명"] = counted.get("규칙 설명", 0) + requirement_rules.mark_rules(prog)  # update135
         counted["전공 학점 줄"] = counted.get("전공 학점 줄", 0) + requirements_lists.add_major_totals(prog)  # update135
         counted["대체 번호 정리"] = counted.get("대체 번호 정리", 0) + clean_alts(prog, old_codes)  # 11/17: '번호(설명)' → 번호, 조사 자료의 옛 번호
-        counted["출처 제목"] = counted.get("출처 제목", 0) + clean_sources(prog)  # update150: 누리집 → 홈페이지, 조사 메모는 memo 로
+        counted["출처 제목"] = counted.get("출처 제목", 0) + clean_sources(prog)  # update150: 누리집 → 홈페이지, 조사 메모는 memo 로. update152: 수강편람·스누지니 제목
         (out / "programs" / f"{prog['id']}.json").write_text(json.dumps(prog, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     index = [index_entry(one.get(k), two.get(k), k[0], built) for k in keys]
     # snugenie_checked_on: 스누지니로 확인한 날(문서 11/23: 정보 탭 출처 줄 '스누지니 … (2025학년도, 11월 17일 확인)'의 날짜를 화면이 박지 않고 채운다). 조사 자료 없이 돌리면 없다

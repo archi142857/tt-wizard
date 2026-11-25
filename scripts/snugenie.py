@@ -10,7 +10,7 @@
      판을 나눠 목록이 있는 학번 쪽만 '확인'
   3. 학점: 그 학년도 글의 '졸업(수료)학점·교양학점·단일전공·다른 전공 병행' 숫자가 판 값과 같으면 판 학점(credits)을 '확인'
   4. 외국어진행강좌 줄(requirement_rules 가 셈 꼴을 단 줄): 그 학년도 글에 같은 과목 수의 외국어(영어)진행 규정이 있으면 '확인'
-  5. 출처 '서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목(2025학년도, 2026-11-17 확인)'
+  5. 출처 '서울대학교 스누지니 전공 탐색 졸업이수규정, 전공 교과목(2025학년도, 2026-11-17 확인)'
 학년도는 입학(진입) 학년도로 읽는다(조사 README). 입학 연도로 고르는 판만 본다. 고친 것과 남은 차이는 report()(공유 폴더 보고서).
 표준 라이브러리만.
 """
@@ -24,7 +24,7 @@ from collections import defaultdict
 from pathlib import Path
 
 CHECKED = "2026-11-17"
-TITLE = "서울대학교 스누지니 전공 탐색 졸업이수규정·전공 교과목"
+TITLE = "서울대학교 스누지니 전공 탐색 졸업이수규정, 전공 교과목"  # 쉼표는 정보 화면 F51 과 같게(라이팅 11/24, update152)
 NONE = "졸업이수규정 정보가 없습니다."
 LO, HI = 2019, 2026
 CODE = re.compile(r"M\d{4}\.\d{6}|[A-Z]\d{4}\.\d{6}|[A-Z]\d{2}\.\d{3}[A-Z]?|\d{3,4}[A-Z]?\.\d{3,4}[A-Z]?")
@@ -115,7 +115,7 @@ def _row_keys(r: dict, same: Same) -> list[set[str]]:
 def _source(prog: dict, years: list[int]) -> str:
     lo, hi = min(years), max(years)
     span = f"{lo}학년도" if lo == hi else f"{lo}~{hi}학년도"
-    s = {"title": f"{TITLE}({span}, {CHECKED} 확인)", "locator": f"{span} 졸업이수규정·전공 교과목(전필) 목록",
+    s = {"title": f"{TITLE}({span}, {CHECKED} 확인)", "locator": f"{span} 졸업이수규정, 전공 교과목(전필) 목록",
          "accessed": CHECKED, "url": "https://snugenie.snu.ac.kr"}
     srcs = prog.setdefault("sources", {})
     for k, v in srcs.items():

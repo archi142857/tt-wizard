@@ -16,6 +16,9 @@ import legal_pages as lp  # noqa: E402
 
 def test_pages_are_built_from_sources():
     assert lp.main(["--check"]) == 0  # 원문을 고쳤으면 python scripts/legal_pages.py
+    # 페이지 설명(검색 결과·링크 미리 보기 글)은 라이팅 11/24 글 그대로(update152)
+    assert lp.PAGES["terms"][2] == "TT Wizard 서비스 이용약관"
+    assert lp.PAGES["privacy"][2] == "TT Wizard가 처리하는 개인정보와 열람, 삭제를 요청하는 방법"
 
 
 @pytest.mark.parametrize("name", ["privacy", "support", "terms", "delete-account", "privacy-2026-11-01", "privacy-2026-11-11",

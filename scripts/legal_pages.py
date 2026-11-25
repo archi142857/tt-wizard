@@ -63,10 +63,10 @@ MAIL_SUBJECTS = {"TT Wizard 계정 삭제 요청": "TT Wizard 계정 삭제 요�
 SITES = ("privacy.kisa.or.kr", "www.kopico.go.kr", "www.spo.go.kr", "ecrm.police.go.kr")  # 16절 기관(글에는 https:// 없이)
 
 PAGES = {  # 원문 → (나오는 폴더, 문서 제목(원문의 ### 제목은 이것이거나 'TT Wizard ' + 이것), 설명, 맞은편 페이지)
-    "privacy": ("privacy", "개인정보 처리방침", "TT Wizard가 다루는 개인정보와 요청하는 방법", ("support", "문의")),
+    "privacy": ("privacy", "개인정보 처리방침", "TT Wizard가 처리하는 개인정보와 열람, 삭제를 요청하는 방법", ("support", "문의")),
     "support": ("support", "문의", "TT Wizard 버그 제보, 기능 제안과 문의", ("privacy", "개인정보 처리방침")),
     # 이용약관(update149, 사용자 11/23 이름 '이용약관'). 11/15 판은 그때 이름(이용 규칙) 그대로 두고 맞은편 링크 글만 지금 이름으로
-    "terms": ("terms", "이용약관", "TT Wizard 로그인과 친구 기능을 쓸 때 지킬 약관", ("privacy", "개인정보 처리방침")),
+    "terms": ("terms", "이용약관", "TT Wizard 서비스 이용약관", ("privacy", "개인정보 처리방침")),
     "delete-account": ("delete-account", "계정 삭제", "TT Wizard 계정과 서버 자료를 삭제하는 방법", ("privacy", "개인정보 처리방침")),
     # 이전 판(17절 '이전 판도 볼 수 있게 둬요'): 올렸던 글을 풀어 둔 채로 두고 고치지 않는다. 맞은편은 지금 판
     "privacy-2026-11-01": ("privacy/2026-11-01", "개인정보 처리방침", "TT Wizard 개인정보 처리방침의 이전 판(2026년 11월 1일 시행)",
