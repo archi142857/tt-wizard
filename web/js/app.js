@@ -2298,8 +2298,9 @@ const lateOf = (l) => (l.slack !== null && l.slack < 0 ? Math.max(0, Math.round(
 /**
  * 늦는 수업 요약(가이드 형식 '분 + 지각'. 11/2 사용자가 위젯처럼 '늦음' 대신 '지각'으로: 백엔드가 "앱 화면의 `2분 늦음`도 위젯처럼 `지각`으로 바꿀까?" 묻자 "ㅇㅇ").
  * 늦는 분을 더한 합은 뜻이 없어 쓰지 않고(10/1 사용자) 수업마다의 분을 쓴다(10/1 밤 사용자 결정).
- * 한 주(후보 카드)는 같은 분끼리 요일을 묶어 '월수 2분·목 5분 지각'(요일 글자는 '월화수목 등교'처럼 붙여 쓴다). 같은 요일들에서 늦는
- * 분이 둘이면 요일을 한 번만: '화목 11분·17분 지각'. 하루(하루 요약 태그)는 그날 늦는 분을 시각 순서로 '2분·5분 지각'.
+ * 한 주(후보 카드)는 같은 분끼리 요일을 묶어 '월수 2분, 목 5분 지각'(요일 글자는 '월화수목 등교'처럼 붙여 쓴다). 같은 요일들에서 늦는
+ * 분이 둘이면 요일을 한 번만: '화목 11분과 17분 지각'. 하루(하루 요약 태그)는 그날 늦는 분을 시각 순서로 '2분과 5분 지각'.
+ * 한 묶음 안은 '과'로 잇고(셋이어도 '11분과 17분과 20분') 묶음 사이는 쉼표(라이팅 11/24 N1: '화목 11분과 17분, 금 5분 지각')
  * 늦는 수업이 없으면 ''.
  */
 function lateText(legs, withDays) {
@@ -2311,14 +2312,14 @@ function lateText(legs, withDays) {
     if (!mins.get(m).includes(l.day)) mins.get(m).push(l.day);
   }
   if (!mins.size) return "";
-  if (!withDays) return `${[...mins.keys()].map((m) => `${m}분`).join(", ")} 지각`;
+  if (!withDays) return `${[...mins.keys()].map((m) => `${m}분`).join("과 ")} 지각`;
   const byDays = new Map(); // '화목' → [11, 17]
   for (const [m, ds] of mins) {
     const k = ds.map((d) => DAY_KO[d]).join("");
     if (!byDays.has(k)) byDays.set(k, []);
     byDays.get(k).push(m);
   }
-  return `${[...byDays].map(([k, ms]) => `${k} ${ms.map((m) => `${m}분`).join(", ")}`).join(", ")} 지각`;
+  return `${[...byDays].map(([k, ms]) => `${k} ${ms.map((m) => `${m}분`).join("과 ")}`).join(", ")} 지각`;
 }
 
 // 조합 수의 단위: 만 → 억 → 조 → 경(수는 Number 라 9천조쯤부터는 어림값이다)
@@ -2649,7 +2650,7 @@ function renderSummary(ev, day) {
   if (!ev.days[day]) { box.replaceChildren(); return; }
   const legs = ev.legs.filter((l) => l.day === day);
   const walk = Math.round(legs.reduce((s, l) => s + l.minutes, 0));
-  const late = lateText(legs, false); // '2분 지각', 그날 둘이면 '2분·5분 지각'(더한 값은 쓰지 않는다)
+  const late = lateText(legs, false); // '2분 지각', 그날 둘이면 '2분과 5분 지각'(더한 값은 쓰지 않는다)
   const tag = (text) => h("span", { class: "tag danger" }, h("span", { class: "sr-only" }, ", "), text);
   box.replaceChildren(...[h("span", {}, "걷기 ", h("b", {}, `${walk}분`)), late ? tag(late) : null].filter(Boolean));
 }
@@ -6354,11 +6355,8 @@ function itemSheetClosed() {
 // 더한 목록 + 바로 아래 장소 글 칸 30자, 162판), 메모. 넣은 일정을 누르면 같은 시트에 값이 채워져 열린다(제목은 일정 이름, 오른쪽 완료, 맨 아래 오른쪽 삭제(과목 시트와
 // 같다). 바꾼 것은 바로 저장된다). 장소 글(백엔드 update148)은 수업의 room 이고 걷는 시간은 건물로만 잰다. 친구 사본에는 가지 않는다(이름과 시간만)
 const custom = { key: null, title: "", color: 0, days: [], sh: 9, sm: 0, eh: 10, em: 0, b: "", place: "", memo: "", hidden: false, errors: new Set() };
-/** 새 일정에 줄 색(162판: 직접 추가 시트에 처음부터 골라 둔다): T.addItem 이 줄 색 그대로(안 쓴 가장 작은 번호, 다 쓰면 가장 덜 쓴 색) */
-function nextColor() {
-  const r = T.addItem(curTt(), T.customItem({ title: "x", meetings: [] }), { force: true });
-  return r.t.items[r.t.items.length - 1].color;
-}
+/** 새 일정에 줄 색(162판: 직접 추가 시트에 처음부터 골라 둔다): T.addItem 이 줄 색 그대로(안 쓴 가장 작은 번호, 다 쓰면 가장 덜 쓴 색. T.nextColor, update151) */
+const nextColor = () => T.nextColor(curTt());
 /** 장소 글 칸의 자리표시이자 이름(162판): 건물이 미정이면 '장소 이름', 고르면 '자세한 위치' */
 const placeHint = (b) => (b ? "자세한 위치" : "장소 이름");
 
@@ -7867,7 +7865,7 @@ const GRAD_VIEWS = [["req", "졸업 요건"], ["taken", "수강한 과목"], ["n
 const gradObj = (o) => !!o && typeof o === "object" && !Array.isArray(o);
 const CHECK_CODE = /^[A-Za-z0-9.]{1,32}$/; // 체크한 과목의 번호(편람 교과목번호 꼴)
 const ROW_KEY = /^[A-Za-z0-9._-]{1,64}\|[A-Za-z0-9._-]{1,96}$/; // 요건 줄 열쇠 '과정 id|요건 id'
-const TEPS_SCALES = ["new", "old"]; // 입학 때 TEPS 점수의 시험(New TEPS | 이전 TEPS, 아래 tepsScaleOf)
+const TEPS_SCALES = ["new", "old"]; // 입학 때 TEPS 점수의 시험(New TEPS | 구 TEPS, 아래 tepsScaleOf)
 function gradStore() {
   const v = store.get(GRAD, null), ok = gradObj(v);
   return {
@@ -8620,16 +8618,16 @@ function rqGpa() {
   const rows = [row("all", "전체 평점", grades && grades.all), row("major", "전공 평점", grades && grades.major)];
   return { rows, n };
 }
-/** TEPS 칸(162판 fieldset.gr-teps): legend '입학 때 TEPS 점수', 세그먼트 New TEPS | 이전 TEPS(처음은 학번으로), 점수 칸(세 자리 숫자, 이름 'New TEPS 점수')과 '점',
+/** TEPS 칸(162판 fieldset.gr-teps): legend '입학 때 TEPS 점수', 세그먼트 New TEPS | 구 TEPS(처음은 학번으로. 라이팅 11/24: 학교 안내문과 학생이 쓰는 말), 점수 칸(세 자리 숫자, 이름 'New TEPS 점수')과 '점',
  *  범위를 넘으면 칸 아래 오류 줄(칸에 잇는다), 고지 '점수는 이 기기에만 저장돼요'. 학생 하나에 점수 하나라 어느 시트에서 넣어도 같은 값이다 */
 function tepsField(v) {
   const t = gradStore().teps, scale = tepsScaleOf(v), err = tepsError(t.score, scale);
   return h("fieldset", { class: "gr-teps" }, h("legend", { class: "field-label" }, "입학 때 TEPS 점수"),
-    h("div", { class: "seg" }, [["new", "New TEPS"], ["old", "이전 TEPS"]].map(([x, text]) => h("label", {},
+    h("div", { class: "seg" }, [["new", "New TEPS"], ["old", "구 TEPS"]].map(([x, text]) => h("label", {},
       h("input", { type: "radio", name: "rq-teps-scale", value: x, checked: scale === x, "data-teps": "scale" }), text))),
     h("div", { class: "teps-row" },
       h("input", { class: "text-input", id: "rq-teps", type: "text", inputmode: "numeric", pattern: "[0-9]*", maxlength: "3", autocomplete: "off", enterkeyhint: "done",
-        value: t.score, "data-teps": "score", "aria-label": scale === "new" ? "New TEPS 점수" : "이전 TEPS 점수",
+        value: t.score, "data-teps": "score", "aria-label": scale === "new" ? "New TEPS 점수" : "구 TEPS 점수",
         "aria-invalid": err ? "true" : null, "aria-describedby": err ? "rq-teps-err rq-teps-note" : "rq-teps-note" }),
       h("span", { "aria-hidden": "true" }, "점")),
     err ? h("p", { class: "error-line", id: "rq-teps-err" }, err) : null,
@@ -8728,24 +8726,17 @@ function paintRq(key) {
   // 목록 없는 분야(목록 없는 덧붙은 조건 등)는 체크 칸으로 펴지 않는다: 다른 목록이 없으면 머리 없는 칸에 분야 줄(rqArea), 목록과 섞이면 머리만과 그 아래 조건부 글.
   // 목록 없는 분야가 하나뿐이고 다른 목록이 없으면(베리타스) 상태 칸과 같아 두지 않는다
   const gv = (g, i) => (s.groups || []).find((x) => x.name === String(g.name || g.field || "")) || (s.groups || [])[i] || null;
-  // 입학 때 TEPS 점수(162판): 자료 teps_max 가 경계 값인 조건부 분야(TEPS 분야)는 점수 구간으로 푼다(엔진 withTeps 와 같은 셈). 점수로 필요 없어진 분야는 엔진이 빼지만
-  // 시트에는 머리 '필수 아님'과 목록을 그대로 둔다(영어 과목도 외국어 과목이다: 목록은 같은 줄 다른 분야의 그 앞번호 과목)
-  const band = tepsBandOf(gradNow.v), edgeOf = (g) => (g.cond ? R.TEPS_EDGES.new.indexOf(Number(g.teps_max)) : -1);
-  const byPrefix = (pre) => {
-    const out = new Map();
-    for (const c of (s.groups || []).flatMap((x) => x.courses || [])) if ((pre || []).some((x) => String(c.code).startsWith(x)) && !out.has(c.code)) out.set(c.code, c);
-    return [...out.values()];
-  };
+  // 입학 때 TEPS 점수(162판): 점수로 풀 수 있는 조건부 분야(TEPS 분야)는 엔진이 분야마다 teps 를 준다(update151): "ask"(점수 모름: 조건 글과 확인 필요),
+  // "on"(점수로 필요: 덧붙은 조건), "off"(필요 없음: 셈에서 빠지고 머리 '필수 아님', 목록은 그대로. 영어 과목도 외국어 과목이다)
   const fields = (ex.groups || []).map((g, i) => {
-    const e = edgeOf(g), drop = e >= 0 && band != null && band > e, sg = drop ? null : gv(g, i);
-    const courses = (g.courses || []).length ? g.courses : sg ? sg.courses || [] : drop ? byPrefix(g.prefixes) : [];
-    return { g: { ...g, courses }, i, sg, list: courses.length > 0, teps: e >= 0, drop };
+    const sg = gv(g, i), tp = (sg && sg.teps) || null, courses = (g.courses || []).length ? g.courses : (sg && sg.courses) || [];
+    return { g: { ...g, courses }, i, sg: tp === "off" ? null : sg, list: courses.length > 0, teps: !!tp, tp, drop: tp === "off" };
   });
   // TEPS 칸 자리: TEPS 분야의 머리와 조건 글 바로 아래. 줄 전체가 영어 조건이면(인문대 '영어' 줄) 상태 칸 아래. 점수를 넣었으면 그 분야의 조건 글 자리에 첫 과목
   const tepsAt = fields.findIndex((f) => f.teps);
   const first = s.teps && s.teps.english > 0 ? (s.teps.basic ? "기초영어" : (s.teps.path || [])[0]) : null;
-  const tepsNote = (f) => (!f.teps || band == null ? (f.g.cond ? h("p", { class: "gr-fnote" }, f.g.cond) : null)
-    : !f.drop && first ? h("p", { class: "gr-fnote is-out" }, `${first}부터 수강해요`) : null);
+  const tepsNote = (f) => (!f.teps || f.tp === "ask" ? (f.g.cond ? h("p", { class: "gr-fnote" }, f.g.cond) : null)
+    : f.tp === "on" && first ? h("p", { class: "gr-fnote is-out" }, `${first}부터 수강해요`) : null);
   const groups = fields.filter((f) => f.list);
   const paths = (ex.paths || []).filter((p) => (p.courses || []).length);
   const mixed = flat.length + groups.length + paths.length > 0;
@@ -8771,7 +8762,7 @@ function paintRq(key) {
   // 분야가 하나뿐인 목록(143판 .gr-field.is-solo): 머리 없이 과목 줄만(이름·조건·값이 시트 제목·자료 글·상태 칸과 겹친다)
   if (flat.length) body.push(h("section", { class: "gr-field is-solo" }, ...rqList("flat", r.name, flat)));
   if (!mixed && fields.length > 1) {
-    body.push(h("div", { class: "gr-field is-solo" }, h("ul", { class: "gr-checks" }, fields.map((f) => rqArea(!f.teps || band == null ? f.g
+    body.push(h("div", { class: "gr-field is-solo" }, h("ul", { class: "gr-checks" }, fields.map((f) => rqArea(!f.teps || f.tp === "ask" ? f.g
       : { ...f.g, cond: f.drop ? "필수 아님" : first ? `${first}부터 수강해요` : null }, f.sg)))));
   }
   // 분야가 하나뿐인 목록(143판, 베리타스 같은 영역 목록도 150판): 머리 없이 .gr-field.is-solo(이름·조건·값이 시트 제목·자료 글·상태 칸과 겹친다), '모두 보기'는 상태 칸 바로 아래
