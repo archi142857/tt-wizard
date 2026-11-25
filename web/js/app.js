@@ -2976,7 +2976,10 @@ function makeMap(el, full) {
   const mouse = finePointer.matches;
   const map = L.map(el, {
     zoomControl: false, attributionControl: false, // 저작권 표기는 지도 밖 .map-attr(늘 보이고, 스크린리더가 읽는다)
-    dragging: full || mouse, touchZoom: true, doubleClickZoom: true, scrollWheelZoom: full || mouse, boxZoom: mouse,
+    // 한 손가락 끌기는 작은 지도도 전체 화면 지도처럼 켠다(11/24 사용자 '모바일에서 동선 탐색 누르면 하루 일정, 지도, 시간표 목록 이렇게 나오잖아. 여기서 지도 움직일
+    // 때도 지도 눌러서 들어갔을 때랑 동작 똑같이 맞춰줘. 한 손가락 드래그로 움직일 수 있고 등등'. 전에는 페이지 스크롤이 지도에 걸리지 않게 터치에서 껐다).
+    // 지도 위에서 시작한 밀기는 페이지 대신 지도를 옮기고, 페이지는 지도 밖에서 민다. 확대·축소 단추는 아직 마우스에서만(디자인에 물음)
+    dragging: true, touchZoom: true, doubleClickZoom: true, scrollWheelZoom: full || mouse, boxZoom: mouse,
     keyboard: true, inertia: !still, zoomAnimation: !still, fadeAnimation: !still, markerZoomAnimation: !still,
     // 끌 수 있는 범위는 바탕 지도 자료 범위(loadBasemap 이 받으면 건다). 받기 전에 캠퍼스 범위로 묶으면 첫 요일을 맞출 때 가운데가 캠퍼스에 묶여 핀이 잘린다
     zoomSnap: 0.25, zoomDelta: 0.5, maxZoom: 19.5, maxBounds: dataBounds || undefined, maxBoundsViscosity: 1.0,
@@ -11164,7 +11167,23 @@ $("picked-list").addEventListener("click", (e) => {
   if (hit && state.loaded) openCourseSheet(hit.dataset.open, hit);
 });
 $("picked-retry").addEventListener("click", run);
-$("run").addEventListener("click", run);
+// 조건이 화면 밖이면(담은 과목이 길어 아래로 밀렸을 때) 첫 누름은 맨 아래로 내려 조건을 보이기만 한다(11/24 사용자 '모바일에서 동선탐색에서 조건이 화면에 안 나와
+// 있는데 시간표 만들기 누르면 조건이 보이게 스크롤 끝까지 내려줘'). 조건 카드가 다 보이거나 더 내려갈 데가 없으면 바로 만든다. 키보드로 누른 것(detail 0)은
+// 조건을 지나 단추에 온 것이라 바로 만든다
+function condHidden() {
+  const card = document.querySelector("#view-input .card.settings"), bar = $("run").closest(".bottom-bar");
+  if (!card || !card.getClientRects().length) return false;
+  const limit = bar && getComputedStyle(bar).position === "fixed" ? bar.getBoundingClientRect().top : window.innerHeight;
+  const more = document.documentElement.scrollHeight - window.innerHeight - window.scrollY > 1;
+  return more && card.getBoundingClientRect().bottom > limit + 1;
+}
+$("run").addEventListener("click", (e) => {
+  if (e.detail > 0 && !busy && state.loaded && state.picks.length && condHidden()) {
+    window.scrollTo({ top: document.documentElement.scrollHeight, behavior: reduceMotion.matches ? "auto" : "smooth" });
+    return;
+  }
+  run();
+});
 $("cancel").addEventListener("click", cancelCompute);
 /** 정보로 간다(탭과 같은 층의 묶음, 위 '탭' 머리). 정보에서 마지막으로 보던 화면과 스크롤 자리로(탭처럼), 기록은 지금 보던 화면 위에 얹는다(뒤로 가면 여기).
  *  정보에 있을 때 컴퓨터의 사이드바 '정보'를 다시 누르면 고른 탭을 다시 누를 때처럼 정보의 첫 화면으로, 첫 화면이면 맨 위로 */
