@@ -224,14 +224,19 @@ def test_native_shim():
     assert r["slow"]["first"] == "bundle" and r["slow"]["waitedMs"] == 3000 and '"late"' in r["slow"]["savedLate"]
     assert r["back"] == {"closed": True, "kept": True, "historyBack": 1, "minimized": 1}
     assert r["basemap"] == {"from": "bundle", "remoteCalls": 0}  # 바탕 지도는 앱에 넣은 것만
-    # 앱 안 업데이트(update118): 상태 네 칸만 넘기고, 같은 상태는 이벤트 한 번, 모양이 다른 것은 버린다. start 는 result 를 붙이고 complete 는 참·거짓
+    # 앱 안 업데이트(update118): 상태 다섯 칸만 넘기고(ask 는 update154), 같은 상태는 이벤트 한 번, 모양이 다른 것은 버린다. start 는 result 를 붙이고 complete 는 참·거짓
     u = r["appUpdate"]
-    assert u["st"] == {"status": "available", "versionCode": 119, "staleDays": 0, "progress": -1}
+    assert u["st"] == {"status": "available", "versionCode": 119, "staleDays": 0, "progress": -1, "ask": False}
     assert u["events"] == [["available", -1], ["downloading", 0.42], ["downloaded", 1], ["pending", -1]]  # 마지막은 start() 의 답
-    assert u["last"] == {"status": "downloaded", "versionCode": 119, "staleDays": 0, "progress": 1}
+    assert u["last"] == {"status": "downloaded", "versionCode": 119, "staleDays": 0, "progress": 1, "ask": False}
     assert u["started"]["result"] == "accepted" and u["started"]["status"] == "pending" and "extra" not in u["started"]
     assert u["done"] is True and u["notReady"] is False and u["calls"] == ["state", "state", "start", "complete"]
     assert u["ios"] and u["old"]
+    # 우리 묻는 팝업(update154, 프론트엔드 ui164): ask 는 true 만 참으로 넘기고 바뀔 때 이벤트, shown·later 는 상태, openStore 는 store·web 말고는 null
+    a = u["ask"]
+    assert a["asked"]["ask"] is True and a["shownSt"]["ask"] is False and a["laterSt"]["ask"] is False
+    assert a["events"] == [True, False] and a["calls"] == ["state", "shown", "later", "openStore"]
+    assert (a["store"], a["web"], a["odd"], a["noStore"]) == ("store", "web", None, [None, None])
     # 안드로이드 상태 바 글자색: 기기 테마가 바뀌거나 앱으로 돌아오면 DEFAULT 를 다시 요청, 이벤트 테마 중에는 그대로, iOS·플러그인 없음은 듣지 않는다
     assert r["bars"] == {"listening": [1, 1], "start": 0, "afterChange": ["DEFAULT"], "withTheme": 1,
                          "afterThemeOff": ["DEFAULT", "DEFAULT"], "ios": 0, "noPlugin": 0, "threw": False}
@@ -307,10 +312,14 @@ def test_android_app_update():
     java = APP / "android" / "app" / "src" / "main" / "java" / "com" / "ttwizard" / "app"
     plugin = (java / "UpdatePlugin.java").read_text(encoding="utf-8")
     assert '@CapacitorPlugin(name = "TTWUpdate")' in plugin and "permissions" not in plugin.split("@CapacitorPlugin")[1].split(")")[0]
-    for m in ("state", "start", "complete"):
+    for m in ("state", "start", "complete", "shown", "later", "openStore"):
         assert f"public void {m}(PluginCall call)" in plugin
     assert "AppUpdateType.FLEXIBLE" in plugin and "AppUpdateType.IMMEDIATE" not in plugin  # 앱을 막는 업데이트(즉시)는 쓰지 않는다
     assert "UpdatePolicy.shouldAsk(" in plugin and "manager.completeUpdate()" in plugin and "AppActivity.launchedOwnRecently(" in plugin
+    # update154: 앱이 앞에 올 때 Play 의 창을 스스로 띄우지 않고 상태의 ask 로 화면의 팝업에 맡긴다. Play 의 창은 start(화면이 부를 때)에서만
+    check = plugin.split("private void check()")[1].split("\n    }\n")[0]
+    assert "startFlow(" not in check and plugin.count("startFlow(info, call)") == 1 and 'o.put("ask", ask);' in plugin
+    assert '"market://details?id="' in plugin and '"https://play.google.com/store/apps/details?id="' in plugin and '"com.android.vending"' in plugin
     assert "LauncherIcon.mayComeBack(getContext())" in plugin  # 화면 꺼짐·잠김·우리 작업 위의 다른 앱 화면이면 깔지 않는다(계절 아이콘과 같은 잣대)
     policy = (java / "UpdatePolicy.java").read_text(encoding="utf-8")
     assert "ASK_AGAIN_MS = DAY_MS" in policy and "REST_AFTER_DECLINE_MS = 3 * DAY_MS" in policy
@@ -322,7 +331,7 @@ def test_android_app_update():
     assert 'implementation "com.google.android.play:app-update:$playAppUpdateVersion"' in gradle
     native = (APP / "src" / "native.js").read_text(encoding="utf-8")
     assert "app.appUpdate = {" in native and 'TTWUpdate.addListener("state"' in native and 'new CustomEvent("ttw:app-update"' in native
-    for m in ("state", "start", "complete"):
+    for m in ("state", "start", "complete", "shown", "later", "openStore"):
         assert f'pluginCall("TTWUpdate", "{m}"' in native
     assert "testDebugUnitTest" in (ROOT / ".github" / "workflows" / "app.yml").read_text(encoding="utf-8")
 

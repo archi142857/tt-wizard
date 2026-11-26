@@ -89,6 +89,9 @@ function setup({ native = true, http = null, online = true, platform = "android"
         ...(update ? { TTWUpdate: {
           state: () => { calls.update.push("state"); return Promise.resolve({ ...update }); },
           start: () => { calls.update.push("start"); return Promise.resolve({ ...update, status: "pending", result: "accepted" }); },
+          shown: () => { calls.update.push("shown"); return Promise.resolve({ ...update, ask: false }); },
+          later: () => { calls.update.push("later"); return updateError ? reject(updateError) : Promise.resolve({ ...update, ask: false }); },
+          openStore: () => { calls.update.push("openStore"); return updateError ? reject(updateError) : Promise.resolve({ opened: update.store || "store" }); },
           complete: () => { calls.update.push("complete"); return updateError ? reject(updateError) : Promise.resolve(); },
           addListener: (ev, fn) => { if (ev === "state") listeners.updateState = fn; return Promise.resolve({ remove() {} }); },
         } } : {}),
@@ -454,8 +457,22 @@ const out = {};
   const started = await s.win.TTW_APP.appUpdate.start();
   const done = await s.win.TTW_APP.appUpdate.complete();
   const notReady = await setup({ updateError: "NOT_READY" }).win.TTW_APP.appUpdate.complete();
+  // 우리 묻는 팝업(update154): ask 를 그대로 넘기고(true 만 참), shown·later 는 상태, openStore 는 store·web·null
+  const a = setup({ update: { status: "available", versionCode: 120, staleDays: 1, progress: -1, ask: true } });
+  const askEvents = [];
+  a.win.addEventListener("ttw:app-update", (e) => askEvents.push(e.detail.ask));
+  const asked = await a.win.TTW_APP.appUpdate.state();
+  const shownSt = await a.win.TTW_APP.appUpdate.shown();
+  const laterSt = await a.win.TTW_APP.appUpdate.later();
+  const store = await a.win.TTW_APP.appUpdate.openStore();
+  a.listeners.updateState({ status: "available", versionCode: 120, staleDays: 1, progress: -1, ask: "yes" }); // true 가 아니면 묻지 않는다
+  const web = await setup({ update: { status: "available", versionCode: 120, staleDays: 1, progress: -1, store: "web" } }).win.TTW_APP.appUpdate.openStore();
+  const odd = await setup({ update: { status: "available", versionCode: 120, staleDays: 1, progress: -1, store: "elsewhere" } }).win.TTW_APP.appUpdate.openStore();
+  const failing = setup({ update: { status: "available", versionCode: 120, staleDays: 1, progress: -1 }, updateError: "FAILED" });
+  const noStore = [await failing.win.TTW_APP.appUpdate.openStore(), await failing.win.TTW_APP.appUpdate.later()];
   out.appUpdate = {
     st, events, last, started, done, notReady, calls: s.calls.update,
+    ask: { asked, shownSt, laterSt, store, web, odd, noStore, events: askEvents, calls: a.calls.update },
     ios: setup({ platform: "ios" }).win.TTW_APP.appUpdate === undefined, old: setup({ update: null }).win.TTW_APP.appUpdate === undefined,
   };
 }

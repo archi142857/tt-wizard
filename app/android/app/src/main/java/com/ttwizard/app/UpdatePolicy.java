@@ -1,11 +1,12 @@
 package com.ttwizard.app;
 
 /**
- * 앱 안 업데이트를 스스로 물어도 되는지(update118, UpdatePlugin). 안드로이드에 기대지 않아 JUnit 으로 본다(UpdatePolicyTest).
+ * 앱 안 업데이트를 물어도 되는지(update118, UpdatePlugin). update154 부터 묻는 것은 화면의 우리 팝업이고(상태의 ask), 기록은 화면이
+ * 팝업을 띄울 때(shown: askedCode·askedAt)와 [닫기]·뒤로 가기(later: declinedAt). 안드로이드에 기대지 않아 JUnit 으로 본다(UpdatePolicyTest).
  *   - 같은 판(Play 에 있는 새 versionCode)은 하루에 한 번만 묻는다.
  *   - 사용자가 '나중에'(닫기 포함)를 고르면 어느 판이든 3일 동안 다시 묻지 않는다.
  *   - 기기 시계가 거꾸로 갔으면(지난 기록이 앞날) 그 기록은 없는 것으로 본다(영영 안 묻는 일이 없게).
- * 화면의 '업데이트' 단추(TTW_APP.appUpdate.start)는 이 규칙을 타지 않는다: 사용자가 직접 누른 것이다.
+ * TTW_APP.appUpdate.start(Play 의 업데이트 창을 바로 띄운다)는 이 규칙을 타지 않는다: 화면이 사용자가 직접 누를 때만 부른다.
  */
 final class UpdatePolicy {
 

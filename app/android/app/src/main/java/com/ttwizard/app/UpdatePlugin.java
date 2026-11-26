@@ -1,8 +1,11 @@
 package com.ttwizard.app;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import com.getcapacitor.JSObject;
@@ -22,9 +25,12 @@ import com.google.android.play.core.install.model.UpdateAvailability;
 
 /**
  * 앱 안 업데이트(안드로이드, update118) — 백엔드 세션(사용자 11/15 '업데이트가 있다고 알려 주는 창'). Google Play 의 앱 내 업데이트(유연한 업데이트)를 쓴다.
- *   1) 앱이 앞에 올 때(켤 때·돌아올 때) Play 에 새 판이 있는지 본다. 있으면 화면이 뜬 뒤 Play 의 업데이트 창을 띄운다
- *      (UpdatePolicy: 같은 판은 하루 한 번, '나중에' 뒤 3일 쉼). 창과 글은 Play 의 것이다. 받는 동안 앱은 그대로 쓴다.
- *   2) 다 받으면 화면에 알린다('state' 이벤트 → native.js 의 'ttw:app-update'). 화면이 '다시 시작'을 부르면(complete) Play 가 깔고 앱을 다시 연다.
+ *   1) 앱이 앞에 올 때(켤 때·돌아올 때) Play 에 새 판이 있는지 본다. 있고 물어도 되면(UpdatePolicy: 같은 판은 하루 한 번, '나중에' 뒤 3일 쉼)
+ *      상태에 ask 를 실어 화면이 우리 모양의 묻는 팝업을 띄운다(update154, 사용자 11/26 '업데이트 창도 우리 스타일로'. 프론트엔드 ui164).
+ *      Play 의 업데이트 창은 모양을 바꿀 수 없어 앱이 스스로 띄우지 않는다. 팝업의 [업데이트]는 Play 스토어의 이 앱 페이지를 연다(openStore).
+ *      화면이 팝업을 띄우면 shown(같은 판은 하루 뒤에 다시), [닫기]·뒤로 가기면 later(3일 쉼)를 부른다.
+ *   2) 받는 중·다 받음(start 로 Play 의 창에서 받은 것)은 화면에 알린다('state' 이벤트 → native.js 의 'ttw:app-update').
+ *      화면이 '다시 시작'을 부르면(complete) Play 가 깔고 앱을 다시 연다.
  *   3) 화면이 묻지 않아도 사용자가 앱을 내리면(홈·다른 앱·뒤로 가기로 닫기) Play 가 조용히 깐다. 다음에 켜면 새 판이다.
  *      이 앱이 연 창(사진 고르기·공유 시트·로그인·링크·설정)에 가려진 것과 화면이 꺼지거나 잠긴 것은 내린 것으로 보지 않는다(돌아왔을 때 앱이 처음부터 다시 뜨지 않게.
  *      계절 아이콘과 같은 잣대 LauncherIcon.mayComeBack 에 '방금 이 앱이 창을 열었나'(AppActivity.launchedOwnRecently)를 더한다).
@@ -32,12 +38,16 @@ import com.google.android.play.core.install.model.UpdateAvailability;
  * 개발자에게 가는 것은 없다. Play 는 새 판이 있는지와 크기를 셈하려고 기기 정보·앱 판을 받는다(Play 문서 '데이터 보안', docs/app.md '앱 안 업데이트').
  *
  * 화면(app/src/native.js 의 TTW_APP.appUpdate)이 부르는 것:
- *   state     → { status, versionCode, staleDays, progress }
+ *   state     → { status, versionCode, staleDays, progress, ask }
  *               status: none(새 판 없음·알 수 없음) · available(새 판 있음, 아직 안 받음) · pending · downloading · downloaded · installing · failed
  *               versionCode: Play 에 있는 새 판(없으면 0) · staleDays: 새 판이 Play 에 나온 지 며칠(모르면 -1) · progress: 받은 몫 0~1(모르면 -1)
- *   start     지금 Play 의 업데이트 창을 띄운다(물음 규칙을 타지 않는다: 화면의 '업데이트' 단추) → state + { result: accepted | declined | failed | none }
+ *               ask: 지금 화면이 묻는 팝업을 띄워도 된다(새 판이 있고 받는 중이 아니며 UpdatePolicy 를 통과했다)
+ *   shown     화면이 묻는 팝업을 띄웠다 → 그 판을 물은 때를 적는다(askedCode·askedAt, 같은 판은 하루 뒤에 다시) → state
+ *   later     팝업의 [닫기]·뒤로 가기 → '나중에'를 적는다(declinedAt, 어느 판이든 3일 쉼) → state
+ *   openStore Play 스토어 앱의 이 앱 페이지를 연다(없으면 웹의 Play 페이지) → { opened: store | web }, 둘 다 못 열면 "FAILED" 로 거절
+ *   start     지금 Play 의 업데이트 창을 띄운다(물음 규칙을 타지 않는다) → state + { result: accepted | declined | failed | none }
  *   complete  받은 업데이트를 깐다(앞에서 부르면 Play 가 온 화면을 덮고 깐 뒤 앱을 다시 연다). 받은 것이 없으면 "NOT_READY" 로 거절
- * 'state' 이벤트는 값이 바뀔 때마다(받는 몫은 1% 단위) 보낸다.
+ * 'state' 이벤트는 값이 바뀔 때마다(받는 몫은 1% 단위, ask 가 바뀔 때도) 보낸다.
  */
 @CapacitorPlugin(name = "TTWUpdate")
 public class UpdatePlugin extends Plugin {
@@ -49,12 +59,15 @@ public class UpdatePlugin extends Plugin {
     private static final long RESUME_DELAY_MS = 1500;
     /** 이 앱이 다른 창을 연 지 이만큼 안에 가려지면 사용자가 앱을 내린 것이 아니다(AppActivity.launchedOwnRecently) */
     private static final long OWN_LAUNCH_MS = 3000;
+    /** Play 스토어 앱(없으면 웹)의 이 앱 페이지 */
+    private static final String STORE_PACKAGE = "com.android.vending";
+    private static final String STORE_APP = "market://details?id=";
+    private static final String STORE_WEB = "https://play.google.com/store/apps/details?id=";
 
     private final Handler main = new Handler(Looper.getMainLooper());
     private AppUpdateManager manager;
     private InstallStateUpdatedListener listener;
     private boolean firstResume = true;
-    private boolean resumed;
     /** 사용자가 앱을 내렸다(홈·다른 앱·닫기). 다시 앞에 오면 false */
     private boolean leftByUser;
     private boolean asking;
@@ -64,9 +77,11 @@ public class UpdatePlugin extends Plugin {
     private int versionCode;
     private int staleDays = -1;
     private double progress = -1;
+    /** 화면이 지금 묻는 팝업을 띄워도 된다(read 가 정하고, shown·later 가 끈다) */
+    private boolean ask;
     private String lastSent;
 
-    private final Runnable autoCheck = () -> check(true);
+    private final Runnable autoCheck = this::check;
 
     @Override
     public void load() {
@@ -81,7 +96,6 @@ public class UpdatePlugin extends Plugin {
 
     @Override
     protected void handleOnResume() {
-        resumed = true;
         leftByUser = false;
         main.removeCallbacks(autoCheck);
         main.postDelayed(autoCheck, firstResume ? FIRST_DELAY_MS : RESUME_DELAY_MS);
@@ -90,7 +104,6 @@ public class UpdatePlugin extends Plugin {
 
     @Override
     protected void handleOnPause() {
-        resumed = false;
         main.removeCallbacks(autoCheck);
     }
 
@@ -131,6 +144,55 @@ public class UpdatePlugin extends Plugin {
                 .addOnFailureListener(e -> call.resolve(stateObject())));
     }
 
+    /** 화면이 묻는 팝업을 띄웠다: 그 판을 물은 것으로 적는다(같은 판은 하루 뒤에 다시) */
+    @PluginMethod
+    public void shown(PluginCall call) {
+        main.post(() -> {
+            if (versionCode > 0) prefs().edit().putInt("askedCode", versionCode).putLong("askedAt", System.currentTimeMillis()).apply();
+            ask = false;
+            emit();
+            call.resolve(stateObject());
+        });
+    }
+
+    /** 팝업의 [닫기]·뒤로 가기: '나중에'(어느 판이든 3일 쉼) */
+    @PluginMethod
+    public void later(PluginCall call) {
+        main.post(() -> {
+            prefs().edit().putLong("declinedAt", System.currentTimeMillis()).apply();
+            ask = false;
+            emit();
+            call.resolve(stateObject());
+        });
+    }
+
+    /** 팝업의 [업데이트]: Play 스토어 앱의 이 앱 페이지, Play 스토어가 없으면 웹의 Play 페이지(기기 브라우저). 이 앱이 연 창이라 내린 것으로 보지 않는다 */
+    @PluginMethod
+    public void openStore(PluginCall call) {
+        main.post(() -> {
+            Activity activity = getActivity();
+            if (activity == null || activity.isFinishing()) {
+                call.reject("no activity", "FAILED");
+                return;
+            }
+            String pkg = getContext().getPackageName();
+            JSObject o = new JSObject();
+            try {
+                activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(STORE_APP + pkg)).setPackage(STORE_PACKAGE));
+                o.put("opened", "store");
+            } catch (ActivityNotFoundException | SecurityException noStore) {
+                try {
+                    activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(STORE_WEB + pkg)));
+                    o.put("opened", "web");
+                } catch (Exception e) {
+                    call.reject(e.getMessage() != null ? e.getMessage() : "store failed", "FAILED");
+                    return;
+                }
+            }
+            call.resolve(o);
+        });
+    }
+
     @PluginMethod
     public void start(PluginCall call) {
         if (manager == null) {
@@ -146,7 +208,7 @@ public class UpdatePlugin extends Plugin {
                         call.resolve(result(busy ? "accepted" : "none"));
                         return;
                     }
-                    ask(info, call);
+                    startFlow(info, call);
                 })
                 .addOnFailureListener(e -> call.resolve(result("none"))));
     }
@@ -164,18 +226,13 @@ public class UpdatePlugin extends Plugin {
 
     // ------------------------------------------------------------ 안
 
-    /** 앱이 앞에 온 뒤: 받은 업데이트가 있으면 화면에 알리고, 새 판이 있고 물어도 되면 Play 의 창을 띄운다 */
-    private void check(boolean auto) {
+    /** 앱이 앞에 온 뒤: 상태(받은 업데이트, 물어도 되는지 ask)를 화면에 알린다. Play 의 창은 스스로 띄우지 않는다(묻는 것은 화면의 팝업, update154) */
+    private void check() {
         if (manager == null) return;
         manager.getAppUpdateInfo()
                 .addOnSuccessListener(info -> {
                     read(info);
                     emit();
-                    if (!auto || !resumed || asking || !canAsk(info)) return;
-                    SharedPreferences p = prefs();
-                    if (!UpdatePolicy.shouldAsk(System.currentTimeMillis(), info.availableVersionCode(),
-                            p.getInt("askedCode", 0), p.getLong("askedAt", 0), p.getLong("declinedAt", 0))) return;
-                    ask(info, null);
                 })
                 .addOnFailureListener(e -> {
                     // Play 스토어에서 받지 않은 앱·Play 가 없는 기기: 알 수 없음(status 는 그대로 none)
@@ -189,13 +246,14 @@ public class UpdatePlugin extends Plugin {
         return info.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && !busy && info.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE);
     }
 
-    private void ask(AppUpdateInfo info, PluginCall call) {
+    private void startFlow(AppUpdateInfo info, PluginCall call) {
         Activity activity = getActivity();
         if (activity == null || activity.isFinishing() || asking) {
             if (call != null) call.resolve(result("failed"));
             return;
         }
         asking = true;
+        ask = false;
         prefs().edit().putInt("askedCode", info.availableVersionCode()).putLong("askedAt", System.currentTimeMillis()).apply();
         AppActivity.markOwnLaunch(); // Play 의 창이 앱을 가려도 내린 것이 아니다
         manager.startUpdateFlow(info, activity, AppUpdateOptions.defaultOptions(AppUpdateType.FLEXIBLE))
@@ -232,6 +290,7 @@ public class UpdatePlugin extends Plugin {
         }
         long total = s.totalBytesToDownload();
         progress = st == InstallStatus.DOWNLOADED ? 1 : (st == InstallStatus.DOWNLOADING && total > 0 ? Math.min(1, (double) s.bytesDownloaded() / total) : -1);
+        if (!"available".equals(status)) ask = false; // 받기 시작했거나 깔렸다
         emit();
         // 다 받았을 때 사용자가 앱을 내려 둔 채면(받는 동안 홈으로 나갔다) 바로 조용히 깐다
         if (st == InstallStatus.DOWNLOADED && leftByUser && !AppActivity.visible() && !mayComeBack()) main.post(() -> completeNow(null));
@@ -270,6 +329,16 @@ public class UpdatePlugin extends Plugin {
         else status = avail == UpdateAvailability.UPDATE_AVAILABLE ? "available" : "none";
         long total = info.totalBytesToDownload();
         progress = st == InstallStatus.DOWNLOADED ? 1 : (st == InstallStatus.DOWNLOADING && total > 0 ? Math.min(1, (double) info.bytesDownloaded() / total) : -1);
+        SharedPreferences p = prefs();
+        ask = !asking && canOffer(info) && UpdatePolicy.shouldAsk(System.currentTimeMillis(), info.availableVersionCode(),
+                p.getInt("askedCode", 0), p.getLong("askedAt", 0), p.getLong("declinedAt", 0));
+    }
+
+    /** 화면이 새 판을 물을 만하다: 새 판이 있고 받는 중·받은 것이 없다(스토어 페이지로 가니 유연한 업데이트 허락은 보지 않는다) */
+    private static boolean canOffer(AppUpdateInfo info) {
+        int s = info.installStatus();
+        boolean busy = s == InstallStatus.PENDING || s == InstallStatus.DOWNLOADING || s == InstallStatus.DOWNLOADED || s == InstallStatus.INSTALLING;
+        return info.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && !busy;
     }
 
     /** 받는 일의 상태 → 화면에 넘기는 이름. 받는 일과 상관없는 값(모름·깔림·그만둠)이면 null */
@@ -290,6 +359,7 @@ public class UpdatePlugin extends Plugin {
         o.put("versionCode", versionCode);
         o.put("staleDays", staleDays);
         o.put("progress", progress < 0 ? -1 : Math.floor(progress * 100) / 100.0);
+        o.put("ask", ask);
         return o;
     }
 
