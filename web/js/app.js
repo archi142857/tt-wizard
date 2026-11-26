@@ -31,7 +31,7 @@ const PRIVACY_URL = "https://archi142857.github.io/tt-wizard/privacy/";
 const TERMS_URL = "https://archi142857.github.io/tt-wizard/terms/";
 // 처리방침·이용 규칙 다음 판(앱 안 닉네임 신고, 학교 계정 늘 표시)의 시행일, 새 판을 사이트에 올린 날, 정보 두 줄 값을 둘 끝 날(한국 시각 날짜).
 // 사용자 11/23 02:00 '앞당겨'(12/4 → 11/30, 문서·백엔드 11/23). 디자인 160판: 바뀜 알림은 올린 날부터 시행일 전날까지, 값 '11월 30일 바뀜'은 시행일 뒤 7일까지.
-// 신고 시트(reportOn)는 시행일부터, 학교 계정 표시 알림의 날짜도 이것(launchNotices)
+// 신고 시트(reportOn)는 시행일부터, 학교 계정 표시 알림의 날짜도 이것(launchNotices). 바뀜 알림과 정보 두 줄 값은 웹 자료 data/policy.json 이 오면 그 판으로(policyNotes)
 const POLICY_NEXT = "2026-11-30", POLICY_POSTED = "2026-11-23", POLICY_MARK_TO = "2026-12-07";
 // 개발자 정보(10/23 사용자가 정한 글. 처리방침의 개인정보 보호책임자·스토어 연락처와 같다). 메일은 누르면 메일 앱이 제목을 채워 연다
 const DEV_NAME = "동물생명공학전공 25학번 이영표";
@@ -7782,8 +7782,11 @@ $("themes").addEventListener("change", (e) => {
 function renderInfo() {
   const next = (key, text) => h("button", { type: "button", class: "info-row", "data-info": key }, h("span", {}, text), icon(I.right, 20));
   const out = (href, text, v = null) => h("a", { class: "info-row", href, target: "_blank", rel: "noopener" }, h("span", {}, text), v, icon(I.out, 20));
-  // 처리방침·이용 규칙 줄의 값 '11월 30일 바뀜'(160판: 새 판을 사이트에 올린 날부터 시행일 뒤 7일까지, 주의 색 없이 text3)
-  const today = kstToday(), changed = () => (today >= POLICY_POSTED && today <= POLICY_MARK_TO ? h("span", { class: "v" }, `${monthDay(POLICY_NEXT)} 바뀜`) : null);
+  // 처리방침·이용 규칙 줄의 값 '11월 30일 바뀜'(160판: 새 판을 사이트에 올린 날부터 시행일 뒤 7일까지, 주의 색 없이 text3). 그 문서가 바뀌는 판만(policyNotes 의 docs)
+  const today = kstToday(), changed = (doc) => {
+    const n = policyNotes.filter((p) => p.docs.includes(doc) && today >= p.posted && today <= p.markTo).pop();
+    return n ? h("span", { class: "v" }, `${monthDay(n.next)} 바뀜`) : null;
+  };
   // 카드 안 줄 사이는 line 1px(.list. 디자인 InfoList '.card.info-list 안 .list'. 10/22 카드를 나누며 빠졌던 것을 11/1 되돌렸다)
   const card = (rows) => (rows.some(Boolean) ? h("ul", { class: "card list info-list" }, rows.filter(Boolean).map((r) => h("li", {}, r))) : null);
   const dv = deptOn() ? deptSaved() : null; // 내 학과·학번(디자인 121판): 계정 카드 다음 카드. 넣지 않았으면 값이 없다
@@ -7801,7 +7804,7 @@ function renderInfo() {
     card([next("feedback", "의견 보내기"), next("developer", "개발자 정보"), REVIEW_URL[SHELL] ? out(REVIEW_URL[SHELL], "리뷰 남기기") : null,
       isSafariTab() ? next("a2hs", "홈 화면에 추가") : null]),
     // 법적 고지: 이용 규칙은 로그인을 열 때(로그인 카드의 '보기'와 같은 페이지, 134판)
-    card([PRIVACY_URL ? out(PRIVACY_URL, "개인정보 처리방침", changed()) : null, TERMS_URL && accountWanted() ? out(TERMS_URL, "이용약관", changed()) : null, next("licenses", "오픈소스 라이선스"),
+    card([PRIVACY_URL ? out(PRIVACY_URL, "개인정보 처리방침", changed("privacy")) : null, TERMS_URL && accountWanted() ? out(TERMS_URL, "이용약관", changed("terms")) : null, next("licenses", "오픈소스 라이선스"),
       h("div", { class: "info-row" }, h("span", {}, "버전"), h("span", { class: "v" }, APP_VERSION))]),
   ].filter(Boolean));
   if (had) (list.querySelector(`[data-info="${had}"]`) || list.querySelector('[data-info="account"]'))?.focus({ preventScroll: true }); // 다시 그려도 초점은 그 줄(지운 계정 삭제 줄이면 계정)
@@ -10442,11 +10445,44 @@ $("rp-send").addEventListener("click", async () => {
 //    끈 사람은 [확인]을 누를 때까지 숨긴 채로 두고(시행일이 지나도) 켤 때마다 한 번 알린다. [확인]이면 setNick(nick, { showSchool: true })로 바로 켠다.
 //    글의 날짜는 시행일, 지나서 처음 보면 '이제'. 친구 목록을 받은 뒤(frLoad)에 본다
 const POLICY_SEEN = "policySeen";
+// 알릴 판(백엔드 11/26: 정식 출시 뒤에는 처리방침이 바뀔 때마다 앱 안 알림 7일이 있어야 한다, 제17조①. 판마다 앱을 새로 내지 않게):
+// 웹 자료 data/policy.json { next 시행일, posted 사이트에 올린 날, markTo 정보 줄 값을 둘 끝 날(한국 시각 날짜), docs 바뀌는 문서 ["privacy", "terms"](없으면 둘 다) }
+// 를 다른 자료처럼 받는다(스토어 앱은 앱 연결이 웹에서 새로 받고, 못 받으면 받아 둔 것이나 앱에 넣은 것). 못 받거나 꼴이 틀리면 앱에 적힌 11/30 판 그대로.
+// 이 값은 바뀜 알림과 정보 두 줄 값에만 쓴다. 닉네임 신고(reportOn)와 학교 계정 표시 알림의 날짜는 11/30 판의 기능이라 늘 앱에 적힌 POLICY_NEXT 다
+// (심사 뒤 원격 값으로 기능을 켜지 않는다). 11/30 판과 시행일이 같은 판이 오면 그것으로 갈음하고, 다른 판이면 둘 다 두어 날짜로 고른다
+const POLICY_DOCS = ["privacy", "terms"];
+const POLICY_BUILTIN = Object.freeze({ next: POLICY_NEXT, posted: POLICY_POSTED, markTo: POLICY_MARK_TO, docs: POLICY_DOCS });
+let policyNotes = [POLICY_BUILTIN]; // 시행일 차례
+const isoDay = (v) => typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(`${v}T00:00:00Z`))
+  && new Date(`${v}T00:00:00Z`).toISOString().slice(0, 10) === v;
+/** data/policy.json 한 판(틀리면 null): 날짜 셋이 올린 날 < 시행일 <= 값 끝 날, docs 는 아는 문서만 */
+function policyNote(j) {
+  if (!j || typeof j !== "object" || Array.isArray(j)) return null;
+  const { next, posted, markTo } = j;
+  if (![next, posted, markTo].every(isoDay) || !(posted < next && next <= markTo)) return null;
+  if (j.docs !== undefined && !Array.isArray(j.docs)) return null;
+  const docs = j.docs === undefined ? POLICY_DOCS : POLICY_DOCS.filter((d) => j.docs.includes(d));
+  return docs.length ? Object.freeze({ next, posted, markTo, docs }) : null;
+}
+let policyP = null;
+/** 켤 때 한 번 받는다. 판이 달라졌으면 정보 화면을 다시 그리고 알림을 다시 본다 */
+function loadPolicy() {
+  return (policyP ||= getJson("data/policy.json").then((j) => {
+    const n = policyNote(j);
+    if (!n) return;
+    const was = JSON.stringify(policyNotes);
+    policyNotes = n.next === POLICY_BUILTIN.next ? [n] : [POLICY_BUILTIN, n].sort((a, b) => (a.next < b.next ? -1 : 1));
+    if (JSON.stringify(policyNotes) === was) return;
+    if (screen === "info") renderInfo();
+    launchNotices();
+  }).catch(() => { /* 없거나 못 받았으면 앱에 적힌 판 */ }));
+}
 let launchTimer = 0, schoolShown = false;
 const launchFree = () => tabList().includes(tab) && screen === ROOT[tab] && !firstScreen(screen) && !document.querySelector("dialog[open]");
+/** 지금 알릴 판: 새 판을 사이트에 올린 날부터 시행일 전날까지인 판 가운데 시행일이 가장 늦은 것, 이 기기에서 아직 안 본 것 */
 function policyDue() {
-  const d = kstToday();
-  return d >= POLICY_POSTED && d < POLICY_NEXT && store.get(POLICY_SEEN, "") !== POLICY_NEXT;
+  const d = kstToday(), n = policyNotes.filter((p) => d >= p.posted && d < p.next).pop();
+  return n && store.get(POLICY_SEEN, "") !== n.next ? n : null;
 }
 const schoolDue = () => !schoolShown && !!acct && !!acctUser && acctUser.school === true && !!fr && frFor === acctUser.uid && !!fr.profile && fr.profile.showSchool === false;
 function launchNotices() {
@@ -10455,18 +10491,23 @@ function launchNotices() {
   const policy = policyDue(), school = schoolDue();
   if (!policy && !school) return;
   if (!launchFree()) { launchTimer = setTimeout(launchNotices, 1500); return; }
-  if (policy) showPolicyNotice(); // ②는 ①을 닫은 뒤(닫힐 때 다시 부른다)
+  if (policy) showPolicyNotice(null, policy); // ②는 ①을 닫은 뒤(닫힐 때 다시 부른다)
   else showSchoolNotice();
 }
-function showPolicyNotice(opener) {
-  $("pa-title").textContent = `개인정보 처리방침과 이용약관이 ${monthDay(POLICY_NEXT).replace(" ", " ")}부터 바뀌어요`; // 날짜는 한 줄로(160판)
+// 제목의 문서 이름: 둘 다 바뀌면 '개인정보 처리방침과 이용약관이', 하나만이면 그 이름. [보기]는 처리방침이 바뀌면 처리방침, 이용약관만이면 이용약관 페이지
+const POLICY_WHO = { privacy: "개인정보 처리방침이", terms: "이용약관이" };
+let policyShown = POLICY_BUILTIN;
+function showPolicyNotice(opener, note = policyDue() || policyNotes[policyNotes.length - 1]) {
+  policyShown = note;
+  const who = note.docs.length > 1 ? "개인정보 처리방침과 이용약관이" : POLICY_WHO[note.docs[0]];
+  $("pa-title").textContent = `${who} ${monthDay(note.next).replace(" ", " ")}부터 바뀌어요`; // 날짜는 한 줄로(160판)
   openSheet($("policy-ask"), opener);
 }
 $("policy-ask").addEventListener("close", () => {
-  store.set(POLICY_SEEN, POLICY_NEXT);
+  store.set(POLICY_SEEN, policyShown.next);
   setTimeout(launchNotices, 400);
 });
-$("pa-view").addEventListener("click", () => { openOut(PRIVACY_URL); closeSheet($("policy-ask")); });
+$("pa-view").addEventListener("click", () => { openOut(policyShown.docs.includes("privacy") ? PRIVACY_URL : TERMS_URL); closeSheet($("policy-ask")); });
 /** 학교 계정 표시 알림. preview: 웹 개발자 메뉴에서 미리 보기([확인]은 닫기만) */
 function showSchoolNotice(preview = false, opener = null) {
   if (!preview) schoolShown = true;
@@ -11632,6 +11673,7 @@ if (launchLink) receiveLink(launchLink);
 if (launchInvite) openFriendInvite(launchInvite);
 if (launchNav && (launchNav.sem || launchNav.route !== null || launchNav.item)) goNav({ ...launchNav, tab: null });
 setTimeout(askTheme, 400); // 첫 화면이 그 테마로 보인 뒤에 묻는다
+loadPolicy(); // 알릴 판(data/policy.json, 오면 다시 본다)
 setTimeout(launchNotices, 900); // 처리방침 바뀜 알림(160판): 테마 묻는 팝업이 먼저 뜨면 그 뒤
 // 이미 열어 둔 웹 앱의 주소 칸에 시간표 링크를 붙여 넣었다(주소의 # 만 바뀌면 새로 열리지 않는다)
 window.addEventListener("hashchange", () => {
