@@ -713,6 +713,8 @@ dialog.sheet.is-scrolled .sheet-head { box-shadow: 0 1px 0 var(--line); }
    (좁으면 좌우 20 을 남긴다. 10/23 사용자: "팝업". 그전에는 폰에서 아래 시트였다). 손잡이와 아래로 끌기는 없다(app.js enableSheetDrag) */
 .sheet.ask .sheet-head { padding-right: var(--space-5); padding-bottom: var(--space-1); }
 .sheet.ask .sheet-title:focus { outline: none; }  /* 사용자가 누르지 않았는데 뜨는 시트라 처음 초점은 제목에 둔다(버튼에 초점 테두리가 먼저 보이지 않게). Tab 을 누르면 닫기부터 */
+/* 두 줄이 되는 제목은 줄 길이를 고르게(디자인 169판: 한 문서만 바뀌는 처리방침 알림 제목이 폭 320~375 에서 '바뀌어요'만 둘째 줄에 남지 않게. 한 줄에 드는 제목은 그대로) */
+.sheet.ask .sheet-title { text-wrap: balance; }
 .sheet-actions { display: flex; justify-content: flex-end; gap: var(--space-2); padding: var(--space-1) var(--space-3) var(--space-3); }  /* 위 4px: 초점 테두리가 머리 밑에 가리지 않게 */
 dialog.sheet.ask { max-width: min(22.5rem, calc(100% - var(--space-5) * 2)); margin: auto; padding-bottom: 0; border-radius: var(--radius-xl); }
 .sheet.ask .sheet-head::before { display: none; }
