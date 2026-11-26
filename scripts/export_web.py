@@ -19,6 +19,7 @@
                          형식은 docs/limits.md. 지금 학기 규칙이 없으면 만들지 않는다
   web/data/notify.json   편람 알림(앱의 폰 알림, update109): 편람이 있는 학기 목록과 최근 30일의 분반 바뀜(data/changes/ 의 시간·강의실 바뀜과
                          빠진 분반, 글은 화면 꼴로). 앱이 가끔 받아 대표 시간표의 과목과 견준다(docs/app.md '폰 알림')
+  web/data/policy.json   처리방침·이용약관 바뀜 알림 판(data/policy.json 꼴을 보고 그대로. 없으면 만들지 않는다. docs/app.md 3)
 
 배포(GitHub Actions)에서는 --stamp 를 더 붙여 web/index.html·js/app.js·js/search-worker.js 가 부르는 스타일·스크립트 주소에
 ?v=<내용 해시> 를 붙인다. GitHub Pages 는 파일을 10분 동안 다시 묻지 않고 쓰게 해서, 주소가 그대로면 배포 직후 새로고침한
@@ -453,6 +454,54 @@ def export_calendar(src: Path, out: Path) -> int | None:
     return len(data.get("terms") or {})
 
 
+POLICY_DOCS = ("privacy", "terms")  # 바뀜 알림이 다루는 문서(web/privacy/, web/terms/)
+POLICY_KEYS = {"next", "posted", "markTo", "docs"}
+POLICY_NOTICE_DAYS = 7  # 처리방침 17절·이용약관: 바꾸면 시행일 7일 전에 앱 안과 페이지에 알린다
+
+
+def check_policy(data) -> str | None:
+    """바뀜 알림 판의 꼴이 틀린 곳(맞으면 None). 프론트엔드 ui163 이 받는 꼴과 같다: 날짜는 한국 시각 'YYYY-MM-DD' 글자,
+    posted(올린 날) + 7일 <= next(시행일) <= markTo(정보 줄 값 끝 날), docs 는 privacy·terms 가운데 바뀌는 것(빼면 둘 다)"""
+    from datetime import date, timedelta
+
+    if not isinstance(data, dict):
+        return "객체가 아니다"
+    if set(data) - POLICY_KEYS or not {"next", "posted", "markTo"} <= set(data):
+        return f"열쇠는 next·posted·markTo(와 docs)여야 한다: {sorted(data)}"
+    days = {}
+    for key in ("posted", "next", "markTo"):
+        v = data[key]
+        if not (isinstance(v, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", v)):
+            return f"{key} 가 'YYYY-MM-DD' 글자가 아니다: {v!r}"
+        try:
+            days[key] = date.fromisoformat(v)
+        except ValueError:
+            return f"{key} 가 없는 날이다: {v}"
+    if days["next"] - days["posted"] < timedelta(days=POLICY_NOTICE_DAYS):
+        return f"올린 날({data['posted']})에서 시행일({data['next']})까지 {POLICY_NOTICE_DAYS}일이 안 된다"
+    if days["markTo"] < days["next"]:
+        return f"markTo({data['markTo']})가 시행일({data['next']})보다 앞이다"
+    if "docs" in data:
+        docs = data["docs"]
+        if not (isinstance(docs, list) and docs and len(set(docs)) == len(docs) and set(docs) <= set(POLICY_DOCS)):
+            return f"docs 는 {list(POLICY_DOCS)} 가운데 하나 이상(겹침 없이)이어야 한다: {docs!r}"
+    return None
+
+
+def export_policy(src: Path, out: Path) -> dict | None:
+    """처리방침·이용약관 바뀜 알림 판(data/policy.json) → web/data/policy.json(줄 바꿈 없이). 앱이 켤 때 한 번 받아 알림 제목·[보기]·
+    정보 두 줄 값을 이 판으로 한다(프론트엔드 ui163). 자료가 없으면 만들지 않는다(받는 쪽은 404 면 앱에 적힌 11/30 판을 쓴다).
+    꼴이 틀리면 배포를 멈춘다: 받는 쪽은 틀린 파일을 버리고 적힌 판을 써서, 새 판 알림이 소리 없이 안 나가기 때문"""
+    if not src.exists():
+        return None
+    data = json.loads(src.read_text(encoding="utf-8"))
+    problem = check_policy(data)
+    if problem:
+        raise SystemExit(f"{src}: {problem}")
+    out.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    return data
+
+
 def stamp_assets(web: Path = WEB) -> str:
     """index.html·app.js·search-worker.js 가 부르는 스타일·스크립트 주소에 ?v=<STAMP_FILES 내용 해시 8자리> 를 붙인다.
 
@@ -505,6 +554,7 @@ def main(argv: list[str] | None = None) -> int:
     terms = export_calendar(Path(args.calendar), out / "calendar.json")
     limits = export_limits(data, out / "limits.json", campus["meta"]["semester"], Path(args.calendar))
     notify = export_notify(data, out / "notify.json", semesters)
+    policy = export_policy(data / "policy.json", out / "policy.json")
     raw_config = os.environ.get("FIREBASE_WEB_CONFIG") or os.environ.get("FIREBASE_WEB_CONFIG_SECRET")  # 변수(Variables)가 먼저, 비밀값(Secrets)에 넣었어도(update113)
     firebase = write_firebase_config(raw_config, WEB / "js" / "firebase-config.js")
 
@@ -534,6 +584,11 @@ def main(argv: list[str] | None = None) -> int:
     else:
         print(f"  firebase-config.js 그대로(로그인 숨김: {config_problem(raw_config)})")
     print(f"  notify.json    학기 {len(notify['terms'])}개 · 바뀜 {len(notify['changes'])}번(최근 {NOTIFY_DAYS}일)")
+    if policy:
+        docs = ", ".join(policy.get("docs", POLICY_DOCS))
+        print(f"  policy.json    시행일 {policy['next']} · 올린 날 {policy['posted']} · 정보 줄 값 {policy['markTo']}까지 · {docs}")
+    else:
+        print("  policy.json    없음(앱에 적힌 판)")
     if args.stamp:
         print(f"  화면 파일 주소에 판 ?v={stamp_assets()} 를 붙임 (index.html, js/app.js, js/search-worker.js)")
     return 0

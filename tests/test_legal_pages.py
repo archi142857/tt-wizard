@@ -223,3 +223,70 @@ def test_page_style_follows_design():
     css = (ROOT / "web" / "style.css").read_text(encoding="utf-8")
     assert "--tt-deep-navy: #1d2a78;" in css and "--heading: var(--tt-deep-navy);" in css and "--heading: #e5e8f0;" in css
     assert "--heading: #1d2a78;" in st and "--heading: #e5e8f0;" in st
+
+
+# ===== 바뀜 알림 판(data/policy.json → web/data/policy.json, update153) =====
+# 프론트엔드 ui163 이 켤 때 받아 알림 제목·[보기]·정보 두 줄 값을 그 판으로 한다. 없으면(404) 앱에 적힌 11/30 판
+
+sys.path.insert(0, str(ROOT))
+import export_web as ew  # noqa: E402
+
+GOOD_POLICY = {"next": "2026-12-20", "posted": "2026-12-13", "markTo": "2026-12-27", "docs": ["privacy"]}
+
+
+def _iso(korean: str) -> str:
+    y, m, d = map(int, re.fullmatch(r"(\d{4})년 (\d{1,2})월 (\d{1,2})일", korean).groups())
+    return f"{y:04d}-{m:02d}-{d:02d}"
+
+
+def test_policy_export(tmp_path):
+    import json
+
+    src, out = tmp_path / "policy.json", tmp_path / "out.json"
+    assert ew.export_policy(src, out) is None and not out.exists()  # 자료가 없으면 만들지 않는다
+    src.write_text(json.dumps(GOOD_POLICY, ensure_ascii=False, indent=2), encoding="utf-8")
+    assert ew.export_policy(src, out) == GOOD_POLICY
+    text = out.read_text(encoding="utf-8")
+    assert "\n" not in text and json.loads(text) == GOOD_POLICY
+    both = {k: v for k, v in GOOD_POLICY.items() if k != "docs"}  # docs 를 빼면 둘 다
+    assert ew.check_policy(both) is None and ew.check_policy({**GOOD_POLICY, "docs": ["terms", "privacy"]}) is None
+    assert ew.check_policy({**GOOD_POLICY, "posted": "2026-12-06", "markTo": "2026-12-20"}) is None  # 7일 꼭 맞게, markTo = 시행일
+
+
+@pytest.mark.parametrize("bad", [
+    [],
+    {**GOOD_POLICY, "markto": "2026-12-27"},  # 모르는 열쇠(오타)
+    {k: v for k, v in GOOD_POLICY.items() if k != "markTo"},
+    {**GOOD_POLICY, "next": "2026-12-20T00:00"},
+    {**GOOD_POLICY, "next": "2026-12-32"},
+    {**GOOD_POLICY, "posted": 20261213},
+    {**GOOD_POLICY, "posted": "2026-12-14"},  # 7일이 안 된다(처리방침 17절)
+    {**GOOD_POLICY, "markTo": "2026-12-19"},
+    {**GOOD_POLICY, "docs": []},
+    {**GOOD_POLICY, "docs": ["privacy", "privacy"]},
+    {**GOOD_POLICY, "docs": ["support"]},
+    {**GOOD_POLICY, "docs": "privacy"},
+])
+def test_policy_rejects_wrong_shape(tmp_path, bad):
+    import json
+
+    assert ew.check_policy(bad)
+    src = tmp_path / "policy.json"
+    src.write_text(json.dumps(bad, ensure_ascii=False), encoding="utf-8")
+    with pytest.raises(SystemExit):
+        ew.export_policy(src, tmp_path / "out.json")
+    assert not (tmp_path / "out.json").exists()
+
+
+def test_policy_matches_pages():
+    """data/policy.json 을 두면 시행일이 그 문서 페이지의 시행일(legal_pages REVISED·TERMS_REVISED)과 같아야 한다"""
+    import json
+
+    path = ROOT / "data" / "policy.json"
+    if not path.exists():
+        pytest.skip("data/policy.json 없음(앱에 적힌 11/30 판)")
+    data = json.loads(path.read_text(encoding="utf-8"))
+    assert ew.check_policy(data) is None
+    revised = {"privacy": _iso(lp.REVISED), "terms": _iso(lp.TERMS_REVISED)}
+    for doc in data.get("docs", ew.POLICY_DOCS):
+        assert data["next"] == revised[doc], doc
