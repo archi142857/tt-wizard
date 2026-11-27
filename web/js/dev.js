@@ -5,7 +5,7 @@
 // 디자인 규칙 밖의 도구라 있는 모양(시트, 세그먼트, 메뉴 행, 정보 행)만 쓴다. 그리기와 스타일은 모두 이 파일 안이다(app.js 에는 여는 고리와 api 만 있다).
 //   테마: 기본 · 라이트 · 다크 · 크리스마스를 기간과 상관없이(크리스마스는 시험으로 켜고 고른 것은 따로 기억한다: app.js pickDevTheme)
 //   이동시간: 경사 반영 · 평지(이 탭만. 11/16 사용자: 동선 탐색 조건에서 빼고 평지는 내부 시험으로만: app.js pickDevMode)
-//   시험: 묻는 팝업, 새 버전 알림, 시간표 이미지(지금 보는 시간표를 그려 시트 안에 보인다), 테마 기억 지우기(묻는 팝업을 처음부터), 처음 안내(처음 장부터)
+//   시험: 묻는 팝업, 새 버전 알림, 앱 업데이트 팝업(안드로이드 앱의 것을 모양만), 시간표 이미지(지금 보는 시간표를 그려 시트 안에 보인다), 테마 기억 지우기(묻는 팝업을 처음부터), 처음 안내(처음 장부터)
 //   이 기기: 버전·실행 환경·화면·글자 크기·기기 설정·기기 날짜·편람·서비스 워커·저장한 기록, 기록 모두 지우기(두 번 눌러야 지운다)
 //   관리자 일(번호 바꿔 주기·닉네임 신고·지운 계정이 남긴 번호·열쇠)은 update140 에서 비밀번호로 여는 관리자 화면(admin.js)으로 옮겼다
 
@@ -26,7 +26,7 @@ const CSS = `
 `;
 
 const SHELL_NAME = { web: "브라우저", pwa: "설치한 웹 앱", android: "안드로이드 앱", ios: "iOS 앱" };
-const ROWS = [["ask", "묻는 팝업"], ["update", "새 버전 알림"], ["image", "시간표 이미지"], ["forget", "테마 기억 지우기"], ["tour", "처음 안내"], ["dept", "학과와 학번"], ["account", "로그인"],
+const ROWS = [["ask", "묻는 팝업"], ["update", "새 버전 알림"], ["appupdate", "앱 업데이트 팝업"], ["image", "시간표 이미지"], ["forget", "테마 기억 지우기"], ["tour", "처음 안내"], ["dept", "학과와 학번"], ["account", "로그인"],
   ["policy", "처리방침 바뀜 알림"], ["school", "학교 계정 표시 알림"], ["report", "닉네임 신고 시트"]];
 
 /** 개발자 메뉴를 연다. a: app.js 의 devApi(), opener: 연 버튼(닫으면 초점이 돌아간다) */
@@ -102,6 +102,7 @@ function render() {
 async function act(k, b) {
   if (k === "ask") { api.ask(opener0); return; } // 시트를 바꿔 연다(시트 위에 시트를 띄우지 않는다). 닫으면 초점은 동선 확인하기로
   if (k === "update") { api.closeSheet(sheet); api.update(); return; }
+  if (k === "appupdate") { api.appUpdateAsk(opener0); return; } // 안드로이드 앱의 업데이트 묻는 팝업(사용자 11/26). 시트를 바꿔 연다(묻는 팝업과 같다)
   if (k === "account") { api.closeSheet(sheet); api.account(); return; } // 로그인·동기화(처리방침 전면 개정 전 데모. 이 탭만 정보에 계정 줄)
   if (k === "tour") { api.closeSheet(sheet); api.tour(); return; } // 처음 안내(11/16 사용자: 처음 켤 때만 보이므로 다시 보기)
   if (k === "dept") { api.closeSheet(sheet); api.dept(); return; } // 학과와 학번 처음 화면(처리방침 11/27 시행 전 미리 보기. 정보 줄도 이 세션만 켠다)

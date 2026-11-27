@@ -947,6 +947,15 @@
     <button type="button" class="btn-text" id="sa-ok">확인</button>
   </div>
 </dialog>
+<!-- 앱 업데이트 묻는 팝업(안드로이드 앱, 사용자 11/26 '업데이트 창도 우리 스타일로'): Play 의 업데이트 창 대신. 네이티브가 물어도 된다고 할 때(TTW_APP.appUpdate 상태의 ask)
+     켤 때 알림들 뒤에 띄운다. 제목만, [닫기] [업데이트](Play 스토어의 이 앱 페이지를 연다: openStore). app.js showAppUpdateAsk -->
+<dialog class="sheet ask" id="update-ask" aria-labelledby="ua-title">
+  <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="ua-title" tabindex="-1" autofocus>새 버전이 있어요</h2></div></div>
+  <div class="sheet-actions">
+    <button type="button" class="btn-text" data-close>닫기</button>
+    <button type="button" class="btn-text" id="ua-go">업데이트</button>
+  </div>
+</dialog>
 
 <!-- 폰 알림 권한을 폰이 묻기 바로 앞(134판, 법무 11/15): [계속]이면 폰이 묻고, 뒤로 가기로 닫으면 묻지 않는다 -->
 <dialog class="sheet ask" id="nt-ask" aria-labelledby="nt-ask-title">

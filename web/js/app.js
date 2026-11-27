@@ -6361,6 +6361,7 @@ const devApi = () => ({
   // 처리방침·이용 규칙 11/30 판(160판·153판): 켤 때 알림 둘을 지금 띄워 본다(바뀜 알림은 닫으면 본 것으로 둔다. 학교 계정 표시 알림의 [확인]은 닫기만)
   policyNotice(opener) { showPolicyNotice(opener); },
   schoolNotice(opener) { showSchoolNotice(true, opener); },
+  appUpdateAsk(opener) { showAppUpdateAsk(opener, true); }, // 앱 업데이트 묻는 팝업(사용자 11/26): 웹에서 모양만 본다([업데이트]도 닫기만)
   report() { // 닉네임 신고 시트(시행일 전 미리 보기, 이 탭만): 친구 메뉴의 '닉네임 신고'가 메일 앱 대신 시트를 연다(보내면 실제로 들어간다)
     devReport = true;
     try { sessionStorage.setItem("ttw.devReport", "1"); } catch { /* 이 세션만이라도 */ }
@@ -10436,7 +10437,7 @@ $("rp-send").addEventListener("click", async () => {
   if (d.open && rpFor === who) { d.addEventListener("close", () => showSnackbar(said), { once: true }); closeSheet(d); } else showSnackbar(said);
 });
 
-// ---- 켤 때 한 번 뜨는 알림 둘(디자인 160판). 탭의 첫 화면이 보이고 시트·팝업이 없을 때 ① 다음 ②. 처음 안내·로그인·학과와 학번 처음 화면, 링크로 연 시트,
+// ---- 켤 때 한 번 뜨는 알림 둘(디자인 160판)과 앱 업데이트 묻는 팝업. 탭의 첫 화면이 보이고 시트·팝업이 없을 때 ① 다음 ② 다음 ③. 처음 안내·로그인·학과와 학번 처음 화면, 링크로 연 시트,
 // 테마 묻는 팝업이 먼저 떴으면 그 뒤다(아직이면 조금 뒤 다시 본다)
 // ① 처리방침·이용 규칙 바뀜 알림(법무 11/23 ②: 이용 규칙이 '바꾸면 앱 안과 이 페이지에 알립니다'): 로그인과 상관없이 기기마다 한 번, 새 판을 사이트에 올린 날부터
 //    시행일 전날까지(POLICY_POSTED~POLICY_NEXT). 묻는 팝업에 제목만, [닫기] [보기](정보 화면의 처리방침 줄과 같은 페이지를 앱 밖으로 열고 닫는다).
@@ -10444,6 +10445,7 @@ $("rp-send").addEventListener("click", async () => {
 // ② 학교 계정 표시 알림(154·155판, 법무 11/18): 133~152판에 '학교 계정 보이기'를 끈 학교 계정(profile().showSchool === false, 백엔드 update141)에만.
 //    끈 사람은 [확인]을 누를 때까지 숨긴 채로 두고(시행일이 지나도) 켤 때마다 한 번 알린다. [확인]이면 setNick(nick, { showSchool: true })로 바로 켠다.
 //    글의 날짜는 시행일, 지나서 처음 보면 '이제'. 친구 목록을 받은 뒤(frLoad)에 본다
+// ③ 앱 업데이트 묻는 팝업(안드로이드 앱, 사용자 11/26 '업데이트 창도 우리 스타일로'. 아래 showAppUpdateAsk): 네이티브가 물어도 된다고 할 때마다
 const POLICY_SEEN = "policySeen";
 // 알릴 판(백엔드 11/26: 정식 출시 뒤에는 처리방침이 바뀔 때마다 앱 안 알림 7일이 있어야 한다, 제17조①. 판마다 앱을 새로 내지 않게):
 // 웹 자료 data/policy.json { next 시행일, posted 사이트에 올린 날, markTo 정보 줄 값을 둘 끝 날(한국 시각 날짜), docs 바뀌는 문서 ["privacy", "terms"](없으면 둘 다) }
@@ -10477,7 +10479,7 @@ function loadPolicy() {
     launchNotices();
   }).catch(() => { /* 없거나 못 받았으면 앱에 적힌 판 */ }));
 }
-let launchTimer = 0, schoolShown = false;
+let launchTimer = 0, launchBegun = false, schoolShown = false, appAskWaiting = false, appAskGo = false;
 const launchFree = () => tabList().includes(tab) && screen === ROOT[tab] && !firstScreen(screen) && !document.querySelector("dialog[open]");
 /** 지금 알릴 판: 새 판을 사이트에 올린 날부터 시행일 전날까지인 판 가운데 시행일이 가장 늦은 것, 이 기기에서 아직 안 본 것 */
 function policyDue() {
@@ -10488,11 +10490,13 @@ const schoolDue = () => !schoolShown && !!acct && !!acctUser && acctUser.school 
 function launchNotices() {
   clearTimeout(launchTimer);
   launchTimer = 0;
-  const policy = policyDue(), school = schoolDue();
-  if (!policy && !school) return;
+  launchBegun = true;
+  const policy = policyDue(), school = schoolDue(), update = appAskWaiting && !!appAskApi();
+  if (!policy && !school && !update) return;
   if (!launchFree()) { launchTimer = setTimeout(launchNotices, 1500); return; }
-  if (policy) showPolicyNotice(null, policy); // ②는 ①을 닫은 뒤(닫힐 때 다시 부른다)
-  else showSchoolNotice();
+  if (policy) showPolicyNotice(null, policy); // ②, ③은 앞의 것을 닫은 뒤(닫힐 때 다시 부른다)
+  else if (school) showSchoolNotice();
+  else showAppUpdateAsk();
 }
 // 제목의 문서 이름: 둘 다 바뀌면 '개인정보 처리방침과 이용약관이', 하나만이면 그 이름. [보기]는 처리방침이 바뀌면 처리방침, 이용약관만이면 이용약관 페이지
 const POLICY_WHO = { privacy: "개인정보 처리방침이", terms: "이용약관이" };
@@ -10524,6 +10528,38 @@ $("sa-ok").addEventListener("click", async () => {
     const np = await acct.setNick(p.nick, { showSchool: true });
     if (fr && fr.profile === p) fr.profile = { ...p, ...np };
   } catch { /* 못 켰으면 숨긴 채로 두고 다음에 켤 때 다시 알린다 */ }
+});
+$("school-ask").addEventListener("close", () => setTimeout(launchNotices, 400));
+// ③ 앱 업데이트 묻는 팝업: Play 의 업데이트 창 대신 우리 묻는 팝업 '새 버전이 있어요' [닫기] [업데이트]. [업데이트]는 Play 스토어의 이 앱 페이지를 연다
+// (쿠키런처럼. Play 창은 뜨지 않는다). 언제 물을지는 네이티브가 정한다(상태의 ask: 같은 판은 하루 한 번, 닫기 뒤 3일 쉼, UpdatePolicy). 보이면 shown(),
+// [업데이트]는 openStore(), 닫기와 뒤로 가기는 later(). openStore 가 없는 옛 네이티브에서는 지금처럼 Play 가 스스로 묻는다. 웹·iOS 에는 appUpdate 가 없다.
+// preview: 웹 개발자 메뉴의 미리 보기([업데이트]도 닫기만)
+/** 묻는 팝업을 쓰는 네이티브의 앱 업데이트(백엔드: 상태의 ask, openStore·shown·later). 없으면 null */
+function appAskApi() {
+  const u = IN_APP && window.TTW_APP && window.TTW_APP.appUpdate;
+  return u && typeof u.openStore === "function" ? u : null;
+}
+/** 네이티브를 부른다(던지거나 거절해도 화면은 그대로) */
+const appAskCall = (fn) => { Promise.resolve().then(fn).catch(() => null); };
+function showAppUpdateAsk(opener = null, preview = false) {
+  const d = $("update-ask"), u = appAskApi();
+  appAskWaiting = false;
+  appAskGo = false;
+  d.dataset.preview = preview ? "1" : "";
+  openSheet(d, opener);
+  if (!preview && u && typeof u.shown === "function") appAskCall(() => u.shown());
+}
+$("ua-go").addEventListener("click", () => {
+  const d = $("update-ask"), u = appAskApi();
+  appAskGo = true;
+  closeSheet(d);
+  if (!d.dataset.preview && u) appAskCall(() => u.openStore());
+});
+$("update-ask").addEventListener("close", () => {
+  const d = $("update-ask"), u = appAskApi();
+  if (!d.dataset.preview && !appAskGo && u && typeof u.later === "function") appAskCall(() => u.later());
+  appAskGo = false;
+  setTimeout(launchNotices, 400);
 });
 
 // 친구에게 보이는 내 시간표(친구 탭의 하위 화면 'frpv', 130판 미리보기): 이 기기에 대표 시간표가 있는 학기, 메타 '영표#4821 · 시간표 1', 친구 시간표와 같은 격자.
@@ -11347,7 +11383,8 @@ function showUpdateIfReady() {
   announce("새 버전이 있어요");
 }
 // 앱 안 업데이트(안드로이드, 백엔드 update118 native.js TTW_APP.appUpdate·'ttw:app-update'. 사용자 11/15 16:36 '업데이트가 있다고 알려 주는 팝업'):
-// 묻는 창은 Play 가 스스로 띄우고, 다 받으면 웹의 새 버전 스낵바 모양으로 '업데이트를 받았어요' [다시 시작](complete(): Play 가 화면을 덮고 깐 뒤
+// 묻는 것은 11/26 부터 우리 묻는 팝업이다(켤 때 알림 ③ showAppUpdateAsk, [업데이트]는 Play 스토어 페이지). openStore 가 없는 옛 네이티브는 Play 가 스스로 묻는다.
+// 앱 안에서 다 받은 판이 있으면(옛 네이티브의 Play 창으로 받은 것) 웹의 새 버전 스낵바 모양으로 '업데이트를 받았어요' [다시 시작](complete(): Play 가 화면을 덮고 깐 뒤
 // 앱을 다시 연다). 안 누르면 앱을 내릴 때 깔린다. 켤 때 한 번 묻고(이미 받아 둔 판) 바뀔 때마다 받는다. 한 번만 띄운다. 웹·iOS·옛 앱에는 appUpdate 가 없다.
 // 시트·팝업이 열려 있거나 다른 스낵바가 떠 있으면 닫힌 뒤에 띄운다(디자인 140판: 바로 띄우면 열린 시트 뒤에 가려진다)
 let appUpdateShown = false, appUpdateWaiting = false;
@@ -11359,7 +11396,12 @@ function appUpdateShow() {
   announce("업데이트를 받았어요");
 }
 function appUpdateSeen(s) {
-  if (!s || s.status !== "downloaded" || appUpdateShown) return;
+  if (!s) return;
+  if (appAskApi()) { // ③ 새 판이 있고 네이티브가 물어도 된다고 할 때. 켤 때 알림이 시작된 뒤에 띄운다(테마 묻는 팝업보다 앞서지 않게. 그 전이면 900ms 의 첫 차례가 본다)
+    appAskWaiting = s.ask === true && s.status === "available" && !$("update-ask").open;
+    if (appAskWaiting && launchBegun) launchNotices();
+  }
+  if (s.status !== "downloaded" || appUpdateShown) return;
   appUpdateWaiting = true;
   appUpdateShow();
 }
