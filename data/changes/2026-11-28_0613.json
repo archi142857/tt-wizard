@@ -1,0 +1,19 @@
+{
+ "created": [],
+ "deleted": [],
+ "updated": [
+  {
+   "key": "722.451-002",
+   "fields": [
+    "instructor"
+   ],
+   "before": {
+    "instructor": "최윤석"
+   },
+   "after": {
+    "instructor": "박재범"
+   }
+  }
+ ],
+ "term": "2026-W"
+}
