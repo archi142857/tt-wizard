@@ -29,7 +29,8 @@
 //                                  이미 보냈으면 그대로, 이미 친구면 ALREADY. 하루 요청 수 제한은 없다(update138 에 넣었다가 사용자 11/17 22:54 '20개 제한 없애기로 했음
 //                                  이름이랑 같이 식별하는 걸로 바꿔서', update139)
 //   accept(uid) · decline(uid) · cancel(uid) · unfriend(uid) · block(uid) · unblock(uid)
-//   friendTimetables(uid)          → [{ sem, title, items, updated, look? }](새 학기가 앞). items 는 sync.js friendItems 꼴, look 은 친구 기기의 테마
+//   friendTimetables(uid)          → [{ sem, items, updated, look? }](새 학기가 앞). items 는 sync.js friendItems 꼴, look 은 친구 기기의 테마.
+//                                    옛 판이 올린 사본에는 시간표 이름(title)이 남아 있을 수 있다(다음에 올릴 때 통째로 바뀐다, update157)
 //                                  ('light'·'dark'·'xmas', update141. 옛 판 사본에는 없다). 친구가 아니면 NOT_FRIEND
 //   publish(store)                 친구 사본만 다시 올린다(sync 가 같이 한다)
 //   inviteLink({ nick, tag })      → 'https://archi142857.github.io/tt-wizard/#friend=닉네임%23482193'

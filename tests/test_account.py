@@ -74,7 +74,9 @@ def test_friend_copy(r):
                           {"hidden": True, "meetings": [{"day": 0, "start": 540, "end": 615}]},
                           {"title": "알바", "meetings": [{"day": 4, "start": 1080, "end": 1200, "building": "", "room": ""}]}]
     assert r["copies"]["2027-1"] is None and r["copies"]["2026-W"] is None
-    assert r["copies"]["2026-2"]["title"] == "대표" and "memo" not in json.dumps(r["copies"], ensure_ascii=False)
+    # 시간표 이름(대표)은 올리지 않는다(update157, 법무 11/28), 메모도
+    assert "title" not in r["copies"]["2026-2"] and "대표" not in json.dumps(r["copies"], ensure_ascii=False)
+    assert "memo" not in json.dumps(r["copies"], ensure_ascii=False)
     assert r["looks"] == ["xmas", "dark", None, None, None] and "look" not in r["copies"]["2026-2"]  # 친구 사본의 테마(update141)
     # 친구 시간표 학기 차례(update142, 사용자 11/20 '이거 순서 왜 이럼'): 새 학기가 앞, 글자 차례가 아니다(2026-S 가 2026-2 앞에 오지 않는다)
     assert r["semOrder"] == [8104, 8105, 8106, 8107, 8103, -1, -1, -1]
