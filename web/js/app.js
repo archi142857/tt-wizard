@@ -4473,8 +4473,8 @@ function renderWeek(t, entries, clash, opts = {}) {
     const parts = bare ? [] : [h("span", { class: "b-title", "aria-hidden": "true" }, short ? oneLine : name),
       room ? h("span", { class: clip ? "b-room b-place" : "b-room", "aria-hidden": "true", style: clip ? { "--place-lines": String(roomLines) } : null }, ...roomKids) : null];
     list.append(h("li", { style: place },
-      // 누르지 않는 격자(공유받은 시간표 미리 보기): 칸은 글이고 스크린리더는 목록의 글로 읽는다
-      opts.still ? h("span", { class: cls, style }, ...parts, h("span", { class: "sr-only" }, said))
+      // 누르지 않는 격자(공유받은 시간표 미리 보기): 칸은 글이고 스크린리더는 목록의 글로 읽는다. 친구 시간표는 과목 칸만 누른다(tapCourses: 과목 정보 팝업, 173판)
+      opts.still && !(opts.tapCourses && !e.item.custom) ? h("span", { class: cls, style }, ...parts, h("span", { class: "sr-only" }, said))
         : h("button", { type: "button", class: cls, "data-key": e.key, "aria-haspopup": "dialog", "aria-label": said, style }, ...parts)));
   }
   addGhosts();
@@ -10000,7 +10000,7 @@ function paintFriends() {
         h("p", { class: "nick-help", id: "fr-nick-help" }, h("span", {}, "뒤에 #번호가 자동으로 붙어요"), h("span", { id: "fr-nick-count" }, `${keep.length}/${NICK_MAX}`)),
         h("p", { class: "error-line", id: "fr-nick-err", hidden: true }, "사용할 수 없는 닉네임이에요")),
       h("div", { class: "card fr-vis-card" }, h("p", { class: "vis-head" }, "친구에게 보이는 것"),
-        h("ul", { class: "vis" }, ok("학기마다 대표 시간표의 과목명, 시간, 강의실"), ok("직접 넣은 일정의 이름과 시간"), ok("숨긴 과목과 일정은 시간만(회색 칸)"),
+        h("ul", { class: "vis" }, ok("학기마다 대표 시간표의 과목명, 분반, 시간, 강의실"), ok("직접 넣은 일정의 이름과 시간"), ok("숨긴 과목과 일정은 시간만(회색 칸)"),
           u.school ? ok(`${SCHOOL_TAG} 표시`) : null, no("일정의 장소와 메모, 학과와 학번, 성적, 로그인 메일")),
         h("p", { class: "vis-foot" }, "과목과 일정마다 숨기고, 학기마다 끌 수 있어요")),
       h("button", { type: "button", class: "btn-primary fr-start", id: "fr-start", "data-fr": "start", disabled: keep.trim().length < 2 }, "시작하기"));
@@ -10194,6 +10194,7 @@ $("frn-save").addEventListener("click", () => {
 // 친구 시간표(하위 화면 'friend', 130판 FriendTimetable): 상단 바 '민지#0420'·⋯, 학기(친구가 대표 시간표를 둔 학기만. 처음은 앱의 학기, 없으면 가장 가까운 학기)와 '대표 시간표',
 // 읽기만 하는 격자(친구의 일정은 이름·시간만, 숨긴 것은 회색 칸). 그 학기에 보일 시간표가 없으면 '이 학기 시간표가 없어요'(끈 것을 알리지 않는다)
 let frView = { uid: "", terms: null, sem: "", failed: "" };
+let frCourse = null; // 열린 과목 정보 팝업(#frc-pop): { t, key }. 아래 openFriendCourse
 /** 친구 사본 한 학기 → 격자에 그릴 시간표(T 꼴). 강좌는 친구가 보인 수업 그대로(own: 이 기기의 편람과 견주지 않는다), 숨긴 항목은 시간만(hidden, 회색 칸) */
 function friendTt(copy) {
   // 친구 사본은 남이 서버에 쓴 자료라 꼴부터 본다(보안 점검 update143: 고친 앱이 이상한 꼴을 올려도 친구 화면이 멈추지 않게. 나머지는 parseList 가 다듬는다)
@@ -10214,7 +10215,8 @@ function friendTt(copy) {
     else merged.push([...m]);
   }
   if (merged.length) items.push({ custom: "hidden", title: "숨긴 항목", meetings: merged.map(([d, a, b]) => [d, a, b, "", ""]), hidden: true });
-  return T.parseList([{ v: T.VERSION, id: `friend-${copy.sem}`, sem: copy.sem, title: copy.title, created: copy.updated, updated: copy.updated, items }], copy.sem)[0] || null;
+  // 사본의 시간표 이름(title)은 쓰지 않는다(친구 화면은 '대표 시간표'. 법무 11/28: 쓰지 않으면 사본에서 뺀다, 백엔드)
+  return T.parseList([{ v: T.VERSION, id: `friend-${copy.sem}`, sem: copy.sem, created: copy.updated, updated: copy.updated, items }], copy.sem)[0] || null;
 }
 /** 내 대표 시간표 → 친구에게 가는 사본 꼴(미리보기. 백엔드 sync.friendItems 와 같은 것을 보이고 숨긴 것은 시간만) */
 function myFriendCopy(t) {
@@ -10224,10 +10226,10 @@ function myFriendCopy(t) {
     const color = Number.isInteger(it.color) ? { color: it.color } : {};
     return it.custom ? { title: it.title, meetings: ms, ...color } : { course: it.course, no: it.no, name: it.name, meetings: ms, ...color };
   });
-  return { sem: t.sem, title: t.title, items, updated: t.updated };
+  return { sem: t.sem, items, updated: t.updated }; // 시간표 이름은 친구에게 가지 않는다(법무 11/28)
 }
-/** 읽기만 하는 격자(친구 시간표·미리보기). 없으면 격자 자리에 한 줄 */
-function frGrid(box, t, empty, fit = false) {
+/** 읽기만 하는 격자(친구 시간표·미리보기). 없으면 격자 자리에 한 줄. tap: 과목 칸을 눌러 과목 정보 팝업(친구 시간표만, 173판) */
+function frGrid(box, t, empty, fit = false, tap = false) {
   if (!t) {
     box.style.removeProperty("--hour-h");
     box.replaceChildren(h("p", { class: "fr-wk-empty" }, empty));
@@ -10235,7 +10237,7 @@ function frGrid(box, t, empty, fit = false) {
   }
   const entries = ttEntries(t);
   // 칸 색은 늘 과목별(친구 사본의 칸 색 번호. 사본에는 교과구분이 없어 교과구분별로 칠하면 모두 기타 색이었다), 친구 화면은 창에 맞춘 높이(fit)
-  renderWeek(t, entries, clashKeys(entries), { box, ...(fit ? { fit: true } : { hourPx: MINE_HOUR_MIN * remPx() }), still: true, grayHidden: true, colors: "item" });
+  renderWeek(t, entries, clashKeys(entries), { box, ...(fit ? { fit: true } : { hourPx: MINE_HOUR_MIN * remPx() }), still: true, tapCourses: tap, grayHidden: true, colors: "item" });
 }
 // 친구 사본의 테마(update141 account.js friendLook): 격자 카드를 그 테마의 토큰으로 칠한다(style.css .look-*. 11/20 사용자 '친구 시간표는 친구의 테마로 보여줘야 함.
 // 내 테마로 적용하지 말고'). 모르는 값·옛 판 사본(look 없음)은 보는 사람의 테마
@@ -10302,7 +10304,11 @@ function paintFriendTt() {
   frSemSelect($("friend-sem"), terms.map((x) => x.sem), frView.sem);
   const copy = terms.find((x) => x.sem === frView.sem);
   setFriendLook(box, copy && copy.items ? copy.look : "");
-  frGrid(box, copy && copy.items ? friendTt(copy) : null, "이 학기 시간표가 없어요", true);
+  frView.tt = copy && copy.items ? friendTt(copy) : null;
+  frGrid(box, frView.tt, "이 학기 시간표가 없어요", true, true);
+  // 과목 정보 팝업이 열린 채 다시 그렸다(창 크기): 닫으면 다시 그린 같은 칸으로
+  const pop = $("frc-pop");
+  if (pop.open && frCourse) pop.returnTo = box.querySelector(`button.wk-block[data-key="${CSS.escape(frCourse.key)}"]`) || pop.returnTo;
 }
 // 창 크기가 바뀌면 친구 시간표를 다시 맞춘다(한 화면)
 let frFitRaf = 0;
@@ -10312,10 +10318,56 @@ window.addEventListener("resize", () => {
 });
 $("friend-sem").addEventListener("change", (e) => { frView.sem = e.target.value; paintFriendTt(); });
 $("friend-wk").addEventListener("click", (e) => {
+  const cell = e.target.closest("button.wk-block[data-key]");
+  if (cell) { openFriendCourse(cell.dataset.key, cell); return; }
   if (!e.target.closest("[data-fr-retry]")) return;
   frView = { uid: frView.uid, terms: null, sem: "", failed: "" };
   renderFriendTt({ uid: frView.uid });
 });
+// 친구 시간표 과목 정보(디자인 172판·173판, 사용자 11/28 03:03 '정보는 팝업으로 떴으면 좋겠음'): 과목 칸을 누르면 읽기만 하는 가운데 팝업(#frc-pop).
+// 과목명과 메타(과목번호 · 학과 · 학점)는 친구 시간표 학기의 편람에서(앱의 학기면 지금 편람, 아니면 받아 둔다. 못 받거나 그 과목이 없으면 메타 없이 사본의 과목명),
+// 분반은 번호와 교수(편람에 그 분반이 있을 때), 둘째 줄부터 친구 사본의 시간과 강의실. 팝업은 내 테마, 닫으면 누른 칸으로 초점(openSheet)
+const frBooks = new Map(); // 학기 → Promise<Map(과목번호 → 과목) | null>
+function frBook(sem) {
+  if (state.loaded && state.semester === sem) return Promise.resolve(state.byId);
+  if (!frBooks.has(sem)) {
+    const entry = state.semesters.find(([x]) => x === sem), cached = state.cache.get(sem);
+    const raw = !entry ? Promise.resolve(null) : cached ? Promise.resolve(cached) : getJson(`data/${entry[1]}`).then((cj) => { state.cache.set(sem, cj); return cj; });
+    frBooks.set(sem, raw.then((cj) => (cj ? new Map(parseCourses(cj).map((c) => [c.id, c])) : null)).catch(() => { frBooks.delete(sem); return null; }));
+  }
+  return frBooks.get(sem);
+}
+/** 팝업을 채운다. book: 그 학기 편람(없으면 사본 값만) */
+function paintFriendCourse(t, key, book) {
+  const it = t.items.find((x) => !x.custom && T.itemKey(x) === key), e = ttEntries(t).find((x) => x.key === key);
+  if (!it || !e) return false;
+  const c = (book && book.get(it.course)) || null, sec = c ? c.sections.find((s) => s.no === it.no) : null;
+  const name = c ? c.name : it.name, meta = c ? [it.course, c.dept, fmtCredit(c.credit)].filter(Boolean).join(" · ") : "";
+  $("frc-title").textContent = name;
+  $("frc-meta").textContent = meta;
+  $("frc-meta").hidden = !meta;
+  $("frc-review").href = reviewUrl(name);
+  setCatalogLink($("frc-catalog"), it.course, it.no);
+  const groups = meetingGroups(e.meetings);
+  const cur = h("div", { class: "sec is-cur" },
+    h("div", { class: "sec-line" }, h("span", { class: "sec-title" }, it.no, sec ? h("span", { class: "prof" }, `(${instructorOf(sec)})`) : null)),
+    ...(groups.length ? groups.map((g) => h("div", { class: "sec-when" }, h("span", {}, groupText(g)))) : [h("div", { class: "sec-when" }, h("span", {}, "시간 미정"))]));
+  $("frc-body").replaceChildren(h("div", { class: "sheet-field item-secs" }, h("span", { class: "field-label" }, "분반"), cur));
+  return true;
+}
+async function openFriendCourse(key, opener) {
+  const t = frView.tt;
+  if (!t) return;
+  // 편람이 곧 오면(받아 둔 학기, 서비스 워커) 같이 그려서 연다. 늦으면 사본 값으로 먼저 열고, 오면 그 자리에서 고친다
+  const want = frBook(t.sem);
+  const book = await Promise.race([want, new Promise((r) => setTimeout(() => r(undefined), 400))]);
+  if (frView.tt !== t || screen !== "friend" || !opener.isConnected) return;
+  if (!paintFriendCourse(t, key, book || null)) return;
+  frCourse = { t, key };
+  openSheet($("frc-pop"), opener);
+  if (book === undefined) want.then((b) => { if (b && frCourse && frCourse.t === t && frCourse.key === key && $("frc-pop").open) paintFriendCourse(t, key, b); });
+}
+$("frc-pop").addEventListener("close", () => { frCourse = null; });
 // 친구 메뉴(⋯): 친구 끊기·차단하기는 묻는 팝업, 끝나면 친구 화면으로 돌아가 스낵바. 닉네임 신고는 처리방침·이용 규칙 11/30 판 시행일부터 신고 시트(아래 openReport),
 // 그전에는 메일 앱(받는 사람 개발자 메일)
 $("friend-more").addEventListener("click", (e) => {

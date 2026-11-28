@@ -2293,6 +2293,8 @@ html[data-scheme="dark"]:not([data-theme]) .g-btn { border-color: #8E918F; backg
 /* 묻는 팝업 본문(로그아웃·계정 삭제·차단): 글 한 줄과 체크 */
 .sheet.ask .sheet-body { padding-bottom: var(--space-2); }
 .sheet.ask .sheet-body > p { margin: 0; font-size: 0.9375rem; line-height: 1.375rem; word-break: keep-all; }
+/* 친구 시간표 과목 정보 팝업(173판): 분반 칸 하나라 아래 선과 여백 없이 [닫기]로 */
+.frc-pop .sheet-field { border-bottom: 0; padding-bottom: 0; }
 /* ---------- 친구(디자인 130판 Friends·FriendTimetable, bundle.css 그대로. 11/15 사용자: 친구 탭으로 뺐다): 친구 탭 아이콘의 빨간 점(.has-dot .tab-ic, 130판 친구 버튼의 점을
    옮겼다. 둘레는 그 자리 바탕(--tab-ind: 막대 card·고른 알약 accent-weak, 사이드바 bg·고른 card)), 친구 화면 머리(.fr-head, 내 닉네임 .fr-me)·묶음(.fr-section)·행(.fr-row),
    처음 한 번(.nick-help, 보이는 것 .vis), 친구 시간표·미리보기(.fr-sem, .pv-note, 숨긴 항목의 회색 칸 .wk-block.is-hidden), 메뉴의 스위치 줄(.menu-row.sw) */
@@ -2339,6 +2341,8 @@ button.fr-row:active { background: var(--surface-hover); }
 .vis li.ok svg { color: var(--accent-text); }
 .vis li.no { color: var(--text2); }
 .vis li.no svg { color: var(--text3); }
+/* 두 줄이 되는 줄은 끝 한 낱말만 내려가지 않게(174판: 폭 340~360 에서 '강의실', '메일') */
+.vis li span { text-wrap: pretty; }
 .vis-foot { margin: 0; padding: 0 var(--space-4) var(--space-4); font-size: 0.8125rem; line-height: 1.125rem; color: var(--text3); word-break: keep-all; }
 .fr-sem { display: flex; align-items: center; gap: var(--space-2); margin: var(--space-1) 0 var(--space-3); }
 .fr-sem .m { min-width: 0; font-size: 0.8125rem; line-height: 1.125rem; color: var(--on-bg-text3); }

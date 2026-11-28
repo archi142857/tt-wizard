@@ -732,6 +732,17 @@
     <button type="button" class="btn-text" data-close>닫기</button>
   </div>
 </dialog>
+<!-- 친구 시간표 과목 정보(디자인 172판·173판, 사용자 11/28 03:03 '정보는 팝업으로 떴으면 좋겠음'): 친구 시간표의 과목 칸을 누르면 읽기만 하는 가운데 팝업(묻는 팝업 꼴).
+     머리 과목명과 메타(과목번호 · 학과 · 학점, 그 학기 편람에서. 못 찾으면 메타 없음), 강의평과 수강편람, 분반(번호와 교수는 편람, 둘째 줄부터 친구 사본의 시간과 강의실), [닫기].
+     색, 다른 분반, 펼침, 태그, 삭제, 내 시간표에 담기는 두지 않는다. app.js openFriendCourse -->
+<dialog class="sheet ask frc-pop" id="frc-pop" aria-labelledby="frc-title">
+  <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="frc-title" tabindex="-1" autofocus></h2><p class="sheet-meta" id="frc-meta" hidden></p></div></div>
+  <p class="sheet-links"><a class="btn-text small cs-review" id="frc-review" target="_blank" rel="noopener" data-browser="system" aria-label="에브리타임 강의평">강의평<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 16L16 8M9.5 8H16v6.5"></path></svg></a><a class="btn-text small cs-catalog" id="frc-catalog" target="_blank" rel="noopener" data-browser="system" aria-label="서울대학교 수강편람" hidden>수강편람<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 16L16 8M9.5 8H16v6.5"></path></svg></a></p>
+  <div class="sheet-body" id="frc-body"></div>
+  <div class="sheet-actions">
+    <button type="button" class="btn-text" data-close>닫기</button>
+  </div>
+</dialog>
 <!-- 친구를 끊을까요? / 차단할까요?(글 한 줄): 친구 메뉴의 두 줄이 연다. 끝나면 친구 화면으로 돌아가 스낵바 -->
 <dialog class="sheet ask" id="fr-ask" aria-labelledby="fa-ask-title">
   <div class="sheet-head"><div class="h"><h2 class="sheet-title" id="fa-ask-title" tabindex="-1" autofocus></h2></div></div>
