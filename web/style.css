@@ -2371,7 +2371,9 @@ button.fr-row:active { background: var(--surface-hover); }
 .pv-note.pv-foot { margin: var(--space-3) 0 0; }
 .fr-ttl { margin: var(--space-2) var(--space-1) var(--space-3); font-size: 1.25rem; line-height: 1.75rem; font-weight: 700; color: var(--on-bg-heading); }
 .fr-nick-card { padding: var(--space-4); }
-.fr-nick-card .field-label { margin-bottom: var(--space-2); }
+/* 닉네임 카드의 머리는 둘째 카드의 '친구에게 보이는 것'(.vis-head)과 같은 꼴, 그 아래 설명 줄은 칸 위(172판) */
+.fr-nick-head { display: block; margin: 0 0 var(--space-1); font-size: 1rem; line-height: 1.5rem; font-weight: 500; color: var(--heading); }
+.fr-nick-desc { margin: 0 0 var(--space-3); font-size: 0.875rem; line-height: 1.25rem; color: var(--text2); }
 .fr-nick-card .error-line { margin: var(--space-2) 0 0; }
 .fr-vis-card { margin-top: var(--space-3); }
 .btn-primary.fr-start { margin-top: var(--space-5); }

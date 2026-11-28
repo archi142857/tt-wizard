@@ -8,6 +8,7 @@ import * as T from "./timetables.js";
 import { termInfo, buildIcs, termRangeLabel, MIME as ICS_MIME } from "./ics.js"; // 캘린더 파일(.ics, 백엔드 update102·104. docs/calendar.md)
 import { studentFrom, limitOf, sectionTag, courseTag, noticeFor, sourceText, scheduleSourceText } from "./limits.js"; // 수강 제한 알림(백엔드 update105. docs/limits.md)
 import * as R from "./requirements.js"; // 졸업 요건 탭(백엔드 update100·101·106·107·108. docs/requirements.md 2·2-1절)
+import { baseTiles } from "./basemap.js"; // 바탕 지도 타일 층(백엔드 update156, 사용자 11/28 '지도 최적화'. 그림은 아래 drawBasemap. docs/basemap.md '타일로 그리기')
 
 const $ = (id) => document.getElementById(id);
 
@@ -23,7 +24,7 @@ document.documentElement.dataset.shell = SHELL;
 
 // ---------------------------------------------------------------- 설정
 
-const APP_VERSION = "0.12.2";
+const APP_VERSION = "0.12.3";
 // 정보 화면 링크. 주소가 정해지면 넣는다(비어 있으면 그 행을 보이지 않는다)
 // 개인정보 처리방침 공개 페이지(스토어에 적는 주소와 같게). 백엔드 update74 가 docs/legal/privacy.md 로 만든 web/privacy/(GitHub Pages). 앱 묶음에는 넣지 않아 늘 이 주소를 연다
 const PRIVACY_URL = "https://archi142857.github.io/tt-wizard/privacy/";
@@ -2727,7 +2728,7 @@ function loadBasemap() {
         if (!mp) continue;
         mp.map.setMaxBounds(dataBounds);
         applyMinZoom(mp.map);
-        mp.base.redraw();
+        mp.base.setDataBounds(dataBounds).refresh();
       }
     }).catch(() => { basemapWait = null; });
   }
@@ -2863,56 +2864,6 @@ function drawBasemap(ctx, map, b, m) {
   fill(A.building, C.building, C["building-line"], 0.8);
 }
 
-/** 바탕 지도 층: Leaflet 의 캔버스 그리기 틀(L.Renderer: 화면보다 조금 넓은 캔버스, 확대·축소 애니메이션 동안 늘였다 줄임)에 그림만 우리 것. */
-const BaseMap = typeof L === "undefined" ? null : L.Renderer.extend({
-  options: { padding: 0.1, pane: "ttw-base" },
-  _initContainer() {
-    const c = (this._container = document.createElement("canvas"));
-    c.setAttribute("aria-hidden", "true");
-    this._ctx = c.getContext("2d");
-  },
-  _destroyContainer() {
-    L.DomUtil.remove(this._container);
-    this._ctx = null;
-  },
-  _update() {
-    if (this._map._animatingZoom && this._bounds) return;
-    L.Renderer.prototype._update.call(this);
-    const b = this._bounds, c = this._container, size = b.getSize(), dpr = Math.min(2, window.devicePixelRatio || 1); // 3배 화면도 2배로(캔버스 메모리)
-    // 돌릴 수 있는 동안은 화면 대각선의 정사각형을 그린다(167판): 큰 태블릿의 전체 화면 지도에서 캔버스가 너무 커지지 않게 화소 수를 800만으로 묶는다
-    this._m = this._map._rotOn ? Math.min(dpr, Math.sqrt(8e6 / Math.max(1, size.x * size.y))) : dpr;
-    L.DomUtil.setPosition(c, b.min);
-    c.width = Math.round(this._m * size.x);
-    c.height = Math.round(this._m * size.y);
-    c.style.width = `${size.x}px`;
-    c.style.height = `${size.y}px`;
-    this.redraw();
-  },
-  redraw() {
-    if (this._ctx && this._bounds && this._map) drawBasemap(this._ctx, this._map, this._bounds, this._m || 1);
-  },
-  // 끌거나 미끄러지는 동안에도 그려 둔 범위(화면 + 여유 10%)를 벗어나면 다시 그린다. Leaflet 그리기 틀은 다 멈춘 뒤에만 다시 그려서
-  // 세게 밀면 멈출 때까지 바탕이 비었다(타일은 옮기는 동안에도 받는다)
-  getEvents() {
-    return { ...L.Renderer.prototype.getEvents.call(this), move: this._onMove };
-  },
-  _onMove() {
-    if (this._frame || !this._bounds || this._map._animatingZoom) return;
-    this._frame = requestAnimationFrame(() => {
-      this._frame = 0;
-      const map = this._map;
-      if (!map || map._animatingZoom) return;
-      const s = map.getSize(); // 화면 네 모서리(돌린 지도는 넷이 다 다르다, 167판)
-      if ([[0, 0], [s.x, 0], [0, s.y], [s.x, s.y]].some((p) => !this._bounds.contains(map.containerPointToLayerPoint(p)))) this._update();
-    });
-  },
-  onRemove() {
-    cancelAnimationFrame(this._frame);
-    this._frame = 0;
-    L.Renderer.prototype.onRemove.call(this);
-  },
-});
-
 /** 건물 번호 목록(번호만인 건물 먼저, 짧은 번호 먼저): 수업이 없는 날 모든 건물 번호를 겹치지 않게 놓을 때 이 순서로.
  *  기숙사(10/3 디자인·자료): 919동은 네 동을 따로 쓴다(919A·919B·919C·919D, 이동시간 지점). 이동시간 지점이 아닌 기숙사 동(919 한 점)은
  *  번호로 쓰지 않는다. 붙어 있는 동이라 낮은 배율에서는 겹치는 번호가 숨고 확대하면 다 보인다.
@@ -3015,7 +2966,10 @@ function makeMap(el, full) {
   basePane.style.pointerEvents = "none";
   map.createPane("ttw-stub").style.zIndex = "385";
   map.createPane("ttw-back").style.zIndex = "390";
-  const base = new BaseMap().addTo(map);
+  // 바탕은 256px 타일(백엔드 update156): 한 번 그린 타일은 다시 쓰고, 끄는 동안은 새로 보이는 타일만 프레임 사이에 그린다. 선 폭은 위도 하나로(타일 이음매에서 같게)
+  const base = baseTiles(L, { draw: (ctx, v) => drawBasemap(ctx, v.map, v.bounds, v.m), lat: 37.46 });
+  if (dataBounds) base.setDataBounds(dataBounds);
+  base.addTo(map);
   map.setView(campusBounds.getCenter(), 15, { animate: false });
   const legend = el.closest(".mapcard").querySelector(".legend");
   const mp = { map, el, base, full, buttons, legend, back: L.layerGroup().addTo(map), lines: L.layerGroup().addTo(map), stubs: L.layerGroup().addTo(map),
@@ -3032,7 +2986,7 @@ function makeMap(el, full) {
 // ---------------------------------------------------------------- 지도 돌리기
 // 167판(11/24 사용자 '두 손가락으로 회전도 되게 해줘'): 작은 지도와 전체 화면 지도 모두 터치에서 두 손가락을 비틀어 돌린다. 마우스와 키보드로는 돌리지 않는다.
 // 법무 11/24: leaflet-rotate(GPL-3)는 넣지 않고 직접 만든다(그 코드를 옮기거나 옆에 펴 놓고 고쳐 쓰지 않는다). 아래는 Leaflet 1.9.4(BSD-2)의 짜임 위에 우리가 쓴 것이다.
-//  - 지도 칸(mapPane) 안에 도는 칸(.ttw-rot)을 두고 층(바탕 캔버스, 선 SVG, 핀과 라벨)을 그 안으로 옮겨 CSS rotate 로 돌린다. 도는 중심(transform-origin)은 layer 좌표
+//  - 지도 칸(mapPane) 안에 도는 칸(.ttw-rot)을 두고 층(바탕 타일, 선 SVG, 핀과 라벨)을 그 안으로 옮겨 CSS rotate 로 돌린다. 도는 중심(transform-origin)은 layer 좌표
 //    map._rotO 이고 지도 칸과 함께 움직여서, 한 손가락 끌기와 관성은 Leaflet 그대로 손가락을 따른다. Leaflet 은 화면 가운데의 layer 좌표를 C - T(지도 칸 자리 T)로
 //    셈하므로 배율을 바꾸기 전(zoomstart)과 돌리기 전에는 중심을 화면 가운데로 다시 잡는다(rePivot: 지도 칸 자리를 같이 옮겨 그림은 그대로).
 //  - Leaflet 이 화면과 layer 좌표를 오가는 곳, 보이는 범위와 빈 땅 막기(_limitCenter, 끌기 범위, 관성), 바탕과 선을 그리는 범위를 각도를 알게 고친다(turnPatch).
@@ -3276,7 +3230,7 @@ function northUp(mp) {
   turnTo(mp.map, 0, reduceMotion.matches ? 0 : 200);
 }
 
-/** 그 지도의 그림 층(바탕 캔버스, 칸마다의 선 SVG): 돌기 시작하면 어느 각도에도 모서리가 비지 않게 다시 그린다 */
+/** 그 지도의 그림 층(바탕 타일 층, 칸마다의 선 SVG): 돌기 시작하면 어느 각도에도 모서리가 비지 않게 다시 맞춘다(타일 층은 대각선 원을 덮는 타일을 더 만든다) */
 const turnRenderers = (map) => [map._renderer, ...Object.values(map._paneRenderers || {}), map._mp && map._mp.base].filter((r) => r && r._map);
 
 /** 두 손가락: 확대·이동, 각도가 ROT_START 넘게 바뀌면 돌기도(Leaflet touchZoom 을 대신한다. 손가락 사이 가운데 자리가 손가락을 따라간다).
@@ -3621,19 +3575,24 @@ function placeMarks(mp) {
   mp.pins = merged;
 }
 
-/** 지도 글자 폭(px). 굵기 w 의 12px(지도 그림 글자는 px 고정). 글꼴을 받으면 다시 잰다. */
+/** 지도 글자 폭(px). 굵기 w 의 12px(지도 그림 글자는 px 고정). 그 글의 글자가 다 든 글꼴로 잰 폭은 그대로 두고, 아직 받지 못한 글꼴 조각이 있던 폭만
+ *  글꼴을 더 받은 뒤(loadingdone) 다시 잰다. 전에는 loadingdone 마다 다 비워서 글꼴 조각을 받을 때마다 지도 글을 모두 다시 쟀다(백엔드 11/28 '지도 버벅임' ②) */
 const mapTextW = (() => {
-  let cache = new Map();
-  if (document.fonts) document.fonts.addEventListener("loadingdone", () => { cache = new Map(); });
+  const cache = new Map();
+  let round = 0; // loadingdone 차례
+  if (document.fonts) document.fonts.addEventListener("loadingdone", () => { round++; });
   return (w, text) => {
     const k = `${w} ${text}`;
     let v = cache.get(k);
-    if (v === undefined) {
-      canvas.font = `${w} 12px ${mapColors().font}`;
-      v = canvas.measureText(text).width;
+    if (v === undefined || (v.round >= 0 && v.round !== round)) {
+      const font = `${w} 12px ${mapColors().font}`;
+      canvas.font = font;
+      let done = true;
+      try { done = !document.fonts || document.fonts.check(font, text); } catch { done = true; }
+      v = { w: canvas.measureText(text).width, round: done ? -1 : round };
       cache.set(k, v);
     }
-    return v;
+    return v.w;
   };
 })();
 /** 핀 옆 번호 상자(화면 좌표). p: 핀 가운데, t: pinTag. 구간 라벨과 다른 건물 이름이 피한다. */
@@ -3655,14 +3614,14 @@ function mapButtonBoxes(mp) {
 
 /** 수업이 있는 날 핀 옆 건물 번호: 글, (많이 확대하면) 이름, 폭, 자리. 핀 오른쪽이 기본이고 오른쪽 가장자리나 오른쪽 위 버튼에 걸리면 왼쪽,
  *  왼쪽도 가장자리에 걸리거나(폰의 좁은 지도에서 넓게 묶인 핀 2·3·4·5·6) 다른 핀을 덮으면 핀 아래에 둔다(dx: 가장자리에 걸리지 않게 옆으로 민 만큼). */
-function pinTag(mp, pin, withName) {
+function pinTag(mp, pin, withName, btns = mapButtonBoxes(mp)) {
   const { map } = mp;
   const text = pin.bs.map((b) => (b === "GATE" ? "정문" : b)).join("·");
   const lines = withName ? tagLines(pin.bs) : [];
   const pt = map.latLngToContainerPoint(pin.at), x = pt.x, W = map.getSize().x, hw = pin.w / 2;
   const lw = Math.max(mapTextW(700, text), ...lines.map((s) => mapTextW(500, s))) + 4, hh = lines.length ? 7 * (1 + lines.length) + 1 : 9;
   const right = [x + hw + 3, pt.y - hh, x + hw + 3 + lw, pt.y + hh], left = [x - hw - 3 - lw, pt.y - hh, x - hw - 3, pt.y + hh];
-  let side = right[2] > W - 4 || mapButtonBoxes(mp).some((b) => boxHit(right, b)) ? "left" : "right", dx = 0;
+  let side = right[2] > W - 4 || btns.some((b) => boxHit(right, b)) ? "left" : "right", dx = 0;
   if (side === "left" && x - hw >= 0 && x + hw <= W) { // 핀이 화면 안에 있을 때만(지도를 끌어 핀이 나가면 번호도 따라 나간다)
     const others = (mp.pins || []).filter((q) => q !== pin).map((q) => [map.latLngToContainerPoint(q.at), q.w / 2]);
     if (mp.data && mp.data.homeAt) others.push([map.latLngToContainerPoint(mp.data.homeAt), 12]);
@@ -3710,12 +3669,12 @@ function placeLegLabels(mp) {
   const size = map.getSize(), at = (ll) => map.latLngToContainerPoint(ll); // 화면 좌표(지도 칸 왼쪽 위가 0, 0. 돌린 지도도 화면 기준으로 피한다, 167판)
   const withName = map.getZoom() >= 17.25;
   // 피할 상자(화면 좌표): 핀과 핀 옆 건물 번호, 지도 위 버튼(크게 보기, 확대·축소, 북쪽 맞추기)과 저작권 표기
-  const pins = [], avoid = [];
+  const pins = [], avoid = [], btns = mapButtonBoxes(mp); // 버튼 상자는 한 번만 잰다(핀마다 재면 그때마다 레이아웃을 다시 셈한다)
   if (data.homeAt) { const p = at(data.homeAt); pins.push([p.x - 14, p.y - 14, p.x + 14, p.y + 14]); }
   for (const pin of mp.pins || []) {
     const p = at(pin.at), hw = pin.w / 2;
     pins.push([p.x - hw - 2, p.y - 14, p.x + hw + 2, p.y + 14]);
-    avoid.push(tagBox(p, pin, pinTag(mp, pin, withName)));
+    avoid.push(tagBox(p, pin, pinTag(mp, pin, withName, btns)));
   }
   const ui = [];
   const host = mp.el.getBoundingClientRect();
@@ -3765,40 +3724,53 @@ function placeLegLabels(mp) {
     }
     return tot ? hit / tot : 1;
   };
+  // 후보 자리마다 다른 선까지의 거리, 목표, 아무 데나 둘 수 있는지는 선 모양으로만 정해진다: 배율과 각도가 같으면(지도를 옮기기만 했으면) 앞서 셈한 것을
+  // 지금 자리로 옮겨 쓴다(손을 뗄 때마다 sepOf 를 다시 셈하지 않는다. 백엔드 11/28 '지도 버벅임' ②). 라벨 폭이 바뀌면(글꼴을 받아서) 그 구간만 다시 셈한다
+  const memoKey = `${map.getZoom()} ${map._rotDeg || 0}`;
+  if (!mp.legMemo || mp.legMemo.data !== data || mp.legMemo.key !== memoKey) mp.legMemo = { data, key: memoKey, legs: [] };
+  const memo = mp.legMemo.legs;
   const items = [];
   data.legs.forEach((lg, i) => {
     const pts = lines[i];
     if (!lg.text || pts.length < 2) return;
-    const cum = [0];
-    for (let k = 1; k < pts.length; k++) cum.push(cum[k - 1] + Math.hypot(pts[k].x - pts[k - 1].x, pts[k].y - pts[k - 1].y));
-    const len = cum[cum.length - 1];
     // 상자: 좌우 6px, ⌂ 10px + 2px, 수업 번호(.num 16px 원, 왼쪽 -4px·오른쪽 4px 여백)
     const numW = lg.tag ? Math.max(16, Math.ceil(mapTextW(700, String(lg.tag))) + 8) : 0;
     const hw = (Math.ceil(mapTextW(500, lg.text)) + 12 + (lg.home ? 12 : 0) + numW) / 2 + 1, hh = LABEL_H / 2 + 1;
-    const step = Math.max(3, len / 160), end = Math.min(12, len / 2);
-    const cands = [];
-    for (let s = end, k = 1; s <= len - end + 1e-6; s += step) {
-      while (k < cum.length - 1 && cum[k] < s) k++;
-      const segLen = cum[k] - cum[k - 1], t = segLen ? (s - cum[k - 1]) / segLen : 0;
-      const x = pts[k - 1].x + (pts[k].x - pts[k - 1].x) * t, y = pts[k - 1].y + (pts[k].y - pts[k - 1].y) * t;
-      const box = [x - hw, y - hh, x + hw, y + hh];
-      const [sep, cls] = sepOf(i, box);
-      cands.push({ s, x, y, box, sep, cls });
+    const o = pts[0]; // 후보 자리는 구간 첫 점에서 떨어진 만큼으로 적어 둔다
+    let mm = memo[i];
+    if (!mm || mm.hw !== hw) {
+      const cum = [0];
+      for (let k = 1; k < pts.length; k++) cum.push(cum[k - 1] + Math.hypot(pts[k].x - pts[k - 1].x, pts[k].y - pts[k - 1].y));
+      const len = cum[cum.length - 1];
+      const step = Math.max(3, len / 160), end = Math.min(12, len / 2);
+      const cands = [];
+      for (let s = end, k = 1; s <= len - end + 1e-6; s += step) {
+        while (k < cum.length - 1 && cum[k] < s) k++;
+        const segLen = cum[k] - cum[k - 1], t = segLen ? (s - cum[k - 1]) / segLen : 0;
+        const x = pts[k - 1].x + (pts[k].x - pts[k - 1].x) * t, y = pts[k - 1].y + (pts[k].y - pts[k - 1].y) * t;
+        const [sep, cls] = sepOf(i, [x - hw, y - hh, x + hw, y + hh]);
+        cands.push({ s, dx: x - o.x, dy: y - o.y, sep, cls });
+      }
+      // 목표: 그 구간만 지나는 토막(이어진 후보) 가운데 가장 긴 것의 가운데. 없으면 다른 선에서 가장 먼 자리(같으면 구간 가운데에 가까운 쪽)
+      const runs = [];
+      let first = -1;
+      cands.forEach((c, n) => {
+        const own = c.sep >= LABEL_SEP;
+        if (own && first < 0) first = n;
+        if (first >= 0 && (!own || n === cands.length - 1)) { runs.push([cands[first].s, cands[own ? n : n - 1].s]); first = -1; }
+      });
+      const longest = runs.reduce((a, r) => (!a || r[1] - r[0] > a[1] - a[0] ? r : a), null);
+      const mid = (c) => Math.abs(c.s - len / 2);
+      const target = longest ? (longest[0] + longest[1]) / 2 : cands.reduce((a, c) => (c.sep > a.sep || (c.sep === a.sep && mid(c) < mid(a)) ? c : a)).s;
+      // 다른 수업 실선이 지나가는 자리에도 둘 수 있는 라벨: ⌂ 라벨(⌂ 가 어느 선인지 말한다), 같은 길을 되짚는 구간(어디 두어도 그 길뿐)
+      const anywhere = lg.home || (!longest && overlap(i) >= 0.9);
+      mm = memo[i] = { hw, cands, target, anywhere, own: runs.reduce((t, r) => t + r[1] - r[0] + step, 0) };
     }
-    // 목표: 그 구간만 지나는 토막(이어진 후보) 가운데 가장 긴 것의 가운데. 없으면 다른 선에서 가장 먼 자리(같으면 구간 가운데에 가까운 쪽)
-    const runs = [];
-    let first = -1;
-    cands.forEach((c, n) => {
-      const own = c.sep >= LABEL_SEP;
-      if (own && first < 0) first = n;
-      if (first >= 0 && (!own || n === cands.length - 1)) { runs.push([cands[first].s, cands[own ? n : n - 1].s]); first = -1; }
+    const cands = mm.cands.map((c) => {
+      const x = o.x + c.dx, y = o.y + c.dy;
+      return { s: c.s, x, y, box: [x - hw, y - hh, x + hw, y + hh], sep: c.sep, cls: c.cls };
     });
-    const longest = runs.reduce((a, r) => (!a || r[1] - r[0] > a[1] - a[0] ? r : a), null);
-    const mid = (c) => Math.abs(c.s - len / 2);
-    const target = longest ? (longest[0] + longest[1]) / 2 : cands.reduce((a, c) => (c.sep > a.sep || (c.sep === a.sep && mid(c) < mid(a)) ? c : a)).s;
-    // 다른 수업 실선이 지나가는 자리에도 둘 수 있는 라벨: ⌂ 라벨(⌂ 가 어느 선인지 말한다), 같은 길을 되짚는 구간(어디 두어도 그 길뿐)
-    const anywhere = lg.home || (!longest && overlap(i) >= 0.9);
-    items.push({ i, lg, cands, target, anywhere, own: runs.reduce((t, r) => t + r[1] - r[0] + step, 0) });
+    items.push({ i, lg, cands, target: mm.target, anywhere: mm.anywhere, own: mm.own });
   });
   const placed = [];
   const free = (bx) => bx[0] >= view[0] && bx[1] >= view[1] && bx[2] <= view[2] && bx[3] <= view[3]
@@ -3838,10 +3810,10 @@ function placeLabels(mp) {
   const inView = (box) => !(box[0] < 2 || box[1] < 2 || box[2] > size.x - 2 || box[3] > size.y - 2);
   const spans = (lines) => lines.map((s) => `<span>${esc(s)}</span>`).join("");
   if (data.stops.length) {
-    const placed = (mp.boxes || []).slice(), dayB = new Set();
+    const placed = (mp.boxes || []).slice(), dayB = new Set(), btns = mapButtonBoxes(mp); // 번호를 붙이기 전에 한 번만 잰다
     for (const pin of mp.pins || []) {
       pin.bs.forEach((b) => dayB.add(b));
-      const t = pinTag(mp, pin, withName); // 오른쪽 가장자리·버튼에 걸리면 핀 왼쪽, 왼쪽도 걸리면 핀 아래
+      const t = pinTag(mp, pin, withName, btns); // 오른쪽 가장자리·버튼에 걸리면 핀 왼쪽, 왼쪽도 걸리면 핀 아래
       const box = tagBox(at(pin.at), pin, t);
       if (!inView(box)) continue;
       placed.push(box);
@@ -7606,7 +7578,7 @@ function applyTheme(on) {
     try { capacitor.Plugins.SystemBars.setStyle({ style: t ? t.bars : forced ? (dark ? "DARK" : "LIGHT") : "DEFAULT" }).catch(() => null); } catch { /* 없으면 그대로 둔다 */ }
   }
   mapColorCache = null; // 테마를 켜고 끄거나 라이트·다크가 바뀌면 지도 색도 바뀐다
-  for (const mp of [maps.small, maps.full]) if (mp) mp.base.redraw();
+  for (const mp of [maps.small, maps.full]) if (mp) mp.base.refresh();
   sleighSoon(); // 크리스마스 썰매 그림
   // 친구 사본에는 이 기기의 테마가 든다(update141 account.js friendLook): 보이는 테마가 바뀌면 조금 뒤에 다시 맞춰 올린다(로그인했을 때만. 켜는 중에는
   // 아래 let 들이 아직이라 다음 차례에 부른다)
@@ -10013,16 +9985,19 @@ function paintFriends() {
   }
   if (!fr.profile) {
     // 처음 한 번(130판·153판): 제목, 닉네임(2~12자, #번호는 저절로, 글자 수), 친구에게 보이는 것(학교 계정이면 숨긴 과목 줄 다음 '학교 계정(snu.ac.kr) 표시'),
-    // 시작하기(2자 이상이면 켜짐). '학교 계정 보이기' 스위치는 11/17 사용자 '학교계정보이기 삭제. 학교 계정이면 그냥 자동으로 뜨도록'으로 뺐다
+    // 시작하기(2자 이상이면 켜짐). '학교 계정 보이기' 스위치는 11/17 사용자 '학교계정보이기 삭제. 학교 계정이면 그냥 자동으로 뜨도록'으로 뺐다.
+    // 닉네임 카드의 머리 '내 닉네임'(정한 뒤 화면 머리와 같은 말)과 그 아래 설명 줄(172판, 사용자 11/28 '자신의 닉네임을 입력하는 것이라는 게 더 잘 드러나면 좋겠음').
+    // 칸의 설명은 설명, 도움말, 오류 차례
     const ok = (t) => h("li", { class: "ok" }, icon(I.check, 16), h("span", {}, t)), no = (t) => h("li", { class: "no" }, icon(I.x, 16), h("span", {}, t));
     const keep = $("fr-nick") ? $("fr-nick").value : "";
     box.replaceChildren(
       h("h2", { class: "fr-ttl" }, "친구 시간표"),
       h("div", { class: "card fr-nick-card" },
-        h("label", { class: "field-label", for: "fr-nick" }, "닉네임"),
+        h("label", { class: "fr-nick-head", for: "fr-nick" }, "내 닉네임"),
+        h("p", { class: "fr-nick-desc", id: "fr-nick-desc" }, "친구가 나를 추가할 때 쓰는 이름이에요"),
         h("input", { class: "text-input", id: "fr-nick", type: "text", maxlength: String(NICK_MAX), autocomplete: "off", enterkeyhint: "done", value: keep,
-          "aria-describedby": "fr-nick-help fr-nick-err" }),
-        h("p", { class: "nick-help", id: "fr-nick-help" }, h("span", {}, "#번호는 자동으로 붙어요"), h("span", { id: "fr-nick-count" }, `${keep.length}/${NICK_MAX}`)),
+          "aria-describedby": "fr-nick-desc fr-nick-help fr-nick-err" }),
+        h("p", { class: "nick-help", id: "fr-nick-help" }, h("span", {}, "뒤에 #번호가 자동으로 붙어요"), h("span", { id: "fr-nick-count" }, `${keep.length}/${NICK_MAX}`)),
         h("p", { class: "error-line", id: "fr-nick-err", hidden: true }, "사용할 수 없는 닉네임이에요")),
       h("div", { class: "card fr-vis-card" }, h("p", { class: "vis-head" }, "친구에게 보이는 것"),
         h("ul", { class: "vis" }, ok("학기마다 대표 시간표의 과목명, 시간, 강의실"), ok("직접 넣은 일정의 이름과 시간"), ok("숨긴 과목과 일정은 시간만(회색 칸)"),
