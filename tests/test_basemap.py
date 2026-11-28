@@ -5,6 +5,8 @@
 
 import csv
 import json
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -244,3 +246,21 @@ def test_overpass_treats_runtime_error_as_failure(monkeypatch):
     monkeypatch.setattr(requests, "post", post)
     data = fob.overpass("[out:json];", rounds=1)
     assert data == {"elements": [{"type": "way", "id": 1}]} and len(calls) == 2
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="node 없음")
+def test_tiles_runner():
+    """화면의 바탕 지도 타일(web/js/basemap.js, update156): 배율 단계·그릴 범위(돌린 지도는 대각선 원)·남길 타일·그리기 줄(tests/basemap_runner.mjs)."""
+    run = subprocess.run(["node", str(ROOT / "tests" / "basemap_runner.mjs")], capture_output=True, text=True, encoding="utf-8", timeout=60)
+    assert run.returncode == 0, run.stderr
+    assert run.stdout.strip() == "ok"
+
+
+def test_tiles_module_is_cached_and_bundled():
+    """타일 모듈은 서비스 워커가 미리 받고(오프라인), 앱 묶음에서 빼지 않는다."""
+    sw = (ROOT / "web" / "sw.js").read_text(encoding="utf-8")
+    assert '"js/basemap.js"' in sw
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import build_app
+
+    assert "basemap.js" not in build_app.SKIP_FILES and "js/basemap.js" not in build_app.UNTIL_USED
